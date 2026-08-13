@@ -1,0 +1,5826 @@
+from __future__ import annotations
+
+from collections import OrderedDict, deque
+from dataclasses import dataclass, field, replace
+from functools import lru_cache
+from typing import Callable, Dict, Iterable, Mapping
+from weakref import WeakKeyDictionary
+
+from BaseClasses import CollectionState
+
+from .display_names import (
+    FLEA_DISPLAY_NAMES,
+    clean_item_display_name,
+)
+from .minor_pickups import (
+    MINOR_PICKUP_LOCATION_NAMES,
+    MINOR_PICKUP_SOURCE,
+)
+from .minor_caches import (
+    MINOR_CACHE_LOCATION_NAMES,
+    MINOR_CACHE_SOURCE,
+)
+from .locations import (
+    CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION,
+    INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
+    LOCATION_NAMES_BY_CATEGORY,
+    MASK_SHARD_LOCATION_NAMES,
+    NEEDLE_UPGRADE_LOCATION_NAMES,
+    PROTOCOL_ONLY_LOCATION_NAMES,
+    QUEST_LOCATION_NAMES,
+    SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION,
+    SILK_HEART_LOCATION_NAMES,
+    SPOOL_FRAGMENT_LOCATION_NAMES,
+    canonicalize_location_name,
+)
+from .room_graph_logic import (
+    CompiledRoomClause,
+    compile_room_graph,
+)
+
+# Requirements are split between shared paths and individual locations.
+# Each location records its act, nearest path and additional requirements.
+
+CREST_ITEMS: frozenset[str] = frozenset(
+    (
+        'Crest: Hunter',
+        'Crest: Reaper',
+        'Crest: Shaman',
+        'Crest: Architect',
+        'Crest: Wanderer',
+        'Crest: Beast',
+        'Crest: Witch',
+    )
+)
+NON_ARCHITECT_CREST_ITEMS: frozenset[str] = frozenset(
+    crest for crest in CREST_ITEMS
+    if crest != 'Crest: Architect'
+)
+USABLE_SHARPDART_REQUIREMENT = 'Usable Sharpdart'
+USABLE_MAGMA_BELL_REQUIREMENT = 'Usable Magma Bell'
+USABLE_CINDRIL_LOADOUT_REQUIREMENT = 'Usable Cindril Loadout'
+NATIVE_BLUE_SLOT_CREST_ITEMS: frozenset[str] = frozenset(
+    (
+        'Crest: Hunter',
+        'Crest: Reaper',
+        'Crest: Witch',
+    )
+)
+RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST: Mapping[str, tuple[str, ...]] = {
+    'Crest: Wanderer': (
+        'Crest Slot: Wanderer (Blue 1)',
+        'Crest Slot: Wanderer (Blue 2)',
+    ),
+    'Crest: Architect': (
+        'Crest Slot: Architect (Blue 1)',
+        'Crest Slot: Architect (Blue 2)',
+    ),
+    'Crest: Shaman': (
+        'Crest Slot: Shaman (Blue 1)',
+        'Crest Slot: Shaman (Blue 2)',
+    ),
+}
+RANDOMIZED_BLUE_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
+    slot_item
+    for slot_items in RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST.values()
+    for slot_item in slot_items
+)
+NATIVE_CINDRIL_LOADOUT_CREST_ITEMS: frozenset[str] = frozenset(
+    (
+        'Crest: Hunter',
+        'Crest: Reaper',
+        'Crest: Wanderer',
+    )
+)
+RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST: Mapping[
+    str,
+    tuple[str, ...],
+] = {
+    'Crest: Beast': (
+        'Crest Slot: Beast (Yellow 1)',
+        'Crest Slot: Beast (Yellow 2)',
+    ),
+    'Crest: Architect': (
+        'Crest Slot: Architect (Yellow 1)',
+        'Crest Slot: Architect (Yellow 2)',
+    ),
+}
+OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES: frozenset[str] = (
+    RANDOMIZED_BLUE_SLOT_ITEM_NAMES
+    | frozenset(
+        slot_item
+        for slot_items
+        in RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST.values()
+        for slot_item in slot_items
+    )
+)
+
+SKILL_ITEMS: tuple[str, ...] = tuple(
+    clean_item_display_name(name)
+    for name in (
+        'Ability: Faydown Cloak',
+        'Ability: Needle Strike',
+        'Ancestral Art: Silk Soar',
+        'Ancestral Art: Cling Grip',
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Swift Step',
+        'Ancestral Art: Clawline',
+        'Item: Quill',
+        'Ancestral Art: Needolin',
+    )
+)
+
+SILK_HEART_ITEM = 'Progressive Silkheart'
+SWIFT_STEP_ITEM = 'Swift Step'
+PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
+PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
+PALE_OIL_ITEM = 'Pale Oil'
+RUINED_TOOL_ITEM = 'Ruined Tool'
+SIMPLE_KEY_WORMWAYS = 'Simple Key (Wormways)'
+SIMPLE_KEY_DEEP_DOCKS = 'Simple Key (Deep Docks)'
+SIMPLE_KEY_GREEN_PRINCE = 'Simple Key (Green Prince)'
+SIMPLE_KEY_ROSARY_BANK = 'Simple Key (Rosary Bank)'
+SIMPLE_KEY_ITEMS: tuple[str, ...] = (
+    SIMPLE_KEY_WORMWAYS,
+    SIMPLE_KEY_DEEP_DOCKS,
+    SIMPLE_KEY_GREEN_PRINCE,
+    SIMPLE_KEY_ROSARY_BANK,
+)
+MEMORY_LOCKET_ITEM = 'Memory Locket'
+CREST_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
+    LOCATION_NAMES_BY_CATEGORY['CrestSlot']
+)
+CRAFTMETAL_ITEM = 'Craftmetal'
+MOSSBERRY_ITEM = 'Mossberry'
+POLLIP_HEART_ITEM = 'Pollip Heart'
+POLLIP_HEART_COUNT = 6
+SILKEATER_ITEM = 'Silkeater'
+KEY_OF_APOSTATE_ITEM = 'Key of Apostate'
+WHITE_KEY_ITEM = 'White Key'
+SURGEONS_KEY_ITEM = "Surgeon's Key"
+ARCHITECTS_KEY_ITEM = "Architect's Key"
+CRAW_SUMMONS_ITEM = 'Craw Summons'
+
+# These relics become progression only while their optional individual
+# deposit checks are enabled. They remain Useful in ordinary seeds except
+# for the Sacred Cylinder, which is independently required for its melody.
+OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES: frozenset[str] = frozenset(
+    INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES
+)
+
+# The room graph is pure declarative data, so it can be normalized
+# before LocationRequirement is defined. Its clauses are converted to live AP
+# rules below once the helper dataclasses exist.
+COMPILED_ROOM_GRAPH = compile_room_graph()
+
+# Compiled room-graph checks use live logic. Checks that cannot be compiled
+# are tracked separately below and cannot hold progression.
+ROOM_GRAPH_CANONICAL_CHECK_NAMES: frozenset[str] = frozenset(
+    canonicalize_location_name(name)
+    for name in COMPILED_ROOM_GRAPH.authoritative_check_names
+)
+ROOM_GRAPH_QUARANTINED_CHECK_NAMES: frozenset[str] = frozenset(
+    canonicalize_location_name(name)
+    for name in COMPILED_ROOM_GRAPH.quarantined_check_names
+)
+
+ROSARY_BANK_GATED_LOCATIONS: frozenset[str] = frozenset(
+    {
+        'Rosary Cannon',
+        'Pale Rosary Necklace: High Halls',
+        *(f'Rosary Cache: High Halls #{index}' for index in range(1, 7)),
+    }
+)
+RUINED_TOOL_REPAIR_LOCATIONS: tuple[str, ...] = (
+    'Silkshot (Forge Daughter)',
+    'Silkshot (Twelfth Architect)',
+    'Silkshot (Original)',
+)
+# Routes which need only the run/ground-momentum half of Swift Step accept the
+# first progressive copy in split seeds.  Full dash routes continue to use
+# SWIFT_STEP_ITEM, which resolves to two progressive copies when split.
+SWIFT_STEP_OR_SPRINT_ITEMS: tuple[str, ...] = (
+    SWIFT_STEP_ITEM,
+    PROGRESSIVE_SWIFT_STEP_ITEM,
+)
+# The far-right ledge in Shellwood_01 uses the same traversal alternatives as
+# the Longpin alcove above Bellhart. One shared movement tuple defines Longpin
+# and the three adjacent shard caches.
+SHELLWOOD_LONGPIN_MOVEMENT_ITEMS: tuple[str, ...] = (
+    'Ancestral Art: Swift Step',
+    'Ability: Faydown Cloak',
+    'Ancestral Art: Clawline',
+)
+SILK_HEART_TRAVERSAL_ITEMS: frozenset[str] = frozenset(
+    (
+        'Clawline',
+        'Silk Soar',
+    )
+)
+LOGIC_ITEM_DEPENDENCIES: Mapping[str, tuple[str, ...]] = {
+    item_name: (SILK_HEART_ITEM,)
+    for item_name in SILK_HEART_TRAVERSAL_ITEMS
+}
+
+
+@dataclass(frozen=True)
+class _AbstractValuesSnapshot:
+    """State-independent portion of one abstract-logic evaluation.
+
+    Access rules are called repeatedly for many locations while Archipelago's
+    fill algorithm is testing the same simulated inventory. Only immutable
+    results are stored here. The public helper creates the small closures used
+    by its callers.
+    """
+
+    abstract_values: tuple[tuple[str, bool], ...]
+    item_counts: tuple[tuple[str, int], ...]
+    has_crest: bool
+    has_spear: bool
+
+
+_ABSTRACT_VALUES_CACHE_LIMIT = 128
+_ABSTRACT_VALUES_CACHE: WeakKeyDictionary[object, OrderedDict] = (
+    WeakKeyDictionary()
+)
+
+
+def _player_inventory_signature(
+    state: CollectionState,
+    player: int,
+) -> tuple[tuple[str, int], ...] | None:
+    """Return a mutation-safe key for a player's simulated inventory.
+
+    States without ``prog_items`` skip caching because their mutation history
+    cannot be tracked safely.
+    """
+
+    progression_items = getattr(state, 'prog_items', None)
+    if progression_items is None:
+        return None
+    try:
+        player_items = progression_items[player]
+    except (KeyError, IndexError, TypeError):
+        return None
+    items_method = getattr(player_items, 'items', None)
+    if not callable(items_method):
+        return None
+    return tuple(
+        sorted(
+            (str(name), int(count))
+            for name, count in items_method()
+            if count
+        )
+    )
+
+
+def _get_abstract_values_cache(
+    state: CollectionState,
+    player: int,
+    cache_key: tuple[object, ...],
+) -> _AbstractValuesSnapshot | None:
+    try:
+        state_cache = _ABSTRACT_VALUES_CACHE.get(state)
+    except TypeError:
+        return None
+    if state_cache is None:
+        return None
+    snapshot = state_cache.get(cache_key)
+    if snapshot is not None:
+        state_cache.move_to_end(cache_key)
+    return snapshot
+
+
+def _store_abstract_values_cache(
+    state: CollectionState,
+    cache_key: tuple[object, ...],
+    snapshot: _AbstractValuesSnapshot,
+) -> None:
+    try:
+        state_cache = _ABSTRACT_VALUES_CACHE.setdefault(
+            state,
+            OrderedDict(),
+        )
+    except TypeError:
+        return
+    state_cache[cache_key] = snapshot
+    state_cache.move_to_end(cache_key)
+    while len(state_cache) > _ABSTRACT_VALUES_CACHE_LIMIT:
+        state_cache.popitem(last=False)
+
+
+def get_logic_item_dependencies(
+    split_dash_and_sprint: bool = False,
+) -> Mapping[str, tuple[str, ...]]:
+    """Return dependencies that apply to the selected movement model."""
+
+    dependencies = dict(LOGIC_ITEM_DEPENDENCIES)
+    if split_dash_and_sprint:
+        # Duplicate entries encode a two-copy progressive
+        # requirement in exported slot data. The AP reachability evaluator
+        # enforces the same count directly.
+        dependencies[SWIFT_STEP_ITEM] = (
+            PROGRESSIVE_SWIFT_STEP_ITEM,
+            PROGRESSIVE_SWIFT_STEP_ITEM,
+        )
+    return dependencies
+
+FLEA_ITEMS: tuple[str, ...] = FLEA_DISPLAY_NAMES
+
+SHAKRA_MAP_ITEMS: tuple[str, ...] = (
+    'Map: Mosslands',
+    'Map: The Marrow',
+    'Map: Deep Docks',
+    'Map: Far Fields',
+    'Map: Wormways',
+    "Map: Hunter's March",
+    'Map: Greymoor',
+    'Map: Bellhart',
+    'Map: Shellwood',
+    'Map: Blasted Steps',
+    "Map: Sinner's Road",
+    'Map: Mount Fay',
+    'Map: Sands of Karak',
+    'Map: Bilewater',
+)
+
+SHAKRA_MAP_LOCATIONS: tuple[str, ...] = tuple(
+    item_name.replace('Map: ', 'Map Purchase: ', 1)
+    for item_name in SHAKRA_MAP_ITEMS
+)
+
+STATIC_MAP_ITEMS: tuple[str, ...] = (
+    'Map: Weavenest Atla',
+    'Map: Grand Gate',
+    'Map: Underworks',
+    'Map: Choral Chambers',
+    'Map: Whispering Vaults',
+    'Map: Whiteward',
+    'Map: Cogwork Core',
+    'Map: Memorium',
+    'Map: High Halls',
+    'Map: The Slab',
+    'Map: Putrified Ducts',
+    'Map: The Cradle',
+    'Map: Verdania',
+    'Map: The Abyss',
+)
+
+THREEFOLD_MELODY_ITEMS: tuple[str, ...] = (
+    "Architect's Melody",
+    "Conductor's Melody",
+    "Vaultkeeper's Melody",
+)
+
+# Checks outside the verified source set keep their bootstrap rule and
+# progression restriction until each missing state condition is represented.
+_PLAYTEST_LOCATION_SOURCES: tuple[str, ...] = (
+    'Pin Purchase: Bench',
+    'Pin Purchase: Ventrica',
+    'Pin Purchase: Bellway',
+    'Pin Purchase: Vendor',
+    'Relic Pickup: Weaver Totem Witch',
+    'Relic Pickup: Psalm Cylinder Library Roof',
+    'Relic Pickup: Bone Record Wisp Top',
+    'Relic Pickup: Weaver Totem Bonetown_upper_room',
+    'Relic Pickup: Librarian Melody Cylinder',
+    'Relic Pickup: Seal Chit City Merchant',
+    'Relic Pickup: Psalm Cylinder Ward',
+    'Relic Pickup: Weaver Record Conductor',
+    'Relic Pickup: Psalm Cylinder Librarian',
+    'Relic Pickup: Psalm Cylinder Hang',
+    'Relic Pickup: Seal Chit Ward Corpse',
+    'Relic Pickup: Weaver Record Sprint_Challenge',
+    'Relic Pickup: Psalm Cylinder Grindle',
+    'Relic Pickup: Weaver Record Weave_08',
+    'Relic Pickup: Bone Record Understore_Map_Room',
+    'Relic Pickup: Bone Record Bone_East_14',
+    'Relic Pickup: Seal Chit Aspid_01',
+    'Relic Pickup: Seal Chit Silk Siphon',
+    'Relic Pickup: Bone Record Greymoor_flooded_corridor',
+    'Relic Pickup: Weaver Totem Slab_Bottom',
+    'Relic Pickup: Ancient Egg Abyss Middle',
+    'Bell Shrine Completion: bellShrineBoneForest',
+    'Bell Shrine Completion: bellShrineWilds',
+    'Bell Shrine Completion: bellShrineGreymoor',
+    'Bell Shrine Completion: bellShrineShellwood',
+    'Bell Shrine Completion: bellShrineBellhart',
+    'Bell Shrine Completion: bellShrineEnclave',
+    'Boss Completion: defeatedMossMother',
+    'Boss Completion: skullKingKilled',
+    'Boss Completion: defeatedBellBeast',
+    'Boss Completion: defeatedAntQueen',
+    'Boss Completion: defeatedLace1',
+    'Boss Completion: defeatedSongGolem',
+    'Boss Completion: defeatedDockForemen',
+    'Boss Completion: defeatedVampireGnatBoss',
+    'Boss Completion: defeatedCrowCourt',
+    'Boss Completion: defeatedSplinterQueen',
+    'Boss Completion: defeatedSeth',
+    'Boss Completion: defeatedFlowerQueen',
+    'Boss Completion: defeatedRoachkeeperChef',
+    'Boss Completion: defeatedPhantom',
+    'Boss Completion: DefeatedSwampShaman',
+    'Boss Completion: defeatedCoralKing',
+    'Boss Completion: defeatedLastJudge',
+    'Boss Completion: defeatedGreyWarrior',
+    'Boss Completion: defeatedFirstWeaver',
+    'Boss Completion: defeatedBroodMother',
+    'Boss Completion: defeatedTrobbio',
+    'Boss Completion: defeatedTormentedTrobbio',
+    'Boss Completion: defeatedCogworkDancers',
+    'Boss Completion: defeatedLaceTower',
+    'Boss Completion: defeatedSongChevalierBoss',
+    'Boss Completion: defeatedWhiteCloverstag',
+    'Boss Completion: defeatedCloverDancers',
+    'Boss Completion: defeatedWispPyreEffigy',
+    'Boss Completion: defeatedAntTrapper',
+    'Boss Completion: defeatedCoralDrillerSolo',
+    'Boss Completion: wardBossDefeated',
+    'Boss Completion: defeatedZapCoreEnemy',
+    'Boss Completion: spinnerDefeated',
+    'Boss Completion: roofCrabDefeated',
+    'Boss Completion: skullKingDefeated',
+    'Crafting Kit Source: Forge Tool Kit',
+    'Crafting Kit Source: Architect Tool Kit',
+    'Crafting Kit Source: Grindle Tool Kit',
+    'Crafting Kit Source: Crow Feathers',
+)
+PLAYTEST_LOCATIONS: tuple[str, ...] = tuple(
+    canonicalize_location_name(location_name)
+    for location_name in _PLAYTEST_LOCATION_SOURCES
+)
+
+# These routes use asset identities and published vanilla access information.
+# They may hold progression. Checks with extra state requirements remain
+# outside this tuple.
+_LOGIC_PASS_A_LOCATION_SOURCES: tuple[str, ...] = (
+    'Pin Purchase: Bench',
+    'Pin Purchase: Ventrica',
+    'Pin Purchase: Bellway',
+    'Pin Purchase: Vendor',
+    'Relic Pickup: Psalm Cylinder Library Roof',
+    'Relic Pickup: Bone Record Wisp Top',
+    'Relic Pickup: Weaver Totem Bonetown_upper_room',
+    'Relic Pickup: Librarian Melody Cylinder',
+    'Relic Pickup: Psalm Cylinder Ward',
+    'Relic Pickup: Weaver Record Conductor',
+    'Relic Pickup: Psalm Cylinder Librarian',
+    'Relic Pickup: Psalm Cylinder Hang',
+    'Relic Pickup: Weaver Record Sprint_Challenge',
+    'Relic Pickup: Psalm Cylinder Grindle',
+    'Relic Pickup: Weaver Record Weave_08',
+    'Relic Pickup: Bone Record Understore_Map_Room',
+    'Relic Pickup: Bone Record Bone_East_14',
+    'Relic Pickup: Seal Chit Aspid_01',
+    'Relic Pickup: Seal Chit Ward Corpse',
+    'Relic Pickup: Seal Chit Silk Siphon',
+    'Relic Pickup: Bone Record Greymoor_flooded_corridor',
+    'Relic Pickup: Weaver Totem Slab_Bottom',
+    'Relic Pickup: Ancient Egg Abyss Middle',
+    'Bell Shrine Completion: bellShrineBoneForest',
+    'Bell Shrine Completion: bellShrineWilds',
+    'Bell Shrine Completion: bellShrineGreymoor',
+    'Bell Shrine Completion: bellShrineShellwood',
+    'Bell Shrine Completion: bellShrineBellhart',
+    'Bell Shrine Completion: bellShrineEnclave',
+    'Boss Completion: defeatedMossMother',
+    'Boss Completion: defeatedBellBeast',
+    'Boss Completion: defeatedLace1',
+    'Boss Completion: defeatedSongGolem',
+    'Boss Completion: defeatedDockForemen',
+    'Boss Completion: defeatedVampireGnatBoss',
+    'Boss Completion: defeatedSplinterQueen',
+    'Boss Completion: defeatedSeth',
+    'Boss Completion: defeatedAntQueen',
+    'Boss Completion: defeatedCrowCourt',
+    'Boss Completion: defeatedFlowerQueen',
+    'Boss Completion: defeatedCoralKing',
+    'Boss Completion: defeatedRoachkeeperChef',
+    'Boss Completion: defeatedPhantom',
+    'Boss Completion: DefeatedSwampShaman',
+    'Boss Completion: defeatedLastJudge',
+    'Boss Completion: defeatedGreyWarrior',
+    'Boss Completion: defeatedFirstWeaver',
+    'Boss Completion: defeatedTrobbio',
+    'Boss Completion: defeatedTormentedTrobbio',
+    'Boss Completion: defeatedCogworkDancers',
+    'Boss Completion: defeatedLaceTower',
+    'Boss Completion: defeatedWispPyreEffigy',
+    'Boss Completion: wardBossDefeated',
+    'Boss Completion: defeatedZapCoreEnemy',
+    'Boss Completion: spinnerDefeated',
+    'Boss Completion: skullKingDefeated',
+    'Crafting Kit Source: Forge Tool Kit',
+    'Crafting Kit Source: Architect Tool Kit',
+    'Crafting Kit Source: Grindle Tool Kit',
+)
+LOGIC_PASS_A_LOCATIONS: tuple[str, ...] = tuple(
+    canonicalize_location_name(location_name)
+    for location_name in _LOGIC_PASS_A_LOCATION_SOURCES
+)
+
+# These quest checks have access rules. Most remain junk-only until all quest
+# states are represented. The locations below may hold progression.
+_LOGIC_PASS_A_QUEST_LOCATION_SOURCES: tuple[str, ...] = (
+    'Quest Completion: A Pinsmiths Tools',
+    'Quest Completion: Belltown House Mid',
+    'Quest Completion: Building Materials',
+    'Quest Completion: Building Materials (Bridge)',
+    'Quest Completion: Building Materials (Statue)',
+    'Quest Completion: Courier Delivery Bonebottom',
+    'Quest Completion: Courier Delivery Dustpens Slave',
+    'Quest Completion: Courier Delivery Fixer',
+    'Quest Completion: Courier Delivery Fleatopia',
+    'Quest Completion: Courier Delivery Mask Maker',
+    'Quest Completion: Courier Delivery Pilgrims Rest',
+    'Quest Completion: Courier Delivery Songclave',
+    'Quest Completion: Extractor Blue Worms',
+    'Quest Completion: Fine Pins',
+    'Quest Completion: Garmond Black Threaded',
+    'Quest Completion: Great Gourmand',
+    'Quest Completion: Journal',
+    'Quest Completion: Mr Mushroom',
+    'Quest Completion: Pilgrim Rags',
+    'Quest Completion: Rock Rollers',
+    'Quest Completion: Save City Merchant',
+    'Quest Completion: Save City Merchant Bridge',
+    'Quest Completion: Save Courier Short',
+    'Quest Completion: Save Courier Tall',
+    'Quest Completion: Save Sherma',
+    'Quest Completion: Shiny Bell Goomba',
+    'Quest Completion: Skull King',
+    'Quest Completion: Song Pilgrim Cloaks',
+    'Quest Completion: Songclave Donation 1',
+    'Quest Completion: Songclave Donation 2',
+    'Quest Completion: Steel Sentinel Pt2',
+)
+LOGIC_PASS_A_QUEST_LOCATIONS: tuple[str, ...] = tuple(
+    canonicalize_location_name(location_name)
+    for location_name in _LOGIC_PASS_A_QUEST_LOCATION_SOURCES
+) + (
+    # Tail-appended after the established quest ID block.
+    'Wish: Restoration of Bellhart',
+)
+
+PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Wish: Restoration of Bellhart',
+        'Wish: Bone Bottom Repairs',
+        'Wish: A Lifesaving Bridge',
+        'Wish: My Missing Courier',
+        'Wish: Volatile Flintbeetles',
+    )
+)
+JUNK_ONLY_QUEST_LOCATIONS: frozenset[str] = (
+    frozenset(QUEST_LOCATION_NAMES) - PROGRESSION_SAFE_QUEST_LOCATIONS
+)
+
+# Crawbug Clearing has a complete source and prerequisite route.
+PROGRESSION_SAFE_CENSUS_LOCATIONS: frozenset[str] = frozenset(
+    (
+        canonicalize_location_name('Crafting Kit Source: Crow Feathers'),
+    )
+)
+
+# These rewards can disappear permanently when their optional encounter is
+# skipped or its quest state advances. They remain in the seed for completion
+# tracking and map visibility while accepting neither useful equipment nor
+# required progression.
+ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Boss: Skull Tyrant (Bone Bottom)',
+        'Boss: Fourth Chorus',
+        'Boss: Moorwing',
+        'Throwing Ring',       # Trail's End / Shakra encounter reward.
+        "Wish: Hero's Call",   # Garmond and Zaza encounter reward.
+        # These delivery wishes explicitly require the pre-Act-3 world.
+        'Wish: Bone Bottom Supplies',
+        "Wish: Pilgrim's Rest Supplies",
+        # Unfinished collection Wishes are removed by the Act 3 conversion.
+        'Wish: Garb of the Pilgrims',
+        'Wish: The Terrible Tyrant',
+        # Handing in a Pale Oil before accepting this Wish can skip its
+        # completion state permanently.
+        "Wish: Pinmaster's Oil",
+    )
+)
+
+# Lace's first AP check is shared by three mutually exclusive physical
+# encounters: the Deep Docks fight, the Sinner's Road entrance cutscene and
+# the Shellwood-to-Blasted-Steps bridge cutscene. Published documentation
+# confirms that skipping the fight routes Lace to one of those two cutscenes,
+# while the client reports the same canonical location from every outcome.
+TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS: frozenset[str] = frozenset()
+
+# These physical sources are stable, but their mandatory vanilla key or quest
+# state is not an AP item or event yet. They remain visible and randomized
+# while rejecting required progression behind an unrepresented gate.
+TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Mask Shard: Dark Hearts',
+        'Spool Fragment: Balm for the Wounded',
+        'Spider Strings',
+        'Rune Rage',
+        'Relic: Choral Commandment (Jubilana)',
+        'Spool Fragment: Jubilana (Songclave)',
+    )
+)
+
+# These direct pickups have source and movement requirements. Their routes do
+# not rely on an omitted key, quest counter or negative story state.
+VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Beast Shard: Deep Docks',
+        'Frayed Rosary String: Wormways',
+        'Shard Bundle: Shellwood',
+    )
+) | (
+    ROOM_GRAPH_CANONICAL_CHECK_NAMES
+    & frozenset(MINOR_PICKUP_LOCATION_NAMES)
+)
+
+# Each source below has its own encoded requirement and may hold progression.
+# Other minor caches remain filler/trap-only until their room movement is
+# represented.
+MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Rosary Cache: Blasted Steps',
+        'Rosary Cache: Moss Grotto',
+        'Shell Shard Cache: Moss Grotto #1',
+        'Shell Shard Cache: Moss Grotto #2',
+        'Shell Shard Cache: Moss Grotto #5',
+        'Shell Shard Cache: Moss Grotto #6',
+        'Shell Shard Cache: Moss Grotto #7',
+        'Rosary Cache: The Marrow #1',
+        'Rosary Cache: The Marrow #2',
+        'Rosary Cache: The Marrow #3',
+        'Rosary Cache: The Marrow #4',
+        'Rosary Cache: The Marrow #5',
+        'Rosary Cache: The Marrow #6',
+        'Rosary Cache: The Marrow #7',
+        'Rosary Cache: The Marrow #11',
+        'Rosary Cache: The Marrow #12',
+        'Rosary Cache: The Marrow #13',
+        'Rosary Cache: The Marrow #14',
+        'Rosary Cache: The Marrow #15',
+        'Rosary Cache: The Marrow #16',
+        'Shell Shard Cache: The Marrow #2',
+        'Shell Shard Cache: The Marrow #3',
+        'Shell Shard Cache: The Marrow #4',
+        'Shell Shard Cache: The Marrow #5',
+        'Shell Shard Cache: The Marrow #6',
+        'Rosary Cache: The Marrow (Mosslands Passage) #1',
+        'Rosary Cache: The Marrow (Mosslands Passage) #2',
+        'Rosary Cache: Bone Bottom #4',
+        'Rosary Cache: Bone Bottom #5',
+        'Rosary Cache: Bone Bottom #8',
+        'Rosary Cache: Bone Bottom #9',
+        'Rosary Cache: Bonegrave #1',
+        'Rosary Cache: Bonegrave #2',
+        'Rosary Cache: Bonegrave #3',
+        'Rosary Cache: Bonegrave #4',
+        'Rosary Cache: Mosshome #1',
+        'Rosary Cache: Mosshome #2',
+        'Rosary Cache: Mosshome #3',
+        'Rosary Cache: Mosshome #4',
+        'Rosary Cache: Greymoor #7',
+        'Rosary Cache: Greymoor #8',
+        'Rosary Cache: Greymoor #10',
+        'Rosary Cache: Greymoor #11',
+        'Rosary Cache: Greymoor #12',
+        'Rosary Cache: Greymoor #13',
+        'Rosary Cache: Greymoor #14',
+        'Shell Shard Cache: Greymoor #1',
+        'Shell Shard Cache: Greymoor #2',
+        # Deep Docks #1-3 share Bone_East_13 and require Magma Bell.
+        'Shell Shard Cache: Deep Docks #1',
+        'Shell Shard Cache: Deep Docks #2',
+        'Shell Shard Cache: Deep Docks #3',
+        # Shellwood #4-6 share the far-right route used by Longpin.
+        'Shell Shard Cache: Shellwood #4',
+        'Shell Shard Cache: Shellwood #5',
+        'Shell Shard Cache: Shellwood #6',
+    )
+) | (
+    ROOM_GRAPH_CANONICAL_CHECK_NAMES
+    & frozenset(MINOR_CACHE_LOCATION_NAMES)
+)
+
+# These graph sources still have a non-geometric resource or encounter
+# safety reason that prevents required progression from landing there.
+ROOM_GRAPH_RESOLVED_NON_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Beast Shard: Marrowmaw',
+        'Magma Bell',
+        'Silkshot (Forge Daughter)',
+        'Sting Shard',
+    )
+)
+
+LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
+    (
+        *SHAKRA_MAP_LOCATIONS,
+        *LOGIC_PASS_A_LOCATIONS,
+        *PROGRESSION_SAFE_CENSUS_LOCATIONS,
+        *PROGRESSION_SAFE_QUEST_LOCATIONS,
+        *NEEDLE_UPGRADE_LOCATION_NAMES,
+        *MASK_SHARD_LOCATION_NAMES,
+        *SPOOL_FRAGMENT_LOCATION_NAMES,
+        *SILK_HEART_LOCATION_NAMES,
+        *MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS,
+        *ROOM_GRAPH_CANONICAL_CHECK_NAMES,
+    )
+) - (
+    ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
+    | TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS
+    | TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
+    | ROOM_GRAPH_QUARANTINED_CHECK_NAMES
+    | ROOM_GRAPH_RESOLVED_NON_PROGRESSION_LOCATIONS
+)
+
+ACT_ORDER: tuple[str, ...] = ('Act 1', 'Act 2', 'Act 3')
+
+PATH_ORDER: tuple[str, ...] = (
+    'Mosslands - Moss Grotto', # Start area
+    'Weavenest - Atla',
+    'Mosslands - Ruined Chapel',
+    'Mosslands - Bone Bottom',
+    'Mosslands - Bonegrave',
+    'Mosslands - Snail Shamans',
+    'The Marrow - Mosshome Gate',
+    'Mosslands - Moss Druid',
+    'The Marrow - Toll',
+    'The Marrow - Bellshrine', # Requires silkspear
+    'The Marrow - Shooting Gallery',
+    "Hunter's March - Trap",
+    'Deep Docks - Toll', # Can't go west (blocked by lever)
+    'Deep Docks - Forge',
+    'Deep Docks - Lower',
+    'Deep Docks - Bellshrine',
+    'Deep Docks - Abyss Exit', # Act 3
+    'Deep Docks - Sauna',
+    'Deep Docks - Diving Bell',
+    'Far Fields - Gated Toll', # Discarded, only a checkpoint that leads nowhere unless open
+    'Far Fields - Bellway',
+    "Far Fields - Pilgrim's Rest", # Inside Far Fields
+    'Far Fields - Seamstress', # Air balloon
+    'Far Fields - Sprintmaster', # Top east
+    'Far Fields - Karmelita',
+    'Weavenest - Cindril',
+    'Wormways - Entrance',
+    'Wormways - Bottom',
+    'Wormways Middle',
+    'Wormways - Plasmium Lab',
+    'Shellwood - Bellshrine',
+    'Shellwood - Overgrown West',
+    'Shellwood - Central Toll',
+    'Shellwood - Chapel Exit',
+    'Shellwood - Greyroot',
+    'Bellhart - Bellhart',
+    'Bellhart - Widow',
+    'Greymoor - Halfway House',
+    'Greymoor - Bellshrine',
+    'Greymoor - Wisp Thicket',
+    'Blasted Steps - Toll',
+    'Blasted Steps - Pinstress',
+    'Blasted Steps - Bellway',
+    "Sinner's Road - Broken Toll",
+    "Sinner's Road - Styx",
+    'Bilewater - Bellway',
+    'Bilewater - Ruined Tool', # Not a bench
+    'Bilewater - Corpse Sack Chamber',
+    'Bilewater - Bilehaven',
+    'Bilewater - Exhaust Organ',
+    'Bilewater - Twisted Bud', # Not a bench
+    'Grand Gate', # Not a bench, at the elevator before collapse
+    'Underworks - Broken Elevator', # Below Grand Gate
+    'Underworks - Confession Toll',
+    'Underworks - Twelfth Architect',
+    "Underworks - Architect's Shop", # Not a bench, just avobe Twelfth Architect
+    'Underworks - Whiteward',
+    'Choral Chambers - Outside Underworks',
+    'Choral Chambers - Below Dining',
+    'Choral Chambers - Spa',
+    'Choral Chambers - High Halls Entrance',
+    'Choral Chambers - First Shrine',
+    'Choral Chambers - Songclave',
+    'Choral Chambers - Grand Bellway',
+    'Outlying Citadel - Lower Cogwork Core',
+    'Outlying Citadel - Cogwork Core',
+    'Outlying Citadel - High Halls Ventrica',
+    'Outlying Citadel - Memorium',
+    'Outlying Citadel - Library',
+    'Outlying Citadel - Sacred Vault',
+    'Putrified Ducts - Bellway',
+    'Putrified Ducts - Huntress',
+    'Putrified Ducts - Fleatopia',
+    'The Slab - Capture Event', # Abstract
+    'The Slab - Bellway',
+    "The Slab - Mapper's Tunnel",
+    'The Slab - Window',
+    'The Slab - Heretic Key Arena',
+    'Mount Fay - Shakra',
+    'Mount Fay - Toll',
+    'Mount Fay - Final Climb',
+    'Mount Fay - Workbench',
+    'Sands of Karak - Sands of Karak',
+    'Sands of Karak - Coral Tower',
+    'The Cradle - Terminus',
+    'The Cradle - Surface Ascent',
+    'Abyss - Void Tendrils',
+    'Abyss - Escape',
+    # Bellways
+    'Bellways',
+    'Bellway - Deep Docks',
+    'Bellway - Far Fields',
+    'Bellway - Greymoor',
+    'Bellway - Bellhart',
+    'Bellway - Blasted Steps',
+    'Bellway - Grand Bellway',
+    'Bellway - The Slab',
+    'Bellway - Shellwood',
+    'Bellway - Bilewater',
+    'Bellway - Putrified Ducts',
+    # Ventrica
+    'Ventrica',
+    'Ventrica - Choral Chambers',
+    'Ventrica - Underworks',
+    'Ventrica - Grand Bellway',
+    'Ventrica - High Halls',
+    'Ventrica - Songclave',
+    'Ventrica - Memorium',
+)
+
+
+@dataclass(frozen=True)
+class ItemCountRequirement:
+    """Require a minimum total across one or more interchangeable AP items."""
+
+    item_names: tuple[str, ...]
+    minimum: int
+
+    def as_slot_data(self) -> dict[str, object]:
+        return {
+            "items": [
+                clean_item_display_name(item_name)
+                for item_name in self.item_names
+            ],
+            "minimum": self.minimum,
+        }
+
+
+@dataclass(frozen=True)
+class LocationRequirement:
+    all_of: tuple[str, ...] = field(default_factory=tuple)
+    any_of: tuple[str, ...] = field(default_factory=tuple)
+    require_any_crest: bool = True
+    require_silk_spear: bool = False
+    requires_easy_skips: bool = False
+    act: str = ""
+    path_name: str = ""
+    item_counts: tuple[ItemCountRequirement, ...] = field(default_factory=tuple)
+
+    def as_slot_data(self) -> dict[str, object]:
+        return {
+            "all_of": [
+                clean_item_display_name(item_name)
+                for item_name in self.all_of
+            ],
+            "any_of": [
+                clean_item_display_name(item_name)
+                for item_name in self.any_of
+            ],
+            "require_any_crest": self.require_any_crest,
+            "require_silk_spear": self.require_silk_spear,
+            "requires_easy_skips": self.requires_easy_skips,
+            "act": self.act,
+            "path": self.path_name,
+            "item_counts": [
+                count_requirement.as_slot_data()
+                for count_requirement in self.item_counts
+            ],
+        }
+
+
+def item_count(minimum: int, *item_names: str) -> ItemCountRequirement:
+    return ItemCountRequirement(tuple(item_names), minimum)
+
+
+def req(
+    *all_of: str,
+    any_of: Iterable[str] = (),
+    crest: bool = True,
+    silk_spear: bool = False,
+    easy_skips: bool = False,
+    act: str = "",
+    path_name: str = "",
+    item_counts: Iterable[ItemCountRequirement] = (),
+) -> LocationRequirement:
+    return LocationRequirement(
+        all_of=tuple(all_of),
+        any_of=tuple(any_of),
+        require_any_crest=crest,
+        require_silk_spear=silk_spear,
+        requires_easy_skips=easy_skips,
+        act=act,
+        path_name=path_name,
+        item_counts=tuple(item_counts),
+    )
+
+
+def area(
+    act_number: int,
+    path_name: str,
+    *all_of: str,
+    any_of: Iterable[str] = (),
+    crest: bool = True,
+    silk_spear: bool = False,
+    item_counts: Iterable[ItemCountRequirement] = (),
+) -> LocationRequirement:
+    act_name = f"Act {act_number}"
+    return req(
+        f"Act: {act_number}",
+        f"Path: {path_name}",
+        *all_of,
+        any_of=any_of,
+        crest=crest,
+        silk_spear=silk_spear,
+        act=act_name,
+        path_name=path_name,
+        item_counts=item_counts,
+    )
+
+
+_BLASTED_STEPS_ACCESS_PATHS: tuple[str, ...] = (
+    'Blasted Steps - Toll',
+    'Blasted Steps - Pinstress',
+    'Blasted Steps - Bellway',
+)
+
+
+def grindle_access(
+    act_number: int,
+    *additional_requirements: str,
+) -> tuple[LocationRequirement, ...]:
+    """Reach Grindle with Cling Grip and one of the two verified climbs."""
+
+    return tuple(
+        requirement
+        for path_name in _BLASTED_STEPS_ACCESS_PATHS
+        for requirement in (
+            area(
+                act_number,
+                path_name,
+                *additional_requirements,
+                'Ancestral Art: Cling Grip',
+                'Ancestral Art: Silk Soar',
+                crest=False,
+            ),
+            area(
+                act_number,
+                path_name,
+                *additional_requirements,
+                'Ancestral Art: Cling Grip',
+                'Ability: Faydown Cloak',
+                crest=False,
+            ),
+        )
+    )
+
+
+def _compiled_room_clause_requirement(
+    clause: CompiledRoomClause,
+) -> LocationRequirement:
+    return req(
+        *clause.all_of,
+        crest=False,
+        silk_spear=clause.require_silk_spear,
+        easy_skips=clause.requires_easy_skips,
+        item_counts=(
+            item_count(minimum, item_name)
+            for item_name, minimum in clause.item_counts
+        ),
+    )
+
+
+ROOM_NODE_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    name: tuple(
+        _compiled_room_clause_requirement(clause)
+        for clause in clauses
+    )
+    for name, clauses in COMPILED_ROOM_GRAPH.node_requirements.items()
+}
+ROOM_EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    name: tuple(
+        _compiled_room_clause_requirement(clause)
+        for clause in clauses
+    )
+    for name, clauses in COMPILED_ROOM_GRAPH.event_requirements.items()
+}
+ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    canonicalize_location_name(name): tuple(
+        _compiled_room_clause_requirement(clause)
+        for clause in clauses
+    )
+    for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
+}
+
+
+EQUIPPED_SILK_SKILL_REQUIREMENTS: Mapping[
+    str,
+    tuple[LocationRequirement, ...],
+] = {
+    # Architect has no Silk Skill slot. Explicit crest alternatives keep this
+    # equipped-skill rule data-driven for both AP generation and the client map.
+    USABLE_SHARPDART_REQUIREMENT: tuple(
+        req('Sharpdart', crest, crest=False)
+        for crest in sorted(NON_ARCHITECT_CREST_ITEMS)
+    ),
+}
+
+NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS: tuple[
+    LocationRequirement,
+    ...,
+] = tuple(
+    req('Magma Bell', crest_item, crest=False)
+    for crest_item in sorted(NATIVE_BLUE_SLOT_CREST_ITEMS)
+)
+RANDOMIZED_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS: tuple[
+    LocationRequirement,
+    ...,
+] = tuple(
+    req('Magma Bell', crest_item, slot_item, crest=False)
+    for crest_item, slot_items
+    in RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST.items()
+    for slot_item in slot_items
+)
+NATIVE_CINDRIL_LOADOUT_REQUIREMENTS: tuple[
+    LocationRequirement,
+    ...,
+] = tuple(
+    req(
+        'Tool: Flea Brew',
+        'Tool: Silkspeed Anklets',
+        crest_item,
+        crest=False,
+    )
+    for crest_item in sorted(NATIVE_CINDRIL_LOADOUT_CREST_ITEMS)
+)
+RANDOMIZED_SLOT_CINDRIL_LOADOUT_REQUIREMENTS: tuple[
+    LocationRequirement,
+    ...,
+] = tuple(
+    req(
+        'Tool: Flea Brew',
+        'Tool: Silkspeed Anklets',
+        crest_item,
+        slot_item,
+        crest=False,
+    )
+    for crest_item, slot_items
+    in RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST.items()
+    for slot_item in slot_items
+)
+
+
+EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
+    str,
+    tuple[LocationRequirement, ...],
+] = {
+    # Hunter, Reaper and Witch each have a native Blue slot. Wanderer,
+    # Architect and Shaman can equip the tool after receiving either matching
+    # randomized Blue-slot item. The client checks those received items while
+    # auto-placing a tool, independently of the physical Memory Locket check.
+    # Beast has no Blue slot at all.
+    USABLE_MAGMA_BELL_REQUIREMENT: (
+        *NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS,
+        *RANDOMIZED_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS,
+    ),
+    # Flea Brew is Red and Silkspeed Anklets are Yellow. Both must be
+    # simultaneously equippable on one owned crest: Hunter, Reaper and
+    # Wanderer provide both colors natively. Beast and Architect require one
+    # of their own randomized Yellow-slot unlocks. Witch and Shaman cannot
+    # form this loadout.
+    USABLE_CINDRIL_LOADOUT_REQUIREMENT: (
+        *NATIVE_CINDRIL_LOADOUT_REQUIREMENTS,
+        *RANDOMIZED_SLOT_CINDRIL_LOADOUT_REQUIREMENTS,
+    ),
+}
+
+
+ACT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    'Act: 1': (
+        req(crest=False, silk_spear=False),
+    ),
+    'Act: 2': (
+        req('Event: Act 2 Started', crest=False),
+    ),
+    'Act: 3': (
+        req('Event: Act 3 Started', crest=False),
+    ),
+}
+
+PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    'Path: Mosslands - Moss Grotto': (
+        req(crest=False),  # Starting area (only one not requiring crest)
+        req('Path: Mosslands - Ruined Chapel'), # Route back
+        req('Path: Mosslands - Bone Bottom'), # Route back
+        req('Path: Weavenest - Atla', 'Ancestral Art: Needolin'), # Route back
+    ),
+    'Path: Weavenest - Atla': (
+        req('Path: Mosslands - Moss Grotto', 'Ancestral Art: Needolin'),
+    ),
+    'Path: Mosslands - Ruined Chapel': (
+        req('Path: Mosslands - Moss Grotto'),
+    ),
+    'Path: Mosslands - Bone Bottom': (
+        req('Path: Mosslands - Moss Grotto'),
+        req('Path: The Marrow - Toll'),
+        req('Path: The Marrow - Mosshome Gate'),
+        req('Path: Wormways - Bottom'),
+        req('Path: Wormways - Plasmium Lab'),
+        req('Path: Shellwood - Bellshrine'),
+        req('Path: Blasted Steps - Toll'),
+        req('Path: Blasted Steps - Bellway'),
+    ),
+    'Path: The Marrow - Mosshome Gate': (
+        req('Path: Mosslands - Bone Bottom'),
+        req('Path: Mosslands - Moss Druid'),
+        req('Path: Wormways - Entrance'),
+    ),
+    'Path: Mosslands - Moss Druid': ( # Silk spear or run/dash or double jump
+        req('Path: The Marrow - Mosshome Gate', silk_spear=True),
+        req(
+            'Path: The Marrow - Mosshome Gate',
+            any_of=(
+                *SWIFT_STEP_OR_SPRINT_ITEMS,
+                'Ability: Faydown Cloak',
+            ),
+        ),
+    ),
+    'Path: Mosslands - Bonegrave': (
+        req('Path: Wormways - Bottom'),
+        req(
+            'Path: Mosslands - Bone Bottom',
+            'Ancestral Art: Cling Grip',
+        ),
+    ),
+    'Path: Mosslands - Snail Shamans': ( # Start of Act 3
+        req('Path: Mosslands - Ruined Chapel', 'Path: Putrified Ducts - Fleatopia'),
+    ),
+    'Path: The Marrow - Toll': (
+        req('Path: Mosslands - Bone Bottom'),
+        req('Path: Deep Docks - Toll'), # One way
+        req('Path: Deep Docks - Forge'), # One way
+    ),
+    'Path: The Marrow - Bellshrine': (
+        req('Path: The Marrow - Mosshome Gate', silk_spear=True),
+        # Blocked path to the East until Bellbeast has been freed
+    ),
+    'Path: The Marrow - Shooting Gallery': (
+        req(
+            'Path: The Marrow - Bellshrine',
+            'Event: Bell Beast Defeated',
+        ),
+        req('Path: Bellhart - Bellhart', 'Ancestral Art: Cling Grip'),
+    ),
+    "Path: Hunter's March - Trap": (
+        req('Path: The Marrow - Shooting Gallery'),
+        # Can't be reached from Deep Docks - Toll (blocked by lever)
+        # Can't be reached from Far Fields - Gated Toll (blocked by one way lever)
+    ),
+    'Path: Deep Docks - Toll': (
+        req('Path: The Marrow - Shooting Gallery'),
+        req("Path: Hunter's March - Trap"), # One way lever
+        req('Path: Far Fields - Gated Toll'), # One way lever
+        req('Path: Bellway - Deep Docks'), # Bellway
+    ),
+    'Path: Deep Docks - Forge': (
+        req('Path: Deep Docks - Toll'),
+        req('Path: Deep Docks - Abyss Exit'),
+        # Path from Deep Docks - Bellshrine is blocked (one way lever)
+    ),
+    'Path: Deep Docks - Lower': (
+        # The direct entrance is the Simple Key door immediately south of
+        # Forge Daughter. Clawline can instead enter lower Deep Docks from
+        # the Far Fields side without opening that door.
+        req('Path: Deep Docks - Forge', SIMPLE_KEY_DEEP_DOCKS),
+        req('Path: Far Fields - Bellway', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Deep Docks - Bellshrine': (
+        req('Path: Deep Docks - Forge', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        # Path from the East is blocked by one way door that unlocks from the West
+    ),
+    'Path: Deep Docks - Abyss Exit': ( # ACT 3
+        req('Path: Abyss - Escape', 'Ancestral Art: Silk Soar'), # Act 3
+    ),
+    'Path: Deep Docks - Diving Bell': ( # ACT 3
+        req('Path: Deep Docks - Sauna'),
+    ),
+    'Path: Deep Docks - Sauna': ( # ACT 3
+        req('Path: Mosslands - Snail Shamans'), # Logic requirement
+        req('Path: Deep Docks - Diving Bell'),
+    ),
+    'Path: Far Fields - Gated Toll': (
+        req('Path: Deep Docks - Toll'), # One way
+        req('Path: Far Fields - Bellway', "Ability: Drifter's Cloak"),
+        req('Path: Deep Docks - Bellshrine', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        # Can't be reached from Far Fields - Pilgrim's Rest (one way lever)
+    ),
+    'Path: Far Fields - Bellway': (
+        req("Path: Far Fields - Pilgrim's Rest"),
+        req('Path: Far Fields - Seamstress', "Ability: Drifter's Cloak"),
+        req('Path: Bellway - Far Fields'), # Bellway
+    ),
+    "Path: Far Fields - Pilgrim's Rest": (
+        # The ordinary first visit reaches Pilgrim's Rest and then the Bellway
+        # before Seamstress awards Drifter's Cloak.
+        req(
+            'Path: Deep Docks - Bellshrine',
+            'Ancestral Art: Swift Step',
+        ),
+        req('Path: Deep Docks - Bellshrine', 'Ancestral Art: Cling Grip', "Ability: Drifter's Cloak", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Far Fields - Seamstress', "Ability: Drifter's Cloak"),
+        # Can't reach from Far Fields - Bellway (one way explosive)
+        # Route from Greymoor - Bellshrine is blocked (one direction only)
+        req('Path: Far Fields - Sprintmaster', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Far Fields - Sprintmaster': ( # Act 3 frontier
+        req('Path: Far Fields - Karmelita'),
+    ),
+    'Path: Far Fields - Seamstress': (
+        req('Path: Deep Docks - Bellshrine', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Weavenest - Cindril', 'Ancestral Art: Needolin'),
+        req('Path: Far Fields - Bellway', 'Ancestral Art: Swift Step'),
+    ),
+    'Path: Far Fields - Karmelita': (
+        # The hidden route starts at Karmelita's statue in Hunter's March.
+        req(
+            'Act: 3',
+            "Path: Hunter's March - Trap",
+            'Ancestral Art: Silk Soar',
+        ),
+    ),
+    'Path: Weavenest - Cindril': ( # Requires Needolin
+        req('Path: Far Fields - Seamstress', 'Ancestral Art: Needolin', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+    ),
+    # The southern vestibule is enough to register Shakra's Vendor Pins, but
+    # her Wormways Map and the Wormways Flea are beyond Pebb's 500-Rosary
+    # Simple Key gate. The currency remains grindable so it is not represented
+    # as an AP inventory item.
+    'Path: Wormways - Entrance': (
+        req(
+            'Path: The Marrow - Mosshome Gate',
+            any_of=(
+                'Crest: Beast',
+                *SWIFT_STEP_OR_SPRINT_ITEMS,
+                "Ability: Drifter's Cloak",
+                'Ability: Faydown Cloak',
+            ),
+        ),
+        req('Path: Wormways - Bottom', SIMPLE_KEY_WORMWAYS),
+    ),
+    'Path: Wormways - Bottom': (
+        req(
+            'Path: Wormways - Entrance',
+            SIMPLE_KEY_WORMWAYS,
+            any_of=SWIFT_STEP_OR_SPRINT_ITEMS,
+        ),
+        req('Path: Mosslands - Bone Bottom', 'Ancestral Art: Silk Soar'),
+        req(
+            'Path: Wormways Middle',
+            any_of=(
+                *SWIFT_STEP_OR_SPRINT_ITEMS,
+                'Ability: Faydown Cloak',
+                'Ancestral Art: Clawline',
+            ),
+        ),
+    ),
+    'Path: Wormways Middle': (
+        req(
+            'Path: Wormways - Bottom',
+            any_of=(
+                *SWIFT_STEP_OR_SPRINT_ITEMS,
+                'Ability: Faydown Cloak',
+                'Ancestral Art: Clawline',
+            ),
+        ),
+        # Shellwood is the northern bypass around Pebb's locked southern
+        # entrance. Full Swift Step connects this side of Wormways to western
+        # Shellwood.
+        req('Path: Shellwood - Overgrown West', SWIFT_STEP_ITEM),
+    ),
+    'Path: Wormways - Plasmium Lab': (
+        req('Path: Wormways Middle', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Shellwood - Overgrown West': (
+        req('Path: Wormways Middle', 'Ancestral Art: Swift Step'),
+        req('Path: Wormways - Plasmium Lab', any_of=('Ancestral Art: Cling Grip', 'Ability: Faydown Cloak')),
+        req('Path: Bellway - Shellwood'), # Bellway
+        # Path from Bellhart - Bellhart to here is blocked (one way door unlock)
+    ),
+    'Path: Shellwood - Bellshrine': (
+        req('Path: Blasted Steps - Toll'),
+        req('Path: Shellwood - Overgrown West', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Shellwood - Chapel Exit': (
+        req('Path: Shellwood - Greyroot', 'Path: Bilewater - Twisted Bud'),
+    ),
+    'Path: Shellwood - Central Toll': (
+        req('Event: Widow Defeated'),
+        req('Path: Bellhart - Bellhart', 'Ancestral Art: Swift Step'),
+        req('Path: Bellhart - Bellhart', any_of=('Ability: Faydown Cloak',)),
+        req('Path: Shellwood - Overgrown West', 'Ancestral Art: Swift Step'),
+        req('Path: Shellwood - Overgrown West', any_of=('Ability: Faydown Cloak',)),
+    ),
+    'Path: Shellwood - Greyroot': (
+        req('Path: Shellwood - Central Toll', 'Ancestral Art: Swift Step'),
+        req('Path: Shellwood - Bellshrine', 'Ancestral Art: Swift Step'),
+    ),
+    'Path: Bellhart - Bellhart': (
+        req('Path: Shellwood - Bellshrine'),
+        req('Path: Greymoor - Halfway House'),
+        req('Event: Widow Defeated'),
+        req('Path: Shellwood - Central Toll'),
+        req('Path: Bellway - Bellhart'), # Bellway
+        # Route through The Marrow is blocked (one way only)
+    ),
+    'Path: Bellhart - Widow': (
+        req('Path: Shellwood - Central Toll', 'Ancestral Art: Cling Grip'),
+        req('Path: Shellwood - Central Toll', 'Ability: Faydown Cloak'),
+        # Can't be reached from Bellhart (one way elevator)
+    ),
+    'Path: Greymoor - Halfway House': (
+        req('Path: Bellhart - Bellhart'),
+        req('Path: Greymoor - Bellshrine', any_of=('Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak')),
+        req("Path: Sinner's Road - Broken Toll"),
+        req('Path: Greymoor - Wisp Thicket'),
+        req('Path: Bellway - Greymoor'), # Bellway
+        req(
+            'Room Node: the-marrow/the-marrow-flea-caravan#main-area',
+            crest=False,
+            item_counts=(item_count(5, *FLEA_ITEMS),),
+        ),
+        # Path from Greymoor - Bellshrine blocked (one way door)
+    ),
+    'Path: Greymoor - Bellshrine': (
+        req('Path: Greymoor - Halfway House', any_of=('Ancestral Art: Cling Grip', "Ability: Drifter's Cloak")),
+        # The vanilla Far Fields ascent is the Drifter's Cloak wind route.
+        # Cling Grip is obtained later in Shellwood and is not part of it.
+        req("Path: Far Fields - Pilgrim's Rest", "Ability: Drifter's Cloak"),
+        # Path from Sinner's Road - Styx blocked (one way wall)
+    ),
+    'Path: Greymoor - Wisp Thicket': (
+        req('Path: Greymoor - Halfway House', 'Ancestral Art: Swift Step', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+    ),
+    'Path: Blasted Steps - Toll': (
+        req('Path: Blasted Steps - Bellway', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req(
+            'Path: Blasted Steps - Pinstress',
+            'Ancestral Art: Cling Grip',
+            'Ancestral Art: Swift Step',
+            any_of=(
+                "Ability: Drifter's Cloak",
+                'Ability: Faydown Cloak',
+                'Ancestral Art: Clawline',
+            ),
+        ),
+        req('Path: Shellwood - Overgrown West', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Blasted Steps - Pinstress': (
+        req('Path: Blasted Steps - Bellway', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Blasted Steps - Toll', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+    ),
+    'Path: Blasted Steps - Bellway': (
+        req('Path: Blasted Steps - Toll', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Blasted Steps - Pinstress', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Sands of Karak - Sands of Karak', 'Ancestral Art: Clawline'),
+        req('Path: Bellway - Blasted Steps'), # Bellway
+    ),
+    "Path: Sinner's Road - Broken Toll": (
+        req('Path: Greymoor - Halfway House', 'Ancestral Art: Cling Grip'),
+        req('Path: Bilewater - Exhaust Organ', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
+    ),
+    "Path: Sinner's Road - Styx": (
+        req("Path: Sinner's Road - Broken Toll", 'Ancestral Art: Cling Grip'),
+        req('Path: Bilewater - Bellway', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
+    ),
+    'Path: Bilewater - Bellway': (
+        req("Path: Sinner's Road - Styx", 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
+        req('Path: Bilewater - Bilehaven', 'Ability: Faydown Cloak'),
+        # The Whispering Vaults entrance is a one-way drop into the Twisted
+        # Bud enclosure. Opening its gate then reaches main Bilewater.
+        req('Path: Bilewater - Twisted Bud'),
+        req('Path: Bellway - Bilewater'), # Bellway
+    ),
+    'Path: Bilewater - Ruined Tool': (
+        req('Path: Bilewater - Bellway', 'Ancestral Art: Needolin', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
+        req('Path: Bilewater - Twisted Bud', 'Ancestral Art: Needolin', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
+    ),
+    'Path: Bilewater - Corpse Sack Chamber': (
+        req('Path: Bilewater - Bellway', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
+        req('Path: Bilewater - Bilehaven', 'Ability: Faydown Cloak', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Bilewater - Bilehaven': (
+        req('Path: Bilewater - Bellway', 'Ability: Faydown Cloak', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Bilewater - Exhaust Organ': ( # Require Needolin for Mist
+        req("Path: Sinner's Road - Broken Toll", 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
+        req('Path: Bilewater - Bellway', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
+    ),
+    'Path: Bilewater - Twisted Bud': (
+        req(
+            'Path: Outlying Citadel - Library',
+            'Ancestral Art: Clawline',
+            'Ancestral Art: Swift Step',
+            'Ancestral Art: Cling Grip',
+        ),
+    ),
+    'Path: Grand Gate': (
+        req('Event: Last Judge Defeated'),
+        req('Path: Choral Chambers - Below Dining'),
+        req('Path: Underworks - Broken Elevator', 'Ancestral Art: Silk Soar'),
+    ),
+    'Path: Underworks - Broken Elevator': (
+        req('Path: Grand Gate'),
+        req('Path: Greymoor - Wisp Thicket', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak'),
+        req('Path: Underworks - Confession Toll'),
+    ),
+    'Path: Underworks - Confession Toll': (
+        req('Path: Underworks - Broken Elevator', 'Ancestral Art: Cling Grip'),
+        # The temporary bridge is opened from the eastern Underworks after
+        # arriving through Whiteward or the post-Trobbio Vaults lift.
+        req('Path: Underworks - Twelfth Architect', 'Ancestral Art: Cling Grip'),
+        req('Path: Choral Chambers - Outside Underworks', 'Ancestral Art: Cling Grip'),
+        req('Path: Ventrica', 'Path: Ventrica - Underworks'), # Ventrica
+    ),
+    'Path: Underworks - Twelfth Architect': (
+        req("Path: Underworks - Architect's Shop"),
+        # The Cauldron is reached from Whiteward or from the Whispering
+        # Vaults lift after Trobbio.  Neither route may require Clawline:
+        # Clawline is the reward found in the Cauldron itself.  The hidden
+        # Whiteward route still has a vertical climb requiring Cling Grip.
+        req('Path: Underworks - Whiteward', 'Ancestral Art: Cling Grip'),
+        req('Event: Trobbio Defeated'),
+    ),
+    "Path: Underworks - Architect's Shop": (
+        req('Path: Underworks - Twelfth Architect', any_of=('Ancestral Art: Clawline', 'Ability: Faydown Cloak')),
+    ),
+    # Whiteward's lower Choral Chambers lift consumes the named White Key.
+    'Path: Underworks - Whiteward': (
+        req('Event: Whiteward Elevator Unlocked'),
+    ),
+    'Path: Choral Chambers - Outside Underworks': (
+        req('Path: Underworks - Confession Toll', 'Ancestral Art: Cling Grip'),
+        req('Path: Grand Gate', 'Ancestral Art: Cling Grip'),
+        req('Path: Choral Chambers - Below Dining'),
+    ),
+    'Path: Choral Chambers - Below Dining': (
+        req('Path: Choral Chambers - Outside Underworks'),
+        req('Path: Choral Chambers - Grand Bellway'),
+        req('Path: Grand Gate'),
+        req('Path: Choral Chambers - First Shrine'),
+        req('Path: Choral Chambers - High Halls Entrance', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Choral Chambers - Spa': (
+        req('Path: Choral Chambers - Below Dining'),
+        req('Path: The Slab - Bellway'),
+        req('Path: Ventrica', 'Path: Ventrica - Choral Chambers'), # Ventrica
+    ),
+    'Path: Choral Chambers - High Halls Entrance': (
+        req('Path: Choral Chambers - Below Dining', 'Ancestral Art: Clawline'),
+        # This is the Choral approach to the Dancers, not High Halls proper.
+        # High Halls itself remains Clawline-gated below.
+        req('Path: Choral Chambers - First Shrine', 'Ancestral Art: Cling Grip'),
+        req('Path: Outlying Citadel - High Halls Ventrica', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Choral Chambers - First Shrine': (
+        req('Path: Choral Chambers - Below Dining'),
+        req('Path: Choral Chambers - Grand Bellway'),
+        req('Path: Choral Chambers - Songclave'),
+        req('Path: Choral Chambers - High Halls Entrance', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Choral Chambers - Songclave': (
+        req('Path: Choral Chambers - First Shrine'),
+        # Entering Whispering Vaults from the lower Cogwork Core lets Hornet
+        # clear the Vaults arena and open this shortcut from the Vaults side.
+        # The edge remains one-way because Songclave cannot use the passage
+        # before it has been opened from inside the Vaults.
+        req(
+            'Path: Outlying Citadel - Library',
+            'Ancestral Art: Cling Grip',
+        ),
+        req('Path: Outlying Citadel - Memorium', 'Ability: Faydown Cloak'),
+        req('Path: Outlying Citadel - Sacred Vault', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+        req('Path: Ventrica', 'Path: Ventrica - Songclave'), # Ventrica
+    ),
+    'Path: Choral Chambers - Grand Bellway': (
+        req('Path: Bilewater - Exhaust Organ'),
+        req('Path: Choral Chambers - First Shrine'),
+        req('Path: Choral Chambers - Below Dining'),
+        req('Path: Bellway - Grand Bellway'), # Bellway
+        req('Path: Ventrica', 'Path: Ventrica - Grand Bellway'), # Ventrica
+    ),
+    'Path: Outlying Citadel - Lower Cogwork Core': (
+        req('Event: Cogwork Dancers Defeated'),
+    ),
+    # The upper Core checks stay gated while the lower Core -> Whispering
+    # Vaults -> Trobbio route can lead to Clawline.
+    'Path: Outlying Citadel - Cogwork Core': (
+        req('Path: Outlying Citadel - Lower Cogwork Core', 'Ancestral Art: Clawline'),
+        req('Path: Outlying Citadel - High Halls Ventrica', 'Ancestral Art: Clawline'),
+        req('Path: Outlying Citadel - Sacred Vault', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Outlying Citadel - High Halls Ventrica': (
+        req('Path: Choral Chambers - High Halls Entrance', 'Ancestral Art: Clawline'),
+        req('Path: Outlying Citadel - Cogwork Core', 'Ancestral Art: Clawline'),
+        req('Path: Ventrica', 'Path: Ventrica - High Halls'), # Ventrica
+    ),
+    'Path: Outlying Citadel - Memorium': (
+        req('Path: Choral Chambers - Songclave', 'Ability: Faydown Cloak'),
+        req('Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Path: Ventrica', 'Path: Ventrica - Memorium'), # Ventrica
+    ),
+    'Path: Outlying Citadel - Library': (
+        req('Path: Outlying Citadel - Lower Cogwork Core', 'Ancestral Art: Cling Grip'),
+        req('Path: Outlying Citadel - Sacred Vault', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Outlying Citadel - Sacred Vault': (
+        req('Path: Outlying Citadel - Cogwork Core', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+        req('Path: Outlying Citadel - Library', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+        req('Path: Choral Chambers - Songclave', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Putrified Ducts - Bellway': (
+        req('Path: Putrified Ducts - Fleatopia', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Path: Outlying Citadel - Memorium', 'Ability: Faydown Cloak'),
+        req('Path: Putrified Ducts - Huntress', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Path: Bellway - Putrified Ducts'), # Bellway
+    ),
+    'Path: Putrified Ducts - Huntress': (
+        req('Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Path: Bilewater - Bilehaven', 'Ability: Faydown Cloak'),
+    ),
+    'Path: Putrified Ducts - Fleatopia': (
+        req(
+            'Path: Putrified Ducts - Bellway',
+            'Ancestral Art: Cling Grip',
+            'Ability: Faydown Cloak',
+            item_counts=(item_count(22, *FLEA_ITEMS),),
+        ),
+    ),
+    'Path: The Slab - Capture Event': (
+        # Established path name: reachability of the fixed Key of Apostate pickup
+        # is used as the monotonic proxy. Actual capture is not required.
+        req('Path: Putrified Ducts - Huntress'),
+    ),
+    'Path: The Slab - Bellway': (
+        req('Path: Choral Chambers - Spa'),
+        req('Path: The Slab - Capture Event', 'Ancestral Art: Cling Grip'),
+        #req('Path: The Slab - Bellway', 'Ancestral Art: Cling Grip'),
+        req("Path: The Slab - Mapper's Tunnel", 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Window', 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Heretic Key Arena', 'Ancestral Art: Cling Grip'),
+        req('Path: Bellway - The Slab'), # Bellway
+    ),
+    "Path: The Slab - Mapper's Tunnel": (
+        req('Path: The Slab - Capture Event'),
+        req('Path: The Slab - Bellway', 'Ancestral Art: Cling Grip'),
+        #req("Path: The Slab - Mapper's Tunnel", 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Window', 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Heretic Key Arena', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: The Slab - Window': (
+        req('Path: The Slab - Capture Event', 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Bellway', 'Ancestral Art: Cling Grip'),
+        req("Path: The Slab - Mapper's Tunnel", 'Ancestral Art: Cling Grip'),
+        #req('Path: The Slab - Window', 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Heretic Key Arena', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: The Slab - Heretic Key Arena': (
+        req('Path: The Slab - Capture Event', 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Bellway', 'Ancestral Art: Cling Grip'),
+        req("Path: The Slab - Mapper's Tunnel", 'Ancestral Art: Cling Grip'),
+        req('Path: The Slab - Window', 'Ancestral Art: Cling Grip'),
+        #req('Path: The Slab - Heretic Key Arenat', 'Ancestral Art: Cling Grip'),
+    ),
+    'Path: Mount Fay - Shakra': (
+        # Clawline reaches Mount Fay and Shakra's entrance camp. Drifter's
+        # Cloak becomes mandatory for the climb above this landmark.
+        req('Path: The Slab - Bellway', 'Ancestral Art: Clawline'),
+        req('Path: Mount Fay - Toll', 'Ancestral Art: Clawline', "Ability: Drifter's Cloak"),
+        req('Path: Mount Fay - Workbench'),
+        req('Path: Mount Fay - Final Climb'),
+    ),
+    'Path: Mount Fay - Toll': (
+        req(
+            'Path: Mount Fay - Shakra',
+            'Ancestral Art: Clawline',
+            "Ability: Drifter's Cloak",
+        ),
+    ),
+    'Path: Mount Fay - Final Climb': (
+        req('Path: Mount Fay - Toll', 'Ancestral Art: Clawline', "Ability: Drifter's Cloak"),
+        req('Path: Mount Fay - Workbench'),
+    ),
+    'Path: Mount Fay - Workbench': (
+        req('Path: Mount Fay - Final Climb', 'Ancestral Art: Clawline', "Ability: Drifter's Cloak"),
+    ),
+    'Path: Sands of Karak - Sands of Karak': (
+        req('Path: Blasted Steps - Pinstress', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Sands of Karak - Coral Tower': (
+        req('Path: Sands of Karak - Sands of Karak', 'Ancestral Art: Clawline'),
+        req('Path: Sands of Karak - Sands of Karak', 'Ancestral Art: Silk Soar', 'Ancestral Art: Needolin'),
+    ),
+    'Path: The Cradle - Terminus': (
+        req('Event: Cradle Opened'),
+        req('Path: The Cradle - Surface Ascent', 'Ancestral Art: Silk Soar', 'Ancestral Art: Clawline'),
+        req('Path: Ventrica'),
+    ),
+    'Path: The Cradle - Surface Ascent': (
+        req('Path: The Cradle - Terminus', 'Ancestral Art: Silk Soar', 'Ancestral Art: Clawline'),
+        req('Path: Outlying Citadel - Cogwork Core', 'Ancestral Art: Silk Soar', 'Ancestral Art: Clawline'),
+    ),
+    'Path: Abyss - Void Tendrils': (
+        req('Path: Deep Docks - Diving Bell'),
+    ),
+    'Path: Abyss - Escape': (
+        req('Path: Abyss - Void Tendrils', 'Ancestral Art: Silk Soar'),
+    ),
+    # Bellways
+    'Path: Bellways': (
+        # Booths may be bought before this, but the Bell Beast network cannot
+        # actually be used until the beast has been freed.
+        req('Event: Bell Beast Defeated', crest=False),
+    ),
+    'Path: Bellway - Deep Docks': (
+        req('Path: Bellways', 'Bellway: Deep Docks'),
+        req('Path: Bellways', 'Path: Deep Docks - Toll'),
+    ),
+    'Path: Bellway - Far Fields': (
+        req('Path: Bellways', 'Bellway: Far Fields'),
+        req('Path: Bellways', 'Path: Far Fields - Bellway'),
+    ),
+    'Path: Bellway - Greymoor': (
+        req('Path: Bellways', 'Bellway: Greymoor'),
+        req('Path: Bellways', 'Path: Greymoor - Halfway House'),
+    ),
+    'Path: Bellway - Bellhart': (
+        req('Path: Bellways', 'Bellway: Bellhart'),
+        req('Path: Bellways', 'Path: Bellhart - Bellhart'),
+    ),
+    'Path: Bellway - Blasted Steps': (
+        req('Path: Bellways', 'Bellway: Blasted Steps'),
+        req('Path: Bellways', 'Path: Blasted Steps - Bellway'),
+    ),
+    'Path: Bellway - Grand Bellway': (
+        req('Path: Bellways', 'Bellway: Grand Bellway'),
+        req('Path: Bellways', 'Path: Choral Chambers - Grand Bellway'),
+    ),
+    'Path: Bellway - The Slab': (
+        req('Path: Bellways', 'Bellway: The Slab'),
+        req('Path: Bellways', 'Path: The Slab - Bellway'),
+    ),
+    'Path: Bellway - Shellwood': (
+        req('Path: Bellways', 'Bellway: Shellwood'),
+        req('Path: Bellways', 'Path: Shellwood - Bellshrine'),
+    ),
+    'Path: Bellway - Bilewater': (
+        req('Path: Bellways', 'Bellway: Bilewater'),
+        req('Path: Bellways', 'Path: Bilewater - Bellway'),
+    ),
+    'Path: Bellway - Putrified Ducts': (
+        req('Path: Bellways', 'Bellway: Putrified Ducts'),
+        req('Path: Bellways', 'Path: Putrified Ducts - Bellway'),
+    ),
+    # Ventrica
+    'Path: Ventrica': (
+        req('Path: Choral Chambers - Spa'),
+        req('Path: Underworks - Confession Toll'),
+        req('Path: Choral Chambers - Grand Bellway'),
+        req('Path: Outlying Citadel - High Halls Ventrica'),
+        # The station is the First Shrine, one floor above Songclave.
+        req('Path: Choral Chambers - First Shrine'),
+        req('Path: Outlying Citadel - Memorium'),
+    ),
+    'Path: Ventrica - Choral Chambers': (
+        req('Path: Ventrica', 'Ventrica: Choral Chambers'),
+    ),
+    'Path: Ventrica - Underworks': (
+        req('Path: Ventrica', 'Ventrica: Underworks'),
+    ),
+    'Path: Ventrica - Grand Bellway': (
+        req('Path: Ventrica', 'Ventrica: Grand Bellway'),
+    ),
+    'Path: Ventrica - High Halls': (
+        req('Path: Ventrica', 'Ventrica: High Halls'),
+    ),
+    'Path: Ventrica - Songclave': (
+        req('Path: Ventrica', 'Ventrica: Songclave'),
+    ),
+    'Path: Ventrica - Memorium': (
+        req('Path: Ventrica', 'Ventrica: Memorium'),
+    ),
+}
+
+ACT_TWO_GOAL_EVENT = 'Event: Act 2 Ending'
+FINAL_GOAL_EVENT = 'Event: Lost Lace Defeated'
+FLEA_HUNT_GOAL_KEY = 'flea_hunt'
+DEFAULT_FLEA_HUNT_GOAL_COUNT = 20
+MIN_FLEA_HUNT_GOAL_COUNT = 1
+MAX_FLEA_HUNT_GOAL_COUNT = len(FLEA_ITEMS)
+GOAL_EVENT_BY_KEY: Mapping[str, str] = {
+    'act_2': ACT_TWO_GOAL_EVENT,
+    'act_3': FINAL_GOAL_EVENT,
+}
+
+# These are logical story events rather than shuffled items. Reaching every
+# prerequisite means the corresponding vanilla story action can be completed.
+# Combat-only gates count as complete once their arena is
+# reachable, matching the rest of this no-difficulty-settings logic.
+EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    'Event: Bell Beast Defeated': (
+        req(
+            'Path: The Marrow - Bellshrine',
+            crest=False,
+        ),
+    ),
+    # Widow is the randomized Needolin source, not a Needolin gate. The client
+    # suppresses the vanilla ownership grant and redirects a player who has
+    # not received AP Needolin through the safe Belltown shrine wake sequence.
+    'Event: Widow Defeated': (
+        req(
+            'Path: Bellhart - Widow',
+            'Ancestral Art: Cling Grip',
+            'Ability: Faydown Cloak',
+            crest=False,
+        ),
+        req(
+            'Path: Bellhart - Widow',
+            'Ancestral Art: Cling Grip',
+            "Ability: Drifter's Cloak",
+            crest=False,
+        ),
+        req(
+            'Path: Bellhart - Widow',
+            'Ancestral Art: Cling Grip',
+            SWIFT_STEP_ITEM,
+            crest=False,
+        ),
+        req(
+            'Path: Bellhart - Widow',
+            'Ancestral Art: Cling Grip',
+            'Ancestral Art: Clawline',
+            crest=False,
+            item_counts=(
+                item_count(
+                    1,
+                    SWIFT_STEP_ITEM,
+                    PROGRESSIVE_SWIFT_STEP_ITEM,
+                ),
+            ),
+        ),
+    ),
+    # The tools and Flea beyond the Craw Lake arena are all downstream of the
+    # same combat gauntlet. Combat execution is not a separate difficulty gate,
+    # so reaching the arena with the vanilla traversal ability resolves it.
+    'Event: Craw Lake Cleared': (
+        req(
+            'Path: Greymoor - Bellshrine',
+            "Ability: Drifter's Cloak",
+            crest=False,
+        ),
+    ),
+    'Event: Fourth Chorus Defeated': (
+        req(
+            'Path: Far Fields - Bellway',
+            'Event: Flexile Spines Completed',
+            crest=False,
+        ),
+    ),
+    # Flexile Spines (the ``Brolly Get`` quest) asks for 25 Common
+    # Spines, which are farmable from Far Fields enemies and are not AP items.
+    # Turning it in sets the vanilla hasBrolly flag used by Fourth Chorus's
+    # encounter FSM even when the randomized Drifter's Cloak item is elsewhere.
+    'Event: Flexile Spines Completed': (
+        req(
+            'Path: Far Fields - Seamstress',
+            crest=False,
+        ),
+    ),
+    # Wish completion events below represent monotonic vanilla quest state.
+    # Their counters use farmable vanilla resources, so AP logic needs the
+    # giver, objective and prerequisite routes rather than inventory items.
+    'Event: Bone Bottom Repairs Completed': (
+        req(
+            'Path: Mosslands - Bone Bottom',
+            'Event: Bell Beast Defeated',
+            crest=False,
+        ),
+    ),
+    'Event: Lifesaving Bridge Completed': (
+        req(
+            'Event: Bone Bottom Repairs Completed',
+            'Event: Widow Defeated',
+            crest=False,
+        ),
+        req(
+            'Event: Bone Bottom Repairs Completed',
+            'Path: Greymoor - Halfway House',
+            crest=False,
+        ),
+    ),
+    'Event: Queen\'s Egg Delivered': (
+        req(
+            'Path: Bellhart - Bellhart',
+            "Path: Sinner's Road - Styx",
+            crest=False,
+        ),
+    ),
+    'Event: Fine Pins Completed': (
+        req(
+            'Path: Choral Chambers - First Shrine',
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+    ),
+    'Event: Building Up Songclave Completed': (
+        req(
+            'Path: Choral Chambers - First Shrine',
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+    ),
+    'Event: Wandering Merchant Rescued': (
+        req(
+            'Path: Choral Chambers - Below Dining',
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+    ),
+    'Event: Missing Courier Rescued': (
+        req(
+            # The Bellhart Wishwall starts the search. The actual rescue is
+            # Aspid_01 immediately north of Bone Bottom. The Shellwood clue
+            # chain is optional and must not gate completion.
+            'Event: Widow Defeated',
+            'Path: Bellhart - Bellhart',
+            'Path: Mosslands - Bone Bottom',
+            crest=False,
+        ),
+    ),
+    'Event: Missing Brother Rescued': (
+        req(
+            'Event: Missing Courier Rescued',
+            "Path: Sinner's Road - Broken Toll",
+            # One vanilla activation route is an active Songclave.
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+        req(
+            'Event: Missing Courier Rescued',
+            "Path: Sinner's Road - Broken Toll",
+            # Alternatively, accepting Great Taste from the Gourmand is
+            # sufficient. Its giver is adjacent to the First Shrine.
+            'Path: Choral Chambers - First Shrine',
+            crest=False,
+        ),
+    ),
+    'Event: Balm for the Wounded Completed': (
+        req(
+            # Meeting Sherma in Songclave and visiting Whiteward activates
+            # the rescue scene in Ward_09.
+            'Path: Choral Chambers - Songclave',
+            'Path: Underworks - Whiteward',
+            crest=False,
+        ),
+    ),
+    'Event: Cloaks of the Choir Completed': (
+        req(
+            'Event: Building Up Songclave Completed',
+            'Event: Fine Pins Completed',
+            'Path: Choral Chambers - First Shrine',
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+    ),
+    'Event: Strengthening Songclave Completed': (
+        req(
+            # Donation 2 also checks a four-Wish Songclave counter. The AP
+            # graph cannot yet express that counter without making one
+            # arbitrary set of optional Wishes mandatory, so only its known
+            # prerequisite Wish chain and turn-in area are encoded here.
+            'Event: Building Up Songclave Completed',
+            'Event: Fine Pins Completed',
+            'Event: Cloaks of the Choir Completed',
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+    ),
+    'Event: Whiteward Elevator Unlocked': (
+        req(
+            'Path: Choral Chambers - First Shrine',
+            WHITE_KEY_ITEM,
+            crest=False,
+        ),
+    ),
+    'Event: Elegy of the Deep Learned': (
+        req(
+            'Elegy of the Deep',
+            'Ancestral Art: Needolin',
+            crest=False,
+        ),
+    ),
+    'Event: Shrine Guardian Seth Defeated': (
+        req(
+            'Act: 3',
+            'Path: Grand Gate',
+            'Ancestral Art: Silk Soar',
+            crest=False,
+        ),
+    ),
+    'Event: Craw Summons Obtained': (
+        req(
+            'Act: 3',
+            'Path: Mosslands - Ruined Chapel',
+            'Event: Craw Lake Cleared',
+            any_of=(
+                'Path: Bellhart - Bellhart',
+                'Path: Bilewater - Bellway',
+                'Path: Far Fields - Bellway',
+                'Path: Shellwood - Overgrown West',
+                "Path: Sinner's Road - Styx",
+                'Path: Greymoor - Wisp Thicket',
+            ),
+            crest=False,
+        ),
+    ),
+    'Event: Cogwork Dancers Defeated': (
+        req(
+            'Path: Choral Chambers - High Halls Entrance',
+            crest=False,
+        ),
+    ),
+    'Event: Trobbio Defeated': (
+        req(
+            'Path: Outlying Citadel - Library',
+            crest=False,
+        ),
+    ),
+    # Bellhart's StateChangeSequence records its shrine after Widow and has no
+    # Needolin ownership test. The other four shrines keep their own movement
+    # gates below. Received AP Needolin is not a fifth-shrine prerequisite.
+    'Event: Five Bellshrines Rung': (
+        req(
+            'Event: Bell Beast Defeated',
+            'Path: Deep Docks - Bellshrine',
+            'Ancestral Art: Swift Step',
+            'Path: Greymoor - Bellshrine',
+            "Ability: Drifter's Cloak",
+            'Event: Widow Defeated',
+            'Path: Shellwood - Bellshrine',
+            'Ancestral Art: Cling Grip',
+            crest=False,
+        ),
+    ),
+    'Event: Last Judge Defeated': (
+        req(
+            # The Grand Gate queues its own Needolin cutscene after the five
+            # shrines are active.  It does not consult hasNeedolin or the AP
+            # Needolin capability before starting the Last Judge sequence.
+            'Event: Five Bellshrines Rung',
+            'Path: Blasted Steps - Bellway',
+        ),
+    ),
+    'Event: Phantom Defeated': (
+        req(
+            'Path: Bilewater - Exhaust Organ',
+            'Ancestral Art: Needolin',
+            crest=False,
+        ),
+    ),
+    'Event: Act 2 Started': (
+        req('Event: Last Judge Defeated', crest=False),
+        req('Event: Phantom Defeated', crest=False),
+    ),
+    'Event: Threefold Melody Learned': (
+        req(
+            'Event: Act 2 Started',
+            *THREEFOLD_MELODY_ITEMS,
+            'Ancestral Art: Clawline',
+            'Ancestral Art: Needolin',
+            crest=False,
+        ),
+    ),
+    'Event: Cradle Opened': (
+        req(
+            'Event: Threefold Melody Learned',
+            'Path: Outlying Citadel - Cogwork Core',
+            'Ancestral Art: Cling Grip',
+            'Ancestral Art: Clawline',
+            crest=False,
+        ),
+    ),
+    ACT_TWO_GOAL_EVENT: (
+        req(
+            'Event: Cradle Opened',
+            'Path: The Cradle - Terminus',
+            crest=False,
+        ),
+    ),
+    'Event: Trail\'s End Completed': (
+        req(
+            'Event: Act 2 Started',
+            'Event: Threefold Melody Learned',
+            'Path: Bilewater - Bilehaven',
+            'Path: Mount Fay - Workbench',
+            'Ability: Faydown Cloak',
+            'Ancestral Art: Needolin',
+            *SHAKRA_MAP_ITEMS,
+            crest=False,
+        ),
+    ),
+    # Silk and Soul has quest-point and four-component state that the AP item
+    # table does not expose. This event uses the represented prerequisites:
+    # the current Snare Setter item, every Flea and all required story areas.
+    'Event: Silk and Soul Completed': (
+        req(
+            'Event: Act 2 Started',
+            'Event: Cradle Opened',
+            'Event: Trail\'s End Completed',
+            'Path: Putrified Ducts - Fleatopia',
+            'Path: Choral Chambers - Songclave',
+            'Path: The Cradle - Terminus',
+            'Path: Bilewater - Bilehaven',
+            'Path: Weavenest - Atla',
+            'Path: Bellhart - Bellhart',
+            'Path: Mosslands - Bone Bottom',
+            'Path: Mount Fay - Workbench',
+            'Ancestral Art: Needolin',
+            'Ability: Faydown Cloak',
+            'Tool: Snare Setter',
+            crest=False,
+            item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+        ),
+    ),
+    'Event: Grand Mother Silk Snared': (
+        req(
+            'Event: Silk and Soul Completed',
+            'Path: The Cradle - Terminus',
+            'Ancestral Art: Needolin',
+            crest=False,
+        ),
+    ),
+    'Event: Act 3 Started': (
+        req('Event: Grand Mother Silk Snared', crest=False),
+    ),
+    # Three standard Old Hearts are used instead of the optional Verdania
+    # substitute, which is not represented by the current path graph.
+    'Event: Three Old Hearts Awakened': (
+        req(
+            'Act: 3',
+            'Path: Abyss - Escape',
+            'Path: Far Fields - Karmelita',
+            'Path: Grand Gate',
+            'Path: Sands of Karak - Coral Tower',
+            'Path: Mosslands - Snail Shamans',
+            'Ancestral Art: Needolin',
+            'Ancestral Art: Silk Soar',
+            crest=False,
+        ),
+    ),
+    'Event: Everbloom Obtained': (
+        req(
+            'Event: Three Old Hearts Awakened',
+            'Path: Mosslands - Snail Shamans',
+            crest=False,
+        ),
+    ),
+    FINAL_GOAL_EVENT: (
+        req(
+            'Event: Everbloom Obtained',
+            'Path: Deep Docks - Diving Bell',
+            'Path: Abyss - Void Tendrils',
+            'Ancestral Art: Silk Soar',
+        ),
+    ),
+}
+
+class _VersionedRequirementMap(
+    dict[str, tuple[LocationRequirement, ...]]
+):
+    """Track graph mutations so cached reachability stays valid."""
+
+    revision: int = 0
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.revision = 0
+
+    def __setitem__(self, key, value) -> None:
+        super().__setitem__(key, value)
+        self.revision += 1
+
+    def __delitem__(self, key) -> None:
+        super().__delitem__(key)
+        self.revision += 1
+
+    def clear(self) -> None:
+        if self:
+            super().clear()
+            self.revision += 1
+
+    def pop(self, key, *default):
+        contained_key = key in self
+        value = super().pop(key, *default)
+        if contained_key:
+            self.revision += 1
+        return value
+
+    def popitem(self):
+        value = super().popitem()
+        self.revision += 1
+        return value
+
+    def setdefault(self, key, default=None):
+        if key in self:
+            return self[key]
+        value = super().setdefault(key, default)
+        self.revision += 1
+        return value
+
+    def update(self, *args, **kwargs) -> None:
+        if args or kwargs:
+            super().update(*args, **kwargs)
+            self.revision += 1
+
+    def __ior__(self, other):
+        super().__ior__(other)
+        self.revision += 1
+        return self
+
+
+ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
+    {
+        **ACT_REQUIREMENTS,
+        **EVENT_REQUIREMENTS,
+        **PATH_REQUIREMENTS,
+        **EQUIPPED_SILK_SKILL_REQUIREMENTS,
+        **EQUIPPED_COLORED_TOOL_REQUIREMENTS,
+        **ROOM_NODE_REQUIREMENTS,
+        # The Bell Beast room event replaces the earlier path-derived event
+        # of the same name.
+        **ROOM_EVENT_REQUIREMENTS,
+    }
+)
+
+BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
+    req(
+        'Path: Mosslands - Bone Bottom',
+        crest=False,
+    ),
+)
+
+STARTING_LOCATION_VANILLA = 'vanilla'
+STARTING_LOCATION_BONE_BOTTOM = 'bone_bottom'
+SUPPORTED_STARTING_LOCATIONS = frozenset((
+    STARTING_LOCATION_VANILLA,
+    STARTING_LOCATION_BONE_BOTTOM,
+))
+MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS = (
+    PATH_REQUIREMENTS['Path: Mosslands - Moss Grotto'][1:]
+)
+BONE_BOTTOM_START_ROOT_REQUIREMENTS = (
+    req(crest=False),
+    *PATH_REQUIREMENTS['Path: Mosslands - Bone Bottom'],
+)
+
+
+def normalize_starting_location_key(starting_location: str) -> str:
+    """Validate one concrete starting-location option key."""
+
+    normalized = str(starting_location or '').strip().lower()
+    if normalized not in SUPPORTED_STARTING_LOCATIONS:
+        raise ValueError(
+            f"Unknown Silksong starting location: {starting_location!r}"
+        )
+    return normalized
+
+
+def get_abstract_requirements(
+    allow_bellways_before_bell_beast: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> Mapping[str, tuple[LocationRequirement, ...]]:
+    """Return the abstract graph used by the selected world options."""
+
+    starting_location = normalize_starting_location_key(starting_location)
+
+    if (
+        not allow_bellways_before_bell_beast
+        and randomized_crest_slots_enabled
+        and starting_location == STARTING_LOCATION_VANILLA
+    ):
+        return ABSTRACT_REQUIREMENTS
+
+    adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    if allow_bellways_before_bell_beast:
+        adjusted_requirements['Path: Bellways'] = (
+            BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
+        )
+    if not randomized_crest_slots_enabled:
+        # Vanilla Crest Slots do not consume received AP slot items and their
+        # Memory Locket spending is not represented in AP inventory logic.
+        adjusted_requirements[USABLE_MAGMA_BELL_REQUIREMENT] = (
+            NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
+        )
+        adjusted_requirements[USABLE_CINDRIL_LOADOUT_REQUIREMENT] = (
+            NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
+        )
+    if starting_location == STARTING_LOCATION_BONE_BOTTOM:
+        # Replace the zero-requirement Moss Grotto root with Bone Bottom.
+        # Every authored return route remains intact, so the fixed-point graph
+        # derives Moss Grotto from its physical route back out of Bone Bottom.
+        adjusted_requirements['Path: Mosslands - Moss Grotto'] = (
+            MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
+        )
+        adjusted_requirements['Path: Mosslands - Bone Bottom'] = (
+            BONE_BOTTOM_START_ROOT_REQUIREMENTS
+        )
+    return adjusted_requirements
+
+
+MINOR_PICKUP_AREA_BY_SCENE: Mapping[str, tuple[int, str]] = {
+    'ant_04_left': (1, "Hunter's March - Trap"),
+    'aqueduct_01': (2, 'Putrified Ducts - Bellway'),
+    'aqueduct_05_festival': (2, 'Putrified Ducts - Fleatopia'),
+    'arborium_11': (2, 'Outlying Citadel - Memorium'),
+    'bone_10': (1, 'The Marrow - Toll'),
+    'bone_east_04b': (1, 'Deep Docks - Toll'),
+    'bone_east_14': (1, "Far Fields - Pilgrim's Rest"),
+    'bone_east_24': (3, 'Far Fields - Sprintmaster'),
+    'cog_07': (3, 'Outlying Citadel - Lower Cogwork Core'),
+    'cog_10': (2, 'Outlying Citadel - Cogwork Core'),
+    'coral_03': (1, 'Blasted Steps - Toll'),
+    'coral_36': (1, 'Blasted Steps - Bellway'),
+    'crawl_02': (1, 'Wormways Middle'),
+    'dock_02': (1, 'Deep Docks - Toll'),
+    'dock_11': (3, 'Deep Docks - Diving Bell'),
+    'dust_01': (1, "Sinner's Road - Broken Toll"),
+    'dust_06': (1, "Sinner's Road - Styx"),
+    'greymoor_05': (1, 'Greymoor - Halfway House'),
+    'greymoor_12': (1, 'Greymoor - Wisp Thicket'),
+    'greymoor_15': (1, 'Greymoor - Halfway House'),
+    'greymoor_15b': (1, 'Greymoor - Halfway House'),
+    'hang_06_bank': (2, 'Outlying Citadel - High Halls Ventrica'),
+    'hang_16': (2, 'Outlying Citadel - High Halls Ventrica'),
+    'library_02': (2, 'Outlying Citadel - Library'),
+    'library_09': (2, 'Choral Chambers - Songclave'),
+    'library_12': (2, 'Outlying Citadel - Library'),
+    'mosstown_02': (1, 'The Marrow - Mosshome Gate'),
+    'room_forge': (1, 'Deep Docks - Forge'),
+    'shadow_02': (1, 'Bilewater - Bellway'),
+    'shellwood_01': (1, 'Shellwood - Overgrown West'),
+    'shellwood_01b': (1, 'Shellwood - Overgrown West'),
+    'shellwood_13': (1, 'Shellwood - Greyroot'),
+    'shellwood_25': (1, 'Shellwood - Central Toll'),
+    'slab_02': (2, 'The Slab - Capture Event'),
+    'slab_04': (2, 'The Slab - Capture Event'),
+    'slab_18': (2, 'The Slab - Bellway'),
+    'slab_22': (2, 'The Slab - Heretic Key Arena'),
+    'song_04': (2, 'Choral Chambers - Grand Bellway'),
+    'song_07': (2, 'Choral Chambers - Below Dining'),
+    'song_09': (2, 'Choral Chambers - First Shrine'),
+    'tut_01': (1, 'Mosslands - Moss Grotto'),
+    'under_03': (2, 'Underworks - Broken Elevator'),
+    'under_07c': (2, 'Underworks - Confession Toll'),
+    'under_12': (2, 'Underworks - Twelfth Architect'),
+    'under_17': (2, "Underworks - Architect's Shop"),
+    'under_18': (2, 'Underworks - Whiteward'),
+    'wisp_02': (1, 'Greymoor - Wisp Thicket'),
+    'wisp_03': (1, 'Greymoor - Wisp Thicket'),
+}
+
+
+def _minor_pickup_requirement(location_name: str) -> LocationRequirement:
+    scene_name = next(
+        scene_name
+        for source_name, scene_name, _asset, _x, _y
+        in MINOR_PICKUP_SOURCE
+        if source_name == location_name
+    )
+    if scene_name == 'tut_01':
+        return area(1, 'Mosslands - Moss Grotto', crest=False)
+    act_number, path_name = MINOR_PICKUP_AREA_BY_SCENE[scene_name]
+    if scene_name == 'dock_11':
+        return area(
+            act_number,
+            path_name,
+            'Ancestral Art: Clawline',
+        )
+    if scene_name == 'cog_07':
+        return area(
+            act_number,
+            path_name,
+            'Ancestral Art: Silk Soar',
+        )
+    if scene_name == 'cog_10':
+        return area(
+            act_number,
+            path_name,
+            'Ability: Faydown Cloak',
+        )
+    if scene_name == 'hang_06_bank':
+        return area(
+            act_number,
+            path_name,
+            SIMPLE_KEY_ROSARY_BANK,
+        )
+    return area(act_number, path_name)
+
+
+# These are coarse area-entry gates. Every cache has a room and coordinate,
+# but its room-to-room movement requirement is not represented. Keeping these
+# checks junk-only provides map opacity without allowing an inferred route to
+# carry progression.
+MINOR_CACHE_AREA_BY_MAP_REGION: Mapping[str, tuple[int, str]] = {
+    'Tut': (1, 'Mosslands - Moss Grotto'),
+    'Moss_Cave': (1, 'Mosslands - Moss Grotto'),
+    'Mosstown': (1, 'The Marrow - Mosshome Gate'),
+    'Bonetown': (1, 'Mosslands - Bone Bottom'),
+    'Bone': (1, 'The Marrow - Toll'),
+    'Ant': (1, "Hunter's March - Trap"),
+    'Dock': (1, 'Deep Docks - Toll'),
+    'Wilds': (1, 'Far Fields - Bellway'),
+    'Greymoor': (1, 'Greymoor - Halfway House'),
+    'Shellwood': (1, 'Shellwood - Overgrown West'),
+    'Wisp': (1, 'Greymoor - Wisp Thicket'),
+    'Dust': (1, "Sinner's Road - Broken Toll"),
+    'Blasted_Steps': (1, 'Blasted Steps - Bellway'),
+    'Coral_Caves': (1, 'Sands of Karak - Sands of Karak'),
+    'Swamp': (1, 'Bilewater - Bellway'),
+    'Belltown': (1, 'Bellhart - Bellhart'),
+    'Song_Gate': (2, 'Grand Gate'),
+    'Under': (2, 'Underworks - Broken Elevator'),
+    'Ward': (2, 'Underworks - Whiteward'),
+    'Song': (2, 'Choral Chambers - Grand Bellway'),
+    'Library': (2, 'Outlying Citadel - Library'),
+    'Hang': (2, 'Outlying Citadel - High Halls Ventrica'),
+    'Arborium': (2, 'Outlying Citadel - Memorium'),
+    'Aqueduct': (2, 'Putrified Ducts - Bellway'),
+    'Slab': (2, 'The Slab - Capture Event'),
+    'Peak': (2, 'Mount Fay - Shakra'),
+    'Cradle': (2, 'The Cradle - Terminus'),
+    'Abyss': (3, 'Abyss - Void Tendrils'),
+}
+
+
+def _minor_cache_requirement(location_name: str) -> LocationRequirement:
+    source = next(
+        source
+        for source in MINOR_CACHE_SOURCE
+        if source[0] == location_name
+    )
+    map_region = source[9]
+    scene_name = source[2].casefold()
+    if scene_name == 'bone_east_14':
+        return area(1, "Far Fields - Pilgrim's Rest")
+    if scene_name == 'bone_east_24':
+        return area(3, 'Far Fields - Sprintmaster')
+    if location_name in {
+        'Shell Shard Cache: Deep Docks #1',
+        'Shell Shard Cache: Deep Docks #2',
+        'Shell Shard Cache: Deep Docks #3',
+    }:
+        return area(
+            1,
+            'Deep Docks - Lower',
+            USABLE_MAGMA_BELL_REQUIREMENT,
+            crest=False,
+        )
+    if location_name in {
+        'Shell Shard Cache: Shellwood #4',
+        'Shell Shard Cache: Shellwood #5',
+        'Shell Shard Cache: Shellwood #6',
+    }:
+        return area(
+            1,
+            'Shellwood - Central Toll',
+            any_of=SHELLWOOD_LONGPIN_MOVEMENT_ITEMS,
+        )
+    if scene_name == 'dock_02b':
+        return area(1, 'Deep Docks - Lower')
+    act_number, path_name = MINOR_CACHE_AREA_BY_MAP_REGION[map_region]
+    if scene_name == 'hang_06_bank':
+        return area(
+            act_number,
+            path_name,
+            SIMPLE_KEY_ROSARY_BANK,
+        )
+    if location_name == 'Rosary Cache: Blasted Steps':
+        return area(
+            act_number,
+            path_name,
+            SWIFT_STEP_ITEM,
+        )
+    if location_name == 'Rosary Cache: Moss Grotto':
+        return area(
+            act_number,
+            path_name,
+            SWIFT_STEP_ITEM,
+        )
+    if location_name in {
+        'Rosary Cache: Bone Bottom #6',
+        'Rosary Cache: Bone Bottom #7',
+    }:
+        # These Bonegrave caches use Wormways-side access like the nearby
+        # sources rather than the room graph's incorrect upper-right-exit
+        # geometry.
+        return area(1, 'Mosslands - Bonegrave')
+    if location_name in {
+        'Rosary Cache: Bonegrave #1',
+        'Rosary Cache: Bonegrave #2',
+        'Rosary Cache: Bonegrave #3',
+        'Rosary Cache: Bonegrave #4',
+    }:
+        # These four caches are inside the Wanderer chapel before its combat.
+        # The client keeps the chapel door open while any of them is in-seed,
+        # so acquiring Wanderer Crest elsewhere cannot invalidate this route.
+        return area(1, 'Mosslands - Bonegrave')
+    if location_name in {
+        'Rosary Cache: The Marrow #14',
+        'Rosary Cache: The Marrow #15',
+        'Rosary Cache: The Marrow #16',
+        'Shell Shard Cache: The Marrow #4',
+        'Shell Shard Cache: The Marrow #5',
+        'Shell Shard Cache: The Marrow #6',
+    }:
+        # These exact Bone_07/Bone_14/Bone_19 sources are all in the
+        # Lower-Pogo, Mr-Burns-house and Upper-Pogo branch beyond the
+        # Shooting Gallery rather than in the opening Toll section.
+        return area(1, 'The Marrow - Shooting Gallery')
+    if location_name in {
+        'Rosary Cache: Greymoor #7',
+        'Rosary Cache: Greymoor #8',
+        'Rosary Cache: Greymoor #10',
+        'Rosary Cache: Greymoor #11',
+        'Rosary Cache: Greymoor #12',
+        'Rosary Cache: Greymoor #13',
+        'Rosary Cache: Greymoor #14',
+        'Shell Shard Cache: Greymoor #1',
+        'Shell Shard Cache: Greymoor #2',
+    }:
+        return area(
+            act_number,
+            path_name,
+            SWIFT_STEP_ITEM,
+        )
+    return area(
+        act_number,
+        path_name,
+        crest=map_region != 'Tut',
+    )
+
+REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
+    # STARTING LOCATIONS
+    ('Crest Unlock: Hunter', req(crest=False)),  # No act/path gate: bootstrap row.
+
+    # SIMPLE KEYS
+    # The Bone Bottom stock moves to Grindle if it remains unbought in Act 3.
+    # Both vendors therefore report one stable AP source.
+    ('Simple Key: Bone Bottom Shop', area(
+        1,
+        'Mosslands - Bone Bottom',
+    )),
+    *(
+        ('Simple Key: Bone Bottom Shop', requirement)
+        for requirement in grindle_access(3)
+    ),
+    ('Simple Key: Roachkeeper', area(
+        1,
+        "Sinner's Road - Styx",
+        'Ability: Faydown Cloak',
+    )),
+    ('Simple Key: Songclave Shop', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Event: Wandering Merchant Rescued',
+    )),
+    ('Simple Key: Sands of Karak East Bench', area(
+        1,
+        'Sands of Karak - Sands of Karak',
+        'Ability: Faydown Cloak',
+    )),
+
+    # ACT 1
+    # Mosslands
+    ('Tool Unlock: Rosary Magnet', area(1, 'Mosslands - Bone Bottom')),
+    ('Tool Unlock: Mosscreep Tool 1', area(
+        1,
+        'Mosslands - Moss Druid',
+        silk_spear=True,
+        item_counts=(item_count(3, MOSSBERRY_ITEM),),
+    )),
+    ('Tool Unlock: Mosscreep Tool 1', area(
+        1,
+        'Mosslands - Moss Druid',
+        any_of=(
+            *SWIFT_STEP_OR_SPRINT_ITEMS,
+            'Ability: Faydown Cloak',
+            USABLE_SHARPDART_REQUIREMENT,
+        ),
+        item_counts=(item_count(3, MOSSBERRY_ITEM),),
+    )),
+    ('Crest Unlock: Wanderer', area(1, 'Mosslands - Bonegrave')),
+
+    # Weavenest Atla
+    ('Tool Unlock: Silk Snare', area(1, 'Weavenest - Atla', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak')),
+    ('Tool Unlock: White Ring', area(1, 'Weavenest - Atla')),
+
+    # The Marrow
+    ('Tool Unlock: Bone Necklace', area(1, 'The Marrow - Toll')),
+    ('Tool Unlock: Compass', area(1, 'The Marrow - Toll')),
+    ('Skill Unlock: Quill', area(1, 'The Marrow - Toll')),
+    ('Spell Unlock: Silk Spear', area(1, 'The Marrow - Mosshome Gate')),
+    ('Tool Unlock: Straight Pin', area(1, 'The Marrow - Shooting Gallery')),
+
+    ('Save Flea: The Marrow (Tangle)', area(
+        1,
+        'The Marrow - Bellshrine',
+        'Event: Bell Beast Defeated',
+    )),
+
+    # Hunter's March
+    ('Tool Unlock: Curve Claws', area(1, "Hunter's March - Trap", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'))),
+    # Mottled Child's second throwing reward upgrades Curveclaw. Its source
+    # and base-tool prerequisite are represented. The final vertical route
+    # through Bone_East_22 cannot hold progression until its minimum movement
+    # requirement is represented.
+    ('Curvesickle', area(
+        1,
+        'Far Fields - Bellway',
+        'Progressive Curveclaw',
+    )),
+    ('Tool Unlock: Fractured Mask', area(1, "Hunter's March - Trap", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'))),
+    ('Crest Unlock: Beast', area(1, "Hunter's March - Trap", "Ability: Drifter's Cloak")),
+
+    ("Save Flea: Hunter's March (Yapper)", area(1, "Hunter's March - Trap")),
+
+    # Deep Docks
+    # Swift Step is obtained in northern Deep Docks before the dash-gated
+    # Bellshrine/Lace route.
+    ('Skill Unlock: Dash', area(1, 'Deep Docks - Toll')),
+    ('Tool Unlock: WebShot Forge', area(
+        1,
+        'Deep Docks - Forge',
+        'Ruined Tool',
+        CRAFTMETAL_ITEM,
+    )),
+    ('Tool Unlock: Sting Shard', area(
+        1,
+        'Deep Docks - Forge',
+        CRAFTMETAL_ITEM,
+    )),
+    ('Tool Unlock: Lava Charm', area(
+        1,
+        'Deep Docks - Forge',
+        CRAFTMETAL_ITEM,
+    )),
+    ('Tool Unlock: Flintstone', area(1, 'Deep Docks - Lower', any_of=("Ability: Drifter's Cloak", 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'))),
+
+    ('Save Flea: Deep Docks Bellway (Eepy)', area(1, 'Deep Docks - Bellshrine')),
+    ('Save Flea: Deep Docks Weaver Burial Spire (Squeesh)', area(1, 'Deep Docks - Toll', 'Ancestral Art: Swift Step')),
+    ('Save Flea: Deep Docks Mines (Le Bomba)', area(
+        1,
+        'Deep Docks - Lower',
+        'Ancestral Art: Clawline',
+    )),
+
+    # Far Fields
+    ("Skill Unlock: Drifter's Cloak", area(1, 'Far Fields - Seamstress')),
+    ('Tool Unlock: Weighted Anklet', area(1, "Far Fields - Pilgrim's Rest")),
+    ('Tool Unlock: Sprintmaster', area(
+        1,
+        'Weavenest - Cindril',
+        any_of=SWIFT_STEP_OR_SPRINT_ITEMS,
+    )),
+    ('Tool Unlock: Bell Bind', area(1, 'Far Fields - Bellway')),
+
+    ("Save Flea: Pilgrim's Rest (Sleeby)", area(1, "Far Fields - Pilgrim's Rest", "Ability: Drifter's Cloak", 'Ancestral Art: Cling Grip')),
+    ('Save Flea: Far Fields Captured (Thoughtless)', area(
+        1,
+        'Far Fields - Bellway',
+    )),
+
+    # Wormways
+    ('Spell Unlock: Silk Charge', area(
+        1,
+        'Wormways - Bottom',
+        'Ancestral Art: Needolin',
+        'Ancestral Art: Clawline',
+    )),
+    ('Spell Unlock: Silk Charge', area(
+        1,
+        'Wormways - Bottom',
+        'Ancestral Art: Needolin',
+        'Ancestral Art: Swift Step',
+        "Ability: Drifter's Cloak",
+    )),
+    ('Tool Unlock: Dead Mans Purse', area(1, 'Wormways - Bottom')),
+    ('Tool Unlock: Shell Satchel', area(1, 'Wormways - Bottom')),
+    ('Tool Unlock: Extractor', area(1, 'Wormways - Plasmium Lab')),
+    ('Tool Unlock: Lifeblood Syringe', area(1, 'Wormways - Plasmium Lab', 'Tool: Needle Phial')),
+
+    ('Save Flea: Wormways (Snacc)', area(1, 'Wormways - Bottom')), # Simple spike pogo
+
+    # Shellwood
+    ('Skill Unlock: Wall Jump', area(1, 'Shellwood - Central Toll')),
+    ('Tool Unlock: Harpoon', area(
+        1,
+        'Shellwood - Central Toll',
+        any_of=SHELLWOOD_LONGPIN_MOVEMENT_ITEMS,
+    )),
+    ('Tool Unlock: Poison Pouch', area(1, 'Shellwood - Greyroot')),
+
+    ('Save Flea: Shellwood (Shelly)', area(1, 'Shellwood - Overgrown West')),
+
+    # Bellhart
+    ('Tool Unlock: Multibind', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Missing Courier Rescued',
+    )),
+    ('Skill Unlock: Needolin', area(1, 'Bellhart - Widow', 'Ancestral Art: Cling Grip')),
+
+    ('Save Flea: Bellhart (Bellphy)', area(
+        1,
+        'Shellwood - Central Toll',
+        'Ancestral Art: Cling Grip',
+    )),
+
+    # Greymoor
+    ('Tool Unlock: Flea Brew', area(
+        1,
+        'Greymoor - Halfway House',
+        item_counts=(item_count(5, *FLEA_ITEMS),),
+    )),
+    ('Crest Unlock: Reaper', area(
+        1,
+        'Greymoor - Halfway House',
+        SWIFT_STEP_ITEM,
+    )),
+    ('Spell Unlock: Thread Sphere', area(
+        1,
+        'Greymoor - Bellshrine',
+        'Event: Craw Lake Cleared',
+    )),
+    ('Tool Unlock: Tri Pin', area(
+        1,
+        'Greymoor - Bellshrine',
+        'Event: Craw Lake Cleared',
+    )),
+    ('Tool Unlock: Pimpilo', area(
+        1,
+        'Greymoor - Bellshrine',
+        CRAFTMETAL_ITEM,
+    )),
+    ('Crest Unlock: Witch', area(2, 'Greymoor - Halfway House', 'Path: Shellwood - Greyroot', 'Path: Bilewater - Twisted Bud')),
+    ('Tool Unlock: Wisp Lantern', area(1, 'Greymoor - Wisp Thicket')),
+
+    # The confirmed upper-tower route needs the complete movement set below.
+    # Neither Cling Grip plus full Swift Step nor Faydown plus Cling alone can
+    # make the final crossings to Snoozles.
+    ('Save Flea: Greymoor Tower (Snoozles)', area(
+        1,
+        'Greymoor - Halfway House',
+        'Ancestral Art: Cling Grip',
+        'Ability: Faydown Cloak',
+        SWIFT_STEP_ITEM,
+        'Ancestral Art: Clawline',
+    )),
+    ('Save Flea: Greymoor Craw Lake (Gwah)', area(
+        1,
+        'Greymoor - Bellshrine',
+        'Event: Craw Lake Cleared',
+    )),
+    ('Flea: Greymoor - Kratt', area(
+        1,
+        'Greymoor - Halfway House',
+        'Ancestral Art: Cling Grip',
+    )),
+
+    # Blasted Steps
+    ('Skill Unlock: Charge Slash', area(1, 'Blasted Steps - Pinstress')),
+    ('Tool Unlock: Magnetite Dice', area(1, 'Blasted Steps - Bellway')),  # Magnetite Dice Act 1 source: Lumble the Lucky.
+    *(
+        ('Tool Unlock: Magnetite Dice', requirement)
+        for requirement in grindle_access(3)
+    ),
+    # Grindle requires Cling Grip after entering Blasted Steps, plus either
+    # Silk Soar or Faydown Cloak for the remaining climb.
+    *(
+        ('Tool Unlock: Thief Charm', requirement)
+        for requirement in grindle_access(1)
+    ),
+    *(
+        ('Tool Unlock: Thief Claw', requirement)
+        for requirement in grindle_access(
+            1,
+            'Ancestral Art: Clawline',
+        )
+    ),
+
+    ('Save Flea: Blasted Steps (Nini)', area(1, 'Blasted Steps - Bellway', 'Ancestral Art: Cling Grip')),
+
+    # Sands of Karak
+    ('Tool Unlock: Conch Drill', area(1, 'Sands of Karak - Coral Tower')),
+    ('Tool Unlock: Zap Imbuement', area(1, 'Sands of Karak - Sands of Karak')),
+
+    ('Save Flea: Sands of Karak (Crustly)', area(
+        1,
+        'Sands of Karak - Coral Tower',
+    )),
+
+    # Sinner's Road
+    # Tacks' ordinary source is the pre-Act-3 Roach Guts Wish from Crull and
+    # Benjin. Its free corpse pickup is only the Act 3 fallback. Dust_Shack is
+    # entered directly from Dust_04, represented by the Broken Toll node. The
+    # ten unrandomized Muckroach drops add no AP inventory requirement.
+    ('Tool Unlock: Tack', area(1, "Sinner's Road - Broken Toll")),
+    ('Tool Unlock: Barbed Wire', area(1, "Sinner's Road - Broken Toll", "Ability: Drifter's Cloak")),
+
+    ("Save Flea: Sinner's Road (Stelf)", area(1, "Sinner's Road - Styx")),
+
+
+    #Bilewater
+    ('Ruined Tool', area(1, 'Bilewater - Ruined Tool')),
+    ('Spell Unlock: Parry', area(1, 'Bilewater - Exhaust Organ')),
+    ('Tool Unlock: Quick Sling', area(1, 'Bilewater - Bellway')),
+    # Trail's End is completed before Silk and Soul can begin. Shakra Ring is
+    # awarded before Act 3, so it depends on Trail's End rather than later
+    # Shakra inventory.
+    ('Tool Unlock: Shakra Ring', req("Event: Trail's End Completed")),
+
+    ('Save Flea: Exhaust Organ (Rangle)', area(
+        1,
+        'Bilewater - Exhaust Organ',
+    )),
+    ('Save Flea: Bilehaven (Spangle)', area(
+        1,
+        'Bilewater - Corpse Sack Chamber',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Save Flea: Bilewater Thieves (Cower)', area(
+        1,
+        'Bilewater - Twisted Bud',
+    )),
+
+    # ACT 2
+    # Underworks
+    ('Tool Unlock: WebShot Architect', area(
+        2,
+        "Underworks - Architect's Shop",
+        'Ruined Tool',
+        CRAFTMETAL_ITEM,
+    )),  # Ruined Tool + Twelfth Architect repair.
+    ('Tool Unlock: Screw Attack', area(2, 'Underworks - Broken Elevator')),
+    ('Skill Unlock: Harpoon', area(
+        2,
+        'Underworks - Twelfth Architect',
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Cling Grip',
+        'Ancestral Art: Swift Step',
+    )),
+    ('Skill Unlock: Harpoon', area(
+        2,
+        'Underworks - Twelfth Architect',
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Cling Grip',
+        'Ability: Faydown Cloak',
+    )),
+    ('Tool Unlock: Quickbind', area(2, 'Underworks - Whiteward')),
+    ('Crest Unlock: Architect', area(
+        2,
+        "Underworks - Architect's Shop",
+        ARCHITECTS_KEY_ITEM,
+    )),
+    ('Tool Unlock: Cogwork Saw', area(
+        2,
+        "Underworks - Architect's Shop",
+        CRAFTMETAL_ITEM,
+    )),
+    ('Tool Unlock: Scuttlebrace', area(
+        2,
+        "Underworks - Architect's Shop",
+        CRAFTMETAL_ITEM,
+    )),
+    ('Tool Unlock: Brolly Spike', area(
+        2,
+        "Underworks - Architect's Shop",
+        CRAFTMETAL_ITEM,
+    )),
+
+    ('Save Flea: Underworks (Boomy)', area(
+        2,
+        'Underworks - Twelfth Architect',
+    )),
+    ('Save Flea: Wisp Thicket (Fidget)', area(
+        2,
+        'Greymoor - Wisp Thicket',
+        'Ancestral Art: Cling Grip',
+        'Ability: Faydown Cloak',
+    )),
+
+    # Choral Chambers
+    # Claw Mirror is Trobbio's direct drop at the Stage. Its explicit boss
+    # event also receives any later Trobbio route changes.
+    ('Tool Unlock: Dazzle Bind', area(
+        2,
+        'Outlying Citadel - Library',
+        'Event: Trobbio Defeated',
+    )),
+    # Tormented Trobbio's direct reward is the second Claw Mirror tier. These
+    # use the same route requirements as the boss encounter itself.
+    ('Dark Mirror', area(
+        3,
+        'Outlying Citadel - Library',
+        'Progressive Claw Mirror',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Tool Unlock: Musician Charm', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Path: Outlying Citadel - Memorium',
+        'Event: Wandering Merchant Rescued',
+        'Ability: Faydown Cloak',
+    )),
+    ('Tool Unlock: Wallcling', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Event: Wandering Merchant Rescued',
+    )),
+    ('Tool Unlock: Spool Extender', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Event: Wandering Merchant Rescued',
+    )),
+    ('Tool Unlock: Lightning Rod', area(2, 'Outlying Citadel - Memorium')),
+
+    ('Save Flea: Choral Cambers Spa (Oowa)', area(
+        2,
+        'Choral Chambers - Spa',
+    )),
+    ('Save Flea: Choral Cambers Walled (Mimi)', area(
+        2,
+        'Choral Chambers - Below Dining',
+    )),
+    ('Save Flea: Songclave (Groggy)', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+        'Ancestral Art: Clawline',
+    )),
+    ('Save Flea: Whispering Vaults (Birdy)', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Flea: Memorium - Huge Flea', area(
+        2,
+        'Outlying Citadel - Memorium',
+        'Ability: Faydown Cloak',
+    )),
+
+    # High Halls
+    ('Tool Unlock: Reserve Bind', area(2, 'Outlying Citadel - High Halls Ventrica')),  # Final Audience wish unmodeled.
+    # Grindle carries the same ToolItem from the beginning.  This supplies a
+    # concrete alternate physical source while Final Audience remains
+    # progression-quarantined for its separate, unmodelled quest state.
+    *(
+        ('Tool Unlock: Reserve Bind', requirement)
+        for requirement in grindle_access(1)
+    ),
+    ('Tool Unlock: Rosary Cannon', area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        SIMPLE_KEY_ROSARY_BANK,
+    )),
+    ('Tool Unlock: Cogwork Flier', area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ancestral Art: Clawline',
+        CRAFTMETAL_ITEM,
+    )),
+
+    # Putrified Ducts
+    ('Tool Unlock: Longneedle', area(2, 'Putrified Ducts - Huntress')),
+    ('Tool Unlock: Maggot Charm', area(
+        2,
+        'Putrified Ducts - Bellway',
+    )),
+    ('Flea: Putrified Ducts - Vog', area(
+        2,
+        'Putrified Ducts - Bellway',
+        'Ability: Faydown Cloak',
+    )),
+    ('Tool Unlock: Flea Charm', req(
+        'Path: Putrified Ducts - Fleatopia',
+        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+    )),
+
+    # Mount Fay
+    ('Tool Unlock: WebShot Weaver', area(
+        2,
+        'Mount Fay - Workbench',
+        'Ruined Tool',
+        CRAFTMETAL_ITEM,
+    )),  # Needs Ruined Tool, Craftmetal, then Mount Fay repair.
+    ('Skill Unlock: Double Jump', area(2, 'Mount Fay - Workbench', 'Ancestral Art: Needolin', "Ability: Drifter's Cloak")),  # Faydown Cloak summit requires Needolin. Harpoon and Drifter's Cloak are in Path: Mount Fay.
+    ('Tool Unlock: Pinstress Tool', area(
+        3,
+        'Mount Fay - Workbench',
+        'Path: Blasted Steps - Pinstress',
+        'Ability: Needle Strike',
+    )),
+    ('Tool Unlock: Revenge Crystal', area(2, 'Mount Fay - Toll')),
+
+    ('Save Flea: Mount Fay (Ice Cube)', area(
+        2,
+        'Mount Fay - Final Climb',
+        'Ancestral Art: Cling Grip',
+    )),
+
+    # The Slab
+    ('Spell Unlock: Silk Bomb', area(
+        2,
+        'The Slab - Bellway',
+        'Path: Putrified Ducts - Huntress',
+        'Ability: Faydown Cloak',
+    )),
+
+    ('Save Flea: The Slab Cell (Sway)', area(
+        2,
+        "The Slab - Mapper's Tunnel",
+    )),
+    ('Save Flea: The Slab Bellway (Honk Shoo)', area(
+        2,
+        'The Slab - Bellway',
+        'Ability: Faydown Cloak',
+    )),
+
+    # The second Moss Druid reward is claimed from the same physical room as
+    # the first. The seven randomized Mossberries are its actual gate. Some of
+    # those berries may naturally place it late without inventing an Act 3
+    # Abyss source.
+    ('Tool Unlock: Mosscreep Tool 2', area(
+        1,
+        'Mosslands - Moss Druid',
+        item_counts=(item_count(7, MOSSBERRY_ITEM),),
+    )),
+
+    # ACT 3
+    ('Crest Unlock: Shaman', area(3, 'Mosslands - Ruined Chapel')),
+    ('Spell Unlock: Silk Boss Needle', area(3, 'Abyss - Void Tendrils')),  # Pale Nails requires Act 3 return using Silk Soar.
+    ('Skill Unlock: Silk Soar', area(3, 'Abyss - Void Tendrils', 'Ancestral Art: Needolin')),
+
+    # OPTIONAL NEEDLE UPGRADE RANDOMIZATION
+    # Rosary prices are grindable and therefore are not AP inventory gates.
+    ('Pinmaster Plinney: Sharpened Needle', req(
+        'Event: Widow Defeated',
+    )),
+    ('Pinmaster Plinney: Shining Needle', req(
+        'Event: Widow Defeated',
+        item_counts=(
+            item_count(1, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+            item_count(1, PALE_OIL_ITEM),
+        ),
+    )),
+    ('Pinmaster Plinney: Hivesteel Needle', req(
+        'Event: Widow Defeated',
+        item_counts=(
+            item_count(2, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+            item_count(2, PALE_OIL_ITEM),
+        ),
+    )),
+    ('Pinmaster Plinney: Pale Steel Needle', req(
+        'Event: Widow Defeated',
+        item_counts=(
+            item_count(3, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+            item_count(3, PALE_OIL_ITEM),
+        ),
+    )),
+    ('Pale Oil: Whispering Vaults', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Pale Oil: Great Taste of Pharloom', area(
+        2,
+        'Choral Chambers - Below Dining',
+        'Path: Mosslands - Moss Druid',
+        'Path: Greymoor - Halfway House',
+        "Path: Far Fields - Pilgrim's Rest",
+        "Path: Sinner's Road - Styx",
+        'Path: Sands of Karak - Sands of Karak',
+        SWIFT_STEP_ITEM,
+        'Ancestral Art: Cling Grip',
+        'Ancestral Art: Clawline',
+        'Ability: Faydown Cloak',
+    )),
+    ('Pale Oil: Ecstasy of the End', area(
+        3,
+        'Putrified Ducts - Fleatopia',
+        'Tool: Egg of Flealia',
+        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+    )),
+
+    # SHAKRA PINS
+    # Rosary prices are grindable and therefore are not AP inventory gates.
+    ('Pin Purchase: Bench', area(1, 'The Marrow - Toll', crest=False)),
+    ('Pin Purchase: Ventrica', area(
+        2,
+        'Bellhart - Bellhart',
+        any_of=(
+            'Ventrica: Choral Chambers',
+            'Ventrica: Underworks',
+            'Ventrica: Grand Bellway',
+            'Ventrica: High Halls',
+            'Ventrica: Songclave',
+            'Ventrica: Memorium',
+        ),
+        crest=False,
+    )),
+    ('Pin Purchase: Bellway', req('Event: Bell Beast Defeated', crest=False)),
+    ('Pin Purchase: Vendor', req(
+        any_of=(
+            'Path: Deep Docks - Toll',
+            'Path: Wormways - Entrance',
+            'Path: Greymoor - Halfway House',
+        ),
+        crest=False,
+    )),
+
+    # RELICS
+    # Asset suffixes identify the source scene. The four relics whose
+    # quest/key state is still missing remain in the fallback block below.
+    ('Relic Pickup: Psalm Cylinder Library Roof', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Clawline',
+    )),
+    ('Relic Pickup: Bone Record Wisp Top', area(
+        1,
+        'Greymoor - Wisp Thicket',
+        'Ancestral Art: Clawline',
+    )),
+    ('Relic Pickup: Weaver Totem Bonetown_upper_room', area(
+        1,
+        'Mosslands - Bone Bottom',
+        'Ancestral Art: Swift Step',
+    )),
+    ('Relic Pickup: Librarian Melody Cylinder', area(
+        2,
+        'Underworks - Twelfth Architect',
+        'Event: Trobbio Defeated',
+        'Ancestral Art: Clawline',
+    )),
+    ('Relic Pickup: Psalm Cylinder Ward', area(
+        2,
+        'Underworks - Whiteward',
+        SURGEONS_KEY_ITEM,
+    )),
+    ('Relic Pickup: Weaver Record Conductor', area(
+        3,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ancestral Art: Clawline',
+    )),
+    ('Relic Pickup: Psalm Cylinder Librarian', area(2, 'Outlying Citadel - Library')),
+    ('Relic Pickup: Psalm Cylinder Hang', area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ancestral Art: Clawline',
+    )),
+    ('Relic Pickup: Seal Chit Ward Corpse', area(
+        2,
+        'Underworks - Whiteward',
+        'Path: Choral Chambers - Songclave',
+    )),
+    ('Relic Pickup: Weaver Record Sprint_Challenge', area(
+        1,
+        'Weavenest - Cindril',
+        USABLE_CINDRIL_LOADOUT_REQUIREMENT,
+        crest=False,
+    )),
+    *(
+        ('Relic Pickup: Psalm Cylinder Grindle', requirement)
+        for requirement in grindle_access(1)
+    ),
+    ('Relic Pickup: Weaver Record Weave_08', area(
+        1,
+        'Weavenest - Atla',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Relic Pickup: Bone Record Understore_Map_Room', area(
+        2,
+        'Underworks - Broken Elevator',
+    )),
+    ('Relic Pickup: Bone Record Bone_East_14', area(
+        1,
+        'Far Fields - Seamstress',
+        "Ability: Drifter's Cloak",
+    )),
+    # The Moss Grotto commandment sits directly on the opening descent through
+    # Aspid_01.  It is available from the vanilla Moss Grotto start without a
+    # crest or movement item. Bone Bottom is the destination below it, not its
+    # access prerequisite.
+    ('Relic Pickup: Seal Chit Aspid_01', area(
+        1,
+        'Mosslands - Moss Grotto',
+        crest=False,
+    )),
+    ('Relic Pickup: Seal Chit Silk Siphon', area(
+        2,
+        'Underworks - Whiteward',
+        'Path: Choral Chambers - Songclave',
+        any_of=('Ancestral Art: Silk Soar', 'Ability: Faydown Cloak'),
+    )),
+    ('Relic Pickup: Seal Chit City Merchant', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Path: Outlying Citadel - Memorium',
+        'Event: Wandering Merchant Rescued',
+        'Ability: Faydown Cloak',
+    )),
+    ('Relic Pickup: Bone Record Greymoor_flooded_corridor', area(
+        1,
+        'Greymoor - Halfway House',
+    )),
+    ('Relic Pickup: Weaver Totem Slab_Bottom', area(
+        2,
+        'The Slab - Bellway',
+        'Path: The Slab - Capture Event',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Relic Pickup: Ancient Egg Abyss Middle', area(3, 'Abyss - Void Tendrils')),
+
+    # BELLSHRINES
+    ('Bell Shrine Completion: bellShrineBoneForest', area(
+        1,
+        'The Marrow - Bellshrine',
+        silk_spear=True,
+    )),
+    ('Bell Shrine Completion: bellShrineWilds', area(
+        1,
+        'Deep Docks - Bellshrine',
+        'Ancestral Art: Swift Step',
+    )),
+    ('Bell Shrine Completion: bellShrineGreymoor', area(
+        1,
+        'Greymoor - Bellshrine',
+        'Event: Craw Lake Cleared',
+    )),
+    ('Bell Shrine Completion: bellShrineShellwood', area(
+        1,
+        'Shellwood - Bellshrine',
+        'Ancestral Art: Cling Grip',
+    )),
+    # Native Bellshrine Sequence Bellhart is a post-Widow state transition.
+    # Unlike a manual song door, it never checks hasNeedolin/canUseNeedolin.
+    ('Bell Shrine Completion: bellShrineBellhart', req(
+        'Event: Widow Defeated',
+    )),
+    ('Bell Shrine Completion: bellShrineEnclave', area(
+        2,
+        'Choral Chambers - First Shrine',
+    )),
+
+    # BOSSES
+    # Combat execution is not a separate difficulty gate.
+    ('Boss Completion: defeatedMossMother', area(1, 'Mosslands - Ruined Chapel')),
+    ('Boss Completion: defeatedBellBeast', req('Event: Bell Beast Defeated')),
+    # Lace's first encounter resolves at exactly one of three physical
+    # sources. Dust_01 is the Sinner's Road entrance from Greymoor, while
+    # Coral_19 is the broken bridge between Shellwood and Blasted Steps.
+    # These alternatives use the current regional requirements and retain all
+    # three mutually exclusive outcomes.
+    ('Boss Completion: defeatedLace1', area(
+        1,
+        'Deep Docks - Bellshrine',
+        'Ancestral Art: Swift Step',
+    )),
+    ('Boss Completion: defeatedLace1', area(
+        1,
+        "Sinner's Road - Broken Toll",
+    )),
+    ('Boss Completion: defeatedLace1', area(
+        1,
+        'Blasted Steps - Toll',
+    )),
+    ('Boss Completion: defeatedSongGolem', area(
+        1,
+        'Far Fields - Bellway',
+        'Event: Flexile Spines Completed',
+    )),
+    # StartAct3 force-sets this flag when the optional Act 1 encounter was
+    # skipped. Model the vanilla alias explicitly. The check remains
+    # always junk-only because its original encounter is missable.
+    ('Boss Completion: defeatedSongGolem', req(
+        'Event: Act 3 Started',
+        crest=False,
+    )),
+    ('Boss Completion: defeatedDockForemen', area(
+        1,
+        'Deep Docks - Forge',
+        'Ancestral Art: Clawline',
+    )),
+    ('Boss Completion: defeatedVampireGnatBoss', area(
+        2,
+        'Greymoor - Bellshrine',
+    )),
+    ('Boss Completion: defeatedAntQueen', area(
+        3,
+        'Far Fields - Karmelita',
+        'Event: Elegy of the Deep Learned',
+    )),
+    ('Boss Completion: defeatedCrowCourt', req(
+        CRAW_SUMMONS_ITEM,
+    )),
+    ('Boss Completion: defeatedSplinterQueen', area(
+        1,
+        'Shellwood - Central Toll',
+    )),
+    ('Boss Completion: defeatedSeth', area(
+        3,
+        'Grand Gate',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Boss Completion: defeatedFlowerQueen', area(
+        3,
+        'Grand Gate',
+        'Event: Shrine Guardian Seth Defeated',
+        'Event: Elegy of the Deep Learned',
+    )),
+    ('Boss Completion: defeatedRoachkeeperChef', area(
+        1,
+        "Sinner's Road - Styx",
+        'Ability: Faydown Cloak',
+    )),
+    ('Boss Completion: defeatedPhantom', area(
+        1,
+        'Bilewater - Exhaust Organ',
+        'Ancestral Art: Needolin',
+    )),
+    ('Boss Completion: DefeatedSwampShaman', area(
+        1,
+        'Bilewater - Bilehaven',
+        'Ability: Faydown Cloak',
+    )),
+    ('Boss Completion: defeatedCoralKing', area(
+        3,
+        'Sands of Karak - Coral Tower',
+        'Event: Elegy of the Deep Learned',
+        'Ancestral Art: Silk Soar',
+    )),
+    # Great Conchflies is in Coral_11 (Roar Point), reached from the western
+    # Blasted Steps route. This check cannot hold progression until its
+    # minimum movement requirement is represented.
+    ('Boss: Great Conchflies', area(1, 'Blasted Steps - Toll')),
+    ('Boss Completion: defeatedLastJudge', req('Event: Last Judge Defeated')),
+    ('Boss Completion: defeatedGreyWarrior', area(
+        3,
+        'Sands of Karak - Sands of Karak',
+        'Ancestral Art: Silk Soar',
+        'Ancestral Art: Needolin',
+    )),
+    ('Boss Completion: defeatedFirstWeaver', area(
+        2,
+        'The Slab - Heretic Key Arena',
+        'Path: The Slab - Capture Event',
+        KEY_OF_APOSTATE_ITEM,
+    )),
+    ('Boss Completion: defeatedTrobbio', area(
+        2,
+        'Outlying Citadel - Library',
+    )),
+    # StartAct3 also force-sets defeatedTrobbio. Keeping that vanilla flag as
+    # an alternate logical source matches what the client will report.
+    ('Boss Completion: defeatedTrobbio', req(
+        'Event: Act 3 Started',
+        crest=False,
+    )),
+    ('Boss Completion: defeatedTormentedTrobbio', area(
+        3,
+        'Outlying Citadel - Library',
+        'Progressive Claw Mirror',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Boss Completion: defeatedCogworkDancers', area(
+        2,
+        'Choral Chambers - High Halls Entrance',
+    )),
+    ('Boss Completion: defeatedLaceTower', area(
+        2,
+        'The Cradle - Terminus',
+        'Event: Cradle Opened',
+    )),
+    # These four encounters share the route of their native reward source.
+    # Gurr and Raging Conchfly remain below until their local requirements are
+    # represented.
+    ('Boss Completion: defeatedWispPyreEffigy', area(
+        1,
+        'Greymoor - Wisp Thicket',
+    )),
+    ('Boss Completion: wardBossDefeated', area(
+        2,
+        'Underworks - Whiteward',
+        'Ancestral Art: Clawline',
+        SURGEONS_KEY_ITEM,
+    )),
+    ('Boss Completion: defeatedZapCoreEnemy', area(
+        1,
+        'Sands of Karak - Sands of Karak',
+    )),
+    ('Boss Completion: spinnerDefeated', area(
+        1,
+        'Bellhart - Widow',
+        'Ancestral Art: Cling Grip',
+    )),
+
+    # CRAFTING KITS
+    ('Crafting Kit Source: Forge Tool Kit', area(1, 'Deep Docks - Forge')),
+    ('Crafting Kit Source: Architect Tool Kit', area(
+        2,
+        'Underworks - Twelfth Architect',
+        'Ancestral Art: Clawline',
+    )),
+    *(
+        ('Crafting Kit Source: Grindle Tool Kit', requirement)
+        for requirement in grindle_access(1)
+    ),
+    ('Crafting Kit Source: Crow Feathers', area(
+        1,
+        'Greymoor - Halfway House',
+        'Event: Widow Defeated',
+    )),
+
+    # WISHES
+    # QuestSanity checks use their modeled routes. Three Wishes may hold
+    # progression. The rest remain junk-only or LogicUnknown while cargo,
+    # counters or mode-specific state are not represented.
+    # Pinmaster's Oil needs the first Needle upgrade and any one Pale Oil.
+    # The Wish check is disabled when Needle upgrades themselves are shuffled,
+    # so these are the three vanilla source routes rather than AP item counts.
+    ('Quest Completion: A Pinsmiths Tools', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Path: Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Quest Completion: A Pinsmiths Tools', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Path: Choral Chambers - First Shrine',
+        'Path: Mosslands - Moss Druid',
+        'Path: Greymoor - Halfway House',
+        'Event: Missing Brother Rescued',
+        'Path: Sands of Karak - Sands of Karak',
+        "Path: Sinner's Road - Styx",
+        'Ability: Faydown Cloak',
+    )),
+    ('Quest Completion: A Pinsmiths Tools', area(
+        3,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Path: Putrified Ducts - Fleatopia',
+        'Tool: Egg of Flealia',
+        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+    )),
+    # Belltown House Start is Restoration of Bellhart. The
+    # greeter's first conversation plus leaving Bellhart are repeatable local
+    # actions. Its remaining native gates are modeled conditionally in
+    # rules.py when Needle Upgrades or Relics are themselves randomized.
+    ('Quest Completion: Belltown House Start', area(
+        1,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+    )),
+    ('Quest Completion: Belltown House Mid', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Event: Cogwork Dancers Defeated',
+    )),
+    ('Quest Completion: Belltown House Mid', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Ancestral Art: Clawline',
+    )),
+    ('Quest Completion: Belltown House Mid', area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        'Path: Choral Chambers - Songclave',
+    )),
+    ('Quest Completion: Building Materials', req(
+        'Event: Bone Bottom Repairs Completed',
+    )),
+    ('Quest Completion: Building Materials (Bridge)', req(
+        'Event: Lifesaving Bridge Completed',
+    )),
+    ('Quest Completion: Building Materials (Statue)', area(
+        2,
+        'Mosslands - Bone Bottom',
+        'Event: Lifesaving Bridge Completed',
+    )),
+    ('Quest Completion: Courier Delivery Bonebottom', area(
+        1,
+        'Mosslands - Bone Bottom',
+        'Path: Bellhart - Bellhart',
+        'Event: Bell Beast Defeated',
+        'Event: Missing Brother Rescued',
+    )),
+    ('Quest Completion: Courier Delivery Dustpens Slave', req(
+        'Event: Queen\'s Egg Delivered',
+    )),
+    ('Quest Completion: Courier Delivery Fixer', area(
+        3,
+        'Mosslands - Bone Bottom',
+        'Path: Bellhart - Bellhart',
+    )),
+    ('Quest Completion: Courier Delivery Fleatopia', area(
+        2,
+        'Putrified Ducts - Fleatopia',
+        'Path: Bellhart - Bellhart',
+        'Event: Missing Brother Rescued',
+        item_counts=(item_count(22, *FLEA_ITEMS),),
+    )),
+    ('Quest Completion: Courier Delivery Mask Maker', area(
+        2,
+        'Mount Fay - Workbench',
+        'Path: Bellhart - Bellhart',
+        'Event: Queen\'s Egg Delivered',
+        'Event: Threefold Melody Learned',
+        'Ability: Faydown Cloak',
+    )),
+    ('Quest Completion: Courier Delivery Pilgrims Rest', area(
+        1,
+        "Far Fields - Pilgrim's Rest",
+        'Path: Bellhart - Bellhart',
+        'Event: Missing Brother Rescued',
+    )),
+    ('Quest Completion: Courier Delivery Songclave', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Path: Bellhart - Bellhart',
+        'Event: Missing Brother Rescued',
+    )),
+    # Act 3 exposes the same Songclave delivery independently of its ordinary
+    # pre-Soul-Snare availability window.
+    ('Quest Completion: Courier Delivery Songclave', area(
+        3,
+        'Choral Chambers - Songclave',
+        'Path: Bellhart - Bellhart',
+    )),
+    ('Quest Completion: Extractor Blue Worms', area(
+        3,
+        'Wormways - Plasmium Lab',
+        'Tool: Needle Phial',
+    )),
+    ('Quest Completion: Fine Pins', req(
+        'Event: Fine Pins Completed',
+    )),
+    ('Quest Completion: Garmond Black Threaded', area(
+        3,
+        'Blasted Steps - Bellway',
+        'Event: Everbloom Obtained',
+    )),
+    ('Quest Completion: Great Gourmand', area(
+        2,
+        'Choral Chambers - First Shrine',
+        'Path: Mosslands - Moss Druid',
+        'Path: Greymoor - Halfway House',
+        'Event: Missing Brother Rescued',
+        'Path: Sands of Karak - Sands of Karak',
+        "Path: Sinner's Road - Styx",
+        'Ability: Faydown Cloak',
+    )),
+    # Reaching Halfway Home is enough to accept Bugs of Pharloom. Its journal
+    # completion is an unrepresented 100-entry counter, so it stays junk-only.
+    ('Quest Completion: Journal', area(
+        1,
+        'Greymoor - Halfway House',
+    )),
+    ('Quest Completion: Mr Mushroom', area(
+        3,
+        'The Cradle - Surface Ascent',
+        'Path: Mosslands - Ruined Chapel',
+        'Path: Mosslands - Bone Bottom',
+        'Path: Far Fields - Seamstress',
+        'Path: Greymoor - Wisp Thicket',
+        'Path: Putrified Ducts - Bellway',
+        'Path: The Slab - Heretic Key Arena',
+        'Path: Mount Fay - Workbench',
+        'Ancestral Art: Silk Soar',
+        'Ancestral Art: Needolin',
+    )),
+    ('Quest Completion: Pilgrim Rags', area(
+        1,
+        'Mosslands - Bone Bottom',
+        'Path: The Marrow - Mosshome Gate',
+        'Event: Bell Beast Defeated',
+    )),
+    ('Quest Completion: Rock Rollers', area(
+        1,
+        'The Marrow - Toll',
+        any_of=(
+            'Path: Greymoor - Halfway House',
+            'Path: Shellwood - Overgrown West',
+        ),
+    )),
+    # Act 3 removes an unfinished Rock Rollers quest and leaves the same
+    # Memory Locket reward as a ground fallback in Bone_10.
+    ('Quest Completion: Rock Rollers', area(
+        3,
+        'Mosslands - Bone Bottom',
+    )),
+    ('Quest Completion: Save City Merchant', req(
+        'Event: Wandering Merchant Rescued',
+    )),
+    ('Quest Completion: Save City Merchant Bridge', area(
+        2,
+        'Outlying Citadel - Memorium',
+        'Event: Wandering Merchant Rescued',
+        'Event: Strengthening Songclave Completed',
+        'Ability: Faydown Cloak',
+    )),
+    ('Quest Completion: Save Courier Short', req(
+        'Event: Missing Courier Rescued',
+    )),
+    ('Quest Completion: Save Courier Tall', req(
+        'Event: Missing Brother Rescued',
+    )),
+    ('Quest Completion: Save Sherma', req(
+        'Event: Balm for the Wounded Completed',
+    )),
+    ('Quest Completion: Shiny Bell Goomba', area(
+        1,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+    )),
+    ('Quest Completion: Skull King', area(
+        1,
+        'Mosslands - Bone Bottom',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Quest Completion: Song Pilgrim Cloaks', req(
+        'Event: Cloaks of the Choir Completed',
+    )),
+    ('Quest Completion: Songclave Donation 1', req(
+        'Event: Building Up Songclave Completed',
+    )),
+    ('Quest Completion: Songclave Donation 2', req(
+        'Event: Strengthening Songclave Completed',
+    )),
+    # A Vassal Lost is Steel Soul-only and chooses three resting sites from a
+    # six-area pool. AP does not receive the game mode or per-save selection,
+    # so this rule requires access to all six areas.
+    ('Quest Completion: Steel Sentinel Pt2', area(
+        2,
+        'Mosslands - Bonegrave',
+        'Path: Blasted Steps - Toll',
+        'Path: Mosslands - Moss Grotto',
+        "Path: Far Fields - Pilgrim's Rest",
+        'Path: Putrified Ducts - Fleatopia',
+        'Path: Outlying Citadel - High Halls Ventrica',
+        'Path: Shellwood - Overgrown West',
+        'Path: Sands of Karak - Sands of Karak',
+    )),
+
+    # Shakra carries missed stock forward. Valid routes prove access to a
+    # physical shop or to story events that place her at a persistent camp.
+    # Receiving a randomized movement or Silk Skill item is not itself shop
+    # access and does not reproduce the vanilla mapper-evaluation sequence.
+    ('Map Purchase: Mosslands', area(1, 'The Marrow - Toll')),
+    ('Map Purchase: The Marrow', area(1, 'The Marrow - Toll')),
+    ('Map Purchase: The Marrow', req('Event: Bell Beast Defeated')),
+    ('Map Purchase: Deep Docks', area(1, 'Deep Docks - Toll')),
+    ('Map Purchase: Deep Docks', area(1, 'Deep Docks - Bellshrine')),
+    ('Map Purchase: Deep Docks', req('Event: Widow Defeated')),
+    ('Map Purchase: Far Fields', area(1, 'Far Fields - Bellway')),
+    ('Map Purchase: Far Fields', req('Event: Widow Defeated')),
+    ('Map Purchase: Far Fields', req('Event: Act 2 Started')),
+    ('Map Purchase: Wormways', area(1, 'Wormways - Bottom')),
+    ('Map Purchase: Wormways', req('Event: Act 2 Started')),
+    ("Map Purchase: Hunter's March", area(1, "Hunter's March - Trap")),
+    ("Map Purchase: Hunter's March", req('Event: Act 2 Started')),
+    ('Map Purchase: Greymoor', area(1, 'Greymoor - Halfway House')),
+    ('Map Purchase: Greymoor', area(
+        1,
+        'Greymoor - Bellshrine',
+        'Event: Craw Lake Cleared',
+    )),
+    ('Map Purchase: Bellhart', area(1, 'Bellhart - Bellhart')),
+    ('Map Purchase: Shellwood', area(1, 'Shellwood - Overgrown West')),
+    ('Map Purchase: Shellwood', req('Event: Widow Defeated')),
+    ('Map Purchase: Blasted Steps', area(1, 'Blasted Steps - Bellway')),
+    ('Map Purchase: Blasted Steps', req('Event: Last Judge Defeated')),
+    ("Map Purchase: Sinner's Road", area(1, "Sinner's Road - Broken Toll")),
+    ('Map Purchase: Mount Fay', area(2, 'Mount Fay - Shakra')),
+    ('Map Purchase: Sands of Karak', area(1, 'Sands of Karak - Sands of Karak')),
+    ('Map Purchase: Bilewater', area(
+        1,
+        'Bilewater - Bellway',
+        'Ability: Faydown Cloak',
+    )),
+    ('Map Purchase: Bilewater', area(
+        1,
+        'Bilewater - Bilehaven',
+        'Ability: Faydown Cloak',
+    )),
+
+    # Static map pickups and machines. Sources with unresolved local movement,
+    # alternate-machine or quest-state details cannot hold progression.
+    ('Map Pickup: Weavenest Atla', area(1, 'Weavenest - Atla')),
+    ('Map Purchase: Grand Gate', area(2, 'Grand Gate')),
+    ('Map Pickup: Underworks', area(2, 'Underworks - Broken Elevator')),
+    ('Map Purchase: Choral Chambers', area(
+        2,
+        'Choral Chambers - Grand Bellway',
+    )),
+    ('Map Purchase: Whispering Vaults', area(
+        2,
+        'Outlying Citadel - Library',
+    )),
+    ('Map Purchase: Whiteward', area(2, 'Underworks - Whiteward')),
+    ('Map Pickup: Cogwork Core', area(
+        2,
+        'Outlying Citadel - Cogwork Core',
+    )),
+    ('Map Purchase: Memorium', area(
+        2,
+        'Outlying Citadel - Memorium',
+    )),
+    ('Map Purchase: High Halls', area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+    )),
+    ('Map Pickup: The Slab', area(2, "The Slab - Mapper's Tunnel")),
+    ('Map Pickup: Putrified Ducts', area(
+        2,
+        'Putrified Ducts - Bellway',
+    )),
+    ('Map Purchase: The Cradle', area(2, 'The Cradle - Terminus')),
+    ('Map Pickup: Verdania', area(
+        3,
+        'Greymoor - Bellshrine',
+        SIMPLE_KEY_GREEN_PRINCE,
+        'Event: Cogwork Dancers Defeated',
+        'Event: Craw Lake Cleared',
+        'Event: Elegy of the Deep Learned',
+        crest=False,
+    )),
+    ('Map Pickup: The Abyss', area(
+        3,
+        'Abyss - Void Tendrils',
+        'Ancestral Art: Cling Grip',
+    )),
+
+    # Learned-song sources. Their rewards can be kept vanilla, shuffled only
+    # among songs or mixed into the unrestricted pool.
+    ("Architect's Melody", area(
+        2,
+        'Outlying Citadel - Cogwork Core',
+        'Ancestral Art: Clawline',
+    )),
+    ("Conductor's Melody", area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ancestral Art: Clawline',
+    )),
+    ("Vaultkeeper's Melody", area(
+        2,
+        'Outlying Citadel - Library',
+        'Relic: Sacred Cylinder',
+    )),
+    ('Elegy of the Deep', area(
+        3,
+        'Mosslands - Ruined Chapel',
+        'Path: Abyss - Escape',
+        'Ancestral Art: Needolin',
+        crest=False,
+    )),
+    ('Beastling Call', req(
+        'Event: Act 3 Started',
+        'Event: Bell Beast Defeated',
+        crest=False,
+    )),
+
+    # Bellways
+    ('Bellway Unlock: Deep Docks', area(1, 'Deep Docks - Toll')),
+    ('Bellway Unlock: Far Fields', area(1, 'Far Fields - Bellway')),
+    ('Bellway Unlock: Greymoor', area(1, 'Greymoor - Halfway House')),
+    ('Bellway Unlock: Bellhart', area(1, 'Bellhart - Bellhart')),
+    ('Bellway Unlock: Blasted Steps', area(1, 'Blasted Steps - Bellway')),
+    ('Bellway Unlock: Grand Bellway', area(2, 'Choral Chambers - Grand Bellway')),
+    ('Bellway Unlock: The Slab', area(2, 'The Slab - Bellway')),
+    ('Bellway Unlock: Shellwood', area(1, 'Shellwood - Bellshrine')),
+    ('Bellway Unlock: Bilewater', area(1, 'Bilewater - Bellway')),
+    ('Bellway Unlock: Putrified Ducts', area(2, 'Putrified Ducts - Bellway')),
+
+    # Ventrica
+    ('Ventrica Unlock: Choral Chambers', area(2, 'Choral Chambers - Spa')),
+    ('Ventrica Unlock: Underworks', area(2, 'Underworks - Confession Toll')),
+    ('Ventrica Unlock: Grand Bellway', area(2, 'Choral Chambers - Grand Bellway')),
+    ('Ventrica Unlock: High Halls', area(2, 'Outlying Citadel - High Halls Ventrica')),
+    ('Ventrica Unlock: Songclave', area(2, 'Choral Chambers - First Shrine')),
+    ('Ventrica Unlock: Memorium', area(2, 'Outlying Citadel - Memorium')),
+
+    # CREST SLOT UNLOCKS
+    # Slot expansion is available from the crest UI once its matching crest
+    # is owned. Randomized Lockets add the shared fill-aware count separately.
+    ('Hunter Slot Unlock: Red 0 -2', req('Crest: Hunter', crest=False)),
+    ('Hunter Slot Unlock: Blue -2 0', req('Crest: Hunter', crest=False)),
+    ('Hunter Slot Unlock: Yellow 2 0', req('Crest: Hunter', crest=False)),
+    ('Beast Slot Unlock: Yellow -1 0', req('Crest: Beast', crest=False)),
+    ('Beast Slot Unlock: Yellow 1 0', req('Crest: Beast', crest=False)),
+    ('Witch Slot Unlock: Red 0 -2', req('Crest: Witch', crest=False)),
+    ('Witch Slot Unlock: Blue -1 0', req('Crest: Witch', crest=False)),
+    ('Witch Slot Unlock: Blue 1 0', req('Crest: Witch', crest=False)),
+    ('Reaper Slot Unlock: Red 0 -1', req('Crest: Reaper', crest=False)),
+    ('Reaper Slot Unlock: Blue -1 1', req('Crest: Reaper', crest=False)),
+    ('Reaper Slot Unlock: Yellow 1 1', req('Crest: Reaper', crest=False)),
+    ('Architect Slot Unlock: Blue -1 2', req('Crest: Architect', crest=False)),
+    ('Architect Slot Unlock: Yellow 1 2', req('Crest: Architect', crest=False)),
+    ('Architect Slot Unlock: Yellow 2 0', req('Crest: Architect', crest=False)),
+    ('Architect Slot Unlock: Blue -2 0', req('Crest: Architect', crest=False)),
+    ('Shaman Slot Unlock: Blue -1 0', req('Crest: Shaman', crest=False)),
+    ('Shaman Slot Unlock: Blue 1 0', req('Crest: Shaman', crest=False)),
+    ('Wanderer Slot Unlock: Blue -2 1', req('Crest: Wanderer', crest=False)),
+    ('Wanderer Slot Unlock: Blue 2 1', req('Crest: Wanderer', crest=False)),
+    ('Wanderer Slot Unlock: Yellow 0 -2', req('Crest: Wanderer', crest=False)),
+
+    # MASK SHARDS
+    # Every row below is a stable vanilla source, not the Nth shard collected.
+    # Pebb relocates his unbought shard to Grindle in Act 3, so both physical
+    # shop routes resolve to the same AP location.
+    ('Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)', area(
+        1,
+        'Mosslands - Bone Bottom',
+    )),
+    *(
+        (
+            'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)',
+            requirement,
+        )
+        for requirement in grindle_access(3)
+    ),
+    ('Mask Shard: Wormways', area(1, 'Wormways - Bottom')),
+    ('Mask Shard: Far Fields (Above the Seamstress)', area(
+        1,
+        'Far Fields - Seamstress',
+        "Ability: Drifter's Cloak",
+    )),
+    ('Mask Shard: Shellwood', area(
+        1,
+        'Shellwood - Overgrown West',
+    )),
+    ('Mask Shard: The Marrow - Deep Docks Passage', area(
+        1,
+        'The Marrow - Shooting Gallery',
+        any_of=(
+            'Ancestral Art: Cling Grip',
+            'Ancestral Art: Swift Step',
+        ),
+    )),
+    ('Mask Shard: Weavenest Atla', area(
+        1,
+        'Weavenest - Atla',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Mask Shard: Savage Beastfly', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Path: Far Fields - Bellway',
+        "Path: Hunter's March - Trap",
+        'Event: Fourth Chorus Defeated',
+        "Ability: Drifter's Cloak",
+    )),
+    ('Mask Shard: Savage Beastfly', area(
+        3,
+        'Choral Chambers - Songclave',
+        'Path: Far Fields - Bellway',
+        "Path: Hunter's March - Trap",
+        "Ability: Drifter's Cloak",
+    )),
+    ('Mask Shard: Cogwork Core', area(
+        2,
+        'Outlying Citadel - Lower Cogwork Core',
+        'Event: Cogwork Dancers Defeated',
+    )),
+    ('Mask Shard: Whispering Vaults', area(
+        2,
+        'Outlying Citadel - Library',
+    )),
+    ('Mask Shard: Bilewater', area(
+        2,
+        'Bilewater - Bilehaven',
+        'Ability: Faydown Cloak',
+    )),
+    ('Mask Shard: Far Fields (Skull Cave)', area(
+        2,
+        'Far Fields - Bellway',
+        'Ancestral Art: Clawline',
+        "Ability: Drifter's Cloak",
+    )),
+    ('Mask Shard: The Slab (Key of the Apostate)', area(
+        2,
+        'The Slab - Capture Event',
+        KEY_OF_APOSTATE_ITEM,
+        any_of=('Ability: Faydown Cloak', 'Ancestral Art: Silk Soar'),
+    )),
+    ('Mask Shard: Mount Fay', area(
+        2,
+        'Mount Fay - Shakra',
+        'Ability: Faydown Cloak',
+    )),
+    ('Mask Shard: Wisp Thicket', area(
+        2,
+        'Greymoor - Wisp Thicket',
+        'Ability: Faydown Cloak',
+    )),
+    ('Mask Shard: Jubilana (Songclave)', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Event: Wandering Merchant Rescued',
+    )),
+    ('Mask Shard: Blasted Steps', area(
+        2,
+        'Blasted Steps - Bellway',
+        'Ancestral Art: Clawline',
+        'Ability: Faydown Cloak',
+    )),
+    ('Mask Shard: Blasted Steps', area(
+        3,
+        'Blasted Steps - Bellway',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Mask Shard: Fastest in Pharloom', area(
+        3,
+        'Far Fields - Sprintmaster',
+        "Path: Hunter's March - Trap",
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Mask Shard: The Hidden Hunter', area(
+        3,
+        'Far Fields - Karmelita',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Mask Shard: Dark Hearts', area(
+        3,
+        'Bellhart - Bellhart',
+    )),
+    ('Mask Shard: Brightvein', area(
+        3,
+        'Mount Fay - Shakra',
+        'Ancestral Art: Silk Soar',
+    )),
+
+    # SPOOL FRAGMENTS
+    ('Spool Fragment: Bone Bottom', area(
+        1,
+        'The Marrow - Toll',
+    )),
+    ('Spool Fragment: Deep Docks (Central)', area(
+        1,
+        'Deep Docks - Toll',
+    )),
+    ('Spool Fragment: Greymoor', area(
+        1,
+        'Greymoor - Halfway House',
+        'Event: Craw Lake Cleared',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Spool Fragment: The Slab', area(
+        1,
+        'The Slab - Window',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Spool Fragment: Weavenest Atla', area(
+        1,
+        'Weavenest - Atla',
+        'Ancestral Art: Needolin',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Spool Fragment: Frey (Bellhart)', area(
+        1,
+        'Bellhart - Bellhart',
+        'Event: Missing Courier Rescued',
+    )),
+    ('Spool Fragment: Flea Caravan', area(
+        2,
+        'Blasted Steps - Bellway',
+        'Event: Last Judge Defeated',
+        item_counts=(item_count(12, *FLEA_ITEMS),),
+    )),
+    ('Spool Fragment: Cogwork Core', area(
+        2,
+        'Outlying Citadel - Lower Cogwork Core',
+    )),
+    ('Spool Fragment: Underworks (East)', area(
+        2,
+        'Underworks - Whiteward',
+    )),
+    ('Spool Fragment: Grand Gate', area(
+        2,
+        'Grand Gate',
+    )),
+    ('Spool Fragment: Underworks (Gauntlet)', area(
+        2,
+        'Underworks - Confession Toll',
+    )),
+    ('Spool Fragment: Whiteward', area(
+        2,
+        'Underworks - Whiteward',
+    )),
+    ('Spool Fragment: Balm for the Wounded', area(
+        2,
+        'Underworks - Whiteward',
+        'Path: Choral Chambers - Songclave',
+    )),
+    ('Spool Fragment: Deep Docks (Southeast)', area(
+        2,
+        'Deep Docks - Lower',
+        'Ancestral Art: Clawline',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Spool Fragment: High Halls', area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ability: Faydown Cloak',
+        'Ancestral Art: Clawline',
+    )),
+    ('Spool Fragment: High Halls', area(
+        3,
+        'Outlying Citadel - High Halls Ventrica',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Spool Fragment: Memorium', area(
+        2,
+        'Outlying Citadel - Memorium',
+        'Ability: Faydown Cloak',
+        'Ancestral Art: Clawline',
+    )),
+    *(
+        ('Spool Fragment: Grindle (Blasted Steps)', requirement)
+        for requirement in grindle_access(1)
+    ),
+    ('Spool Fragment: Jubilana (Songclave)', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Path: Outlying Citadel - Memorium',
+        'Event: Wandering Merchant Rescued',
+        'Ability: Faydown Cloak',
+    )),
+
+    (
+        'Silk Heart: Bell Beast',
+        area(
+            1,
+            'The Marrow - Mosshome Gate',
+            'Event: Bell Beast Defeated',
+            silk_spear=True,
+        ),
+    ),
+    (
+        'Silk Heart: The Unravelled',
+        area(
+            2,
+            'Underworks - Whiteward',
+            'Ancestral Art: Clawline',
+            SURGEONS_KEY_ITEM,
+        ),
+    ),
+    (
+        'Silk Heart: Lace (Cradle)',
+        area(
+            2,
+            'The Cradle - Terminus',
+            'Event: Cradle Opened',
+        ),
+    ),
+
+    # Repeated collectibles use area access for their one-time physical
+    # sources.
+    ("Memory Locket: Pilgrim's Rest Shop", area(
+        1,
+        "Far Fields - Pilgrim's Rest",
+    )),
+    *(
+        ("Memory Locket: Pilgrim's Rest Shop", requirement)
+        for requirement in grindle_access(3)
+    ),
+    # Tool Pouches are four stable physical sources. Pilgrim's Rest moves its
+    # unbought stock to Grindle in Act 3, so both shop routes report one check.
+    ("Tool Pouch: Pilgrim's Rest", area(
+        1,
+        "Far Fields - Pilgrim's Rest",
+    )),
+    *(
+        ("Tool Pouch: Pilgrim's Rest", requirement)
+        for requirement in grindle_access(3)
+    ),
+    # Loddie's minimum local route and the full Bugs of Pharloom journal
+    # counter are not represented, so these checks cannot hold progression.
+    ('Tool Pouch: Loddie', area(
+        1,
+        'The Marrow - Shooting Gallery',
+    )),
+    ('Tool Pouch: Bugs of Pharloom', area(
+        1,
+        'Greymoor - Halfway House',
+    )),
+    ('Tool Pouch: Fleatopia', area(
+        2,
+        'Putrified Ducts - Fleatopia',
+    )),
+    # Scripted Beast Shard sources use their native reward actors. Their local
+    # combat and movement requirements are incomplete, so they cannot hold
+    # progression.
+    ('Beast Shard: Marrowmaw', area(
+        1,
+        'Mosslands - Moss Grotto',
+    )),
+    ('Beast Shard: Craggler', area(
+        1,
+        'Wormways - Bottom',
+    )),
+    ("Beast Shard: Pilgrim's Rest", area(
+        1,
+        "Far Fields - Pilgrim's Rest",
+    )),
+    ('Beast Shard: Memorium', area(
+        2,
+        'Outlying Citadel - Memorium',
+    )),
+    ('Beast Shard: Sprintmaster', area(
+        3,
+        'Far Fields - Sprintmaster',
+    )),
+    ("Memory Locket: Hunter's March", area(
+        1,
+        "Hunter's March - Trap",
+        "Ability: Drifter's Cloak",
+    )),
+    ('Memory Locket: Greymoor', area(
+        1,
+        'Greymoor - Halfway House',
+    )),
+    ('Memory Locket: Halfway Home', area(
+        2,
+        'Greymoor - Halfway House',
+        'Ability: Faydown Cloak',
+    )),
+    ('Memory Locket: Bellhart Shop', area(
+        1,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+    )),
+    ('Memory Locket: Bellhart Roof', area(
+        3,
+        'Bellhart - Bellhart',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Memory Locket: Volatile Flintbeetles', area(
+        1,
+        'The Marrow - Toll',
+        any_of=(
+            'Path: Greymoor - Halfway House',
+            'Path: Shellwood - Overgrown West',
+        ),
+    )),
+    ('Memory Locket: Volatile Flintbeetles', area(
+        3,
+        'Mosslands - Bone Bottom',
+    )),
+    ('Memory Locket: The Marrow', area(
+        1,
+        'The Marrow - Toll',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Memory Locket: Choral Chambers', area(
+        2,
+        'Choral Chambers - Grand Bellway',
+    )),
+    ('Memory Locket: Wormways', area(1, 'Wormways - Bottom')),
+    ('Memory Locket: Blasted Steps', area(
+        1,
+        'Blasted Steps - Bellway',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Memory Locket: Underworks', area(
+        2,
+        'Underworks - Confession Toll',
+    )),
+    ('Memory Locket: Whispering Vaults', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Memory Locket: Bilewater West', area(
+        1,
+        'Bilewater - Bellway',
+        'Ancestral Art: Cling Grip',
+        'Ancestral Art: Swift Step',
+    )),
+    ('Memory Locket: Deep Docks', area(
+        2,
+        'Deep Docks - Lower',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Memory Locket: Bilewater East', area(
+        2,
+        'Bilewater - Corpse Sack Chamber',
+    )),
+    ('Memory Locket: The Slab', area(
+        2,
+        'The Slab - Bellway',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Memory Locket: Memorium', area(
+        2,
+        'Outlying Citadel - Memorium',
+        'Ability: Faydown Cloak',
+    )),
+    ('Memory Locket: Far Fields (Act 3)', area(
+        3,
+        'Far Fields - Karmelita',
+        'Ancestral Art: Silk Soar',
+    )),
+    ('Memory Locket: Sands of Karak', area(
+        2,
+        'Sands of Karak - Sands of Karak',
+        'Ancestral Art: Clawline',
+    )),
+
+    ('Craftmetal: Bone Bottom Shop', area(1, 'Mosslands - Bone Bottom')),
+    # The physical Bone_07 source is in Lower Pogo, beyond the Shooting
+    # Gallery route rather than in the opening Toll section.
+    ('Craftmetal: The Marrow', area(
+        1,
+        'The Marrow - Shooting Gallery',
+    )),
+    ('Craftmetal: Deep Docks', area(1, 'Deep Docks - Toll')),
+    ('Craftmetal: Blasted Steps', area(
+        1,
+        'Blasted Steps - Bellway',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Craftmetal: Underworks', area(2, 'Underworks - Whiteward')),
+    ('Craftmetal: Putrified Ducts', area(
+        2,
+        'Putrified Ducts - Huntress',
+        'Ability: Faydown Cloak',
+    )),
+    ('Craftmetal: Wisp Thicket', area(
+        2,
+        'Greymoor - Wisp Thicket',
+        'Ancestral Art: Cling Grip',
+        'Ability: Faydown Cloak',
+    )),
+    ('Craftmetal: Songclave Shop', area(
+        2,
+        'Choral Chambers - Songclave',
+        'Event: Wandering Merchant Rescued',
+    )),
+
+    ('Mossberry: Moss Grotto #1', area(
+        1,
+        'Mosslands - Moss Grotto',
+        crest=False,
+    )),
+    ('Mossberry: Moss Grotto #2', area(
+        1,
+        'Mosslands - Moss Grotto',
+        crest=False,
+    )),
+    ('Mossberry: Bone Bottom', area(1, 'Mosslands - Bone Bottom')),
+    ('Mossberry: Mosshome', area(1, 'Mosslands - Moss Druid')),
+    ('Mossberry: Bonegrave', area(1, 'Mosslands - Bonegrave')),
+    ('Mossberry: Weavenest Atla', area(1, 'Weavenest - Atla')),
+    ('Mossberry: Memorium', area(
+        2,
+        'Outlying Citadel - Memorium',
+    )),
+
+    # The installed game has six finite Shell Flower sources. Timothy's
+    # source graph places the first three after Drifter's Cloak and the last
+    # three after Cling Grip. Explicit Swift Step keeps the route conservative
+    # when Shellwood itself was entered through a Bellway.
+    ('Pollip Heart: Shellwood #1', area(
+        1,
+        'Shellwood - Overgrown West',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+    )),
+    ('Pollip Heart: Shellwood #2', area(
+        1,
+        'Shellwood - Overgrown West',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+    )),
+    ('Pollip Heart: Shellwood #3', area(
+        1,
+        'Shellwood - Central Toll',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+    )),
+    ('Pollip Heart: Shellwood #4', area(
+        1,
+        'Shellwood - Greyroot',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Pollip Heart: Shellwood #5', area(
+        1,
+        'Shellwood - Greyroot',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Pollip Heart: Shellwood #6', area(
+        1,
+        'Shellwood - Overgrown West',
+        SWIFT_STEP_ITEM,
+        "Ability: Drifter's Cloak",
+        'Ancestral Art: Cling Grip',
+    )),
+
+    ('Silkeater: Deep Docks', area(2, 'Deep Docks - Lower')),
+    # The Greymoor cocoon hangs at the top of the tower immediately west of
+    # Halfway Home.  Its intended Act 1 route is the tower's wall climb, so
+    # Cling Grip is required. The later Faydown Cloak cannot substitute for
+    # that climb.
+    ('Silkeater: Greymoor', area(
+        1,
+        'Greymoor - Halfway House',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Silkeater: Blasted Steps', area(
+        1,
+        'Blasted Steps - Bellway',
+    )),
+    ('Silkeater: Exhaust Organ', area(1, 'Bilewater - Exhaust Organ')),
+    ('Silkeater: Choral Chambers West', area(
+        2,
+        'Choral Chambers - Grand Bellway',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Silkeater: Choral Chambers East', area(
+        2,
+        'Choral Chambers - Below Dining',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Silkeater: Whispering Vaults', area(
+        2,
+        'Outlying Citadel - Library',
+        'Ancestral Art: Cling Grip',
+    )),
+    ('Silkeater: Whiteward', area(2, 'Underworks - Whiteward')),
+    ('Silkeater: The Cradle', area(2, 'The Cradle - Terminus')),
+
+    # Named, non-fungible keys and Craw Summons.
+    ('Key of Indolent', area(2, 'The Slab - Capture Event')),
+    ('Key of Heretic', area(2, 'The Slab - Heretic Key Arena')),
+    ('Key of Apostate', area(2, 'Putrified Ducts - Huntress')),
+    ('White Key', area(2, 'Choral Chambers - Songclave')),
+    ("Surgeon's Key", area(
+        2,
+        'Underworks - Whiteward',
+        'Ancestral Art: Clawline',
+    )),
+    ("Architect's Key", area(
+        2,
+        "Underworks - Architect's Shop",
+    )),
+    ('Craw Summons', req('Event: Craw Summons Obtained')),
+
+    # Scrounge is available in restored Bellhart after Widow. Although one
+    # conversation may deposit several held relics, every relic has its own
+    # persistent deposited state and therefore its own AP check.
+    *(
+        (
+            location_name,
+            area(
+                2,
+                'Bellhart - Bellhart',
+                'Event: Widow Defeated',
+                relic_item_name,
+            ),
+        )
+        for location_name, relic_item_name
+        in SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
+    ),
+
+    # Cardinius's RelicBoardOwner persists each cylinder deposit separately.
+    # His established Vaultkeeper's Melody source uses this same Library
+    # access, so the turn-ins add only possession of the matching cylinder.
+    *(
+        (
+            location_name,
+            area(
+                2,
+                'Outlying Citadel - Library',
+                cylinder_item_name,
+            ),
+        )
+        for location_name, cylinder_item_name
+        in CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION.items()
+    ),
+
+    # GOAL
+    ('Goal', req(FINAL_GOAL_EVENT)),
+    (
+        'Beast Shard: Deep Docks',
+        area(
+            3,
+            'Deep Docks - Diving Bell',
+            'Ancestral Art: Clawline',
+        ),
+    ),
+    (
+        'Shard Bundle: Shellwood',
+        area(
+            1,
+            'Shellwood - Greyroot',
+            'Ancestral Art: Cling Grip',
+        ),
+    ),
+    (
+        'Frayed Rosary String: Wormways',
+        area(
+            1,
+            'Wormways Middle',
+            'Ancestral Art: Cling Grip',
+        ),
+    ),
+    *(
+        (location_name, req(crest=False))
+        for location_name in PLAYTEST_LOCATIONS
+        if (
+            location_name not in LOGIC_PASS_A_LOCATIONS
+            and canonicalize_location_name(location_name)
+            not in PROGRESSION_SAFE_CENSUS_LOCATIONS
+            and location_name
+            not in TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
+        )
+    ),
+    *(
+        (location_name, _minor_pickup_requirement(location_name))
+        for location_name in MINOR_PICKUP_LOCATION_NAMES
+        if location_name not in VERIFIED_MINOR_PICKUP_LOCATIONS
+    ),
+    *(
+        (location_name, _minor_cache_requirement(location_name))
+        for location_name in MINOR_CACHE_LOCATION_NAMES
+    ),
+    (
+        'Rosary Cache: Moss Grotto',
+        req(
+            'Act: 1',
+            'Path: Mosslands - Moss Grotto',
+            any_of=SWIFT_STEP_OR_SPRINT_ITEMS,
+            easy_skips=True,
+            act='Act 1',
+            path_name='Mosslands - Moss Grotto',
+        ),
+    ),
+)
+
+
+def _world_order(requirement: LocationRequirement) -> tuple[int, int]:
+    act_index = ACT_ORDER.index(requirement.act) if requirement.act in ACT_ORDER else -1
+    path_index = PATH_ORDER.index(requirement.path_name) if requirement.path_name in PATH_ORDER else -1
+    return act_index, path_index
+
+
+# A room-graph source normally replaces its old Act, path and movement row.
+# These entries keep their established rules because the graph does not cover
+# the reward room or its node does not describe the pickup approach.
+_ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Crest: Shaman',
+        'Elegy of the Deep',
+        'Relic: Choral Commandment (Moss Grotto)',
+        'Rosary Cache: Bone Bottom #8',
+        'Rosary Cache: Bone Bottom #9',
+        # These two Deep Docks checks do not have room-graph records.
+        'Rosary Cache: Deep Docks #1',
+        'Rosary Cache: Deep Docks #2',
+    )
+)
+
+
+# Conditions here describe completion or stock state, not how to stand at the
+# physical source. They are attached to every room-graph source
+# clause for the location instead of being mistaken for alternate geometry.
+_ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
+    str, tuple[LocationRequirement, ...]
+] = {
+    # Forge Daughter consumes one Craftmetal for each of these purchases. The
+    # Silkshot graph clause already carries its separate Ruined Tool gate.
+    'Silkshot (Forge Daughter)': (
+        req(CRAFTMETAL_ITEM, crest=False),
+    ),
+    'Sting Shard': (
+        req(CRAFTMETAL_ITEM, crest=False),
+    ),
+    'Magma Bell': (
+        req(CRAFTMETAL_ITEM, crest=False),
+    ),
+    'Pin Purchase: Bellway Pins': (
+        req('Event: Bell Beast Defeated', crest=False),
+    ),
+    'Wish: Bone Bottom Repairs': (
+        req('Event: Bone Bottom Repairs Completed', crest=False),
+    ),
+    'Wish: A Lifesaving Bridge': (
+        req('Event: Lifesaving Bridge Completed', crest=False),
+    ),
+    'Wish: An Icon of Hope': (
+        req(
+            'Act: 2',
+            'Event: Lifesaving Bridge Completed',
+            crest=False,
+            act='Act 2',
+        ),
+    ),
+    # The large fossil is a child of fixer_statue. That parent is activated
+    # only after Building Materials (Statue) / An Icon of Hope completes, so
+    # merely reaching Bone Bottom cannot make this physical cache available.
+    'Shell Shard Cache: Bone Bottom': (
+        req(
+            'Act: 2',
+            'Event: Lifesaving Bridge Completed',
+            crest=False,
+            act='Act 2',
+        ),
+    ),
+    'Wish: Garb of the Pilgrims': (
+        req(
+            'Act: 1',
+            'Path: The Marrow - Mosshome Gate',
+            'Event: Bell Beast Defeated',
+            crest=False,
+            act='Act 1',
+        ),
+    ),
+    'Wish: Volatile Flintbeetles': (
+        req(
+            'Act: 1',
+            any_of=(
+                'Path: Greymoor - Halfway House',
+                'Path: Shellwood - Overgrown West',
+            ),
+            crest=False,
+            act='Act 1',
+        ),
+        # The unfinished Wish becomes a ground reward in Bone_10 in Act 3.
+        req('Act: 3', crest=False, act='Act 3'),
+    ),
+    'Wish: The Terrible Tyrant': (
+        req(
+            'Act: 1',
+            'Ancestral Art: Cling Grip',
+            crest=False,
+            act='Act 1',
+        ),
+    ),
+    'Wish: Bone Bottom Supplies': (
+        req(
+            'Act: 1',
+            'Path: Bellhart - Bellhart',
+            'Event: Bell Beast Defeated',
+            'Event: Missing Brother Rescued',
+            crest=False,
+            act='Act 1',
+        ),
+    ),
+    'Wish: My Missing Courier': (
+        req('Event: Missing Courier Rescued', crest=False),
+    ),
+}
+
+
+# These are distinct physical sources or later vendor-stock states.  They stay
+# OR alternatives to the room-graph source. They are never combined
+# with it as though their path were an extra local movement requirement.
+_ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
+    str, tuple[LocationRequirement, ...]
+] = {
+    'Craftmetal: Bone Bottom Shop': grindle_access(3),
+    'Simple Key: Bone Bottom Shop': grindle_access(3),
+    'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)': (
+        grindle_access(3)
+    ),
+    'Magnetite Brooch': grindle_access(3),
+    'Map Purchase: The Marrow': (
+        req('Event: Bell Beast Defeated', crest=False),
+    ),
+    'Map Purchase: Deep Docks': (
+        req('Event: Widow Defeated', crest=False),
+    ),
+    'Map Purchase: Wormways': (
+        req('Event: Act 2 Started', crest=False),
+    ),
+    'Pin Purchase: Vendor Pins': (
+        req('Path: Greymoor - Halfway House', crest=False),
+    ),
+    'Boss: Lace (Deep Docks)': (
+        area(1, "Sinner's Road - Broken Toll", crest=False),
+        area(1, 'Blasted Steps - Toll', crest=False),
+    ),
+}
+
+
+def _merge_item_count_requirements(
+    *groups: Iterable[ItemCountRequirement],
+) -> tuple[ItemCountRequirement, ...]:
+    """Combine equal item-count predicates using their stricter minimum."""
+
+    merged: dict[tuple[str, ...], int] = {}
+    for group in groups:
+        for count_requirement in group:
+            item_names = count_requirement.item_names
+            merged[item_names] = max(
+                merged.get(item_names, 0),
+                count_requirement.minimum,
+            )
+    return tuple(
+        item_count(minimum, *item_names)
+        for item_names, minimum in merged.items()
+    )
+
+
+def _combine_room_graph_gate(
+    graph_source: LocationRequirement,
+    gate: LocationRequirement,
+) -> LocationRequirement:
+    """Attach one exact non-source gate to one authoritative source."""
+
+    return LocationRequirement(
+        all_of=tuple(dict.fromkeys((
+            *graph_source.all_of,
+            *gate.all_of,
+        ))),
+        any_of=tuple(dict.fromkeys((*graph_source.any_of, *gate.any_of))),
+        require_any_crest=(
+            graph_source.require_any_crest or gate.require_any_crest
+        ),
+        require_silk_spear=(
+            graph_source.require_silk_spear or gate.require_silk_spear
+        ),
+        requires_easy_skips=(
+            graph_source.requires_easy_skips or gate.requires_easy_skips
+        ),
+        act=gate.act or graph_source.act,
+        path_name=gate.path_name or graph_source.path_name,
+        item_counts=_merge_item_count_requirements(
+            graph_source.item_counts,
+            gate.item_counts,
+        ),
+    )
+
+
+_CANONICAL_REQUIREMENT_ROW_SOURCE: tuple[
+    tuple[str, LocationRequirement], ...
+] = tuple(
+    (
+        canonicalize_location_name(location_name),
+        requirement,
+    )
+    for location_name, requirement in REQUIREMENT_ROW_SOURCE
+)
+
+
+def _compile_requirements(
+    rows: Iterable[tuple[str, LocationRequirement]],
+) -> Dict[str, tuple[LocationRequirement, ...]]:
+    compiled: dict[str, list[LocationRequirement]] = {}
+    for location_name, requirement in rows:
+        compiled.setdefault(location_name, []).append(requirement)
+    return {name: tuple(requirements) for name, requirements in compiled.items()}
+
+
+_ESTABLISHED_REQUIREMENTS_BY_LOCATION: dict[
+    str, tuple[LocationRequirement, ...]
+] = _compile_requirements(_CANONICAL_REQUIREMENT_ROW_SOURCE)
+
+
+def _authoritative_requirement_rows() -> Iterable[
+    tuple[str, LocationRequirement]
+]:
+    """Resolve established rows against the authoritative room graph."""
+
+    for location_name, established in _ESTABLISHED_REQUIREMENTS_BY_LOCATION.items():
+        graph_sources = ROOM_CHECK_REQUIREMENTS.get(location_name)
+        if (
+            not graph_sources
+            or location_name in _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS
+        ):
+            yield from (
+                (location_name, requirement)
+                for requirement in established
+            )
+            continue
+
+        gates = _ROOM_GRAPH_PRESERVED_LOCAL_GATES.get(location_name)
+        if gates:
+            yield from (
+                (
+                    location_name,
+                    _combine_room_graph_gate(graph_source, gate),
+                )
+                for graph_source in graph_sources
+                for gate in gates
+            )
+        else:
+            yield from (
+                (location_name, graph_source)
+                for graph_source in graph_sources
+            )
+
+        yield from (
+            (location_name, alternative)
+            for alternative in _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES.get(
+                location_name,
+                (),
+            )
+        )
+
+    # A graph source may precede its flat fallback row and takes precedence
+    # once all of its requirements compile.
+    yield from (
+        (location_name, requirement)
+        for location_name, requirements in ROOM_CHECK_REQUIREMENTS.items()
+        if location_name not in _ESTABLISHED_REQUIREMENTS_BY_LOCATION
+        for requirement in requirements
+    )
+
+
+REQUIREMENT_ROWS: tuple[tuple[str, LocationRequirement], ...] = tuple(
+    sorted(
+        _authoritative_requirement_rows(),
+        key=lambda row: _world_order(row[1]),
+    )
+)
+
+
+REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = _compile_requirements(REQUIREMENT_ROWS)
+
+# Locations stay in the pool but cannot hold required progression until their
+# omitted vanilla key, quest, mode or movement condition is represented.
+UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
+    canonicalize_location_name(location_name)
+    for location_name in (
+        # These sources occur in a graph area, but at least one room
+        # transition, local condition or identity is unresolved.
+        *ROOM_GRAPH_QUARANTINED_CHECK_NAMES,
+        'Boss: Skull Tyrant (Bone Bottom)',
+        'Tool Unlock: Reserve Bind',
+        # Craftmetal is finite and ten AP tool sources can spend it. Their
+        # one-item source gates are explicit, but advancement remains
+        # quarantined until cross-purchase consumption can be represented.
+        'Tool Unlock: WebShot Forge',
+        'Tool Unlock: WebShot Architect',
+        'Tool Unlock: WebShot Weaver',
+        'Tool Unlock: Sting Shard',
+        'Tool Unlock: Pimpilo',
+        'Tool Unlock: Cogwork Saw',
+        'Tool Unlock: Cogwork Flier',
+        'Tool Unlock: Lava Charm',
+        'Tool Unlock: Brolly Spike',
+        'Tool Unlock: Scuttlebrace',
+        # The shop's 25-owned-Tools condition is not yet expressible without
+        # promoting the entire Tool pool, so this source remains
+        # non-progression.
+        "Architect's Key",
+        'Boss: Great Conchflies',
+        'Map Purchase: Choral Chambers',
+        'Map Purchase: Whispering Vaults',
+        'Map Pickup: The Slab',
+        'Map Pickup: Putrified Ducts',
+        'Map Purchase: The Cradle',
+        'Map Pickup: Verdania',
+        'Map Pickup: The Abyss',
+        'Beastling Call',
+        # Curvesickle's source-room movement is incomplete, so it may be useful
+        # but not required progression.
+        'Curvesickle',
+        # Their minimum room traversal requirements are not represented.
+        'Tool Pouch: Bugs of Pharloom',
+        'Beast Shard: Marrowmaw',
+        "Beast Shard: Pilgrim's Rest",
+        'Beast Shard: Memorium',
+        'Beast Shard: Sprintmaster',
+        *TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS,
+        *TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS,
+        *(
+            location_name
+            for location_name in PLAYTEST_LOCATIONS
+            if (
+                location_name not in LOGIC_PASS_A_LOCATIONS
+                and canonicalize_location_name(location_name)
+                not in PROGRESSION_SAFE_CENSUS_LOCATIONS
+                and canonicalize_location_name(location_name)
+                not in ROOM_GRAPH_CANONICAL_CHECK_NAMES
+            )
+        ),
+        *(
+            location_name
+            for location_name in MINOR_PICKUP_LOCATION_NAMES
+            if location_name not in {
+                'Frayed Rosary String: Moss Grotto',
+                'Frayed Rosary String: The Marrow (Flea Caravan Passage)',
+                *VERIFIED_MINOR_PICKUP_LOCATIONS,
+            }
+        ),
+    )
+)
+
+# Most Quest checks enter the pool before all route state is represented. They
+# may hold currency filler or traps, but not progression or useful equipment.
+JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
+    canonicalize_location_name(location_name)
+    for location_name in (
+        *JUNK_ONLY_QUEST_LOCATIONS,
+        # Trail's End already reports its vanilla Shakra Ring reward through
+        # this location, which replaces a separate quest check.
+        'Tool Unlock: Shakra Ring',
+        # These scripted or held sources have incomplete encounter
+        # requirements, so they may hold only filler or traps.
+        'Rosary Necklace: Fleatopia',
+        'Rosary String: Fleatopia',
+        'Pristine Core: Cogwork Core',
+        'Heavy Rosary Necklace: Whispering Vaults',
+        'Pristine Core: Underworks',
+        # These caches remain filler or trap-only until their room movement
+        # requirements are represented.
+        *(
+            location_name
+            for location_name in MINOR_CACHE_LOCATION_NAMES
+            if (
+                location_name not in MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS
+                and location_name not in PROTOCOL_ONLY_LOCATION_NAMES
+            )
+        ),
+    )
+) | ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
+
+# These checks still have incomplete access conditions.
+# UNVERIFIED_PROGRESSION_LOCATIONS reject advancement items. JUNK_ONLY_LOCATIONS
+# accept only filler and traps. The exported distinction only changes the
+# neutral map icon and never exposes the placed item.
+LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
+    UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
+)
+
+# This path is retained as a map landmark but currently has no location or
+# onward route attached to it.
+ALLOWED_DEAD_PATHS: frozenset[str] = frozenset(
+    ('Path: Shellwood - Chapel Exit',)
+)
+
+
+def has_any_crest(state: CollectionState, player: int) -> bool:
+    return any(state.has(crest, player) for crest in CREST_ITEMS)
+
+
+def has_any_non_architect_crest(state: CollectionState, player: int) -> bool:
+    return any(state.has(crest, player) for crest in NON_ARCHITECT_CREST_ITEMS)
+
+
+def has_silk_spear(state: CollectionState, player: int) -> bool:
+    return (
+        state.has('Silkspear', player)
+        and has_any_non_architect_crest(state, player)
+    )
+
+def hasSilkSpear(state: CollectionState, player: int) -> bool:
+    return has_silk_spear(state, player)
+
+
+def hasSkilkSpear(state: CollectionState, player: int) -> bool:
+    """Compatibility alias for integrations using the historical typo."""
+    return has_silk_spear(state, player)
+
+
+_STATIC_ABSTRACT_REQUIREMENT_ITEMS = tuple(ABSTRACT_REQUIREMENTS.items())
+_STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS = tuple(
+    (
+        requirement_name,
+        BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
+        if requirement_name == 'Path: Bellways'
+        else alternatives,
+    )
+    for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
+)
+_STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
+    (
+        requirement_name,
+        NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
+        if requirement_name == USABLE_MAGMA_BELL_REQUIREMENT
+        else NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
+        if requirement_name == USABLE_CINDRIL_LOADOUT_REQUIREMENT
+        else alternatives,
+    )
+    for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
+)
+_STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
+    (
+        requirement_name,
+        BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
+        if requirement_name == 'Path: Bellways'
+        else NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
+        if requirement_name == USABLE_MAGMA_BELL_REQUIREMENT
+        else NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
+        if requirement_name == USABLE_CINDRIL_LOADOUT_REQUIREMENT
+        else alternatives,
+    )
+    for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
+)
+
+
+@lru_cache(maxsize=8)
+def _get_static_abstract_requirement_items(
+    allow_bellways_before_bell_beast: bool,
+    randomized_crest_slots_enabled: bool,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
+    starting_location = normalize_starting_location_key(starting_location)
+    if randomized_crest_slots_enabled:
+        requirement_items = (
+            _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS
+            if allow_bellways_before_bell_beast
+            else _STATIC_ABSTRACT_REQUIREMENT_ITEMS
+        )
+    else:
+        requirement_items = (
+            _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
+            if allow_bellways_before_bell_beast
+            else _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
+        )
+
+    if starting_location == STARTING_LOCATION_VANILLA:
+        return requirement_items
+
+    return tuple(
+        (
+            requirement_name,
+            MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
+            if requirement_name == 'Path: Mosslands - Moss Grotto'
+            else BONE_BOTTOM_START_ROOT_REQUIREMENTS
+            if requirement_name == 'Path: Mosslands - Bone Bottom'
+            else alternatives,
+        )
+        for requirement_name, alternatives in requirement_items
+    )
+
+
+@dataclass(frozen=True)
+class _AbstractWorklistPlan:
+    requirement_names: tuple[str, ...]
+    dependents_by_requirement: Mapping[str, tuple[str, ...]]
+
+
+@lru_cache(maxsize=16)
+def _compile_abstract_worklist_plan(
+    requirements_signature: tuple[
+        tuple[str, tuple[LocationRequirement, ...]], ...
+    ],
+) -> _AbstractWorklistPlan:
+    """Index abstract reverse dependencies for one option-adjusted graph.
+
+    The structural signature keeps cached plans valid if the graph changes.
+    Normal worlds reuse the compiled plan after the first solve.
+    """
+
+    requirement_names = tuple(
+        name for name, _alternatives in requirements_signature
+    )
+    known_requirements = frozenset(requirement_names)
+    dependent_sets: dict[str, set[str]] = {
+        name: set() for name in requirement_names
+    }
+    for owner_name, alternatives in requirements_signature:
+        dependencies = {
+            reference
+            for requirement in alternatives
+            for reference in (*requirement.all_of, *requirement.any_of)
+            if reference in known_requirements
+        }
+        for dependency_name in dependencies:
+            dependent_sets[dependency_name].add(owner_name)
+
+    return _AbstractWorklistPlan(
+        requirement_names=requirement_names,
+        dependents_by_requirement={
+            name: tuple(
+                owner_name
+                for owner_name in requirement_names
+                if owner_name in dependent_sets[name]
+            )
+            for name in requirement_names
+            if dependent_sets[name]
+        },
+    )
+
+
+@lru_cache(maxsize=8)
+def _compile_static_abstract_worklist_plan(
+    allow_bellways_before_bell_beast: bool,
+    randomized_crest_slots_enabled: bool,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> _AbstractWorklistPlan:
+    requirements_signature = _get_static_abstract_requirement_items(
+        allow_bellways_before_bell_beast,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+    return _compile_abstract_worklist_plan(requirements_signature)
+
+
+def _matches_static_abstract_requirements(
+    abstract_requirements: Mapping[
+        str,
+        tuple[LocationRequirement, ...],
+    ],
+    allow_bellways_before_bell_beast: bool,
+    randomized_crest_slots_enabled: bool,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> bool:
+    """Return whether this is the unchanged runtime graph."""
+
+    expected_items = _get_static_abstract_requirement_items(
+        allow_bellways_before_bell_beast,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+    return (
+        len(abstract_requirements) == len(expected_items)
+        and all(
+            abstract_requirements.get(requirement_name) is alternatives
+            for requirement_name, alternatives in expected_items
+        )
+    )
+
+
+def _compute_abstract_values(
+    state: CollectionState,
+    player: int,
+    split_dash_and_sprint: bool = False,
+    allow_bellways_before_bell_beast: bool = False,
+    easy_skips_enabled: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> tuple[
+    dict[str, bool],
+    bool,
+    bool,
+    Callable[[str], bool],
+    Callable[[str], int],
+]:
+    """Resolve abstract Act/Path requirements once for a CollectionState.
+
+    The path graph contains many cycles. Recursively expanding Path requirements
+    from every location causes Archipelago's fill algorithm to spend most of its
+    time walking the same cyclic graph over and over. This computes the same
+    least fixed point with a dependency worklist: evaluate every owner once,
+    then revisit only owners which reference a newly reachable abstract value.
+    """
+    logic_item_dependencies = get_logic_item_dependencies(
+        split_dash_and_sprint
+    )
+    item_counts: dict[str, int] = {}
+
+    inventory_signature = _player_inventory_signature(state, player)
+    cache_key: tuple[object, ...] | None = None
+    cached_snapshot: _AbstractValuesSnapshot | None = None
+    if inventory_signature is not None:
+        cache_key = (
+            player,
+            split_dash_and_sprint,
+            allow_bellways_before_bell_beast,
+            easy_skips_enabled,
+            randomized_crest_slots_enabled,
+            normalize_starting_location_key(starting_location),
+            inventory_signature,
+            ABSTRACT_REQUIREMENTS.revision,
+        )
+
+    def count_item(item_name: str) -> int:
+        canonical_name = clean_item_display_name(item_name)
+        if canonical_name not in item_counts:
+            count_method = getattr(state, "count", None)
+            if callable(count_method):
+                count = count_method(canonical_name, player)
+            else:
+                count = int(state.has(canonical_name, player))
+            item_counts[canonical_name] = count
+        return item_counts[canonical_name]
+
+    def has_item(item_name: str) -> bool:
+        canonical_name = clean_item_display_name(item_name)
+        if (
+            split_dash_and_sprint
+            and canonical_name == SWIFT_STEP_ITEM
+        ):
+            return count_item(PROGRESSIVE_SWIFT_STEP_ITEM) >= 2
+        return count_item(item_name) > 0
+
+    if cache_key is not None:
+        cached_snapshot = _get_abstract_values_cache(
+            state,
+            player,
+            cache_key,
+        )
+    if cached_snapshot is not None:
+        item_counts.update(cached_snapshot.item_counts)
+        return (
+            dict(cached_snapshot.abstract_values),
+            cached_snapshot.has_crest,
+            cached_snapshot.has_spear,
+            has_item,
+            count_item,
+        )
+
+    has_crest = any(has_item(crest) for crest in CREST_ITEMS)
+    has_spear = (
+        has_item('Silkspear')
+        and any(has_item(crest) for crest in NON_ARCHITECT_CREST_ITEMS)
+    )
+
+    abstract_requirements = get_abstract_requirements(
+        allow_bellways_before_bell_beast,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+    if _matches_static_abstract_requirements(
+        abstract_requirements,
+        allow_bellways_before_bell_beast,
+        randomized_crest_slots_enabled,
+        starting_location,
+    ):
+        worklist_plan = _compile_static_abstract_worklist_plan(
+            allow_bellways_before_bell_beast,
+            randomized_crest_slots_enabled,
+            starting_location,
+        )
+    else:
+        # Validation tools occasionally patch the graph. Compile those
+        # structural variants independently.
+        worklist_plan = _compile_abstract_worklist_plan(
+            tuple(abstract_requirements.items())
+        )
+    abstract_values = {
+        requirement_name: False
+        for requirement_name in worklist_plan.requirement_names
+    }
+    pending: deque[str] = deque()
+
+    def activate_if_satisfied(requirement_name: str) -> None:
+        if abstract_values[requirement_name]:
+            return
+        if any(
+            _satisfies_requirement_with_values(
+                alternative,
+                abstract_values,
+                has_item,
+                count_item,
+                has_crest,
+                has_spear,
+                logic_item_dependencies,
+                easy_skips_enabled,
+            )
+            for alternative in abstract_requirements[requirement_name]
+        ):
+            abstract_values[requirement_name] = True
+            pending.append(requirement_name)
+
+    for requirement_name in worklist_plan.requirement_names:
+        activate_if_satisfied(requirement_name)
+
+    while pending:
+        dependency_name = pending.popleft()
+        for owner_name in (
+            worklist_plan.dependents_by_requirement.get(
+                dependency_name,
+                (),
+            )
+        ):
+            activate_if_satisfied(owner_name)
+
+    if cache_key is not None:
+        _store_abstract_values_cache(
+            state,
+            cache_key,
+            _AbstractValuesSnapshot(
+                abstract_values=tuple(abstract_values.items()),
+                item_counts=tuple(item_counts.items()),
+                has_crest=has_crest,
+                has_spear=has_spear,
+            ),
+        )
+
+    return abstract_values, has_crest, has_spear, has_item, count_item
+
+
+def _has_named_requirement_with_values(
+    item_or_requirement_name: str,
+    abstract_values: Mapping[str, bool],
+    has_item: Callable[[str], bool],
+    logic_item_dependencies: Mapping[str, tuple[str, ...]] = (
+        LOGIC_ITEM_DEPENDENCIES
+    ),
+) -> bool:
+    if item_or_requirement_name in abstract_values:
+        return abstract_values[item_or_requirement_name]
+    canonical_name = clean_item_display_name(
+        item_or_requirement_name
+    )
+    return (
+        has_item(item_or_requirement_name)
+        and all(
+            has_item(dependency_name)
+            for dependency_name in logic_item_dependencies.get(
+                canonical_name,
+                (),
+            )
+        )
+    )
+
+
+def _satisfies_requirement_with_values(
+    requirement: LocationRequirement,
+    abstract_values: Mapping[str, bool],
+    has_item: Callable[[str], bool],
+    count_item: Callable[[str], int],
+    has_crest: bool,
+    has_spear: bool,
+    logic_item_dependencies: Mapping[str, tuple[str, ...]] = (
+        LOGIC_ITEM_DEPENDENCIES
+    ),
+    easy_skips_enabled: bool = False,
+) -> bool:
+    if requirement.requires_easy_skips and not easy_skips_enabled:
+        return False
+    if requirement.require_any_crest and not has_crest:
+        return False
+    if requirement.require_silk_spear and not has_spear:
+        return False
+    if requirement.all_of and not all(
+        _has_named_requirement_with_values(
+            item_name,
+            abstract_values,
+            has_item,
+            logic_item_dependencies,
+        )
+        for item_name in requirement.all_of
+    ):
+        return False
+    if requirement.any_of and not any(
+        _has_named_requirement_with_values(
+            item_name,
+            abstract_values,
+            has_item,
+            logic_item_dependencies,
+        )
+        for item_name in requirement.any_of
+    ):
+        return False
+    if any(
+        sum(count_item(item_name) for item_name in count_requirement.item_names)
+        < count_requirement.minimum
+        for count_requirement in requirement.item_counts
+    ):
+        return False
+    return True
+
+
+def _has_named_requirement(
+    item_or_requirement_name: str,
+    state: CollectionState,
+    player: int,
+    seen: tuple[str, ...] = (),
+    split_dash_and_sprint: bool = False,
+    allow_bellways_before_bell_beast: bool = False,
+    easy_skips_enabled: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> bool:
+    # Each item or graph requirement uses the fixed-point values.
+    # ``seen`` is unused because cycle handling happens in the graph solver.
+    del seen
+    logic_item_dependencies = get_logic_item_dependencies(
+        split_dash_and_sprint
+    )
+    abstract_values, _, _, has_item, _ = _compute_abstract_values(
+        state,
+        player,
+        split_dash_and_sprint,
+        allow_bellways_before_bell_beast,
+        easy_skips_enabled,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+    return _has_named_requirement_with_values(
+        item_or_requirement_name,
+        abstract_values,
+        has_item,
+        logic_item_dependencies,
+    )
+
+
+def _satisfies_requirement(
+    requirement: LocationRequirement,
+    state: CollectionState,
+    player: int,
+    seen: tuple[str, ...] = (),
+    split_dash_and_sprint: bool = False,
+    easy_skips_enabled: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> bool:
+    # Evaluate one location requirement using the fixed-point values.
+    # ``seen`` is unused because cycle handling happens in the graph solver.
+    del seen
+    logic_item_dependencies = get_logic_item_dependencies(
+        split_dash_and_sprint
+    )
+    abstract_values, has_crest, has_spear, has_item, count_item = (
+        _compute_abstract_values(
+            state,
+            player,
+            split_dash_and_sprint,
+            False,
+            easy_skips_enabled,
+            randomized_crest_slots_enabled,
+            starting_location,
+        )
+    )
+    return _satisfies_requirement_with_values(
+        requirement,
+        abstract_values,
+        has_item,
+        count_item,
+        has_crest,
+        has_spear,
+        logic_item_dependencies,
+        easy_skips_enabled,
+    )
+
+
+def make_requirements_rule(
+    requirements: tuple[LocationRequirement, ...],
+    player: int,
+    split_dash_and_sprint: bool = False,
+    allow_bellways_before_bell_beast: bool = False,
+    easy_skips_enabled: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+):
+    def access_rule(state: CollectionState) -> bool:
+        logic_item_dependencies = get_logic_item_dependencies(
+            split_dash_and_sprint
+        )
+        abstract_values, has_crest, has_spear, has_item, count_item = (
+            _compute_abstract_values(
+                state,
+                player,
+                split_dash_and_sprint,
+                allow_bellways_before_bell_beast,
+                easy_skips_enabled,
+                randomized_crest_slots_enabled,
+                starting_location,
+            )
+        )
+        return any(
+            _satisfies_requirement_with_values(
+                requirement,
+                abstract_values,
+                has_item,
+                count_item,
+                has_crest,
+                has_spear,
+                logic_item_dependencies,
+                easy_skips_enabled,
+            )
+            for requirement in requirements
+        )
+
+    return access_rule
+
+
+def make_rule(
+    location_name: str,
+    player: int,
+    split_dash_and_sprint: bool = False,
+    allow_bellways_before_bell_beast: bool = False,
+    easy_skips_enabled: bool = False,
+    crest_slot_memory_locket_count: int = 0,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+):
+    return make_requirements_rule(
+        get_location_requirements(
+            location_name,
+            crest_slot_memory_locket_count,
+        ),
+        player,
+        split_dash_and_sprint,
+        allow_bellways_before_bell_beast,
+        easy_skips_enabled,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+
+
+def get_location_requirements(
+    location_name: str,
+    crest_slot_memory_locket_count: int = 0,
+    pollip_heart_count: int = 0,
+) -> tuple[LocationRequirement, ...]:
+    """Return option-adjusted requirements for one physical check."""
+
+    canonical_name = canonicalize_location_name(location_name)
+    requirements = REQUIREMENTS[canonical_name]
+    if crest_slot_memory_locket_count < 0:
+        raise ValueError(
+            "Crest Slot Memory Locket count cannot be negative."
+        )
+    if pollip_heart_count < 0:
+        raise ValueError("Pollip Heart count cannot be negative.")
+
+    count_requirements: list[ItemCountRequirement] = []
+    if (
+        crest_slot_memory_locket_count
+        and canonical_name in CREST_SLOT_LOCATION_NAMES
+    ):
+        count_requirements.append(
+            item_count(
+                crest_slot_memory_locket_count,
+                MEMORY_LOCKET_ITEM,
+            )
+        )
+    if pollip_heart_count and canonical_name == 'Pollip Pouch':
+        count_requirements.append(
+            item_count(pollip_heart_count, POLLIP_HEART_ITEM)
+        )
+    if count_requirements:
+        return tuple(
+            replace(
+                requirement,
+                item_counts=(
+                    *requirement.item_counts,
+                    *count_requirements,
+                ),
+            )
+            for requirement in requirements
+        )
+    return requirements
+
+
+def get_goal_requirements(
+    goal_key: str,
+    flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
+) -> tuple[LocationRequirement, ...]:
+    if goal_key == FLEA_HUNT_GOAL_KEY:
+        if not (
+            MIN_FLEA_HUNT_GOAL_COUNT
+            <= flea_hunt_count
+            <= MAX_FLEA_HUNT_GOAL_COUNT
+        ):
+            raise ValueError(
+                "Flea Hunt count must be between "
+                f"{MIN_FLEA_HUNT_GOAL_COUNT} and "
+                f"{MAX_FLEA_HUNT_GOAL_COUNT}; received "
+                f"{flea_hunt_count!r}."
+            )
+        return (
+            req(
+                crest=False,
+                item_counts=(
+                    item_count(flea_hunt_count, *FLEA_ITEMS),
+                ),
+            ),
+        )
+
+    try:
+        goal_event = GOAL_EVENT_BY_KEY[goal_key]
+    except KeyError as exc:
+        raise ValueError(f"Unknown Silksong goal option: {goal_key!r}") from exc
+    return (req(goal_event),)
+
+
+def make_goal_rule(
+    goal_key: str,
+    player: int,
+    split_dash_and_sprint: bool = False,
+    flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
+    allow_bellways_before_bell_beast: bool = False,
+    easy_skips_enabled: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+):
+    return make_requirements_rule(
+        get_goal_requirements(goal_key, flea_hunt_count),
+        player,
+        split_dash_and_sprint,
+        allow_bellways_before_bell_beast,
+        easy_skips_enabled,
+        randomized_crest_slots_enabled,
+        starting_location,
+    )
+
+
+def _export_requirement_group(requirements: tuple[LocationRequirement, ...]) -> dict[str, object]:
+    alternatives = [requirement.as_slot_data() for requirement in requirements]
+    if len(alternatives) == 1:
+        exported = dict(alternatives[0])
+        exported['alternatives'] = alternatives
+        return exported
+    return {
+        'all_of': [],
+        'any_of': [],
+        'require_any_crest': False,
+        'require_silk_spear': False,
+        'requires_easy_skips': False,
+        'act': '',
+        'path': '',
+        'item_counts': [],
+        'alternatives': alternatives,
+    }
+
+
+def export_requirements(
+    goal_key: str = 'act_3',
+    flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
+    allow_bellways_before_bell_beast: bool = False,
+    crest_slot_memory_locket_count: int = 0,
+    pollip_heart_count: int = 0,
+    bone_bottom_statue_tool_pouch_count: int = 0,
+) -> Mapping[str, dict[str, object]]:
+    exported: dict[str, dict[str, object]] = {}
+    for name, requirements in REQUIREMENTS.items():
+        if name in PROTOCOL_ONLY_LOCATION_NAMES:
+            continue
+        resolved_requirements = (
+            get_goal_requirements(goal_key, flea_hunt_count)
+            if name == 'Goal'
+            else get_location_requirements(
+                name,
+                crest_slot_memory_locket_count,
+                pollip_heart_count,
+            )
+        )
+        if (
+            bone_bottom_statue_tool_pouch_count > 0
+            and name in {
+                'Wish: An Icon of Hope',
+                'Shell Shard Cache: Bone Bottom',
+            }
+        ):
+            resolved_requirements = tuple(
+                replace(
+                    requirement,
+                    item_counts=_merge_item_count_requirements(
+                        requirement.item_counts,
+                        (
+                            item_count(
+                                bone_bottom_statue_tool_pouch_count,
+                                'Progressive Tool Pouch',
+                            ),
+                        ),
+                    ),
+                )
+                for requirement in resolved_requirements
+            )
+        group = _export_requirement_group(
+            resolved_requirements
+        )
+        if name in LOGIC_UNKNOWN_LOCATIONS:
+            group['logic_unknown'] = True
+        exported[name] = group
+    return exported
+
+
+def export_abstract_requirements(
+    allow_bellways_before_bell_beast: bool = False,
+    randomized_crest_slots_enabled: bool = True,
+    starting_location: str = STARTING_LOCATION_VANILLA,
+) -> Mapping[str, dict[str, object]]:
+    """Expose the option-adjusted fixed-point graph to external logic tools."""
+
+    return {
+        name: _export_requirement_group(requirements)
+        for name, requirements in get_abstract_requirements(
+            allow_bellways_before_bell_beast,
+            randomized_crest_slots_enabled,
+            starting_location,
+        ).items()
+    }
+
+
+def export_logic_item_dependencies(
+    split_dash_and_sprint: bool = False,
+) -> Mapping[str, list[str]]:
+    """Expose implicit item dependencies to diagnostics and external logic tools."""
+
+    return {
+        item_name: list(dependencies)
+        for item_name, dependencies in get_logic_item_dependencies(
+            split_dash_and_sprint
+        ).items()
+    }
+
+
+def _iter_named_references(requirements: Iterable[LocationRequirement]) -> Iterable[str]:
+    for requirement in requirements:
+        yield from requirement.all_of
+        yield from requirement.any_of
+        for count_requirement in requirement.item_counts:
+            yield from count_requirement.item_names
+
+
+def _all_requirement_groups() -> tuple[tuple[LocationRequirement, ...], ...]:
+    return tuple(REQUIREMENTS.values()) + tuple(ABSTRACT_REQUIREMENTS.values())
+
+
+def _get_abstract_dependency_closure(
+    requirements: Iterable[LocationRequirement],
+) -> frozenset[str]:
+    pending = [
+        name
+        for name in _iter_named_references(requirements)
+        if name in ABSTRACT_REQUIREMENTS
+    ]
+    dependencies: set[str] = set()
+    while pending:
+        name = pending.pop()
+        if name in dependencies:
+            continue
+        dependencies.add(name)
+        pending.extend(
+            reference
+            for reference in _iter_named_references(ABSTRACT_REQUIREMENTS[name])
+            if reference in ABSTRACT_REQUIREMENTS
+        )
+    return frozenset(dependencies)
+
+
+def _get_dead_paths() -> frozenset[str]:
+    referenced_names = {
+        reference
+        for requirement_group in _all_requirement_groups()
+        for reference in _iter_named_references(requirement_group)
+    }
+    unused_paths = set(PATH_REQUIREMENTS) - referenced_names
+
+    abstract_values = {name: False for name in ABSTRACT_REQUIREMENTS}
+    changed = True
+    while changed:
+        changed = False
+        for name, alternatives in ABSTRACT_REQUIREMENTS.items():
+            if abstract_values[name]:
+                continue
+            if any(
+                _satisfies_requirement_with_values(
+                    alternative,
+                    abstract_values,
+                    lambda _name: True,
+                    lambda _name: 1_000_000,
+                    True,
+                    True,
+                    easy_skips_enabled=True,
+                )
+                for alternative in alternatives
+            ):
+                abstract_values[name] = True
+                changed = True
+    unreachable_paths = {
+        name
+        for name in PATH_REQUIREMENTS
+        if not abstract_values[name]
+    }
+    return frozenset(unused_paths | unreachable_paths)
+
+
+def _get_vanilla_reward_name(location_name: str) -> str:
+    # Import locally because items.py imports this module to classify its
+    # logic references. Validation runs after both modules are initialized.
+    from .items import get_vanilla_reward_name
+    from .locations import location_data_table
+
+    try:
+        category = location_data_table[location_name].category
+        return get_vanilla_reward_name(location_name, category)
+    except (KeyError, ValueError):
+        return ''
+
+
+def _get_location_self_dependencies(
+    location_names: Iterable[str],
+    item_names: Iterable[str],
+    player: int = 1,
+) -> frozenset[str]:
+    # Import locally because items.py imports this module while constructing
+    # classifications. A location holding one copy of a repeatable item is
+    # not self-locked when another copy of that same item can satisfy its
+    # requirement. Validation must remove one copy, not the entire identity.
+    from .items import ITEM_POOL_COUNTS
+
+    item_name_set = frozenset(item_names)
+
+    class ValidationState:
+        def __init__(self, missing_item: str):
+            self.missing_item = missing_item
+
+        def has(self, item_name: str, _player: int) -> bool:
+            if item_name not in item_name_set:
+                return False
+            if item_name != self.missing_item:
+                return True
+            return ITEM_POOL_COUNTS.get(item_name, 1) > 1
+
+        def count(self, item_name: str, _player: int) -> int:
+            if item_name not in item_name_set:
+                return 0
+            if item_name != self.missing_item:
+                return 1_000_000
+            return max(0, ITEM_POOL_COUNTS.get(item_name, 1) - 1)
+
+    dependencies = {
+        f"{location_name} -> {reward_name}"
+        for location_name in location_names
+        if location_name in REQUIREMENTS
+        for reward_name in (_get_vanilla_reward_name(location_name),)
+        if (
+            reward_name in item_name_set
+            and not make_rule(location_name, player)(
+                ValidationState(reward_name)
+            )
+        )
+    }
+    return frozenset(dependencies)
+
+
+def get_logic_item_references() -> frozenset[str]:
+    """Return every real item that can affect a logic rule.
+
+    Act and Path names live in the same requirement fields as items, so they
+    are filtered out here. Crest and Silk Spear requirements are represented
+    by flags and must be added explicitly.
+    """
+    all_requirements = tuple(
+        requirement
+        for requirement_groups in _all_requirement_groups()
+        for requirement in requirement_groups
+    )
+    references = {
+        clean_item_display_name(name)
+        for name in _iter_named_references(all_requirements)
+        if name not in ABSTRACT_REQUIREMENTS
+    }
+    all_logic_item_dependencies = get_logic_item_dependencies(True)
+    references.update(
+        dependency_name
+        for item_name in tuple(references)
+        for dependency_name in all_logic_item_dependencies.get(item_name, ())
+    )
+    if any(requirement.require_any_crest for requirement in all_requirements):
+        references.update(CREST_ITEMS)
+    if any(requirement.require_silk_spear for requirement in all_requirements):
+        references.add('Silkspear')
+    return frozenset(references)
+
+
+def validate_requirements(
+    location_names: Iterable[str],
+    item_names: Iterable[str],
+    progression_item_names: Iterable[str] | None = None,
+) -> None:
+    location_name_set = set(location_names)
+    item_name_set = set(item_names)
+    requirement_location_names = set(REQUIREMENTS)
+    logic_item_references = get_logic_item_references()
+    path_order_names = tuple(f"Path: {name}" for name in PATH_ORDER)
+
+    missing_locations = location_name_set - requirement_location_names
+    extra_locations = requirement_location_names - location_name_set
+    unknown_items = logic_item_references - item_name_set
+    missing_paths_from_order = set(PATH_REQUIREMENTS) - set(path_order_names)
+    extra_paths_in_order = set(path_order_names) - set(PATH_REQUIREMENTS)
+    duplicate_paths_in_order = {
+        name
+        for name in path_order_names
+        if path_order_names.count(name) > 1
+    }
+    direct_self_dependencies = {
+        requirement_name
+        for requirement_name, alternatives in ABSTRACT_REQUIREMENTS.items()
+        if any(
+            requirement_name in (*alternative.all_of, *alternative.any_of)
+            for alternative in alternatives
+        )
+    }
+    location_self_dependencies = _get_location_self_dependencies(
+        location_name_set,
+        item_name_set,
+    )
+    dead_paths = _get_dead_paths()
+    unexpected_dead_paths = dead_paths - ALLOWED_DEAD_PATHS
+    stale_dead_path_allowlist = ALLOWED_DEAD_PATHS - dead_paths
+    unknown_quarantined_locations = (
+        UNVERIFIED_PROGRESSION_LOCATIONS - location_name_set
+    )
+    invalid_item_counts = {
+        f"{owner}:{count_requirement.minimum}:{','.join(count_requirement.item_names)}"
+        for owner, alternatives in (
+            *REQUIREMENTS.items(),
+            *ABSTRACT_REQUIREMENTS.items(),
+        )
+        for alternative in alternatives
+        for count_requirement in alternative.item_counts
+        if (
+            count_requirement.minimum < 1
+            or not count_requirement.item_names
+            or len(count_requirement.item_names)
+            != len(set(count_requirement.item_names))
+        )
+    }
+    goal_dependencies = (
+        _get_abstract_dependency_closure(REQUIREMENTS["Goal"])
+        if "Goal" in REQUIREMENTS
+        else frozenset()
+    )
+    missing_goal_dependencies = (
+        {'Act: 3', FINAL_GOAL_EVENT} - goal_dependencies
+    )
+    goal_direct_references = (
+        set(_iter_named_references(REQUIREMENTS["Goal"]))
+        if "Goal" in REQUIREMENTS
+        else set()
+    )
+    missing_direct_goal_event = (
+        set()
+        if FINAL_GOAL_EVENT in goal_direct_references
+        else {FINAL_GOAL_EVENT}
+    )
+    non_progression_logic_items: set[str] = set()
+    if progression_item_names is not None:
+        non_progression_logic_items = (
+            logic_item_references
+            & item_name_set
+            - set(progression_item_names)
+            - OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES
+        )
+
+    if (
+        missing_locations
+        or extra_locations
+        or unknown_items
+        or non_progression_logic_items
+        or missing_paths_from_order
+        or extra_paths_in_order
+        or duplicate_paths_in_order
+        or direct_self_dependencies
+        or location_self_dependencies
+        or unexpected_dead_paths
+        or stale_dead_path_allowlist
+        or unknown_quarantined_locations
+        or invalid_item_counts
+        or missing_goal_dependencies
+        or missing_direct_goal_event
+    ):
+        raise ValueError(
+            "Invalid Silksong requirement table: "
+            f"missing_locations={sorted(missing_locations)}, "
+            f"extra_locations={sorted(extra_locations)}, "
+            f"unknown_items={sorted(unknown_items)}, "
+            f"non_progression_logic_items={sorted(non_progression_logic_items)}, "
+            f"missing_paths_from_order={sorted(missing_paths_from_order)}, "
+            f"extra_paths_in_order={sorted(extra_paths_in_order)}, "
+            f"duplicate_paths_in_order={sorted(duplicate_paths_in_order)}, "
+            f"direct_self_dependencies={sorted(direct_self_dependencies)}, "
+            f"location_self_dependencies={sorted(location_self_dependencies)}, "
+            f"unexpected_dead_paths={sorted(unexpected_dead_paths)}, "
+            f"stale_dead_path_allowlist={sorted(stale_dead_path_allowlist)}, "
+            f"unknown_quarantined_locations={sorted(unknown_quarantined_locations)}, "
+            f"invalid_item_counts={sorted(invalid_item_counts)}, "
+            f"missing_goal_dependencies={sorted(missing_goal_dependencies)}, "
+            f"missing_direct_goal_event={sorted(missing_direct_goal_event)}"
+        )

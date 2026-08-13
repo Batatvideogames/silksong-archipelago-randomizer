@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "dependencies": {
+    ".NETStandard,Version=v2.1": {
+      "Archipelago.MultiClient.Net": {
+        "type": "Direct",
+        "requested": "[6.7.1, )",
+        "resolved": "6.7.1",
+        "contentHash": "wheDMl5C0e175RvuY+E3oDY13myaa7f2pRRjOg9PgcbOJApVu3QT62mQ46jYJ0sn/X7Fu4bdVVxZ2bx0vwncBQ=="
+      }
+    }
+  }
+}

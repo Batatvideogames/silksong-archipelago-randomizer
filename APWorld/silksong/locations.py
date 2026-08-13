@@ -1,0 +1,1071 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Dict, Mapping
+
+from BaseClasses import Location
+
+from .display_names import (
+    FLEA_DISPLAY_NAMES,
+    ORDINARY_FLEA_DISPLAY_NAMES,
+    clean_item_display_name,
+)
+from .minor_pickups import MINOR_PICKUP_LOCATION_NAMES
+from .minor_caches import (
+    APPENDED_MINOR_CACHE_LOCATION_NAMES,
+    MINOR_CACHE_LOCATION_NAMES,
+)
+
+LOCATION_BASE_ID = 835500
+
+
+@dataclass(frozen=True)
+class SilksongLocationData:
+    code: int
+    category: str
+
+
+ESTABLISHED_LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
+    ('Skill Unlock: Double Jump', 'Skill'),
+    ('Skill Unlock: Charge Slash', 'Skill'),
+    ('Skill Unlock: Silk Soar', 'Skill'),
+    ('Skill Unlock: Wall Jump', 'Skill'),
+    ("Skill Unlock: Drifter's Cloak", 'Skill'),
+    ('Skill Unlock: Dash', 'Skill'),
+    ('Skill Unlock: Harpoon', 'Skill'),
+    ('Skill Unlock: Quill', 'Skill'),
+    ('Skill Unlock: Needolin', 'Skill'),
+    ('Tool Unlock: WebShot Forge', 'Tool'),
+    ('Tool Unlock: WebShot Architect', 'Tool'),
+    ('Tool Unlock: WebShot Weaver', 'Tool'),
+    ('Tool Unlock: Zap Imbuement', 'Tool'),
+    ('Tool Unlock: Tack', 'Tool'),
+    ('Tool Unlock: Poison Pouch', 'Tool'),
+    ('Tool Unlock: Silk Snare', 'Tool'),
+    ('Tool Unlock: Wisp Lantern', 'Tool'),
+    ('Tool Unlock: Revenge Crystal', 'Tool'),
+    ('Tool Unlock: Lightning Rod', 'Tool'),
+    ('Tool Unlock: Tri Pin', 'Tool'),
+    ('Tool Unlock: Bell Bind', 'Tool'),
+    ('Tool Unlock: Rosary Cannon', 'Tool'),
+    ('Tool Unlock: Harpoon', 'Tool'),
+    ('Tool Unlock: Brolly Spike', 'Tool'),
+    ('Tool Unlock: Dazzle Bind', 'Tool'),
+    ('Tool Unlock: Shakra Ring', 'Tool'),
+    ('Tool Unlock: Screw Attack', 'Tool'),
+    ('Tool Unlock: Quick Sling', 'Tool'),
+    ('Tool Unlock: Musician Charm', 'Tool'),
+    ('Tool Unlock: Fractured Mask', 'Tool'),
+    ('Tool Unlock: Sprintmaster', 'Tool'),
+    ('Tool Unlock: Weighted Anklet', 'Tool'),
+    ('Tool Unlock: Multibind', 'Tool'),
+    ('Tool Unlock: Reserve Bind', 'Tool'),
+    ('Tool Unlock: Quickbind', 'Tool'),
+    ('Tool Unlock: Barbed Wire', 'Tool'),
+    ('Tool Unlock: Sting Shard', 'Tool'),
+    ('Tool Unlock: Conch Drill', 'Tool'),
+    ('Tool Unlock: Pimpilo', 'Tool'),
+    ('Tool Unlock: Straight Pin', 'Tool'),
+    ('Tool Unlock: Cogwork Flier', 'Tool'),
+    ('Tool Unlock: Curve Claws', 'Tool'),
+    ('Tool Unlock: Cogwork Saw', 'Tool'),
+    ('Tool Unlock: Flea Brew', 'Tool'),
+    ('Tool Unlock: Magnetite Dice', 'Tool'),
+    ('Tool Unlock: Rosary Magnet', 'Tool'),
+    ('Tool Unlock: White Ring', 'Tool'),
+    ('Tool Unlock: Pinstress Tool', 'Tool'),
+    ('Tool Unlock: Extractor', 'Tool'),
+    ('Tool Unlock: Lifeblood Syringe', 'Tool'),
+    ('Tool Unlock: Shell Satchel', 'Tool'),
+    ('Tool Unlock: Dead Mans Purse', 'Tool'),
+    ('Tool Unlock: Scuttlebrace', 'Tool'),
+    ('Tool Unlock: Thief Charm', 'Tool'),
+    ('Tool Unlock: Compass', 'Tool'),
+    ('Tool Unlock: Thief Claw', 'Tool'),
+    ('Tool Unlock: Mosscreep Tool 1', 'Tool'),
+    ('Tool Unlock: Mosscreep Tool 2', 'Tool'),
+    ('Tool Unlock: Flintstone', 'Tool'),
+    ('Tool Unlock: Maggot Charm', 'Tool'),
+    ('Tool Unlock: Lava Charm', 'Tool'),
+    ('Tool Unlock: Wallcling', 'Tool'),
+    ('Tool Unlock: Longneedle', 'Tool'),
+    ('Tool Unlock: Bone Necklace', 'Tool'),
+    ('Tool Unlock: Spool Extender', 'Tool'),
+    ('Tool Unlock: Flea Charm', 'Tool'),
+    ('Spell Unlock: Silk Spear', 'Spell'),
+    ('Spell Unlock: Parry', 'Spell'),
+    ('Spell Unlock: Silk Boss Needle', 'Spell'),
+    ('Spell Unlock: Silk Charge', 'Spell'),
+    ('Spell Unlock: Silk Bomb', 'Spell'),
+    ('Spell Unlock: Thread Sphere', 'Spell'),
+    ('Crest Unlock: Witch', 'Crest'),
+    ('Crest Unlock: Beast', 'Crest'),
+    ('Crest Unlock: Architect', 'Crest'),
+    ('Crest Unlock: Shaman', 'Crest'),
+    ('Crest Unlock: Reaper', 'Crest'),
+    ('Crest Unlock: Wanderer', 'Crest'),
+    ('Crest Unlock: Hunter', 'Crest'),
+    ('Save Flea: The Marrow (Tangle)', 'Flea'),
+    ('Save Flea: Deep Docks Bellway (Eepy)', 'Flea'),
+    ('Save Flea: Deep Docks Weaver Burial Spire (Squeesh)', 'Flea'),
+    ('Save Flea: Far Fields Captured (Thoughtless)', 'Flea'),
+    ("Save Flea: Hunter's March (Yapper)", 'Flea'),
+    ('Save Flea: Greymoor Craw Lake (Gwah)', 'Flea'),
+    ('Save Flea: Greymoor Tower (Snoozles)', 'Flea'),
+    ('Save Flea: Shellwood (Shelly)', 'Flea'),
+    ("Save Flea: Pilgrim's Rest (Sleeby)", 'Flea'),
+    ('Save Flea: Blasted Steps (Nini)', 'Flea'),
+    ("Save Flea: Sinner's Road (Stelf)", 'Flea'),
+    ('Save Flea: Exhaust Organ (Rangle)', 'Flea'),
+    ('Save Flea: Bellhart (Bellphy)', 'Flea'),
+    ('Save Flea: Wormways (Snacc)', 'Flea'),
+    ('Save Flea: The Slab Cell (Sway)', 'Flea'),
+    ('Save Flea: Bilewater Thieves (Cower)', 'Flea'),
+    ('Save Flea: Deep Docks Mines (Le Bomba)', 'Flea'),
+    ('Save Flea: Wisp Thicket (Fidget)', 'Flea'),
+    ('Save Flea: Bilehaven (Spangle)', 'Flea'),
+    ('Save Flea: Choral Cambers Spa (Oowa)', 'Flea'),
+    ('Save Flea: Sands of Karak (Crustly)', 'Flea'),
+    ('Save Flea: Mount Fay (Ice Cube)', 'Flea'),
+    ('Save Flea: Songclave (Groggy)', 'Flea'),
+    ('Save Flea: Choral Cambers Walled (Mimi)', 'Flea'),
+    ('Save Flea: Whispering Vaults (Birdy)', 'Flea'),
+    ('Save Flea: Underworks (Boomy)', 'Flea'),
+    ('Save Flea: The Slab Bellway (Honk Shoo)', 'Flea'),
+    ('Hunter Slot Unlock: Red 0 -2', 'CrestSlot'),
+    ('Hunter Slot Unlock: Blue -2 0', 'CrestSlot'),
+    ('Hunter Slot Unlock: Yellow 2 0', 'CrestSlot'),
+    ('Reaper Slot Unlock: Red 0 -1', 'CrestSlot'),
+    ('Reaper Slot Unlock: Blue -1 1', 'CrestSlot'),
+    ('Reaper Slot Unlock: Yellow 1 1', 'CrestSlot'),
+    ('Wanderer Slot Unlock: Blue -2 1', 'CrestSlot'),
+    ('Wanderer Slot Unlock: Blue 2 1', 'CrestSlot'),
+    ('Wanderer Slot Unlock: Yellow 0 -2', 'CrestSlot'),
+    ('Beast Slot Unlock: Yellow -1 0', 'CrestSlot'),
+    ('Beast Slot Unlock: Yellow 1 0', 'CrestSlot'),
+    ('Witch Slot Unlock: Red 0 -2', 'CrestSlot'),
+    ('Witch Slot Unlock: Blue -1 0', 'CrestSlot'),
+    ('Witch Slot Unlock: Blue 1 0', 'CrestSlot'),
+    ('Architect Slot Unlock: Blue -1 2', 'CrestSlot'),
+    ('Architect Slot Unlock: Yellow 1 2', 'CrestSlot'),
+    ('Architect Slot Unlock: Yellow 2 0', 'CrestSlot'),
+    ('Architect Slot Unlock: Blue -2 0', 'CrestSlot'),
+    ('Shaman Slot Unlock: Blue -1 0', 'CrestSlot'),
+    ('Shaman Slot Unlock: Blue 1 0', 'CrestSlot'),
+    ('Mask Shard Unlock #1', 'MaskShard'),
+    ('Mask Shard Unlock #2', 'MaskShard'),
+    ('Mask Shard Unlock #3', 'MaskShard'),
+    ('Mask Shard Unlock #4', 'MaskShard'),
+    ('Mask Shard Unlock #5', 'MaskShard'),
+    ('Mask Shard Unlock #6', 'MaskShard'),
+    ('Mask Shard Unlock #7', 'MaskShard'),
+    ('Mask Shard Unlock #8', 'MaskShard'),
+    ('Mask Shard Unlock #9', 'MaskShard'),
+    ('Mask Shard Unlock #10', 'MaskShard'),
+    ('Mask Shard Unlock #11', 'MaskShard'),
+    ('Mask Shard Unlock #12', 'MaskShard'),
+    ('Mask Shard Unlock #13', 'MaskShard'),
+    ('Mask Shard Unlock #14', 'MaskShard'),
+    ('Mask Shard Unlock #15', 'MaskShard'),
+    ('Mask Shard Unlock #16', 'MaskShard'),
+    ('Mask Shard Unlock #17', 'MaskShard'),
+    ('Mask Shard Unlock #18', 'MaskShard'),
+    ('Mask Shard Unlock #19', 'MaskShard'),
+    ('Mask Shard Unlock #20', 'MaskShard'),
+    ('Spool Fragment Unlock #1', 'SpoolFragment'),
+    ('Spool Fragment Unlock #2', 'SpoolFragment'),
+    ('Spool Fragment Unlock #3', 'SpoolFragment'),
+    ('Spool Fragment Unlock #4', 'SpoolFragment'),
+    ('Spool Fragment Unlock #5', 'SpoolFragment'),
+    ('Spool Fragment Unlock #6', 'SpoolFragment'),
+    ('Spool Fragment Unlock #7', 'SpoolFragment'),
+    ('Spool Fragment Unlock #8', 'SpoolFragment'),
+    ('Spool Fragment Unlock #9', 'SpoolFragment'),
+    ('Spool Fragment Unlock #10', 'SpoolFragment'),
+    ('Spool Fragment Unlock #11', 'SpoolFragment'),
+    ('Spool Fragment Unlock #12', 'SpoolFragment'),
+    ('Spool Fragment Unlock #13', 'SpoolFragment'),
+    ('Spool Fragment Unlock #14', 'SpoolFragment'),
+    ('Spool Fragment Unlock #15', 'SpoolFragment'),
+    ('Spool Fragment Unlock #16', 'SpoolFragment'),
+    ('Spool Fragment Unlock #17', 'SpoolFragment'),
+    ('Spool Fragment Unlock #18', 'SpoolFragment'),
+    ('Silk Heart Unlock #1', 'SilkHeart'),
+    ('Silk Heart Unlock #2', 'SilkHeart'),
+    ('Silk Heart Unlock #3', 'SilkHeart'),
+    ('Bellway Unlock: Deep Docks', 'Bellway'),
+    ('Bellway Unlock: Far Fields', 'Bellway'),
+    ('Bellway Unlock: Greymoor', 'Bellway'),
+    ('Bellway Unlock: Bellhart', 'Bellway'),
+    ('Bellway Unlock: Blasted Steps', 'Bellway'),
+    ('Bellway Unlock: Grand Bellway', 'Bellway'),
+    ('Bellway Unlock: The Slab', 'Bellway'),
+    ('Bellway Unlock: Shellwood', 'Bellway'),
+    ('Bellway Unlock: Bilewater', 'Bellway'),
+    ('Bellway Unlock: Putrified Ducts', 'Bellway'),
+    ('Ventrica Unlock: Choral Chambers', 'Ventrica'),
+    ('Ventrica Unlock: Underworks', 'Ventrica'),
+    ('Ventrica Unlock: Grand Bellway', 'Ventrica'),
+    ('Ventrica Unlock: High Halls', 'Ventrica'),
+    ('Ventrica Unlock: Songclave', 'Ventrica'),
+    ('Ventrica Unlock: Memorium', 'Ventrica'),
+    ('Goal', 'Event'),
+    # Shakra shop purchases cannot hold progression until their route
+    # requirements are represented.
+    ('Map Purchase: Mosslands', 'Map'),
+    ('Map Purchase: The Marrow', 'Map'),
+    ('Map Purchase: Deep Docks', 'Map'),
+    ('Map Purchase: Far Fields', 'Map'),
+    ('Map Purchase: Wormways', 'Map'),
+    ("Map Purchase: Hunter's March", 'Map'),
+    ('Map Purchase: Greymoor', 'Map'),
+    ('Map Purchase: Bellhart', 'Map'),
+    ('Map Purchase: Shellwood', 'Map'),
+    ('Map Purchase: Blasted Steps', 'Map'),
+    ("Map Purchase: Sinner's Road", 'Map'),
+    ('Map Purchase: Mount Fay', 'Map'),
+    ('Map Purchase: Sands of Karak', 'Map'),
+    ('Map Purchase: Bilewater', 'Map'),
+    ('Pin Purchase: Bench', 'Pin'),
+    ('Pin Purchase: Ventrica', 'Pin'),
+    ('Pin Purchase: Bellway', 'Pin'),
+    ('Pin Purchase: Vendor', 'Pin'),
+    # SavedItem identities are kept distinct from the matching `Relic:`
+    # item names so logs clearly distinguish checks from received rewards.
+    ('Relic Pickup: Weaver Totem Witch', 'Relic'),
+    ('Relic Pickup: Psalm Cylinder Library Roof', 'Relic'),
+    ('Relic Pickup: Bone Record Wisp Top', 'Relic'),
+    ('Relic Pickup: Weaver Totem Bonetown_upper_room', 'Relic'),
+    ('Relic Pickup: Librarian Melody Cylinder', 'Relic'),
+    ('Relic Pickup: Seal Chit City Merchant', 'Relic'),
+    ('Relic Pickup: Psalm Cylinder Ward', 'Relic'),
+    ('Relic Pickup: Weaver Record Conductor', 'Relic'),
+    ('Relic Pickup: Psalm Cylinder Librarian', 'Relic'),
+    ('Relic Pickup: Psalm Cylinder Hang', 'Relic'),
+    ('Relic Pickup: Seal Chit Ward Corpse', 'Relic'),
+    ('Relic Pickup: Weaver Record Sprint_Challenge', 'Relic'),
+    ('Relic Pickup: Psalm Cylinder Grindle', 'Relic'),
+    ('Relic Pickup: Weaver Record Weave_08', 'Relic'),
+    ('Relic Pickup: Bone Record Understore_Map_Room', 'Relic'),
+    ('Relic Pickup: Bone Record Bone_East_14', 'Relic'),
+    ('Relic Pickup: Seal Chit Aspid_01', 'Relic'),
+    ('Relic Pickup: Seal Chit Silk Siphon', 'Relic'),
+    ('Relic Pickup: Bone Record Greymoor_flooded_corridor', 'Relic'),
+    ('Relic Pickup: Weaver Totem Slab_Bottom', 'Relic'),
+    ('Relic Pickup: Ancient Egg Abyss Middle', 'Relic'),
+    # Public PlayerData completion flags. These checks observe completed
+    # vanilla actions and never change combat or story state.
+    ('Bell Shrine Completion: bellShrineBoneForest', 'BellShrine'),
+    ('Bell Shrine Completion: bellShrineWilds', 'BellShrine'),
+    ('Bell Shrine Completion: bellShrineGreymoor', 'BellShrine'),
+    ('Bell Shrine Completion: bellShrineShellwood', 'BellShrine'),
+    ('Bell Shrine Completion: bellShrineBellhart', 'BellShrine'),
+    ('Bell Shrine Completion: bellShrineEnclave', 'BellShrine'),
+    ('Boss Completion: defeatedMossMother', 'Boss'),
+    ('Boss Completion: DefeatedBonetownBoss', 'Boss'),
+    ('Boss Completion: defeatedBellBeast', 'Boss'),
+    ('Boss Completion: defeatedAntQueen', 'Boss'),
+    ('Boss Completion: defeatedLace1', 'Boss'),
+    ('Boss Completion: defeatedSongGolem', 'Boss'),
+    ('Boss Completion: defeatedDockForemen', 'Boss'),
+    ('Boss Completion: defeatedVampireGnatBoss', 'Boss'),
+    ('Boss Completion: defeatedCrowCourt', 'Boss'),
+    ('Boss Completion: defeatedSplinterQueen', 'Boss'),
+    ('Boss Completion: defeatedSeth', 'Boss'),
+    ('Boss Completion: defeatedFlowerQueen', 'Boss'),
+    ('Boss Completion: defeatedRoachkeeperChef', 'Boss'),
+    ('Boss Completion: defeatedPhantom', 'Boss'),
+    ('Boss Completion: DefeatedSwampShaman', 'Boss'),
+    ('Boss Completion: defeatedCoralKing', 'Boss'),
+    ('Boss Completion: defeatedLastJudge', 'Boss'),
+    ('Boss Completion: defeatedGreyWarrior', 'Boss'),
+    ('Boss Completion: defeatedFirstWeaver', 'Boss'),
+    ('Boss Completion: defeatedBroodMother', 'Boss'),
+    ('Boss Completion: defeatedTrobbio', 'Boss'),
+    ('Boss Completion: defeatedTormentedTrobbio', 'Boss'),
+    ('Boss Completion: defeatedCogworkDancers', 'Boss'),
+    ('Boss Completion: defeatedLaceTower', 'Boss'),
+    ('Boss Completion: defeatedSongChevalierBoss', 'Boss'),
+    ('Boss Completion: defeatedWhiteCloverstag', 'Boss'),
+    ('Boss Completion: defeatedCloverDancers', 'Boss'),
+    ('Crafting Kit Source: Forge Tool Kit', 'Upgrade'),
+    ('Crafting Kit Source: Architect Tool Kit', 'Upgrade'),
+    ('Crafting Kit Source: Grindle Tool Kit', 'Upgrade'),
+    ('Crafting Kit Source: Crow Feathers', 'Upgrade'),
+)
+
+# FullQuestBase asset names from quests.bundle. Setup and rumour
+# assets, intermediate stages and completions already represented by an
+# existing item, fragment or boss check are omitted so a single
+# vanilla action does not send two locations.
+QUEST_LOCATION_ASSETS: tuple[str, ...] = (
+    'A Pinsmiths Tools',
+    'Belltown House Mid',
+    'Building Materials',
+    'Building Materials (Bridge)',
+    'Building Materials (Statue)',
+    'Courier Delivery Bonebottom',
+    'Courier Delivery Dustpens Slave',
+    'Courier Delivery Fixer',
+    'Courier Delivery Fleatopia',
+    'Courier Delivery Mask Maker',
+    'Courier Delivery Pilgrims Rest',
+    'Courier Delivery Songclave',
+    'Extractor Blue Worms',
+    'Fine Pins',
+    'Garmond Black Threaded',
+    'Great Gourmand',
+    'Journal',
+    'Mr Mushroom',
+    'Pilgrim Rags',
+    'Rock Rollers',
+    'Save City Merchant',
+    'Save City Merchant Bridge',
+    'Save Courier Short',
+    'Save Courier Tall',
+    'Save Sherma',
+    'Shiny Bell Goomba',
+    'Skull King',
+    'Song Pilgrim Cloaks',
+    'Songclave Donation 1',
+    'Songclave Donation 2',
+    'Steel Sentinel Pt2',
+)
+
+# Later quest checks stay outside the established quest block so additions
+# cannot renumber existing locations.
+APPENDED_QUEST_LOCATION_ASSETS: tuple[str, ...] = (
+    'Belltown House Start',
+)
+
+ESTABLISHED_CORE_SOURCE_NAMES: tuple[str, ...] = (
+    'Ability: Faydown Cloak',
+    'Ability: Needle Strike',
+    'Ancestral Art: Silk Soar',
+    'Ancestral Art: Cling Grip',
+    "Ability: Drifter's Cloak",
+    'Ancestral Art: Swift Step',
+    'Ancestral Art: Clawline',
+    'Item: Quill',
+    'Ancestral Art: Needolin',
+    'Tool: Silkshot (Forge Daughter)',
+    'Tool: Silkshot (Twelfth Architect)',
+    'Tool: Silkshot (Original)',
+    'Tool: Volt Filament',
+    'Tool: Tacks',
+    'Tool: Pollip Pouch',
+    'Tool: Snare Setter',
+    'Tool: Wispfire Lantern',
+    'Tool: Memory Crystal',
+    'Tool: Voltvessels',
+    'Tool: Threefold Pin',
+    'Tool: Warding Bell',
+    'Tool: Rosary Cannon',
+    'Tool: Longpin',
+    'Tool: Sawtooth Circlet',
+    'Tool: Claw Mirror',
+    'Tool: Throwing Ring',
+    "Tool: Delver's Drill",
+    'Tool: Quick Sling',
+    'Tool: Spider Strings',
+    'Tool: Fractured Mask',
+    'Tool: Silkspeed Anklets',
+    'Tool: Weighted Belt',
+    'Tool: Multibinder',
+    'Tool: Reserve Bind',
+    'Tool: Injector Band',
+    'Tool: Barbed Bracelet',
+    'Tool: Sting Shard',
+    'Tool: Conchcutter',
+    'Tool: Pimpillo',
+    'Tool: Straight Pin',
+    'Tool: Cogfly',
+    'Tool: Curveclaw',
+    'Tool: Cogwork Wheel',
+    'Tool: Flea Brew',
+    'Tool: Magnetite Dice',
+    'Tool: Magnetite Brooch',
+    'Tool: Weavelight',
+    'Tool: Pin Badge',
+    'Tool: Needle Phial',
+    'Tool: Plasmium Phial',
+    'Tool: Shell Satchel',
+    "Tool: Dead Bug's Purse",
+    'Tool: Scuttlebrace',
+    "Tool: Thief's Mark",
+    'Tool: Compass',
+    'Tool: Snitch Pick',
+    "Tool: Druid's Eye",
+    "Tool: Druid's Eyes",
+    'Tool: Flintslate',
+    'Tool: Wreath of Purity',
+    'Tool: Magma Bell',
+    "Tool: Ascendant's Grip",
+    'Tool: Longclaw',
+    'Tool: Shard Pendant',
+    'Tool: Spool Extender',
+    'Tool: Egg of Flealia',
+    'Silk Skill: Silkspear',
+    'Silk Skill: Cross Stitch',
+    'Silk Skill: Pale Nails',
+    'Silk Skill: Sharpdart',
+    'Silk Skill: Rune Rage',
+    'Silk Skill: Thread Storm',
+    'Crest: Witch',
+    'Crest: Beast',
+    'Crest: Architect',
+    'Crest: Shaman',
+    'Crest: Reaper',
+    'Crest: Wanderer',
+    'Crest: Hunter',
+)
+
+_CORE_CANONICAL_LOCATION_NAMES: tuple[str, ...] = tuple(
+    clean_item_display_name(name)
+    for name in ESTABLISHED_CORE_SOURCE_NAMES
+)
+
+_FLEA_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
+    ORDINARY_FLEA_DISPLAY_NAMES
+)
+
+_CREST_SLOT_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
+    'Crest Slot: Hunter (Red 1)',
+    'Crest Slot: Hunter (Blue 1)',
+    'Crest Slot: Hunter (Yellow 1)',
+    'Crest Slot: Reaper (Red 1)',
+    'Crest Slot: Reaper (Blue 1)',
+    'Crest Slot: Reaper (Yellow 1)',
+    'Crest Slot: Wanderer (Blue 1)',
+    'Crest Slot: Wanderer (Blue 2)',
+    'Crest Slot: Wanderer (Yellow 1)',
+    'Crest Slot: Beast (Yellow 1)',
+    'Crest Slot: Beast (Yellow 2)',
+    'Crest Slot: Witch (Red 1)',
+    'Crest Slot: Witch (Blue 1)',
+    'Crest Slot: Witch (Blue 2)',
+    'Crest Slot: Architect (Blue 1)',
+    'Crest Slot: Architect (Yellow 1)',
+    'Crest Slot: Architect (Yellow 2)',
+    'Crest Slot: Architect (Blue 2)',
+    'Crest Slot: Shaman (Blue 1)',
+    'Crest Slot: Shaman (Blue 2)',
+)
+
+_RELIC_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
+    'Relic: Weaver Effigy (Keelal, Shellwood)',
+    'Relic: Psalm Cylinder (East Whispering Vaults)',
+    'Relic: Bone Scroll (Wisp Thicket)',
+    'Relic: Weaver Effigy (Camora, Moss Grotto)',
+    'Relic: Sacred Cylinder',
+    'Relic: Choral Commandment (Jubilana)',
+    'Relic: Psalm Cylinder (Underworks)',
+    'Relic: Rune Harp (High Halls)',
+    'Relic: Psalm Cylinder (Vaultkeeper Cardinius)',
+    'Relic: Psalm Cylinder (High Halls)',
+    'Relic: Choral Commandment (Western Whiteward)',
+    'Relic: Rune Harp (Weavenest Cindril)',
+    'Relic: Psalm Cylinder (Grindle)',
+    'Relic: Rune Harp (Weavenest Atla)',
+    'Relic: Bone Scroll (Underworks)',
+    'Relic: Bone Scroll (Far Fields)',
+    'Relic: Choral Commandment (Moss Grotto)',
+    'Relic: Choral Commandment (Eastern Whiteward)',
+    'Relic: Bone Scroll (Greymoor)',
+    'Relic: Weaver Effigy (Atla, The Slab)',
+    'Relic: Arcane Egg',
+)
+
+# Scrounge accepts these fifteen individually persisted relic assets.
+SCROUNGE_RELIC_ITEM_NAMES: tuple[str, ...] = (
+    'Relic: Weaver Effigy (Keelal, Shellwood)',
+    'Relic: Bone Scroll (Wisp Thicket)',
+    'Relic: Weaver Effigy (Camora, Moss Grotto)',
+    'Relic: Choral Commandment (Jubilana)',
+    'Relic: Rune Harp (High Halls)',
+    'Relic: Choral Commandment (Western Whiteward)',
+    'Relic: Rune Harp (Weavenest Cindril)',
+    'Relic: Rune Harp (Weavenest Atla)',
+    'Relic: Bone Scroll (Underworks)',
+    'Relic: Bone Scroll (Far Fields)',
+    'Relic: Choral Commandment (Moss Grotto)',
+    'Relic: Choral Commandment (Eastern Whiteward)',
+    'Relic: Bone Scroll (Greymoor)',
+    'Relic: Weaver Effigy (Atla, The Slab)',
+    'Relic: Arcane Egg',
+)
+SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION: Dict[str, str] = {
+    f"Relic Turn-in: {item_name.removeprefix('Relic: ')}": item_name
+    for item_name in SCROUNGE_RELIC_ITEM_NAMES
+}
+SCROUNGE_RELIC_TURN_IN_LOCATION_NAMES: tuple[str, ...] = tuple(
+    SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION
+)
+
+# Cardinius uses the same per-relic deposited state for the five Psalm
+# Cylinders and the Sacred Cylinder. They share the individual turn-in option
+# but retain their physical-source names so each deposit is unambiguous.
+CARDINIUS_CYLINDER_ITEM_NAMES: tuple[str, ...] = (
+    'Relic: Psalm Cylinder (East Whispering Vaults)',
+    'Relic: Sacred Cylinder',
+    'Relic: Psalm Cylinder (Underworks)',
+    'Relic: Psalm Cylinder (Vaultkeeper Cardinius)',
+    'Relic: Psalm Cylinder (High Halls)',
+    'Relic: Psalm Cylinder (Grindle)',
+)
+CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION: Dict[str, str] = {
+    f"Relic Turn-in: {item_name.removeprefix('Relic: ')}": item_name
+    for item_name in CARDINIUS_CYLINDER_ITEM_NAMES
+}
+CARDINIUS_CYLINDER_TURN_IN_LOCATION_NAMES: tuple[str, ...] = tuple(
+    CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION
+)
+INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES: tuple[str, ...] = (
+    SCROUNGE_RELIC_ITEM_NAMES + CARDINIUS_CYLINDER_ITEM_NAMES
+)
+INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION: Dict[str, str] = {
+    **SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION,
+    **CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION,
+}
+INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES: tuple[str, ...] = tuple(
+    INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION
+)
+RELIC_TURN_IN_LOCATION_CATEGORY = 'RelicTurnIn'
+
+# These names describe the persistent physical source that was collected.
+# Their established order keeps every later location ID stable.
+MASK_SHARD_LOCATION_NAMES: tuple[str, ...] = (
+    'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)',
+    'Mask Shard: Wormways',
+    'Mask Shard: Far Fields (Above the Seamstress)',
+    'Mask Shard: Shellwood',
+    'Mask Shard: The Marrow - Deep Docks Passage',
+    'Mask Shard: Weavenest Atla',
+    'Mask Shard: Savage Beastfly',
+    'Mask Shard: Cogwork Core',
+    'Mask Shard: Whispering Vaults',
+    'Mask Shard: Bilewater',
+    'Mask Shard: Far Fields (Skull Cave)',
+    'Mask Shard: The Slab (Key of the Apostate)',
+    'Mask Shard: Mount Fay',
+    'Mask Shard: Wisp Thicket',
+    'Mask Shard: Jubilana (Songclave)',
+    'Mask Shard: Blasted Steps',
+    'Mask Shard: Fastest in Pharloom',
+    'Mask Shard: The Hidden Hunter',
+    'Mask Shard: Dark Hearts',
+    'Mask Shard: Brightvein',
+)
+
+SPOOL_FRAGMENT_LOCATION_NAMES: tuple[str, ...] = (
+    'Spool Fragment: Bone Bottom',
+    'Spool Fragment: Deep Docks (Central)',
+    'Spool Fragment: Greymoor',
+    'Spool Fragment: The Slab',
+    'Spool Fragment: Weavenest Atla',
+    'Spool Fragment: Frey (Bellhart)',
+    'Spool Fragment: Flea Caravan',
+    'Spool Fragment: Cogwork Core',
+    'Spool Fragment: Underworks (East)',
+    'Spool Fragment: Grand Gate',
+    'Spool Fragment: Underworks (Gauntlet)',
+    'Spool Fragment: Whiteward',
+    'Spool Fragment: Balm for the Wounded',
+    'Spool Fragment: Deep Docks (Southeast)',
+    'Spool Fragment: High Halls',
+    'Spool Fragment: Memorium',
+    'Spool Fragment: Grindle (Blasted Steps)',
+    'Spool Fragment: Jubilana (Songclave)',
+)
+
+SILK_HEART_LOCATION_NAMES: tuple[str, ...] = (
+    'Silk Heart: Bell Beast',
+    'Silk Heart: The Unravelled',
+    'Silk Heart: Lace (Cradle)',
+)
+
+
+def _category_rename_map(
+    category: str,
+    canonical_names: tuple[str, ...],
+) -> dict[str, str]:
+    source_names = tuple(
+        name
+        for name, source_category in ESTABLISHED_LOCATION_TABLE_SOURCE
+        if source_category == category
+    )
+    if len(source_names) != len(canonical_names):
+        raise ValueError(
+            f'{category} rename count mismatch: '
+            f'{len(source_names)} source, {len(canonical_names)} current'
+        )
+    return dict(zip(source_names, canonical_names))
+
+
+_DIRECT_LOCATION_RENAMES: dict[str, str] = {
+    **dict(zip(
+        (
+            name
+            for name, category in ESTABLISHED_LOCATION_TABLE_SOURCE
+            if category in ('Skill', 'Tool', 'Spell', 'Crest')
+        ),
+        _CORE_CANONICAL_LOCATION_NAMES,
+    )),
+    **_category_rename_map('Flea', _FLEA_CANONICAL_LOCATION_NAMES),
+    **_category_rename_map(
+        'CrestSlot',
+        _CREST_SLOT_CANONICAL_LOCATION_NAMES,
+    ),
+    **_category_rename_map('MaskShard', MASK_SHARD_LOCATION_NAMES),
+    **_category_rename_map(
+        'SpoolFragment',
+        SPOOL_FRAGMENT_LOCATION_NAMES,
+    ),
+    **_category_rename_map('SilkHeart', SILK_HEART_LOCATION_NAMES),
+    **_category_rename_map('Relic', _RELIC_CANONICAL_LOCATION_NAMES),
+}
+
+_DIRECT_LOCATION_RENAMES.update({
+    'Pin Purchase: Bench': 'Pin Purchase: Bench Pins',
+    'Pin Purchase: Ventrica': 'Pin Purchase: Ventrica Pins',
+    'Pin Purchase: Bellway': 'Pin Purchase: Bellway Pins',
+    'Pin Purchase: Vendor': 'Pin Purchase: Vendor Pins',
+    'Bell Shrine Completion: bellShrineBoneForest': 'Bellshrine: The Marrow',
+    'Bell Shrine Completion: bellShrineWilds': 'Bellshrine: Deep Docks',
+    'Bell Shrine Completion: bellShrineGreymoor': 'Bellshrine: Greymoor',
+    'Bell Shrine Completion: bellShrineShellwood': 'Bellshrine: Shellwood',
+    'Bell Shrine Completion: bellShrineBellhart': 'Bellshrine: Bellhart',
+    'Bell Shrine Completion: bellShrineEnclave': 'Bellshrine: Songclave',
+    'Boss Completion: defeatedMossMother': 'Boss: Moss Mother',
+    'Boss Completion: DefeatedBonetownBoss': 'Boss: Skull Tyrant (Bone Bottom)',
+    'Boss Completion: skullKingKilled': 'Boss: Skull Tyrant (Bone Bottom)',
+    'Boss Completion: defeatedBellBeast': 'Boss: Bell Beast',
+    'Boss Completion: defeatedAntQueen': 'Boss: Skarrsinger Karmelita',
+    'Boss Completion: defeatedLace1': 'Boss: Lace (Deep Docks)',
+    'Boss Completion: defeatedSongGolem': 'Boss: Fourth Chorus',
+    'Boss Completion: defeatedDockForemen': 'Boss: Forebrothers Signis & Gron',
+    'Boss Completion: defeatedVampireGnatBoss': 'Boss: Moorwing',
+    'Boss Completion: defeatedCrowCourt': 'Boss: Crawfather',
+    'Boss Completion: defeatedSplinterQueen': 'Boss: Sister Splinter',
+    'Boss Completion: defeatedSeth': 'Boss: Shrine Guardian Seth',
+    'Boss Completion: defeatedFlowerQueen': 'Boss: Nyleth',
+    'Boss Completion: defeatedRoachkeeperChef': 'Boss: Disgraced Chef Lugoli',
+    'Boss Completion: defeatedPhantom': 'Boss: Phantom',
+    'Boss Completion: DefeatedSwampShaman': 'Boss: Groal the Great',
+    'Boss Completion: defeatedCoralKing': 'Boss: Crust King Khann',
+    'Boss Completion: defeatedCoralDrillers': 'Boss: Great Conchflies',
+    'Boss Completion: defeatedLastJudge': 'Boss: Last Judge',
+    'Boss Completion: defeatedGreyWarrior': 'Boss: Watcher at the Edge',
+    'Boss Completion: defeatedFirstWeaver': 'Boss: First Sinner',
+    'Boss Completion: defeatedBroodMother': 'Boss: Broodmother',
+    'Boss Completion: defeatedTrobbio': 'Boss: Trobbio',
+    'Boss Completion: defeatedTormentedTrobbio': 'Boss: Tormented Trobbio',
+    'Boss Completion: defeatedCogworkDancers': 'Boss: Cogwork Dancers',
+    'Boss Completion: defeatedLaceTower': 'Boss: Lace (Cradle)',
+    'Boss Completion: defeatedSongChevalierBoss': 'Boss: Second Sentinel',
+    'Boss Completion: defeatedWhiteCloverstag': 'Boss: Palestag',
+    'Boss Completion: defeatedCloverDancers': 'Boss: Clover Dancers',
+    'Boss Completion: defeatedWispPyreEffigy':
+        'Boss: Father of the Flame',
+    'Boss Completion: defeatedAntTrapper': 'Boss: Gurr the Outcast',
+    'Boss Completion: defeatedCoralDrillerSolo':
+        'Boss: Raging Conchfly',
+    'Boss Completion: wardBossDefeated': 'Boss: The Unravelled',
+    'Boss Completion: defeatedZapCoreEnemy': 'Boss: Voltvyrm',
+    'Boss Completion: spinnerDefeated': 'Boss: Widow',
+    'Boss Completion: roofCrabDefeated': 'Boss: Craggler',
+    'Boss Completion: skullKingDefeated':
+        'Boss: Skull Tyrant (The Marrow)',
+    'Crafting Kit Source: Forge Tool Kit': 'Crafting Kit: Forge Daughter',
+    'Crafting Kit Source: Architect Tool Kit':
+        'Crafting Kit: Twelfth Architect',
+    'Crafting Kit Source: Grindle Tool Kit': 'Crafting Kit: Grindle',
+    'Crafting Kit Source: Crow Feathers':
+        'Crafting Kit: Crawbug Clearing (Creige)',
+})
+
+_QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
+    'A Pinsmiths Tools': "Wish: Pinmaster's Oil",
+    'Belltown House Start': 'Wish: Restoration of Bellhart',
+    'Belltown House Mid': "Wish: Bellhart's Glory",
+    'Building Materials': 'Wish: Bone Bottom Repairs',
+    'Building Materials (Bridge)': 'Wish: A Lifesaving Bridge',
+    'Building Materials (Statue)': 'Wish: An Icon of Hope',
+    'Courier Delivery Bonebottom': 'Wish: Bone Bottom Supplies',
+    'Courier Delivery Dustpens Slave': "Wish: Queen's Egg",
+    'Courier Delivery Fixer': "Wish: Survivor's Camp Supplies",
+    'Courier Delivery Fleatopia': 'Wish: Fleatopia Supplies',
+    'Courier Delivery Mask Maker': 'Wish: Liquid Lacquer',
+    'Courier Delivery Pilgrims Rest': "Wish: Pilgrim's Rest Supplies",
+    'Courier Delivery Songclave': 'Wish: Songclave Supplies',
+    'Extractor Blue Worms': 'Wish: Advanced Alchemy',
+    'Fine Pins': 'Wish: Fine Pins',
+    'Garmond Black Threaded': "Wish: Hero's Call",
+    'Great Gourmand': 'Wish: Great Taste of Pharloom',
+    'Journal': 'Wish: Bugs of Pharloom',
+    'Mr Mushroom': 'Wish: Passing of the Age',
+    'Pilgrim Rags': 'Wish: Garb of the Pilgrims',
+    'Rock Rollers': 'Wish: Volatile Flintbeetles',
+    'Save City Merchant': 'Wish: The Wandering Merchant',
+    'Save City Merchant Bridge': 'Wish: The Lost Merchant',
+    'Save Courier Short': 'Wish: My Missing Courier',
+    'Save Courier Tall': 'Wish: My Missing Brother',
+    'Save Sherma': 'Wish: Balm for the Wounded',
+    'Shiny Bell Goomba': 'Wish: Silver Bells',
+    'Skull King': 'Wish: The Terrible Tyrant',
+    'Song Pilgrim Cloaks': 'Wish: Cloaks of the Choir',
+    'Songclave Donation 1': 'Wish: Building Up Songclave',
+    'Songclave Donation 2': 'Wish: Strengthening Songclave',
+    'Steel Sentinel Pt2': 'Wish: A Vassal Lost',
+}
+
+
+def canonicalize_location_name(location_name: str) -> str:
+    """Translate a native source name to the current protocol name."""
+    if location_name in _DIRECT_LOCATION_RENAMES:
+        return _DIRECT_LOCATION_RENAMES[location_name]
+    current_item_name = clean_item_display_name(location_name)
+    if current_item_name != location_name:
+        return current_item_name
+    for old_prefix, current_prefix in (
+        ('Mask Shard Unlock #', 'Mask Shard #'),
+        ('Spool Fragment Unlock #', 'Spool Fragment #'),
+        ('Silk Heart Unlock #', 'Silk Heart #'),
+        ('Bellway Unlock: ', 'Bellway: '),
+        ('Ventrica Unlock: ', 'Ventrica: '),
+    ):
+        if location_name.startswith(old_prefix):
+            return current_prefix + location_name[len(old_prefix):]
+    quest_prefix = 'Quest Completion: '
+    if location_name.startswith(quest_prefix):
+        asset_name = location_name[len(quest_prefix):]
+        return _QUEST_DISPLAY_NAME_BY_ASSET.get(asset_name, location_name)
+    return location_name
+
+
+ESTABLISHED_QUEST_LOCATION_SOURCES: tuple[str, ...] = tuple(
+    f'Quest Completion: {asset_name}'
+    for asset_name in QUEST_LOCATION_ASSETS
+)
+ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS = (
+    *ESTABLISHED_LOCATION_TABLE_SOURCE,
+    *(
+        (location_name, 'Quest')
+        for location_name in ESTABLISHED_QUEST_LOCATION_SOURCES
+    ),
+)
+
+SOURCE_LOCATION_NAME_TO_CURRENT: Mapping[str, str] = {
+    source_name: current_name
+    for source_name, _category in ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS
+    if (
+        current_name := canonicalize_location_name(source_name)
+    ) != source_name
+}
+SOURCE_LOCATION_NAME_TO_CURRENT[
+    'Quest Completion: Belltown House Start'
+] = 'Wish: Restoration of Bellhart'
+SOURCE_LOCATION_NAME_TO_CURRENT[
+    'Boss Completion: defeatedCoralDrillers'
+] = 'Boss: Great Conchflies'
+SOURCE_LOCATION_NAME_TO_CURRENT.update({
+    source_name: current_name
+    for source_name, current_name in _DIRECT_LOCATION_RENAMES.items()
+    if source_name.startswith((
+        'Boss Completion: ',
+        'Frayed Rosary String: ',
+        'Rosary Cache: ',
+        'Shell Shard Cache: ',
+        'Spool Fragment: ',
+    ))
+})
+SOURCE_LOCATION_NAME_TO_CURRENT.update({
+    'Tool Unlock: Dazzle Bind': 'Claw Mirror',
+    'Tool Unlock: Dazzle Bind Upgraded': 'Dark Mirror',
+    'Tool Unlock: Curve Claws': 'Curveclaw',
+    'Tool Unlock: Curve Claws Upgraded': 'Curvesickle',
+})
+
+NEEDLE_UPGRADE_LOCATION_CATEGORY = 'NeedleUpgrade'
+NEEDLE_UPGRADE_LOCATION_NAMES: tuple[str, ...] = (
+    'Pinmaster Plinney: Sharpened Needle',
+    'Pinmaster Plinney: Shining Needle',
+    'Pinmaster Plinney: Hivesteel Needle',
+    'Pinmaster Plinney: Pale Steel Needle',
+    'Pale Oil: Whispering Vaults',
+    'Pale Oil: Great Taste of Pharloom',
+    'Pale Oil: Ecstasy of the End',
+)
+PINMASTER_OIL_QUEST_LOCATION = "Wish: Pinmaster's Oil"
+VOLATILE_FLINTBEETLES_QUEST_LOCATION = 'Wish: Volatile Flintbeetles'
+
+LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
+    (canonicalize_location_name(source_name), category)
+    for source_name, category in ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS
+) + tuple(
+    (location_name, NEEDLE_UPGRADE_LOCATION_CATEGORY)
+    for location_name in NEEDLE_UPGRADE_LOCATION_NAMES
+) + tuple(
+    (location_name, 'Resource')
+    for location_name in MINOR_PICKUP_LOCATION_NAMES
+) + tuple(
+    (location_name, 'Resource')
+    for location_name in MINOR_CACHE_LOCATION_NAMES
+    if location_name not in APPENDED_MINOR_CACHE_LOCATION_NAMES
+) + (
+    # New protocol locations are appended so every released location ID remains
+    # stable. This is the physical Broken SilkShot pickup in Weavenest Murglin.
+    ('Ruined Tool', 'Tool'),
+    # Appended here so every established location keeps its ID.
+    (
+        canonicalize_location_name(
+            'Boss Completion: defeatedCoralDrillers'
+        ),
+        'Boss',
+    ),
+    # Appended after every released location so existing protocol IDs stay
+    # stable. Pebb and Grindle are one fallback-aware physical source.
+    ('Simple Key: Bone Bottom Shop', 'Key'),
+    ('Simple Key: Roachkeeper', 'Key'),
+    ('Simple Key: Songclave Shop', 'Key'),
+    ('Simple Key: Sands of Karak East Bench', 'Key'),
+    # Static maps are appended so every released location ID remains stable.
+    ('Map Pickup: Weavenest Atla', 'Map'),
+    ('Map Purchase: Grand Gate', 'Map'),
+    ('Map Pickup: Underworks', 'Map'),
+    ('Map Purchase: Choral Chambers', 'Map'),
+    ('Map Purchase: Whispering Vaults', 'Map'),
+    ('Map Purchase: Whiteward', 'Map'),
+    ('Map Pickup: Cogwork Core', 'Map'),
+    ('Map Purchase: Memorium', 'Map'),
+    ('Map Purchase: High Halls', 'Map'),
+    ('Map Pickup: The Slab', 'Map'),
+    ('Map Pickup: Putrified Ducts', 'Map'),
+    ('Map Purchase: The Cradle', 'Map'),
+    ('Map Pickup: Verdania', 'Map'),
+    ('Map Pickup: The Abyss', 'Map'),
+    # Learned songs are paired sources with dedicated randomization control.
+    ("Architect's Melody", 'Melody'),
+    ("Conductor's Melody", 'Melody'),
+    ("Vaultkeeper's Melody", 'Melody'),
+    ('Elegy of the Deep', 'Melody'),
+    ('Beastling Call', 'Melody'),
+    # Collectible and key sources are tail-appended to preserve every
+    # established location ID.
+    ("Memory Locket: Pilgrim's Rest Shop", 'MemoryLocket'),
+    ("Memory Locket: Hunter's March", 'MemoryLocket'),
+    ('Memory Locket: Greymoor', 'MemoryLocket'),
+    ('Memory Locket: Halfway Home', 'MemoryLocket'),
+    ('Memory Locket: Bellhart Shop', 'MemoryLocket'),
+    ('Memory Locket: Bellhart Roof', 'MemoryLocket'),
+    ('Memory Locket: Volatile Flintbeetles', 'MemoryLocket'),
+    ('Memory Locket: The Marrow', 'MemoryLocket'),
+    ('Memory Locket: Choral Chambers', 'MemoryLocket'),
+    ('Memory Locket: Wormways', 'MemoryLocket'),
+    ('Memory Locket: Blasted Steps', 'MemoryLocket'),
+    ('Memory Locket: Underworks', 'MemoryLocket'),
+    ('Memory Locket: Whispering Vaults', 'MemoryLocket'),
+    ('Memory Locket: Bilewater West', 'MemoryLocket'),
+    ('Memory Locket: Deep Docks', 'MemoryLocket'),
+    ('Memory Locket: Bilewater East', 'MemoryLocket'),
+    ('Memory Locket: The Slab', 'MemoryLocket'),
+    ('Memory Locket: Memorium', 'MemoryLocket'),
+    ('Memory Locket: Far Fields (Act 3)', 'MemoryLocket'),
+    ('Memory Locket: Sands of Karak', 'MemoryLocket'),
+    ('Craftmetal: Bone Bottom Shop', 'Craftmetal'),
+    ('Craftmetal: The Marrow', 'Craftmetal'),
+    ('Craftmetal: Deep Docks', 'Craftmetal'),
+    ('Craftmetal: Blasted Steps', 'Craftmetal'),
+    ('Craftmetal: Underworks', 'Craftmetal'),
+    ('Craftmetal: Putrified Ducts', 'Craftmetal'),
+    ('Craftmetal: Wisp Thicket', 'Craftmetal'),
+    ('Craftmetal: Songclave Shop', 'Craftmetal'),
+    ('Mossberry: Moss Grotto #1', 'Mossberry'),
+    ('Mossberry: Moss Grotto #2', 'Mossberry'),
+    ('Mossberry: Bone Bottom', 'Mossberry'),
+    ('Mossberry: Mosshome', 'Mossberry'),
+    ('Mossberry: Bonegrave', 'Mossberry'),
+    ('Mossberry: Weavenest Atla', 'Mossberry'),
+    ('Mossberry: Memorium', 'Mossberry'),
+    ('Silkeater: Deep Docks', 'Silkeater'),
+    ('Silkeater: Greymoor', 'Silkeater'),
+    ('Silkeater: Blasted Steps', 'Silkeater'),
+    ('Silkeater: Exhaust Organ', 'Silkeater'),
+    ('Silkeater: Choral Chambers West', 'Silkeater'),
+    ('Silkeater: Choral Chambers East', 'Silkeater'),
+    ('Silkeater: Whispering Vaults', 'Silkeater'),
+    ('Silkeater: Whiteward', 'Silkeater'),
+    ('Silkeater: The Cradle', 'Silkeater'),
+    ('Key of Indolent', 'MajorKey'),
+    ('Key of Heretic', 'MajorKey'),
+    ('Key of Apostate', 'MajorKey'),
+    ('White Key', 'MajorKey'),
+    ("Surgeon's Key", 'MajorKey'),
+    ("Architect's Key", 'MajorKey'),
+    ('Craw Summons', 'MajorKey'),
+) + tuple(
+    # Tail-append new physical sources so every earlier location ID stays
+    # stable, including the established collectible and key lanes.
+    (location_name, 'Resource')
+    for location_name in APPENDED_MINOR_CACHE_LOCATION_NAMES
+) + (
+    # Named NPC Fleas are tail-appended so every previously released
+    # location keeps its protocol ID.
+    ('Flea: Greymoor - Kratt', 'Flea'),
+    ('Flea: Putrified Ducts - Vog', 'Flea'),
+    ('Flea: Memorium - Huge Flea', 'Flea'),
+) + tuple(
+    # Individual turn-ins are optional observation checks. Scrounge's first
+    # fifteen remain in their released order. Cardinius's six are appended.
+    (location_name, RELIC_TURN_IN_LOCATION_CATEGORY)
+    for location_name in INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES
+) + (
+    # Tail-appended native upgrade sources. Their paired base locations keep
+    # their released IDs and player-facing Claw Mirror / Curveclaw names.
+    ('Dark Mirror', 'Tool'),
+    ('Curvesickle', 'Tool'),
+    # Four stable Tool Pouch sources. Mort and Grindle are one shared
+    # fallback-aware shop location. Loddie's normal and Act 3 rewards likewise
+    # report one location.
+    ("Tool Pouch: Pilgrim's Rest", 'ToolPouch'),
+    ('Tool Pouch: Loddie', 'ToolPouch'),
+    ('Tool Pouch: Bugs of Pharloom', 'ToolPouch'),
+    ('Tool Pouch: Fleatopia', 'ToolPouch'),
+    # Scripted Beast Shard rewards use boss and race reward hooks rather than
+    # the generic pickup path. Only supported native sources are registered
+    # here. Skull Tyrant and Moorwing remain excluded.
+    ('Beast Shard: Marrowmaw', 'Resource'),
+    ('Beast Shard: Craggler', 'Resource'),
+    ("Beast Shard: Pilgrim's Rest", 'Resource'),
+    ('Beast Shard: Memorium', 'Resource'),
+    ('Beast Shard: Sprintmaster', 'Resource'),
+) + tuple(
+    # The first Bellhome donation was omitted from the original
+    # QuestSanity census. Tail-appending it preserves every released ID.
+    (canonicalize_location_name(f'Quest Completion: {asset_name}'), 'Quest')
+    for asset_name in APPENDED_QUEST_LOCATION_ASSETS
+) + (
+    # BossSanity census additions are protocol-tail-appended so every
+    # previously released location keeps its numeric ID.
+    ('Boss: Father of the Flame', 'Boss'),
+    ('Boss: Gurr the Outcast', 'Boss'),
+    ('Boss: Raging Conchfly', 'Boss'),
+    ('Boss: The Unravelled', 'Boss'),
+    ('Boss: Voltvyrm', 'Boss'),
+    ('Boss: Widow', 'Boss'),
+    ('Boss: Craggler', 'Boss'),
+    ('Boss: Skull Tyrant (The Marrow)', 'Boss'),
+    # The six Shellwood flower sources are protocol-tail-appended so
+    # every previously released location keeps its numeric ID.
+    ('Pollip Heart: Shellwood #1', 'PollipHeart'),
+    ('Pollip Heart: Shellwood #2', 'PollipHeart'),
+    ('Pollip Heart: Shellwood #3', 'PollipHeart'),
+    ('Pollip Heart: Shellwood #4', 'PollipHeart'),
+    ('Pollip Heart: Shellwood #5', 'PollipHeart'),
+    ('Pollip Heart: Shellwood #6', 'PollipHeart'),
+)
+
+QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
+    canonicalize_location_name(location_name)
+    for location_name in ESTABLISHED_QUEST_LOCATION_SOURCES
+) + tuple(
+    canonicalize_location_name(f'Quest Completion: {asset_name}')
+    for asset_name in APPENDED_QUEST_LOCATION_ASSETS
+)
+
+location_table: Dict[str, int] = {
+    name: LOCATION_BASE_ID + index
+    for index, (name, _category) in enumerate(LOCATION_TABLE_SOURCE)
+}
+
+location_data_table: Dict[str, SilksongLocationData] = {
+    name: SilksongLocationData(location_table[name], category)
+    for name, category in LOCATION_TABLE_SOURCE
+}
+
+# Reserved protocol rows remain registered so later locations keep their
+# established numeric IDs, but unsupported game-mode sources are not active
+# in newly generated rooms.
+PROTOCOL_ONLY_LOCATION_NAMES: frozenset[str] = frozenset({
+    'Shell Satchel',
+    'Key of Indolent',
+    'Key of Heretic',
+    # This released cache ID described the same ant-carried physical object
+    # as Rosary Necklace: Hunter's March. New rooms expose only the necklace.
+    # Retaining this row prevents every later AP location ID from shifting.
+    "Rosary Cache: Hunter's March #3",
+    # This released row described the same ant-carried object whose nested
+    # native reward is Pale Rosary Necklace: Far Fields. Its numeric ID remains
+    # reserved while new rooms expose only the canonical Necklace source.
+    "Rosary Cache: Far Fields #22",
+})
+
+PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
+    'Skill',
+    'Tool',
+    'Spell',
+    'Crest',
+    'Flea',
+    'CrestSlot',
+    'MaskShard',
+    'SpoolFragment',
+    'SilkHeart',
+    'Bellway',
+    'Ventrica',
+    'Map',
+    'Melody',
+    'Pin',
+    'Relic',
+    'Upgrade',
+    'Key',
+    'MemoryLocket',
+    'Craftmetal',
+    'Mossberry',
+    'PollipHeart',
+    'Silkeater',
+    'MajorKey',
+    'Resource',
+    'ToolPouch',
+)
+
+OBSERVATION_LOCATION_CATEGORIES: tuple[str, ...] = (
+    'Boss',
+    'BellShrine',
+    'Quest',
+)
+
+RANDOMIZATION_LOCATION_CATEGORIES: tuple[str, ...] = (
+    *PAIRED_LOCATION_CATEGORIES,
+    *OBSERVATION_LOCATION_CATEGORIES,
+    NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    RELIC_TURN_IN_LOCATION_CATEGORY,
+)
+
+LOCATION_NAMES_BY_CATEGORY: Dict[str, tuple[str, ...]] = {
+    category: tuple(
+        name
+        for name, location_category in LOCATION_TABLE_SOURCE
+        if (
+            location_category == category
+            and name not in PROTOCOL_ONLY_LOCATION_NAMES
+        )
+    )
+    for category in RANDOMIZATION_LOCATION_CATEGORIES
+}
+
+location_name_groups: Dict[str, set[str]] = {
+    category: set(names)
+    for category, names in LOCATION_NAMES_BY_CATEGORY.items()
+}
+# The data package exposes this friendlier plural group label.
+location_name_groups['Quests'] = set(QUEST_LOCATION_NAMES)
+location_name_groups['Needle Upgrades'] = set(
+    NEEDLE_UPGRADE_LOCATION_NAMES
+)
+location_name_groups['Relic Turn-ins'] = set(
+    INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES
+)
+
+
+class SilksongLocation(Location):
+    game = "Hollow Knight: Silksong"

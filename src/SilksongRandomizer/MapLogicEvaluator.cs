@@ -1,0 +1,1311 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace SilksongRandomizer
+{
+    internal enum MapCheckReachability
+    {
+        Unknown = 0,
+        Reachable = 1,
+        Unreachable = 2,
+    }
+
+    /// <summary>
+    /// Evaluates the exact APWorld graph exported with the room. This is a
+    /// local, spoiler-free calculation: it reads received items and never
+    /// scouts the item placed at a location.
+    /// </summary>
+    internal static class MapLogicEvaluator
+    {
+        private const int MaxMossberryCount = 7;
+        private const int MaxPollipHeartCount = 6;
+        private const int MaxPaleOilCount = 3;
+
+        private sealed class LogicPayload
+        {
+            [JsonProperty("easy_skips")]
+            internal bool EasySkips { get; set; }
+
+            [JsonProperty("requirements")]
+            internal Dictionary<string, LogicRequirement> Requirements
+            {
+                get;
+                set;
+            }
+
+            [JsonProperty("abstract_requirements")]
+            internal Dictionary<string, LogicRequirement>
+                AbstractRequirements
+            {
+                get;
+                set;
+            }
+
+            [JsonProperty("logic_item_dependencies")]
+            internal Dictionary<string, List<string>>
+                LogicItemDependencies
+            {
+                get;
+                set;
+            }
+        }
+
+        private sealed class LogicRequirement
+        {
+            [JsonProperty("all_of")]
+            internal List<string> AllOf { get; set; }
+
+            [JsonProperty("any_of")]
+            internal List<string> AnyOf { get; set; }
+
+            [JsonProperty("require_any_crest")]
+            internal bool RequireAnyCrest { get; set; }
+
+            [JsonProperty("require_silk_spear")]
+            internal bool RequireSilkSpear { get; set; }
+
+            [JsonProperty("requires_easy_skips")]
+            internal bool RequiresEasySkips { get; set; }
+
+            [JsonProperty("path")]
+            internal string Path { get; set; }
+
+            [JsonProperty("item_counts")]
+            internal List<LogicItemCount> ItemCounts { get; set; }
+
+            [JsonProperty("alternatives")]
+            internal List<LogicRequirement> Alternatives { get; set; }
+
+            [JsonProperty("logic_unknown")]
+            internal bool LogicUnknown { get; set; }
+        }
+
+        private sealed class LogicItemCount
+        {
+            [JsonProperty("items")]
+            internal List<string> Items { get; set; }
+
+            [JsonProperty("minimum")]
+            internal int Minimum { get; set; }
+        }
+
+        private sealed class ParsedPayload
+        {
+            internal readonly Dictionary<string, LogicRequirement>
+                Requirements;
+            internal readonly Dictionary<string, LogicRequirement>
+                AbstractRequirements;
+            internal readonly Dictionary<string, List<string>>
+                Dependencies;
+            internal readonly bool EasySkips;
+
+            internal ParsedPayload(LogicPayload payload)
+            {
+                Requirements = CanonicalizeLocationKeys(
+                    payload?.Requirements
+                );
+                AbstractRequirements =
+                    payload?.AbstractRequirements ??
+                    new Dictionary<string, LogicRequirement>(
+                        StringComparer.Ordinal
+                    );
+                Dependencies = CanonicalizeDependencyKeys(
+                    payload?.LogicItemDependencies
+                );
+                EasySkips = payload?.EasySkips ?? false;
+            }
+        }
+
+        private static readonly string[] CrestItemNames =
+        {
+            "Crest: Hunter",
+            "Crest: Wanderer",
+            "Crest: Reaper",
+            "Crest: Beast",
+            "Crest: Architect",
+            "Crest: Witch",
+            "Crest: Shaman",
+        };
+
+        private static readonly string[] NonArchitectCrestItemNames =
+            CrestItemNames.Where(
+                name => !string.Equals(
+                    name,
+                    "Crest: Architect",
+                    StringComparison.OrdinalIgnoreCase
+                )
+            ).ToArray();
+
+        private const string SwiftStepItemName = "Swift Step";
+
+        private static string cachedJson = string.Empty;
+        private static ParsedPayload cachedPayload;
+        private static bool loggedPayloadFailure;
+
+        internal static MapCheckReachability Evaluate(
+            SaveState state,
+            string locationName
+        )
+        {
+            IReadOnlyDictionary<string, MapCheckReachability> result =
+                EvaluateAll(state, new[] { locationName });
+            string canonicalLocationName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            return !string.IsNullOrWhiteSpace(canonicalLocationName) &&
+                    result.TryGetValue(
+                        canonicalLocationName,
+                        out MapCheckReachability reachability
+                    )
+                ? reachability
+                : MapCheckReachability.Unknown;
+        }
+
+        internal static IReadOnlyDictionary<
+            string,
+            MapCheckReachability
+        > EvaluateAll(
+            SaveState state,
+            IEnumerable<string> locationNames
+        )
+        {
+            string[] canonicalLocationNames =
+                (locationNames ?? Enumerable.Empty<string>())
+                    .Select(LocationSet.GetCanonicalLocationName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+            Dictionary<string, MapCheckReachability> results =
+                canonicalLocationNames.ToDictionary(
+                    name => name,
+                    _ => MapCheckReachability.Unknown,
+                    StringComparer.OrdinalIgnoreCase
+                );
+            ParsedPayload payload = GetPayload(state);
+            if (payload == null)
+            {
+                return results;
+            }
+
+            Dictionary<string, int> inventory =
+                BuildInventoryCounts(state);
+            Dictionary<string, bool> abstractValues =
+                ResolveAbstractRequirements(payload, inventory);
+            bool hasCrest = CrestItemNames.Any(
+                itemName => CountItem(inventory, itemName) > 0
+            );
+            bool hasSilkSpear =
+                CountItem(inventory, "Silkspear") > 0 &&
+                NonArchitectCrestItemNames.Any(
+                    itemName => CountItem(inventory, itemName) > 0
+                );
+
+            foreach (string canonicalLocationName in
+                canonicalLocationNames)
+            {
+                if (!payload.Requirements.TryGetValue(
+                        canonicalLocationName,
+                        out LogicRequirement requirement
+                    ))
+                {
+                    continue;
+                }
+                results[canonicalLocationName] = SatisfiesGroup(
+                        requirement,
+                        abstractValues,
+                        inventory,
+                        hasCrest,
+                        hasSilkSpear,
+                        payload.Dependencies,
+                        payload.EasySkips
+                    )
+                    ? MapCheckReachability.Reachable
+                    : MapCheckReachability.Unreachable;
+            }
+            return results;
+        }
+
+        internal static bool TryGetLocationPath(
+            SaveState state,
+            string locationName,
+            out string path
+        )
+        {
+            path = string.Empty;
+            ParsedPayload payload = GetPayload(state);
+            string canonicalLocationName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            if (payload == null ||
+                string.IsNullOrWhiteSpace(canonicalLocationName) ||
+                !payload.Requirements.TryGetValue(
+                    canonicalLocationName,
+                    out LogicRequirement group
+                ))
+            {
+                return false;
+            }
+
+            foreach (LogicRequirement alternative in
+                GetAlternatives(group))
+            {
+                if (!string.IsNullOrWhiteSpace(alternative?.Path))
+                {
+                    path = alternative.Path.Trim();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal static bool RequiresLogicVerification(
+            SaveState state,
+            string locationName
+        )
+        {
+            ParsedPayload payload = GetPayload(state);
+            string canonicalLocationName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            return payload != null &&
+                   !string.IsNullOrWhiteSpace(canonicalLocationName) &&
+                   payload.Requirements.TryGetValue(
+                       canonicalLocationName,
+                       out LogicRequirement requirement
+                   ) &&
+                   requirement.LogicUnknown;
+        }
+
+        private static ParsedPayload GetPayload(SaveState state)
+        {
+            string json = state?.mapLogicPayloadJson ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+            if (string.Equals(json, cachedJson, StringComparison.Ordinal))
+            {
+                return cachedPayload;
+            }
+
+            cachedJson = json;
+            cachedPayload = null;
+            try
+            {
+                LogicPayload payload =
+                    JsonConvert.DeserializeObject<LogicPayload>(json);
+                if (payload?.Requirements == null ||
+                    payload.Requirements.Count == 0 ||
+                    payload.AbstractRequirements == null ||
+                    payload.AbstractRequirements.Count == 0 ||
+                    payload.LogicItemDependencies == null)
+                {
+                    return null;
+                }
+                cachedPayload = new ParsedPayload(payload);
+                loggedPayloadFailure = false;
+            }
+            catch (Exception ex)
+            {
+                if (!loggedPayloadFailure)
+                {
+                    loggedPayloadFailure = true;
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] The room's check-map logic payload " +
+                        "could not be read; marker reachability will remain " +
+                        "neutral: " + ex.Message
+                    );
+                }
+            }
+            return cachedPayload;
+        }
+
+        private static Dictionary<string, LogicRequirement>
+            CanonicalizeLocationKeys(
+                Dictionary<string, LogicRequirement> source
+            )
+        {
+            Dictionary<string, LogicRequirement> result =
+                new Dictionary<string, LogicRequirement>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+            if (source == null)
+            {
+                return result;
+            }
+
+            foreach (KeyValuePair<string, LogicRequirement> entry in source)
+            {
+                string canonicalName =
+                    LocationSet.GetCanonicalLocationName(entry.Key);
+                if (!string.IsNullOrWhiteSpace(canonicalName))
+                {
+                    result[canonicalName] = entry.Value;
+                }
+            }
+            return result;
+        }
+
+        private static Dictionary<string, List<string>>
+            CanonicalizeDependencyKeys(
+                Dictionary<string, List<string>> source
+            )
+        {
+            Dictionary<string, List<string>> result =
+                new Dictionary<string, List<string>>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+            if (source == null)
+            {
+                return result;
+            }
+
+            foreach (KeyValuePair<string, List<string>> entry in source)
+            {
+                string canonicalName =
+                    ItemSet.GetCanonicalItemName(entry.Key);
+                result[canonicalName] = (entry.Value ?? new List<string>())
+                    .Select(ItemSet.GetCanonicalItemName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .ToList();
+            }
+            return result;
+        }
+
+        private static Dictionary<string, int> BuildInventoryCounts(
+            SaveState state
+        )
+        {
+            Dictionary<string, int> counts =
+                new Dictionary<string, int>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+
+            Archipelago archipelago = Archipelago.Instance;
+            IReadOnlyDictionary<string, int> receivedCounts =
+                archipelago?.GetReceivedItemCounts();
+            if (receivedCounts != null)
+            {
+                foreach (KeyValuePair<string, int> entry in receivedCounts)
+                {
+                    AddCount(counts, entry.Key, entry.Value);
+                }
+            }
+
+            if (state?.receivedItems != null)
+            {
+                foreach (string itemName in state.receivedItems)
+                {
+                    SetMinimumCount(counts, itemName, 1);
+                }
+            }
+
+            if (state != null)
+            {
+                SetMinimumCount(
+                    counts,
+                    "Progressive Swift Step",
+                    state.swiftStepLevel
+                );
+                SetMinimumCount(
+                    counts,
+                    "Progressive Druid's Eyes",
+                    state.druidsEyeLevel
+                );
+                SetMinimumCount(
+                    counts,
+                    "Progressive Needle Upgrade",
+                    state.needleUpgradeLevel
+                );
+                SetMinimumCount(
+                    counts,
+                    "Progressive Silkheart",
+                    state.silkHeartLevel
+                );
+                GameManager gameManager = GameManager.UnsafeInstance;
+                PlayerData playerData = gameManager == null
+                    ? null
+                    : gameManager.playerData;
+                if (playerData != null)
+                {
+            // receivedItems is a set, so repeated AP
+                    // items need their native persisted counters when the
+                    // socket cannot provide its ordered receipt list.
+                    SetMinimumCount(
+                        counts,
+                        "Progressive Crafting Kit",
+                        playerData.ToolKitUpgrades
+                    );
+                    SetMinimumCount(
+                        counts,
+                        "Progressive Tool Pouch",
+                        playerData.ToolPouchUpgrades
+                    );
+                    SetMinimumCount(
+                        counts,
+                        "Mossberry",
+                        GetPersistedMossberryCount(playerData, state)
+                    );
+                    SetMinimumCount(
+                        counts,
+                        "Pollip Heart",
+                        GetPersistedPollipHeartCount(playerData, state)
+                    );
+                    SetMinimumCount(
+                        counts,
+                        "Pale Oil",
+                        GetPersistedPaleOilCount(playerData, state)
+                    );
+                }
+                AddNativeSkillState(counts, state);
+                AddNativeEquipmentState(counts, state);
+                AddNativeWorldState(counts, state);
+            }
+            return counts;
+        }
+
+        private static int GetPersistedCollectableCount(
+            PlayerData playerData,
+            string assetName,
+            int maximum
+        )
+        {
+            if (playerData?.Collectables == null || maximum <= 0)
+            {
+                return 0;
+            }
+
+            CollectableItemsData.Data data =
+                playerData.Collectables.GetData(assetName);
+            long count =
+                (long)Math.Max(0, data.Amount) +
+                Math.Max(0, data.AmountWhileHidden);
+            return (int)Math.Min(maximum, count);
+        }
+
+        private static int GetPersistedMossberryCount(
+            PlayerData playerData,
+            SaveState state
+        )
+        {
+            int count = GetPersistedCollectableCount(
+                playerData,
+                "Mossberry",
+                MaxMossberryCount
+            );
+
+            // The Druid records only the three middle one-berry trades.
+            // The initial three-berry and final one-berry costs come from
+            // the completed reward checks, which are persisted by SaveState.
+            count += Math.Max(
+                0,
+                Math.Min(3, playerData.druidMossBerriesSold)
+            );
+            if (state.IsLocationChecked("Tool Unlock: Mosscreep Tool 1"))
+            {
+                count += 3;
+            }
+            if (state.IsLocationChecked("Tool Unlock: Mosscreep Tool 2"))
+            {
+                count += 1;
+            }
+
+            return Math.Min(MaxMossberryCount, count);
+        }
+
+        private static int GetPersistedPaleOilCount(
+            PlayerData playerData,
+            SaveState state
+        )
+        {
+            int count = GetPersistedCollectableCount(
+                playerData,
+                "Pale_Oil",
+                MaxPaleOilCount
+            );
+
+            // Sharpened Needle is oil-free. Each following sequential Plinney
+            // service consumes one Pale Oil before its check is completed.
+            int spentPaleOil = 0;
+            if (state.IsLocationChecked(
+                    "Pinmaster Plinney: Sharpened Needle") &&
+                state.IsLocationChecked(
+                    "Pinmaster Plinney: Shining Needle"))
+            {
+                spentPaleOil = 1;
+                if (state.IsLocationChecked(
+                        "Pinmaster Plinney: Hivesteel Needle"))
+                {
+                    spentPaleOil = 2;
+                    if (state.IsLocationChecked(
+                            "Pinmaster Plinney: Pale Steel Needle"))
+                    {
+                        spentPaleOil = 3;
+                    }
+                }
+            }
+
+            return Math.Min(MaxPaleOilCount, count + spentPaleOil);
+        }
+
+        private static int GetPersistedPollipHeartCount(
+            PlayerData playerData,
+            SaveState state
+        )
+        {
+            int count = GetPersistedCollectableCount(
+                playerData,
+                "Shell Flower",
+                MaxPollipHeartCount
+            );
+
+            // Shell Flowers consumes all six hearts before granting Pollip
+            // Pouch. Recover those consumed copies so offline/reloaded map
+            // logic does not collapse this repeatable AP item to the single
+            // entry retained by SaveState.receivedItems.
+            bool questCompleted = false;
+            if (playerData?.QuestCompletionData != null)
+            {
+                QuestCompletionData.Completion completion =
+                    playerData.QuestCompletionData.GetData(
+                        "Shell Flowers"
+                    );
+                questCompleted = completion.IsCompleted ||
+                                 completion.WasEverCompleted;
+            }
+            if (questCompleted ||
+                (state != null && state.IsLocationChecked(
+                    "Tool Unlock: Poison Pouch")))
+            {
+                count += MaxPollipHeartCount;
+            }
+
+            return Math.Min(MaxPollipHeartCount, count);
+        }
+
+        private static void AddNativeSkillState(
+            Dictionary<string, int> counts,
+            SaveState state
+        )
+        {
+            if (state.IsRandomized(ItemType.Skill))
+            {
+                return;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            if (state.canDoubleJump ||
+                (playerData != null && playerData.hasDoubleJump))
+            {
+                SetMinimumCount(counts, "Faydown Cloak", 1);
+            }
+            if (state.canChargeSlash ||
+                (playerData != null && playerData.hasChargeSlash))
+            {
+                SetMinimumCount(counts, "Needle Strike", 1);
+            }
+            if (state.canSilkSoar ||
+                (playerData != null && playerData.hasSuperJump))
+            {
+                SetMinimumCount(counts, "Silk Soar", 1);
+            }
+            if (state.canWallJump ||
+                (playerData != null && playerData.hasWalljump))
+            {
+                SetMinimumCount(counts, "Cling Grip", 1);
+            }
+            if (state.canBrolly ||
+                (playerData != null && playerData.hasBrolly))
+            {
+                SetMinimumCount(counts, "Drifter's Cloak", 1);
+            }
+            if (state.splitDashAndSprint)
+            {
+                SetMinimumCount(
+                    counts,
+                    "Progressive Swift Step",
+                    state.swiftStepLevel
+                );
+            }
+            else if (state.canDash ||
+                (playerData != null && playerData.hasDash))
+            {
+                SetMinimumCount(counts, "Swift Step", 1);
+            }
+            if (state.canUseHarpoon ||
+                (playerData != null && playerData.hasHarpoonDash))
+            {
+                SetMinimumCount(counts, "Clawline", 1);
+            }
+            if (state.canUseNeedolin ||
+                (playerData != null && playerData.hasNeedolin))
+            {
+                SetMinimumCount(counts, "Needolin", 1);
+            }
+            if (state.canUseQuill ||
+                (playerData != null && playerData.hasQuill))
+            {
+                SetMinimumCount(counts, "Quill", 1);
+            }
+        }
+
+        private static void AddNativeEquipmentState(
+            Dictionary<string, int> counts,
+            SaveState state
+        )
+        {
+            try
+            {
+                foreach (ToolItem tool in
+                    Resources.FindObjectsOfTypeAll<ToolItem>())
+                {
+                    if (tool == null || !tool.IsUnlocked)
+                    {
+                        continue;
+                    }
+
+                    ItemType itemType = tool.Type == ToolItemType.Skill
+                        ? ItemType.Spell
+                        : ItemType.Tool;
+                    if (state.IsRandomized(itemType))
+                    {
+                        continue;
+                    }
+
+                    SetMinimumCount(
+                        counts,
+                        (
+                            itemType == ItemType.Spell
+                                ? "Spell: "
+                                : "Tool: "
+                        ) + tool.name,
+                        1
+                    );
+                }
+
+                if (!state.IsRandomized(ItemType.Crest))
+                {
+                    foreach (ToolCrest crest in
+                        ToolItemManager.GetAllCrests())
+                    {
+                        if (crest != null &&
+                            crest.IsBaseVersion &&
+                            crest.IsUnlocked)
+                        {
+                            SetMinimumCount(
+                                counts,
+                                CrestNames.GetItemNameFromInternal(
+                                    crest.name
+                                ),
+                                1
+                            );
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogDebug(
+                    "[RANDOMIZER] Native equipment was not ready for " +
+                    "check-map logic: " + ex.Message
+                );
+            }
+        }
+
+        private static void AddNativeWorldState(
+            Dictionary<string, int> counts,
+            SaveState state
+        )
+        {
+            bool needsNativeWorldState =
+                !state.IsRandomized(ItemType.SilkHeart) ||
+                !state.IsRandomized(ItemType.Map) ||
+                !state.IsRandomized(ItemType.Flea) ||
+                !state.IsRandomized(ItemType.Bellway) ||
+                !state.IsRandomized(ItemType.Ventrica);
+            if (!needsNativeWorldState)
+            {
+                return;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null)
+            {
+                return;
+            }
+
+            if (!state.IsRandomized(ItemType.SilkHeart))
+            {
+                int silkHeartCount = Math.Max(
+                    0,
+                    Math.Min(3, playerData.silkRegenMax)
+                );
+                SetMinimumCount(
+                    counts,
+                    "Progressive Silkheart",
+                    silkHeartCount
+                );
+            }
+
+            if (!state.IsRandomized(ItemType.Map))
+            {
+                AddNativeMaps(counts, playerData);
+            }
+            if (!state.IsRandomized(ItemType.Flea))
+            {
+                AddNativeFleas(counts, playerData);
+            }
+            if (!state.IsRandomized(ItemType.Bellway))
+            {
+                AddNativeBellways(counts, playerData);
+            }
+            if (!state.IsRandomized(ItemType.Ventrica))
+            {
+                AddNativeVentrica(counts, playerData);
+            }
+        }
+
+        private static void AddNativeMaps(
+            Dictionary<string, int> counts,
+            PlayerData playerData
+        )
+        {
+            SetIfTrue(counts, "Map: Mosslands", playerData.HasMossGrottoMap);
+            SetIfTrue(counts, "Map: The Marrow", playerData.HasBoneforestMap);
+            SetIfTrue(counts, "Map: Deep Docks", playerData.HasDocksMap);
+            SetIfTrue(counts, "Map: Far Fields", playerData.HasWildsMap);
+            SetIfTrue(counts, "Map: Wormways", playerData.HasCrawlMap);
+            SetIfTrue(
+                counts,
+                "Map: Hunter's March",
+                playerData.HasHuntersNestMap
+            );
+            SetIfTrue(counts, "Map: Greymoor", playerData.HasGreymoorMap);
+            SetIfTrue(counts, "Map: Bellhart", playerData.HasBellhartMap);
+            SetIfTrue(counts, "Map: Shellwood", playerData.HasShellwoodMap);
+            SetIfTrue(
+                counts,
+                "Map: Blasted Steps",
+                playerData.HasJudgeStepsMap
+            );
+            SetIfTrue(
+                counts,
+                "Map: Sinner's Road",
+                playerData.HasDustpensMap
+            );
+            SetIfTrue(counts, "Map: Mount Fay", playerData.HasPeakMap);
+            SetIfTrue(
+                counts,
+                "Map: Sands of Karak",
+                playerData.HasCoralMap
+            );
+            SetIfTrue(counts, "Map: Bilewater", playerData.HasSwampMap);
+        }
+
+        private static void AddNativeFleas(
+            Dictionary<string, int> counts,
+            PlayerData playerData
+        )
+        {
+            SetIfTrue(
+                counts,
+                "Flea: The Marrow",
+                playerData.SavedFlea_Bone_06
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Deep Docks - Bellway",
+                playerData.SavedFlea_Dock_16
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Deep Docks - Weaver Burial Spire",
+                playerData.SavedFlea_Bone_East_05
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Far Fields - Captured",
+                playerData.SavedFlea_Bone_East_17b
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Hunter's March",
+                playerData.SavedFlea_Ant_03
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Greymoor - Craw Lake",
+                playerData.SavedFlea_Greymoor_15b
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Greymoor - Tower",
+                playerData.SavedFlea_Greymoor_06
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Shellwood",
+                playerData.SavedFlea_Shellwood_03
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Pilgrim's Rest",
+                playerData.SavedFlea_Bone_East_10_Church
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Blasted Steps",
+                playerData.SavedFlea_Coral_35
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Sinner's Road",
+                playerData.SavedFlea_Dust_12
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Exhaust Organ",
+                playerData.SavedFlea_Dust_09
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Bellhart",
+                playerData.SavedFlea_Belltown_04
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Wormways",
+                playerData.SavedFlea_Crawl_06
+            );
+            SetIfTrue(
+                counts,
+                "Flea: The Slab - Cell",
+                playerData.SavedFlea_Slab_Cell
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Bilewater - Thieves",
+                playerData.SavedFlea_Shadow_28
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Deep Docks - Mines",
+                playerData.SavedFlea_Dock_03d
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Underworks - Wisp Thicket Passage",
+                playerData.SavedFlea_Under_23
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Bilehaven",
+                playerData.SavedFlea_Shadow_10
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Choral Chambers - Spa",
+                playerData.SavedFlea_Song_14
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Sands of Karak",
+                playerData.SavedFlea_Coral_24
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Mount Fay",
+                playerData.SavedFlea_Peak_05c
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Songclave",
+                playerData.SavedFlea_Library_09
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Choral Chambers - Walled Room",
+                playerData.SavedFlea_Song_11
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Whispering Vaults",
+                playerData.SavedFlea_Library_01
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Underworks",
+                playerData.SavedFlea_Under_21
+            );
+            SetIfTrue(
+                counts,
+                "Flea: The Slab - Bellway",
+                playerData.SavedFlea_Slab_06
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Greymoor - Kratt",
+                playerData.CaravanLechSaved
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Putrified Ducts - Vog",
+                playerData.MetTroupeHunterWild
+            );
+            SetIfTrue(
+                counts,
+                "Flea: Memorium - Huge Flea",
+                playerData.tamedGiantFlea
+            );
+        }
+
+        private static void AddNativeBellways(
+            Dictionary<string, int> counts,
+            PlayerData playerData
+        )
+        {
+            SetIfTrue(
+                counts,
+                "Bellway: Deep Docks",
+                playerData.UnlockedDocksStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Far Fields",
+                playerData.UnlockedBoneforestEastStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Greymoor",
+                playerData.UnlockedGreymoorStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Bellhart",
+                playerData.UnlockedBelltownStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Blasted Steps",
+                playerData.UnlockedCoralTowerStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Grand Bellway",
+                playerData.UnlockedCityStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: The Slab",
+                playerData.UnlockedPeakStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Shellwood",
+                playerData.UnlockedShellwoodStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Bilewater",
+                playerData.UnlockedShadowStation
+            );
+            SetIfTrue(
+                counts,
+                "Bellway: Putrified Ducts",
+                playerData.UnlockedAqueductStation
+            );
+        }
+
+        private static void AddNativeVentrica(
+            Dictionary<string, int> counts,
+            PlayerData playerData
+        )
+        {
+            SetIfTrue(
+                counts,
+                "Ventrica: Choral Chambers",
+                playerData.UnlockedSongTube
+            );
+            SetIfTrue(
+                counts,
+                "Ventrica: Underworks",
+                playerData.UnlockedUnderTube
+            );
+            SetIfTrue(
+                counts,
+                "Ventrica: Grand Bellway",
+                playerData.UnlockedCityBellwayTube
+            );
+            SetIfTrue(
+                counts,
+                "Ventrica: High Halls",
+                playerData.UnlockedHangTube
+            );
+            SetIfTrue(
+                counts,
+                "Ventrica: Songclave",
+                playerData.UnlockedEnclaveTube
+            );
+            SetIfTrue(
+                counts,
+                "Ventrica: Memorium",
+                playerData.UnlockedArboriumTube
+            );
+        }
+
+        private static Dictionary<string, bool>
+            ResolveAbstractRequirements(
+                ParsedPayload payload,
+                Dictionary<string, int> inventory
+            )
+        {
+            Dictionary<string, bool> values =
+                payload.AbstractRequirements.Keys.ToDictionary(
+                    name => name,
+                    _ => false,
+                    StringComparer.Ordinal
+                );
+            bool hasCrest = CrestItemNames.Any(
+                itemName => CountItem(inventory, itemName) > 0
+            );
+            bool hasSilkSpear =
+                CountItem(inventory, "Silkspear") > 0 &&
+                NonArchitectCrestItemNames.Any(
+                    itemName => CountItem(inventory, itemName) > 0
+                );
+
+            bool changed = true;
+            while (changed)
+            {
+                changed = false;
+                foreach (KeyValuePair<string, LogicRequirement> entry in
+                    payload.AbstractRequirements)
+                {
+                    if (values[entry.Key] ||
+                        !SatisfiesGroup(
+                            entry.Value,
+                            values,
+                            inventory,
+                            hasCrest,
+                            hasSilkSpear,
+                            payload.Dependencies,
+                            payload.EasySkips
+                        ))
+                    {
+                        continue;
+                    }
+                    values[entry.Key] = true;
+                    changed = true;
+                }
+            }
+            return values;
+        }
+
+        private static bool SatisfiesGroup(
+            LogicRequirement group,
+            IReadOnlyDictionary<string, bool> abstractValues,
+            Dictionary<string, int> inventory,
+            bool hasCrest,
+            bool hasSilkSpear,
+            IReadOnlyDictionary<string, List<string>> dependencies,
+            bool easySkipsEnabled
+        )
+        {
+            return GetAlternatives(group).Any(
+                alternative => SatisfiesRequirement(
+                    alternative,
+                    abstractValues,
+                    inventory,
+                    hasCrest,
+                    hasSilkSpear,
+                    dependencies,
+                    easySkipsEnabled
+                )
+            );
+        }
+
+        private static IEnumerable<LogicRequirement> GetAlternatives(
+            LogicRequirement group
+        )
+        {
+            if (group?.Alternatives != null)
+            {
+                return group.Alternatives.Where(
+                    alternative => alternative != null
+                );
+            }
+            return group == null
+                ? Enumerable.Empty<LogicRequirement>()
+                : new[] { group };
+        }
+
+        private static bool SatisfiesRequirement(
+            LogicRequirement requirement,
+            IReadOnlyDictionary<string, bool> abstractValues,
+            Dictionary<string, int> inventory,
+            bool hasCrest,
+            bool hasSilkSpear,
+            IReadOnlyDictionary<string, List<string>> dependencies,
+            bool easySkipsEnabled
+        )
+        {
+            if (requirement == null ||
+                (requirement.RequiresEasySkips && !easySkipsEnabled) ||
+                (requirement.RequireAnyCrest && !hasCrest) ||
+                (requirement.RequireSilkSpear && !hasSilkSpear))
+            {
+                return false;
+            }
+            if ((requirement.AllOf ?? new List<string>()).Any(
+                    name => !HasNamedRequirement(
+                        name,
+                        abstractValues,
+                        inventory,
+                        dependencies
+                    )
+                ))
+            {
+                return false;
+            }
+            if (requirement.AnyOf != null &&
+                requirement.AnyOf.Count > 0 &&
+                !requirement.AnyOf.Any(
+                    name => HasNamedRequirement(
+                        name,
+                        abstractValues,
+                        inventory,
+                        dependencies
+                    )
+                ))
+            {
+                return false;
+            }
+            if ((requirement.ItemCounts ?? new List<LogicItemCount>())
+                .Any(itemCount =>
+                    (itemCount?.Items ?? new List<string>())
+                        .Sum(name => CountItem(inventory, name)) <
+                    Math.Max(0, itemCount?.Minimum ?? 0)
+                ))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private static bool HasNamedRequirement(
+            string name,
+            IReadOnlyDictionary<string, bool> abstractValues,
+            Dictionary<string, int> inventory,
+            IReadOnlyDictionary<string, List<string>> dependencies
+        )
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return false;
+            }
+            if (abstractValues.TryGetValue(name, out bool abstractValue))
+            {
+                return abstractValue;
+            }
+
+            string canonicalName = ItemSet.GetCanonicalItemName(name);
+            bool dependencyBackedAlias =
+                string.Equals(
+                    canonicalName,
+                    SwiftStepItemName,
+                    StringComparison.OrdinalIgnoreCase
+                ) &&
+                dependencies.TryGetValue(
+                    canonicalName,
+                    out List<string> aliasDependencies
+                ) &&
+                aliasDependencies.Count > 0;
+            if (CountItem(inventory, canonicalName) <= 0 &&
+                !dependencyBackedAlias)
+            {
+                return false;
+            }
+            if (!dependencies.TryGetValue(
+                    canonicalName,
+                    out List<string> itemDependencies
+                ))
+            {
+                return true;
+            }
+
+            return itemDependencies
+                .Where(dependency =>
+                    !string.IsNullOrWhiteSpace(dependency)
+                )
+                .GroupBy(
+                    ItemSet.GetCanonicalItemName,
+                    StringComparer.OrdinalIgnoreCase
+                )
+                .All(group =>
+                    CountItem(inventory, group.Key) >= group.Count()
+                );
+        }
+
+        private static int CountItem(
+            IReadOnlyDictionary<string, int> counts,
+            string itemName
+        )
+        {
+            if (counts == null || string.IsNullOrWhiteSpace(itemName))
+            {
+                return 0;
+            }
+            string canonicalName =
+                ItemSet.GetCanonicalItemName(itemName);
+            return counts.TryGetValue(canonicalName, out int count)
+                ? count
+                : 0;
+        }
+
+        private static void AddCount(
+            Dictionary<string, int> counts,
+            string itemName,
+            int count
+        )
+        {
+            if (counts == null || string.IsNullOrWhiteSpace(itemName) ||
+                count <= 0)
+            {
+                return;
+            }
+            string canonicalName =
+                ItemSet.GetCanonicalItemName(itemName);
+            counts.TryGetValue(canonicalName, out int previousCount);
+            counts[canonicalName] = previousCount + count;
+        }
+
+        private static void SetMinimumCount(
+            Dictionary<string, int> counts,
+            string itemName,
+            int count
+        )
+        {
+            if (counts == null || string.IsNullOrWhiteSpace(itemName) ||
+                count <= 0)
+            {
+                return;
+            }
+            string canonicalName =
+                ItemSet.GetCanonicalItemName(itemName);
+            counts.TryGetValue(canonicalName, out int previousCount);
+            counts[canonicalName] = Math.Max(previousCount, count);
+        }
+
+        private static void SetIfTrue(
+            Dictionary<string, int> counts,
+            string itemName,
+            bool isAvailable
+        )
+        {
+            if (isAvailable)
+            {
+                SetMinimumCount(counts, itemName, 1);
+            }
+        }
+    }
+}
