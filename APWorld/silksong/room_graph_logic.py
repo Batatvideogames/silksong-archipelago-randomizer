@@ -24,7 +24,7 @@ class CompiledRoomClause:
     all_of: tuple[str, ...] = ()
     item_counts: tuple[tuple[str, int], ...] = ()
     require_silk_spear: bool = False
-    requires_easy_skips: bool = False
+    minimum_skip_tier: int = 0
 
 
 @dataclass(frozen=True)
@@ -52,18 +52,21 @@ def _part(
     *all_of: str,
     item_counts: Iterable[tuple[str, int]] = (),
     silk_spear: bool = False,
-    easy_skips: bool = False,
+    skip_tier: int = 0,
 ) -> CompiledRoomClause:
     return CompiledRoomClause(
         all_of=tuple(all_of),
         item_counts=tuple(item_counts),
         require_silk_spear=silk_spear,
-        requires_easy_skips=easy_skips,
+        minimum_skip_tier=skip_tier,
     )
 
 
 _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    "item:architect-crest": (_part("Crest: Architect"),),
     "item:beast-crest": (_part("Crest: Beast"),),
+    "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
+    "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
     "item:clawline": (_part("Ancestral Art: Clawline"),),
     "item:cling-grip": (_part("Ancestral Art: Cling Grip"),),
     "item:drifters-cloak": (_part("Ability: Drifter's Cloak"),),
@@ -71,10 +74,12 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # "Filled needle phial" is the state of the original Needle Phial used
     # to finish the Plasmium quest.  Plasmium Phial is the reward, so mapping
     # this atom to it would put that reward behind itself.
-    "item:filled-needle-phial": (_part("Tool: Needle Phial"),),
-    "item:needle-phial": (_part("Tool: Needle Phial"),),
+    "item:filled-needle-phial": (_part("Usable Needle Phial"),),
+    "item:hunter-crest": (_part("Crest: Hunter"),),
+    "item:needle-phial": (_part("Usable Needle Phial"),),
     "item:needolin": (_part("Ancestral Art: Needolin"),),
     "item:ruined-tool": (_part("Ruined Tool"),),
+    "item:reaper-crest": (_part("Crest: Reaper"),),
     "item:shaman-crest": (_part("Crest: Shaman"),),
     # Sharpdart must be usable, not merely received. The existing abstract
     # requirement excludes Architect and accepts every crest with a Silk Skill
@@ -95,9 +100,33 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Swift Step"),
         _part("Ancestral Art: Clawline"),
     ),
+    "macro:any-crest": (
+        _part("Crest: Hunter"),
+        _part("Crest: Reaper"),
+        _part("Crest: Shaman"),
+        _part("Crest: Architect"),
+        _part("Crest: Wanderer"),
+        _part("Crest: Beast"),
+        _part("Crest: Witch"),
+    ),
     # The Magma Bell must be equippable on an owned crest.  This abstract
     # requirement accounts for native Blue slots and randomized slot upgrades.
     "macro:usable-magma-bell": (_part("Usable Magma Bell"),),
+    # Every authored Scuttlebrace route is the full-speed crawl technique, so
+    # merely owning/equipping the tool is insufficient. It also needs the full
+    # Swift Step upgrade, never only the first progressive stage.
+    "macro:usable-scuttlebrace": (
+        _part("Usable Scuttlebrace", "Swift Step"),
+    ),
+    # "crest pogo" uses these five diagonal or pogo-capable crests. The
+    # air-stall technique below uses a different set.
+    "macro:crest-pogo": (
+        _part("Crest: Hunter"),
+        _part("Crest: Beast"),
+        _part("Crest: Architect"),
+        _part("Crest: Shaman"),
+        _part("Crest: Reaper"),
+    ),
     # This shorthand means a crest whose diagonal attack can stall
     # Hornet in the air long enough to pogo. It is a crest requirement, not a
     # blanket "any crest" gate.
@@ -107,7 +136,9 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Reaper"),
         _part("Crest: Architect"),
     ),
-    "option:easy-skips": (_part(easy_skips=True),),
+    "option:skips-easy": (_part(skip_tier=1),),
+    "option:skips-moderate": (_part(skip_tier=2),),
+    "option:skips-difficult": (_part(skip_tier=3),),
     # These blockades are the Silkspear-cut silk walls in Mosshome. Requiring
     # usable Silkspear also keeps Architect from falsely satisfying the route.
     "capability:break-silk-blockade": (_part(silk_spear=True),),
@@ -118,6 +149,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # The client keeps the randomized Wanderer chapel door open, making its
     # monotonic override a free capability in AP logic.
     "capability:wanderer-door-override": (_part(),),
+    "state:act-3": (_part("Act: 3"),),
 }
 
 
@@ -128,8 +160,8 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
         "event:bone-bottom/mosshome-middle/flip-switch-to-open-floor-exit",
     "event:bone-bottom/mosshome-lower/spool-ceiling-switch-opened":
         "event:bone-bottom/mosshome-spool/floor-switch-to-open-ceiling-exit",
-    "event:bone-bottom/bone-bottom/elevator-switch-flipped":
-        "event:bone-bottom/bone-bottom/elevator-switch",
+    "event:bone-bottom/bone-bottom-town/elevator-switch-flipped":
+        "event:bone-bottom/bone-bottom-town/elevator-switch",
     "event:bone-bottom/mosshome-middle/flip-the-switch-in-this-area":
         "event:bone-bottom/mosshome-middle/flip-switch-to-open-floor-exit",
     "event:bone-bottom/mosshome-spool/switch-in-room-activated":
@@ -168,6 +200,13 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
         "event:deep-docks/deep-docks-lace-intro/gate-switch",
     "event:deep-docks/deep-docks-spool-east/platforms-lowered":
         "event:deep-docks/deep-docks-spool-east/platform-lever",
+    "event:deep-docks/deep-docks-magma-slug-tunnels/left-door-switch-flipped":
+        "event:deep-docks/deep-docks-magma-slug-tunnels/left-door-switch",
+    (
+        "event:deep-docks/deep-docks-magma-slug-tunnels/"
+        "right-door-switch-must-be-flipped"
+    ):
+        "event:deep-docks/deep-docks-magma-slug-tunnels/right-door-switch",
 }
 
 
@@ -175,7 +214,7 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
 # Every entry is monotonic: once that node is reachable, the player can perform
 # the action and retain the shortcut/state for the rest of the logic search.
 _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
-    "event:bone-bottom/bone-bottom/door-opened-from-other-side": (
+    "event:bone-bottom/bone-bottom-town/door-opened-from-other-side": (
         _part(room_node_name("bone-bottom/bonegrave#graveyard")),
     ),
     "event:bone-bottom/bonegrave/wall-broken-from-other-side": (
@@ -190,17 +229,17 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ): (
         _part(room_node_name("bone-bottom/mosshome-upper#main-area")),
     ),
-    "event:bone-bottom/ruined-chapel/moss-mother-defeated": (
-        _part(room_node_name("bone-bottom/ruined-chapel#boss-room")),
+    "event:moss-grotto/ruined-chapel/moss-mother-defeated": (
+        _part(room_node_name("moss-grotto/ruined-chapel#boss-room")),
     ),
     # This blocker disappears after leaving Moss Grotto. Reaching Bone Bottom
     # ground level confirms the departure without making the ceiling exit a
     # start route.
     (
-        "event:bone-bottom/moss-grotto-center/"
+        "event:moss-grotto/moss-grotto-center/"
         "has-loading-zone-blocker-until-you-first-leave-moss-grotto"
     ): (
-        _part(room_node_name("bone-bottom/bone-bottom#ground-level")),
+        _part(room_node_name("bone-bottom/bone-bottom-town#ground-level")),
     ),
     "event:the-marrow/the-marrow-bellway/bell-beast-defeated": (
         _part(
@@ -291,10 +330,111 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:deep-docks/deep-docks-map-shop/flip-switch-to-lower-platform": (
         _part(room_node_name("deep-docks/deep-docks-map-shop#lower-area")),
     ),
+    "event:deep-docks/deep-docks-chains-lower-east/open-airlock-door": (
+        _part(
+            room_node_name(
+                "deep-docks/deep-docks-chains-lower-east#spool-fragment-area"
+            )
+        ),
+    ),
+    # The Underworks lift door is opened from the Broken Elevator side.
+    "event:underworks/underworks-shaft/must-be-opened-from-the-other-side": (
+        _part(room_node_name("underworks/broken-elevator#room")),
+    ),
+    # Entering the west arena clears its gauntlet state and reopens the return
+    # route.
+    "event:underworks/underworks-western-gauntlet/gauntlet": (
+        _part(room_node_name("underworks/underworks-western-gauntlet#room")),
+    ),
+    # The east-to-west room is the controlling side of this one-way door.
+    (
+        "event:choral-chambers/choral-chambers-eastern-shaft/"
+        "door-should-be-opened-from-the-other-side"
+    ): (
+        _part(
+            room_node_name(
+                "choral-chambers/choral-chambers-east-to-west#left-side"
+            )
+        ),
+    ),
+    # The Spa side breaks the wall into the lower Flea Shaft.
+    (
+        "event:choral-chambers/choral-chambers-flea-shaft/"
+        "breakable-wall-must-be-opened-from-the-other-side"
+    ): (
+        _part(room_node_name("choral-chambers/choral-chambers-spa#spa")),
+    ),
+    # This shortcut is opened while approaching from Underworks.
+    (
+        "event:choral-chambers/choral-chambers-outisde-underworks/"
+        "only-opened-from-the-other-side"
+    ): (
+        _part(
+            room_node_name(
+                "underworks/underworks-outside-choral-chambers#room"
+            )
+        ),
+    ),
+    "event:choral-chambers/choral-chambers-outside-spa/gauntlet": (
+        _part(
+            room_node_name(
+                "choral-chambers/choral-chambers-outside-spa#gauntlet"
+            )
+        ),
+    ),
+    # The Dancers event comes from their arena and requires an owned crest. The
+    # old Choral path was too broad for this event.
+    "event:global/cogwork-dancers-defeated": tuple(
+        _part(
+            room_node_name("cogwork-core/cog-dancers#bossarena"),
+            crest,
+        )
+        for crest in (
+            "Crest: Hunter",
+            "Crest: Reaper",
+            "Crest: Shaman",
+            "Crest: Architect",
+            "Crest: Wanderer",
+            "Crest: Beast",
+            "Crest: Witch",
+        )
+    ),
+    "event:the-marrow/the-marrow-skull-wall/opened-from-shellwood": (
+        _part(room_node_name("shellwood/mosstown-03#bottom-half")),
+    ),
+    "event:shellwood/bellshrine-03/activated": (
+        _part(room_node_name("shellwood/bellshrine-03#room")),
+    ),
+    "event:shellwood/mosstown-03/top-exit-opened": (
+        _part(room_node_name("shellwood/mosstown-03#top-half")),
+    ),
+    "event:shellwood/shellwood-02/elevator-activated": (
+        _part(room_node_name("shellwood/shellwood-02#ceiling-area")),
+    ),
+    "event:shellwood/shellwood-02/lower-door-opened": (
+        _part(room_node_name("shellwood/shellwood-02#ground-right")),
+    ),
+    "event:shellwood/shellwood-01/nest-broken": (
+        _part(room_node_name("shellwood/shellwood-01#right-platforms")),
+    ),
+    "event:shellwood/shellwood-01b/elevator-activated": (
+        _part(room_node_name("shellwood/shellwood-01b#elevator-platform")),
+    ),
+    "event:shellwood/shellwood-15/door-opened": (
+        _part(room_node_name("shellwood/shellwood-15#room")),
+    ),
+    "event:shellwood/shellwood-26/upper-wall-broken": (
+        _part(room_node_name("shellwood/shellwood-26#upper-area")),
+    ),
 }
 
 
 _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
+    "event:global/cogwork-dancers-defeated":
+        "Event: Cogwork Dancers Defeated",
+    "event:global/last-judge-defeated": "Event: Last Judge Defeated",
+    "event:global/missing-courier-rescued":
+        "Event: Missing Courier Rescued",
     "event:the-marrow/the-marrow-bellway/bell-beast-defeated":
         "Event: Bell Beast Defeated",
 }
@@ -304,7 +444,7 @@ _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
 # are excluded because they let flat fallback rules bypass doors, switches
 # and room connections.
 _NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
-    "bone-bottom/moss-grotto-center#rock-bottom": (_part(),),
+    "moss-grotto/moss-grotto-center#rock-bottom": (_part(),),
 }
 
 
@@ -313,6 +453,50 @@ _NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 # March is included. From this port onward every route comes from the Deep
 # Docks nodes and one-way states. This is not an internal Deep Docks bypass.
 _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    # The west Sinner's Road entrance comes from Greymoor's Halfway House route
+    # and needs Cling Grip. Starting at the later Sinner path would skip it.
+    "sinner-s-road/sinner-s-road-entrance#room": (
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Ancestral Art: Cling Grip",
+        ),
+    ),
+    # The room graph skips the stretch between Bilewater's Bellway and this
+    # entrance. Use the existing east-side route at the boundary.
+    "bilewater/bilewater-entrance#room": (
+        _part(
+            "Path: Bilewater - Bellway",
+            "Ancestral Art: Cling Grip",
+            "Ancestral Art: Swift Step",
+        ),
+    ),
+    # This room set contains the Bone Scroll side room but not the rest of lower
+    # Greymoor. Its exit lands on the existing Halfway House path.
+    "greymoor/greymoor-bone-scroll-room#room": (
+        _part("Path: Greymoor - Halfway House"),
+    ),
+    # Last Judge's arena is outside this room set. Defeating it puts Hornet at
+    # the top of the Grand Elevator before the collapse.
+    "grand-gate/grand-elevator#top": (
+        _part("Event: Last Judge Defeated"),
+    ),
+    # The missing lower Greymoor transition enters the bottom of the Wisp bench
+    # room.
+    "whisp-thicket/wisp-thicket-bench#bottom": (
+        _part("Path: Greymoor - Wisp Thicket"),
+    ),
+    # These station connections sit outside the imported rooms. Each route
+    # stops at its station.
+    "choral-chambers/choral-chambers-ventrica-room#ventrica": (
+        _part("Path: Ventrica - Choral Chambers"),
+    ),
+    "choral-chambers/grand-bellway#base": (
+        _part("Path: Bellway - Grand Bellway"),
+        _part("Path: Ventrica - Grand Bellway"),
+    ),
+    "choral-chambers/songclave-tube#room": (
+        _part("Path: Ventrica - Songclave"),
+    ),
     "deep-docks/is-this-still-deep-docks-west#upper-level": (
         _part("Path: Hunter's March - Trap"),
     ),
@@ -320,6 +504,29 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # Fields backdoor, so the Lower Deep Docks boundary remains at this node.
     "deep-docks/deep-docks-chains-upper-east#chain-platforms": (
         _part("Path: Deep Docks - Lower"),
+    ),
+    "deep-docks/deep-docks-bellway#room": (
+        _part("Path: Bellway - Deep Docks"),
+    ),
+    # Blasted Steps is not in the room graph yet. This route stops at the first
+    # Shellwood node.
+    "shellwood/shellwood-08#room": (
+        _part("Path: Blasted Steps - Toll"),
+    ),
+    "shellwood/shellwood-19#right-puddle": (
+        _part("Path: Bellway - Shellwood"),
+    ),
+    "bellhart/belltown-06#lower-level": (
+        _part("Path: Greymoor - Halfway House"),
+    ),
+    "bellhart/belltown-basement#room": (
+        _part("Path: Bellway - Bellhart"),
+    ),
+    "bellhart/belltown#ground-level": (
+        _part("Event: Widow Defeated"),
+    ),
+    "shellwood/shellwood-01b#bench-toll": (
+        _part("Event: Widow Defeated"),
     ),
 }
 
@@ -330,9 +537,18 @@ _ALL_NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 }
 
 
-# These links resolve through the room graph, so the compiler adds no extra
-# geometry.
-_CURATED_EDGES: tuple[tuple[str, str, tuple[CompiledRoomClause, ...]], ...] = ()
+# Dust_02 is missing its free downward route from the top opening. The y=93
+# lever blocks the room edge, not this descent. Keep the movement-gated climb
+# in the other direction.
+_CURATED_EDGES: tuple[
+    tuple[str, str, tuple[CompiledRoomClause, ...]], ...
+] = (
+    (
+        "sinner-s-road/sinner-s-road-vertical-hall-west#top",
+        "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
+        (_part(),),
+    ),
+)
 
 
 # Existing AP locations whose room records represent the
@@ -340,22 +556,78 @@ _CURATED_EDGES: tuple[tuple[str, str, tuple[CompiledRoomClause, ...]], ...] = ()
 # Included check row.  These are identity bindings only. Access still comes
 # entirely from the room graph.
 _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
-    "Beast Shard: Marrowmaw": "bone-bottom/moss-grotto-center#rock-bottom",
+    "Beast Shard: Marrowmaw": "moss-grotto/moss-grotto-center#rock-bottom",
+    "Bellhart - Outer Sign": "bellhart/belltown-07#room",
+    "Mosshome - Moss Plaque": "bone-bottom/mosshome-upper#main-area",
+    "The Marrow - Entrance Inscription": (
+        "the-marrow/the-marrow-bell-bench#bell-bench"
+    ),
+    "The Marrow (Flea Caravan) - Rosary Dish": (
+        "the-marrow/the-marrow-flea-caravan#main-area"
+    ),
     "Bellshrine: The Marrow": "the-marrow/the-marrow-bellshrine#room",
     "Tool Pouch: Loddie": "the-marrow/the-marrow-jail#room",
-    "Rosary Cache: The Marrow #11": (
+    "The Marrow - Rosary Cache #11": (
         "the-marrow/the-marrow-lava-track#left-maze"
     ),
-    "Rosary Cache: The Marrow #12": (
+    "The Marrow - Rosary Cache #12": (
         "the-marrow/the-marrow-lava-track#left-maze"
     ),
-    "Rosary Cache: The Marrow #13": (
+    "The Marrow - Rosary Cache #13": (
         "the-marrow/the-marrow-lava-track#right-maze"
     ),
     "Map Purchase: Wormways": "wormways/wormways-upper-east#upper-area",
     "Pin Purchase: Vendor Pins": "wormways/wormways-upper-east#upper-area",
     "Bellway: Deep Docks": "deep-docks/deep-docks-bellway#room",
     "Bellshrine: Deep Docks": "deep-docks/deep-docks-bellshrine#room",
+    "Shellwood - Shellgrave Inscription": "shellwood/shellgrave#room",
+    "Shellwood - Weaver Harp Inscription": (
+        "shellwood/shellwood-10#lower-level"
+    ),
+    "Bellshrine: Bellhart": "bellhart/belltown-shrine#arena",
+    "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Bone Scroll (Wisp Thicket)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Weaver Effigy (Camora, Moss Grotto)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Choral Commandment (Jubilana)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Rune Harp (High Halls)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Choral Commandment (Western Whiteward)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Rune Harp (Weavenest Cindril)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Rune Harp (Weavenest Atla)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Bone Scroll (Underworks)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Bone Scroll (Far Fields)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Choral Commandment (Moss Grotto)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Choral Commandment (Eastern Whiteward)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Bone Scroll (Greymoor)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Weaver Effigy (Atla, The Slab)": (
+        "bellhart/belltown-room-relic#room"
+    ),
+    "Relic Turn-in: Arcane Egg": "bellhart/belltown-room-relic#room",
 }
 
 
@@ -382,8 +654,9 @@ def _merge(left: CompiledRoomClause, right: CompiledRoomClause) -> CompiledRoomC
         all_of=tuple(dict.fromkeys((*left.all_of, *right.all_of))),
         item_counts=tuple(merged_counts.items()),
         require_silk_spear=left.require_silk_spear or right.require_silk_spear,
-        requires_easy_skips=(
-            left.requires_easy_skips or right.requires_easy_skips
+        minimum_skip_tier=max(
+            left.minimum_skip_tier,
+            right.minimum_skip_tier,
         ),
     )
 
@@ -412,6 +685,30 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                 f"invalid room-graph mossberry count atom: {atom!r}"
             )
         return (_part(item_counts=(("Mossberry", minimum),)),)
+    if atom.startswith("count:pollip-heart:"):
+        try:
+            minimum = int(atom.rsplit(":", 1)[1])
+        except ValueError as exc:
+            raise ValueError(
+                f"invalid room-graph pollip-heart count atom: {atom!r}"
+            ) from exc
+        if minimum < 1:
+            raise ValueError(
+                f"invalid room-graph pollip-heart count atom: {atom!r}"
+            )
+        return (_part(item_counts=(("Pollip Heart", minimum),)),)
+    if atom.startswith("count:progressive-silkheart:"):
+        try:
+            minimum = int(atom.rsplit(":", 1)[1])
+        except ValueError as exc:
+            raise ValueError(
+                f"invalid room-graph Progressive Silkheart count atom: {atom!r}"
+            ) from exc
+        if minimum < 1:
+            raise ValueError(
+                f"invalid room-graph Progressive Silkheart count atom: {atom!r}"
+            )
+        return (_part(item_counts=(("Progressive Silkheart", minimum),)),)
     if atom.startswith("event:"):
         return (_part(_event_requirement_name(atom)),)
     raise ValueError(f"unsupported room-graph atom: {atom!r}")
@@ -446,8 +743,39 @@ def _append_requirements(
 ) -> None:
     bucket = target.setdefault(name, [])
     for requirement in requirements:
-        if requirement not in bucket:
-            bucket.append(requirement)
+        # DNF alternatives are monotonic. If an existing clause requires a
+        # subset of the new clause's nodes/items/options, the new clause can
+        # never unlock anything and is redundant. Conversely, a newly added
+        # weaker clause replaces every stronger alternative it subsumes.
+        if any(_clause_subsumes(existing, requirement) for existing in bucket):
+            continue
+        bucket[:] = [
+            existing
+            for existing in bucket
+            if not _clause_subsumes(requirement, existing)
+        ]
+        bucket.append(requirement)
+
+
+def _clause_subsumes(
+    weaker: CompiledRoomClause,
+    stronger: CompiledRoomClause,
+) -> bool:
+    """Return whether satisfying ``stronger`` always satisfies ``weaker``."""
+
+    if not set(weaker.all_of).issubset(stronger.all_of):
+        return False
+    if weaker.require_silk_spear and not stronger.require_silk_spear:
+        return False
+    if weaker.minimum_skip_tier > stronger.minimum_skip_tier:
+        return False
+
+    weaker_counts = dict(weaker.item_counts)
+    stronger_counts = dict(stronger.item_counts)
+    return all(
+        minimum <= stronger_counts.get(item_name, 0)
+        for item_name, minimum in weaker_counts.items()
+    )
 
 
 def _has_only_declared_room_references(

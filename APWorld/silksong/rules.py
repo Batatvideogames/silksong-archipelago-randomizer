@@ -13,30 +13,22 @@ from .locations import (
     NEEDLE_UPGRADE_LOCATION_CATEGORY,
     OBSERVATION_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
-    PROTOCOL_ONLY_LOCATION_NAMES,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
     location_data_table,
 )
-from .minor_families import (
-    get_minor_family_shuffle_category_for_location,
-)
-from .options import (
-    CATEGORY_OPTION_BY_LOCATION_CATEGORY,
-    get_category_mode_key,
-)
+from .options import CATEGORY_OPTION_BY_LOCATION_CATEGORY
 from .prices import get_shell_shard_donation_tool_pouch_requirements
 from .requirements import (
     CREST_SLOT_LOCATION_NAMES,
-    DEFAULT_FLEA_HUNT_GOAL_COUNT,
     JUNK_ONLY_LOCATIONS,
     MEMORY_LOCKET_ITEM,
     POLLIP_HEART_COUNT,
-    POLLIP_HEART_ITEM,
     ROSARY_BANK_GATED_LOCATIONS,
     SIMPLE_KEY_ROSARY_BANK,
     UNVERIFIED_PROGRESSION_LOCATIONS,
+    get_crawfather_requirements,
     validate_requirements,
 )
 from .requirement_rules import (
@@ -44,14 +36,15 @@ from .requirement_rules import (
     build_goal_rule,
     build_location_rule,
     build_native_source_rule,
+    build_requirements_rule,
 )
 
-CREST_SLOT_MEMORY_LOCKET_BUFFER = 2
 PROGRESSIVE_TOOL_POUCH_ITEM = 'Progressive Tool Pouch'
 RESTORATION_OF_BELLHART_QUEST_LOCATION = (
     'Wish: Restoration of Bellhart'
 )
-POLLIP_POUCH_LOCATION = 'Pollip Pouch'
+CRAWFATHER_LOCATION = 'Boss: Crawfather'
+CREST_SLOT_MEMORY_LOCKET_BUFFER = 2
 
 
 def _is_not_progression_item(item: Item) -> bool:
@@ -74,17 +67,8 @@ def _is_junk_item(item: Item) -> bool:
 
 
 def uses_randomized_memory_lockets_for_crest_slots(world) -> bool:
-    category_mode_getter = getattr(world, "get_category_mode", None)
-    memory_locket_mode = (
-        category_mode_getter('MemoryLocket')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'MemoryLocket')
-    )
-    crest_slot_mode = (
-        category_mode_getter('CrestSlot')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'CrestSlot')
-    )
+    memory_locket_mode = world.get_category_mode('MemoryLocket')
+    crest_slot_mode = world.get_category_mode('CrestSlot')
     return (
         memory_locket_mode != 'vanilla'
         and crest_slot_mode != 'vanilla'
@@ -117,6 +101,14 @@ def get_active_crest_slot_locations(world) -> tuple:
 
 
 def get_crest_slot_memory_locket_count(world) -> int:
+    """Return the shared consumable budget for randomized Crest Slots.
+
+    Full accessibility must keep every physical slot collectable, so it
+    conservatively requires one Locket for every active slot.  Minimal only
+    needs the progression-bearing slots for completion. Two spare Lockets
+    preserve the established buffer for an optional purchase or mistake.
+    """
+
     frozen_count = getattr(
         world,
         "_crest_slot_memory_locket_count",
@@ -124,13 +116,23 @@ def get_crest_slot_memory_locket_count(world) -> int:
     )
     if frozen_count is not None:
         return int(frozen_count)
-    active_slot_count = len(get_active_crest_slot_locations(world))
-    progression_count = get_crest_slot_progression_item_count(world)
+
+    active_count = len(get_active_crest_slot_locations(world))
+    if active_count == 0:
+        return 0
+
+    accessibility = getattr(world.options, "accessibility", None)
+    accessibility_value = getattr(accessibility, "value", accessibility)
+    minimal_value = getattr(accessibility, "option_minimal", 2)
+    if accessibility is None or accessibility_value != minimal_value:
+        return active_count
+
     return min(
-        active_slot_count,
+        active_count,
         max(
             1,
-            progression_count + CREST_SLOT_MEMORY_LOCKET_BUFFER,
+            get_crest_slot_progression_item_count(world)
+            + CREST_SLOT_MEMORY_LOCKET_BUFFER,
         ),
     )
 
@@ -155,16 +157,6 @@ def finalize_crest_slot_memory_locket_logic(world) -> None:
             # Progression balancing must not change the number after the
             # access rules and client slot data have agreed on it.
             location.locked = True
-
-
-def _make_local_filler_item_rule(player: int):
-    def local_filler_item_rule(item: Item) -> bool:
-        return (
-            item.player == player
-            and item.classification == ItemClassification.filler
-        )
-
-    return local_filler_item_rule
 
 
 def _is_matching_shuffle_item(category: str):
@@ -216,112 +208,39 @@ def set_silksong_rules(world) -> None:
         item_data_table.keys(),
         PROGRESSION_ITEMS,
     )
-    split_dash_and_sprint = bool(
-        getattr(
-            getattr(world.options, "split_dash_and_sprint", None),
-            "value",
-            0,
-        )
-    )
+    split_dash_and_sprint = world.is_split_dash_and_sprint()
     randomize_needle_upgrades = bool(
-        getattr(
-            getattr(
-                world.options,
-                "randomize_needle_upgrades",
-                None,
-            ),
-            "value",
-            0,
-        )
-    )
-    bellway_access_getter = getattr(
-        world,
-        "allows_bellways_before_bell_beast",
-        None,
+        world.options.randomize_needle_upgrades.value
     )
     allow_bellways_before_bell_beast = (
-        bool(bellway_access_getter())
-        if callable(bellway_access_getter)
-        else False
+        world.allows_bellways_before_bell_beast()
     )
-    easy_skips_getter = getattr(
-        world,
-        "is_easy_skips_enabled",
-        None,
-    )
-    easy_skips_enabled = (
-        bool(easy_skips_getter())
-        if callable(easy_skips_getter)
-        else False
-    )
-    logic_audit_mode_getter = getattr(
-        world,
-        "is_logic_audit_mode_enabled",
-        None,
-    )
-    logic_audit_mode = (
-        bool(logic_audit_mode_getter())
-        if callable(logic_audit_mode_getter)
-        else False
+    skips_tier = world.get_skips_tier()
+    scuttlebrace_logic_enabled = (
+        world.is_scuttlebrace_logic_enabled()
     )
     individual_relic_turn_ins = bool(
-        getattr(
-            getattr(
-                world.options,
-                "individual_relic_turn_ins",
-                None,
-            ),
-            "value",
-            0,
-        )
+        world.options.individual_relic_turn_ins.value
     )
-    logic_audit_item_rule = (
-        _make_local_filler_item_rule(world.player)
-        if logic_audit_mode
-        else None
-    )
-    category_mode_getter = getattr(world, "get_category_mode", None)
-    relic_mode = (
-        category_mode_getter('Relic')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'Relic')
-    )
-    memory_locket_mode = (
-        category_mode_getter('MemoryLocket')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'MemoryLocket')
-    )
-    crest_slot_mode = (
-        category_mode_getter('CrestSlot')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'CrestSlot')
-    )
-    pollip_heart_mode = (
-        category_mode_getter('PollipHeart')
-        if callable(category_mode_getter)
-        else get_category_mode_key(world.options, 'PollipHeart')
+    relic_mode = world.get_category_mode('Relic')
+    memory_locket_mode = world.get_category_mode('MemoryLocket')
+    crest_slot_mode = world.get_category_mode('CrestSlot')
+    pollip_heart_mode = world.get_category_mode('PollipHeart')
+    pollip_heart_count = (
+        POLLIP_HEART_COUNT
+        if pollip_heart_mode != 'vanilla'
+        else 0
     )
     randomized_memory_lockets_for_crest_slots = (
         memory_locket_mode != 'vanilla'
         and crest_slot_mode != 'vanilla'
     )
     randomized_crest_slots_enabled = crest_slot_mode != 'vanilla'
-    starting_location_getter = getattr(
-        world,
-        "get_starting_location_key",
-        None,
-    )
-    starting_location = (
-        starting_location_getter()
-        if callable(starting_location_getter)
-        else 'vanilla'
-    )
-    purchase_price_getter = getattr(world, 'get_purchase_prices', None)
+    starting_location = world.get_starting_location_key()
+    trails_end_requirement = world.get_trails_end_requirement_key()
     shell_shard_donation_pouch_requirements = (
         get_shell_shard_donation_tool_pouch_requirements(
-            purchase_price_getter()
-            if callable(purchase_price_getter)
-            else {}
+            world.get_purchase_prices()
         )
     )
     # The Bone Bottom fossil does not exist until the statue donation is
@@ -329,27 +248,16 @@ def set_silksong_rules(world) -> None:
     # downstream item cannot be considered reachable before Hornet can carry
     # enough Shell Shards to construct the statue.
     shell_shard_donation_pouch_requirements[
-        'Shell Shard Cache: Bone Bottom'
+        'Bone Bottom - Shell Shard Cache'
     ] = shell_shard_donation_pouch_requirements.get(
         'Wish: An Icon of Hope',
         0,
     )
-    act_two_exclusion_getter = getattr(
-        world,
-        "get_act_two_excluded_location_names",
-        None,
-    )
-    excluded_location_names = (
-        act_two_exclusion_getter()
-        if callable(act_two_exclusion_getter)
-        else frozenset()
-    )
+    excluded_location_names = world.get_goal_excluded_location_names()
     world._silksong_rule_builder_rules = {}
 
     for location_name, location_data in location_data_table.items():
         if location_name == "Goal":
-            continue
-        if location_name in PROTOCOL_ONLY_LOCATION_NAMES:
             continue
         if location_name in excluded_location_names:
             continue
@@ -370,49 +278,23 @@ def set_silksong_rules(world) -> None:
             continue
         if (
             location_name == VOLATILE_FLINTBEETLES_QUEST_LOCATION
-            and callable(location_mode_getter := getattr(
-                world,
-                "get_category_mode",
-                None,
-            ))
-            and location_mode_getter('MemoryLocket') != 'vanilla'
+            and world.get_category_mode('MemoryLocket') != 'vanilla'
         ):
             continue
         if (
             location_name == 'Wish: Bugs of Pharloom'
-            and callable(location_mode_getter := getattr(
-                world,
-                "get_category_mode",
-                None,
-            ))
-            and location_mode_getter('ToolPouch') != 'vanilla'
+            and world.get_category_mode('ToolPouch') != 'vanilla'
         ):
             continue
 
-        location_mode_getter = getattr(
-            world,
-            "get_location_randomization_mode",
-            None,
-        )
         mode = (
-            location_mode_getter(
+            world.get_location_randomization_mode(
                 location_name,
                 location_data.category,
             )
-            if (
-                callable(location_mode_getter)
-                and location_data.category
-                in CATEGORY_OPTION_BY_LOCATION_CATEGORY
-            )
-            else (
-                get_category_mode_key(
-                    world.options,
-                    location_data.category,
-                )
-                if location_data.category
-                in CATEGORY_OPTION_BY_LOCATION_CATEGORY
-                else "anywhere"
-            )
+            if location_data.category
+            in {*CATEGORY_OPTION_BY_LOCATION_CATEGORY, "Resource"}
+            else "anywhere"
         )
         if (
             location_data.category in OBSERVATION_LOCATION_CATEGORIES
@@ -429,11 +311,16 @@ def set_silksong_rules(world) -> None:
                 allow_bellways_before_bell_beast=(
                     allow_bellways_before_bell_beast
                 ),
-                easy_skips_enabled=easy_skips_enabled,
+                skips_tier=skips_tier,
                 randomized_crest_slots_enabled=(
                     randomized_crest_slots_enabled
                 ),
                 starting_location=starting_location,
+                trails_end_requirement=trails_end_requirement,
+                scuttlebrace_logic_enabled=(
+                    scuttlebrace_logic_enabled
+                ),
+                pollip_heart_count=pollip_heart_count,
             )
         else:
             location_rule = build_location_rule(
@@ -442,12 +329,36 @@ def set_silksong_rules(world) -> None:
                 allow_bellways_before_bell_beast=(
                     allow_bellways_before_bell_beast
                 ),
-                easy_skips_enabled=easy_skips_enabled,
+                skips_tier=skips_tier,
                 randomized_crest_slots_enabled=(
                     randomized_crest_slots_enabled
                 ),
                 starting_location=starting_location,
+                trails_end_requirement=trails_end_requirement,
+                scuttlebrace_logic_enabled=(
+                    scuttlebrace_logic_enabled
+                ),
+                pollip_heart_count=pollip_heart_count,
             )
+            if location_name == CRAWFATHER_LOCATION:
+                location_rule = build_requirements_rule(
+                    get_crawfather_requirements(
+                        randomize_needle_upgrades
+                    ),
+                    split_dash_and_sprint=split_dash_and_sprint,
+                    allow_bellways_before_bell_beast=(
+                        allow_bellways_before_bell_beast
+                    ),
+                    skips_tier=skips_tier,
+                    randomized_crest_slots_enabled=(
+                        randomized_crest_slots_enabled
+                    ),
+                    starting_location=starting_location,
+                    trails_end_requirement=trails_end_requirement,
+                    scuttlebrace_logic_enabled=(
+                        scuttlebrace_logic_enabled
+                    ),
+                )
             if (
                 randomized_memory_lockets_for_crest_slots
                 and location_data.category == "CrestSlot"
@@ -463,17 +374,6 @@ def set_silksong_rules(world) -> None:
             location_rule = location_rule & Has(
                 PROGRESSIVE_TOOL_POUCH_ITEM,
                 required_tool_pouch_count,
-            )
-        if (
-            pollip_heart_mode != 'vanilla'
-            and location_name == POLLIP_POUCH_LOCATION
-        ):
-            # Shell Flowers consumes exactly six Shell Flowers before its
-            # Pollip Pouch reward. In randomized modes those six collectibles
-            # are the repeated AP Pollip Heart item.
-            location_rule = location_rule & Has(
-                POLLIP_HEART_ITEM,
-                POLLIP_HEART_COUNT,
             )
         if (
             randomize_needle_upgrades
@@ -501,35 +401,16 @@ def set_silksong_rules(world) -> None:
         world._silksong_rule_builder_rules[location_name] = location_rule
         world.set_rule(location, location_rule)
 
-        if logic_audit_mode:
-            # In mixed rooms, logic audit checks reject foreign advancement
-            # and useful items, including foreign filler that could strand
-            # this player's replacement pool elsewhere.
-            add_item_rule(location, logic_audit_item_rule)
-
         # Vanilla logic events and the fixed shuffle exceptions
         # already have their sole legal reward.
         if getattr(location, "item", None) is not None:
             continue
 
         if mode == "shuffle":
-            placement_category_getter = getattr(
-                world,
-                "get_location_shuffle_placement_category",
-                None,
-            )
             placement_category = (
-                placement_category_getter(
+                world.get_location_shuffle_placement_category(
                     location_name,
                     location_data.category,
-                )
-                if callable(placement_category_getter)
-                else (
-                    get_minor_family_shuffle_category_for_location(
-                        location_name
-                    )
-                    if location_data.category == "Resource"
-                    else location_data.category
                 )
             )
             add_item_rule(
@@ -546,10 +427,7 @@ def set_silksong_rules(world) -> None:
 
         if location_name in JUNK_ONLY_LOCATIONS:
             add_item_rule(location, _is_junk_item)
-        # When Memory Lockets are randomized, every Crest Slot shares a
-        # fill-aware Locket gate equal to the number of progression rewards
-        # placed across the slots plus a two-Locket safety buffer. Lockets
-        # themselves stay out of the slots.
+        # Randomized Lockets cannot sit behind their all-20 Crest Slot cost.
         # With vanilla Lockets their count is not represented, so the
         # conservative non-progression restriction remains.
         elif location_data_table[location_name].category == "CrestSlot":
@@ -562,35 +440,24 @@ def set_silksong_rules(world) -> None:
         elif location_name in UNVERIFIED_PROGRESSION_LOCATIONS:
             add_item_rule(location, _is_not_progression_item)
 
-    goal_option = getattr(world.options, "goal", None)
-    goal_key = (
-        "act_3"
-        if goal_option is None
-        else goal_option.current_key
-    )
-    flea_hunt_count_getter = getattr(
-        world,
-        "get_flea_hunt_goal_count",
-        None,
-    )
-    flea_hunt_count = (
-        flea_hunt_count_getter()
-        if callable(flea_hunt_count_getter)
-        else DEFAULT_FLEA_HUNT_GOAL_COUNT
-    )
+    goal_key = world.get_goal_key()
+    flea_hunt_count = world.get_flea_hunt_goal_count()
     goal = world.multiworld.get_location("Goal", world.player)
     goal_rule = build_goal_rule(
         goal_key,
         split_dash_and_sprint=split_dash_and_sprint,
         flea_hunt_count=flea_hunt_count,
+        pollip_heart_count=pollip_heart_count,
         allow_bellways_before_bell_beast=(
             allow_bellways_before_bell_beast
         ),
-        easy_skips_enabled=easy_skips_enabled,
+        skips_tier=skips_tier,
         randomized_crest_slots_enabled=(
             randomized_crest_slots_enabled
         ),
         starting_location=starting_location,
+        trails_end_requirement=trails_end_requirement,
+        scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
     )
     world._silksong_rule_builder_rules["Goal"] = goal_rule
     world.set_rule(

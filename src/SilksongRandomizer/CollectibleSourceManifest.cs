@@ -98,50 +98,8 @@ namespace SilksongRandomizer
             "Memory Locket: Volatile Flintbeetles";
         internal const string CrawSummons = "Craw Summons";
 
-        // Slab_16 contains two mutually exclusive battle variants plus the
-        // already-cleared-room recovery copy.  All three represent one Key of
-        // Heretic source and share one AP location.
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
-            new DirectPickupEntry(
-                "Key of Indolent",
-                ItemType.MajorKey,
-                "Slab_14",
-                string.Empty,
-                "slab_item_chain/breakable/Collectable Item Pickup (1)",
-                12.900001f,
-                6.892000f
-            ),
-            new DirectPickupEntry(
-                "Key of Heretic",
-                ItemType.MajorKey,
-                "Slab_16",
-                string.Empty,
-                "Event Control/Battle Cloaked Scene/Wave 5 - Item/" +
-                    "Item Placer/Collectable Item Pickup",
-                25.540001f,
-                23.670000f
-            ),
-            new DirectPickupEntry(
-                "Key of Heretic",
-                ItemType.MajorKey,
-                "Slab_16",
-                string.Empty,
-                "Event Control/Battle Cloakless Scene/Wave 9 - Item/" +
-                    "Item Placer/Collectable Item Pickup",
-                25.540001f,
-                23.670000f
-            ),
-            new DirectPickupEntry(
-                "Key of Heretic",
-                ItemType.MajorKey,
-                "Slab_16",
-                string.Empty,
-                "Event Control/Battle Completed Scene/" +
-                    "Collectable Item Pickup Return",
-                25.450001f,
-                18.200000f
-            ),
             new DirectPickupEntry(
                 "Key of Apostate",
                 ItemType.MajorKey,
@@ -444,12 +402,7 @@ namespace SilksongRandomizer
             return false;
         }
 
-        /// <summary>
-        /// Adds the sources owned by this manifest to the runtime location
-        /// set. Multiple physical variants of one source (for example the
-        /// three Key of Heretic states) collapse to one AP
-        /// location.
-        /// </summary>
+        // Multiple physical variants of one source collapse to one AP location.
         internal static IEnumerable<Location> AppendTo(
             IEnumerable<Location> existing)
         {

@@ -11,6 +11,8 @@ using PlayerDataBoolTestAction =
     HutongGames.PlayMaker.Actions.PlayerDataBoolTest;
 using SetPlayerDataBoolAction =
     HutongGames.PlayMaker.Actions.SetPlayerDataBool;
+using ActivateGameObjectAction =
+    HutongGames.PlayMaker.Actions.ActivateGameObject;
 
 namespace SilksongRandomizer.Patches
 {
@@ -19,6 +21,14 @@ namespace SilksongRandomizer.Patches
         private const string BellBeastObjectName = "Bone Beast NPC";
         private const string BellBeastFsmName = "Interaction";
         private const string BellBeastArrivalEndState = "Travel Arrive End";
+        private const string BellBeastActivateState = "Activate";
+        private const string BellBeastTravelInteractionObjectName =
+            "Travel Interaction";
+        private const string BellBeastWaitForUnlockState =
+            "Wait For Unlock";
+        private const string BellBeastUnlockFieldVariable =
+            "Unlock PD Bool";
+        private const string BellwayUnlockedEvent = "BELLWAY UNLOCKED";
         private const string TollMachineObjectName = "Bellway Toll Machine";
         private const string TollMachineFsmName = "Unlock Behaviour";
         private const string TollMachineUnpaidState = "Inert";
@@ -149,6 +159,119 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
+        internal static bool RefreshBellBeastAfterApUnlock(
+            string playerDataField
+        )
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                !TryGetRandomizedUnlock(
+                    playerDataField,
+                    out ItemType type,
+                    out bool isUnlocked
+                ) ||
+                type != ItemType.Bellway ||
+                !isUnlocked)
+            {
+                return false;
+            }
+
+            GameManager gameManager = GameManager.instance;
+            if (gameManager == null)
+            {
+                return false;
+            }
+
+            string currentScene = GameManager.GetBaseSceneName(
+                gameManager.sceneName ?? string.Empty
+            );
+            if (string.IsNullOrEmpty(currentScene))
+            {
+                return false;
+            }
+
+            string stationName = BellwayLocationsByField.TryGetValue(
+                playerDataField,
+                out string mappedName
+            )
+                ? mappedName
+                : playerDataField;
+
+            PlayMakerFSM matchingFsm = null;
+            foreach (PlayMakerFSM bellBeastFsm in
+                     Resources.FindObjectsOfTypeAll<PlayMakerFSM>())
+            {
+                if (bellBeastFsm == null ||
+                    bellBeastFsm.gameObject == null ||
+                    !bellBeastFsm.gameObject.activeInHierarchy ||
+                    !bellBeastFsm.gameObject.scene.IsValid() ||
+                    !string.Equals(
+                        bellBeastFsm.gameObject.name,
+                        BellBeastObjectName,
+                        StringComparison.Ordinal
+                    ) ||
+                    !string.Equals(
+                        bellBeastFsm.FsmName,
+                        BellBeastFsmName,
+                        StringComparison.Ordinal
+                    ) ||
+                    bellBeastFsm.Fsm == null ||
+                    !string.Equals(
+                        bellBeastFsm.Fsm.ActiveStateName,
+                        BellBeastWaitForUnlockState,
+                        StringComparison.Ordinal
+                    ) ||
+                    !string.Equals(
+                        GameManager.GetBaseSceneName(
+                            bellBeastFsm.gameObject.scene.name
+                        ),
+                        currentScene,
+                        StringComparison.OrdinalIgnoreCase
+                    ))
+                {
+                    continue;
+                }
+
+                FsmString unlockField =
+                    bellBeastFsm.FsmVariables?.GetFsmString(
+                        BellBeastUnlockFieldVariable
+                    );
+                if (unlockField == null ||
+                    !string.Equals(
+                        unlockField.Value,
+                        playerDataField,
+                        StringComparison.Ordinal
+                    ))
+                {
+                    continue;
+                }
+
+                if (matchingFsm != null)
+                {
+                    Debug.LogWarning(
+                        "[RANDOMIZER] More than one waiting Bell Beast " +
+                        "matched " + stationName + "."
+                    );
+                    return false;
+                }
+
+                matchingFsm = bellBeastFsm;
+            }
+
+            if (matchingFsm == null)
+            {
+                return false;
+            }
+
+            matchingFsm.SendEvent(BellwayUnlockedEvent);
+            Debug.Log(
+                "[RANDOMIZER] " + stationName +
+                " woke the waiting Bell Beast."
+            );
+            return true;
+        }
+
         private static bool IsBellBeastArrivalEndAction(
             FsmStateAction action
         )
@@ -170,6 +293,78 @@ namespace SilksongRandomizer.Patches
                    string.Equals(
                        action.State.Name,
                        BellBeastArrivalEndState,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        internal static bool IsBellBeastTravelActivationContext(
+            string ownerName,
+            string fsmName,
+            string stateName,
+            string targetName,
+            bool activate
+        )
+        {
+            return activate &&
+                   string.Equals(
+                       ownerName,
+                       BellBeastObjectName,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       fsmName,
+                       BellBeastFsmName,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       stateName,
+                       BellBeastActivateState,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       targetName,
+                       BellBeastTravelInteractionObjectName,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        private static bool IsBellBeastTravelInteractionActivation(
+            ActivateGameObjectAction action
+        )
+        {
+            if (action == null ||
+                action.Owner == null ||
+                action.Fsm == null ||
+                action.State == null ||
+                action.gameObject == null ||
+                action.activate == null)
+            {
+                return false;
+            }
+
+            GameObject target = action.Fsm.GetOwnerDefaultTarget(
+                action.gameObject
+            );
+            return IsBellBeastTravelActivationContext(
+                action.Owner.name,
+                action.Fsm.Name,
+                action.State.Name,
+                target == null ? null : target.name,
+                action.activate.Value
+            );
+        }
+
+        internal static bool IsUnpaidBellwayTollEligible(
+            string activeStateName,
+            bool locationInSeed,
+            bool locationChecked
+        )
+        {
+            return locationInSeed &&
+                   !locationChecked &&
+                   string.Equals(
+                       activeStateName,
+                       TollMachineUnpaidState,
                        StringComparison.Ordinal
                    );
         }
@@ -211,11 +406,6 @@ namespace SilksongRandomizer.Patches
                     ) ||
                     tollFsm.Fsm == null ||
                     !string.Equals(
-                        tollFsm.Fsm.ActiveStateName,
-                        TollMachineUnpaidState,
-                        StringComparison.Ordinal
-                    ) ||
-                    !string.Equals(
                         GameManager.GetBaseSceneName(
                             tollFsm.gameObject.scene.name
                         ),
@@ -235,9 +425,15 @@ namespace SilksongRandomizer.Patches
                 if (!BellwayLocationsByField.TryGetValue(
                         playerDataField,
                         out string locationName
-                    ) ||
-                    !state.IsLocationInSeed(locationName) ||
-                    state.IsLocationChecked(locationName))
+                    ))
+                {
+                    continue;
+                }
+
+                if (!IsUnpaidBellwayTollEligible(
+                        tollFsm.Fsm.ActiveStateName,
+                        state.IsLocationInSeed(locationName),
+                        state.IsLocationChecked(locationName)))
                 {
                     continue;
                 }
@@ -262,7 +458,7 @@ namespace SilksongRandomizer.Patches
                 repairedAny = true;
                 Debug.Log(
                     "[RANDOMIZER] Prioritized unpaid " + locationName +
-                    " toll interaction after Bell Beast arrival."
+                    " toll interaction beside the Bell Beast travel prompt."
                 );
             }
 
@@ -351,7 +547,7 @@ namespace SilksongRandomizer.Patches
             );
         }
 
-        private static bool TryGetBellBeastApUnlock(
+        private static bool TryGetBellBeastOriginUnlock(
             FsmStateAction action,
             string playerDataField,
             out bool isUnlocked
@@ -387,7 +583,7 @@ namespace SilksongRandomizer.Patches
                 !TryGetRandomizedUnlock(
                     playerDataField,
                     out ItemType type,
-                    out isUnlocked
+                    out bool apUnlocked
                 ) ||
                 type != ItemType.Bellway)
             {
@@ -396,36 +592,13 @@ namespace SilksongRandomizer.Patches
             }
 
             PlayerData playerData = PlayerData.instance;
-            isUnlocked = ShouldAllowBellBeastCall(
-                isUnlocked,
-                playerData != null && playerData.GetBool(playerDataField)
-            );
-            return true;
-        }
-
-        internal static bool ShouldAllowBellBeastCall(
-            bool apStationUnlocked,
-            bool physicalStationPurchased
-        )
-        {
-            return apStationUnlocked || physicalStationPurchased;
-        }
-
-        internal static bool ShouldUnlockRandomizedDestination(
-            ItemType type,
-            bool apStationUnlocked,
-            bool physicalStationPurchased
-        )
-        {
             // A paid Bellway remains its native destination as well as an AP
             // check. Ventrica unlocks have no equivalent paid-origin rule and
             // continue to follow only their received AP station item.
-            return type == ItemType.Bellway
-                ? ShouldAllowBellBeastCall(
-                    apStationUnlocked,
-                    physicalStationPurchased
-                )
-                : apStationUnlocked;
+            isUnlocked = apUnlocked ||
+                (playerData != null &&
+                 playerData.GetBool(playerDataField));
+            return true;
         }
 
         private static IEnumerator SkipStagTravelVideo(
@@ -520,6 +693,27 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(
+            typeof(ActivateGameObjectAction),
+            nameof(ActivateGameObjectAction.OnEnter)
+        )]
+        private static class BellBeastTravelActivationTollInteractionPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                ActivateGameObjectAction __instance
+            )
+            {
+                // If the station item is owned when the scene loads, Activate
+                // skips Travel Arrive End. Re-enable the unpaid toll after the
+                // travel prompt.
+                if (IsBellBeastTravelInteractionActivation(__instance))
+                {
+                    RearmUnpaidBellwayTollInteraction();
+                }
+            }
+        }
+
         [HarmonyPatch]
         private static class FastTravelMapButtonBase_IsUnlocked_Patch
         {
@@ -564,24 +758,14 @@ namespace SilksongRandomizer.Patches
                 if (string.IsNullOrEmpty(___playerDataBool) ||
                     !TryGetRandomizedUnlock(
                         ___playerDataBool,
-                        out ItemType type,
+                        out ItemType _,
                         out bool isUnlocked
                     ))
                 {
                     return true;
                 }
 
-                PlayerData playerData = PlayerData.instance;
-                bool physicalStationPurchased =
-                    type == ItemType.Bellway &&
-                    BellwayFields.Contains(___playerDataBool) &&
-                    playerData != null &&
-                    playerData.GetBool(___playerDataBool);
-                __result = ShouldUnlockRandomizedDestination(
-                    type,
-                    isUnlocked,
-                    physicalStationPurchased
-                );
+                __result = isUnlocked;
                 return false;
             }
         }
@@ -633,7 +817,7 @@ namespace SilksongRandomizer.Patches
             {
                 string playerDataField =
                     __instance.boolName?.Value ?? string.Empty;
-                if (!TryGetBellBeastApUnlock(
+                if (!TryGetBellBeastOriginUnlock(
                         __instance,
                         playerDataField,
                         out bool isUnlocked

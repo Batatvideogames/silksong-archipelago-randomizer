@@ -34,11 +34,6 @@ namespace SilksongRandomizer
             }
         }
 
-        public static void GrantSprint()
-        {
-            RequireSaveState().canSprint = true;
-        }
-
         public static void GrantFaydownCloak()
         {
             SaveState state = RequireSaveState();
@@ -185,6 +180,21 @@ namespace SilksongRandomizer
             collectable.Collect(1, false);
         }
 
+        public static void GrantTool(string toolAssetName)
+        {
+            ToolItem tool = Utils.FindToolScriptableObject<ToolItem>(
+                toolAssetName
+            );
+            if (tool == null)
+            {
+                throw new InvalidOperationException(
+                    "Tool asset is not ready: " + toolAssetName
+                );
+            }
+
+            tool.Unlock(null, ToolItem.PopupFlags.None);
+        }
+
         public static void GrantSlabKey(Action<PlayerData> grant)
         {
             if (grant == null)
@@ -243,7 +253,7 @@ namespace SilksongRandomizer
 
             // There is one shared Ruined Tool in vanilla. Repair locations
             // temporarily return it while another randomized repair remains,
-                // so an AP delivery cannot create duplicate copies.
+            // so an AP delivery cannot create duplicate copies.
             if (ruinedTool.CollectedAmount <= 0)
             {
                 ruinedTool.Collect(1, false);
@@ -748,8 +758,15 @@ namespace SilksongRandomizer
             playerData.HasAbyssMap = true;
 
             // All guaranteed starting maps are one native map update.
-            // Verdania is excluded so Trail's End does not
-            // activate before its real source is reached.
+            // Lost Verdania remains at its ordinary source.
+            playerData.mapUpdateQueued = true;
+            playerData.HasSeenMapUpdated = false;
+        }
+
+        public static void GrantStartFullyMapped()
+        {
+            PlayerData playerData = RequirePlayerData();
+            playerData.mapAllRooms = true;
             playerData.mapUpdateQueued = true;
             playerData.HasSeenMapUpdated = false;
         }
@@ -764,6 +781,12 @@ namespace SilksongRandomizer
             PlayerData playerData = RequirePlayerData();
             grant(playerData);
             CollectableItemManager.IncrementVersion();
+        }
+
+        public static void GrantBell()
+        {
+            PlayerData playerData = RequirePlayerData();
+            playerData.HasSeenMapMarkerUpdated = false;
         }
 
         public static void GrantBeastlingCall()

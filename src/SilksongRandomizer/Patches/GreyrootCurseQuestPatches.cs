@@ -18,11 +18,17 @@ namespace SilksongRandomizer.Patches
         private const string YarnabyFsm = "Dialogue";
         private const string FirstCurseGateState = "Cursed? 2";
         private const string RepeatCurseGateState = "Cursed? 3";
+        private const string CureCrestChangeState = "Crest Change";
 
         private const string NativeCurseScene = "Shellwood_25b";
         private const string NativeCurseObject = "door_curseSequenceEnd";
         private const string NativeCurseFsm = "Curse Sequence";
         private const string NativeSetCursedState = "Set Cursed";
+
+        private const string CursedEndingScene = "Cradle_03";
+        private const string CursedEndingObjectPath = "Boss Scene/Silk Boss";
+        private const string CursedEndingFsm = "Phase Control";
+        private const string CursedEndingGateState = "Death Type";
 
         [HarmonyPrefix]
         [HarmonyPriority(Priority.Last)]
@@ -42,6 +48,7 @@ namespace SilksongRandomizer.Patches
                     YarnabyFsm))
             {
                 ValidateYarnabyCurseGate(__instance);
+                PatchYarnabyCureCrestRestore(__instance);
             }
             else if (Matches(
                          __instance,
@@ -51,6 +58,11 @@ namespace SilksongRandomizer.Patches
                          NativeCurseFsm))
             {
                 PatchNativeCurseOwnership(__instance);
+            }
+            else if (SaveState.Instance?.IsRoomBound == true &&
+                     MatchesCursedEndingFsm(__instance, sceneName))
+            {
+                PatchCursedEndingGate(__instance);
             }
         }
 
@@ -72,6 +84,24 @@ namespace SilksongRandomizer.Patches
                    string.Equals(
                        fsm.FsmName,
                        expectedFsm,
+                       StringComparison.Ordinal);
+        }
+
+        private static bool MatchesCursedEndingFsm(
+            PlayMakerFSM fsm,
+            string actualScene)
+        {
+            return string.Equals(
+                       actualScene,
+                       CursedEndingScene,
+                       StringComparison.OrdinalIgnoreCase) &&
+                   string.Equals(
+                       Utils.GetHierarchyPath(fsm.transform),
+                       CursedEndingObjectPath,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       fsm.FsmName,
+                       CursedEndingFsm,
                        StringComparison.Ordinal);
         }
 
@@ -123,7 +153,7 @@ namespace SilksongRandomizer.Patches
                 actions[2] is SetPlayerDataVariable &&
                 actions[3] is SendEventToRegister &&
                 nativeEquip != null &&
-                IsNativeCursedCrest(nativeEquip) &&
+                IsNativeCursedCrest(nativeEquip.Crest) &&
                 actions[5] is CallMethodProper &&
                 HasTransition(setCursed, "FINISHED", "Wait");
             if (!matches)
@@ -142,6 +172,113 @@ namespace SilksongRandomizer.Patches
             actions[4] = replacement;
         }
 
+        private static void PatchYarnabyCureCrestRestore(PlayMakerFSM fsm)
+        {
+            FsmState crestChange = fsm.Fsm?.GetState(CureCrestChangeState);
+            FsmStateAction[] actions = crestChange?.Actions;
+            if (actions != null &&
+                actions.Length == 7 &&
+                actions[1] is RestoreOwnedCrestAfterCure)
+            {
+                return;
+            }
+
+            UnlockCrest nativeUnlock =
+                actions != null && actions.Length > 0
+                    ? actions[0] as UnlockCrest
+                    : null;
+            AutoEquipCrestV2 nativeEquip =
+                actions != null && actions.Length > 1
+                    ? actions[1] as AutoEquipCrestV2
+                    : null;
+            ToolCrest unlockCrest = nativeUnlock?.Crest?.Value as ToolCrest;
+            ToolCrest equipCrest = nativeEquip?.Crest?.Value as ToolCrest;
+            bool matches =
+                actions != null &&
+                actions.Length == 7 &&
+                nativeUnlock != null &&
+                nativeEquip != null &&
+                unlockCrest != null &&
+                equipCrest != null &&
+                string.Equals(
+                    unlockCrest.name,
+                    "Witch",
+                    StringComparison.Ordinal) &&
+                string.Equals(
+                    equipCrest.name,
+                    unlockCrest.name,
+                    StringComparison.Ordinal) &&
+                actions[2] is CallMethodProper &&
+                actions[3] is CallMethodProper &&
+                actions[4] is Wait &&
+                actions[5] is QueueSaveGameV2 &&
+                actions[6] is Tk2dPlayAnimationWithEvents &&
+                HasTransition(crestChange, "FINISHED", "Curse Fix Fade Up");
+            if (!matches)
+            {
+                LogFailure(
+                    "Yarnaby's cure crest change no longer matched"
+                );
+                return;
+            }
+
+            RestoreOwnedCrestAfterCure replacement =
+                new RestoreOwnedCrestAfterCure(
+                    equipCrest,
+                    nativeEquip.SkipToAppear?.Value == true
+                );
+            replacement.Init(crestChange);
+            actions[1] = replacement;
+        }
+
+        private static void PatchCursedEndingGate(PlayMakerFSM fsm)
+        {
+            FsmState deathType = fsm.Fsm?.GetState(CursedEndingGateState);
+            FsmStateAction[] actions = deathType?.Actions;
+            if (actions != null &&
+                actions.Length == 1 &&
+                actions[0] is CheckGenuineGreyrootCurse)
+            {
+                return;
+            }
+
+            CheckIfCrestEquipped nativeCheck =
+                actions != null && actions.Length == 1
+                    ? actions[0] as CheckIfCrestEquipped
+                    : null;
+            bool matches =
+                nativeCheck != null &&
+                nativeCheck.Enabled &&
+                IsNativeCursedCrest(nativeCheck.Crest) &&
+                IsNamedLocalEvent(nativeCheck.trueEvent, "CURSED") &&
+                IsNoEvent(nativeCheck.falseEvent) &&
+                nativeCheck.storeValue != null &&
+                nativeCheck.storeValue.UseVariable &&
+                deathType.Transitions != null &&
+                deathType.Transitions.Length == 2 &&
+                HasTransition(
+                    deathType,
+                    "FINISHED",
+                    "Start Death Sequence") &&
+                HasTransition(
+                    deathType,
+                    "CURSED",
+                    "Start Death Sequence Curse");
+            if (!matches)
+            {
+                LogFailure(
+                    "Grand Mother Silk's Death Type state no " +
+                    "longer matched"
+                );
+                return;
+            }
+
+            CheckGenuineGreyrootCurse replacement =
+                new CheckGenuineGreyrootCurse(nativeCheck);
+            replacement.Init(deathType);
+            actions[0] = replacement;
+        }
+
         private static bool IsNativeAnyCurseTest(FsmStateAction action)
         {
             return action is PlayerDataVariableTest test &&
@@ -157,14 +294,32 @@ namespace SilksongRandomizer.Patches
                        StringComparison.Ordinal);
         }
 
-        private static bool IsNativeCursedCrest(AutoEquipCrest action)
+        private static bool IsNativeCursedCrest(FsmObject crest)
         {
             ToolCrest expected = GlobalSettings.Gameplay.CursedCrest;
             return expected != null &&
-                   action?.Crest?.Value is ToolCrest actual &&
+                   crest?.Value is ToolCrest actual &&
                    string.Equals(
                        actual.name,
                        expected.name,
+                       StringComparison.Ordinal);
+        }
+
+        private static bool IsNoEvent(FsmEvent fsmEvent)
+        {
+            return fsmEvent == null || string.IsNullOrEmpty(fsmEvent.Name);
+        }
+
+        private static bool IsNamedLocalEvent(
+            FsmEvent fsmEvent,
+            string expectedName)
+        {
+            return fsmEvent != null &&
+                   !fsmEvent.IsSystemEvent &&
+                   !fsmEvent.IsGlobal &&
+                   string.Equals(
+                       fsmEvent.Name,
+                       expectedName,
                        StringComparison.Ordinal);
         }
 
@@ -312,6 +467,113 @@ namespace SilksongRandomizer.Patches
                 }
                 Finish();
             }
+        }
+
+        private sealed class RestoreOwnedCrestAfterCure : FsmStateAction
+        {
+            private readonly ToolCrest nativeCrest;
+            private readonly bool skipToAppear;
+
+            internal RestoreOwnedCrestAfterCure(
+                ToolCrest nativeCrest,
+                bool skipToAppear)
+            {
+                this.nativeCrest = nativeCrest;
+                this.skipToAppear = skipToAppear;
+            }
+
+            public override void OnEnter()
+            {
+                if (skipToAppear)
+                {
+                    BindOrbHudFrame.SkipToNextAppear = true;
+                }
+
+                try
+                {
+                    RestoreCrest();
+                }
+                finally
+                {
+                    BindOrbHudFrame.SkipToNextAppear = false;
+                }
+                Finish();
+            }
+
+            private void RestoreCrest()
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Crest))
+                {
+                    ToolItemManager.AutoEquip(nativeCrest, false, true);
+                    return;
+                }
+
+                PlayerData playerData = PlayerData.instance;
+                ToolCrest target = playerData == null
+                    ? null
+                    : ToolItemManager.GetCrestByName(
+                        playerData.PreviousCrestID
+                    );
+                if (!IsReceivedCrest(state, target))
+                {
+                    target = null;
+                    foreach (ToolCrest candidate in
+                             ToolItemManager.GetAllCrests())
+                    {
+                        if (IsReceivedCrest(state, candidate))
+                        {
+                            target = candidate;
+                            break;
+                        }
+                    }
+                }
+
+                if (target == null)
+                {
+                    LogFailure(
+                        "Yarnaby could not find a received crest after cure"
+                    );
+                    return;
+                }
+
+                if (!ToolPatches.AutoEquipOwnedCrestAfterNativeCure(target))
+                {
+                    LogFailure(
+                        "Yarnaby could not restore the received crest after cure"
+                    );
+                }
+            }
+
+            private static bool IsReceivedCrest(
+                SaveState state,
+                ToolCrest crest)
+            {
+                return state != null &&
+                       crest != null &&
+                       !string.Equals(
+                           crest.name,
+                           GlobalSettings.Gameplay.CursedCrest?.name,
+                           StringComparison.Ordinal) &&
+                       state.receivedItems.Contains(
+                           CrestNames.GetItemNameFromInternal(crest.name)
+                       );
+            }
+        }
+
+        private sealed class CheckGenuineGreyrootCurse :
+            FSMUtility.CheckFsmStateAction
+        {
+            internal CheckGenuineGreyrootCurse(
+                CheckIfCrestEquipped nativeCheck)
+            {
+                trueEvent = nativeCheck.trueEvent;
+                falseEvent = nativeCheck.falseEvent;
+                storeValue = nativeCheck.storeValue;
+            }
+
+            public override bool IsTrue =>
+                HasGenuineGreyrootCurse(PlayerData.instance);
         }
     }
 }

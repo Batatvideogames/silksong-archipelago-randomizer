@@ -11,6 +11,7 @@ using SetPlayerDataBoolAction =
     HutongGames.PlayMaker.Actions.SetPlayerDataBool;
 using SetPlayerDataVariableAction =
     HutongGames.PlayMaker.Actions.SetPlayerDataVariable;
+using BoolTestAction = HutongGames.PlayMaker.Actions.BoolTest;
 
 namespace SilksongRandomizer.Patches
 {
@@ -31,6 +32,9 @@ namespace SilksongRandomizer.Patches
         internal const string KrattLocationName = KrattItemName;
         internal const string VogLocationName = VogItemName;
         internal const string HugeFleaLocationName = HugeFleaItemName;
+
+        private const string KrattReturnedFlag =
+            "CaravanLechReturnedToCaravan";
 
         private static readonly FieldInfo SavedFleaActivatorTemplateField =
             AccessTools.Field(typeof(SavedFleaActivator), "pdBoolTemplate");
@@ -196,6 +200,88 @@ namespace SilksongRandomizer.Patches
                 "[RANDOMIZER] Reported named NPC Flea source: " +
                 locationName
             );
+        }
+
+        [HarmonyPatch(
+            typeof(DeactivateIfPlayerdataTrue),
+            "ForceEvaluate"
+        )]
+        private static class KrattSourceVisibilityGatePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(
+                DeactivateIfPlayerdataTrue __instance
+            )
+            {
+                if (!ShouldExposeReceivedNpcFleaSource(
+                        KrattItemName,
+                        KrattLocationName
+                    ) ||
+                    __instance == null ||
+                    __instance.gameObject == null ||
+                    !string.Equals(
+                        __instance.gameObject.scene.name,
+                        "Greymoor_24",
+                        StringComparison.Ordinal
+                    ) ||
+                    !string.Equals(
+                        __instance.boolName,
+                        KrattReturnedFlag,
+                        StringComparison.Ordinal
+                    ))
+                {
+                    return true;
+                }
+
+                string ownerName = __instance.gameObject.name;
+                return !string.Equals(
+                           ownerName,
+                           "caravan",
+                           StringComparison.Ordinal
+                       ) &&
+                       !string.Equals(
+                           ownerName,
+                           "Caravan Lech",
+                           StringComparison.Ordinal
+                       ) &&
+                       !string.Equals(
+                           ownerName,
+                           "Caravan Lech Strung Up",
+                           StringComparison.Ordinal
+                       );
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(BoolTestAction),
+            nameof(BoolTestAction.OnEnter)
+        )]
+        private static class VogSourcePresencePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(BoolTestAction __instance)
+            {
+                if (!IsExactAction(
+                        __instance,
+                        "Bellway_Aqueduct",
+                        "Caravan Troupe Hunter Wild",
+                        "Dialogue",
+                        "Still Here?"
+                    ) ||
+                    !ShouldExposeReceivedNpcFleaSource(
+                        VogItemName,
+                        VogLocationName
+                    ))
+                {
+                    return true;
+                }
+
+                __instance.Fsm.Event(__instance.isTrue);
+                __instance.Finish();
+                return false;
+            }
         }
 
         [HarmonyPatch(typeof(PlayerData), "get_SavedFleasCount")]

@@ -336,38 +336,31 @@ namespace SilksongRandomizer
 
         private static void AddCompletionLocations(List<Location> locations)
         {
-            // Persistent Bell Shrine flags from PlayerData.
             locations.Add(new Location(
                 "Bell Shrine Completion: bellShrineBoneForest",
                 ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineBoneForest
+                null
             ));
             locations.Add(new Location(
                 "Bell Shrine Completion: bellShrineWilds",
                 ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineWilds
+                null
             ));
             locations.Add(new Location(
                 "Bell Shrine Completion: bellShrineGreymoor",
                 ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineGreymoor
+                null
             ));
             locations.Add(new Location(
                 "Bell Shrine Completion: bellShrineShellwood",
                 ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineShellwood
+                null
             ));
             locations.Add(new Location(
                 "Bell Shrine Completion: bellShrineBellhart",
                 ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineBellhart
+                null
             ));
-            locations.Add(new Location(
-                "Bell Shrine Completion: bellShrineEnclave",
-                ItemType.BellShrine,
-                () => PlayerData.instance != null && PlayerData.instance.bellShrineEnclave
-            ));
-
             // Only named boss completion flags are included. Guard, arena and
             // miniboss flags are excluded.
             locations.Add(new Location(
@@ -389,15 +382,6 @@ namespace SilksongRandomizer
                 "Boss Completion: defeatedAntQueen",
                 ItemType.Boss,
                 () => PlayerData.instance != null && PlayerData.instance.defeatedAntQueen
-            ));
-            locations.Add(new Location(
-                "Boss Completion: defeatedLace1",
-                ItemType.Boss,
-                () => PlayerData.instance != null &&
-                      (
-                          PlayerData.instance.defeatedLace1 ||
-                          PlayerData.instance.encounteredLaceBlastedBridge
-                      )
             ));
             locations.Add(new Location(
                 "Boss Completion: defeatedSongGolem",
@@ -543,11 +527,6 @@ namespace SilksongRandomizer
                 "Boss Completion: spinnerDefeated",
                 ItemType.Boss,
                 () => PlayerData.instance != null && PlayerData.instance.spinnerDefeated
-            ));
-            locations.Add(new Location(
-                "Boss Completion: roofCrabDefeated",
-                ItemType.Boss,
-                () => PlayerData.instance != null && PlayerData.instance.roofCrabDefeated
             ));
             locations.Add(new Location(
                 "Boss Completion: skullKingDefeated",

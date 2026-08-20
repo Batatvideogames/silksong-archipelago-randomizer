@@ -30,7 +30,10 @@ namespace SilksongRandomizer.Patches
         [HarmonyPostfix]
         private static void Postfix(PlayMakerFSM __instance)
         {
-            if (__instance == null ||
+            SaveState state = SaveState.Instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                __instance == null ||
                 !string.Equals(
                     __instance.FsmName,
                     ControlFsm,

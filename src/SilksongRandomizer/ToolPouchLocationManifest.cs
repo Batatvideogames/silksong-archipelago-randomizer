@@ -21,6 +21,13 @@ namespace SilksongRandomizer
         internal const string LoddieActThreeObject =
             "Ladybug Craft Pickup";
         internal const string LoddieActThreeFsm = "FSM";
+        internal const string LoddieActThreePromptTypeState =
+            "Prompt Type";
+        internal const string LoddieActThreeFreePromptState =
+            "Prompt - Tool Pouch";
+        internal const string LoddieActThreePaidPromptState = "Prompt";
+        internal const string LoddieActThreeWaitState = "Wait";
+        internal const string LoddieActThreeCancelState = "Cancel";
 
         internal const string FleatopiaScene = "Aqueduct_05_caravan";
         internal const string FleatopiaNpcObject =

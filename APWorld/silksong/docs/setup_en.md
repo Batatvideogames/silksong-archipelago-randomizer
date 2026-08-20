@@ -35,59 +35,109 @@ plugin to access them normally.
 
 The available goals are:
 
+- `act_1`: Reach the Act 2 title state.
 - `act_2`: Defeat Grand Mother Silk. Sources verified unavailable before the
   Act 2 ending and their matching pool entries are omitted. When Skills are
   randomized, Silk Soar remains in the item pool while its Abyss source is
   omitted.
 - `act_3`: Complete the Lost Lace route. This is the default.
 - `flea_hunt`: Receive the required number of distinct AP Fleas.
+- `cursed_ending`: Complete Greyroot's Rite and defeat Grand Mother Silk while
+  genuinely cursed.
 
-For Flea Hunt, set `flea_hunt_count` from 1 to 30 in the YAML (default 20).
+For Flea Hunt, set `flea_hunt_count` from 1 to 30 in the YAML (default 30).
 The 30 AP Fleas are the 27 ordinary Fleas plus Kratt, Vog and Huge Flea. All
 three named NPC Fleas count toward the goal. With Flea randomization set to
 `vanilla`, each rescue remains an AP check with its matching Flea reward.
 
 ## Randomization modes
 
-Most categories support three modes:
+Categories with distinct rewards support three modes:
 
 - `vanilla`: Keep the original item at its original source.
 - `shuffle`: Shuffle items within their own category.
 - `anywhere`: Mix the category into the general item pool.
 
-Some newer categories, such as Memory Lockets, Craftmetal, Mossberries,
-Silkeaters, and named progression keys, support only `vanilla` or `anywhere`.
-`pollip_heart_randomization` supports all three modes. Its six finite Pollip
-Hearts form an exact `shuffle` lane, and Pollip Pouch requires all six while
-the category is randomized.
+Fungible categories support only `vanilla` or `anywhere`. This includes Mask
+Shards, Spool Fragments, Silk Hearts, Crafting Kits, Tool Pouches, Memory
+Lockets, Craftmetal, Mossberries, Pollip Hearts, Silkeaters and the eight
+single-reward minor pickup families. Pollip Pouch requires all six Hearts when
+that category is randomized. The five active Major Keys retain `shuffle`
+because each one opens a different destination.
+Rosary and Shell Shard Caches retain `shuffle` because their reward amounts
+vary.
+`lore_tablet_randomization` supports all three modes for 38 readable sources.
+It defaults to `vanilla`, and every Lore reward is filler.
 
 Simple Keys are destination-specific. A Wormways Key only opens the Wormways
 door, a Deep Docks Key only opens the Deep Docks door, and so on.
 
 ## Important options
 
-- `starting_crest`: Choose the starting Crest or use `random`. Vanilla Crest
-  mode always starts with Hunter.
+- `starting_crest`: Choose the starting Crest or use `random`, the default.
+  Vanilla Crest mode always starts with Hunter.
 - `early_dash`: Place Swift Step early when Skills are randomized. This option
-  is ignored with vanilla Skills.
+  is ignored with vanilla Skills. Split mode places only the first Progressive
+  Swift Step early. Defaults to `true`.
 - `split_dash_and_sprint`: Split Swift Step into separate Sprint and Dash
   items. This option is active only with Skills set to `anywhere`.
 - `randomize_needle_upgrades`: Randomize Needle Upgrades and Pale Oil.
+- `trails_end_requirement`: Use `shakra_stock` to require all 14 physical
+  Shakra map purchases or `owned_maps` to require these exact received AP Map
+  items:
+
+  - `Map: Mosslands`
+  - `Map: The Marrow`
+  - `Map: Deep Docks`
+  - `Map: Far Fields`
+  - `Map: Wormways`
+  - `Map: Hunter's March`
+  - `Map: Greymoor`
+  - `Map: Bellhart`
+  - `Map: Shellwood`
+  - `Map: Blasted Steps`
+  - `Map: Sinner's Road`
+  - `Map: Mount Fay`
+  - `Map: Sands of Karak`
+  - `Map: Bilewater`
+
+  Trail's End uses two distinct layers:
+
+  - In-game appearance gates: satisfy the selected 14-map condition, then
+    defeat Groal or receive any two of Architect's, Conductor's and
+    Vaultkeeper's Melody. `TimePasses()` must occur outside `Belltown`, which
+    is Bellhart. Faydown Cloak is then required for the quest to be available.
+  - AP completion logic: after those same map and Groal/two-Melody gates, Act 2
+    must have started, Bilehaven and the Mount Fay Workbench must be reachable
+    and Faydown Cloak and Needolin are required.
 - `mossberry_randomization`: Randomize the seven finite Mossberries.
 - `pollip_heart_randomization`: Randomize the six finite Pollip Hearts.
-- `start_with_maps`: Start with most maps already collected.
+- `lore_tablet_randomization`: Randomize the 38 readable lore sources.
+- `start_with_maps`: Start with most maps already collected. Defaults to `true`.
+- `start_fully_mapped`: Own the starting maps and begin with the full map
+  drawn. Removes Quill or Progressive Compass from the pool. Defaults to
+  `true`.
 - `automatic_compass`: Enable map positioning without randomizing the Compass.
-- `easy_skips`: Allow only movement shortcuts explicitly marked as safe.
+  Defaults to `true`.
+- `enemy_rosary_multiplier` and `enemy_shard_multiplier`: Scale enemy drops by
+  `x1`, `x1_5`, `x2`, `x3`, `x5` or `x10`. Both default to `x2`.
+- `skips`: Allow explicitly labelled routes cumulatively through easy, moderate or difficult.
+- `scuttlebrace_logic`: Allow verified movement routes which use a fully
+  activated Scuttlebrace. In split mode this requires both Progressive Swift
+  Step copies. Defaults to `false`.
 - `quest_sanity`: Add side-quest completion checks.
 - `death_link`: Share deaths with other DeathLink players.
+- `death_link_cocoon`: Choose vanilla, cocoon or cocoonless Rosary
+  behavior for received deaths. Defaults to `cocoon`. The player's own deaths
+  remain vanilla.
 - `silk_link`, `rosary_link`, and `shell_shard_link`: Experimental shared
   resource systems for players on the same team.
 - `trap_percentage`: Convert some filler items into traps.
 
 ## Price randomization
 
-Six independent settings control prices for normal shops, Bellways, maps,
-pins, paid Needle upgrades, and donation Wishes:
+Seven independent settings control prices for normal shops, Bellways, maps,
+pins, paid Needle upgrades, donation Wishes and Vog hints:
 
 - `vanilla`: Keep every shipped price.
 - `free`: Charge zero currency.
@@ -98,24 +148,22 @@ pins, paid Needle upgrades, and donation Wishes:
   from 1 through 800.
 
 The settings are `normal_shop_prices`, `bellway_prices`, `map_prices`,
-`pin_prices`, `upgrade_prices`, and `donation_prices`. Prices are resolved
+`pin_prices`, `upgrade_prices`, `donation_prices` and `vog_hint_prices`.
+All seven default to `vanilla`. Prices are resolved
 once from the generated seed. A purchase always keeps its original currency,
-stock conditions, and separate item costs such as Craftmetal or Pale Oil.
+stock conditions and separate item costs such as Craftmetal or Pale Oil.
+Vog's Hero, Foolish and General hints each keep one price for the whole seed.
 
 ## In-game controls
 
 - `F3`: Open or close the connection window.
-- `F4`: Return to the best unlocked hub: Terminus after the full Act 3
-  introduction, Songclave, Bellhart, Greymoor after riding with the Flea
-  Caravan, or Bone Bottom.
-- `F8` in Logic Audit mode only: Cycle physical cloak testing through
-  Cloakless, Normal, Drifter's, and Faydown. The audit overlay shows the
-  active state.
-- The connection window contains the same dynamic hub-return button.
+- `F4`: Return to the selected hub. Arrows beside the F3 hub name choose among
+  visited Bone Bottom, Bellhart and Songclave hubs. Story state can override
+  the selection with Terminus, Greymoor or Widow Shrine.
+- The center F3 button uses the same destination as F4.
 
-F4 and F8 are disabled during unsafe menus, cutscenes, and transitions. F4 is
-also disabled throughout both stages of the Act 3 wake-up sequence. F8 never
-changes the AP items actually owned by the save.
+F4 is disabled during unsafe menus, cutscenes and transitions. It is also
+disabled throughout both stages of the Act 3 wake-up sequence.
 
 ## Map markers
 
@@ -124,6 +172,37 @@ When enabled, the map can show randomized checks at their physical locations.
 Markers indicate whether a check is currently reachable, out of logic, or has
 a cached hint. They do not reveal the item, recipient, item classification, or
 trap status.
+
+LogicUnknown locations remain physical, collectable checks but are always
+outside AP logic. Their filler-only or non-progression placement restrictions
+remain active. Any active LogicUnknown check forces `accessibility` to
+`minimal` so generation never requires it.
+
+`randomized_bell_markers` moves the five Grand Gate Bell markers to local
+checks holding their matching Bells. `randomized_melody_markers` does the same
+for the three Act 2 Melodies. Items placed in another player's world have no
+local replacement marker. Both options default to `true`.
+
+## Vog hints
+
+Vog can sell three kinds of seed-specific hints after she joins the Flea
+Caravan. `vog_woth_hints`, `vog_foolish_hints` and `vog_general_hints` set the
+total number available in each category. Each accepts 0-30 and defaults to 0.
+
+- Way of the Hero costs 120 Rosaries and names an area containing a check
+  required by the multiworld's minimal playthrough.
+- Foolish costs 80 Rosaries and names an area with no Progression or Useful
+  item.
+- General costs 150 Rosaries and reveals an exact check, item and recipient.
+
+The requested totals are maxima. A seed provides fewer when it cannot support
+the requested number of truthful hints. General hints skip checked or existing
+hinted locations when another candidate is available. They create normal
+Archipelago hints without spending server hint points.
+
+When AP map markers are enabled, Vog's six native Flea-marker products are
+hidden. When AP map markers are off, her native products remain available
+beside the configured hint products.
 
 ## Troubleshooting
 

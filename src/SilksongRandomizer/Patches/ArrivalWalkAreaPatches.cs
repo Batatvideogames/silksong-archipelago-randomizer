@@ -26,14 +26,17 @@ namespace SilksongRandomizer.Patches
         // playing. Capture the selected WalkArea in Awake, before any title
         // controller Start can begin that write and retain the decision for
         // the whole activation.
-        private static readonly HashSet<int> SuppressedWalkAreas =
-            new HashSet<int>();
+        private static readonly Dictionary<int, string>
+            SuppressedWalkAreas = new Dictionary<int, string>();
 
         [HarmonyPatch(typeof(WalkArea), "Awake")]
         [HarmonyPostfix]
         private static void AwakePostfix(WalkArea __instance)
         {
-            if (__instance == null ||
+            SaveState state = SaveState.Instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                __instance == null ||
                 !ShouldSuppressFirstArrival(
                     __instance.gameObject.scene.name,
                     Utils.GetHierarchyPath(__instance.transform),
@@ -43,8 +46,13 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            if (SuppressedWalkAreas.Add(__instance.GetInstanceID()))
+            int instanceId = __instance.GetInstanceID();
+            if (!SuppressedWalkAreas.ContainsKey(instanceId))
             {
+                SuppressedWalkAreas.Add(
+                    instanceId,
+                    __instance.gameObject.scene.name
+                );
                 RandomizerPlugin.Log?.LogInfo(
                     "[RANDOMIZER] Suppressing arrival slow-walk callbacks for '" +
                     __instance.gameObject.scene.name + "/" +
@@ -83,7 +91,41 @@ namespace SilksongRandomizer.Patches
         internal static bool ShouldRunNativeTrigger(WalkArea walkArea)
         {
             return walkArea == null ||
-                   !SuppressedWalkAreas.Contains(walkArea.GetInstanceID());
+                   !SuppressedWalkAreas.ContainsKey(
+                       walkArea.GetInstanceID()
+                   );
+        }
+
+        internal static bool ShouldAllowArrivalBench()
+        {
+            SaveState state = SaveState.Instance;
+            HeroController hero = HeroController.SilentInstance;
+            GameManager gameManager = GameManager.instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                hero == null ||
+                hero.cState == null ||
+                !hero.cState.nearBench ||
+                hero.controlReqlinquished ||
+                !hero.CanInput() ||
+                gameManager == null ||
+                string.IsNullOrEmpty(gameManager.sceneName))
+            {
+                return false;
+            }
+
+            foreach (string sceneName in SuppressedWalkAreas.Values)
+            {
+                if (string.Equals(
+                        sceneName,
+                        gameManager.sceneName,
+                        StringComparison.Ordinal))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal static bool ShouldSuppressFirstArrival(
@@ -146,5 +188,17 @@ namespace SilksongRandomizer.Patches
                 : !playerData.visitedBellhartHaunted;
         }
 
+        [HarmonyPatch(typeof(InteractManager), "get_IsDisabled")]
+        private static class ArrivalBenchInteractionPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(ref bool __result)
+            {
+                if (__result && ShouldAllowArrivalBench())
+                {
+                    __result = false;
+                }
+            }
+        }
     }
 }

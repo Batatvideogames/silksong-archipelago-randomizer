@@ -1,7 +1,9 @@
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using GlobalEnums;
+using HarmonyLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +20,78 @@ namespace SilksongRandomizer
     internal static class DeathLinkManager
     {
         private const float RemoteDeathStartTimeoutSeconds = 5f;
+        private const float RemoteDeathSafeDelaySeconds = 0.5f;
+
+        private sealed class RemoteDeathCocoonSnapshot
+        {
+            internal int HeldRosaries;
+            internal string CorpseScene;
+            internal Vector2 DeathScenePosition;
+            internal Vector2 DeathSceneSize;
+            internal byte[] CorpseMarkerGuid;
+            internal HeroDeathCocoonTypes CorpseType;
+            internal int CorpseRosaries;
+            internal bool SilkSpoolBroken;
+
+            internal static RemoteDeathCocoonSnapshot Capture(
+                PlayerData playerData)
+            {
+                return new RemoteDeathCocoonSnapshot
+                {
+                    HeldRosaries = playerData.geo,
+                    CorpseScene = playerData.HeroCorpseScene,
+                    DeathScenePosition = playerData.HeroDeathScenePos,
+                    DeathSceneSize = playerData.HeroDeathSceneSize,
+                    CorpseMarkerGuid = playerData.HeroCorpseMarkerGuid == null
+                        ? null
+                        : (byte[])playerData.HeroCorpseMarkerGuid.Clone(),
+                    CorpseType = playerData.HeroCorpseType,
+                    CorpseRosaries = playerData.HeroCorpseMoneyPool,
+                    SilkSpoolBroken = playerData.IsSilkSpoolBroken,
+                };
+            }
+
+            internal void Restore(PlayerData playerData)
+            {
+                if (playerData == null)
+                {
+                    return;
+                }
+
+                playerData.geo = HeldRosaries;
+                playerData.HeroCorpseScene = CorpseScene;
+                playerData.HeroDeathScenePos = DeathScenePosition;
+                playerData.HeroDeathSceneSize = DeathSceneSize;
+                playerData.HeroCorpseMarkerGuid = CorpseMarkerGuid == null
+                    ? null
+                    : (byte[])CorpseMarkerGuid.Clone();
+                playerData.HeroCorpseType = CorpseType;
+                playerData.HeroCorpseMoneyPool = CorpseRosaries;
+                playerData.IsSilkSpoolBroken = SilkSpoolBroken;
+
+                try
+                {
+                    CurrencyCounter.ToValue(
+                        playerData.geo,
+                        CurrencyType.Money
+                    );
+                    GameMap gameMap = GameManager.SilentInstance?.gameMap;
+                    gameMap?.PositionCompassAndCorpse();
+                }
+                catch (Exception exception)
+                {
+                    QueueStatus(
+                        "DeathLink restored Rosaries but could not refresh " +
+                        "their display: " + exception.Message
+                    );
+                }
+            }
+        }
+
+        private sealed class NativeDeathCapture
+        {
+            internal bool IsNonLethal;
+        }
 
         private static readonly object StateLock = new object();
         private static readonly Queue<string> QueuedStatusMessages =
@@ -29,10 +103,15 @@ namespace SilksongRandomizer
         private static DeathLinkData pendingRemoteDeath;
         private static DeathLinkData remoteDeathInFlight;
         private static string sourcePlayer = string.Empty;
+        private static string deathLinkCocoonMode =
+            Archipelago.DeathLinkCocoonProtected;
         private static bool enabled;
         private static bool localDeathReported;
+        private static NativeDeathCapture currentDeathCapture;
         private static bool suppressNextLocalDeath;
+        private static bool protectRemoteCocoonInFlight;
         private static float remoteDeathStartedAt;
+        private static float remoteDeathSafeSince;
         private static string lastReceivedSource = string.Empty;
         private static string lastReceivedCause = string.Empty;
 
@@ -77,6 +156,17 @@ namespace SilksongRandomizer
             }
         }
 
+        internal static bool IsRemoteCocoonProtectionInFlight
+        {
+            get
+            {
+                lock (StateLock)
+                {
+                    return protectRemoteCocoonInFlight;
+                }
+            }
+        }
+
         internal static string LastReceivedSource
         {
             get
@@ -113,7 +203,8 @@ namespace SilksongRandomizer
         internal static bool Configure(
             ArchipelagoSession session,
             string source,
-            bool shouldEnable)
+            bool shouldEnable,
+            string cocoonMode)
         {
             Reset();
 
@@ -131,6 +222,15 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            if (!IsSupportedCocoonMode(cocoonMode))
+            {
+                QueueStatus(
+                    "DeathLink could not start because its cocoon mode was " +
+                    "invalid."
+                );
+                return false;
+            }
+
             DeathLinkService createdService = null;
             try
             {
@@ -142,6 +242,7 @@ namespace SilksongRandomizer
                 {
                     service = createdService;
                     sourcePlayer = source.Trim();
+                    deathLinkCocoonMode = cocoonMode;
                     enabled = true;
                 }
 
@@ -201,8 +302,23 @@ namespace SilksongRandomizer
                     out HeroController hero,
                     out PlayerData playerData))
             {
+                remoteDeathSafeSince = 0f;
                 return;
             }
+
+            if (remoteDeathSafeSince <= 0f)
+            {
+                remoteDeathSafeSince = Time.realtimeSinceStartup;
+                return;
+            }
+
+            if (Time.realtimeSinceStartup - remoteDeathSafeSince <
+                RemoteDeathSafeDelaySeconds)
+            {
+                return;
+            }
+
+            remoteDeathSafeSince = 0f;
 
             DeathLinkData remoteDeath;
             lock (StateLock)
@@ -219,10 +335,15 @@ namespace SilksongRandomizer
 
             suppressNextLocalDeath = true;
             remoteDeathStartedAt = Time.realtimeSinceStartup;
+            RemoteDeathCocoonSnapshot cocoonSnapshot =
+                ShouldProtectRemoteDeathCocoon(playerData)
+                    ? RemoteDeathCocoonSnapshot.Capture(playerData)
+                    : null;
+            protectRemoteCocoonInFlight = cocoonSnapshot != null;
 
             try
             {
-            // TakeDamage and TakeHealth are not used here:
+                // TakeDamage and TakeHealth are not used here:
                 // tools and temporary invulnerability can prevent them. A
                 // DeathLink must be deterministic once the hero is in a safe
                 // gameplay state, while CheckDeathCatch retains the game's
@@ -266,6 +387,11 @@ namespace SilksongRandomizer
                     exception.Message
                 );
             }
+            finally
+            {
+                cocoonSnapshot?.Restore(playerData);
+                protectRemoteCocoonInFlight = false;
+            }
         }
 
         internal static void Reset()
@@ -277,6 +403,8 @@ namespace SilksongRandomizer
                 oldService = service;
                 service = null;
                 sourcePlayer = string.Empty;
+                deathLinkCocoonMode =
+                    Archipelago.DeathLinkCocoonProtected;
                 pendingRemoteDeath = null;
                 remoteDeathInFlight = null;
                 lastReceivedSource = string.Empty;
@@ -302,8 +430,11 @@ namespace SilksongRandomizer
 
             DetachHero();
             localDeathReported = false;
+            currentDeathCapture = null;
             suppressNextLocalDeath = false;
+            protectRemoteCocoonInFlight = false;
             remoteDeathStartedAt = 0f;
+            remoteDeathSafeSince = 0f;
         }
 
         private static void OnDeathLinkReceived(DeathLinkData deathLink)
@@ -357,8 +488,11 @@ namespace SilksongRandomizer
             }
 
             localDeathReported = false;
+            currentDeathCapture = null;
             suppressNextLocalDeath = false;
+            protectRemoteCocoonInFlight = false;
             remoteDeathStartedAt = 0f;
+            remoteDeathSafeSince = 0f;
             lock (StateLock)
             {
                 remoteDeathInFlight = null;
@@ -377,6 +511,13 @@ namespace SilksongRandomizer
 
         private static void OnHeroDeath()
         {
+            NativeDeathCapture capture = currentDeathCapture;
+            currentDeathCapture = null;
+            if (capture != null && capture.IsNonLethal)
+            {
+                return;
+            }
+
             if (localDeathReported)
             {
                 return;
@@ -452,6 +593,53 @@ namespace SilksongRandomizer
             }
         }
 
+        [HarmonyPatch(
+            typeof(HeroController),
+            "Die",
+            new Type[] { typeof(bool), typeof(bool) })]
+        private static class HeroControllerDiePatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                bool nonLethal,
+                ref IEnumerator __result)
+            {
+                if (__result != null)
+                {
+                    __result = CaptureNativeDeath(__result, nonLethal);
+                }
+            }
+
+            private static IEnumerator CaptureNativeDeath(
+                IEnumerator nativeRoutine,
+                bool nonLethal)
+            {
+                NativeDeathCapture capture = new NativeDeathCapture
+                {
+                    IsNonLethal = nonLethal,
+                };
+                currentDeathCapture = capture;
+                try
+                {
+                    while (nativeRoutine.MoveNext())
+                    {
+                        yield return nativeRoutine.Current;
+                    }
+                }
+                finally
+                {
+                    // OnDeath normally consumes this before the first yield.
+                    // Clear it here only if that event never reached us.
+                    if (ReferenceEquals(currentDeathCapture, capture))
+                    {
+                        currentDeathCapture = null;
+                    }
+
+                    (nativeRoutine as IDisposable)?.Dispose();
+                }
+            }
+        }
+
         private static bool TryGetSafeRemoteDeathTarget(
             out HeroController hero,
             out PlayerData playerData)
@@ -485,6 +673,7 @@ namespace SilksongRandomizer
                 gameManager.IsInSceneTransition ||
                 gameManager.RespawningHero ||
                 playerData.disablePause ||
+                playerData.isInventoryOpen ||
                 playerData.isInvincible ||
                 hero.transitionState !=
                     HeroTransitionState.WAITING_TO_TRANSITION ||
@@ -497,12 +686,68 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            if (hero.controlReqlinquished ||
+                hero.IsInputBlocked() ||
+                !hero.CanInput() ||
+                ToolItemManager.ActiveState != ToolsActiveStates.Active)
+            {
+                return false;
+            }
+
             if (!CurrencyLinkManager.CanApplyRemoteDeath(playerData))
             {
                 return false;
             }
 
             return hero.CanTakeDamage();
+        }
+
+        private static bool IsSupportedCocoonMode(string mode)
+        {
+            return string.Equals(
+                       mode,
+                       Archipelago.DeathLinkCocoonVanilla,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       mode,
+                       Archipelago.DeathLinkCocoonless,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       mode,
+                       Archipelago.DeathLinkCocoonProtected,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        private static bool ShouldProtectRemoteDeathCocoon(
+            PlayerData playerData)
+        {
+            if (playerData == null ||
+                string.Equals(
+                    deathLinkCocoonMode,
+                    Archipelago.DeathLinkCocoonVanilla,
+                    StringComparison.Ordinal
+                ))
+            {
+                return false;
+            }
+
+            if (string.Equals(
+                    deathLinkCocoonMode,
+                    Archipelago.DeathLinkCocoonless,
+                    StringComparison.Ordinal
+                ))
+            {
+                return true;
+            }
+
+            return !string.IsNullOrWhiteSpace(
+                       playerData.HeroCorpseScene
+                   ) ||
+                   playerData.HeroCorpseMarkerGuid != null ||
+                   playerData.HeroCorpseMoneyPool > 0;
         }
 
         private static void ResetLocalDeathLatchAfterRespawn()

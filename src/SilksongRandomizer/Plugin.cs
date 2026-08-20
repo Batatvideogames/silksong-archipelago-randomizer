@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace SilksongRandomizer
         public static RandomizerPlugin Instance { get; private set; }
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.4.2";
+        public const string PluginVersion = "0.4.4";
 
         public static bool OverrideUnlock { get; set; } = true;
 
@@ -30,6 +31,14 @@ namespace SilksongRandomizer
 
         private const float ConnectionWindowWidth = 460f;
         private const float ConnectionWindowHeight = 350f;
+        private const float HintsWindowWidth = 520f;
+        private const float HintsWindowHeight = 430f;
+
+        private enum ArchipelagoWindowTab
+        {
+            Connection,
+            Hints,
+        }
 
         private bool showConnectionGui;
         private bool connectionGuiDismissed;
@@ -47,6 +56,9 @@ namespace SilksongRandomizer
         private ConfigEntry<string> savedConnectionSlot;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private string connectionStatus = string.Empty;
+        private ArchipelagoWindowTab selectedWindowTab =
+            ArchipelagoWindowTab.Connection;
+        private Vector2 hintsScrollPosition;
         private volatile bool reopenConnectionGuiRequested;
         private volatile bool resetTransientEffectsRequested;
         private Archipelago subscribedArchipelago;
@@ -600,7 +612,6 @@ namespace SilksongRandomizer
             }
 
             TrapManager.Update();
-            LogicAuditCloakManager.UpdateIntegrity();
             SlabCaptureWarpSafety.Update();
             MossMotherWarpSafety.Update();
             BellhomePhaseManager.Update();
@@ -609,7 +620,10 @@ namespace SilksongRandomizer
             CurrencyLinkManager.Update();
             FleaRescueAudio.Update();
             FleaPatches.Update();
+            VogHintManager.Update();
             WandererChapelPatches.Update();
+            MinorCachePatches.UpdateInactiveCurrencyChestFallbacks();
+            LoreTabletPatches.UpdateInactiveSources();
             ProcessConnectionStatusQueue();
             ProcessQueuedReceivedItems();
             ProcessQueuedUnlockPopups();
@@ -618,6 +632,7 @@ namespace SilksongRandomizer
             if (reopenConnectionGuiRequested)
             {
                 reopenConnectionGuiRequested = false;
+                selectedWindowTab = ArchipelagoWindowTab.Connection;
                 ShowConnectionGui();
             }
 
@@ -640,20 +655,18 @@ namespace SilksongRandomizer
                 TryWarpToPreferredHub();
             }
 
-            if (!showConnectionGui && Input.GetKeyDown(KeyCode.F8))
-            {
-                LogicAuditCloakManager.TryCycle();
-            }
         }
 
         private void OnDisable()
         {
-            LogicAuditCloakManager.Reset();
             TrapManager.ResetTransientEffects();
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
             FleaRescueAudio.ResetPending();
+            VogHintManager.Reset();
+            MinorCachePatches.ResetInactiveCurrencyChestFallbacks();
+            LoreTabletPatches.ResetInactiveSources();
         }
 
         private Archipelago GetOrCreateArchipelago()
@@ -716,8 +729,8 @@ namespace SilksongRandomizer
 
         public void ClearPendingGameplayQueues()
         {
-            LogicAuditCloakManager.Reset();
             TrapManager.ResetTransientEffects();
+            VogHintManager.Reset();
 
             lock (receivedItemQueueLock)
             {
@@ -993,6 +1006,7 @@ namespace SilksongRandomizer
 
         private void TryBootstrapStartWithMaps(SaveState saveState)
         {
+            TryApplyStartFullyMapped(saveState);
             if (saveState == null ||
                 !saveState.NeedsStartWithMapsBootstrap())
             {
@@ -1020,6 +1034,31 @@ namespace SilksongRandomizer
                 Log.LogError(
                     "[RANDOMIZER] Failed to apply the starting maps; " +
                     "they will be retried: " + ex
+                );
+            }
+        }
+
+        private void TryApplyStartFullyMapped(SaveState saveState)
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (saveState == null ||
+                !saveState.startFullyMapped ||
+                playerData == null ||
+                playerData.mapAllRooms)
+            {
+                return;
+            }
+
+            try
+            {
+                ItemGrants.GrantStartFullyMapped();
+            }
+            catch (Exception ex)
+            {
+                nextItemRetryTime = Time.unscaledTime + 1f;
+                Log.LogError(
+                    "[RANDOMIZER] Failed to draw the starting map. " +
+                    "It will be retried: " + ex
                 );
             }
         }
@@ -1074,7 +1113,6 @@ namespace SilksongRandomizer
         private void OnGUI()
         {
             CheckMapMarkerManager.DrawTooltip();
-            DrawLogicAuditRoomId();
 
             if (!showConnectionGui)
             {
@@ -1084,16 +1122,24 @@ namespace SilksongRandomizer
             UnlockCursorForConnectionGui();
             DrawConnectionBackground();
 
+            float windowWidth = selectedWindowTab ==
+                ArchipelagoWindowTab.Hints
+                    ? HintsWindowWidth
+                    : ConnectionWindowWidth;
+            float windowHeight = selectedWindowTab ==
+                ArchipelagoWindowTab.Hints
+                    ? HintsWindowHeight
+                    : ConnectionWindowHeight;
             connectionWindowRect.x = Mathf.Max(
                 0f,
-                (Screen.width - ConnectionWindowWidth) * 0.5f
+                (Screen.width - windowWidth) * 0.5f
             );
             connectionWindowRect.y = Mathf.Max(
                 0f,
-                (Screen.height - ConnectionWindowHeight) * 0.5f
+                (Screen.height - windowHeight) * 0.5f
             );
-            connectionWindowRect.width = ConnectionWindowWidth;
-            connectionWindowRect.height = ConnectionWindowHeight;
+            connectionWindowRect.width = windowWidth;
+            connectionWindowRect.height = windowHeight;
 
             GUILayout.Window(
                 GetInstanceID(),
@@ -1101,30 +1147,6 @@ namespace SilksongRandomizer
                 DrawConnectionWindow,
                 "Archipelago"
             );
-        }
-
-        private static void DrawLogicAuditRoomId()
-        {
-            SaveState saveState = SaveState.Instance;
-            GameManager gameManager = GameManager.SilentInstance;
-            if (saveState == null || !saveState.logicAuditMode ||
-                gameManager == null ||
-                string.IsNullOrWhiteSpace(gameManager.sceneName))
-            {
-                return;
-            }
-
-            int previousDepth = GUI.depth;
-            GUI.depth = -1000;
-            GUI.Box(
-                new Rect(8f, 8f, 230f, 28f),
-                "Room ID: " + gameManager.sceneName
-            );
-            GUI.Box(
-                new Rect(8f, 40f, 230f, 28f),
-                LogicAuditCloakManager.GetOverlayText()
-            );
-            GUI.depth = previousDepth;
         }
 
         private void ShowConnectionGui()
@@ -1195,10 +1217,45 @@ namespace SilksongRandomizer
         private void DrawConnectionWindow(int windowId)
         {
             GUILayout.BeginVertical();
-            DrawConnectionTab();
+            DrawArchipelagoWindowTabs();
+            GUILayout.Space(8f);
+
+            if (selectedWindowTab == ArchipelagoWindowTab.Hints)
+            {
+                DrawHintsTab();
+            }
+            else
+            {
+                DrawConnectionTab();
+            }
 
             GUILayout.EndVertical();
             GUI.DragWindow();
+        }
+
+        private void DrawArchipelagoWindowTabs()
+        {
+            bool wasEnabled = GUI.enabled;
+            GUILayout.BeginHorizontal();
+
+            GUI.enabled =
+                wasEnabled &&
+                selectedWindowTab != ArchipelagoWindowTab.Connection;
+            if (GUILayout.Button("Connection", GUILayout.Height(26f)))
+            {
+                selectedWindowTab = ArchipelagoWindowTab.Connection;
+            }
+
+            GUI.enabled =
+                wasEnabled &&
+                selectedWindowTab != ArchipelagoWindowTab.Hints;
+            if (GUILayout.Button("Hints", GUILayout.Height(26f)))
+            {
+                selectedWindowTab = ArchipelagoWindowTab.Hints;
+            }
+
+            GUI.enabled = wasEnabled;
+            GUILayout.EndHorizontal();
         }
 
         private void DrawConnectionTab()
@@ -1241,6 +1298,18 @@ namespace SilksongRandomizer
 
             GUI.enabled =
                 !isConnecting &&
+                FastTravelUtil.CanCyclePreferredHub();
+            if (GUILayout.Button(
+                    "\u2039",
+                    GUILayout.Width(30f),
+                    GUILayout.Height(32f)
+                ))
+            {
+                FastTravelUtil.TryCyclePreferredHub(-1);
+            }
+
+            GUI.enabled =
+                !isConnecting &&
                 FastTravelUtil.CanTeleportToPreferredHub(out _);
             string warpButtonText =
                 FastTravelUtil.GetPreferredHubName() + " (F4)";
@@ -1249,16 +1318,133 @@ namespace SilksongRandomizer
                 TryWarpToPreferredHub();
             }
 
-            GUI.enabled = !isConnecting;
-            if (GUILayout.Button(connected ? "Close" : "Play Offline", GUILayout.Height(32f)))
+            GUI.enabled =
+                !isConnecting &&
+                FastTravelUtil.CanCyclePreferredHub();
+            if (GUILayout.Button(
+                    "\u203A",
+                    GUILayout.Width(30f),
+                    GUILayout.Height(32f)
+                ))
             {
-                connectionGuiDismissed = true;
-                connectionStatus = string.Empty;
-                HideConnectionGui(true);
+                FastTravelUtil.TryCyclePreferredHub(1);
+            }
+
+            GUI.enabled = !isConnecting;
+            if (GUILayout.Button(connected ? "Close" : "Load Offline", GUILayout.Height(32f)))
+            {
+                if (!connected && !SavePatches.HasOfflineLoadableSave())
+                {
+                    connectionStatus =
+                        "Offline loading requires a save that was started while connected.";
+                }
+                else
+                {
+                    connectionGuiDismissed = true;
+                    connectionStatus = string.Empty;
+                    HideConnectionGui(true);
+                }
             }
 
             GUI.enabled = true;
             GUILayout.EndHorizontal();
+        }
+
+        private void DrawHintsTab()
+        {
+            GUILayout.Label(
+                "Official Archipelago hints and area rumours bought from Vog."
+            );
+            GUILayout.Space(8f);
+
+            SaveState state = SaveState.Instance;
+            IReadOnlyList<string> hints =
+                state == null
+                    ? Array.Empty<string>()
+                    : state.BuildHintJournalEntries();
+            hintsScrollPosition = GUILayout.BeginScrollView(
+                hintsScrollPosition,
+                GUILayout.ExpandHeight(true)
+            );
+            if (hints.Count == 0)
+            {
+                GUILayout.Label("No hints have been revealed yet.");
+            }
+            else
+            {
+                GUIStyle wrappingLabel = new GUIStyle(GUI.skin.label)
+                {
+                    richText = false,
+                    wordWrap = true,
+                };
+                for (int index = 0; index < hints.Count; index++)
+                {
+                    GUILayout.Label(
+                        (index + 1).ToString(
+                            CultureInfo.InvariantCulture
+                        ) + ". " + SanitizeHintJournalText(hints[index]),
+                        wrappingLabel
+                    );
+                    GUILayout.Space(6f);
+                }
+            }
+            GUILayout.EndScrollView();
+
+            if (GUILayout.Button("Close", GUILayout.Height(32f)))
+            {
+                connectionGuiDismissed = true;
+                HideConnectionGui(true);
+            }
+        }
+
+        private static string SanitizeHintJournalText(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "Unknown hint";
+            }
+
+            StringBuilder result = new StringBuilder();
+            bool previousWasSpace = false;
+            foreach (char character in value.Trim())
+            {
+                char output = character;
+                if (character == '<')
+                {
+                    output = '\u2039';
+                }
+                else if (character == '>')
+                {
+                    output = '\u203A';
+                }
+                else if (char.IsControl(character) ||
+                         char.IsWhiteSpace(character))
+                {
+                    output = ' ';
+                }
+
+                if (output == ' ')
+                {
+                    if (previousWasSpace)
+                    {
+                        continue;
+                    }
+                    previousWasSpace = true;
+                }
+                else
+                {
+                    previousWasSpace = false;
+                }
+
+                result.Append(output);
+                if (result.Length >= 320)
+                {
+                    break;
+                }
+            }
+
+            string sanitized = result.ToString().Trim();
+            return sanitized.Length == 0 ? "Unknown hint" : sanitized;
         }
 
         private void TryWarpToPreferredHub()
@@ -1288,7 +1474,7 @@ namespace SilksongRandomizer
             catch (Exception ex)
             {
                 const string message =
-                    "F4 warp failed; no transition was started.";
+                    "F4 warp failed because no transition was started.";
                 Log.LogWarning("[RANDOMIZER] " + message + " " + ex);
                 if (showConnectionGui)
                 {
@@ -1382,7 +1568,7 @@ namespace SilksongRandomizer
                         ? string.Empty
                         : Archipelago.Instance.LastError;
                     connectionStatus = string.IsNullOrWhiteSpace(detail)
-                        ? "Connection failed. Check the host, port, slot, and password."
+                        ? "Connection failed. Check the host, port, slot and password."
                         : detail;
                 }
             }

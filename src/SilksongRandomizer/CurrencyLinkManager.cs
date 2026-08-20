@@ -549,11 +549,16 @@ namespace SilksongRandomizer
 
         private static void ProcessStorageUpdates()
         {
-            List<QueuedStorageUpdate> updates =
-                new List<QueuedStorageUpdate>();
+            List<QueuedStorageUpdate> updates;
             int currentGeneration;
             lock (QueueLock)
             {
+                if (StorageUpdates.Count == 0)
+                {
+                    return;
+                }
+
+                updates = new List<QueuedStorageUpdate>();
                 currentGeneration = generation;
                 while (StorageUpdates.Count > 0)
                 {
@@ -1293,7 +1298,9 @@ namespace SilksongRandomizer
 
         private static void MarkRosaryDeathStarted()
         {
-            if (!Rosaries.Enabled || !PlayerData.HasInstance)
+            if (!Rosaries.Enabled ||
+                !PlayerData.HasInstance ||
+                DeathLinkManager.IsRemoteCocoonProtectionInFlight)
             {
                 return;
             }
@@ -1358,7 +1365,8 @@ namespace SilksongRandomizer
 
         private static void CaptureNativeRosaryDeathResult()
         {
-            if (activeRosaryCocoonSequence == 0 ||
+            if (DeathLinkManager.IsRemoteCocoonProtectionInFlight ||
+                activeRosaryCocoonSequence == 0 ||
                 !PlayerData.HasInstance ||
                 !RosaryDeaths.TryGetValue(
                     activeRosaryCocoonSequence,
@@ -1861,9 +1869,15 @@ namespace SilksongRandomizer
 
         private static void FlushStatusMessages()
         {
-            List<string> messages = new List<string>();
+            List<string> messages;
             lock (QueueLock)
             {
+                if (StatusMessages.Count == 0)
+                {
+                    return;
+                }
+
+                messages = new List<string>();
                 while (StatusMessages.Count > 0)
                 {
                     messages.Add(StatusMessages.Dequeue());

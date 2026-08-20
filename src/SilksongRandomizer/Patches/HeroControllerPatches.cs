@@ -68,7 +68,7 @@ namespace SilksongRandomizer.Patches
             {
                 return false;
             }
-            return LogicAuditCloakManager.ResolveBrollyOwnership(owned);
+            return owned;
         }
 
         public static bool ResolveDoubleJumpOwnership(bool vanillaOwned)
@@ -81,7 +81,7 @@ namespace SilksongRandomizer.Patches
             {
                 return false;
             }
-            return LogicAuditCloakManager.ResolveDoubleJumpOwnership(owned);
+            return owned;
         }
 
         public static bool HasBrolly(PlayerData playerData)

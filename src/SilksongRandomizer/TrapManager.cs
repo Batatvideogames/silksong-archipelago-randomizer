@@ -262,11 +262,6 @@ namespace SilksongRandomizer
                     return;
                 }
 
-                // Logic-audit Cloakless is a temporary native crest. The player's
-                // real crest returns before this trap snapshots its restore target
-                // and takes ownership normally.
-                LogicAuditCloakManager.Reset();
-
                 PlayerData playerData = PlayerData.instance;
                 ToolCrest cursedCrest = GlobalSettings.Gameplay.CursedCrest;
                 if (playerData == null || cursedCrest == null)

@@ -23,11 +23,19 @@ namespace SilksongRandomizer
         private const int MaxMossberryCount = 7;
         private const int MaxPollipHeartCount = 6;
         private const int MaxPaleOilCount = 3;
+        private const string UsableScuttlebraceRequirement =
+            "Usable Scuttlebrace";
 
         private sealed class LogicPayload
         {
-            [JsonProperty("easy_skips")]
-            internal bool EasySkips { get; set; }
+            [JsonProperty("skips")]
+            internal int SkipsTier { get; set; }
+
+            [JsonProperty(
+                "scuttlebrace_logic",
+                Required = Required.Always
+            )]
+            internal bool ScuttlebraceLogic { get; set; }
 
             [JsonProperty("requirements")]
             internal Dictionary<string, LogicRequirement> Requirements
@@ -61,14 +69,17 @@ namespace SilksongRandomizer
             [JsonProperty("any_of")]
             internal List<string> AnyOf { get; set; }
 
+            [JsonProperty("required_locations")]
+            internal List<string> RequiredLocations { get; set; }
+
             [JsonProperty("require_any_crest")]
             internal bool RequireAnyCrest { get; set; }
 
             [JsonProperty("require_silk_spear")]
             internal bool RequireSilkSpear { get; set; }
 
-            [JsonProperty("requires_easy_skips")]
-            internal bool RequiresEasySkips { get; set; }
+            [JsonProperty("minimum_skip_tier")]
+            internal int MinimumSkipTier { get; set; }
 
             [JsonProperty("path")]
             internal string Path { get; set; }
@@ -100,7 +111,7 @@ namespace SilksongRandomizer
                 AbstractRequirements;
             internal readonly Dictionary<string, List<string>>
                 Dependencies;
-            internal readonly bool EasySkips;
+            internal readonly int SkipsTier;
 
             internal ParsedPayload(LogicPayload payload)
             {
@@ -115,8 +126,69 @@ namespace SilksongRandomizer
                 Dependencies = CanonicalizeDependencyKeys(
                     payload?.LogicItemDependencies
                 );
-                EasySkips = payload?.EasySkips ?? false;
+                SkipsTier = payload?.SkipsTier ?? 0;
+                if (payload != null && !payload.ScuttlebraceLogic)
+                {
+                    RemoveScuttlebraceAlternatives(Requirements);
+                    RemoveScuttlebraceAlternatives(
+                        AbstractRequirements
+                    );
+                }
             }
+        }
+
+        private static void RemoveScuttlebraceAlternatives(
+            IDictionary<string, LogicRequirement> groups
+        )
+        {
+            if (groups == null)
+            {
+                return;
+            }
+
+            foreach (LogicRequirement group in groups.Values)
+            {
+                if (group?.Alternatives == null)
+                {
+                    continue;
+                }
+
+                group.Alternatives = group.Alternatives
+                    .Where(AlternativeDoesNotRequireScuttlebrace)
+                    .ToList();
+            }
+        }
+
+        private static bool AlternativeDoesNotRequireScuttlebrace(
+            LogicRequirement requirement
+        )
+        {
+            if (requirement == null ||
+                (requirement.AllOf ?? new List<string>()).Any(
+                    name => string.Equals(
+                        name,
+                        UsableScuttlebraceRequirement,
+                        StringComparison.Ordinal
+                    )
+                ))
+            {
+                return false;
+            }
+
+            if (requirement.AnyOf == null)
+            {
+                return true;
+            }
+
+            int originalCount = requirement.AnyOf.Count;
+            requirement.AnyOf = requirement.AnyOf
+                .Where(name => !string.Equals(
+                    name,
+                    UsableScuttlebraceRequirement,
+                    StringComparison.Ordinal
+                ))
+                .ToList();
+            return originalCount == 0 || requirement.AnyOf.Count > 0;
         }
 
         private static readonly string[] CrestItemNames =
@@ -143,6 +215,9 @@ namespace SilksongRandomizer
 
         private static string cachedJson = string.Empty;
         private static ParsedPayload cachedPayload;
+        private static ParsedPayload cachedAbstractPayload;
+        private static Dictionary<string, int> cachedAbstractInventory;
+        private static Dictionary<string, bool> cachedAbstractValues;
         private static bool loggedPayloadFailure;
 
         internal static MapCheckReachability Evaluate(
@@ -192,7 +267,7 @@ namespace SilksongRandomizer
             Dictionary<string, int> inventory =
                 BuildInventoryCounts(state);
             Dictionary<string, bool> abstractValues =
-                ResolveAbstractRequirements(payload, inventory);
+                GetAbstractRequirements(payload, inventory);
             bool hasCrest = CrestItemNames.Any(
                 itemName => CountItem(inventory, itemName) > 0
             );
@@ -218,8 +293,12 @@ namespace SilksongRandomizer
                         inventory,
                         hasCrest,
                         hasSilkSpear,
+                        payload.Requirements,
                         payload.Dependencies,
-                        payload.EasySkips
+                        payload.SkipsTier,
+                        new HashSet<string>(
+                            StringComparer.OrdinalIgnoreCase
+                        )
                     )
                     ? MapCheckReachability.Reachable
                     : MapCheckReachability.Unreachable;
@@ -298,7 +377,11 @@ namespace SilksongRandomizer
                     payload.Requirements.Count == 0 ||
                     payload.AbstractRequirements == null ||
                     payload.AbstractRequirements.Count == 0 ||
-                    payload.LogicItemDependencies == null)
+                    payload.LogicItemDependencies == null ||
+                    payload.Requirements.Values.Any(group =>
+                        group?.Alternatives == null) ||
+                    payload.AbstractRequirements.Values.Any(group =>
+                        group?.Alternatives == null))
                 {
                     return null;
                 }
@@ -654,36 +737,47 @@ namespace SilksongRandomizer
             SaveState state
         )
         {
+            bool needsTools = !state.IsRandomized(ItemType.Tool);
+            bool needsSpells = !state.IsRandomized(ItemType.Spell);
+            bool needsCrests = !state.IsRandomized(ItemType.Crest);
+            if (!needsTools && !needsSpells && !needsCrests)
+            {
+                return;
+            }
+
             try
             {
-                foreach (ToolItem tool in
-                    Resources.FindObjectsOfTypeAll<ToolItem>())
+                if (needsTools || needsSpells)
                 {
-                    if (tool == null || !tool.IsUnlocked)
+                    foreach (ToolItem tool in
+                        Resources.FindObjectsOfTypeAll<ToolItem>())
                     {
-                        continue;
-                    }
+                        if (tool == null || !tool.IsUnlocked)
+                        {
+                            continue;
+                        }
 
-                    ItemType itemType = tool.Type == ToolItemType.Skill
-                        ? ItemType.Spell
-                        : ItemType.Tool;
-                    if (state.IsRandomized(itemType))
-                    {
-                        continue;
-                    }
+                        ItemType itemType = tool.Type == ToolItemType.Skill
+                            ? ItemType.Spell
+                            : ItemType.Tool;
+                        if (state.IsRandomized(itemType))
+                        {
+                            continue;
+                        }
 
-                    SetMinimumCount(
-                        counts,
-                        (
-                            itemType == ItemType.Spell
-                                ? "Spell: "
-                                : "Tool: "
-                        ) + tool.name,
-                        1
-                    );
+                        SetMinimumCount(
+                            counts,
+                            (
+                                itemType == ItemType.Spell
+                                    ? "Spell: "
+                                    : "Tool: "
+                            ) + tool.name,
+                            1
+                        );
+                    }
                 }
 
-                if (!state.IsRandomized(ItemType.Crest))
+                if (needsCrests)
                 {
                     foreach (ToolCrest crest in
                         ToolItemManager.GetAllCrests())
@@ -712,6 +806,55 @@ namespace SilksongRandomizer
             }
         }
 
+        private static Dictionary<string, bool> GetAbstractRequirements(
+            ParsedPayload payload,
+            Dictionary<string, int> inventory
+        )
+        {
+            if (ReferenceEquals(payload, cachedAbstractPayload) &&
+                HaveEqualInventory(inventory, cachedAbstractInventory))
+            {
+                return cachedAbstractValues;
+            }
+
+            Dictionary<string, int> inventorySnapshot =
+                new Dictionary<string, int>(
+                    inventory,
+                    StringComparer.OrdinalIgnoreCase
+                );
+            Dictionary<string, bool> abstractValues =
+                ResolveAbstractRequirements(
+                    payload,
+                    inventory
+                );
+
+            cachedAbstractPayload = payload;
+            cachedAbstractInventory = inventorySnapshot;
+            cachedAbstractValues = abstractValues;
+            return cachedAbstractValues;
+        }
+
+        private static bool HaveEqualInventory(
+            IReadOnlyDictionary<string, int> left,
+            IReadOnlyDictionary<string, int> right
+        )
+        {
+            if (left == null || right == null || left.Count != right.Count)
+            {
+                return false;
+            }
+
+            foreach (KeyValuePair<string, int> entry in left)
+            {
+                if (!right.TryGetValue(entry.Key, out int count) ||
+                    count != entry.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private static void AddNativeWorldState(
             Dictionary<string, int> counts,
             SaveState state
@@ -722,7 +865,8 @@ namespace SilksongRandomizer
                 !state.IsRandomized(ItemType.Map) ||
                 !state.IsRandomized(ItemType.Flea) ||
                 !state.IsRandomized(ItemType.Bellway) ||
-                !state.IsRandomized(ItemType.Ventrica);
+                !state.IsRandomized(ItemType.Ventrica) ||
+                !state.IsRandomized(ItemType.BellShrine);
             if (!needsNativeWorldState)
             {
                 return;
@@ -763,6 +907,42 @@ namespace SilksongRandomizer
             {
                 AddNativeVentrica(counts, playerData);
             }
+            if (!state.IsRandomized(ItemType.BellShrine))
+            {
+                AddNativeBellShrines(counts, playerData);
+            }
+        }
+
+        private static void AddNativeBellShrines(
+            Dictionary<string, int> counts,
+            PlayerData playerData
+        )
+        {
+            SetIfTrue(
+                counts,
+                "Bell: The Marrow",
+                playerData.bellShrineBoneForest
+            );
+            SetIfTrue(
+                counts,
+                "Bell: Deep Docks",
+                playerData.bellShrineWilds
+            );
+            SetIfTrue(
+                counts,
+                "Bell: Greymoor",
+                playerData.bellShrineGreymoor
+            );
+            SetIfTrue(
+                counts,
+                "Bell: Shellwood",
+                playerData.bellShrineShellwood
+            );
+            SetIfTrue(
+                counts,
+                "Bell: Bellhart",
+                playerData.bellShrineBellhart
+            );
         }
 
         private static void AddNativeMaps(
@@ -1088,8 +1268,12 @@ namespace SilksongRandomizer
                             inventory,
                             hasCrest,
                             hasSilkSpear,
+                            payload.Requirements,
                             payload.Dependencies,
-                            payload.EasySkips
+                            payload.SkipsTier,
+                            new HashSet<string>(
+                                StringComparer.OrdinalIgnoreCase
+                            )
                         ))
                     {
                         continue;
@@ -1107,10 +1291,17 @@ namespace SilksongRandomizer
             Dictionary<string, int> inventory,
             bool hasCrest,
             bool hasSilkSpear,
+            IReadOnlyDictionary<string, LogicRequirement>
+                locationRequirements,
             IReadOnlyDictionary<string, List<string>> dependencies,
-            bool easySkipsEnabled
+            int skipsTier,
+            HashSet<string> activeLocations
         )
         {
+            if (group == null || group.LogicUnknown)
+            {
+                return false;
+            }
             return GetAlternatives(group).Any(
                 alternative => SatisfiesRequirement(
                     alternative,
@@ -1118,8 +1309,10 @@ namespace SilksongRandomizer
                     inventory,
                     hasCrest,
                     hasSilkSpear,
+                    locationRequirements,
                     dependencies,
-                    easySkipsEnabled
+                    skipsTier,
+                    activeLocations
                 )
             );
         }
@@ -1128,15 +1321,9 @@ namespace SilksongRandomizer
             LogicRequirement group
         )
         {
-            if (group?.Alternatives != null)
-            {
-                return group.Alternatives.Where(
-                    alternative => alternative != null
-                );
-            }
-            return group == null
-                ? Enumerable.Empty<LogicRequirement>()
-                : new[] { group };
+            return (group?.Alternatives ??
+                    Enumerable.Empty<LogicRequirement>())
+                .Where(alternative => alternative != null);
         }
 
         private static bool SatisfiesRequirement(
@@ -1145,12 +1332,15 @@ namespace SilksongRandomizer
             Dictionary<string, int> inventory,
             bool hasCrest,
             bool hasSilkSpear,
+            IReadOnlyDictionary<string, LogicRequirement>
+                locationRequirements,
             IReadOnlyDictionary<string, List<string>> dependencies,
-            bool easySkipsEnabled
+            int skipsTier,
+            HashSet<string> activeLocations
         )
         {
             if (requirement == null ||
-                (requirement.RequiresEasySkips && !easySkipsEnabled) ||
+                requirement.MinimumSkipTier > skipsTier ||
                 (requirement.RequireAnyCrest && !hasCrest) ||
                 (requirement.RequireSilkSpear && !hasSilkSpear))
             {
@@ -1180,6 +1370,22 @@ namespace SilksongRandomizer
             {
                 return false;
             }
+            if ((requirement.RequiredLocations ?? new List<string>()).Any(
+                    name => !SatisfiesRequiredLocation(
+                        name,
+                        abstractValues,
+                        inventory,
+                        hasCrest,
+                        hasSilkSpear,
+                        locationRequirements,
+                        dependencies,
+                        skipsTier,
+                        activeLocations
+                    )
+                ))
+            {
+                return false;
+            }
             if ((requirement.ItemCounts ?? new List<LogicItemCount>())
                 .Any(itemCount =>
                     (itemCount?.Items ?? new List<string>())
@@ -1190,6 +1396,53 @@ namespace SilksongRandomizer
                 return false;
             }
             return true;
+        }
+
+        private static bool SatisfiesRequiredLocation(
+            string locationName,
+            IReadOnlyDictionary<string, bool> abstractValues,
+            Dictionary<string, int> inventory,
+            bool hasCrest,
+            bool hasSilkSpear,
+            IReadOnlyDictionary<string, LogicRequirement>
+                locationRequirements,
+            IReadOnlyDictionary<string, List<string>> dependencies,
+            int skipsTier,
+            HashSet<string> activeLocations
+        )
+        {
+            string canonicalName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            if (string.IsNullOrWhiteSpace(canonicalName) ||
+                locationRequirements == null ||
+                !locationRequirements.TryGetValue(
+                    canonicalName,
+                    out LogicRequirement requirement
+                ) ||
+                activeLocations == null ||
+                !activeLocations.Add(canonicalName))
+            {
+                return false;
+            }
+
+            try
+            {
+                return SatisfiesGroup(
+                    requirement,
+                    abstractValues,
+                    inventory,
+                    hasCrest,
+                    hasSilkSpear,
+                    locationRequirements,
+                    dependencies,
+                    skipsTier,
+                    activeLocations
+                );
+            }
+            finally
+            {
+                activeLocations.Remove(canonicalName);
+            }
         }
 
         private static bool HasNamedRequirement(

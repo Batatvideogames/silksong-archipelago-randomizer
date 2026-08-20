@@ -33,7 +33,7 @@ class RequirementSpec:
     dnf: tuple[tuple[str, ...], ...]
     annotations: tuple[str, ...]
     unresolved_reasons: tuple[str, ...]
-    uses_easy_skips: bool
+    minimum_skip_tier: int
 
     @property
     def is_compilable(self) -> bool:
@@ -304,13 +304,18 @@ def _mapping(value: Mapping[str, Any]) -> Mapping[str, Any]:
 
 
 def _requirement_from_json(value: Mapping[str, Any]) -> RequirementSpec:
+    minimum_skip_tier = int(value["minimum_skip_tier"])
+    if minimum_skip_tier not in range(4):
+        raise ValueError(
+            f"minimum_skip_tier must be between 0 and 3, got {minimum_skip_tier}"
+        )
     return RequirementSpec(
         raw=str(value["raw"]),
         mode=RequirementMode(value["mode"]),
         dnf=tuple(tuple(str(atom) for atom in clause) for clause in value["dnf"]),
         annotations=tuple(str(note) for note in value["annotations"]),
         unresolved_reasons=tuple(str(reason) for reason in value["unresolved_reasons"]),
-        uses_easy_skips=bool(value["uses_easy_skips"]),
+        minimum_skip_tier=minimum_skip_tier,
     )
 
 

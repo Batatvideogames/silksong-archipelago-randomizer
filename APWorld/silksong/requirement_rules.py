@@ -7,6 +7,7 @@ from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from rule_builder.rules import (
     And,
+    CanReachLocation,
     False_,
     Has,
     HasAny,
@@ -26,6 +27,8 @@ from .requirements import (
     PROGRESSIVE_SWIFT_STEP_ITEM,
     STARTING_LOCATION_VANILLA,
     SWIFT_STEP_ITEM,
+    TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    USABLE_SCUTTLEBRACE_REQUIREMENT,
     ItemCountRequirement,
     LocationRequirement,
     _compute_abstract_values,
@@ -36,6 +39,7 @@ from .requirements import (
     get_location_requirements,
     get_logic_item_dependencies,
     get_logic_item_references,
+    is_logic_unknown_location,
 )
 
 if TYPE_CHECKING:
@@ -84,18 +88,22 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     requirement_name: str = ""
     split_dash_and_sprint: bool = False
     allow_bellways_before_bell_beast: bool = False
-    easy_skips_enabled: bool = False
+    skips_tier: int = 0
     randomized_crest_slots_enabled: bool = True
     starting_location: str = STARTING_LOCATION_VANILLA
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK
+    scuttlebrace_logic_enabled: bool = True
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
             self.requirement_name,
             self.split_dash_and_sprint,
             self.allow_bellways_before_bell_beast,
-            self.easy_skips_enabled,
+            self.skips_tier,
             self.randomized_crest_slots_enabled,
             self.starting_location,
+            self.trails_end_requirement,
+            self.scuttlebrace_logic_enabled,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -104,9 +112,11 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         requirement_name: str
         split_dash_and_sprint: bool
         allow_bellways_before_bell_beast: bool
-        easy_skips_enabled: bool
+        skips_tier: int
         randomized_crest_slots_enabled: bool
         starting_location: str
+        trails_end_requirement: str
+        scuttlebrace_logic_enabled: bool
 
         def _evaluate(self, state: CollectionState) -> bool:
             return _has_named_requirement(
@@ -117,11 +127,15 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 allow_bellways_before_bell_beast=(
                     self.allow_bellways_before_bell_beast
                 ),
-                easy_skips_enabled=self.easy_skips_enabled,
+                skips_tier=self.skips_tier,
                 randomized_crest_slots_enabled=(
                     self.randomized_crest_slots_enabled
                 ),
                 starting_location=self.starting_location,
+                trails_end_requirement=self.trails_end_requirement,
+                scuttlebrace_logic_enabled=(
+                    self.scuttlebrace_logic_enabled
+                ),
             )
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -175,9 +189,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     reward_name: str = ""
     split_dash_and_sprint: bool = False
     allow_bellways_before_bell_beast: bool = False
-    easy_skips_enabled: bool = False
+    skips_tier: int = 0
     randomized_crest_slots_enabled: bool = True
     starting_location: str = STARTING_LOCATION_VANILLA
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK
+    scuttlebrace_logic_enabled: bool = True
+    pollip_heart_count: int = 0
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -185,9 +202,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             self.reward_name,
             self.split_dash_and_sprint,
             self.allow_bellways_before_bell_beast,
-            self.easy_skips_enabled,
+            self.skips_tier,
             self.randomized_crest_slots_enabled,
             self.starting_location,
+            self.trails_end_requirement,
+            self.scuttlebrace_logic_enabled,
+            self.pollip_heart_count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -197,9 +217,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
         reward_name: str
         split_dash_and_sprint: bool
         allow_bellways_before_bell_beast: bool
-        easy_skips_enabled: bool
+        skips_tier: int
         randomized_crest_slots_enabled: bool
         starting_location: str
+        trails_end_requirement: str
+        scuttlebrace_logic_enabled: bool
+        pollip_heart_count: int
 
         def _evaluate(self, state: CollectionState) -> bool:
             assumed_state = _StateWithAssumedItem(
@@ -221,9 +244,11 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 self.player,
                 self.split_dash_and_sprint,
                 self.allow_bellways_before_bell_beast,
-                self.easy_skips_enabled,
+                self.skips_tier,
                 self.randomized_crest_slots_enabled,
                 self.starting_location,
+                self.trails_end_requirement,
+                self.scuttlebrace_logic_enabled,
             )
             return any(
                 _satisfies_requirement_with_values(
@@ -234,10 +259,14 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                     has_crest,
                     has_spear,
                     logic_item_dependencies,
-                    self.easy_skips_enabled,
+                    self.skips_tier,
+                    scuttlebrace_logic_enabled=(
+                        self.scuttlebrace_logic_enabled
+                    ),
                 )
                 for requirement in get_location_requirements(
-                    self.location_name
+                    self.location_name,
+                    pollip_heart_count=self.pollip_heart_count,
                 )
             )
 
@@ -292,7 +321,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
 
 @dataclasses.dataclass()
 class CrestSlotMemoryLocketRule(Rule, game=GAME_NAME):
-    """Require the fill-aware shared Memory Locket threshold."""
+    """Require the world's frozen randomized Crest Slot Locket budget."""
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -391,18 +420,27 @@ def _compile_named_requirement(
     abstract_requirement_names: frozenset[str],
     split_dash_and_sprint: bool,
     allow_bellways_before_bell_beast: bool,
-    easy_skips_enabled: bool,
+    skips_tier: int,
     randomized_crest_slots_enabled: bool,
     starting_location: str,
+    trails_end_requirement: str,
+    scuttlebrace_logic_enabled: bool,
 ) -> Rule:
+    if (
+        not scuttlebrace_logic_enabled
+        and requirement_name == USABLE_SCUTTLEBRACE_REQUIREMENT
+    ):
+        return False_()
     if requirement_name in abstract_requirement_names:
         return AbstractRequirementRule(
             requirement_name,
             split_dash_and_sprint,
             allow_bellways_before_bell_beast,
-            easy_skips_enabled,
+            skips_tier,
             randomized_crest_slots_enabled,
             starting_location,
+            trails_end_requirement,
+            scuttlebrace_logic_enabled,
         )
 
     item_name = clean_item_display_name(requirement_name)
@@ -429,11 +467,13 @@ def _compile_requirement(
     abstract_requirement_names: frozenset[str],
     split_dash_and_sprint: bool,
     allow_bellways_before_bell_beast: bool,
-    easy_skips_enabled: bool,
+    skips_tier: int,
     randomized_crest_slots_enabled: bool,
     starting_location: str,
+    trails_end_requirement: str,
+    scuttlebrace_logic_enabled: bool,
 ) -> Rule:
-    if requirement.requires_easy_skips and not easy_skips_enabled:
+    if requirement.minimum_skip_tier > skips_tier:
         return False_()
 
     def compile_named(name: str) -> Rule:
@@ -444,11 +484,13 @@ def _compile_requirement(
             allow_bellways_before_bell_beast=(
                 allow_bellways_before_bell_beast
             ),
-            easy_skips_enabled=easy_skips_enabled,
+            skips_tier=skips_tier,
             randomized_crest_slots_enabled=(
                 randomized_crest_slots_enabled
             ),
             starting_location=starting_location,
+            trails_end_requirement=trails_end_requirement,
+            scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
         )
 
     rules: list[Rule] = []
@@ -470,6 +512,10 @@ def _compile_requirement(
         _compile_item_count(count_requirement)
         for count_requirement in requirement.item_counts
     )
+    rules.extend(
+        CanReachLocation(location_name)
+        for location_name in requirement.required_locations
+    )
     return _and_rules(rules)
 
 
@@ -478,9 +524,11 @@ def build_requirements_rule(
     *,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
 
@@ -489,6 +537,7 @@ def build_requirements_rule(
             allow_bellways_before_bell_beast,
             randomized_crest_slots_enabled,
             starting_location,
+            trails_end_requirement,
         )
     )
     return _or_rules(
@@ -499,11 +548,13 @@ def build_requirements_rule(
             allow_bellways_before_bell_beast=(
                 allow_bellways_before_bell_beast
             ),
-            easy_skips_enabled=easy_skips_enabled,
+            skips_tier=skips_tier,
             randomized_crest_slots_enabled=(
                 randomized_crest_slots_enabled
             ),
             starting_location=starting_location,
+            trails_end_requirement=trails_end_requirement,
+            scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
         )
         for requirement in requirements
     )
@@ -514,17 +565,27 @@ def build_location_rule(
     *,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
+    pollip_heart_count: int = 0,
 ) -> Rule:
+    if is_logic_unknown_location(location_name):
+        return False_()
     return build_requirements_rule(
-        get_location_requirements(location_name),
+        get_location_requirements(
+            location_name,
+            pollip_heart_count=pollip_heart_count,
+        ),
         split_dash_and_sprint=split_dash_and_sprint,
         allow_bellways_before_bell_beast=allow_bellways_before_bell_beast,
-        easy_skips_enabled=easy_skips_enabled,
+        skips_tier=skips_tier,
         randomized_crest_slots_enabled=randomized_crest_slots_enabled,
         starting_location=starting_location,
+        trails_end_requirement=trails_end_requirement,
+        scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
     )
 
 
@@ -533,18 +594,27 @@ def build_goal_rule(
     *,
     split_dash_and_sprint: bool = False,
     flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
+    pollip_heart_count: int = 0,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> Rule:
     return build_requirements_rule(
-        get_goal_requirements(goal_key, flea_hunt_count),
+        get_goal_requirements(
+            goal_key,
+            flea_hunt_count,
+            pollip_heart_count,
+        ),
         split_dash_and_sprint=split_dash_and_sprint,
         allow_bellways_before_bell_beast=allow_bellways_before_bell_beast,
-        easy_skips_enabled=easy_skips_enabled,
+        skips_tier=skips_tier,
         randomized_crest_slots_enabled=randomized_crest_slots_enabled,
         starting_location=starting_location,
+        trails_end_requirement=trails_end_requirement,
+        scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
     )
 
 
@@ -554,16 +624,24 @@ def build_native_source_rule(
     *,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
+    pollip_heart_count: int = 0,
 ) -> Rule:
+    if is_logic_unknown_location(location_name):
+        return False_()
     return NativeSourceRule(
         location_name,
         get_vanilla_reward_name(location_name, category),
         split_dash_and_sprint,
         allow_bellways_before_bell_beast,
-        easy_skips_enabled,
+        skips_tier,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
+        scuttlebrace_logic_enabled,
+        pollip_heart_count,
     )

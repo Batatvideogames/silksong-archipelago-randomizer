@@ -226,10 +226,9 @@ namespace SilksongRandomizer.Patches
                    !string.Equals(
                        playerData.PreviousCrestID,
                        CloaklessCrestName,
-                       StringComparison.Ordinal) &&
+                   StringComparison.Ordinal) &&
                    !TrapManager.IsCursedCrestActive &&
-                   !NakedTrapManager.IsActive &&
-                   !LogicAuditCloakManager.IsOverrideActive;
+                   !NakedTrapManager.IsActive;
         }
 
         private static bool IsSlabCaptureContext(PlayerData playerData)
@@ -264,7 +263,6 @@ namespace SilksongRandomizer.Patches
             // End temporary randomizer crest ownership first so the saved
             // return crest is always the player's genuine pre-capture crest.
             TrapManager.PrepareForNativeSlabCapture();
-            LogicAuditCloakManager.Reset();
         }
     }
 

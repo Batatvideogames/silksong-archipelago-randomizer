@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,8 +18,10 @@ namespace SilksongRandomizer
     public sealed class Archipelago
     {
         public const string GoalLocationName = "Goal";
+        public const string ActOneGoal = "act_1";
         public const string ActTwoGoal = "act_2";
         public const string ActThreeGoal = "act_3";
+        public const string CursedEndingGoal = "cursed_ending";
         public const string FleaHuntGoal = "flea_hunt";
         public const int DefaultFleaHuntGoalCount = 20;
         public const int MinimumFleaHuntGoalCount = 1;
@@ -29,12 +30,21 @@ namespace SilksongRandomizer
         public const string RosaryMultiplierOneAndHalf = "x1_5";
         public const string RosaryMultiplierDouble = "x2";
         public const string RosaryMultiplierTriple = "x3";
+        public const string RosaryMultiplierQuintuple = "x5";
+        public const string RosaryMultiplierTenfold = "x10";
         public const string BellwayAccessBellBeastRequired =
             "bell_beast_required";
         public const string BellwayAccessRandomizedStations =
             "randomized_stations";
+        public const string TrailsEndRequirementShakraStock =
+            "shakra_stock";
+        public const string TrailsEndRequirementOwnedMaps =
+            "owned_maps";
         public const string StartingLocationVanilla = "vanilla";
         public const string StartingLocationBoneBottom = "bone_bottom";
+        public const string DeathLinkCocoonVanilla = "vanilla";
+        public const string DeathLinkCocoonless = "cocoonless";
+        public const string DeathLinkCocoonProtected = "cocoon";
         public const string PriceModeVanilla = "vanilla";
         public const string PriceModeFree = "free";
         public const string PriceModeShuffled = "shuffled";
@@ -55,13 +65,35 @@ namespace SilksongRandomizer
             StartingLocationVanilla;
         public string StartingCrest { get; private set; } = string.Empty;
         public bool SplitDashAndSprint { get; private set; }
+        public bool ScuttlebraceLogic { get; private set; } = true;
         public bool RandomizeNeedleUpgrades { get; private set; }
         public bool StartWithMaps { get; private set; }
+        public bool StartFullyMapped { get; private set; }
         public bool AutomaticCompass { get; private set; }
         public CheckMapMarkerMode CheckMapMarkers { get; private set; } =
             CheckMapMarkerMode.Off;
+        public bool RandomizedBellMarkers { get; private set; }
+        public bool RandomizedMelodyMarkers { get; private set; }
+        public IReadOnlyDictionary<string, string>
+            RandomizedItemMarkerLocations { get; private set; } =
+                new ReadOnlyDictionary<string, string>(
+                    new Dictionary<string, string>(
+                        StringComparer.OrdinalIgnoreCase
+                    )
+                );
+        public int VogWothHintCount { get; private set; }
+        public int VogFoolishHintCount { get; private set; }
+        public int VogGeneralHintCount { get; private set; }
+        public IReadOnlyList<string> VogWothAreas { get; private set; } =
+            Array.Empty<string>();
+        public IReadOnlyList<string> VogFoolishAreas { get; private set; } =
+            Array.Empty<string>();
+        public IReadOnlyList<string> VogGeneralLocations { get; private set; } =
+            Array.Empty<string>();
         public string BellwayAccess { get; private set; } =
             BellwayAccessBellBeastRequired;
+        public string TrailsEndRequirement { get; private set; } =
+            TrailsEndRequirementShakraStock;
         public string EnemyRosaryMultiplier { get; private set; } =
             RosaryMultiplierVanilla;
         public string EnemyShardMultiplier { get; private set; } =
@@ -76,6 +108,8 @@ namespace SilksongRandomizer
             PriceModeVanilla;
         public string DonationPrices { get; private set; } =
             PriceModeVanilla;
+        public string VogHintPrices { get; private set; } =
+            PriceModeVanilla;
         public IReadOnlyDictionary<string, int> PurchasePrices
         {
             get;
@@ -85,11 +119,12 @@ namespace SilksongRandomizer
         );
         public bool FasterDialogue { get; private set; }
         public bool DeathLink { get; private set; }
+        public string DeathLinkCocoon { get; private set; } =
+            DeathLinkCocoonProtected;
         public bool SilkLink { get; private set; }
         public bool RosaryLink { get; private set; }
         public bool ShellShardLink { get; private set; }
         public bool IndividualRelicTurnIns { get; private set; }
-        public bool LogicAuditMode { get; private set; }
         public string MapLogicPayloadJson { get; private set; } =
             string.Empty;
         public RandomizationMode SkillRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -109,6 +144,7 @@ namespace SilksongRandomizer
         public RandomizationMode RelicRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CraftingKitRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode MinorPickupRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode LoreTabletRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode SimpleKeyRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MemoryLocketRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode CraftmetalRandomization { get; private set; } = RandomizationMode.Vanilla;
@@ -137,6 +173,8 @@ namespace SilksongRandomizer
             new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, Task<HintData>> pendingHints =
             new Dictionary<string, Task<HintData>>(StringComparer.OrdinalIgnoreCase);
+        private readonly Queue<HintData[]> trackedHintUpdates =
+            new Queue<HintData[]>();
         private sealed class HintScoutChannel
         {
             internal readonly SemaphoreSlim Gate =
@@ -229,8 +267,9 @@ namespace SilksongRandomizer
                 {
                     string incompatible = "APWorld goal '" +
                         (string.IsNullOrWhiteSpace(goal) ? "missing" : goal) +
-                        "' is invalid; expected '" + ActTwoGoal +
-                        "', '" + ActThreeGoal + "', or '" +
+                        "' is invalid. Expected '" + ActOneGoal +
+                        "', '" + ActTwoGoal + "', '" + ActThreeGoal +
+                        "', '" + CursedEndingGoal + "' or '" +
                         FleaHuntGoal + "'.";
                     Disconnect();
                     LastError = incompatible;
@@ -271,7 +310,6 @@ namespace SilksongRandomizer
                 FleaHuntGoalCount = GetIntegerSlotData(
                     successful,
                     "flea_hunt_count",
-                    DefaultFleaHuntGoalCount,
                     MinimumFleaHuntGoalCount,
                     MaximumFleaHuntGoalCount
                 );
@@ -279,27 +317,72 @@ namespace SilksongRandomizer
                 StartingCrest = startingCrest;
                 SplitDashAndSprint = GetBooleanSlotData(
                     successful,
-                    "split_dash_and_sprint",
-                    false
+                    "split_dash_and_sprint"
+                );
+                ScuttlebraceLogic = GetBooleanSlotData(
+                    successful,
+                    "scuttlebrace_logic"
                 );
                 RandomizeNeedleUpgrades = GetBooleanSlotData(
                     successful,
-                    "randomize_needle_upgrades",
-                    false
+                    "randomize_needle_upgrades"
                 );
                 StartWithMaps = GetBooleanSlotData(
                     successful,
-                    "start_with_maps",
-                    false
+                    "start_with_maps"
+                );
+                StartFullyMapped = GetBooleanSlotData(
+                    successful,
+                    "start_fully_mapped"
                 );
                 AutomaticCompass = GetBooleanSlotData(
                     successful,
-                    "automatic_compass",
-                    false
+                    "automatic_compass"
                 );
                 CheckMapMarkers =
                     GetCheckMapMarkerMode(successful);
+                RandomizedBellMarkers = GetBooleanSlotData(
+                    successful,
+                    "randomized_bell_markers"
+                );
+                RandomizedMelodyMarkers = GetBooleanSlotData(
+                    successful,
+                    "randomized_melody_markers"
+                );
+                RandomizedItemMarkerLocations =
+                    GetRandomizedItemMarkerLocations(successful);
+                VogWothAreas = GetVogHintPlanList(
+                    successful,
+                    "woth_areas"
+                );
+                VogFoolishAreas = GetVogHintPlanList(
+                    successful,
+                    "foolish_areas"
+                );
+                VogGeneralLocations = GetVogHintPlanList(
+                    successful,
+                    "general_locations"
+                );
+                VogWothHintCount = Math.Min(
+                    30,
+                    VogWothAreas.Count
+                );
+                VogFoolishHintCount = Math.Min(
+                    30,
+                    VogFoolishAreas.Count
+                );
+                VogGeneralHintCount = Math.Min(
+                    VogGeneralLocations.Count,
+                    GetVogHintPlanInteger(
+                        successful,
+                        "general_count",
+                        0,
+                        30
+                    )
+                );
                 BellwayAccess = GetBellwayAccess(successful);
+                TrailsEndRequirement =
+                    GetTrailsEndRequirement(successful);
                 EnemyRosaryMultiplier =
                     GetEnemyRosaryMultiplier(successful);
                 EnemyShardMultiplier =
@@ -328,100 +411,95 @@ namespace SilksongRandomizer
                     successful,
                     "donation_prices"
                 );
+                VogHintPrices = GetPurchasePriceMode(
+                    successful,
+                    "vog_hint_prices"
+                );
                 PurchasePrices = GetPurchasePrices(successful);
                 FasterDialogue = GetBooleanSlotData(
                     successful,
-                    "faster_dialogue",
-                    false
+                    "faster_dialogue"
                 );
                 DeathLink = GetBooleanSlotData(
                     successful,
-                    "death_link",
-                    false
+                    "death_link"
                 );
+                DeathLinkCocoon = GetDeathLinkCocoonMode(successful);
                 SilkLink = GetBooleanSlotData(
                     successful,
-                    "silk_link",
-                    false
+                    "silk_link"
                 );
                 RosaryLink = GetBooleanSlotData(
                     successful,
-                    "rosary_link",
-                    false
+                    "rosary_link"
                 );
                 ShellShardLink = GetBooleanSlotData(
                     successful,
-                    "shell_shard_link",
-                    false
+                    "shell_shard_link"
                 );
                 IndividualRelicTurnIns = GetBooleanSlotData(
                     successful,
-                    "individual_relic_turn_ins",
-                    false
-                );
-                LogicAuditMode = GetBooleanSlotData(
-                    successful,
-                    "logic_audit_mode",
-                    false
+                    "individual_relic_turn_ins"
                 );
                 SkillRandomization = GetRandomizationModeSlotData(
-                    successful, "skill_randomization", RandomizationMode.Anywhere);
+                    successful, "skill_randomization");
                 ToolRandomization = GetRandomizationModeSlotData(
-                    successful, "tool_randomization", RandomizationMode.Anywhere);
+                    successful, "tool_randomization");
                 SilkSkillRandomization = GetRandomizationModeSlotData(
-                    successful, "silk_skill_randomization", RandomizationMode.Anywhere);
+                    successful, "silk_skill_randomization");
                 CrestRandomization = GetRandomizationModeSlotData(
-                    successful, "crest_randomization", RandomizationMode.Anywhere);
+                    successful, "crest_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
-                    successful, "flea_randomization", RandomizationMode.Anywhere);
+                    successful, "flea_randomization");
                 CrestSlotRandomization = GetRandomizationModeSlotData(
-                    successful, "crest_slot_randomization", RandomizationMode.Anywhere);
+                    successful, "crest_slot_randomization");
                 MaskShardRandomization = GetRandomizationModeSlotData(
-                    successful, "mask_shard_randomization", RandomizationMode.Anywhere);
+                    successful, "mask_shard_randomization");
                 SpoolFragmentRandomization = GetRandomizationModeSlotData(
-                    successful, "spool_fragment_randomization", RandomizationMode.Anywhere);
+                    successful, "spool_fragment_randomization");
                 SilkHeartRandomization = GetRandomizationModeSlotData(
-                    successful, "silk_heart_randomization", RandomizationMode.Anywhere);
+                    successful, "silk_heart_randomization");
                 BellwayRandomization = GetRandomizationModeSlotData(
-                    successful, "bellway_randomization", RandomizationMode.Anywhere);
+                    successful, "bellway_randomization");
                 VentricaRandomization = GetRandomizationModeSlotData(
-                    successful, "ventrica_randomization", RandomizationMode.Anywhere);
+                    successful, "ventrica_randomization");
                 MapRandomization = GetRandomizationModeSlotData(
-                    successful, "map_randomization", RandomizationMode.Anywhere);
+                    successful, "map_randomization");
                 MelodyRandomization = GetRandomizationModeSlotData(
-                    successful, "melody_randomization", RandomizationMode.Vanilla);
+                    successful, "melody_randomization");
                 PinRandomization = GetRandomizationModeSlotData(
-                    successful, "pin_randomization", RandomizationMode.Anywhere);
+                    successful, "pin_randomization");
                 RelicRandomization = GetRandomizationModeSlotData(
-                    successful, "relic_randomization", RandomizationMode.Anywhere);
+                    successful, "relic_randomization");
                 CraftingKitRandomization = GetRandomizationModeSlotData(
-                    successful, "crafting_kit_randomization", RandomizationMode.Anywhere);
+                    successful, "crafting_kit_randomization");
                 MinorPickupRandomization = GetRandomizationModeSlotData(
-                    successful, "minor_pickup_randomization", RandomizationMode.Vanilla);
+                    successful, "minor_pickup_randomization");
+                LoreTabletRandomization = GetRandomizationModeSlotData(
+                    successful, "lore_tablet_randomization");
                 SimpleKeyRandomization = GetRandomizationModeSlotData(
-                    successful, "simple_key_randomization", RandomizationMode.Vanilla);
+                    successful, "simple_key_randomization");
                 MemoryLocketRandomization = GetRandomizationModeSlotData(
-                    successful, "memory_locket_randomization", RandomizationMode.Vanilla);
+                    successful, "memory_locket_randomization");
                 CraftmetalRandomization = GetRandomizationModeSlotData(
-                    successful, "craftmetal_randomization", RandomizationMode.Vanilla);
+                    successful, "craftmetal_randomization");
                 MossberryRandomization = GetRandomizationModeSlotData(
-                    successful, "mossberry_randomization", RandomizationMode.Vanilla);
+                    successful, "mossberry_randomization");
                 PollipHeartRandomization = GetRandomizationModeSlotData(
-                    successful, "pollip_heart_randomization", RandomizationMode.Vanilla);
+                    successful, "pollip_heart_randomization");
                 SilkeaterRandomization = GetRandomizationModeSlotData(
-                    successful, "silkeater_randomization", RandomizationMode.Vanilla);
+                    successful, "silkeater_randomization");
                 MajorKeyRandomization = GetRandomizationModeSlotData(
-                    successful, "major_key_randomization", RandomizationMode.Vanilla);
+                    successful, "major_key_randomization");
                 ToolPouchRandomization = GetRandomizationModeSlotData(
-                    successful, "tool_pouch_randomization", RandomizationMode.Vanilla);
+                    successful, "tool_pouch_randomization");
                 BossSanity = GetRandomizationModeSlotData(
-                    successful, "boss_sanity", RandomizationMode.Anywhere);
+                    successful, "boss_sanity");
                 BellShrineSanity = GetRandomizationModeSlotData(
-                    successful, "bell_shrine_sanity", RandomizationMode.Anywhere);
+                    successful, "bell_shrine_sanity");
                 QuestSanity = GetRandomizationModeSlotData(
                     successful,
-                    "quest_sanity",
-                    RandomizationMode.Anywhere
+                    "quest_sanity"
                 );
                 MapLogicPayloadJson =
                     GetMapLogicPayloadJson(successful);
@@ -559,15 +637,20 @@ namespace SilksongRandomizer
             {
                 saveState.BindToRoom(this);
             }
+            else if (!saveState.vogHintSettingsBound)
+            {
+                saveState.BindVogHintSettings(this);
+            }
+
+            foreach (HintData hint in GetOfficialHintsForCurrentSlot())
+            {
+                saveState.CacheHint(hint);
+            }
 
             saveState.SetRoomLocationNames(GetRoomLocationNames());
             saveState.mapLogicPayloadJson =
                 MapLogicPayloadJson ?? string.Empty;
-            saveState.logicAuditMode = LogicAuditMode;
-            if (LogicAuditMode)
-            {
-                saveState.bellhomePhaseToggleUnlocked = true;
-            }
+            saveState.PrimeMapLogicPayloadCompression();
             saveState.TryCompleteFleaHuntGoal();
 
             string[] serverChecks;
@@ -579,17 +662,17 @@ namespace SilksongRandomizer
             foreach (string locationName in serverChecks)
             {
                 saveState.checkedLocations.Add(locationName);
-                if (string.Equals(locationName, GoalLocationName, StringComparison.OrdinalIgnoreCase))
-                {
-                    saveState.goalCompleted = true;
-                }
             }
 
             lock (stateLock)
             {
                 foreach (string locationName in saveState.checkedLocations)
                 {
-                    if (!unlockedLocationNames.Contains(locationName))
+                    if (!string.Equals(
+                            locationName,
+                            GoalLocationName,
+                            StringComparison.OrdinalIgnoreCase) &&
+                        !unlockedLocationNames.Contains(locationName))
                     {
                         pendingLocationNames.Add(locationName);
                     }
@@ -631,12 +714,14 @@ namespace SilksongRandomizer
             sessionReady = true;
             try
             {
+                TrackOfficialHints();
                 session.SetClientState(ArchipelagoClientState.ClientPlaying);
                 Resynchronize();
                 if (!DeathLinkManager.Configure(
                         session,
                         SlotName,
-                        DeathLink
+                        DeathLink,
+                        DeathLinkCocoon
                     ))
                 {
                     throw new InvalidOperationException(
@@ -691,14 +776,20 @@ namespace SilksongRandomizer
                 return;
             }
 
+            if (string.Equals(
+                    locationName,
+                    GoalLocationName,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                goalStatusPending = true;
+                SendGoalStatus();
+                return;
+            }
+
             lock (stateLock)
             {
                 if (unlockedLocationNames.Contains(locationName))
                 {
-                    if (string.Equals(locationName, GoalLocationName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        SendGoalStatus();
-                    }
                     return;
                 }
             }
@@ -723,11 +814,6 @@ namespace SilksongRandomizer
             {
                 session.Locations.CompleteLocationChecks(locationId);
                 MarkLocationUnlocked(locationName, locationId);
-                if (string.Equals(locationName, GoalLocationName, StringComparison.OrdinalIgnoreCase))
-                {
-                    goalStatusPending = true;
-                    SendGoalStatus();
-                }
             }
             catch (Exception ex)
             {
@@ -745,6 +831,15 @@ namespace SilksongRandomizer
             if (string.IsNullOrWhiteSpace(locationName))
             {
                 return false;
+            }
+
+            if (string.Equals(
+                    locationName,
+                    GoalLocationName,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return SaveState.Instance != null &&
+                       SaveState.Instance.goalCompleted;
             }
 
             lock (stateLock)
@@ -804,6 +899,7 @@ namespace SilksongRandomizer
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
+            Patches.VogHintManager.Reset();
             ArchipelagoSession oldSession = session;
             session = null;
 
@@ -1292,254 +1388,223 @@ namespace SilksongRandomizer
                    session.Socket.Connected;
         }
 
-        private static string GetWorldVersion(LoginSuccessful login)
+        private static object GetRequiredSlotData(
+            LoginSuccessful login,
+            string key
+        )
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue("world_version", out object value) || value == null)
+            if (login == null || login.SlotData == null)
             {
-                return string.Empty;
+                throw new FormatException(
+                    "The APWorld connection did not provide slot data."
+                );
             }
 
-            return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+            if (!login.SlotData.TryGetValue(key, out object value) ||
+                value == null)
+            {
+                throw new FormatException(
+                    "APWorld slot data is missing required setting '" +
+                    key + "'."
+                );
+            }
+
+            return value;
+        }
+
+        private static string GetRequiredStringSlotData(
+            LoginSuccessful login,
+            string key
+        )
+        {
+            object value = GetRequiredSlotData(login, key);
+            if (!(value is string text))
+            {
+                throw new FormatException(
+                    "APWorld setting '" + key + "' must be text."
+                );
+            }
+
+            return text;
+        }
+
+        private static JObject GetRequiredObjectSlotData(
+            LoginSuccessful login,
+            string key
+        )
+        {
+            object value = GetRequiredSlotData(login, key);
+            if (!(value is JObject objectValue))
+            {
+                throw new FormatException(
+                    "APWorld setting '" + key + "' must be an object."
+                );
+            }
+
+            return objectValue;
+        }
+
+        private static string GetWorldVersion(LoginSuccessful login)
+        {
+            return GetRequiredStringSlotData(login, "world_version");
         }
 
         private static string GetGoal(LoginSuccessful login)
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue("goal", out object value) || value == null)
-            {
-                return string.Empty;
-            }
-
-            return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+            return GetRequiredStringSlotData(login, "goal");
         }
 
         private static string GetStartingCrest(LoginSuccessful login)
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue("starting_crest", out object value) || value == null)
-            {
-                return string.Empty;
-            }
-
-            return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+            return GetRequiredStringSlotData(login, "starting_crest");
         }
 
         private static string GetStartingLocation(LoginSuccessful login)
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(
-                    "starting_location",
-                    out object value
-                ) || value == null)
-            {
-                return string.Empty;
-            }
-
-            return (Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            ) ?? string.Empty).Trim().ToLowerInvariant();
+            return GetRequiredStringSlotData(login, "starting_location");
         }
 
         private static string GetMapLogicPayloadJson(
             LoginSuccessful login
         )
         {
-            if (login == null || login.SlotData == null)
-            {
-                return string.Empty;
-            }
-
             Dictionary<string, object> payload =
                 new Dictionary<string, object>(
                     StringComparer.Ordinal
                 );
-            string[] keys =
-            {
-                "easy_skips",
-                "requirements",
-                "abstract_requirements",
-                "logic_item_dependencies",
-            };
-            foreach (string key in keys)
-            {
-                if (login.SlotData.TryGetValue(
-                        key,
-                        out object value
-                    ) &&
-                    value != null)
-                {
-                    payload[key] = value;
-                }
-            }
-
-            // Map markers remain neutral when slot data is incomplete.
-            if (!payload.ContainsKey("requirements") ||
-                !payload.ContainsKey("abstract_requirements") ||
-                !payload.ContainsKey("logic_item_dependencies"))
-            {
-                return string.Empty;
-            }
+            payload["skips"] = GetIntegerSlotData(
+                login,
+                "skips",
+                0,
+                3
+            );
+            payload["scuttlebrace_logic"] = GetBooleanSlotData(
+                login,
+                "scuttlebrace_logic"
+            );
+            payload["requirements"] = GetRequiredObjectSlotData(
+                login,
+                "requirements"
+            );
+            payload["abstract_requirements"] = GetRequiredObjectSlotData(
+                login,
+                "abstract_requirements"
+            );
+            payload["logic_item_dependencies"] = GetRequiredObjectSlotData(
+                login,
+                "logic_item_dependencies"
+            );
 
             return JsonConvert.SerializeObject(payload);
         }
 
-        private static bool GetBooleanSlotData(
-            LoginSuccessful login,
-            string key,
-            bool defaultValue
-        )
+        private static IReadOnlyDictionary<string, string>
+            GetRandomizedItemMarkerLocations(LoginSuccessful login)
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
+            const string key = "randomized_item_marker_locations";
+            Dictionary<string, string> result =
+                new Dictionary<string, string>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+            JObject locations = GetRequiredObjectSlotData(login, key);
+
+            foreach (JProperty property in locations.Properties())
             {
-                return defaultValue;
+                if (property.Value.Type != JTokenType.String ||
+                    string.IsNullOrWhiteSpace(property.Name) ||
+                    string.IsNullOrWhiteSpace(
+                        property.Value.Value<string>()))
+                {
+                    throw new FormatException(
+                        "APWorld setting '" + key +
+                        "' must map item names to location names."
+                    );
+                }
+
+                result[ItemSet.GetCanonicalItemName(property.Name)] =
+                    LocationSet.GetCanonicalLocationName(
+                        property.Value.Value<string>()
+                    );
             }
 
+            return new ReadOnlyDictionary<string, string>(result);
+        }
+
+        private static bool GetBooleanSlotData(
+            LoginSuccessful login,
+            string key
+        )
+        {
+            object value = GetRequiredSlotData(login, key);
             if (value is bool boolean)
             {
                 return boolean;
             }
 
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
+            throw new FormatException(
+                "APWorld setting '" + key + "' must be true or false."
             );
-            if (bool.TryParse(text, out boolean))
-            {
-                return boolean;
-            }
-
-            if (long.TryParse(
-                text,
-                NumberStyles.Integer,
-                CultureInfo.InvariantCulture,
-                out long number
-            ))
-            {
-                return number != 0;
-            }
-
-            return defaultValue;
         }
 
         private static int GetIntegerSlotData(
             LoginSuccessful login,
             string key,
-            int defaultValue,
             int minimum,
             int maximum
         )
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
-            {
-                return defaultValue;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            if (!int.TryParse(
-                    text,
-                    NumberStyles.Integer,
-                    CultureInfo.InvariantCulture,
-                    out int parsed
-                ) ||
-                parsed < minimum ||
-                parsed > maximum)
+            object value = GetRequiredSlotData(login, key);
+            if (!(value is long integer) ||
+                integer < minimum ||
+                integer > maximum)
             {
                 throw new FormatException(
                     "APWorld setting '" + key + "' must be between " +
-                    minimum + " and " + maximum + "; received '" +
-                    text + "'."
+                    minimum + " and " + maximum + " as an integer."
                 );
             }
 
-            return parsed;
+            return (int)integer;
         }
 
         private static RandomizationMode GetRandomizationModeSlotData(
             LoginSuccessful login,
-            string key,
-            RandomizationMode defaultValue
+            string key
         )
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
-            {
-                return defaultValue;
-            }
-
-            if (value is bool boolean)
-            {
-                return boolean
-                    ? RandomizationMode.Anywhere
-                    : RandomizationMode.Vanilla;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new FormatException(
-                    "APWorld setting '" + key + "' is empty."
-                );
-            }
-
-            string normalized = text.Trim()
-                .ToLowerInvariant()
-                .Replace("-", "_")
-                .Replace(" ", "_");
-
-            if (bool.TryParse(normalized, out boolean))
-            {
-                return boolean
-                    ? RandomizationMode.Anywhere
-                    : RandomizationMode.Vanilla;
-            }
-
-            if (long.TryParse(
-                normalized,
-                NumberStyles.Integer,
-                CultureInfo.InvariantCulture,
-                out long number
-            ))
-            {
-                if (number >= (long)RandomizationMode.Vanilla &&
-                    number <= (long)RandomizationMode.Shuffle)
-                {
-                    return (RandomizationMode)number;
-                }
-
-                throw new FormatException(
-                    "APWorld setting '" + key +
-                    "' must be 0 (vanilla), 1 (anywhere), or 2 (shuffle)."
-                );
-            }
-
-            switch (normalized)
+            string value = GetRequiredStringSlotData(login, key);
+            switch (value)
             {
                 case "vanilla":
-                case "off":
                     return RandomizationMode.Vanilla;
                 case "anywhere":
                     return RandomizationMode.Anywhere;
                 case "shuffle":
-                case "shuffle_within_category":
-                case "within_category":
                     return RandomizationMode.Shuffle;
                 default:
                     throw new FormatException(
                         "APWorld setting '" + key + "' has invalid mode '" +
-                        text + "'."
+                        value + "'."
+                    );
+            }
+        }
+
+        private static string GetDeathLinkCocoonMode(
+            LoginSuccessful login
+        )
+        {
+            const string key = "death_link_cocoon";
+            string value = GetRequiredStringSlotData(login, key);
+            switch (value)
+            {
+                case DeathLinkCocoonVanilla:
+                case DeathLinkCocoonless:
+                case DeathLinkCocoonProtected:
+                    return value;
+                default:
+                    throw new FormatException(
+                        "APWorld setting '" + key +
+                        "' has invalid mode '" + value + "'."
                     );
             }
         }
@@ -1549,37 +1614,8 @@ namespace SilksongRandomizer
         )
         {
             const string key = "check_map_markers";
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
-            {
-                return CheckMapMarkerMode.Off;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            string normalized = string.IsNullOrWhiteSpace(text)
-                ? string.Empty
-                : text.Trim()
-                    .ToLowerInvariant()
-                    .Replace("-", "_")
-                    .Replace(" ", "_");
-
-            if (long.TryParse(
-                normalized,
-                NumberStyles.Integer,
-                CultureInfo.InvariantCulture,
-                out long numericMode
-            ) &&
-                numericMode >= (long)CheckMapMarkerMode.Off &&
-                numericMode <= (long)CheckMapMarkerMode.All)
-            {
-                return (CheckMapMarkerMode)numericMode;
-            }
-
-            switch (normalized)
+            string value = GetRequiredStringSlotData(login, key);
+            switch (value)
             {
                 case "off":
                     return CheckMapMarkerMode.Off;
@@ -1592,9 +1628,74 @@ namespace SilksongRandomizer
                 default:
                     throw new FormatException(
                         "APWorld setting '" + key +
-                        "' has invalid mode '" + text + "'."
+                        "' has invalid mode '" + value + "'."
                     );
             }
+        }
+
+        private static IReadOnlyList<string> GetVogHintPlanList(
+            LoginSuccessful login,
+            string listName
+        )
+        {
+            JObject plan = GetRequiredObjectSlotData(login, "vog_hints");
+            JToken values = plan[listName];
+            if (values == null || values.Type == JTokenType.Null)
+            {
+                throw new FormatException(
+                    "APWorld slot data is missing required setting '" +
+                    "vog_hints." + listName + "'."
+                );
+            }
+            if (values.Type != JTokenType.Array)
+            {
+                throw new FormatException(
+                    "APWorld setting 'vog_hints." + listName +
+                    "' must be a list."
+                );
+            }
+            if (values.Children().Any(value =>
+                    value.Type != JTokenType.String ||
+                    string.IsNullOrWhiteSpace(value.Value<string>())))
+            {
+                throw new FormatException(
+                    "APWorld setting 'vog_hints." + listName +
+                    "' must contain only non-empty text values."
+                );
+            }
+
+            return values.Values<string>().ToArray();
+        }
+
+        private static int GetVogHintPlanInteger(
+            LoginSuccessful login,
+            string valueName,
+            int minimum,
+            int maximum
+        )
+        {
+            JObject plan = GetRequiredObjectSlotData(login, "vog_hints");
+            JToken rawValue = plan[valueName];
+            if (rawValue == null || rawValue.Type == JTokenType.Null)
+            {
+                throw new FormatException(
+                    "APWorld slot data is missing required setting '" +
+                    "vog_hints." + valueName + "'."
+                );
+            }
+
+            if (rawValue.Type != JTokenType.Integer ||
+                rawValue.Value<long>() < minimum ||
+                rawValue.Value<long>() > maximum)
+            {
+                throw new FormatException(
+                    "APWorld setting 'vog_hints." + valueName +
+                    "' must be between " + minimum + " and " + maximum +
+                    " as an integer."
+                );
+            }
+
+            return rawValue.Value<int>();
         }
 
         private static string GetEnemyRosaryMultiplier(
@@ -1613,58 +1714,15 @@ namespace SilksongRandomizer
             string key
         )
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
+            string value = GetRequiredStringSlotData(login, key);
+            if (IsSupportedPurchasePriceMode(value))
             {
-                return PriceModeVanilla;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            string normalized = string.IsNullOrWhiteSpace(text)
-                ? string.Empty
-                : text.Trim()
-                    .ToLowerInvariant()
-                    .Replace("-", "_")
-                    .Replace(" ", "_");
-            if (long.TryParse(
-                    normalized,
-                    NumberStyles.Integer,
-                    CultureInfo.InvariantCulture,
-                    out long numericMode
-                ))
-            {
-                switch (numericMode)
-                {
-                    case 0:
-                        normalized = PriceModeVanilla;
-                        break;
-                    case 1:
-                        normalized = PriceModeFree;
-                        break;
-                    case 2:
-                        normalized = PriceModeShuffled;
-                        break;
-                    case 3:
-                        normalized = PriceModeCheap;
-                        break;
-                    case 4:
-                        normalized = PriceModeExpensive;
-                        break;
-                }
-            }
-
-            if (IsSupportedPurchasePriceMode(normalized))
-            {
-                return normalized;
+                return value;
             }
 
             throw new FormatException(
                 "APWorld setting '" + key +
-                "' has invalid price mode '" + text + "'."
+                "' has invalid price mode '" + value + "'."
             );
         }
 
@@ -1674,41 +1732,15 @@ namespace SilksongRandomizer
             const string key = "purchase_prices";
             Dictionary<string, int> result =
                 new Dictionary<string, int>(StringComparer.Ordinal);
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
-            {
-                return new ReadOnlyDictionary<string, int>(result);
-            }
-
-            JObject prices;
-            try
-            {
-                prices = value as JObject ?? JObject.FromObject(value);
-            }
-            catch (Exception ex)
-            {
-                throw new FormatException(
-                    "APWorld setting 'purchase_prices' is not an object.",
-                    ex
-                );
-            }
+            JObject prices = GetRequiredObjectSlotData(login, key);
 
             foreach (JProperty property in prices.Properties())
             {
                 string priceKey = property.Name ?? string.Empty;
                 if (!IsSupportedPurchasePriceKey(priceKey) ||
-                    !int.TryParse(
-                        Convert.ToString(
-                            property.Value,
-                            CultureInfo.InvariantCulture
-                        ),
-                        NumberStyles.Integer,
-                        CultureInfo.InvariantCulture,
-                        out int price
-                    ) ||
-                    price < 0 ||
-                    price > 2000)
+                    property.Value.Type != JTokenType.Integer ||
+                    property.Value.Value<long>() < 0 ||
+                    property.Value.Value<long>() > 2000)
                 {
                     throw new FormatException(
                         "APWorld purchase price '" + priceKey +
@@ -1716,7 +1748,7 @@ namespace SilksongRandomizer
                     );
                 }
 
-                result.Add(priceKey, price);
+                result.Add(priceKey, property.Value.Value<int>());
             }
 
             return new ReadOnlyDictionary<string, int>(result);
@@ -1739,29 +1771,16 @@ namespace SilksongRandomizer
             string displayName
         )
         {
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
+            string value = GetRequiredStringSlotData(login, key);
+            if (IsSupportedEnemyDropMultiplier(value))
             {
-                return RosaryMultiplierVanilla;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            string normalized = string.IsNullOrWhiteSpace(text)
-                ? string.Empty
-                : text.Trim().ToLowerInvariant();
-            if (IsSupportedEnemyDropMultiplier(normalized))
-            {
-                return normalized;
+                return value;
             }
 
             throw new FormatException(
                 "APWorld " + displayName + " setting '" + key +
                 "' has invalid value '" +
-                text + "'."
+                value + "'."
             );
         }
 
@@ -1770,28 +1789,32 @@ namespace SilksongRandomizer
         )
         {
             const string key = "bellway_access";
-            if (login == null || login.SlotData == null ||
-                !login.SlotData.TryGetValue(key, out object value) ||
-                value == null)
+            string value = GetRequiredStringSlotData(login, key);
+            if (IsSupportedBellwayAccess(value))
             {
-                return BellwayAccessBellBeastRequired;
-            }
-
-            string text = Convert.ToString(
-                value,
-                CultureInfo.InvariantCulture
-            );
-            string normalized = string.IsNullOrWhiteSpace(text)
-                ? string.Empty
-                : text.Trim().ToLowerInvariant();
-            if (IsSupportedBellwayAccess(normalized))
-            {
-                return normalized;
+                return value;
             }
 
             throw new FormatException(
                 "APWorld setting '" + key + "' has invalid value '" +
-                text + "'."
+                value + "'."
+            );
+        }
+
+        private static string GetTrailsEndRequirement(
+            LoginSuccessful login
+        )
+        {
+            const string key = "trails_end_requirement";
+            string value = GetRequiredStringSlotData(login, key);
+            if (IsSupportedTrailsEndRequirement(value))
+            {
+                return value;
+            }
+
+            throw new FormatException(
+                "APWorld setting '" + key + "' has invalid value '" +
+                value + "'."
             );
         }
 
@@ -1807,6 +1830,22 @@ namespace SilksongRandomizer
                    string.Equals(
                        value,
                        BellwayAccessRandomizedStations,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        internal static bool IsSupportedTrailsEndRequirement(
+            string value
+        )
+        {
+            return string.Equals(
+                       value,
+                       TrailsEndRequirementShakraStock,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       value,
+                       TrailsEndRequirementOwnedMaps,
                        StringComparison.Ordinal
                    );
         }
@@ -1870,6 +1909,21 @@ namespace SilksongRandomizer
                        value.StartsWith(
                            "donation:",
                            StringComparison.Ordinal
+                       ) ||
+                       string.Equals(
+                           value,
+                           "vog:woth",
+                           StringComparison.Ordinal
+                       ) ||
+                       string.Equals(
+                           value,
+                           "vog:foolish",
+                           StringComparison.Ordinal
+                       ) ||
+                       string.Equals(
+                           value,
+                           "vog:general",
+                           StringComparison.Ordinal
                        )
                    );
         }
@@ -1897,13 +1951,29 @@ namespace SilksongRandomizer
                        value,
                        RosaryMultiplierTriple,
                        StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       value,
+                       RosaryMultiplierQuintuple,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       value,
+                       RosaryMultiplierTenfold,
+                       StringComparison.Ordinal
                    );
         }
 
         internal static bool IsSupportedGoal(string goal)
         {
-            return string.Equals(goal, ActTwoGoal, StringComparison.Ordinal) ||
+            return string.Equals(goal, ActOneGoal, StringComparison.Ordinal) ||
+                   string.Equals(goal, ActTwoGoal, StringComparison.Ordinal) ||
                    string.Equals(goal, ActThreeGoal, StringComparison.Ordinal) ||
+                   string.Equals(
+                       goal,
+                       CursedEndingGoal,
+                       StringComparison.Ordinal
+                   ) ||
                    string.Equals(goal, FleaHuntGoal, StringComparison.Ordinal);
         }
 
@@ -1942,6 +2012,7 @@ namespace SilksongRandomizer
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
+            Patches.VogHintManager.Reset();
             LastError = string.IsNullOrWhiteSpace(reason)
                 ? "Disconnected from Archipelago."
                 : "Disconnected from Archipelago: " + reason;
@@ -1991,6 +2062,7 @@ namespace SilksongRandomizer
                 pendingLocationNames.Clear();
                 roomLocationNames.Clear();
                 pendingHints.Clear();
+                trackedHintUpdates.Clear();
                 hintScoutChannel = new HintScoutChannel();
                 lastQueuedItemIndex = 0;
                 queuedForSaveState = null;
@@ -2006,11 +2078,28 @@ namespace SilksongRandomizer
             StartingLocation = StartingLocationVanilla;
             StartingCrest = string.Empty;
             SplitDashAndSprint = false;
+            ScuttlebraceLogic = true;
             RandomizeNeedleUpgrades = false;
             StartWithMaps = false;
+            StartFullyMapped = false;
             AutomaticCompass = false;
             CheckMapMarkers = CheckMapMarkerMode.Off;
+            RandomizedBellMarkers = false;
+            RandomizedMelodyMarkers = false;
+            RandomizedItemMarkerLocations =
+                new ReadOnlyDictionary<string, string>(
+                    new Dictionary<string, string>(
+                        StringComparer.OrdinalIgnoreCase
+                    )
+                );
+            VogWothHintCount = 0;
+            VogFoolishHintCount = 0;
+            VogGeneralHintCount = 0;
+            VogWothAreas = Array.Empty<string>();
+            VogFoolishAreas = Array.Empty<string>();
+            VogGeneralLocations = Array.Empty<string>();
             BellwayAccess = BellwayAccessBellBeastRequired;
+            TrailsEndRequirement = TrailsEndRequirementShakraStock;
             EnemyRosaryMultiplier = RosaryMultiplierVanilla;
             EnemyShardMultiplier = RosaryMultiplierVanilla;
             NormalShopPrices = PriceModeVanilla;
@@ -2019,16 +2108,17 @@ namespace SilksongRandomizer
             PinPrices = PriceModeVanilla;
             UpgradePrices = PriceModeVanilla;
             DonationPrices = PriceModeVanilla;
+            VogHintPrices = PriceModeVanilla;
             PurchasePrices = new ReadOnlyDictionary<string, int>(
                 new Dictionary<string, int>(StringComparer.Ordinal)
             );
             FasterDialogue = false;
             DeathLink = false;
+            DeathLinkCocoon = DeathLinkCocoonProtected;
             SilkLink = false;
             RosaryLink = false;
             ShellShardLink = false;
             IndividualRelicTurnIns = false;
-            LogicAuditMode = false;
             MapLogicPayloadJson = string.Empty;
             SkillRandomization = RandomizationMode.Anywhere;
             ToolRandomization = RandomizationMode.Anywhere;
@@ -2047,6 +2137,7 @@ namespace SilksongRandomizer
             RelicRandomization = RandomizationMode.Anywhere;
             CraftingKitRandomization = RandomizationMode.Anywhere;
             MinorPickupRandomization = RandomizationMode.Vanilla;
+            LoreTabletRandomization = RandomizationMode.Vanilla;
             SimpleKeyRandomization = RandomizationMode.Vanilla;
             PollipHeartRandomization = RandomizationMode.Vanilla;
             ToolPouchRandomization = RandomizationMode.Vanilla;
@@ -2414,6 +2505,217 @@ namespace SilksongRandomizer
                 item = itemName,
                 flags = info.Flags
             };
+        }
+
+        private void TrackOfficialHints()
+        {
+            ArchipelagoSession trackedSession = session;
+            string trackedSeed = RoomSeed;
+            int trackedTeam = Team;
+            int trackedSlot = Slot;
+            trackedSession.DataStorage.TrackHints(
+                hints =>
+                {
+                    if (hints == null || !IsSameHintSession(
+                            trackedSession,
+                            trackedSeed,
+                            trackedTeam,
+                            trackedSlot
+                        ))
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        HintData[] update = hints
+                            .Where(hint => hint != null &&
+                                hint.FindingPlayer == trackedSlot)
+                            .Select(hint => ConvertOfficialHint(
+                                trackedSession,
+                                hint
+                            ))
+                            .Where(hint => hint != null)
+                            .ToArray();
+                        if (update.Length == 0)
+                        {
+                            return;
+                        }
+
+                        lock (stateLock)
+                        {
+                            if (IsSameHintSession(
+                                    trackedSession,
+                                    trackedSeed,
+                                    trackedTeam,
+                                    trackedSlot
+                                ))
+                            {
+                                trackedHintUpdates.Enqueue(update);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        RandomizerPlugin.Log?.LogWarning(
+                            "[RANDOMIZER] Could not queue server hints: " +
+                            ex.Message
+                        );
+                    }
+                },
+                true,
+                trackedSlot,
+                trackedTeam
+            );
+        }
+
+        internal void ImportTrackedHints()
+        {
+            if (!Connected)
+            {
+                return;
+            }
+
+            SaveState saveState = SaveState.Instance;
+            if (saveState == null ||
+                (saveState.IsRoomBound && !saveState.MatchesRoom(this)))
+            {
+                return;
+            }
+
+            List<HintData> updates;
+            lock (stateLock)
+            {
+                if (trackedHintUpdates.Count == 0)
+                {
+                    return;
+                }
+
+                updates = new List<HintData>();
+                while (trackedHintUpdates.Count > 0)
+                {
+                    updates.AddRange(trackedHintUpdates.Dequeue());
+                }
+            }
+
+            foreach (HintData hint in updates)
+            {
+                saveState.CacheHint(hint);
+            }
+        }
+
+        internal bool CreateOfficialHint(string locationName)
+        {
+            if (!Connected || string.IsNullOrWhiteSpace(locationName))
+            {
+                return false;
+            }
+
+            string canonical =
+                LocationSet.GetCanonicalLocationName(locationName);
+            long locationId = GetLocationId(canonical);
+            if (locationId < 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                session.Hints.CreateHints(
+                    HintStatus.Unspecified,
+                    new[] { locationId }
+                );
+                return true;
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Could not announce Vog hint: " +
+                    ex.Message
+                );
+                return false;
+            }
+        }
+
+        private HintData ConvertOfficialHint(
+            ArchipelagoSession sourceSession,
+            Hint hint
+        )
+        {
+            if (sourceSession == null || hint == null)
+            {
+                return null;
+            }
+
+            PlayerInfo receivingPlayer =
+                sourceSession.Players.GetPlayerInfo(
+                    hint.ReceivingPlayer
+                );
+            string receivingGame = receivingPlayer == null
+                ? configuredGameName
+                : receivingPlayer.Game;
+            string locationName =
+                sourceSession.Locations.GetLocationNameFromId(
+                    hint.LocationId,
+                    configuredGameName
+                );
+            if (string.IsNullOrWhiteSpace(locationName))
+            {
+                return null;
+            }
+
+            string userName = sourceSession.Players.GetPlayerAlias(
+                hint.ReceivingPlayer
+            );
+            string itemName = sourceSession.Items.GetItemName(
+                hint.ItemId,
+                receivingGame
+            );
+            if (string.Equals(
+                    receivingGame,
+                    configuredGameName,
+                    StringComparison.Ordinal
+                ))
+            {
+                itemName = ItemSet.GetCanonicalItemName(itemName);
+            }
+
+            return new HintData
+            {
+                locationName = locationName,
+                user = userName,
+                item = itemName,
+                flags = hint.ItemFlags,
+                official = true,
+                found = hint.Found,
+            };
+        }
+
+        internal IEnumerable<HintData> GetOfficialHintsForCurrentSlot()
+        {
+            if (!Connected || session == null ||
+                session.DataStorage == null)
+            {
+                return Array.Empty<HintData>();
+            }
+
+            try
+            {
+                return session.DataStorage.GetHints()
+                    .Where(hint => hint != null &&
+                        hint.FindingPlayer == Slot)
+                    .Select(hint => ConvertOfficialHint(session, hint))
+                    .Where(hint => hint != null)
+                    .ToArray();
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Could not import server hints: " +
+                    ex.Message
+                );
+                return Array.Empty<HintData>();
+            }
         }
     }
 }

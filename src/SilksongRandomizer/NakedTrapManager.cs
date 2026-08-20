@@ -71,7 +71,6 @@ namespace SilksongRandomizer
                     return;
                 }
 
-                LogicAuditCloakManager.Reset();
                 pending = true;
                 pendingDuration = DurationSeconds;
                 TryStartPending();

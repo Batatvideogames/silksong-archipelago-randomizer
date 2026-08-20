@@ -17,6 +17,8 @@ namespace SilksongRandomizer.Patches
         public static bool canCrestBeUnlockedByRandomizer = false;
         [ThreadStatic]
         private static int nativeRiteCursedCrestEquipDepth;
+        [ThreadStatic]
+        private static int nativeCureOwnedCrestEquipDepth;
         private static bool pendingHeroInputReset;
         private static int pendingHeroInputResetRequestFrame = -1;
         private static readonly MethodInfo CancelDashMethod =
@@ -39,18 +41,25 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
-        private static bool ShouldUseNativeShellSatchel(
+        private static bool IsPoolShellSatchel(
             SaveState state,
             ToolItem tool)
         {
             return state != null &&
+                   state.IsRoomBound &&
                    tool != null &&
                    string.Equals(
                        tool.name,
                        "Shell Satchel",
                        StringComparison.OrdinalIgnoreCase
-                   ) &&
-                   !state.IsLocationInSeed("Shell Satchel");
+                   );
+        }
+
+        private static bool HasReceivedShellSatchel(SaveState state)
+        {
+            return state != null &&
+                   state.receivedItems != null &&
+                   state.receivedItems.Contains("Shell Satchel");
         }
 
         internal static void EnsureReceivedBaseCrestsUnlocked()
@@ -235,6 +244,46 @@ namespace SilksongRandomizer.Patches
                        playerData.CurrentCrestID,
                        crest.name,
                        StringComparison.Ordinal) &&
+                   !playerData.IsCurrentCrestTemp;
+        }
+
+        internal static bool AutoEquipOwnedCrestAfterNativeCure(
+            ToolCrest crest)
+        {
+            SaveState state = SaveState.Instance;
+            ToolCrest nativeCursed = GlobalSettings.Gameplay.CursedCrest;
+            if (state == null ||
+                !state.IsRandomized(ItemType.Crest) ||
+                crest == null ||
+                nativeCursed == null ||
+                string.Equals(
+                    crest.name,
+                    nativeCursed.name,
+                    StringComparison.Ordinal) ||
+                !state.receivedItems.Contains(
+                    CrestNames.GetItemNameFromInternal(crest.name)
+                ))
+            {
+                return false;
+            }
+
+            nativeCureOwnedCrestEquipDepth++;
+            try
+            {
+                ToolItemManager.AutoEquip(crest, false, true);
+            }
+            finally
+            {
+                nativeCureOwnedCrestEquipDepth--;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            return playerData != null &&
+                   string.Equals(
+                       playerData.CurrentCrestID,
+                       crest.name,
+                       StringComparison.Ordinal) &&
+                   !playerData.IsAnyCursed &&
                    !playerData.IsCurrentCrestTemp;
         }
 
@@ -431,6 +480,18 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
+                if (nativeCureOwnedCrestEquipDepth > 0 &&
+                    !string.Equals(
+                        crest.name,
+                        nativeCursed?.name,
+                        StringComparison.Ordinal) &&
+                    state.receivedItems.Contains(
+                        CrestNames.GetItemNameFromInternal(crest.name)
+                    ))
+                {
+                    return true;
+                }
+
                 // Cloakless remains available to the game's opening/story
                 // events. Hunter variants must follow AP ownership like every
                 // other crest. Eva otherwise equips Hunter_v2 over a different
@@ -490,6 +551,11 @@ namespace SilksongRandomizer.Patches
                 }
 
                 SaveState state = SaveState.Instance;
+                if (IsPoolShellSatchel(state, tool) &&
+                    !HasReceivedShellSatchel(state))
+                {
+                    return false;
+                }
                 if (IsAutomaticCompassTool(state, tool))
                 {
                     // The option supplies the marker effect directly, so its
@@ -591,6 +657,19 @@ namespace SilksongRandomizer.Patches
                 Debug.Log("[RANDOMIZER] Tried to Unlock: " + toolName);
 
                 SaveState state = SaveState.Instance;
+                if (state != null && state.IsRoomBound)
+                {
+                    popupFlags &= ~ToolItem.PopupFlags.Tutorial;
+                }
+
+                if (IsPoolShellSatchel(state, __instance))
+                {
+                    popupFlags &= ~(
+                        ToolItem.PopupFlags.ItemGet |
+                        ToolItem.PopupFlags.Tutorial
+                    );
+                    return true;
+                }
                 ItemType itemType =
                     __instance != null &&
                     __instance.Type == ToolItemType.Skill
@@ -606,14 +685,6 @@ namespace SilksongRandomizer.Patches
                 {
                     return true;
                 }
-                if (ShouldUseNativeShellSatchel(state, __instance))
-                {
-                    // Shell Satchel exists only in Steel Soul. It is not an
-                    // AP source in current rooms, so preserve its native
-                    // unlock and popup even when Tools are randomized.
-                    return true;
-                }
-
                 if (RuinedToolPatches.TryHandleWebShotRepair(
                         state,
                         toolName))
@@ -734,6 +805,25 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(ToolItem), "get_IsUnlocked", new Type[0])]
+        internal static class ToolItem_IsUnlocked_ShellSatchel_Patch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(
+                ToolItem __instance,
+                ref bool __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (!IsPoolShellSatchel(state, __instance))
+                {
+                    return true;
+                }
+
+                __result = HasReceivedShellSatchel(state);
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(ToolItem), "get_IsUnlockedNotHidden", new Type[0])]
         internal static class ToolItem_IsUnlockedNotHidden_Patch
         {
@@ -742,11 +832,6 @@ namespace SilksongRandomizer.Patches
             {
                 SaveState state = SaveState.Instance;
                 if (state == null)
-                {
-                    return true;
-                }
-
-                if (ShouldUseNativeShellSatchel(state, __instance))
                 {
                     return true;
                 }

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from collections import OrderedDict, deque
+from collections import Counter, OrderedDict, deque
 from dataclasses import dataclass, field, replace
 from functools import lru_cache
+from itertools import combinations, product
+from types import MappingProxyType
 from typing import Callable, Dict, Iterable, Mapping
 from weakref import WeakKeyDictionary
 
@@ -16,6 +18,10 @@ from .minor_pickups import (
     MINOR_PICKUP_LOCATION_NAMES,
     MINOR_PICKUP_SOURCE,
 )
+from .lore_tablets import (
+    LORE_TABLET_JUNK_ONLY_LOCATION_NAMES,
+    LORE_TABLET_SOURCES,
+)
 from .minor_caches import (
     MINOR_CACHE_LOCATION_NAMES,
     MINOR_CACHE_SOURCE,
@@ -26,7 +32,7 @@ from .locations import (
     LOCATION_NAMES_BY_CATEGORY,
     MASK_SHARD_LOCATION_NAMES,
     NEEDLE_UPGRADE_LOCATION_NAMES,
-    PROTOCOL_ONLY_LOCATION_NAMES,
+    PINMASTER_OIL_QUEST_LOCATION,
     QUEST_LOCATION_NAMES,
     SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION,
     SILK_HEART_LOCATION_NAMES,
@@ -56,63 +62,172 @@ NON_ARCHITECT_CREST_ITEMS: frozenset[str] = frozenset(
     crest for crest in CREST_ITEMS
     if crest != 'Crest: Architect'
 )
-USABLE_SHARPDART_REQUIREMENT = 'Usable Sharpdart'
-USABLE_MAGMA_BELL_REQUIREMENT = 'Usable Magma Bell'
-USABLE_CINDRIL_LOADOUT_REQUIREMENT = 'Usable Cindril Loadout'
-NATIVE_BLUE_SLOT_CREST_ITEMS: frozenset[str] = frozenset(
-    (
-        'Crest: Hunter',
-        'Crest: Reaper',
-        'Crest: Witch',
-    )
+NON_SHAMAN_CREST_ITEMS: frozenset[str] = frozenset(
+    crest for crest in CREST_ITEMS
+    if crest != 'Crest: Shaman'
 )
-RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST: Mapping[str, tuple[str, ...]] = {
-    'Crest: Wanderer': (
-        'Crest Slot: Wanderer (Blue 1)',
-        'Crest Slot: Wanderer (Blue 2)',
-    ),
-    'Crest: Architect': (
-        'Crest Slot: Architect (Blue 1)',
-        'Crest Slot: Architect (Blue 2)',
-    ),
-    'Crest: Shaman': (
-        'Crest Slot: Shaman (Blue 1)',
-        'Crest Slot: Shaman (Blue 2)',
-    ),
-}
+USABLE_SHARPDART_REQUIREMENT = 'Usable Sharpdart'
+USABLE_NEEDLE_PHIAL_REQUIREMENT = 'Usable Needle Phial'
+USABLE_MAGMA_BELL_REQUIREMENT = 'Usable Magma Bell'
+USABLE_SCUTTLEBRACE_REQUIREMENT = 'Usable Scuttlebrace'
+USABLE_CINDRIL_LOADOUT_REQUIREMENT = 'Usable Cindril Loadout'
+RED_TOOL_SLOT = 'Red'
+BLUE_TOOL_SLOT = 'Blue'
+YELLOW_TOOL_SLOT = 'Yellow'
+TOOL_SLOT_COLORS: frozenset[str] = frozenset((
+    RED_TOOL_SLOT,
+    BLUE_TOOL_SLOT,
+    YELLOW_TOOL_SLOT,
+))
+NATIVE_TOOL_SLOT_COUNTS_BY_CREST: Mapping[
+    str,
+    Mapping[str, int],
+] = MappingProxyType({
+    'Crest: Hunter': MappingProxyType({
+        RED_TOOL_SLOT: 1,
+        BLUE_TOOL_SLOT: 1,
+        YELLOW_TOOL_SLOT: 1,
+    }),
+    'Crest: Reaper': MappingProxyType({
+        RED_TOOL_SLOT: 1,
+        BLUE_TOOL_SLOT: 1,
+        YELLOW_TOOL_SLOT: 1,
+    }),
+    'Crest: Shaman': MappingProxyType({}),
+    'Crest: Architect': MappingProxyType({
+        RED_TOOL_SLOT: 3,
+    }),
+    'Crest: Wanderer': MappingProxyType({
+        RED_TOOL_SLOT: 1,
+        YELLOW_TOOL_SLOT: 2,
+    }),
+    'Crest: Beast': MappingProxyType({
+        RED_TOOL_SLOT: 2,
+    }),
+    'Crest: Witch': MappingProxyType({
+        RED_TOOL_SLOT: 1,
+        BLUE_TOOL_SLOT: 1,
+    }),
+})
+NATIVE_TOOL_SLOT_COLORS_BY_CREST: Mapping[str, frozenset[str]] = (
+    MappingProxyType({
+        crest_item: frozenset(slot_counts)
+        for crest_item, slot_counts
+        in NATIVE_TOOL_SLOT_COUNTS_BY_CREST.items()
+    })
+)
+RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST: Mapping[
+    str,
+    Mapping[str, tuple[str, ...]],
+] = MappingProxyType({
+    RED_TOOL_SLOT: MappingProxyType({
+        'Crest: Hunter': (
+            'Crest Slot: Hunter (Red 1)',
+        ),
+        'Crest: Reaper': (
+            'Crest Slot: Reaper (Red 1)',
+        ),
+        'Crest: Witch': (
+            'Crest Slot: Witch (Red 1)',
+        ),
+    }),
+    BLUE_TOOL_SLOT: MappingProxyType({
+        'Crest: Wanderer': (
+            'Crest Slot: Wanderer (Blue 1)',
+            'Crest Slot: Wanderer (Blue 2)',
+        ),
+        'Crest: Architect': (
+            'Crest Slot: Architect (Blue 1)',
+            'Crest Slot: Architect (Blue 2)',
+        ),
+        'Crest: Shaman': (
+            'Crest Slot: Shaman (Blue 1)',
+            'Crest Slot: Shaman (Blue 2)',
+        ),
+        'Crest: Hunter': (
+            'Crest Slot: Hunter (Blue 1)',
+        ),
+        'Crest: Reaper': (
+            'Crest Slot: Reaper (Blue 1)',
+        ),
+        'Crest: Witch': (
+            'Crest Slot: Witch (Blue 1)',
+            'Crest Slot: Witch (Blue 2)',
+        ),
+    }),
+    YELLOW_TOOL_SLOT: MappingProxyType({
+        'Crest: Beast': (
+            'Crest Slot: Beast (Yellow 1)',
+            'Crest Slot: Beast (Yellow 2)',
+        ),
+        'Crest: Architect': (
+            'Crest Slot: Architect (Yellow 1)',
+            'Crest Slot: Architect (Yellow 2)',
+        ),
+        'Crest: Hunter': (
+            'Crest Slot: Hunter (Yellow 1)',
+        ),
+        'Crest: Reaper': (
+            'Crest Slot: Reaper (Yellow 1)',
+        ),
+        'Crest: Wanderer': (
+            'Crest Slot: Wanderer (Yellow 1)',
+        ),
+    }),
+})
+NATIVE_BLUE_SLOT_CREST_ITEMS: frozenset[str] = frozenset(
+    # Hunter, Reaper and Witch each have a native Blue slot. Wanderer,
+    # Architect and Shaman can equip the tool after receiving either matching
+    # randomized Blue-slot item. The client checks those received items while
+    # auto-placing a tool, independently of the physical Memory Locket check.
+    # Beast has no Blue slot at all.
+    crest_item
+    for crest_item, slot_colors in NATIVE_TOOL_SLOT_COLORS_BY_CREST.items()
+    if BLUE_TOOL_SLOT in slot_colors
+)
+RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST: Mapping[str, tuple[str, ...]] = (
+    MappingProxyType({
+        crest_item: slot_items
+        for crest_item, slot_items
+        in RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST[
+            BLUE_TOOL_SLOT
+        ].items()
+        if not NATIVE_TOOL_SLOT_COUNTS_BY_CREST[crest_item].get(
+            BLUE_TOOL_SLOT,
+            0,
+        )
+    })
+)
 RANDOMIZED_BLUE_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
     slot_item
     for slot_items in RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST.values()
     for slot_item in slot_items
 )
-NATIVE_CINDRIL_LOADOUT_CREST_ITEMS: frozenset[str] = frozenset(
-    (
-        'Crest: Hunter',
-        'Crest: Reaper',
-        'Crest: Wanderer',
-    )
+NATIVE_YELLOW_SLOT_CREST_ITEMS: frozenset[str] = frozenset(
+    crest_item
+    for crest_item, slot_colors in NATIVE_TOOL_SLOT_COLORS_BY_CREST.items()
+    if YELLOW_TOOL_SLOT in slot_colors
 )
-RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST: Mapping[
+RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CREST: Mapping[
     str,
     tuple[str, ...],
-] = {
-    'Crest: Beast': (
-        'Crest Slot: Beast (Yellow 1)',
-        'Crest Slot: Beast (Yellow 2)',
-    ),
-    'Crest: Architect': (
-        'Crest Slot: Architect (Yellow 1)',
-        'Crest Slot: Architect (Yellow 2)',
-    ),
-}
-OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES: frozenset[str] = (
-    RANDOMIZED_BLUE_SLOT_ITEM_NAMES
-    | frozenset(
-        slot_item
-        for slot_items
-        in RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST.values()
-        for slot_item in slot_items
+] = MappingProxyType({
+    crest_item: slot_items
+    for crest_item, slot_items
+    in RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST[
+        YELLOW_TOOL_SLOT
+    ].items()
+    if not NATIVE_TOOL_SLOT_COUNTS_BY_CREST[crest_item].get(
+        YELLOW_TOOL_SLOT,
+        0,
     )
+})
+ALL_RANDOMIZED_TOOL_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
+    slot_item
+    for slot_items_by_crest
+    in RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST.values()
+    for slot_items in slot_items_by_crest.values()
+    for slot_item in slot_items
 )
 
 SKILL_ITEMS: tuple[str, ...] = tuple(
@@ -154,12 +269,16 @@ CRAFTMETAL_ITEM = 'Craftmetal'
 MOSSBERRY_ITEM = 'Mossberry'
 POLLIP_HEART_ITEM = 'Pollip Heart'
 POLLIP_HEART_COUNT = 6
+POLLIP_HEART_SOURCE_LOCATION_NAMES: tuple[str, ...] = tuple(
+    LOCATION_NAMES_BY_CATEGORY['PollipHeart']
+)
 SILKEATER_ITEM = 'Silkeater'
 KEY_OF_APOSTATE_ITEM = 'Key of Apostate'
 WHITE_KEY_ITEM = 'White Key'
 SURGEONS_KEY_ITEM = "Surgeon's Key"
 ARCHITECTS_KEY_ITEM = "Architect's Key"
 CRAW_SUMMONS_ITEM = 'Craw Summons'
+CRAWFATHER_LOCATION = 'Boss: Crawfather'
 
 # These relics become progression only while their optional individual
 # deposit checks are enabled. They remain Useful in ordinary seeds except
@@ -171,7 +290,30 @@ OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES: frozenset[str] = frozenset(
 # The room graph is pure declarative data, so it can be normalized
 # before LocationRequirement is defined. Its clauses are converted to live AP
 # rules below once the helper dataclasses exist.
-COMPILED_ROOM_GRAPH = compile_room_graph()
+# The compiled graph keeps native source identities internally. Its exported
+# check maps use the same player-facing names as the location table.
+_SOURCE_COMPILED_ROOM_GRAPH = compile_room_graph()
+COMPILED_ROOM_GRAPH = replace(
+    _SOURCE_COMPILED_ROOM_GRAPH,
+    check_requirements=MappingProxyType({
+        canonicalize_location_name(name): requirements
+        for name, requirements
+        in _SOURCE_COMPILED_ROOM_GRAPH.check_requirements.items()
+    }),
+    check_source_ids=MappingProxyType({
+        canonicalize_location_name(name): source_ids
+        for name, source_ids
+        in _SOURCE_COMPILED_ROOM_GRAPH.check_source_ids.items()
+    }),
+    authoritative_check_names=frozenset(
+        canonicalize_location_name(name)
+        for name in _SOURCE_COMPILED_ROOM_GRAPH.authoritative_check_names
+    ),
+    quarantined_check_names=frozenset(
+        canonicalize_location_name(name)
+        for name in _SOURCE_COMPILED_ROOM_GRAPH.quarantined_check_names
+    ),
+)
 
 # Compiled room-graph checks use live logic. Checks that cannot be compiled
 # are tracked separately below and cannot hold progression.
@@ -184,17 +326,90 @@ ROOM_GRAPH_QUARANTINED_CHECK_NAMES: frozenset[str] = frozenset(
     for name in COMPILED_ROOM_GRAPH.quarantined_check_names
 )
 
+# Four Dust_03 cache rows have no complete node or local requirement, so they
+# stay filler-only until their routes are finished.
+SINNER_ROAD_EXACT_DONOR_CHECK_NAMES: frozenset[str] = frozenset({
+    "Sinner's Road - Rosary Cache #1",
+    "Sinner's Road - Rosary Cache #2",
+    "Sinner's Road - Rosary Cache #3",
+    "Sinner's Road - Rosary Cache #5",
+    "Sinner's Road - Rosary Cache #6",
+    "Sinner's Road - Rosary Cache #7",
+    "Sinner's Road - Rosary Cache #8",
+    "Sinner's Road - Shell Shard Cache #4",
+    "Sinner's Road - Shell Shard Cache #5",
+    "Sinner's Road - Shell Shard Cache #6",
+    "Sinner's Road - Shell Shard Cache #7",
+    "Sinner's Road - Frayed Rosary String",
+    "Sinner's Road - Shard Bundle",
+    "Sinner's Road - Map Purchase",
+    "Boss: Disgraced Chef Lugoli",
+    "Flea: Sinner's Road",
+    "Wish: My Missing Brother",
+    "Tacks",
+    "Barbed Bracelet",
+    "Roachkeeper - Simple Key",
+})
+SINNER_ROAD_UNRESOLVED_DONOR_CHECK_NAMES: frozenset[str] = frozenset({
+    "Sinner's Road - Rosary Cache #4",
+    "Sinner's Road - Shell Shard Cache #1",
+    "Sinner's Road - Shell Shard Cache #2",
+    "Sinner's Road - Shell Shard Cache #3",
+})
+SINNER_ROAD_NON_DONOR_FALLBACK_CHECK_NAMES: frozenset[str] = frozenset({
+    "Sinner's Road - Rosary Chest",
+})
+SINNER_MISSING_BROTHER_LOCATION = "Wish: My Missing Brother"
+SINNER_MISSING_COURIER_EVENT = "Event: Missing Courier Rescued"
+_SINNER_MISSING_BROTHER_DONOR_CLAUSES = (
+    COMPILED_ROOM_GRAPH.check_requirements.get(
+        SINNER_MISSING_BROTHER_LOCATION,
+        (),
+    )
+)
+SINNER_MISSING_BROTHER_DONOR_EVENT_COMPILED = bool(
+    _SINNER_MISSING_BROTHER_DONOR_CLAUSES
+) and all(
+    SINNER_MISSING_COURIER_EVENT in clause.all_of
+    for clause in _SINNER_MISSING_BROTHER_DONOR_CLAUSES
+)
+
 ROSARY_BANK_GATED_LOCATIONS: frozenset[str] = frozenset(
-    {
+    canonicalize_location_name(location_name)
+    for location_name in {
         'Rosary Cannon',
-        'Pale Rosary Necklace: High Halls',
-        *(f'Rosary Cache: High Halls #{index}' for index in range(1, 7)),
+        'High Halls - Pale Rosary Necklace',
+        *(f'High Halls - Rosary Cache #{index}' for index in range(1, 7)),
     }
 )
 RUINED_TOOL_REPAIR_LOCATIONS: tuple[str, ...] = (
     'Silkshot (Forge Daughter)',
     'Silkshot (Twelfth Architect)',
     'Silkshot (Original)',
+)
+
+# Every physical purchase which spends Craftmetal. The three Silkshot sources
+# are alternate repairs for one shared vanilla tool. Randomized repair handling
+# returns both ingredients while another active repair remains, so the group
+# consumes one Craftmetal in total. Every other purchase consumes one. The
+# Bone_12 Loddie fallback keeps its free Tool Pouch branch and is not a
+# Craftmetal purchase.
+CRAFTMETAL_PURCHASE_LOCATIONS: frozenset[str] = frozenset({
+    *RUINED_TOOL_REPAIR_LOCATIONS,
+    'Pimpillo',
+    'Cogwork Wheel',
+    'Scuttlebrace',
+    'Sawtooth Circlet',
+    'Cogfly',
+    'Sting Shard',
+    'Magma Bell',
+})
+CRAFTMETAL_MAXIMUM_CONSUMPTION = (
+    len(
+        CRAFTMETAL_PURCHASE_LOCATIONS
+        - frozenset(RUINED_TOOL_REPAIR_LOCATIONS)
+    )
+    + 1
 )
 # Routes which need only the run/ground-momentum half of Swift Step accept the
 # first progressive copy in split seeds.  Full dash routes continue to use
@@ -266,11 +481,9 @@ def _player_inventory_signature(
     if not callable(items_method):
         return None
     return tuple(
-        sorted(
-            (str(name), int(count))
-            for name, count in items_method()
-            if count
-        )
+        (str(name), int(count))
+        for name, count in items_method()
+        if count
     )
 
 
@@ -345,9 +558,18 @@ SHAKRA_MAP_ITEMS: tuple[str, ...] = (
 )
 
 SHAKRA_MAP_LOCATIONS: tuple[str, ...] = tuple(
-    item_name.replace('Map: ', 'Map Purchase: ', 1)
+    canonicalize_location_name(
+        item_name.replace('Map: ', 'Map Purchase: ', 1)
+    )
     for item_name in SHAKRA_MAP_ITEMS
 )
+
+TRAILS_END_REQUIREMENT_SHAKRA_STOCK = 'shakra_stock'
+TRAILS_END_REQUIREMENT_OWNED_MAPS = 'owned_maps'
+SUPPORTED_TRAILS_END_REQUIREMENTS = frozenset((
+    TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    TRAILS_END_REQUIREMENT_OWNED_MAPS,
+))
 
 STATIC_MAP_ITEMS: tuple[str, ...] = (
     'Map: Weavenest Atla',
@@ -370,6 +592,14 @@ THREEFOLD_MELODY_ITEMS: tuple[str, ...] = (
     "Architect's Melody",
     "Conductor's Melody",
     "Vaultkeeper's Melody",
+)
+
+JUDGE_BELL_ITEMS: tuple[str, ...] = (
+    'Bell: The Marrow',
+    'Bell: Deep Docks',
+    'Bell: Greymoor',
+    'Bell: Shellwood',
+    'Bell: Bellhart',
 )
 
 # Checks outside the verified source set keep their bootstrap rule and
@@ -405,12 +635,10 @@ _PLAYTEST_LOCATION_SOURCES: tuple[str, ...] = (
     'Bell Shrine Completion: bellShrineGreymoor',
     'Bell Shrine Completion: bellShrineShellwood',
     'Bell Shrine Completion: bellShrineBellhart',
-    'Bell Shrine Completion: bellShrineEnclave',
     'Boss Completion: defeatedMossMother',
     'Boss Completion: skullKingKilled',
     'Boss Completion: defeatedBellBeast',
     'Boss Completion: defeatedAntQueen',
-    'Boss Completion: defeatedLace1',
     'Boss Completion: defeatedSongGolem',
     'Boss Completion: defeatedDockForemen',
     'Boss Completion: defeatedVampireGnatBoss',
@@ -439,7 +667,6 @@ _PLAYTEST_LOCATION_SOURCES: tuple[str, ...] = (
     'Boss Completion: wardBossDefeated',
     'Boss Completion: defeatedZapCoreEnemy',
     'Boss Completion: spinnerDefeated',
-    'Boss Completion: roofCrabDefeated',
     'Boss Completion: skullKingDefeated',
     'Crafting Kit Source: Forge Tool Kit',
     'Crafting Kit Source: Architect Tool Kit',
@@ -483,10 +710,8 @@ _LOGIC_PASS_A_LOCATION_SOURCES: tuple[str, ...] = (
     'Bell Shrine Completion: bellShrineGreymoor',
     'Bell Shrine Completion: bellShrineShellwood',
     'Bell Shrine Completion: bellShrineBellhart',
-    'Bell Shrine Completion: bellShrineEnclave',
     'Boss Completion: defeatedMossMother',
     'Boss Completion: defeatedBellBeast',
-    'Boss Completion: defeatedLace1',
     'Boss Completion: defeatedSongGolem',
     'Boss Completion: defeatedDockForemen',
     'Boss Completion: defeatedVampireGnatBoss',
@@ -559,7 +784,6 @@ LOGIC_PASS_A_QUEST_LOCATIONS: tuple[str, ...] = tuple(
     canonicalize_location_name(location_name)
     for location_name in _LOGIC_PASS_A_QUEST_LOCATION_SOURCES
 ) + (
-    # Tail-appended after the established quest ID block.
     'Wish: Restoration of Bellhart',
 )
 
@@ -570,6 +794,14 @@ PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Wish: A Lifesaving Bridge',
         'Wish: My Missing Courier',
         'Wish: Volatile Flintbeetles',
+        # This Wish also needs its quest chain. Unlike the three nearby
+        # Act-conversion Wishes, it is not permanently missable.
+        'Wish: An Icon of Hope',
+        *(
+            (SINNER_MISSING_BROTHER_LOCATION,)
+            if SINNER_MISSING_BROTHER_DONOR_EVENT_COMPILED
+            else ()
+        ),
     )
 )
 JUNK_ONLY_QUEST_LOCATIONS: frozenset[str] = (
@@ -606,18 +838,14 @@ ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
     )
 )
 
-# Lace's first AP check is shared by three mutually exclusive physical
-# encounters: the Deep Docks fight, the Sinner's Road entrance cutscene and
-# the Shellwood-to-Blasted-Steps bridge cutscene. Published documentation
-# confirms that skipping the fight routes Lace to one of those two cutscenes,
-# while the client reports the same canonical location from every outcome.
 TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS: frozenset[str] = frozenset()
 
 # These physical sources are stable, but their mandatory vanilla key or quest
 # state is not an AP item or event yet. They remain visible and randomized
 # while rejecting required progression behind an unrepresented gate.
 TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
-    (
+    canonicalize_location_name(location_name)
+    for location_name in (
         'Mask Shard: Dark Hearts',
         'Spool Fragment: Balm for the Wounded',
         'Spider Strings',
@@ -630,93 +858,99 @@ TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
 # These direct pickups have source and movement requirements. Their routes do
 # not rely on an omitted key, quest counter or negative story state.
 VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = frozenset(
-    (
-        'Beast Shard: Deep Docks',
-        'Frayed Rosary String: Wormways',
-        'Shard Bundle: Shellwood',
+    canonicalize_location_name(location_name)
+    for location_name in (
+        'Deep Docks - Beast Shard',
+        'Wormways - Frayed Rosary String',
+        'Shellwood - Shard Bundle',
     )
 ) | (
     ROOM_GRAPH_CANONICAL_CHECK_NAMES
-    & frozenset(MINOR_PICKUP_LOCATION_NAMES)
+    & frozenset(
+        canonicalize_location_name(name)
+        for name in MINOR_PICKUP_LOCATION_NAMES
+    )
 )
 
 # Each source below has its own encoded requirement and may hold progression.
 # Other minor caches remain filler/trap-only until their room movement is
 # represented.
 MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
-    (
-        'Rosary Cache: Blasted Steps',
-        'Rosary Cache: Moss Grotto',
-        'Shell Shard Cache: Moss Grotto #1',
-        'Shell Shard Cache: Moss Grotto #2',
-        'Shell Shard Cache: Moss Grotto #5',
-        'Shell Shard Cache: Moss Grotto #6',
-        'Shell Shard Cache: Moss Grotto #7',
-        'Rosary Cache: The Marrow #1',
-        'Rosary Cache: The Marrow #2',
-        'Rosary Cache: The Marrow #3',
-        'Rosary Cache: The Marrow #4',
-        'Rosary Cache: The Marrow #5',
-        'Rosary Cache: The Marrow #6',
-        'Rosary Cache: The Marrow #7',
-        'Rosary Cache: The Marrow #11',
-        'Rosary Cache: The Marrow #12',
-        'Rosary Cache: The Marrow #13',
-        'Rosary Cache: The Marrow #14',
-        'Rosary Cache: The Marrow #15',
-        'Rosary Cache: The Marrow #16',
-        'Shell Shard Cache: The Marrow #2',
-        'Shell Shard Cache: The Marrow #3',
-        'Shell Shard Cache: The Marrow #4',
-        'Shell Shard Cache: The Marrow #5',
-        'Shell Shard Cache: The Marrow #6',
-        'Rosary Cache: The Marrow (Mosslands Passage) #1',
-        'Rosary Cache: The Marrow (Mosslands Passage) #2',
-        'Rosary Cache: Bone Bottom #4',
-        'Rosary Cache: Bone Bottom #5',
-        'Rosary Cache: Bone Bottom #8',
-        'Rosary Cache: Bone Bottom #9',
-        'Rosary Cache: Bonegrave #1',
-        'Rosary Cache: Bonegrave #2',
-        'Rosary Cache: Bonegrave #3',
-        'Rosary Cache: Bonegrave #4',
-        'Rosary Cache: Mosshome #1',
-        'Rosary Cache: Mosshome #2',
-        'Rosary Cache: Mosshome #3',
-        'Rosary Cache: Mosshome #4',
-        'Rosary Cache: Greymoor #7',
-        'Rosary Cache: Greymoor #8',
-        'Rosary Cache: Greymoor #10',
-        'Rosary Cache: Greymoor #11',
-        'Rosary Cache: Greymoor #12',
-        'Rosary Cache: Greymoor #13',
-        'Rosary Cache: Greymoor #14',
-        'Shell Shard Cache: Greymoor #1',
-        'Shell Shard Cache: Greymoor #2',
+    canonicalize_location_name(location_name)
+    for location_name in (
+        'Blasted Steps - Rosary Cache',
+        'Moss Grotto - Rosary Cache',
+        'Moss Grotto - Shell Shard Cache #1',
+        'Moss Grotto - Shell Shard Cache #2',
+        'Moss Grotto - Shell Shard Cache #5',
+        'Moss Grotto - Shell Shard Cache #6',
+        'Moss Grotto - Shell Shard Cache #7',
+        'The Marrow - Rosary Cache #1',
+        'The Marrow - Rosary Cache #2',
+        'The Marrow - Rosary Cache #3',
+        'The Marrow - Rosary Cache #4',
+        'The Marrow - Rosary Cache #5',
+        'The Marrow - Rosary Cache #6',
+        'The Marrow - Rosary Cache #7',
+        'The Marrow - Rosary Cache #11',
+        'The Marrow - Rosary Cache #12',
+        'The Marrow - Rosary Cache #13',
+        'The Marrow - Rosary Cache #14',
+        'The Marrow - Rosary Cache #15',
+        'The Marrow - Rosary Cache #16',
+        'The Marrow - Shell Shard Cache #2',
+        'The Marrow - Shell Shard Cache #3',
+        'The Marrow - Shell Shard Cache #4',
+        'The Marrow - Shell Shard Cache #5',
+        'The Marrow - Shell Shard Cache #6',
+        'The Marrow (Mosslands Passage) - Rosary Cache #1',
+        'The Marrow (Mosslands Passage) - Rosary Cache #2',
+        'Bone Bottom - Rosary Cache #4',
+        'Bone Bottom - Rosary Cache #5',
+        'Bone Bottom - Rosary Cache #8',
+        'Bone Bottom - Rosary Cache #9',
+        'Bonegrave - Rosary Cache #1',
+        'Bonegrave - Rosary Cache #2',
+        'Bonegrave - Rosary Cache #3',
+        'Bonegrave - Rosary Cache #4',
+        'Mosshome - Rosary Cache #1',
+        'Mosshome - Rosary Cache #2',
+        'Mosshome - Rosary Cache #3',
+        'Mosshome - Rosary Cache #4',
+        'Greymoor - Rosary Cache #7',
+        'Greymoor - Rosary Cache #8',
+        'Greymoor - Rosary Cache #10',
+        'Greymoor - Rosary Cache #11',
+        'Greymoor - Rosary Cache #12',
+        'Greymoor - Rosary Cache #13',
+        'Greymoor - Rosary Cache #14',
+        'Greymoor - Shell Shard Cache #1',
+        'Greymoor - Shell Shard Cache #2',
         # Deep Docks #1-3 share Bone_East_13 and require Magma Bell.
-        'Shell Shard Cache: Deep Docks #1',
-        'Shell Shard Cache: Deep Docks #2',
-        'Shell Shard Cache: Deep Docks #3',
+        'Deep Docks - Shell Shard Cache #1',
+        'Deep Docks - Shell Shard Cache #2',
+        'Deep Docks - Shell Shard Cache #3',
         # Shellwood #4-6 share the far-right route used by Longpin.
-        'Shell Shard Cache: Shellwood #4',
-        'Shell Shard Cache: Shellwood #5',
-        'Shell Shard Cache: Shellwood #6',
+        'Shellwood - Shell Shard Cache #4',
+        'Shellwood - Shell Shard Cache #5',
+        'Shellwood - Shell Shard Cache #6',
     )
 ) | (
     ROOM_GRAPH_CANONICAL_CHECK_NAMES
-    & frozenset(MINOR_CACHE_LOCATION_NAMES)
-)
-
-# These graph sources still have a non-geometric resource or encounter
-# safety reason that prevents required progression from landing there.
-ROOM_GRAPH_RESOLVED_NON_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
-    (
-        'Beast Shard: Marrowmaw',
-        'Magma Bell',
-        'Silkshot (Forge Daughter)',
-        'Sting Shard',
+    & frozenset(
+        canonicalize_location_name(name)
+        for name in MINOR_CACHE_LOCATION_NAMES
     )
 )
+
+# Trail's End needs all fourteen map checks in stock mode. Blasted Steps has an
+# unresolved Flea Brew route and Sands of Karak is disconnected from the graph
+# root. Keep their existing checks available without treating either unfinished
+# area as connected.
+ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
+    'Blasted Steps - Map Purchase',
+    'Sands of Karak - Map Purchase',
+})
 
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
     (
@@ -728,6 +962,7 @@ LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         *MASK_SHARD_LOCATION_NAMES,
         *SPOOL_FRAGMENT_LOCATION_NAMES,
         *SILK_HEART_LOCATION_NAMES,
+        *CRAFTMETAL_PURCHASE_LOCATIONS,
         *MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS,
         *ROOM_GRAPH_CANONICAL_CHECK_NAMES,
     )
@@ -735,8 +970,11 @@ LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
     ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
     | TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS
     | TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
-    | ROOM_GRAPH_QUARANTINED_CHECK_NAMES
-    | ROOM_GRAPH_RESOLVED_NON_PROGRESSION_LOCATIONS
+    | (
+        ROOM_GRAPH_QUARANTINED_CHECK_NAMES
+        - ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
+    )
+    | SINNER_ROAD_UNRESOLVED_DONOR_CHECK_NAMES
 )
 
 ACT_ORDER: tuple[str, ...] = ('Act 1', 'Act 2', 'Act 3')
@@ -874,9 +1112,10 @@ class ItemCountRequirement:
 class LocationRequirement:
     all_of: tuple[str, ...] = field(default_factory=tuple)
     any_of: tuple[str, ...] = field(default_factory=tuple)
+    required_locations: tuple[str, ...] = field(default_factory=tuple)
     require_any_crest: bool = True
     require_silk_spear: bool = False
-    requires_easy_skips: bool = False
+    minimum_skip_tier: int = 0
     act: str = ""
     path_name: str = ""
     item_counts: tuple[ItemCountRequirement, ...] = field(default_factory=tuple)
@@ -891,9 +1130,10 @@ class LocationRequirement:
                 clean_item_display_name(item_name)
                 for item_name in self.any_of
             ],
+            "required_locations": list(self.required_locations),
             "require_any_crest": self.require_any_crest,
             "require_silk_spear": self.require_silk_spear,
-            "requires_easy_skips": self.requires_easy_skips,
+            "minimum_skip_tier": self.minimum_skip_tier,
             "act": self.act,
             "path": self.path_name,
             "item_counts": [
@@ -910,9 +1150,10 @@ def item_count(minimum: int, *item_names: str) -> ItemCountRequirement:
 def req(
     *all_of: str,
     any_of: Iterable[str] = (),
+    required_locations: Iterable[str] = (),
     crest: bool = True,
     silk_spear: bool = False,
-    easy_skips: bool = False,
+    skip_tier: int = 0,
     act: str = "",
     path_name: str = "",
     item_counts: Iterable[ItemCountRequirement] = (),
@@ -920,9 +1161,13 @@ def req(
     return LocationRequirement(
         all_of=tuple(all_of),
         any_of=tuple(any_of),
+        required_locations=tuple(
+            canonicalize_location_name(location_name)
+            for location_name in required_locations
+        ),
         require_any_crest=crest,
         require_silk_spear=silk_spear,
-        requires_easy_skips=easy_skips,
+        minimum_skip_tier=skip_tier,
         act=act,
         path_name=path_name,
         item_counts=tuple(item_counts),
@@ -934,6 +1179,7 @@ def area(
     path_name: str,
     *all_of: str,
     any_of: Iterable[str] = (),
+    required_locations: Iterable[str] = (),
     crest: bool = True,
     silk_spear: bool = False,
     item_counts: Iterable[ItemCountRequirement] = (),
@@ -944,11 +1190,42 @@ def area(
         f"Path: {path_name}",
         *all_of,
         any_of=any_of,
+        required_locations=required_locations,
         crest=crest,
         silk_spear=silk_spear,
         act=act_name,
         path_name=path_name,
         item_counts=item_counts,
+    )
+
+
+_VOLATILE_FLINTBEETLE_AVAILABILITY_PATHS: tuple[str, ...] = (
+    'Path: Greymoor - Halfway House',
+    'Path: Shellwood - Overgrown West',
+)
+_VOLATILE_FLINTBEETLE_TARGET_NODES: tuple[str, ...] = (
+    'Room Node: the-marrow/the-marrow-entrance#before-gauntlet',
+    'Room Node: the-marrow/the-marrow-shakra-intro#main-area',
+    'Room Node: the-marrow/the-marrow-skull-wall#room',
+    'Room Node: the-marrow/the-marrow-lower-pogo#room',
+)
+
+
+def _volatile_flintbeetle_act_one_requirement(
+    *additional_requirements: str,
+    crest: bool,
+    path_name: str = '',
+) -> LocationRequirement:
+    """Reach every quest target before the Act 3 ground fallback."""
+
+    return req(
+        'Act: 1',
+        *additional_requirements,
+        *_VOLATILE_FLINTBEETLE_TARGET_NODES,
+        any_of=_VOLATILE_FLINTBEETLE_AVAILABILITY_PATHS,
+        crest=crest,
+        act='Act 1',
+        path_name=path_name,
     )
 
 
@@ -996,7 +1273,7 @@ def _compiled_room_clause_requirement(
         *clause.all_of,
         crest=False,
         silk_spear=clause.require_silk_spear,
-        easy_skips=clause.requires_easy_skips,
+        skip_tier=clause.minimum_skip_tier,
         item_counts=(
             item_count(minimum, item_name)
             for item_name, minimum in clause.item_counts
@@ -1039,63 +1316,102 @@ EQUIPPED_SILK_SKILL_REQUIREMENTS: Mapping[
     ),
 }
 
-NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS: tuple[
-    LocationRequirement,
-    ...,
-] = tuple(
-    req('Magma Bell', crest_item, crest=False)
-    for crest_item in sorted(NATIVE_BLUE_SLOT_CREST_ITEMS)
-)
-RANDOMIZED_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS: tuple[
-    LocationRequirement,
-    ...,
-] = tuple(
-    req('Magma Bell', crest_item, slot_item, crest=False)
-    for crest_item, slot_items
-    in RANDOMIZED_BLUE_SLOT_ITEMS_BY_CREST.items()
-    for slot_item in slot_items
-)
-NATIVE_CINDRIL_LOADOUT_REQUIREMENTS: tuple[
-    LocationRequirement,
-    ...,
-] = tuple(
-    req(
-        'Tool: Flea Brew',
-        'Tool: Silkspeed Anklets',
-        crest_item,
-        crest=False,
+def _build_equipped_colored_tool_requirements(
+    *tool_items_with_colors: tuple[str, str],
+    randomized_crest_slots_enabled: bool = True,
+    additional_required_items: tuple[str, ...] = (),
+) -> tuple[LocationRequirement, ...]:
+    """Build tool loadouts that fit every item on one crest."""
+
+    if not tool_items_with_colors:
+        raise ValueError("A colored-tool loadout needs at least one tool.")
+
+    tool_item_names = tuple(
+        item_name for item_name, _slot_color in tool_items_with_colors
+    ) + tuple(additional_required_items)
+    required_colors = tuple(
+        slot_color for _item_name, slot_color in tool_items_with_colors
     )
-    for crest_item in sorted(NATIVE_CINDRIL_LOADOUT_CREST_ITEMS)
-)
-RANDOMIZED_SLOT_CINDRIL_LOADOUT_REQUIREMENTS: tuple[
-    LocationRequirement,
-    ...,
-] = tuple(
-    req(
-        'Tool: Flea Brew',
-        'Tool: Silkspeed Anklets',
-        crest_item,
-        slot_item,
-        crest=False,
-    )
-    for crest_item, slot_items
-    in RANDOMIZED_YELLOW_SLOT_ITEMS_BY_CINDRIL_CREST.items()
-    for slot_item in slot_items
-)
+    unknown_colors = set(required_colors) - TOOL_SLOT_COLORS
+    if unknown_colors:
+        raise ValueError(
+            f"Unknown tool slot colors: {sorted(unknown_colors)!r}"
+        )
+    required_slot_counts = Counter(required_colors)
+
+    def missing_slot_counts(crest_item: str) -> dict[str, int]:
+        native_slot_counts = NATIVE_TOOL_SLOT_COUNTS_BY_CREST[crest_item]
+        return {
+            slot_color: required_count - native_slot_counts.get(
+                slot_color,
+                0,
+            )
+            for slot_color, required_count
+            in required_slot_counts.items()
+            if required_count > native_slot_counts.get(slot_color, 0)
+        }
+
+    requirements = [
+        req(*tool_item_names, crest_item, crest=False)
+        for crest_item in sorted(NATIVE_TOOL_SLOT_COUNTS_BY_CREST)
+        if not missing_slot_counts(crest_item)
+    ]
+    if not randomized_crest_slots_enabled:
+        return tuple(requirements)
+
+    randomized_candidate_crests: list[str] = []
+    for slot_color in required_colors:
+        for crest_item in (
+            RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST
+            .get(slot_color, {})
+        ):
+            if crest_item not in randomized_candidate_crests:
+                randomized_candidate_crests.append(crest_item)
+
+    for crest_item in randomized_candidate_crests:
+        missing_counts = missing_slot_counts(crest_item)
+        if not missing_counts:
+            continue
+        slot_item_choice_groups = tuple(
+            tuple(combinations(
+                RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST
+                .get(slot_color, {})
+                .get(crest_item, ()),
+                missing_count,
+            ))
+            for slot_color, missing_count in missing_counts.items()
+        )
+        if any(not choices for choices in slot_item_choice_groups):
+            continue
+        requirements.extend(
+            req(
+                *tool_item_names,
+                crest_item,
+                *(
+                    slot_item
+                    for selected_slot_items in selected_slot_groups
+                    for slot_item in selected_slot_items
+                ),
+                crest=False,
+            )
+            for selected_slot_groups in product(*slot_item_choice_groups)
+        )
+
+    return tuple(requirements)
 
 
-EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
+COLORED_TOOL_LOADOUTS: Mapping[
     str,
-    tuple[LocationRequirement, ...],
-] = {
-    # Hunter, Reaper and Witch each have a native Blue slot. Wanderer,
-    # Architect and Shaman can equip the tool after receiving either matching
-    # randomized Blue-slot item. The client checks those received items while
-    # auto-placing a tool, independently of the physical Memory Locket check.
-    # Beast has no Blue slot at all.
+    tuple[tuple[str, str], ...],
+] = MappingProxyType({
+    USABLE_NEEDLE_PHIAL_REQUIREMENT: (
+        ('Tool: Needle Phial', RED_TOOL_SLOT),
+    ),
     USABLE_MAGMA_BELL_REQUIREMENT: (
-        *NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS,
-        *RANDOMIZED_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS,
+        ('Magma Bell', BLUE_TOOL_SLOT),
+    ),
+    USABLE_SCUTTLEBRACE_REQUIREMENT: (
+        ('Tool: Scuttlebrace', YELLOW_TOOL_SLOT),
     ),
     # Flea Brew is Red and Silkspeed Anklets are Yellow. Both must be
     # simultaneously equippable on one owned crest: Hunter, Reaper and
@@ -1103,10 +1419,53 @@ EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
     # of their own randomized Yellow-slot unlocks. Witch and Shaman cannot
     # form this loadout.
     USABLE_CINDRIL_LOADOUT_REQUIREMENT: (
-        *NATIVE_CINDRIL_LOADOUT_REQUIREMENTS,
-        *RANDOMIZED_SLOT_CINDRIL_LOADOUT_REQUIREMENTS,
+        ('Tool: Flea Brew', RED_TOOL_SLOT),
+        ('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),
     ),
-}
+})
+
+COLORED_TOOL_ACTIVATION_ITEMS: Mapping[str, tuple[str, ...]] = (
+    MappingProxyType({
+        USABLE_SCUTTLEBRACE_REQUIREMENT: (
+            'Ancestral Art: Swift Step',
+        ),
+    })
+)
+
+EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
+    str,
+    tuple[LocationRequirement, ...],
+] = MappingProxyType({
+    requirement_name: _build_equipped_colored_tool_requirements(
+        *loadout,
+        additional_required_items=(
+            COLORED_TOOL_ACTIVATION_ITEMS.get(requirement_name, ())
+        ),
+    )
+    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()
+})
+
+VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS: Mapping[
+    str,
+    tuple[LocationRequirement, ...],
+] = MappingProxyType({
+    requirement_name: _build_equipped_colored_tool_requirements(
+        *loadout,
+        randomized_crest_slots_enabled=False,
+        additional_required_items=(
+            COLORED_TOOL_ACTIVATION_ITEMS.get(requirement_name, ())
+        ),
+    )
+    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()
+})
+
+OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
+    item_name
+    for alternatives in EQUIPPED_COLORED_TOOL_REQUIREMENTS.values()
+    for alternative in alternatives
+    for item_name in alternative.all_of
+    if item_name in ALL_RANDOMIZED_TOOL_SLOT_ITEM_NAMES
+)
 
 
 ACT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
@@ -1306,50 +1665,30 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
                 'Ancestral Art: Clawline',
             ),
         ),
-        # Shellwood is the northern bypass around Pebb's locked southern
-        # entrance. Full Swift Step connects this side of Wormways to western
-        # Shellwood.
-        req('Path: Shellwood - Overgrown West', SWIFT_STEP_ITEM),
     ),
     'Path: Wormways - Plasmium Lab': (
         req('Path: Wormways Middle', 'Ancestral Art: Cling Grip'),
     ),
     'Path: Shellwood - Overgrown West': (
-        req('Path: Wormways Middle', 'Ancestral Art: Swift Step'),
-        req('Path: Wormways - Plasmium Lab', any_of=('Ancestral Art: Cling Grip', 'Ability: Faydown Cloak')),
-        req('Path: Bellway - Shellwood'), # Bellway
-        # Path from Bellhart - Bellhart to here is blocked (one way door unlock)
+        req('Room Node: shellwood/shellwood-03#top', crest=False),
     ),
     'Path: Shellwood - Bellshrine': (
-        req('Path: Blasted Steps - Toll'),
-        req('Path: Shellwood - Overgrown West', 'Ancestral Art: Cling Grip'),
+        req('Room Node: shellwood/bellshrine-03#room', crest=False),
     ),
     'Path: Shellwood - Chapel Exit': (
-        req('Path: Shellwood - Greyroot', 'Path: Bilewater - Twisted Bud'),
+        req('Room Node: shellwood/shellwood-25#right-corridor', crest=False),
     ),
     'Path: Shellwood - Central Toll': (
-        req('Event: Widow Defeated'),
-        req('Path: Bellhart - Bellhart', 'Ancestral Art: Swift Step'),
-        req('Path: Bellhart - Bellhart', any_of=('Ability: Faydown Cloak',)),
-        req('Path: Shellwood - Overgrown West', 'Ancestral Art: Swift Step'),
-        req('Path: Shellwood - Overgrown West', any_of=('Ability: Faydown Cloak',)),
+        req('Room Node: shellwood/shellwood-01b#bench-toll', crest=False),
     ),
     'Path: Shellwood - Greyroot': (
-        req('Path: Shellwood - Central Toll', 'Ancestral Art: Swift Step'),
-        req('Path: Shellwood - Bellshrine', 'Ancestral Art: Swift Step'),
+        req('Room Node: shellwood/room-witch#room', crest=False),
     ),
     'Path: Bellhart - Bellhart': (
-        req('Path: Shellwood - Bellshrine'),
-        req('Path: Greymoor - Halfway House'),
-        req('Event: Widow Defeated'),
-        req('Path: Shellwood - Central Toll'),
-        req('Path: Bellway - Bellhart'), # Bellway
-        # Route through The Marrow is blocked (one way only)
+        req('Room Node: bellhart/belltown#ground-level', crest=False),
     ),
     'Path: Bellhart - Widow': (
-        req('Path: Shellwood - Central Toll', 'Ancestral Art: Cling Grip'),
-        req('Path: Shellwood - Central Toll', 'Ability: Faydown Cloak'),
-        # Can't be reached from Bellhart (one way elevator)
+        req('Room Node: bellhart/belltown-shrine#arena', crest=False),
     ),
     'Path: Greymoor - Halfway House': (
         req('Path: Bellhart - Bellhart'),
@@ -1656,43 +1995,33 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Path: Bellway - Deep Docks': (
         req('Path: Bellways', 'Bellway: Deep Docks'),
-        req('Path: Bellways', 'Path: Deep Docks - Toll'),
     ),
     'Path: Bellway - Far Fields': (
         req('Path: Bellways', 'Bellway: Far Fields'),
-        req('Path: Bellways', 'Path: Far Fields - Bellway'),
     ),
     'Path: Bellway - Greymoor': (
         req('Path: Bellways', 'Bellway: Greymoor'),
-        req('Path: Bellways', 'Path: Greymoor - Halfway House'),
     ),
     'Path: Bellway - Bellhart': (
         req('Path: Bellways', 'Bellway: Bellhart'),
-        req('Path: Bellways', 'Path: Bellhart - Bellhart'),
     ),
     'Path: Bellway - Blasted Steps': (
         req('Path: Bellways', 'Bellway: Blasted Steps'),
-        req('Path: Bellways', 'Path: Blasted Steps - Bellway'),
     ),
     'Path: Bellway - Grand Bellway': (
         req('Path: Bellways', 'Bellway: Grand Bellway'),
-        req('Path: Bellways', 'Path: Choral Chambers - Grand Bellway'),
     ),
     'Path: Bellway - The Slab': (
         req('Path: Bellways', 'Bellway: The Slab'),
-        req('Path: Bellways', 'Path: The Slab - Bellway'),
     ),
     'Path: Bellway - Shellwood': (
         req('Path: Bellways', 'Bellway: Shellwood'),
-        req('Path: Bellways', 'Path: Shellwood - Bellshrine'),
     ),
     'Path: Bellway - Bilewater': (
         req('Path: Bellways', 'Bellway: Bilewater'),
-        req('Path: Bellways', 'Path: Bilewater - Bellway'),
     ),
     'Path: Bellway - Putrified Ducts': (
         req('Path: Bellways', 'Bellway: Putrified Ducts'),
-        req('Path: Bellways', 'Path: Putrified Ducts - Bellway'),
     ),
     # Ventrica
     'Path: Ventrica': (
@@ -1724,16 +2053,77 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
 }
 
-ACT_TWO_GOAL_EVENT = 'Event: Act 2 Ending'
+ACT_ONE_GOAL_EVENT = 'Event: Act 2 Started'
+ACT_TWO_GOAL_EVENT = 'Event: Grand Mother Silk Defeated'
+CURSED_ENDING_GOAL_EVENT = 'Event: Cursed Ending'
 FINAL_GOAL_EVENT = 'Event: Lost Lace Defeated'
 FLEA_HUNT_GOAL_KEY = 'flea_hunt'
-DEFAULT_FLEA_HUNT_GOAL_COUNT = 20
+DEFAULT_FLEA_HUNT_GOAL_COUNT = 30
 MIN_FLEA_HUNT_GOAL_COUNT = 1
 MAX_FLEA_HUNT_GOAL_COUNT = len(FLEA_ITEMS)
 GOAL_EVENT_BY_KEY: Mapping[str, str] = {
+    'act_1': ACT_ONE_GOAL_EVENT,
     'act_2': ACT_TWO_GOAL_EVENT,
     'act_3': FINAL_GOAL_EVENT,
+    'cursed_ending': CURSED_ENDING_GOAL_EVENT,
 }
+
+
+def normalize_trails_end_requirement(mode: str) -> str:
+    """Check that the chosen Trail's End requirement is supported."""
+
+    normalized = str(mode or '').strip().lower()
+    if normalized not in SUPPORTED_TRAILS_END_REQUIREMENTS:
+        raise ValueError(
+            f"Unknown Trail's End requirement: {mode!r}"
+        )
+    return normalized
+
+
+@lru_cache(maxsize=2)
+def get_trails_end_requirements(
+    mode: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+) -> tuple[LocationRequirement, ...]:
+    """Return Trail's End routes for the selected map requirement."""
+
+    mode = normalize_trails_end_requirement(mode)
+    common_items = (
+        'Event: Act 2 Started',
+        'Path: Bilewater - Bilehaven',
+        'Path: Mount Fay - Workbench',
+        'Ability: Faydown Cloak',
+        'Ancestral Art: Needolin',
+    )
+    required_maps = (
+        SHAKRA_MAP_ITEMS
+        if mode == TRAILS_END_REQUIREMENT_OWNED_MAPS
+        else ()
+    )
+    required_map_locations = (
+        ()
+        if mode == TRAILS_END_REQUIREMENT_OWNED_MAPS
+        else SHAKRA_MAP_LOCATIONS
+    )
+    return (
+        req(
+            *common_items,
+            *required_maps,
+            crest=False,
+            required_locations=(
+                *required_map_locations,
+                'Boss Completion: DefeatedSwampShaman',
+            ),
+        ),
+        req(
+            *common_items,
+            *required_maps,
+            crest=False,
+            required_locations=required_map_locations,
+            item_counts=(
+                item_count(2, *THREEFOLD_MELODY_ITEMS),
+            ),
+        ),
+    )
 
 # These are logical story events rather than shuffled items. Reaching every
 # prerequisite means the corresponding vanilla story action can be completed.
@@ -1750,37 +2140,7 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     # suppresses the vanilla ownership grant and redirects a player who has
     # not received AP Needolin through the safe Belltown shrine wake sequence.
     'Event: Widow Defeated': (
-        req(
-            'Path: Bellhart - Widow',
-            'Ancestral Art: Cling Grip',
-            'Ability: Faydown Cloak',
-            crest=False,
-        ),
-        req(
-            'Path: Bellhart - Widow',
-            'Ancestral Art: Cling Grip',
-            "Ability: Drifter's Cloak",
-            crest=False,
-        ),
-        req(
-            'Path: Bellhart - Widow',
-            'Ancestral Art: Cling Grip',
-            SWIFT_STEP_ITEM,
-            crest=False,
-        ),
-        req(
-            'Path: Bellhart - Widow',
-            'Ancestral Art: Cling Grip',
-            'Ancestral Art: Clawline',
-            crest=False,
-            item_counts=(
-                item_count(
-                    1,
-                    SWIFT_STEP_ITEM,
-                    PROGRESSIVE_SWIFT_STEP_ITEM,
-                ),
-            ),
-        ),
+        req('Path: Bellhart - Widow', crest=False),
     ),
     # The tools and Flea beyond the Craw Lake arena are all downstream of the
     # same combat gauntlet. Combat execution is not a separate difficulty gate,
@@ -1968,19 +2328,9 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
-    # Bellhart's StateChangeSequence records its shrine after Widow and has no
-    # Needolin ownership test. The other four shrines keep their own movement
-    # gates below. Received AP Needolin is not a fifth-shrine prerequisite.
     'Event: Five Bellshrines Rung': (
         req(
-            'Event: Bell Beast Defeated',
-            'Path: Deep Docks - Bellshrine',
-            'Ancestral Art: Swift Step',
-            'Path: Greymoor - Bellshrine',
-            "Ability: Drifter's Cloak",
-            'Event: Widow Defeated',
-            'Path: Shellwood - Bellshrine',
-            'Ancestral Art: Cling Grip',
+            *JUDGE_BELL_ITEMS,
             crest=False,
         ),
     ),
@@ -2029,18 +2379,17 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
-    'Event: Trail\'s End Completed': (
+    CURSED_ENDING_GOAL_EVENT: (
         req(
-            'Event: Act 2 Started',
-            'Event: Threefold Melody Learned',
-            'Path: Bilewater - Bilehaven',
-            'Path: Mount Fay - Workbench',
-            'Ability: Faydown Cloak',
-            'Ancestral Art: Needolin',
-            *SHAKRA_MAP_ITEMS,
+            ACT_TWO_GOAL_EVENT,
+            'Path: Shellwood - Greyroot',
+            'Path: Bilewater - Twisted Bud',
             crest=False,
         ),
     ),
+    # Trail's End uses Shakra's carried stock by default. owned_maps
+    # replaces those purchases with ownership of the same 14 map items.
+    'Event: Trail\'s End Completed': get_trails_end_requirements(),
     # Silk and Soul has quest-point and four-component state that the AP item
     # table does not expose. This event uses the represented prerequisites:
     # the current Snare Setter item, every Flea and all required story areas.
@@ -2212,15 +2561,20 @@ def get_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
     starting_location = normalize_starting_location_key(starting_location)
+    trails_end_requirement = normalize_trails_end_requirement(
+        trails_end_requirement
+    )
 
     if (
         not allow_bellways_before_bell_beast
         and randomized_crest_slots_enabled
         and starting_location == STARTING_LOCATION_VANILLA
+        and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
     ):
         return ABSTRACT_REQUIREMENTS
 
@@ -2232,11 +2586,8 @@ def get_abstract_requirements(
     if not randomized_crest_slots_enabled:
         # Vanilla Crest Slots do not consume received AP slot items and their
         # Memory Locket spending is not represented in AP inventory logic.
-        adjusted_requirements[USABLE_MAGMA_BELL_REQUIREMENT] = (
-            NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
-        )
-        adjusted_requirements[USABLE_CINDRIL_LOADOUT_REQUIREMENT] = (
-            NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
+        adjusted_requirements.update(
+            VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS
         )
     if starting_location == STARTING_LOCATION_BONE_BOTTOM:
         # Replace the zero-requirement Moss Grotto root with Bone Bottom.
@@ -2247,6 +2598,10 @@ def get_abstract_requirements(
         )
         adjusted_requirements['Path: Mosslands - Bone Bottom'] = (
             BONE_BOTTOM_START_ROOT_REQUIREMENTS
+        )
+    if trails_end_requirement == TRAILS_END_REQUIREMENT_OWNED_MAPS:
+        adjusted_requirements["Event: Trail's End Completed"] = (
+            get_trails_end_requirements(trails_end_requirement)
         )
     return adjusted_requirements
 
@@ -2304,11 +2659,11 @@ MINOR_PICKUP_AREA_BY_SCENE: Mapping[str, tuple[int, str]] = {
 
 
 def _minor_pickup_requirement(location_name: str) -> LocationRequirement:
-    scene_name = next(
-        scene_name
+    _source_location_name, scene_name = next(
+        (source_name, scene_name)
         for source_name, scene_name, _asset, _x, _y
         in MINOR_PICKUP_SOURCE
-        if source_name == location_name
+        if canonicalize_location_name(source_name) == location_name
     )
     if scene_name == 'tut_01':
         return area(1, 'Mosslands - Moss Grotto', crest=False)
@@ -2380,18 +2735,19 @@ def _minor_cache_requirement(location_name: str) -> LocationRequirement:
     source = next(
         source
         for source in MINOR_CACHE_SOURCE
-        if source[0] == location_name
+        if canonicalize_location_name(source[0]) == location_name
     )
+    source_location_name = source[0]
     map_region = source[9]
     scene_name = source[2].casefold()
     if scene_name == 'bone_east_14':
         return area(1, "Far Fields - Pilgrim's Rest")
     if scene_name == 'bone_east_24':
         return area(3, 'Far Fields - Sprintmaster')
-    if location_name in {
-        'Shell Shard Cache: Deep Docks #1',
-        'Shell Shard Cache: Deep Docks #2',
-        'Shell Shard Cache: Deep Docks #3',
+    if source_location_name in {
+        'Deep Docks - Shell Shard Cache #1',
+        'Deep Docks - Shell Shard Cache #2',
+        'Deep Docks - Shell Shard Cache #3',
     }:
         return area(
             1,
@@ -2399,10 +2755,10 @@ def _minor_cache_requirement(location_name: str) -> LocationRequirement:
             USABLE_MAGMA_BELL_REQUIREMENT,
             crest=False,
         )
-    if location_name in {
-        'Shell Shard Cache: Shellwood #4',
-        'Shell Shard Cache: Shellwood #5',
-        'Shell Shard Cache: Shellwood #6',
+    if source_location_name in {
+        'Shellwood - Shell Shard Cache #4',
+        'Shellwood - Shell Shard Cache #5',
+        'Shellwood - Shell Shard Cache #6',
     }:
         return area(
             1,
@@ -2418,58 +2774,58 @@ def _minor_cache_requirement(location_name: str) -> LocationRequirement:
             path_name,
             SIMPLE_KEY_ROSARY_BANK,
         )
-    if location_name == 'Rosary Cache: Blasted Steps':
+    if source_location_name == 'Blasted Steps - Rosary Cache':
         return area(
             act_number,
             path_name,
             SWIFT_STEP_ITEM,
         )
-    if location_name == 'Rosary Cache: Moss Grotto':
+    if source_location_name == 'Moss Grotto - Rosary Cache':
         return area(
             act_number,
             path_name,
             SWIFT_STEP_ITEM,
         )
-    if location_name in {
-        'Rosary Cache: Bone Bottom #6',
-        'Rosary Cache: Bone Bottom #7',
+    if source_location_name in {
+        'Bone Bottom - Rosary Cache #6',
+        'Bone Bottom - Rosary Cache #7',
     }:
         # These Bonegrave caches use Wormways-side access like the nearby
         # sources rather than the room graph's incorrect upper-right-exit
         # geometry.
         return area(1, 'Mosslands - Bonegrave')
-    if location_name in {
-        'Rosary Cache: Bonegrave #1',
-        'Rosary Cache: Bonegrave #2',
-        'Rosary Cache: Bonegrave #3',
-        'Rosary Cache: Bonegrave #4',
+    if source_location_name in {
+        'Bonegrave - Rosary Cache #1',
+        'Bonegrave - Rosary Cache #2',
+        'Bonegrave - Rosary Cache #3',
+        'Bonegrave - Rosary Cache #4',
     }:
         # These four caches are inside the Wanderer chapel before its combat.
         # The client keeps the chapel door open while any of them is in-seed,
         # so acquiring Wanderer Crest elsewhere cannot invalidate this route.
         return area(1, 'Mosslands - Bonegrave')
-    if location_name in {
-        'Rosary Cache: The Marrow #14',
-        'Rosary Cache: The Marrow #15',
-        'Rosary Cache: The Marrow #16',
-        'Shell Shard Cache: The Marrow #4',
-        'Shell Shard Cache: The Marrow #5',
-        'Shell Shard Cache: The Marrow #6',
+    if source_location_name in {
+        'The Marrow - Rosary Cache #14',
+        'The Marrow - Rosary Cache #15',
+        'The Marrow - Rosary Cache #16',
+        'The Marrow - Shell Shard Cache #4',
+        'The Marrow - Shell Shard Cache #5',
+        'The Marrow - Shell Shard Cache #6',
     }:
         # These exact Bone_07/Bone_14/Bone_19 sources are all in the
         # Lower-Pogo, Mr-Burns-house and Upper-Pogo branch beyond the
         # Shooting Gallery rather than in the opening Toll section.
         return area(1, 'The Marrow - Shooting Gallery')
-    if location_name in {
-        'Rosary Cache: Greymoor #7',
-        'Rosary Cache: Greymoor #8',
-        'Rosary Cache: Greymoor #10',
-        'Rosary Cache: Greymoor #11',
-        'Rosary Cache: Greymoor #12',
-        'Rosary Cache: Greymoor #13',
-        'Rosary Cache: Greymoor #14',
-        'Shell Shard Cache: Greymoor #1',
-        'Shell Shard Cache: Greymoor #2',
+    if source_location_name in {
+        'Greymoor - Rosary Cache #7',
+        'Greymoor - Rosary Cache #8',
+        'Greymoor - Rosary Cache #10',
+        'Greymoor - Rosary Cache #11',
+        'Greymoor - Rosary Cache #12',
+        'Greymoor - Rosary Cache #13',
+        'Greymoor - Rosary Cache #14',
+        'Greymoor - Shell Shard Cache #1',
+        'Greymoor - Shell Shard Cache #2',
     }:
         return area(
             act_number,
@@ -2628,9 +2984,13 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         "Ability: Drifter's Cloak",
     )),
     ('Tool Unlock: Dead Mans Purse', area(1, 'Wormways - Bottom')),
-    ('Tool Unlock: Shell Satchel', area(1, 'Wormways - Bottom')),
     ('Tool Unlock: Extractor', area(1, 'Wormways - Plasmium Lab')),
-    ('Tool Unlock: Lifeblood Syringe', area(1, 'Wormways - Plasmium Lab', 'Tool: Needle Phial')),
+    ('Tool Unlock: Lifeblood Syringe', area(
+        1,
+        'Wormways - Plasmium Lab',
+        USABLE_NEEDLE_PHIAL_REQUIREMENT,
+        crest=False,
+    )),
 
     ('Save Flea: Wormways (Snacc)', area(1, 'Wormways - Bottom')), # Simple spike pogo
 
@@ -2756,7 +3116,12 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     #Bilewater
     ('Ruined Tool', area(1, 'Bilewater - Ruined Tool')),
     ('Spell Unlock: Parry', area(1, 'Bilewater - Exhaust Organ')),
-    ('Tool Unlock: Quick Sling', area(1, 'Bilewater - Bellway')),
+    ('Tool Unlock: Quick Sling', area(
+        1,
+        'Bilewater - Bellway',
+        'Ability: Faydown Cloak',
+        'Ancestral Art: Cling Grip',
+    )),
     # Trail's End is completed before Silk and Soul can begin. Shakra Ring is
     # awarded before Act 3, so it depends on Trail's End rather than later
     # Shakra inventory.
@@ -3041,6 +3406,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Pin Purchase: Ventrica', area(
         2,
         'Bellhart - Bellhart',
+        'Event: Widow Defeated',
         any_of=(
             'Ventrica: Choral Chambers',
             'Ventrica: Underworks',
@@ -3190,33 +3556,11 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Bell Shrine Completion: bellShrineBellhart', req(
         'Event: Widow Defeated',
     )),
-    ('Bell Shrine Completion: bellShrineEnclave', area(
-        2,
-        'Choral Chambers - First Shrine',
-    )),
 
     # BOSSES
     # Combat execution is not a separate difficulty gate.
     ('Boss Completion: defeatedMossMother', area(1, 'Mosslands - Ruined Chapel')),
     ('Boss Completion: defeatedBellBeast', req('Event: Bell Beast Defeated')),
-    # Lace's first encounter resolves at exactly one of three physical
-    # sources. Dust_01 is the Sinner's Road entrance from Greymoor, while
-    # Coral_19 is the broken bridge between Shellwood and Blasted Steps.
-    # These alternatives use the current regional requirements and retain all
-    # three mutually exclusive outcomes.
-    ('Boss Completion: defeatedLace1', area(
-        1,
-        'Deep Docks - Bellshrine',
-        'Ancestral Art: Swift Step',
-    )),
-    ('Boss Completion: defeatedLace1', area(
-        1,
-        "Sinner's Road - Broken Toll",
-    )),
-    ('Boss Completion: defeatedLace1', area(
-        1,
-        'Blasted Steps - Toll',
-    )),
     ('Boss Completion: defeatedSongGolem', area(
         1,
         'Far Fields - Bellway',
@@ -3244,7 +3588,12 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Elegy of the Deep Learned',
     )),
     ('Boss Completion: defeatedCrowCourt', req(
+        'Path: Greymoor - Halfway House',
         CRAW_SUMMONS_ITEM,
+        any_of=(
+            "Ability: Drifter's Cloak",
+            'Ancestral Art: Silk Soar',
+        ),
     )),
     ('Boss Completion: defeatedSplinterQueen', area(
         1,
@@ -3488,7 +3837,8 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Quest Completion: Extractor Blue Worms', area(
         3,
         'Wormways - Plasmium Lab',
-        'Tool: Needle Phial',
+        USABLE_NEEDLE_PHIAL_REQUIREMENT,
+        crest=False,
     )),
     ('Quest Completion: Fine Pins', req(
         'Event: Fine Pins Completed',
@@ -3496,6 +3846,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Quest Completion: Garmond Black Threaded', area(
         3,
         'Blasted Steps - Bellway',
+        'Event: Widow Defeated',
         'Event: Everbloom Obtained',
     )),
     ('Quest Completion: Great Gourmand', area(
@@ -3533,14 +3884,14 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Path: The Marrow - Mosshome Gate',
         'Event: Bell Beast Defeated',
     )),
-    ('Quest Completion: Rock Rollers', area(
-        1,
-        'The Marrow - Toll',
-        any_of=(
-            'Path: Greymoor - Halfway House',
-            'Path: Shellwood - Overgrown West',
+    (
+        'Quest Completion: Rock Rollers',
+        _volatile_flintbeetle_act_one_requirement(
+            'Path: The Marrow - Toll',
+            crest=True,
+            path_name='The Marrow - Toll',
         ),
-    )),
+    ),
     # Act 3 removes an unfinished Rock Rollers quest and leaves the same
     # Memory Locket reward as a ground fallback in Bone_10.
     ('Quest Completion: Rock Rollers', area(
@@ -3623,7 +3974,11 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Greymoor - Bellshrine',
         'Event: Craw Lake Cleared',
     )),
-    ('Map Purchase: Bellhart', area(1, 'Bellhart - Bellhart')),
+    ('Map Purchase: Bellhart', area(
+        1,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+    )),
     ('Map Purchase: Shellwood', area(1, 'Shellwood - Overgrown West')),
     ('Map Purchase: Shellwood', req('Event: Widow Defeated')),
     ('Map Purchase: Blasted Steps', area(1, 'Blasted Steps - Bellway')),
@@ -4047,9 +4402,9 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         2,
         'Putrified Ducts - Fleatopia',
     )),
-    # Scripted Beast Shard sources use their native reward actors. Their local
-    # combat and movement requirements are incomplete, so they cannot hold
-    # progression.
+    # Scripted Beast Shards use their native reward actors. Marrowmaw uses the
+    # room graph. Other flat fallbacks stay non-progression until their routes
+    # are added.
     ('Beast Shard: Marrowmaw', area(
         1,
         'Mosslands - Moss Grotto',
@@ -4094,14 +4449,14 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Bellhart - Bellhart',
         'Ancestral Art: Silk Soar',
     )),
-    ('Memory Locket: Volatile Flintbeetles', area(
-        1,
-        'The Marrow - Toll',
-        any_of=(
-            'Path: Greymoor - Halfway House',
-            'Path: Shellwood - Overgrown West',
+    (
+        'Memory Locket: Volatile Flintbeetles',
+        _volatile_flintbeetle_act_one_requirement(
+            'Path: The Marrow - Toll',
+            crest=True,
+            path_name='The Marrow - Toll',
         ),
-    )),
+    ),
     ('Memory Locket: Volatile Flintbeetles', area(
         3,
         'Mosslands - Bone Bottom',
@@ -4294,8 +4649,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Silkeater: The Cradle', area(2, 'The Cradle - Terminus')),
 
     # Named, non-fungible keys and Craw Summons.
-    ('Key of Indolent', area(2, 'The Slab - Capture Event')),
-    ('Key of Heretic', area(2, 'The Slab - Heretic Key Arena')),
     ('Key of Apostate', area(2, 'Putrified Ducts - Huntress')),
     ('White Key', area(2, 'Choral Chambers - Songclave')),
     ("Surgeon's Key", area(
@@ -4345,7 +4698,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     # GOAL
     ('Goal', req(FINAL_GOAL_EVENT)),
     (
-        'Beast Shard: Deep Docks',
+        'Deep Docks - Beast Shard',
         area(
             3,
             'Deep Docks - Diving Bell',
@@ -4353,7 +4706,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         ),
     ),
     (
-        'Shard Bundle: Shellwood',
+        'Shellwood - Shard Bundle',
         area(
             1,
             'Shellwood - Greyroot',
@@ -4361,7 +4714,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         ),
     ),
     (
-        'Frayed Rosary String: Wormways',
+        'Wormways - Frayed Rosary String',
         area(
             1,
             'Wormways Middle',
@@ -4375,26 +4728,46 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
             location_name not in LOGIC_PASS_A_LOCATIONS
             and canonicalize_location_name(location_name)
             not in PROGRESSION_SAFE_CENSUS_LOCATIONS
-            and location_name
+            and canonicalize_location_name(location_name)
             not in TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
         )
     ),
     *(
         (location_name, _minor_pickup_requirement(location_name))
         for location_name in MINOR_PICKUP_LOCATION_NAMES
-        if location_name not in VERIFIED_MINOR_PICKUP_LOCATIONS
+        if canonicalize_location_name(location_name)
+        not in VERIFIED_MINOR_PICKUP_LOCATIONS
     ),
     *(
         (location_name, _minor_cache_requirement(location_name))
         for location_name in MINOR_CACHE_LOCATION_NAMES
     ),
+    *(
+        (
+            source.location_name,
+            area(
+                source.act_number,
+                source.path_name,
+                *(
+                    ('Ancestral Art: Needolin',)
+                    if source.requires_needolin
+                    else ()
+                ),
+                crest=(
+                    source.location_name
+                    != "Moss Grotto - Shaman Storeroom Record"
+                ),
+            ),
+        )
+        for source in LORE_TABLET_SOURCES
+    ),
     (
-        'Rosary Cache: Moss Grotto',
+        'Moss Grotto - Rosary Cache',
         req(
             'Act: 1',
             'Path: Mosslands - Moss Grotto',
             any_of=SWIFT_STEP_OR_SPRINT_ITEMS,
-            easy_skips=True,
+            skip_tier=1,
             act='Act 1',
             path_name='Mosslands - Moss Grotto',
         ),
@@ -4416,11 +4789,11 @@ _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
         'Crest: Shaman',
         'Elegy of the Deep',
         'Relic: Choral Commandment (Moss Grotto)',
-        'Rosary Cache: Bone Bottom #8',
-        'Rosary Cache: Bone Bottom #9',
+        'Bone Bottom - Rosary Cache #8',
+        'Bone Bottom - Rosary Cache #9',
         # These two Deep Docks checks do not have room-graph records.
-        'Rosary Cache: Deep Docks #1',
-        'Rosary Cache: Deep Docks #2',
+        'Deep Docks - Rosary Cache #1',
+        'Deep Docks - Rosary Cache #2',
     )
 )
 
@@ -4445,6 +4818,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Pin Purchase: Bellway Pins': (
         req('Event: Bell Beast Defeated', crest=False),
     ),
+    'Loddie - Tool Pouch': (
+        req('Event: Widow Defeated', crest=False),
+    ),
     'Wish: Bone Bottom Repairs': (
         req('Event: Bone Bottom Repairs Completed', crest=False),
     ),
@@ -4462,7 +4838,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     # The large fossil is a child of fixer_statue. That parent is activated
     # only after Building Materials (Statue) / An Icon of Hope completes, so
     # merely reaching Bone Bottom cannot make this physical cache available.
-    'Shell Shard Cache: Bone Bottom': (
+    'Bone Bottom - Shell Shard Cache': (
         req(
             'Act: 2',
             'Event: Lifesaving Bridge Completed',
@@ -4480,15 +4856,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         ),
     ),
     'Wish: Volatile Flintbeetles': (
-        req(
-            'Act: 1',
-            any_of=(
-                'Path: Greymoor - Halfway House',
-                'Path: Shellwood - Overgrown West',
-            ),
-            crest=False,
-            act='Act 1',
-        ),
+        _volatile_flintbeetle_act_one_requirement(crest=False),
         # The unfinished Wish becomes a ground reward in Bone_10 in Act 3.
         req('Act: 3', crest=False, act='Act 3'),
     ),
@@ -4513,6 +4881,83 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Wish: My Missing Courier': (
         req('Event: Missing Courier Rescued', crest=False),
     ),
+    # This quest needs both the Dust_04 route and the courier event. Apply the
+    # courier gate to every route instead of treating it as room geometry.
+    SINNER_MISSING_BROTHER_LOCATION: (
+        req(SINNER_MISSING_COURIER_EVENT, crest=False),
+    ),
+    'Shellwood - Weaver Harp Inscription': (
+        req('Ancestral Art: Needolin', crest=False),
+    ),
+    'Bellhart Roof - Memory Locket': (
+        req('Act: 3', crest=False, act='Act 3'),
+    ),
+    'Bellhart Shop - Memory Locket': (
+        req('Event: Widow Defeated', crest=False),
+    ),
+    'Frey (Bellhart) - Spool Fragment': (
+        req('Event: Missing Courier Rescued', crest=False),
+    ),
+    'Multibinder': (
+        req(
+            'Act: 2',
+            'Event: Missing Courier Rescued',
+            crest=False,
+            act='Act 2',
+        ),
+    ),
+    'Bellhart - Map Purchase': (
+        req('Event: Widow Defeated', crest=False),
+    ),
+    'Pinmaster Plinney: Sharpened Needle': (
+        req('Event: Widow Defeated', crest=False),
+    ),
+    'Pinmaster Plinney: Shining Needle': (
+        req(
+            'Event: Widow Defeated',
+            crest=False,
+            item_counts=(
+                item_count(1, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+                item_count(1, PALE_OIL_ITEM),
+            ),
+        ),
+    ),
+    'Pinmaster Plinney: Hivesteel Needle': (
+        req(
+            'Event: Widow Defeated',
+            crest=False,
+            item_counts=(
+                item_count(2, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+                item_count(2, PALE_OIL_ITEM),
+            ),
+        ),
+    ),
+    'Pinmaster Plinney: Pale Steel Needle': (
+        req(
+            'Event: Widow Defeated',
+            crest=False,
+            item_counts=(
+                item_count(3, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+                item_count(3, PALE_OIL_ITEM),
+            ),
+        ),
+    ),
+    'Bellhart - Bellshrine': (
+        req('Event: Widow Defeated', crest=False),
+    ),
+    **{
+        location_name: (
+            req(
+                'Act: 2',
+                'Event: Widow Defeated',
+                relic_item_name,
+                crest=False,
+                act='Act 2',
+            ),
+        )
+        for location_name, relic_item_name
+        in SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
+    },
 }
 
 
@@ -4522,27 +4967,26 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
 _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     str, tuple[LocationRequirement, ...]
 ] = {
-    'Craftmetal: Bone Bottom Shop': grindle_access(3),
-    'Simple Key: Bone Bottom Shop': grindle_access(3),
-    'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)': (
+    'Bone Bottom Shop - Craftmetal': grindle_access(3),
+    'Bone Bottom Shop - Simple Key': grindle_access(3),
+    'Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard': (
         grindle_access(3)
     ),
     'Magnetite Brooch': grindle_access(3),
-    'Map Purchase: The Marrow': (
+    'The Marrow - Map Purchase': (
         req('Event: Bell Beast Defeated', crest=False),
     ),
-    'Map Purchase: Deep Docks': (
+    'Deep Docks - Map Purchase': (
         req('Event: Widow Defeated', crest=False),
     ),
-    'Map Purchase: Wormways': (
+    'Wormways - Map Purchase': (
         req('Event: Act 2 Started', crest=False),
+    ),
+    'Shellwood - Map Purchase': (
+        req('Event: Widow Defeated', crest=False),
     ),
     'Pin Purchase: Vendor Pins': (
         req('Path: Greymoor - Halfway House', crest=False),
-    ),
-    'Boss: Lace (Deep Docks)': (
-        area(1, "Sinner's Road - Broken Toll", crest=False),
-        area(1, 'Blasted Steps - Toll', crest=False),
     ),
 }
 
@@ -4570,7 +5014,7 @@ def _combine_room_graph_gate(
     graph_source: LocationRequirement,
     gate: LocationRequirement,
 ) -> LocationRequirement:
-    """Attach one exact non-source gate to one authoritative source."""
+    """Attach one non-source gate to one source."""
 
     return LocationRequirement(
         all_of=tuple(dict.fromkeys((
@@ -4578,14 +5022,19 @@ def _combine_room_graph_gate(
             *gate.all_of,
         ))),
         any_of=tuple(dict.fromkeys((*graph_source.any_of, *gate.any_of))),
+        required_locations=tuple(dict.fromkeys((
+            *graph_source.required_locations,
+            *gate.required_locations,
+        ))),
         require_any_crest=(
             graph_source.require_any_crest or gate.require_any_crest
         ),
         require_silk_spear=(
             graph_source.require_silk_spear or gate.require_silk_spear
         ),
-        requires_easy_skips=(
-            graph_source.requires_easy_skips or gate.requires_easy_skips
+        minimum_skip_tier=max(
+            graph_source.minimum_skip_tier,
+            gate.minimum_skip_tier,
         ),
         act=gate.act or graph_source.act,
         path_name=gate.path_name or graph_source.path_name,
@@ -4689,29 +5138,17 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
     for location_name in (
         # These sources occur in a graph area, but at least one room
         # transition, local condition or identity is unresolved.
-        *ROOM_GRAPH_QUARANTINED_CHECK_NAMES,
+        *(
+            ROOM_GRAPH_QUARANTINED_CHECK_NAMES
+            - ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
+        ),
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
-        # Craftmetal is finite and ten AP tool sources can spend it. Their
-        # one-item source gates are explicit, but advancement remains
-        # quarantined until cross-purchase consumption can be represented.
-        'Tool Unlock: WebShot Forge',
-        'Tool Unlock: WebShot Architect',
-        'Tool Unlock: WebShot Weaver',
-        'Tool Unlock: Sting Shard',
-        'Tool Unlock: Pimpilo',
-        'Tool Unlock: Cogwork Saw',
-        'Tool Unlock: Cogwork Flier',
-        'Tool Unlock: Lava Charm',
-        'Tool Unlock: Brolly Spike',
-        'Tool Unlock: Scuttlebrace',
         # The shop's 25-owned-Tools condition is not yet expressible without
         # promoting the entire Tool pool, so this source remains
         # non-progression.
         "Architect's Key",
         'Boss: Great Conchflies',
-        'Map Purchase: Choral Chambers',
-        'Map Purchase: Whispering Vaults',
         'Map Pickup: The Slab',
         'Map Pickup: Putrified Ducts',
         'Map Purchase: The Cradle',
@@ -4723,7 +5160,6 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         'Curvesickle',
         # Their minimum room traversal requirements are not represented.
         'Tool Pouch: Bugs of Pharloom',
-        'Beast Shard: Marrowmaw',
         "Beast Shard: Pilgrim's Rest",
         'Beast Shard: Memorium',
         'Beast Shard: Sprintmaster',
@@ -4744,8 +5180,8 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
             location_name
             for location_name in MINOR_PICKUP_LOCATION_NAMES
             if location_name not in {
-                'Frayed Rosary String: Moss Grotto',
-                'Frayed Rosary String: The Marrow (Flea Caravan Passage)',
+                'Moss Grotto - Frayed Rosary String',
+                'The Marrow (Flea Caravan Passage) - Frayed Rosary String',
                 *VERIFIED_MINOR_PICKUP_LOCATIONS,
             }
         ),
@@ -4758,36 +5194,54 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
     canonicalize_location_name(location_name)
     for location_name in (
         *JUNK_ONLY_QUEST_LOCATIONS,
+        # These Sinner's Road checks have no complete routes. The Rosary Chest
+        # keeps the old Broken Toll fallback.
+        *SINNER_ROAD_UNRESOLVED_DONOR_CHECK_NAMES,
+        *SINNER_ROAD_NON_DONOR_FALLBACK_CHECK_NAMES,
         # Trail's End already reports its vanilla Shakra Ring reward through
         # this location, which replaces a separate quest check.
         'Tool Unlock: Shakra Ring',
         # These scripted or held sources have incomplete encounter
         # requirements, so they may hold only filler or traps.
-        'Rosary Necklace: Fleatopia',
-        'Rosary String: Fleatopia',
-        'Pristine Core: Cogwork Core',
-        'Heavy Rosary Necklace: Whispering Vaults',
-        'Pristine Core: Underworks',
+        'Fleatopia - Rosary Necklace',
+        'Fleatopia - Rosary String',
+        'Cogwork Core - Pristine Core',
+        'Whispering Vaults - Heavy Rosary Necklace',
+        'Underworks - Pristine Core',
+        # Shellwood_25 cannot enter logic until the Pollip quest distinguishes
+        # vanilla flower sources from randomized Hearts.
+        'Shellwood - Rosary String #2',
+        'Relic: Weaver Effigy (Keelal, Shellwood)',
         # These caches remain filler or trap-only until their room movement
         # requirements are represented.
         *(
             location_name
             for location_name in MINOR_CACHE_LOCATION_NAMES
             if (
-                location_name not in MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS
-                and location_name not in PROTOCOL_ONLY_LOCATION_NAMES
+                canonicalize_location_name(location_name)
+                not in MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS
             )
         ),
+        *LORE_TABLET_JUNK_ONLY_LOCATION_NAMES,
     )
 ) | ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
 
 # These checks still have incomplete access conditions.
 # UNVERIFIED_PROGRESSION_LOCATIONS reject advancement items. JUNK_ONLY_LOCATIONS
-# accept only filler and traps. The exported distinction only changes the
-# neutral map icon and never exposes the placed item.
+# accept only filler and traps. Every check in this union remains a physical AP
+# check, but its access is false until its missing logic is represented.
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
 )
+
+
+def is_logic_unknown_location(location_name: str) -> bool:
+    """Return whether a check has been left out of logic."""
+
+    return (
+        canonicalize_location_name(location_name)
+        in LOGIC_UNKNOWN_LOCATIONS
+    )
 
 # This path is retained as a map landmark but currently has no location or
 # onward route attached to it.
@@ -4810,14 +5264,6 @@ def has_silk_spear(state: CollectionState, player: int) -> bool:
         and has_any_non_architect_crest(state, player)
     )
 
-def hasSilkSpear(state: CollectionState, player: int) -> bool:
-    return has_silk_spear(state, player)
-
-
-def hasSkilkSpear(state: CollectionState, player: int) -> bool:
-    """Compatibility alias for integrations using the historical typo."""
-    return has_silk_spear(state, player)
-
 
 _STATIC_ABSTRACT_REQUIREMENT_ITEMS = tuple(ABSTRACT_REQUIREMENTS.items())
 _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS = tuple(
@@ -4832,11 +5278,10 @@ _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS = tuple(
 _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
     (
         requirement_name,
-        NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
-        if requirement_name == USABLE_MAGMA_BELL_REQUIREMENT
-        else NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
-        if requirement_name == USABLE_CINDRIL_LOADOUT_REQUIREMENT
-        else alternatives,
+        VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS.get(
+            requirement_name,
+            alternatives,
+        ),
     )
     for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
 )
@@ -4845,23 +5290,26 @@ _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
         requirement_name,
         BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
         if requirement_name == 'Path: Bellways'
-        else NATIVE_BLUE_SLOT_MAGMA_BELL_REQUIREMENTS
-        if requirement_name == USABLE_MAGMA_BELL_REQUIREMENT
-        else NATIVE_CINDRIL_LOADOUT_REQUIREMENTS
-        if requirement_name == USABLE_CINDRIL_LOADOUT_REQUIREMENT
-        else alternatives,
+        else VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS.get(
+            requirement_name,
+            alternatives,
+        ),
     )
     for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
 )
 
 
-@lru_cache(maxsize=8)
+@lru_cache(maxsize=16)
 def _get_static_abstract_requirement_items(
     allow_bellways_before_bell_beast: bool,
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
 ) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
     starting_location = normalize_starting_location_key(starting_location)
+    trails_end_requirement = normalize_trails_end_requirement(
+        trails_end_requirement
+    )
     if randomized_crest_slots_enabled:
         requirement_items = (
             _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS
@@ -4875,16 +5323,31 @@ def _get_static_abstract_requirement_items(
             else _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
         )
 
-    if starting_location == STARTING_LOCATION_VANILLA:
+    if (
+        starting_location == STARTING_LOCATION_VANILLA
+        and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
+    ):
         return requirement_items
 
     return tuple(
         (
             requirement_name,
             MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
-            if requirement_name == 'Path: Mosslands - Moss Grotto'
+            if (
+                starting_location == STARTING_LOCATION_BONE_BOTTOM
+                and requirement_name == 'Path: Mosslands - Moss Grotto'
+            )
             else BONE_BOTTOM_START_ROOT_REQUIREMENTS
-            if requirement_name == 'Path: Mosslands - Bone Bottom'
+            if (
+                starting_location == STARTING_LOCATION_BONE_BOTTOM
+                and requirement_name == 'Path: Mosslands - Bone Bottom'
+            )
+            else get_trails_end_requirements(trails_end_requirement)
+            if (
+                requirement_name == "Event: Trail's End Completed"
+                and trails_end_requirement
+                == TRAILS_END_REQUIREMENT_OWNED_MAPS
+            )
             else alternatives,
         )
         for requirement_name, alternatives in requirement_items
@@ -4895,6 +5358,29 @@ def _get_static_abstract_requirement_items(
 class _AbstractWorklistPlan:
     requirement_names: tuple[str, ...]
     dependents_by_requirement: Mapping[str, tuple[str, ...]]
+
+
+def _iter_abstract_references_for_worklist(
+    requirement: LocationRequirement,
+    known_requirements: frozenset[str],
+    active_locations: tuple[str, ...] = (),
+) -> Iterable[str]:
+    yield from (
+        reference
+        for reference in (*requirement.all_of, *requirement.any_of)
+        if reference in known_requirements
+    )
+    for location_name in requirement.required_locations:
+        canonical_name = canonicalize_location_name(location_name)
+        if canonical_name in active_locations:
+            continue
+        next_active_locations = (*active_locations, canonical_name)
+        for location_requirement in REQUIREMENTS.get(canonical_name, ()):
+            yield from _iter_abstract_references_for_worklist(
+                location_requirement,
+                known_requirements,
+                next_active_locations,
+            )
 
 
 @lru_cache(maxsize=16)
@@ -4920,8 +5406,10 @@ def _compile_abstract_worklist_plan(
         dependencies = {
             reference
             for requirement in alternatives
-            for reference in (*requirement.all_of, *requirement.any_of)
-            if reference in known_requirements
+            for reference in _iter_abstract_references_for_worklist(
+                requirement,
+                known_requirements,
+            )
         }
         for dependency_name in dependencies:
             dependent_sets[dependency_name].add(owner_name)
@@ -4940,16 +5428,18 @@ def _compile_abstract_worklist_plan(
     )
 
 
-@lru_cache(maxsize=8)
+@lru_cache(maxsize=16)
 def _compile_static_abstract_worklist_plan(
     allow_bellways_before_bell_beast: bool,
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
 ) -> _AbstractWorklistPlan:
     requirements_signature = _get_static_abstract_requirement_items(
         allow_bellways_before_bell_beast,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
     )
     return _compile_abstract_worklist_plan(requirements_signature)
 
@@ -4962,6 +5452,7 @@ def _matches_static_abstract_requirements(
     allow_bellways_before_bell_beast: bool,
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
 ) -> bool:
     """Return whether this is the unchanged runtime graph."""
 
@@ -4969,6 +5460,7 @@ def _matches_static_abstract_requirements(
         allow_bellways_before_bell_beast,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
     )
     return (
         len(abstract_requirements) == len(expected_items)
@@ -4984,9 +5476,11 @@ def _compute_abstract_values(
     player: int,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> tuple[
     dict[str, bool],
     bool,
@@ -5015,9 +5509,11 @@ def _compute_abstract_values(
             player,
             split_dash_and_sprint,
             allow_bellways_before_bell_beast,
-            easy_skips_enabled,
+            skips_tier,
             randomized_crest_slots_enabled,
             normalize_starting_location_key(starting_location),
+            normalize_trails_end_requirement(trails_end_requirement),
+            scuttlebrace_logic_enabled,
             inventory_signature,
             ABSTRACT_REQUIREMENTS.revision,
         )
@@ -5068,17 +5564,20 @@ def _compute_abstract_values(
         allow_bellways_before_bell_beast,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
     )
     if _matches_static_abstract_requirements(
         abstract_requirements,
         allow_bellways_before_bell_beast,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
     ):
         worklist_plan = _compile_static_abstract_worklist_plan(
             allow_bellways_before_bell_beast,
             randomized_crest_slots_enabled,
             starting_location,
+            trails_end_requirement,
         )
     else:
         # Validation tools occasionally patch the graph. Compile those
@@ -5104,7 +5603,8 @@ def _compute_abstract_values(
                 has_crest,
                 has_spear,
                 logic_item_dependencies,
-                easy_skips_enabled,
+                skips_tier,
+                scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
             )
             for alternative in abstract_requirements[requirement_name]
         ):
@@ -5146,7 +5646,13 @@ def _has_named_requirement_with_values(
     logic_item_dependencies: Mapping[str, tuple[str, ...]] = (
         LOGIC_ITEM_DEPENDENCIES
     ),
+    scuttlebrace_logic_enabled: bool = True,
 ) -> bool:
+    if (
+        not scuttlebrace_logic_enabled
+        and item_or_requirement_name == USABLE_SCUTTLEBRACE_REQUIREMENT
+    ):
+        return False
     if item_or_requirement_name in abstract_values:
         return abstract_values[item_or_requirement_name]
     canonical_name = clean_item_display_name(
@@ -5174,9 +5680,11 @@ def _satisfies_requirement_with_values(
     logic_item_dependencies: Mapping[str, tuple[str, ...]] = (
         LOGIC_ITEM_DEPENDENCIES
     ),
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
+    active_locations: tuple[str, ...] = (),
+    scuttlebrace_logic_enabled: bool = True,
 ) -> bool:
-    if requirement.requires_easy_skips and not easy_skips_enabled:
+    if requirement.minimum_skip_tier > skips_tier:
         return False
     if requirement.require_any_crest and not has_crest:
         return False
@@ -5188,6 +5696,7 @@ def _satisfies_requirement_with_values(
             abstract_values,
             has_item,
             logic_item_dependencies,
+            scuttlebrace_logic_enabled,
         )
         for item_name in requirement.all_of
     ):
@@ -5198,8 +5707,25 @@ def _satisfies_requirement_with_values(
             abstract_values,
             has_item,
             logic_item_dependencies,
+            scuttlebrace_logic_enabled,
         )
         for item_name in requirement.any_of
+    ):
+        return False
+    if any(
+        not _can_reach_required_location_with_values(
+            location_name,
+            abstract_values,
+            has_item,
+            count_item,
+            has_crest,
+            has_spear,
+            logic_item_dependencies,
+            skips_tier,
+            active_locations,
+            scuttlebrace_logic_enabled,
+        )
+        for location_name in requirement.required_locations
     ):
         return False
     if any(
@@ -5211,6 +5737,45 @@ def _satisfies_requirement_with_values(
     return True
 
 
+def _can_reach_required_location_with_values(
+    location_name: str,
+    abstract_values: Mapping[str, bool],
+    has_item: Callable[[str], bool],
+    count_item: Callable[[str], int],
+    has_crest: bool,
+    has_spear: bool,
+    logic_item_dependencies: Mapping[str, tuple[str, ...]],
+    skips_tier: int,
+    active_locations: tuple[str, ...],
+    scuttlebrace_logic_enabled: bool,
+) -> bool:
+    canonical_name = canonicalize_location_name(location_name)
+    if (
+        canonical_name in active_locations
+        or canonical_name in LOGIC_UNKNOWN_LOCATIONS
+    ):
+        return False
+    alternatives = REQUIREMENTS.get(canonical_name)
+    if not alternatives:
+        return False
+    next_active_locations = (*active_locations, canonical_name)
+    return any(
+        _satisfies_requirement_with_values(
+            alternative,
+            abstract_values,
+            has_item,
+            count_item,
+            has_crest,
+            has_spear,
+            logic_item_dependencies,
+            skips_tier,
+            next_active_locations,
+            scuttlebrace_logic_enabled,
+        )
+        for alternative in alternatives
+    )
+
+
 def _has_named_requirement(
     item_or_requirement_name: str,
     state: CollectionState,
@@ -5218,9 +5783,11 @@ def _has_named_requirement(
     seen: tuple[str, ...] = (),
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -5233,15 +5800,18 @@ def _has_named_requirement(
         player,
         split_dash_and_sprint,
         allow_bellways_before_bell_beast,
-        easy_skips_enabled,
+        skips_tier,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
+        scuttlebrace_logic_enabled,
     )
     return _has_named_requirement_with_values(
         item_or_requirement_name,
         abstract_values,
         has_item,
         logic_item_dependencies,
+        scuttlebrace_logic_enabled,
     )
 
 
@@ -5251,9 +5821,11 @@ def _satisfies_requirement(
     player: int,
     seen: tuple[str, ...] = (),
     split_dash_and_sprint: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -5267,9 +5839,11 @@ def _satisfies_requirement(
             player,
             split_dash_and_sprint,
             False,
-            easy_skips_enabled,
+            skips_tier,
             randomized_crest_slots_enabled,
             starting_location,
+            trails_end_requirement,
+            scuttlebrace_logic_enabled,
         )
     )
     return _satisfies_requirement_with_values(
@@ -5280,7 +5854,8 @@ def _satisfies_requirement(
         has_crest,
         has_spear,
         logic_item_dependencies,
-        easy_skips_enabled,
+        skips_tier,
+        scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
     )
 
 
@@ -5289,9 +5864,11 @@ def make_requirements_rule(
     player: int,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ):
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
@@ -5303,9 +5880,11 @@ def make_requirements_rule(
                 player,
                 split_dash_and_sprint,
                 allow_bellways_before_bell_beast,
-                easy_skips_enabled,
+                skips_tier,
                 randomized_crest_slots_enabled,
                 starting_location,
+                trails_end_requirement,
+                scuttlebrace_logic_enabled,
             )
         )
         return any(
@@ -5317,7 +5896,8 @@ def make_requirements_rule(
                 has_crest,
                 has_spear,
                 logic_item_dependencies,
-                easy_skips_enabled,
+                skips_tier,
+                scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
             )
             for requirement in requirements
         )
@@ -5330,11 +5910,15 @@ def make_rule(
     player: int,
     split_dash_and_sprint: bool = False,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     crest_slot_memory_locket_count: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ):
+    if is_logic_unknown_location(location_name):
+        return make_requirements_rule((), player)
     return make_requirements_rule(
         get_location_requirements(
             location_name,
@@ -5343,9 +5927,11 @@ def make_rule(
         player,
         split_dash_and_sprint,
         allow_bellways_before_bell_beast,
-        easy_skips_enabled,
+        skips_tier,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
+        scuttlebrace_logic_enabled,
     )
 
 
@@ -5364,6 +5950,11 @@ def get_location_requirements(
         )
     if pollip_heart_count < 0:
         raise ValueError("Pollip Heart count cannot be negative.")
+    if pollip_heart_count not in (0, POLLIP_HEART_COUNT):
+        raise ValueError(
+            "Pollip Heart count must use the live quest threshold of "
+            f"{POLLIP_HEART_COUNT}. Received {pollip_heart_count!r}."
+        )
 
     count_requirements: list[ItemCountRequirement] = []
     if (
@@ -5376,14 +5967,28 @@ def get_location_requirements(
                 MEMORY_LOCKET_ITEM,
             )
         )
-    if pollip_heart_count and canonical_name == 'Pollip Pouch':
-        count_requirements.append(
-            item_count(pollip_heart_count, POLLIP_HEART_ITEM)
-        )
-    if count_requirements:
+    pollip_source_requirements: tuple[str, ...] = ()
+    if canonical_name == 'Pollip Pouch':
+        if pollip_heart_count:
+            count_requirements.append(
+                item_count(pollip_heart_count, POLLIP_HEART_ITEM)
+            )
+        else:
+            # With vanilla Hearts, AP inventory cannot represent quest
+            # progress. Require the routes to all six finite flower sources
+            # instead. The installed Shell Flowers quest consumes all six.
+            # The 5 left in Greyroot's FSM is a disabled legacy action.
+            pollip_source_requirements = (
+                POLLIP_HEART_SOURCE_LOCATION_NAMES
+            )
+    if count_requirements or pollip_source_requirements:
         return tuple(
             replace(
                 requirement,
+                required_locations=tuple(dict.fromkeys((
+                    *requirement.required_locations,
+                    *pollip_source_requirements,
+                ))),
                 item_counts=(
                     *requirement.item_counts,
                     *count_requirements,
@@ -5394,10 +5999,52 @@ def get_location_requirements(
     return requirements
 
 
+def get_crawfather_requirements(
+    randomize_needle_upgrades: bool,
+) -> tuple[LocationRequirement, ...]:
+    """Return Crawfather's movement and Needle upgrade gates."""
+
+    requirements = get_location_requirements(CRAWFATHER_LOCATION)
+    if randomize_needle_upgrades:
+        return tuple(
+            replace(
+                requirement,
+                item_counts=_merge_item_count_requirements(
+                    requirement.item_counts,
+                    (
+                        item_count(
+                            2,
+                            PROGRESSIVE_NEEDLE_UPGRADE_ITEM,
+                        ),
+                    ),
+                ),
+            )
+            for requirement in requirements
+        )
+
+    needle_requirements = get_location_requirements(
+        PINMASTER_OIL_QUEST_LOCATION
+    )
+    return tuple(
+        _combine_room_graph_gate(requirement, needle_requirement)
+        for requirement in requirements
+        for needle_requirement in needle_requirements
+    )
+
+
 def get_goal_requirements(
     goal_key: str,
     flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
+    pollip_heart_count: int = 0,
 ) -> tuple[LocationRequirement, ...]:
+    if pollip_heart_count < 0:
+        raise ValueError("Pollip Heart count cannot be negative.")
+    if pollip_heart_count not in (0, POLLIP_HEART_COUNT):
+        raise ValueError(
+            "Pollip Heart count must use the live quest threshold of "
+            f"{POLLIP_HEART_COUNT}. Received {pollip_heart_count!r}."
+        )
+
     if goal_key == FLEA_HUNT_GOAL_KEY:
         if not (
             MIN_FLEA_HUNT_GOAL_COUNT
@@ -5423,6 +6070,56 @@ def get_goal_requirements(
         goal_event = GOAL_EVENT_BY_KEY[goal_key]
     except KeyError as exc:
         raise ValueError(f"Unknown Silksong goal option: {goal_key!r}") from exc
+
+    if goal_key == 'cursed_ending':
+        if pollip_heart_count:
+            # Shell Flowers consumes exactly six Shell Flowers before its
+            # Pollip Pouch reward. In randomized modes those six collectibles
+            # are the repeated AP Pollip Heart item.
+            # Received Hearts update the native Shell Flower quest count.
+            return (
+                req(
+                    goal_event,
+                    item_counts=(
+                        item_count(
+                            pollip_heart_count,
+                            POLLIP_HEART_ITEM,
+                        ),
+                    ),
+                ),
+            )
+
+        # Vanilla Hearts use their six physical source routes. Room-graph
+        # checks expose movement choices as DNF, so combine one route from
+        # each source instead of flattening those choices into an AND gate.
+        combined_routes: tuple[LocationRequirement, ...] = (
+            req(goal_event, crest=False),
+        )
+        for location_name in LOCATION_NAMES_BY_CATEGORY['PollipHeart']:
+            source_requirements = get_location_requirements(location_name)
+            expanded_sources = tuple(
+                replace(
+                    source_requirement,
+                    all_of=(
+                        *source_requirement.all_of,
+                        *((any_of_item,) if any_of_item is not None else ()),
+                    ),
+                    any_of=(),
+                )
+                for source_requirement in source_requirements
+                for any_of_item in (
+                    source_requirement.any_of
+                    if source_requirement.any_of
+                    else (None,)
+                )
+            )
+            combined_routes = tuple(dict.fromkeys(
+                _combine_room_graph_gate(combined, source_requirement)
+                for combined in combined_routes
+                for source_requirement in expanded_sources
+            ))
+        return combined_routes
+
     return (req(goal_event),)
 
 
@@ -5432,38 +6129,61 @@ def make_goal_rule(
     split_dash_and_sprint: bool = False,
     flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
     allow_bellways_before_bell_beast: bool = False,
-    easy_skips_enabled: bool = False,
+    skips_tier: int = 0,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    pollip_heart_count: int = 0,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ):
     return make_requirements_rule(
-        get_goal_requirements(goal_key, flea_hunt_count),
+        get_goal_requirements(
+            goal_key,
+            flea_hunt_count,
+            pollip_heart_count,
+        ),
         player,
         split_dash_and_sprint,
         allow_bellways_before_bell_beast,
-        easy_skips_enabled,
+        skips_tier,
         randomized_crest_slots_enabled,
         starting_location,
+        trails_end_requirement,
+        scuttlebrace_logic_enabled,
     )
 
 
 def _export_requirement_group(requirements: tuple[LocationRequirement, ...]) -> dict[str, object]:
-    alternatives = [requirement.as_slot_data() for requirement in requirements]
-    if len(alternatives) == 1:
-        exported = dict(alternatives[0])
-        exported['alternatives'] = alternatives
-        return exported
     return {
-        'all_of': [],
-        'any_of': [],
-        'require_any_crest': False,
-        'require_silk_spear': False,
-        'requires_easy_skips': False,
-        'act': '',
-        'path': '',
-        'item_counts': [],
-        'alternatives': alternatives,
+        'alternatives': [
+            requirement.as_slot_data()
+            for requirement in requirements
+        ],
     }
+
+
+def _apply_scuttlebrace_logic_option(
+    requirements: tuple[LocationRequirement, ...],
+    enabled: bool,
+) -> tuple[LocationRequirement, ...]:
+    """Prune Scuttlebrace-only route alternatives when its logic is off."""
+
+    if enabled:
+        return requirements
+
+    adjusted: list[LocationRequirement] = []
+    for requirement in requirements:
+        if USABLE_SCUTTLEBRACE_REQUIREMENT in requirement.all_of:
+            continue
+        any_of = tuple(
+            name
+            for name in requirement.any_of
+            if name != USABLE_SCUTTLEBRACE_REQUIREMENT
+        )
+        if requirement.any_of and not any_of:
+            continue
+        adjusted.append(replace(requirement, any_of=any_of))
+    return tuple(adjusted)
 
 
 def export_requirements(
@@ -5473,14 +6193,22 @@ def export_requirements(
     crest_slot_memory_locket_count: int = 0,
     pollip_heart_count: int = 0,
     bone_bottom_statue_tool_pouch_count: int = 0,
+    randomize_needle_upgrades: bool = False,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> Mapping[str, dict[str, object]]:
     exported: dict[str, dict[str, object]] = {}
     for name, requirements in REQUIREMENTS.items():
-        if name in PROTOCOL_ONLY_LOCATION_NAMES:
-            continue
         resolved_requirements = (
-            get_goal_requirements(goal_key, flea_hunt_count)
+            get_goal_requirements(
+                goal_key,
+                flea_hunt_count,
+                pollip_heart_count,
+            )
             if name == 'Goal'
+            else get_crawfather_requirements(
+                randomize_needle_upgrades
+            )
+            if name == CRAWFATHER_LOCATION
             else get_location_requirements(
                 name,
                 crest_slot_memory_locket_count,
@@ -5491,7 +6219,7 @@ def export_requirements(
             bone_bottom_statue_tool_pouch_count > 0
             and name in {
                 'Wish: An Icon of Hope',
-                'Shell Shard Cache: Bone Bottom',
+                'Bone Bottom - Shell Shard Cache',
             }
         ):
             resolved_requirements = tuple(
@@ -5510,7 +6238,10 @@ def export_requirements(
                 for requirement in resolved_requirements
             )
         group = _export_requirement_group(
-            resolved_requirements
+            _apply_scuttlebrace_logic_option(
+                resolved_requirements,
+                scuttlebrace_logic_enabled,
+            )
         )
         if name in LOGIC_UNKNOWN_LOCATIONS:
             group['logic_unknown'] = True
@@ -5522,16 +6253,28 @@ def export_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
+    trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    scuttlebrace_logic_enabled: bool = True,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
     return {
-        name: _export_requirement_group(requirements)
+        name: _export_requirement_group(
+            _apply_scuttlebrace_logic_option(
+                requirements,
+                scuttlebrace_logic_enabled,
+            )
+        )
         for name, requirements in get_abstract_requirements(
             allow_bellways_before_bell_beast,
             randomized_crest_slots_enabled,
             starting_location,
+            trails_end_requirement,
         ).items()
+        if (
+            scuttlebrace_logic_enabled
+            or name != USABLE_SCUTTLEBRACE_REQUIREMENT
+        )
     }
 
 
@@ -5565,8 +6308,11 @@ def _get_abstract_dependency_closure(
 ) -> frozenset[str]:
     pending = [
         name
-        for name in _iter_named_references(requirements)
-        if name in ABSTRACT_REQUIREMENTS
+        for requirement in requirements
+        for name in _iter_abstract_references_for_worklist(
+            requirement,
+            frozenset(ABSTRACT_REQUIREMENTS),
+        )
     ]
     dependencies: set[str] = set()
     while pending:
@@ -5576,8 +6322,11 @@ def _get_abstract_dependency_closure(
         dependencies.add(name)
         pending.extend(
             reference
-            for reference in _iter_named_references(ABSTRACT_REQUIREMENTS[name])
-            if reference in ABSTRACT_REQUIREMENTS
+            for requirement in ABSTRACT_REQUIREMENTS[name]
+            for reference in _iter_abstract_references_for_worklist(
+                requirement,
+                frozenset(ABSTRACT_REQUIREMENTS),
+            )
         )
     return frozenset(dependencies)
 
@@ -5605,7 +6354,7 @@ def _get_dead_paths() -> frozenset[str]:
                     lambda _name: 1_000_000,
                     True,
                     True,
-                    easy_skips_enabled=True,
+                    skips_tier=3,
                 )
                 for alternative in alternatives
             ):
@@ -5666,7 +6415,10 @@ def _get_location_self_dependencies(
     dependencies = {
         f"{location_name} -> {reward_name}"
         for location_name in location_names
-        if location_name in REQUIREMENTS
+        if (
+            location_name in REQUIREMENTS
+            and location_name not in LOGIC_UNKNOWN_LOCATIONS
+        )
         for reward_name in (_get_vanilla_reward_name(location_name),)
         if (
             reward_name in item_name_set
@@ -5689,6 +6441,8 @@ def get_logic_item_references() -> frozenset[str]:
         requirement
         for requirement_groups in _all_requirement_groups()
         for requirement in requirement_groups
+    ) + get_trails_end_requirements(
+        TRAILS_END_REQUIREMENT_OWNED_MAPS
     )
     references = {
         clean_item_display_name(name)
@@ -5747,6 +6501,16 @@ def validate_requirements(
     unknown_quarantined_locations = (
         UNVERIFIED_PROGRESSION_LOCATIONS - location_name_set
     )
+    unknown_required_locations = {
+        location_name
+        for alternatives in (
+            *REQUIREMENTS.values(),
+            *ABSTRACT_REQUIREMENTS.values(),
+        )
+        for alternative in alternatives
+        for location_name in alternative.required_locations
+        if location_name not in requirement_location_names
+    }
     invalid_item_counts = {
         f"{owner}:{count_requirement.minimum}:{','.join(count_requirement.item_names)}"
         for owner, alternatives in (
@@ -5802,6 +6566,7 @@ def validate_requirements(
         or unexpected_dead_paths
         or stale_dead_path_allowlist
         or unknown_quarantined_locations
+        or unknown_required_locations
         or invalid_item_counts
         or missing_goal_dependencies
         or missing_direct_goal_event
@@ -5820,6 +6585,7 @@ def validate_requirements(
             f"unexpected_dead_paths={sorted(unexpected_dead_paths)}, "
             f"stale_dead_path_allowlist={sorted(stale_dead_path_allowlist)}, "
             f"unknown_quarantined_locations={sorted(unknown_quarantined_locations)}, "
+            f"unknown_required_locations={sorted(unknown_required_locations)}, "
             f"invalid_item_counts={sorted(invalid_item_counts)}, "
             f"missing_goal_dependencies={sorted(missing_goal_dependencies)}, "
             f"missing_direct_goal_event={sorted(missing_direct_goal_event)}"

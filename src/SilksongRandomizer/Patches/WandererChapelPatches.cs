@@ -2,6 +2,7 @@ using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
@@ -18,10 +19,12 @@ namespace SilksongRandomizer.Patches
             internal readonly string RewardSceneName;
             internal readonly string DoorSceneName;
             internal readonly string ClosedFlag;
+            internal readonly string CrestInternalName;
 
             internal ChapelSource(
                 string locationName,
                 string rewardSceneName,
+                string crestInternalName,
                 string doorSceneName = null,
                 string closedFlag = null
             )
@@ -30,36 +33,43 @@ namespace SilksongRandomizer.Patches
                 RewardSceneName = rewardSceneName;
                 DoorSceneName = doorSceneName;
                 ClosedFlag = closedFlag;
+                CrestInternalName = crestInternalName;
             }
         }
+
+        private static string suppressedMemorySource;
 
         private static readonly ChapelSource[] StandardChapelSources =
         {
             new ChapelSource(
                 "Crest: Beast",
                 "Ant_19",
+                "Warrior",
                 "Ant_20",
                 BeastClosedFlag
             ),
             new ChapelSource(
                 "Crest: Reaper",
                 "Greymoor_20c",
+                "Reaper",
                 "Greymoor_20b",
                 ReaperClosedFlag
             ),
             new ChapelSource(
                 "Crest: Wanderer",
                 "Chapel_Wanderer",
+                "Wanderer",
                 "Bonegrave",
                 WandererClosedFlag
             ),
             new ChapelSource(
                 "Crest: Architect",
                 "Under_20",
+                "Toolmaster",
                 "Under_17"
             ),
-            new ChapelSource("Crest: Shaman", "Tut_04"),
-            new ChapelSource("Crest: Shaman", "Tut_05"),
+            new ChapelSource("Crest: Shaman", "Tut_04", "Spell"),
+            new ChapelSource("Crest: Shaman", "Tut_05", "Spell"),
         };
 
         private static readonly Dictionary<string, string[]>
@@ -73,10 +83,10 @@ namespace SilksongRandomizer.Patches
                         new[]
                         {
                             "Crest: Wanderer",
-                            "Rosary Cache: Bonegrave #1",
-                            "Rosary Cache: Bonegrave #2",
-                            "Rosary Cache: Bonegrave #3",
-                            "Rosary Cache: Bonegrave #4",
+                            "Bonegrave - Rosary Cache #1",
+                            "Bonegrave - Rosary Cache #2",
+                            "Bonegrave - Rosary Cache #3",
+                            "Bonegrave - Rosary Cache #4",
                         }
                     },
                     {
@@ -230,6 +240,154 @@ namespace SilksongRandomizer.Patches
             return null;
         }
 
+        private static ChapelSource FindSourceByMemoryState(
+            string stateName
+        )
+        {
+            string crestInternalName;
+            switch (stateName)
+            {
+                case "Reaper":
+                    crestInternalName = "Reaper";
+                    break;
+                case "Wanderer":
+                    crestInternalName = "Wanderer";
+                    break;
+                case "Beast":
+                    crestInternalName = "Warrior";
+                    break;
+                case "Shaman":
+                    crestInternalName = "Spell";
+                    break;
+                case "Toolmaster":
+                    crestInternalName = "Toolmaster";
+                    break;
+                default:
+                    return null;
+            }
+
+            foreach (ChapelSource source in StandardChapelSources)
+            {
+                if (string.Equals(
+                        source.CrestInternalName,
+                        crestInternalName,
+                        StringComparison.Ordinal
+                    ))
+                {
+                    return source;
+                }
+            }
+
+            return null;
+        }
+
+        private static bool MatchesCrest(
+            ToolCrest crest,
+            ChapelSource source
+        )
+        {
+            return crest != null && source != null &&
+                   string.Equals(
+                       crest.name,
+                       source.CrestInternalName,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        private static bool ShouldSuppressSourceAutoEquip(
+            AutoEquipCrestV2 action
+        )
+        {
+            if (action == null || action.Owner == null ||
+                action.Fsm == null || action.State == null ||
+                !string.Equals(
+                    action.Owner.name,
+                    "Crest Get Shrine",
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    action.Fsm.Name,
+                    "Control",
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    action.State.Name,
+                    "Crest Change",
+                    StringComparison.Ordinal
+                ))
+            {
+                return false;
+            }
+
+            ChapelSource source = FindSourceByRewardScene(
+                GameManager.GetBaseSceneName(action.Owner.scene.name)
+            );
+            return source != null &&
+                   IsManagedLocation(source.LocationName) &&
+                   MatchesCrest(
+                       action.Crest?.Value as ToolCrest,
+                       source
+                   );
+        }
+
+        private static bool ShouldSuppressMemoryAutoEquip(
+            AutoEquipCrestV3 action
+        )
+        {
+            if (action == null || action.Owner == null ||
+                action.Fsm == null || action.State == null ||
+                !string.Equals(
+                    GameManager.GetBaseSceneName(
+                        action.Owner.scene.name
+                    ),
+                    "Tut_05",
+                    StringComparison.OrdinalIgnoreCase
+                ) ||
+                !string.Equals(
+                    action.Owner.name,
+                    "Memory Control",
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    action.Fsm.Name,
+                    "Memory Control",
+                    StringComparison.Ordinal
+                ))
+            {
+                return false;
+            }
+
+            if (string.Equals(
+                    action.State.Name,
+                    "End Scene",
+                    StringComparison.Ordinal
+                ))
+            {
+                bool suppress = !string.IsNullOrEmpty(
+                    suppressedMemorySource
+                );
+                suppressedMemorySource = null;
+                return suppress;
+            }
+
+            ChapelSource source = FindSourceByMemoryState(
+                action.State.Name
+            );
+            suppressedMemorySource = null;
+            if (source == null ||
+                !IsManagedLocation(source.LocationName) ||
+                !MatchesCrest(
+                    action.Crest?.Value as ToolCrest,
+                    source
+                ))
+            {
+                return false;
+            }
+
+            suppressedMemorySource = source.LocationName;
+            return true;
+        }
+
         private static bool TryGetSourceCompletion(
             GetIsCrestUnlocked action,
             out bool sourceCompleted
@@ -346,6 +504,20 @@ namespace SilksongRandomizer.Patches
 
         internal static void Update()
         {
+            GameManager gameManager = GameManager.instance;
+            if (!string.IsNullOrEmpty(suppressedMemorySource) &&
+                gameManager != null &&
+                !string.Equals(
+                    GameManager.GetBaseSceneName(
+                        gameManager.sceneName ?? string.Empty
+                    ),
+                    "Tut_05",
+                    StringComparison.OrdinalIgnoreCase
+                ))
+            {
+                suppressedMemorySource = null;
+            }
+
             PlayerData playerData = PlayerData.instance;
             if (playerData == null)
             {
@@ -411,6 +583,40 @@ namespace SilksongRandomizer.Patches
                     // pending stays available, checked stays collected.
                     __result = sourceCompleted;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(AutoEquipCrestV2), nameof(AutoEquipCrestV2.OnEnter))]
+        private static class ChapelSourceAutoEquipPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(AutoEquipCrestV2 __instance)
+            {
+                if (!ShouldSuppressSourceAutoEquip(__instance))
+                {
+                    return true;
+                }
+
+                BindOrbHudFrame.SkipToNextAppear = false;
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(AutoEquipCrestV3), nameof(AutoEquipCrestV3.OnEnter))]
+        private static class ChapelMemoryAutoEquipPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(AutoEquipCrestV3 __instance)
+            {
+                if (!ShouldSuppressMemoryAutoEquip(__instance))
+                {
+                    return true;
+                }
+
+                BindOrbHudFrame.SkipToNextAppear = false;
+                __instance.Finish();
+                return false;
             }
         }
     }

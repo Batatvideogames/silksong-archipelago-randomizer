@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -129,6 +130,56 @@ namespace SilksongRandomizer
                     { "Curveclaw", "Curveclaw" },
                 };
 
+        private static readonly string[] LocationFirstDisplayItemLabels =
+        {
+            "Mask Shard",
+            "Spool Fragment",
+            "Silk Heart",
+            "Bellway",
+            "Ventrica",
+            "Map Purchase",
+            "Map Pickup",
+            "Bellshrine",
+            "Crafting Kit",
+            "Simple Key",
+            "Memory Locket",
+            "Craftmetal",
+            "Mossberry",
+            "Pollip Heart",
+            "Silkeater",
+            "Tool Pouch",
+            "Beast Shard",
+            "Rosary Necklace",
+            "Heavy Rosary Necklace",
+            "Frayed Rosary String",
+            "Rosary String",
+            "Pale Rosary Necklace",
+            "Rosary Cache",
+            "Shell Shard Cache",
+            "Pristine Core",
+            "Shard Bundle",
+            "Shell Shard Bundle",
+            "Pale Oil",
+        };
+
+        private static readonly Tuple<string, string>[] PairedItemPrefixes =
+        {
+            Tuple.Create("Skill Unlock: ", "Skill: "),
+            Tuple.Create("Tool Unlock: ", "Tool: "),
+            Tuple.Create("Spell Unlock: ", "Spell: "),
+            Tuple.Create("Crest Unlock: ", "Crest: "),
+            Tuple.Create("Save Flea: ", "Flea: "),
+        };
+
+        private static readonly Tuple<string, string>[] DirectItemPrefixes =
+        {
+            Tuple.Create("Mask Shard Unlock #", "Mask Shard #"),
+            Tuple.Create("Spool Fragment Unlock #", "Spool Fragment #"),
+            Tuple.Create("Silk Heart Unlock #", "Silk Heart #"),
+            Tuple.Create("Bellway Unlock: ", "Bellway: "),
+            Tuple.Create("Ventrica Unlock: ", "Ventrica: "),
+        };
+
         private static readonly Dictionary<string, string> ExplicitLocationRenames =
             BuildExplicitLocationRenames();
 
@@ -164,10 +215,6 @@ namespace SilksongRandomizer
                     "Bell Shrine Completion: bellShrineBellhart",
                     "Bellshrine: Bellhart"
                 },
-                {
-                    "Bell Shrine Completion: bellShrineEnclave",
-                    "Bellshrine: Songclave"
-                },
                 { "Boss Completion: defeatedMossMother", "Boss: Moss Mother" },
                 {
                     "Boss Completion: skullKingKilled",
@@ -177,10 +224,6 @@ namespace SilksongRandomizer
                 {
                     "Boss Completion: defeatedAntQueen",
                     "Boss: Skarrsinger Karmelita"
-                },
-                {
-                    "Boss Completion: defeatedLace1",
-                    "Boss: Lace (Deep Docks)"
                 },
                 {
                     "Boss Completion: defeatedSongGolem",
@@ -288,10 +331,6 @@ namespace SilksongRandomizer
                 {
                     "Boss Completion: spinnerDefeated",
                     "Boss: Widow"
-                },
-                {
-                    "Boss Completion: roofCrabDefeated",
-                    "Boss: Craggler"
                 },
                 {
                     "Boss Completion: skullKingDefeated",
@@ -498,6 +537,12 @@ namespace SilksongRandomizer
         internal static readonly Dictionary<string, string>
             SourceLocationNameAliases = BuildSourceLocationNameAliases();
 
+        private static readonly Func<string, string>
+            CanonicalLocationNameFactory = ResolveCanonicalLocationName;
+        private static readonly ConcurrentDictionary<string, string>
+            CanonicalLocationNames =
+                new ConcurrentDictionary<string, string>();
+
         internal static string GetCanonicalLocationName(string locationName)
         {
             if (string.IsNullOrWhiteSpace(locationName))
@@ -505,6 +550,19 @@ namespace SilksongRandomizer
                 return locationName;
             }
 
+            ConcurrentDictionary<string, string> cache =
+                CanonicalLocationNames;
+            return cache == null
+                ? ResolveCanonicalLocationName(locationName)
+                : cache.GetOrAdd(
+                    locationName,
+                    CanonicalLocationNameFactory
+                );
+        }
+
+        private static string ResolveCanonicalLocationName(
+            string locationName)
+        {
             string currentName = locationName;
             HashSet<string> visitedNames = new HashSet<string>(
                 StringComparer.OrdinalIgnoreCase
@@ -515,7 +573,7 @@ namespace SilksongRandomizer
                         currentName,
                         out string collisionLocationName))
                 {
-                    return collisionLocationName;
+                    return GetLocationFirstDisplayName(collisionLocationName);
                 }
 
                 string renamedLocation;
@@ -543,7 +601,7 @@ namespace SilksongRandomizer
                         renamedLocation,
                         out collisionLocationName))
                 {
-                    return collisionLocationName;
+                    return GetLocationFirstDisplayName(collisionLocationName);
                 }
 
                 string canonicalName =
@@ -553,7 +611,7 @@ namespace SilksongRandomizer
                         canonicalName,
                         StringComparison.OrdinalIgnoreCase))
                 {
-                    return canonicalName;
+                    return GetLocationFirstDisplayName(canonicalName);
                 }
 
                 currentName = canonicalName;
@@ -561,7 +619,52 @@ namespace SilksongRandomizer
 
                 // A malformed source-alias cycle cannot hang location
             // resolution. The last unique name is returned deterministically.
-            return currentName;
+            return GetLocationFirstDisplayName(currentName);
+        }
+
+        private static string GetLocationFirstDisplayName(string locationName)
+        {
+            if (string.IsNullOrWhiteSpace(locationName))
+            {
+                return locationName;
+            }
+
+            foreach (string itemLabel in LocationFirstDisplayItemLabels)
+            {
+                string prefix = itemLabel + ": ";
+                if (locationName.StartsWith(
+                        prefix,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    return FormatLocationFirstName(
+                        locationName.Substring(prefix.Length),
+                        itemLabel
+                    );
+                }
+            }
+
+            return locationName;
+        }
+
+        private static string FormatLocationFirstName(
+            string sourceName,
+            string itemLabel)
+        {
+            int numberSeparator = sourceName.LastIndexOf(
+                " #",
+                StringComparison.Ordinal
+            );
+            if (numberSeparator > 0)
+            {
+                string number = sourceName.Substring(numberSeparator + 2);
+                if (number.Length > 0 && number.All(char.IsDigit))
+                {
+                    return sourceName.Substring(0, numberSeparator) +
+                           " - " + itemLabel + " #" + number;
+                }
+            }
+
+            return sourceName + " - " + itemLabel;
         }
 
         internal static string[] GetRoomLocationNameCandidates(
@@ -573,15 +676,7 @@ namespace SilksongRandomizer
 
         private static string ConvertPairedLocationName(string locationName)
         {
-            Tuple<string, string>[] itemPrefixes =
-            {
-                Tuple.Create("Skill Unlock: ", "Skill: "),
-                Tuple.Create("Tool Unlock: ", "Tool: "),
-                Tuple.Create("Spell Unlock: ", "Spell: "),
-                Tuple.Create("Crest Unlock: ", "Crest: "),
-                Tuple.Create("Save Flea: ", "Flea: "),
-            };
-            foreach (Tuple<string, string> prefixes in itemPrefixes)
+            foreach (Tuple<string, string> prefixes in PairedItemPrefixes)
             {
                 if (locationName.StartsWith(
                         prefixes.Item1,
@@ -609,15 +704,7 @@ namespace SilksongRandomizer
                 return ItemSet.GetCanonicalItemName(sourceItemName);
             }
 
-            Tuple<string, string>[] directPrefixes =
-            {
-                Tuple.Create("Mask Shard Unlock #", "Mask Shard #"),
-                Tuple.Create("Spool Fragment Unlock #", "Spool Fragment #"),
-                Tuple.Create("Silk Heart Unlock #", "Silk Heart #"),
-                Tuple.Create("Bellway Unlock: ", "Bellway: "),
-                Tuple.Create("Ventrica Unlock: ", "Ventrica: "),
-            };
-            foreach (Tuple<string, string> prefixes in directPrefixes)
+            foreach (Tuple<string, string> prefixes in DirectItemPrefixes)
             {
                 if (locationName.StartsWith(
                         prefixes.Item1,
@@ -682,7 +769,8 @@ namespace SilksongRandomizer
             return aliases;
         }
 
-        public Location[] Locations = BeastShardSourceManifest.AppendTo(
+        public Location[] Locations = LoreTabletManifest.AppendTo(
+            BeastShardSourceManifest.AppendTo(
             ToolPouchLocationManifest.AppendTo(
             CardiniusCylinderTurnInManifest.AppendTo(
             ScroungeRelicTurnInManifest.AppendTo(
@@ -750,7 +838,6 @@ namespace SilksongRandomizer
             new Location("Tool Unlock: Pinstress Tool", ItemType.Tool, null),
             new Location("Tool Unlock: Extractor", ItemType.Tool, null),
             new Location("Tool Unlock: Lifeblood Syringe", ItemType.Tool, null),
-            new Location("Tool Unlock: Shell Satchel", ItemType.Tool, null),
             new Location("Tool Unlock: Dead Mans Purse", ItemType.Tool, null),
             new Location("Tool Unlock: Scuttlebrace", ItemType.Tool, null),
             new Location("Tool Unlock: Thief Charm", ItemType.Tool, null),
@@ -884,8 +971,8 @@ namespace SilksongRandomizer
             new Location("Ventrica Unlock: Songclave", ItemType.Ventrica, () => { return PlayerData.instance.UnlockedEnclaveTube; }),
             new Location("Ventrica Unlock: Memorium", ItemType.Ventrica, () => { return PlayerData.instance.UnlockedArboriumTube; }),
 
-            // Reported by EndingGoalPatch when the configured ending action runs.
-            new Location("Goal", ItemType.Event, null),
+            new Location("Goal", ItemType.Event,
+                Patches.GoalState.IsConfiguredGoalComplete),
 
             // Static map sources are intercepted by StaticMapPatches. They
             // cannot poll the native ownership flags because an AP-received
@@ -913,7 +1000,7 @@ namespace SilksongRandomizer
             new Location("Vaultkeeper's Melody", ItemType.Melody, null),
             new Location("Elegy of the Deep", ItemType.Melody, null),
             new Location("Beastling Call", ItemType.Melody, null),
-        }))))))))))
+        })))))))))))
             .ToArray();
     }
 }

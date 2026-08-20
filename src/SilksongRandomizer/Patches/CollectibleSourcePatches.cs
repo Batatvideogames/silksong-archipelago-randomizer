@@ -1171,6 +1171,58 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
+        private static void ReportConsumedQuestChecks(
+            FullQuestBase quest
+        )
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null || quest == null)
+            {
+                return;
+            }
+
+            if (TryGetActiveQuestLocation(
+                    quest,
+                    out string questLocation
+                ))
+            {
+                state.CheckLocation(questLocation);
+            }
+
+            if (TryGetActiveQuestRewardSource(
+                    quest,
+                    out string rewardLocation,
+                    out ItemType _
+                ) &&
+                !string.Equals(
+                    rewardLocation,
+                    questLocation,
+                    StringComparison.OrdinalIgnoreCase
+                ))
+            {
+                state.CheckLocation(rewardLocation);
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(FullQuestBase),
+            nameof(FullQuestBase.ConsumeTarget)
+        )]
+        private static class QuestTurnInConsumptionPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                FullQuestBase __instance,
+                bool __result
+            )
+            {
+                if (__result)
+                {
+                    ReportConsumedQuestChecks(__instance);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_RewardItem")]
         private static class QuestRewardItemPatch
         {

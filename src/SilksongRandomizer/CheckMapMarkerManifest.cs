@@ -155,13 +155,12 @@ namespace SilksongRandomizer
             new MapCheckPosition("Bell Shrine Completion: bellShrineGreymoor", "Bellshrine_02", 20.5f, 17.29f, 43f, 25f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Bell Shrine Completion: bellShrineShellwood", "Bellshrine_03", 20.5f, 17.29f, 43f, 25f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Bell Shrine Completion: bellShrineBellhart", "Belltown_Shrine", 54.09f, 21.1f, 95f, 38f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Bellshrine: Songclave", "Bellshrine_Enclave", 28.5f, 17.29f, 43f, 25f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Pale Oil: Whispering Vaults", "Library_03", 8.18f, 41.53f, 117f, 64f, MapMarkerPositionConfidence.ExactUpstream),
             // Fleatopia is an event-scene variant of Aqueduct_05. Its pickup
             // coordinates project safely against the base room's
             // dimensions, while avoiding a festival-only GameMapScene miss.
-            new MapCheckPosition("Rosary Necklace: Fleatopia", "Aqueduct_05", 152.783f, 16.2396f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Rosary String: Fleatopia", "Aqueduct_05", 154.043f, 15.9796f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Fleatopia - Rosary Necklace", "Aqueduct_05", 152.783f, 16.2396f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Fleatopia - Rosary String", "Aqueduct_05", 154.043f, 15.9796f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Pale Oil: Ecstasy of the End", "Aqueduct_05", 153.113f, 15.3196f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Sharpdart", "Crawl_05", 22.850002f, 16.25f, 225f, 35f, MapMarkerPositionConfidence.ExactUpstream),
@@ -403,10 +402,6 @@ namespace SilksongRandomizer
             // authored arena centre when the enemy is spawned dynamically).
             // Additive encounter scenes share the visible host room's world
             // coordinates, so their points project through that map room.
-            // Lace's first check can also complete from the finished
-            // Sinner's Road (Dust_01) or Blasted Bridge (Coral_19)
-            // encounter. Only the Deep Docks arena has a marker here.
-            new MapCheckPosition("Boss: Lace (Deep Docks)", "Bone_East_12", 97.389999f, 7.550000f, 180f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Fourth Chorus", "Bone_East_08", 80.849998f, 7.460000f, 150f, 50f, MapMarkerPositionConfidence.ExactUpstream),
             // Signis and Gron are authored at 22.56/8.91 and 38.36/19.64.
             // Their shared check sits at the midpoint of the pair.
@@ -501,7 +496,7 @@ namespace SilksongRandomizer
             // This reward is created at runtime after the two Cog_07 arena
             // enemies die. Their immutable authored spawn midpoint is the
             // stable physical source for the resulting core.
-            new MapCheckPosition("Pristine Core: Cogwork Core", "Cog_07", 28.230000f, 77.690003f, 90f, 87f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Cogwork Core - Pristine Core", "Cog_07", 28.230000f, 77.690003f, 90f, 87f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Boss: Crawfather", "Room_CrowCourt_02", 32.389004f, 28.914000f, 70f, 92f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Sister Splinter", "Shellwood_18", 45.959999f, 16.879999f, 140f, 35f, MapMarkerPositionConfidence.ExactUpstream),
@@ -526,7 +521,6 @@ namespace SilksongRandomizer
             // Spinner's actor is authored above the visible room bounds.
             // This in-bounds Boss Scene anchor is the fight controller.
             new MapCheckPosition("Boss: Widow", "Belltown_Shrine", 60.820099f, 17.691548f, 95f, 38f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Boss: Craggler", "Crawl_04", 83.519997f, 14.890000f, 165f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Skull Tyrant (The Marrow)", "Bone_15", 99.570000f, 15.640000f, 113f, 29f, MapMarkerPositionConfidence.ExactUpstream),
 
             // Quest markers describe where the player receives/turns in the
@@ -663,74 +657,74 @@ namespace SilksongRandomizer
         // merging unrelated checks elsewhere in the room.
         private static readonly string[][] ExplicitMinorCacheMarkerGroups =
         {
-            new[] { "Rosary Cache: Bellhart #1", "Rosary Cache: Bellhart #2" },
-            new[] { "Rosary Cache: Bone Bottom #4", "Rosary Cache: Bone Bottom #5" },
-            new[] { "Rosary Cache: Bone Bottom #6", "Rosary Cache: Bone Bottom #7" },
-            new[] { "Rosary Cache: Bone Bottom #8", "Rosary Cache: Bone Bottom #9" },
-            new[] { "Rosary Cache: Choral Chambers #1", "Rosary Cache: Choral Chambers #2" },
-            new[] { "Rosary Cache: Choral Chambers #5", "Rosary Cache: Choral Chambers #6" },
-            new[] { "Rosary Cache: Choral Chambers #8", "Rosary Cache: Choral Chambers #9" },
-            new[] { "Rosary Cache: Choral Chambers #11", "Rosary Cache: Choral Chambers #12", "Rosary Cache: Choral Chambers #13" },
-            new[] { "Rosary Cache: Choral Chambers #15", "Rosary Cache: Choral Chambers #16" },
-            new[] { "Rosary Cache: Choral Chambers #17", "Rosary Cache: Choral Chambers #18", "Rosary Cache: Choral Chambers #19" },
-            new[] { "Rosary Cache: Deep Docks #1", "Rosary Cache: Deep Docks #2" },
-            new[] { "Rosary Cache: Deep Docks #5", "Rosary Cache: Deep Docks #6" },
-            new[] { "Rosary Cache: Far Fields #3", "Rosary Cache: Far Fields #4" },
-            new[] { "Rosary Cache: Far Fields #5", "Rosary Cache: Far Fields #6" },
-            new[] { "Rosary Cache: Far Fields #7", "Rosary Cache: Far Fields #8" },
-            new[] { "Rosary Cache: Far Fields #12", "Rosary Cache: Far Fields #13" },
-            new[] { "Rosary Cache: Far Fields #14", "Rosary Cache: Far Fields #15" },
-            new[] { "Rosary Cache: Far Fields #16", "Rosary Cache: Far Fields #17" },
-            new[] { "Rosary Cache: Far Fields #20", "Rosary Cache: Far Fields #21", "Pale Rosary Necklace: Far Fields" },
-            new[] { "Rosary Cache: Greymoor #2", "Rosary Cache: Greymoor #3" },
-            new[] { "Rosary Cache: Greymoor #4", "Rosary Cache: Greymoor #5" },
-            new[] { "Rosary Cache: Greymoor #7", "Rosary Cache: Greymoor #8" },
-            new[] { "Rosary Cache: Greymoor #11", "Rosary Cache: Greymoor #12" },
-            new[] { "Rosary Cache: Greymoor #15", "Rosary Cache: Greymoor #16" },
-            new[] { "Rosary Cache: Greymoor #23", "Rosary Cache: Greymoor #24", "Rosary Cache: Greymoor #25" },
-            new[] { "Rosary Cache: Greymoor #29", "Rosary Cache: Greymoor #30" },
-            new[] { "Rosary Cache: Greymoor #32", "Rosary Cache: Greymoor #33" },
-            new[] { "Rosary Cache: High Halls #1", "Rosary Cache: High Halls #2" },
-            new[] { "Rosary Cache: High Halls #3", "Rosary Cache: High Halls #4" },
-            new[] { "Rosary Cache: Hunter's March #1", "Rosary Cache: Hunter's March #2" },
-            new[] { "Rosary Cache: Hunter's March #4", "Rosary Cache: Hunter's March #5" },
-            new[] { "Rosary Cache: Hunter's March #6", "Rosary Cache: Hunter's March #7" },
-            new[] { "Rosary Cache: Hunter's March #8", "Rosary Cache: Hunter's March #9" },
-            new[] { "Rosary Cache: Mosshome #1", "Rosary Cache: Mosshome #2" },
-            new[] { "Rosary Cache: Mosshome #3", "Rosary Cache: Mosshome #4" },
-            new[] { "Rosary Cache: Mount Fay #1", "Rosary Cache: Mount Fay #2", "Rosary Cache: Mount Fay #3" },
-            new[] { "Rosary Cache: Sinner's Road #2", "Rosary Cache: Sinner's Road #3" },
-            new[] { "Rosary Cache: Sinner's Road #5", "Rosary Cache: Sinner's Road #6", "Rosary Cache: Sinner's Road #7" },
-            new[] { "Rosary Cache: The Marrow #1", "Rosary Cache: The Marrow #2" },
-            new[] { "Rosary Cache: The Marrow #3", "Rosary Cache: The Marrow #4" },
-            new[] { "Rosary Cache: The Marrow #14", "Rosary Cache: The Marrow #15" },
-            new[] { "Rosary Cache: The Slab #2", "Rosary Cache: The Slab #3" },
-            new[] { "Rosary Cache: Underworks #2", "Rosary Cache: Underworks #3" },
-            new[] { "Rosary Cache: Whispering Vaults #2", "Rosary Cache: Whispering Vaults #3" },
-            new[] { "Rosary Cache: Whispering Vaults #6", "Rosary Cache: Whispering Vaults #7" },
-            new[] { "Rosary Cache: Whiteward #1", "Rosary Cache: Whiteward #2" },
-            new[] { "Shell Shard Cache: Blasted Steps #2", "Shell Shard Cache: Blasted Steps #3" },
-            new[] { "Shell Shard Cache: Deep Docks #1", "Shell Shard Cache: Deep Docks #2" },
-            new[] { "Shell Shard Cache: Deep Docks #6", "Shell Shard Cache: Deep Docks #7" },
-            new[] { "Shell Shard Cache: Greymoor #1", "Shell Shard Cache: Greymoor #2" },
-            new[] { "Shell Shard Cache: Greymoor #4", "Shell Shard Cache: Greymoor #5" },
-            new[] { "Shell Shard Cache: Hunter's March #3", "Shell Shard Cache: Hunter's March #4" },
-            new[] { "Shell Shard Cache: Mount Fay #1", "Shell Shard Cache: Mount Fay #2" },
-            new[] { "Shell Shard Cache: Mount Fay #3", "Shell Shard Cache: Mount Fay #4" },
-            new[] { "Shell Shard Cache: Moss Grotto #3", "Shell Shard Cache: Moss Grotto #4" },
-            new[] { "Shell Shard Cache: Moss Grotto #5", "Shell Shard Cache: Moss Grotto #6", "Shell Shard Cache: Moss Grotto #7" },
-            new[] { "Shell Shard Cache: Putrified Ducts #4", "Shell Shard Cache: Putrified Ducts #5" },
-            new[] { "Shell Shard Cache: Putrified Ducts #9", "Shell Shard Cache: Putrified Ducts #10" },
-            new[] { "Shell Shard Cache: Sands of Karak #5", "Shell Shard Cache: Sands of Karak #6" },
-            new[] { "Shell Shard Cache: Shellwood #1", "Shell Shard Cache: Shellwood #2" },
-            new[] { "Shell Shard Cache: Shellwood #4", "Shell Shard Cache: Shellwood #5" },
-            new[] { "Shell Shard Cache: Sinner's Road #4", "Shell Shard Cache: Sinner's Road #5" },
-            new[] { "Shell Shard Cache: Sinner's Road #6", "Shell Shard Cache: Sinner's Road #7" },
-            new[] { "Shell Shard Cache: The Marrow #2", "Shell Shard Cache: The Marrow #3" },
-            new[] { "Shell Shard Cache: The Marrow #5", "Shell Shard Cache: The Marrow #6" },
-            new[] { "Shell Shard Cache: The Slab #6", "Shell Shard Cache: The Slab #7" },
-            new[] { "Shell Shard Cache: Underworks #7", "Shell Shard Cache: Underworks #8" },
-            new[] { "Shell Shard Cache: Wisp Thicket #6", "Shell Shard Cache: Wisp Thicket #7" },
+            new[] { "Bellhart - Rosary Cache #1", "Bellhart - Rosary Cache #2" },
+            new[] { "Bone Bottom - Rosary Cache #4", "Bone Bottom - Rosary Cache #5" },
+            new[] { "Bone Bottom - Rosary Cache #6", "Bone Bottom - Rosary Cache #7" },
+            new[] { "Bone Bottom - Rosary Cache #8", "Bone Bottom - Rosary Cache #9" },
+            new[] { "Choral Chambers - Rosary Cache #1", "Choral Chambers - Rosary Cache #2" },
+            new[] { "Choral Chambers - Rosary Cache #5", "Choral Chambers - Rosary Cache #6" },
+            new[] { "Choral Chambers - Rosary Cache #8", "Choral Chambers - Rosary Cache #9" },
+            new[] { "Choral Chambers - Rosary Cache #11", "Choral Chambers - Rosary Cache #12", "Choral Chambers - Rosary Cache #13" },
+            new[] { "Choral Chambers - Rosary Cache #15", "Choral Chambers - Rosary Cache #16" },
+            new[] { "Choral Chambers - Rosary Cache #17", "Choral Chambers - Rosary Cache #18", "Choral Chambers - Rosary Cache #19" },
+            new[] { "Deep Docks - Rosary Cache #1", "Deep Docks - Rosary Cache #2" },
+            new[] { "Deep Docks - Rosary Cache #5", "Deep Docks - Rosary Cache #6" },
+            new[] { "Far Fields - Rosary Cache #3", "Far Fields - Rosary Cache #4" },
+            new[] { "Far Fields - Rosary Cache #5", "Far Fields - Rosary Cache #6" },
+            new[] { "Far Fields - Rosary Cache #7", "Far Fields - Rosary Cache #8" },
+            new[] { "Far Fields - Rosary Cache #12", "Far Fields - Rosary Cache #13" },
+            new[] { "Far Fields - Rosary Cache #14", "Far Fields - Rosary Cache #15" },
+            new[] { "Far Fields - Rosary Cache #16", "Far Fields - Rosary Cache #17" },
+            new[] { "Far Fields - Rosary Cache #20", "Far Fields - Rosary Cache #21", "Far Fields - Pale Rosary Necklace" },
+            new[] { "Greymoor - Rosary Cache #2", "Greymoor - Rosary Cache #3" },
+            new[] { "Greymoor - Rosary Cache #4", "Greymoor - Rosary Cache #5" },
+            new[] { "Greymoor - Rosary Cache #7", "Greymoor - Rosary Cache #8" },
+            new[] { "Greymoor - Rosary Cache #11", "Greymoor - Rosary Cache #12" },
+            new[] { "Greymoor - Rosary Cache #15", "Greymoor - Rosary Cache #16" },
+            new[] { "Greymoor - Rosary Cache #23", "Greymoor - Rosary Cache #24", "Greymoor - Rosary Cache #25" },
+            new[] { "Greymoor - Rosary Cache #29", "Greymoor - Rosary Cache #30" },
+            new[] { "Greymoor - Rosary Cache #32", "Greymoor - Rosary Cache #33" },
+            new[] { "High Halls - Rosary Cache #1", "High Halls - Rosary Cache #2" },
+            new[] { "High Halls - Rosary Cache #3", "High Halls - Rosary Cache #4" },
+            new[] { "Hunter's March - Rosary Cache #1", "Hunter's March - Rosary Cache #2" },
+            new[] { "Hunter's March - Rosary Cache #4", "Hunter's March - Rosary Cache #5" },
+            new[] { "Hunter's March - Rosary Cache #6", "Hunter's March - Rosary Cache #7" },
+            new[] { "Hunter's March - Rosary Cache #8", "Hunter's March - Rosary Cache #9" },
+            new[] { "Mosshome - Rosary Cache #1", "Mosshome - Rosary Cache #2" },
+            new[] { "Mosshome - Rosary Cache #3", "Mosshome - Rosary Cache #4" },
+            new[] { "Mount Fay - Rosary Cache #1", "Mount Fay - Rosary Cache #2", "Mount Fay - Rosary Cache #3" },
+            new[] { "Sinner's Road - Rosary Cache #2", "Sinner's Road - Rosary Cache #3" },
+            new[] { "Sinner's Road - Rosary Cache #5", "Sinner's Road - Rosary Cache #6", "Sinner's Road - Rosary Cache #7" },
+            new[] { "The Marrow - Rosary Cache #1", "The Marrow - Rosary Cache #2" },
+            new[] { "The Marrow - Rosary Cache #3", "The Marrow - Rosary Cache #4" },
+            new[] { "The Marrow - Rosary Cache #14", "The Marrow - Rosary Cache #15" },
+            new[] { "The Slab - Rosary Cache #2", "The Slab - Rosary Cache #3" },
+            new[] { "Underworks - Rosary Cache #2", "Underworks - Rosary Cache #3" },
+            new[] { "Whispering Vaults - Rosary Cache #2", "Whispering Vaults - Rosary Cache #3" },
+            new[] { "Whispering Vaults - Rosary Cache #6", "Whispering Vaults - Rosary Cache #7" },
+            new[] { "Whiteward - Rosary Cache #1", "Whiteward - Rosary Cache #2" },
+            new[] { "Blasted Steps - Shell Shard Cache #2", "Blasted Steps - Shell Shard Cache #3" },
+            new[] { "Deep Docks - Shell Shard Cache #1", "Deep Docks - Shell Shard Cache #2" },
+            new[] { "Deep Docks - Shell Shard Cache #6", "Deep Docks - Shell Shard Cache #7" },
+            new[] { "Greymoor - Shell Shard Cache #1", "Greymoor - Shell Shard Cache #2" },
+            new[] { "Greymoor - Shell Shard Cache #4", "Greymoor - Shell Shard Cache #5" },
+            new[] { "Hunter's March - Shell Shard Cache #3", "Hunter's March - Shell Shard Cache #4" },
+            new[] { "Mount Fay - Shell Shard Cache #1", "Mount Fay - Shell Shard Cache #2" },
+            new[] { "Mount Fay - Shell Shard Cache #3", "Mount Fay - Shell Shard Cache #4" },
+            new[] { "Moss Grotto - Shell Shard Cache #3", "Moss Grotto - Shell Shard Cache #4" },
+            new[] { "Moss Grotto - Shell Shard Cache #5", "Moss Grotto - Shell Shard Cache #6", "Moss Grotto - Shell Shard Cache #7" },
+            new[] { "Putrified Ducts - Shell Shard Cache #4", "Putrified Ducts - Shell Shard Cache #5" },
+            new[] { "Putrified Ducts - Shell Shard Cache #9", "Putrified Ducts - Shell Shard Cache #10" },
+            new[] { "Sands of Karak - Shell Shard Cache #5", "Sands of Karak - Shell Shard Cache #6" },
+            new[] { "Shellwood - Shell Shard Cache #1", "Shellwood - Shell Shard Cache #2" },
+            new[] { "Shellwood - Shell Shard Cache #4", "Shellwood - Shell Shard Cache #5", "Shellwood - Shell Shard Cache #6" },
+            new[] { "Sinner's Road - Shell Shard Cache #4", "Sinner's Road - Shell Shard Cache #5" },
+            new[] { "Sinner's Road - Shell Shard Cache #6", "Sinner's Road - Shell Shard Cache #7" },
+            new[] { "The Marrow - Shell Shard Cache #2", "The Marrow - Shell Shard Cache #3" },
+            new[] { "The Marrow - Shell Shard Cache #5", "The Marrow - Shell Shard Cache #6" },
+            new[] { "The Slab - Shell Shard Cache #6", "The Slab - Shell Shard Cache #7" },
+            new[] { "Underworks - Shell Shard Cache #7", "Underworks - Shell Shard Cache #8" },
+            new[] { "Wisp Thicket - Shell Shard Cache #6", "Wisp Thicket - Shell Shard Cache #7" },
         };
 
         private static readonly Dictionary<string, Vector2>
@@ -918,12 +912,12 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         cache.LocationName,
-                        "Shell Shard Cache: Moss Grotto #3",
+                        "Moss Grotto - Shell Shard Cache #3",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         cache.LocationName,
-                        "Shell Shard Cache: Moss Grotto #4",
+                        "Moss Grotto - Shell Shard Cache #4",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )
@@ -937,17 +931,17 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         cache.LocationName,
-                        "Shell Shard Cache: Moss Grotto #5",
+                        "Moss Grotto - Shell Shard Cache #5",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         cache.LocationName,
-                        "Shell Shard Cache: Moss Grotto #6",
+                        "Moss Grotto - Shell Shard Cache #6",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         cache.LocationName,
-                        "Shell Shard Cache: Moss Grotto #7",
+                        "Moss Grotto - Shell Shard Cache #7",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )
@@ -960,7 +954,7 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         cache.LocationName,
-                        "Rosary Cache: The Marrow (Mosslands Passage) #2",
+                        "The Marrow (Mosslands Passage) - Rosary Cache #2",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )
@@ -973,12 +967,12 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         cache.LocationName,
-                        "Rosary Cache: Deep Docks #7",
+                        "Deep Docks - Rosary Cache #7",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         cache.LocationName,
-                        "Rosary Cache: Deep Docks #8",
+                        "Deep Docks - Rosary Cache #8",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )
@@ -997,6 +991,20 @@ namespace SilksongRandomizer
                     markerY,
                     markerWidth,
                     markerHeight,
+                    MapMarkerPositionConfidence.ExactUpstream
+                );
+            }
+
+            foreach (LoreTabletManifest.Entry lore in
+                     LoreTabletManifest.Entries)
+            {
+                yield return new MapCheckPosition(
+                    lore.LocationName,
+                    lore.MarkerSceneName,
+                    lore.MarkerX,
+                    lore.MarkerY,
+                    lore.SceneWidth,
+                    lore.SceneHeight,
                     MapMarkerPositionConfidence.ExactUpstream
                 );
             }

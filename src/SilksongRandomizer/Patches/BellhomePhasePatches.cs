@@ -48,9 +48,8 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            if (state.logicAuditMode ||
-                (playerData.blackThreadWorld &&
-                 playerData.act3_wokeUp))
+            if (playerData.blackThreadWorld &&
+                playerData.act3_wokeUp)
             {
                 state.bellhomePhaseToggleUnlocked = true;
             }
@@ -240,8 +239,7 @@ namespace SilksongRandomizer.Patches
                 gameManager == null ||
                 !playerData.atBench ||
                 gameManager.isPaused ||
-                !(state.logicAuditMode ||
-                  state.bellhomePhaseToggleUnlocked ||
+                !(state.bellhomePhaseToggleUnlocked ||
                   playerData.act3_wokeUp))
             {
                 return false;

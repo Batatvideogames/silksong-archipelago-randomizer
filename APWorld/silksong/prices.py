@@ -14,6 +14,7 @@ MAPS = "maps"
 PINS = "pins"
 UPGRADES = "upgrades"
 DONATIONS = "donations"
+VOG_HINTS = "vog_hints"
 
 SHELL_SHARD_BASE_CAPACITY = 400
 SHELL_SHARD_CAPACITY_PER_TOOL_POUCH = 100
@@ -26,6 +27,7 @@ PRICE_CATEGORY_OPTION_NAMES: dict[str, str] = {
     PINS: "pin_prices",
     UPGRADES: "upgrade_prices",
     DONATIONS: "donation_prices",
+    VOG_HINTS: "vog_hint_prices",
 }
 
 PRICE_MODE_KEYS = frozenset(
@@ -198,11 +200,19 @@ DONATION_PRICE_SOURCES: tuple[PriceSource, ...] = (
 )
 
 
+VOG_HINT_PRICE_SOURCES: tuple[PriceSource, ...] = (
+    PriceSource('vog:woth', VOG_HINTS, ROSARIES, 120),
+    PriceSource('vog:foolish', VOG_HINTS, ROSARIES, 80),
+    PriceSource('vog:general', VOG_HINTS, ROSARIES, 150),
+)
+
+
 PRICE_SOURCES: tuple[PriceSource, ...] = (
     SHOP_PRICE_SOURCES
     + BELLWAY_PRICE_SOURCES
     + UPGRADE_PRICE_SOURCES
     + DONATION_PRICE_SOURCES
+    + VOG_HINT_PRICE_SOURCES
 )
 
 PRICE_SOURCE_BY_KEY: dict[str, PriceSource] = {

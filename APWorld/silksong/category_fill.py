@@ -360,7 +360,7 @@ def prefill_category_shuffles(
                 locations_by_category["Bellway"],
                 planned_items_by_category["Bellway"],
                 player,
-                "Bellway: Deep Docks",
+                "Deep Docks - Bellway",
                 cluster_source,
             )
 

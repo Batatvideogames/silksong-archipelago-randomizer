@@ -10,22 +10,85 @@ from .display_names import (
     ORDINARY_FLEA_DISPLAY_NAMES,
     clean_item_display_name,
 )
+from .location_display_names import (
+    location_first_name,
+)
 from .minor_pickups import MINOR_PICKUP_LOCATION_NAMES
+from .lore_tablets import (
+    LORE_TABLET_CATEGORY,
+    LORE_TABLET_LOCATION_NAMES,
+)
 from .minor_caches import (
-    APPENDED_MINOR_CACHE_LOCATION_NAMES,
     MINOR_CACHE_LOCATION_NAMES,
 )
 
 LOCATION_BASE_ID = 835500
 
 
+_LOCATION_FIRST_ITEM_LABELS: tuple[str, ...] = (
+    'Mask Shard',
+    'Spool Fragment',
+    'Silk Heart',
+    'Bellway',
+    'Ventrica',
+    'Map Purchase',
+    'Map Pickup',
+    'Bellshrine',
+    'Crafting Kit',
+    'Simple Key',
+    'Memory Locket',
+    'Craftmetal',
+    'Mossberry',
+    'Pollip Heart',
+    'Silkeater',
+    'Tool Pouch',
+    'Beast Shard',
+    'Rosary Necklace',
+    'Heavy Rosary Necklace',
+    'Frayed Rosary String',
+    'Rosary String',
+    'Pale Rosary Necklace',
+    'Rosary Cache',
+    'Shell Shard Cache',
+    'Pristine Core',
+    'Shard Bundle',
+    'Shell Shard Bundle',
+    'Pale Oil',
+)
+
+
+def _location_first_display_name(location_name: str) -> str:
+    for item_label in _LOCATION_FIRST_ITEM_LABELS:
+        prefix = f'{item_label}: '
+        if location_name.startswith(prefix):
+            return location_first_name(location_name)
+    return location_name
+
+
+def get_item_first_location_name(location_name: str) -> str:
+    """Return the source-style name used by paired native rewards."""
+    if location_name.startswith('Flea: '):
+        return location_name
+    for item_label in _LOCATION_FIRST_ITEM_LABELS:
+        numbered_separator = f' - {item_label} #'
+        area_name, separator, number = location_name.rpartition(
+            numbered_separator
+        )
+        if separator and number.isdigit():
+            return f'{item_label}: {area_name} #{number}'
+        suffix = f' - {item_label}'
+        if location_name.endswith(suffix):
+            return f'{item_label}: {location_name[:-len(suffix)]}'
+    return location_name
+
+
 @dataclass(frozen=True)
 class SilksongLocationData:
-    code: int
+    code: int | None
     category: str
 
 
-ESTABLISHED_LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
+CURRENT_LOCATION_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Skill Unlock: Double Jump', 'Skill'),
     ('Skill Unlock: Charge Slash', 'Skill'),
     ('Skill Unlock: Silk Soar', 'Skill'),
@@ -76,7 +139,6 @@ ESTABLISHED_LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Tool Unlock: Pinstress Tool', 'Tool'),
     ('Tool Unlock: Extractor', 'Tool'),
     ('Tool Unlock: Lifeblood Syringe', 'Tool'),
-    ('Tool Unlock: Shell Satchel', 'Tool'),
     ('Tool Unlock: Dead Mans Purse', 'Tool'),
     ('Tool Unlock: Scuttlebrace', 'Tool'),
     ('Tool Unlock: Thief Charm', 'Tool'),
@@ -260,12 +322,10 @@ ESTABLISHED_LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Bell Shrine Completion: bellShrineGreymoor', 'BellShrine'),
     ('Bell Shrine Completion: bellShrineShellwood', 'BellShrine'),
     ('Bell Shrine Completion: bellShrineBellhart', 'BellShrine'),
-    ('Bell Shrine Completion: bellShrineEnclave', 'BellShrine'),
     ('Boss Completion: defeatedMossMother', 'Boss'),
     ('Boss Completion: DefeatedBonetownBoss', 'Boss'),
     ('Boss Completion: defeatedBellBeast', 'Boss'),
     ('Boss Completion: defeatedAntQueen', 'Boss'),
-    ('Boss Completion: defeatedLace1', 'Boss'),
     ('Boss Completion: defeatedSongGolem', 'Boss'),
     ('Boss Completion: defeatedDockForemen', 'Boss'),
     ('Boss Completion: defeatedVampireGnatBoss', 'Boss'),
@@ -332,13 +392,11 @@ QUEST_LOCATION_ASSETS: tuple[str, ...] = (
     'Steel Sentinel Pt2',
 )
 
-# Later quest checks stay outside the established quest block so additions
-# cannot renumber existing locations.
-APPENDED_QUEST_LOCATION_ASSETS: tuple[str, ...] = (
+BELLHOME_QUEST_LOCATION_ASSETS: tuple[str, ...] = (
     'Belltown House Start',
 )
 
-ESTABLISHED_CORE_SOURCE_NAMES: tuple[str, ...] = (
+CURRENT_CORE_SOURCE_NAMES: tuple[str, ...] = (
     'Ability: Faydown Cloak',
     'Ability: Needle Strike',
     'Ancestral Art: Silk Soar',
@@ -389,7 +447,6 @@ ESTABLISHED_CORE_SOURCE_NAMES: tuple[str, ...] = (
     'Tool: Pin Badge',
     'Tool: Needle Phial',
     'Tool: Plasmium Phial',
-    'Tool: Shell Satchel',
     "Tool: Dead Bug's Purse",
     'Tool: Scuttlebrace',
     "Tool: Thief's Mark",
@@ -422,11 +479,14 @@ ESTABLISHED_CORE_SOURCE_NAMES: tuple[str, ...] = (
 
 _CORE_CANONICAL_LOCATION_NAMES: tuple[str, ...] = tuple(
     clean_item_display_name(name)
-    for name in ESTABLISHED_CORE_SOURCE_NAMES
+    for name in CURRENT_CORE_SOURCE_NAMES
 )
 
 _FLEA_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
-    ORDINARY_FLEA_DISPLAY_NAMES
+    tuple(
+        _location_first_display_name(name)
+        for name in ORDINARY_FLEA_DISPLAY_NAMES
+    )
 )
 
 _CREST_SLOT_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
@@ -533,8 +593,7 @@ INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES: tuple[str, ...] = tuple(
 RELIC_TURN_IN_LOCATION_CATEGORY = 'RelicTurnIn'
 
 # These names describe the persistent physical source that was collected.
-# Their established order keeps every later location ID stable.
-MASK_SHARD_LOCATION_NAMES: tuple[str, ...] = (
+_MASK_SHARD_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)',
     'Mask Shard: Wormways',
     'Mask Shard: Far Fields (Above the Seamstress)',
@@ -556,8 +615,12 @@ MASK_SHARD_LOCATION_NAMES: tuple[str, ...] = (
     'Mask Shard: Dark Hearts',
     'Mask Shard: Brightvein',
 )
+MASK_SHARD_LOCATION_NAMES: tuple[str, ...] = tuple(
+    _location_first_display_name(name)
+    for name in _MASK_SHARD_ITEM_FIRST_LOCATION_NAMES
+)
 
-SPOOL_FRAGMENT_LOCATION_NAMES: tuple[str, ...] = (
+_SPOOL_FRAGMENT_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Spool Fragment: Bone Bottom',
     'Spool Fragment: Deep Docks (Central)',
     'Spool Fragment: Greymoor',
@@ -577,11 +640,19 @@ SPOOL_FRAGMENT_LOCATION_NAMES: tuple[str, ...] = (
     'Spool Fragment: Grindle (Blasted Steps)',
     'Spool Fragment: Jubilana (Songclave)',
 )
+SPOOL_FRAGMENT_LOCATION_NAMES: tuple[str, ...] = tuple(
+    _location_first_display_name(name)
+    for name in _SPOOL_FRAGMENT_ITEM_FIRST_LOCATION_NAMES
+)
 
-SILK_HEART_LOCATION_NAMES: tuple[str, ...] = (
+_SILK_HEART_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Silk Heart: Bell Beast',
     'Silk Heart: The Unravelled',
     'Silk Heart: Lace (Cradle)',
+)
+SILK_HEART_LOCATION_NAMES: tuple[str, ...] = tuple(
+    _location_first_display_name(name)
+    for name in _SILK_HEART_ITEM_FIRST_LOCATION_NAMES
 )
 
 
@@ -591,7 +662,7 @@ def _category_rename_map(
 ) -> dict[str, str]:
     source_names = tuple(
         name
-        for name, source_category in ESTABLISHED_LOCATION_TABLE_SOURCE
+        for name, source_category in CURRENT_LOCATION_SOURCE_ROWS
         if source_category == category
     )
     if len(source_names) != len(canonical_names):
@@ -606,7 +677,7 @@ _DIRECT_LOCATION_RENAMES: dict[str, str] = {
     **dict(zip(
         (
             name
-            for name, category in ESTABLISHED_LOCATION_TABLE_SOURCE
+            for name, category in CURRENT_LOCATION_SOURCE_ROWS
             if category in ('Skill', 'Tool', 'Spell', 'Crest')
         ),
         _CORE_CANONICAL_LOCATION_NAMES,
@@ -635,13 +706,11 @@ _DIRECT_LOCATION_RENAMES.update({
     'Bell Shrine Completion: bellShrineGreymoor': 'Bellshrine: Greymoor',
     'Bell Shrine Completion: bellShrineShellwood': 'Bellshrine: Shellwood',
     'Bell Shrine Completion: bellShrineBellhart': 'Bellshrine: Bellhart',
-    'Bell Shrine Completion: bellShrineEnclave': 'Bellshrine: Songclave',
     'Boss Completion: defeatedMossMother': 'Boss: Moss Mother',
     'Boss Completion: DefeatedBonetownBoss': 'Boss: Skull Tyrant (Bone Bottom)',
     'Boss Completion: skullKingKilled': 'Boss: Skull Tyrant (Bone Bottom)',
     'Boss Completion: defeatedBellBeast': 'Boss: Bell Beast',
     'Boss Completion: defeatedAntQueen': 'Boss: Skarrsinger Karmelita',
-    'Boss Completion: defeatedLace1': 'Boss: Lace (Deep Docks)',
     'Boss Completion: defeatedSongGolem': 'Boss: Fourth Chorus',
     'Boss Completion: defeatedDockForemen': 'Boss: Forebrothers Signis & Gron',
     'Boss Completion: defeatedVampireGnatBoss': 'Boss: Moorwing',
@@ -673,7 +742,6 @@ _DIRECT_LOCATION_RENAMES.update({
     'Boss Completion: wardBossDefeated': 'Boss: The Unravelled',
     'Boss Completion: defeatedZapCoreEnemy': 'Boss: Voltvyrm',
     'Boss Completion: spinnerDefeated': 'Boss: Widow',
-    'Boss Completion: roofCrabDefeated': 'Boss: Craggler',
     'Boss Completion: skullKingDefeated':
         'Boss: Skull Tyrant (The Marrow)',
     'Crafting Kit Source: Forge Tool Kit': 'Crafting Kit: Forge Daughter',
@@ -682,6 +750,8 @@ _DIRECT_LOCATION_RENAMES.update({
     'Crafting Kit Source: Grindle Tool Kit': 'Crafting Kit: Grindle',
     'Crafting Kit Source: Crow Feathers':
         'Crafting Kit: Crawbug Clearing (Creige)',
+    'Tool Unlock: Dazzle Bind Upgraded': 'Dark Mirror',
+    'Tool Unlock: Curve Claws Upgraded': 'Curvesickle',
 })
 
 _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
@@ -721,12 +791,14 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
 
 
 def canonicalize_location_name(location_name: str) -> str:
-    """Translate a native source name to the current protocol name."""
+    """Translate a native source name to its player-facing name."""
     if location_name in _DIRECT_LOCATION_RENAMES:
-        return _DIRECT_LOCATION_RENAMES[location_name]
+        return _location_first_display_name(
+            _DIRECT_LOCATION_RENAMES[location_name]
+        )
     current_item_name = clean_item_display_name(location_name)
     if current_item_name != location_name:
-        return current_item_name
+        return _location_first_display_name(current_item_name)
     for old_prefix, current_prefix in (
         ('Mask Shard Unlock #', 'Mask Shard #'),
         ('Spool Fragment Unlock #', 'Spool Fragment #'),
@@ -735,59 +807,32 @@ def canonicalize_location_name(location_name: str) -> str:
         ('Ventrica Unlock: ', 'Ventrica: '),
     ):
         if location_name.startswith(old_prefix):
-            return current_prefix + location_name[len(old_prefix):]
+            return _location_first_display_name(
+                current_prefix + location_name[len(old_prefix):]
+            )
     quest_prefix = 'Quest Completion: '
     if location_name.startswith(quest_prefix):
         asset_name = location_name[len(quest_prefix):]
-        return _QUEST_DISPLAY_NAME_BY_ASSET.get(asset_name, location_name)
-    return location_name
+        return _location_first_display_name(
+            _QUEST_DISPLAY_NAME_BY_ASSET.get(asset_name, location_name)
+        )
+    return _location_first_display_name(location_name)
 
 
-ESTABLISHED_QUEST_LOCATION_SOURCES: tuple[str, ...] = tuple(
+CURRENT_QUEST_LOCATION_SOURCES: tuple[str, ...] = tuple(
     f'Quest Completion: {asset_name}'
     for asset_name in QUEST_LOCATION_ASSETS
 )
-ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS = (
-    *ESTABLISHED_LOCATION_TABLE_SOURCE,
+CURRENT_LOCATION_SOURCE_ROWS_WITH_QUESTS = (
+    *CURRENT_LOCATION_SOURCE_ROWS,
     *(
         (location_name, 'Quest')
-        for location_name in ESTABLISHED_QUEST_LOCATION_SOURCES
+        for location_name in CURRENT_QUEST_LOCATION_SOURCES
     ),
 )
 
-SOURCE_LOCATION_NAME_TO_CURRENT: Mapping[str, str] = {
-    source_name: current_name
-    for source_name, _category in ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS
-    if (
-        current_name := canonicalize_location_name(source_name)
-    ) != source_name
-}
-SOURCE_LOCATION_NAME_TO_CURRENT[
-    'Quest Completion: Belltown House Start'
-] = 'Wish: Restoration of Bellhart'
-SOURCE_LOCATION_NAME_TO_CURRENT[
-    'Boss Completion: defeatedCoralDrillers'
-] = 'Boss: Great Conchflies'
-SOURCE_LOCATION_NAME_TO_CURRENT.update({
-    source_name: current_name
-    for source_name, current_name in _DIRECT_LOCATION_RENAMES.items()
-    if source_name.startswith((
-        'Boss Completion: ',
-        'Frayed Rosary String: ',
-        'Rosary Cache: ',
-        'Shell Shard Cache: ',
-        'Spool Fragment: ',
-    ))
-})
-SOURCE_LOCATION_NAME_TO_CURRENT.update({
-    'Tool Unlock: Dazzle Bind': 'Claw Mirror',
-    'Tool Unlock: Dazzle Bind Upgraded': 'Dark Mirror',
-    'Tool Unlock: Curve Claws': 'Curveclaw',
-    'Tool Unlock: Curve Claws Upgraded': 'Curvesickle',
-})
-
 NEEDLE_UPGRADE_LOCATION_CATEGORY = 'NeedleUpgrade'
-NEEDLE_UPGRADE_LOCATION_NAMES: tuple[str, ...] = (
+_NEEDLE_UPGRADE_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Pinmaster Plinney: Sharpened Needle',
     'Pinmaster Plinney: Shining Needle',
     'Pinmaster Plinney: Hivesteel Needle',
@@ -796,12 +841,16 @@ NEEDLE_UPGRADE_LOCATION_NAMES: tuple[str, ...] = (
     'Pale Oil: Great Taste of Pharloom',
     'Pale Oil: Ecstasy of the End',
 )
+NEEDLE_UPGRADE_LOCATION_NAMES: tuple[str, ...] = tuple(
+    _location_first_display_name(name)
+    for name in _NEEDLE_UPGRADE_ITEM_FIRST_LOCATION_NAMES
+)
 PINMASTER_OIL_QUEST_LOCATION = "Wish: Pinmaster's Oil"
 VOLATILE_FLINTBEETLES_QUEST_LOCATION = 'Wish: Volatile Flintbeetles'
 
-LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
+_LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(source_name), category)
-    for source_name, category in ESTABLISHED_LOCATION_TABLE_SOURCE_WITH_QUESTS
+    for source_name, category in CURRENT_LOCATION_SOURCE_ROWS_WITH_QUESTS
 ) + tuple(
     (location_name, NEEDLE_UPGRADE_LOCATION_CATEGORY)
     for location_name in NEEDLE_UPGRADE_LOCATION_NAMES
@@ -811,25 +860,21 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (location_name, 'Resource')
     for location_name in MINOR_CACHE_LOCATION_NAMES
-    if location_name not in APPENDED_MINOR_CACHE_LOCATION_NAMES
 ) + (
-    # New protocol locations are appended so every released location ID remains
-    # stable. This is the physical Broken SilkShot pickup in Weavenest Murglin.
+    # This is the physical Broken SilkShot pickup in Weavenest Murglin.
     ('Ruined Tool', 'Tool'),
-    # Appended here so every established location keeps its ID.
     (
         canonicalize_location_name(
             'Boss Completion: defeatedCoralDrillers'
         ),
         'Boss',
     ),
-    # Appended after every released location so existing protocol IDs stay
-    # stable. Pebb and Grindle are one fallback-aware physical source.
+    # Pebb and Grindle are one fallback-aware physical source.
     ('Simple Key: Bone Bottom Shop', 'Key'),
     ('Simple Key: Roachkeeper', 'Key'),
     ('Simple Key: Songclave Shop', 'Key'),
     ('Simple Key: Sands of Karak East Bench', 'Key'),
-    # Static maps are appended so every released location ID remains stable.
+    # Static maps use their own pickups or map machines.
     ('Map Pickup: Weavenest Atla', 'Map'),
     ('Map Purchase: Grand Gate', 'Map'),
     ('Map Pickup: Underworks', 'Map'),
@@ -850,8 +895,6 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ("Vaultkeeper's Melody", 'Melody'),
     ('Elegy of the Deep', 'Melody'),
     ('Beastling Call', 'Melody'),
-    # Collectible and key sources are tail-appended to preserve every
-    # established location ID.
     ("Memory Locket: Pilgrim's Rest Shop", 'MemoryLocket'),
     ("Memory Locket: Hunter's March", 'MemoryLocket'),
     ('Memory Locket: Greymoor', 'MemoryLocket'),
@@ -896,21 +939,13 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Silkeater: Whispering Vaults', 'Silkeater'),
     ('Silkeater: Whiteward', 'Silkeater'),
     ('Silkeater: The Cradle', 'Silkeater'),
-    ('Key of Indolent', 'MajorKey'),
-    ('Key of Heretic', 'MajorKey'),
     ('Key of Apostate', 'MajorKey'),
     ('White Key', 'MajorKey'),
     ("Surgeon's Key", 'MajorKey'),
     ("Architect's Key", 'MajorKey'),
     ('Craw Summons', 'MajorKey'),
-) + tuple(
-    # Tail-append new physical sources so every earlier location ID stays
-    # stable, including the established collectible and key lanes.
-    (location_name, 'Resource')
-    for location_name in APPENDED_MINOR_CACHE_LOCATION_NAMES
 ) + (
-    # Named NPC Fleas are tail-appended so every previously released
-    # location keeps its protocol ID.
+    # Named NPC Fleas use their own persistent world-state flags.
     ('Flea: Greymoor - Kratt', 'Flea'),
     ('Flea: Putrified Ducts - Vog', 'Flea'),
     ('Flea: Memorium - Huge Flea', 'Flea'),
@@ -920,8 +955,7 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (location_name, RELIC_TURN_IN_LOCATION_CATEGORY)
     for location_name in INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES
 ) + (
-    # Tail-appended native upgrade sources. Their paired base locations keep
-    # their released IDs and player-facing Claw Mirror / Curveclaw names.
+    # Native upgrade sources retain the Claw Mirror and Curveclaw names.
     ('Dark Mirror', 'Tool'),
     ('Curvesickle', 'Tool'),
     # Four stable Tool Pouch sources. Mort and Grindle are one shared
@@ -940,65 +974,53 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Beast Shard: Memorium', 'Resource'),
     ('Beast Shard: Sprintmaster', 'Resource'),
 ) + tuple(
-    # The first Bellhome donation was omitted from the original
-    # QuestSanity census. Tail-appending it preserves every released ID.
     (canonicalize_location_name(f'Quest Completion: {asset_name}'), 'Quest')
-    for asset_name in APPENDED_QUEST_LOCATION_ASSETS
+    for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
 ) + (
-    # BossSanity census additions are protocol-tail-appended so every
-    # previously released location keeps its numeric ID.
     ('Boss: Father of the Flame', 'Boss'),
     ('Boss: Gurr the Outcast', 'Boss'),
     ('Boss: Raging Conchfly', 'Boss'),
     ('Boss: The Unravelled', 'Boss'),
     ('Boss: Voltvyrm', 'Boss'),
     ('Boss: Widow', 'Boss'),
-    ('Boss: Craggler', 'Boss'),
     ('Boss: Skull Tyrant (The Marrow)', 'Boss'),
-    # The six Shellwood flower sources are protocol-tail-appended so
-    # every previously released location keeps its numeric ID.
     ('Pollip Heart: Shellwood #1', 'PollipHeart'),
     ('Pollip Heart: Shellwood #2', 'PollipHeart'),
     ('Pollip Heart: Shellwood #3', 'PollipHeart'),
     ('Pollip Heart: Shellwood #4', 'PollipHeart'),
     ('Pollip Heart: Shellwood #5', 'PollipHeart'),
     ('Pollip Heart: Shellwood #6', 'PollipHeart'),
+) + tuple(
+    (location_name, LORE_TABLET_CATEGORY)
+    for location_name in LORE_TABLET_LOCATION_NAMES
+)
+
+LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
+    (canonicalize_location_name(location_name), category)
+    for location_name, category in _LOCATION_TABLE_SOURCE_UNNORMALIZED
 )
 
 QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     canonicalize_location_name(location_name)
-    for location_name in ESTABLISHED_QUEST_LOCATION_SOURCES
+    for location_name in CURRENT_QUEST_LOCATION_SOURCES
 ) + tuple(
     canonicalize_location_name(f'Quest Completion: {asset_name}')
-    for asset_name in APPENDED_QUEST_LOCATION_ASSETS
+    for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
 )
 
 location_table: Dict[str, int] = {
     name: LOCATION_BASE_ID + index
-    for index, (name, _category) in enumerate(LOCATION_TABLE_SOURCE)
+    for index, (name, _category) in enumerate(
+        entry
+        for entry in LOCATION_TABLE_SOURCE
+        if entry[1] != 'Event'
+    )
 }
 
 location_data_table: Dict[str, SilksongLocationData] = {
-    name: SilksongLocationData(location_table[name], category)
+    name: SilksongLocationData(location_table.get(name), category)
     for name, category in LOCATION_TABLE_SOURCE
 }
-
-# Reserved protocol rows remain registered so later locations keep their
-# established numeric IDs, but unsupported game-mode sources are not active
-# in newly generated rooms.
-PROTOCOL_ONLY_LOCATION_NAMES: frozenset[str] = frozenset({
-    'Shell Satchel',
-    'Key of Indolent',
-    'Key of Heretic',
-    # This released cache ID described the same ant-carried physical object
-    # as Rosary Necklace: Hunter's March. New rooms expose only the necklace.
-    # Retaining this row prevents every later AP location ID from shifting.
-    "Rosary Cache: Hunter's March #3",
-    # This released row described the same ant-carried object whose nested
-    # native reward is Pale Rosary Necklace: Far Fields. Its numeric ID remains
-    # reserved while new rooms expose only the canonical Necklace source.
-    "Rosary Cache: Far Fields #22",
-})
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Skill',
@@ -1026,11 +1048,12 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'MajorKey',
     'Resource',
     'ToolPouch',
+    'BellShrine',
+    LORE_TABLET_CATEGORY,
 )
 
 OBSERVATION_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Boss',
-    'BellShrine',
     'Quest',
 )
 
@@ -1045,10 +1068,7 @@ LOCATION_NAMES_BY_CATEGORY: Dict[str, tuple[str, ...]] = {
     category: tuple(
         name
         for name, location_category in LOCATION_TABLE_SOURCE
-        if (
-            location_category == category
-            and name not in PROTOCOL_ONLY_LOCATION_NAMES
-        )
+        if location_category == category
     )
     for category in RANDOMIZATION_LOCATION_CATEGORIES
 }

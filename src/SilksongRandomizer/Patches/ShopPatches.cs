@@ -452,14 +452,23 @@ namespace SilksongRandomizer.Patches
             {
                 ShopMenuStock stockOwner =
                     shopMenu.MasterList ?? shopMenu;
-                if (!ReferenceEquals(stockOwner, shopMenu))
+                ShopMenuStock presentationMenu =
+                    FindPresentationShopMenu(shopMenu, stockOwner);
+                if (presentationMenu == null ||
+                    presentationMenu.gameObject == null ||
+                    !presentationMenu.gameObject.activeInHierarchy)
+                {
+                    return;
+                }
+
+                if (!ReferenceEquals(stockOwner, presentationMenu))
                 {
                     stockOwner.SpawnStock();
                 }
-                shopMenu.BuildItemList();
+                presentationMenu.BuildItemList();
 
                 PlayMakerFSM itemListControl =
-                    FindItemListControl(shopMenu);
+                    FindItemListControl(presentationMenu);
                 if (itemListControl?.Fsm != null &&
                     string.Equals(
                         itemListControl.Fsm.ActiveStateName,
@@ -471,7 +480,7 @@ namespace SilksongRandomizer.Patches
                 }
                 else if (itemListControl?.Fsm != null)
                 {
-                    DeferredShopDetailRefreshes.Add(shopMenu);
+                    DeferredShopDetailRefreshes.Add(presentationMenu);
                 }
             }
             catch (Exception ex)
@@ -485,6 +494,50 @@ namespace SilksongRandomizer.Patches
             {
                 presentationRefreshDepth--;
             }
+        }
+
+        private static ShopMenuStock FindPresentationShopMenu(
+            ShopMenuStock requestedMenu,
+            ShopMenuStock stockOwner)
+        {
+            if (requestedMenu == null || stockOwner == null)
+            {
+                return null;
+            }
+
+            if (FindItemListControl(requestedMenu) != null)
+            {
+                return requestedMenu;
+            }
+
+            // SetStock and the master inventory live on the Shop Menu root.
+            // The visible item list lives on a child, so find that child when
+            // late scout results need to redraw the panel.
+            ShopMenuStock presentationMenu = null;
+            foreach (ShopMenuStock candidate in
+                     stockOwner.GetComponentsInChildren<ShopMenuStock>(true))
+            {
+                if (candidate == null ||
+                    !ReferenceEquals(candidate.MasterList, stockOwner) ||
+                    FindItemListControl(candidate) == null)
+                {
+                    continue;
+                }
+
+                if (presentationMenu != null &&
+                    !ReferenceEquals(presentationMenu, candidate))
+                {
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] More than one item-list presentation " +
+                        "was bound to the same shop stock owner."
+                    );
+                    return null;
+                }
+
+                presentationMenu = candidate;
+            }
+
+            return presentationMenu ?? requestedMenu;
         }
 
         private static PlayMakerFSM FindItemListControl(
@@ -502,6 +555,11 @@ namespace SilksongRandomizer.Patches
 
         private static void ProcessDeferredShopDetailRefreshes()
         {
+            if (DeferredShopDetailRefreshes.Count == 0)
+            {
+                return;
+            }
+
             foreach (
                 ShopMenuStock shopMenu
                 in DeferredShopDetailRefreshes.ToArray())
@@ -641,7 +699,14 @@ namespace SilksongRandomizer.Patches
                 (shopItem.IsToolItem() &&
                  state.IsRandomized(GetToolItemType(shopItem))) ||
                 (shopItem.name == "Mapper Quill" &&
-                 state.IsRandomized(ItemType.Skill));
+                 IsQuillCheckEnabled(state));
+        }
+
+        private static bool IsQuillCheckEnabled(SaveState state)
+        {
+            return state != null &&
+                   (state.startFullyMapped ||
+                    state.IsRandomized(ItemType.Skill));
         }
 
         private static bool TryResolveShopPreviewLocation(
@@ -740,6 +805,31 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static bool IsRuinedToolRepair(ShopItem shopItem)
+        {
+            if (shopItem == null || !shopItem.IsToolItem())
+            {
+                return false;
+            }
+
+            SavedItem savedItem = Traverse.Create(shopItem)
+                .Field("savedItem")
+                .GetValue() as SavedItem;
+            return savedItem != null &&
+                   (
+                       string.Equals(
+                           savedItem.name,
+                           "WebShot Forge",
+                           StringComparison.Ordinal
+                       ) ||
+                       string.Equals(
+                           savedItem.name,
+                           "WebShot Architect",
+                           StringComparison.Ordinal
+                       )
+                   );
+        }
+
         [HarmonyPatch(
             typeof(ShopItem),
             nameof(ShopItem.SetPurchased),
@@ -761,7 +851,7 @@ namespace SilksongRandomizer.Patches
                         "Mapper Quill",
                         StringComparison.Ordinal
                     ) ||
-                    !state.IsRandomized(ItemType.Skill) ||
+                    !IsQuillCheckEnabled(state) ||
                     !state.IsLocationEnabled(locationName) ||
                     !state.IsLocationInSeed(locationName) ||
                     state.IsLocationChecked(locationName))
@@ -910,6 +1000,12 @@ namespace SilksongRandomizer.Patches
                 else
                 {
                     __result = "Something for someone else, maybe...";
+                }
+
+                if (IsRuinedToolRepair(__instance))
+                {
+                    __result +=
+                        "\r\nRequires Ruined Tool and 1 Craftmetal.";
                 }
 
                 return false;

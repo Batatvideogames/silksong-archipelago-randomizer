@@ -182,6 +182,17 @@ namespace SilksongRandomizer.Patches
 
             FsmObject itemVariable =
                 fsm.FsmVariables?.GetFsmObject("Item");
+            FsmBool awardsToolPouch =
+                fsm.FsmVariables?.GetFsmBool("Awards Tool Pouch");
+            if (!HasExactLoddieFreePrompt(fsm, awardsToolPouch))
+            {
+                ReportFailedClosed(
+                    locationName,
+                    "the Act 3 fallback free-prompt structure changed."
+                );
+                return;
+            }
+
             SavedItem proxy = CollectibleSourcePatches.GetProxyItem(
                 locationName,
                 ItemType.ToolPouch,
@@ -206,14 +217,115 @@ namespace SilksongRandomizer.Patches
             }
 
             itemVariable.Value = proxy;
-            FsmBool awardsToolPouch =
-                fsm.FsmVariables.GetFsmBool("Awards Tool Pouch");
-            if (awardsToolPouch != null)
+            // This flag picks Loddie's free dialogue. The other prompt spends
+            // Craftmetal, so keep the free branch while SavedItemGet awards
+            // the AP item.
+            awardsToolPouch.Value = true;
+        }
+
+        private static bool HasExactLoddieFreePrompt(
+            PlayMakerFSM fsm,
+            FsmBool awardsToolPouch)
+        {
+            if (awardsToolPouch == null ||
+                !awardsToolPouch.Value ||
+                fsm?.Fsm == null)
             {
-                // The Act 3 fallback awards a generic AP item. Disable its
-                // Tool Pouch prompt.
-                awardsToolPouch.Value = false;
+                return false;
             }
+
+            FsmState promptType = fsm.Fsm.GetState(
+                ToolPouchLocationManifest.LoddieActThreePromptTypeState
+            );
+            FsmState freePrompt = fsm.Fsm.GetState(
+                ToolPouchLocationManifest.LoddieActThreeFreePromptState
+            );
+            if (promptType?.Actions == null ||
+                promptType.Actions.Length != 1 ||
+                !(promptType.Actions[0] is BoolTest promptChoice) ||
+                promptChoice.boolVariable == null ||
+                !string.Equals(
+                    promptChoice.boolVariable.Name,
+                    "Awards Tool Pouch",
+                    StringComparison.Ordinal) ||
+                !IsNamedEvent(promptChoice.isTrue, "TOOL POUCH") ||
+                !IsNamedEvent(promptChoice.isFalse, "FINISHED") ||
+                freePrompt?.Actions == null ||
+                freePrompt.Actions.Length != 1 ||
+                !(freePrompt.Actions[0] is DialogueYesNoV2))
+            {
+                return false;
+            }
+
+            return HasOnlyTransitions(
+                       promptType,
+                       new Tuple<string, string>(
+                           "TOOL POUCH",
+                           ToolPouchLocationManifest
+                               .LoddieActThreeFreePromptState),
+                       new Tuple<string, string>(
+                           "FINISHED",
+                           ToolPouchLocationManifest
+                               .LoddieActThreePaidPromptState)) &&
+                   HasOnlyTransitions(
+                       freePrompt,
+                       new Tuple<string, string>(
+                           "NO",
+                           ToolPouchLocationManifest
+                               .LoddieActThreeCancelState),
+                       new Tuple<string, string>(
+                           "YES",
+                           ToolPouchLocationManifest
+                               .LoddieActThreeWaitState));
+        }
+
+        private static bool IsNamedEvent(
+            FsmEvent fsmEvent,
+            string expectedName)
+        {
+            return fsmEvent != null &&
+                   string.Equals(
+                       fsmEvent.Name,
+                       expectedName,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        private static bool HasOnlyTransitions(
+            FsmState state,
+            params Tuple<string, string>[] expected)
+        {
+            if (state?.Transitions == null ||
+                expected == null ||
+                state.Transitions.Length != expected.Length)
+            {
+                return false;
+            }
+
+            foreach (Tuple<string, string> pair in expected)
+            {
+                bool matched = false;
+                foreach (FsmTransition transition in state.Transitions)
+                {
+                    if (transition != null &&
+                        IsNamedEvent(transition.FsmEvent, pair.Item1) &&
+                        string.Equals(
+                            transition.ToState,
+                            pair.Item2,
+                            StringComparison.Ordinal))
+                    {
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (!matched)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private sealed class CompleteToolPouchLocation : FsmStateAction

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from Options import Choice, PerGameCommonOptions, Range, Toggle
+from Options import Accessibility, Choice, PerGameCommonOptions, Range, Toggle
 
 from .minor_families import (
     MINOR_FAMILY_KEYS,
@@ -11,122 +11,296 @@ from .minor_families import (
 )
 
 
-class CategoryRandomization(Choice):
-    """Choose how one source/reward category participates in the seed."""
+class GlobalRandomization(Choice):
+    """Keep a category vanilla or mix it into the global pool."""
 
     option_vanilla = 0
     alias_off = 0
     option_anywhere = 1
-    option_shuffle = 2
     default = option_anywhere
 
 
+class CategoryRandomization(GlobalRandomization):
+    """Choose how one source/reward category participates in the seed."""
+
+    option_shuffle = 2
+
+
 class SkillRandomization(CategoryRandomization):
+    """Randomizes the 9 traversal skills in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Skill Randomization"
 
 
 class ToolRandomization(CategoryRandomization):
+    """Randomizes the 59 tools in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Tool Randomization"
 
 
 class SilkSkillRandomization(CategoryRandomization):
+    """Randomizes the 6 Silk Skills in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Silk Skill Randomization"
 
 
 class CrestRandomization(CategoryRandomization):
+    """Randomizes the 7 Crests in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Crest Randomization"
 
 
 class FleaRandomization(CategoryRandomization):
+    """Randomizes the 30 Fleas in the game, including Kratt, Vog and the Huge Flea.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Flea Randomization"
 
 
 class CrestSlotRandomization(CategoryRandomization):
+    """Randomizes the 20 Crest Slots in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Crest Slot Randomization"
 
 
-class MaskShardRandomization(CategoryRandomization):
+class MaskShardRandomization(GlobalRandomization):
+    """Randomizes the 20 Mask Shards in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Mask Shard Randomization"
 
 
-class SpoolFragmentRandomization(CategoryRandomization):
+class SpoolFragmentRandomization(GlobalRandomization):
+    """Randomizes the 18 Spool Fragments in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Spool Fragment Randomization"
 
 
-class SilkHeartRandomization(CategoryRandomization):
+class SilkHeartRandomization(GlobalRandomization):
+    """Randomizes the 3 Silk Hearts in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Silk Heart Randomization"
 
 
 class BellwayRandomization(CategoryRandomization):
+    """Randomizes the 10 Bellways in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Bellway Randomization"
 
 
 class VentricaRandomization(CategoryRandomization):
+    """Randomizes the 6 Ventricas in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Ventrica Randomization"
 
 
 class MapRandomization(CategoryRandomization):
+    """Randomizes the 28 Maps in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Map Randomization"
 
 
 class MelodyRandomization(CategoryRandomization):
+    """Randomizes the 5 Melodies in the game: the three required to finish Act 2, Beastling Call and Elegy of the Deep.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Melody Randomization"
 
 
 class PinRandomization(CategoryRandomization):
+    """Randomizes the 4 map-pin types in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Pin Randomization"
 
 
 class RelicRandomization(CategoryRandomization):
+    """Randomizes the 21 Relics in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Relic Randomization"
 
 
-class CraftingKitRandomization(CategoryRandomization):
+class CraftingKitRandomization(GlobalRandomization):
+    """Randomizes the 4 Crafting Kits in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Crafting Kit Randomization"
 
 
-class ToolPouchRandomization(CategoryRandomization):
+class ToolPouchRandomization(GlobalRandomization):
+    """Randomizes the 4 Tool Pouch upgrades in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Tool Pouch Randomization"
 
 
-class RepeatedCollectibleRandomization(Choice):
+class LoreTabletRandomization(CategoryRandomization):
+    """Randomizes the 38 Lore Tablets in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
+    display_name = "Lore Tablet Randomization"
+    default = CategoryRandomization.option_vanilla
+
+
+class RepeatedCollectibleRandomization(GlobalRandomization):
     """Randomize a repeated consumable family globally or leave it vanilla."""
 
-    option_vanilla = CategoryRandomization.option_vanilla
-    alias_off = option_vanilla
-    option_anywhere = CategoryRandomization.option_anywhere
-    default = option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class MemoryLocketRandomization(RepeatedCollectibleRandomization):
+    """Randomizes the 20 Memory Lockets in the game.
+
+    If Crest Slots are randomized, using a Memory Locket will not unlock the
+    slot for use, but whatever took its place in that slot remains its AP check.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Memory Locket Randomization"
 
 
 class CraftmetalRandomization(RepeatedCollectibleRandomization):
+    """Randomizes the 8 Craftmetals in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Craftmetal Randomization"
 
 
 class MossberryRandomization(RepeatedCollectibleRandomization):
+    """Randomizes the 7 Mossberries in the game. Three are required for the Moss Druid's quest, while giving her the remaining four earns another check.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Mossberry Randomization"
 
 
-class PollipHeartRandomization(CategoryRandomization):
-    """Randomize the six finite Pollip Hearts globally or among themselves."""
+class PollipHeartRandomization(RepeatedCollectibleRandomization):
+    """Randomizes the 6 finite Pollip Hearts in the game. They are required for Greyroot's quest in Shellwood.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
 
     display_name = "Pollip Heart Randomization"
     default = CategoryRandomization.option_vanilla
 
 
 class SilkeaterRandomization(RepeatedCollectibleRandomization):
+    """Randomizes the 9 Silkeaters in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Silkeater Randomization"
 
 
-class MajorKeyRandomization(RepeatedCollectibleRandomization):
+class MajorKeyRandomization(CategoryRandomization):
+    """Randomizes Key of Apostate, White Key, Surgeon's Key, Architect's Key and Craw Summons.
+
+    Key of Heretic and Key of Indolent remain at their vanilla locations until
+    logic for the Slab is finished.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Major Key Randomization"
+    default = CategoryRandomization.option_vanilla
 
 
 class SimpleKeyRandomization(Choice):
-    """Randomize four destination-specific keys without fungible spending."""
+    """Randomize four destination-specific keys without fungible spending.
+
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
 
     option_anywhere = CategoryRandomization.option_anywhere
     option_shuffle = CategoryRandomization.option_shuffle
@@ -134,62 +308,145 @@ class SimpleKeyRandomization(Choice):
     display_name = "Simple Key Randomization"
 
 
-class MinorFamilyRandomization(CategoryRandomization):
+class MinorFamilyRandomization(RepeatedCollectibleRandomization):
     """Choose how this minor pickup family participates in the seed."""
+
+
+class MinorCacheRandomization(CategoryRandomization):
+    """Choose how a cache family with varied amounts joins the seed."""
 
     default = CategoryRandomization.option_vanilla
 
 
 class FrayedRosaryStringRandomization(MinorFamilyRandomization):
+    """Randomizes the 19 Frayed Rosary Strings in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Frayed Rosary String Randomization"
 
 
 class RosaryStringRandomization(MinorFamilyRandomization):
+    """Randomizes the 4 Rosary Strings in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Rosary String Randomization"
 
 
 class RosaryNecklaceRandomization(MinorFamilyRandomization):
+    """Randomizes the 5 Rosary Necklaces in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Rosary Necklace Randomization"
 
 
 class HeavyRosaryNecklaceRandomization(MinorFamilyRandomization):
+    """Randomizes the 3 Heavy Rosary Necklaces in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Heavy Rosary Necklace Randomization"
 
 
 class PaleRosaryNecklaceRandomization(MinorFamilyRandomization):
+    """Randomizes the 2 Pale Rosary Necklaces in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Pale Rosary Necklace Randomization"
 
 
 class ShardBundleRandomization(MinorFamilyRandomization):
+    """Randomizes the 12 Shard Bundles in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Shard Bundle Randomization"
 
 
 class BeastShardRandomization(MinorFamilyRandomization):
+    """Randomizes the 7 Beast Shard upgrades in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Beast Shard Randomization"
 
 
 class PristineCoreRandomization(MinorFamilyRandomization):
+    """Randomizes the 2 Pristine Cores in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
     display_name = "Pristine Core Randomization"
 
 
-class RosaryCacheRandomization(MinorFamilyRandomization):
+class RosaryCacheRandomization(MinorCacheRandomization):
+    """Randomizes the 200 Rosary Caches in the game.
+
+    These are the Rosaries usually seen strung up and out in the open while exploring.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Rosary Cache Randomization"
 
 
-class ShellShardCacheRandomization(MinorFamilyRandomization):
+class ShellShardCacheRandomization(MinorCacheRandomization):
+    """Randomizes the 153 Shell Shard Caches in the game.
+
+    These are the Shards found in fossils that must be hit several times.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Shell Shard Cache Randomization"
 
 
 class BossSanity(CategoryRandomization):
+    """Randomizes the 34 drops from bosses in the game. This does not randomize the bosses themselves.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    shuffle: mixes them up between one another
+    """
+
     display_name = "Boss Sanity"
 
 
 class BellShrineSanity(CategoryRandomization):
+    """Randomizes the 5 Judge Bell Shrines."""
+
     display_name = "Bell Shrine Sanity"
+    default = CategoryRandomization.option_vanilla
 
 
 class QuestSanity(CategoryRandomization):
-    """Vanilla keeps quest rewards unchanged. Shuffle randomizes rewards only among quest checks. Anywhere joins the global item pool."""
+    """Vanilla keeps quest rewards unchanged. Shuffle randomizes rewards only among quest checks. Anywhere joins the global item pool.
+
+    This covers 32 quest rewards without randomizing the quests themselves.
+    """
 
     display_name = "Quest Sanity"
 
@@ -219,6 +476,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Silkeater": "silkeater_randomization",
     "MajorKey": "major_key_randomization",
     "ToolPouch": "tool_pouch_randomization",
+    "LoreTablet": "lore_tablet_randomization",
     "Boss": "boss_sanity",
     "BellShrine": "bell_shrine_sanity",
     "Quest": "quest_sanity",
@@ -233,25 +491,14 @@ CATEGORY_MODE_KEY_BY_VALUE: dict[int, str] = {
 
 def get_category_mode_value(options, category: str) -> int:
     option_name = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
-    option = getattr(options, option_name, None)
-    return (
-        (
-            CategoryRandomization.option_vanilla
-            if category in {
-                "Resource",
-                "MemoryLocket",
-                "Craftmetal",
-                "Mossberry",
-                "PollipHeart",
-                "Silkeater",
-                "MajorKey",
-                "ToolPouch",
-            }
-            else CategoryRandomization.option_anywhere
-        )
-        if option is None
-        else int(option.value)
-    )
+    option = getattr(options, option_name)
+    value = int(option.value)
+    if (
+        value == CategoryRandomization.option_shuffle
+        and not hasattr(type(option), "option_shuffle")
+    ):
+        raise ValueError(f"{option_name} does not support shuffle.")
+    return value
 
 
 def get_category_mode_key(options, category: str) -> str:
@@ -272,8 +519,13 @@ def get_minor_family_mode_key(options, family_key: str) -> str:
             f"Unknown minor pickup family: {family_key!r}"
         ) from exc
 
-    option = getattr(options, option_name, None)
-    key = "vanilla" if option is None else option.current_key
+    option = getattr(options, option_name)
+    if (
+        int(option.value) == CategoryRandomization.option_shuffle
+        and not hasattr(type(option), "option_shuffle")
+    ):
+        raise ValueError(f"{option_name} does not support shuffle.")
+    key = option.current_key
     if key not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(
             f"Unknown {option_name} mode: {key!r}"
@@ -313,18 +565,33 @@ def get_aggregate_minor_mode_key(options) -> str:
     return "shuffle"
 
 
+class SilksongAccessibility(Accessibility):
+    """Set rules for reachability of your items/locations.
+
+    **Full:** ensure everything can be reached and acquired.
+
+    **Minimal:** ensure what is needed to reach your goal can be acquired.
+
+    LogicUnknown locations remain physically collectable but are intentionally
+    outside logic, so the Silksong standard uses Minimal.
+    """
+
+    display_name = "Accessibility"
+    default = Accessibility.option_minimal
+
+
 class Goal(Choice):
     """Choose the victory condition.
 
-    Sources verified unavailable before the Act 2 ending are excluded. When
-    Skills are randomized, Silk Soar remains in the item pool while its Abyss
-    source is omitted.
+    Earlier goals omit locations that become available only after victory.
     """
 
     display_name = "Goal"
+    option_act_1 = 3
     option_act_2 = 0
     option_act_3 = 1
     option_flea_hunt = 2
+    option_cursed_ending = 4
     default = option_act_3
 
 
@@ -334,7 +601,7 @@ class FleaHuntCount(Range):
     display_name = "Flea Hunt Count"
     range_start = 1
     range_end = 30
-    default = 20
+    default = 30
 
 
 class StartingLocation(Choice):
@@ -347,7 +614,10 @@ class StartingLocation(Choice):
 
 
 class StartingCrest(Choice):
-    """Choose Hornet's starting Crest when Crests are randomized."""
+    """Choose Hornet's starting Crest when Crests are randomized.
+
+    random selects one of the seven Crests during generation.
+    """
 
     display_name = "Starting Crest"
     # YAML ``random`` is handled by Archipelago's Choice parser and resolves
@@ -359,14 +629,14 @@ class StartingCrest(Choice):
     option_architect = 4
     option_witch = 5
     option_shaman = 6
-    default = option_hunter
+    default = "random"
 
 
 class EarlyDash(Toggle):
     """Place Dash early when Skills are randomized."""
 
     display_name = "Early Dash"
-    default = 0
+    default = 1
 
 
 class SplitDashAndSprint(Toggle):
@@ -383,6 +653,15 @@ class RandomizeNeedleUpgrades(Toggle):
     default = 0
 
 
+class TrailsEndRequirement(Choice):
+    """Choose whether Trail's End uses 14 Shakra map-stock purchases or received maps."""
+
+    display_name = "Trail's End Requirement"
+    option_shakra_stock = 0
+    option_owned_maps = 1
+    default = option_shakra_stock
+
+
 class IndividualRelicTurnIns(Toggle):
     """Make Scrounge's 15 relic and Cardinius's 6 cylinder deposits individual AP checks instead of paying Rosaries."""
 
@@ -390,32 +669,43 @@ class IndividualRelicTurnIns(Toggle):
     default = 0
 
 
-class LogicAuditMode(Toggle):
-    """Start with every randomized progression/useful item, make checks filler."""
+class Skips(Choice):
+    """Choose the hardest explicitly labelled movement skips allowed in logic."""
 
-    display_name = "Logic Audit Mode"
-    default = 0
+    display_name = "Skips"
+    option_none = 0
+    option_easy = 1
+    option_moderate = 2
+    option_difficult = 3
+    default = option_none
 
 
-class EasySkips(Toggle):
-    """Allow explicitly documented low-difficulty movement skips in logic."""
+class ScuttlebraceLogic(Toggle):
+    """Allow Scuttlebrace movement routes in logic"""
 
-    display_name = "Easy Skips"
+    display_name = "Scuttlebrace Logic"
     default = 0
 
 
 class StartWithMaps(Toggle):
-    """Start with every currently randomized Shakra map."""
+    """Start with every eligible map except Lost Verdania."""
 
     display_name = "Start With Maps"
-    default = 0
+    default = 1
+
+
+class StartFullyMapped(Toggle):
+    """Start with the full world map drawn and all starting maps owned."""
+
+    display_name = "Start Fully Mapped"
+    default = 1
 
 
 class AutomaticCompass(Toggle):
     """Always show Hornet on maps without granting or equipping Compass."""
 
     display_name = "Automatic Compass"
-    default = 0
+    default = 1
 
 
 class CheckMapMarkers(Choice):
@@ -426,7 +716,49 @@ class CheckMapMarkers(Choice):
     option_mapped_rooms = 1
     option_owned_maps = 2
     option_all = 3
-    default = option_off
+    default = option_all
+
+
+class RandomizedBellMarkers(Toggle):
+    """Move the five Grand Gate Bell markers to their randomized local checks."""
+
+    display_name = "Randomized Bell Markers"
+    default = 1
+
+
+class RandomizedMelodyMarkers(Toggle):
+    """Move Threefold Melody markers to their randomized local checks."""
+
+    display_name = "Randomized Melody Markers"
+    default = 1
+
+
+class VogHintCount(Range):
+    """Maximum number of hints Vog can offer from one hint category."""
+
+    range_start = 0
+    range_end = 30
+
+
+class VogWothHints(VogHintCount):
+    """Maximum Way of the Hero area hints offered by Vog."""
+
+    display_name = "Vog Way of the Hero Hints"
+    default = 0
+
+
+class VogFoolishHints(VogHintCount):
+    """Maximum Foolish area hints offered by Vog."""
+
+    display_name = "Vog Foolish Hints"
+    default = 0
+
+
+class VogGeneralHints(VogHintCount):
+    """Maximum exact item location hints offered by Vog."""
+
+    display_name = "Vog General Hints"
+    default = 0
 
 
 class BellwayAccess(Choice):
@@ -435,7 +767,7 @@ class BellwayAccess(Choice):
     display_name = "Bellway Access"
     option_bell_beast_required = 0
     option_randomized_stations = 1
-    default = option_bell_beast_required
+    default = option_randomized_stations
 
 
 class EnemyRosaryMultiplier(Choice):
@@ -446,7 +778,9 @@ class EnemyRosaryMultiplier(Choice):
     option_x1_5 = 1
     option_x2 = 2
     option_x3 = 3
-    default = option_x1
+    option_x5 = 4
+    option_x10 = 5
+    default = option_x2
 
 
 class EnemyShardMultiplier(Choice):
@@ -457,7 +791,9 @@ class EnemyShardMultiplier(Choice):
     option_x1_5 = 1
     option_x2 = 2
     option_x3 = 3
-    default = option_x1
+    option_x5 = 4
+    option_x10 = 5
+    default = option_x2
 
 
 class PurchasePriceRandomization(Choice):
@@ -507,11 +843,17 @@ class DonationPrices(PurchasePriceRandomization):
     display_name = "Donation Prices"
 
 
+class VogHintPrices(PurchasePriceRandomization):
+    """Randomize prices for Vog's Hero, Foolish and General hints."""
+
+    display_name = "Vog Hint Prices"
+
+
 class FasterDialogue(Toggle):
     """Speed up ordinary NPC dialogue without skipping conversations."""
 
     display_name = "Faster Dialogue"
-    default = 0
+    default = 1
 
 
 class DeathLink(Toggle):
@@ -519,6 +861,27 @@ class DeathLink(Toggle):
 
     display_name = "Death Link"
     default = 0
+
+
+class DeathLinkCocoon(Choice):
+    """Choose how received DeathLinks affect your death cocoon and Rosaries.
+
+    vanilla: Received DeathLinks replace an existing cocoon and move your
+    carried Rosaries into the new cocoon.
+    cocoonless: Received DeathLinks leave your carried Rosaries and any
+    existing cocoon untouched.
+    cocoon: The first received DeathLink can create a normal cocoon. Later
+    received DeathLinks leave that cocoon and your carried Rosaries untouched.
+
+    Your own deaths always use the normal game behavior.
+    This option has no effect when Death Link is disabled.
+    """
+
+    display_name = "Death Link Cocoon"
+    option_vanilla = 0
+    option_cocoonless = 1
+    option_cocoon = 2
+    default = 2
 
 
 class SilkLink(Toggle):
@@ -560,7 +923,10 @@ class TrapWeight(Range):
 
 
 class StaggerTrapWeight(TrapWeight):
-    """Relative frequency of Stagger Traps, zero disables them."""
+    """Relative frequency of Stagger Traps, zero disables them.
+
+    When staggered, Hornet receives knockback but takes no damage.
+    """
 
     display_name = "Stagger Trap Weight"
 
@@ -572,44 +938,64 @@ class RosarySpillTrapWeight(TrapWeight):
 
 
 class DarknessTrapWeight(TrapWeight):
-    """Relative frequency of Darkness Traps, zero disables them."""
+    """Relative frequency of Darkness Traps, zero disables them.
+
+    The screen is darkened to a small area of light around Hornet for 20 seconds.
+    """
 
     display_name = "Darkness Trap Weight"
 
 
 class CursedCrestTrapWeight(TrapWeight):
-    """Relative frequency of Cursed Crest Traps, zero disables them."""
+    """Relative frequency of Cursed Crest Traps, zero disables them.
+
+    Hornet is inflicted with the Cursed Crest for 2 minutes, as if she had done
+    the Rite of Rebirth quest with Greyroot.
+    """
 
     display_name = "Cursed Crest Trap Weight"
 
 
 class MuckmaggotStatusTrapWeight(TrapWeight):
-    """Relative frequency of Muckmaggot Status Traps, zero disables them."""
+    """Relative frequency of Muckmaggot Status Traps, zero disables them.
+
+    Hornet is afflicted with Muckmaggots as if she fell into Bilewater. Binding
+    or using a bench removes them.
+    """
 
     display_name = "Muckmaggot Status Trap Weight"
 
 
 class NakedTrapWeight(TrapWeight):
-    """Relative frequency of two-minute Naked Traps, zero disables them."""
+    """Relative frequency of two-minute Naked Traps, zero disables them.
+
+    Hornet is left naked as if she were in the Slab escape sequence for 2 minutes.
+    """
 
     display_name = "Naked Trap Weight"
 
 
 @dataclass
 class SilksongOptions(PerGameCommonOptions):
+    accessibility: SilksongAccessibility
     goal: Goal
     flea_hunt_count: FleaHuntCount
     starting_location: StartingLocation
     starting_crest: StartingCrest
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint
-    randomize_needle_upgrades: RandomizeNeedleUpgrades
-    individual_relic_turn_ins: IndividualRelicTurnIns
-    logic_audit_mode: LogicAuditMode
-    easy_skips: EasySkips
+    trails_end_requirement: TrailsEndRequirement
+    skips: Skips
+    scuttlebrace_logic: ScuttlebraceLogic
     start_with_maps: StartWithMaps
+    start_fully_mapped: StartFullyMapped
     automatic_compass: AutomaticCompass
     check_map_markers: CheckMapMarkers
+    randomized_bell_markers: RandomizedBellMarkers
+    randomized_melody_markers: RandomizedMelodyMarkers
+    vog_woth_hints: VogWothHints
+    vog_foolish_hints: VogFoolishHints
+    vog_general_hints: VogGeneralHints
     bellway_access: BellwayAccess
     enemy_rosary_multiplier: EnemyRosaryMultiplier
     enemy_shard_multiplier: EnemyShardMultiplier
@@ -619,11 +1005,8 @@ class SilksongOptions(PerGameCommonOptions):
     pin_prices: PinPrices
     upgrade_prices: UpgradePrices
     donation_prices: DonationPrices
+    vog_hint_prices: VogHintPrices
     faster_dialogue: FasterDialogue
-    death_link: DeathLink
-    silk_link: SilkLink
-    rosary_link: RosaryLink
-    shell_shard_link: ShellShardLink
     skill_randomization: SkillRandomization
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
@@ -636,18 +1019,20 @@ class SilksongOptions(PerGameCommonOptions):
     bellway_randomization: BellwayRandomization
     ventrica_randomization: VentricaRandomization
     map_randomization: MapRandomization
+    randomize_needle_upgrades: RandomizeNeedleUpgrades
     melody_randomization: MelodyRandomization
     pin_randomization: PinRandomization
     relic_randomization: RelicRandomization
     crafting_kit_randomization: CraftingKitRandomization
+    major_key_randomization: MajorKeyRandomization
     simple_key_randomization: SimpleKeyRandomization
     memory_locket_randomization: MemoryLocketRandomization
     craftmetal_randomization: CraftmetalRandomization
     mossberry_randomization: MossberryRandomization
     pollip_heart_randomization: PollipHeartRandomization
     silkeater_randomization: SilkeaterRandomization
-    major_key_randomization: MajorKeyRandomization
     tool_pouch_randomization: ToolPouchRandomization
+    lore_tablet_randomization: LoreTabletRandomization
     frayed_rosary_string_randomization: FrayedRosaryStringRandomization
     rosary_string_randomization: RosaryStringRandomization
     rosary_necklace_randomization: RosaryNecklaceRandomization
@@ -661,6 +1046,12 @@ class SilksongOptions(PerGameCommonOptions):
     boss_sanity: BossSanity
     bell_shrine_sanity: BellShrineSanity
     quest_sanity: QuestSanity
+    individual_relic_turn_ins: IndividualRelicTurnIns
+    death_link: DeathLink
+    death_link_cocoon: DeathLinkCocoon
+    silk_link: SilkLink
+    rosary_link: RosaryLink
+    shell_shard_link: ShellShardLink
     trap_percentage: TrapPercentage
     stagger_trap_weight: StaggerTrapWeight
     rosary_spill_trap_weight: RosarySpillTrapWeight

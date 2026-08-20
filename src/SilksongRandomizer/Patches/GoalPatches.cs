@@ -4,6 +4,71 @@ using System;
 
 namespace SilksongRandomizer.Patches
 {
+    internal static class GoalState
+    {
+        private const string GrandMotherSilkJournalKey = "Silk Boss";
+        private const int CursedEndingValue = 2;
+
+        internal static bool IsConfiguredGoalComplete()
+        {
+            SaveState saveState = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (saveState == null || playerData == null)
+            {
+                return false;
+            }
+
+            int grandMotherSilkKills = 0;
+            if (string.Equals(
+                    saveState.goal,
+                    Archipelago.ActTwoGoal,
+                    StringComparison.Ordinal) &&
+                playerData.EnemyJournalKillData != null)
+            {
+                grandMotherSilkKills = playerData.EnemyJournalKillData
+                    .GetKillData(GrandMotherSilkJournalKey)
+                    .Kills;
+            }
+
+            return MatchesConfiguredGoalState(
+                saveState.goal,
+                playerData.act2Started,
+                grandMotherSilkKills,
+                (int)playerData.CompletedEndings
+            );
+        }
+
+        internal static bool MatchesConfiguredGoalState(
+            string goal,
+            bool actTwoStarted,
+            int grandMotherSilkKills,
+            int completedEndings
+        )
+        {
+            if (string.Equals(
+                    goal,
+                    Archipelago.ActOneGoal,
+                    StringComparison.Ordinal))
+            {
+                return actTwoStarted;
+            }
+
+            if (string.Equals(
+                    goal,
+                    Archipelago.ActTwoGoal,
+                    StringComparison.Ordinal))
+            {
+                return grandMotherSilkKills > 0;
+            }
+
+            return string.Equals(
+                       goal,
+                       Archipelago.CursedEndingGoal,
+                       StringComparison.Ordinal) &&
+                   (completedEndings & CursedEndingValue) != 0;
+        }
+    }
+
     /// <summary>
     /// Awards the Act 3 goal when Lost Lace is defeated,
     /// before the ending cinematic and credits begin. The later ending hook
@@ -47,7 +112,7 @@ namespace SilksongRandomizer.Patches
             {
                 RandomizerPlugin.Log?.LogWarning(
                     "[RANDOMIZER] Lost Lace goal hook was not installed " +
-                    "because its validated native completion path changed."
+                    "because the expected game sequence was not found."
                 );
                 return;
             }
@@ -76,7 +141,7 @@ namespace SilksongRandomizer.Patches
             completion.Actions = patchedActions;
 
             RandomizerPlugin.Log?.LogInfo(
-                "[RANDOMIZER] Act 3 goal anchored to Lost Lace defeat."
+                "[RANDOMIZER] Act 3 goal set to Lost Lace defeat."
             );
         }
 
@@ -159,9 +224,7 @@ namespace SilksongRandomizer.Patches
     [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.SetEndingCompleted), "OnEnter")]
     internal static class EndingGoalPatch
     {
-        private const int ActTwoRegularEndingValue = 1;
-        private const int ActTwoCursedEndingValue = 2;
-        private const int ActTwoSoulSnareEndingValue = 4;
+        private const int CursedEndingValue = 2;
         private const int ActThreeEndingValue = 8;
 
         private static void Postfix()
@@ -183,17 +246,18 @@ namespace SilksongRandomizer.Patches
 
         internal static bool MatchesConfiguredGoal(string goal, int endingValue)
         {
-            if (string.Equals(goal, Archipelago.ActTwoGoal, System.StringComparison.Ordinal))
+            if (string.Equals(
+                    goal,
+                    Archipelago.CursedEndingGoal,
+                    StringComparison.Ordinal))
             {
-                return endingValue == ActTwoRegularEndingValue ||
-                       endingValue == ActTwoCursedEndingValue ||
-                       endingValue == ActTwoSoulSnareEndingValue;
+                return endingValue == CursedEndingValue;
             }
 
             return string.Equals(
                        goal,
                        Archipelago.ActThreeGoal,
-                       System.StringComparison.Ordinal
+                       StringComparison.Ordinal
                    ) &&
                    endingValue == ActThreeEndingValue;
         }

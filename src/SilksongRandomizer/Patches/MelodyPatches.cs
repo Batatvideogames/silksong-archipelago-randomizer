@@ -12,6 +12,9 @@ namespace SilksongRandomizer.Patches
     {
         private const string MelodyVaultAsset = "melody_Vault";
         private const string MelodyConductorAsset = "melody_Conductor";
+        private const string NestedMelodySourceVariable = "UI Msg Event";
+        private const string NestedMelodyConductorSource = "CONDUCTOR";
+        private const string NestedMelodyVaultSource = "LIBRARIAN";
 
         private static bool IsActive(string locationName)
         {
@@ -66,16 +69,14 @@ namespace SilksongRandomizer.Patches
                             PatchNestedMelodyReward(
                                 __instance,
                                 "Run Melody Play Prompted",
-                                5,
-                                entry.LocationName
+                                5
                             );
                         break;
                     case MelodyLocationManifest.VaultkeepersMelody:
                         patched = PatchNestedMelodyReward(
                             __instance,
                             "Needolin",
-                            4,
-                            entry.LocationName
+                            4
                         );
                         break;
                     case MelodyLocationManifest.ElegyOfTheDeep:
@@ -226,8 +227,7 @@ namespace SilksongRandomizer.Patches
         private static bool PatchNestedMelodyReward(
             PlayMakerFSM owner,
             string stateName,
-            int runFsmIndex,
-            string locationName
+            int runFsmIndex
         )
         {
             FsmState sourceState = FindState(owner, stateName);
@@ -252,7 +252,7 @@ namespace SilksongRandomizer.Patches
 
             if (giveItem.Actions != null &&
                 giveItem.Actions.Any(action =>
-                    action is CompleteLocationAction))
+                    action is CompleteNestedMelodyLocationAction))
             {
                 return true;
             }
@@ -270,8 +270,8 @@ namespace SilksongRandomizer.Patches
             List<FsmStateAction> giveActions =
                 giveItem.Actions.Skip(1).ToList();
             giveActions.Add(CreateWait(giveItem, 0.5f));
-            CompleteLocationAction completion =
-                new CompleteLocationAction(locationName);
+            CompleteNestedMelodyLocationAction completion =
+                new CompleteNestedMelodyLocationAction();
             completion.Init(giveItem);
             giveActions.Add(completion);
             giveActions.Add(CreateWait(giveItem, 0.5f));
@@ -296,6 +296,41 @@ namespace SilksongRandomizer.Patches
             }
 
             return true;
+        }
+
+        private static bool TryGetNestedMelodyLocation(
+            Fsm fsm,
+            out string locationName
+        )
+        {
+            locationName = null;
+            FsmString source = fsm?.Variables?.FindFsmString(
+                NestedMelodySourceVariable
+            );
+            if (source == null)
+            {
+                return false;
+            }
+
+            if (string.Equals(
+                    source.Value,
+                    NestedMelodyConductorSource,
+                    StringComparison.Ordinal))
+            {
+                locationName = MelodyLocationManifest.ConductorsMelody;
+                return true;
+            }
+
+            if (string.Equals(
+                    source.Value,
+                    NestedMelodyVaultSource,
+                    StringComparison.Ordinal))
+            {
+                locationName = MelodyLocationManifest.VaultkeepersMelody;
+                return true;
+            }
+
+            return false;
         }
 
         private static bool PatchElegy(PlayMakerFSM fsm)
@@ -707,6 +742,36 @@ namespace SilksongRandomizer.Patches
                 {
                     Fsm.Event(completionEvent);
                 }
+            }
+        }
+
+        private sealed class CompleteNestedMelodyLocationAction :
+            FsmStateAction
+        {
+            public override void OnEnter()
+            {
+                if (!TryGetNestedMelodyLocation(
+                        Fsm,
+                        out string locationName))
+                {
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] Shared melody reward did not identify " +
+                        "its physical source."
+                    );
+                    Finish();
+                    return;
+                }
+
+                SaveState state = SaveState.Instance;
+                if (state != null &&
+                    state.IsRandomized(ItemType.Melody) &&
+                    state.IsLocationEnabled(locationName) &&
+                    state.IsLocationInSeed(locationName))
+                {
+                    state.CheckLocation(locationName);
+                }
+
+                Finish();
             }
         }
 

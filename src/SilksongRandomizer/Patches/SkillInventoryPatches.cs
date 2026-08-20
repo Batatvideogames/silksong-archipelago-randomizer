@@ -13,6 +13,7 @@ namespace SilksongRandomizer.Patches
         private sealed class AbilitySnapshot
         {
             internal PlayerData PlayerData;
+            internal bool NativeDash;
             internal bool NativeWallJump;
             internal bool NativeSuperJump;
             internal bool NativeHarpoonDash;
@@ -49,6 +50,10 @@ namespace SilksongRandomizer.Patches
 
                     string fieldName = condition.FieldName;
                     if (string.Equals(
+                            fieldName,
+                            nameof(PlayerData.hasDash),
+                            StringComparison.Ordinal) ||
+                        string.Equals(
                             fieldName,
                             nameof(PlayerData.hasWalljump),
                             StringComparison.Ordinal) ||
@@ -178,10 +183,12 @@ namespace SilksongRandomizer.Patches
                 __state = new AbilitySnapshot
                 {
                     PlayerData = playerData,
+                    NativeDash = playerData.hasDash,
                     NativeWallJump = playerData.hasWalljump,
                     NativeSuperJump = playerData.hasSuperJump,
                     NativeHarpoonDash = playerData.hasHarpoonDash,
                 };
+                playerData.hasDash = state.canSprint;
                 playerData.hasWalljump = state.canWallJump;
                 playerData.hasSuperJump = state.canSilkSoar;
                 playerData.hasHarpoonDash = state.canUseHarpoon;
@@ -195,6 +202,8 @@ namespace SilksongRandomizer.Patches
             {
                 if (__state != null && __state.PlayerData != null)
                 {
+                    __state.PlayerData.hasDash =
+                        __state.NativeDash;
                     __state.PlayerData.hasWalljump =
                         __state.NativeWallJump;
                     __state.PlayerData.hasSuperJump =

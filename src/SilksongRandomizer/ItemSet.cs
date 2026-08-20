@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Collections.Concurrent;
+
 namespace SilksongRandomizer
 {
     public class ItemSet
@@ -124,10 +127,6 @@ namespace SilksongRandomizer
                     { "Skill: Harpoon", "Ancestral Art: Clawline" },
                     { "Skill: Quill", "Item: Quill" },
                     { "Skill: Needolin", "Ancestral Art: Needolin" },
-                    {
-                        "Skill: Sprint",
-                        "Ability: Swift Step (Sprint Only)"
-                    },
                     { "Spell: Silk Spear", "Silk Skill: Silkspear" },
                     { "Spell: Parry", "Silk Skill: Cross Stitch" },
                     { "Spell: Silk Boss Needle", "Silk Skill: Pale Nails" },
@@ -453,6 +452,19 @@ namespace SilksongRandomizer
                     },
                 };
 
+        private static readonly string[] RedundantItemPrefixes =
+        {
+            "Ability: ",
+            "Ancestral Art: ",
+            "Tool: ",
+            "Silk Skill: ",
+        };
+
+        private static readonly Func<string, string>
+            CanonicalItemNameFactory = ResolveCanonicalItemName;
+        private static readonly ConcurrentDictionary<string, string>
+            CanonicalItemNames = new ConcurrentDictionary<string, string>();
+
         internal static string GetCanonicalItemName(string itemName)
         {
             if (string.IsNullOrWhiteSpace(itemName))
@@ -460,6 +472,14 @@ namespace SilksongRandomizer
                 return itemName;
             }
 
+            return CanonicalItemNames.GetOrAdd(
+                itemName,
+                CanonicalItemNameFactory
+            );
+        }
+
+        private static string ResolveCanonicalItemName(string itemName)
+        {
             string canonicalName = NativeItemNameAliases.TryGetValue(
                 itemName,
                 out string renamedItem
@@ -474,14 +494,7 @@ namespace SilksongRandomizer
                 return fleaDisplayName;
             }
 
-            string[] redundantPrefixes =
-            {
-                "Ability: ",
-                "Ancestral Art: ",
-                "Tool: ",
-                "Silk Skill: ",
-            };
-            foreach (string prefix in redundantPrefixes)
+            foreach (string prefix in RedundantItemPrefixes)
             {
                 if (canonicalName.StartsWith(
                         prefix,
@@ -494,7 +507,7 @@ namespace SilksongRandomizer
             return canonicalName;
         }
 
-        public Item[] items = new Item[]
+        public Item[] items = LoreTabletManifest.AppendItems(new Item[]
         {
             // Skills
             new Item("Ability: Faydown Cloak", ItemType.Skill, ItemGrants.GrantFaydownCloak),
@@ -503,7 +516,6 @@ namespace SilksongRandomizer
             new Item("Ancestral Art: Cling Grip", ItemType.Skill, ItemGrants.GrantClingGrip),
             new Item("Ability: Drifter's Cloak", ItemType.Skill, () => { SaveState.Instance.canBrolly = true; }),
             new Item("Ancestral Art: Swift Step", ItemType.Skill, ItemGrants.GrantDash),
-            new Item("Ability: Swift Step (Sprint Only)", ItemType.Skill, ItemGrants.GrantSprint),
             new Item("Progressive Swift Step", ItemType.Skill, ItemGrants.GrantProgressiveSwiftStep, true),
             new Item("Ancestral Art: Clawline", ItemType.Skill, () => { SaveState.Instance.canUseHarpoon = true; }),
             new Item("Item: Quill", ItemType.Skill, () => { SaveState.Instance.canUseQuill = true; }),
@@ -644,7 +656,7 @@ namespace SilksongRandomizer
             new Item("Tool: Pin Badge", ItemType.Tool, null),
             new Item("Tool: Needle Phial", ItemType.Tool, null),
             new Item("Tool: Plasmium Phial", ItemType.Tool, null),
-            new Item("Tool: Shell Satchel", ItemType.Tool, null),
+            new Item("Tool: Shell Satchel", ItemType.Tool, () => { ItemGrants.GrantTool("Shell Satchel"); }),
             new Item("Tool: Dead Bug's Purse", ItemType.Tool, null),
             new Item("Tool: Scuttlebrace", ItemType.Tool, null),
             new Item("Tool: Thief's Mark", ItemType.Tool, null),
@@ -776,16 +788,76 @@ namespace SilksongRandomizer
             new Item("Progressive Silkheart", ItemType.SilkHeart, ItemGrants.GrantProgressiveSilkheart, true),
             
             // Bellway
-            new Item("Bellway: Deep Docks", ItemType.Bellway, () => { SaveState.Instance.UnlockedDocksStation = true; }),
-            new Item("Bellway: Far Fields", ItemType.Bellway, () => { SaveState.Instance.UnlockedBoneforestEastStation = true; }),
-            new Item("Bellway: Greymoor", ItemType.Bellway, () => { SaveState.Instance.UnlockedGreymoorStation = true; }),
-            new Item("Bellway: Bellhart", ItemType.Bellway, () => { SaveState.Instance.UnlockedBelltownStation = true; }),
-            new Item("Bellway: Blasted Steps", ItemType.Bellway, () => { SaveState.Instance.UnlockedCoralTowerStation = true; }),
-            new Item("Bellway: Grand Bellway", ItemType.Bellway, () => { SaveState.Instance.UnlockedCityStation = true; }),
-            new Item("Bellway: The Slab", ItemType.Bellway, () => { SaveState.Instance.UnlockedPeakStation = true; }),
-            new Item("Bellway: Shellwood", ItemType.Bellway, () => { SaveState.Instance.UnlockedShellwoodStation = true; }),
-            new Item("Bellway: Bilewater", ItemType.Bellway, () => { SaveState.Instance.UnlockedShadowStation = true; }),
-            new Item("Bellway: Putrified Ducts", ItemType.Bellway, () => { SaveState.Instance.UnlockedAqueductStation = true; }),
+            new Item("Bellway: Deep Docks", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedDocksStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedDocksStation"
+                );
+            }),
+            new Item("Bellway: Far Fields", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedBoneforestEastStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedBoneforestEastStation"
+                );
+            }),
+            new Item("Bellway: Greymoor", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedGreymoorStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedGreymoorStation"
+                );
+            }),
+            new Item("Bellway: Bellhart", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedBelltownStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedBelltownStation"
+                );
+            }),
+            new Item("Bellway: Blasted Steps", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedCoralTowerStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedCoralTowerStation"
+                );
+            }),
+            new Item("Bellway: Grand Bellway", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedCityStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedCityStation"
+                );
+            }),
+            new Item("Bellway: The Slab", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedPeakStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedPeakStation"
+                );
+            }),
+            new Item("Bellway: Shellwood", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedShellwoodStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedShellwoodStation"
+                );
+            }),
+            new Item("Bellway: Bilewater", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedShadowStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedShadowStation"
+                );
+            }),
+            new Item("Bellway: Putrified Ducts", ItemType.Bellway, () =>
+            {
+                SaveState.Instance.UnlockedAqueductStation = true;
+                Patches.TravelPatches.RefreshBellBeastAfterApUnlock(
+                    "UnlockedAqueductStation"
+                );
+            }),
 
             // Ventrica
             new Item("Ventrica: Choral Chambers", ItemType.Ventrica, () => { SaveState.Instance.UnlockedSongTube = true; }),
@@ -794,9 +866,6 @@ namespace SilksongRandomizer
             new Item("Ventrica: High Halls", ItemType.Ventrica, () => { SaveState.Instance.UnlockedHangTube = true; }),
             new Item("Ventrica: Songclave", ItemType.Ventrica, () => { SaveState.Instance.UnlockedEnclaveTube = true; }),
             new Item("Ventrica: Memorium", ItemType.Ventrica, () => { SaveState.Instance.UnlockedArboriumTube = true; }),
-
-            // Archipelago completion event awarded by the Goal location.
-            new Item("Victory", ItemType.Unknown, () => { SaveState.Instance.goalCompleted = true; }),
 
             // Minor caches. Kept as compact repeatable filler rather
             // than granting a full vanilla string or shard bundle per rock.
@@ -835,6 +904,24 @@ namespace SilksongRandomizer
             new Item("Surgeon's Key", ItemType.MajorKey, ItemGrants.GrantSurgeonsKey),
             new Item("Architect's Key", ItemType.MajorKey, ItemGrants.GrantArchitectsKey),
             new Item("Craw Summons", ItemType.MajorKey, ItemGrants.GrantCrawSummons),
-        };
+            new Item("Growstone", ItemType.Resource, () => { ItemGrants.GrantCollectable("Growstone"); }),
+            new Item("Rosaries (8)", ItemType.Resource, () => { ItemGrants.GrantRosaries(8); }, true),
+            new Item("Rosaries (30)", ItemType.Resource, () => { ItemGrants.GrantRosaries(30); }, true),
+            new Item("Rosaries (70)", ItemType.Resource, () => { ItemGrants.GrantRosaries(70); }, true),
+            new Item("Rosaries (75)", ItemType.Resource, () => { ItemGrants.GrantRosaries(75); }, true),
+            new Item("Rosaries (84)", ItemType.Resource, () => { ItemGrants.GrantRosaries(84); }, true),
+            new Item("Rosaries (90)", ItemType.Resource, () => { ItemGrants.GrantRosaries(90); }, true),
+            new Item("Rosaries (105)", ItemType.Resource, () => { ItemGrants.GrantRosaries(105); }, true),
+            new Item("Rosaries (112)", ItemType.Resource, () => { ItemGrants.GrantRosaries(112); }, true),
+            new Item("Rosaries (115)", ItemType.Resource, () => { ItemGrants.GrantRosaries(115); }, true),
+            new Item("Rosaries (130)", ItemType.Resource, () => { ItemGrants.GrantRosaries(130); }, true),
+            new Item("Rosaries (155)", ItemType.Resource, () => { ItemGrants.GrantRosaries(155); }, true),
+            new Item("Shell Shards (35)", ItemType.Resource, () => { ItemGrants.GrantShellShards(35); }, true),
+            new Item("Bell: The Marrow", ItemType.BellShrine, ItemGrants.GrantBell),
+            new Item("Bell: Deep Docks", ItemType.BellShrine, ItemGrants.GrantBell),
+            new Item("Bell: Greymoor", ItemType.BellShrine, ItemGrants.GrantBell),
+            new Item("Bell: Shellwood", ItemType.BellShrine, ItemGrants.GrantBell),
+            new Item("Bell: Bellhart", ItemType.BellShrine, ItemGrants.GrantBell),
+        });
     }
 }

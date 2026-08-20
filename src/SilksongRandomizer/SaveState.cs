@@ -1,7 +1,10 @@
 using Archipelago.MultiClient.Net.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace SilksongRandomizer
@@ -9,7 +12,7 @@ namespace SilksongRandomizer
     [System.Serializable]
     public class SaveState
     {
-        public const int CurrentSchemaVersion = 22;
+        public const int CurrentSchemaVersion = 26;
 
         internal static readonly string[] StartWithMapsItemNames =
         {
@@ -55,6 +58,8 @@ namespace SilksongRandomizer
             public string user;
             public string item;
             public ItemFlags flags;
+            public bool official;
+            public bool found;
         }
 
         [System.Serializable]
@@ -74,10 +79,47 @@ namespace SilksongRandomizer
             }
         }
 
+        [System.Serializable]
+        public class ItemMarkerLocationData
+        {
+            public string itemName = string.Empty;
+            public string locationName = string.Empty;
+
+            public ItemMarkerLocationData()
+            {
+            }
+
+            public ItemMarkerLocationData(
+                string itemName,
+                string locationName
+            )
+            {
+                this.itemName = itemName ?? string.Empty;
+                this.locationName = locationName ?? string.Empty;
+            }
+        }
+
         public static SaveState Instance { get; set; }
 
         // A bound save may only reconnect to this Archipelago room, slot and goal.
+        [XmlIgnore]
         public int schemaVersion = CurrentSchemaVersion;
+        [NonSerialized]
+        [XmlIgnore]
+        private bool schemaVersionWasDeserialized;
+        [XmlElement("schemaVersion")]
+        public int SerializedSchemaVersion
+        {
+            get
+            {
+                return schemaVersion;
+            }
+            set
+            {
+                schemaVersion = value;
+                schemaVersionWasDeserialized = true;
+            }
+        }
         public string roomSeed = string.Empty;
         public string slotName = string.Empty;
         public int team = -1;
@@ -92,11 +134,36 @@ namespace SilksongRandomizer
         public bool splitDashAndSprint;
         public bool randomizeNeedleUpgrades;
         public bool startWithMaps;
+        public bool startFullyMapped;
         public bool automaticCompass;
         public CheckMapMarkerMode checkMapMarkers =
             CheckMapMarkerMode.Off;
+        public bool randomizedBellMarkers;
+        public bool randomizedMelodyMarkers;
+        public List<ItemMarkerLocationData> randomizedItemMarkerLocations =
+            new List<ItemMarkerLocationData>();
+        [NonSerialized]
+        [XmlIgnore]
+        private Dictionary<string, string> randomizedItemMarkerLocationLookup =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        public bool vogHintSettingsBound;
+        public int vogWothHintCount;
+        public int vogFoolishHintCount;
+        public int vogGeneralHintCount;
+        public List<string> vogWothAreas = new List<string>();
+        public List<string> vogFoolishAreas = new List<string>();
+        public List<string> vogGeneralLocations = new List<string>();
+        public HashSet<string> purchasedVogHints =
+            new HashSet<string>(StringComparer.Ordinal);
+        public List<string> vogHintHistory = new List<string>();
+        public int vogHintHistoryReadIndex;
+        public string pendingVogGeneralKey = string.Empty;
+        public string pendingVogGeneralLocation = string.Empty;
+        public int pendingVogGeneralPrice;
         public string bellwayAccess =
             Archipelago.BellwayAccessBellBeastRequired;
+        public string trailsEndRequirement =
+            Archipelago.TrailsEndRequirementShakraStock;
         public string enemyRosaryMultiplier =
             Archipelago.RosaryMultiplierVanilla;
         public string enemyShardMultiplier =
@@ -107,6 +174,7 @@ namespace SilksongRandomizer
         public string pinPrices = Archipelago.PriceModeVanilla;
         public string upgradePrices = Archipelago.PriceModeVanilla;
         public string donationPrices = Archipelago.PriceModeVanilla;
+        public string vogHintPrices = Archipelago.PriceModeVanilla;
         public List<PurchasePriceData> purchasePrices =
             new List<PurchasePriceData>();
         [NonSerialized]
@@ -114,6 +182,8 @@ namespace SilksongRandomizer
         private Dictionary<string, int> purchasePriceLookup;
         public bool fasterDialogue;
         public bool deathLink;
+        public string deathLinkCocoon =
+            Archipelago.DeathLinkCocoonProtected;
         public bool silkLink;
         // Retains upgraded-capacity Silk across a live network reconnect only.
         // The game clears current Silk on a full save load, so this runtime
@@ -137,7 +207,7 @@ namespace SilksongRandomizer
         // Unlike current Silk, this currency persists across full save loads.
         public int shellShardLinkPrivateShards = -1;
         public bool individualRelicTurnIns;
-        public bool logicAuditMode;
+        public string preferredF4Hub = string.Empty;
         // Set only by the Bone Bottom-to-Greymoor caravan arrival
         // sequence. Unlike CaravanTroupeLocation, this cannot be advanced by
         // declining the ride and remains true if the troupe later relocates.
@@ -149,10 +219,91 @@ namespace SilksongRandomizer
         public bool mossMotherBypassedByBoneBottomWarp;
         // Minimal APWorld logic graph used only to shade check-map icons.
         // An empty payload means "unknown", never "unreachable".
+        [NonSerialized]
+        [XmlIgnore]
         public string mapLogicPayloadJson = string.Empty;
-        // Kept for schema-6 XML compatibility. New saves use questSanityMode,
-        // but XmlSerializer must still be able to read the old boolean field.
-        public bool questSanity;
+
+        [NonSerialized]
+        [XmlIgnore]
+        private string compressedMapLogicPayloadSource = string.Empty;
+
+        [NonSerialized]
+        [XmlIgnore]
+        private string compressedMapLogicPayload = string.Empty;
+
+        [XmlElement("mapLogicPayloadGzip")]
+        public string MapLogicPayloadGzip
+        {
+            get
+            {
+                string payload = mapLogicPayloadJson ?? string.Empty;
+                if (!ReferenceEquals(
+                        payload,
+                        compressedMapLogicPayloadSource
+                    ))
+                {
+                    compressedMapLogicPayload =
+                        CompressMapLogicPayload(payload);
+                    compressedMapLogicPayloadSource = payload;
+                }
+                return compressedMapLogicPayload;
+            }
+            set
+            {
+                compressedMapLogicPayload = value ?? string.Empty;
+                mapLogicPayloadJson = DecompressMapLogicPayload(
+                    compressedMapLogicPayload
+                );
+                compressedMapLogicPayloadSource = mapLogicPayloadJson;
+            }
+        }
+
+        internal void PrimeMapLogicPayloadCompression()
+        {
+            _ = MapLogicPayloadGzip;
+        }
+
+        private static string CompressMapLogicPayload(string payload)
+        {
+            if (string.IsNullOrEmpty(payload))
+            {
+                return string.Empty;
+            }
+
+            byte[] input = Encoding.UTF8.GetBytes(payload);
+            using (MemoryStream output = new MemoryStream())
+            {
+                using (GZipStream gzip = new GZipStream(
+                    output,
+                    CompressionLevel.Fastest,
+                    true
+                ))
+                {
+                    gzip.Write(input, 0, input.Length);
+                }
+                return Convert.ToBase64String(output.ToArray());
+            }
+        }
+
+        private static string DecompressMapLogicPayload(string payload)
+        {
+            if (string.IsNullOrEmpty(payload))
+            {
+                return string.Empty;
+            }
+
+            byte[] input = Convert.FromBase64String(payload);
+            using (MemoryStream source = new MemoryStream(input))
+            using (GZipStream gzip = new GZipStream(
+                source,
+                CompressionMode.Decompress
+            ))
+            using (MemoryStream output = new MemoryStream())
+            {
+                gzip.CopyTo(output);
+                return Encoding.UTF8.GetString(output.ToArray());
+            }
+        }
         public RandomizationMode skillRandomization = RandomizationMode.Anywhere;
         public RandomizationMode toolRandomization = RandomizationMode.Anywhere;
         public RandomizationMode silkSkillRandomization = RandomizationMode.Anywhere;
@@ -170,6 +321,7 @@ namespace SilksongRandomizer
         public RandomizationMode relicRandomization = RandomizationMode.Anywhere;
         public RandomizationMode craftingKitRandomization = RandomizationMode.Anywhere;
         public RandomizationMode minorPickupRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode loreTabletRandomization = RandomizationMode.Vanilla;
         // Vanilla is the default when the sidecar has not yet been
         // bound to slot data. Current rooms replace it with their configured
         // destination-key mode during binding.
@@ -252,7 +404,6 @@ namespace SilksongRandomizer
         public bool UnlockedShellwoodStation;
         public bool UnlockedShadowStation;
         public bool UnlockedAqueductStation;
-        public bool bellCentipedeAppeared;
         public bool canUseBeastlingCall;
         public bool bellEaterResolved;
 
@@ -340,164 +491,47 @@ namespace SilksongRandomizer
             }
         }
 
+        [XmlIgnore]
+        public bool TrailsEndUsesOwnedMaps
+        {
+            get
+            {
+                return string.Equals(
+                    trailsEndRequirement,
+                    Archipelago.TrailsEndRequirementOwnedMaps,
+                    StringComparison.Ordinal
+                );
+            }
+        }
+
+        internal void RequireExplicitSchemaVersion()
+        {
+            if (!schemaVersionWasDeserialized)
+            {
+                throw new InvalidDataException(
+                    "Save metadata is missing the required schemaVersion " +
+                    "element."
+                );
+            }
+        }
+
         public void InitializeAfterLoad()
         {
-            int loadedSchemaVersion = schemaVersion;
-            if (loadedSchemaVersion < 7)
+            if (schemaVersion != CurrentSchemaVersion)
             {
-                skillRandomization = RandomizationMode.Anywhere;
-                toolRandomization = RandomizationMode.Anywhere;
-                silkSkillRandomization = RandomizationMode.Anywhere;
-                crestRandomization = RandomizationMode.Anywhere;
-                fleaRandomization = RandomizationMode.Anywhere;
-                crestSlotRandomization = RandomizationMode.Anywhere;
-                maskShardRandomization = RandomizationMode.Anywhere;
-                spoolFragmentRandomization = RandomizationMode.Anywhere;
-                silkHeartRandomization = RandomizationMode.Anywhere;
-                bellwayRandomization = RandomizationMode.Anywhere;
-                ventricaRandomization = RandomizationMode.Anywhere;
-                mapRandomization = RandomizationMode.Anywhere;
-                pinRandomization = RandomizationMode.Anywhere;
-                relicRandomization = RandomizationMode.Anywhere;
-                craftingKitRandomization = RandomizationMode.Anywhere;
-                bossSanity = RandomizationMode.Anywhere;
-                bellShrineSanity = RandomizationMode.Anywhere;
-                questSanityMode = questSanity
-                    ? RandomizationMode.Anywhere
-                    : RandomizationMode.Vanilla;
+                throw new InvalidDataException(
+                    "Save metadata schema " + schemaVersion +
+                    " does not match the required schema " +
+                    CurrentSchemaVersion + "."
+                );
             }
 
-            if (loadedSchemaVersion < 5 && canDash)
-            {
-                // Before Sprint was a separate optional item, Dash always
-                // included the held-button sprint behavior.
-                canSprint = true;
-            }
-
-            if (loadedSchemaVersion < 8)
-            {
-                // Earlier sidecar schemas did not store Needle randomization.
-                // A missing XML value therefore retains vanilla behavior.
-                randomizeNeedleUpgrades = false;
-
-                // The two movement abilities remain independently stored.
-                // Current sidecars encode the same final state with two
-                // Progressive Swift Step receipts.
-                swiftStepLevel = canSprint
-                    ? (canDash ? 2 : 1)
-                    : 0;
-            }
-
-            if (loadedSchemaVersion < 10)
-            {
-                // Earlier sidecar schemas did not persist Bellway access.
-                bellwayAccess =
-                    Archipelago.BellwayAccessBellBeastRequired;
-            }
-
-            if (loadedSchemaVersion < 11)
-            {
-                // This schema predates separate Simple Key item and source
-                // state, so retain the native fungible-key behavior.
-                simpleKeyRandomization = RandomizationMode.Vanilla;
-            }
-
-            if (loadedSchemaVersion < 12)
-            {
-                // logic_audit_mode existed in the APWorld but was not stored
-                // by this sidecar schema. A connection supplies it again.
-                logicAuditMode = false;
-                bellhomePhaseToggleUnlocked = false;
-            }
-
-            if (loadedSchemaVersion < 13)
-            {
-                // This schema predates learned-song checks and their separate
-                // AP ability state.
-                melodyRandomization = RandomizationMode.Vanilla;
-                canUseBeastlingCall = false;
-                bellEaterResolved = false;
-            }
-
-            if (loadedSchemaVersion < 14)
-            {
-                // This schema predates Silk Link state, so missing values
-                // remain safely opted out.
-                silkLink = false;
-                silkLinkLastSyncedBalance = -1;
-            }
-
-            if (loadedSchemaVersion < 15)
-            {
-                // This schema predates loose-currency link state, so missing
-                // values remain safely opted out.
-                rosaryLink = false;
-                shellShardLink = false;
-                rosaryLinkLastSyncedBalance = -1;
-                shellShardLinkLastSyncedBalance = -1;
-                shellShardLinkPrivateShards = -1;
-            }
-
-            if (loadedSchemaVersion < 16)
-            {
-                // This schema predates these randomized source families.
-                // Missing values must leave their vanilla rewards intact.
-                memoryLocketRandomization = RandomizationMode.Vanilla;
-                craftmetalRandomization = RandomizationMode.Vanilla;
-                mossberryRandomization = RandomizationMode.Vanilla;
-                silkeaterRandomization = RandomizationMode.Vanilla;
-                majorKeyRandomization = RandomizationMode.Vanilla;
-            }
-
-            if (loadedSchemaVersion < 17)
-            {
-                // This schema predates starting-location state, so its sidecar's
-                // start-warp status remains unknown.
-                startingLocation = string.Empty;
-                startingLocationApplied = false;
-            }
-
-            if (loadedSchemaVersion < 18)
-            {
-                normalShopPrices = Archipelago.PriceModeVanilla;
-                bellwayPrices = Archipelago.PriceModeVanilla;
-                mapPrices = Archipelago.PriceModeVanilla;
-                pinPrices = Archipelago.PriceModeVanilla;
-                upgradePrices = Archipelago.PriceModeVanilla;
-                donationPrices = Archipelago.PriceModeVanilla;
-                purchasePrices = new List<PurchasePriceData>();
-            }
-
-            if (loadedSchemaVersion < 19)
-            {
-                // This schema predates individual Scrounge turn-in state.
-                // Missing values must leave the vanilla Rosary rewards and
-                // bulk deposit behavior untouched.
-                individualRelicTurnIns = false;
-            }
-
-            if (loadedSchemaVersion < 21)
-            {
-                // This schema predates randomized Tool Pouch source state.
-                // Missing values must leave the vanilla rewards intact
-                // instead of consuming them as AP checks.
-                toolPouchRandomization = RandomizationMode.Vanilla;
-            }
-
-            if (loadedSchemaVersion < 22)
-            {
-                // This schema predates randomized Pollip Heart source state.
-                // Missing values must leave native Shell Flowers intact
-                // instead of consuming them as AP checks.
-                pollipHeartRandomization = RandomizationMode.Vanilla;
-            }
-
-            schemaVersion = CurrentSchemaVersion;
             roomSeed = roomSeed ?? string.Empty;
             slotName = slotName ?? string.Empty;
             worldVersion = worldVersion ?? string.Empty;
             goal = goal ?? string.Empty;
             mapLogicPayloadJson = mapLogicPayloadJson ?? string.Empty;
+            PrimeMapLogicPayloadCompression();
             if (!Archipelago.IsSupportedFleaHuntGoalCount(
                     fleaHuntGoalCount
                 ))
@@ -507,10 +541,20 @@ namespace SilksongRandomizer
             }
             startingCrest = startingCrest ?? string.Empty;
             startingLocation = startingLocation ?? string.Empty;
+            preferredF4Hub = FastTravelUtil.NormalizePreferredHubKey(
+                preferredF4Hub
+            );
             if (!Archipelago.IsSupportedBellwayAccess(bellwayAccess))
             {
                 bellwayAccess =
                     Archipelago.BellwayAccessBellBeastRequired;
+            }
+            if (!Archipelago.IsSupportedTrailsEndRequirement(
+                    trailsEndRequirement
+                ))
+            {
+                trailsEndRequirement =
+                    Archipelago.TrailsEndRequirementShakraStock;
             }
             if (!Archipelago.IsSupportedEnemyRosaryMultiplier(
                     enemyRosaryMultiplier
@@ -534,6 +578,7 @@ namespace SilksongRandomizer
             pinPrices = NormalizePurchasePriceMode(pinPrices);
             upgradePrices = NormalizePurchasePriceMode(upgradePrices);
             donationPrices = NormalizePurchasePriceMode(donationPrices);
+            vogHintPrices = NormalizePurchasePriceMode(vogHintPrices);
             SetPurchasePrices(
                 (purchasePrices ?? new List<PurchasePriceData>())
                     .Where(entry => entry != null)
@@ -554,19 +599,75 @@ namespace SilksongRandomizer
             {
                 checkMapMarkers = CheckMapMarkerMode.Off;
             }
+            SetRandomizedItemMarkerLocations(
+                (randomizedItemMarkerLocations ??
+                    new List<ItemMarkerLocationData>())
+                    .Where(entry => entry != null)
+                    .Select(entry => new KeyValuePair<string, string>(
+                        entry.itemName,
+                        entry.locationName
+                    ))
+            );
+            vogWothHintCount = Math.Max(
+                0,
+                Math.Min(30, vogWothHintCount)
+            );
+            vogFoolishHintCount = Math.Max(
+                0,
+                Math.Min(30, vogFoolishHintCount)
+            );
+            vogGeneralHintCount = Math.Max(
+                0,
+                Math.Min(30, vogGeneralHintCount)
+            );
+            vogWothAreas = NormalizeVogHintPlan(vogWothAreas);
+            vogFoolishAreas = NormalizeVogHintPlan(vogFoolishAreas);
+            vogGeneralLocations = NormalizeVogHintPlan(
+                vogGeneralLocations
+            );
+            purchasedVogHints = new HashSet<string>(
+                (purchasedVogHints ?? new HashSet<string>())
+                    .Where(key => !string.IsNullOrWhiteSpace(key))
+                    .Select(key => key.Trim()),
+                StringComparer.Ordinal
+            );
+            vogHintHistory = (vogHintHistory ?? new List<string>())
+                .Where(text => !string.IsNullOrWhiteSpace(text))
+                .Select(text => text.Trim())
+                .ToList();
+            vogHintHistoryReadIndex = vogHintHistory.Count == 0
+                ? 0
+                : Math.Max(0, vogHintHistoryReadIndex) %
+                    vogHintHistory.Count;
+            pendingVogGeneralKey =
+                (pendingVogGeneralKey ?? string.Empty).Trim();
+            pendingVogGeneralLocation =
+                (pendingVogGeneralLocation ?? string.Empty).Trim();
+            pendingVogGeneralPrice = Math.Max(
+                0,
+                pendingVogGeneralPrice
+            );
+            if (string.IsNullOrWhiteSpace(pendingVogGeneralKey) ||
+                string.IsNullOrWhiteSpace(pendingVogGeneralLocation) ||
+                !pendingVogGeneralKey.StartsWith(
+                    "general:",
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    pendingVogGeneralKey,
+                    "general:" + pendingVogGeneralLocation,
+                    StringComparison.Ordinal
+                ))
+            {
+                pendingVogGeneralKey = string.Empty;
+                pendingVogGeneralLocation = string.Empty;
+                pendingVogGeneralPrice = 0;
+            }
             receivedItems = new HashSet<string>(
                 (receivedItems ?? new HashSet<string>())
                     .Select(ItemSet.GetCanonicalItemName),
                 StringComparer.OrdinalIgnoreCase
             );
-            if (receivedItems.Contains(
-                    ItemSet.ProgressiveSilkheartItemName))
-            {
-                // A level was not serialized before schema 20. Seeing the
-                // progressive identity proves at least one received copy.
-                // Schema-20 saves retain the higher count below.
-                silkHeartLevel = Math.Max(silkHeartLevel, 1);
-            }
             silkHeartLevel = Math.Max(
                 0,
                 Math.Min(3, silkHeartLevel)
@@ -616,7 +717,6 @@ namespace SilksongRandomizer
             }
             items = new ItemSet();
             locations = new LocationSet();
-            questSanity = IsRandomized(ItemType.Quest);
         }
 
         private static string NormalizePurchasePriceMode(string mode)
@@ -624,6 +724,16 @@ namespace SilksongRandomizer
             return Archipelago.IsSupportedPurchasePriceMode(mode)
                 ? mode
                 : Archipelago.PriceModeVanilla;
+        }
+
+        private static List<string> NormalizeVogHintPlan(
+            IEnumerable<string> values
+        )
+        {
+            return (values ?? Array.Empty<string>())
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .Select(value => value.Trim())
+                .ToList();
         }
 
         private void SetPurchasePrices(
@@ -715,6 +825,11 @@ namespace SilksongRandomizer
                     donationPrices,
                     archipelago.DonationPrices,
                     StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    vogHintPrices,
+                    archipelago.VogHintPrices,
+                    StringComparison.Ordinal
                 ))
             {
                 return false;
@@ -754,9 +869,19 @@ namespace SilksongRandomizer
             randomizeNeedleUpgrades =
                 archipelago.RandomizeNeedleUpgrades;
             startWithMaps = archipelago.StartWithMaps;
+            startFullyMapped = archipelago.StartFullyMapped;
             automaticCompass = archipelago.AutomaticCompass;
             checkMapMarkers = archipelago.CheckMapMarkers;
+            randomizedBellMarkers =
+                archipelago.RandomizedBellMarkers;
+            randomizedMelodyMarkers =
+                archipelago.RandomizedMelodyMarkers;
+            SetRandomizedItemMarkerLocations(
+                archipelago.RandomizedItemMarkerLocations
+            );
+            BindVogHintSettings(archipelago);
             bellwayAccess = archipelago.BellwayAccess;
+            trailsEndRequirement = archipelago.TrailsEndRequirement;
             enemyRosaryMultiplier =
                 archipelago.EnemyRosaryMultiplier;
             enemyShardMultiplier =
@@ -767,21 +892,19 @@ namespace SilksongRandomizer
             pinPrices = archipelago.PinPrices;
             upgradePrices = archipelago.UpgradePrices;
             donationPrices = archipelago.DonationPrices;
+            vogHintPrices = archipelago.VogHintPrices;
             SetPurchasePrices(archipelago.PurchasePrices);
             fasterDialogue = archipelago.FasterDialogue;
             deathLink = archipelago.DeathLink;
+            deathLinkCocoon = archipelago.DeathLinkCocoon;
             silkLink = archipelago.SilkLink;
             rosaryLink = archipelago.RosaryLink;
             shellShardLink = archipelago.ShellShardLink;
             individualRelicTurnIns =
                 archipelago.IndividualRelicTurnIns;
-            logicAuditMode = archipelago.LogicAuditMode;
-            if (logicAuditMode)
-            {
-                bellhomePhaseToggleUnlocked = true;
-            }
             mapLogicPayloadJson =
                 archipelago.MapLogicPayloadJson ?? string.Empty;
+            PrimeMapLogicPayloadCompression();
             skillRandomization = archipelago.SkillRandomization;
             toolRandomization = archipelago.ToolRandomization;
             silkSkillRandomization = archipelago.SilkSkillRandomization;
@@ -799,6 +922,7 @@ namespace SilksongRandomizer
             relicRandomization = archipelago.RelicRandomization;
             craftingKitRandomization = archipelago.CraftingKitRandomization;
             minorPickupRandomization = archipelago.MinorPickupRandomization;
+            loreTabletRandomization = archipelago.LoreTabletRandomization;
             simpleKeyRandomization = archipelago.SimpleKeyRandomization;
             memoryLocketRandomization = archipelago.MemoryLocketRandomization;
             craftmetalRandomization = archipelago.CraftmetalRandomization;
@@ -810,7 +934,6 @@ namespace SilksongRandomizer
             bossSanity = archipelago.BossSanity;
             bellShrineSanity = archipelago.BellShrineSanity;
             questSanityMode = archipelago.QuestSanity;
-            questSanity = IsRandomized(ItemType.Quest);
             SetRoomLocationNames(archipelago.GetRoomLocationNames());
             schemaVersion = CurrentSchemaVersion;
         }
@@ -853,11 +976,23 @@ namespace SilksongRandomizer
                    randomizeNeedleUpgrades ==
                        archipelago.RandomizeNeedleUpgrades &&
                    startWithMaps == archipelago.StartWithMaps &&
+                   startFullyMapped == archipelago.StartFullyMapped &&
                    automaticCompass == archipelago.AutomaticCompass &&
                    checkMapMarkers == archipelago.CheckMapMarkers &&
+                   randomizedBellMarkers ==
+                       archipelago.RandomizedBellMarkers &&
+                   randomizedMelodyMarkers ==
+                       archipelago.RandomizedMelodyMarkers &&
+                   (!vogHintSettingsBound ||
+                    VogHintSettingsMatch(archipelago)) &&
                    string.Equals(
                        bellwayAccess,
                        archipelago.BellwayAccess,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       trailsEndRequirement,
+                       archipelago.TrailsEndRequirement,
                        StringComparison.Ordinal
                    ) &&
                    string.Equals(
@@ -872,13 +1007,88 @@ namespace SilksongRandomizer
                    ) &&
                    PurchasePriceSettingsMatch(archipelago) &&
                    fasterDialogue == archipelago.FasterDialogue &&
-                    deathLink == archipelago.DeathLink &&
+                   deathLink == archipelago.DeathLink &&
+                   string.Equals(
+                       deathLinkCocoon,
+                       archipelago.DeathLinkCocoon,
+                       StringComparison.Ordinal
+                   ) &&
                     silkLink == archipelago.SilkLink &&
                     rosaryLink == archipelago.RosaryLink &&
                     shellShardLink == archipelago.ShellShardLink &&
                     individualRelicTurnIns ==
                         archipelago.IndividualRelicTurnIns &&
                    RandomizationModesMatch(archipelago);
+        }
+
+        internal void BindVogHintSettings(Archipelago archipelago)
+        {
+            if (archipelago == null)
+            {
+                return;
+            }
+
+            vogWothHintCount = archipelago.VogWothHintCount;
+            vogFoolishHintCount = archipelago.VogFoolishHintCount;
+            vogGeneralHintCount = archipelago.VogGeneralHintCount;
+            vogWothAreas = NormalizeVogHintPlan(
+                archipelago.VogWothAreas
+            );
+            vogFoolishAreas = NormalizeVogHintPlan(
+                archipelago.VogFoolishAreas
+            );
+            vogGeneralLocations = NormalizeVogHintPlan(
+                archipelago.VogGeneralLocations
+            );
+            vogHintSettingsBound = true;
+        }
+
+        private bool VogHintSettingsMatch(Archipelago archipelago)
+        {
+            return archipelago != null &&
+                   vogWothHintCount == archipelago.VogWothHintCount &&
+                   vogFoolishHintCount ==
+                       archipelago.VogFoolishHintCount &&
+                   vogGeneralHintCount ==
+                       archipelago.VogGeneralHintCount &&
+                   VogHintPlanMatches(
+                       vogWothAreas,
+                       archipelago.VogWothAreas
+                   ) &&
+                   VogHintPlanMatches(
+                       vogFoolishAreas,
+                       archipelago.VogFoolishAreas
+                   ) &&
+                   VogHintPlanMatches(
+                       vogGeneralLocations,
+                       archipelago.VogGeneralLocations
+                   );
+        }
+
+        private static bool VogHintPlanMatches(
+            IReadOnlyList<string> savedPlan,
+            IReadOnlyList<string> roomPlan
+        )
+        {
+            if (savedPlan == null || roomPlan == null ||
+                savedPlan.Count != roomPlan.Count)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < savedPlan.Count; index++)
+            {
+                if (!string.Equals(
+                        savedPlan[index],
+                        roomPlan[index],
+                        StringComparison.Ordinal
+                    ))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool RandomizationModesMatch(Archipelago archipelago)
@@ -925,6 +1135,7 @@ namespace SilksongRandomizer
                 Tuple.Create("relic_randomization", relicRandomization, archipelago.RelicRandomization),
                 Tuple.Create("crafting_kit_randomization", craftingKitRandomization, archipelago.CraftingKitRandomization),
                 Tuple.Create("minor_pickup_randomization", minorPickupRandomization, archipelago.MinorPickupRandomization),
+                Tuple.Create("lore_tablet_randomization", loreTabletRandomization, archipelago.LoreTabletRandomization),
                 Tuple.Create("simple_key_randomization", simpleKeyRandomization, archipelago.SimpleKeyRandomization),
                 Tuple.Create("memory_locket_randomization", memoryLocketRandomization, archipelago.MemoryLocketRandomization),
                 Tuple.Create("craftmetal_randomization", craftmetalRandomization, archipelago.CraftmetalRandomization),
@@ -977,6 +1188,7 @@ namespace SilksongRandomizer
                 Tuple.Create("pin_prices", pinPrices, archipelago.PinPrices),
                 Tuple.Create("upgrade_prices", upgradePrices, archipelago.UpgradePrices),
                 Tuple.Create("donation_prices", donationPrices, archipelago.DonationPrices),
+                Tuple.Create("vog_hint_prices", vogHintPrices, archipelago.VogHintPrices),
             };
             foreach (Tuple<string, string, string> mode in modes)
             {
@@ -1126,6 +1338,16 @@ namespace SilksongRandomizer
             }
 
             if (roomIdentityMatches &&
+                startFullyMapped != archipelago.StartFullyMapped)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "start_fully_mapped",
+                    startFullyMapped,
+                    archipelago.StartFullyMapped
+                );
+            }
+
+            if (roomIdentityMatches &&
                 automaticCompass != archipelago.AutomaticCompass)
             {
                 return GetBooleanSettingMismatchMessage(
@@ -1148,6 +1370,37 @@ namespace SilksongRandomizer
             }
 
             if (roomIdentityMatches &&
+                randomizedBellMarkers !=
+                    archipelago.RandomizedBellMarkers)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "randomized_bell_markers",
+                    randomizedBellMarkers,
+                    archipelago.RandomizedBellMarkers
+                );
+            }
+
+            if (roomIdentityMatches &&
+                randomizedMelodyMarkers !=
+                    archipelago.RandomizedMelodyMarkers)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "randomized_melody_markers",
+                    randomizedMelodyMarkers,
+                    archipelago.RandomizedMelodyMarkers
+                );
+            }
+
+            if (roomIdentityMatches &&
+                vogHintSettingsBound &&
+                !VogHintSettingsMatch(archipelago))
+            {
+                return "This randomizer save uses a different Vog hint " +
+                       "plan than the current slot. Start or load the save " +
+                       "created for this slot's settings.";
+            }
+
+            if (roomIdentityMatches &&
                 !string.Equals(
                     bellwayAccess,
                     archipelago.BellwayAccess,
@@ -1158,6 +1411,20 @@ namespace SilksongRandomizer
                        bellwayAccess +
                        "', but the current slot uses '" +
                        archipelago.BellwayAccess +
+                       "'. Start or load the save created for this slot's settings.";
+            }
+
+            if (roomIdentityMatches &&
+                !string.Equals(
+                    trailsEndRequirement,
+                    archipelago.TrailsEndRequirement,
+                    StringComparison.Ordinal
+                ))
+            {
+                return "This randomizer save uses trails_end_requirement '" +
+                       trailsEndRequirement +
+                       "', but the current slot uses '" +
+                       archipelago.TrailsEndRequirement +
                        "'. Start or load the save created for this slot's settings.";
             }
 
@@ -1230,6 +1497,20 @@ namespace SilksongRandomizer
                     deathLink,
                     archipelago.DeathLink
                 );
+            }
+
+            if (roomIdentityMatches &&
+                !string.Equals(
+                    deathLinkCocoon,
+                    archipelago.DeathLinkCocoon,
+                    StringComparison.Ordinal
+                ))
+            {
+                return "This randomizer save uses death_link_cocoon '" +
+                       deathLinkCocoon +
+                       "', but the current slot uses '" +
+                       archipelago.DeathLinkCocoon +
+                       "'. Start or load the save created for this slot's settings.";
             }
 
             if (roomIdentityMatches &&
@@ -1380,6 +1661,8 @@ namespace SilksongRandomizer
                     return craftingKitRandomization;
                 case ItemType.Resource:
                     return minorPickupRandomization;
+                case ItemType.LoreTablet:
+                    return loreTabletRandomization;
                 case ItemType.SimpleKey:
                     return simpleKeyRandomization;
                 case ItemType.MemoryLocket:
@@ -1581,6 +1864,52 @@ namespace SilksongRandomizer
             );
         }
 
+        public void SetRandomizedItemMarkerLocations(
+            IEnumerable<KeyValuePair<string, string>> locations
+        )
+        {
+            randomizedItemMarkerLocationLookup = (
+                locations ?? Enumerable.Empty<
+                    KeyValuePair<string, string>>()
+            )
+                .Where(entry =>
+                    !string.IsNullOrWhiteSpace(entry.Key) &&
+                    !string.IsNullOrWhiteSpace(entry.Value))
+                .GroupBy(
+                    entry => ItemSet.GetCanonicalItemName(entry.Key),
+                    StringComparer.OrdinalIgnoreCase
+                )
+                .ToDictionary(
+                    group => group.Key,
+                    group => LocationSet.GetCanonicalLocationName(
+                        group.Last().Value
+                    ),
+                    StringComparer.OrdinalIgnoreCase
+                );
+            randomizedItemMarkerLocations =
+                randomizedItemMarkerLocationLookup
+                    .OrderBy(entry => entry.Key, StringComparer.Ordinal)
+                    .Select(entry => new ItemMarkerLocationData(
+                        entry.Key,
+                        entry.Value
+                    ))
+                    .ToList();
+        }
+
+        public bool TryGetRandomizedItemMarkerLocation(
+            string itemName,
+            out string locationName
+        )
+        {
+            locationName = string.Empty;
+            return randomizedItemMarkerLocationLookup != null &&
+                randomizedItemMarkerLocationLookup.TryGetValue(
+                    ItemSet.GetCanonicalItemName(itemName),
+                    out locationName
+                ) &&
+                !string.IsNullOrWhiteSpace(locationName);
+        }
+
         public bool IsLocationInSeed(string locationName)
         {
             string canonicalName =
@@ -1588,6 +1917,14 @@ namespace SilksongRandomizer
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
                 return false;
+            }
+
+            if (string.Equals(
+                    canonicalName,
+                    Archipelago.GoalLocationName,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
             }
 
             if (roomLocationNames != null &&
@@ -1744,20 +2081,138 @@ namespace SilksongRandomizer
                 receivedHints = new List<HintData>();
             }
 
-            if (receivedHints.Any(existingHint =>
-                    existingHint != null &&
-                    string.Equals(
-                        existingHint.locationName,
-                        canonicalLocationName,
-                        StringComparison.OrdinalIgnoreCase
-                    )))
+            HintData existingHint = receivedHints.FirstOrDefault(candidate =>
+                candidate != null &&
+                string.Equals(
+                    candidate.locationName,
+                    canonicalLocationName,
+                    StringComparison.OrdinalIgnoreCase
+                ));
+            if (existingHint != null)
             {
-                return false;
+                if (!hint.official)
+                {
+                    return false;
+                }
+
+                bool found = existingHint.found || hint.found;
+                bool changed = !existingHint.official ||
+                               existingHint.found != found ||
+                               !string.Equals(
+                                   existingHint.user,
+                                   hint.user,
+                                   StringComparison.Ordinal
+                               ) ||
+                               !string.Equals(
+                                   existingHint.item,
+                                   hint.item,
+                                   StringComparison.Ordinal
+                               ) ||
+                               existingHint.flags != hint.flags;
+                existingHint.user = hint.user;
+                existingHint.item = hint.item;
+                existingHint.flags = hint.flags;
+                existingHint.official = true;
+                existingHint.found = found;
+                return changed;
             }
 
             hint.locationName = canonicalLocationName;
             receivedHints.Add(hint);
             return true;
+        }
+
+        internal IReadOnlyList<string> BuildHintJournalEntries()
+        {
+            List<HintData> officialHints = (receivedHints ??
+                    new List<HintData>())
+                .Where(hint =>
+                    hint != null &&
+                    hint.official &&
+                    !string.IsNullOrWhiteSpace(hint.locationName) &&
+                    !string.IsNullOrWhiteSpace(hint.item))
+                .ToList();
+            HashSet<string> addedOfficialLocations = new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase
+            );
+            HashSet<string> addedEntries = new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase
+            );
+            List<string> entries = new List<string>();
+
+            foreach (string historyText in vogHintHistory ??
+                     new List<string>())
+            {
+                string text = (historyText ?? string.Empty).Trim();
+                if (text.Length == 0)
+                {
+                    continue;
+                }
+
+                HintData hint = officialHints.FirstOrDefault(candidate =>
+                    text.StartsWith(
+                        candidate.locationName + " contains ",
+                        StringComparison.OrdinalIgnoreCase
+                    ));
+                if (hint != null)
+                {
+                    addedOfficialLocations.Add(hint.locationName);
+                    if (IsHintFound(hint))
+                    {
+                        continue;
+                    }
+
+                    string officialText = FormatOfficialJournalEntry(hint);
+                    if (addedEntries.Add(officialText))
+                    {
+                        entries.Add(officialText);
+                    }
+                }
+                else if (addedEntries.Add(text))
+                {
+                    entries.Add(text);
+                }
+            }
+
+            foreach (HintData hint in officialHints)
+            {
+                if (!addedOfficialLocations.Add(hint.locationName))
+                {
+                    continue;
+                }
+
+                if (IsHintFound(hint))
+                {
+                    continue;
+                }
+
+                string text = FormatOfficialJournalEntry(hint);
+                if (addedEntries.Add(text))
+                {
+                    entries.Add(text);
+                }
+            }
+
+            return entries;
+        }
+
+        private static string FormatOfficialHint(HintData hint)
+        {
+            string recipient = string.IsNullOrWhiteSpace(hint.user)
+                ? "Unknown player"
+                : hint.user;
+            return hint.locationName + " contains " + hint.item +
+                   " for " + recipient + ".";
+        }
+
+        private bool IsHintFound(HintData hint)
+        {
+            return hint.found || IsLocationChecked(hint.locationName);
+        }
+
+        private static string FormatOfficialJournalEntry(HintData hint)
+        {
+            return "Unfound: " + FormatOfficialHint(hint);
         }
 
         public bool GetHint(

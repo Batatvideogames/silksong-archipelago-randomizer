@@ -2,19 +2,23 @@ from __future__ import annotations
 
 from collections import Counter
 
-from .minor_caches import MINOR_CACHE_REWARD_BY_LOCATION
+from .minor_caches import (
+    MINOR_CACHE_FAMILY_BY_LOCATION,
+    MINOR_CACHE_REWARD_BY_LOCATION,
+)
 from .minor_pickups import MINOR_PICKUP_REWARD_BY_LOCATION
+from .locations import canonicalize_location_name
 
 
 # Scripted Beast Shard rewards bypass the generic CollectableItemPickup and
 # minor-cache paths. They still use the Beast Shard family and its
 # beast_shard_randomization option.
 SCRIPTED_BEAST_SHARD_REWARD_BY_LOCATION: dict[str, str] = {
-    "Beast Shard: Marrowmaw": "Beast Shard",
-    "Beast Shard: Craggler": "Beast Shard",
-    "Beast Shard: Pilgrim's Rest": "Beast Shard",
-    "Beast Shard: Memorium": "Beast Shard",
-    "Beast Shard: Sprintmaster": "Beast Shard",
+    "Marrowmaw - Beast Shard": "Beast Shard",
+    "Craggler - Beast Shard": "Beast Shard",
+    "Pilgrim's Rest - Beast Shard": "Beast Shard",
+    "Memorium - Beast Shard": "Beast Shard",
+    "Sprintmaster - Beast Shard": "Beast Shard",
 }
 
 
@@ -110,11 +114,25 @@ MINOR_FAMILY_KEY_BY_REWARD_NAME: dict[str, str] = {
     reward_name: family_key
     for family_key, reward_name in MINOR_FAMILY_REWARD_NAME_BY_KEY.items()
 }
+MINOR_FAMILY_KEY_BY_REWARD_NAME.update({
+    reward_name: MINOR_CACHE_FAMILY_BY_LOCATION[location_name]
+    for location_name, reward_name in MINOR_CACHE_REWARD_BY_LOCATION.items()
+})
 
 MINOR_REWARD_BY_LOCATION: dict[str, str] = {
-    **MINOR_PICKUP_REWARD_BY_LOCATION,
-    **MINOR_CACHE_REWARD_BY_LOCATION,
-    **SCRIPTED_BEAST_SHARD_REWARD_BY_LOCATION,
+    **{
+        canonicalize_location_name(location_name): reward_name
+        for location_name, reward_name in MINOR_PICKUP_REWARD_BY_LOCATION.items()
+    },
+    **{
+        canonicalize_location_name(location_name): reward_name
+        for location_name, reward_name in MINOR_CACHE_REWARD_BY_LOCATION.items()
+    },
+    **{
+        canonicalize_location_name(location_name): reward_name
+        for location_name, reward_name
+        in SCRIPTED_BEAST_SHARD_REWARD_BY_LOCATION.items()
+    },
 }
 MINOR_REWARD_COUNTS: dict[str, int] = dict(
     Counter(MINOR_REWARD_BY_LOCATION.values())

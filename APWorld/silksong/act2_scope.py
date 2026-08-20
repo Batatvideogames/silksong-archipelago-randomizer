@@ -10,15 +10,27 @@ from __future__ import annotations
 from collections import Counter
 from typing import Iterable, Mapping
 
+from .lore_tablets import (
+    LORE_TABLET_ACT_THREE_LOCATION_NAMES,
+    LORE_TABLET_ITEM_BY_LOCATION,
+)
+
 
 ACT_TWO_GOAL_KEY = "act_2"
+CURSED_ENDING_GOAL_KEY = "cursed_ending"
+
+# Fatal Resolve cannot be finished before Act 3 changes Pinstress. Keep it out
+# of Act 1, Act 2 and Cursed Ending. Flea Hunt is not tied to an act.
+ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
+    ("Wish: Fatal Resolve",)
+)
 
 # Canonical AP locations whose physical sources are unavailable before the
 # Act 2 ending. Two source-level exceptions apply:
 #
 # * Silk Soar's Abyss source leaves, but its item is not listed in the
 #   pool-removal table. Randomized Skill modes keep one shuffled copy.
-# * Map Purchase: The Cradle remains because Cradle_02 is a valid Act 2 source.
+# * The Cradle - Map Purchase remains because Cradle_02 is a valid Act 2 source.
 #   Tube_Hub is only the same check's post-Act-3 fallback.
 #
 # Runtfeast has no separate AP Wish location.  It shares the canonical
@@ -27,26 +39,28 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Silk Soar",
         "Relic: Arcane Egg",
-        "Map Pickup: The Abyss",
-        "Map Pickup: Verdania",
-        "Shell Shard Cache: The Abyss #1",
-        "Shell Shard Cache: The Abyss #2",
-        "Shell Shard Cache: The Abyss #3",
-        "Shell Shard Cache: The Abyss #4",
-        "Shell Shard Cache: The Abyss #5",
-        "Shell Shard Cache: The Abyss #6",
-        "Shell Shard Cache: The Abyss #7",
-        "Shell Shard Cache: The Abyss #8",
-        "Shell Shard Cache: The Abyss #9",
-        "Rosary Cache: Far Fields #19",
+        "The Abyss - Map Pickup",
+        "Verdania - Map Pickup",
+        "The Abyss - Shell Shard Cache #1",
+        "The Abyss - Shell Shard Cache #2",
+        "The Abyss - Shell Shard Cache #3",
+        "The Abyss - Shell Shard Cache #4",
+        "The Abyss - Shell Shard Cache #5",
+        "The Abyss - Shell Shard Cache #6",
+        "The Abyss - Shell Shard Cache #7",
+        "The Abyss - Shell Shard Cache #8",
+        "The Abyss - Shell Shard Cache #9",
+        "Far Fields - Rosary Cache #19",
         "Boss: Gurr the Outcast",
         "Boss: Clover Dancers",
         "Boss: Palestag",
-        "Mask Shard: The Hidden Hunter",
-        "Mask Shard: Dark Hearts",
-        "Silkeater: The Cradle",
+        "The Hidden Hunter - Mask Shard",
+        "Dark Hearts - Mask Shard",
+        "The Cradle - Silkeater",
         "Wish: Passing of the Age",
         "Wish: Advanced Alchemy",
+        "Ecstasy of the End - Pale Oil",
+        *LORE_TABLET_ACT_THREE_LOCATION_NAMES,
     )
 )
 
@@ -103,6 +117,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Mask Shard #19": 1,
     },
     "Silkeater": {"Silkeater": 1},
+    "NeedleUpgrade": {"Pale Oil": 1},
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
@@ -114,6 +129,10 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Shell Shards (80)": 1,
     },
     "RelicTurnIn": {"Shell Shards (80)": 1},
+    "LoreTablet": {
+        LORE_TABLET_ITEM_BY_LOCATION[location_name]: 1
+        for location_name in LORE_TABLET_ACT_THREE_LOCATION_NAMES
+    },
 }
 
 

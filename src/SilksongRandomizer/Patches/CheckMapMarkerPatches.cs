@@ -449,6 +449,10 @@ namespace SilksongRandomizer.Patches
                 CheckMapMarkerManifest.GetPositions().ToList();
             List<DesiredMarker> desiredMarkers =
                 new List<DesiredMarker>();
+            Dictionary<string, List<DesiredMarker>> desiredByLocation =
+                new Dictionary<string, List<DesiredMarker>>(
+                    StringComparer.OrdinalIgnoreCase
+                );
 
             foreach (MapCheckPosition basePosition in positions)
             {
@@ -493,28 +497,33 @@ namespace SilksongRandomizer.Patches
                     continue;
                 }
 
-                if (desiredMarkers.Any(desired =>
-                        string.Equals(
-                            desired.LocationName,
-                            canonicalName,
-                            StringComparison.OrdinalIgnoreCase
-                        ) &&
-                        IsSameAnchor(
-                            desired.Scene,
-                            desired.MapPosition,
-                            scene,
-                            mapPosition
-                        )))
+                if (!desiredByLocation.TryGetValue(
+                        canonicalName,
+                        out List<DesiredMarker> locationMarkers
+                    ))
+                {
+                    locationMarkers = new List<DesiredMarker>();
+                    desiredByLocation.Add(canonicalName, locationMarkers);
+                }
+                if (locationMarkers.Any(desired =>
+                    IsSameAnchor(
+                        desired.Scene,
+                        desired.MapPosition,
+                        scene,
+                        mapPosition
+                    )))
                 {
                     continue;
                 }
 
-                desiredMarkers.Add(new DesiredMarker(
+                DesiredMarker desiredMarker = new DesiredMarker(
                     canonicalName,
                     scene,
                     mapPosition,
                     position.Confidence
-                ));
+                );
+                desiredMarkers.Add(desiredMarker);
+                locationMarkers.Add(desiredMarker);
             }
 
             // Associations remain only while their current position exists.
@@ -528,12 +537,12 @@ namespace SilksongRandomizer.Patches
             {
                 foreach (MarkerRecord marker in pair.Value.ToArray())
                 {
-                    bool stillDesired = desiredMarkers.Any(desired =>
-                        string.Equals(
-                            desired.LocationName,
+                    bool stillDesired =
+                        desiredByLocation.TryGetValue(
                             pair.Key,
-                            StringComparison.OrdinalIgnoreCase
+                            out List<DesiredMarker> locationMarkers
                         ) &&
+                        locationMarkers.Any(desired =>
                         IsSameAnchor(
                             desired.Scene,
                             desired.MapPosition,
@@ -549,6 +558,15 @@ namespace SilksongRandomizer.Patches
                 }
             }
 
+            Dictionary<GameMapScene, List<MarkerRecord>> markersByScene =
+                GetUniqueMarkers()
+                    .Where(marker => marker.Scene != null)
+                    .GroupBy(marker => marker.Scene)
+                    .ToDictionary(
+                        group => group.Key,
+                        group => group.ToList()
+                    );
+
             foreach (DesiredMarker desired in desiredMarkers)
             {
                 if (TryFindLocationMarkerAtAnchor(
@@ -563,6 +581,7 @@ namespace SilksongRandomizer.Patches
                 }
 
                 if (TryFindMarkerAtAnchor(
+                        markersByScene,
                         desired.Scene,
                         desired.MapPosition,
                         out MarkerRecord anchorMarker
@@ -593,6 +612,15 @@ namespace SilksongRandomizer.Patches
                 if (marker != null)
                 {
                     AssociateLocation(desired.LocationName, marker);
+                    if (!markersByScene.TryGetValue(
+                            desired.Scene,
+                            out List<MarkerRecord> sceneMarkers
+                        ))
+                    {
+                        sceneMarkers = new List<MarkerRecord>();
+                        markersByScene.Add(desired.Scene, sceneMarkers);
+                    }
+                    sceneMarkers.Add(marker);
                     createdCount++;
                 }
             }
@@ -715,6 +743,8 @@ namespace SilksongRandomizer.Patches
         }
 
         private static bool TryFindMarkerAtAnchor(
+            IReadOnlyDictionary<GameMapScene, List<MarkerRecord>>
+                markersByScene,
             GameMapScene scene,
             Vector2 mapPosition,
             out MarkerRecord marker
@@ -723,7 +753,17 @@ namespace SilksongRandomizer.Patches
             // Locations merge only when they resolve to the same physical source.
             // The tiny tolerance absorbs projection noise without grouping
             // genuinely separate nearby pickups.
-            marker = GetUniqueMarkers().FirstOrDefault(candidate =>
+            marker = null;
+            if (markersByScene == null || scene == null ||
+                !markersByScene.TryGetValue(
+                    scene,
+                    out List<MarkerRecord> sceneMarkers
+                ))
+            {
+                return false;
+            }
+
+            marker = sceneMarkers.FirstOrDefault(candidate =>
                 candidate != null &&
                 IsSameAnchor(
                     candidate.Scene,
@@ -995,6 +1035,67 @@ namespace SilksongRandomizer.Patches
                 )
             );
             return IsFinite(mapPosition.x) && IsFinite(mapPosition.y);
+        }
+
+        internal static bool TryGetProjectedWorldPosition(
+            GameMap map,
+            string locationName,
+            out Vector3 worldPosition
+        )
+        {
+            worldPosition = Vector3.zero;
+            if (map == null || string.IsNullOrWhiteSpace(locationName))
+            {
+                return false;
+            }
+
+            string canonicalName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            Dictionary<string, GameMapScene> scenes =
+                map.GetComponentsInChildren<GameMapScene>(true)
+                    .Where(scene => scene != null)
+                    .GroupBy(
+                        scene => scene.Name,
+                        StringComparer.OrdinalIgnoreCase
+                    )
+                    .ToDictionary(
+                        group => group.Key,
+                        group => group.First(),
+                        StringComparer.OrdinalIgnoreCase
+                    );
+
+            foreach (MapCheckPosition basePosition in
+                     CheckMapMarkerManifest.GetPositions())
+            {
+                MapCheckPosition position =
+                    CheckMapMarkerManifest.ResolveCurrentWorldVariant(
+                        basePosition
+                    );
+                if (!string.Equals(
+                        LocationSet.GetCanonicalLocationName(
+                            position.LocationName
+                        ),
+                        canonicalName,
+                        StringComparison.OrdinalIgnoreCase) ||
+                    !scenes.TryGetValue(
+                        position.SceneName,
+                        out GameMapScene scene) ||
+                    !TryProjectPosition(
+                        map,
+                        scene,
+                        position,
+                        out Vector2 mapPosition))
+                {
+                    continue;
+                }
+
+                worldPosition = map.transform.TransformPoint(
+                    new Vector3(mapPosition.x, mapPosition.y, -1f)
+                );
+                return true;
+            }
+
+            return false;
         }
 
         private static bool ShouldShowMarker(
@@ -1541,6 +1642,29 @@ namespace SilksongRandomizer.Patches
         private static void Postfix()
         {
             CheckMapMarkerManager.RefreshCurrentMap();
+        }
+    }
+
+    [HarmonyPatch(typeof(SaveState), nameof(SaveState.CacheHint))]
+    internal static class CheckMapMarkerCacheHintPatch
+    {
+        private static void Postfix(
+            SaveState.HintData hint,
+            bool __result)
+        {
+            if (__result && hint != null)
+            {
+                string canonicalLocationName =
+                    LocationSet.GetCanonicalLocationName(
+                        hint.locationName
+                    );
+                if (!string.IsNullOrWhiteSpace(canonicalLocationName))
+                {
+                    CheckMapMarkerManager.RefreshHintedLocation(
+                        canonicalLocationName
+                    );
+                }
+            }
         }
     }
 

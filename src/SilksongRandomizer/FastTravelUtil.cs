@@ -1,12 +1,23 @@
 using GlobalEnums;
 using SilksongRandomizer.Patches;
 using System;
+using System.Collections.Generic;
 using static GameManager;
 
 namespace SilksongRandomizer
 {
     internal static class FastTravelUtil
     {
+        internal const string BoneBottomHubKey = "bone_bottom";
+        internal const string BellhartHubKey = "bellhart";
+        internal const string SongclaveHubKey = "songclave";
+        private static readonly string[] MainHubKeys =
+        {
+            BoneBottomHubKey,
+            BellhartHubKey,
+            SongclaveHubKey,
+        };
+
         private const string BellwayEntryGateName =
             "door_fastTravelExit";
         private const string BellhartSceneName = "Belltown";
@@ -90,6 +101,15 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            if (hero.transform.parent != null &&
+                hero.GetComponentInParent<HeroPlatformStick>() != null)
+            {
+                reason =
+                    "Wait for the lift or moving platform to stop before " +
+                    "warping.";
+                return false;
+            }
+
             if (!hero.CanInput())
             {
                 reason =
@@ -103,7 +123,76 @@ namespace SilksongRandomizer
 
         internal static string GetPreferredHubName()
         {
-            switch (ResolveDestination())
+            return GetDestinationName(ResolveDestination());
+        }
+
+        internal static bool CanCyclePreferredHub()
+        {
+            if (SaveState.Instance == null ||
+                TryResolveStoryDestination(out _))
+            {
+                return false;
+            }
+
+            return GetAvailableMainHubKeys(PlayerData.instance).Count > 1;
+        }
+
+        internal static bool TryCyclePreferredHub(int direction)
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null || direction == 0 ||
+                TryResolveStoryDestination(out _))
+            {
+                return false;
+            }
+
+            List<string> available = GetAvailableMainHubKeys(
+                PlayerData.instance
+            );
+            if (available.Count < 2)
+            {
+                return false;
+            }
+
+            string current = ResolveMainHubKey(
+                state.preferredF4Hub,
+                available
+            );
+            int currentIndex = available.IndexOf(current);
+            int step = direction < 0 ? -1 : 1;
+            int nextIndex =
+                (currentIndex + step + available.Count) % available.Count;
+            state.preferredF4Hub = available[nextIndex];
+
+            GameManager gameManager = GameManager.SilentInstance;
+            if (gameManager != null && gameManager.profileID >= 0)
+            {
+                gameManager.QueueSaveGame();
+            }
+
+            return true;
+        }
+
+        internal static string NormalizePreferredHubKey(string hubKey)
+        {
+            foreach (string candidate in MainHubKeys)
+            {
+                if (string.Equals(
+                        candidate,
+                        (hubKey ?? string.Empty).Trim(),
+                        StringComparison.OrdinalIgnoreCase
+                    ))
+                {
+                    return candidate;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        private static string GetDestinationName(WarpDestination destination)
+        {
+            switch (destination)
             {
                 case WarpDestination.WidowShrine:
                     return "Widow Shrine";
@@ -197,9 +286,38 @@ namespace SilksongRandomizer
 
         private static WarpDestination ResolveDestination()
         {
+            if (TryResolveStoryDestination(out WarpDestination destination))
+            {
+                return destination;
+            }
+
+            List<string> available = GetAvailableMainHubKeys(
+                PlayerData.instance
+            );
+            SaveState state = SaveState.Instance;
+            string selectedHub = ResolveMainHubKey(
+                state == null ? BoneBottomHubKey : state.preferredF4Hub,
+                available
+            );
+            switch (selectedHub)
+            {
+                case SongclaveHubKey:
+                    return WarpDestination.Songclave;
+                case BellhartHubKey:
+                    return WarpDestination.Bellhart;
+                default:
+                    return WarpDestination.BoneBottom;
+            }
+        }
+
+        private static bool TryResolveStoryDestination(
+            out WarpDestination destination
+        )
+        {
             if (WidowSequenceSafety.CanRecoverToWidowShrine())
             {
-                return WarpDestination.WidowShrine;
+                destination = WarpDestination.WidowShrine;
+                return true;
             }
 
             PlayerData playerData = PlayerData.instance;
@@ -208,23 +326,80 @@ namespace SilksongRandomizer
                 playerData.act3_wokeUp &&
                 playerData.act3_enclaveWakeSceneCompleted)
             {
-                return WarpDestination.Terminus;
-            }
-            if (playerData != null && playerData.bellShrineEnclave)
-            {
-                return WarpDestination.Songclave;
-            }
-            if (playerData != null && playerData.spinnerDefeated)
-            {
-                return WarpDestination.Bellhart;
-            }
-            SaveState state = SaveState.Instance;
-            if (state != null && state.rodeFleaCaravanToGreymoor)
-            {
-                return WarpDestination.Greymoor;
+                destination = WarpDestination.Terminus;
+                return true;
             }
 
-            return WarpDestination.BoneBottom;
+            SaveState state = SaveState.Instance;
+            if (state != null &&
+                state.rodeFleaCaravanToGreymoor &&
+                !IsMainHubAvailable(BellhartHubKey, playerData) &&
+                !IsMainHubAvailable(SongclaveHubKey, playerData))
+            {
+                destination = WarpDestination.Greymoor;
+                return true;
+            }
+
+            destination = WarpDestination.BoneBottom;
+            return false;
+        }
+
+        private static List<string> GetAvailableMainHubKeys(
+            PlayerData playerData
+        )
+        {
+            List<string> available = new List<string>();
+            foreach (string hubKey in MainHubKeys)
+            {
+                if (IsMainHubAvailable(hubKey, playerData))
+                {
+                    available.Add(hubKey);
+                }
+            }
+            return available;
+        }
+
+        private static bool IsMainHubAvailable(
+            string hubKey,
+            PlayerData playerData
+        )
+        {
+            switch (hubKey)
+            {
+                case BellhartHubKey:
+                    return playerData != null &&
+                        playerData.spinnerDefeated;
+                case SongclaveHubKey:
+                    return IsSongclaveHubAvailable(playerData);
+                default:
+                    return string.Equals(
+                        hubKey,
+                        BoneBottomHubKey,
+                        StringComparison.Ordinal
+                    );
+            }
+        }
+
+        private static bool IsSongclaveHubAvailable(PlayerData playerData)
+        {
+            return playerData != null &&
+                playerData.bellShrineEnclave;
+        }
+
+        private static string ResolveMainHubKey(
+            string preferredHubKey,
+            List<string> available
+        )
+        {
+            string normalized = NormalizePreferredHubKey(preferredHubKey);
+            if (normalized.Length > 0 && available.Contains(normalized))
+            {
+                return normalized;
+            }
+
+            return available.Count == 0
+                ? BoneBottomHubKey
+                : available[available.Count - 1];
         }
 
         private static bool IsActThreeWakeEntry(

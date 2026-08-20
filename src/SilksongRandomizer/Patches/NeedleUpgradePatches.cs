@@ -18,7 +18,7 @@ namespace SilksongRandomizer.Patches
         private const string WhisperingVaultsScene = "Library_03";
         private const string GreatTasteScene = "Song_09b";
         private const string EcstasyOfTheEndScene =
-            "Aqueduct_05_Festival";
+            "Aqueduct_05_festival";
 
         private static readonly string[] PlinneyLocations =
         {
@@ -196,9 +196,11 @@ namespace SilksongRandomizer.Patches
                 SavedItem __instance,
                 ref bool __result)
             {
+                SaveState state = SaveState.Instance;
                 string locationName = GetPaleOilLocation();
                 if (!IsEnabled ||
                     string.IsNullOrEmpty(locationName) ||
+                    !state.IsLocationInSeed(locationName) ||
                     __instance == null ||
                     !string.Equals(
                         __instance.name,
@@ -208,7 +210,7 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                SaveState.Instance.CheckLocation(locationName);
+                state.CheckLocation(locationName);
                 __result = true;
                 return false;
             }

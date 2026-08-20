@@ -120,6 +120,22 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            return TryGetEnemyDropLocation(
+                healthManager,
+                out locationName
+            );
+        }
+
+        internal static bool TryGetEnemyDropLocation(
+            HealthManager healthManager,
+            out string locationName)
+        {
+            locationName = null;
+            if (healthManager == null)
+            {
+                return false;
+            }
+
             string sceneName = healthManager.gameObject.scene.name;
             string hierarchyPath = Utils.GetHierarchyPath(
                 healthManager.transform

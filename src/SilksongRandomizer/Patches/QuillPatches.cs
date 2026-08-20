@@ -13,6 +13,11 @@ namespace SilksongRandomizer.Patches
         private static bool CanUseQuill()
         {
             SaveState state = SaveState.Instance;
+            if (state != null && state.startFullyMapped)
+            {
+                return true;
+            }
+
             if (state == null || !state.IsRandomized(ItemType.Skill))
             {
                 return PlayerData.instance != null &&
@@ -25,6 +30,11 @@ namespace SilksongRandomizer.Patches
         private static bool CanUseQuill(PlayerData playerData)
         {
             SaveState state = SaveState.Instance;
+            if (state != null && state.startFullyMapped)
+            {
+                return true;
+            }
+
             return state == null || !state.IsRandomized(ItemType.Skill)
                 ? playerData != null && playerData.hasQuill
                 : state.canUseQuill;
@@ -45,6 +55,12 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(PlayerData __instance, ref bool __result)
             {
                 SaveState state = SaveState.Instance;
+                if (state != null && state.startFullyMapped)
+                {
+                    __result = true;
+                    return false;
+                }
+
                 if (state == null || !state.IsRandomized(ItemType.Skill))
                 {
                     return true;

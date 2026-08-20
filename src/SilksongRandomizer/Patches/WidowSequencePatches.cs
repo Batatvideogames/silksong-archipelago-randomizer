@@ -20,14 +20,14 @@ namespace SilksongRandomizer.Patches
         private const string NeedolinLocationName =
             "Skill Unlock: Needolin";
 
-        private static bool IsRandomizedWidowAction(
+        private static bool IsWidowAction(
             FsmStateAction action,
             string stateName
         )
         {
             SaveState state = SaveState.Instance;
             return state != null &&
-                   state.IsRandomized(ItemType.Skill) &&
+                   state.IsRoomBound &&
                    action != null &&
                    action.Owner != null &&
                    string.Equals(
@@ -52,6 +52,17 @@ namespace SilksongRandomizer.Patches
                        stateName,
                        StringComparison.Ordinal
                    );
+        }
+
+        private static bool IsRandomizedWidowAction(
+            FsmStateAction action,
+            string stateName
+        )
+        {
+            SaveState state = SaveState.Instance;
+            return state != null &&
+                   state.IsRandomized(ItemType.Skill) &&
+                   IsWidowAction(action, stateName);
         }
 
         [HarmonyPatch(
@@ -98,14 +109,12 @@ namespace SilksongRandomizer.Patches
                 BeginSceneTransitionAction __instance
             )
             {
-                SaveState state = SaveState.Instance;
-                if (!IsRandomizedWidowAction(
+                if (!IsWidowAction(
                         __instance,
                         "To Memory Scene"
                     ) ||
-                    state == null ||
-                    state.canUseNeedolin ||
                     __instance.sceneName == null ||
+                    __instance.entryGateName == null ||
                     !string.Equals(
                         __instance.sceneName.Value,
                         WidowSequenceSafety.NeedolinMemorySceneName,
@@ -119,10 +128,9 @@ namespace SilksongRandomizer.Patches
                     WidowSequenceSafety.WidowShrineSceneName;
                 __instance.entryGateName.Value =
                     WidowSequenceSafety.WidowWakeGateName;
-                RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Skipped Widow's Needolin memory because " +
-                    "the AP Needolin has not been received; returning through " +
-                    "the native shrine wake sequence."
+                RandomizerPlugin.Log?.LogInfo(
+                    "[RANDOMIZER] Skipped Widow's Needolin memory and " +
+                    "returned through the shrine wake sequence."
                 );
             }
         }

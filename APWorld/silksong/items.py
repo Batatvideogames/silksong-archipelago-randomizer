@@ -6,6 +6,10 @@ from typing import Dict, FrozenSet, Mapping
 
 from BaseClasses import Item, ItemClassification
 
+from .act1_scope import (
+    get_act_one_excluded_location_names,
+    retains_randomized_craw_summons,
+)
 from .act2_scope import (
     ACT_TWO_EXCLUDED_LOCATION_NAMES,
     trim_act_two_pool_entries,
@@ -17,14 +21,30 @@ from .minor_families import (
     MINOR_REWARD_BY_LOCATION,
     MINOR_REWARD_COUNTS,
     get_base_randomization_category,
+    get_minor_family_shuffle_category_for_location,
 )
 from .locations import (
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
+    LOCATION_NAMES_BY_CATEGORY,
     MASK_SHARD_LOCATION_NAMES,
+    NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    OBSERVATION_LOCATION_CATEGORIES,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SPOOL_FRAGMENT_LOCATION_NAMES,
+    canonicalize_location_name,
+    get_item_first_location_name,
+    location_data_table,
 )
-from .requirements import get_logic_item_references
+from .lore_tablets import (
+    LORE_TABLET_CATEGORY,
+    LORE_TABLET_ITEM_BY_LOCATION,
+    LORE_TABLET_ITEM_NAMES,
+)
+from .requirements import (
+    SIMPLE_KEY_GREEN_PRINCE,
+    get_logic_item_references,
+)
+from .verdania_scope import VERDANIA_LOCATION_NAMES
 
 ITEM_BASE_ID = 835000
 
@@ -36,7 +56,7 @@ class SilksongItemData:
     classification: ItemClassification
 
 
-ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
+CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Ability: Faydown Cloak', 'Skill'),
     ('Ability: Needle Strike', 'Skill'),
     ('Ancestral Art: Silk Soar', 'Skill'),
@@ -93,8 +113,6 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ("Tool: Thief's Mark", 'Tool'),
     ('Tool: Compass', 'Tool'),
     ('Tool: Snitch Pick', 'Tool'),
-    ("Tool: Druid's Eye (Legacy)", 'Tool'),
-    ("Tool: Druid's Eyes (Legacy)", 'Tool'),
     ('Tool: Flintslate', 'Tool'),
     ('Tool: Wreath of Purity', 'Tool'),
     ('Tool: Magma Bell', 'Tool'),
@@ -201,9 +219,6 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Spool Fragment #16', 'SpoolFragment'),
     ('Spool Fragment #17', 'SpoolFragment'),
     ('Spool Fragment #18', 'SpoolFragment'),
-    ('Silk Heart #1', 'SilkHeart'),
-    ('Silk Heart #2', 'SilkHeart'),
-    ('Silk Heart #3', 'SilkHeart'),
     ('Bellway: Deep Docks', 'Bellway'),
     ('Bellway: Far Fields', 'Bellway'),
     ('Bellway: Greymoor', 'Bellway'),
@@ -220,8 +235,7 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Ventrica: High Halls', 'Ventrica'),
     ('Ventrica: Songclave', 'Ventrica'),
     ('Ventrica: Memorium', 'Ventrica'),
-    # Maps sold by Shakra. Owning every one is required to complete
-    # Trail's End, so these are real logic items rather than cosmetic filler.
+    # Maps sold by Shakra. These entries are her carried stock.
     ('Map: Mosslands', 'Map'),
     ('Map: The Marrow', 'Map'),
     ('Map: Deep Docks', 'Map'),
@@ -268,26 +282,20 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Relic: Arcane Egg', 'Relic'),
     ('Rosaries (60)', 'Currency'),
     ('Shell Shards (80)', 'Currency'),
-    # Appended rows preserve every established numeric item ID above them.
     ('Stagger Trap', 'Trap'),
     ('Rosary Spill Trap', 'Trap'),
     ('Darkness Trap', 'Trap'),
     ('Cursed Crest Trap', 'Trap'),
-    # Victory occupies the reserved protocol gap immediately before this row.
-    ("Progressive Druid's Eye", 'Upgrade'),
     ('Muckmaggot Status Trap', 'Trap'),
-    ('Ability: Swift Step (Sprint Only)', 'Skill'),
-    # New IDs remain append-only so the established protocol stays stable.
     ('Progressive Swift Step', 'Skill'),
     ('Progressive Needle Upgrade', 'NeedleUpgrade'),
     ('Pale Oil', 'NeedleUpgrade'),
-    # The singular row above remains registered at its reserved protocol ID.
     ("Progressive Druid's Eyes", 'Upgrade'),
     # automatic_compass supplies the position-marker half at the start.
     # Receiving this conditional Skill grants Quill's map-updating half.
     ('Progressive Compass', 'Skill'),
     # Appended one-time consumables. Duplicate physical sources share these
-    # repeatable AP identities, so established item IDs remain unchanged.
+    # repeatable AP identities.
     ('Frayed Rosary String', 'Resource'),
     ('Rosary String', 'Resource'),
     ('Rosary Necklace', 'Resource'),
@@ -297,22 +305,19 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Beast Shard', 'Resource'),
     ('Pristine Core', 'Resource'),
     # Breakable rosary and shell caches use compact repeatable filler.
-    # These IDs are appended so every released item keeps its numeric ID.
     ('Rosaries (10)', 'Resource'),
     ('Shell Shards (10)', 'Resource'),
     # Shared prerequisite for the three mutually exclusive vanilla Silkshot
     # repairs.  Randomized seeds return it after the first two active repairs,
     # allowing every AP repair check to remain physically completable.
     ('Ruined Tool', 'Tool'),
-    # Appended after every released item so existing protocol IDs stay stable.
     # Each AP item opens exactly one vanilla Simple Key door. Keys are never
     # represented as a fungible, consumable counter.
     ('Simple Key (Wormways)', 'Key'),
     ('Simple Key (Deep Docks)', 'Key'),
     ('Simple Key (Green Prince)', 'Key'),
     ('Simple Key (Rosary Bank)', 'Key'),
-    # Static maps use their own physical pickups or map machines. Their
-    # appended positions preserve all previously released protocol IDs.
+    # Static maps use their own physical pickups or map machines.
     ('Map: Weavenest Atla', 'Map'),
     ('Map: Grand Gate', 'Map'),
     ('Map: Underworks', 'Map'),
@@ -334,8 +339,6 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ("Vaultkeeper's Melody", 'Melody'),
     ('Elegy of the Deep', 'Melody'),
     ('Beastling Call', 'Melody'),
-    # Repeated collectible and named-key IDs are tail-appended so every
-    # established item keeps its numeric protocol ID.
     ('Memory Locket', 'MemoryLocket'),
     ('Craftmetal', 'Craftmetal'),
     ('Mossberry', 'Mossberry'),
@@ -352,23 +355,42 @@ ESTABLISHED_ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = (
     ('Flea: Greymoor (Kratt)', 'Flea'),
     ('Flea: Putrified Ducts (Vog)', 'Flea'),
     ('Flea: Memorium (Huge Flea)', 'Flea'),
-    # Tail-appended so all established protocol IDs remain stable.
     ('Naked Trap', 'Trap'),
-    # Three copies of this one ordered reward replace the reserved numbered
-    # Silk Heart rows without changing their protocol IDs.
+    # Three copies of this ordered reward match the three Silk Heart sources.
     ('Progressive Silkheart', 'SilkHeart'),
     ('Progressive Tool Pouch', 'ToolPouch'),
-    # Six copies share one append-only item ID. Receipt order is preserved by
+    # Six copies share one item ID. Receipt order is preserved by
     # the AP item index and the client grants one native Shell Flower each.
     ('Pollip Heart', 'PollipHeart'),
+    ('Growstone', 'Resource'),
+    ('Rosaries (8)', 'Resource'),
+    ('Rosaries (30)', 'Resource'),
+    ('Rosaries (70)', 'Resource'),
+    ('Rosaries (75)', 'Resource'),
+    ('Rosaries (84)', 'Resource'),
+    ('Rosaries (90)', 'Resource'),
+    ('Rosaries (105)', 'Resource'),
+    ('Rosaries (112)', 'Resource'),
+    ('Rosaries (115)', 'Resource'),
+    ('Rosaries (130)', 'Resource'),
+    ('Rosaries (155)', 'Resource'),
+    ('Shell Shards (35)', 'Resource'),
+    ('Bell: The Marrow', 'BellShrine'),
+    ('Bell: Deep Docks', 'BellShrine'),
+    ('Bell: Greymoor', 'BellShrine'),
+    ('Bell: Shellwood', 'BellShrine'),
+    ('Bell: Bellhart', 'BellShrine'),
+)
+
+ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
+    (clean_item_display_name(name), category)
+    for name, category in CURRENT_ITEM_SOURCE_ROWS
+) + tuple(
+    (item_name, LORE_TABLET_CATEGORY)
+    for item_name in LORE_TABLET_ITEM_NAMES
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
-ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
-    (clean_item_display_name(name), category)
-    for name, category in ESTABLISHED_ITEM_TABLE_SOURCE
-)
-
 # Item IDs stay tied to the ITEM_TABLE_SOURCE positions above. Native asset
 # identifiers resolve to concise protocol names without assigning new IDs.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -507,7 +529,6 @@ NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
     'Relic: Weaver Totem Slab_Bottom':
         'Relic: Weaver Effigy (Atla, The Slab)',
     'Relic: Ancient Egg Abyss Middle': 'Relic: Arcane Egg',
-    'Skill: Sprint': 'Ability: Swift Step (Sprint Only)',
 }
 
 NATIVE_ITEM_NAME_TO_CURRENT: Mapping[str, str] = {
@@ -518,20 +539,26 @@ NATIVE_ITEM_NAME_TO_CURRENT = {
     **NATIVE_ITEM_NAME_TO_CURRENT,
     **{
         source_name: current_name
-        for source_name, _category in ESTABLISHED_ITEM_TABLE_SOURCE
+        for source_name, _category in CURRENT_ITEM_SOURCE_ROWS
         if (
             current_name := clean_item_display_name(source_name)
         ) != source_name
-        and source_name not in {
-            "Tool: Druid's Eye (Legacy)",
-            "Tool: Druid's Eyes (Legacy)",
-        }
     },
     # These are the native ToolItem identities used by the two physical
     # Mosscreep sources. Current rooms award the one progressive item.
     'Tool: Mosscreep Tool 1': "Progressive Druid's Eyes",
     'Tool: Mosscreep Tool 2': "Progressive Druid's Eyes",
 }
+
+POOL_ONLY_USEFUL_ITEM_NAMES: tuple[str, ...] = (
+    'Shell Satchel',
+    'Growstone',
+)
+POOL_ONLY_FILLER_SOURCE_CATEGORIES: tuple[str, ...] = (
+    'Quest',
+    'Boss',
+    RELIC_TURN_IN_LOCATION_CATEGORY,
+)
 
 PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
     name
@@ -575,39 +602,21 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
         "Pin",
         "Relic",
         "Silkeater",
+        "BellShrine",
     }
-)
+) | frozenset(POOL_ONLY_USEFUL_ITEM_NAMES)
 
-# Victory occupies a stable gap in the established item table. Its event code
-# remains reserved with every later item placed after it.
-VICTORY_GAP_INDEX = next(
-    index
-    for index, (name, _category) in enumerate(ITEM_TABLE_SOURCE)
-    if name == "Progressive Druid's Eye"
-)
-VICTORY_ITEM_CODE = ITEM_BASE_ID + VICTORY_GAP_INDEX
 item_table: Dict[str, int] = {
-    name: ITEM_BASE_ID + index + (1 if index >= VICTORY_GAP_INDEX else 0)
+    name: ITEM_BASE_ID + index
     for index, (name, _category) in enumerate(ITEM_TABLE_SOURCE)
 }
 
-# Victory is not placed in the random item pool. It is a locked completion item
-# placed at the real AP location named "Goal". Because Goal has a real
-# location ID, Victory also needs an integer item ID so generated .archipelago
-# data can be loaded by MultiServer.
 VICTORY_ITEM_NAME = "Victory"
-item_table[VICTORY_ITEM_NAME] = VICTORY_ITEM_CODE
 ITEM_CATEGORY_BY_NAME: Dict[str, str] = dict(ITEM_TABLE_SOURCE)
 
-# Reserved protocol rows remain registered so later items keep their
-# established numeric IDs, but unsupported rewards never enter current pools.
-PROTOCOL_ONLY_ITEM_NAMES: FrozenSet[str] = frozenset({
-    'Shell Satchel',
+VANILLA_ONLY_ITEM_NAMES: FrozenSet[str] = frozenset({
     'Key of Indolent',
     'Key of Heretic',
-    'Silk Heart #1',
-    'Silk Heart #2',
-    'Silk Heart #3',
 })
 
 item_name_groups: Dict[str, set[str]] = {
@@ -617,7 +626,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Tools": {
         name
         for name, category in ITEM_TABLE_SOURCE
-        if category == "Tool" and name not in PROTOCOL_ONLY_ITEM_NAMES
+        if category == "Tool" and name not in VANILLA_ONLY_ITEM_NAMES
     },
     "Fleas": {name for name, category in ITEM_TABLE_SOURCE if category == "Flea"},
     "MaskShard": {name for name, category in ITEM_TABLE_SOURCE if category == "MaskShard"},
@@ -625,7 +634,7 @@ item_name_groups: Dict[str, set[str]] = {
     "SilkHeart": {
         name
         for name, category in ITEM_TABLE_SOURCE
-        if category == "SilkHeart" and name not in PROTOCOL_ONLY_ITEM_NAMES
+        if category == "SilkHeart" and name not in VANILLA_ONLY_ITEM_NAMES
     },
     "Bellway": {name for name, category in ITEM_TABLE_SOURCE if category == "Bellway"},
     "Ventrica": {name for name, category in ITEM_TABLE_SOURCE if category == "Ventrica"},
@@ -662,7 +671,7 @@ item_name_groups: Dict[str, set[str]] = {
     },
     "Major Keys": {
         name for name, category in ITEM_TABLE_SOURCE
-        if category == "MajorKey" and name not in PROTOCOL_ONLY_ITEM_NAMES
+        if category == "MajorKey" and name not in VANILLA_ONLY_ITEM_NAMES
     },
     "Simple Keys": {
         name for name, category in ITEM_TABLE_SOURCE if category == "Key"
@@ -674,6 +683,11 @@ item_name_groups: Dict[str, set[str]] = {
         name
         for name, category in ITEM_TABLE_SOURCE
         if category == "NeedleUpgrade"
+    },
+    "Lore": {
+        name
+        for name, category in ITEM_TABLE_SOURCE
+        if category == LORE_TABLET_CATEGORY
     },
 }
 
@@ -702,21 +716,21 @@ ITEM_POOL_COUNTS: Dict[str, int] = {
     'Progressive Claw Mirror': 2,
     'Progressive Curveclaw': 2,
     'Progressive Silkheart': 3,
-    # The 42 observation-only Bell Shrine/boss checks are balanced by useful
-    # amounts of ordinary currency rather than fabricated unique rewards.
-    'Rosaries (60)': 22,
-    'Shell Shards (80)': 20,
+    # Boss checks use ordinary currency rewards.
+    'Rosaries (60)': 17,
+    'Shell Shards (80)': 17,
     'Memory Locket': 20,
     'Craftmetal': 8,
     'Mossberry': 7,
     'Pollip Heart': 6,
     'Silkeater': 9,
     'Progressive Tool Pouch': 4,
+    'Shell Satchel': 1,
+    'Growstone': 1,
 }
 
 PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
 REGULAR_SWIFT_STEP_ITEM = 'Swift Step'
-RESERVED_SPRINT_ONLY_ITEM = 'Swift Step (Sprint Only)'
 PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
 PALE_OIL_ITEM = 'Pale Oil'
 SILK_SOAR_ITEM = 'Silk Soar'
@@ -734,17 +748,8 @@ QUEST_FILLER_COUNTS: Dict[str, int] = {
     'Shell Shards (80)': 15,
 }
 
-# These superseded rows stay registered only to preserve their protocol IDs.
-RESERVED_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
-    "Druid's Eye (Legacy)",
-    "Druid's Eyes (Legacy)",
-    "Progressive Druid's Eye",
-    RESERVED_SPRINT_ONLY_ITEM,
-})
-
 # These items enter the pool only when their corresponding option is enabled.
 CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
-    RESERVED_SPRINT_ONLY_ITEM,
     PROGRESSIVE_SWIFT_STEP_ITEM,
     PROGRESSIVE_COMPASS_ITEM,
     *NEEDLE_UPGRADE_POOL_COUNTS,
@@ -785,7 +790,6 @@ ACT_TWO_START_WITH_MAP_ITEMS: tuple[str, ...] = tuple(
 )
 AUTOMATIC_COMPASS_ITEM = 'Compass'
 OPTIONAL_START_REPLACEMENT_ITEM = 'Rosaries (60)'
-LOGIC_AUDIT_FILLER_ITEM = OPTIONAL_START_REPLACEMENT_ITEM
 
 
 @dataclass(frozen=True)
@@ -795,51 +799,48 @@ class ItemPoolEntry:
     placement_category: str | None = None
 
 
-def get_logic_audit_precollected_item_names(
-    entries: tuple[ItemPoolEntry, ...],
-) -> tuple[str, ...]:
-    """Return every advancement/useful copy represented by this pool."""
-
-    relevant_classifications = (
-        ItemClassification.progression
-        | ItemClassification.useful
-    )
-    return tuple(
+def add_pool_only_useful_items(entries: list[ItemPoolEntry]) -> None:
+    present_names = {
         entry.name
         for entry in entries
-        if (
-            item_data_table[entry.name].classification
-            & relevant_classifications
+        if entry.name in POOL_ONLY_USEFUL_ITEM_NAMES
+    }
+    for item_name in POOL_ONLY_USEFUL_ITEM_NAMES:
+        if item_name in present_names:
+            continue
+        replacement_index = None
+        for classification in (
+            ItemClassification.filler,
+            ItemClassification.trap,
+        ):
+            replacement_index = next(
+                (
+                    index
+                    for source_category in POOL_ONLY_FILLER_SOURCE_CATEGORIES
+                    for index, entry in enumerate(entries)
+                    if entry.source_category == source_category
+                    and item_data_table[entry.name].classification
+                    == classification
+                ),
+                None,
+            )
+            if replacement_index is not None:
+                break
+        if replacement_index is None:
+            continue
+        replaced_entry = entries[replacement_index]
+        entries[replacement_index] = ItemPoolEntry(
+            item_name,
+            replaced_entry.source_category,
+            replaced_entry.placement_category,
         )
-    )
-
-
-def replace_logic_audit_pool_with_filler(
-    entries: tuple[ItemPoolEntry, ...],
-) -> tuple[ItemPoolEntry, ...]:
-    """Preserve the pool shape while making every ordinary reward filler."""
-
-    return tuple(
-        ItemPoolEntry(
-            LOGIC_AUDIT_FILLER_ITEM,
-            entry.source_category,
-            entry.placement_category,
-        )
-        for entry in entries
-    )
 
 
 OBSERVATION_FILLER_COUNTS_BY_CATEGORY: Dict[str, Dict[str, int]] = {
-    # Together these preserve the original 17 Rosary / 16 Shell Shard split.
+    # Observation checks use ordinary filler rather than boss rewards.
     'Boss': {
-        # Great Conchflies and the six census additions are ordinary
-        # observation checks, balanced without fabricated boss rewards.
-        'Rosaries (60)': 19,
+        'Rosaries (60)': 17,
         'Shell Shards (80)': 17,
-    },
-    'BellShrine': {
-        'Rosaries (60)': 3,
-        'Shell Shards (80)': 3,
     },
     'Quest': dict(QUEST_FILLER_COUNTS),
 }
@@ -878,6 +879,8 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'MajorKey',
     'Resource',
     'ToolPouch',
+    'BellShrine',
+    LORE_TABLET_CATEGORY,
 )
 
 REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
@@ -892,7 +895,6 @@ REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
 
 OBSERVATION_ITEM_CATEGORIES: tuple[str, ...] = (
     'Boss',
-    'BellShrine',
     'Quest',
 )
 
@@ -907,13 +909,11 @@ SHUFFLE_FIXED_LOCATION_REWARDS: Dict[str, Dict[str, str]] = {
     # not unlock routes, so fixing only those rewards
     # preserves Map shuffle without exposing arbitrary progression there.
     'Map': {
-        'Map Purchase: Choral Chambers': 'Map: Choral Chambers',
-        'Map Purchase: Whispering Vaults': 'Map: Whispering Vaults',
-        'Map Pickup: The Slab': 'Map: The Slab',
-        'Map Pickup: Putrified Ducts': 'Map: Putrified Ducts',
-        'Map Purchase: The Cradle': 'Map: The Cradle',
-        'Map Pickup: Verdania': 'Map: Verdania',
-        'Map Pickup: The Abyss': 'Map: The Abyss',
+        'The Slab - Map Pickup': 'Map: The Slab',
+        'Putrified Ducts - Map Pickup': 'Map: Putrified Ducts',
+        'The Cradle - Map Purchase': 'Map: The Cradle',
+        'Verdania - Map Pickup': 'Map: Verdania',
+        'The Abyss - Map Pickup': 'Map: The Abyss',
     },
     # Beastling Call is Act 3-only and still progression-quarantined. Keeping
     # its own non-routing song here prevents a Melody-shuffle cycle.
@@ -941,8 +941,8 @@ def get_category_item_names(category: str) -> tuple[str, ...]:
                 for name, item_category in ITEM_TABLE_SOURCE
                 if (
                     item_category == 'Tool'
-                    and name not in RESERVED_POOL_ITEM_NAMES
-                    and name not in PROTOCOL_ONLY_ITEM_NAMES
+                    and name not in VANILLA_ONLY_ITEM_NAMES
+                    and name not in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
             ),
             "Progressive Druid's Eyes",
@@ -971,7 +971,8 @@ def get_category_item_names(category: str) -> tuple[str, ...]:
     excluded_names = (
         set(TRAP_ITEM_NAMES)
         | set(CONDITIONAL_POOL_ITEM_NAMES)
-        | set(PROTOCOL_ONLY_ITEM_NAMES)
+        | set(VANILLA_ONLY_ITEM_NAMES)
+        | set(POOL_ONLY_USEFUL_ITEM_NAMES)
     )
     return tuple(
         name
@@ -986,6 +987,9 @@ def get_vanilla_reward_name(
 ) -> str:
     """Map an AP source to the native reward represented by that source."""
 
+    location_name = canonicalize_location_name(location_name)
+    source_location_name = get_item_first_location_name(location_name)
+
     if category == 'Key':
         try:
             return {
@@ -997,7 +1001,7 @@ def get_vanilla_reward_name(
                     'Simple Key (Rosary Bank)',
                 'Simple Key: Sands of Karak East Bench':
                     'Simple Key (Deep Docks)',
-            }[location_name]
+            }[source_location_name]
         except KeyError as exc:
             raise ValueError(
                 f"No native Key reward mapping for {location_name!r}."
@@ -1019,11 +1023,31 @@ def get_vanilla_reward_name(
             raise ValueError(
                 f"No native MajorKey reward mapping for {location_name!r}."
             ) from exc
+    if category == 'BellShrine':
+        try:
+            return {
+                'The Marrow - Bellshrine': 'Bell: The Marrow',
+                'Deep Docks - Bellshrine': 'Bell: Deep Docks',
+                'Greymoor - Bellshrine': 'Bell: Greymoor',
+                'Shellwood - Bellshrine': 'Bell: Shellwood',
+                'Bellhart - Bellshrine': 'Bell: Bellhart',
+            }[location_name]
+        except KeyError as exc:
+            raise ValueError(
+                f"No native BellShrine reward mapping for "
+                f"{location_name!r}."
+            ) from exc
+    if category == LORE_TABLET_CATEGORY:
+        try:
+            return LORE_TABLET_ITEM_BY_LOCATION[location_name]
+        except KeyError as exc:
+            raise ValueError(
+                f"No native Lore Tablet reward mapping for "
+                f"{location_name!r}."
+            ) from exc
     if location_name in {
         "Druid's Eye",
         "Druid's Eyes",
-        "Druid's Eye (Legacy)",
-        "Druid's Eyes (Legacy)",
     }:
         return "Progressive Druid's Eyes"
     if location_name in {'Claw Mirror', 'Dark Mirror'}:
@@ -1036,7 +1060,7 @@ def get_vanilla_reward_name(
         try:
             return (
                 f'Mask Shard #'
-                f'{MASK_SHARD_LOCATION_NAMES.index(location_name) + 1}'
+                    f'{MASK_SHARD_LOCATION_NAMES.index(location_name) + 1}'
             )
         except ValueError as exc:
             raise ValueError(
@@ -1047,7 +1071,7 @@ def get_vanilla_reward_name(
         try:
             return (
                 f'Spool Fragment #'
-                f'{SPOOL_FRAGMENT_LOCATION_NAMES.index(location_name) + 1}'
+                    f'{SPOOL_FRAGMENT_LOCATION_NAMES.index(location_name) + 1}'
             )
         except ValueError as exc:
             raise ValueError(
@@ -1061,22 +1085,22 @@ def get_vanilla_reward_name(
             raise ValueError(
                 f"No native Resource reward mapping for {location_name!r}."
             ) from exc
-    if location_name in ITEM_CATEGORY_BY_NAME:
-        return location_name
-    if location_name.startswith('Pin Purchase: '):
-        native_name = location_name.replace(
+    if source_location_name in ITEM_CATEGORY_BY_NAME:
+        return source_location_name
+    if source_location_name.startswith('Pin Purchase: '):
+        native_name = source_location_name.replace(
             'Pin Purchase: ',
             '',
             1,
         )
-    elif location_name.startswith('Map Purchase: '):
-        native_name = location_name.replace(
+    elif source_location_name.startswith('Map Purchase: '):
+        native_name = source_location_name.replace(
             'Map Purchase: ',
             'Map: ',
             1,
         )
-    elif location_name.startswith('Map Pickup: '):
-        native_name = location_name.replace(
+    elif source_location_name.startswith('Map Pickup: '):
+        native_name = source_location_name.replace(
             'Map Pickup: ',
             'Map: ',
             1,
@@ -1086,6 +1110,182 @@ def get_vanilla_reward_name(
             f"No native {category} reward mapping for {location_name!r}."
         )
     return NATIVE_ITEM_NAME_TO_CURRENT.get(native_name, native_name)
+
+
+def get_act_one_start_with_map_items(
+    excluded_location_names: FrozenSet[str],
+) -> tuple[str, ...]:
+    retained_rewards = {
+        get_vanilla_reward_name(location_name, "Map")
+        for location_name in LOCATION_NAMES_BY_CATEGORY["Map"]
+        if location_name not in excluded_location_names
+    }
+    return tuple(
+        item_name
+        for item_name in START_WITH_MAP_ITEMS
+        if item_name in retained_rewards
+    )
+
+
+def _trim_act_one_pool_entries(
+    entries: list[ItemPoolEntry],
+    category_modes: Mapping[str, str],
+    starting_crest_item: str,
+    split_dash_and_sprint: bool,
+    automatic_compass: bool,
+    removed_option_items_by_category: Mapping[str, tuple[str, ...]],
+    randomize_needle_upgrades: bool,
+    individual_relic_turn_ins: bool,
+) -> list[ItemPoolEntry]:
+    major_key_mode = category_modes.get("MajorKey", "vanilla")
+    boss_mode = category_modes.get("Boss", "anywhere")
+    excluded_location_names = get_act_one_excluded_location_names(
+        major_key_mode,
+        boss_mode,
+    )
+    retain_craw_summons = retains_randomized_craw_summons(
+        major_key_mode,
+        boss_mode,
+    )
+
+    for location_name in sorted(excluded_location_names):
+        location_data = location_data_table[location_name]
+        category = location_data.category
+
+        if (
+            category == RELIC_TURN_IN_LOCATION_CATEGORY
+            and not individual_relic_turn_ins
+        ):
+            continue
+        if (
+            category == NEEDLE_UPGRADE_LOCATION_CATEGORY
+            and not randomize_needle_upgrades
+        ):
+            continue
+        if (
+            location_name == "Wish: Pinmaster's Oil"
+            and randomize_needle_upgrades
+        ):
+            continue
+        if (
+            location_name == "Wish: Bugs of Pharloom"
+            and category_modes.get("ToolPouch", "vanilla") != "vanilla"
+        ):
+            continue
+
+        source_category = (
+            get_minor_family_shuffle_category_for_location(location_name)
+            if category == "Resource"
+            else category
+        )
+        if source_category == RELIC_TURN_IN_LOCATION_CATEGORY:
+            active = individual_relic_turn_ins
+        elif source_category == NEEDLE_UPGRADE_LOCATION_CATEGORY:
+            active = randomize_needle_upgrades
+        else:
+            active = category_modes.get(source_category, "anywhere") != "vanilla"
+        if not active:
+            continue
+
+        if location_name == "Craw Summons" and retain_craw_summons:
+            continue
+
+        if source_category in {
+            *OBSERVATION_LOCATION_CATEGORIES,
+            RELIC_TURN_IN_LOCATION_CATEGORY,
+        }:
+            entry_index = next(
+                (
+                    index
+                    for index, entry in enumerate(entries)
+                    if (
+                        entry.source_category == source_category
+                        and item_data_table[entry.name].classification
+                        == ItemClassification.filler
+                    )
+                ),
+                None,
+            )
+        elif source_category == NEEDLE_UPGRADE_LOCATION_CATEGORY:
+            source_location_name = get_item_first_location_name(
+                location_name
+            )
+            reward_name = (
+                PALE_OIL_ITEM
+                if source_location_name.startswith("Pale Oil: ")
+                else PROGRESSIVE_NEEDLE_UPGRADE_ITEM
+            )
+            entry_index = next(
+                (
+                    index
+                    for index, entry in enumerate(entries)
+                    if (
+                        entry.source_category == source_category
+                        and entry.name == reward_name
+                    )
+                ),
+                None,
+            )
+        else:
+            reward_name = get_vanilla_reward_name(
+                location_name,
+                category,
+            )
+            if reward_name == starting_crest_item and category == "Crest":
+                reward_name = STARTING_CREST_REPLACEMENT_ITEM
+            elif (
+                reward_name == REGULAR_SWIFT_STEP_ITEM
+                and split_dash_and_sprint
+            ):
+                reward_name = PROGRESSIVE_SWIFT_STEP_ITEM
+            elif reward_name == QUILL_ITEM and automatic_compass:
+                reward_name = PROGRESSIVE_COMPASS_ITEM
+            elif reward_name in removed_option_items_by_category.get(
+                category,
+                (),
+            ):
+                reward_name = OPTIONAL_START_REPLACEMENT_ITEM
+
+            entry_index = next(
+                (
+                    index
+                    for index, entry in enumerate(entries)
+                    if (
+                        entry.source_category == source_category
+                        and entry.name == reward_name
+                    )
+                ),
+                None,
+            )
+
+        if entry_index is None:
+            raise ValueError(
+                "Act 1 content trim could not remove an item for "
+                f"{location_name!r} from the {source_category!r} pool lane."
+            )
+        entries.pop(entry_index)
+
+    if retain_craw_summons:
+        balance_index = next(
+            (
+                index
+                for index, entry in enumerate(entries)
+                if (
+                    entry.source_category == "Boss"
+                    and entry.placement_category is None
+                    and item_data_table[entry.name].classification
+                    == ItemClassification.filler
+                )
+            ),
+            None,
+        )
+        if balance_index is None:
+            raise ValueError(
+                "Act 1 Craw Summons balancing needs one Boss filler item."
+            )
+        entries.pop(balance_index)
+
+    return entries
 
 
 def get_sprint_filler_source(
@@ -1112,6 +1312,7 @@ def _balance_act_two_retained_silk_soar(
     entries: list[ItemPoolEntry],
     category_modes: Mapping[str, str],
     automatic_compass: bool,
+    start_fully_mapped: bool = False,
 ) -> None:
     """Keep Silk Soar while balancing its omitted physical source.
 
@@ -1154,6 +1355,19 @@ def _balance_act_two_retained_silk_soar(
             None,
         )
 
+    if balance_index is None and start_fully_mapped:
+        balance_index = next(
+            (
+                index
+                for index, entry in enumerate(entries)
+                if (
+                    entry.source_category == 'Skill'
+                    and entry.name == OPTIONAL_START_REPLACEMENT_ITEM
+                )
+            ),
+            None,
+        )
+
     if balance_index is None:
         fallback_item_name = (
             _get_act_two_skill_balance_fallback_item_name(
@@ -1184,10 +1398,14 @@ def get_act_two_skill_balance_precollected_item_name(
     entries: tuple[ItemPoolEntry, ...] | list[ItemPoolEntry],
     category_modes: Mapping[str, str],
     automatic_compass: bool,
+    start_fully_mapped: bool = False,
 ) -> str | None:
     """Identify the Skill item moved from a constrained Act 2 pool."""
 
-    if category_modes.get('Skill', 'anywhere') == 'vanilla':
+    if (
+        category_modes.get('Skill', 'anywhere') == 'vanilla'
+        or start_fully_mapped
+    ):
         return None
     fallback_item_name = _get_act_two_skill_balance_fallback_item_name(
         automatic_compass
@@ -1211,6 +1429,10 @@ def get_dynamic_trap_capacity(
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
+    start_fully_mapped: bool = False,
+    act_one_only: bool = False,
+    exclude_verdania: bool = False,
+    retain_green_prince_key: bool = False,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
 
@@ -1228,7 +1450,97 @@ def get_dynamic_trap_capacity(
             minor_shuffle_category_by_family,
             individual_relic_turn_ins=individual_relic_turn_ins,
             act_two_only=act_two_only,
+            start_fully_mapped=start_fully_mapped,
+            act_one_only=act_one_only,
+            exclude_verdania=exclude_verdania,
+            retain_green_prince_key=retain_green_prince_key,
         )
+    )
+
+
+def _trim_verdania_pool_entries(
+    entries: list[ItemPoolEntry],
+    category_modes: Mapping[str, str],
+) -> list[ItemPoolEntry]:
+    """Remove rewards paired with the five Lost Verdania checks."""
+
+    for location_name in sorted(VERDANIA_LOCATION_NAMES):
+        location_data = location_data_table[location_name]
+        source_category = location_data.category
+        if category_modes.get(source_category, "anywhere") == "vanilla":
+            continue
+
+        if source_category in OBSERVATION_LOCATION_CATEGORIES:
+            entry_index = next(
+                (
+                    index
+                    for index, entry in enumerate(entries)
+                    if (
+                        entry.source_category == source_category
+                        and item_data_table[entry.name].classification
+                        == ItemClassification.filler
+                    )
+                ),
+                None,
+            )
+        else:
+            reward_name = get_vanilla_reward_name(
+                location_name,
+                source_category,
+            )
+            entry_index = next(
+                (
+                    index
+                    for index, entry in enumerate(entries)
+                    if (
+                        entry.source_category == source_category
+                        and entry.name == reward_name
+                    )
+                ),
+                None,
+            )
+
+        if entry_index is None:
+            raise ValueError(
+                "Lost Verdania content trim could not remove an item for "
+                f"{location_name!r} from the {source_category!r} pool lane."
+            )
+        entries.pop(entry_index)
+
+    return entries
+
+
+def _replace_verdania_only_key_pool_entry(
+    entries: list[ItemPoolEntry],
+    category_modes: Mapping[str, str],
+) -> None:
+    """Replace the Green Prince key outside the Act 3 content scope."""
+
+    if category_modes.get("Key", "anywhere") == "vanilla":
+        return
+
+    entry_index = next(
+        (
+            index
+            for index, entry in enumerate(entries)
+            if (
+                entry.source_category == "Key"
+                and entry.name == SIMPLE_KEY_GREEN_PRINCE
+            )
+        ),
+        None,
+    )
+    if entry_index is None:
+        raise ValueError(
+            "Lost Verdania content trim could not replace "
+            f"{SIMPLE_KEY_GREEN_PRINCE!r} in the Key pool lane."
+        )
+
+    replaced_entry = entries[entry_index]
+    entries[entry_index] = ItemPoolEntry(
+        OPTIONAL_START_REPLACEMENT_ITEM,
+        replaced_entry.source_category,
+        replaced_entry.placement_category,
     )
 
 
@@ -1244,17 +1556,55 @@ def build_item_pool_entries(
     trap_randomizer: Random | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
+    start_fully_mapped: bool = False,
+    act_one_only: bool = False,
+    exclude_verdania: bool = False,
+    retain_green_prince_key: bool = False,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
+    if act_one_only and act_two_only:
+        raise ValueError("Act 1 and Act 2 content scopes cannot overlap.")
+    exclude_verdania_content = (
+        exclude_verdania or act_one_only or act_two_only
+    )
+
     entries: list[ItemPoolEntry] = []
+    act_one_excluded_location_names = (
+        get_act_one_excluded_location_names(
+            category_modes.get("MajorKey", "vanilla"),
+            category_modes.get("Boss", "anywhere"),
+        )
+        if act_one_only
+        else frozenset()
+    )
+    goal_excluded_location_names = (
+        act_one_excluded_location_names
+        if act_one_only
+        else ACT_TWO_EXCLUDED_LOCATION_NAMES
+        if act_two_only
+        else VERDANIA_LOCATION_NAMES
+        if exclude_verdania
+        else frozenset()
+    )
     start_with_map_items = (
-        ACT_TWO_START_WITH_MAP_ITEMS
+        get_act_one_start_with_map_items(
+            act_one_excluded_location_names
+        )
+        if act_one_only
+        else ACT_TWO_START_WITH_MAP_ITEMS
         if act_two_only
         else START_WITH_MAP_ITEMS
     )
     removed_option_items_by_category: Dict[str, tuple[str, ...]] = {
         'Map': start_with_map_items if start_with_maps else (),
+        'Skill': (
+            (
+                PROGRESSIVE_COMPASS_ITEM
+                if automatic_compass
+                else QUILL_ITEM
+            ),
+        ) if start_fully_mapped else (),
         'Tool': (
             (AUTOMATIC_COMPASS_ITEM,)
             if automatic_compass
@@ -1330,8 +1680,7 @@ def build_item_pool_entries(
                 # rewards remain in this lane until the trim below removes the
                 # corresponding copy in shuffle or anywhere.
                 if (
-                    act_two_only
-                    and fixed_location in ACT_TWO_EXCLUDED_LOCATION_NAMES
+                    fixed_location in goal_excluded_location_names
                 ):
                     continue
                 pool_reward = (
@@ -1485,10 +1834,28 @@ def build_item_pool_entries(
             for _copy_index in range(count)
         )
 
-    if act_two_only:
+    if act_one_only:
+        entries = _trim_act_one_pool_entries(
+            entries,
+            category_modes,
+            starting_crest_item,
+            split_dash_and_sprint,
+            automatic_compass,
+            removed_option_items_by_category,
+            randomize_needle_upgrades,
+            individual_relic_turn_ins,
+        )
+    elif act_two_only:
         entries = list(
             trim_act_two_pool_entries(entries, starting_crest_item)
         )
+    elif exclude_verdania:
+        entries = _trim_verdania_pool_entries(entries, category_modes)
+
+    # Act 2 may keep the otherwise Verdania-only key as an optional bingo
+    # collectible without restoring any Verdania locations or requirements.
+    if exclude_verdania_content and not retain_green_prince_key:
+        _replace_verdania_only_key_pool_entry(entries, category_modes)
 
     if split_dash_and_sprint:
         preferred_filler_source = get_sprint_filler_source(category_modes)
@@ -1527,7 +1894,10 @@ def build_item_pool_entries(
             entries,
             category_modes,
             automatic_compass,
+            start_fully_mapped,
         )
+
+    add_pool_only_useful_items(entries)
 
     configured_traps = {
         trap_name: int((trap_counts or {}).get(trap_name, 0))
@@ -1572,7 +1942,6 @@ def build_item_pool_entries(
             replaced_entry.source_category,
             replaced_entry.placement_category,
         )
-
     return tuple(entries)
 
 
@@ -1587,6 +1956,10 @@ def get_configured_item_pool_size(
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
+    start_fully_mapped: bool = False,
+    act_one_only: bool = False,
+    exclude_verdania: bool = False,
+    retain_green_prince_key: bool = False,
 ) -> int:
     return len(
         build_item_pool_entries(
@@ -1600,6 +1973,10 @@ def get_configured_item_pool_size(
             minor_shuffle_category_by_family,
             individual_relic_turn_ins=individual_relic_turn_ins,
             act_two_only=act_two_only,
+            start_fully_mapped=start_fully_mapped,
+            act_one_only=act_one_only,
+            exclude_verdania=exclude_verdania,
+            retain_green_prince_key=retain_green_prince_key,
         )
     )
 
@@ -1634,9 +2011,9 @@ def _get_adjusted_pool_counts(
                 if (
                     category == 'Resource'
                     or name in TRAP_ITEM_NAMES
-                    or name in RESERVED_POOL_ITEM_NAMES
                     or name in CONDITIONAL_POOL_ITEM_NAMES
-                    or name in PROTOCOL_ONLY_ITEM_NAMES
+                    or name in VANILLA_ONLY_ITEM_NAMES
+                    or name in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
                 else 1
             )
@@ -1644,13 +2021,13 @@ def _get_adjusted_pool_counts(
         for name, category in ITEM_TABLE_SOURCE
     }
     counts.update(ITEM_POOL_COUNTS)
+    counts['Rosaries (60)'] -= len(POOL_ONLY_USEFUL_ITEM_NAMES)
     if quest_sanity:
         for item_name, count in QUEST_FILLER_COUNTS.items():
             counts[item_name] += count
     counts[REGULAR_SWIFT_STEP_ITEM] = int(
         not split_dash_and_sprint
     )
-    counts[RESERVED_SPRINT_ONLY_ITEM] = 0
     counts[PROGRESSIVE_SWIFT_STEP_ITEM] = (
         2 if split_dash_and_sprint else 0
     )
@@ -1722,9 +2099,9 @@ def iter_item_pool_names(
                 0
                 if (
                     name in TRAP_ITEM_NAMES
-                    or name in RESERVED_POOL_ITEM_NAMES
                     or name in CONDITIONAL_POOL_ITEM_NAMES
-                    or name in PROTOCOL_ONLY_ITEM_NAMES
+                    or name in VANILLA_ONLY_ITEM_NAMES
+                    or name in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
                 else 1
             )

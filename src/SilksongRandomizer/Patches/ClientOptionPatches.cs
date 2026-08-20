@@ -192,6 +192,10 @@ namespace SilksongRandomizer.Patches
                     return 4;
                 case Archipelago.RosaryMultiplierTriple:
                     return 6;
+                case Archipelago.RosaryMultiplierQuintuple:
+                    return 10;
+                case Archipelago.RosaryMultiplierTenfold:
+                    return 20;
                 default:
                     return ScaleDenominator;
             }
@@ -315,4 +319,5 @@ namespace SilksongRandomizer.Patches
             ___fastRevealSpeed *= RevealSpeedMultiplier;
         }
     }
+
 }

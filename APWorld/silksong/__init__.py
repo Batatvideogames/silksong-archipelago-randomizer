@@ -9,10 +9,17 @@ from BaseClasses import (
     Region,
     Tutorial,
 )
-from worlds.AutoWorld import WebWorld, World
+from rule_builder.cached_world import CachedRuleBuilderWorld
+from worlds.AutoWorld import WebWorld
 
+from .act1_scope import (
+    ACT_ONE_GOAL_KEY,
+    get_act_one_excluded_location_names,
+)
 from .act2_scope import (
+    ACT_THREE_ONLY_GOAL_LOCATION_NAMES,
     ACT_TWO_GOAL_KEY,
+    CURSED_ENDING_GOAL_KEY,
     get_act_two_excluded_location_names,
 )
 from .category_fill import prefill_category_shuffles
@@ -20,6 +27,8 @@ from .items import (
     ACT_TWO_START_WITH_MAP_ITEMS,
     AUTOMATIC_COMPASS_ITEM,
     OPTIONAL_START_REPLACEMENT_ITEM,
+    POOL_ONLY_USEFUL_ITEM_NAMES,
+    QUILL_ITEM,
     PROGRESSIVE_SWIFT_STEP_ITEM,
     START_WITH_MAP_ITEMS,
     STARTING_CREST_ITEM_BY_KEY,
@@ -28,15 +37,14 @@ from .items import (
     TRAP_ITEM_NAMES,
     SilksongItem,
     build_item_pool_entries,
+    get_act_one_start_with_map_items,
     get_configured_item_pool_size,
     get_dynamic_trap_capacity,
     get_act_two_skill_balance_precollected_item_name,
-    get_logic_audit_precollected_item_names,
     get_vanilla_reward_name,
     item_data_table,
     item_name_groups,
     item_table,
-    replace_logic_audit_pool_with_filler,
 )
 from .locations import (
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
@@ -45,7 +53,6 @@ from .locations import (
     OBSERVATION_LOCATION_CATEGORIES,
     PAIRED_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
-    PROTOCOL_ONLY_LOCATION_NAMES,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
@@ -74,20 +81,24 @@ from .prices import (
     resolve_purchase_prices,
 )
 from .requirements import (
-    DEFAULT_FLEA_HUNT_GOAL_COUNT,
     FLEA_HUNT_GOAL_KEY,
+    JUDGE_BELL_ITEMS,
     JUNK_ONLY_LOCATIONS,
+    LOGIC_UNKNOWN_LOCATIONS,
     MAX_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
     MIN_FLEA_HUNT_GOAL_COUNT,
     OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES,
     POLLIP_HEART_COUNT,
     ROSARY_BANK_GATED_LOCATIONS,
+    SIMPLE_KEY_GREEN_PRINCE,
     SIMPLE_KEY_ROSARY_BANK,
+    THREEFOLD_MELODY_ITEMS,
     UNVERIFIED_PROGRESSION_LOCATIONS,
     export_abstract_requirements,
     export_logic_item_dependencies,
     export_requirements,
+    normalize_trails_end_requirement,
 )
 from .rules import (
     enforce_global_shuffle_item_rules,
@@ -99,6 +110,16 @@ from .rules import (
     uses_randomized_memory_lockets_for_crest_slots,
 )
 from .version import WORLD_VERSION
+from .vog_hints import (
+    build_vog_hint_plan,
+    copy_vog_hint_plan,
+    empty_vog_hint_plan,
+    find_required_playthrough_locations,
+)
+from .verdania_scope import (
+    ACT_THREE_GOAL_KEY,
+    VERDANIA_LOCATION_NAMES,
+)
 
 __version__ = WORLD_VERSION
 
@@ -116,7 +137,7 @@ class SilksongWebWorld(WebWorld):
     ]
 
 
-class SilksongWorld(World):
+class SilksongWorld(CachedRuleBuilderWorld):
     """Hollow Knight: Silksong item randomizer support for the uploaded BepInEx client."""
 
     game = "Hollow Knight: Silksong"
@@ -134,6 +155,7 @@ class SilksongWorld(World):
     _resolved_starting_crest: str | None = None
     _resolved_trap_counts: dict[str, int] | None = None
     _crest_slot_memory_locket_count: int | None = None
+    _vog_hint_plan: dict[str, object] | None = None
 
     @classmethod
     def rule_from_dict(cls, data):
@@ -164,8 +186,7 @@ class SilksongWorld(World):
         return configured_crest
 
     def get_starting_location_key(self) -> str:
-        option = getattr(self.options, "starting_location", None)
-        key = "vanilla" if option is None else option.current_key
+        key = self.options.starting_location.current_key
         if key not in {"vanilla", "bone_bottom"}:
             raise ValueError(
                 f"Unknown Silksong starting location: {key!r}"
@@ -173,15 +194,24 @@ class SilksongWorld(World):
         return key
 
     def get_goal_key(self) -> str:
-        option = getattr(self.options, "goal", None)
-        return "act_3" if option is None else option.current_key
+        return self.options.goal.current_key
 
     def is_act_two_content_scope(self) -> bool:
-        return self.get_goal_key() == ACT_TWO_GOAL_KEY
+        return self.get_goal_key() in {
+            ACT_TWO_GOAL_KEY,
+            CURSED_ENDING_GOAL_KEY,
+        }
+
+    def is_act_one_content_scope(self) -> bool:
+        return self.get_goal_key() == ACT_ONE_GOAL_KEY
 
     def get_start_with_map_item_names(self) -> tuple[str, ...]:
         if not self.is_start_with_maps_enabled():
             return ()
+        if self.is_act_one_content_scope():
+            return get_act_one_start_with_map_items(
+                self.get_goal_excluded_location_names()
+            )
         return (
             ACT_TWO_START_WITH_MAP_ITEMS
             if self.is_act_two_content_scope()
@@ -196,36 +226,43 @@ class SilksongWorld(World):
             self.get_category_mode('Skill'),
         )
 
+    def get_goal_excluded_location_names(self) -> frozenset[str]:
+        goal_key = self.get_goal_key()
+        verdania_location_names = (
+            frozenset()
+            if goal_key == ACT_THREE_GOAL_KEY
+            else VERDANIA_LOCATION_NAMES
+        )
+        act_three_only_location_names = (
+            ACT_THREE_ONLY_GOAL_LOCATION_NAMES
+            if goal_key in {
+                ACT_ONE_GOAL_KEY,
+                ACT_TWO_GOAL_KEY,
+                CURSED_ENDING_GOAL_KEY,
+            }
+            else frozenset()
+        )
+        if self.is_act_one_content_scope():
+            return (
+                get_act_one_excluded_location_names(
+                    self.get_category_mode('MajorKey'),
+                    self.get_category_mode('Boss'),
+                )
+                | verdania_location_names
+                | act_three_only_location_names
+            )
+        return (
+            self.get_act_two_excluded_location_names()
+            | verdania_location_names
+            | act_three_only_location_names
+        )
+
     def generate_early(self) -> None:
         self._crest_slot_memory_locket_count = None
+        self._vog_hint_plan = None
         starting_crest = self.resolve_starting_crest()
         category_modes = self.get_category_modes()
         goal_key = self.get_goal_key()
-        if self.is_logic_audit_mode_enabled():
-            permitted_non_anywhere_categories = (
-                {'CrestSlot'}
-                if category_modes.get('MemoryLocket') == 'anywhere'
-                else set()
-            )
-            non_anywhere_categories = sorted(
-                category
-                for category, mode in category_modes.items()
-                if (
-                    mode != "anywhere"
-                    and category not in permitted_non_anywhere_categories
-                )
-            )
-            if non_anywhere_categories:
-                raise ValueError(
-                    "logic_audit_mode requires every randomization category "
-                    "to use anywhere; received non-anywhere categories: "
-                    f"{non_anywhere_categories!r}."
-                )
-            if self.is_early_dash_enabled():
-                raise ValueError(
-                    "logic_audit_mode requires early_dash: false because "
-                    "Swift Step is already precollected."
-                )
         get_configured_item_pool_size(
             STARTING_CREST_ITEM_BY_KEY[starting_crest],
             self.resolve_trap_counts(),
@@ -239,6 +276,10 @@ class SilksongWorld(World):
                 self.is_individual_relic_turn_ins_enabled()
             ),
             act_two_only=self.is_act_two_content_scope(),
+            start_fully_mapped=self.is_start_fully_mapped_enabled(),
+            act_one_only=self.is_act_one_content_scope(),
+            exclude_verdania=(goal_key != ACT_THREE_GOAL_KEY),
+            retain_green_prince_key=(goal_key == ACT_TWO_GOAL_KEY),
         )
         if self.is_early_dash_enabled():
             player_early_items = self.multiworld.local_early_items[
@@ -249,10 +290,9 @@ class SilksongWorld(World):
                 if self.is_split_dash_and_sprint()
                 else "Swift Step"
             )
-            early_item_count = 2 if self.is_split_dash_and_sprint() else 1
             player_early_items[early_item_name] = (
                 player_early_items.get(early_item_name, 0)
-                + early_item_count
+                + 1
             )
 
     def is_split_dash_and_sprint(self) -> bool:
@@ -274,44 +314,17 @@ class SilksongWorld(World):
             and location_name in LOCATION_NAMES_BY_CATEGORY['Flea']
         )
 
-    def is_logic_audit_mode_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "logic_audit_mode", None),
-                "value",
-                0,
-            )
-        )
-
     def is_individual_relic_turn_ins_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(
-                    self.options,
-                    "individual_relic_turn_ins",
-                    None,
-                ),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.individual_relic_turn_ins.value)
 
-    def is_easy_skips_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "easy_skips", None),
-                "value",
-                0,
-            )
-        )
+    def get_skips_tier(self) -> int:
+        return int(self.options.skips.value)
+
+    def is_scuttlebrace_logic_enabled(self) -> bool:
+        return bool(self.options.scuttlebrace_logic.value)
 
     def get_flea_hunt_goal_count(self) -> int:
-        option = getattr(self.options, "flea_hunt_count", None)
-        count = (
-            DEFAULT_FLEA_HUNT_GOAL_COUNT
-            if option is None
-            else int(option.value)
-        )
+        count = int(self.options.flea_hunt_count.value)
         if not (
             MIN_FLEA_HUNT_GOAL_COUNT
             <= count
@@ -325,43 +338,21 @@ class SilksongWorld(World):
         return count
 
     def is_needle_upgrade_randomization_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(
-                    self.options,
-                    "randomize_needle_upgrades",
-                    None,
-                ),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.randomize_needle_upgrades.value)
 
     def is_start_with_maps_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "start_with_maps", None),
-                "value",
-                0,
-            )
+        return self.is_start_fully_mapped_enabled() or bool(
+            self.options.start_with_maps.value
         )
+
+    def is_start_fully_mapped_enabled(self) -> bool:
+        return bool(self.options.start_fully_mapped.value)
 
     def is_automatic_compass_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "automatic_compass", None),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.automatic_compass.value)
 
     def get_bellway_access_key(self) -> str:
-        option = getattr(self.options, "bellway_access", None)
-        key = (
-            "bell_beast_required"
-            if option is None
-            else option.current_key
-        )
+        key = self.options.bellway_access.current_key
         if key not in {
             "bell_beast_required",
             "randomized_stations",
@@ -374,28 +365,60 @@ class SilksongWorld(World):
     def allows_bellways_before_bell_beast(self) -> bool:
         return self.get_bellway_access_key() == "randomized_stations"
 
+    def get_trails_end_requirement_key(self) -> str:
+        return normalize_trails_end_requirement(
+            self.options.trails_end_requirement.current_key
+        )
+
     def get_check_map_markers_key(self) -> str:
-        option = getattr(self.options, "check_map_markers", None)
-        key = "off" if option is None else option.current_key
+        key = self.options.check_map_markers.current_key
         if key not in {"off", "mapped_rooms", "owned_maps", "all"}:
             raise ValueError(
                 f"Unknown check map marker mode: {key!r}"
             )
         return key
 
+    def uses_randomized_bell_markers(self) -> bool:
+        return bool(self.options.randomized_bell_markers.value)
+
+    def uses_randomized_melody_markers(self) -> bool:
+        return bool(self.options.randomized_melody_markers.value)
+
+    def get_randomized_item_marker_locations(self) -> dict[str, str]:
+        item_names = set()
+        if self.uses_randomized_bell_markers():
+            item_names.update(JUDGE_BELL_ITEMS)
+        if self.uses_randomized_melody_markers():
+            item_names.update(THREEFOLD_MELODY_ITEMS)
+        if not item_names:
+            return {}
+
+        return {
+            location.item.name: location.name
+            for location in sorted(
+                self.multiworld.get_filled_locations(),
+                key=lambda candidate: (candidate.player, candidate.name),
+            )
+            if (
+                location.player == self.player
+                and location.address is not None
+                and location.item is not None
+                and location.item.player == self.player
+                and location.item.name in item_names
+            )
+        }
+
     def get_enemy_rosary_multiplier_key(self) -> str:
-        option = getattr(self.options, "enemy_rosary_multiplier", None)
-        key = "x1" if option is None else option.current_key
-        if key not in {"x1", "x1_5", "x2", "x3"}:
+        key = self.options.enemy_rosary_multiplier.current_key
+        if key not in {"x1", "x1_5", "x2", "x3", "x5", "x10"}:
             raise ValueError(
                 f"Unknown enemy Rosary multiplier: {key!r}"
             )
         return key
 
     def get_enemy_shard_multiplier_key(self) -> str:
-        option = getattr(self.options, "enemy_shard_multiplier", None)
-        key = "x1" if option is None else option.current_key
-        if key not in {"x1", "x1_5", "x2", "x3"}:
+        key = self.options.enemy_shard_multiplier.current_key
+        if key not in {"x1", "x1_5", "x2", "x3", "x5", "x10"}:
             raise ValueError(
                 f"Unknown enemy Shell Shard multiplier: {key!r}"
             )
@@ -404,8 +427,7 @@ class SilksongWorld(World):
     def get_purchase_price_modes(self) -> dict[str, str]:
         modes: dict[str, str] = {}
         for category, option_name in PRICE_CATEGORY_OPTION_NAMES.items():
-            option = getattr(self.options, option_name, None)
-            key = "vanilla" if option is None else option.current_key
+            key = getattr(self.options, option_name).current_key
             if key not in PRICE_MODE_KEYS:
                 raise ValueError(
                     f"Unknown {option_name} mode: {key!r}"
@@ -424,49 +446,73 @@ class SilksongWorld(World):
         return dict(cached)
 
     def is_faster_dialogue_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "faster_dialogue", None),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.faster_dialogue.value)
 
     def is_death_link_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "death_link", None),
-                "value",
-                0,
+        return bool(self.options.death_link.value)
+
+    def get_death_link_cocoon_key(self) -> str:
+        key = self.options.death_link_cocoon.current_key
+        if key not in {"vanilla", "cocoonless", "cocoon"}:
+            raise ValueError(
+                f"Unknown Death Link cocoon mode: {key!r}"
             )
-        )
+        return key
 
     def is_silk_link_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "silk_link", None),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.silk_link.value)
 
     def is_rosary_link_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "rosary_link", None),
-                "value",
-                0,
-            )
-        )
+        return bool(self.options.rosary_link.value)
 
     def is_shell_shard_link_enabled(self) -> bool:
-        return bool(
-            getattr(
-                getattr(self.options, "shell_shard_link", None),
-                "value",
-                0,
-            )
+        return bool(self.options.shell_shard_link.value)
+
+    def get_vog_hint_counts(self) -> tuple[int, int, int]:
+        option_names = (
+            "vog_woth_hints",
+            "vog_foolish_hints",
+            "vog_general_hints",
         )
+        return tuple(
+            max(
+                0,
+                min(
+                    30,
+                    int(getattr(self.options, option_name).value),
+                ),
+            )
+            for option_name in option_names
+        )
+
+    def get_vog_hint_plan(self) -> dict[str, object]:
+        plan = getattr(self, "_vog_hint_plan", None)
+        if plan is None:
+            plan = self.build_vog_hint_plan()
+        return copy_vog_hint_plan(plan)
+
+    def build_vog_hint_plan(self) -> dict[str, object]:
+        if not any(self.get_vog_hint_counts()):
+            plan = empty_vog_hint_plan()
+        else:
+            cache_name = "_silksong_vog_required_locations"
+            required_locations = getattr(
+                self.multiworld,
+                cache_name,
+                None,
+            )
+            if required_locations is None:
+                required_locations = find_required_playthrough_locations(
+                    self.multiworld
+                )
+                setattr(
+                    self.multiworld,
+                    cache_name,
+                    required_locations,
+                )
+            plan = build_vog_hint_plan(self, required_locations)
+        self._vog_hint_plan = plan
+        return copy_vog_hint_plan(plan)
 
     def is_quest_sanity_enabled(self) -> bool:
         return self.get_category_mode('Quest') != 'vanilla'
@@ -541,6 +587,14 @@ class SilksongWorld(World):
             self.get_minor_family_shuffle_categories(),
             self.is_individual_relic_turn_ins_enabled(),
             self.is_act_two_content_scope(),
+            self.is_start_fully_mapped_enabled(),
+            act_one_only=self.is_act_one_content_scope(),
+            exclude_verdania=(
+                self.get_goal_key() != ACT_THREE_GOAL_KEY
+            ),
+            retain_green_prince_key=(
+                self.get_goal_key() == ACT_TWO_GOAL_KEY
+            ),
         )
         if percentage > 0 and trap_capacity == 0:
             raise ValueError(
@@ -602,6 +656,16 @@ class SilksongWorld(World):
             and not self.is_rosary_bank_key_progression_enabled()
         ):
             classification = ItemClassification.useful
+        if (
+            name == 'Scuttlebrace'
+            and not self.is_scuttlebrace_logic_enabled()
+        ):
+            classification = ItemClassification.useful
+        if (
+            name == SIMPLE_KEY_GREEN_PRINCE
+            and self.get_goal_key() != ACT_THREE_GOAL_KEY
+        ):
+            classification = ItemClassification.useful
         if name in OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES:
             crest_slot_mode = self.get_category_mode('CrestSlot')
             memory_locket_mode = self.get_category_mode('MemoryLocket')
@@ -654,7 +718,12 @@ class SilksongWorld(World):
         )
 
     def create_event(self, name: str) -> Item:
-        return SilksongItem(name, ItemClassification.progression, self.item_name_to_id[name], self.player)
+        return SilksongItem(
+            name,
+            ItemClassification.progression,
+            None,
+            self.player,
+        )
 
     def create_items(self) -> None:
         starting_crest = self.resolve_starting_crest()
@@ -665,6 +734,7 @@ class SilksongWorld(World):
         }
         option_replaced_item_names = {
             *precollected_option_items,
+            *((QUILL_ITEM,) if self.is_start_fully_mapped_enabled() else ()),
             *(
                 (AUTOMATIC_COMPASS_ITEM,)
                 if self.is_automatic_compass_enabled()
@@ -681,7 +751,7 @@ class SilksongWorld(World):
             for location_name in LOCATION_NAMES_BY_CATEGORY[category]:
                 if (
                     location_name
-                    in self.get_act_two_excluded_location_names()
+                    in self.get_goal_excluded_location_names()
                 ):
                     continue
                 mode = self.get_location_randomization_mode(
@@ -714,7 +784,7 @@ class SilksongWorld(World):
                 ):
                     if (
                         location_name
-                        in self.get_act_two_excluded_location_names()
+                        in self.get_goal_excluded_location_names()
                     ):
                         continue
                     self.multiworld.get_location(
@@ -743,7 +813,22 @@ class SilksongWorld(World):
             getattr(self, 'random', None),
             self.is_individual_relic_turn_ins_enabled(),
             self.is_act_two_content_scope(),
+            self.is_start_fully_mapped_enabled(),
+            act_one_only=self.is_act_one_content_scope(),
+            exclude_verdania=(
+                self.get_goal_key() != ACT_THREE_GOAL_KEY
+            ),
+            retain_green_prince_key=(
+                self.get_goal_key() == ACT_TWO_GOAL_KEY
+            ),
         ))
+
+        pool_item_names = {entry.name for entry in pool_entries}
+        for item_name in POOL_ONLY_USEFUL_ITEM_NAMES:
+            if item_name not in pool_item_names:
+                self.multiworld.push_precollected(
+                    self.create_item(item_name)
+                )
 
         if self.is_act_two_content_scope():
             balance_item_name = (
@@ -751,6 +836,7 @@ class SilksongWorld(World):
                     pool_entries,
                     category_modes,
                     self.is_automatic_compass_enabled(),
+                    self.is_start_fully_mapped_enabled(),
                 )
             )
             if balance_item_name is not None:
@@ -763,118 +849,107 @@ class SilksongWorld(World):
         # do not. In that specific shortage, retain the same conservative
         # native rewards used by category shuffle instead of making a valid
         # option combination impossible to fill.
-        if not self.is_logic_audit_mode_enabled():
-            get_locations = getattr(
-                self.multiworld,
-                'get_locations',
-                None,
-            )
-            unfilled_locations = (
-                {
-                    location.name: location
-                    for location in get_locations()
-                    if (
-                        location.player == self.player
-                        and location.address is not None
-                        and location.item is None
-                        and getattr(
-                            location,
-                            'silksong_placement_category',
-                            None,
-                        ) is None
-                    )
-                }
-                if callable(get_locations)
-                else {}
-            )
-            junk_only_names = {
-                location_name
-                for location_name in unfilled_locations
-                if location_name in JUNK_ONLY_LOCATIONS
-            }
-            nonprogression_only_names = junk_only_names | {
-                location_name
-                for location_name in unfilled_locations
+        get_locations = getattr(
+            self.multiworld,
+            'get_locations',
+            None,
+        )
+        unfilled_locations = (
+            {
+                location.name: location
+                for location in get_locations()
                 if (
-                    location_name in UNVERIFIED_PROGRESSION_LOCATIONS
-                    or (
-                        location_data_table[location_name].category
-                        == 'CrestSlot'
-                        and category_modes.get('MemoryLocket') == 'vanilla'
-                    )
+                    location.player == self.player
+                    and location.address is not None
+                    and location.item is None
+                    and getattr(
+                        location,
+                        'silksong_placement_category',
+                        None,
+                    ) is None
                 )
             }
-            classifications = tuple(
-                self.create_item(entry.name).classification
-                for entry in pool_entries
-                if entry.placement_category is None
-            )
-            junk_item_count = sum(
-                classification in (
-                    ItemClassification.filler,
-                    ItemClassification.trap,
+            if callable(get_locations)
+            else {}
+        )
+        junk_only_names = {
+            location_name
+            for location_name in unfilled_locations
+            if location_name in JUNK_ONLY_LOCATIONS
+        }
+        nonprogression_only_names = junk_only_names | {
+            location_name
+            for location_name in unfilled_locations
+            if (
+                location_name in UNVERIFIED_PROGRESSION_LOCATIONS
+                or (
+                    location_data_table[location_name].category
+                    == 'CrestSlot'
+                    and category_modes.get('MemoryLocket') == 'vanilla'
                 )
-                for classification in classifications
             )
-            nonprogression_item_count = sum(
-                not (
-                    classification
-                    & ItemClassification.progression
-                )
-                for classification in classifications
+        }
+        classifications = tuple(
+            self.create_item(entry.name).classification
+            for entry in pool_entries
+            if entry.placement_category is None
+        )
+        junk_item_count = sum(
+            classification in (
+                ItemClassification.filler,
+                ItemClassification.trap,
             )
-            safety_shortage = (
-                junk_item_count < len(junk_only_names)
-                or nonprogression_item_count
-                < len(nonprogression_only_names)
+            for classification in classifications
+        )
+        nonprogression_item_count = sum(
+            not (
+                classification
+                & ItemClassification.progression
             )
-            if safety_shortage:
-                for category, fixed_rewards in (
-                    SHUFFLE_FIXED_LOCATION_REWARDS.items()
-                ):
-                    if category_modes.get(category) != 'anywhere':
+            for classification in classifications
+        )
+        safety_shortage = (
+            junk_item_count < len(junk_only_names)
+            or nonprogression_item_count
+            < len(nonprogression_only_names)
+        )
+        if safety_shortage:
+            for category, fixed_rewards in (
+                SHUFFLE_FIXED_LOCATION_REWARDS.items()
+            ):
+                if category_modes.get(category) != 'anywhere':
+                    continue
+                for location_name, reward_name in fixed_rewards.items():
+                    location = unfilled_locations.get(location_name)
+                    if location is None:
                         continue
-                    for location_name, reward_name in fixed_rewards.items():
-                        location = unfilled_locations.get(location_name)
-                        if location is None:
-                            continue
-                        pool_reward = (
-                            OPTIONAL_START_REPLACEMENT_ITEM
-                            if reward_name in option_replaced_item_names
-                            else reward_name
-                        )
-                        pool_index = next(
-                            (
-                                index
-                                for index, entry in enumerate(pool_entries)
-                                if (
-                                    entry.name == pool_reward
-                                    and entry.source_category == category
-                                )
-                            ),
-                            None,
-                        )
-                        if pool_index is None:
-                            raise ValueError(
-                                f"Could not reserve fixed {category} reward "
-                                f"{pool_reward!r} for {location_name!r}."
+                    pool_reward = (
+                        OPTIONAL_START_REPLACEMENT_ITEM
+                        if reward_name in option_replaced_item_names
+                        else reward_name
+                    )
+                    pool_index = next(
+                        (
+                            index
+                            for index, entry in enumerate(pool_entries)
+                            if (
+                                entry.name == pool_reward
+                                and entry.source_category == category
                             )
-                        pool_entries.pop(pool_index)
-                        location.place_locked_item(
-                            self.create_item(pool_reward)
+                        ),
+                        None,
+                    )
+                    if pool_index is None:
+                        raise ValueError(
+                            f"Could not reserve fixed {category} reward "
+                            f"{pool_reward!r} for {location_name!r}."
                         )
+                    pool_entries.pop(pool_index)
+                    location.place_locked_item(
+                        self.create_item(pool_reward)
+                    )
 
         pool_entries = tuple(pool_entries)
-        if self.is_logic_audit_mode_enabled():
-            for item_name in get_logic_audit_precollected_item_names(
-                pool_entries
-            ):
-                self.multiworld.push_precollected(
-                    self.create_item(item_name)
-                )
-            pool_entries = replace_logic_audit_pool_with_filler(
-                pool_entries
-            )
 
         self.multiworld.itempool.extend(
             self.create_item(entry.name, entry.placement_category)
@@ -894,10 +969,8 @@ class SilksongWorld(World):
             for location_name in locations
         }
         for name, data in location_data_table.items():
-            if name in PROTOCOL_ONLY_LOCATION_NAMES:
-                continue
             if (
-                name in self.get_act_two_excluded_location_names()
+                name in self.get_goal_excluded_location_names()
             ):
                 continue
             if (
@@ -960,6 +1033,14 @@ class SilksongWorld(World):
                             data.category,
                         ) == AUTOMATIC_COMPASS_ITEM
                     )
+                    and not (
+                        self.is_start_fully_mapped_enabled()
+                        and data.category == 'Skill'
+                        and get_vanilla_reward_name(
+                            name,
+                            data.category,
+                        ) == QUILL_ITEM
+                    )
                 )
                 else data.code
             )
@@ -982,6 +1063,29 @@ class SilksongWorld(World):
                 )
             pharloom.locations.append(location)
 
+        active_logic_unknown_locations = {
+            location.name
+            for location in pharloom.locations
+            if (
+                location.address is not None
+                and location.name in LOGIC_UNKNOWN_LOCATIONS
+            )
+        }
+        act_one_uses_goal_scoped_lockets = (
+            self.is_act_one_content_scope()
+            and uses_randomized_memory_lockets_for_crest_slots(self)
+        )
+        if (
+            active_logic_unknown_locations
+            or act_one_uses_goal_scoped_lockets
+        ):
+            # LogicUnknown checks and Act 1's post-goal native Lockets cannot
+            # be part of AP's full-accessibility sweep. They remain collectable
+            # in-game, while Minimal still covers everything needed for the goal.
+            accessibility = getattr(self.options, "accessibility", None)
+            if accessibility is not None:
+                accessibility.value = accessibility.option_minimal
+
         self.multiworld.regions += [menu, pharloom]
         menu.connect(pharloom)
 
@@ -995,48 +1099,6 @@ class SilksongWorld(World):
     @classmethod
     def stage_set_rules(cls, multiworld) -> None:
         enforce_global_shuffle_item_rules(multiworld)
-
-    @classmethod
-    def stage_fill_hook(
-        cls,
-        multiworld,
-        progitempool,
-        _usefulitempool,
-        _filleritempool,
-        _fill_locations,
-    ) -> None:
-        combined_players = {
-            player
-            for player in multiworld.player_ids
-            if (
-                multiworld.worlds[player].game == cls.game
-                and uses_randomized_memory_lockets_for_crest_slots(
-                    multiworld.worlds[player]
-                )
-            )
-        }
-        if not combined_players:
-            return
-
-        delayed_lockets = [
-            item
-            for item in progitempool
-            if (
-                item.player in combined_players
-                and item.name == MEMORY_LOCKET_ITEM
-            )
-        ]
-        if not delayed_lockets:
-            return
-        delayed_ids = {id(item) for item in delayed_lockets}
-        progitempool[:] = [
-            *delayed_lockets,
-            *(
-                item
-                for item in progitempool
-                if id(item) not in delayed_ids
-            ),
-        ]
 
     @staticmethod
     def _build_crest_slotless_state(multiworld, excluded_slots):
@@ -1068,8 +1130,8 @@ class SilksongWorld(World):
                 return slotless_state
 
             progression_slots = sorted(
-                get_active_crest_slot_locations(world),
-                key=lambda location: location.name,
+                excluded_slots,
+                key=lambda location: (location.player, location.name),
             )
             progression_slots = [
                 location
@@ -1085,8 +1147,7 @@ class SilksongWorld(World):
                     location
                     for location in multiworld.get_filled_locations()
                     if (
-                        location.player == world.player
-                        and location not in excluded_slots
+                        location not in excluded_slots
                         and location.address is not None
                         and location.item is not None
                         and not location.item.advancement
@@ -1094,15 +1155,19 @@ class SilksongWorld(World):
                         and location.can_reach(slotless_state)
                     )
                 ),
-                key=lambda location: location.name,
+                key=lambda location: (location.player, location.name),
             )
+            if not progression_slots or not replacement_locations:
+                return slotless_state
 
-            swap_pair = next(
-                (
-                    (slot_location, replacement_location)
-                    for slot_location in progression_slots
-                    for replacement_location in replacement_locations
-                    if (
+            from Fill import swap_location_item
+
+            improved_state = None
+            fallback_swap = None
+            fallback_state = None
+            for slot_location in progression_slots:
+                for replacement_location in replacement_locations:
+                    if not (
                         replacement_location.can_fill(
                             slotless_state,
                             slot_location.item,
@@ -1113,20 +1178,48 @@ class SilksongWorld(World):
                             replacement_location.item,
                             False,
                         )
+                    ):
+                        continue
+
+                    slot_item = slot_location.item
+                    previous_item_count = slotless_state.count(
+                        slot_item.name,
+                        slot_item.player,
                     )
-                ),
-                None,
-            )
-            if swap_pair is None:
-                return slotless_state
+                    swap_location_item(slot_location, replacement_location)
+                    candidate_state = cls._build_crest_slotless_state(
+                        multiworld,
+                        excluded_slots,
+                    )
+                    candidate_count = candidate_state.count(
+                        MEMORY_LOCKET_ITEM,
+                        world.player,
+                    )
+                    if candidate_count > reachable_count:
+                        improved_state = candidate_state
+                        break
+                    if (
+                        fallback_swap is None
+                        and candidate_state.count(
+                            slot_item.name,
+                            slot_item.player,
+                        ) > previous_item_count
+                    ):
+                        fallback_swap = (
+                            slot_location,
+                            replacement_location,
+                        )
+                        fallback_state = candidate_state
+                    swap_location_item(slot_location, replacement_location)
+                if improved_state is not None:
+                    break
 
-            from Fill import swap_location_item
-
-            swap_location_item(*swap_pair)
-            slotless_state = cls._build_crest_slotless_state(
-                multiworld,
-                excluded_slots,
-            )
+            if improved_state is None:
+                if fallback_swap is None:
+                    return slotless_state
+                swap_location_item(*fallback_swap)
+                improved_state = fallback_state
+            slotless_state = improved_state
 
     @classmethod
     def stage_post_fill(cls, multiworld) -> None:
@@ -1166,8 +1259,7 @@ class SilksongWorld(World):
         for world in combined_worlds:
             finalize_crest_slot_memory_locket_logic(world)
 
-        # Prove every required Locket can be reached without assuming any
-        # reward from the consumable-gated Crest Slot checks themselves.
+        # Move only the progression needed to keep two Lockets in reserve.
         slotless_state = cls._build_crest_slotless_state(
             multiworld,
             excluded_slots,
@@ -1181,7 +1273,10 @@ class SilksongWorld(World):
                 MEMORY_LOCKET_ITEM,
                 world.player,
             )
-            if reachable_count < required_count:
+            # Minimal may leave optional Crest Slots beyond the goal. That is
+            # fine when they hold no progression because AP cannot count native
+            # Lockets outside the room. Fail if progression would be trapped.
+            if progression_count and reachable_count < required_count:
                 from Fill import FillError
 
                 raise FillError(
@@ -1190,10 +1285,33 @@ class SilksongWorld(World):
                     "rewards, but only "
                     f"{reachable_count} of the required {required_count} "
                     "Memory Lockets are reachable without Crest Slot "
-                    "rewards. Check forced placements, exclusions, and "
+                    "rewards. Check forced placements, exclusions and "
                     "category settings.",
                     multiworld=multiworld,
                 )
+
+    @classmethod
+    def stage_finalize_multiworld(cls, multiworld) -> None:
+        worlds = [
+            multiworld.worlds[player]
+            for player in multiworld.player_ids
+            if multiworld.worlds[player].game == cls.game
+        ]
+        if not worlds:
+            return
+
+        if any(any(world.get_vog_hint_counts()) for world in worlds):
+            required_locations = find_required_playthrough_locations(
+                multiworld
+            )
+            setattr(
+                multiworld,
+                "_silksong_vog_required_locations",
+                required_locations,
+            )
+
+        for world in worlds:
+            world.build_vog_hint_plan()
 
     def fill_slot_data(self) -> dict[str, object]:
         goal_key = self.get_goal_key()
@@ -1221,12 +1339,24 @@ class SilksongWorld(World):
                 self.is_needle_upgrade_randomization_enabled(),
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
-            "logic_audit_mode": self.is_logic_audit_mode_enabled(),
-            "easy_skips": self.is_easy_skips_enabled(),
+            "skips": self.get_skips_tier(),
+            "scuttlebrace_logic":
+                self.is_scuttlebrace_logic_enabled(),
             "start_with_maps": self.is_start_with_maps_enabled(),
+            "start_fully_mapped":
+                self.is_start_fully_mapped_enabled(),
             "automatic_compass": self.is_automatic_compass_enabled(),
             "check_map_markers": self.get_check_map_markers_key(),
+            "randomized_bell_markers":
+                self.uses_randomized_bell_markers(),
+            "randomized_melody_markers":
+                self.uses_randomized_melody_markers(),
+            "randomized_item_marker_locations":
+                self.get_randomized_item_marker_locations(),
+            "vog_hints": self.get_vog_hint_plan(),
             "bellway_access": self.get_bellway_access_key(),
+            "trails_end_requirement":
+                self.get_trails_end_requirement_key(),
             "enemy_rosary_multiplier":
                 self.get_enemy_rosary_multiplier_key(),
             "enemy_shard_multiplier":
@@ -1234,6 +1364,7 @@ class SilksongWorld(World):
             "purchase_prices": purchase_prices,
             "faster_dialogue": self.is_faster_dialogue_enabled(),
             "death_link": self.is_death_link_enabled(),
+            "death_link_cocoon": self.get_death_link_cocoon_key(),
             "silk_link": self.is_silk_link_enabled(),
             "rosary_link": self.is_rosary_link_enabled(),
             "shell_shard_link": self.is_shell_shard_link_enabled(),
@@ -1253,11 +1384,19 @@ class SilksongWorld(World):
                     else 0
                 ),
                 bone_bottom_statue_tool_pouch_count,
+                randomize_needle_upgrades=(
+                    self.is_needle_upgrade_randomization_enabled()
+                ),
+                scuttlebrace_logic_enabled=(
+                    self.is_scuttlebrace_logic_enabled()
+                ),
             ),
             "abstract_requirements": export_abstract_requirements(
                 self.allows_bellways_before_bell_beast(),
                 self.get_category_mode('CrestSlot') != 'vanilla',
                 self.get_starting_location_key(),
+                self.get_trails_end_requirement_key(),
+                self.is_scuttlebrace_logic_enabled(),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
                 self.is_split_dash_and_sprint()

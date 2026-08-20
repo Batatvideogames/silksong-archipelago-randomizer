@@ -44,6 +44,7 @@ namespace SilksongRandomizer
         Silkeater,
         MajorKey,
         ToolPouch,
+        LoreTablet,
     }
 
     public class Item

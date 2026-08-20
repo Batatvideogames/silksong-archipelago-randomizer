@@ -60,11 +60,11 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            if (loadedState.schemaVersion > SaveState.CurrentSchemaVersion)
+            if (loadedState.schemaVersion != SaveState.CurrentSchemaVersion)
             {
-                error = "This save uses newer randomizer metadata (schema " +
-                        loadedState.schemaVersion + ") than this plugin supports (" +
-                        SaveState.CurrentSchemaVersion + ").";
+                error = "This save uses randomizer metadata schema " +
+                        loadedState.schemaVersion + ", but this plugin requires schema " +
+                        SaveState.CurrentSchemaVersion + ". Start a new randomizer save.";
                 return false;
             }
 
@@ -148,11 +148,11 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            if (loadedState.schemaVersion > SaveState.CurrentSchemaVersion)
+            if (loadedState.schemaVersion != SaveState.CurrentSchemaVersion)
             {
-                error = "This save uses newer randomizer metadata (schema " +
-                        loadedState.schemaVersion + ") than this plugin supports (" +
-                        SaveState.CurrentSchemaVersion + ").";
+                error = "This save uses randomizer metadata schema " +
+                        loadedState.schemaVersion + ", but this plugin requires schema " +
+                        SaveState.CurrentSchemaVersion + ". Start a new randomizer save.";
                 return false;
             }
 
@@ -198,6 +198,19 @@ namespace SilksongRandomizer.Patches
             }
 
             return true;
+        }
+
+        internal static bool HasOfflineLoadableSave()
+        {
+            for (int slot = 1; slot <= 4; slot++)
+            {
+                if (CanLoad(slot, out _))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static string GetWorldVersionBindingError(
@@ -333,6 +346,8 @@ namespace SilksongRandomizer.Patches
                     throw new InvalidDataException("The file deserialized to null.");
                 }
 
+                state.RequireExplicitSchemaVersion();
+
                 return true;
             }
             catch (Exception ex)
@@ -394,7 +409,6 @@ namespace SilksongRandomizer.Patches
         private static void Prefix()
         {
             SlabCaptureWarpSafety.PrepareForSave();
-            LogicAuditCloakManager.PrepareForSave();
             TrapManager.PrepareForSave();
             BellhomePhaseManager.EnsureBellhomeUnlocked();
         }
@@ -402,7 +416,6 @@ namespace SilksongRandomizer.Patches
         private static void Postfix()
         {
             TrapManager.ResumeAfterSave();
-            LogicAuditCloakManager.ResumeAfterSave();
         }
     }
 
@@ -430,6 +443,28 @@ namespace SilksongRandomizer.Patches
             {
                 SavePatches.NewGame();
             }
+        }
+    }
+
+    [HarmonyPatch(
+        typeof(UIManager),
+        nameof(UIManager.StartNewGame),
+        new Type[] { typeof(bool), typeof(bool) }
+    )]
+    internal static class StartNewGameFromMenuPatch
+    {
+        private static bool Prefix()
+        {
+            if (Archipelago.Instance != null && Archipelago.Instance.Connected)
+            {
+                return true;
+            }
+
+            RandomizerPlugin.Instance.ReportBlockingError(
+                "Connect to Archipelago before starting a new randomizer save. " +
+                "Offline play is available after that save has been bound once."
+            );
+            return false;
         }
     }
 
