@@ -572,12 +572,12 @@ class SilksongAccessibility(Accessibility):
 
     **Minimal:** ensure what is needed to reach your goal can be acquired.
 
-    LogicUnknown locations remain physically collectable but are intentionally
-    outside logic, so the Silksong standard uses Minimal.
+    LogicUnknown locations are treated as reachable but never hold advancement
+    items. Their map marker shows that the route is still incomplete.
     """
 
     display_name = "Accessibility"
-    default = Accessibility.option_minimal
+    default = Accessibility.option_full
 
 
 class Goal(Choice):

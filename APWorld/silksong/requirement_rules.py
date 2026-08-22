@@ -573,7 +573,7 @@ def build_location_rule(
     pollip_heart_count: int = 0,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
-        return False_()
+        return True_()
     return build_requirements_rule(
         get_location_requirements(
             location_name,
@@ -632,7 +632,7 @@ def build_native_source_rule(
     pollip_heart_count: int = 0,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
-        return False_()
+        return True_()
     return NativeSourceRule(
         location_name,
         get_vanilla_reward_name(location_name, category),

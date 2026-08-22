@@ -28,6 +28,8 @@ VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "blasted-steps": "Blasted Steps",
     "the-mist": "The Mist",
     "whispering-vaults": "Whispering Vaults",
+    "high-halls": "High Halls",
+    "whiteward": "Whiteward",
     "white-ward": "Whiteward",
     "bilewater": "Bilewater",
     "sands-of-karak": "Sands of Karak",

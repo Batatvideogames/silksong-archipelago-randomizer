@@ -467,7 +467,7 @@ LORE_TABLET_ACT_THREE_LOCATION_NAMES: frozenset[str] = frozenset(
     if source.act_number == 3
 )
 
-LORE_TABLET_DONOR_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
+LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "Bellhart - Outer Sign",
     "The Marrow - Entrance Inscription",
     "The Marrow - Pilgrim Diary",
@@ -476,8 +476,10 @@ LORE_TABLET_DONOR_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "Mosshome - Moss Plaque",
     "Shellwood - Shellgrave Inscription",
     "Shellwood - Weaver Harp Inscription",
+    "The Slab - Left Orders",
+    "The Slab - Right Orders",
 ))
 LORE_TABLET_JUNK_ONLY_LOCATION_NAMES: frozenset[str] = (
     frozenset(LORE_TABLET_LOCATION_NAMES)
-    - LORE_TABLET_DONOR_BACKED_LOCATION_NAMES
+    - LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES
 )

@@ -122,6 +122,8 @@ namespace SilksongRandomizer.Patches
             AccessTools.Field(typeof(GameMap), "MapMarkerBounds");
         private static readonly FieldInfo ZoomedBoundsField =
             AccessTools.Field(typeof(GameMap), "ZoomedBounds");
+        private static readonly MethodInfo PositionLocalBoundsMethod =
+            AccessTools.Method(typeof(GameMap), "GetPositionLocalBounds");
 
         private static GameMap currentMap;
         private static Transform nativeMarkerParent;
@@ -1037,13 +1039,15 @@ namespace SilksongRandomizer.Patches
             return IsFinite(mapPosition.x) && IsFinite(mapPosition.y);
         }
 
-        internal static bool TryGetProjectedWorldPosition(
+        private static bool TryGetProjectedMapPosition(
             GameMap map,
             string locationName,
-            out Vector3 worldPosition
+            out GameMapScene projectedScene,
+            out Vector2 mapPosition
         )
         {
-            worldPosition = Vector3.zero;
+            projectedScene = null;
+            mapPosition = Vector2.zero;
             if (map == null || string.IsNullOrWhiteSpace(locationName))
             {
                 return false;
@@ -1084,15 +1088,77 @@ namespace SilksongRandomizer.Patches
                         map,
                         scene,
                         position,
-                        out Vector2 mapPosition))
+                        out mapPosition))
                 {
                     continue;
                 }
 
-                worldPosition = map.transform.TransformPoint(
-                    new Vector3(mapPosition.x, mapPosition.y, -1f)
-                );
+                projectedScene = scene;
                 return true;
+            }
+
+            return false;
+        }
+
+        internal static bool TryGetProjectedWorldPosition(
+            GameMap map,
+            string locationName,
+            out Vector3 worldPosition
+        )
+        {
+            worldPosition = Vector3.zero;
+            if (!TryGetProjectedMapPosition(
+                    map,
+                    locationName,
+                    out _,
+                    out Vector2 mapPosition))
+            {
+                return false;
+            }
+
+            worldPosition = map.transform.TransformPoint(
+                new Vector3(mapPosition.x, mapPosition.y, -1f)
+            );
+            return true;
+        }
+
+        internal static bool TryGetProjectedLocalBoundsPosition(
+            GameMap map,
+            string locationName,
+            out GlobalEnums.MapZone mapZone,
+            out Vector2 localBoundsPosition
+        )
+        {
+            mapZone = default;
+            localBoundsPosition = Vector2.zero;
+            if (PositionLocalBoundsMethod == null ||
+                !TryGetProjectedMapPosition(
+                    map,
+                    locationName,
+                    out GameMapScene scene,
+                    out Vector2 mapPosition))
+            {
+                return false;
+            }
+
+            mapZone = map.GetMapZoneForScene(scene.transform);
+            try
+            {
+                object projected = PositionLocalBoundsMethod.Invoke(
+                    map,
+                    new object[] { mapPosition, mapZone }
+                );
+                if (projected is Vector2 position &&
+                    IsFinite(position.x) &&
+                    IsFinite(position.y))
+                {
+                    localBoundsPosition = position;
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
             return false;

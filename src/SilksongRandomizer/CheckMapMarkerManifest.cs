@@ -544,7 +544,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Save Flea: Exhaust Organ (Rangle)", "Dust_09", 5.336548f, 35.02f, 180f, 52f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Save Flea: Bellhart (Bellphy)", "Belltown_04", 10.85f, 89.68f, 85f, 97f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Save Flea: Wormways (Snacc)", "Crawl_06", 76.869331f, 28.110001f, 85f, 35f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Save Flea: The Slab Cell (Sway)", "Slab_Cell", 53.51f, 8.31f, 100f, 28f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Save Flea: The Slab Cell (Sway)", "Slab_13", 36f, 9.5f, 100f, 25f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Save Flea: Bilewater Thieves (Cower)", "Shadow_28", 30.76f, 21.719999f, 65f, 34f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Save Flea: Deep Docks Mines (Le Bomba)", "Dock_03d", 101.531937f, 68.146599f, 110f, 78f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Save Flea: Wisp Thicket (Fidget)", "Under_23", 18.23f, 23.401985f, 160f, 35f, MapMarkerPositionConfidence.ExactUpstream),
@@ -582,17 +582,9 @@ namespace SilksongRandomizer
             new MapCheckPosition(MelodyLocationManifest.BeastlingCall, "Bellway_Aqueduct", 62.880001f, 21.889999f, 96f, 78f, MapMarkerPositionConfidence.ExactUpstream),
         };
 
-        // Slab_Cell has a GameMapScene identity but no usable BoundsSprite,
-        // so ordinary scene-coordinate projection cannot render its marker.
-        // The marker uses the Flea Tracker's map anchor while retaining
-        // Slab_Cell as the visibility/ownership host scene.
         private static readonly Dictionary<string, Vector2> DirectMapPositions =
             new Dictionary<string, Vector2>(StringComparer.OrdinalIgnoreCase)
             {
-                {
-                    "Save Flea: The Slab Cell (Sway)",
-                    new Vector2(-404.947641f, 73.475466f)
-                },
             };
 
         private static readonly Dictionary<string, Vector2> MinorSceneSizes =

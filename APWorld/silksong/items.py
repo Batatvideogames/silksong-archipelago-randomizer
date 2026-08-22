@@ -1337,7 +1337,7 @@ def _balance_act_two_retained_silk_soar(
     if silk_soar_count != 1:
         raise ValueError(
             "Act 2 Skill balancing requires exactly one randomized "
-            f"{SILK_SOAR_ITEM!r}; found {silk_soar_count}."
+            f"{SILK_SOAR_ITEM!r} but found {silk_soar_count}."
         )
 
     balance_index = None
@@ -1932,7 +1932,7 @@ def build_item_pool_entries(
     if len(trap_names) > trap_capacity:
         raise ValueError(
             f"At most {trap_capacity} traps can replace filler items in the "
-            f"configured random pool; received {len(trap_names)}."
+            f"configured random pool but received {len(trap_names)}."
         )
 
     for entry_index, trap_name in zip(eligible_indices, trap_names):
@@ -2050,7 +2050,7 @@ def _get_adjusted_pool_counts(
     if total_traps > trap_capacity:
         raise ValueError(
             f"At most {trap_capacity} traps can replace filler items in this "
-            f"pool; received {total_traps}."
+            f"pool but received {total_traps}."
         )
 
     remaining_traps = total_traps

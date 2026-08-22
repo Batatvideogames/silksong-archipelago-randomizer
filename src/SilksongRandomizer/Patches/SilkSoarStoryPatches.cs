@@ -7,8 +7,8 @@ using PlayerDataVariableTestAction =
 namespace SilksongRandomizer.Patches
 {
     /// <summary>
-    /// Lets the Escape from the Abyss quest use randomized Silk Soar
-    /// ownership without marking the native Silk Soar source collected.
+    /// Lets Escape from the Abyss and Ecstasy of the End use randomized
+    /// Silk Soar ownership without collecting the native source.
     /// </summary>
     internal static class SilkSoarStoryPatches
     {
@@ -17,6 +17,7 @@ namespace SilksongRandomizer.Patches
         private const string FsmName = "Advance Quest";
         private const string StateName = "State 2";
         private const string NativeFlag = "hasSuperJump";
+        private const string EcstasyQuestAssetName = "Flea Games Pre";
 
         private sealed class SilkSoarSnapshot
         {
@@ -44,6 +45,55 @@ namespace SilksongRandomizer.Patches
                     playerData == null ||
                     !state.IsRandomized(ItemType.Skill) ||
                     !IsExactEscapeQuestGate(__instance))
+                {
+                    return;
+                }
+
+                __state = new SilkSoarSnapshot
+                {
+                    PlayerData = playerData,
+                    NativeSuperJump = playerData.hasSuperJump,
+                };
+                playerData.hasSuperJump = state.canSilkSoar;
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                SilkSoarSnapshot __state)
+            {
+                if (__state != null && __state.PlayerData != null)
+                {
+                    __state.PlayerData.hasSuperJump =
+                        __state.NativeSuperJump;
+                }
+
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(FullQuestBase), "get_IsAvailable")]
+        private static class EcstasyWishGatePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(
+                FullQuestBase __instance,
+                out SilkSoarSnapshot __state)
+            {
+                __state = null;
+
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (state == null ||
+                    playerData == null ||
+                    !state.IsRandomized(ItemType.Skill) ||
+                    __instance == null ||
+                    !string.Equals(
+                        __instance.name,
+                        EcstasyQuestAssetName,
+                        StringComparison.Ordinal))
                 {
                     return;
                 }

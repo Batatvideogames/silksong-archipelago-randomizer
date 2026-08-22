@@ -65,12 +65,16 @@ def _part(
 _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:architect-crest": (_part("Crest: Architect"),),
     "item:beast-crest": (_part("Crest: Beast"),),
+    "item:bellway-blasted-steps": (_part("Bellway: Blasted Steps"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
     "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
+    "item:bellway-the-slab": (_part("Bellway: The Slab"),),
     "item:clawline": (_part("Ancestral Art: Clawline"),),
     "item:cling-grip": (_part("Ancestral Art: Cling Grip"),),
+    "item:craftmetal": (_part("Craftmetal"),),
     "item:drifters-cloak": (_part("Ability: Drifter's Cloak"),),
     "item:faydown-cloak": (_part("Ability: Faydown Cloak"),),
+    "item:flea-brew": (_part("Usable Flea Brew"),),
     # "Filled needle phial" is the state of the original Needle Phial used
     # to finish the Plasmium quest.  Plasmium Phial is the reward, so mapping
     # this atom to it would put that reward behind itself.
@@ -78,8 +82,10 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:hunter-crest": (_part("Crest: Hunter"),),
     "item:needle-phial": (_part("Usable Needle Phial"),),
     "item:needolin": (_part("Ancestral Art: Needolin"),),
+    "item:key-of-apostate": (_part("Key of Apostate"),),
     "item:ruined-tool": (_part("Ruined Tool"),),
     "item:reaper-crest": (_part("Crest: Reaper"),),
+    "item:rune-rage": (_part("Usable Rune Rage"),),
     "item:shaman-crest": (_part("Crest: Shaman"),),
     # Sharpdart must be usable, not merely received. The existing abstract
     # requirement excludes Architect and accepts every crest with a Silk Skill
@@ -88,6 +94,10 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:silk-soar": (_part("Ancestral Art: Silk Soar"),),
     "item:silk-spear": (_part(silk_spear=True),),
     "item:simple-key": (_part("Simple Key (Wormways)"),),
+    "item:thread-storm": (_part("Usable Thread Storm"),),
+    "item:wanderer-crest": (_part("Crest: Wanderer"),),
+    "item:witch-crest": (_part("Crest: Witch"),),
+    "item:white-key": (_part("White Key"),),
     "macro:progressive-swift-step-first": (
         _part("Swift Step"),
         _part("Progressive Swift Step"),
@@ -109,6 +119,14 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Beast"),
         _part("Crest: Witch"),
     ),
+    "macro:any-non-witch-crest": (
+        _part("Crest: Hunter"),
+        _part("Crest: Reaper"),
+        _part("Crest: Shaman"),
+        _part("Crest: Architect"),
+        _part("Crest: Wanderer"),
+        _part("Crest: Beast"),
+    ),
     # The Magma Bell must be equippable on an owned crest.  This abstract
     # requirement accounts for native Blue slots and randomized slot upgrades.
     "macro:usable-magma-bell": (_part("Usable Magma Bell"),),
@@ -118,30 +136,15 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:usable-scuttlebrace": (
         _part("Usable Scuttlebrace", "Swift Step"),
     ),
-    # "crest pogo" uses these five diagonal or pogo-capable crests. The
-    # air-stall technique below uses a different set.
-    "macro:crest-pogo": (
-        _part("Crest: Hunter"),
-        _part("Crest: Beast"),
-        _part("Crest: Architect"),
-        _part("Crest: Shaman"),
-        _part("Crest: Reaper"),
-    ),
-    # This shorthand means a crest whose diagonal attack can stall
-    # Hornet in the air long enough to pogo. It is a crest requirement, not a
-    # blanket "any crest" gate.
-    "macro:air-stall-pogo-crest": (
-        _part("Crest: Shaman"),
-        _part("Crest: Beast"),
-        _part("Crest: Reaper"),
-        _part("Crest: Architect"),
-    ),
     "option:skips-easy": (_part(skip_tier=1),),
     "option:skips-moderate": (_part(skip_tier=2),),
     "option:skips-difficult": (_part(skip_tier=3),),
-    # These blockades are the Silkspear-cut silk walls in Mosshome. Requiring
-    # usable Silkspear also keeps Architect from falsely satisfying the route.
-    "capability:break-silk-blockade": (_part(silk_spear=True),),
+    # Bell Beast's silk remains an explicit Silkspear-only gate.
+    "capability:break-silk-blockade": (
+        _part(silk_spear=True),
+        _part("Usable Rune Rage"),
+        _part("Usable Sharpdart"),
+    ),
     # These describe ordinary environmental interactions, not inventory.
     "capability:break-vines": (_part(),),
     "capability:break-walls": (_part(),),
@@ -346,6 +349,20 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:underworks/underworks-western-gauntlet/gauntlet": (
         _part(room_node_name("underworks/underworks-western-gauntlet#room")),
     ),
+    # Clearing the Arena makes the fixed Heretic Key available.
+    "event:the-slab/slab-arena/gauntlet": (
+        _part(room_node_name("the-slab/slab-arena#arena")),
+    ),
+    # Each shortcut keeps its own one-way unlock.
+    "event:the-slab/slab-cell/entrance-door-opened": (
+        _part(room_node_name("the-slab/slab-entrance#room")),
+    ),
+    "event:the-slab/slab-cell/poodle-wall-opened": (
+        _part(room_node_name("the-slab/slab-poodle#room")),
+    ),
+    "event:the-slab/slab-cell/secret-side-wall-opened": (
+        _part(room_node_name("the-slab/slab-secret-side-room#bottom")),
+    ),
     # The east-to-west room is the controlling side of this one-way door.
     (
         "event:choral-chambers/choral-chambers-eastern-shaft/"
@@ -379,6 +396,22 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(
             room_node_name(
                 "choral-chambers/choral-chambers-outside-spa#gauntlet"
+            )
+        ),
+    ),
+    "event:high-halls/high-halls-arena/gauntlet": (
+        _part(room_node_name("high-halls/high-halls-arena#room")),
+    ),
+    "event:whiteward/whiteward-entrance/set-elevator-to-top": (
+        _part(
+            room_node_name("whiteward/whiteward-entrance#elevator-shaft"),
+            "White Key",
+        ),
+    ),
+    "event:whiteward/whiteward-unravelled-arena-room/beat-unravelled-arena": (
+        _part(
+            room_node_name(
+                "whiteward/whiteward-unravelled-arena-room#unravelled-arena"
             )
         ),
     ),
@@ -430,8 +463,12 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 
 
 _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
+    "event:global/bell-beast-defeated":
+        "Event: Bell Beast Defeated",
     "event:global/cogwork-dancers-defeated":
         "Event: Cogwork Dancers Defeated",
+    "event:global/elegy-of-the-deep-learned":
+        "Event: Elegy of the Deep Learned",
     "event:global/last-judge-defeated": "Event: Last Judge Defeated",
     "event:global/missing-courier-rescued":
         "Event: Missing Courier Rescued",
@@ -453,6 +490,10 @@ _NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 # March is included. From this port onward every route comes from the Deep
 # Docks nodes and one-way states. This is not an internal Deep Docks bypass.
 _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    # The mapped Bellway room starts at the existing Blasted Steps endpoint.
+    "blasted-steps/blasted-steps-bellway#room": (
+        _part("Path: Blasted Steps - Bellway"),
+    ),
     # The west Sinner's Road entrance comes from Greymoor's Halfway House route
     # and needs Cling Grip. Starting at the later Sinner path would skip it.
     "sinner-s-road/sinner-s-road-entrance#room": (
@@ -508,11 +549,6 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "deep-docks/deep-docks-bellway#room": (
         _part("Path: Bellway - Deep Docks"),
     ),
-    # Blasted Steps is not in the room graph yet. This route stops at the first
-    # Shellwood node.
-    "shellwood/shellwood-08#room": (
-        _part("Path: Blasted Steps - Toll"),
-    ),
     "shellwood/shellwood-19#right-puddle": (
         _part("Path: Bellway - Shellwood"),
     ),
@@ -527,6 +563,14 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ),
     "shellwood/shellwood-01b#bench-toll": (
         _part("Event: Widow Defeated"),
+    ),
+    # Bellway travel reaches this room but does not skip the Slab route.
+    "the-slab/slab-bellway#room": (
+        _part("Path: Bellway - The Slab"),
+    ),
+    # The capture sequence ends at Slab_Cell L1.
+    "the-slab/slab-cell#l1": (
+        _part("Path: The Slab - Capture Event"),
     ),
 }
 
@@ -709,6 +753,20 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                 f"invalid room-graph Progressive Silkheart count atom: {atom!r}"
             )
         return (_part(item_counts=(("Progressive Silkheart", minimum),)),)
+    if atom.startswith("count:progressive-needle-upgrade:"):
+        try:
+            minimum = int(atom.rsplit(":", 1)[1])
+        except ValueError as exc:
+            raise ValueError(
+                "invalid room-graph Progressive Needle Upgrade count atom: "
+                f"{atom!r}"
+            ) from exc
+        if minimum < 1:
+            raise ValueError(
+                "invalid room-graph Progressive Needle Upgrade count atom: "
+                f"{atom!r}"
+            )
+        return (_part(item_counts=(("Progressive Needle Upgrade", minimum),)),)
     if atom.startswith("event:"):
         return (_part(_event_requirement_name(atom)),)
     raise ValueError(f"unsupported room-graph atom: {atom!r}")

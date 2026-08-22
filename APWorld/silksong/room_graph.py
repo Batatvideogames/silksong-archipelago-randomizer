@@ -426,8 +426,8 @@ def load_room_graph() -> RoomGraph:
     schema_version = int(value["schema_version"])
     if schema_version != ROOM_GRAPH_SCHEMA_VERSION:
         raise ValueError(
-            f"unsupported room graph schema {schema_version}; "
-            f"expected {ROOM_GRAPH_SCHEMA_VERSION}"
+            f"unsupported room graph schema {schema_version}. "
+            f"Expected {ROOM_GRAPH_SCHEMA_VERSION}"
         )
     source = value["source"]
     graph = RoomGraph(
@@ -447,5 +447,5 @@ def load_room_graph() -> RoomGraph:
     )
     errors = graph.validation_errors()
     if errors:
-        raise ValueError("invalid room graph: " + "; ".join(errors))
+        raise ValueError("invalid room graph: " + " | ".join(errors))
     return graph

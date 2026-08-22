@@ -88,7 +88,6 @@ namespace SilksongRandomizer
         private const int MaxBootstrapNoOpItemsPerFrame = 8;
 
         public Sprite ArchipelagoIcon { get; private set; }
-        public Sprite FleaIcon { get; private set; }
         public Sprite FillerIcon { get; private set; }
         public Sprite UsefulIcon { get; private set; }
         public Sprite ProgressionIcon { get; private set; }
@@ -109,7 +108,6 @@ namespace SilksongRandomizer
             CurrencyLinkManager.Initialize(QueueConnectionStatus);
             LoadArchipelagoIcon();
             LoadCheckClassificationIcons();
-            LoadFleaIcon();
             try
             {
                 Harmony h = new Harmony(PluginGuid);
@@ -265,42 +263,6 @@ namespace SilksongRandomizer
                     "[RANDOMIZER] Loaded all " + patchedTypeCount +
                     " Harmony patch groups."
                 );
-            }
-        }
-
-        private void LoadFleaIcon()
-        {
-            string path = GetPluginAssetPath("ArchipelagoFleaIcon.png");
-
-            if (!File.Exists(path))
-            {
-                FleaIcon = CreateFallbackIcon(new Color(0.96f, 0.69f, 0.20f, 1f));
-                Log.LogInfo("[RANDOMIZER] ArchipelagoFleaIcon.png not found; using a generated fallback icon.");
-                return;
-            }
-
-            try
-            {
-                byte[] data = File.ReadAllBytes(path);
-                Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-
-                if (!texture.LoadImage(data))
-                {
-                    FleaIcon = CreateFallbackIcon(new Color(0.96f, 0.69f, 0.20f, 1f));
-                    Log.LogWarning("[RANDOMIZER] Failed to load ArchipelagoFleaIcon.png; using a generated fallback icon.");
-                    return;
-                }
-
-                FleaIcon = Sprite.Create(
-                    texture,
-                    new Rect(0f, 0f, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-            }
-            catch (Exception ex)
-            {
-                FleaIcon = CreateFallbackIcon(new Color(0.96f, 0.69f, 0.20f, 1f));
-                Log.LogWarning("[RANDOMIZER] Failed to load ArchipelagoFleaIcon.png; using a generated fallback icon: " + ex);
             }
         }
 
@@ -1092,19 +1054,6 @@ namespace SilksongRandomizer
             {
                 Name = popup.Text,
                 Icon = GetItemClassificationIcon(popup.Flags),
-                IconScale = 1.0f,
-                RepresentingObject = null,
-            }, null, false);
-        }
-
-        public void ShowFleaMessage(string fleaName)
-        {
-            CollectableUIMsg.Spawn(new UIMsgDisplay
-            {
-                // Fleas have no official individual names. The argument is
-                // retained for old call sites, but is never shown to players.
-                Name = "Flea rescued",
-                Icon = FleaIcon,
                 IconScale = 1.0f,
                 RepresentingObject = null,
             }, null, false);

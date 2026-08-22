@@ -81,6 +81,10 @@
       <HintPath>$(SilksongManagedDir)\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(SilksongManagedDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>$(SilksongManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>false</Private>

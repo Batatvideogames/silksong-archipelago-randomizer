@@ -165,7 +165,7 @@ namespace SilksongRandomizer
             state.preferredF4Hub = available[nextIndex];
 
             GameManager gameManager = GameManager.SilentInstance;
-            if (gameManager != null && gameManager.profileID >= 0)
+            if (gameManager != null)
             {
                 gameManager.QueueSaveGame();
             }

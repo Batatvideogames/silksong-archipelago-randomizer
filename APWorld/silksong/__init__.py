@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import base64
+import gzip
+import json
 import random
+from collections import Counter
 
 from BaseClasses import (
     CollectionState,
@@ -35,6 +39,7 @@ from .items import (
     SHUFFLE_FIXED_LOCATION_REWARDS,
     TRAP_ITEM_NAME_BY_WEIGHT_OPTION,
     TRAP_ITEM_NAMES,
+    ItemPoolEntry,
     SilksongItem,
     build_item_pool_entries,
     get_act_one_start_with_map_items,
@@ -83,7 +88,6 @@ from .prices import (
 from .requirements import (
     FLEA_HUNT_GOAL_KEY,
     JUDGE_BELL_ITEMS,
-    JUNK_ONLY_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
     MAX_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
@@ -94,7 +98,6 @@ from .requirements import (
     SIMPLE_KEY_GREEN_PRINCE,
     SIMPLE_KEY_ROSARY_BANK,
     THREEFOLD_MELODY_ITEMS,
-    UNVERIFIED_PROGRESSION_LOCATIONS,
     export_abstract_requirements,
     export_logic_item_dependencies,
     export_requirements,
@@ -122,6 +125,14 @@ from .verdania_scope import (
 )
 
 __version__ = WORLD_VERSION
+
+LOGIC_PAYLOAD_FORMAT = "gzip_base64_v1"
+LOGIC_PAYLOAD_FIELDS = (
+    "requirements",
+    "abstract_requirements",
+    "logic_item_dependencies",
+)
+
 
 class SilksongWebWorld(WebWorld):
     theme = "ocean"
@@ -333,7 +344,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             raise ValueError(
                 "flea_hunt_count must be between "
                 f"{MIN_FLEA_HUNT_GOAL_COUNT} and "
-                f"{MAX_FLEA_HUNT_GOAL_COUNT}; received {count!r}."
+                f"{MAX_FLEA_HUNT_GOAL_COUNT} but received {count!r}."
             )
         return count
 
@@ -742,6 +753,30 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ),
         }
 
+        def place_fixed_reward(
+            location_name: str,
+            reward_name: str,
+        ) -> None:
+            effective_reward_name = (
+                OPTIONAL_START_REPLACEMENT_ITEM
+                if reward_name in option_replaced_item_names
+                else reward_name
+            )
+            effective_reward = self.create_item(effective_reward_name)
+            if (
+                location_name in LOGIC_UNKNOWN_LOCATIONS
+                and effective_reward.advancement
+            ):
+                # Keep required items off checks with incomplete routes.
+                self.multiworld.push_precollected(effective_reward)
+                effective_reward = self.create_item(
+                    OPTIONAL_START_REPLACEMENT_ITEM
+                )
+            self.multiworld.get_location(
+                location_name,
+                self.player,
+            ).place_locked_item(effective_reward)
+
         if category_modes['Crest'] != 'vanilla':
             self.multiworld.push_precollected(
                 self.create_item(starting_crest_item)
@@ -763,15 +798,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         location_name,
                         category,
                     )
-                    self.multiworld.get_location(
+                    place_fixed_reward(
                         location_name,
-                        self.player,
-                    ).place_locked_item(
-                        self.create_item(
-                            OPTIONAL_START_REPLACEMENT_ITEM
-                            if reward_name in option_replaced_item_names
-                            else reward_name
-                        )
+                        reward_name,
                     )
             if (
                 category != 'Resource'
@@ -787,15 +816,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         in self.get_goal_excluded_location_names()
                     ):
                         continue
-                    self.multiworld.get_location(
+                    place_fixed_reward(
                         location_name,
-                        self.player,
-                    ).place_locked_item(
-                        self.create_item(
-                            OPTIONAL_START_REPLACEMENT_ITEM
-                            if reward_name in option_replaced_item_names
-                            else reward_name
-                        )
+                        reward_name,
                     )
 
         for item_name in sorted(precollected_option_items):
@@ -844,110 +867,152 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     self.create_item(balance_item_name)
                 )
 
-        # `anywhere` normally has ample filler/useful rewards for quarantined
-        # sources. Very small configurations such as Map-only or Melody-only
-        # do not. In that specific shortage, retain the same conservative
-        # native rewards used by category shuffle instead of making a valid
-        # option combination impossible to fill.
-        get_locations = getattr(
-            self.multiworld,
-            'get_locations',
-            None,
-        )
-        unfilled_locations = (
-            {
-                location.name: location
+        get_locations = getattr(self.multiworld, 'get_locations', None)
+        addressed_unfilled_locations = (
+            [
+                location
                 for location in get_locations()
                 if (
                     location.player == self.player
                     and location.address is not None
                     and location.item is None
-                    and getattr(
-                        location,
-                        'silksong_placement_category',
-                        None,
-                    ) is None
                 )
-            }
+            ]
             if callable(get_locations)
-            else {}
+            else []
         )
-        junk_only_names = {
-            location_name
-            for location_name in unfilled_locations
-            if location_name in JUNK_ONLY_LOCATIONS
-        }
-        nonprogression_only_names = junk_only_names | {
-            location_name
-            for location_name in unfilled_locations
-            if (
-                location_name in UNVERIFIED_PROGRESSION_LOCATIONS
-                or (
-                    location_data_table[location_name].category
-                    == 'CrestSlot'
-                    and category_modes.get('MemoryLocket') == 'vanilla'
-                )
+        location_lane_counts = Counter(
+            getattr(
+                location,
+                'silksong_placement_category',
+                None,
             )
-        }
-        classifications = tuple(
-            self.create_item(entry.name).classification
+            for location in addressed_unfilled_locations
+        )
+        original_pool_size = len(pool_entries)
+        original_pool_lane_counts = Counter(
+            entry.placement_category
             for entry in pool_entries
-            if entry.placement_category is None
         )
-        junk_item_count = sum(
-            classification in (
-                ItemClassification.filler,
-                ItemClassification.trap,
+        if (
+            callable(get_locations)
+            and location_lane_counts != original_pool_lane_counts
+        ):
+            raise AssertionError(
+                "Silksong location and item placement lanes are unbalanced: "
+                f"{location_lane_counts!r} != {original_pool_lane_counts!r}."
             )
-            for classification in classifications
-        )
-        nonprogression_item_count = sum(
-            not (
-                classification
-                & ItemClassification.progression
+
+        unknown_demand_by_lane = Counter(
+            getattr(
+                location,
+                'silksong_placement_category',
+                None,
             )
-            for classification in classifications
+            for location in addressed_unfilled_locations
+            if location.name in LOGIC_UNKNOWN_LOCATIONS
         )
-        safety_shortage = (
-            junk_item_count < len(junk_only_names)
-            or nonprogression_item_count
-            < len(nonprogression_only_names)
-        )
-        if safety_shortage:
-            for category, fixed_rewards in (
-                SHUFFLE_FIXED_LOCATION_REWARDS.items()
+        for placement_category, unknown_demand in (
+            unknown_demand_by_lane.items()
+        ):
+            matching_indices = [
+                index
+                for index, entry in enumerate(pool_entries)
+                if entry.placement_category == placement_category
+            ]
+            nonadvancement_count = sum(
+                not self.create_item(pool_entries[index].name).advancement
+                for index in matching_indices
+            )
+            shortage = unknown_demand - nonadvancement_count
+            if shortage <= 0:
+                continue
+            advancement_indices = [
+                index
+                for index in matching_indices
+                if self.create_item(pool_entries[index].name).advancement
+            ]
+            if len(advancement_indices) < shortage:
+                raise ValueError(
+                    "LogicUnknown placement safety could not replace "
+                    f"{shortage} advancement item(s) in lane "
+                    f"{placement_category!r}."
+                )
+            for index in advancement_indices[:shortage]:
+                displaced_entry = pool_entries[index]
+                self.multiworld.push_precollected(
+                    self.create_item(
+                        displaced_entry.name,
+                        displaced_entry.placement_category,
+                    )
+                )
+                pool_entries[index] = ItemPoolEntry(
+                    OPTIONAL_START_REPLACEMENT_ITEM,
+                    displaced_entry.source_category,
+                    displaced_entry.placement_category,
+                )
+
+        if len(pool_entries) != original_pool_size:
+            raise AssertionError(
+                "LogicUnknown placement safety changed the item-pool size."
+            )
+        if Counter(
+            entry.placement_category
+            for entry in pool_entries
+        ) != original_pool_lane_counts:
+            raise AssertionError(
+                "LogicUnknown placement safety changed placement lanes."
+            )
+        for placement_category, unknown_demand in (
+            unknown_demand_by_lane.items()
+        ):
+            nonadvancement_count = sum(
+                not self.create_item(entry.name).advancement
+                for entry in pool_entries
+                if entry.placement_category == placement_category
+            )
+            if nonadvancement_count < unknown_demand:
+                raise AssertionError(
+                    "LogicUnknown placement safety left too few "
+                    f"non-advancement items in lane {placement_category!r}."
+                )
+
+        accessibility = getattr(self.options, 'accessibility', None)
+        if (
+            self.is_act_one_content_scope()
+            and uses_randomized_memory_lockets_for_crest_slots(self)
+            and getattr(accessibility, 'value', accessibility)
+            == getattr(accessibility, 'option_full', 0)
+        ):
+            precollected_items = getattr(
+                self.multiworld,
+                'precollected_items',
+                (),
+            )
+            if isinstance(precollected_items, dict):
+                player_precollected_items = precollected_items.get(
+                    self.player,
+                    (),
+                )
+            else:
+                player_precollected_items = precollected_items
+            available_locket_count = sum(
+                entry.name == MEMORY_LOCKET_ITEM
+                for entry in pool_entries
+            ) + sum(
+                item.name == MEMORY_LOCKET_ITEM
+                and getattr(item, 'player', self.player) == self.player
+                for item in player_precollected_items
+            )
+            active_slot_count = len(
+                get_active_crest_slot_locations(self)
+            )
+            for _copy_index in range(
+                max(0, active_slot_count - available_locket_count)
             ):
-                if category_modes.get(category) != 'anywhere':
-                    continue
-                for location_name, reward_name in fixed_rewards.items():
-                    location = unfilled_locations.get(location_name)
-                    if location is None:
-                        continue
-                    pool_reward = (
-                        OPTIONAL_START_REPLACEMENT_ITEM
-                        if reward_name in option_replaced_item_names
-                        else reward_name
-                    )
-                    pool_index = next(
-                        (
-                            index
-                            for index, entry in enumerate(pool_entries)
-                            if (
-                                entry.name == pool_reward
-                                and entry.source_category == category
-                            )
-                        ),
-                        None,
-                    )
-                    if pool_index is None:
-                        raise ValueError(
-                            f"Could not reserve fixed {category} reward "
-                            f"{pool_reward!r} for {location_name!r}."
-                        )
-                    pool_entries.pop(pool_index)
-                    location.place_locked_item(
-                        self.create_item(pool_reward)
-                    )
+                self.multiworld.push_precollected(
+                    self.create_item(MEMORY_LOCKET_ITEM)
+                )
 
         pool_entries = tuple(pool_entries)
 
@@ -1062,29 +1127,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     )
                 )
             pharloom.locations.append(location)
-
-        active_logic_unknown_locations = {
-            location.name
-            for location in pharloom.locations
-            if (
-                location.address is not None
-                and location.name in LOGIC_UNKNOWN_LOCATIONS
-            )
-        }
-        act_one_uses_goal_scoped_lockets = (
-            self.is_act_one_content_scope()
-            and uses_randomized_memory_lockets_for_crest_slots(self)
-        )
-        if (
-            active_logic_unknown_locations
-            or act_one_uses_goal_scoped_lockets
-        ):
-            # LogicUnknown checks and Act 1's post-goal native Lockets cannot
-            # be part of AP's full-accessibility sweep. They remain collectable
-            # in-game, while Minimal still covers everything needed for the goal.
-            accessibility = getattr(self.options, "accessibility", None)
-            if accessibility is not None:
-                accessibility.value = accessibility.option_minimal
 
         self.multiworld.regions += [menu, pharloom]
         menu.connect(pharloom)
@@ -1425,3 +1467,20 @@ class SilksongWorld(CachedRuleBuilderWorld):
             }
         )
         return slot_data
+
+    def modify_multidata(self, multidata: dict) -> None:
+        slot_data = multidata["slot_data"][self.player]
+        logic_payload = {
+            key: slot_data.pop(key)
+            for key in LOGIC_PAYLOAD_FIELDS
+        }
+        payload_json = json.dumps(
+            logic_payload,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        slot_data["logic_payload_format"] = LOGIC_PAYLOAD_FORMAT
+        slot_data["logic_payload"] = base64.b64encode(
+            gzip.compress(payload_json, mtime=0)
+        ).decode("ascii")

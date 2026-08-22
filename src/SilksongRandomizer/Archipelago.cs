@@ -3,12 +3,16 @@ using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.MessageLog.Messages;
 using Archipelago.MultiClient.Net.Models;
+using Archipelago.MultiClient.Net.Packets;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static SilksongRandomizer.SaveState;
@@ -185,8 +189,18 @@ namespace SilksongRandomizer
         private HintScoutChannel hintScoutChannel =
             new HintScoutChannel();
         private const int HintScoutTimeoutMilliseconds = 10000;
+        private const int SlotDataTimeoutMilliseconds = 60000;
+        private const int MaximumLogicPayloadBytes = 8 * 1024 * 1024;
+        private const string LogicPayloadFormat = "gzip_base64_v1";
+        private const int DisconnectWaitMilliseconds = 3000;
 
+        private readonly object connectionLock = new object();
         private ArchipelagoSession session;
+        private ArchipelagoSocketHelperDelagates.SocketClosedHandler
+            socketClosedHandler;
+        private ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
+            socketErrorHandler;
+        private Task pendingDisconnectTask;
         private int lastQueuedItemIndex;
         private SaveState queuedForSaveState;
         private bool goalStatusPending;
@@ -207,18 +221,34 @@ namespace SilksongRandomizer
             }
 
             Disconnect();
+            WaitForPendingDisconnect();
             ClearState();
             LastError = string.Empty;
 
             try
             {
-                session = ArchipelagoSessionFactory.CreateSession(ip, port);
+                ArchipelagoSession connectedSession =
+                    ArchipelagoSessionFactory.CreateSession(ip, port);
+                ArchipelagoSocketHelperDelagates.SocketClosedHandler
+                    closedHandler = reason =>
+                        OnSocketClosed(connectedSession, reason);
+                ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
+                    errorHandler = (exception, message) =>
+                        OnSocketError(connectedSession, exception, message);
+                lock (connectionLock)
+                {
+                    session = connectedSession;
+                    socketClosedHandler = closedHandler;
+                    socketErrorHandler = errorHandler;
+                }
 
-                session.Items.ItemReceived += HandleItemReceived;
-                session.MessageLog.OnMessageReceived += HandleMessageReceived;
-                session.Locations.CheckedLocationsUpdated += OnCheckedLocationsUpdated;
-                session.Socket.SocketClosed += OnSocketClosed;
-                session.Socket.ErrorReceived += OnSocketError;
+                connectedSession.Items.ItemReceived += HandleItemReceived;
+                connectedSession.MessageLog.OnMessageReceived +=
+                    HandleMessageReceived;
+                connectedSession.Locations.CheckedLocationsUpdated +=
+                    OnCheckedLocationsUpdated;
+                connectedSession.Socket.SocketClosed += closedHandler;
+                connectedSession.Socket.ErrorReceived += errorHandler;
 
                 LoginResult result = session.TryConnectAndLogin(
                     configuredGameName,
@@ -228,7 +258,7 @@ namespace SilksongRandomizer
                     new[] { "AP" },
                     null,
                     pass,
-                    true
+                    false
                 );
 
                 if (result == null || !result.Successful)
@@ -242,6 +272,7 @@ namespace SilksongRandomizer
                 }
 
                 LoginSuccessful successful = result as LoginSuccessful;
+                successful = GetSlotDataAfterLogin(successful);
                 RoomSeed = session.RoomState == null ? string.Empty : session.RoomState.Seed ?? string.Empty;
                 SlotName = session.Players.ActivePlayer == null ||
                            string.IsNullOrWhiteSpace(session.Players.ActivePlayer.Name)
@@ -552,6 +583,76 @@ namespace SilksongRandomizer
             lock (stateLock)
             {
                 return receivedItems.ToArray();
+            }
+        }
+
+        public IReadOnlyList<string> GetRecentReceivedItemNames(
+            int maximum
+        )
+        {
+            if (maximum <= 0)
+            {
+                return Array.Empty<string>();
+            }
+
+            SaveState activeState = SaveState.Instance;
+            try
+            {
+                ReadOnlyCollection<ItemInfo> allItems =
+                    session?.Items?.AllItemsReceived;
+                if (activeState != null && allItems != null)
+                {
+                    int endExclusive = Math.Min(
+                        Math.Max(0, activeState.receivedItemIndex),
+                        allItems.Count
+                    );
+                    List<string> recent = new List<string>(
+                        Math.Min(maximum, endExclusive)
+                    );
+                    for (
+                        int index = endExclusive - 1;
+                        index >= 0 && recent.Count < maximum;
+                        index--
+                    )
+                    {
+                        string itemName = GetItemName(allItems[index]);
+                        if (!string.IsNullOrWhiteSpace(itemName))
+                        {
+                            recent.Add(itemName);
+                        }
+                    }
+
+                    return recent;
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            lock (stateLock)
+            {
+                int endExclusive = receivedItems.Count;
+                if (activeState != null)
+                {
+                    endExclusive = Math.Min(
+                        Math.Max(0, activeState.receivedItemIndex),
+                        endExclusive
+                    );
+                }
+
+                List<string> recent = new List<string>(
+                    Math.Min(maximum, endExclusive)
+                );
+                for (
+                    int index = endExclusive - 1;
+                    index >= 0 && recent.Count < maximum;
+                    index--
+                )
+                {
+                    recent.Add(receivedItems[index]);
+                }
+
+                return recent;
             }
         }
 
@@ -895,13 +996,26 @@ namespace SilksongRandomizer
 
         public void Disconnect()
         {
-            sessionReady = false;
+            ArchipelagoSession oldSession;
+            ArchipelagoSocketHelperDelagates.SocketClosedHandler
+                oldClosedHandler;
+            ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
+                oldErrorHandler;
+            lock (connectionLock)
+            {
+                sessionReady = false;
+                oldSession = session;
+                session = null;
+                oldClosedHandler = socketClosedHandler;
+                socketClosedHandler = null;
+                oldErrorHandler = socketErrorHandler;
+                socketErrorHandler = null;
+            }
+
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
             Patches.VogHintManager.Reset();
-            ArchipelagoSession oldSession = session;
-            session = null;
 
             if (oldSession == null)
             {
@@ -934,8 +1048,14 @@ namespace SilksongRandomizer
 
             try
             {
-                oldSession.Socket.SocketClosed -= OnSocketClosed;
-                oldSession.Socket.ErrorReceived -= OnSocketError;
+                if (oldClosedHandler != null)
+                {
+                    oldSession.Socket.SocketClosed -= oldClosedHandler;
+                }
+                if (oldErrorHandler != null)
+                {
+                    oldSession.Socket.ErrorReceived -= oldErrorHandler;
+                }
             }
             catch
             {
@@ -945,8 +1065,91 @@ namespace SilksongRandomizer
             {
                 if (oldSession.Socket != null && oldSession.Socket.Connected)
                 {
-                    oldSession.Socket.DisconnectAsync();
+                    Task disconnectTask = oldSession.Socket.DisconnectAsync();
+                    TrackPendingDisconnect(disconnectTask);
                 }
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Archipelago disconnect failed: " +
+                    ex.GetBaseException().Message
+                );
+            }
+        }
+
+        private void TrackPendingDisconnect(Task disconnectTask)
+        {
+            if (disconnectTask == null)
+            {
+                return;
+            }
+
+            lock (connectionLock)
+            {
+                if (pendingDisconnectTask == null ||
+                    pendingDisconnectTask.IsCompleted)
+                {
+                    pendingDisconnectTask = disconnectTask;
+                }
+                else
+                {
+                    pendingDisconnectTask = Task.WhenAll(
+                        pendingDisconnectTask,
+                        disconnectTask
+                    );
+                }
+            }
+
+            _ = ObserveDisconnectAsync(disconnectTask);
+        }
+
+        private void WaitForPendingDisconnect()
+        {
+            Task disconnectTask;
+            lock (connectionLock)
+            {
+                disconnectTask = pendingDisconnectTask;
+            }
+
+            if (disconnectTask == null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (!disconnectTask.Wait(DisconnectWaitMilliseconds))
+                {
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] Previous Archipelago connection is " +
+                        "still closing. Reconnect will continue."
+                    );
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Previous Archipelago connection did not " +
+                    "close cleanly: " + ex.GetBaseException().Message
+                );
+            }
+
+            lock (connectionLock)
+            {
+                if (ReferenceEquals(pendingDisconnectTask, disconnectTask))
+                {
+                    pendingDisconnectTask = null;
+                }
+            }
+        }
+
+        private static async Task ObserveDisconnectAsync(Task disconnectTask)
+        {
+            try
+            {
+                await disconnectTask.ConfigureAwait(false);
             }
             catch
             {
@@ -1388,6 +1591,59 @@ namespace SilksongRandomizer
                    session.Socket.Connected;
         }
 
+        private LoginSuccessful GetSlotDataAfterLogin(
+            LoginSuccessful login
+        )
+        {
+            if (login == null)
+            {
+                throw new FormatException(
+                    "The Archipelago server returned an invalid login reply."
+                );
+            }
+
+            Task<Dictionary<string, object>> request =
+                session.DataStorage.GetSlotDataAsync(login.Slot);
+            DateTime deadline = DateTime.UtcNow.AddMilliseconds(
+                SlotDataTimeoutMilliseconds
+            );
+            while (!request.IsCompleted)
+            {
+                if (!IsConnected())
+                {
+                    throw new InvalidOperationException(
+                        "The Archipelago socket closed while receiving world data."
+                    );
+                }
+                if (DateTime.UtcNow >= deadline)
+                {
+                    throw new TimeoutException(
+                        "Timed out while receiving APWorld data."
+                    );
+                }
+
+                Thread.Sleep(25);
+            }
+
+            Dictionary<string, object> slotData =
+                request.GetAwaiter().GetResult();
+            if (slotData == null)
+            {
+                throw new FormatException(
+                    "The Archipelago server did not return APWorld data."
+                );
+            }
+
+            return new LoginSuccessful(
+                new ConnectedPacket
+                {
+                    Team = login.Team,
+                    Slot = login.Slot,
+                    SlotData = slotData
+                }
+            );
+        }
+
         private static object GetRequiredSlotData(
             LoginSuccessful login,
             string key
@@ -1482,20 +1738,160 @@ namespace SilksongRandomizer
                 login,
                 "scuttlebrace_logic"
             );
-            payload["requirements"] = GetRequiredObjectSlotData(
-                login,
-                "requirements"
-            );
-            payload["abstract_requirements"] = GetRequiredObjectSlotData(
-                login,
-                "abstract_requirements"
-            );
-            payload["logic_item_dependencies"] = GetRequiredObjectSlotData(
-                login,
-                "logic_item_dependencies"
-            );
+            JObject compressedPayload = GetCompressedLogicPayload(login);
+            if (compressedPayload == null)
+            {
+                payload["requirements"] = GetRequiredObjectSlotData(
+                    login,
+                    "requirements"
+                );
+                payload["abstract_requirements"] = GetRequiredObjectSlotData(
+                    login,
+                    "abstract_requirements"
+                );
+                payload["logic_item_dependencies"] = GetRequiredObjectSlotData(
+                    login,
+                    "logic_item_dependencies"
+                );
+            }
+            else
+            {
+                payload["requirements"] = GetRequiredLogicPayloadObject(
+                    compressedPayload,
+                    "requirements"
+                );
+                payload["abstract_requirements"] =
+                    GetRequiredLogicPayloadObject(
+                        compressedPayload,
+                        "abstract_requirements"
+                    );
+                payload["logic_item_dependencies"] =
+                    GetRequiredLogicPayloadObject(
+                        compressedPayload,
+                        "logic_item_dependencies"
+                    );
+            }
 
             return JsonConvert.SerializeObject(payload);
+        }
+
+        private static JObject GetCompressedLogicPayload(
+            LoginSuccessful login
+        )
+        {
+            if (login == null || login.SlotData == null)
+            {
+                throw new FormatException(
+                    "The APWorld connection did not provide slot data."
+                );
+            }
+
+            bool hasFormat = login.SlotData.TryGetValue(
+                "logic_payload_format",
+                out object formatValue
+            );
+            bool hasPayload = login.SlotData.TryGetValue(
+                "logic_payload",
+                out object payloadValue
+            );
+            if (!hasFormat && !hasPayload)
+            {
+                return null;
+            }
+            if (!hasFormat || !hasPayload)
+            {
+                throw new FormatException(
+                    "APWorld logic payload data is incomplete."
+                );
+            }
+            if (!(formatValue is string format) ||
+                !string.Equals(
+                    format,
+                    LogicPayloadFormat,
+                    StringComparison.Ordinal
+                ))
+            {
+                throw new FormatException(
+                    "APWorld logic payload format is not supported."
+                );
+            }
+            if (!(payloadValue is string encodedPayload) ||
+                string.IsNullOrWhiteSpace(encodedPayload))
+            {
+                throw new FormatException(
+                    "APWorld logic payload data is invalid."
+                );
+            }
+
+            byte[] compressed;
+            try
+            {
+                compressed = Convert.FromBase64String(encodedPayload);
+            }
+            catch (Exception ex)
+            {
+                throw new FormatException(
+                    "APWorld logic payload is not valid base64.",
+                    ex
+                );
+            }
+
+            try
+            {
+                using (MemoryStream input = new MemoryStream(compressed))
+                using (GZipStream gzip = new GZipStream(
+                    input,
+                    CompressionMode.Decompress
+                ))
+                using (MemoryStream output = new MemoryStream())
+                {
+                    byte[] buffer = new byte[8192];
+                    int read;
+                    while ((read = gzip.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        if (output.Length + read > MaximumLogicPayloadBytes)
+                        {
+                            throw new FormatException(
+                                "APWorld logic payload is too large."
+                            );
+                        }
+
+                        output.Write(buffer, 0, read);
+                    }
+
+                    return JObject.Parse(
+                        Encoding.UTF8.GetString(output.ToArray())
+                    );
+                }
+            }
+            catch (FormatException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new FormatException(
+                    "APWorld logic payload could not be read.",
+                    ex
+                );
+            }
+        }
+
+        private static JObject GetRequiredLogicPayloadObject(
+            JObject payload,
+            string key
+        )
+        {
+            JToken value = payload[key];
+            if (!(value is JObject objectValue))
+            {
+                throw new FormatException(
+                    "APWorld logic payload is missing required setting '" +
+                    key + "'."
+                );
+            }
+
+            return objectValue;
         }
 
         private static IReadOnlyDictionary<string, string>
@@ -2006,32 +2402,57 @@ namespace SilksongRandomizer
             );
         }
 
-        private void OnSocketClosed(string reason)
+        private void OnSocketClosed(
+            ArchipelagoSession sourceSession,
+            string reason
+        )
         {
-            sessionReady = false;
-            DeathLinkManager.Reset();
-            SilkLinkManager.Reset();
-            CurrencyLinkManager.Reset();
-            Patches.VogHintManager.Reset();
-            LastError = string.IsNullOrWhiteSpace(reason)
-                ? "Disconnected from Archipelago."
-                : "Disconnected from Archipelago: " + reason;
-            ReportStatus(LastError);
+            lock (connectionLock)
+            {
+                if (!ReferenceEquals(session, sourceSession))
+                {
+                    return;
+                }
+
+                sessionReady = false;
+                DeathLinkManager.Reset();
+                SilkLinkManager.Reset();
+                CurrencyLinkManager.Reset();
+                Patches.VogHintManager.Reset();
+                LastError = string.IsNullOrWhiteSpace(reason)
+                    ? "Disconnected from Archipelago."
+                    : "Disconnected from Archipelago: " + reason;
+                ReportStatus(LastError);
+            }
         }
 
-        private void OnSocketError(Exception exception, string message)
+        private void OnSocketError(
+            ArchipelagoSession sourceSession,
+            Exception exception,
+            string message
+        )
         {
-            string detail = !string.IsNullOrWhiteSpace(message)
-                ? message
-                : exception == null ? "Unknown socket error." : exception.Message;
-            LastError = "Archipelago network error: " + detail;
-            if (exception != null)
+            lock (connectionLock)
             {
-                RandomizerPlugin.Log?.LogError(
-                    "[RANDOMIZER] Archipelago socket error: " + exception
-                );
+                if (!ReferenceEquals(session, sourceSession))
+                {
+                    return;
+                }
+
+                string detail = !string.IsNullOrWhiteSpace(message)
+                    ? message
+                    : exception == null
+                        ? "Unknown socket error."
+                        : exception.Message;
+                LastError = "Archipelago network error: " + detail;
+                if (exception != null)
+                {
+                    RandomizerPlugin.Log?.LogError(
+                        "[RANDOMIZER] Archipelago socket error: " + exception
+                    );
+                }
+                ReportStatus(LastError);
             }
-            ReportStatus(LastError);
         }
 
         private void ReportStatus(string status)

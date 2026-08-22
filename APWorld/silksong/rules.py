@@ -22,7 +22,7 @@ from .options import CATEGORY_OPTION_BY_LOCATION_CATEGORY
 from .prices import get_shell_shard_donation_tool_pouch_requirements
 from .requirements import (
     CREST_SLOT_LOCATION_NAMES,
-    JUNK_ONLY_LOCATIONS,
+    LOGIC_UNKNOWN_LOCATIONS,
     MEMORY_LOCKET_ITEM,
     POLLIP_HEART_COUNT,
     ROSARY_BANK_GATED_LOCATIONS,
@@ -57,13 +57,6 @@ def _is_not_memory_locket(item: Item) -> bool:
 
 def _is_not_rosary_bank_key(item: Item) -> bool:
     return item.name != SIMPLE_KEY_ROSARY_BANK
-
-
-def _is_junk_item(item: Item) -> bool:
-    return item.classification in (
-        ItemClassification.filler,
-        ItemClassification.trap,
-    )
 
 
 def uses_randomized_memory_lockets_for_crest_slots(world) -> bool:
@@ -425,8 +418,8 @@ def set_silksong_rules(world) -> None:
             # an AP check.
             add_item_rule(location, _is_not_rosary_bank_key)
 
-        if location_name in JUNK_ONLY_LOCATIONS:
-            add_item_rule(location, _is_junk_item)
+        if location_name in LOGIC_UNKNOWN_LOCATIONS:
+            add_item_rule(location, _is_not_progression_item)
         # Randomized Lockets cannot sit behind their all-20 Crest Slot cost.
         # With vanilla Lockets their count is not represented, so the
         # conservative non-progression restriction remains.

@@ -3,6 +3,7 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
 using System.Collections;
+using System.Reflection;
 using UnityEngine.SceneManagement;
 
 namespace SilksongRandomizer.Patches
@@ -203,6 +204,12 @@ namespace SilksongRandomizer.Patches
         [ThreadStatic]
         private static int randomizedMapGetDepth;
 
+        private static readonly FieldInfo FleaTargetTemplateField =
+            AccessTools.Field(
+                typeof(QuestTargetPlayerDataBools),
+                "pdFieldTemplate"
+            );
+
         private static bool IsActiveApLocation(PopupSource source)
         {
             SaveState state = SaveState.Instance;
@@ -210,6 +217,42 @@ namespace SilksongRandomizer.Patches
                    state.IsRandomized(source.ItemType) &&
                    state.IsLocationEnabled(source.LocationName) &&
                    state.IsLocationInSeed(source.LocationName);
+        }
+
+        private static bool IsExactOrdinaryFleaPopup(
+            SavedItemGetV2 action
+        )
+        {
+            SaveState state = SaveState.Instance;
+            return state != null &&
+                   state.IsRoomBound &&
+                   state.IsRandomized(ItemType.Flea) &&
+                   action != null &&
+                   action.Owner != null &&
+                   string.Equals(
+                       action.Owner.name,
+                       "Flea Rescue Activation",
+                       StringComparison.Ordinal
+                   ) &&
+                   action.Fsm != null &&
+                   string.Equals(
+                       action.Fsm.Name,
+                       "Control",
+                       StringComparison.Ordinal
+                   ) &&
+                   action.State != null &&
+                   string.Equals(
+                       action.State.Name,
+                       "End",
+                       StringComparison.Ordinal
+                   ) &&
+                   action.Item?.Value is QuestTargetPlayerDataBools target &&
+                   FleaTargetTemplateField != null &&
+                   string.Equals(
+                       FleaTargetTemplateField.GetValue(target) as string,
+                       "SavedFlea_",
+                       StringComparison.Ordinal
+                   );
         }
 
         private static bool ShouldSuppress(
@@ -425,6 +468,44 @@ namespace SilksongRandomizer.Patches
 
             return state.IsLocationEnabled(entry.LocationName) &&
                    state.IsLocationInSeed(entry.LocationName);
+        }
+
+        [HarmonyPatch(
+            typeof(SavedItemGetV2),
+            nameof(SavedItemGetV2.OnEnter))]
+        internal static class RandomizedOrdinaryFleaPopupPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(
+                SavedItemGetV2 __instance,
+                out bool __state)
+            {
+                __state = false;
+                if (!IsExactOrdinaryFleaPopup(__instance) ||
+                    __instance.ShowPopup == null ||
+                    !__instance.ShowPopup.Value)
+                {
+                    return;
+                }
+
+                __state = true;
+                __instance.ShowPopup.Value = false;
+            }
+
+            [HarmonyFinalizer]
+            private static Exception Finalizer(
+                Exception __exception,
+                SavedItemGetV2 __instance,
+                bool __state)
+            {
+                if (__state && __instance?.ShowPopup != null)
+                {
+                    __instance.ShowPopup.Value = true;
+                }
+
+                return __exception;
+            }
         }
 
         [HarmonyPatch(

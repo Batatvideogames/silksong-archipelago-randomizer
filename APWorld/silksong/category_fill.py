@@ -74,7 +74,7 @@ def _match_items_to_locations(
                 detail = (
                     "Jubilana is progression-restricted, so it needs an "
                     "available non-progression Relic that is also legal "
-                    "under exclusion, locality, and prior plando rules. "
+                    "under exclusion, locality and prior plando rules. "
                     if location.name
                     == "Relic: Choral Commandment (Jubilana)"
                     else ""
@@ -82,8 +82,8 @@ def _match_items_to_locations(
                 raise ValueError(
                     f"Relic shuffle has no legal reward for "
                     f"{location.name!r}. {detail}Exact Relic shuffle cannot "
-                    "bypass these constraints; remove the conflicting "
-                    "exclude_locations, locality, or plando setting, or use "
+                    "bypass these constraints. Remove the conflicting "
+                    "exclude_locations, locality or plando setting or use "
                     "relic_randomization: anywhere."
                 )
             raise ValueError(
@@ -118,7 +118,7 @@ def _match_items_to_locations(
         if not assign_location(location_index, set()):
             raise ValueError(
                 f"{category} shuffle cannot satisfy all location safety, "
-                "exclusion, and locality rules."
+                "exclusion and locality rules."
             )
 
     item_by_location = {
@@ -182,7 +182,7 @@ def _build_native_baseline(
 
     if remaining:
         raise ValueError(
-            f"Could not build the {category} shuffle baseline; "
+            f"Could not build the {category} shuffle baseline. "
             f"{len(remaining)} items were left over."
         )
     return [assigned[location] for location in locations]
@@ -292,7 +292,7 @@ def prefill_category_shuffles(
             raise ValueError(
                 f"{category} shuffle has {len(category_items)} items but "
                 f"{len(category_locations)} available locations. Check "
-                "plando, start_inventory_from_pool, Item Links, and category "
+                "plando, start_inventory_from_pool, Item Links and category "
                 "settings for incompatible placements."
             )
         category_items.sort(key=lambda item: (item.player, item.name))
@@ -372,7 +372,7 @@ def prefill_category_shuffles(
         ):
             raise ValueError(
                 f"The {category} bootstrap layout conflicts with a location "
-                "safety, exclusion, or locality rule."
+                "safety, exclusion or locality rule."
             )
 
     for category in categories:
