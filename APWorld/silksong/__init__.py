@@ -258,6 +258,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 get_act_one_excluded_location_names(
                     self.get_category_mode('MajorKey'),
                     self.get_category_mode('Boss'),
+                    self.is_needle_upgrade_randomization_enabled(),
                 )
                 | verdania_location_names
                 | act_three_only_location_names
@@ -720,13 +721,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
 
     def is_rosary_bank_key_progression_enabled(self) -> bool:
-        return any(
-            self.get_location_randomization_mode(
-                location_name,
-                location_data_table[location_name].category,
-            ) != 'vanilla'
-            for location_name in ROSARY_BANK_GATED_LOCATIONS
-        )
+        return True
 
     def create_event(self, name: str) -> Item:
         return SilksongItem(

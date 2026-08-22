@@ -1142,10 +1142,12 @@ def _trim_act_one_pool_entries(
     excluded_location_names = get_act_one_excluded_location_names(
         major_key_mode,
         boss_mode,
+        randomize_needle_upgrades,
     )
     retain_craw_summons = retains_randomized_craw_summons(
         major_key_mode,
         boss_mode,
+        randomize_needle_upgrades,
     )
 
     for location_name in sorted(excluded_location_names):
@@ -1574,6 +1576,7 @@ def build_item_pool_entries(
         get_act_one_excluded_location_names(
             category_modes.get("MajorKey", "vanilla"),
             category_modes.get("Boss", "anywhere"),
+            randomize_needle_upgrades,
         )
         if act_one_only
         else frozenset()

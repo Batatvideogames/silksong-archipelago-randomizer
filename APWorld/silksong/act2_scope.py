@@ -60,6 +60,7 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "Wish: Passing of the Age",
         "Wish: Advanced Alchemy",
         "Ecstasy of the End - Pale Oil",
+        "Pinmaster Plinney: Pale Steel Needle",
         *LORE_TABLET_ACT_THREE_LOCATION_NAMES,
     )
 )
@@ -117,7 +118,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Mask Shard #19": 1,
     },
     "Silkeater": {"Silkeater": 1},
-    "NeedleUpgrade": {"Pale Oil": 1},
+    "NeedleUpgrade": {"Pale Oil": 1, "Progressive Needle Upgrade": 1},
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {

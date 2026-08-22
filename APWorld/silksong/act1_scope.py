@@ -52,15 +52,79 @@ _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES = frozenset(
     if relic_item in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
 )
 
+_ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
+    (
+        "Bilewater - Map Purchase",
+        "Sands of Karak - Map Purchase",
+        "Flea: Bilewater - Thieves",
+        "Flea: Deep Docks - Mines",
+        "Flea: Greymoor - Tower",
+        "Volt Filament",
+        "Tacks",
+        "Snare Setter",
+        "Quick Sling",
+        "Druid's Eyes",
+        "Flintslate",
+        "Sharpdart",
+        "Pinmaster Plinney: Shining Needle",
+        "Pinmaster Plinney: Hivesteel Needle",
+        "Pinmaster Plinney: Pale Steel Needle",
+        "Crest Slot: Witch (Red 1)",
+        "Crest Slot: Witch (Blue 1)",
+        "Crest Slot: Witch (Blue 2)",
+        "Crest Slot: Architect (Blue 1)",
+        "Crest Slot: Architect (Yellow 1)",
+        "Crest Slot: Architect (Yellow 2)",
+        "Crest Slot: Architect (Blue 2)",
+        "Crest Slot: Shaman (Blue 1)",
+        "Crest Slot: Shaman (Blue 2)",
+        "Deep Docks (Central) - Spool Fragment",
+        "Deep Docks - Shard Bundle #1",
+        "Deep Docks - Shard Bundle #2",
+        "Shellwood - Shard Bundle",
+        "The Slab - Frayed Rosary String #1",
+        "The Slab - Shard Bundle",
+        "The Slab - Frayed Rosary String #2",
+        "The Slab - Frayed Rosary String #3",
+        "Choral Chambers - Heavy Rosary Necklace",
+        "Wisp Thicket - Rosary Necklace",
+        "Deep Docks - Rosary Cache #3",
+        "Deep Docks - Rosary Cache #4",
+        "Deep Docks - Rosary Cache #5",
+        "Deep Docks - Rosary Cache #6",
+        "Greymoor - Rosary Cache #1",
+        "Sinner's Road - Rosary Cache #8",
+        "Deep Docks - Shell Shard Cache #1",
+        "Deep Docks - Shell Shard Cache #2",
+        "Deep Docks - Shell Shard Cache #3",
+        "Deep Docks - Shell Shard Cache #5",
+        "Deep Docks - Shell Shard Cache #6",
+        "Deep Docks - Shell Shard Cache #7",
+        "Deep Docks - Shell Shard Cache #8",
+        "Deep Docks - Shell Shard Cache #9",
+        "Deep Docks - Shell Shard Cache #10",
+        "Sinner's Road - Shell Shard Cache #4",
+        "Sinner's Road - Shell Shard Cache #5",
+        "Wisp Thicket - Shell Shard Cache #1",
+        "Wisp Thicket - Shell Shard Cache #2",
+        "Wisp Thicket - Shell Shard Cache #3",
+        "Wisp Thicket - Shell Shard Cache #4",
+        "Wisp Thicket - Shell Shard Cache #5",
+        "Deep Docks Church - Shell Shard Chest",
+        "Deep Docks - Forge Note",
+    )
+)
 ACT_ONE_EXCLUDED_LOCATION_NAMES = (
     _POST_ACT_ONE_SOURCE_LOCATION_NAMES
     | _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES
+    | _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES
 )
 
 
 def get_act_one_excluded_location_names(
     major_key_mode: str = "vanilla",
     boss_mode: str = "anywhere",
+    randomize_needle_upgrades: bool = False,
 ) -> frozenset[str]:
     if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(
@@ -69,13 +133,21 @@ def get_act_one_excluded_location_names(
     if boss_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Boss Sanity mode: {boss_mode!r}")
 
-    if major_key_mode == "anywhere" and boss_mode == "anywhere":
-        return ACT_ONE_EXCLUDED_LOCATION_NAMES
-    return ACT_ONE_EXCLUDED_LOCATION_NAMES | frozenset(("Boss: Crawfather",))
+    excluded = ACT_ONE_EXCLUDED_LOCATION_NAMES
+    if randomize_needle_upgrades or not (
+        major_key_mode == "anywhere" and boss_mode == "anywhere"
+    ):
+        excluded |= frozenset(("Boss: Crawfather",))
+    return excluded
 
 
 def retains_randomized_craw_summons(
     major_key_mode: str,
     boss_mode: str,
+    randomize_needle_upgrades: bool = False,
 ) -> bool:
-    return major_key_mode == "anywhere" and boss_mode == "anywhere"
+    return (
+        major_key_mode == "anywhere"
+        and boss_mode == "anywhere"
+        and not randomize_needle_upgrades
+    )
