@@ -51,7 +51,7 @@ namespace SilksongRandomizer
         public const string DeathLinkCocoonProtected = "cocoon";
         public const string PriceModeVanilla = "vanilla";
         public const string PriceModeFree = "free";
-        public const string PriceModeShuffled = "shuffled";
+        public const string PriceModeShuffle = "shuffle";
         public const string PriceModeCheap = "cheap";
         public const string PriceModeExpensive = "expensive";
         public static Archipelago Instance { get; private set; }
@@ -2274,7 +2274,7 @@ namespace SilksongRandomizer
                    ) ||
                    string.Equals(
                        value,
-                       PriceModeShuffled,
+                       PriceModeShuffle,
                        StringComparison.Ordinal
                    ) ||
                    string.Equals(

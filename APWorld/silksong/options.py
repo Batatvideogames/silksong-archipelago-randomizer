@@ -801,7 +801,7 @@ class PurchasePriceRandomization(Choice):
 
     option_vanilla = 0
     option_free = 1
-    option_shuffled = 2
+    option_shuffle = 2
     option_cheap = 3
     option_expensive = 4
     default = option_vanilla

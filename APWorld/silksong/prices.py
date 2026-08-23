@@ -31,7 +31,7 @@ PRICE_CATEGORY_OPTION_NAMES: dict[str, str] = {
 }
 
 PRICE_MODE_KEYS = frozenset(
-    {"vanilla", "free", "shuffled", "cheap", "expensive"}
+    {"vanilla", "free", "shuffle", "cheap", "expensive"}
 )
 
 
@@ -297,7 +297,7 @@ def _resolve_group(
             )
             for source in ordered_sources
         }
-    if mode != "shuffled":
+    if mode != "shuffle":
         raise ValueError(f"Unknown purchase-price mode: {mode!r}")
 
     result: dict[str, int] = {}
