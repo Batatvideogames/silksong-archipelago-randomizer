@@ -466,12 +466,15 @@ namespace SilksongRandomizer
                 texture.filterMode = FilterMode.Point;
                 texture.SetPixels(outlinePixels);
                 texture.Apply();
-                return Sprite.Create(
+
+                var createdSprite = Sprite.Create(
                     texture,
                     new Rect(0f, 0f, width, height),
                     source.pivot / sourceRect.size,
                     source.pixelsPerUnit
                 );
+                createdSprite.name = source.name + " outline";
+                return createdSprite;
             }
             catch (Exception ex)
             {
