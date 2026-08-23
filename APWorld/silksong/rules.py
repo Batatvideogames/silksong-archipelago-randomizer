@@ -7,6 +7,7 @@ from worlds.generic.Rules import add_item_rule
 from .items import (
     PROGRESSIVE_NEEDLE_UPGRADE_ITEM,
     PROGRESSION_ITEMS,
+    get_vanilla_reward_name,
     item_data_table,
 )
 from .locations import (
@@ -29,6 +30,7 @@ from .requirements import (
     SIMPLE_KEY_ROSARY_BANK,
     UNVERIFIED_PROGRESSION_LOCATIONS,
     get_crawfather_requirements,
+    get_logic_item_references,
     validate_requirements,
 )
 from .requirement_rules import (
@@ -181,6 +183,12 @@ def _minimal_accessibility_players(multiworld) -> frozenset[int]:
 
 
 def enforce_global_shuffle_item_rules(multiworld) -> None:
+    itempool = getattr(multiworld, "itempool", None)
+    if itempool is not None and not any(
+        getattr(item, "silksong_placement_category", None) is not None
+        for item in itempool
+    ):
+        return
     minimal_players = _minimal_accessibility_players(multiworld)
     for location in multiworld.get_locations():
         target_category = getattr(
@@ -270,6 +278,7 @@ def set_silksong_rules(world) -> None:
         0,
     )
     excluded_location_names = world.get_goal_excluded_location_names()
+    logic_item_references = get_logic_item_references()
     world._silksong_rule_builder_rules = {}
 
     for location_name, location_data in location_data_table.items():
@@ -319,7 +328,13 @@ def set_silksong_rules(world) -> None:
             continue
 
         location = world.multiworld.get_location(location_name, world.player)
-        if mode == "vanilla":
+        if (
+            mode == "vanilla"
+            and get_vanilla_reward_name(
+                location_name,
+                location_data.category,
+            ) in logic_item_references
+        ):
             location_rule = build_native_source_rule(
                 location_name,
                 location_data.category,

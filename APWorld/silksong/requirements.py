@@ -450,7 +450,7 @@ class _AbstractValuesSnapshot:
     by its callers.
     """
 
-    abstract_values: tuple[tuple[str, bool], ...]
+    abstract_values: Mapping[str, bool]
     item_counts: tuple[tuple[str, int], ...]
     has_crest: bool
     has_spear: bool
@@ -5564,7 +5564,7 @@ def _compute_abstract_values(
     if cached_snapshot is not None:
         item_counts.update(cached_snapshot.item_counts)
         return (
-            dict(cached_snapshot.abstract_values),
+            cached_snapshot.abstract_values,
             cached_snapshot.has_crest,
             cached_snapshot.has_spear,
             has_item,
@@ -5646,7 +5646,7 @@ def _compute_abstract_values(
             state,
             cache_key,
             _AbstractValuesSnapshot(
-                abstract_values=tuple(abstract_values.items()),
+                abstract_values=MappingProxyType(abstract_values.copy()),
                 item_counts=tuple(item_counts.items()),
                 has_crest=has_crest,
                 has_spear=has_spear,

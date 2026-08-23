@@ -52,6 +52,9 @@ def _match_items_to_locations(
 ) -> list:
     """Find a rule-safe perfect matching, preferring the native baseline."""
 
+    if _items_obey_fill_rules(multiworld, locations, preferred_items):
+        return preferred_items
+
     item_index_by_id = {
         id(item): index
         for index, item in enumerate(preferred_items)
@@ -429,6 +432,26 @@ def prefill_category_shuffles(
                 player,
                 "Underworks - Ventrica",
                 "Ventrica: Grand Bellway",
+            )
+
+    if "Map" in planned_items_by_category:
+        for player in silksong_players:
+            world = multiworld.worlds[player]
+            get_requirement = getattr(
+                world,
+                "get_trails_end_requirement_key",
+                None,
+            )
+            if not callable(get_requirement):
+                continue
+            if get_requirement() != "owned_maps":
+                continue
+            _place_bootstrap_item(
+                locations_by_category["Map"],
+                planned_items_by_category["Map"],
+                player,
+                "Hunter's March - Map Purchase",
+                "Map: Hunter's March",
             )
 
     for category in categories:
