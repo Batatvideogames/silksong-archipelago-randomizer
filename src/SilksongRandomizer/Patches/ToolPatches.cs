@@ -814,13 +814,25 @@ namespace SilksongRandomizer.Patches
                 ref bool __result)
             {
                 SaveState state = SaveState.Instance;
-                if (!IsPoolShellSatchel(state, __instance))
+                if (IsPoolShellSatchel(state, __instance))
                 {
-                    return true;
+                    __result = HasReceivedShellSatchel(state);
+                    return false;
                 }
 
-                __result = HasReceivedShellSatchel(state);
-                return false;
+                if (state != null &&
+                    state.IsRandomized(ItemType.Tool) &&
+                    ItemGrants.TryGetProgressiveToolState(
+                        __instance,
+                        out int level,
+                        out int requiredLevel,
+                        out bool _isBaseTier))
+                {
+                    __result = level >= requiredLevel;
+                    return false;
+                }
+
+                return true;
             }
         }
 

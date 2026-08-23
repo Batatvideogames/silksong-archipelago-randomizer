@@ -5,8 +5,14 @@ namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        private const string LiquidLacquerQuest =
+            "Courier Delivery Mask Maker";
+        private const string PinstressBattleQuest = "Pinstress Battle Pre";
+        private const string SkullKingQuest = "Skull King";
         private const string SoulSnareQuest = "Soul Snare";
+        private const string SprintmasterQuest = "Sprintmaster Pre";
         private const string ShakraFinalQuest = "Shakra Final Quest";
+        private const string TormentedTrobbioQuest = "Tormented Trobbio";
         private const string SnareSetterItem = "Tool: Snare Setter";
         private const string BelltownScene = "Belltown";
         private const string GroalLocation = "Boss: Groal the Great";
@@ -42,6 +48,192 @@ namespace SilksongRandomizer.Patches
             internal PlayerData PlayerData;
             internal string SceneName;
             internal bool NativeStockGateSuppressed;
+        }
+
+        private sealed class TimePassesAbilitySnapshot
+        {
+            internal PlayerData PlayerData;
+            internal bool NativeChargeSlash;
+            internal bool NativeDoubleJump;
+            internal bool NativeHarpoonDash;
+            internal bool Applied;
+        }
+
+        private enum MirroredAbility
+        {
+            DoubleJump,
+            WallJump,
+            SuperJump,
+        }
+
+        private sealed class AbilitySnapshot
+        {
+            internal PlayerData PlayerData;
+            internal MirroredAbility Ability;
+            internal bool NativeValue;
+        }
+
+        private static AbilitySnapshot MirrorAbility(
+            PlayerData playerData,
+            MirroredAbility ability,
+            bool effectiveValue)
+        {
+            AbilitySnapshot snapshot = new AbilitySnapshot
+            {
+                PlayerData = playerData,
+                Ability = ability,
+            };
+            switch (ability)
+            {
+                case MirroredAbility.DoubleJump:
+                    snapshot.NativeValue = playerData.hasDoubleJump;
+                    playerData.hasDoubleJump =
+                        snapshot.NativeValue || effectiveValue;
+                    break;
+                case MirroredAbility.WallJump:
+                    snapshot.NativeValue = playerData.hasWalljump;
+                    playerData.hasWalljump =
+                        snapshot.NativeValue || effectiveValue;
+                    break;
+                case MirroredAbility.SuperJump:
+                    snapshot.NativeValue = playerData.hasSuperJump;
+                    playerData.hasSuperJump =
+                        snapshot.NativeValue || effectiveValue;
+                    break;
+            }
+            return snapshot;
+        }
+
+        private static AbilitySnapshot BeginSoulSnareFaydownCheck(
+            QuestCompleteTotalGroup group)
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (group == null ||
+                state == null ||
+                playerData == null ||
+                !state.IsRandomized(ItemType.Skill) ||
+                !string.Equals(
+                    group.name,
+                    SoulSnareQuest,
+                    StringComparison.Ordinal))
+            {
+                return null;
+            }
+
+            return MirrorAbility(
+                playerData,
+                MirroredAbility.DoubleJump,
+                state.canDoubleJump);
+        }
+
+        private static AbilitySnapshot BeginWishAbilityCheck(
+            FullQuestBase quest)
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (quest == null ||
+                state == null ||
+                playerData == null ||
+                !state.IsRandomized(ItemType.Skill))
+            {
+                return null;
+            }
+
+            switch (quest.name)
+            {
+                case LiquidLacquerQuest:
+                    return MirrorAbility(
+                        playerData,
+                        MirroredAbility.DoubleJump,
+                        state.canDoubleJump);
+                case SkullKingQuest:
+                    return MirrorAbility(
+                        playerData,
+                        MirroredAbility.WallJump,
+                        state.canWallJump);
+                case PinstressBattleQuest:
+                case SprintmasterQuest:
+                case TormentedTrobbioQuest:
+                    return MirrorAbility(
+                        playerData,
+                        MirroredAbility.SuperJump,
+                        state.canSilkSoar);
+                default:
+                    return null;
+            }
+        }
+
+        private static TimePassesAbilitySnapshot BeginTimePassesAbilityChecks()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null ||
+                playerData == null ||
+                !state.IsRandomized(ItemType.Skill))
+            {
+                return null;
+            }
+
+            TimePassesAbilitySnapshot snapshot =
+                new TimePassesAbilitySnapshot
+                {
+                    PlayerData = playerData,
+                    NativeChargeSlash = playerData.hasChargeSlash,
+                    NativeDoubleJump = playerData.hasDoubleJump,
+                    NativeHarpoonDash = playerData.hasHarpoonDash,
+                    Applied = true,
+                };
+            playerData.hasChargeSlash =
+                snapshot.NativeChargeSlash || state.canChargeSlash;
+            playerData.hasDoubleJump =
+                snapshot.NativeDoubleJump || state.canDoubleJump;
+            playerData.hasHarpoonDash =
+                snapshot.NativeHarpoonDash || state.canUseHarpoon;
+            return snapshot;
+        }
+
+        private static void RestoreTimePassesAbilities(
+            TimePassesAbilitySnapshot snapshot)
+        {
+            if (snapshot == null ||
+                snapshot.PlayerData == null ||
+                !snapshot.Applied)
+            {
+                return;
+            }
+
+            snapshot.PlayerData.hasChargeSlash =
+                snapshot.NativeChargeSlash;
+            snapshot.PlayerData.hasDoubleJump =
+                snapshot.NativeDoubleJump;
+            snapshot.PlayerData.hasHarpoonDash =
+                snapshot.NativeHarpoonDash;
+            snapshot.Applied = false;
+        }
+
+        private static void RestoreAbility(AbilitySnapshot snapshot)
+        {
+            if (snapshot == null || snapshot.PlayerData == null)
+            {
+                return;
+            }
+
+            switch (snapshot.Ability)
+            {
+                case MirroredAbility.DoubleJump:
+                    snapshot.PlayerData.hasDoubleJump =
+                        snapshot.NativeValue;
+                    break;
+                case MirroredAbility.WallJump:
+                    snapshot.PlayerData.hasWalljump =
+                        snapshot.NativeValue;
+                    break;
+                case MirroredAbility.SuperJump:
+                    snapshot.PlayerData.hasSuperJump =
+                        snapshot.NativeValue;
+                    break;
+            }
         }
 
         internal static bool ApplySoulSnareRequirement(
@@ -243,6 +435,52 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(QuestCompleteTotalGroup), "get_IsFulfilled")]
+        private static class SoulSnareFaydownPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(
+                QuestCompleteTotalGroup __instance,
+                out AbilitySnapshot __state)
+            {
+                __state = BeginSoulSnareFaydownCheck(__instance);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                AbilitySnapshot __state)
+            {
+                RestoreAbility(__state);
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(FullQuestBase), "get_IsAvailable")]
+        private static class RandomizedWishAbilityPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(
+                FullQuestBase __instance,
+                out AbilitySnapshot __state)
+            {
+                __state = BeginWishAbilityCheck(__instance);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                AbilitySnapshot __state)
+            {
+                RestoreAbility(__state);
+                return __exception;
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_IsAvailable")]
         private static class ShakraFinalQuestAvailablePatch
         {
@@ -256,6 +494,36 @@ namespace SilksongRandomizer.Patches
                     __result,
                     SaveState.Instance,
                     PlayerData.instance);
+            }
+        }
+
+        [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
+        private static class RandomizedWishTimePassesPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(
+                out TimePassesAbilitySnapshot __state)
+            {
+                __state = BeginTimePassesAbilityChecks();
+            }
+
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(
+                TimePassesAbilitySnapshot __state)
+            {
+                RestoreTimePassesAbilities(__state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                TimePassesAbilitySnapshot __state)
+            {
+                RestoreTimePassesAbilities(__state);
+                return __exception;
             }
         }
 

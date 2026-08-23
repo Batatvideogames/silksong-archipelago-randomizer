@@ -952,8 +952,14 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
 # available if either graph source is unavailable.
 ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     'Blasted Steps - Map Purchase',
+    'Blasted Steps - Memory Locket',
+    'Bonegrave - Mossberry',
+    'Choral Chambers - Memory Locket',
+    'Greymoor - Bellshrine',
     'Sands of Karak - Map Purchase',
+    'Sands of Karak - Memory Locket',
     "Sinner's Road - Map Purchase",
+    'Underworks - Memory Locket',
 })
 
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
