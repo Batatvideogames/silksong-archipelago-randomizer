@@ -209,6 +209,7 @@ namespace SilksongRandomizer
                     new Rect(0f, 0f, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f)
                 );
+                ArchipelagoIcon.name = "archipelagoicon";
             }
             catch (Exception ex)
             {
@@ -270,26 +271,32 @@ namespace SilksongRandomizer
         {
             FillerIcon = LoadCheckClassificationIcon(
                 "Filler.png",
+                "filler",
                 ArchipelagoIcon
             );
             UsefulIcon = LoadCheckClassificationIcon(
                 "Useful.png",
+                "useful",
                 ArchipelagoIcon
             );
             ProgressionIcon = LoadCheckClassificationIcon(
                 "Progression.png",
+                "progression",
                 ArchipelagoIcon
             );
             TrapIcon = LoadCheckClassificationIcon(
                 "Trap.png",
+                "trap",
                 ArchipelagoIcon
             );
             MapCheckIcon = LoadCheckClassificationIcon(
                 "MapCheck.png",
+                "mapcheck",
                 ArchipelagoIcon
             );
             LogicUnknownIcon = LoadCheckClassificationIcon(
                 "LogicUnknown.png",
+                "logicunknown",
                 MapCheckIcon ?? ArchipelagoIcon
             );
             MapCheckOutlineIcon =
@@ -300,6 +307,7 @@ namespace SilksongRandomizer
 
         private Sprite LoadCheckClassificationIcon(
             string fileName,
+            string spriteName,
             Sprite fallback)
         {
             string relativePath = Path.Combine("CheckIcons", fileName);
@@ -332,11 +340,13 @@ namespace SilksongRandomizer
                 }
 
                 texture.filterMode = FilterMode.Point;
-                return Sprite.Create(
+                var createdSprite = Sprite.Create(
                     texture,
                     new Rect(0f, 0f, texture.width, texture.height),
                     new Vector2(0.5f, 0.5f)
                 );
+                createdSprite.name = spriteName;
+                return createdSprite;
             }
             catch (Exception ex)
             {
@@ -456,12 +466,15 @@ namespace SilksongRandomizer
                 texture.filterMode = FilterMode.Point;
                 texture.SetPixels(outlinePixels);
                 texture.Apply();
-                return Sprite.Create(
+
+                var createdSprite = Sprite.Create(
                     texture,
                     new Rect(0f, 0f, width, height),
                     source.pivot / sourceRect.size,
                     source.pixelsPerUnit
                 );
+                createdSprite.name = source.name + " outline";
+                return createdSprite;
             }
             catch (Exception ex)
             {
@@ -506,11 +519,13 @@ namespace SilksongRandomizer
             texture.Apply();
             texture.filterMode = FilterMode.Point;
 
-            return Sprite.Create(
+            var createdSprite = Sprite.Create(
                 texture,
                 new Rect(0f, 0f, size, size),
                 new Vector2(0.5f, 0.5f)
             );
+            createdSprite.name = "archipelagoicon";
+            return createdSprite;
         }
 
         IEnumerator Start()
