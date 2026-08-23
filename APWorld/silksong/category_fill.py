@@ -223,22 +223,66 @@ def _shuffle_is_accessible(
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
 ) -> bool:
+    unreachable_locations, unbeaten_players = (
+        _shuffle_reachability_failures(
+            multiworld,
+            shuffled_locations,
+            silksong_players,
+        )
+    )
+    return not unreachable_locations and not unbeaten_players
+
+
+def _minimal_accessibility_players(multiworld) -> frozenset[int]:
+    players = set()
+    for player in multiworld.player_ids:
+        options = getattr(multiworld.worlds[player], "options", None)
+        accessibility = getattr(options, "accessibility", None)
+        if accessibility is None:
+            continue
+        value = getattr(accessibility, "value", accessibility)
+        minimal_value = getattr(accessibility, "option_minimal", 2)
+        if value == minimal_value or value in ("minimal", "none"):
+            players.add(player)
+    return frozenset(players)
+
+
+def _shuffle_reachability_failures(
+    multiworld,
+    shuffled_locations: Iterable,
+    silksong_players: Iterable[int],
+) -> tuple[list[str], list[int]]:
     from Fill import sweep_from_pool
 
     maximum_state = sweep_from_pool(
         multiworld.state,
         multiworld.itempool,
     )
-    return (
-        all(
-            location.can_reach(maximum_state)
+    minimal_players = _minimal_accessibility_players(multiworld)
+    unreachable_locations = sorted(
+        (
+            f"P{location.player} {location.name}"
             for location in shuffled_locations
-        )
-        and all(
-            multiworld.has_beaten_game(maximum_state, player)
-            for player in silksong_players
-        )
+            if (
+                not location.can_reach(maximum_state)
+                and (
+                    location.player not in minimal_players
+                    or (
+                        location.item is not None
+                        and location.item.advancement
+                        and location.item.player not in minimal_players
+                    )
+                )
+            )
+        ),
+        key=str.casefold,
     )
+    unbeaten_players = sorted(
+        player
+        for player in silksong_players
+        if not multiworld.has_beaten_game(maximum_state, player)
+    )
+    return unreachable_locations, unbeaten_players
 
 
 def prefill_category_shuffles(
@@ -333,8 +377,7 @@ def prefill_category_shuffles(
         if multiworld.worlds[player].game == game_name
     )
 
-    # Dash's source needs Dash/Double Jump/Harpoon in the room graph. Quill is
-    # an opening Skill source, so swap the two.
+    # Root the shuffled Skill lane from Quill through Silk Soar.
     if "Skill" in planned_items_by_category:
         for player in silksong_players:
             _place_bootstrap_item(
@@ -343,6 +386,20 @@ def prefill_category_shuffles(
                 player,
                 "Item: Quill",
                 "Swift Step",
+            )
+            _place_bootstrap_item(
+                locations_by_category["Skill"],
+                planned_items_by_category["Skill"],
+                player,
+                "Swift Step",
+                "Cling Grip",
+            )
+            _place_bootstrap_item(
+                locations_by_category["Skill"],
+                planned_items_by_category["Skill"],
+                player,
+                "Cling Grip",
+                "Silk Soar",
             )
 
     # The modeled Bellhart/Greymoor/Shellwood cluster otherwise has no
@@ -362,6 +419,16 @@ def prefill_category_shuffles(
                 player,
                 "Deep Docks - Bellway",
                 cluster_source,
+            )
+
+    if "Ventrica" in planned_items_by_category:
+        for player in silksong_players:
+            _place_bootstrap_item(
+                locations_by_category["Ventrica"],
+                planned_items_by_category["Ventrica"],
+                player,
+                "Underworks - Ventrica",
+                "Ventrica: Grand Bellway",
             )
 
     for category in categories:
@@ -396,8 +463,30 @@ def prefill_category_shuffles(
         all_shuffled_locations,
         silksong_players,
     ):
+        unreachable_locations, unbeaten_players = (
+            _shuffle_reachability_failures(
+                multiworld,
+                all_shuffled_locations,
+                silksong_players,
+            )
+        )
+        details = []
+        if unreachable_locations:
+            details.append(
+                "Unreachable tagged locations: "
+                + ", ".join(unreachable_locations)
+                + "."
+            )
+        if unbeaten_players:
+            details.append(
+                "Unbeaten players: "
+                + ", ".join(f"P{player}" for player in unbeaten_players)
+                + "."
+            )
         raise ValueError(
             "The safe category-shuffle baseline is not reachable. "
+            + " ".join(details)
+            + " "
             "This indicates a logic or plando conflict."
         )
 

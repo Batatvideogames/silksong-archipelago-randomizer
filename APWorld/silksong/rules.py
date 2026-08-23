@@ -166,7 +166,22 @@ def _is_matching_shuffle_item(category: str):
     return item_rule
 
 
+def _minimal_accessibility_players(multiworld) -> frozenset[int]:
+    players = set()
+    for player in multiworld.player_ids:
+        options = getattr(multiworld.worlds[player], "options", None)
+        accessibility = getattr(options, "accessibility", None)
+        if accessibility is None:
+            continue
+        value = getattr(accessibility, "value", accessibility)
+        minimal_value = getattr(accessibility, "option_minimal", 2)
+        if value == minimal_value or value in ("minimal", "none"):
+            players.add(player)
+    return frozenset(players)
+
+
 def enforce_global_shuffle_item_rules(multiworld) -> None:
+    minimal_players = _minimal_accessibility_players(multiworld)
     for location in multiworld.get_locations():
         target_category = getattr(
             location,
@@ -174,11 +189,13 @@ def enforce_global_shuffle_item_rules(multiworld) -> None:
             None,
         )
         target_game = getattr(location, "game", None)
+        target_player = location.player
 
         def item_rule(
             item: Item,
             target_category: str | None = target_category,
             target_game: str | None = target_game,
+            target_player: int = target_player,
         ) -> bool:
             item_category = getattr(
                 item,
@@ -187,9 +204,15 @@ def enforce_global_shuffle_item_rules(multiworld) -> None:
             )
             if item_category is None:
                 return True
-            return (
-                target_game == "Hollow Knight: Silksong"
-                and target_category == item_category
+            if (
+                target_game != "Hollow Knight: Silksong"
+                or target_category != item_category
+            ):
+                return False
+            return not (
+                item.advancement
+                and target_player in minimal_players
+                and item.player not in minimal_players
             )
 
         add_item_rule(location, item_rule)

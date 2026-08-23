@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
+from typing import Mapping
+
 from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION
 from .requirements import _ESTABLISHED_REQUIREMENTS_BY_LOCATION
 
 
 ACT_ONE_GOAL_KEY = "act_1"
+ACT_ONE_TOOL_POUCH_SUPPLY = 3
+_BONE_BOTTOM_REPAIRS_LOCATION_NAME = "Wish: Bone Bottom Repairs"
+_LIFESAVING_BRIDGE_LOCATION_NAME = "Wish: A Lifesaving Bridge"
 
 _POST_ACT_ONE_SOURCE_ACTS = frozenset(("Act 2", "Act 3"))
 _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
@@ -66,6 +71,11 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Druid's Eyes",
         "Flintslate",
         "Sharpdart",
+        "Boss: Forebrothers Signis & Gron",
+        "Boss: Disgraced Chef Lugoli",
+        "Boss: Groal the Great",
+        "Boss: Voltvyrm",
+        "Boss: Crawfather",
         "Pinmaster Plinney: Shining Needle",
         "Pinmaster Plinney: Hivesteel Needle",
         "Pinmaster Plinney: Pale Steel Needle",
@@ -94,6 +104,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Rosary Cache #6",
         "Greymoor - Rosary Cache #1",
         "Sinner's Road - Rosary Cache #8",
+        "Bone Bottom - Shell Shard Cache",
         "Deep Docks - Shell Shard Cache #1",
         "Deep Docks - Shell Shard Cache #2",
         "Deep Docks - Shell Shard Cache #3",
@@ -125,6 +136,7 @@ def get_act_one_excluded_location_names(
     major_key_mode: str = "vanilla",
     boss_mode: str = "anywhere",
     randomize_needle_upgrades: bool = False,
+    donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> frozenset[str]:
     if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(
@@ -133,21 +145,24 @@ def get_act_one_excluded_location_names(
     if boss_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Boss Sanity mode: {boss_mode!r}")
 
+    requirements = donation_tool_pouch_requirements or {}
+    if any(requirement < 0 for requirement in requirements.values()):
+        raise ValueError("Tool Pouch requirements cannot be negative")
+
     excluded = ACT_ONE_EXCLUDED_LOCATION_NAMES
-    if randomize_needle_upgrades or not (
-        major_key_mode == "anywhere" and boss_mode == "anywhere"
+    if (
+        requirements.get(_BONE_BOTTOM_REPAIRS_LOCATION_NAME, 0)
+        > ACT_ONE_TOOL_POUCH_SUPPLY
     ):
-        excluded |= frozenset(("Boss: Crawfather",))
+        excluded |= frozenset(
+            (
+                _BONE_BOTTOM_REPAIRS_LOCATION_NAME,
+                _LIFESAVING_BRIDGE_LOCATION_NAME,
+            )
+        )
+    elif (
+        requirements.get(_LIFESAVING_BRIDGE_LOCATION_NAME, 0)
+        > ACT_ONE_TOOL_POUCH_SUPPLY
+    ):
+        excluded |= frozenset((_LIFESAVING_BRIDGE_LOCATION_NAME,))
     return excluded
-
-
-def retains_randomized_craw_summons(
-    major_key_mode: str,
-    boss_mode: str,
-    randomize_needle_upgrades: bool = False,
-) -> bool:
-    return (
-        major_key_mode == "anywhere"
-        and boss_mode == "anywhere"
-        and not randomize_needle_upgrades
-    )

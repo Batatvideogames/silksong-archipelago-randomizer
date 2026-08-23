@@ -23,14 +23,16 @@ The exact checks and options available can change as the randomizer develops. Us
 
 There are multiple installation methods due to different issues with each of them at times, follow one of the methods below to install the Archipelago randomizer.
 
-### Using Cogfly (1.2.3+)
-1.) First start off by installing [Cogfly](https://github.com/Nix-main/Cogfly/releases) to the latest version for your preferred operating system.
+### Using Cogfly (1.2.5+)
+1.) First start off by installing [Cogfly](https://github.com/Nix-main/Cogfly/releases/latest) to the latest version for your preferred operating system.
 
 2.) Launch Cogfly and go to settings and make sure your path to your Silksong installation are valid.
 
 3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Mod Menu, Shakra Always Onsite, and all other dependencies.
 
-**Cogfly Import Code:**`019ffd16-ebf3-286a-1c4c-ea0680a14bbd`
+**NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
+
+**Cogfly Import Code:**`01a02a84-c903-06e9-6a0d-71726aa04686`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -39,7 +41,9 @@ There are multiple installation methods due to different issues with each of the
 
 3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Mod Menu, Shakra Always Onsite, and all other dependencies.
 
-**R2Modman Import Code:** `019ffd04-7e37-cda2-fa95-cfa351e40455`
+**NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
+
+**R2Modman Import Code:** `01a02a85-d823-f95a-2190-49ea519fb876`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -52,7 +56,22 @@ There are multiple installation methods due to different issues with each of the
 
 5.) Download the Silksong Randomizer's [latest release](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/latest) .rar file.
 
-6.) There will be a folder named "PUT IN SILKSONG FOLDER" with a 'BepInEx' folder inside it. Drag the 'BepInEx' folder from the zip file into your Silksong installation folder.
+6.) There will be a folder named "PUT IN SILKSONG FOLDER" with a 'BepInEx' folder inside it. Drag the 'BepInEx' folder from the zip file into your Silksong installation folder. This will merge or prompt you to merge the folders which is what you want to do.
+
+The resulting folder structure should something like:
+
+```
+- 📂 BepInEx
+  | - 📂 plugins
+    | - 📂 Silksong Randomizer
+  | - 📂 config
+  | - 📂 core
+  | - 📂 patchers
+- 📂 D3D12
+- 📂 Hollow Knight Silksong_Data
+- 📂 MonoBleedingEdge
+- 📜 Hollow Knight Silksong.exe
+```
 
  **OPTIONAL**: If you want any of the other additional mods mentioned, you can find them on Thunderstore, download them, and place them into the 'plugins' folder found in the 'BepInEx' folder in your Silksong game installation folder.
 

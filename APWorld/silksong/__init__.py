@@ -259,6 +259,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     self.get_category_mode('MajorKey'),
                     self.get_category_mode('Boss'),
                     self.is_needle_upgrade_randomization_enabled(),
+                    self.get_act_one_donation_tool_pouch_requirements(),
                 )
                 | verdania_location_names
                 | act_three_only_location_names
@@ -267,6 +268,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.get_act_two_excluded_location_names()
             | verdania_location_names
             | act_three_only_location_names
+        )
+
+    def get_act_one_donation_tool_pouch_requirements(self) -> dict[str, int]:
+        if not self.is_act_one_content_scope():
+            return {}
+        return get_shell_shard_donation_tool_pouch_requirements(
+            self.get_purchase_prices()
         )
 
     def generate_early(self) -> None:
@@ -292,6 +300,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_one_only=self.is_act_one_content_scope(),
             exclude_verdania=(goal_key != ACT_THREE_GOAL_KEY),
             retain_green_prince_key=(goal_key == ACT_TWO_GOAL_KEY),
+            act_one_donation_tool_pouch_requirements=(
+                self.get_act_one_donation_tool_pouch_requirements()
+            ),
         )
         if self.is_early_dash_enabled():
             player_early_items = self.multiworld.local_early_items[
@@ -607,6 +618,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
             ),
+            act_one_donation_tool_pouch_requirements=(
+                self.get_act_one_donation_tool_pouch_requirements()
+            ),
         )
         if percentage > 0 and trap_capacity == 0:
             raise ValueError(
@@ -838,6 +852,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ),
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
+            ),
+            act_one_donation_tool_pouch_requirements=(
+                self.get_act_one_donation_tool_pouch_requirements()
             ),
         ))
 

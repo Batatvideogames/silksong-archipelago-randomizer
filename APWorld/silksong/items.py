@@ -6,10 +6,7 @@ from typing import Dict, FrozenSet, Mapping
 
 from BaseClasses import Item, ItemClassification
 
-from .act1_scope import (
-    get_act_one_excluded_location_names,
-    retains_randomized_craw_summons,
-)
+from .act1_scope import get_act_one_excluded_location_names
 from .act2_scope import (
     ACT_TWO_EXCLUDED_LOCATION_NAMES,
     trim_act_two_pool_entries,
@@ -1136,6 +1133,7 @@ def _trim_act_one_pool_entries(
     removed_option_items_by_category: Mapping[str, tuple[str, ...]],
     randomize_needle_upgrades: bool,
     individual_relic_turn_ins: bool,
+    donation_tool_pouch_requirements: Mapping[str, int] | None,
 ) -> list[ItemPoolEntry]:
     major_key_mode = category_modes.get("MajorKey", "vanilla")
     boss_mode = category_modes.get("Boss", "anywhere")
@@ -1143,13 +1141,8 @@ def _trim_act_one_pool_entries(
         major_key_mode,
         boss_mode,
         randomize_needle_upgrades,
+        donation_tool_pouch_requirements,
     )
-    retain_craw_summons = retains_randomized_craw_summons(
-        major_key_mode,
-        boss_mode,
-        randomize_needle_upgrades,
-    )
-
     for location_name in sorted(excluded_location_names):
         location_data = location_data_table[location_name]
         category = location_data.category
@@ -1187,9 +1180,6 @@ def _trim_act_one_pool_entries(
         else:
             active = category_modes.get(source_category, "anywhere") != "vanilla"
         if not active:
-            continue
-
-        if location_name == "Craw Summons" and retain_craw_summons:
             continue
 
         if source_category in {
@@ -1266,26 +1256,6 @@ def _trim_act_one_pool_entries(
                 f"{location_name!r} from the {source_category!r} pool lane."
             )
         entries.pop(entry_index)
-
-    if retain_craw_summons:
-        balance_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == "Boss"
-                    and entry.placement_category is None
-                    and item_data_table[entry.name].classification
-                    == ItemClassification.filler
-                )
-            ),
-            None,
-        )
-        if balance_index is None:
-            raise ValueError(
-                "Act 1 Craw Summons balancing needs one Boss filler item."
-            )
-        entries.pop(balance_index)
 
     return entries
 
@@ -1435,6 +1405,7 @@ def get_dynamic_trap_capacity(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
 
@@ -1456,6 +1427,9 @@ def get_dynamic_trap_capacity(
             act_one_only=act_one_only,
             exclude_verdania=exclude_verdania,
             retain_green_prince_key=retain_green_prince_key,
+            act_one_donation_tool_pouch_requirements=(
+                act_one_donation_tool_pouch_requirements
+            ),
         )
     )
 
@@ -1562,6 +1536,7 @@ def build_item_pool_entries(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1577,6 +1552,7 @@ def build_item_pool_entries(
             category_modes.get("MajorKey", "vanilla"),
             category_modes.get("Boss", "anywhere"),
             randomize_needle_upgrades,
+            act_one_donation_tool_pouch_requirements,
         )
         if act_one_only
         else frozenset()
@@ -1847,6 +1823,7 @@ def build_item_pool_entries(
             removed_option_items_by_category,
             randomize_needle_upgrades,
             individual_relic_turn_ins,
+            act_one_donation_tool_pouch_requirements,
         )
     elif act_two_only:
         entries = list(
@@ -1963,6 +1940,7 @@ def get_configured_item_pool_size(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> int:
     return len(
         build_item_pool_entries(
@@ -1980,6 +1958,9 @@ def get_configured_item_pool_size(
             act_one_only=act_one_only,
             exclude_verdania=exclude_verdania,
             retain_green_prince_key=retain_green_prince_key,
+            act_one_donation_tool_pouch_requirements=(
+                act_one_donation_tool_pouch_requirements
+            ),
         )
     )
 
