@@ -1448,6 +1448,43 @@ namespace SilksongRandomizer.Patches
             // A shared shop/NPC/source stays at its exact map coordinate.
             // Each unchecked AP check at that anchor gets its own tooltip
             // line. No placed-item classification is disclosed.
+            Color outOfLogicNameColor = new Color(0.58f, 0.58f, 0.58f, 1f);
+            List<LogicTooltipLine> lines = new List<LogicTooltipLine>();
+            SaveState state = SaveState.Instance;
+            foreach (string locationName in tooltipLocationNames)
+            {
+                bool haveReachability =
+                    ReachabilityByLocation.TryGetValue(
+                        locationName,
+                        out MapCheckReachability reachability
+                    );
+                Color nameColor =
+                    haveReachability &&
+                    reachability == MapCheckReachability.Unreachable
+                        ? outOfLogicNameColor
+                        : Color.white;
+                lines.Add(new LogicTooltipLine(locationName, nameColor));
+                if (RandomizerPlugin.Instance != null &&
+                    !RandomizerPlugin.Instance.ShowMapMarkerLogic)
+                {
+                    continue;
+                }
+                foreach (LogicTooltipLine extra in
+                    MapLogicEvaluator.Explain(
+                        state,
+                        locationName,
+                        haveReachability
+                            ? reachability
+                            : MapCheckReachability.Unknown
+                    ) ?? Array.Empty<LogicTooltipLine>())
+                {
+                    if (!string.IsNullOrWhiteSpace(extra?.Text))
+                    {
+                        lines.Add(extra);
+                    }
+                }
+            }
+
             GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
             int tooltipFontSize = RandomizerPlugin.Instance == null
                 ? 14
@@ -1457,8 +1494,8 @@ namespace SilksongRandomizer.Patches
                 fontSize = tooltipFontSize,
                 wordWrap = false,
             };
-            float contentWidth = tooltipLocationNames.Max(name =>
-                labelStyle.CalcSize(new GUIContent(name)).x
+            float contentWidth = lines.Max(line =>
+                labelStyle.CalcSize(new GUIContent(line.Text)).x
             );
             float boxWidth = contentWidth + 18f;
             float lineHeight = Math.Max(
@@ -1468,7 +1505,7 @@ namespace SilksongRandomizer.Patches
                     Math.Max(1f, contentWidth)
                 )
             );
-            float boxHeight = lineHeight * tooltipLocationNames.Count + 10f;
+            float boxHeight = lineHeight * lines.Count + 10f;
             Vector2 size = new Vector2(boxWidth, boxHeight);
             Vector2 guiPointer = new Vector2(
                 pointer.x,
@@ -1489,17 +1526,9 @@ namespace SilksongRandomizer.Patches
                 size.y
             );
             GUI.Box(rect, GUIContent.none, boxStyle);
-            for (int index = 0; index < tooltipLocationNames.Count; index++)
+            for (int index = 0; index < lines.Count; index++)
             {
-                string locationName = tooltipLocationNames[index];
-                bool explicitlyUnreachable =
-                    ReachabilityByLocation.TryGetValue(
-                        locationName,
-                        out MapCheckReachability reachability
-                    ) && reachability == MapCheckReachability.Unreachable;
-                Color textColor = explicitlyUnreachable
-                    ? new Color(0.58f, 0.58f, 0.58f, 1f)
-                    : Color.white;
+                Color textColor = lines[index].Color;
                 labelStyle.normal.textColor = textColor;
                 labelStyle.hover.textColor = textColor;
                 labelStyle.active.textColor = textColor;
@@ -1511,7 +1540,7 @@ namespace SilksongRandomizer.Patches
                         contentWidth,
                         lineHeight
                     ),
-                    locationName,
+                    lines[index].Text,
                     labelStyle
                 );
             }
