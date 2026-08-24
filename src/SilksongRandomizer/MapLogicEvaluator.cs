@@ -13,6 +13,18 @@ namespace SilksongRandomizer
         Unreachable = 2,
     }
 
+    internal sealed class LogicTooltipLine
+    {
+        internal readonly string Text;
+        internal readonly Color Color;
+
+        internal LogicTooltipLine(string text, Color color)
+        {
+            Text = text ?? string.Empty;
+            Color = color;
+        }
+    }
+
     /// <summary>
     /// Evaluates the exact APWorld graph exported with the room. This is a
     /// local, spoiler-free calculation: it reads received items and never
@@ -353,6 +365,407 @@ namespace SilksongRandomizer
                        out LogicRequirement requirement
                    ) &&
                    requirement.LogicUnknown;
+        }
+
+        private const int MaxAdjacentRooms = 4;
+        private const string RoomNodePrefix = "Room Node: ";
+        private const string RoomEventPrefix = "Room Event: ";
+        // Grey already used in repository. ^-^
+        private static readonly Color OutOfLogicColor =
+            new Color(0.58f, 0.58f, 0.58f, 1f);
+        // Mint Green
+        private static readonly Color MetLogicColor =
+            new Color(0.45f, 0.92f, 0.52f, 1f);
+        // Grey already used in repository. ^-^
+        private static readonly Color NeedLogicColor =
+            new Color(0.58f, 0.58f, 0.58f, 1f);
+
+        private static ParsedPayload cachedExplainPayload;
+        private static Dictionary<string, int> cachedHoverInventory;
+        private static HoverLogicContext cachedHoverContext;
+        private static bool loggedExplainFailure;
+
+        private sealed class HoverLogicContext
+        {
+            internal ParsedPayload Payload;
+            internal Dictionary<string, int> Inventory;
+            internal Dictionary<string, bool> AbstractValues;
+            internal bool HasSilkSpear;
+        }
+
+        // This calls CollectAccessDelta and returns the lines for the logic tooltip.
+        internal static IReadOnlyList<LogicTooltipLine> Explain(
+            SaveState state,
+            string locationName,
+            MapCheckReachability reachability
+        )
+        {
+            List<LogicTooltipLine> lines = new List<LogicTooltipLine>();
+            try
+            {
+                ParsedPayload payload = GetPayload(state);
+                string canonicalLocationName =
+                    LocationSet.GetCanonicalLocationName(locationName);
+                if (payload == null ||
+                    string.IsNullOrWhiteSpace(canonicalLocationName) ||
+                    !payload.Requirements.TryGetValue(
+                        canonicalLocationName,
+                        out LogicRequirement group
+                    ))
+                {
+                    return lines;
+                }
+                if (group.LogicUnknown)
+                {
+                    lines.Add(
+                        new LogicTooltipLine("Logic Unknown / Unmapped", Color.white)
+                    );
+                    return lines;
+                }
+                HoverLogicContext context = GetHoverLogicContext(
+                    state,
+                    payload
+                );
+                if (reachability == MapCheckReachability.Reachable)
+                {
+                    lines.Add(
+                        new LogicTooltipLine("In Logic", Color.white)
+                    );
+                }
+                else if (reachability == MapCheckReachability.Unreachable)
+                {
+                    lines.Add(
+                        new LogicTooltipLine(
+                            "Out of Logic",
+                            OutOfLogicColor
+                        )
+                    );
+                }
+                lines.AddRange(CollectAccessDelta(context, group));
+            }
+            catch (Exception ex)
+            {
+                if (!loggedExplainFailure)
+                {
+                    loggedExplainFailure = true;
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] Map-marker logic text failed: " +
+                        ex.Message
+                    );
+                }
+            }
+            return lines;
+        }
+
+        // This caches the context of inventory and the additional requirements for the tooltips.
+        private static HoverLogicContext GetHoverLogicContext(
+            SaveState state,
+            ParsedPayload payload
+        )
+        {
+            Dictionary<string, int> inventory =
+                BuildInventoryCounts(state);
+            if (ReferenceEquals(payload, cachedExplainPayload) &&
+                cachedHoverContext != null &&
+                HaveEqualInventory(inventory, cachedHoverInventory))
+            {
+                return cachedHoverContext;
+            }
+
+            cachedExplainPayload = payload;
+            cachedHoverInventory = new Dictionary<string, int>(
+                inventory,
+                StringComparer.OrdinalIgnoreCase
+            );
+            cachedHoverContext = new HoverLogicContext
+            {
+                Payload = payload,
+                Inventory = inventory,
+                AbstractValues = GetAbstractRequirements(payload, inventory),
+                HasSilkSpear =
+                    CountItem(inventory, "Silkspear") > 0 &&
+                    NonArchitectCrestItemNames.Any(
+                        itemName => CountItem(inventory, itemName) > 0
+                    ),
+            };
+            return cachedHoverContext;
+        }
+
+        // This walks the logic graph using logical AND and OR operators to find the items needed to access the location.
+        // Tested the most against Deep Docks - Mask Shard which led me to use 4 adjacent rooms as the maximum so the tooltip doesn't go on forever.
+        private static List<LogicTooltipLine> CollectAccessDelta(
+            HoverLogicContext context,
+            LogicRequirement startGroup
+        )
+        {
+            List<List<string>> found = new List<List<string>>();
+            Queue<Tuple<LogicRequirement, int>> pending =
+                new Queue<Tuple<LogicRequirement, int>>();
+            HashSet<string> visited = new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase
+            );
+            pending.Enqueue(Tuple.Create(startGroup, 0));
+            int foundHop = -1;
+            while (pending.Count > 0)
+            {
+                Tuple<LogicRequirement, int> next = pending.Dequeue();
+                LogicRequirement group = next.Item1;
+                int hop = next.Item2;
+                if (group == null || hop > MaxAdjacentRooms)
+                {
+                    continue;
+                }
+                if (foundHop >= 0 && hop > foundHop)
+                {
+                    break;
+                }
+
+                List<LogicRequirement> alternatives =
+                    GetAlternatives(group).ToList();
+                if (alternatives.Count == 0)
+                {
+                    alternatives.Add(group);
+                }
+                List<string> walk = new List<string>();
+                int simpleNoneCount = 0;
+                bool addedItems = false;
+                foreach (LogicRequirement alternative in alternatives)
+                {
+                    List<string> roomRefs = new List<string>();
+                    List<string> items = new List<string>();
+                    SplitAccess(alternative, roomRefs, items);
+                    if (items.Count > 0)
+                    {
+                        found.Add(items);
+                        addedItems = true;
+                        continue;
+                    }
+                    if (roomRefs.Count == 1 &&
+                        roomRefs[0].StartsWith(
+                            RoomNodePrefix,
+                            StringComparison.OrdinalIgnoreCase
+                        ))
+                    {
+                        simpleNoneCount++;
+                    }
+                    foreach (string roomRef in roomRefs)
+                    {
+                        if (!walk.Contains(roomRef))
+                        {
+                            walk.Add(roomRef);
+                        }
+                    }
+                }
+                if (addedItems)
+                {
+                    if (foundHop < 0)
+                    {
+                        foundHop = hop;
+                    }
+                    continue;
+                }
+                if (simpleNoneCount >= 2 || hop >= MaxAdjacentRooms)
+                {
+                    continue;
+                }
+                foreach (string roomRef in walk)
+                {
+                    if (!visited.Add(roomRef) ||
+                        !TryGetNamedGroup(
+                            context.Payload,
+                            roomRef,
+                            out LogicRequirement nextGroup
+                        ))
+                    {
+                        continue;
+                    }
+                    pending.Enqueue(Tuple.Create(nextGroup, hop + 1));
+                }
+            }
+
+            List<LogicTooltipLine> lines = new List<LogicTooltipLine>();
+            foreach (List<string> items in found)
+            {
+                if (items == null || items.Count == 0)
+                {
+                    continue;
+                }
+                string text = string.Join(" + ", items);
+                if (lines.Any(line =>
+                        string.Equals(
+                            line.Text,
+                            text,
+                            StringComparison.OrdinalIgnoreCase
+                        )))
+                {
+                    continue;
+                }
+                bool met = items.All(item => IsAccessItemMet(context, item));
+                lines.Add(
+                    new LogicTooltipLine(
+                        text,
+                        met ? MetLogicColor : NeedLogicColor
+                    )
+                );
+            }
+            return lines;
+        }
+
+        // Checks over the requirements and splits them into references for rooms and items.
+        private static void SplitAccess(
+            LogicRequirement requirement,
+            List<string> roomRefs,
+            List<string> items
+        )
+        {
+            if (requirement == null)
+            {
+                return;
+            }
+            if (requirement.RequireSilkSpear)
+            {
+                items.Add("Usable Silkspear");
+            }
+            foreach (LogicItemCount itemCount in
+                requirement.ItemCounts ?? new List<LogicItemCount>())
+            {
+                string formatted = FormatItemCount(itemCount);
+                if (!string.IsNullOrWhiteSpace(formatted))
+                {
+                    items.Add(formatted);
+                }
+            }
+
+            List<string> anyOfItems = new List<string>();
+            foreach (string name in
+                (requirement.AllOf ?? new List<string>()).Concat(
+                    requirement.RequiredLocations ?? new List<string>()
+                ))
+            {
+                ClassifyAccessName(name, roomRefs, items);
+            }
+            foreach (string name in requirement.AnyOf ?? new List<string>())
+            {
+                ClassifyAccessName(name, roomRefs, anyOfItems);
+            }
+            if (anyOfItems.Count == 1)
+            {
+                items.Add(anyOfItems[0]);
+            }
+            else if (anyOfItems.Count > 1)
+            {
+                items.Add("(" + string.Join(" or ", anyOfItems) + ")");
+            }
+        }
+
+        // Classifying if the name of the requirement is a room or an item for adjacent room walks.
+        private static void ClassifyAccessName(
+            string name,
+            List<string> roomRefs,
+            List<string> items
+        )
+        {
+            string trimmed = (name ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(trimmed))
+            {
+                return;
+            }
+            if (IsRoomGraphReference(trimmed))
+            {
+                roomRefs.Add(trimmed);
+                return;
+            }
+            if (!trimmed.StartsWith("Path: ", StringComparison.Ordinal))
+            {
+                items.Add(trimmed);
+            }
+        }
+
+        // Checks the inventory and requirements to see if the item is available.
+        private static bool IsAccessItemMet(
+            HoverLogicContext context,
+            string item
+        )
+        {
+            if (string.Equals(
+                    item,
+                    "Usable Silkspear",
+                    StringComparison.OrdinalIgnoreCase
+                ))
+            {
+                return context.HasSilkSpear;
+            }
+            if (item != null &&
+                item.StartsWith("(", StringComparison.Ordinal) &&
+                item.EndsWith(")", StringComparison.Ordinal) &&
+                item.IndexOf(" or ", StringComparison.Ordinal) >= 0)
+            {
+                return item.Substring(1, item.Length - 2)
+                    .Split(new[] { " or " }, StringSplitOptions.None)
+                    .Any(part => IsAccessItemMet(context, part.Trim()));
+            }
+            return HasNamedRequirement(
+                item,
+                context.AbstractValues,
+                context.Inventory,
+                context.Payload.Dependencies
+            );
+        }
+
+        // Resolves the conditionals in the logic graph to a logical group to assign to the logic walk / tooltip.
+        private static bool TryGetNamedGroup(
+            ParsedPayload payload,
+            string name,
+            out LogicRequirement group
+        )
+        {
+            if (payload.AbstractRequirements.TryGetValue(name, out group))
+            {
+                return true;
+            }
+            string canonicalLocationName =
+                LocationSet.GetCanonicalLocationName(name);
+            return !string.IsNullOrWhiteSpace(canonicalLocationName) &&
+                   payload.Requirements.TryGetValue(
+                       canonicalLocationName,
+                       out group
+                   );
+        }
+
+        // This checks if the name is a room graph reference for classifying adjacent room walks.
+        private static bool IsRoomGraphReference(string name)
+        {
+            return !string.IsNullOrWhiteSpace(name) &&
+                   (name.StartsWith(
+                        RoomNodePrefix,
+                        StringComparison.OrdinalIgnoreCase
+                    ) ||
+                    name.StartsWith(
+                        RoomEventPrefix,
+                        StringComparison.OrdinalIgnoreCase
+                    ));
+        }
+
+        // Formats the amount of items required for the tooltip. If there's only one, it's just the item.
+        private static string FormatItemCount(LogicItemCount itemCount)
+        {
+            if (itemCount?.Items == null)
+            {
+                return string.Empty;
+            }
+            List<string> items = itemCount.Items
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Select(name => name.Trim())
+                .ToList();
+            if (items.Count == 0)
+            {
+                return string.Empty;
+            }
+            string names = items.Count == 1
+                ? items[0]
+                : "(" + string.Join(" or ", items) + ")";
+            int minimum = Math.Max(0, itemCount.Minimum);
+            return minimum <= 1 ? names : names + " x" + minimum;
         }
 
         private static ParsedPayload GetPayload(SaveState state)

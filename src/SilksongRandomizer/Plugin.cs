@@ -55,6 +55,7 @@ namespace SilksongRandomizer
         private ConfigEntry<string> savedConnectionPort;
         private ConfigEntry<string> savedConnectionSlot;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
+        private ConfigEntry<bool> showMapMarkerLogic;
         private string connectionStatus = string.Empty;
         private ArchipelagoWindowTab selectedWindowTab =
             ArchipelagoWindowTab.Connection;
@@ -159,12 +160,22 @@ namespace SilksongRandomizer
                     new AcceptableValueRange<int>(10, 32)
                 )
             );
+
+            showMapMarkerLogic = Config.Bind(
+                "Map Markers",
+                "Show Logic",
+                false,
+                "Show logic requirements when focusing a map marker."
+            );
         }
 
         internal int MapMarkerTooltipFontSize =>
             mapMarkerTooltipFontSize == null
                 ? 14
                 : Mathf.Clamp(mapMarkerTooltipFontSize.Value, 10, 32);
+
+        internal bool ShowMapMarkerLogic =>
+            showMapMarkerLogic == null || showMapMarkerLogic.Value;
 
         private void SaveSuccessfulConnectionDetails(
             string host,
