@@ -163,9 +163,9 @@ namespace SilksongRandomizer
 
             showMapMarkerLogic = Config.Bind(
                 "Map Markers",
-                "Show Logic",
+                "Show Logic (Experimental)",
                 false,
-                "Show logic requirements when focusing a map marker."
+                "Checks nearby rooms for required logic for a check while focusing a map marker."
             );
         }
 
