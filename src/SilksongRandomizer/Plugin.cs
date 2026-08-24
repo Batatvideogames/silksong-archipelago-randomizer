@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using Archipelago.MultiClient.Net.Enums;
 using BepInEx.Configuration;
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using SilksongRandomizer.Patches;
 using System;
 using System.Collections;
@@ -33,6 +34,15 @@ namespace SilksongRandomizer
         private const float ConnectionWindowHeight = 350f;
         private const float HintsWindowWidth = 520f;
         private const float HintsWindowHeight = 430f;
+        private static readonly float[] AutomaticReconnectDelays =
+        {
+            1f,
+            2f,
+            5f,
+            10f,
+            20f,
+            30f,
+        };
 
         private enum ArchipelagoWindowTab
         {
@@ -54,6 +64,7 @@ namespace SilksongRandomizer
         private ConfigEntry<string> savedConnectionHost;
         private ConfigEntry<string> savedConnectionPort;
         private ConfigEntry<string> savedConnectionSlot;
+        private ConfigEntry<bool> hideConnectionDetails;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
         private string connectionStatus = string.Empty;
@@ -62,7 +73,43 @@ namespace SilksongRandomizer
         private Vector2 hintsScrollPosition;
         private volatile bool reopenConnectionGuiRequested;
         private volatile bool resetTransientEffectsRequested;
+        private volatile bool saveAfterDisconnectRequested;
+        private volatile bool automaticReconnectRequested;
+        private volatile bool automaticReconnectActive;
+        private volatile bool automaticReconnectSuppressed;
+        private volatile bool connectionShutdownRequested;
+        private Coroutine automaticReconnectCoroutine;
+        private ConnectionDetails lastSuccessfulConnection;
         private Archipelago subscribedArchipelago;
+
+        private sealed class ConnectionDetails
+        {
+            internal readonly string Host;
+            internal readonly int Port;
+            internal readonly string Slot;
+            internal readonly string Password;
+
+            internal ConnectionDetails(
+                string host,
+                int port,
+                string slot,
+                string password
+            )
+            {
+                Host = host;
+                Port = port;
+                Slot = slot;
+                Password = password;
+            }
+        }
+
+        private sealed class ConnectionAttempt
+        {
+            internal bool Successful;
+            internal bool Retryable = true;
+            internal bool Cancelled;
+            internal string Error = string.Empty;
+        }
 
         private struct QueuedReceivedItem
         {
@@ -141,6 +188,12 @@ namespace SilksongRandomizer
                 "Slot",
                 string.Empty,
                 "Slot used by the last successful Archipelago connection."
+            );
+            hideConnectionDetails = Config.Bind(
+                "Archipelago Connection",
+                "Hide Connection Details",
+                false,
+                "Hide the host, port and slot in the F3 connection menu."
             );
 
             connectionHost = savedConnectionHost.Value ?? "localhost";
@@ -599,6 +652,8 @@ namespace SilksongRandomizer
                 TrapManager.ResetTransientEffects();
             }
 
+            ProcessDisconnectSaveRequest();
+
             TrapManager.Update();
             SlabCaptureWarpSafety.Update();
             MossMotherWarpSafety.Update();
@@ -613,6 +668,7 @@ namespace SilksongRandomizer
             MinorCachePatches.UpdateInactiveCurrencyChestFallbacks();
             LoreTabletPatches.UpdateInactiveSources();
             ProcessConnectionStatusQueue();
+            ProcessAutomaticReconnectRequest();
             ProcessQueuedReceivedItems();
             ProcessQueuedUnlockPopups();
             ShopPatches.ProcessQueuedHintRefreshes();
@@ -647,6 +703,18 @@ namespace SilksongRandomizer
 
         private void OnDisable()
         {
+            connectionShutdownRequested = true;
+            SuppressAutomaticReconnect();
+            Archipelago archipelago = Archipelago.Instance;
+            if (isConnecting)
+            {
+                RequestDisconnectSave();
+            }
+            else if (archipelago != null)
+            {
+                archipelago.Disconnect();
+            }
+            ProcessDisconnectSaveRequest();
             TrapManager.ResetTransientEffects();
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
@@ -676,6 +744,18 @@ namespace SilksongRandomizer
             return archipelago;
         }
 
+        internal void RequestAutomaticReconnect()
+        {
+            if (automaticReconnectSuppressed ||
+                connectionShutdownRequested)
+            {
+                return;
+            }
+
+            automaticReconnectRequested = true;
+            reopenConnectionGuiRequested = false;
+        }
+
         private void QueueConnectionStatus(string status)
         {
             if (string.IsNullOrWhiteSpace(status))
@@ -691,9 +771,44 @@ namespace SilksongRandomizer
             if (status.StartsWith("Disconnected", StringComparison.OrdinalIgnoreCase) ||
                 status.StartsWith("Archipelago network error", StringComparison.OrdinalIgnoreCase))
             {
-                reopenConnectionGuiRequested = true;
                 resetTransientEffectsRequested = true;
+                if (!automaticReconnectRequested &&
+                    !automaticReconnectActive &&
+                    !automaticReconnectSuppressed)
+                {
+                    reopenConnectionGuiRequested = true;
+                }
             }
+        }
+
+        internal void RequestDisconnectSave()
+        {
+            saveAfterDisconnectRequested = true;
+        }
+
+        private void ProcessDisconnectSaveRequest()
+        {
+            if (!saveAfterDisconnectRequested)
+            {
+                return;
+            }
+
+            SaveState state = SaveState.Instance;
+            if (state == null || !state.IsRoomBound)
+            {
+                saveAfterDisconnectRequested = false;
+                return;
+            }
+
+            GameManager gameManager = GameManager.SilentInstance;
+            if (gameManager == null || gameManager.profileID < 0)
+            {
+                return;
+            }
+
+            saveAfterDisconnectRequested = false;
+            gameManager.QueueSaveGame();
+            gameManager.DoQueuedSaveGame();
         }
 
         private void ProcessConnectionStatusQueue()
@@ -704,6 +819,48 @@ namespace SilksongRandomizer
                 {
                     connectionStatus = connectionStatusQueue.Dequeue();
                 }
+            }
+        }
+
+        private void ProcessAutomaticReconnectRequest()
+        {
+            if (!automaticReconnectRequested)
+            {
+                return;
+            }
+
+            automaticReconnectRequested = false;
+            if (automaticReconnectSuppressed || automaticReconnectActive)
+            {
+                return;
+            }
+
+            ConnectionDetails details = lastSuccessfulConnection;
+            if (details == null)
+            {
+                automaticReconnectSuppressed = true;
+                connectionGuiDismissed = false;
+                reopenConnectionGuiRequested = true;
+                return;
+            }
+
+            automaticReconnectActive = true;
+            reopenConnectionGuiRequested = false;
+            automaticReconnectCoroutine = StartCoroutine(
+                AutomaticReconnectRoutine(details)
+            );
+        }
+
+        private void SuppressAutomaticReconnect()
+        {
+            automaticReconnectSuppressed = true;
+            automaticReconnectRequested = false;
+            automaticReconnectActive = false;
+            reopenConnectionGuiRequested = false;
+            if (automaticReconnectCoroutine != null && !isConnecting)
+            {
+                StopCoroutine(automaticReconnectCoroutine);
+                automaticReconnectCoroutine = null;
             }
         }
 
@@ -923,6 +1080,11 @@ namespace SilksongRandomizer
                     item != null && item.Repeatable
                 );
 
+                if (newlyReceived)
+                {
+                    AlphabetModeManager.OnReceivedItemCommitted(canonicalItemName);
+                }
+
                 if (newlyReceived &&
                     item != null &&
                     item.Type == ItemType.MaskShard &&
@@ -1078,7 +1240,7 @@ namespace SilksongRandomizer
 
             CollectableUIMsg.Spawn(new UIMsgDisplay
             {
-                Name = popup.Text,
+                Name = AlphabetModeManager.FilterDirectText(popup.Text),
                 Icon = GetItemClassificationIcon(popup.Flags),
                 IconScale = 1.0f,
                 RepresentingObject = null,
@@ -1120,7 +1282,7 @@ namespace SilksongRandomizer
                 GetInstanceID(),
                 connectionWindowRect,
                 DrawConnectionWindow,
-                "Archipelago"
+                AlphabetModeManager.FilterDirectText("Archipelago")
             );
         }
 
@@ -1216,7 +1378,10 @@ namespace SilksongRandomizer
             GUI.enabled =
                 wasEnabled &&
                 selectedWindowTab != ArchipelagoWindowTab.Connection;
-            if (GUILayout.Button("Connection", GUILayout.Height(26f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText("Connection"),
+                    GUILayout.Height(26f)
+                ))
             {
                 selectedWindowTab = ArchipelagoWindowTab.Connection;
             }
@@ -1224,7 +1389,10 @@ namespace SilksongRandomizer
             GUI.enabled =
                 wasEnabled &&
                 selectedWindowTab != ArchipelagoWindowTab.Hints;
-            if (GUILayout.Button("Hints", GUILayout.Height(26f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText("Hints"),
+                    GUILayout.Height(26f)
+                ))
             {
                 selectedWindowTab = ArchipelagoWindowTab.Hints;
             }
@@ -1235,28 +1403,78 @@ namespace SilksongRandomizer
 
         private void DrawConnectionTab()
         {
-            bool connected = Archipelago.Instance != null && Archipelago.Instance.Connected;
-            GUILayout.Label(connected
-                ? "Connected. You can reconnect or switch servers below."
-                : "Connect to an Archipelago room before playing this randomizer save.");
+            bool connected =
+                Archipelago.Instance != null &&
+                Archipelago.Instance.Connected;
+            GUILayout.Label(
+                AlphabetModeManager.FilterDirectText(
+                    connected
+                        ? "Connected. You can reconnect or switch servers below."
+                        : "Connect to an Archipelago room before playing this randomizer save."
+                )
+            );
             GUILayout.Space(8f);
 
-            GUILayout.Label("Host");
-            connectionHost = GUILayout.TextField(connectionHost ?? string.Empty);
+            bool hideDetails = hideConnectionDetails != null &&
+                hideConnectionDetails.Value;
+            bool updatedHideDetails = GUILayout.Toggle(
+                hideDetails,
+                AlphabetModeManager.FilterDirectText(
+                    "Hide host, port and slot"
+                )
+            );
+            if (updatedHideDetails != hideDetails)
+            {
+                hideConnectionDetails.Value = updatedHideDetails;
+                Config.Save();
+                hideDetails = updatedHideDetails;
+            }
+            GUILayout.Space(8f);
 
-            GUILayout.Label("Port");
-            connectionPort = GUILayout.TextField(connectionPort ?? string.Empty);
+            GUILayout.Label(
+                AlphabetModeManager.FilterDirectText("Host")
+            );
+            connectionHost = hideDetails
+                ? GUILayout.PasswordField(
+                    connectionHost ?? string.Empty,
+                    '*'
+                )
+                : GUILayout.TextField(connectionHost ?? string.Empty);
 
-            GUILayout.Label("Slot");
-            connectionSlot = GUILayout.TextField(connectionSlot ?? string.Empty);
+            GUILayout.Label(
+                AlphabetModeManager.FilterDirectText("Port")
+            );
+            connectionPort = hideDetails
+                ? GUILayout.PasswordField(
+                    connectionPort ?? string.Empty,
+                    '*'
+                )
+                : GUILayout.TextField(connectionPort ?? string.Empty);
 
-            GUILayout.Label("Password");
-            connectionPassword = GUILayout.PasswordField(connectionPassword ?? string.Empty, '*');
+            GUILayout.Label(
+                AlphabetModeManager.FilterDirectText("Slot")
+            );
+            connectionSlot = hideDetails
+                ? GUILayout.PasswordField(
+                    connectionSlot ?? string.Empty,
+                    '*'
+                )
+                : GUILayout.TextField(connectionSlot ?? string.Empty);
 
-            if (!string.IsNullOrEmpty(connectionStatus))
+            GUILayout.Label(
+                AlphabetModeManager.FilterDirectText("Password")
+            );
+            connectionPassword = GUILayout.PasswordField(
+                connectionPassword ?? string.Empty,
+                '*'
+            );
+
+            if (!hideDetails && !string.IsNullOrEmpty(connectionStatus))
             {
                 GUILayout.Space(8f);
-                GUILayout.Label(connectionStatus);
+                GUILayout.Label(
+                    AlphabetModeManager.FilterDirectText(connectionStatus)
+                );
             }
 
             GUILayout.FlexibleSpace();
@@ -1266,7 +1484,10 @@ namespace SilksongRandomizer
             string connectButtonText = isConnecting
                 ? "Connecting..."
                 : connected ? "Reconnect / Switch" : "Connect";
-            if (GUILayout.Button(connectButtonText, GUILayout.Height(32f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText(connectButtonText),
+                    GUILayout.Height(32f)
+                ))
             {
                 TryConnectFromGui();
             }
@@ -1288,7 +1509,10 @@ namespace SilksongRandomizer
                 FastTravelUtil.CanTeleportToPreferredHub(out _);
             string warpButtonText =
                 FastTravelUtil.GetPreferredHubName() + " (F4)";
-            if (GUILayout.Button(warpButtonText, GUILayout.Height(32f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText(warpButtonText),
+                    GUILayout.Height(32f)
+                ))
             {
                 TryWarpToPreferredHub();
             }
@@ -1306,7 +1530,12 @@ namespace SilksongRandomizer
             }
 
             GUI.enabled = !isConnecting;
-            if (GUILayout.Button(connected ? "Close" : "Load Offline", GUILayout.Height(32f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText(
+                        connected ? "Close" : "Load Offline"
+                    ),
+                    GUILayout.Height(32f)
+                ))
             {
                 if (!connected && !SavePatches.HasOfflineLoadableSave())
                 {
@@ -1315,6 +1544,10 @@ namespace SilksongRandomizer
                 }
                 else
                 {
+                    if (!connected)
+                    {
+                        SuppressAutomaticReconnect();
+                    }
                     connectionGuiDismissed = true;
                     connectionStatus = string.Empty;
                     HideConnectionGui(true);
@@ -1328,7 +1561,9 @@ namespace SilksongRandomizer
         private void DrawHintsTab()
         {
             GUILayout.Label(
-                "Official Archipelago hints and area rumours bought from Vog."
+                AlphabetModeManager.FilterDirectText(
+                    "Official Archipelago hints and area rumours bought from Vog."
+                )
             );
             GUILayout.Space(8f);
 
@@ -1343,7 +1578,11 @@ namespace SilksongRandomizer
             );
             if (hints.Count == 0)
             {
-                GUILayout.Label("No hints have been revealed yet.");
+                GUILayout.Label(
+                    AlphabetModeManager.FilterDirectText(
+                        "No hints have been revealed yet."
+                    )
+                );
             }
             else
             {
@@ -1355,9 +1594,11 @@ namespace SilksongRandomizer
                 for (int index = 0; index < hints.Count; index++)
                 {
                     GUILayout.Label(
-                        (index + 1).ToString(
-                            CultureInfo.InvariantCulture
-                        ) + ". " + SanitizeHintJournalText(hints[index]),
+                        AlphabetModeManager.FilterDirectText(
+                            (index + 1).ToString(
+                                CultureInfo.InvariantCulture
+                            ) + ". " + SanitizeHintJournalText(hints[index])
+                        ),
                         wrappingLabel
                     );
                     GUILayout.Space(6f);
@@ -1365,7 +1606,10 @@ namespace SilksongRandomizer
             }
             GUILayout.EndScrollView();
 
-            if (GUILayout.Button("Close", GUILayout.Height(32f)))
+            if (GUILayout.Button(
+                    AlphabetModeManager.FilterDirectText("Close"),
+                    GUILayout.Height(32f)
+                ))
             {
                 connectionGuiDismissed = true;
                 HideConnectionGui(true);
@@ -1479,35 +1723,215 @@ namespace SilksongRandomizer
                 return;
             }
 
-            isConnecting = true;
-            connectionStatus = "Connecting...";
-            StartCoroutine(ConnectFromGuiRoutine(
+            SuppressAutomaticReconnect();
+            connectionShutdownRequested = false;
+            ConnectionDetails details = new ConnectionDetails(
                 connectionHost.Trim(),
                 port,
                 connectionSlot.Trim(),
-                string.IsNullOrEmpty(connectionPassword) ? null : connectionPassword
-            ));
+                string.IsNullOrEmpty(connectionPassword)
+                    ? null
+                    : connectionPassword
+            );
+            isConnecting = true;
+            connectionStatus = "Connecting...";
+            StartCoroutine(ConnectFromGuiRoutine(details));
         }
 
-        private IEnumerator ConnectFromGuiRoutine(string host, int port, string slot, string password)
+        private IEnumerator ConnectFromGuiRoutine(
+            ConnectionDetails details
+        )
         {
+            ConnectionAttempt attempt = new ConnectionAttempt();
+            yield return StartCoroutine(RunConnectionAttempt(
+                details,
+                false,
+                attempt
+            ));
+
+            isConnecting = false;
+            if (connectionShutdownRequested)
+            {
+                if (attempt.Successful)
+                {
+                    GetOrCreateArchipelago().Disconnect();
+                }
+                yield break;
+            }
+            if (!attempt.Successful)
+            {
+                connectionStatus = string.IsNullOrWhiteSpace(attempt.Error)
+                    ? "Connection failed. Check the host, port, slot and password."
+                    : attempt.Error;
+                yield break;
+            }
+
+            lastSuccessfulConnection = details;
+            automaticReconnectSuppressed = false;
+            SaveSuccessfulConnectionDetails(
+                details.Host,
+                details.Port,
+                details.Slot
+            );
+            connectionStatus = "Connected.";
+            connectionGuiDismissed = false;
+            HideConnectionGui(true);
+            Archipelago archipelago = GetOrCreateArchipelago();
+            if (!archipelago.Connected)
+            {
+                RequestAutomaticReconnect();
+            }
+        }
+
+        private IEnumerator AutomaticReconnectRoutine(
+            ConnectionDetails details
+        )
+        {
+            int attemptIndex = 0;
+            while (automaticReconnectActive &&
+                   !automaticReconnectSuppressed)
+            {
+                float retryDelay = AutomaticReconnectDelays[
+                    Math.Min(
+                        attemptIndex,
+                        AutomaticReconnectDelays.Length - 1
+                    )
+                ];
+                connectionStatus = "Connection lost. Reconnecting in " +
+                    retryDelay.ToString(
+                        "0",
+                        CultureInfo.InvariantCulture
+                    ) + (retryDelay == 1f ? " second." : " seconds.");
+
+                float remainingDelay = retryDelay;
+                while (remainingDelay > 0f &&
+                       automaticReconnectActive &&
+                       !automaticReconnectSuppressed)
+                {
+                    remainingDelay -= Time.unscaledDeltaTime;
+                    yield return null;
+                }
+
+                if (!automaticReconnectActive ||
+                    automaticReconnectSuppressed)
+                {
+                    FinishAutomaticReconnect();
+                    yield break;
+                }
+
+                isConnecting = true;
+                connectionStatus = "Reconnecting...";
+                ConnectionAttempt attempt = new ConnectionAttempt();
+                yield return StartCoroutine(RunConnectionAttempt(
+                    details,
+                    true,
+                    attempt
+                ));
+                isConnecting = false;
+
+                if (attempt.Cancelled ||
+                    !automaticReconnectActive ||
+                    automaticReconnectSuppressed)
+                {
+                    FinishAutomaticReconnect();
+                    yield break;
+                }
+
+                if (attempt.Successful)
+                {
+                    Archipelago archipelago = GetOrCreateArchipelago();
+                    if (!archipelago.Connected)
+                    {
+                        attempt.Successful = false;
+                        attempt.Retryable = true;
+                        attempt.Error = string.IsNullOrWhiteSpace(
+                                archipelago.LastError
+                            )
+                            ? "The Archipelago socket closed after reconnecting."
+                            : archipelago.LastError;
+                    }
+                }
+
+                if (attempt.Successful)
+                {
+                    automaticReconnectSuppressed = false;
+                    connectionStatus = "Connected.";
+                    FinishAutomaticReconnect();
+                    Log.LogInfo(
+                        "[RANDOMIZER] Reconnected to Archipelago."
+                    );
+                    yield break;
+                }
+
+                if (!attempt.Retryable)
+                {
+                    automaticReconnectSuppressed = true;
+                    connectionStatus = string.IsNullOrWhiteSpace(attempt.Error)
+                        ? "Automatic reconnect requires attention."
+                        : attempt.Error;
+                    connectionGuiDismissed = false;
+                    reopenConnectionGuiRequested = true;
+                    FinishAutomaticReconnect();
+                    yield break;
+                }
+
+                if (!string.IsNullOrWhiteSpace(attempt.Error))
+                {
+                    Log.LogWarning(
+                        "[RANDOMIZER] Automatic reconnect failed: " +
+                        attempt.Error
+                    );
+                }
+                attemptIndex++;
+            }
+
+            FinishAutomaticReconnect();
+        }
+
+        private IEnumerator RunConnectionAttempt(
+            ConnectionDetails details,
+            bool preserveState,
+            ConnectionAttempt attempt
+        )
+        {
+            Archipelago archipelago = null;
             Task<bool> connectionTask = null;
             try
             {
-                Archipelago archipelago = GetOrCreateArchipelago();
-                connectionTask = Task.Run(() => archipelago.Connect(host, port, slot, password));
+                archipelago = GetOrCreateArchipelago();
+                connectionTask = Task.Run(() => archipelago.Connect(
+                    details.Host,
+                    details.Port,
+                    details.Slot,
+                    details.Password,
+                    preserveState
+                ));
             }
             catch (Exception ex)
             {
-                connectionStatus = "Connection failed: " + ex.Message;
+                attempt.Error = "Connection failed: " + ex.Message;
                 Log.LogWarning("[RANDOMIZER] Archipelago connection failed: " + ex);
-                isConnecting = false;
                 yield break;
             }
 
             while (!connectionTask.IsCompleted)
             {
                 yield return null;
+            }
+
+            if (connectionShutdownRequested ||
+                (preserveState &&
+                 (!automaticReconnectActive ||
+                  automaticReconnectSuppressed)))
+            {
+                attempt.Cancelled = true;
+                if (!connectionTask.IsFaulted &&
+                    !connectionTask.IsCanceled &&
+                    connectionTask.Result)
+                {
+                    archipelago.Disconnect();
+                }
+                yield break;
             }
 
             try
@@ -1518,44 +1942,50 @@ namespace SilksongRandomizer
                         ? new Exception("Unknown connection failure.")
                         : connectionTask.Exception.GetBaseException();
                 }
-
-                if (connectionTask.Result)
+                if (connectionTask.IsCanceled)
                 {
-                    Archipelago archipelago = GetOrCreateArchipelago();
-                    if (archipelago.CompleteConnectionSync())
-                    {
-                        SaveSuccessfulConnectionDetails(host, port, slot);
-                        connectionStatus = "Connected.";
-                        connectionGuiDismissed = false;
-                        HideConnectionGui(true);
-                    }
-                    else
-                    {
-                        connectionStatus = string.IsNullOrWhiteSpace(archipelago.LastError)
-                            ? "Connection validation failed."
-                            : archipelago.LastError;
-                        ShowConnectionGui();
-                    }
+                    throw new TaskCanceledException(connectionTask);
                 }
-                else
+                if (!connectionTask.Result)
                 {
-                    string detail = Archipelago.Instance == null
-                        ? string.Empty
-                        : Archipelago.Instance.LastError;
-                    connectionStatus = string.IsNullOrWhiteSpace(detail)
+                    attempt.Retryable =
+                        archipelago.LastConnectionFailureRetryable;
+                    attempt.Error = string.IsNullOrWhiteSpace(
+                            archipelago.LastError
+                        )
                         ? "Connection failed. Check the host, port, slot and password."
-                        : detail;
+                        : archipelago.LastError;
+                    yield break;
                 }
+                if (!archipelago.CompleteConnectionSync())
+                {
+                    attempt.Retryable =
+                        archipelago.LastConnectionFailureRetryable;
+                    attempt.Error = string.IsNullOrWhiteSpace(
+                            archipelago.LastError
+                        )
+                        ? "Connection validation failed."
+                        : archipelago.LastError;
+                    yield break;
+                }
+
+                attempt.Successful = true;
             }
             catch (Exception ex)
             {
-                connectionStatus = "Connection failed: " + ex.Message;
-                Log.LogWarning("[RANDOMIZER] Archipelago connection failed: " + ex);
+                attempt.Error = "Connection failed: " + ex.Message;
+                attempt.Retryable = true;
+                Log.LogWarning(
+                    "[RANDOMIZER] Archipelago connection failed: " + ex
+                );
             }
-            finally
-            {
-                isConnecting = false;
-            }
+        }
+
+        private void FinishAutomaticReconnect()
+        {
+            automaticReconnectActive = false;
+            automaticReconnectCoroutine = null;
+            isConnecting = false;
         }
 
         static void DumpPatchState(Harmony h)

@@ -27,6 +27,7 @@ namespace SilksongRandomizer
         public const string ActThreeGoal = "act_3";
         public const string CursedEndingGoal = "cursed_ending";
         public const string FleaHuntGoal = "flea_hunt";
+        public const string SpellingBeeGoal = "spelling_bee";
         public const int DefaultFleaHuntGoalCount = 20;
         public const int MinimumFleaHuntGoalCount = 1;
         public const int MaximumFleaHuntGoalCount = 30;
@@ -122,6 +123,7 @@ namespace SilksongRandomizer
             new Dictionary<string, int>(StringComparer.Ordinal)
         );
         public bool FasterDialogue { get; private set; }
+        public bool AlphabetMode { get; private set; }
         public bool DeathLink { get; private set; }
         public string DeathLinkCocoon { get; private set; } =
             DeathLinkCocoonProtected;
@@ -161,6 +163,7 @@ namespace SilksongRandomizer
         public RandomizationMode BellShrineSanity { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode QuestSanity { get; private set; } = RandomizationMode.Anywhere;
         public string LastError { get; private set; } = string.Empty;
+        public bool LastConnectionFailureRetryable { get; private set; } = true;
 
         public event Action<string> OnItemReceived;
         public event Action<string, ItemFlags> OnItemSent;
@@ -212,18 +215,33 @@ namespace SilksongRandomizer
             Instance = this;
         }
 
-        public bool Connect(string ip, int port, string slot, string pass)
+        public bool Connect(
+            string ip,
+            int port,
+            string slot,
+            string pass,
+            bool preserveState = false
+        )
         {
             if (string.IsNullOrWhiteSpace(ip) || string.IsNullOrWhiteSpace(slot))
             {
                 LastError = "Host and slot are required.";
+                LastConnectionFailureRetryable = false;
                 return false;
             }
 
             Disconnect();
             WaitForPendingDisconnect();
-            ClearState();
+            if (preserveState)
+            {
+                ResetConnectionTransientState();
+            }
+            else
+            {
+                ClearState();
+            }
             LastError = string.Empty;
+            LastConnectionFailureRetryable = true;
 
             try
             {
@@ -267,6 +285,8 @@ namespace SilksongRandomizer
                     LastError = failure != null && failure.Errors != null && failure.Errors.Length > 0
                         ? string.Join("; ", failure.Errors)
                         : "The Archipelago server rejected the login.";
+                    LastConnectionFailureRetryable =
+                        !IsDeterministicLoginFailure(failure);
                     Disconnect();
                     return false;
                 }
@@ -289,6 +309,7 @@ namespace SilksongRandomizer
                         "' is incompatible with plugin " + RandomizerPlugin.PluginVersion + ".";
                     Disconnect();
                     LastError = incompatible;
+                    LastConnectionFailureRetryable = false;
                     ReportStatus(incompatible);
                     return false;
                 }
@@ -301,9 +322,11 @@ namespace SilksongRandomizer
                         "' is invalid. Expected '" + ActOneGoal +
                         "', '" + ActTwoGoal + "', '" + ActThreeGoal +
                         "', '" + CursedEndingGoal + "' or '" +
-                        FleaHuntGoal + "'.";
+                        FleaHuntGoal + "' or '" +
+                        SpellingBeeGoal + "'.";
                     Disconnect();
                     LastError = incompatible;
+                    LastConnectionFailureRetryable = false;
                     ReportStatus(incompatible);
                     return false;
                 }
@@ -317,6 +340,7 @@ namespace SilksongRandomizer
                         string.Join(", ", CrestNames.SupportedStartingCrestKeys) + ".";
                     Disconnect();
                     LastError = incompatible;
+                    LastConnectionFailureRetryable = false;
                     ReportStatus(incompatible);
                     return false;
                 }
@@ -333,6 +357,7 @@ namespace SilksongRandomizer
                         StartingLocationBoneBottom + "'.";
                     Disconnect();
                     LastError = incompatible;
+                    LastConnectionFailureRetryable = false;
                     ReportStatus(incompatible);
                     return false;
                 }
@@ -451,6 +476,10 @@ namespace SilksongRandomizer
                     successful,
                     "faster_dialogue"
                 );
+                AlphabetMode = GetBooleanSlotData(
+                    successful,
+                    "alphabet_mode"
+                );
                 DeathLink = GetBooleanSlotData(
                     successful,
                     "death_link"
@@ -534,17 +563,18 @@ namespace SilksongRandomizer
                 );
                 MapLogicPayloadJson =
                     GetMapLogicPayloadJson(successful);
-                CaptureRoomLocations();
                 if (SaveState.Instance != null && SaveState.Instance.IsRoomBound &&
                     !SaveState.Instance.MatchesRoom(this))
                 {
                     string mismatch = SaveState.Instance.GetRoomMismatchMessage(this);
                     Disconnect();
                     LastError = mismatch;
+                    LastConnectionFailureRetryable = false;
                     ReportStatus(mismatch);
                     return false;
                 }
 
+                CaptureRoomLocations();
                 RefreshReceivedItems();
                 RefreshCheckedLocations();
                 return true;
@@ -799,15 +829,18 @@ namespace SilksongRandomizer
             if (!IsConnected())
             {
                 LastError = "The Archipelago socket closed during login.";
+                LastConnectionFailureRetryable = true;
                 return false;
             }
 
+            ArchipelagoSession connectedSession = session;
             SaveState saveState = SaveState.Instance;
             if (saveState != null && saveState.IsRoomBound && !saveState.MatchesRoom(this))
             {
                 string mismatch = saveState.GetRoomMismatchMessage(this);
                 Disconnect();
                 LastError = mismatch;
+                LastConnectionFailureRetryable = false;
                 ReportStatus(mismatch);
                 return false;
             }
@@ -848,14 +881,22 @@ namespace SilksongRandomizer
                         "Rosary/Shell Shard links could not be initialized."
                     );
                 }
+                if (!IsCurrentReadySession(connectedSession))
+                {
+                    throw new IOException(
+                        "The Archipelago socket closed during synchronization."
+                    );
+                }
                 ReportStatus("Connected to " + SlotName + " on seed " + RoomSeed + ".");
                 return true;
             }
             catch (Exception ex)
             {
                 string failure = "Connection synchronization failed: " + ex.Message;
+                bool retryable = !Connected;
                 Disconnect();
                 LastError = failure;
+                LastConnectionFailureRetryable = retryable;
                 ReportStatus(failure);
                 return false;
             }
@@ -997,12 +1038,14 @@ namespace SilksongRandomizer
         public void Disconnect()
         {
             ArchipelagoSession oldSession;
+            bool wasSessionReady;
             ArchipelagoSocketHelperDelagates.SocketClosedHandler
                 oldClosedHandler;
             ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
                 oldErrorHandler;
             lock (connectionLock)
             {
+                wasSessionReady = sessionReady;
                 sessionReady = false;
                 oldSession = session;
                 session = null;
@@ -1016,6 +1059,11 @@ namespace SilksongRandomizer
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
             Patches.VogHintManager.Reset();
+
+            if (wasSessionReady)
+            {
+                RandomizerPlugin.Instance?.RequestDisconnectSave();
+            }
 
             if (oldSession == null)
             {
@@ -1589,6 +1637,20 @@ namespace SilksongRandomizer
             return session != null &&
                    session.Socket != null &&
                    session.Socket.Connected;
+        }
+
+        private bool IsCurrentReadySession(
+            ArchipelagoSession expectedSession
+        )
+        {
+            lock (connectionLock)
+            {
+                return ReferenceEquals(session, expectedSession) &&
+                       sessionReady &&
+                       expectedSession != null &&
+                       expectedSession.Socket != null &&
+                       expectedSession.Socket.Connected;
+            }
         }
 
         private LoginSuccessful GetSlotDataAfterLogin(
@@ -2370,7 +2432,12 @@ namespace SilksongRandomizer
                        CursedEndingGoal,
                        StringComparison.Ordinal
                    ) ||
-                   string.Equals(goal, FleaHuntGoal, StringComparison.Ordinal);
+                   string.Equals(
+                       goal,
+                       FleaHuntGoal,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(goal, SpellingBeeGoal, StringComparison.Ordinal);
         }
 
         internal static bool IsSupportedFleaHuntGoalCount(int count)
@@ -2402,16 +2469,42 @@ namespace SilksongRandomizer
             );
         }
 
-        private void OnSocketClosed(
+        private static bool IsDeterministicLoginFailure(
+            LoginFailure failure
+        )
+        {
+            if (failure?.ErrorCodes == null)
+            {
+                return false;
+            }
+
+            foreach (ConnectionRefusedError error in failure.ErrorCodes)
+            {
+                switch (error)
+                {
+                    case ConnectionRefusedError.InvalidSlot:
+                    case ConnectionRefusedError.InvalidGame:
+                    case ConnectionRefusedError.SlotAlreadyTaken:
+                    case ConnectionRefusedError.IncompatibleVersion:
+                    case ConnectionRefusedError.InvalidPassword:
+                    case ConnectionRefusedError.InvalidItemsHandling:
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryHandleUnexpectedDisconnect(
             ArchipelagoSession sourceSession,
-            string reason
+            string status
         )
         {
             lock (connectionLock)
             {
-                if (!ReferenceEquals(session, sourceSession))
+                if (!ReferenceEquals(session, sourceSession) || !sessionReady)
                 {
-                    return;
+                    return false;
                 }
 
                 sessionReady = false;
@@ -2419,11 +2512,24 @@ namespace SilksongRandomizer
                 SilkLinkManager.Reset();
                 CurrencyLinkManager.Reset();
                 Patches.VogHintManager.Reset();
-                LastError = string.IsNullOrWhiteSpace(reason)
-                    ? "Disconnected from Archipelago."
-                    : "Disconnected from Archipelago: " + reason;
+                LastError = status;
+                RandomizerPlugin plugin = RandomizerPlugin.Instance;
+                plugin?.RequestDisconnectSave();
+                plugin?.RequestAutomaticReconnect();
                 ReportStatus(LastError);
+                return true;
             }
+        }
+
+        private void OnSocketClosed(
+            ArchipelagoSession sourceSession,
+            string reason
+        )
+        {
+            string status = string.IsNullOrWhiteSpace(reason)
+                ? "Disconnected from Archipelago."
+                : "Disconnected from Archipelago: " + reason;
+            TryHandleUnexpectedDisconnect(sourceSession, status);
         }
 
         private void OnSocketError(
@@ -2432,27 +2538,95 @@ namespace SilksongRandomizer
             string message
         )
         {
-            lock (connectionLock)
+            string detail = !string.IsNullOrWhiteSpace(message)
+                ? message
+                : exception == null
+                    ? "Unknown socket error."
+                    : exception.Message;
+            string status = "Archipelago network error: " + detail;
+            bool disconnected = sourceSession.Socket == null ||
+                !sourceSession.Socket.Connected ||
+                IsTerminalTransportException(exception);
+            if (disconnected)
             {
-                if (!ReferenceEquals(session, sourceSession))
+                if (!TryHandleUnexpectedDisconnect(
+                        sourceSession,
+                        status
+                    ))
                 {
                     return;
                 }
-
-                string detail = !string.IsNullOrWhiteSpace(message)
-                    ? message
-                    : exception == null
-                        ? "Unknown socket error."
-                        : exception.Message;
-                LastError = "Archipelago network error: " + detail;
-                if (exception != null)
-                {
-                    RandomizerPlugin.Log?.LogError(
-                        "[RANDOMIZER] Archipelago socket error: " + exception
-                    );
-                }
-                ReportStatus(LastError);
             }
+            else
+            {
+                lock (connectionLock)
+                {
+                    if (!ReferenceEquals(session, sourceSession))
+                    {
+                        return;
+                    }
+
+                    LastError = status;
+                    ReportStatus(LastError);
+                }
+            }
+
+            if (exception != null)
+            {
+                RandomizerPlugin.Log?.LogError(
+                    "[RANDOMIZER] Archipelago socket error: " + exception
+                );
+            }
+        }
+
+        private static bool IsTerminalTransportException(
+            Exception exception
+        )
+        {
+            if (exception == null)
+            {
+                return false;
+            }
+
+            Queue<Exception> pending = new Queue<Exception>();
+            HashSet<Exception> visited = new HashSet<Exception>();
+            pending.Enqueue(exception);
+            while (pending.Count > 0)
+            {
+                Exception current = pending.Dequeue();
+                if (current == null || !visited.Add(current))
+                {
+                    continue;
+                }
+
+                if (current is IOException ||
+                    current is System.Net.WebSockets.WebSocketException ||
+                    current is System.Net.Sockets.SocketException ||
+                    current is global::Archipelago.MultiClient.Net.Exceptions.ArchipelagoSocketClosedException ||
+                    current is TimeoutException ||
+                    current is ObjectDisposedException)
+                {
+                    return true;
+                }
+
+                if (current is AggregateException aggregate)
+                {
+                    foreach (Exception inner in aggregate.InnerExceptions)
+                    {
+                        if (inner != null)
+                        {
+                            pending.Enqueue(inner);
+                        }
+                    }
+                }
+
+                if (current.InnerException != null)
+                {
+                    pending.Enqueue(current.InnerException);
+                }
+            }
+
+            return false;
         }
 
         private void ReportStatus(string status)
@@ -2469,6 +2643,16 @@ namespace SilksongRandomizer
             }
             catch
             {
+            }
+        }
+
+        private void ResetConnectionTransientState()
+        {
+            lock (stateLock)
+            {
+                pendingHints.Clear();
+                trackedHintUpdates.Clear();
+                hintScoutChannel = new HintScoutChannel();
             }
         }
 
@@ -2534,6 +2718,7 @@ namespace SilksongRandomizer
                 new Dictionary<string, int>(StringComparer.Ordinal)
             );
             FasterDialogue = false;
+            AlphabetMode = false;
             DeathLink = false;
             DeathLinkCocoon = DeathLinkCocoonProtected;
             SilkLink = false;

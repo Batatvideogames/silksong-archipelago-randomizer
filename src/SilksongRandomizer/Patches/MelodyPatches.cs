@@ -25,6 +25,42 @@ namespace SilksongRandomizer.Patches
                    state.IsLocationInSeed(locationName);
         }
 
+        [HarmonyPatch(
+            typeof(CollectableRelic),
+            nameof(CollectableRelic.WillSendPlayEvent),
+            MethodType.Getter
+        )]
+        private static class VaultkeeperCylinderPlayEventPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                CollectableRelic __instance,
+                string ___playEventRegister,
+                ref bool __result
+            )
+            {
+                if (__result ||
+                    __instance == null ||
+                    string.IsNullOrEmpty(___playEventRegister) ||
+                    !string.Equals(
+                        __instance.name,
+                        "Librarian Melody Cylinder",
+                        StringComparison.Ordinal
+                    ) ||
+                    !IsActive(
+                        MelodyLocationManifest.VaultkeepersMelody
+                    ) ||
+                    SaveState.Instance.IsLocationChecked(
+                        MelodyLocationManifest.VaultkeepersMelody
+                    ))
+                {
+                    return;
+                }
+
+                __result = true;
+            }
+        }
+
         [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
         private static class MelodySourceFsmPatch
         {

@@ -1,5 +1,6 @@
 ﻿using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -132,6 +133,29 @@ namespace SilksongRandomizer.Patches
             internal int NextHintPollFrame;
         }
 
+        private sealed class DisplayPatchState
+        {
+            internal bool RunVanilla = true;
+            internal bool AlphabetBypassActive;
+        }
+
+        private static void BeginAlphabetBypass(DisplayPatchState state)
+        {
+            AlphabetModeManager.BeginTextBypass();
+            state.AlphabetBypassActive = true;
+        }
+
+        private static void ReleaseAlphabetBypass(DisplayPatchState state)
+        {
+            if (state == null || !state.AlphabetBypassActive)
+            {
+                return;
+            }
+
+            state.AlphabetBypassActive = false;
+            AlphabetModeManager.EndTextBypass();
+        }
+
         private const int ConnectedHintPollFrames = 15;
         private const int DisconnectedHintPollFrames = 60;
         private const string MemoryLocketUsedText = "Memory Locket used";
@@ -158,14 +182,14 @@ namespace SilksongRandomizer.Patches
         internal static class InventoryItemManager_SetDisplay_Patch
         {
             [HarmonyPrefix]
-            public static bool Prefix(
+            private static bool Prefix(
                 InventoryItemManager __instance,
                 InventoryItemSelectable selectable,
                 TextMeshPro ___descriptionText,
                 TextMeshPro ___nameText,
-                out bool __state)
+                out DisplayPatchState __state)
             {
-                __state = true;
+                __state = new DisplayPatchState();
                 if ((object)___descriptionText == null ||
                     !TryGetRandomizedApSlot(
                         selectable,
@@ -175,6 +199,7 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
+                BeginAlphabetBypass(__state);
                 DescriptionRenderState renderState =
                     GetDescriptionRenderState(
                         ___descriptionText,
@@ -216,7 +241,7 @@ namespace SilksongRandomizer.Patches
                     // the prompt current without clearing and rebuilding the
                     // cached AP text. A real selection or slot-state change
                     // misses this cache and runs the vanilla reset normally.
-                    __state = false;
+                    __state.RunVanilla = false;
                     return false;
                 }
 
@@ -224,15 +249,16 @@ namespace SilksongRandomizer.Patches
             }
 
             [HarmonyPostfix]
-            public static void Postfix(
+            private static void Postfix(
                 InventoryItemManager __instance,
                 InventoryItemSelectable selectable,
                 TextMeshPro ___descriptionText,
                 TextMeshPro ___nameText,
-                bool __state)
+                DisplayPatchState __state)
             {
                 if ((object)___descriptionText == null)
                 {
+                    ReleaseAlphabetBypass(__state);
                     return;
                 }
 
@@ -250,6 +276,7 @@ namespace SilksongRandomizer.Patches
                         ___nameText,
                         renderState);
                     ResetDescriptionIdentity(renderState);
+                    ReleaseAlphabetBypass(__state);
                     return;
                 }
 
@@ -311,7 +338,7 @@ namespace SilksongRandomizer.Patches
                 renderState.EquippedItem = equippedItem;
                 renderState.CanUnlockSlot = canUnlockSlot;
 
-                if (__state)
+                if (__state == null || __state.RunVanilla)
                 {
                     // Vanilla just restored the slot's own display. Its clean
                     // values allow both text objects to be restored when
@@ -402,6 +429,16 @@ namespace SilksongRandomizer.Patches
                 }
                 renderState.RenderedText = renderedText;
                 renderState.RenderedName = renderedName;
+                ReleaseAlphabetBypass(__state);
+            }
+
+            [HarmonyFinalizer]
+            private static Exception Finalizer(
+                Exception __exception,
+                DisplayPatchState __state)
+            {
+                ReleaseAlphabetBypass(__state);
+                return __exception;
             }
         }
 
@@ -411,11 +448,27 @@ namespace SilksongRandomizer.Patches
             new Type[] { typeof(InventoryItemSelectable) })]
         internal static class InventoryItemToolManager_SetDisplay_Patch
         {
+            [HarmonyPrefix]
+            private static void Prefix(
+                InventoryItemSelectable selectable,
+                out DisplayPatchState __state)
+            {
+                __state = new DisplayPatchState();
+                if (TryGetRandomizedApSlot(
+                        selectable,
+                        out InventoryToolCrestSlot _,
+                        out CrestSlotNames _))
+                {
+                    BeginAlphabetBypass(__state);
+                }
+            }
+
             [HarmonyPostfix]
             private static void Postfix(
                 InventoryItemSelectable selectable,
                 CrestSocketUnlockInventoryDescription
-                    ___slotUnlockDescExtra)
+                    ___slotUnlockDescExtra,
+                DisplayPatchState __state)
             {
                 if (!TryGetRandomizedApSlot(
                         selectable,
@@ -426,6 +479,7 @@ namespace SilksongRandomizer.Patches
                         slotNames.LocationName) ||
                     (object)___slotUnlockDescExtra == null)
                 {
+                    ReleaseAlphabetBypass(__state);
                     return;
                 }
 
@@ -436,6 +490,16 @@ namespace SilksongRandomizer.Patches
                 // complete, so that prompt would falsely suggest a second
                 // Locket can be spent.
                 ___slotUnlockDescExtra.gameObject.SetActive(false);
+                ReleaseAlphabetBypass(__state);
+            }
+
+            [HarmonyFinalizer]
+            private static Exception Finalizer(
+                Exception __exception,
+                DisplayPatchState __state)
+            {
+                ReleaseAlphabetBypass(__state);
+                return __exception;
             }
         }
 

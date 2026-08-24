@@ -1,5 +1,6 @@
 using HarmonyLib;
 using HutongGames.PlayMaker;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -347,7 +348,10 @@ namespace SilksongRandomizer.Patches
                     originalPromptLabel = current;
                 }
 
-                textProperty.SetValue(label, value);
+                textProperty.SetValue(
+                    label,
+                    AlphabetModeManager.FilterDirectText(value)
+                );
             }
         }
 

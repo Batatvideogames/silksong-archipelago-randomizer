@@ -41,6 +41,7 @@ from .locations import (
 )
 from .room_graph_logic import (
     CompiledRoomClause,
+    CompiledRoomGraph,
     compile_room_graph,
     room_node_name,
 )
@@ -267,9 +268,6 @@ CREST_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
 CRAFTMETAL_ITEM = 'Craftmetal'
 MOSSBERRY_ITEM = 'Mossberry'
 POLLIP_HEART_ITEM = 'Pollip Heart'
-# Shell Flowers consumes exactly six Shell Flowers before its
-# Pollip Pouch reward. In randomized modes those six collectibles
-# are the repeated AP Pollip Heart item.
 POLLIP_HEART_COUNT = 6
 POLLIP_HEART_SOURCE_LOCATION_NAMES: tuple[str, ...] = tuple(
     LOCATION_NAMES_BY_CATEGORY['PollipHeart']
@@ -292,21 +290,46 @@ OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES: frozenset[str] = frozenset(
 # The room graph is pure declarative data, so it can be normalized
 # before LocationRequirement is defined. Its clauses are converted to live AP
 # rules below once the helper dataclasses exist.
-# The compiled graph keeps native source identities internally. Its exported
-# check maps use the same player-facing names as the location table.
+def _canonicalize_compiled_checks(
+    graph: CompiledRoomGraph,
+) -> tuple[
+    Mapping[str, tuple[CompiledRoomClause, ...]],
+    Mapping[str, tuple[str, ...]],
+]:
+    requirements: dict[str, tuple[CompiledRoomClause, ...]] = {}
+    source_ids: dict[str, list[str]] = {}
+    for source_name, clauses in graph.check_requirements.items():
+        canonical_name = canonicalize_location_name(source_name)
+        if (
+            canonical_name in requirements
+            and requirements[canonical_name] != clauses
+        ):
+            raise ValueError(
+                f'Conflicting room graph requirements for {canonical_name}'
+            )
+        requirements[canonical_name] = clauses
+        canonical_source_ids = source_ids.setdefault(canonical_name, [])
+        for source_id in graph.check_source_ids[source_name]:
+            if source_id not in canonical_source_ids:
+                canonical_source_ids.append(source_id)
+    return (
+        MappingProxyType(requirements),
+        MappingProxyType({
+            name: tuple(ids)
+            for name, ids in source_ids.items()
+        }),
+    )
+
+
 _SOURCE_COMPILED_ROOM_GRAPH = compile_room_graph()
+(
+    _CANONICAL_ROOM_GRAPH_CHECK_REQUIREMENTS,
+    _CANONICAL_ROOM_GRAPH_CHECK_SOURCE_IDS,
+) = _canonicalize_compiled_checks(_SOURCE_COMPILED_ROOM_GRAPH)
 COMPILED_ROOM_GRAPH = replace(
     _SOURCE_COMPILED_ROOM_GRAPH,
-    check_requirements=MappingProxyType({
-        canonicalize_location_name(name): requirements
-        for name, requirements
-        in _SOURCE_COMPILED_ROOM_GRAPH.check_requirements.items()
-    }),
-    check_source_ids=MappingProxyType({
-        canonicalize_location_name(name): source_ids
-        for name, source_ids
-        in _SOURCE_COMPILED_ROOM_GRAPH.check_source_ids.items()
-    }),
+    check_requirements=_CANONICAL_ROOM_GRAPH_CHECK_REQUIREMENTS,
+    check_source_ids=_CANONICAL_ROOM_GRAPH_CHECK_SOURCE_IDS,
     authoritative_check_names=frozenset(
         canonicalize_location_name(name)
         for name in _SOURCE_COMPILED_ROOM_GRAPH.authoritative_check_names
@@ -948,18 +971,44 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
     )
 )
 
-# Trail's End needs all fourteen map checks in stock mode. Keep these fallbacks
-# available if either graph source is unavailable.
 ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
+    "Architect's Key",
     'Blasted Steps - Map Purchase',
     'Blasted Steps - Memory Locket',
     'Bonegrave - Mossberry',
+    'Boss: Voltvyrm',
     'Choral Chambers - Memory Locket',
+    'Clawline',
+    'Cogwork Wheel',
+    'Crest: Architect',
+    'Flea: Underworks',
     'Greymoor - Bellshrine',
+    'Sawtooth Circlet',
     'Sands of Karak - Map Purchase',
     'Sands of Karak - Memory Locket',
+    'Scuttlebrace',
     "Sinner's Road - Map Purchase",
+    'Silkshot (Twelfth Architect)',
+    'Twelfth Architect - Crafting Kit',
+    'Underworks (East) - Spool Fragment',
+    'Underworks - Craftmetal',
     'Underworks - Memory Locket',
+    'Underworks - Pristine Core',
+    'Underworks - Shard Bundle #2',
+    'Underworks - Shell Shard Cache #1',
+    'Underworks - Shell Shard Cache #2',
+    'Underworks - Shell Shard Cache #3',
+    'Underworks - Shell Shard Cache #4',
+    'Underworks - Shell Shard Cache #5',
+    'Underworks - Shell Shard Cache #6',
+    'Underworks - Shell Shard Cache #7',
+    'Underworks - Shell Shard Cache #8',
+    'Underworks - Shell Shard Cache #9',
+    'Underworks - Shell Shard Cache #10',
+    'Underworks - Shell Shard Cache #11',
+    'Underworks - Shell Shard Cache #16',
+    'Volt Filament',
+    'Whispering Vaults - Shard Bundle',
 })
 
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
@@ -1473,11 +1522,6 @@ VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS: Mapping[
     for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()
 })
 
-# Hunter, Reaper and Witch each have a native Blue slot. Wanderer,
-# Architect and Shaman can equip the tool after receiving either matching
-# randomized Blue-slot item. The client checks those received items while
-# auto-placing a tool, independently of the physical Memory Locket check.
-# Beast has no Blue slot at all.
 OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
     item_name
     for alternatives in EQUIPPED_COLORED_TOOL_REQUIREMENTS.values()
@@ -2322,6 +2366,14 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req(
             'Path: Outlying Citadel - Library',
             crest=False,
+        ),
+    ),
+    'Event: Tormented Trobbio Defeated': (
+        area(
+            3,
+            'Outlying Citadel - Library',
+            'Progressive Claw Mirror',
+            'Ancestral Art: Silk Soar',
         ),
     ),
     'Event: Five Bellshrines Rung': (
@@ -5164,10 +5216,6 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         ),
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
-        # The shop's 25-owned-Tools condition is not yet expressible without
-        # promoting the entire Tool pool, so this source remains
-        # non-progression.
-        "Architect's Key",
         'Boss: Great Conchflies',
         'Map Pickup: Putrified Ducts',
         'Map Purchase: The Cradle',
@@ -6059,6 +6107,16 @@ def get_goal_requirements(
         raise ValueError(
             "Pollip Heart count must use the live quest threshold of "
             f"{POLLIP_HEART_COUNT} but received {pollip_heart_count!r}."
+        )
+
+    from .alphabet_mode import (
+        ALPHABET_ITEM_NAMES,
+        SPELLING_BEE_GOAL_KEY,
+    )
+
+    if goal_key == SPELLING_BEE_GOAL_KEY:
+        return (
+            req(*ALPHABET_ITEM_NAMES, crest=False),
         )
 
     if goal_key == FLEA_HUNT_GOAL_KEY:

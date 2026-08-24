@@ -592,6 +592,7 @@ class Goal(Choice):
     option_act_3 = 1
     option_flea_hunt = 2
     option_cursed_ending = 4
+    option_spelling_bee = 5
     default = option_act_3
 
 
@@ -650,6 +651,17 @@ class RandomizeNeedleUpgrades(Toggle):
     """Shuffle Plinney's Needle upgrades and their three Pale Oils."""
 
     display_name = "Randomize Needle Upgrades"
+    default = 0
+
+
+class AlphabetMode(Toggle):
+    """Add Letter A through Letter Z to the item pool and hide unowned letters in game text.
+
+    Text filtering only runs while the game language is English.
+    This needs at least 26 randomized filler rewards.
+    """
+
+    display_name = "Alphabet Mode"
     default = 0
 
 
@@ -1020,6 +1032,7 @@ class SilksongOptions(PerGameCommonOptions):
     ventrica_randomization: VentricaRandomization
     map_randomization: MapRandomization
     randomize_needle_upgrades: RandomizeNeedleUpgrades
+    alphabet_mode: AlphabetMode
     melody_randomization: MelodyRandomization
     pin_randomization: PinRandomization
     relic_randomization: RelicRandomization

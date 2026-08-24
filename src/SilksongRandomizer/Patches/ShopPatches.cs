@@ -1,5 +1,6 @@
 ﻿using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -878,8 +879,23 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(ShopItem), "get_IsAvailable")]
         internal static class ShopItem_IsAvailable_Patch
         {
-            private static bool Prefix(ShopItem __instance, ref bool __result)
+            private static bool Prefix(
+                ShopItem __instance,
+                ref bool __result,
+                ref ToolItemManager.OwnToolsCheckFlags ___requiredTools,
+                ref int ___requiredToolsAmount)
             {
+                if (__instance != null &&
+                    string.Equals(
+                        __instance.name,
+                        "Architect Key",
+                        StringComparison.Ordinal))
+                {
+                    ___requiredTools =
+                        ToolItemManager.OwnToolsCheckFlags.None;
+                    ___requiredToolsAmount = 0;
+                }
+
                 if (!IsRandomizedTarget(__instance))
                 {
                     return true;
@@ -958,6 +974,7 @@ namespace SilksongRandomizer.Patches
                     __result = "AP Item";
                 }
 
+                __result = AlphabetModeManager.FilterDirectText(__result);
                 return false;
             }
         }
@@ -1008,6 +1025,7 @@ namespace SilksongRandomizer.Patches
                         "\r\nRequires Ruined Tool and 1 Craftmetal.";
                 }
 
+                __result = AlphabetModeManager.FilterDirectText(__result);
                 return false;
             }
         }

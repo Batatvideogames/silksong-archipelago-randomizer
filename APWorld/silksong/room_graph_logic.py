@@ -64,6 +64,7 @@ def _part(
 
 _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:architect-crest": (_part("Crest: Architect"),),
+    "item:architects-key": (_part("Architect's Key"),),
     "item:beast-crest": (_part("Crest: Beast"),),
     "item:bellway-blasted-steps": (_part("Bellway: Blasted Steps"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
@@ -81,6 +82,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:filled-needle-phial": (_part("Usable Needle Phial"),),
     "item:hunter-crest": (_part("Crest: Hunter"),),
     "item:needle-phial": (_part("Usable Needle Phial"),),
+    "item:needle-strike": (_part("Ability: Needle Strike"),),
     "item:needolin": (_part("Ancestral Art: Needolin"),),
     "item:key-of-apostate": (_part("Key of Apostate"),),
     "item:ruined-tool": (_part("Ruined Tool"),),
@@ -112,6 +114,14 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ),
     "macro:any-crest": (
         _part("Crest: Hunter"),
+        _part("Crest: Reaper"),
+        _part("Crest: Shaman"),
+        _part("Crest: Architect"),
+        _part("Crest: Wanderer"),
+        _part("Crest: Beast"),
+        _part("Crest: Witch"),
+    ),
+    "macro:any-non-hunter-crest": (
         _part("Crest: Reaper"),
         _part("Crest: Shaman"),
         _part("Crest: Architect"),
@@ -205,6 +215,20 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
         "event:deep-docks/deep-docks-spool-east/platform-lever",
     "event:deep-docks/deep-docks-magma-slug-tunnels/left-door-switch-flipped":
         "event:deep-docks/deep-docks-magma-slug-tunnels/left-door-switch",
+    (
+        "event:whispering-vaults/grand-bellway-library/"
+        "flick-the-first-lever"
+    ): (
+        "event:whispering-vaults/grand-bellway-library/"
+        "whispering-vaults-flip-switch-6-left"
+    ),
+    (
+        "event:whispering-vaults/vaultkeeper-cauldron-entrance/"
+        "open-door-from-right-side-switch-1"
+    ): (
+        "event:whispering-vaults/vaultkeeper-cauldron-entrance/"
+        "whispering-vaults-flip-switch-1-down"
+    ),
     (
         "event:deep-docks/deep-docks-magma-slug-tunnels/"
         "right-door-switch-must-be-flipped"
@@ -472,6 +496,9 @@ _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
     "event:global/last-judge-defeated": "Event: Last Judge Defeated",
     "event:global/missing-courier-rescued":
         "Event: Missing Courier Rescued",
+    "event:global/tormented-trobbio-defeated":
+        "Event: Tormented Trobbio Defeated",
+    "event:global/trobbio-defeated": "Event: Trobbio Defeated",
     "event:the-marrow/the-marrow-bellway/bell-beast-defeated":
         "Event: Bell Beast Defeated",
 }

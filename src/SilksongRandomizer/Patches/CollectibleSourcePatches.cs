@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
+using SilksongRandomizer.AlphabetMode;
 using UnityEngine;
 
 namespace SilksongRandomizer.Patches
@@ -175,7 +176,9 @@ namespace SilksongRandomizer.Patches
             public override string GetPopupName()
             {
                 return ShowGenericPresentation
-                    ? "Archipelago Item"
+                    ? AlphabetModeManager.FilterDirectText(
+                        "Archipelago Item"
+                    )
                     : null;
             }
 

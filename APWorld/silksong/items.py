@@ -37,6 +37,12 @@ from .lore_tablets import (
     LORE_TABLET_ITEM_BY_LOCATION,
     LORE_TABLET_ITEM_NAMES,
 )
+from .alphabet_mode import (
+    ALPHABET_ITEM_CATEGORY,
+    ALPHABET_ITEM_NAMES,
+    ALPHABET_ITEM_ROWS,
+    replace_filler_with_alphabet_items,
+)
 from .requirements import (
     SIMPLE_KEY_GREEN_PRINCE,
     get_logic_item_references,
@@ -385,7 +391,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (item_name, LORE_TABLET_CATEGORY)
     for item_name in LORE_TABLET_ITEM_NAMES
-)
+) + ALPHABET_ITEM_ROWS
 
 # Rename in place so every established numeric item ID remains unchanged.
 # Item IDs stay tied to the ITEM_TABLE_SOURCE positions above. Native asset
@@ -573,6 +579,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
         "PollipHeart",
         "MajorKey",
         "ToolPouch",
+        ALPHABET_ITEM_CATEGORY,
     }
 ) | (
     get_logic_item_references()
@@ -686,6 +693,7 @@ item_name_groups: Dict[str, set[str]] = {
         for name, category in ITEM_TABLE_SOURCE
         if category == LORE_TABLET_CATEGORY
     },
+    "Alphabet Letters": set(ALPHABET_ITEM_NAMES),
 }
 
 
@@ -750,6 +758,7 @@ CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     PROGRESSIVE_SWIFT_STEP_ITEM,
     PROGRESSIVE_COMPASS_ITEM,
     *NEEDLE_UPGRADE_POOL_COUNTS,
+    *ALPHABET_ITEM_NAMES,
 })
 
 TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
@@ -1405,6 +1414,7 @@ def get_dynamic_trap_capacity(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
@@ -1427,6 +1437,7 @@ def get_dynamic_trap_capacity(
             act_one_only=act_one_only,
             exclude_verdania=exclude_verdania,
             retain_green_prince_key=retain_green_prince_key,
+            alphabet_mode=alphabet_mode,
             act_one_donation_tool_pouch_requirements=(
                 act_one_donation_tool_pouch_requirements
             ),
@@ -1536,6 +1547,7 @@ def build_item_pool_entries(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
@@ -1879,6 +1891,16 @@ def build_item_pool_entries(
 
     add_pool_only_useful_items(entries)
 
+    if alphabet_mode:
+        replace_filler_with_alphabet_items(
+            entries,
+            lambda name: (
+                item_data_table[name].classification
+                == ItemClassification.filler
+            ),
+            trap_randomizer,
+        )
+
     configured_traps = {
         trap_name: int((trap_counts or {}).get(trap_name, 0))
         for trap_name in TRAP_ITEM_NAMES
@@ -1940,6 +1962,7 @@ def get_configured_item_pool_size(
     act_one_only: bool = False,
     exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
+    alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> int:
     return len(
@@ -1958,6 +1981,7 @@ def get_configured_item_pool_size(
             act_one_only=act_one_only,
             exclude_verdania=exclude_verdania,
             retain_green_prince_key=retain_green_prince_key,
+            alphabet_mode=alphabet_mode,
             act_one_donation_tool_pouch_requirements=(
                 act_one_donation_tool_pouch_requirements
             ),

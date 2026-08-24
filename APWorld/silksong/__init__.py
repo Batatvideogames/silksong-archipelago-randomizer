@@ -86,7 +86,6 @@ from .prices import (
     resolve_purchase_prices,
 )
 from .requirements import (
-    ARCHITECTS_KEY_ITEM,
     FLEA_HUNT_GOAL_KEY,
     JUDGE_BELL_ITEMS,
     LOGIC_UNKNOWN_LOCATIONS,
@@ -110,6 +109,7 @@ from .rules import (
     get_active_crest_slot_locations,
     get_crest_slot_memory_locket_count,
     get_crest_slot_progression_item_count,
+    restore_global_shuffle_item_rules,
     set_silksong_rules,
     uses_randomized_memory_lockets_for_crest_slots,
 )
@@ -301,6 +301,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_one_only=self.is_act_one_content_scope(),
             exclude_verdania=(goal_key != ACT_THREE_GOAL_KEY),
             retain_green_prince_key=(goal_key == ACT_TWO_GOAL_KEY),
+            alphabet_mode=self.is_alphabet_mode_enabled(),
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
@@ -363,6 +364,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def is_needle_upgrade_randomization_enabled(self) -> bool:
         return bool(self.options.randomize_needle_upgrades.value)
+
+    def is_alphabet_mode_enabled(self) -> bool:
+        from .alphabet_mode import SPELLING_BEE_GOAL_KEY
+
+        return bool(self.options.alphabet_mode.value) or (
+            self.get_goal_key() == SPELLING_BEE_GOAL_KEY
+        )
 
     def is_start_with_maps_enabled(self) -> bool:
         return self.is_start_fully_mapped_enabled() or bool(
@@ -619,6 +627,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
             ),
+            alphabet_mode=self.is_alphabet_mode_enabled(),
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
@@ -750,7 +759,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         starting_crest = self.resolve_starting_crest()
         starting_crest_item = STARTING_CREST_ITEM_BY_KEY[starting_crest]
         category_modes = self.get_category_modes()
-        deferred_fixed_rewards: list[tuple[str, str]] = []
         precollected_option_items = {
             *self.get_start_with_map_item_names(),
         }
@@ -779,11 +787,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 and effective_reward.advancement
             ):
                 # Keep required items off checks with incomplete routes.
-                if effective_reward_name == ARCHITECTS_KEY_ITEM:
-                    deferred_fixed_rewards.append(
-                        (location_name, effective_reward_name)
-                    )
-                    return
                 self.multiworld.push_precollected(effective_reward)
                 effective_reward = self.create_item(
                     OPTIONAL_START_REPLACEMENT_ITEM
@@ -860,58 +863,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
             ),
+            alphabet_mode=self.is_alphabet_mode_enabled(),
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
         ))
-
-        for location_name, reward_name in deferred_fixed_rewards:
-            replacement_index = next(
-                (
-                    index
-                    for index, entry in enumerate(pool_entries)
-                    if (
-                        entry.placement_category is None
-                        and entry.name == OPTIONAL_START_REPLACEMENT_ITEM
-                    )
-                ),
-                None,
-            )
-            if replacement_index is None:
-                replacement_index = next(
-                    (
-                        index
-                        for index, entry in enumerate(pool_entries)
-                        if (
-                            entry.placement_category is None
-                            and not self.create_item(entry.name).advancement
-                        )
-                    ),
-                    None,
-                )
-            if replacement_index is None:
-                self.multiworld.push_precollected(
-                    self.create_item(reward_name)
-                )
-                self.multiworld.get_location(
-                    location_name,
-                    self.player,
-                ).place_locked_item(
-                    self.create_item(OPTIONAL_START_REPLACEMENT_ITEM)
-                )
-                continue
-            displaced_entry = pool_entries[replacement_index]
-            pool_entries[replacement_index] = ItemPoolEntry(
-                reward_name,
-                displaced_entry.source_category,
-                displaced_entry.placement_category,
-            )
-            self.multiworld.get_location(
-                location_name,
-                self.player,
-            ).place_locked_item(
-                self.create_item(displaced_entry.name)
-            )
 
         pool_item_names = {entry.name for entry in pool_entries}
         for item_name in POOL_ONLY_USEFUL_ITEM_NAMES:
@@ -1203,11 +1159,29 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:
-        prefill_category_shuffles(multiworld, cls.game)
+        scope = getattr(
+            multiworld,
+            "_silksong_shuffle_item_rule_scope",
+            None,
+        )
+        try:
+            prefill_category_shuffles(multiworld, cls.game)
+        finally:
+            restore_global_shuffle_item_rules(scope)
+            if hasattr(
+                multiworld,
+                "_silksong_shuffle_item_rule_scope",
+            ):
+                delattr(
+                    multiworld,
+                    "_silksong_shuffle_item_rule_scope",
+                )
 
     @classmethod
-    def stage_set_rules(cls, multiworld) -> None:
-        enforce_global_shuffle_item_rules(multiworld)
+    def stage_generate_basic(cls, multiworld) -> None:
+        multiworld._silksong_shuffle_item_rule_scope = (
+            enforce_global_shuffle_item_rules(multiworld)
+        )
 
     @staticmethod
     def _build_crest_slotless_state(multiworld, excluded_slots):
@@ -1446,6 +1420,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
             "randomize_needle_upgrades":
                 self.is_needle_upgrade_randomization_enabled(),
+            "alphabet_mode": self.is_alphabet_mode_enabled(),
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "skips": self.get_skips_tier(),

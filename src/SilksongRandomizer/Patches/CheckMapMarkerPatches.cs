@@ -1,4 +1,5 @@
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1463,7 +1464,12 @@ namespace SilksongRandomizer.Patches
                     reachability == MapCheckReachability.Unreachable
                         ? outOfLogicNameColor
                         : Color.white;
-                lines.Add(new LogicTooltipLine(locationName, nameColor));
+                lines.Add(
+                    new LogicTooltipLine(
+                        AlphabetModeManager.FilterDirectText(locationName),
+                        nameColor
+                    )
+                );
                 if (RandomizerPlugin.Instance != null &&
                     !RandomizerPlugin.Instance.ShowMapMarkerLogic)
                 {
@@ -1480,7 +1486,12 @@ namespace SilksongRandomizer.Patches
                 {
                     if (!string.IsNullOrWhiteSpace(extra?.Text))
                     {
-                        lines.Add(extra);
+                        lines.Add(
+                            new LogicTooltipLine(
+                                AlphabetModeManager.FilterDirectText(extra.Text),
+                                extra.Color
+                            )
+                        );
                     }
                 }
             }

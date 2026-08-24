@@ -1,6 +1,7 @@
 using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,11 +36,11 @@ namespace SilksongRandomizer.Patches
                 switch (Kind)
                 {
                     case "woth":
-                        return "Hero";
+                        return AlphabetModeManager.FilterDirectText("Hero");
                     case "foolish":
-                        return "Foolish";
+                        return AlphabetModeManager.FilterDirectText("Foolish");
                     default:
-                        return "General";
+                        return AlphabetModeManager.FilterDirectText("General");
                 }
             }
 

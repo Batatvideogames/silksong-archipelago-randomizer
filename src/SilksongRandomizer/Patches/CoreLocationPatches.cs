@@ -1,5 +1,6 @@
 using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -728,6 +729,7 @@ namespace SilksongRandomizer.Patches
                     __result = "AP Item";
                 }
 
+                __result = AlphabetModeManager.FilterDirectText(__result);
                 return false;
             }
         }
@@ -754,7 +756,9 @@ namespace SilksongRandomizer.Patches
                         out string item,
                         out ItemFlags flags))
                 {
-                    __result = "Something for someone else, maybe...";
+                    __result = AlphabetModeManager.FilterDirectText(
+                        "Something for someone else, maybe..."
+                    );
                     return false;
                 }
 
@@ -775,6 +779,7 @@ namespace SilksongRandomizer.Patches
                         break;
                 }
 
+                __result = AlphabetModeManager.FilterDirectText(__result);
                 return false;
             }
         }

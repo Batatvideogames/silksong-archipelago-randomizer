@@ -225,12 +225,14 @@ def _shuffle_is_accessible(
     multiworld,
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
+    reachability_context=None,
 ) -> bool:
     unreachable_locations, unbeaten_players = (
         _shuffle_reachability_failures(
             multiworld,
             shuffled_locations,
             silksong_players,
+            reachability_context,
         )
     )
     return not unreachable_locations and not unbeaten_players
@@ -254,13 +256,21 @@ def _shuffle_reachability_failures(
     multiworld,
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
+    reachability_context=None,
 ) -> tuple[list[str], list[int]]:
     from Fill import sweep_from_pool
 
-    maximum_state = sweep_from_pool(
-        multiworld.state,
-        multiworld.itempool,
-    )
+    if reachability_context is None:
+        maximum_state = sweep_from_pool(
+            multiworld.state,
+            multiworld.itempool,
+        )
+    else:
+        maximum_pool_state, filled_locations = reachability_context
+        maximum_state = sweep_from_pool(
+            maximum_pool_state,
+            locations=filled_locations,
+        )
     minimal_players = _minimal_accessibility_players(multiworld)
     unreachable_locations = sorted(
         (
@@ -286,6 +296,19 @@ def _shuffle_reachability_failures(
         if not multiworld.has_beaten_game(maximum_state, player)
     )
     return unreachable_locations, unbeaten_players
+
+
+def _build_shuffle_reachability_context(multiworld):
+    from Fill import sweep_from_pool
+
+    return (
+        sweep_from_pool(
+            multiworld.state,
+            multiworld.itempool,
+            locations=(),
+        ),
+        tuple(multiworld.get_filled_locations()),
+    )
 
 
 def prefill_category_shuffles(
@@ -479,18 +502,21 @@ def prefill_category_shuffles(
         for item in multiworld.itempool
         if id(item) not in placed_item_ids
     ]
+    reachability_context = _build_shuffle_reachability_context(multiworld)
 
     all_shuffled_locations = active_shuffled_locations
     if not _shuffle_is_accessible(
         multiworld,
         all_shuffled_locations,
         silksong_players,
+        reachability_context,
     ):
         unreachable_locations, unbeaten_players = (
             _shuffle_reachability_failures(
                 multiworld,
                 all_shuffled_locations,
                 silksong_players,
+                reachability_context,
             )
         )
         details = []
@@ -616,6 +642,7 @@ def prefill_category_shuffles(
                 multiworld,
                 all_shuffled_locations,
                 silksong_players,
+                reachability_context,
             )
         if not accepted_full_shuffle:
             _assign_items(locations, original_items)
@@ -642,6 +669,7 @@ def prefill_category_shuffles(
                     multiworld,
                     all_shuffled_locations,
                     silksong_players,
+                    reachability_context,
                 ):
                     first.item, second.item = second.item, first.item
                     first.item.location = first

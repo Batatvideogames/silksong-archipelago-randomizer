@@ -1,5 +1,6 @@
 using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections;
 using System.Linq;
@@ -275,7 +276,7 @@ namespace SilksongRandomizer.Patches
                     },
                     () => promptOpen = false,
                     true,
-                    prompt
+                    AlphabetModeManager.FilterDirectText(prompt)
                 );
             }
             catch (Exception ex)

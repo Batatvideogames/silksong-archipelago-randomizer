@@ -1,4 +1,5 @@
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,7 @@ namespace SilksongRandomizer.Patches
             CollectableItem.ReadSource readSource
         )
         {
-            return "Archipelago";
+            return AlphabetModeManager.FilterDirectText("Archipelago");
         }
 
         public override string GetDescription(
@@ -52,7 +53,7 @@ namespace SilksongRandomizer.Patches
                 }
             }
 
-            return builder.ToString();
+            return AlphabetModeManager.FilterDirectText(builder.ToString());
         }
 
         public override Sprite GetIcon(
@@ -412,7 +413,7 @@ namespace SilksongRandomizer.Patches
                         }
                     }
 
-                    __result = keyBuilder.ToString();
+                    __result = AlphabetModeManager.FilterDirectText(keyBuilder.ToString());
                     return;
                 }
 
@@ -424,7 +425,7 @@ namespace SilksongRandomizer.Patches
 
                 StringBuilder mapBuilder = new StringBuilder();
                 AppendMapSummary(mapBuilder, mapState);
-                __result = mapBuilder.ToString();
+                __result = AlphabetModeManager.FilterDirectText(mapBuilder.ToString());
             }
         }
 

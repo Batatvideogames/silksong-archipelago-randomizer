@@ -182,13 +182,15 @@ def _minimal_accessibility_players(multiworld) -> frozenset[int]:
     return frozenset(players)
 
 
-def enforce_global_shuffle_item_rules(multiworld) -> None:
+def enforce_global_shuffle_item_rules(multiworld):
     itempool = getattr(multiworld, "itempool", None)
     if itempool is not None and not any(
         getattr(item, "silksong_placement_category", None) is not None
         for item in itempool
     ):
-        return
+        return None
+    enabled = [True]
+    installed_rules = []
     minimal_players = _minimal_accessibility_players(multiworld)
     for location in multiworld.get_locations():
         target_category = getattr(
@@ -204,7 +206,10 @@ def enforce_global_shuffle_item_rules(multiworld) -> None:
             target_category: str | None = target_category,
             target_game: str | None = target_game,
             target_player: int = target_player,
+            enabled: list[bool] = enabled,
         ) -> bool:
+            if not enabled[0]:
+                return True
             item_category = getattr(
                 item,
                 "silksong_placement_category",
@@ -223,7 +228,22 @@ def enforce_global_shuffle_item_rules(multiworld) -> None:
                 and item.player not in minimal_players
             )
 
+        previous_rule = location.item_rule
         add_item_rule(location, item_rule)
+        installed_rules.append(
+            (location, previous_rule, location.item_rule)
+        )
+    return enabled, installed_rules
+
+
+def restore_global_shuffle_item_rules(scope) -> None:
+    if scope is None:
+        return
+    enabled, installed_rules = scope
+    enabled[0] = False
+    for location, previous_rule, installed_rule in installed_rules:
+        if location.item_rule is installed_rule:
+            location.item_rule = previous_rule
 
 
 def set_silksong_rules(world) -> None:

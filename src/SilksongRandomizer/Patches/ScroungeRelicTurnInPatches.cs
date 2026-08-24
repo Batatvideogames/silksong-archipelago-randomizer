@@ -1,4 +1,5 @@
 using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections.Generic;
 
@@ -183,9 +184,11 @@ namespace SilksongRandomizer.Patches
                     }
                 }
 
-                text = totalRelics == 1
-                    ? "Turn in this relic as an Archipelago check?"
-                    : "Turn in these relics as Archipelago checks?";
+                text = AlphabetModeManager.FilterDirectText(
+                    totalRelics == 1
+                        ? "Turn in this relic as an Archipelago check?"
+                        : "Turn in these relics as Archipelago checks?"
+                );
             }
         }
     }

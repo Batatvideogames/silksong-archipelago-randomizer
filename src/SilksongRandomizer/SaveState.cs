@@ -181,6 +181,7 @@ namespace SilksongRandomizer
         [XmlIgnore]
         private Dictionary<string, int> purchasePriceLookup;
         public bool fasterDialogue;
+        public bool alphabetMode;
         public bool deathLink;
         public string deathLinkCocoon =
             Archipelago.DeathLinkCocoonProtected;
@@ -895,6 +896,7 @@ namespace SilksongRandomizer
             vogHintPrices = archipelago.VogHintPrices;
             SetPurchasePrices(archipelago.PurchasePrices);
             fasterDialogue = archipelago.FasterDialogue;
+            alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
             deathLinkCocoon = archipelago.DeathLinkCocoon;
             silkLink = archipelago.SilkLink;
@@ -1007,6 +1009,7 @@ namespace SilksongRandomizer
                    ) &&
                    PurchasePriceSettingsMatch(archipelago) &&
                    fasterDialogue == archipelago.FasterDialogue &&
+                   alphabetMode == archipelago.AlphabetMode &&
                    deathLink == archipelago.DeathLink &&
                    string.Equals(
                        deathLinkCocoon,
@@ -1486,6 +1489,16 @@ namespace SilksongRandomizer
                     "faster_dialogue",
                     fasterDialogue,
                     archipelago.FasterDialogue
+                );
+            }
+
+            if (roomIdentityMatches &&
+                alphabetMode != archipelago.AlphabetMode)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "alphabet_mode",
+                    alphabetMode,
+                    archipelago.AlphabetMode
                 );
             }
 

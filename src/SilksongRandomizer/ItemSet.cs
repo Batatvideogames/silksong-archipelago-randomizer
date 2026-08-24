@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Concurrent;
+using SilksongRandomizer.AlphabetMode;
 
 namespace SilksongRandomizer
 {
@@ -507,7 +508,8 @@ namespace SilksongRandomizer
             return canonicalName;
         }
 
-        public Item[] items = LoreTabletManifest.AppendItems(new Item[]
+        public Item[] items = AlphabetModeItems.Append(
+            LoreTabletManifest.AppendItems(new Item[]
         {
             // Skills
             new Item("Ability: Faydown Cloak", ItemType.Skill, ItemGrants.GrantFaydownCloak),
@@ -922,6 +924,6 @@ namespace SilksongRandomizer
             new Item("Bell: Greymoor", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Shellwood", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Bellhart", ItemType.BellShrine, ItemGrants.GrantBell),
-        });
+        }));
     }
 }

@@ -504,7 +504,7 @@ namespace SilksongRandomizer.Patches
 
         internal static void Update()
         {
-            GameManager gameManager = GameManager.instance;
+            GameManager gameManager = GameManager.SilentInstance;
             if (!string.IsNullOrEmpty(suppressedMemorySource) &&
                 gameManager != null &&
                 !string.Equals(
