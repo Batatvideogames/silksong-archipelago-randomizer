@@ -367,7 +367,8 @@ namespace SilksongRandomizer
                    requirement.LogicUnknown;
         }
 
-        private const int MaxAdjacentRooms = 4;
+        // Setting this to 2 to lower adjacencies in massive rooms like Bone Bottom town.
+        private const int MaxAdjacentRooms = 2;
         private const string RoomNodePrefix = "Room Node: ";
         private const string RoomEventPrefix = "Room Event: ";
         // Grey already used in repository. ^-^
