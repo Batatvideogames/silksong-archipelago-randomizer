@@ -572,8 +572,9 @@ class SilksongAccessibility(Accessibility):
 
     **Minimal:** ensure what is needed to reach your goal can be acquired.
 
-    LogicUnknown locations are treated as reachable but never hold advancement
-    items. Their map marker shows that the route is still incomplete.
+    LogicUnknown locations never hold advancement items and remain out of logic
+    until your goal is completed.
+    Their map marker shows that the route is still incomplete.
     """
 
     display_name = "Accessibility"

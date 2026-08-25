@@ -5,9 +5,10 @@ from unittest import TestCase, mock
 from BaseClasses import CollectionState
 from rule_builder.rules import Rule
 
-from .. import SilksongWorld
+from .. import LOGIC_UNKNOWN_REGION_NAME, SilksongWorld
 from .. import category_fill, rules
 from ..locations import SCROUNGE_RELIC_ITEM_NAMES
+from ..requirements import LOGIC_UNKNOWN_LOCATIONS
 from .bases import SilksongTestBase
 
 
@@ -44,6 +45,31 @@ class TestDefaultWorld(SilksongTestBase):
         for item in self.get_items_by_name(CLAWLINE_ITEM):
             state.collect(item)
         self.assertTrue(location.can_reach(state))
+
+    def test_logic_unknown_locations_unlock_after_victory(self) -> None:
+        locations = [
+            location
+            for location in self.multiworld.get_locations(self.player)
+            if location.name in LOGIC_UNKNOWN_LOCATIONS
+        ]
+
+        self.assertTrue(locations)
+        self.assertTrue(
+            all(
+                location.parent_region.name == LOGIC_UNKNOWN_REGION_NAME
+                for location in locations
+            )
+        )
+
+        state = CollectionState(self.multiworld)
+        self.assertTrue(
+            all(not location.can_reach(state) for location in locations)
+        )
+
+        state.collect(self.world.create_event("Victory"))
+        self.assertTrue(
+            all(location.can_reach(state) for location in locations)
+        )
 
 
 class TestShufflePerformance(TestCase):

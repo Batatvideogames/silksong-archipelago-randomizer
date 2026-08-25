@@ -14,6 +14,7 @@ from BaseClasses import (
     Tutorial,
 )
 from rule_builder.cached_world import CachedRuleBuilderWorld
+from rule_builder.rules import Has
 from worlds.AutoWorld import WebWorld
 
 from .act1_scope import (
@@ -143,6 +144,7 @@ LOGIC_PAYLOAD_FIELDS = (
     "abstract_requirements",
     "logic_item_dependencies",
 )
+LOGIC_UNKNOWN_REGION_NAME = "LogicUnknown"
 
 
 class SilksongWebWorld(WebWorld):
@@ -1057,12 +1059,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def create_regions(self) -> None:
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
-        self.multiworld.regions += [menu, pharloom]
+        logic_unknown = Region(
+            LOGIC_UNKNOWN_REGION_NAME,
+            self.player,
+            self.multiworld,
+        )
+        self.multiworld.regions += [menu, pharloom, logic_unknown]
         native_regions = create_native_logic_region_map(self)
         abstract_names = self._silksong_native_abstract_names
         self._silksong_native_location_anchors = {}
         self._silksong_native_assumed_source_locations = set()
         menu.connect(pharloom)
+        self.create_entrance(
+            pharloom,
+            logic_unknown,
+            Has("Victory"),
+            "Silksong Logic: LogicUnknown",
+        )
         connect_native_logic_regions(self, menu, native_regions)
         randomize_needle_upgrades = (
             self.is_needle_upgrade_randomization_enabled()
@@ -1187,9 +1200,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self._silksong_native_assumed_source_locations.add(name)
             parent_anchor = None if uses_native_source else anchor
             parent_region = (
-                native_regions[parent_anchor]
-                if parent_anchor is not None
-                else pharloom
+                logic_unknown
+                if is_logic_unknown_location(name)
+                else (
+                    native_regions[parent_anchor]
+                    if parent_anchor is not None
+                    else pharloom
+                )
             )
             self._silksong_native_location_anchors[name] = anchor
             location = SilksongLocation(

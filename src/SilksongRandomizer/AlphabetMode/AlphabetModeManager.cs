@@ -38,6 +38,19 @@ namespace SilksongRandomizer.AlphabetMode
             }
         }
 
+        internal static bool IsFilteringCurrentText()
+        {
+            try
+            {
+                return ShouldFilterCurrentText();
+            }
+            catch (Exception ex)
+            {
+                LogFilterFailure(ex);
+                return false;
+            }
+        }
+
         internal static void BeginTextBypass()
         {
             textBypassDepth++;
@@ -194,6 +207,7 @@ namespace SilksongRandomizer.AlphabetMode
                 {
                     gameManager.RefreshLocalization();
                 }
+                AlphabetMapTextManager.Refresh();
             }
             catch (Exception ex)
             {

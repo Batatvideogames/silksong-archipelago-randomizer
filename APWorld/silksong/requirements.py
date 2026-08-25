@@ -5354,8 +5354,8 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
     )
 ) | ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
 
-# These checks have incomplete routes. They remain reachable for collection
-# but cannot hold advancement items.
+# These checks have incomplete routes. They unlock after Victory and cannot
+# hold advancement items.
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
 )
