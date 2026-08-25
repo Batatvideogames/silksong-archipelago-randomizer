@@ -3,11 +3,12 @@ from __future__ import annotations
 import dataclasses
 from typing import TYPE_CHECKING, Iterable
 
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, Item
 from NetUtils import JSONMessagePart
 from rule_builder.rules import (
     And,
     CanReachLocation,
+    CanReachRegion,
     False_,
     Has,
     HasAny,
@@ -19,8 +20,10 @@ from rule_builder.rules import (
 
 from .display_names import clean_item_display_name
 from .items import get_vanilla_reward_name
+from .locations import canonicalize_location_name
 from .requirements import (
     CREST_ITEMS,
+    REQUIREMENTS,
     DEFAULT_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
     NON_ARCHITECT_CREST_ITEMS,
@@ -31,9 +34,7 @@ from .requirements import (
     USABLE_SCUTTLEBRACE_REQUIREMENT,
     ItemCountRequirement,
     LocationRequirement,
-    _compute_abstract_values,
     _has_named_requirement,
-    _satisfies_requirement_with_values,
     get_abstract_requirements,
     get_goal_requirements,
     get_location_requirements,
@@ -47,32 +48,6 @@ if TYPE_CHECKING:
 
 
 GAME_NAME = "Hollow Knight: Silksong"
-
-
-class _StateWithAssumedItem:
-    """Read-only CollectionState view with one temporary item copy."""
-
-    def __init__(self, state, item_name: str, player: int) -> None:
-        self._state = state
-        self._item_name = item_name
-        self._player = player
-
-    def count(self, item_name: str, player: int) -> int:
-        count_method = getattr(self._state, "count", None)
-        base_count = (
-            count_method(item_name, player)
-            if callable(count_method)
-            else int(self._state.has(item_name, player))
-        )
-        if item_name == self._item_name and player == self._player:
-            return base_count + 1
-        return base_count
-
-    def has(self, item_name: str, player: int, count: int = 1) -> bool:
-        return self.count(item_name, player) >= count
-
-    def __getattr__(self, name: str):
-        return getattr(self._state, name)
 
 
 @dataclasses.dataclass()
@@ -195,19 +170,32 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK
     scuttlebrace_logic_enabled: bool = True
     pollip_heart_count: int = 0
+    anchor_requirement_name: str | None = None
 
     def _instantiate(self, world: World) -> Rule.Resolved:
+        child_rule = build_location_rule(
+            self.location_name,
+            split_dash_and_sprint=self.split_dash_and_sprint,
+            allow_bellways_before_bell_beast=(
+                self.allow_bellways_before_bell_beast
+            ),
+            skips_tier=self.skips_tier,
+            randomized_crest_slots_enabled=(
+                self.randomized_crest_slots_enabled
+            ),
+            starting_location=self.starting_location,
+            trails_end_requirement=self.trails_end_requirement,
+            scuttlebrace_logic_enabled=self.scuttlebrace_logic_enabled,
+            pollip_heart_count=self.pollip_heart_count,
+            native_abstract_regions=True,
+            anchor_requirement_name=self.anchor_requirement_name,
+        )
         return self.Resolved(
             self.location_name,
             self.reward_name,
-            self.split_dash_and_sprint,
-            self.allow_bellways_before_bell_beast,
-            self.skips_tier,
-            self.randomized_crest_slots_enabled,
-            self.starting_location,
-            self.trails_end_requirement,
-            self.scuttlebrace_logic_enabled,
-            self.pollip_heart_count,
+            self.anchor_requirement_name,
+            child_rule.resolve(world),
+            world.create_item(self.reward_name),
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -215,65 +203,44 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     class Resolved(Rule.Resolved):
         location_name: str
         reward_name: str
-        split_dash_and_sprint: bool
-        allow_bellways_before_bell_beast: bool
-        skips_tier: int
-        randomized_crest_slots_enabled: bool
-        starting_location: str
-        trails_end_requirement: str
-        scuttlebrace_logic_enabled: bool
-        pollip_heart_count: int
+        anchor_requirement_name: str | None
+        child: Rule.Resolved
+        assumed_item: Item
+
+        def __post_init__(self) -> None:
+            object.__setattr__(
+                self,
+                "force_recalculate",
+                self.force_recalculate or self.child.force_recalculate,
+            )
+            super().__post_init__()
 
         def _evaluate(self, state: CollectionState) -> bool:
-            assumed_state = _StateWithAssumedItem(
-                state,
-                self.reward_name,
-                self.player,
-            )
-            logic_item_dependencies = get_logic_item_dependencies(
-                self.split_dash_and_sprint
-            )
-            (
-                abstract_values,
-                has_crest,
-                has_spear,
-                has_item,
-                count_item,
-            ) = _compute_abstract_values(
-                assumed_state,
-                self.player,
-                self.split_dash_and_sprint,
-                self.allow_bellways_before_bell_beast,
-                self.skips_tier,
-                self.randomized_crest_slots_enabled,
-                self.starting_location,
-                self.trails_end_requirement,
-                self.scuttlebrace_logic_enabled,
-            )
-            return any(
-                _satisfies_requirement_with_values(
-                    requirement,
-                    abstract_values,
-                    has_item,
-                    count_item,
-                    has_crest,
-                    has_spear,
-                    logic_item_dependencies,
-                    self.skips_tier,
-                    scuttlebrace_logic_enabled=(
-                        self.scuttlebrace_logic_enabled
-                    ),
+            assumed_state = state.copy()
+            assumed_state.collect(self.assumed_item, True)
+            if (
+                self.anchor_requirement_name is not None
+                and not assumed_state.can_reach_region(
+                    self.anchor_requirement_name,
+                    self.player,
                 )
-                for requirement in get_location_requirements(
-                    self.location_name,
-                    pollip_heart_count=self.pollip_heart_count,
-                )
-            )
+            ):
+                return False
+            return self.child(assumed_state)
 
         def item_dependencies(self) -> dict[str, set[int]]:
             return {
                 item_name: {id(self)}
                 for item_name in get_logic_item_references()
+            }
+
+        def region_dependencies(self) -> dict[str, set[int]]:
+            region_names = set(self.child.region_dependencies())
+            if self.anchor_requirement_name is not None:
+                region_names.add(self.anchor_requirement_name)
+            return {
+                region_name: {id(self)}
+                for region_name in region_names
             }
 
         def explain_json(
@@ -425,6 +392,7 @@ def _compile_named_requirement(
     starting_location: str,
     trails_end_requirement: str,
     scuttlebrace_logic_enabled: bool,
+    native_abstract_regions: bool = False,
 ) -> Rule:
     if (
         not scuttlebrace_logic_enabled
@@ -432,6 +400,8 @@ def _compile_named_requirement(
     ):
         return False_()
     if requirement_name in abstract_requirement_names:
+        if native_abstract_regions:
+            return CanReachRegion(requirement_name)
         return AbstractRequirementRule(
             requirement_name,
             split_dash_and_sprint,
@@ -472,6 +442,9 @@ def _compile_requirement(
     starting_location: str,
     trails_end_requirement: str,
     scuttlebrace_logic_enabled: bool,
+    native_abstract_regions: bool = False,
+    anchor_requirement_name: str | None = None,
+    required_location_stack: tuple[str, ...] = (),
 ) -> Rule:
     if requirement.minimum_skip_tier > skips_tier:
         return False_()
@@ -491,6 +464,50 @@ def _compile_requirement(
             starting_location=starting_location,
             trails_end_requirement=trails_end_requirement,
             scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+            native_abstract_regions=native_abstract_regions,
+        )
+
+    def compile_required_location(location_name: str) -> Rule:
+        if not native_abstract_regions:
+            return CanReachLocation(location_name)
+        canonical_name = canonicalize_location_name(location_name)
+        if is_logic_unknown_location(canonical_name):
+            return True_()
+        if canonical_name in required_location_stack:
+            return False_()
+        alternatives = REQUIREMENTS.get(canonical_name)
+        if not alternatives:
+            return False_()
+        next_stack = (*required_location_stack, canonical_name)
+        return _or_rules(
+            _compile_requirement(
+                alternative,
+                abstract_requirement_names=abstract_requirement_names,
+                split_dash_and_sprint=split_dash_and_sprint,
+                allow_bellways_before_bell_beast=(
+                    allow_bellways_before_bell_beast
+                ),
+                skips_tier=skips_tier,
+                randomized_crest_slots_enabled=(
+                    randomized_crest_slots_enabled
+                ),
+                starting_location=starting_location,
+                trails_end_requirement=trails_end_requirement,
+                scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+                native_abstract_regions=True,
+                required_location_stack=next_stack,
+            )
+            for alternative in alternatives
+        )
+
+    if anchor_requirement_name in requirement.all_of:
+        requirement = dataclasses.replace(
+            requirement,
+            all_of=tuple(
+                name
+                for name in requirement.all_of
+                if name != anchor_requirement_name
+            ),
         )
 
     rules: list[Rule] = []
@@ -513,7 +530,7 @@ def _compile_requirement(
         for count_requirement in requirement.item_counts
     )
     rules.extend(
-        CanReachLocation(location_name)
+        compile_required_location(location_name)
         for location_name in requirement.required_locations
     )
     return _and_rules(rules)
@@ -529,6 +546,8 @@ def build_requirements_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    native_abstract_regions: bool = False,
+    anchor_requirement_name: str | None = None,
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
 
@@ -555,6 +574,8 @@ def build_requirements_rule(
             starting_location=starting_location,
             trails_end_requirement=trails_end_requirement,
             scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+            native_abstract_regions=native_abstract_regions,
+            anchor_requirement_name=anchor_requirement_name,
         )
         for requirement in requirements
     )
@@ -571,6 +592,8 @@ def build_location_rule(
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
     pollip_heart_count: int = 0,
+    native_abstract_regions: bool = False,
+    anchor_requirement_name: str | None = None,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -586,6 +609,8 @@ def build_location_rule(
         starting_location=starting_location,
         trails_end_requirement=trails_end_requirement,
         scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+        native_abstract_regions=native_abstract_regions,
+        anchor_requirement_name=anchor_requirement_name,
     )
 
 
@@ -601,6 +626,8 @@ def build_goal_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    native_abstract_regions: bool = False,
+    anchor_requirement_name: str | None = None,
 ) -> Rule:
     return build_requirements_rule(
         get_goal_requirements(
@@ -615,6 +642,8 @@ def build_goal_rule(
         starting_location=starting_location,
         trails_end_requirement=trails_end_requirement,
         scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+        native_abstract_regions=native_abstract_regions,
+        anchor_requirement_name=anchor_requirement_name,
     )
 
 
@@ -630,6 +659,7 @@ def build_native_source_rule(
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
     pollip_heart_count: int = 0,
+    anchor_requirement_name: str | None = None,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -644,4 +674,5 @@ def build_native_source_rule(
         trails_end_requirement,
         scuttlebrace_logic_enabled,
         pollip_heart_count,
+        anchor_requirement_name,
     )

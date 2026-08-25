@@ -71,6 +71,12 @@ from .minor_families import (
     MINOR_FAMILY_OPTION_BY_KEY,
     get_minor_family_shuffle_category,
 )
+from .native_regions import (
+    choose_location_anchor,
+    connect_native_logic_regions,
+    create_native_logic_region_map,
+    native_source_requires_assumption,
+)
 from .options import (
     CATEGORY_OPTION_BY_LOCATION_CATEGORY,
     SilksongOptions,
@@ -86,6 +92,7 @@ from .prices import (
     resolve_purchase_prices,
 )
 from .requirements import (
+    CRAWFATHER_LOCATION,
     FLEA_HUNT_GOAL_KEY,
     JUDGE_BELL_ITEMS,
     LOGIC_UNKNOWN_LOCATIONS,
@@ -101,6 +108,9 @@ from .requirements import (
     export_abstract_requirements,
     export_logic_item_dependencies,
     export_requirements,
+    get_location_requirements,
+    get_logic_item_references,
+    is_logic_unknown_location,
     normalize_trails_end_requirement,
 )
 from .rules import (
@@ -1047,9 +1057,22 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def create_regions(self) -> None:
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
+        self.multiworld.regions += [menu, pharloom]
+        native_regions = create_native_logic_region_map(self)
+        abstract_names = self._silksong_native_abstract_names
+        self._silksong_native_location_anchors = {}
+        self._silksong_native_assumed_source_locations = set()
+        menu.connect(pharloom)
+        connect_native_logic_regions(self, menu, native_regions)
         randomize_needle_upgrades = (
             self.is_needle_upgrade_randomization_enabled()
         )
+        pollip_heart_count = (
+            POLLIP_HEART_COUNT
+            if self.get_category_mode("PollipHeart") != "vanilla"
+            else 0
+        )
+        logic_item_references = get_logic_item_references()
 
         fixed_shuffle_locations = {
             location_name
@@ -1132,11 +1155,48 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 )
                 else data.code
             )
+            anchor = None
+            if (
+                name != "Goal"
+                and name != CRAWFATHER_LOCATION
+                and not is_logic_unknown_location(name)
+            ):
+                anchor = choose_location_anchor(
+                    get_location_requirements(
+                        name,
+                        pollip_heart_count=pollip_heart_count,
+                    ),
+                    abstract_names,
+                )
+            reward_name = (
+                get_vanilla_reward_name(name, data.category)
+                if mode == "vanilla"
+                else ""
+            )
+            uses_native_source = (
+                reward_name in logic_item_references
+                and native_source_requires_assumption(
+                    self,
+                    name,
+                    reward_name,
+                    pollip_heart_count,
+                    anchor,
+                )
+            )
+            if uses_native_source:
+                self._silksong_native_assumed_source_locations.add(name)
+            parent_anchor = None if uses_native_source else anchor
+            parent_region = (
+                native_regions[parent_anchor]
+                if parent_anchor is not None
+                else pharloom
+            )
+            self._silksong_native_location_anchors[name] = anchor
             location = SilksongLocation(
                 self.player,
                 name,
                 address,
-                pharloom,
+                parent_region,
             )
             location.silksong_randomization_category = data.category
             if (
@@ -1149,10 +1209,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         data.category,
                     )
                 )
-            pharloom.locations.append(location)
-
-        self.multiworld.regions += [menu, pharloom]
-        menu.connect(pharloom)
+            parent_region.locations.append(location)
 
     def set_rules(self) -> None:
         set_silksong_rules(self)
