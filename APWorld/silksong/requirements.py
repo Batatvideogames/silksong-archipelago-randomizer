@@ -42,6 +42,7 @@ from .locations import (
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
+    SPOOL_FRAGMENT_COUNT_ITEM,
     compile_room_graph,
     room_node_name,
 )
@@ -246,6 +247,9 @@ SKILL_ITEMS: tuple[str, ...] = tuple(
 )
 
 SILK_HEART_ITEM = 'Progressive Silkheart'
+SPOOL_FRAGMENT_ITEM_NAMES: tuple[str, ...] = tuple(
+    f'Spool Fragment #{index}' for index in range(1, 19)
+)
 SWIFT_STEP_ITEM = 'Swift Step'
 PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
 PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
@@ -351,16 +355,18 @@ ROOM_GRAPH_QUARANTINED_CHECK_NAMES: frozenset[str] = frozenset(
     for name in COMPILED_ROOM_GRAPH.quarantined_check_names
 )
 
-# Four Dust_03 cache rows have no complete node or local requirement, so they
-# stay filler-only until their routes are finished.
 SINNER_ROAD_EXACT_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset({
     "Sinner's Road - Rosary Cache #1",
     "Sinner's Road - Rosary Cache #2",
     "Sinner's Road - Rosary Cache #3",
+    "Sinner's Road - Rosary Cache #4",
     "Sinner's Road - Rosary Cache #5",
     "Sinner's Road - Rosary Cache #6",
     "Sinner's Road - Rosary Cache #7",
     "Sinner's Road - Rosary Cache #8",
+    "Sinner's Road - Shell Shard Cache #1",
+    "Sinner's Road - Shell Shard Cache #2",
+    "Sinner's Road - Shell Shard Cache #3",
     "Sinner's Road - Shell Shard Cache #4",
     "Sinner's Road - Shell Shard Cache #5",
     "Sinner's Road - Shell Shard Cache #6",
@@ -375,12 +381,7 @@ SINNER_ROAD_EXACT_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset({
     "Barbed Bracelet",
     "Roachkeeper - Simple Key",
 })
-SINNER_ROAD_UNRESOLVED_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset({
-    "Sinner's Road - Rosary Cache #4",
-    "Sinner's Road - Shell Shard Cache #1",
-    "Sinner's Road - Shell Shard Cache #2",
-    "Sinner's Road - Shell Shard Cache #3",
-})
+SINNER_ROAD_UNRESOLVED_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset()
 SINNER_ROAD_NON_COMMUNITY_FALLBACK_CHECK_NAMES: frozenset[str] = frozenset({
     "Sinner's Road - Rosary Chest",
 })
@@ -824,6 +825,7 @@ PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Wish: An Icon of Hope',
         # The mapper supplied the capture route into the Slab combat Arena.
         'Wish: Passing of the Age',
+        "Wish: Queen's Egg",
         *(
             (SINNER_MISSING_BROTHER_LOCATION,)
             if SINNER_MISSING_BROTHER_COMMUNITY_EVENT_COMPILED
@@ -1332,7 +1334,14 @@ def _compiled_room_clause_requirement(
         silk_spear=clause.require_silk_spear,
         skip_tier=clause.minimum_skip_tier,
         item_counts=(
-            item_count(minimum, item_name)
+            item_count(
+                minimum,
+                *(
+                    SPOOL_FRAGMENT_ITEM_NAMES
+                    if item_name == SPOOL_FRAGMENT_COUNT_ITEM
+                    else (item_name,)
+                ),
+            )
             for item_name, minimum in clause.item_counts
         ),
     )
@@ -1801,7 +1810,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Bellway - Blasted Steps'), # Bellway
     ),
     "Path: Sinner's Road - Broken Toll": (
-        req('Path: Greymoor - Halfway House', 'Ancestral Art: Cling Grip'),
+        req('Path: Greymoor - Halfway House'),
         req('Path: Bilewater - Exhaust Organ', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
     ),
     "Path: Sinner's Road - Styx": (
@@ -2231,10 +2240,52 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
+    'Event: Other Courier Delivery Completed': (
+        area(
+            1,
+            'Mosslands - Bone Bottom',
+            'Path: Bellhart - Bellhart',
+            'Event: Bell Beast Defeated',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            3,
+            'Mosslands - Bone Bottom',
+            'Path: Bellhart - Bellhart',
+        ),
+        area(
+            2,
+            'Putrified Ducts - Fleatopia',
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+            item_counts=(item_count(22, *FLEA_ITEMS),),
+        ),
+        area(
+            1,
+            "Far Fields - Pilgrim's Rest",
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            2,
+            'Choral Chambers - Songclave',
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            3,
+            'Choral Chambers - Songclave',
+            'Path: Bellhart - Bellhart',
+        ),
+    ),
     'Event: Queen\'s Egg Delivered': (
         req(
             'Path: Bellhart - Bellhart',
-            "Path: Sinner's Road - Styx",
+            'Event: Missing Brother Rescued',
+            'Event: Other Courier Delivery Completed',
+            room_node_name(
+                'sinner-s-road/sinner-s-road-styx-room#right'
+            ),
             crest=False,
         ),
     ),
@@ -2273,14 +2324,18 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Missing Brother Rescued': (
         req(
             'Event: Missing Courier Rescued',
-            "Path: Sinner's Road - Broken Toll",
+            room_node_name(
+                'sinner-s-road/sinner-s-road-hanging-cages#upper-entry'
+            ),
             # One vanilla activation route is an active Songclave.
             'Path: Choral Chambers - Songclave',
             crest=False,
         ),
         req(
             'Event: Missing Courier Rescued',
-            "Path: Sinner's Road - Broken Toll",
+            room_node_name(
+                'sinner-s-road/sinner-s-road-hanging-cages#upper-entry'
+            ),
             # Alternatively, accepting Great Taste from the Gourmand is
             # sufficient. Its giver is adjacent to the First Shrine.
             'Path: Choral Chambers - First Shrine',
@@ -4943,10 +4998,17 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Wish: My Missing Courier': (
         req('Event: Missing Courier Rescued', crest=False),
     ),
-    # This quest needs both the Dust_04 route and the courier event. Apply the
-    # courier gate to every route instead of treating it as room geometry.
     SINNER_MISSING_BROTHER_LOCATION: (
-        req(SINNER_MISSING_COURIER_EVENT, crest=False),
+        req(
+            SINNER_MISSING_COURIER_EVENT,
+            'Path: Choral Chambers - Songclave',
+            crest=False,
+        ),
+        req(
+            SINNER_MISSING_COURIER_EVENT,
+            'Path: Choral Chambers - First Shrine',
+            crest=False,
+        ),
     ),
     'Shellwood - Weaver Harp Inscription': (
         req('Ancestral Art: Needolin', crest=False),
@@ -5216,7 +5278,6 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         ),
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
-        'Boss: Great Conchflies',
         'Map Pickup: Putrified Ducts',
         'Map Purchase: The Cradle',
         'Map Pickup: Verdania',

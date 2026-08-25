@@ -15,6 +15,7 @@ from .room_graph import (
 
 ROOM_NODE_PREFIX = "Room Node: "
 ROOM_EVENT_PREFIX = "Room Event: "
+SPOOL_FRAGMENT_COUNT_ITEM = "__room_graph_spool_fragments__"
 
 
 @dataclass(frozen=True)
@@ -66,6 +67,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:architect-crest": (_part("Crest: Architect"),),
     "item:architects-key": (_part("Architect's Key"),),
     "item:beast-crest": (_part("Crest: Beast"),),
+    "item:bell-shellwood": (_part("Bell: Shellwood"),),
     "item:bellway-blasted-steps": (_part("Bellway: Blasted Steps"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
     "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
@@ -121,6 +123,20 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Beast"),
         _part("Crest: Witch"),
     ),
+    "macro:blasted-crest-pogo": (
+        _part("Crest: Hunter", skip_tier=1),
+        _part("Crest: Reaper", skip_tier=1),
+        _part("Crest: Shaman", skip_tier=1),
+        _part("Crest: Architect", skip_tier=1),
+        _part("Crest: Beast", skip_tier=1),
+    ),
+    "macro:blasted-proficient-beast": (
+        _part("Crest: Beast", skip_tier=1),
+    ),
+    "macro:blasted-flea-brew-stall": (
+        _part("Usable Flea Brew", skip_tier=3),
+    ),
+    "macro:blasted-heal-stall": (_part(skip_tier=3),),
     "macro:any-non-hunter-crest": (
         _part("Crest: Reaper"),
         _part("Crest: Shaman"),
@@ -241,6 +257,12 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
 # Every entry is monotonic: once that node is reachable, the player can perform
 # the action and retain the shortcut/state for the rest of the logic search.
 _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken": (
+        _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#left")),
+    ),
+    "event:sinner-s-road/sinner-s-road-styx-room/cage-right-wall-broken": (
+        _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#cage")),
+    ),
     "event:bone-bottom/bone-bottom-town/door-opened-from-other-side": (
         _part(room_node_name("bone-bottom/bonegrave#graveyard")),
     ),
@@ -457,13 +479,16 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         )
     ),
     "event:the-marrow/the-marrow-skull-wall/opened-from-shellwood": (
-        _part(room_node_name("shellwood/mosstown-03#bottom-half")),
+        _part(room_node_name("shellwood/mosstown-03#bottom")),
     ),
     "event:shellwood/bellshrine-03/activated": (
         _part(room_node_name("shellwood/bellshrine-03#room")),
     ),
     "event:shellwood/mosstown-03/top-exit-opened": (
-        _part(room_node_name("shellwood/mosstown-03#top-half")),
+        _part(
+            room_node_name("shellwood/mosstown-03#top"),
+            "Ancestral Art: Cling Grip",
+        ),
     ),
     "event:shellwood/shellwood-02/elevator-activated": (
         _part(room_node_name("shellwood/shellwood-02#ceiling-area")),
@@ -493,6 +518,8 @@ _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
         "Event: Cogwork Dancers Defeated",
     "event:global/elegy-of-the-deep-learned":
         "Event: Elegy of the Deep Learned",
+    "event:global/five-bellshrines-rung":
+        "Event: Five Bellshrines Rung",
     "event:global/last-judge-defeated": "Event: Last Judge Defeated",
     "event:global/missing-courier-rescued":
         "Event: Missing Courier Rescued",
@@ -521,13 +548,10 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "blasted-steps/blasted-steps-bellway#room": (
         _part("Path: Blasted Steps - Bellway"),
     ),
-    # The west Sinner's Road entrance comes from Greymoor's Halfway House route
-    # and needs Cling Grip. Starting at the later Sinner path would skip it.
+    # Ledge Grab is available from the start, so both routes enter through
+    # Greymoor's Halfway House.
     "sinner-s-road/sinner-s-road-entrance#room": (
-        _part(
-            "Path: Greymoor - Halfway House",
-            "Ancestral Art: Cling Grip",
-        ),
+        _part("Path: Greymoor - Halfway House"),
     ),
     # The room graph skips the stretch between Bilewater's Bellway and this
     # entrance. Use the existing east-side route at the boundary.
@@ -619,6 +643,63 @@ _CURATED_EDGES: tuple[
         "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
         (_part(),),
     ),
+    (
+        "sinner-s-road/sinner-s-road-styx-room#right",
+        "sinner-s-road/sinner-s-road-styx-room#left",
+        (
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                skip_tier=1,
+            ),
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                "Ability: Faydown Cloak",
+            ),
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                "Ancestral Art: Silk Soar",
+                "Ability: Drifter's Cloak",
+            ),
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                "Ancestral Art: Cling Grip",
+                "Usable Sharpdart",
+            ),
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                "Ancestral Art: Cling Grip",
+                "Ancestral Art: Clawline",
+            ),
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken"
+                ),
+                "Ancestral Art: Cling Grip",
+                "Swift Step",
+            ),
+        ),
+    ),
+    (
+        "sinner-s-road/sinner-s-road-styx-room#right",
+        "sinner-s-road/sinner-s-road-styx-room#cage",
+        (
+            _part(
+                room_event_name(
+                    "event:sinner-s-road/sinner-s-road-styx-room/cage-right-wall-broken"
+                )
+            ),
+        ),
+    ),
 )
 
 
@@ -653,7 +734,7 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
     "Bellshrine: Deep Docks": "deep-docks/deep-docks-bellshrine#room",
     "Shellwood - Shellgrave Inscription": "shellwood/shellgrave#room",
     "Shellwood - Weaver Harp Inscription": (
-        "shellwood/shellwood-10#lower-level"
+        "shellwood/shellwood-10#ground-level"
     ),
     "Bellshrine: Bellhart": "bellhart/belltown-shrine#arena",
     "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)": (
@@ -768,6 +849,18 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                 f"invalid room-graph pollip-heart count atom: {atom!r}"
             )
         return (_part(item_counts=(("Pollip Heart", minimum),)),)
+    if atom.startswith("count:spool-fragment:"):
+        try:
+            minimum = int(atom.rsplit(":", 1)[1])
+        except ValueError as exc:
+            raise ValueError(
+                f"invalid room-graph Spool Fragment count atom: {atom!r}"
+            ) from exc
+        if minimum < 1 or minimum > 18:
+            raise ValueError(
+                f"invalid room-graph Spool Fragment count atom: {atom!r}"
+            )
+        return (_part(item_counts=((SPOOL_FRAGMENT_COUNT_ITEM, minimum),)),)
     if atom.startswith("count:progressive-silkheart:"):
         try:
             minimum = int(atom.rsplit(":", 1)[1])

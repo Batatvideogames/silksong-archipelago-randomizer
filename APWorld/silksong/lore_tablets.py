@@ -472,6 +472,7 @@ LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "The Marrow - Entrance Inscription",
     "The Marrow - Pilgrim Diary",
     "Deep Docks - Forge Note",
+    "Blasted Steps - Judge Nursery Record",
     "Weavenest Atla - Archive Inscription",
     "Mosshome - Moss Plaque",
     "Shellwood - Shellgrave Inscription",
