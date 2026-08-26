@@ -1557,6 +1557,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.get_starting_location_key(),
                 self.get_trails_end_requirement_key(),
                 self.is_scuttlebrace_logic_enabled(),
+                (
+                    POLLIP_HEART_COUNT
+                    if self.get_category_mode('PollipHeart') != 'vanilla'
+                    else 0
+                ),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
                 self.is_split_dash_and_sprint()

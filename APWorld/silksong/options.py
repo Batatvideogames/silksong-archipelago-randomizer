@@ -445,7 +445,7 @@ class BellShrineSanity(CategoryRandomization):
 class QuestSanity(CategoryRandomization):
     """Vanilla keeps quest rewards unchanged. Shuffle randomizes rewards only among quest checks. Anywhere joins the global item pool.
 
-    This covers 32 quest rewards without randomizing the quests themselves.
+    This covers 25 quest rewards without randomizing the quests themselves.
     """
 
     display_name = "Quest Sanity"

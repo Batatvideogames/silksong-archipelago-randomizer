@@ -9,11 +9,13 @@ namespace SilksongRandomizer
     internal static class FastTravelUtil
     {
         internal const string BoneBottomHubKey = "bone_bottom";
+        internal const string GreymoorHubKey = "greymoor";
         internal const string BellhartHubKey = "bellhart";
         internal const string SongclaveHubKey = "songclave";
         private static readonly string[] MainHubKeys =
         {
             BoneBottomHubKey,
+            GreymoorHubKey,
             BellhartHubKey,
             SongclaveHubKey,
         };
@@ -51,7 +53,7 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            GameManager gameManager = GameManager.instance;
+            GameManager gameManager = GameManager.SilentInstance;
             HeroController hero = HeroController.instance;
             if (gameManager == null || hero == null)
             {
@@ -305,6 +307,8 @@ namespace SilksongRandomizer
                     return WarpDestination.Songclave;
                 case BellhartHubKey:
                     return WarpDestination.Bellhart;
+                case GreymoorHubKey:
+                    return WarpDestination.Greymoor;
                 default:
                     return WarpDestination.BoneBottom;
             }
@@ -327,16 +331,6 @@ namespace SilksongRandomizer
                 playerData.act3_enclaveWakeSceneCompleted)
             {
                 destination = WarpDestination.Terminus;
-                return true;
-            }
-
-            SaveState state = SaveState.Instance;
-            if (state != null &&
-                state.rodeFleaCaravanToGreymoor &&
-                !IsMainHubAvailable(BellhartHubKey, playerData) &&
-                !IsMainHubAvailable(SongclaveHubKey, playerData))
-            {
-                destination = WarpDestination.Greymoor;
                 return true;
             }
 
@@ -366,6 +360,8 @@ namespace SilksongRandomizer
         {
             switch (hubKey)
             {
+                case GreymoorHubKey:
+                    return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
                     return playerData != null &&
                         playerData.spinnerDefeated;
@@ -380,6 +376,14 @@ namespace SilksongRandomizer
             }
         }
 
+        private static bool IsGreymoorHubAvailable(PlayerData playerData)
+        {
+            SaveState state = SaveState.Instance;
+            return state != null &&
+                state.rodeFleaCaravanToGreymoor &&
+                (playerData == null || !playerData.spinnerDefeated);
+        }
+
         private static bool IsSongclaveHubAvailable(PlayerData playerData)
         {
             return playerData != null &&
@@ -392,6 +396,15 @@ namespace SilksongRandomizer
         )
         {
             string normalized = NormalizePreferredHubKey(preferredHubKey);
+            if (string.Equals(
+                    normalized,
+                    GreymoorHubKey,
+                    StringComparison.Ordinal
+                ) && available.Contains(BellhartHubKey))
+            {
+                return BellhartHubKey;
+            }
+
             if (normalized.Length > 0 && available.Contains(normalized))
             {
                 return normalized;

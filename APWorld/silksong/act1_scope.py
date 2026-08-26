@@ -5,7 +5,10 @@ from __future__ import annotations
 from typing import Mapping
 
 from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION
-from .requirements import _ESTABLISHED_REQUIREMENTS_BY_LOCATION
+from .requirements import (
+    COMPILED_ROOM_GRAPH,
+    _ESTABLISHED_REQUIREMENTS_BY_LOCATION,
+)
 
 
 ACT_ONE_GOAL_KEY = "act_1"
@@ -57,6 +60,18 @@ _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES = frozenset(
     if relic_item in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
 )
 
+_POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(
+    location_name
+    for location_name, source_ids in
+    COMPILED_ROOM_GRAPH.check_source_ids.items()
+    if any(
+        source_id.startswith(
+            ("choral-chambers/", "underworks/", "grand-gate/")
+        )
+        for source_id in source_ids
+    )
+)
+
 _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
     (
         "Bilewater - Map Purchase",
@@ -64,9 +79,12 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Flea: Bilewater - Thieves",
         "Flea: Deep Docks - Mines",
         "Flea: Greymoor - Tower",
+        "Flea: Sands of Karak",
         "Volt Filament",
         "Tacks",
         "Snare Setter",
+        "Thief's Mark",
+        "Snitch Pick",
         "Quick Sling",
         "Druid's Eyes",
         "Flintslate",
@@ -92,11 +110,22 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Shard Bundle #1",
         "Deep Docks - Shard Bundle #2",
         "Shellwood - Shard Bundle",
+        "Shellwood - Rosary String #2",
+        "Relic: Weaver Effigy (Keelal, Shellwood)",
+        "Shellwood - Shell Shard Cache #1",
+        "Shellwood - Shell Shard Cache #2",
+        "Shellwood - Shell Shard Cache #3",
+        "Shellwood - Shell Shard Cache #12",
+        "Grindle (Blasted Steps) - Spool Fragment",
+        "Relic: Psalm Cylinder (Grindle)",
+        "Grindle - Crafting Kit",
         "The Slab - Frayed Rosary String #1",
         "The Slab - Shard Bundle",
         "The Slab - Frayed Rosary String #2",
         "The Slab - Frayed Rosary String #3",
         "Choral Chambers - Heavy Rosary Necklace",
+        "Songclave - Heavy Rosary Necklace",
+        "Underworks - Frayed Rosary String #2",
         "Wisp Thicket - Rosary Necklace",
         "Deep Docks - Rosary Cache #3",
         "Deep Docks - Rosary Cache #4",
@@ -114,6 +143,8 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Shell Shard Cache #8",
         "Deep Docks - Shell Shard Cache #9",
         "Deep Docks - Shell Shard Cache #10",
+        "Sands of Karak - Shell Shard Cache #9",
+        "Sands of Karak - Shell Shard Cache #10",
         "Sinner's Road - Shell Shard Cache #4",
         "Sinner's Road - Shell Shard Cache #5",
         "Wisp Thicket - Shell Shard Cache #1",
@@ -128,6 +159,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
 ACT_ONE_EXCLUDED_LOCATION_NAMES = (
     _POST_ACT_ONE_SOURCE_LOCATION_NAMES
     | _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES
+    | _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES
     | _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES
 )
 

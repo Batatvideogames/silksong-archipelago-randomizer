@@ -352,9 +352,9 @@ class TestAlphabetMode(unittest.TestCase):
         self,
     ) -> None:
         expected_filler_counts = {
-            "act_1": 36,
-            "act_2": 86,
-            "act_3": 93,
+            "act_1": 33,
+            "act_2": 79,
+            "act_3": 86,
         }
         for goal, filler_count in expected_filler_counts.items():
             with self.subTest(goal=goal):

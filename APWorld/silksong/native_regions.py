@@ -3,11 +3,12 @@ from __future__ import annotations
 from collections.abc import Mapping
 
 from BaseClasses import Region
-from rule_builder.rules import Rule
+from rule_builder.rules import Rule, True_
 
 from .requirement_rules import build_location_rule, build_requirements_rule
 from .requirements import (
     LocationRequirement,
+    POLLIP_HEART_COUNT,
     get_abstract_requirements,
 )
 from .room_graph_logic import ROOM_NODE_PREFIX
@@ -38,6 +39,11 @@ def get_native_abstract_requirements(world):
         world.get_category_mode("CrestSlot") != "vanilla",
         world.get_starting_location_key(),
         world.get_trails_end_requirement_key(),
+        (
+            POLLIP_HEART_COUNT
+            if world.get_category_mode("PollipHeart") != "vanilla"
+            else 0
+        ),
     )
 
 
@@ -139,15 +145,16 @@ def native_source_requires_assumption(
         visited.add(region_name)
         for entrance in region.entrances:
             access_rule = entrance.access_rule
-            if (
-                not isinstance(access_rule, Rule.Resolved)
-                or access_rule.player != world.player
-                or reward_name in access_rule.item_dependencies()
-                or access_rule.location_dependencies()
-                or access_rule.entrance_dependencies()
-            ):
-                return True
-            pending.update(access_rule.region_dependencies())
+            if access_rule is not type(entrance).access_rule:
+                if (
+                    not isinstance(access_rule, Rule.Resolved)
+                    or access_rule.player != world.player
+                    or reward_name in access_rule.item_dependencies()
+                    or access_rule.location_dependencies()
+                    or access_rule.entrance_dependencies()
+                ):
+                    return True
+                pending.update(access_rule.region_dependencies())
             parent_region = entrance.parent_region
             if (
                 parent_region is None
@@ -175,14 +182,15 @@ def connect_native_logic_regions(
                 abstract_names,
                 owner,
             )
+            rule = build_requirements_rule(
+                (requirement,),
+                anchor_requirement_name=anchor,
+                **options,
+            )
             entrance = world.create_entrance(
                 regions[anchor] if anchor is not None else menu,
                 target,
-                build_requirements_rule(
-                    (requirement,),
-                    anchor_requirement_name=anchor,
-                    **options,
-                ),
+                None if isinstance(rule, True_) else rule,
                 f"Silksong Logic: {owner} [{index}]",
             )
             if entrance is None:

@@ -1721,6 +1721,14 @@ namespace SilksongRandomizer.Patches
         private static void Postfix(string locationName)
         {
             CheckMapMarkerManager.HideCheckedLocation(locationName);
+            if (string.Equals(
+                    LocationSet.GetCanonicalLocationName(locationName),
+                    Archipelago.GoalLocationName,
+                    StringComparison.OrdinalIgnoreCase
+                ))
+            {
+                CheckMapMarkerManager.RequestCurrentMarkerStateRefresh();
+            }
         }
     }
 

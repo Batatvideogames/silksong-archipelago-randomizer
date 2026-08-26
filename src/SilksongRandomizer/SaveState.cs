@@ -1971,9 +1971,15 @@ namespace SilksongRandomizer
                 goalCompleted = true;
             }
 
-            if (Archipelago.Instance != null)
+            Archipelago archipelago = Archipelago.Instance;
+            if (archipelago != null)
             {
-                Archipelago.Instance.UnlockLocation(canonicalName);
+                archipelago.UnlockLocation(canonicalName);
+            }
+
+            if (archipelago == null || !archipelago.Connected)
+            {
+                RandomizerPlugin.Instance?.RequestDisconnectSave();
             }
         }
 

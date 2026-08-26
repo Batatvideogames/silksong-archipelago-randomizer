@@ -103,6 +103,9 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:witch-crest": (_part("Crest: Witch"),),
     "item:white-key": (_part("White Key"),),
     "path:bellways": (_part("Path: Bellways"),),
+    "path:bilewater-twisted-bud": (
+        _part("Path: Bilewater - Twisted Bud"),
+    ),
     "macro:progressive-swift-step-first": (
         _part("Swift Step"),
         _part("Progressive Swift Step"),
@@ -134,9 +137,13 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:blasted-proficient-beast": (
         _part("Crest: Beast", skip_tier=1),
     ),
+    "macro:blasted-easy-flea-brew-stall": (
+        _part("Usable Flea Brew", skip_tier=1),
+    ),
     "macro:blasted-flea-brew-stall": (
         _part("Usable Flea Brew", skip_tier=3),
     ),
+    "macro:blasted-easy-heal-stall": (_part(skip_tier=1),),
     "macro:blasted-heal-stall": (_part(skip_tier=3),),
     "macro:any-non-hunter-crest": (
         _part("Crest: Reaper"),
@@ -157,7 +164,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # The Magma Bell must be equippable on an owned crest.  This abstract
     # requirement accounts for native Blue slots and randomized slot upgrades.
     "macro:usable-magma-bell": (_part("Usable Magma Bell"),),
-    # Every authored Scuttlebrace route is the full-speed crawl technique, so
+    # Every mapped Scuttlebrace route is the full-speed crawl technique, so
     # merely owning/equipping the tool is insufficient. It also needs the full
     # Swift Step upgrade, never only the first progressive stage.
     "macro:usable-scuttlebrace": (
@@ -179,6 +186,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # The client keeps the randomized Wanderer chapel door open, making its
     # monotonic override a free capability in AP logic.
     "capability:wanderer-door-override": (_part(),),
+    "state:act-1": (_part("Act: 1"),),
     "state:act-3": (_part("Act: 3"),),
 }
 
@@ -209,7 +217,9 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
     "event:the-marrow/the-marrow-lava-track/activate-track":
         "event:the-marrow/the-marrow-lava-track/activate-track",
     "event:weavenest-atla/weavenest-atla-teleporter/weavenest-atla-power-activation":
-        "event:weavenest-atla/weavenest-atla-power/power-activation",
+        "event:weavenest-atla/weavenest-atla-power/weavenest-atla-power-activation",
+    "event:weavenest-atla/weavenest-atla-grotto/defeat-double-moss-mother":
+        "event:weavenest-atla/weavenest-atla-grotto/double-moss-mother-boss-fight",
     "event:wormways/wormways-middle/door-must-be-unlocked-from-the-other-side":
         "event:wormways/wormways-shaft/use-simple-key-on-lock",
     "event:wormways/wormways-shaft/door-unlocked":
@@ -315,9 +325,6 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:the-marrow/the-marrow-skull-tyrant-arena/defeat-skull-tyrant": (
         _part(room_node_name("the-marrow/the-marrow-skull-tyrant-arena#room")),
     ),
-    "event:weavenest-atla/weavenest-atla-grotto/defeat-double-moss-mother": (
-        _part(room_node_name("weavenest-atla/weavenest-atla-grotto#boss-room")),
-    ),
     "event:wormways/wormways-craggler-hallway/defeat-craggler": (
         _part(room_node_name("wormways/wormways-craggler-hallway#room")),
     ),
@@ -348,7 +355,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:deep-docks/deep-docks-forge/gauntlet-defeated": (
         _part(room_node_name("deep-docks/deep-docks-forge#gauntlet")),
     ),
-    # The authored reciprocal direction says the Forge-side crossing is free
+    # The reverse route says the Forge-side crossing is free
     # and activates the airlock.  This is the same state Lace requires from
     # the opposite direction and is unrelated to the spool-room airlock.
     "event:deep-docks/deep-docks-lace-intro/airlock-lever": (
@@ -395,6 +402,20 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # route.
     "event:underworks/underworks-western-gauntlet/gauntlet": (
         _part(room_node_name("underworks/underworks-western-gauntlet#room")),
+    ),
+    "event:underworks/underworks-east-shaft/switch-3-flipped": (
+        _part(
+            room_node_name(
+                "underworks/underworks-east-shaft#mid-right-entrance"
+            )
+        ),
+    ),
+    "event:underworks/underworks-eastern-gauntlet/lever-1-flipped": (
+        _part(
+            room_node_name(
+                "underworks/underworks-eastern-gauntlet#arena"
+            )
+        ),
     ),
     # Clearing the Arena makes the fixed Heretic Key available.
     "event:the-slab/slab-arena/gauntlet": (
@@ -483,10 +504,41 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ): (
         _part(room_node_name("high-halls/high-halls-vault#room")),
     ),
+    "event:blasted-steps/great-conchflies/beat-great-conchflies": (
+        _part(room_node_name("blasted-steps/great-conchflies#great-conchflies")),
+    ),
+    "event:blasted-steps/blasted-steps-toll-bench-bottom/lever-broken-from-coral-02": (
+        _part(
+            room_node_name(
+                "blasted-steps/blasted-steps-toll-bench-bottom#top-right-pit-left"
+            )
+        ),
+    ),
+    "event:blasted-steps/blasted-steps-wide-long-vertical/lever-broken-from-coral-03": (
+        _part(
+            room_node_name(
+                "blasted-steps/blasted-steps-wide-long-vertical#top-third"
+            )
+        ),
+    ),
     "event:whiteward/whiteward-entrance/set-elevator-to-top": (
         _part(
             room_node_name("whiteward/whiteward-entrance#elevator-shaft"),
             "White Key",
+        ),
+    ),
+    "event:whiteward/whiteward-sherma-gauntlet/balm-for-the-wounded-started": (
+        _part("Path: Choral Chambers - Songclave"),
+    ),
+    "event:whiteward/whiteward-sherma-gauntlet/beat-sherma-gauntlet": (
+        _part(room_node_name("whiteward/whiteward-sherma-gauntlet#room")),
+    ),
+    "event:whiteward/whiteward-unravelled-arena-room/surgeons-key-used": (
+        _part(
+            room_node_name(
+                "whiteward/whiteward-unravelled-arena-room#surgery-tables-left"
+            ),
+            "Surgeon's Key",
         ),
     ),
     "event:whiteward/whiteward-unravelled-arena-room/beat-unravelled-arena": (
@@ -515,16 +567,13 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         )
     ),
     "event:the-marrow/the-marrow-skull-wall/opened-from-shellwood": (
-        _part(room_node_name("shellwood/mosstown-03#bottom")),
+        _part(room_node_name("shellwood/mosstown-03#bottom-half")),
     ),
     "event:shellwood/bellshrine-03/activated": (
         _part(room_node_name("shellwood/bellshrine-03#room")),
     ),
     "event:shellwood/mosstown-03/top-exit-opened": (
-        _part(
-            room_node_name("shellwood/mosstown-03#top"),
-            "Ancestral Art: Cling Grip",
-        ),
+        _part(room_node_name("shellwood/mosstown-03#top-half")),
     ),
     "event:shellwood/shellwood-02/elevator-activated": (
         _part(room_node_name("shellwood/shellwood-02#ceiling-area")),
@@ -580,6 +629,8 @@ _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
     "event:global/five-bellshrines-rung":
         "Event: Five Bellshrines Rung",
     "event:global/last-judge-defeated": "Event: Last Judge Defeated",
+    "event:grand-gate/grand-bridge/last-judge-defeated":
+        "Event: Last Judge Defeated",
     "event:global/missing-courier-rescued":
         "Event: Missing Courier Rescued",
     "event:global/tormented-trobbio-defeated":
@@ -629,7 +680,7 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # Last Judge's arena is outside this room set. Defeating it puts Hornet at
     # the top of the Grand Elevator before the collapse.
     "grand-gate/grand-elevator#top": (
-        _part("Event: Last Judge Defeated"),
+        _part("Event: Act 2 Started", "Event: Last Judge Defeated"),
     ),
     # The missing lower Greymoor transition enters the bottom of the Wisp bench
     # room.
@@ -688,6 +739,21 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 _ALL_NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     **_NODE_SEEDS,
     **_EXTERNAL_BOUNDARY_SEEDS,
+}
+
+
+_TRANSITION_EXTRA_REQUIREMENTS: Mapping[
+    str, tuple[CompiledRoomClause, ...]
+] = {
+    "whisp-thicket/wisp-thicket-cave@t": (
+        _part("Event: Act 2 Started"),
+    ),
+    "bilewater/exhaust-organ-interior@ue": (
+        _part("Event: Act 2 Started"),
+    ),
+    "grand-gate/grand-bridge@r": (
+        _part("Event: Act 2 Started"),
+    ),
 }
 
 
@@ -1143,12 +1209,23 @@ def compile_room_graph() -> CompiledRoomGraph:
             if target_node_id not in authoritative_node_ids:
                 continue
             structural_edges.append((transition.source_node_id, target_node_id))
+            requirements = _compile_spec(
+                transition.requirement,
+                room_node_name(transition.source_node_id),
+            )
+            extra_requirements = _TRANSITION_EXTRA_REQUIREMENTS.get(
+                transition.id,
+                (_part(),),
+            )
             _append_requirements(
                 node_requirements,
                 room_node_name(target_node_id),
-                _compile_spec(
-                    transition.requirement,
-                    room_node_name(transition.source_node_id),
+                (
+                    _merge(requirement, extra_requirement)
+                    for requirement, extra_requirement in product(
+                        requirements,
+                        extra_requirements,
+                    )
                 ),
             )
         for connection in room.connections:

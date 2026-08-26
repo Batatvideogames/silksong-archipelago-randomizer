@@ -15,7 +15,7 @@ namespace SilksongRandomizer
         internal static bool IsInNeedolinMemory()
         {
             SaveState state = SaveState.Instance;
-            GameManager gameManager = GameManager.instance;
+            GameManager gameManager = GameManager.SilentInstance;
             PlayerData playerData = PlayerData.instance;
             if (state == null ||
                 !state.IsRandomized(ItemType.Skill) ||

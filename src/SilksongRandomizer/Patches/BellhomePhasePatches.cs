@@ -75,7 +75,7 @@ namespace SilksongRandomizer.Patches
 
         private static bool EnsureBellhomeExteriorPresent()
         {
-            GameManager gameManager = GameManager.instance;
+            GameManager gameManager = GameManager.SilentInstance;
             if (gameManager == null ||
                 !string.Equals(
                     GameManager.GetBaseSceneName(

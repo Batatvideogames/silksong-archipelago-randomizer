@@ -230,6 +230,7 @@ namespace SilksongRandomizer
         private static ParsedPayload cachedAbstractPayload;
         private static Dictionary<string, int> cachedAbstractInventory;
         private static Dictionary<string, bool> cachedAbstractValues;
+        private static bool cachedAbstractGoalCompleted;
         private static bool loggedPayloadFailure;
 
         internal static MapCheckReachability Evaluate(
@@ -278,8 +279,13 @@ namespace SilksongRandomizer
 
             Dictionary<string, int> inventory =
                 BuildInventoryCounts(state);
+            bool goalCompleted = state?.goalCompleted == true;
             Dictionary<string, bool> abstractValues =
-                GetAbstractRequirements(payload, inventory);
+                GetAbstractRequirements(
+                    payload,
+                    inventory,
+                    goalCompleted
+                );
             bool hasCrest = CrestItemNames.Any(
                 itemName => CountItem(inventory, itemName) > 0
             );
@@ -301,6 +307,7 @@ namespace SilksongRandomizer
                 }
                 results[canonicalLocationName] = SatisfiesGroup(
                         requirement,
+                        goalCompleted,
                         abstractValues,
                         inventory,
                         hasCrest,
@@ -384,6 +391,7 @@ namespace SilksongRandomizer
         private static ParsedPayload cachedExplainPayload;
         private static Dictionary<string, int> cachedHoverInventory;
         private static HoverLogicContext cachedHoverContext;
+        private static bool cachedHoverGoalCompleted;
         private static bool loggedExplainFailure;
 
         private sealed class HoverLogicContext
@@ -466,14 +474,17 @@ namespace SilksongRandomizer
         {
             Dictionary<string, int> inventory =
                 BuildInventoryCounts(state);
+            bool goalCompleted = state?.goalCompleted == true;
             if (ReferenceEquals(payload, cachedExplainPayload) &&
                 cachedHoverContext != null &&
+                cachedHoverGoalCompleted == goalCompleted &&
                 HaveEqualInventory(inventory, cachedHoverInventory))
             {
                 return cachedHoverContext;
             }
 
             cachedExplainPayload = payload;
+            cachedHoverGoalCompleted = goalCompleted;
             cachedHoverInventory = new Dictionary<string, int>(
                 inventory,
                 StringComparer.OrdinalIgnoreCase
@@ -482,7 +493,11 @@ namespace SilksongRandomizer
             {
                 Payload = payload,
                 Inventory = inventory,
-                AbstractValues = GetAbstractRequirements(payload, inventory),
+                AbstractValues = GetAbstractRequirements(
+                    payload,
+                    inventory,
+                    goalCompleted
+                ),
                 HasSilkSpear =
                     CountItem(inventory, "Silkspear") > 0 &&
                     NonArchitectCrestItemNames.Any(
@@ -1222,10 +1237,12 @@ namespace SilksongRandomizer
 
         private static Dictionary<string, bool> GetAbstractRequirements(
             ParsedPayload payload,
-            Dictionary<string, int> inventory
+            Dictionary<string, int> inventory,
+            bool goalCompleted
         )
         {
             if (ReferenceEquals(payload, cachedAbstractPayload) &&
+                goalCompleted == cachedAbstractGoalCompleted &&
                 HaveEqualInventory(inventory, cachedAbstractInventory))
             {
                 return cachedAbstractValues;
@@ -1239,12 +1256,14 @@ namespace SilksongRandomizer
             Dictionary<string, bool> abstractValues =
                 ResolveAbstractRequirements(
                     payload,
-                    inventory
+                    inventory,
+                    goalCompleted
                 );
 
             cachedAbstractPayload = payload;
             cachedAbstractInventory = inventorySnapshot;
             cachedAbstractValues = abstractValues;
+            cachedAbstractGoalCompleted = goalCompleted;
             return cachedAbstractValues;
         }
 
@@ -1650,7 +1669,8 @@ namespace SilksongRandomizer
         private static Dictionary<string, bool>
             ResolveAbstractRequirements(
                 ParsedPayload payload,
-                Dictionary<string, int> inventory
+                Dictionary<string, int> inventory,
+                bool goalCompleted
             )
         {
             Dictionary<string, bool> values =
@@ -1678,6 +1698,7 @@ namespace SilksongRandomizer
                     if (values[entry.Key] ||
                         !SatisfiesGroup(
                             entry.Value,
+                            goalCompleted,
                             values,
                             inventory,
                             hasCrest,
@@ -1701,6 +1722,7 @@ namespace SilksongRandomizer
 
         private static bool SatisfiesGroup(
             LogicRequirement group,
+            bool goalCompleted,
             IReadOnlyDictionary<string, bool> abstractValues,
             Dictionary<string, int> inventory,
             bool hasCrest,
@@ -1712,13 +1734,18 @@ namespace SilksongRandomizer
             HashSet<string> activeLocations
         )
         {
-            if (group == null || group.LogicUnknown)
+            if (group == null)
             {
                 return false;
+            }
+            if (group.LogicUnknown)
+            {
+                return goalCompleted;
             }
             return GetAlternatives(group).Any(
                 alternative => SatisfiesRequirement(
                     alternative,
+                    goalCompleted,
                     abstractValues,
                     inventory,
                     hasCrest,
@@ -1742,6 +1769,7 @@ namespace SilksongRandomizer
 
         private static bool SatisfiesRequirement(
             LogicRequirement requirement,
+            bool goalCompleted,
             IReadOnlyDictionary<string, bool> abstractValues,
             Dictionary<string, int> inventory,
             bool hasCrest,
@@ -1787,6 +1815,7 @@ namespace SilksongRandomizer
             if ((requirement.RequiredLocations ?? new List<string>()).Any(
                     name => !SatisfiesRequiredLocation(
                         name,
+                        goalCompleted,
                         abstractValues,
                         inventory,
                         hasCrest,
@@ -1814,6 +1843,7 @@ namespace SilksongRandomizer
 
         private static bool SatisfiesRequiredLocation(
             string locationName,
+            bool goalCompleted,
             IReadOnlyDictionary<string, bool> abstractValues,
             Dictionary<string, int> inventory,
             bool hasCrest,
@@ -1843,6 +1873,7 @@ namespace SilksongRandomizer
             {
                 return SatisfiesGroup(
                     requirement,
+                    goalCompleted,
                     abstractValues,
                     inventory,
                     hasCrest,

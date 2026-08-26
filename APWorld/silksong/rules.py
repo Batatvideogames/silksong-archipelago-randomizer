@@ -10,6 +10,7 @@ from .items import (
     item_data_table,
 )
 from .locations import (
+    COURIER_DELIVERY_WISH_LOCATION_NAMES,
     NEEDLE_UPGRADE_LOCATION_CATEGORY,
     OBSERVATION_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
@@ -246,7 +247,7 @@ def restore_global_shuffle_item_rules(scope) -> None:
 
 def set_silksong_rules(world) -> None:
     validate_requirements(
-        location_data_table.keys(),
+        location_data_table.keys() | COURIER_DELIVERY_WISH_LOCATION_NAMES,
         item_data_table.keys(),
         PROGRESSION_ITEMS,
     )

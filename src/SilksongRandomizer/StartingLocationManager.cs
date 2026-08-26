@@ -63,7 +63,7 @@ namespace SilksongRandomizer
                 while (ReferenceEquals(SaveState.Instance, expectedState) &&
                        !expectedState.startingLocationApplied)
                 {
-                    GameManager gameManager = GameManager.instance;
+                    GameManager gameManager = GameManager.SilentInstance;
                     string sceneName = gameManager == null
                         ? string.Empty
                         : gameManager.GetSceneNameString();

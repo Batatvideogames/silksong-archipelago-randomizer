@@ -42,7 +42,6 @@ from .locations import (
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
-    SPOOL_FRAGMENT_COUNT_ITEM,
     compile_room_graph,
     room_node_name,
 )
@@ -247,9 +246,6 @@ SKILL_ITEMS: tuple[str, ...] = tuple(
 )
 
 SILK_HEART_ITEM = 'Progressive Silkheart'
-SPOOL_FRAGMENT_ITEM_NAMES: tuple[str, ...] = tuple(
-    f'Spool Fragment #{index}' for index in range(1, 19)
-)
 SWIFT_STEP_ITEM = 'Swift Step'
 PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
 PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
@@ -807,10 +803,15 @@ _LOGIC_PASS_A_QUEST_LOCATION_SOURCES: tuple[str, ...] = (
     'Quest Completion: Steel Sentinel Pt2',
 )
 LOGIC_PASS_A_QUEST_LOCATIONS: tuple[str, ...] = tuple(
-    canonicalize_location_name(location_name)
-    for location_name in _LOGIC_PASS_A_QUEST_LOCATION_SOURCES
-) + (
-    'Wish: Restoration of Bellhart',
+    location_name
+    for location_name in (
+        *(
+            canonicalize_location_name(source_name)
+            for source_name in _LOGIC_PASS_A_QUEST_LOCATION_SOURCES
+        ),
+        'Wish: Restoration of Bellhart',
+    )
+    if location_name in QUEST_LOCATION_NAMES
 )
 
 PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
@@ -825,7 +826,6 @@ PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Wish: An Icon of Hope',
         # The mapper supplied the capture route into the Slab combat Arena.
         'Wish: Passing of the Age',
-        "Wish: Queen's Egg",
         *(
             (SINNER_MISSING_BROTHER_LOCATION,)
             if SINNER_MISSING_BROTHER_COMMUNITY_EVENT_COMPILED
@@ -882,12 +882,15 @@ TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Spider Strings',
         'Relic: Choral Commandment (Jubilana)',
         'Spool Fragment: Jubilana (Songclave)',
-        'Underworks - Pristine Core',
     )
 )
 
 # These direct pickups have source and movement requirements. Their routes do
 # not rely on an omitted key, quest counter or negative story state.
+HELD_MINOR_PICKUP_LOCATIONS: frozenset[str] = frozenset((
+    'Underworks - Pristine Core',
+))
+
 VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = (
     frozenset(
         canonicalize_location_name(location_name)
@@ -904,7 +907,7 @@ VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = (
             for name in MINOR_PICKUP_LOCATION_NAMES
         )
     )
-) - TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
+) - HELD_MINOR_PICKUP_LOCATIONS
 
 # Each source below has its own encoded requirement and may hold progression.
 # Other minor caches remain filler/trap-only until their room movement is
@@ -919,7 +922,7 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
         'Moss Grotto - Shell Shard Cache #5',
         'Moss Grotto - Shell Shard Cache #6',
         'Moss Grotto - Shell Shard Cache #7',
-        # Shellwood #4-6 share the far-right route used by Longpin.
+        'Shellwood - Shell Shard Cache #12',
         'Shellwood - Shell Shard Cache #4',
         'Shellwood - Shell Shard Cache #5',
         'Shellwood - Shell Shard Cache #6',
@@ -1017,7 +1020,7 @@ ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     'Whispering Vaults - Shard Bundle',
 })
 
-LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
+_LOGIC_PASS_A_PROGRESSION_CANDIDATES: frozenset[str] = frozenset(
     (
         *SHAKRA_MAP_LOCATIONS,
         *LOGIC_PASS_A_LOCATIONS,
@@ -1077,7 +1080,6 @@ PATH_ORDER: tuple[str, ...] = (
     'Wormways - Plasmium Lab',
     'Shellwood - Bellshrine',
     'Shellwood - Overgrown West',
-    'Shellwood - Central Toll',
     'Shellwood - Chapel Exit',
     'Shellwood - Greyroot',
     'Bellhart - Bellhart',
@@ -1338,14 +1340,7 @@ def _compiled_room_clause_requirement(
         silk_spear=clause.require_silk_spear,
         skip_tier=clause.minimum_skip_tier,
         item_counts=(
-            item_count(
-                minimum,
-                *(
-                    SPOOL_FRAGMENT_ITEM_NAMES
-                    if item_name == SPOOL_FRAGMENT_COUNT_ITEM
-                    else (item_name,)
-                ),
-            )
+            item_count(minimum, item_name)
             for item_name, minimum in clause.item_counts
         ),
     )
@@ -1372,6 +1367,59 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
 }
+
+POLLIP_RITE_ROOM_NODE = room_node_name(
+    "shellwood/shellwood-25b#room"
+)
+_POLLIP_RITE_BASE_REQUIREMENTS = ROOM_NODE_REQUIREMENTS.get(
+    POLLIP_RITE_ROOM_NODE,
+    (),
+)
+
+
+def _get_pollip_rite_room_requirements(
+    pollip_heart_count: int,
+) -> tuple[LocationRequirement, ...]:
+    if pollip_heart_count not in (0, POLLIP_HEART_COUNT):
+        raise ValueError(
+            "Pollip Heart count must use the live quest threshold of "
+            f"{POLLIP_HEART_COUNT} but received {pollip_heart_count!r}."
+        )
+
+    adjusted = []
+    for requirement in _POLLIP_RITE_BASE_REQUIREMENTS:
+        item_counts = tuple(
+            count_requirement
+            for count_requirement in requirement.item_counts
+            if POLLIP_HEART_ITEM not in count_requirement.item_names
+        )
+        required_locations = tuple(
+            location_name
+            for location_name in requirement.required_locations
+            if location_name not in POLLIP_HEART_SOURCE_LOCATION_NAMES
+        )
+        if pollip_heart_count:
+            item_counts = (
+                *item_counts,
+                item_count(pollip_heart_count, POLLIP_HEART_ITEM),
+            )
+        else:
+            required_locations = tuple(dict.fromkeys((
+                *required_locations,
+                *POLLIP_HEART_SOURCE_LOCATION_NAMES,
+            )))
+        adjusted.append(replace(
+            requirement,
+            item_counts=item_counts,
+            required_locations=required_locations,
+        ))
+    return tuple(adjusted)
+
+
+if _POLLIP_RITE_BASE_REQUIREMENTS:
+    ROOM_NODE_REQUIREMENTS[POLLIP_RITE_ROOM_NODE] = (
+        _get_pollip_rite_room_requirements(0)
+    )
 
 
 EQUIPPED_SILK_SKILL_REQUIREMENTS: Mapping[
@@ -1754,9 +1802,6 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Path: Shellwood - Chapel Exit': (
         req('Room Node: shellwood/shellwood-25#right-corridor', crest=False),
     ),
-    'Path: Shellwood - Central Toll': (
-        req('Room Node: shellwood/shellwood-01b#bench-toll', crest=False),
-    ),
     'Path: Shellwood - Greyroot': (
         req('Room Node: shellwood/room-witch#room', crest=False),
     ),
@@ -1814,7 +1859,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Bellway - Blasted Steps'), # Bellway
     ),
     "Path: Sinner's Road - Broken Toll": (
-        req('Path: Greymoor - Halfway House'),
+        req('Path: Greymoor - Halfway House', 'Ancestral Art: Cling Grip'),
         req('Path: Bilewater - Exhaust Organ', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
     ),
     "Path: Sinner's Road - Styx": (
@@ -1853,13 +1898,13 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         ),
     ),
     'Path: Grand Gate': (
-        req('Event: Last Judge Defeated'),
+        req('Event: Act 2 Started', 'Event: Last Judge Defeated'),
         req('Path: Choral Chambers - Below Dining'),
         req('Path: Underworks - Broken Elevator', 'Ancestral Art: Silk Soar'),
     ),
     'Path: Underworks - Broken Elevator': (
         req('Path: Grand Gate'),
-        req('Path: Greymoor - Wisp Thicket', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak'),
+        req('Event: Act 2 Started', 'Path: Greymoor - Wisp Thicket', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak'),
         req('Path: Underworks - Confession Toll'),
     ),
     'Path: Underworks - Confession Toll': (
@@ -1877,7 +1922,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         # Clawline is the reward found in the Cauldron itself.  The hidden
         # Whiteward route still has a vertical climb requiring Cling Grip.
         req('Path: Underworks - Whiteward', 'Ancestral Art: Cling Grip'),
-        req('Event: Trobbio Defeated'),
+        req('Event: Act 2 Started', 'Event: Trobbio Defeated'),
     ),
     "Path: Underworks - Architect's Shop": (
         req('Path: Underworks - Twelfth Architect', any_of=('Ancestral Art: Clawline', 'Ability: Faydown Cloak')),
@@ -1932,7 +1977,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Ventrica', 'Path: Ventrica - Songclave'), # Ventrica
     ),
     'Path: Choral Chambers - Grand Bellway': (
-        req('Path: Bilewater - Exhaust Organ'),
+        req('Event: Act 2 Started'),
         req('Path: Choral Chambers - First Shrine'),
         req('Path: Choral Chambers - Below Dining'),
         req('Path: Bellway - Grand Bellway'), # Bellway
@@ -1955,7 +2000,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Path: Outlying Citadel - Memorium': (
         req('Path: Choral Chambers - Songclave', 'Ability: Faydown Cloak'),
-        req('Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Event: Act 2 Started', 'Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
         req('Path: Ventrica', 'Path: Ventrica - Memorium'), # Ventrica
     ),
     'Path: Outlying Citadel - Library': (
@@ -2062,7 +2107,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Bellways', 'Bellway: Blasted Steps'),
     ),
     'Path: Bellway - Grand Bellway': (
-        req('Path: Bellways', 'Bellway: Grand Bellway'),
+        req('Event: Act 2 Started', 'Path: Bellways', 'Bellway: Grand Bellway'),
     ),
     'Path: Bellway - The Slab': (
         req('Path: Bellways', 'Bellway: The Slab'),
@@ -2244,52 +2289,10 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
-    'Event: Other Courier Delivery Completed': (
-        area(
-            1,
-            'Mosslands - Bone Bottom',
-            'Path: Bellhart - Bellhart',
-            'Event: Bell Beast Defeated',
-            'Event: Missing Brother Rescued',
-        ),
-        area(
-            3,
-            'Mosslands - Bone Bottom',
-            'Path: Bellhart - Bellhart',
-        ),
-        area(
-            2,
-            'Putrified Ducts - Fleatopia',
-            'Path: Bellhart - Bellhart',
-            'Event: Missing Brother Rescued',
-            item_counts=(item_count(22, *FLEA_ITEMS),),
-        ),
-        area(
-            1,
-            "Far Fields - Pilgrim's Rest",
-            'Path: Bellhart - Bellhart',
-            'Event: Missing Brother Rescued',
-        ),
-        area(
-            2,
-            'Choral Chambers - Songclave',
-            'Path: Bellhart - Bellhart',
-            'Event: Missing Brother Rescued',
-        ),
-        area(
-            3,
-            'Choral Chambers - Songclave',
-            'Path: Bellhart - Bellhart',
-        ),
-    ),
     'Event: Queen\'s Egg Delivered': (
         req(
             'Path: Bellhart - Bellhart',
-            'Event: Missing Brother Rescued',
-            'Event: Other Courier Delivery Completed',
-            room_node_name(
-                'sinner-s-road/sinner-s-road-styx-room#right'
-            ),
+            "Path: Sinner's Road - Styx",
             crest=False,
         ),
     ),
@@ -2328,18 +2331,14 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Missing Brother Rescued': (
         req(
             'Event: Missing Courier Rescued',
-            room_node_name(
-                'sinner-s-road/sinner-s-road-hanging-cages#upper-entry'
-            ),
+            "Path: Sinner's Road - Broken Toll",
             # One vanilla activation route is an active Songclave.
             'Path: Choral Chambers - Songclave',
             crest=False,
         ),
         req(
             'Event: Missing Courier Rescued',
-            room_node_name(
-                'sinner-s-road/sinner-s-road-hanging-cages#upper-entry'
-            ),
+            "Path: Sinner's Road - Broken Toll",
             # Alternatively, accepting Great Taste from the Gourmand is
             # sufficient. Its giver is adjacent to the First Shrine.
             'Path: Choral Chambers - First Shrine',
@@ -2458,8 +2457,34 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         ),
     ),
     'Event: Act 2 Started': (
-        req('Event: Last Judge Defeated', crest=False),
-        req('Event: Phantom Defeated', crest=False),
+        req(
+            'Room Node: grand-gate/grand-bridge#room',
+            crest=False,
+        ),
+        req(
+            'Event: Phantom Defeated',
+            'Ancestral Art: Cling Grip',
+            any_of=(
+                *SWIFT_STEP_OR_SPRINT_ITEMS,
+                'Ancestral Art: Clawline',
+                'Ability: Faydown Cloak',
+                "Ability: Drifter's Cloak",
+            ),
+            crest=False,
+        ),
+        req(
+            'Event: Phantom Defeated',
+            'Ancestral Art: Cling Grip',
+            crest=False,
+            skip_tier=1,
+        ),
+        req(
+            'Event: Phantom Defeated',
+            USABLE_SCUTTLEBRACE_REQUIREMENT,
+            'Ancestral Art: Swift Step',
+            crest=False,
+            skip_tier=2,
+        ),
     ),
     'Event: Threefold Melody Learned': (
         req(
@@ -2669,6 +2694,7 @@ def get_abstract_requirements(
     randomized_crest_slots_enabled: bool = True,
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    pollip_heart_count: int = 0,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
@@ -2676,12 +2702,18 @@ def get_abstract_requirements(
     trails_end_requirement = normalize_trails_end_requirement(
         trails_end_requirement
     )
+    if pollip_heart_count not in (0, POLLIP_HEART_COUNT):
+        raise ValueError(
+            "Pollip Heart count must use the live quest threshold of "
+            f"{POLLIP_HEART_COUNT} but received {pollip_heart_count!r}."
+        )
 
     if (
         not allow_bellways_before_bell_beast
         and randomized_crest_slots_enabled
         and starting_location == STARTING_LOCATION_VANILLA
         and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
+        and not pollip_heart_count
     ):
         return ABSTRACT_REQUIREMENTS
 
@@ -2698,7 +2730,7 @@ def get_abstract_requirements(
         )
     if starting_location == STARTING_LOCATION_BONE_BOTTOM:
         # Replace the zero-requirement Moss Grotto root with Bone Bottom.
-        # Every authored return route remains intact, so the fixed-point graph
+        # Every normal return route remains intact, so the fixed-point graph
         # derives Moss Grotto from its physical route back out of Bone Bottom.
         adjusted_requirements['Path: Mosslands - Moss Grotto'] = (
             MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
@@ -2709,6 +2741,10 @@ def get_abstract_requirements(
     if trails_end_requirement == TRAILS_END_REQUIREMENT_OWNED_MAPS:
         adjusted_requirements["Event: Trail's End Completed"] = (
             get_trails_end_requirements(trails_end_requirement)
+        )
+    if pollip_heart_count:
+        adjusted_requirements[POLLIP_RITE_ROOM_NODE] = (
+            _get_pollip_rite_room_requirements(pollip_heart_count)
         )
     return adjusted_requirements
 
@@ -5003,16 +5039,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         req('Event: Missing Courier Rescued', crest=False),
     ),
     SINNER_MISSING_BROTHER_LOCATION: (
-        req(
-            SINNER_MISSING_COURIER_EVENT,
-            'Path: Choral Chambers - Songclave',
-            crest=False,
-        ),
-        req(
-            SINNER_MISSING_COURIER_EVENT,
-            'Path: Choral Chambers - First Shrine',
-            crest=False,
-        ),
+        req(SINNER_MISSING_COURIER_EVENT, crest=False),
     ),
     'Shellwood - Weaver Harp Inscription': (
         req('Ancestral Art: Needolin', crest=False),
@@ -5112,6 +5139,9 @@ _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     ),
     'Shellwood - Map Purchase': (
         req('Event: Widow Defeated', crest=False),
+    ),
+    'Blasted Steps - Map Purchase': (
+        req('Event: Last Judge Defeated', crest=False),
     ),
     'Pin Purchase: Vendor Pins': (
         req('Path: Greymoor - Halfway House', crest=False),
@@ -5282,6 +5312,9 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         ),
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
+        'Boss: Great Conchflies',
+        'Relic: Bone Scroll (Wisp Thicket)',
+        'Wisp Thicket - Mask Shard',
         'Map Pickup: Putrified Ducts',
         'Map Purchase: The Cradle',
         'Map Pickup: Verdania',
@@ -5326,8 +5359,6 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
     canonicalize_location_name(location_name)
     for location_name in (
         *JUNK_ONLY_QUEST_LOCATIONS,
-        # These Sinner's Road checks have no complete routes. The Rosary Chest
-        # keeps the old Broken Toll fallback.
         *SINNER_ROAD_UNRESOLVED_COMMUNITY_CHECK_NAMES,
         *SINNER_ROAD_NON_COMMUNITY_FALLBACK_CHECK_NAMES,
         # Trail's End already reports its vanilla Shakra Ring reward through
@@ -5339,11 +5370,7 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
         'Fleatopia - Rosary String',
         'Cogwork Core - Pristine Core',
         'Whispering Vaults - Heavy Rosary Necklace',
-        'Underworks - Pristine Core',
-        # Shellwood_25 cannot enter logic until the Pollip quest distinguishes
-        # vanilla flower sources from randomized Hearts.
-        'Shellwood - Rosary String #2',
-        'Relic: Weaver Effigy (Keelal, Shellwood)',
+        *HELD_MINOR_PICKUP_LOCATIONS,
         # These caches remain non-advancement-only until their room movement
         # requirements are represented.
         *(
@@ -5362,6 +5389,9 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
 # hold advancement items.
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
+)
+LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = (
+    _LOGIC_PASS_A_PROGRESSION_CANDIDATES - LOGIC_UNKNOWN_LOCATIONS
 )
 
 
@@ -6103,17 +6133,17 @@ def get_location_requirements(
                 item_count(pollip_heart_count, POLLIP_HEART_ITEM)
             )
         else:
-            # With vanilla Hearts, AP inventory cannot represent quest
-            # progress. Require the routes to all six finite flower sources
-            # instead. The installed Shell Flowers quest consumes all six.
-            # The 5 left in Greyroot's FSM is a disabled legacy action.
             pollip_source_requirements = (
                 POLLIP_HEART_SOURCE_LOCATION_NAMES
             )
-    if count_requirements or pollip_source_requirements:
+    if (
+        count_requirements
+        or pollip_source_requirements
+    ):
         return tuple(
             replace(
                 requirement,
+
                 required_locations=tuple(dict.fromkeys((
                     *requirement.required_locations,
                     *pollip_source_requirements,
@@ -6395,6 +6425,7 @@ def export_abstract_requirements(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    pollip_heart_count: int = 0,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
@@ -6410,6 +6441,7 @@ def export_abstract_requirements(
             randomized_crest_slots_enabled,
             starting_location,
             trails_end_requirement,
+            pollip_heart_count,
         ).items()
         if (
             scuttlebrace_logic_enabled
@@ -6560,11 +6592,11 @@ def _get_location_self_dependencies(
             and location_name not in LOGIC_UNKNOWN_LOCATIONS
         )
         for reward_name in (_get_vanilla_reward_name(location_name),)
+        for access_rule in (make_rule(location_name, player, skips_tier=3),)
         if (
             reward_name in item_name_set
-            and not make_rule(location_name, player)(
-                ValidationState(reward_name)
-            )
+            and access_rule(ValidationState(''))
+            and not access_rule(ValidationState(reward_name))
         )
     }
     return frozenset(dependencies)

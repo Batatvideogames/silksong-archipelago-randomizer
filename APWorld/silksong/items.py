@@ -749,8 +749,8 @@ NEEDLE_UPGRADE_POOL_COUNTS: Mapping[str, int] = {
 # Quest Sanity adds one ordinary currency filler per added quest check. These
 # copies participate in trap_percentage whenever Quest Sanity is randomized.
 QUEST_FILLER_COUNTS: Dict[str, int] = {
-    'Rosaries (60)': 17,
-    'Shell Shards (80)': 15,
+    'Rosaries (60)': 13,
+    'Shell Shards (80)': 12,
 }
 
 # These items enter the pool only when their corresponding option is enabled.
@@ -1151,7 +1151,7 @@ def _trim_act_one_pool_entries(
         boss_mode,
         randomize_needle_upgrades,
         donation_tool_pouch_requirements,
-    )
+    ) & frozenset(location_data_table)
     for location_name in sorted(excluded_location_names):
         location_data = location_data_table[location_name]
         category = location_data.category

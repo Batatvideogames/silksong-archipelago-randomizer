@@ -802,8 +802,7 @@ namespace SilksongRandomizer
                     if (!string.Equals(
                             locationName,
                             GoalLocationName,
-                            StringComparison.OrdinalIgnoreCase) &&
-                        !unlockedLocationNames.Contains(locationName))
+                            StringComparison.OrdinalIgnoreCase))
                     {
                         pendingLocationNames.Add(locationName);
                     }

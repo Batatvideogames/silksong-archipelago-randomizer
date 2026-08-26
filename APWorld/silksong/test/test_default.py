@@ -7,8 +7,21 @@ from rule_builder.rules import Rule
 
 from .. import LOGIC_UNKNOWN_REGION_NAME, SilksongWorld
 from .. import category_fill, rules
-from ..locations import SCROUNGE_RELIC_ITEM_NAMES
-from ..requirements import LOGIC_UNKNOWN_LOCATIONS
+from ..items import QUEST_FILLER_COUNTS
+from ..locations import (
+    COURIER_DELIVERY_WISH_LOCATION_NAMES,
+    QUEST_LOCATION_NAMES,
+    SCROUNGE_RELIC_ITEM_NAMES,
+    location_data_table,
+    location_name_groups,
+    location_table,
+)
+from ..requirements import (
+    COMPILED_ROOM_GRAPH,
+    LOGIC_UNKNOWN_LOCATIONS,
+    POLLIP_HEART_SOURCE_LOCATION_NAMES,
+    REQUIREMENTS,
+)
 from .bases import SilksongTestBase
 
 
@@ -70,6 +83,130 @@ class TestDefaultWorld(SilksongTestBase):
         self.assertTrue(
             all(location.can_reach(state) for location in locations)
         )
+
+    def test_logic_free_native_entrances_keep_default_rule(self) -> None:
+        entrances = [
+            entrance
+            for region in self.multiworld.get_regions(self.player)
+            for entrance in region.exits
+            if entrance.name.startswith("Silksong Logic: ")
+        ]
+        default_entrances = [
+            entrance
+            for entrance in entrances
+            if entrance.access_rule is type(entrance).access_rule
+        ]
+
+        self.assertTrue(default_entrances)
+        self.assertFalse(
+            any(
+                isinstance(entrance.access_rule, Rule.Resolved)
+                and entrance.access_rule.always_true
+                for entrance in entrances
+            )
+        )
+
+    def test_courier_deliveries_are_not_quest_sanity(self) -> None:
+        reserved_ids = {
+            'Wish: Bone Bottom Supplies': 835761,
+            "Wish: Queen's Egg": 835762,
+            "Wish: Survivor's Camp Supplies": 835763,
+            'Wish: Fleatopia Supplies': 835764,
+            'Wish: Liquid Lacquer': 835765,
+            "Wish: Pilgrim's Rest Supplies": 835766,
+            'Wish: Songclave Supplies': 835767,
+        }
+        rescue_ids = {
+            'Wish: My Missing Courier': 835778,
+            'Wish: My Missing Brother': 835779,
+        }
+
+        self.assertEqual(
+            COURIER_DELIVERY_WISH_LOCATION_NAMES,
+            frozenset(reserved_ids),
+        )
+        for name, location_id in reserved_ids.items():
+            with self.subTest(name=name):
+                self.assertEqual(location_table[name], location_id)
+                self.assertNotIn(name, location_data_table)
+                self.assertNotIn(name, QUEST_LOCATION_NAMES)
+                self.assertNotIn(name, location_name_groups['Quests'])
+                self.assertNotIn(name, location_name_groups['Quest'])
+                self.assertIn(name, REQUIREMENTS)
+                with self.assertRaises(KeyError):
+                    self.multiworld.get_location(name, self.player)
+
+        for name, location_id in rescue_ids.items():
+            with self.subTest(name=name):
+                self.assertEqual(location_table[name], location_id)
+                self.assertIn(name, location_data_table)
+                self.assertIn(name, QUEST_LOCATION_NAMES)
+                self.assertIn(name, location_name_groups['Quests'])
+                self.multiworld.get_location(name, self.player)
+
+        self.assertEqual(sum(QUEST_FILLER_COUNTS.values()), 25)
+        self.assertEqual(len(QUEST_LOCATION_NAMES), 25)
+        self.assertEqual(len(location_name_groups['Quests']), 25)
+
+
+class TestQuestSanityShuffle(SilksongTestBase):
+    options = {
+        'goal': 'act_3',
+        'quest_sanity': 'shuffle',
+    }
+
+    def test_courier_deliveries_stay_out_of_shuffle(self) -> None:
+        for name in COURIER_DELIVERY_WISH_LOCATION_NAMES:
+            with self.subTest(name=name):
+                with self.assertRaises(KeyError):
+                    self.multiworld.get_location(name, self.player)
+        self.multiworld.get_location(
+            'Wish: My Missing Courier',
+            self.player,
+        )
+        self.multiworld.get_location(
+            'Wish: My Missing Brother',
+            self.player,
+        )
+
+
+class TestActOneQuestSanityAnywhere(SilksongTestBase):
+    options = {
+        'goal': 'act_1',
+        'quest_sanity': 'anywhere',
+    }
+
+    def test_courier_deliveries_stay_out_of_act_one(self) -> None:
+        for name in COURIER_DELIVERY_WISH_LOCATION_NAMES:
+            with self.subTest(name=name):
+                with self.assertRaises(KeyError):
+                    self.multiworld.get_location(name, self.player)
+
+    def test_pollip_quest_stays_in_act_one(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        for name in (*POLLIP_HEART_SOURCE_LOCATION_NAMES, "Pollip Pouch"):
+            with self.subTest(name=name):
+                self.assertTrue(
+                    self.multiworld.get_location(
+                        name,
+                        self.player,
+                    ).can_reach(state)
+                )
+
+    def test_citadel_checks_stay_out_of_act_one(self) -> None:
+        prefixes = ("choral-chambers/", "underworks/", "grand-gate/")
+        for location in self.multiworld.get_locations(self.player):
+            source_ids = COMPILED_ROOM_GRAPH.check_source_ids.get(
+                location.name,
+                (),
+            )
+            with self.subTest(name=location.name):
+                self.assertFalse(
+                    any(
+                        source_id.startswith(prefixes)
+                        for source_id in source_ids
+                    )
+                )
 
 
 class TestShufflePerformance(TestCase):

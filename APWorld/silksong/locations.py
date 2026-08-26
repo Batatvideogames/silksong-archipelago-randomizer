@@ -392,6 +392,16 @@ QUEST_LOCATION_ASSETS: tuple[str, ...] = (
     'Steel Sentinel Pt2',
 )
 
+COURIER_DELIVERY_QUEST_ASSETS: frozenset[str] = frozenset((
+    'Courier Delivery Bonebottom',
+    'Courier Delivery Dustpens Slave',
+    'Courier Delivery Fixer',
+    'Courier Delivery Fleatopia',
+    'Courier Delivery Mask Maker',
+    'Courier Delivery Pilgrims Rest',
+    'Courier Delivery Songclave',
+))
+
 BELLHOME_QUEST_LOCATION_ASSETS: tuple[str, ...] = (
     'Belltown House Start',
 )
@@ -823,6 +833,10 @@ CURRENT_QUEST_LOCATION_SOURCES: tuple[str, ...] = tuple(
     f'Quest Completion: {asset_name}'
     for asset_name in QUEST_LOCATION_ASSETS
 )
+COURIER_DELIVERY_WISH_LOCATION_NAMES: frozenset[str] = frozenset(
+    canonicalize_location_name(f'Quest Completion: {asset_name}')
+    for asset_name in COURIER_DELIVERY_QUEST_ASSETS
+)
 CURRENT_LOCATION_SOURCE_ROWS_WITH_QUESTS = (
     *CURRENT_LOCATION_SOURCE_ROWS,
     *(
@@ -1003,6 +1017,8 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     canonicalize_location_name(location_name)
     for location_name in CURRENT_QUEST_LOCATION_SOURCES
+    if canonicalize_location_name(location_name)
+    not in COURIER_DELIVERY_WISH_LOCATION_NAMES
 ) + tuple(
     canonicalize_location_name(f'Quest Completion: {asset_name}')
     for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
@@ -1020,6 +1036,7 @@ location_table: Dict[str, int] = {
 location_data_table: Dict[str, SilksongLocationData] = {
     name: SilksongLocationData(location_table.get(name), category)
     for name, category in LOCATION_TABLE_SOURCE
+    if name not in COURIER_DELIVERY_WISH_LOCATION_NAMES
 }
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
@@ -1067,8 +1084,8 @@ RANDOMIZATION_LOCATION_CATEGORIES: tuple[str, ...] = (
 LOCATION_NAMES_BY_CATEGORY: Dict[str, tuple[str, ...]] = {
     category: tuple(
         name
-        for name, location_category in LOCATION_TABLE_SOURCE
-        if location_category == category
+        for name, data in location_data_table.items()
+        if data.category == category
     )
     for category in RANDOMIZATION_LOCATION_CATEGORIES
 }
