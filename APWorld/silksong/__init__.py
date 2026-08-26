@@ -1578,6 +1578,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "randomize_needle_upgrades":
                 self.is_needle_upgrade_randomization_enabled(),
             "alphabet_mode": self.is_alphabet_mode_enabled(),
+            "crest_slot_item_flags": {
+                location.name: int(location.item.classification)
+                for location in get_active_crest_slot_locations(self)
+                if location.item is not None
+                and location.item.name != MEMORY_LOCKET_ITEM
+            },
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "skips": self.get_skips_tier(),

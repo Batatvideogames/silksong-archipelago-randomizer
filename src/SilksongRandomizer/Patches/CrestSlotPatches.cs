@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TeamCherry.NestedFadeGroup;
 using TMProOld;
 using UnityEngine;
 using static AntRegion;
@@ -139,6 +140,12 @@ namespace SilksongRandomizer.Patches
             internal bool AlphabetBypassActive;
         }
 
+        private sealed class CrestSlotOverlayState
+        {
+            internal GameObject OverlayObject;
+            internal NestedFadeGroupSpriteRenderer Icon;
+        }
+
         private static void BeginAlphabetBypass(DisplayPatchState state)
         {
             AlphabetModeManager.BeginTextBypass();
@@ -173,10 +180,39 @@ namespace SilksongRandomizer.Patches
             DescriptionRenderStates =
             new ConditionalWeakTable<TextMeshPro, DescriptionRenderState>();
 
+        private static readonly ConditionalWeakTable<
+                InventoryToolCrestSlot,
+                CrestSlotOverlayState>
+            CrestSlotOverlayStates =
+            new ConditionalWeakTable<
+                InventoryToolCrestSlot,
+                CrestSlotOverlayState>();
+
+        private static bool overlayFailureLogged;
+
         private static SaveState cachedLocationOwner;
         private static LocationSet cachedLocationSet;
         private static Location[] cachedLocationArray;
         private static HashSet<string> cachedLocationNames;
+
+        [HarmonyPatch(
+            typeof(InventoryToolCrestSlot),
+            "UpdateSlotDisplay",
+            new Type[] { typeof(bool) })]
+        internal static class
+            InventoryToolCrestSlot_UpdateSlotDisplay_Patch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                InventoryToolCrestSlot __instance,
+                SpriteRenderer ___itemIcon)
+            {
+                RefreshClassificationOverlay(
+                    __instance,
+                    ___itemIcon
+                );
+            }
+        }
 
         [HarmonyPatch(typeof(InventoryItemManager), "SetDisplay", new Type[] { typeof(InventoryItemSelectable) })]
         internal static class InventoryItemManager_SetDisplay_Patch
@@ -873,6 +909,147 @@ namespace SilksongRandomizer.Patches
             }
 
             return TryGetRandomizedApSlot(slot, out slotNames);
+        }
+
+        private static void RefreshClassificationOverlay(
+            InventoryToolCrestSlot slot,
+            SpriteRenderer itemIcon)
+        {
+            try
+            {
+                SaveState state = SaveState.Instance;
+                if (!TryGetRandomizedApSlot(
+                        slot,
+                        out CrestSlotNames slotNames
+                    ) ||
+                    IsLocationChecked(
+                        state,
+                        slotNames.LocationName
+                    ) ||
+                    !state.IsLocationInSeed(slotNames.LocationName) ||
+                    !state.TryGetCrestSlotItemFlags(
+                        slotNames.LocationName,
+                        out ItemFlags flags
+                    ))
+                {
+                    HideClassificationOverlay(slot);
+                    return;
+                }
+
+                Sprite icon = GetClassificationOverlayIcon(flags);
+                if ((object)icon == null ||
+                    (object)itemIcon == null)
+                {
+                    HideClassificationOverlay(slot);
+                    return;
+                }
+
+                CrestSlotOverlayState overlay =
+                    GetOrCreateClassificationOverlay(
+                        slot,
+                        itemIcon
+                    );
+                if (overlay == null ||
+                    (object)overlay.OverlayObject == null ||
+                    (object)overlay.Icon == null)
+                {
+                    return;
+                }
+
+                overlay.Icon.Sprite = icon;
+                overlay.Icon.Color = new Color(1f, 1f, 1f, 0.5f);
+                overlay.OverlayObject.SetActive(true);
+            }
+            catch (Exception ex)
+            {
+                if (overlayFailureLogged)
+                {
+                    return;
+                }
+
+                overlayFailureLogged = true;
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Could not display a Crest Slot item icon: " +
+                    ex.Message
+                );
+            }
+        }
+
+        private static CrestSlotOverlayState
+            GetOrCreateClassificationOverlay(
+                InventoryToolCrestSlot slot,
+                SpriteRenderer itemIcon)
+        {
+            if (CrestSlotOverlayStates.TryGetValue(
+                    slot,
+                    out CrestSlotOverlayState overlay
+                ) &&
+                (object)overlay.OverlayObject != null &&
+                (object)overlay.Icon != null)
+            {
+                return overlay;
+            }
+
+            CrestSlotOverlayStates.Remove(slot);
+            GameObject overlayObject =
+                new GameObject("AP Classification");
+            overlayObject.layer = itemIcon.gameObject.layer;
+            Transform overlayTransform = overlayObject.transform;
+            Transform itemTransform = itemIcon.transform;
+            overlayTransform.SetParent(itemTransform.parent, false);
+            overlayTransform.localPosition = itemTransform.localPosition;
+            overlayTransform.localRotation = itemTransform.localRotation;
+            overlayTransform.localScale = itemTransform.localScale;
+
+            SpriteRenderer renderer =
+                overlayObject.AddComponent<SpriteRenderer>();
+            renderer.sortingLayerID = itemIcon.sortingLayerID;
+            renderer.sortingOrder = itemIcon.sortingOrder + 1;
+            renderer.maskInteraction = itemIcon.maskInteraction;
+            renderer.sharedMaterial = itemIcon.sharedMaterial;
+
+            overlay = new CrestSlotOverlayState
+            {
+                OverlayObject = overlayObject,
+                Icon = overlayObject.AddComponent<
+                    NestedFadeGroupSpriteRenderer>()
+            };
+            CrestSlotOverlayStates.Add(slot, overlay);
+            return overlay;
+        }
+
+        private static void HideClassificationOverlay(
+            InventoryToolCrestSlot slot)
+        {
+            if ((object)slot != null &&
+                CrestSlotOverlayStates.TryGetValue(
+                    slot,
+                    out CrestSlotOverlayState overlay
+                ) &&
+                (object)overlay.OverlayObject != null)
+            {
+                overlay.OverlayObject.SetActive(false);
+            }
+        }
+
+        private static Sprite GetClassificationOverlayIcon(
+            ItemFlags flags)
+        {
+            RandomizerPlugin plugin = RandomizerPlugin.Instance;
+            if ((object)plugin == null)
+            {
+                return null;
+            }
+            if ((flags & (ItemFlags.Advancement | ItemFlags.Trap)) != 0)
+            {
+                return plugin.ProgressionIcon ??
+                    plugin.ArchipelagoIcon;
+            }
+            if ((flags & ItemFlags.NeverExclude) != 0)
+            {
+                return plugin.UsefulIcon ?? plugin.ArchipelagoIcon;
+            }
+            return plugin.FillerIcon ?? plugin.ArchipelagoIcon;
         }
 
         private static bool TryGetRandomizedApSlot(

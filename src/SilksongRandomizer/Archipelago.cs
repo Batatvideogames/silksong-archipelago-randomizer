@@ -126,6 +126,13 @@ namespace SilksongRandomizer
         );
         public bool FasterDialogue { get; private set; }
         public bool AlphabetMode { get; private set; }
+        public IReadOnlyDictionary<string, ItemFlags>
+            CrestSlotItemFlags { get; private set; } =
+                new ReadOnlyDictionary<string, ItemFlags>(
+                    new Dictionary<string, ItemFlags>(
+                        StringComparer.OrdinalIgnoreCase
+                    )
+                );
         public bool DeathLink { get; private set; }
         public string DeathLinkCocoon { get; private set; } =
             DeathLinkCocoonProtected;
@@ -502,6 +509,8 @@ namespace SilksongRandomizer
                     successful,
                     "alphabet_mode"
                 );
+                CrestSlotItemFlags =
+                    GetCrestSlotItemFlags(successful);
                 DeathLink = GetBooleanSlotData(
                     successful,
                     "death_link"
@@ -1838,6 +1847,46 @@ namespace SilksongRandomizer
             return phrase;
         }
 
+        private static IReadOnlyDictionary<string, ItemFlags>
+            GetCrestSlotItemFlags(LoginSuccessful login)
+        {
+            Dictionary<string, ItemFlags> flags =
+                new Dictionary<string, ItemFlags>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+            if (login?.SlotData == null ||
+                !login.SlotData.TryGetValue(
+                    "crest_slot_item_flags",
+                    out object value
+                ) ||
+                value == null)
+            {
+                return new ReadOnlyDictionary<string, ItemFlags>(flags);
+            }
+            if (!(value is JObject flagObject))
+            {
+                throw new FormatException(
+                    "APWorld setting 'crest_slot_item_flags' must be an object."
+                );
+            }
+
+            foreach (JProperty property in flagObject.Properties())
+            {
+                int rawFlags = property.Value.ToObject<int>();
+                string locationName =
+                    LocationSet.GetCanonicalLocationName(property.Name);
+                if (rawFlags < 0 ||
+                    string.IsNullOrWhiteSpace(locationName))
+                {
+                    throw new FormatException(
+                        "APWorld crest slot item flags are invalid."
+                    );
+                }
+                flags[locationName] = (ItemFlags)rawFlags;
+            }
+            return new ReadOnlyDictionary<string, ItemFlags>(flags);
+        }
+
         private static string GetStartingCrest(LoginSuccessful login)
         {
             return GetRequiredStringSlotData(login, "starting_crest");
@@ -2786,6 +2835,12 @@ namespace SilksongRandomizer
             );
             FasterDialogue = false;
             AlphabetMode = false;
+            CrestSlotItemFlags =
+                new ReadOnlyDictionary<string, ItemFlags>(
+                    new Dictionary<string, ItemFlags>(
+                        StringComparer.OrdinalIgnoreCase
+                    )
+                );
             DeathLink = false;
             DeathLinkCocoon = DeathLinkCocoonProtected;
             SilkLink = false;

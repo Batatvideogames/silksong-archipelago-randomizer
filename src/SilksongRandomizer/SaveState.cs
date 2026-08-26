@@ -99,6 +99,25 @@ namespace SilksongRandomizer
             }
         }
 
+        [System.Serializable]
+        public class CrestSlotItemFlagData
+        {
+            public string locationName = string.Empty;
+            public int flags;
+
+            public CrestSlotItemFlagData()
+            {
+            }
+
+            public CrestSlotItemFlagData(
+                string locationName,
+                ItemFlags flags)
+            {
+                this.locationName = locationName ?? string.Empty;
+                this.flags = (int)flags;
+            }
+        }
+
         public static SaveState Instance { get; set; }
 
         // A bound save may only reconnect to this Archipelago room, slot and goal.
@@ -147,6 +166,14 @@ namespace SilksongRandomizer
         [XmlIgnore]
         private Dictionary<string, string> randomizedItemMarkerLocationLookup =
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        public List<CrestSlotItemFlagData> crestSlotItemFlags =
+            new List<CrestSlotItemFlagData>();
+        [NonSerialized]
+        [XmlIgnore]
+        private Dictionary<string, ItemFlags> crestSlotItemFlagLookup =
+            new Dictionary<string, ItemFlags>(
+                StringComparer.OrdinalIgnoreCase
+            );
         public bool vogHintSettingsBound;
         public int vogWothHintCount;
         public int vogFoolishHintCount;
@@ -620,6 +647,16 @@ namespace SilksongRandomizer
                         entry.locationName
                     ))
             );
+            SetCrestSlotItemFlags(
+                (crestSlotItemFlags ??
+                    new List<CrestSlotItemFlagData>())
+                    .Where(entry => entry != null)
+                    .Select(entry =>
+                        new KeyValuePair<string, ItemFlags>(
+                            entry.locationName,
+                            (ItemFlags)entry.flags
+                        ))
+            );
             vogWothHintCount = Math.Max(
                 0,
                 Math.Min(30, vogWothHintCount)
@@ -900,6 +937,7 @@ namespace SilksongRandomizer
             SetRandomizedItemMarkerLocations(
                 archipelago.RandomizedItemMarkerLocations
             );
+            SetCrestSlotItemFlags(archipelago.CrestSlotItemFlags);
             BindVogHintSettings(archipelago);
             bellwayAccess = archipelago.BellwayAccess;
             trailsEndRequirement = archipelago.TrailsEndRequirement;
@@ -1960,6 +1998,50 @@ namespace SilksongRandomizer
                     out locationName
                 ) &&
                 !string.IsNullOrWhiteSpace(locationName);
+        }
+
+        public void SetCrestSlotItemFlags(
+            IEnumerable<KeyValuePair<string, ItemFlags>> flags)
+        {
+            crestSlotItemFlagLookup = (
+                flags ?? Enumerable.Empty<
+                    KeyValuePair<string, ItemFlags>>()
+            )
+                .Where(entry =>
+                    !string.IsNullOrWhiteSpace(entry.Key) &&
+                    (int)entry.Value >= 0)
+                .GroupBy(
+                    entry => LocationSet.GetCanonicalLocationName(
+                        entry.Key
+                    ),
+                    StringComparer.OrdinalIgnoreCase
+                )
+                .Where(group =>
+                    !string.IsNullOrWhiteSpace(group.Key))
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Last().Value,
+                    StringComparer.OrdinalIgnoreCase
+                );
+            crestSlotItemFlags = crestSlotItemFlagLookup
+                .OrderBy(entry => entry.Key, StringComparer.Ordinal)
+                .Select(entry => new CrestSlotItemFlagData(
+                    entry.Key,
+                    entry.Value
+                ))
+                .ToList();
+        }
+
+        public bool TryGetCrestSlotItemFlags(
+            string locationName,
+            out ItemFlags flags)
+        {
+            flags = ItemFlags.None;
+            return crestSlotItemFlagLookup != null &&
+                crestSlotItemFlagLookup.TryGetValue(
+                    LocationSet.GetCanonicalLocationName(locationName),
+                    out flags
+                );
         }
 
         public bool IsLocationInSeed(string locationName)

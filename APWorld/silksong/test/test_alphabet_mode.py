@@ -48,6 +48,7 @@ from worlds.silksong.requirements import (
     get_goal_requirements,
     get_logic_item_references,
 )
+from worlds.silksong.rules import get_active_crest_slot_locations
 
 
 class TestAlphabetMode(unittest.TestCase):
@@ -623,6 +624,26 @@ class TestAlphabetMode(unittest.TestCase):
                 for item in world.multiworld.itempool
             ),
             sum(world.resolve_trap_counts().values()),
+        )
+
+    def test_filled_crest_slots_export_non_locket_item_flags(self) -> None:
+        world = self.make_world(False, set_rules=True)
+        multiworld = world.multiworld
+        call_all(multiworld, "connect_entrances")
+        call_all(multiworld, "generate_basic")
+        call_all(multiworld, "pre_fill")
+        distribute_items_restrictive(multiworld)
+        call_all(multiworld, "post_fill")
+
+        expected = {
+            location.name: int(location.item.classification)
+            for location in get_active_crest_slot_locations(world)
+            if location.item is not None
+            and location.item.name != "Memory Locket"
+        }
+        self.assertEqual(
+            world.fill_slot_data()["crest_slot_item_flags"],
+            expected,
         )
 
     def test_slot_data_and_item_ownership_are_per_player(self) -> None:
