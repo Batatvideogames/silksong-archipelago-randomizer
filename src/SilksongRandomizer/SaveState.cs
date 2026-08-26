@@ -126,6 +126,7 @@ namespace SilksongRandomizer
         public int slot = -1;
         public string worldVersion = string.Empty;
         public string goal = string.Empty;
+        public string spellingBeePhrase = string.Empty;
         public int fleaHuntGoalCount =
             Archipelago.DefaultFleaHuntGoalCount;
         public string startingLocation = string.Empty;
@@ -339,6 +340,7 @@ namespace SilksongRandomizer
         public RandomizationMode questSanityMode = RandomizationMode.Anywhere;
         public bool goalCompleted;
         public int receivedItemIndex;
+        public List<string> receivedItemHistory = new List<string>();
 
         public bool canDoubleJump = false;
         public bool canChargeSlash = false;
@@ -531,6 +533,15 @@ namespace SilksongRandomizer
             slotName = slotName ?? string.Empty;
             worldVersion = worldVersion ?? string.Empty;
             goal = goal ?? string.Empty;
+            spellingBeePhrase = spellingBeePhrase ?? string.Empty;
+            if (string.Equals(
+                    goal,
+                    Archipelago.SpellingBeeGoal,
+                    StringComparison.Ordinal
+                ) && string.IsNullOrWhiteSpace(spellingBeePhrase))
+            {
+                spellingBeePhrase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
             mapLogicPayloadJson = mapLogicPayloadJson ?? string.Empty;
             PrimeMapLogicPayloadCompression();
             if (!Archipelago.IsSupportedFleaHuntGoalCount(
@@ -669,6 +680,13 @@ namespace SilksongRandomizer
                     .Select(ItemSet.GetCanonicalItemName),
                 StringComparer.OrdinalIgnoreCase
             );
+            receivedItemHistory = (
+                receivedItemHistory ?? new List<string>()
+            ).Select(itemName =>
+                string.IsNullOrWhiteSpace(itemName)
+                    ? string.Empty
+                    : ItemSet.GetCanonicalItemName(itemName)
+            ).ToList();
             silkHeartLevel = Math.Max(
                 0,
                 Math.Min(3, silkHeartLevel)
@@ -863,6 +881,8 @@ namespace SilksongRandomizer
             slot = archipelago.Slot;
             worldVersion = archipelago.WorldVersion ?? string.Empty;
             goal = archipelago.Goal ?? string.Empty;
+            spellingBeePhrase =
+                archipelago.SpellingBeePhrase ?? string.Empty;
             fleaHuntGoalCount = archipelago.FleaHuntGoalCount;
             startingLocation = archipelago.StartingLocation ?? string.Empty;
             startingCrest = archipelago.StartingCrest ?? string.Empty;
@@ -956,6 +976,11 @@ namespace SilksongRandomizer
                        StringComparison.Ordinal
                    ) &&
                    string.Equals(goal, archipelago.Goal, StringComparison.Ordinal) &&
+                   string.Equals(
+                       spellingBeePhrase,
+                       archipelago.SpellingBeePhrase,
+                       StringComparison.Ordinal
+                   ) &&
                    (
                        !string.Equals(
                            goal,
@@ -1248,6 +1273,20 @@ namespace SilksongRandomizer
                            ? "missing"
                            : archipelago.Goal) +
                        "'. Start or load the save created for this slot's goal.";
+            }
+
+            if (roomIdentityMatches &&
+                !string.Equals(
+                    spellingBeePhrase,
+                    archipelago.SpellingBeePhrase,
+                    StringComparison.Ordinal
+                ))
+            {
+                return "This randomizer save uses spelling_bee_phrase '" +
+                       spellingBeePhrase +
+                       "', but the current slot uses '" +
+                       archipelago.SpellingBeePhrase +
+                       "'. Start or load the save created for this slot's settings.";
             }
 
             if (roomIdentityMatches &&
@@ -2004,10 +2043,75 @@ namespace SilksongRandomizer
 
             string canonicalItemName =
                 ItemSet.GetCanonicalItemName(itemName);
+            if (receivedItemHistory == null)
+            {
+                receivedItemHistory = new List<string>();
+            }
+
+            if (receivedItemHistory.Count > itemIndex)
+            {
+                throw new InvalidOperationException(
+                    "Received AP item history is ahead of index " +
+                    itemIndex + "."
+                );
+            }
+
+            while (receivedItemHistory.Count < itemIndex)
+            {
+                receivedItemHistory.Add(string.Empty);
+            }
+            receivedItemHistory.Add(canonicalItemName);
             bool newlyReceived = receivedItems.Add(canonicalItemName);
             receivedItemIndex++;
             TryCompleteFleaHuntGoal();
             return repeatable || newlyReceived;
+        }
+
+        internal bool TrySynchronizeReceivedItemHistory(
+            IReadOnlyList<string> serverItems
+        )
+        {
+            if (serverItems == null ||
+                receivedItemIndex < 0 ||
+                serverItems.Count < receivedItemIndex ||
+                receivedItemHistory == null ||
+                receivedItemHistory.Count > receivedItemIndex)
+            {
+                return false;
+            }
+
+            List<string> synchronizedHistory =
+                new List<string>(receivedItemIndex);
+            for (int index = 0; index < receivedItemIndex; index++)
+            {
+                string serverItem = ItemSet.GetCanonicalItemName(
+                    serverItems[index]
+                );
+                synchronizedHistory.Add(serverItem);
+                if (receivedItems == null ||
+                    !receivedItems.Contains(serverItem))
+                {
+                    return false;
+                }
+
+                string savedItem = index < receivedItemHistory.Count
+                    ? receivedItemHistory[index]
+                    : string.Empty;
+                if (!string.IsNullOrWhiteSpace(savedItem))
+                {
+                    if (!string.Equals(
+                            savedItem,
+                            serverItem,
+                            StringComparison.OrdinalIgnoreCase
+                        ))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            receivedItemHistory = synchronizedHistory;
+            return true;
         }
 
         public int GetReceivedFleaCount()

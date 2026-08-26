@@ -4,11 +4,14 @@ import random
 import unittest
 from collections import Counter
 from dataclasses import fields
+from types import SimpleNamespace
+from unittest import mock
 
 from test.general import setup_multiworld
 
 from BaseClasses import CollectionState, ItemClassification
 from Fill import distribute_items_restrictive
+from Options import OptionError
 from worlds.AutoWorld import call_all
 from worlds.silksong import SilksongWorld
 from worlds.silksong.items import (
@@ -32,12 +35,14 @@ from worlds.silksong.options import (
     AlphabetMode,
     Goal,
     SilksongOptions,
+    SpellingBeePhrase,
 )
 from worlds.silksong.alphabet_mode import (
     ALPHABET_ITEM_COUNT,
     ALPHABET_ITEM_NAMES,
     ALPHABET_ITEM_ROWS,
     SPELLING_BEE_GOAL_KEY,
+    parse_spelling_bee_phrase,
 )
 from worlds.silksong.requirements import (
     get_goal_requirements,
@@ -128,6 +133,7 @@ class TestAlphabetMode(unittest.TestCase):
         alphabet_mode: bool,
         *,
         goal: str = "act_3",
+        spelling_bee_phrase: str = "Hornet",
         set_rules: bool = False,
     ):
         options = {
@@ -142,6 +148,7 @@ class TestAlphabetMode(unittest.TestCase):
         )
         options["goal"] = goal
         options["alphabet_mode"] = alphabet_mode
+        options["spelling_bee_phrase"] = spelling_bee_phrase
         steps = ["generate_early", "create_regions", "create_items"]
         if set_rules:
             steps.append("set_rules")
@@ -193,10 +200,30 @@ class TestAlphabetMode(unittest.TestCase):
         self.assertEqual(option.current_key, SPELLING_BEE_GOAL_KEY)
         self.assertEqual(Goal.default, Goal.option_act_3)
 
-        requirements = get_goal_requirements(SPELLING_BEE_GOAL_KEY)
+        phrase = SpellingBeePhrase.from_any("Fishies")
+        self.assertEqual(phrase.value, "Fishies")
+        phrase_data = parse_spelling_bee_phrase(phrase.value)
+        self.assertEqual(
+            phrase_data,
+            (
+                "Fishies",
+                (
+                    "Letter: F",
+                    "Letter: I",
+                    "Letter: S",
+                    "Letter: H",
+                    "Letter: E",
+                ),
+            ),
+        )
+
+        requirements = get_goal_requirements(
+            SPELLING_BEE_GOAL_KEY,
+            spelling_bee_item_names=phrase_data[1],
+        )
         self.assertEqual(len(requirements), 1)
         requirement = requirements[0]
-        self.assertEqual(requirement.all_of, ALPHABET_ITEM_NAMES)
+        self.assertEqual(requirement.all_of, phrase_data[1])
         self.assertFalse(requirement.any_of)
         self.assertFalse(requirement.item_counts)
         self.assertFalse(requirement.require_any_crest)
@@ -207,8 +234,8 @@ class TestAlphabetMode(unittest.TestCase):
             (
                 "Act 1-3 require beating the chosen act, Cursed Ending is "
                 "self explanatory, Flea Hunt is getting the set amount of "
-                "fleas and Spelling Bee is getting every letter in the "
-                "Alphabet with Alphabet Rando on"
+                "fleas and Spelling Bee is getting every unique letter in "
+                "the chosen phrase with Alphabet Rando on"
             ),
         )
         option_names = tuple(
@@ -220,7 +247,7 @@ class TestAlphabetMode(unittest.TestCase):
             "alphabet_mode",
         )
 
-    def test_spelling_bee_forces_alphabet_and_needs_every_letter(self) -> None:
+    def test_spelling_bee_keeps_every_letter_and_needs_the_phrase(self) -> None:
         world = self.make_world(
             False,
             goal=SPELLING_BEE_GOAL_KEY,
@@ -231,6 +258,7 @@ class TestAlphabetMode(unittest.TestCase):
         self.assertTrue(world.is_alphabet_mode_enabled())
         self.assertEqual(world.options.alphabet_mode.value, 1)
         self.assertEqual(slot_data["goal"], SPELLING_BEE_GOAL_KEY)
+        self.assertEqual(slot_data["spelling_bee_phrase"], "Hornet")
         self.assertTrue(slot_data["alphabet_mode"])
         self.assertEqual(
             Counter(
@@ -240,11 +268,32 @@ class TestAlphabetMode(unittest.TestCase):
             ),
             Counter({name: 1 for name in ALPHABET_ITEM_NAMES}),
         )
+        required_names = (
+            "Letter: H",
+            "Letter: O",
+            "Letter: R",
+            "Letter: N",
+            "Letter: E",
+            "Letter: T",
+        )
+        letter_items = {
+            item.name: item
+            for item in world.multiworld.itempool
+            if item.name in ALPHABET_ITEM_NAMES
+        }
         self.assertTrue(
             all(
-                item_data_table[name].classification
+                letter_items[name].classification
                 == ItemClassification.progression
+                for name in required_names
+            )
+        )
+        self.assertTrue(
+            all(
+                letter_items[name].classification
+                == ItemClassification.useful
                 for name in ALPHABET_ITEM_NAMES
+                if name not in required_names
             )
         )
 
@@ -254,12 +303,60 @@ class TestAlphabetMode(unittest.TestCase):
             state.collect(world.create_item("Letter: A"))
         self.assertFalse(goal.can_reach(state))
 
-        for item_name in ALPHABET_ITEM_NAMES[:-1]:
+        for item_name in required_names[:-1]:
             state.collect(world.create_item(item_name))
         self.assertFalse(goal.can_reach(state))
 
-        state.collect(world.create_item(ALPHABET_ITEM_NAMES[-1]))
+        state.collect(world.create_item(required_names[-1]))
         self.assertTrue(goal.can_reach(state))
+
+    def test_phrase_normalization_and_invalid_fallback(self) -> None:
+        self.assertEqual(
+            parse_spelling_bee_phrase("  Hornet   Nest  "),
+            (
+                "Hornet Nest",
+                (
+                    "Letter: H",
+                    "Letter: O",
+                    "Letter: R",
+                    "Letter: N",
+                    "Letter: E",
+                    "Letter: T",
+                    "Letter: S",
+                ),
+            ),
+        )
+        for invalid in ("", "   ", "Hornet!", "Act 2", "Café", "Hornet\tNest"):
+            with self.subTest(phrase=invalid):
+                self.assertIsNone(parse_spelling_bee_phrase(invalid))
+
+        world = self.make_world(
+            False,
+            goal=SPELLING_BEE_GOAL_KEY,
+            spelling_bee_phrase="Hornet!",
+        )
+        slot_data = world.fill_slot_data()
+        self.assertEqual(world.get_goal_key(), "act_2")
+        self.assertFalse(world.is_alphabet_mode_enabled())
+        self.assertEqual(slot_data["goal"], "act_2")
+        self.assertEqual(slot_data["spelling_bee_phrase"], "")
+        self.assertFalse(slot_data["alphabet_mode"])
+
+        alphabet_world = self.make_world(
+            True,
+            goal=SPELLING_BEE_GOAL_KEY,
+            spelling_bee_phrase="Hornet!",
+        )
+        self.assertEqual(alphabet_world.get_goal_key(), "act_2")
+        self.assertTrue(alphabet_world.is_alphabet_mode_enabled())
+        self.assertEqual(
+            Counter(
+                item.name
+                for item in alphabet_world.multiworld.itempool
+                if item.name in ALPHABET_ITEM_NAMES
+            ),
+            Counter({name: 1 for name in ALPHABET_ITEM_NAMES}),
+        )
 
     def test_disabled_mode_keeps_the_pool_unchanged(self) -> None:
         modes = self.modes("anywhere")
@@ -352,7 +449,7 @@ class TestAlphabetMode(unittest.TestCase):
         self,
     ) -> None:
         expected_filler_counts = {
-            "act_1": 33,
+            "act_1": 32,
             "act_2": 79,
             "act_3": 86,
         }
@@ -442,7 +539,7 @@ class TestAlphabetMode(unittest.TestCase):
     def test_sparse_pool_has_a_clear_generation_error(self) -> None:
         modes = self.modes("vanilla")
         with self.assertRaisesRegex(
-            ValueError,
+            OptionError,
             r"alphabet_mode needs 26 filler rewards.*only 0 are available",
         ):
             build_item_pool_entries(
@@ -455,6 +552,50 @@ class TestAlphabetMode(unittest.TestCase):
                 ),
                 alphabet_mode=True,
             )
+
+    def test_pre_fill_rejects_progression_capacity_shortage(self) -> None:
+        progression_items = (
+            SimpleNamespace(advancement=True),
+            SimpleNamespace(advancement=True),
+        )
+        multiworld = SimpleNamespace(
+            worlds={
+                1: SimpleNamespace(
+                    game=SilksongWorld.game,
+                    is_alphabet_mode_enabled=lambda: True,
+                )
+            },
+            itempool=[
+                *progression_items,
+                SimpleNamespace(advancement=False),
+            ],
+            state=object(),
+            get_unfilled_locations=lambda: (
+                SimpleNamespace(
+                    can_fill=lambda _state, item, check_access: (
+                        item.advancement
+                    )
+                ),
+                SimpleNamespace(
+                    can_fill=lambda _state, _item, check_access: False
+                ),
+                SimpleNamespace(
+                    can_fill=lambda _state, _item, check_access: False
+                ),
+            ),
+        )
+        world_module = __import__(
+            SilksongWorld.__module__,
+            fromlist=("prefill_category_shuffles",),
+        )
+        with (
+            mock.patch.object(world_module, "prefill_category_shuffles"),
+            self.assertRaisesRegex(
+                OptionError,
+                r"2 progression items for 1 progression-legal locations",
+            ),
+        ):
+            SilksongWorld.stage_pre_fill(multiworld)
 
     def test_world_generation_uses_the_option_and_keeps_pool_balance(
         self,

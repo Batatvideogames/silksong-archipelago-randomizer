@@ -3,6 +3,8 @@ from __future__ import annotations
 from random import Random
 from typing import Callable, Protocol, TypeVar
 
+from Options import OptionError
+
 
 SPELLING_BEE_GOAL_KEY = "spelling_bee"
 ALPHABET_ITEM_CATEGORY = "Alphabet"
@@ -15,6 +17,38 @@ ALPHABET_ITEM_ROWS: tuple[tuple[str, str], ...] = tuple(
     for item_name in ALPHABET_ITEM_NAMES
 )
 ALPHABET_ITEM_COUNT = len(ALPHABET_ITEM_NAMES)
+
+
+def parse_spelling_bee_phrase(
+    value: object,
+) -> tuple[str, tuple[str, ...]] | None:
+    if not isinstance(value, str):
+        return None
+    if any(
+        character != " "
+        and not (
+            "A" <= character <= "Z"
+            or "a" <= character <= "z"
+        )
+        for character in value
+    ):
+        return None
+
+    phrase = " ".join(value.split())
+    if not phrase:
+        return None
+
+    item_names = []
+    seen_letters = set()
+    for character in phrase:
+        if character == " ":
+            continue
+        letter = character.upper()
+        if letter in seen_letters:
+            continue
+        seen_letters.add(letter)
+        item_names.append(f"Letter: {letter}")
+    return phrase, tuple(item_names)
 
 
 class PoolEntry(Protocol):
@@ -37,7 +71,7 @@ def replace_filler_with_alphabet_items(
         if is_filler(entry.name)
     ]
     if len(eligible_indices) < ALPHABET_ITEM_COUNT:
-        raise ValueError(
+        raise OptionError(
             "alphabet_mode needs 26 filler rewards in the configured "
             f"random pool but only {len(eligible_indices)} are available. "
             "Enable more filler-bearing checks such as Boss Sanity, Quest "

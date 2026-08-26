@@ -13,8 +13,9 @@ namespace SilksongRandomizer.AlphabetMode
     {
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
-        private static void Postfix(ref string __result)
+        private static void Postfix(string key, ref string __result)
         {
+            __result = SpellingBeeTitle.ResolveText(key, __result);
             __result = AlphabetModeManager.FilterDirectText(__result);
         }
     }
@@ -29,4 +30,3 @@ namespace SilksongRandomizer.AlphabetMode
         }
     }
 }
-

@@ -112,6 +112,8 @@ namespace SilksongRandomizer.Patches
             AccessTools.Field(typeof(GameMap), "mapManager");
         private static readonly FieldInfo MapCameraField =
             AccessTools.Field(typeof(InventoryMapManager), "mapCamera");
+        private static readonly FieldInfo InputHandlerField =
+            AccessTools.Field(typeof(GameMap), "inputHandler");
         private static readonly FieldInfo MarkerScrollAreaField =
             AccessTools.Field(
                 typeof(InventoryMapManager),
@@ -136,6 +138,9 @@ namespace SilksongRandomizer.Patches
         private static bool markerStatesDirty;
         private static int lastMarkerStateRefreshFrame = -1;
         private static int lastTooltipHitTestFrame = -1;
+        private static bool tooltipInputArmed;
+        private static bool tooltipMapWasActive;
+        private static Vector2 tooltipMouseOrigin;
 
         internal static void Refresh(GameMap map)
         {
@@ -409,6 +414,9 @@ namespace SilksongRandomizer.Patches
             markerStatesDirty = false;
             lastMarkerStateRefreshFrame = -1;
             lastTooltipHitTestFrame = -1;
+            tooltipInputArmed = false;
+            tooltipMapWasActive = false;
+            tooltipMouseOrigin = Vector2.zero;
         }
 
         private static void BuildMarkers(GameMap map, SaveState state)
@@ -1380,13 +1388,28 @@ namespace SilksongRandomizer.Patches
         internal static void DrawTooltip()
         {
             GameMap map = currentMap;
-            if (map == null || MarkersByLocation.Count == 0)
+            if (map == null)
             {
                 return;
             }
 
             Camera mapCamera = GetMapCamera(map);
-            if (mapCamera == null || !mapCamera.isActiveAndEnabled ||
+            if (mapCamera == null || !mapCamera.isActiveAndEnabled)
+            {
+                tooltipMapWasActive = false;
+                return;
+            }
+            if (MarkersByLocation.Count == 0)
+            {
+                return;
+            }
+            if (!tooltipMapWasActive)
+            {
+                tooltipMapWasActive = true;
+                tooltipInputArmed = false;
+                tooltipMouseOrigin = Input.mousePosition;
+            }
+            if (!TryArmTooltip(map) ||
                 !TryGetTooltipPointer(map, mapCamera, out Vector2 pointer))
             {
                 return;
@@ -1568,6 +1591,32 @@ namespace SilksongRandomizer.Patches
             return MapCameraField?.GetValue(mapManager) as Camera;
         }
 
+        private static bool TryArmTooltip(GameMap map)
+        {
+            if (tooltipInputArmed)
+            {
+                return true;
+            }
+
+            Vector2 mousePosition = Input.mousePosition;
+            if ((mousePosition - tooltipMouseOrigin).sqrMagnitude >= 16f)
+            {
+                tooltipInputArmed = true;
+                return true;
+            }
+
+            InputHandler inputHandler =
+                InputHandlerField?.GetValue(map) as InputHandler;
+            if (inputHandler == null)
+            {
+                return false;
+            }
+
+            Vector2 sticks = inputHandler.GetSticksInput(out _);
+            tooltipInputArmed = sticks.sqrMagnitude > Mathf.Epsilon;
+            return tooltipInputArmed;
+        }
+
         private static bool TryGetTooltipPointer(
             GameMap map,
             Camera mapCamera,
@@ -1665,6 +1714,19 @@ namespace SilksongRandomizer.Patches
         private static bool IsFinite(float value)
         {
             return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+    }
+
+    [HarmonyPatch(typeof(InputHandler), "SetCursorVisible")]
+    internal static class ConnectionGuiCursorPatch
+    {
+        [HarmonyPrefix]
+        private static void Prefix(ref bool __0)
+        {
+            if (RandomizerPlugin.IsConnectionGuiOpen)
+            {
+                __0 = true;
+            }
         }
     }
 

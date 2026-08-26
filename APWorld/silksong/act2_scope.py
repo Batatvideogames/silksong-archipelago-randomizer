@@ -38,6 +38,7 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
 ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Silk Soar",
+        "Crest: Shaman",
         "Relic: Arcane Egg",
         "The Abyss - Map Pickup",
         "Verdania - Map Pickup",
@@ -76,10 +77,17 @@ ACT_TWO_EXCLUDED_LOCATION_NAMES: frozenset[str] = (
 ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES: frozenset[str] = frozenset(
     ("Silk Soar",)
 )
+ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
+    (
+        "Crest Slot: Shaman (Blue 1)",
+        "Crest Slot: Shaman (Blue 2)",
+    )
+)
+
 
 
 def get_act_two_excluded_location_names(
-    _starting_crest_item: str,
+    starting_crest_item: str,
     skill_mode: str = "anywhere",
 ) -> frozenset[str]:
     """Return goal exclusions for the configured Skill source behavior.
@@ -90,14 +98,15 @@ def get_act_two_excluded_location_names(
     source and keep the item in their random pool instead.
     """
 
+    excluded = ACT_TWO_EXCLUDED_LOCATION_NAMES
+    if starting_crest_item != "Crest: Shaman":
+        excluded |= ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES
+
     if skill_mode == "vanilla":
-        return (
-            ACT_TWO_EXCLUDED_LOCATION_NAMES
-            - ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES
-        )
+        return excluded - ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES
     if skill_mode not in {"shuffle", "anywhere"}:
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
-    return ACT_TWO_EXCLUDED_LOCATION_NAMES
+    return excluded
 
 
 # Pool entries carry their source lane, so repeated identities can be removed
@@ -139,7 +148,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
 
 def trim_act_two_pool_entries(
     entries: Iterable,
-    _starting_crest_item: str,
+    starting_crest_item: str,
 ):
     remaining = list(entries)
     removals = {
@@ -147,6 +156,16 @@ def trim_act_two_pool_entries(
         for category, item_counts in
         ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY.items()
     }
+    if starting_crest_item == "Crest: Shaman":
+        removals.setdefault("Crest", Counter())["Rosaries (60)"] += 1
+    else:
+        removals.setdefault("Crest", Counter())["Crest: Shaman"] += 1
+        removals.setdefault("CrestSlot", Counter()).update(
+            {
+                item_name: 1
+                for item_name in ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES
+            }
+        )
 
     for source_category, item_counts in removals.items():
         if not any(

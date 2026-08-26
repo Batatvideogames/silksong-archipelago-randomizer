@@ -2,7 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from Options import Accessibility, Choice, PerGameCommonOptions, Range, Toggle
+from Options import (
+    Accessibility,
+    Choice,
+    FreeText,
+    PerGameCommonOptions,
+    Range,
+    Toggle,
+)
 
 from .minor_families import (
     MINOR_FAMILY_KEYS,
@@ -584,7 +591,7 @@ class SilksongAccessibility(Accessibility):
 class Goal(Choice):
     """Act 1-3 require beating the chosen act, Cursed Ending is self
     explanatory, Flea Hunt is getting the set amount of fleas and Spelling Bee
-    is getting every letter in the Alphabet with Alphabet Rando on
+    is getting every unique letter in the chosen phrase with Alphabet Rando on
     """
 
     display_name = "Goal"
@@ -595,6 +602,17 @@ class Goal(Choice):
     option_cursed_ending = 4
     option_spelling_bee = 5
     default = option_act_3
+
+
+class SpellingBeePhrase(FreeText):
+    """The word or phrase used by the Spelling Bee goal.
+
+    Only A-Z letters and spaces are valid. Other characters change the goal to
+    Act 2 and do not automatically enable Alphabet Mode.
+    """
+
+    display_name = "Spelling Bee Phrase"
+    default = "Hornet"
 
 
 class FleaHuntCount(Range):
@@ -992,6 +1010,7 @@ class NakedTrapWeight(TrapWeight):
 class SilksongOptions(PerGameCommonOptions):
     accessibility: SilksongAccessibility
     goal: Goal
+    spelling_bee_phrase: SpellingBeePhrase
     flea_hunt_count: FleaHuntCount
     starting_location: StartingLocation
     starting_crest: StartingCrest

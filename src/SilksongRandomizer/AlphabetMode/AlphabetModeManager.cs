@@ -15,7 +15,9 @@ namespace SilksongRandomizer.AlphabetMode
         private static bool displaySnapshotActive;
         private static int displaySnapshotMask;
         private static LanguageCode displaySnapshotLanguage;
-        private static string displaySnapshotScene = string.Empty;
+        private static SaveState letterMaskState;
+        private static int letterMaskItemIndex = -1;
+        private static int letterMask;
         [ThreadStatic]
         private static int textBypassDepth;
 
@@ -92,6 +94,12 @@ namespace SilksongRandomizer.AlphabetMode
                 return 0;
             }
 
+            if (ReferenceEquals(letterMaskState, state) &&
+                letterMaskItemIndex == state.receivedItemIndex)
+            {
+                return letterMask;
+            }
+
             int mask = 0;
             for (int index = 0; index < 26; index++)
             {
@@ -100,6 +108,9 @@ namespace SilksongRandomizer.AlphabetMode
                     mask |= 1 << index;
                 }
             }
+            letterMaskState = state;
+            letterMaskItemIndex = state.receivedItemIndex;
+            letterMask = mask;
             return mask;
         }
 
@@ -132,12 +143,19 @@ namespace SilksongRandomizer.AlphabetMode
                     Archipelago.SpellingBeeGoal,
                     StringComparison.Ordinal
                 ) ||
-                !SpellingBeeGoal.HasAllLetters(state.receivedItems))
+                !SpellingBeeGoal.HasRequiredLetters(
+                    state.receivedItems,
+                    state.spellingBeePhrase
+                ))
             {
                 return false;
             }
 
             state.CheckLocation(Archipelago.GoalLocationName);
+            if (state.goalCompleted)
+            {
+                SpellingBeeTitle.Queue(state.spellingBeePhrase);
+            }
             return state.goalCompleted;
         }
 
@@ -146,11 +164,9 @@ namespace SilksongRandomizer.AlphabetMode
             try
             {
                 TryCompleteSpellingBeeGoal();
+                SpellingBeeTitle.Update();
                 SaveState state = SaveState.Instance;
-                GameManager gameManager = GameManager.SilentInstance;
                 LanguageCode language = Language.CurrentLanguage();
-                string scene = gameManager?.GetSceneNameString() ??
-                    string.Empty;
                 bool active = ShouldFilterCurrentText(language);
                 bool wasActive =
                     displaySnapshotInitialized && displaySnapshotActive;
@@ -160,19 +176,13 @@ namespace SilksongRandomizer.AlphabetMode
                     !ReferenceEquals(displaySnapshotState, state) ||
                     displaySnapshotActive != active ||
                     displaySnapshotMask != mask ||
-                    displaySnapshotLanguage != language ||
-                    !string.Equals(
-                        displaySnapshotScene,
-                        scene,
-                        StringComparison.Ordinal
-                    );
+                    displaySnapshotLanguage != language;
 
                 displaySnapshotInitialized = true;
                 displaySnapshotState = state;
                 displaySnapshotActive = active;
                 displaySnapshotMask = mask;
                 displaySnapshotLanguage = language;
-                displaySnapshotScene = scene;
 
                 if (changed && (wasActive || active))
                 {

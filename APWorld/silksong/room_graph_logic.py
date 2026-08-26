@@ -825,6 +825,23 @@ _CURATED_EDGES: tuple[
             ),
         ),
     ),
+    (
+        "sands-of-karak/sands-of-karak-lower-right-long-room#left-exit",
+        "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform",
+        (
+            _part("Ancestral Art: Clawline"),
+        ),
+    ),
+    (
+        "sands-of-karak/sands-of-karak-lower-right-long-room#upper-centre-platform",
+        "sands-of-karak/sands-of-karak-lower-right-long-room#flea-ledge",
+        (
+            _part(
+                "Ancestral Art: Cling Grip",
+                "Ancestral Art: Clawline",
+            ),
+        ),
+    ),
 )
 
 

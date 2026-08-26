@@ -64,6 +64,8 @@ namespace SilksongRandomizer
         public int Slot { get; private set; } = -1;
         public string WorldVersion { get; private set; } = string.Empty;
         public string Goal { get; private set; } = string.Empty;
+        public string SpellingBeePhrase { get; private set; } =
+            string.Empty;
         public int FleaHuntGoalCount { get; private set; } =
             DefaultFleaHuntGoalCount;
         public string StartingLocation { get; private set; } =
@@ -363,6 +365,26 @@ namespace SilksongRandomizer
                 }
 
                 Goal = goal;
+                SpellingBeePhrase =
+                    GetSpellingBeePhrase(successful, goal);
+                if (string.Equals(
+                        goal,
+                        SpellingBeeGoal,
+                        StringComparison.Ordinal
+                    ) &&
+                    !SilksongRandomizer.AlphabetMode.SpellingBeeGoal
+                        .IsValidPhrase(
+                        SpellingBeePhrase
+                    ))
+                {
+                    string incompatible =
+                        "APWorld spelling_bee_phrase is invalid.";
+                    Disconnect();
+                    LastError = incompatible;
+                    LastConnectionFailureRetryable = false;
+                    ReportStatus(incompatible);
+                    return false;
+                }
                 FleaHuntGoalCount = GetIntegerSlotData(
                     successful,
                     "flea_hunt_count",
@@ -739,13 +761,30 @@ namespace SilksongRandomizer
         {
             error = string.Empty;
 
-            if (saveState == null || !IsConnected() ||
-                !saveState.IsRoomBound || saveState.MatchesRoom(this))
+            if (saveState == null || !IsConnected())
             {
                 return true;
             }
 
-            error = saveState.GetRoomMismatchMessage(this);
+            if (saveState.IsRoomBound && !saveState.MatchesRoom(this))
+            {
+                error = saveState.GetRoomMismatchMessage(this);
+                return false;
+            }
+
+            string[] serverItems = session.Items.AllItemsReceived
+                .Select(GetItemName)
+                .ToArray();
+            if (saveState.TrySynchronizeReceivedItemHistory(serverItems))
+            {
+                return true;
+            }
+
+            error =
+                "This randomizer game save does not match the AP " +
+                "server's received-item history. Load the server's " +
+                "matching .apsave, or load the matching randomizer " +
+                "game save.";
             return false;
         }
 
@@ -834,9 +873,9 @@ namespace SilksongRandomizer
 
             ArchipelagoSession connectedSession = session;
             SaveState saveState = SaveState.Instance;
-            if (saveState != null && saveState.IsRoomBound && !saveState.MatchesRoom(this))
+            if (saveState != null &&
+                !ValidateLoadedSave(saveState, out string mismatch))
             {
-                string mismatch = saveState.GetRoomMismatchMessage(this);
                 Disconnect();
                 LastError = mismatch;
                 LastConnectionFailureRetryable = false;
@@ -1771,6 +1810,34 @@ namespace SilksongRandomizer
             return GetRequiredStringSlotData(login, "goal");
         }
 
+        private static string GetSpellingBeePhrase(
+            LoginSuccessful login,
+            string goal)
+        {
+            if (login?.SlotData == null ||
+                !login.SlotData.TryGetValue(
+                    "spelling_bee_phrase",
+                    out object value
+                ) ||
+                value == null)
+            {
+                return string.Equals(
+                        goal,
+                        SpellingBeeGoal,
+                        StringComparison.Ordinal
+                    )
+                        ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        : string.Empty;
+            }
+            if (!(value is string phrase))
+            {
+                throw new FormatException(
+                    "APWorld setting 'spelling_bee_phrase' must be text."
+                );
+            }
+            return phrase;
+        }
+
         private static string GetStartingCrest(LoginSuccessful login)
         {
             return GetRequiredStringSlotData(login, "starting_crest");
@@ -2678,6 +2745,7 @@ namespace SilksongRandomizer
             Slot = -1;
             WorldVersion = string.Empty;
             Goal = string.Empty;
+            SpellingBeePhrase = string.Empty;
             FleaHuntGoalCount = DefaultFleaHuntGoalCount;
             StartingLocation = StartingLocationVanilla;
             StartingCrest = string.Empty;

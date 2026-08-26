@@ -507,6 +507,9 @@ def set_silksong_rules(world) -> None:
         split_dash_and_sprint=split_dash_and_sprint,
         flea_hunt_count=flea_hunt_count,
         pollip_heart_count=pollip_heart_count,
+        spelling_bee_item_names=(
+            world.get_spelling_bee_required_item_names()
+        ),
         allow_bellways_before_bell_beast=(
             allow_bellways_before_bell_beast
         ),

@@ -485,12 +485,20 @@ _ABSTRACT_VALUES_CACHE: WeakKeyDictionary[object, OrderedDict] = (
 def _player_inventory_signature(
     state: CollectionState,
     player: int,
-) -> tuple[tuple[str, int], ...] | None:
+) -> tuple[object, ...] | None:
     """Return a mutation-safe key for a player's simulated inventory.
 
     States without ``prog_items`` skip caching because their mutation history
     cannot be tracked safely.
     """
+
+    validation_signature = getattr(
+        state,
+        '_silksong_inventory_signature',
+        None,
+    )
+    if validation_signature is not None:
+        return validation_signature
 
     progression_items = getattr(state, 'prog_items', None)
     if progression_items is None:
@@ -6195,6 +6203,7 @@ def get_goal_requirements(
     goal_key: str,
     flea_hunt_count: int = DEFAULT_FLEA_HUNT_GOAL_COUNT,
     pollip_heart_count: int = 0,
+    spelling_bee_item_names: tuple[str, ...] | None = None,
 ) -> tuple[LocationRequirement, ...]:
     if pollip_heart_count < 0:
         raise ValueError("Pollip Heart count cannot be negative.")
@@ -6211,7 +6220,14 @@ def get_goal_requirements(
 
     if goal_key == SPELLING_BEE_GOAL_KEY:
         return (
-            req(*ALPHABET_ITEM_NAMES, crest=False),
+            req(
+                *(
+                    ALPHABET_ITEM_NAMES
+                    if spelling_bee_item_names is None
+                    else spelling_bee_item_names
+                ),
+                crest=False,
+            ),
         )
 
     if goal_key == FLEA_HUNT_GOAL_KEY:
@@ -6301,12 +6317,14 @@ def make_goal_rule(
     pollip_heart_count: int = 0,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    spelling_bee_item_names: tuple[str, ...] | None = None,
 ):
     return make_requirements_rule(
         get_goal_requirements(
             goal_key,
             flea_hunt_count,
             pollip_heart_count,
+            spelling_bee_item_names,
         ),
         player,
         split_dash_and_sprint,
@@ -6361,6 +6379,7 @@ def export_requirements(
     bone_bottom_statue_tool_pouch_count: int = 0,
     randomize_needle_upgrades: bool = False,
     scuttlebrace_logic_enabled: bool = True,
+    spelling_bee_item_names: tuple[str, ...] | None = None,
 ) -> Mapping[str, dict[str, object]]:
     exported: dict[str, dict[str, object]] = {}
     for name, requirements in REQUIREMENTS.items():
@@ -6369,6 +6388,7 @@ def export_requirements(
                 goal_key,
                 flea_hunt_count,
                 pollip_heart_count,
+                spelling_bee_item_names,
             )
             if name == 'Goal'
             else get_crawfather_requirements(
@@ -6567,22 +6587,43 @@ def _get_location_self_dependencies(
     item_name_set = frozenset(item_names)
 
     class ValidationState:
-        def __init__(self, missing_item: str):
+        def __init__(self, missing_item: str | None):
             self.missing_item = missing_item
+            self.missing_item_count = (
+                0
+                if missing_item is None
+                else max(0, ITEM_POOL_COUNTS.get(missing_item, 1) - 1)
+            )
+            self._silksong_inventory_signature = (
+                'validation',
+                item_name_set,
+                missing_item,
+                self.missing_item_count,
+            )
 
         def has(self, item_name: str, _player: int) -> bool:
             if item_name not in item_name_set:
                 return False
             if item_name != self.missing_item:
                 return True
-            return ITEM_POOL_COUNTS.get(item_name, 1) > 1
+            return self.missing_item_count > 0
 
         def count(self, item_name: str, _player: int) -> int:
             if item_name not in item_name_set:
                 return 0
             if item_name != self.missing_item:
                 return 1_000_000
-            return max(0, ITEM_POOL_COUNTS.get(item_name, 1) - 1)
+            return self.missing_item_count
+
+    full_inventory_state = ValidationState(None)
+    missing_item_states: dict[str, ValidationState] = {}
+
+    def missing_item_state(item_name: str) -> ValidationState:
+        state = missing_item_states.get(item_name)
+        if state is None:
+            state = ValidationState(item_name)
+            missing_item_states[item_name] = state
+        return state
 
     dependencies = {
         f"{location_name} -> {reward_name}"
@@ -6595,8 +6636,8 @@ def _get_location_self_dependencies(
         for access_rule in (make_rule(location_name, player, skips_tier=3),)
         if (
             reward_name in item_name_set
-            and access_rule(ValidationState(''))
-            and not access_rule(ValidationState(reward_name))
+            and access_rule(full_inventory_state)
+            and not access_rule(missing_item_state(reward_name))
         )
     }
     return frozenset(dependencies)
@@ -6634,13 +6675,63 @@ def get_logic_item_references() -> frozenset[str]:
     return frozenset(references)
 
 
+_REQUIREMENTS_VALIDATION_CACHE_LIMIT = 8
+_REQUIREMENTS_VALIDATION_CACHE: OrderedDict[tuple[object, ...], None] = (
+    OrderedDict()
+)
+
+
+def _requirements_validation_signature(
+    location_names: frozenset[str],
+    item_names: frozenset[str],
+    progression_item_names: frozenset[str] | None,
+) -> tuple[object, ...]:
+    from .items import ITEM_POOL_COUNTS
+
+    return (
+        location_names,
+        item_names,
+        progression_item_names,
+        tuple(REQUIREMENTS.items()),
+        tuple(ABSTRACT_REQUIREMENTS.items()),
+        tuple(PATH_REQUIREMENTS.items()),
+        PATH_ORDER,
+        LOGIC_UNKNOWN_LOCATIONS,
+        ALLOWED_DEAD_PATHS,
+        tuple(sorted(ITEM_POOL_COUNTS.items())),
+        tuple(sorted(get_logic_item_dependencies(True).items())),
+        CREST_ITEMS,
+        OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES,
+        get_trails_end_requirements(TRAILS_END_REQUIREMENT_OWNED_MAPS),
+        FINAL_GOAL_EVENT,
+        tuple(sorted(
+            (location_name, _get_vanilla_reward_name(location_name))
+            for location_name in location_names
+        )),
+    )
+
+
 def validate_requirements(
     location_names: Iterable[str],
     item_names: Iterable[str],
     progression_item_names: Iterable[str] | None = None,
 ) -> None:
-    location_name_set = set(location_names)
-    item_name_set = set(item_names)
+    location_name_set = frozenset(location_names)
+    item_name_set = frozenset(item_names)
+    progression_item_name_set = (
+        None
+        if progression_item_names is None
+        else frozenset(progression_item_names)
+    )
+    validation_signature = _requirements_validation_signature(
+        location_name_set,
+        item_name_set,
+        progression_item_name_set,
+    )
+    if validation_signature in _REQUIREMENTS_VALIDATION_CACHE:
+        _REQUIREMENTS_VALIDATION_CACHE.move_to_end(validation_signature)
+        return
+
     requirement_location_names = set(REQUIREMENTS)
     logic_item_references = get_logic_item_references()
     path_order_names = tuple(f"Path: {name}" for name in PATH_ORDER)
@@ -6721,11 +6812,11 @@ def validate_requirements(
         else {FINAL_GOAL_EVENT}
     )
     non_progression_logic_items: set[str] = set()
-    if progression_item_names is not None:
+    if progression_item_name_set is not None:
         non_progression_logic_items = (
             logic_item_references
             & item_name_set
-            - set(progression_item_names)
+            - progression_item_name_set
             - OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES
         )
 
@@ -6766,3 +6857,11 @@ def validate_requirements(
             f"missing_goal_dependencies={sorted(missing_goal_dependencies)}, "
             f"missing_direct_goal_event={sorted(missing_direct_goal_event)}"
         )
+
+    _REQUIREMENTS_VALIDATION_CACHE[validation_signature] = None
+    _REQUIREMENTS_VALIDATION_CACHE.move_to_end(validation_signature)
+    while (
+        len(_REQUIREMENTS_VALIDATION_CACHE)
+        > _REQUIREMENTS_VALIDATION_CACHE_LIMIT
+    ):
+        _REQUIREMENTS_VALIDATION_CACHE.popitem(last=False)

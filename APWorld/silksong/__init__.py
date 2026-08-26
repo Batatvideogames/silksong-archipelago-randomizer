@@ -13,6 +13,8 @@ from BaseClasses import (
     Region,
     Tutorial,
 )
+
+from Options import OptionError
 from rule_builder.cached_world import CachedRuleBuilderWorld
 from rule_builder.rules import Has
 from worlds.AutoWorld import WebWorld
@@ -26,6 +28,11 @@ from .act2_scope import (
     ACT_TWO_GOAL_KEY,
     CURSED_ENDING_GOAL_KEY,
     get_act_two_excluded_location_names,
+)
+from .alphabet_mode import (
+    ALPHABET_ITEM_NAMES,
+    SPELLING_BEE_GOAL_KEY,
+    parse_spelling_bee_phrase,
 )
 from .category_fill import prefill_category_shuffles
 from .items import (
@@ -218,7 +225,30 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return key
 
     def get_goal_key(self) -> str:
-        return self.options.goal.current_key
+        goal_key = self.options.goal.current_key
+        if (
+            goal_key == SPELLING_BEE_GOAL_KEY
+            and self.get_spelling_bee_phrase_data() is None
+        ):
+            return ACT_TWO_GOAL_KEY
+        return goal_key
+
+    def get_spelling_bee_phrase_data(
+        self,
+    ) -> tuple[str, tuple[str, ...]] | None:
+        return parse_spelling_bee_phrase(
+            self.options.spelling_bee_phrase.value
+        )
+
+    def get_spelling_bee_phrase(self) -> str:
+        if self.options.goal.current_key != SPELLING_BEE_GOAL_KEY:
+            return ""
+        phrase_data = self.get_spelling_bee_phrase_data()
+        return "" if phrase_data is None else phrase_data[0]
+
+    def get_spelling_bee_required_item_names(self) -> tuple[str, ...]:
+        phrase_data = self.get_spelling_bee_phrase_data()
+        return () if phrase_data is None else phrase_data[1]
 
     def is_act_two_content_scope(self) -> bool:
         return self.get_goal_key() in {
@@ -380,8 +410,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return bool(self.options.randomize_needle_upgrades.value)
 
     def is_alphabet_mode_enabled(self) -> bool:
-        from .alphabet_mode import SPELLING_BEE_GOAL_KEY
-
         return bool(self.options.alphabet_mode.value) or (
             self.get_goal_key() == SPELLING_BEE_GOAL_KEY
         )
@@ -701,6 +729,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
     ) -> Item:
         data = item_data_table[name]
         classification = data.classification
+        if (
+            name in ALPHABET_ITEM_NAMES
+            and getattr(self, "options", None) is not None
+            and self.get_goal_key() == SPELLING_BEE_GOAL_KEY
+            and name not in self.get_spelling_bee_required_item_names()
+        ):
+            classification = ItemClassification.useful
         if (
             name == SIMPLE_KEY_ROSARY_BANK
             and not self.is_rosary_bank_key_progression_enabled()
@@ -1252,6 +1287,51 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     multiworld,
                     "_silksong_shuffle_item_rule_scope",
                 )
+        if not any(
+            getattr(world, "game", None) == cls.game
+            and getattr(
+                world, "is_alphabet_mode_enabled", lambda: False
+            )()
+            for world in multiworld.worlds.values()
+        ):
+            return
+        progression_items = tuple(
+            item for item in multiworld.itempool if item.advancement
+        )
+        if not progression_items:
+            return
+        unfilled_locations = tuple(
+            multiworld.get_unfilled_locations()
+        )
+        progression_location_count = sum(
+            any(
+                location.can_fill(
+                    multiworld.state,
+                    item,
+                    check_access=False,
+                )
+                for item in progression_items
+            )
+            for location in unfilled_locations
+        )
+        if len(progression_items) <= progression_location_count:
+            return
+        non_progression_item_count = (
+            len(multiworld.itempool) - len(progression_items)
+        )
+        non_progression_location_count = (
+            len(unfilled_locations) - progression_location_count
+        )
+        raise OptionError(
+            f"The selected options leave {len(progression_items)} "
+            f"progression items for {progression_location_count} "
+            "progression-legal locations after category shuffles "
+            f"({non_progression_location_count} locations require "
+            "non-progression items, but only "
+            f"{non_progression_item_count} remain). Disable Alphabet "
+            "Mode, set Crest Slot Randomization to vanilla or randomize "
+            "Memory Lockets."
+        )
 
     @classmethod
     def stage_generate_basic(cls, multiworld) -> None:
@@ -1489,6 +1569,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "item_name_to_id": dict(self.item_name_to_id),
             "location_name_to_id": dict(self.location_name_to_id),
             "goal": goal_key,
+            "spelling_bee_phrase": self.get_spelling_bee_phrase(),
             "flea_hunt_count": flea_hunt_count,
             "starting_location": self.get_starting_location_key(),
             "starting_crest": self.resolve_starting_crest(),
@@ -1549,6 +1630,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 ),
                 scuttlebrace_logic_enabled=(
                     self.is_scuttlebrace_logic_enabled()
+                ),
+                spelling_bee_item_names=(
+                    self.get_spelling_bee_required_item_names()
                 ),
             ),
             "abstract_requirements": export_abstract_requirements(

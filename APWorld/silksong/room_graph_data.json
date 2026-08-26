@@ -3,7 +3,7 @@
   "source": {
     "name": "reviewed-contributor-logic",
     "document_count": 323,
-    "aggregate_sha256": "6f808f43df7619870fd61079fd5124c4ccdeaeb4be5e420ed72bca1d09734d9e"
+    "aggregate_sha256": "a1c4d1130b12a86b5c7641a70c1237b311cd40df8b888a6ba35acecb97a22ff5"
   },
   "assumptions": {
     "blank_check_requirement": "inherit node access with no local requirement",
@@ -44519,7 +44519,7 @@
       "area_id": "whisp-thicket",
       "name": "Father of the Flame (Belltown_08)",
       "source_file": "whisp-thicket/father-of-the-flame.md",
-      "source_sha256": "fab353c3b84922f9ecd90fedabe8460c7291784bdc4db095b9ed539800e74659",
+      "source_sha256": "e2e81364f21cc825b94712dc4a168ccd8d8d64482ed3da0146446c4421813a98",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -44590,22 +44590,20 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "You can defeat the boss naked... but maybe something is \"recommended\"",
+          "notes": "",
           "currently_randomized": true,
           "source_line": 25,
           "raw_cells": {
             "check": "Wispfire Lantern",
             "subroom": "",
             "requirements": "faydown cloak",
-            "todo": "TODO",
+            "todo": "",
             "verification": "",
             "archipelago": "Included",
-            "notes": "You can defeat the boss naked... but maybe something is \"recommended\""
+            "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whisp-thicket/father-of-the-flame::check/boss-father-of-the-flame",
@@ -44625,22 +44623,20 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "You can defeat the boss naked... but maybe something is \"recommended\"",
+          "notes": "",
           "currently_randomized": true,
           "source_line": 26,
           "raw_cells": {
             "check": "Boss: Father of the Flame",
             "subroom": "",
             "requirements": "faydown cloak",
-            "todo": "TODO",
+            "todo": "",
             "verification": "",
             "archipelago": "Included",
-            "notes": "You can defeat the boss naked... but maybe something is \"recommended\""
+            "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -45057,7 +45053,7 @@
       "area_id": "whisp-thicket",
       "name": "Wisp Thicket Cave (Wisp_09)",
       "source_file": "whisp-thicket/wisp-thicket-cave.md",
-      "source_sha256": "5194709f7a95002893ca80dbad87007c8510538514edf637f467a6fbd0bf26d4",
+      "source_sha256": "6ce0e88b12cd93c08761f375a9b243771e5fd927f2b1ee6e44a1f73a6adbce65",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -45171,34 +45167,43 @@
           "canonical_mapping_confidence": "token-exact",
           "node_id": "whisp-thicket/wisp-thicket-cave#room",
           "requirement": {
-            "raw": "(dash and cling grip) clawline or spike pogo or drifter's cloak",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unexpected trailing requirement token 'clawline'",
-              "row contains deferred pogo technique"
+            "raw": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "option:skips-easy"
+              ],
+              [
+                "item:drifters-cloak"
+              ]
             ],
+            "annotations": [
+              "One Spike Pogo route needs Easy Skips."
+            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "May have different requirements if entered from the top",
+          "notes": "",
           "currently_randomized": true,
           "source_line": 26,
           "raw_cells": {
             "check": "Shell Shard Cache: Wisp Thicket #6",
             "subroom": "",
-            "requirements": "(dash and cling grip) clawline or spike pogo or drifter's cloak",
-            "todo": "TODO",
+            "requirements": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "todo": "",
             "verification": "",
             "archipelago": "Included",
-            "notes": "May have different requirements if entered from the top"
+            "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unexpected trailing requirement token 'clawline'",
-            "row contains deferred pogo technique",
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whisp-thicket/wisp-thicket-cave::check/shell-shard-cache-wisp-thicket-7",
@@ -45230,22 +45235,20 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "May have different requirements if entered from the top",
+          "notes": "",
           "currently_randomized": true,
           "source_line": 27,
           "raw_cells": {
             "check": "Shell Shard Cache: Wisp Thicket #7",
             "subroom": "",
             "requirements": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
-            "todo": "TODO",
+            "todo": "",
             "verification": "",
             "archipelago": "Included",
-            "notes": "May have different requirements if entered from the top"
+            "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whisp-thicket/wisp-thicket-cave::check/shell-shard-cache-wisp-thicket-1",
@@ -45891,7 +45894,7 @@
       "area_id": "whisp-thicket",
       "name": "Wisp Thicket Shaft (Wisp_08)",
       "source_file": "whisp-thicket/wisp-thicket-shaft.md",
-      "source_sha256": "4f82e6cd70f230e977bb477088b13e79cce7cc581c88b4f8f2c2fd04e9f46e91",
+      "source_sha256": "f7cc04d54a938735b18c560c61ac701ed88b1d670e89e4acb8bebdfb2fc3c8e4",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -46062,6 +46065,96 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
+        },
+        {
+          "id": "whisp-thicket/wisp-thicket-shaft#top>right@v3",
+          "alias": "V3",
+          "name": "Top to Right",
+          "source_node_id": "whisp-thicket/wisp-thicket-shaft#top",
+          "target_node_id": "whisp-thicket/wisp-thicket-shaft#right",
+          "requirement": {
+            "raw": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "option:skips-easy"
+              ],
+              [
+                "item:drifters-cloak"
+              ]
+            ],
+            "annotations": [
+              "One Spike Pogo route needs Easy Skips."
+            ],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 26,
+          "raw_cells": {
+            "alias": "V3",
+            "name": "Top to Right",
+            "source": "Top",
+            "destination": "Right",
+            "requirements": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "todo": "",
+            "verification": "",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "whisp-thicket/wisp-thicket-shaft#right>bottom@v4",
+          "alias": "V4",
+          "name": "Right to Bottom",
+          "source_node_id": "whisp-thicket/wisp-thicket-shaft#right",
+          "target_node_id": "whisp-thicket/wisp-thicket-shaft#bottom",
+          "requirement": {
+            "raw": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "option:skips-easy"
+              ],
+              [
+                "item:drifters-cloak"
+              ]
+            ],
+            "annotations": [
+              "One Spike Pogo route needs Easy Skips."
+            ],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 27,
+          "raw_cells": {
+            "alias": "V4",
+            "name": "Right to Bottom",
+            "source": "Right",
+            "destination": "Bottom",
+            "requirements": "(dash and cling grip) or clawline or spike pogo or drifter's cloak",
+            "todo": "",
+            "verification": "",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -46084,7 +46177,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 31,
+          "source_line": 33,
           "raw_cells": {
             "check": "Relic: Bone Scroll (Wisp Thicket)",
             "subroom": "Top",
@@ -71512,13 +71605,10 @@
             "label": "Wisp Thicket Cave (Wisp_09)"
           },
           "requirement": {
-            "raw": "cling grip and dash",
-            "mode": "expression",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "item:cling-grip",
-                "macro:progressive-swift-step-full"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -71532,7 +71622,7 @@
             "fromsubroom": "",
             "destination": "[Wisp Thicket Cave (Wisp_09)](../whisp-thicket/wisp-thicket-cave.md)",
             "destinationalias": "T",
-            "requirements": "cling grip and dash",
+            "requirements": "none",
             "todo": "",
             "verification": "",
             "notes": ""

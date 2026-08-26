@@ -22,6 +22,8 @@ namespace SilksongRandomizer
     public class RandomizerPlugin : BaseUnityPlugin
     {
         public static RandomizerPlugin Instance { get; private set; }
+        internal static bool IsConnectionGuiOpen =>
+            Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
         public const string PluginVersion = "0.4.4";
@@ -1361,21 +1363,29 @@ namespace SilksongRandomizer
 
         private void DrawConnectionWindow(int windowId)
         {
-            GUILayout.BeginVertical();
-            DrawArchipelagoWindowTabs();
-            GUILayout.Space(8f);
-
-            if (selectedWindowTab == ArchipelagoWindowTab.Hints)
+            AlphabetModeManager.BeginTextBypass();
+            try
             {
-                DrawHintsTab();
-            }
-            else
-            {
-                DrawConnectionTab();
-            }
+                GUILayout.BeginVertical();
+                DrawArchipelagoWindowTabs();
+                GUILayout.Space(8f);
 
-            GUILayout.EndVertical();
-            GUI.DragWindow();
+                if (selectedWindowTab == ArchipelagoWindowTab.Hints)
+                {
+                    DrawHintsTab();
+                }
+                else
+                {
+                    DrawConnectionTab();
+                }
+
+                GUILayout.EndVertical();
+                GUI.DragWindow();
+            }
+            finally
+            {
+                AlphabetModeManager.EndTextBypass();
+            }
         }
 
         private void DrawArchipelagoWindowTabs()
