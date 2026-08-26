@@ -882,25 +882,29 @@ TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Spider Strings',
         'Relic: Choral Commandment (Jubilana)',
         'Spool Fragment: Jubilana (Songclave)',
+        'Underworks - Pristine Core',
     )
 )
 
 # These direct pickups have source and movement requirements. Their routes do
 # not rely on an omitted key, quest counter or negative story state.
-VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = frozenset(
-    canonicalize_location_name(location_name)
-    for location_name in (
-        'Deep Docks - Beast Shard',
-        'Wormways - Frayed Rosary String',
-        'Shellwood - Shard Bundle',
+VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = (
+    frozenset(
+        canonicalize_location_name(location_name)
+        for location_name in (
+            'Deep Docks - Beast Shard',
+            'Wormways - Frayed Rosary String',
+            'Shellwood - Shard Bundle',
+        )
     )
-) | (
-    ROOM_GRAPH_CANONICAL_CHECK_NAMES
-    & frozenset(
-        canonicalize_location_name(name)
-        for name in MINOR_PICKUP_LOCATION_NAMES
+    | (
+        ROOM_GRAPH_CANONICAL_CHECK_NAMES
+        & frozenset(
+            canonicalize_location_name(name)
+            for name in MINOR_PICKUP_LOCATION_NAMES
+        )
     )
-)
+) - TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS
 
 # Each source below has its own encoded requirement and may hold progression.
 # Other minor caches remain filler/trap-only until their room movement is

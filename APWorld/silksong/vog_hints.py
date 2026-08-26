@@ -40,6 +40,7 @@ VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
 # holds Grand Bellway and Songclave rooms, so those rooms need their own entries.
 VOG_HINT_ROOM_ID_AREA_NAMES: dict[str, str] = {
     "choral-chambers/choral-chambers-below-ventrica": "Choral Chambers",
+    "choral-chambers/choral-chambers-dining-room": "Choral Chambers",
     "choral-chambers/choral-chambers-flea-room": "Choral Chambers",
     "choral-chambers/choral-chambers-flea-shaft": "Choral Chambers",
     "choral-chambers/choral-chambers-maintenance-tunnel": "Choral Chambers",

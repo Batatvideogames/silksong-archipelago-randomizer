@@ -30,12 +30,11 @@ namespace SilksongRandomizer.AlphabetMode
                 }
 
                 int letterIndex = GetLetterIndex(current);
-                filtered.Append(
-                    letterIndex >= 0 &&
-                    (ownedMask & (1 << letterIndex)) == 0
-                        ? ' '
-                        : current
-                );
+                if (letterIndex < 0 ||
+                    (ownedMask & (1 << letterIndex)) != 0)
+                {
+                    filtered.Append(current);
+                }
             }
 
             return filtered.ToString();

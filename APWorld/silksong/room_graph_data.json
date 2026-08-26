@@ -3,7 +3,7 @@
   "source": {
     "name": "composite-area-snapshot",
     "document_count": 322,
-    "aggregate_sha256": "1b8cf505ba6abd91bda8f654ee4682651bda29a8270a59bee6f0f164bc294cc1",
+    "aggregate_sha256": "c4fdf124c425c48862312f8b7c11926b32f03e1d2ed3f4a5afbd28a55ad75feb",
     "aggregate_kind": "composite-source-manifest-v1",
     "base": {
       "name": "silksong-rando-ap-logic-main",
@@ -30,6 +30,26 @@
         "name": "confirmed-contributor-logic",
         "document_count": 18,
         "aggregate_sha256": "58bf4ce995d546e37cabf63968e990bf8679045cadac3dacc2664745eb7f26b2"
+      },
+      "choral-chambers": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 33,
+        "aggregate_sha256": "6d26519b16f360d0cc8a35ea766890121f08c1f2e82b02c3cb8efd9d29b14e9a"
+      },
+      "the-slab": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 24,
+        "aggregate_sha256": "5d2eeffb517144dce6e7f0839f0c731aa380ef1c178930f36ea8e0d42dbea3a4"
+      },
+      "underworks": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 32,
+        "aggregate_sha256": "0eee44909521ad5ceeb5d62ccf4093f3be9159305d94cc8e0606a4e4ee89de05"
+      },
+      "whiteward": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 8,
+        "aggregate_sha256": "7f494504faa6463770305c06d4779e909f02f1998c6d978a8152e8fc592ada2e"
       }
     }
   },
@@ -1160,7 +1180,7 @@
               ]
             ],
             "annotations": [
-              "Exact source projection: ignored one trailing empty OR branch."
+              "Ignored a trailing empty OR."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -7951,7 +7971,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 7 source clause(s)."
+              "Seven pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -8017,7 +8037,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 3 source clause(s)."
+              "Three pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -8085,7 +8105,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "Two pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -11484,6 +11504,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "item:cling-grip"
               ],
               [
@@ -11506,7 +11529,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -11694,6 +11717,9 @@
                 "capability:free"
               ],
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-first"
               ],
               [
@@ -11716,7 +11742,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -11747,6 +11773,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-first"
               ],
               [
@@ -11769,7 +11798,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -14996,7 +15025,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -15668,7 +15697,7 @@
               ]
             ],
             "annotations": [
-              "Exact source projection: ignored one trailing empty OR branch."
+              "Ignored a trailing empty OR."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -21405,7 +21434,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection omitted 4 source clause(s)."
+              "Four pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [
               "row contains deferred pogo technique"
@@ -28712,7 +28741,6 @@
                 "item:sharpdart"
               ],
               [
-                "item:faydown-cloak",
                 "item:faydown-cloak"
               ],
               [
@@ -29503,22 +29531,16 @@
       "events": [],
       "checks": [
         {
-          "id": "shellwood/mosstown-03::check/bench",
-          "label": "Bench",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "shellwood/mosstown-03#bottom",
+          "id": "shellwood/mosstown-03::check/shellwood-shell-shard-cache-1",
+          "label": "Shellwood - Shell Shard Cache #1",
+          "canonical_location": "Shellwood - Shell Shard Cache #1",
+          "canonical_mapping_confidence": "manual-exact",
+          "node_id": "shellwood/mosstown-03#top",
           "requirement": {
-            "raw": "Cling Grip OR ( Dash AND Scuttlebrace )",
-            "mode": "expression",
+            "raw": "None",
+            "mode": "none",
             "dnf": [
-              [
-                "item:cling-grip"
-              ],
-              [
-                "macro:progressive-swift-step-full",
-                "macro:usable-scuttlebrace"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -29526,11 +29548,73 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 32,
+          "source_line": 31,
           "raw_cells": {
-            "check": "Bench",
-            "subroom": "Bottom",
-            "requirements": "Cling Grip OR ( Dash AND Scuttlebrace )",
+            "check": "Shellwood - Shell Shard Cache #1",
+            "subroom": "Top",
+            "requirements": "Nothing",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "shellwood/mosstown-03::check/shellwood-shell-shard-cache-2",
+          "label": "Shellwood - Shell Shard Cache #2",
+          "canonical_location": "Shellwood - Shell Shard Cache #2",
+          "canonical_mapping_confidence": "manual-exact",
+          "node_id": "shellwood/mosstown-03#top",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "currently_randomized": true,
+          "source_line": 31,
+          "raw_cells": {
+            "check": "Shellwood - Shell Shard Cache #2",
+            "subroom": "Top",
+            "requirements": "Nothing",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "shellwood/mosstown-03::check/shellwood-shell-shard-cache-3",
+          "label": "Shellwood - Shell Shard Cache #3",
+          "canonical_location": "Shellwood - Shell Shard Cache #3",
+          "canonical_mapping_confidence": "manual-exact",
+          "node_id": "shellwood/mosstown-03#top",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "currently_randomized": true,
+          "source_line": 31,
+          "raw_cells": {
+            "check": "Shellwood - Shell Shard Cache #3",
+            "subroom": "Top",
+            "requirements": "Nothing",
             "todo": "",
             "verification": "",
             "archipelago": "Included",
@@ -29540,7 +29624,21 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 32,
+          "cells": {
+            "check": "Bench",
+            "subroom": "Bottom",
+            "requirements": "Cling Grip OR ( Dash AND Scuttlebrace )",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Bench | Bottom | Cling Grip OR ( Dash AND Scuttlebrace ) |  |  | Included |  |"
+        }
+      ]
     },
     {
       "id": "shellwood/belltown-room-shellwood",
@@ -29683,10 +29781,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "target transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -29973,17 +30069,15 @@
             "label": "Bellway Menu"
           },
           "requirement": {
-            "raw": "Bell beast Access",
-            "mode": "unresolved",
+            "raw": "Bellway Access",
+            "mode": "expression",
             "dnf": [
               [
-                "event:shellwood/shellwood-19/bell-beast-access"
+                "path:bellways"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Bell beast Access"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -29999,10 +30093,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Bell beast Access"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -30406,9 +30498,13 @@
           "source_node_id": "shellwood/shellwood-02#ground-centre",
           "target_node_id": "shellwood/shellwood-02#ground-right",
           "requirement": {
-            "raw": "( Enemy Pogo AND Ledge Grab ) OR Dash OR Sprint OR clawline OR Beast Crest OR Faydown Cloak OR Drifters Cloak OR ( Swim AND Ledge Grab )",
+            "raw": "(Enemy Pogo AND Ledge Grab AND Easy Skip) OR Dash OR Sprint OR Clawline OR Beast Crest OR Faydown Cloak OR Drifter's Cloak OR (Swim AND Ledge Grab)",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:free",
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -30428,13 +30524,10 @@
                 "item:drifters-cloak"
               ],
               [
-                "capability:free",
                 "capability:free"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -30460,9 +30553,13 @@
           "source_node_id": "shellwood/shellwood-02#ground-right",
           "target_node_id": "shellwood/shellwood-02#ground-centre",
           "requirement": {
-            "raw": "( Enemy Pogo AND Ledge Grab ) OR Dash OR Sprint OR clawline OR Beast Crest OR Faydown Cloak OR Drifters Cloak OR ( Swim AND Ledge Grab )",
+            "raw": "(Enemy Pogo AND Ledge Grab AND Easy Skip) OR Dash OR Sprint OR Clawline OR Beast Crest OR Faydown Cloak OR Drifter's Cloak OR (Swim AND Ledge Grab)",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:free",
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -30482,13 +30579,10 @@
                 "item:drifters-cloak"
               ],
               [
-                "capability:free",
                 "capability:free"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -30514,9 +30608,13 @@
           "source_node_id": "shellwood/shellwood-02#ground-centre",
           "target_node_id": "shellwood/shellwood-02#ground-left",
           "requirement": {
-            "raw": "( Enemy Pogo AND Ledge Grab ) OR Dash OR Sprint OR clawline OR Beast Crest OR Faydown Cloak OR Drifters Cloak",
+            "raw": "(Enemy Pogo AND Ledge Grab AND Easy Skip) OR Dash OR Sprint OR Clawline OR Beast Crest OR Faydown Cloak OR Drifter's Cloak",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:free",
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -30536,9 +30634,7 @@
                 "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -30626,14 +30722,24 @@
           "source_node_id": "shellwood/shellwood-02#ground-left",
           "target_node_id": "shellwood/shellwood-02#platforms",
           "requirement": {
-            "raw": "( Faydown Cloak AND ( Cling Grip OR ( Scuttle Brace AND Dash ) ) ) Silk Soar OR Enemy Pogo",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unexpected trailing requirement token 'Silk Soar'",
-              "pogo route is not in logic yet"
+            "raw": "(Faydown Cloak AND (Cling Grip OR (Scuttlebrace AND Dash))) OR Silk Soar",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak",
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:usable-scuttlebrace",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:silk-soar"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -30648,11 +30754,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unexpected trailing requirement token 'Silk Soar'",
-            "pogo route is not in logic yet"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-02#platforms>ground-centre@cp",
@@ -31499,6 +31602,11 @@
             "mode": "expression",
             "dnf": [
               [
+                "item:faydown-cloak",
+                "option:skips-difficult",
+                "capability:free"
+              ],
+              [
                 "item:cling-grip"
               ],
               [
@@ -31510,9 +31618,7 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -31567,10 +31673,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "target transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -32014,7 +32118,7 @@
           "id": "shellwood/shellwood-04b@r",
           "alias": "R",
           "name": "right1",
-          "source_node_id": null,
+          "source_node_id": "shellwood/shellwood-04b#right-lake",
           "target": {
             "raw": "[Shellwood Lower Left Tall Room (Shellwood_03)](shellwood-lower-left-tall-room.md)",
             "room_id": "shellwood/shellwood-03",
@@ -32045,16 +32149,14 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-04b@rc",
           "alias": "RC",
           "name": "top2",
-          "source_node_id": null,
+          "source_node_id": "shellwood/shellwood-04b#right-lake",
           "target": {
             "raw": "[Shellgrave (Shellgrave)](shellgrave.md)",
             "room_id": "shellwood/shellgrave",
@@ -32063,7 +32165,7 @@
             "label": "Shellgrave (Shellgrave)"
           },
           "requirement": {
-            "raw": "Ledge grab OR Faydown Cloak OR Silk Soar OR Enemy Pogo",
+            "raw": "Ledge Grab OR Faydown Cloak OR Silk Soar OR (Enemy Pogo AND Moderate Skip)",
             "mode": "expression",
             "dnf": [
               [
@@ -32074,11 +32176,12 @@
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "option:skips-moderate"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -32095,16 +32198,14 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-04b@l",
           "alias": "L",
           "name": "left1",
-          "source_node_id": null,
+          "source_node_id": "shellwood/shellwood-04b#left-lake",
           "target": {
             "raw": "[Shellwood Lower Toll bench (Shellwood_08c)](shellwood-lower-toll-bench.md)",
             "room_id": "shellwood/shellwood-08c",
@@ -32137,16 +32238,14 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-04b@lc",
           "alias": "LC",
           "name": "top1",
-          "source_node_id": null,
+          "source_node_id": "shellwood/shellwood-04b#left-lake",
           "target": {
             "raw": "[shellwood Far Left Tall Room (Shellwood_04c)](shellwood-far-left-tall-room.md)",
             "room_id": "shellwood/shellwood-04c",
@@ -32155,9 +32254,12 @@
             "label": "shellwood Far Left Tall Room (Shellwood_04c)"
           },
           "requirement": {
-            "raw": "Enemy Pogo OR Cling grip OR Silk soar OR Faydown Cloak OR ( Dash AND Scuttlebrace )",
+            "raw": "(Enemy Pogo AND Moderate Skip) OR Cling Grip OR Silk Soar OR Faydown Cloak OR (Dash AND Scuttlebrace)",
             "mode": "expression",
             "dnf": [
+              [
+                "option:skips-moderate"
+              ],
               [
                 "item:cling-grip"
               ],
@@ -32172,9 +32274,7 @@
                 "macro:usable-scuttlebrace"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -32191,10 +32291,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -32205,7 +32303,7 @@
           "source_node_id": "shellwood/shellwood-04b#left-lake",
           "target_node_id": "shellwood/shellwood-04b#right-lake",
           "requirement": {
-            "raw": "Swim OR Clawline OR ( Sprint AND Drifters Cloak ) OR ( Wings AND Enemy Pogo ) OR ( Drifters Cloak AND Enemy Pogo )",
+            "raw": "Swim OR Clawline OR (Sprint AND Drifter's Cloak) OR (Faydown Cloak AND Enemy Pogo AND Easy Skip) OR (Drifter's Cloak AND Enemy Pogo AND Easy Skip)",
             "mode": "expression",
             "dnf": [
               [
@@ -32217,11 +32315,17 @@
               [
                 "macro:progressive-swift-step-first",
                 "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "option:skips-easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Two pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -32247,7 +32351,7 @@
           "source_node_id": "shellwood/shellwood-04b#right-lake",
           "target_node_id": "shellwood/shellwood-04b#left-lake",
           "requirement": {
-            "raw": "Swim OR Clawline OR ( Sprint AND Drifters Cloak ) OR ( Wings AND Enemy Pogo ) OR ( Drifters Cloak AND Enemy Pogo )",
+            "raw": "Swim OR Clawline OR (Sprint AND Drifter's Cloak) OR (Faydown Cloak AND Enemy Pogo AND Easy Skip) OR (Drifter's Cloak AND Enemy Pogo AND Easy Skip)",
             "mode": "expression",
             "dnf": [
               [
@@ -32259,11 +32363,17 @@
               [
                 "macro:progressive-swift-step-first",
                 "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "option:skips-easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Two pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -32482,10 +32592,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "target transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-03@ur",
@@ -32772,10 +32880,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "target transition references an undeclared subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -33409,23 +33515,47 @@
           "source_node_id": "shellwood/shellwood-01#ground-level-right",
           "target_node_id": "shellwood/shellwood-01#right-platforms",
           "requirement": {
-            "raw": "Any movement abilty OR enemy pogo Silk Soar OR ( Cling Grip AND Faydown Cloak )",
-            "mode": "unresolved",
+            "raw": "Silk Soar OR (Cling Grip AND Faydown Cloak AND (Swim OR (Easy Skip AND (Sprint OR Dash)) OR Drifter's Cloak OR Clawline OR Sharp Dart))",
+            "mode": "expression",
             "dnf": [
               [
-                "event:shellwood/shellwood-01/any-movement-abilty"
+                "item:silk-soar"
               ],
               [
                 "item:cling-grip",
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "capability:free"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "option:skips-easy",
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "option:skips-easy",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:sharpdart"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Any movement abilty"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -33440,10 +33570,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Any movement abilty"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -33519,10 +33647,10 @@
           "logic_status": "active"
         },
         {
-          "id": "shellwood/shellwood-01::check/shell-shard-cache-shellwood-forgot-the-id-1",
-          "label": "Shell shard Cache: Shellwood #? forgot the id 1",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
+          "id": "shellwood/shellwood-01::check/shellwood-shell-shard-cache-4",
+          "label": "Shellwood - Shell Shard Cache #4",
+          "canonical_location": "Shellwood - Shell Shard Cache #4",
+          "canonical_mapping_confidence": "manual-exact",
           "node_id": "shellwood/shellwood-01#right-platforms",
           "requirement": {
             "raw": "None",
@@ -33546,16 +33674,14 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
-          "id": "shellwood/shellwood-01::check/shell-shard-cache-shellwood-forgot-the-id-2",
-          "label": "Shell shard Cache: Shellwood #? forgot the id 2",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
+          "id": "shellwood/shellwood-01::check/shellwood-shell-shard-cache-5",
+          "label": "Shellwood - Shell Shard Cache #5",
+          "canonical_location": "Shellwood - Shell Shard Cache #5",
+          "canonical_mapping_confidence": "manual-exact",
           "node_id": "shellwood/shellwood-01#right-platforms",
           "requirement": {
             "raw": "None",
@@ -33579,16 +33705,14 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
-          "id": "shellwood/shellwood-01::check/shell-shard-cache-shellwood-forgot-the-id-3",
-          "label": "Shell shard Cache: Shellwood #? forgot the id 3",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
+          "id": "shellwood/shellwood-01::check/shellwood-shell-shard-cache-6",
+          "label": "Shellwood - Shell Shard Cache #6",
+          "canonical_location": "Shellwood - Shell Shard Cache #6",
+          "canonical_mapping_confidence": "manual-exact",
           "node_id": "shellwood/shellwood-01#right-platforms",
           "requirement": {
             "raw": "None",
@@ -33612,10 +33736,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -34136,13 +34258,39 @@
           "source_node_id": "shellwood/shellwood-01b#bench-toll",
           "target_node_id": "shellwood/shellwood-01b#upper-hidden",
           "requirement": {
-            "raw": "( Cling Grip AND ( Clawline OR Dash OR Sharpdart OR Drifters Cloak OR Faydown Cloak OR Beast Crest ) OR Silk Soar",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group"
+            "raw": "(Cling Grip AND (Clawline OR Dash OR Sharp Dart OR Drifter's Cloak OR Faydown Cloak OR Beast Crest)) OR Silk Soar",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:beast-crest"
+              ],
+              [
+                "item:silk-soar"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -34157,10 +34305,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-01b#upper-hidden>bench-toll@cl1",
@@ -34572,27 +34718,12 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
-        },
+        }
+      ],
+      "omitted_check_rows": [
         {
-          "id": "shellwood/shellwood-01b::check/bench",
-          "label": "Bench",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "shellwood/shellwood-01b#bench-toll",
-          "requirement": {
-            "raw": "None",
-            "mode": "none",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 52,
-          "raw_cells": {
+          "line": 52,
+          "cells": {
             "check": "Bench",
             "subroom": "Bench Toll",
             "requirements": "None",
@@ -34601,11 +34732,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Bench | Bench Toll | None |  |  | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "shellwood/shellwood-26",
@@ -34809,13 +34938,32 @@
           "source_node_id": "shellwood/shellwood-26#central",
           "target_node_id": "shellwood/shellwood-26#right-side",
           "requirement": {
-            "raw": "( Swim OR Drifters Cloak AND Easy Skip ) AND ( Cling Grip OR ( Dash AND Scuttlebrace )",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group"
+            "raw": "(Swim OR (Drifter's Cloak AND Easy Skip)) AND (Cling Grip OR (Dash AND Scuttlebrace))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free",
+                "item:cling-grip"
+              ],
+              [
+                "capability:free",
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "item:drifters-cloak",
+                "option:skips-easy",
+                "item:cling-grip"
+              ],
+              [
+                "item:drifters-cloak",
+                "option:skips-easy",
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -34830,10 +34978,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-26#right-side>central@rw",
@@ -35259,13 +35405,15 @@
             "label": "Sister Splinter (Shellwood_18)"
           },
           "requirement": {
-            "raw": "(ANY Crest - Wanderer AND Ledge Grab } OR Clawline OR Dash OR Drifters Cloak OR Faydown Cloak OR Sharpdart",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group"
+            "raw": "Nothing",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -35281,10 +35429,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-13@r",
@@ -35445,13 +35591,41 @@
           "source_node_id": "shellwood/shellwood-13#left-pond",
           "target_node_id": "shellwood/shellwood-13#right-pond",
           "requirement": {
-            "raw": "Swim OR Clawline OR ( Drifters Cloak AND ( Faydown Cloak OR ( Sprint AND Dash ) OR ( Sharpdart AND Ledge grab ) ) OR ( Faydown Cloak AND Sharpdart AND ( Dash OR Beast Crest )",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group"
+            "raw": "Swim OR Clawline OR (Drifter's Cloak AND Faydown Cloak) OR (Drifter's Cloak AND Dash) OR (Drifter's Cloak AND Sharp Dart AND Ledge Grab) OR (Faydown Cloak AND Sharp Dart AND Dash) OR (Faydown Cloak AND Sharp Dart AND Beast Crest)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:drifters-cloak",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:drifters-cloak",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:drifters-cloak",
+                "item:sharpdart",
+                "capability:free"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:sharpdart",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:sharpdart",
+                "item:beast-crest"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -35466,10 +35640,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "shellwood/shellwood-13#right-pond>left-pond@po",
@@ -35478,7 +35650,7 @@
           "source_node_id": "shellwood/shellwood-13#right-pond",
           "target_node_id": "shellwood/shellwood-13#left-pond",
           "requirement": {
-            "raw": "Swim OR ( Clawline AND ( Ledge Grab OR Dash OR Sharpdart OR beast Crest OR Faydown Cloak ) ) OR ( Sprint AND ( Sharpdart AND Dash ) OR ( Sharpdart AND Beast Crest ) OR ( Faydown Cloak AND Drifters Cloak ) OR ( Sharpdart AND Drifters Cloak) OR ( Faydown Cloak AND Sharpdart ) )",
+            "raw": "Swim OR (Clawline AND (Ledge Grab OR Dash OR Sharp Dart OR Beast Crest OR Faydown Cloak)) OR (Sprint AND ((Sharp Dart AND Dash) OR (Sharp Dart AND Beast Crest) OR (Faydown Cloak AND Drifter's Cloak) OR (Sharp Dart AND Drifter's Cloak) OR (Faydown Cloak AND Sharp Dart)))",
             "mode": "expression",
             "dnf": [
               [
@@ -35509,18 +35681,22 @@
                 "macro:progressive-swift-step-full"
               ],
               [
+                "macro:progressive-swift-step-first",
                 "item:sharpdart",
                 "item:beast-crest"
               ],
               [
+                "macro:progressive-swift-step-first",
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ],
               [
+                "macro:progressive-swift-step-first",
                 "item:sharpdart",
                 "item:drifters-cloak"
               ],
               [
+                "macro:progressive-swift-step-first",
                 "item:faydown-cloak",
                 "item:sharpdart"
               ]
@@ -36054,8 +36230,10 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "unresolved_reasons": [
+            "transition is one-way into this room"
+          ],
+          "logic_status": "unresolved"
         }
       ],
       "connections": [],
@@ -41562,7 +41740,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -41678,7 +41856,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "Two pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -41747,7 +41925,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -41894,7 +42072,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -42189,7 +42367,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [
               "unresolved requirement vocabulary: lever switch"
@@ -42270,7 +42448,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -42521,7 +42699,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 3 source clause(s)."
+              "Three pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -42765,7 +42943,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -42942,11 +43120,6 @@
           "id": "whisp-thicket/wisp-thicket-bench#left",
           "name": "Left",
           "declared": true
-        },
-        {
-          "id": "whisp-thicket/wisp-thicket-bench#bench-somehow-got-this-duplicated-or-something-internally",
-          "name": "**Bench:** somehow got this duplicated or something internally",
-          "declared": true
         }
       ],
       "transitions": [
@@ -43092,7 +43265,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43133,7 +43306,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43214,7 +43387,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43250,7 +43423,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43281,7 +43454,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection omitted 3 source clause(s)."
+              "Three pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [
               "row contains deferred pogo technique"
@@ -43354,7 +43527,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43430,7 +43603,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+              "No pogo route is in logic yet."
             ],
             "unresolved_reasons": [
               "requirement parse failure: unexpected trailing requirement token 'clawline'",
@@ -43479,7 +43652,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43525,7 +43698,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43569,7 +43742,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43613,7 +43786,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43657,7 +43830,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -43701,7 +43874,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -44026,7 +44199,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -44061,7 +44234,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -44233,7 +44406,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [
               "row contains deferred pogo technique"
@@ -44268,7 +44441,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [
               "row contains deferred pogo technique"
@@ -58323,72 +58496,6 @@
           "logic_status": "active"
         },
         {
-          "id": "underworks/chapel-of-the-architect::check/underworks-break-wall-up",
-          "label": "Underworks: Break Wall (Up)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/chapel-of-the-architect#room",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 24,
-          "raw_cells": {
-            "check": "Underworks: Break Wall (Up)",
-            "subroom": "",
-            "requirements": "Nothing.",
-            "todo": "",
-            "verification": "",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "underworks/chapel-of-the-architect::check/underworks-needolin-lore",
-          "label": "Underworks: Needolin Lore",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/chapel-of-the-architect#room",
-          "requirement": {
-            "raw": "Needolin.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:needolin"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 25,
-          "raw_cells": {
-            "check": "Underworks: Needolin Lore",
-            "subroom": "",
-            "requirements": "Needolin.",
-            "todo": "",
-            "verification": "",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
           "id": "underworks/chapel-of-the-architect::check/architects-crest",
           "label": "Architect's Crest",
           "canonical_location": "Crest: Architect",
@@ -58422,7 +58529,34 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 24,
+          "cells": {
+            "check": "Underworks: Break Wall (Up)",
+            "subroom": "",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Break Wall (Up) |  | Nothing. |  |  | Included |  |"
+        },
+        {
+          "line": 25,
+          "cells": {
+            "check": "Underworks: Needolin Lore",
+            "subroom": "",
+            "requirements": "Needolin.",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Needolin Lore |  | Needolin. |  |  | Included |  |"
+        }
+      ]
     },
     {
       "id": "underworks/confession-toll",
@@ -58452,11 +58586,6 @@
           "id": "underworks/confession-toll#secret",
           "name": "Secret",
           "declared": true
-        },
-        {
-          "id": "underworks/confession-toll#secret-whiteward-entrance",
-          "name": "**Secret:** Whiteward entrance?",
-          "declared": true
         }
       ],
       "transitions": [
@@ -58473,10 +58602,22 @@
             "label": "Whiteward Unravelled Arena Room (Ward_02)"
           },
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "(Swift Step AND Scuttlebrace) OR Faydown Cloak OR Silk Soar OR Cling Grip",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -58495,10 +58636,8 @@
             "verification": "",
             "notes": "has to be checked from white ward"
           },
-          "unresolved_reasons": [
-            "transition TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/confession-toll@b",
@@ -59072,6 +59211,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-full"
               ],
               [
@@ -59079,7 +59221,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -59112,6 +59254,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-full"
               ],
               [
@@ -59119,7 +59264,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -59152,6 +59297,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-full"
               ],
               [
@@ -59159,7 +59307,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -59192,6 +59340,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-full"
               ],
               [
@@ -59199,7 +59350,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -59476,10 +59627,13 @@
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -59541,8 +59695,8 @@
           "source_node_id": "underworks/underworks-below-vaultkeeper#left-side-shafts",
           "target_node_id": "underworks/underworks-below-vaultkeeper#top-exit-shaft",
           "requirement": {
-            "raw": "Ledge Grab OR Clawline OR Scuttlebrace OR Faydown Cloak OR Crest (Shaman) Pogo OR Crest (Beast) Charge",
-            "mode": "unresolved",
+            "raw": "Ledge Grab OR Clawline OR Scuttlebrace OR Faydown Cloak OR (Shaman Crest AND Easy Skip) OR (Beast Crest AND Needle Strike AND Easy Skip)",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:free"
@@ -59557,17 +59711,17 @@
                 "item:faydown-cloak"
               ],
               [
-                "event:underworks/underworks-below-vaultkeeper/crest-charge"
+                "item:shaman-crest",
+                "option:skips-easy"
+              ],
+              [
+                "item:beast-crest",
+                "item:needle-strike",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Shaman",
-              "Beast",
-              "Deferred pogo projection omitted 1 source clause(s)."
-            ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Crest Charge"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -59582,10 +59736,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Crest Charge"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-below-vaultkeeper#left-side-shafts>shell-shard-check@sp",
@@ -59733,39 +59885,6 @@
       "events": [],
       "checks": [
         {
-          "id": "underworks/underworks-below-vaultkeeper::check/underworks-needolin-lore-1",
-          "label": "Underworks: Needolin Lore #1",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-below-vaultkeeper#needolin-check",
-          "requirement": {
-            "raw": "Needolin",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:needolin"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 40,
-          "raw_cells": {
-            "check": "Underworks: Needolin Lore #1",
-            "subroom": "Needolin Check",
-            "requirements": "Needolin",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
           "id": "underworks/underworks-below-vaultkeeper::check/underworks-shell-shard-cache-1",
           "label": "Underworks: Shell Shard Cache #1",
           "canonical_location": "Underworks - Shell Shard Cache #11",
@@ -59799,7 +59918,21 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 40,
+          "cells": {
+            "check": "Underworks: Needolin Lore #1",
+            "subroom": "Needolin Check",
+            "requirements": "Needolin",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Needolin Lore #1 | Needolin Check | Needolin |  | Verified | Included |  |"
+        }
+      ]
     },
     {
       "id": "underworks/underworks-central-shaft",
@@ -60076,6 +60209,10 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "option:skips-easy"
+              ],
+              [
+                "item:cling-grip",
                 "item:clawline"
               ],
               [
@@ -60084,7 +60221,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -60439,7 +60576,7 @@
             ],
             "annotations": [
               "Shaman",
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -60611,11 +60748,6 @@
           "id": "underworks/underworks-clawline-room#blocked-off-corridor-top",
           "name": "Blocked Off Corridor Top",
           "declared": true
-        },
-        {
-          "id": "underworks/underworks-clawline-room#arena-arena-activated-by-clawline-ring",
-          "name": "**Arena:** Arena activated by Clawline Ring",
-          "declared": true
         }
       ],
       "transitions": [
@@ -60632,8 +60764,8 @@
             "label": "Underworks Twelfth Architect (Under_17)"
           },
           "requirement": {
-            "raw": "Completed Arena AND (Cling Grip OR Scuttlebrace OR Silk Soar OR Faydown Cloak AND (Crest Pogo (Shaman) OR Crest Needle Strike (Beast)))",
-            "mode": "unresolved",
+            "raw": "Completed Arena AND (Cling Grip OR Scuttlebrace OR Silk Soar OR (Faydown Cloak AND Shaman Crest AND Easy Skip) OR (Faydown Cloak AND Beast Crest AND Needle Strike AND Easy Skip))",
+            "mode": "expression",
             "dnf": [
               [
                 "event:underworks/underworks-clawline-room/completed-arena",
@@ -60650,18 +60782,19 @@
               [
                 "event:underworks/underworks-clawline-room/completed-arena",
                 "item:faydown-cloak",
-                "event:underworks/underworks-clawline-room/crest-needle-strike"
+                "item:shaman-crest",
+                "option:skips-easy"
+              ],
+              [
+                "event:underworks/underworks-clawline-room/completed-arena",
+                "item:faydown-cloak",
+                "item:beast-crest",
+                "item:needle-strike",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Shaman",
-              "Beast",
-              "Deferred pogo projection omitted 1 source clause(s)."
-            ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Completed Arena",
-              "unresolved requirement vocabulary: Crest Needle Strike"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -60677,11 +60810,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Completed Arena",
-            "unresolved requirement vocabulary: Crest Needle Strike"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-clawline-room@l",
@@ -60816,16 +60946,26 @@
           "source_node_id": "underworks/underworks-clawline-room#main-side-door",
           "target_node_id": "underworks/underworks-clawline-room#arena",
           "requirement": {
-            "raw": "Clawline OR Faydown Cloak AND (Sharp Dart OR Swift Step) AND Ledge Grab AND Enemy Pogo",
+            "raw": "Clawline OR (Faydown Cloak AND (Sharp Dart OR Swift Step) AND Ledge Grab AND Enemy Pogo AND Easy Skip)",
             "mode": "expression",
             "dnf": [
               [
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:sharpdart",
+                "capability:free",
+                "option:skips-easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:progressive-swift-step-full",
+                "capability:free",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -60851,7 +60991,7 @@
           "source_node_id": "underworks/underworks-clawline-room#main-side-door",
           "target_node_id": "underworks/underworks-clawline-room#clawline-statue",
           "requirement": {
-            "raw": "Clawline OR Faydown Cloak AND Sprint AND (Drifter's Cloak OR (Dash AND Enemy Pogo)) AND Ledge Grab",
+            "raw": "Clawline OR (Faydown Cloak AND Sprint AND (Drifter's Cloak OR (Dash AND Enemy Pogo AND Easy Skip)) AND Ledge Grab)",
             "mode": "expression",
             "dnf": [
               [
@@ -60862,11 +61002,15 @@
                 "macro:progressive-swift-step-first",
                 "item:drifters-cloak",
                 "capability:free"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:progressive-swift-step-full",
+                "option:skips-easy",
+                "capability:free"
               ]
             ],
-            "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -60892,16 +61036,26 @@
           "source_node_id": "underworks/underworks-clawline-room#main-side-door",
           "target_node_id": "underworks/underworks-clawline-room#shard-bundle-check",
           "requirement": {
-            "raw": "Clawline OR Faydown Cloak AND (Sharp Dart OR Swift Step) AND Ledge Grab AND Enemy Pogo",
+            "raw": "Clawline OR (Faydown Cloak AND (Sharp Dart OR Swift Step) AND Ledge Grab AND Enemy Pogo AND Easy Skip)",
             "mode": "expression",
             "dnf": [
               [
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:sharpdart",
+                "capability:free",
+                "option:skips-easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:progressive-swift-step-full",
+                "capability:free",
+                "option:skips-easy"
               ]
             ],
-            "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -61069,20 +61223,26 @@
           "source_node_id": "underworks/underworks-clawline-room#shard-bundle-check",
           "target_node_id": "underworks/underworks-clawline-room#main-side-door",
           "requirement": {
-            "raw": "Clawline OR (Drifter's Cloak OR Swift Step) AND Enemy Pogo OR Faydown Cloak AND Sharp Dart",
+            "raw": "Clawline OR ((Drifter's Cloak OR Swift Step) AND Enemy Pogo AND Easy Skip) OR (Faydown Cloak AND Sharp Dart)",
             "mode": "expression",
             "dnf": [
               [
                 "item:clawline"
               ],
               [
+                "item:drifters-cloak",
+                "option:skips-easy"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "option:skips-easy"
+              ],
+              [
                 "item:faydown-cloak",
                 "item:sharpdart"
               ]
             ],
-            "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -61137,7 +61297,39 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:underworks/underworks-clawline-room/completed-arena",
+          "label": "Completed Arena",
+          "kind": "room-action",
+          "node_id": "underworks/underworks-clawline-room#arena",
+          "requirement": {
+            "raw": "Clawline",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:clawline"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "check": "Completed Arena",
+            "subroom": "Arena",
+            "requirements": "Clawline",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "archipelago": "Not included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "underworks/underworks-clawline-room::check/clawline-pickup",
@@ -61204,29 +61396,12 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
-        },
+        }
+      ],
+      "omitted_check_rows": [
         {
-          "id": "underworks/underworks-clawline-room::check/clawline-ring",
-          "label": "Clawline Ring",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-clawline-room#arena",
-          "requirement": {
-            "raw": "Clawline",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:clawline"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 44,
-          "raw_cells": {
+          "line": 44,
+          "cells": {
             "check": "Clawline Ring",
             "subroom": "Arena",
             "requirements": "Clawline",
@@ -61235,11 +61410,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Clawline Ring | Arena | Clawline |  | Verified | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "underworks/underworks-craftmetal-corridor",
@@ -61311,16 +61484,62 @@
           "source_node_id": "underworks/underworks-craftmetal-corridor#fuckass-jump-left",
           "target_node_id": "underworks/underworks-craftmetal-corridor#fuckass-jump-right",
           "requirement": {
-            "raw": "Ledge Grab OR Clawline OR Sharp Dart OR Cling Grip OR Scuttlebrace OR Sprint OR Dash OR Faydown Cloak OR Drifter's Cloak OR Crest Pogo (Shaman OR Beast OR Architect OR Hunter OR Reaper) OR Crest Needle Strike (Witch OR Wanderer)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+            "raw": "Ledge Grab OR Clawline OR Sharp Dart OR Cling Grip OR Scuttlebrace OR Sprint OR Dash OR Faydown Cloak OR Drifter's Cloak OR Shaman Crest OR Beast Crest OR Architect Crest OR Hunter Crest OR Reaper Crest OR (Witch Crest AND Needle Strike) OR (Wanderer Crest AND Needle Strike)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:shaman-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
+              ],
+              [
+                "item:hunter-crest"
+              ],
+              [
+                "item:reaper-crest"
+              ],
+              [
+                "item:witch-crest",
+                "item:needle-strike"
+              ],
+              [
+                "item:wanderer-crest",
+                "item:needle-strike"
+              ]
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unexpected trailing requirement token '('",
-              "row contains deferred pogo technique"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "why couldnt you have been TWO pixels shorter?",
@@ -61335,11 +61554,8 @@
             "verification": "Verified",
             "notes": "why couldnt you have been TWO pixels shorter?"
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unexpected trailing requirement token '('",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-craftmetal-corridor#fuckass-jump-right>fuckass-jump-left@j",
@@ -62158,7 +62374,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "2 pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -62610,29 +62826,11 @@
         }
       ],
       "events": [],
-      "checks": [
+      "checks": [],
+      "omitted_check_rows": [
         {
-          "id": "underworks/underworks-east-shaft::check/underworks-flip-switch-left-or-right-3",
-          "label": "Underworks: Flip Switch (Left OR Right) #3",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-east-shaft#mid-right-entrance",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "is this even a check?",
-          "currently_randomized": true,
-          "source_line": 53,
-          "raw_cells": {
+          "line": 53,
+          "cells": {
             "check": "Underworks: Flip Switch (Left OR Right) #3",
             "subroom": "Mid Right Entrance",
             "requirements": "Nothing.",
@@ -62641,11 +62839,9 @@
             "archipelago": "Included",
             "notes": "is this even a check?"
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Underworks: Flip Switch (Left OR Right) #3 | Mid Right Entrance | Nothing. |  | Verified | Included | is this even a check? |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "underworks/underworks-eastern-gauntlet",
@@ -62923,39 +63119,6 @@
       "events": [],
       "checks": [
         {
-          "id": "underworks/underworks-eastern-gauntlet::check/underworks-lever-up-1",
-          "label": "Underworks: Lever (Up) #1",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-eastern-gauntlet#arena",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 31,
-          "raw_cells": {
-            "check": "Underworks: Lever (Up) #1",
-            "subroom": "Arena",
-            "requirements": "Nothing.",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
           "id": "underworks/underworks-eastern-gauntlet::check/underworks-silk-spool-2",
           "label": "Underworks: Silk Spool #2",
           "canonical_location": "Underworks (Gauntlet) - Spool Fragment",
@@ -62989,7 +63152,21 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 31,
+          "cells": {
+            "check": "Underworks: Lever (Up) #1",
+            "subroom": "Arena",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Lever (Up) #1 | Arena | Nothing. |  | Verified | Included |  |"
+        }
+      ]
     },
     {
       "id": "underworks/underworks-exhaust-organ-transit",
@@ -63258,6 +63435,14 @@
                 "item:silk-soar"
               ],
               [
+                "macro:usable-scuttlebrace",
+                "option:skips-easy"
+              ],
+              [
+                "item:cling-grip",
+                "option:skips-easy"
+              ],
+              [
                 "item:cling-grip",
                 "item:faydown-cloak"
               ],
@@ -63275,7 +63460,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "2 Spike Pogo routes need Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -63306,6 +63491,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-first"
               ],
               [
@@ -63328,7 +63516,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -63355,17 +63543,58 @@
           "source_node_id": "underworks/underworks-exhaust-organ-transit#center",
           "target_node_id": "underworks/underworks-exhaust-organ-transit#one-way-floor",
           "requirement": {
-            "raw": "Scuttlebrace AND (Faydown Cloak OR Clawline OR Sharp Dart OR ((Sprint OR Spike Pogo) AND (Ledge Grab OR Dash OR Drifter's Cloak)) OR Cling Grip AND (Spike Pogo OR Drifter's Cloak OR Faydown Cloak OR Clawline OR Sharp Dart OR Dash OR Crest Pogo (Beast) OR Crest Needle Strike (Architect OR Beast)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Beast",
-              "Deferred pogo projection found no safely parsed source clause."
+            "raw": "(Scuttlebrace AND (Faydown Cloak OR Clawline OR Sharp Dart OR (Sprint AND (Ledge Grab OR Dash OR Drifter's Cloak)))) OR (Cling Grip AND (Drifter's Cloak OR Faydown Cloak OR Clawline OR Sharp Dart OR Dash))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:usable-scuttlebrace",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "item:clawline"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "item:sharpdart"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "macro:progressive-swift-step-first",
+                "capability:free"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "macro:progressive-swift-step-first",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ]
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -63380,11 +63609,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-exhaust-organ-transit#lower-left>center@cl",
@@ -63393,17 +63619,43 @@
           "source_node_id": "underworks/underworks-exhaust-organ-transit#lower-left",
           "target_node_id": "underworks/underworks-exhaust-organ-transit#center",
           "requirement": {
-            "raw": "Silk Soar AND (Clawline OR Sharp Dart OR Dash OR Faydown Cloak OR Drifter's Cloak OR Crest Pogo (Beast)) Cling Grip OR Scuttlebrace",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Beast",
-              "Deferred pogo projection found no safely parsed source clause."
+            "raw": "(Silk Soar AND (Clawline OR Sharp Dart OR Dash OR Faydown Cloak OR Drifter's Cloak OR (Beast Crest AND Easy Skip))) OR Cling Grip OR Scuttlebrace",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar",
+                "item:clawline"
+              ],
+              [
+                "item:silk-soar",
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:silk-soar",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "item:beast-crest",
+                "option:skips-easy"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "macro:usable-scuttlebrace"
+              ]
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unexpected trailing requirement token 'Cling Grip'",
-              "row contains deferred pogo technique"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -63418,11 +63670,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unexpected trailing requirement token 'Cling Grip'",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-exhaust-organ-transit#center>far-right@cfr",
@@ -63487,16 +63736,41 @@
           "source_node_id": "underworks/underworks-exhaust-organ-transit#center",
           "target_node_id": "underworks/underworks-exhaust-organ-transit#lower-left",
           "requirement": {
-            "raw": "Silk Soar OR Faydown Cloak OR Drifter's Cloak OR OR Dash OR Cling Grip OR Clawline OR Sharp Dart OR Scuttlebrace OR Spike Pogo",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "Silk Soar OR Faydown Cloak OR Drifter's Cloak OR Dash OR Cling Grip OR Clawline OR Sharp Dart OR Scuttlebrace OR Spike Pogo",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "option:skips-easy"
+              ]
+            ],
             "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unexpected requirement token 'OR'",
-              "row contains deferred pogo technique"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -63511,11 +63785,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unexpected requirement token 'OR'",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-exhaust-organ-transit#one-way-floor>center@ct",
@@ -63668,6 +63939,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "item:clawline",
                 "item:sharpdart",
                 "capability:free"
@@ -63682,7 +63956,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -63710,16 +63984,14 @@
           "target_node_id": "underworks/underworks-exhaust-organ-transit#exhaust-organ-elevator",
           "requirement": {
             "raw": "Opened Shortcut",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "event:underworks/underworks-exhaust-organ-transit/opened-shortcut"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Opened Shortcut"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -63734,10 +64006,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Opened Shortcut"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-exhaust-organ-transit#exhaust-organ-elevator>upper-left@et",
@@ -63808,14 +64078,12 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
-      "checks": [
+      "events": [
         {
-          "id": "underworks/underworks-exhaust-organ-transit::check/underworks-break-wall-1-left-or-right",
-          "label": "Underworks: Break Wall #1 (Left OR Right)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-exhaust-organ-transit#far-right",
+          "id": "event:underworks/underworks-exhaust-organ-transit/opened-shortcut",
+          "label": "Opened Shortcut",
+          "kind": "room-action",
+          "node_id": "underworks/underworks-exhaust-organ-transit#exhaust-organ-elevator",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -63829,20 +64097,21 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": true,
-          "source_line": 50,
+          "source_line": 0,
           "raw_cells": {
-            "check": "Underworks: Break Wall #1 (Left OR Right)",
-            "subroom": "Far Right",
+            "check": "Opened Shortcut",
+            "subroom": "Exhaust Organ Elevator",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
+            "verification": "Mapper confirmed after export",
+            "archipelago": "Not included",
             "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
-        },
+        }
+      ],
+      "checks": [
         {
           "id": "underworks/underworks-exhaust-organ-transit::check/underworks-shell-shard-pillar-1",
           "label": "Underworks: Shell Shard Pillar #1",
@@ -64007,29 +64276,25 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
+        }
+      ],
+      "omitted_check_rows": [
+        {
+          "line": 50,
+          "cells": {
+            "check": "Underworks: Break Wall #1 (Left OR Right)",
+            "subroom": "Far Right",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Break Wall #1 (Left OR Right) | Far Right | Nothing. |  | Verified | Included |  |"
         },
         {
-          "id": "underworks/underworks-exhaust-organ-transit::check/wunderworks-break-wall-2-up",
-          "label": "Wunderworks: Break Wall #2 (Up)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-exhaust-organ-transit#upper-left",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 56,
-          "raw_cells": {
+          "line": 56,
+          "cells": {
             "check": "Wunderworks: Break Wall #2 (Up)",
             "subroom": "Upper Left",
             "requirements": "Nothing.",
@@ -64038,31 +64303,11 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Wunderworks: Break Wall #2 (Up) | Upper Left | Nothing. |  | Verified | Included |  |"
         },
         {
-          "id": "underworks/underworks-exhaust-organ-transit::check/underworks-flip-switch-1-left",
-          "label": "Underworks: Flip Switch #1 (Left)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-exhaust-organ-transit#exhaust-organ-elevator",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 57,
-          "raw_cells": {
+          "line": 57,
+          "cells": {
             "check": "Underworks: Flip Switch #1 (Left)",
             "subroom": "Exhaust Organ Elevator",
             "requirements": "Nothing.",
@@ -64071,11 +64316,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Underworks: Flip Switch #1 (Left) | Exhaust Organ Elevator | Nothing. |  | Verified | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "underworks/underworks-flea-room",
@@ -64845,7 +65088,7 @@
           "target_node_id": "underworks/underworks-lever-spike-corridor#central-top-shaft",
           "requirement": {
             "raw": "Lever Flipped AND (Silk Soar OR Cling Grip OR Scuttlebrace OR Faydown Cloak)",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "event:underworks/underworks-lever-spike-corridor/lever-flipped",
@@ -64865,9 +65108,7 @@
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Lever Flipped"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -64882,10 +65123,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Lever Flipped"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-lever-spike-corridor#left-side-entrance>lever-shaft@ll",
@@ -64894,16 +65133,46 @@
           "source_node_id": "underworks/underworks-lever-spike-corridor#left-side-entrance",
           "target_node_id": "underworks/underworks-lever-spike-corridor#lever-shaft",
           "requirement": {
-            "raw": "Lever Flipped AND (Spike Pogo OR Dash OR Sprint OR Clawline OR Sharp Dart OR Faydown Cloak OR Drifter's Cloak OR Scuttlebrace",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "Lever Flipped AND ((Spike Pogo AND Easy Skip) OR Dash OR Sprint OR Clawline OR Sharp Dart OR Faydown Cloak OR Drifter's Cloak OR Scuttlebrace)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "option:skips-easy"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:clawline"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:sharpdart"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:faydown-cloak"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:drifters-cloak"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:usable-scuttlebrace"
+              ]
+            ],
             "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -64918,11 +65187,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-lever-spike-corridor#lever-shaft>left-side-entrance@ll",
@@ -64931,16 +65197,46 @@
           "source_node_id": "underworks/underworks-lever-spike-corridor#lever-shaft",
           "target_node_id": "underworks/underworks-lever-spike-corridor#left-side-entrance",
           "requirement": {
-            "raw": "Lever Flipped AND (Spike Pogo OR Dash OR Sprint OR Clawline OR Sharp Dart OR Faydown Cloak OR Drifter's Cloak OR Scuttlebrace",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "Lever Flipped AND ((Spike Pogo AND Easy Skip) OR Dash OR Sprint OR Clawline OR Sharp Dart OR Faydown Cloak OR Drifter's Cloak OR Scuttlebrace)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "option:skips-easy"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:clawline"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:sharpdart"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:faydown-cloak"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "item:drifters-cloak"
+              ],
+              [
+                "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:usable-scuttlebrace"
+              ]
+            ],
             "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -64955,20 +65251,15 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
-      "events": [],
-      "checks": [
+      "events": [
         {
-          "id": "underworks/underworks-lever-spike-corridor::check/underworks-flip-switch-left-3",
-          "label": "Underworks: Flip Switch (Left) #3",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
+          "id": "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+          "label": "Lever Flipped",
+          "kind": "room-action",
           "node_id": "underworks/underworks-lever-spike-corridor#lever-shaft",
           "requirement": {
             "raw": "Nothing.",
@@ -64983,9 +65274,25 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": true,
-          "source_line": 36,
+          "source_line": 0,
           "raw_cells": {
+            "check": "Lever Flipped",
+            "subroom": "Lever Shaft",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "archipelago": "Not included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
+      "checks": [],
+      "omitted_check_rows": [
+        {
+          "line": 36,
+          "cells": {
             "check": "Underworks: Flip Switch (Left) #3",
             "subroom": "Lever Shaft",
             "requirements": "Nothing.",
@@ -64994,11 +65301,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Underworks: Flip Switch (Left) #3 | Lever Shaft | Nothing. |  | Verified | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "underworks/underworks-map-room",
@@ -65977,12 +66282,16 @@
                 "item:faydown-cloak"
               ],
               [
+                "capability:free",
+                "option:skips-easy"
+              ],
+              [
                 "item:drifters-cloak",
                 "capability:free"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -66022,11 +66331,14 @@
                 "item:faydown-cloak"
               ],
               [
+                "option:skips-easy"
+              ],
+              [
                 "item:drifters-cloak"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -66785,6 +67097,9 @@
                 "item:drifters-cloak"
               ],
               [
+                "option:skips-easy"
+              ],
+              [
                 "item:clawline"
               ],
               [
@@ -66792,7 +67107,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -66945,16 +67260,105 @@
           "source_node_id": "underworks/underworks-silk-spool#upper-left",
           "target_node_id": "underworks/underworks-silk-spool#upper-right",
           "requirement": {
-            "raw": "Spike Pogo AND Ledge Grab OR (Sprint OR Dash OR Clawline OR Sharp Dart) AND (Silk Soar OR Cling Grip OR Scuttlebrace OR (Faydown Cloak AND (Ledge Grab OR Clawline))",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "(Spike Pogo AND Ledge Grab AND Easy Skip) OR ((Sprint OR Dash OR Clawline OR Sharp Dart) AND (Silk Soar OR Cling Grip OR Scuttlebrace OR (Faydown Cloak AND (Ledge Grab OR Clawline))))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free",
+                "option:skips-easy"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:silk-soar"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:cling-grip"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak",
+                "capability:free"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "item:silk-soar"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "item:faydown-cloak",
+                "capability:free"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:clawline",
+                "item:silk-soar"
+              ],
+              [
+                "item:clawline",
+                "item:cling-grip"
+              ],
+              [
+                "item:clawline",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "item:clawline",
+                "item:faydown-cloak",
+                "capability:free"
+              ],
+              [
+                "item:clawline",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:sharpdart",
+                "item:silk-soar"
+              ],
+              [
+                "item:sharpdart",
+                "item:cling-grip"
+              ],
+              [
+                "item:sharpdart",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "item:sharpdart",
+                "item:faydown-cloak",
+                "capability:free"
+              ],
+              [
+                "item:sharpdart",
+                "item:faydown-cloak",
+                "item:clawline"
+              ]
+            ],
             "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -66969,11 +67373,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-silk-spool#upper-right>shell-shard-alcove-1@cs1",
@@ -66985,9 +67386,7 @@
             "raw": "Faydown Cloak AND Drifter's Cloak AND Ledge Grab AND Spike Pogo OR (Cling Grip OR Scuttlebrace) AND (Clawline OR (Dash AND Sharp Dart AND Spike Pogo AND Ledge Grab)",
             "mode": "unresolved",
             "dnf": [],
-            "annotations": [
-              "Deferred pogo projection found no safely parsed source clause."
-            ],
+            "annotations": [],
             "unresolved_reasons": [
               "requirement parse failure: unclosed requirement group",
               "row contains deferred pogo technique"
@@ -67240,9 +67639,12 @@
           "source_node_id": "underworks/underworks-silk-spool#shell-shard-alcove-1",
           "target_node_id": "underworks/underworks-silk-spool#upper-right",
           "requirement": {
-            "raw": "Spike Pogo OR Dash OR Clawline OR Sharp Dart OR Drifter's cloak OR Faydown Cloak OR Scuttlebrace",
+            "raw": "(Spike Pogo AND Easy Skip) OR Dash OR Clawline OR Sharp Dart OR Drifter's Cloak OR Faydown Cloak OR Scuttlebrace",
             "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -67263,7 +67665,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -67516,29 +67918,12 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
-        },
+        }
+      ],
+      "omitted_check_rows": [
         {
-          "id": "underworks/underworks-silk-spool::check/underworks-break-wall-3-left",
-          "label": "Underworks: Break Wall #3 (Left)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-silk-spool#silk-spool",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 46,
-          "raw_cells": {
+          "line": 46,
+          "cells": {
             "check": "Underworks: Break Wall #3 (Left)",
             "subroom": "Silk Spool",
             "requirements": "Nothing.",
@@ -67547,11 +67932,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Underworks: Break Wall #3 (Left) | Silk Spool | Nothing. |  | Verified | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "underworks/underworks-twelfth-architect",
@@ -67921,7 +68304,6 @@
               ],
               [
                 "item:faydown-cloak",
-                "macro:usable-scuttlebrace",
                 "macro:usable-scuttlebrace"
               ]
             ],
@@ -68470,8 +68852,8 @@
           "source_node_id": "underworks/underworks-twelfth-architect#left-exit-bottom",
           "target_node_id": "underworks/underworks-twelfth-architect#left-exit-top",
           "requirement": {
-            "raw": "Silk Soar OR Faydown Cloak AND (Cling Grip OR Scuttlebrace) OR Drifter's Cloak with activated fan",
-            "mode": "unresolved",
+            "raw": "Silk Soar OR (Faydown Cloak AND (Cling Grip OR Scuttlebrace)) OR (Drifter's Cloak AND Activated Fan)",
+            "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
@@ -68485,13 +68867,12 @@
                 "macro:usable-scuttlebrace"
               ],
               [
-                "event:underworks/underworks-twelfth-architect/drifters-cloak-with-activated-fan"
+                "item:drifters-cloak",
+                "event:underworks/underworks-twelfth-architect/activated-fan"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Drifter's Cloak with activated fan"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -68506,10 +68887,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Drifter's Cloak with activated fan"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-twelfth-architect#left-exit-top>left-exit-bottom@osl",
@@ -68547,7 +68926,39 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:underworks/underworks-twelfth-architect/activated-fan",
+          "label": "Activated Fan",
+          "kind": "room-action",
+          "node_id": "underworks/underworks-twelfth-architect#left-exit-top",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "check": "Activated Fan",
+            "subroom": "Left Exit (Top)",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "archipelago": "Not included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "underworks/underworks-twelfth-architect::check/underworks-shell-shard-cache-4",
@@ -68606,105 +69017,6 @@
           "raw_cells": {
             "check": "Twelfth Architect Pristine Core",
             "subroom": "First Floor",
-            "requirements": "Nothing.",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "underworks/underworks-twelfth-architect::check/underworks-needolin-lore-2",
-          "label": "Underworks: Needolin Lore #2",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-twelfth-architect#one-way-entrance-top",
-          "requirement": {
-            "raw": "Needolin",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:needolin"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "futureproofing in case",
-          "currently_randomized": true,
-          "source_line": 55,
-          "raw_cells": {
-            "check": "Underworks: Needolin Lore #2",
-            "subroom": "One-way Entrance (Top)",
-            "requirements": "Needolin",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": "futureproofing in case"
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "underworks/underworks-twelfth-architect::check/underworks-needolin-lore-3",
-          "label": "Underworks: Needolin Lore #3",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-twelfth-architect#needolin-check-guy",
-          "requirement": {
-            "raw": "Needolin",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:needolin"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "futureproofing in case",
-          "currently_randomized": true,
-          "source_line": 56,
-          "raw_cells": {
-            "check": "Underworks: Needolin Lore #3",
-            "subroom": "Needolin Check Guy",
-            "requirements": "Needolin",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": "futureproofing in case"
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "underworks/underworks-twelfth-architect::check/underworks-flip-switch-left-or-right",
-          "label": "Underworks: Flip Switch (Left OR Right)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/underworks-twelfth-architect#left-exit-top",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 57,
-          "raw_cells": {
-            "check": "Underworks: Flip Switch (Left OR Right)",
-            "subroom": "Left Exit (Top)",
             "requirements": "Nothing.",
             "todo": "",
             "verification": "Verified",
@@ -68914,7 +69226,47 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 55,
+          "cells": {
+            "check": "Underworks: Needolin Lore #2",
+            "subroom": "One-way Entrance (Top)",
+            "requirements": "Needolin",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": "futureproofing in case"
+          },
+          "raw": "| Underworks: Needolin Lore #2 | One-way Entrance (Top) | Needolin |  | Verified | Included | futureproofing in case |"
+        },
+        {
+          "line": 56,
+          "cells": {
+            "check": "Underworks: Needolin Lore #3",
+            "subroom": "Needolin Check Guy",
+            "requirements": "Needolin",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": "futureproofing in case"
+          },
+          "raw": "| Underworks: Needolin Lore #3 | Needolin Check Guy | Needolin |  | Verified | Included | futureproofing in case |"
+        },
+        {
+          "line": 57,
+          "cells": {
+            "check": "Underworks: Flip Switch (Left OR Right)",
+            "subroom": "Left Exit (Top)",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Underworks: Flip Switch (Left OR Right) | Left Exit (Top) | Nothing. |  | Verified | Included |  |"
+        }
+      ]
     },
     {
       "id": "underworks/underworks-ventrica",
@@ -69655,15 +70007,19 @@
           "source_node_id": "underworks/vaults-bellway-cauldron-entrance#side-shaft-bottom-exit",
           "target_node_id": "underworks/vaults-bellway-cauldron-entrance#side-shaft-top-exit",
           "requirement": {
-            "raw": "Cling Grip OR Scuttlebrace AND Spike Pogo",
+            "raw": "Cling Grip OR (Scuttlebrace AND Spike Pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -69725,37 +70081,46 @@
           "source_node_id": "underworks/vaults-bellway-cauldron-entrance#elevator-shaft",
           "target_node_id": "underworks/vaults-bellway-cauldron-entrance#bottom-exit",
           "requirement": {
-            "raw": "Spike Pogo OR Cling Grip AND Faydown Cloak OR Drifter's Cloak OR Dash OR Clawline OR Sharp Dart OR Scuttlebrace AND Clawline OR (Faydown Cloak AND Drifter's Cloak) (Difficult)",
+            "raw": "(Spike Pogo AND Easy Skip) OR (Cling Grip AND (Faydown Cloak OR Drifter's Cloak OR Clawline OR Sharp Dart OR Dash)) OR (Scuttlebrace AND Clawline AND Difficult Skip) OR (Scuttlebrace AND Faydown Cloak AND Drifter's Cloak AND Difficult Skip)",
             "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
               ],
               [
+                "item:cling-grip",
                 "item:drifters-cloak"
               ],
               [
-                "macro:progressive-swift-step-full"
-              ],
-              [
+                "item:cling-grip",
                 "item:clawline"
               ],
               [
+                "item:cling-grip",
                 "item:sharpdart"
               ],
               [
-                "macro:usable-scuttlebrace",
-                "item:clawline"
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
               ],
               [
+                "macro:usable-scuttlebrace",
+                "item:clawline",
+                "option:skips-difficult"
+              ],
+              [
+                "macro:usable-scuttlebrace",
                 "item:faydown-cloak",
-                "item:drifters-cloak"
+                "item:drifters-cloak",
+                "option:skips-difficult"
               ]
             ],
             "annotations": [
-              "Difficult",
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -69799,10 +70164,15 @@
                 "event:underworks/vaults-bellway-cauldron-entrance/elevator-moved-up",
                 "item:cling-grip",
                 "item:sharpdart"
+              ],
+              [
+                "event:underworks/vaults-bellway-cauldron-entrance/elevator-moved-up",
+                "item:cling-grip",
+                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [
               "unresolved requirement vocabulary: Elevator moved up"
@@ -69828,29 +70198,11 @@
         }
       ],
       "events": [],
-      "checks": [
+      "checks": [],
+      "omitted_check_rows": [
         {
-          "id": "underworks/vaults-bellway-cauldron-entrance::check/underworks-flip-switch-2-left",
-          "label": "Underworks: Flip Switch #2 (Left)",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "underworks/vaults-bellway-cauldron-entrance#elevator-shaft",
-          "requirement": {
-            "raw": "Nothing.",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:free"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 35,
-          "raw_cells": {
+          "line": 35,
+          "cells": {
             "check": "Underworks: Flip Switch #2 (Left)",
             "subroom": "Elevator Shaft",
             "requirements": "Nothing.",
@@ -69859,11 +70211,9 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "raw": "| Underworks: Flip Switch #2 (Left) | Elevator Shaft | Nothing. |  | Verified | Included |  |"
         }
-      ],
-      "omitted_check_rows": []
+      ]
     },
     {
       "id": "choral-chambers/bellshrine-enclave",
@@ -71506,10 +71856,8 @@
             "archipelago": "Included",
             "notes": "Check"
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -71613,10 +71961,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-east-to-west@l",
@@ -71676,10 +72022,13 @@
               ],
               [
                 "item:faydown-cloak"
+              ],
+              [
+                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -71717,10 +72066,13 @@
               ],
               [
                 "item:faydown-cloak"
+              ],
+              [
+                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -72031,7 +72383,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -72110,7 +72462,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "2 pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -72659,11 +73011,14 @@
           "source_node_id": "choral-chambers/choral-chambers-flea-shaft#base-bottom",
           "target_node_id": "choral-chambers/choral-chambers-flea-shaft#base-upper",
           "requirement": {
-            "raw": "silk soar faydown cloak or (cling grip and ((dash and ledge grab) or (drifter's cloak and ledge grab) or clawline))",
-            "mode": "unresolved",
+            "raw": "Silk Soar OR Faydown Cloak OR (Cling Grip AND ((Dash AND Ledge Grab) OR (Drifter's Cloak AND Ledge Grab) OR Clawline))",
+            "mode": "expression",
             "dnf": [
               [
-                "event:choral-chambers/choral-chambers-flea-shaft/silk-soar-faydown-cloak"
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak"
               ],
               [
                 "item:cling-grip",
@@ -72681,9 +73036,7 @@
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: silk soar faydown cloak"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -72698,10 +73051,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: silk soar faydown cloak"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-flea-shaft#base-upper>base-bottom@vb",
@@ -73025,10 +73376,8 @@
             "verification": "",
             "notes": "check sharpdart"
           },
-          "unresolved_reasons": [
-            "connection TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-flea-shaft#top-section-3-left>top-section-3-right@h",
@@ -73146,10 +73495,8 @@
             "archipelago": "Included",
             "notes": "check, probably better to split Base Upper into two zones since they can be gotten from BLT easier than from BLB"
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-flea-shaft::check/rosary-cache-choral-chambers-15",
@@ -73188,10 +73535,8 @@
             "archipelago": "Included",
             "notes": "check, probably better to split Base Upper into two zones since they can be gotten from BLT easier than from BLB"
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-flea-shaft::check/rosary-cache-choral-chambers-16",
@@ -73230,10 +73575,8 @@
             "archipelago": "Included",
             "notes": "check, probably better to split Base Upper into two zones since they can be gotten from BLT easier than from BLB"
           },
-          "unresolved_reasons": [
-            "check TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -74392,10 +74735,8 @@
             "verification": "",
             "notes": "Needs checking"
           },
-          "unresolved_reasons": [
-            "connection TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-over-dininig#right-secret>base@s",
@@ -74756,10 +75097,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "connection TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/choral-chambers-spa#spa>showers@h",
@@ -74953,12 +75292,10 @@
             "label": "Ventrica Menu"
           },
           "requirement": {
-            "raw": "rosaries",
-            "mode": "expression",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "capability:free"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -75670,6 +76007,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "item:silk-soar"
               ],
               [
@@ -75678,7 +76018,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -76047,7 +76387,7 @@
       "area_id": "choral-chambers",
       "name": "Grand Bellway Shaft (Song_20)",
       "source_file": "choral-chambers/grand-bellway-shaft.md",
-      "source_sha256": "000e337b36b19c938585d3b85750187fada583b111abfd6807e77fddbcc98a02",
+      "source_sha256": "35cf4bec56d279f10a499d298e66c1e4261ab3114cb23a2bf9231c71d4c4e54e",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -76498,7 +76838,7 @@
             "destination": "Bottom Left",
             "requirements": "silk soar or cling grip",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": "Might be able to use enemy pogo and faydown cloak"
           },
           "unresolved_reasons": [],
@@ -76532,9 +76872,9 @@
             "name": "Bottom Left to Right Stage",
             "source": "Bottom Left",
             "destination": "Right Stage",
-            "requirements": "((faydown cloak or pogo) and cling grip) or silk soar",
+            "requirements": "cling grip or silk soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -76568,9 +76908,9 @@
             "name": "Right Stage to Upper Left",
             "source": "Right Stage",
             "destination": "Upper Left",
-            "requirements": "(faydown cloak or pogo) and cling grip",
+            "requirements": "cling grip or silk soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -76603,7 +76943,7 @@
             "destination": "Upper Left",
             "requirements": "silk soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -76646,9 +76986,9 @@
             "name": "Upper Left to Upper Right",
             "source": "Upper Left",
             "destination": "Upper Right",
-            "requirements": "((clawline or dash or faydown cloak or (drifter's cloak and ledge grab)) and cling grip and pogo) or silk soar",
+            "requirements": "(cling grip and (faydown cloak or swift step or clawline)) or silk soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -76690,7 +77030,7 @@
             "destination": "Top",
             "requirements": "ledge grab or silk soar or clawline or faydown cloak",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -76770,6 +77110,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "option:skips-easy"
+              ],
+              [
                 "macro:progressive-swift-step-full"
               ],
               [
@@ -76789,7 +77132,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -76922,12 +77265,10 @@
             "label": "Bellway Menu"
           },
           "requirement": {
-            "raw": "rosaries",
-            "mode": "expression",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "capability:free"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -76946,10 +77287,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/grand-bellway@vt",
@@ -76964,12 +77303,10 @@
             "label": "Ventrica Menu"
           },
           "requirement": {
-            "raw": "rosaries",
-            "mode": "expression",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "capability:free"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -76988,10 +77325,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -77191,17 +77526,15 @@
             "label": "Choral Chambers Flea Shaft (Song_11)"
           },
           "requirement": {
-            "raw": "one way entrance, opens from the other side",
-            "mode": "unresolved",
+            "raw": "left door opened from flea shaft",
+            "mode": "expression",
             "dnf": [
               [
-                "event:choral-chambers/high-halls-corridor/one-way-entrance-opens-from-the-other-side"
+                "event:choral-chambers/high-halls-corridor/left-door-opened-from-flea-shaft"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: one way entrance, opens from the other side"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "one way entrance, opens from the other side",
@@ -77217,10 +77550,8 @@
             "verification": "Verified",
             "notes": "one way entrance, opens from the other side"
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: one way entrance, opens from the other side"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "choral-chambers/high-halls-corridor@r",
@@ -77311,17 +77642,15 @@
             "label": "High Halls Vault (Hang_06)"
           },
           "requirement": {
-            "raw": "one way entrance, opens from the other side",
-            "mode": "unresolved",
+            "raw": "top door opened from high halls vault",
+            "mode": "expression",
             "dnf": [
               [
-                "event:choral-chambers/high-halls-corridor/one-way-entrance-opens-from-the-other-side"
+                "event:choral-chambers/high-halls-corridor/top-door-opened-from-high-halls-vault"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: one way entrance, opens from the other side"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "one way entrance, opens from the other side",
@@ -77337,10 +77666,8 @@
             "verification": "Verified",
             "notes": "one way entrance, opens from the other side"
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: one way entrance, opens from the other side"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -77420,6 +77747,10 @@
             "dnf": [
               [
                 "item:clawline",
+                "option:skips-easy"
+              ],
+              [
+                "item:clawline",
                 "item:faydown-cloak"
               ],
               [
@@ -77427,7 +77758,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -77861,7 +78192,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -78268,17 +78599,13 @@
             "label": "Ventrica Menu"
           },
           "requirement": {
-            "raw": "ventrica",
-            "mode": "unresolved",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "event:choral-chambers/songclave-tube/ventrica"
-              ]
+              []
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: ventrica"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "ventrica, repeat for each possible exit",
@@ -78294,11 +78621,8 @@
             "verification": "",
             "notes": "ventrica, repeat for each possible exit"
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: ventrica",
-            "transition TODO: TODO"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -81823,7 +82147,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -82268,8 +82592,8 @@
             ],
             "annotations": [
               "except Witch",
-              "Spike Pogo projection gated 2 source clause(s) behind Easy Skip.",
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "Two Spike Pogo routes need Easy Skips.",
+              "Two pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -82340,7 +82664,7 @@
             "mode": "unresolved",
             "dnf": [],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [
               "row contains deferred pogo technique"
@@ -82729,7 +83053,7 @@
               ]
             ],
             "annotations": [
-              "Spike Pogo projection gated 1 source clause(s) behind Easy Skip."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -85329,7 +85653,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -85656,7 +85980,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 5 source clause(s)."
+              "Five pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -85893,7 +86217,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 4 source clause(s)."
+              "Four pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -85952,7 +86276,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -86017,7 +86341,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -86669,7 +86993,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -86731,7 +87055,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 2 source clause(s)."
+              "Two pogo routes are not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -86818,7 +87142,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -86951,7 +87275,7 @@
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -87706,7 +88030,7 @@
               ]
             ],
             "annotations": [
-              "Spike Pogo projection gated 1 source clause(s) behind Easy Skip."
+              "One Spike Pogo route needs Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -88007,7 +88331,7 @@
               ]
             ],
             "annotations": [
-              "Spike Pogo projection gated 2 source clause(s) behind Easy Skip."
+              "Two Spike Pogo routes need Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -89016,7 +89340,7 @@
               ]
             ],
             "annotations": [
-              "Spike Pogo projection gated 2 source clause(s) behind Easy Skip."
+              "Two Spike Pogo routes need Easy Skips."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -89776,9 +90100,12 @@
           "source_node_id": "whiteward/whiteward-descent-connection#bottom-left",
           "target_node_id": "whiteward/whiteward-descent-connection#spikes",
           "requirement": {
-            "raw": "Spike Pogo OR Dash OR Sprint OR Sharpdart OR Clawline OR Faydown OR Drifter's Cloak OR Flea Brew OR ((Plasmium Phial OR Voltvessels) AND Easy Tool Skip)",
-            "mode": "unresolved",
+            "raw": "Spike Pogo OR Dash OR Sprint OR Sharp Dart OR Clawline OR Faydown Cloak OR Drifter's Cloak OR Flea Brew",
+            "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -89799,24 +90126,12 @@
               ],
               [
                 "item:flea-brew"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/plasmium-phial",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/voltvessels",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Plasmium Phial",
-              "unresolved requirement vocabulary: Easy Tool Skip",
-              "unresolved requirement vocabulary: Voltvessels"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -89831,12 +90146,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Plasmium Phial",
-            "unresolved requirement vocabulary: Easy Tool Skip",
-            "unresolved requirement vocabulary: Voltvessels"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-descent-connection#spikes>bottom-left@bls",
@@ -89845,9 +90156,12 @@
           "source_node_id": "whiteward/whiteward-descent-connection#spikes",
           "target_node_id": "whiteward/whiteward-descent-connection#bottom-left",
           "requirement": {
-            "raw": "Spike Pogo OR Dash OR Sprint OR Sharpdart OR Clawline OR Faydown OR Drifter's Cloak OR Flea Brew OR ((Plasmium Phial OR Voltvessels) AND Easy Tool Skip)",
-            "mode": "unresolved",
+            "raw": "Spike Pogo OR Dash OR Sprint OR Sharp Dart OR Clawline OR Faydown Cloak OR Drifter's Cloak OR Flea Brew",
+            "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -89868,24 +90182,12 @@
               ],
               [
                 "item:flea-brew"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/plasmium-phial",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/voltvessels",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Plasmium Phial",
-              "unresolved requirement vocabulary: Easy Tool Skip",
-              "unresolved requirement vocabulary: Voltvessels"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -89900,12 +90202,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Plasmium Phial",
-            "unresolved requirement vocabulary: Easy Tool Skip",
-            "unresolved requirement vocabulary: Voltvessels"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-descent-connection#spikes>bottom-middle@sbr",
@@ -89914,9 +90212,12 @@
           "source_node_id": "whiteward/whiteward-descent-connection#spikes",
           "target_node_id": "whiteward/whiteward-descent-connection#bottom-middle",
           "requirement": {
-            "raw": "Spike Pogo OR Dash OR Sprint OR Sharpdart OR Clawline OR Faydown OR Drifter's Cloak OR Flea Brew OR ((Plasmium Phial OR Voltvessels) AND Easy Tool Skip)",
-            "mode": "unresolved",
+            "raw": "Spike Pogo OR Dash OR Sprint OR Sharp Dart OR Clawline OR Faydown Cloak OR Drifter's Cloak OR Flea Brew",
+            "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -89937,24 +90238,12 @@
               ],
               [
                 "item:flea-brew"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/plasmium-phial",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/voltvessels",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Plasmium Phial",
-              "unresolved requirement vocabulary: Easy Tool Skip",
-              "unresolved requirement vocabulary: Voltvessels"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -89969,12 +90258,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Plasmium Phial",
-            "unresolved requirement vocabulary: Easy Tool Skip",
-            "unresolved requirement vocabulary: Voltvessels"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-descent-connection#bottom-middle>spikes@sbr",
@@ -89983,9 +90268,12 @@
           "source_node_id": "whiteward/whiteward-descent-connection#bottom-middle",
           "target_node_id": "whiteward/whiteward-descent-connection#spikes",
           "requirement": {
-            "raw": "Spike Pogo OR Dash OR Sprint OR Sharpdart OR Clawline OR Faydown OR Drifter's Cloak OR Flea Brew OR ((Plasmium Phial OR Voltvessels) AND Easy Tool Skip)",
-            "mode": "unresolved",
+            "raw": "Spike Pogo OR Dash OR Sprint OR Sharp Dart OR Clawline OR Faydown Cloak OR Drifter's Cloak OR Flea Brew",
+            "mode": "expression",
             "dnf": [
+              [
+                "option:skips-easy"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -90006,24 +90294,12 @@
               ],
               [
                 "item:flea-brew"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/plasmium-phial",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
-              ],
-              [
-                "event:whiteward/whiteward-descent-connection/voltvessels",
-                "event:whiteward/whiteward-descent-connection/easy-tool-skip"
               ]
             ],
             "annotations": [
-              "Deferred pogo projection omitted 1 source clause(s)."
+              "One Spike Pogo route needs Easy Skips."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Plasmium Phial",
-              "unresolved requirement vocabulary: Easy Tool Skip",
-              "unresolved requirement vocabulary: Voltvessels"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -90038,12 +90314,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Plasmium Phial",
-            "unresolved requirement vocabulary: Easy Tool Skip",
-            "unresolved requirement vocabulary: Voltvessels"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-descent-connection#bottom-middle>ascent@bma",
@@ -91383,33 +91655,31 @@
           "source_node_id": "whiteward/whiteward-entrance#vertical-shaft-lower",
           "target_node_id": "whiteward/whiteward-entrance#middle-third-right",
           "requirement": {
-            "raw": "Cling Grip OR (Scuttlebrace AND (Flea Brew Stall OR Heal Stall OR Faydown)) OR Silk Soar",
-            "mode": "unresolved",
+            "raw": "Cling Grip OR Silk Soar OR (Scuttlebrace AND Faydown Cloak) OR (Scuttlebrace AND Flea Brew AND Moderate Skip) OR (Scuttlebrace AND Moderate Skip)",
+            "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
               ],
               [
-                "macro:usable-scuttlebrace",
-                "event:whiteward/whiteward-entrance/flea-brew-stall"
-              ],
-              [
-                "macro:usable-scuttlebrace",
-                "event:whiteward/whiteward-entrance/heal-stall"
+                "item:silk-soar"
               ],
               [
                 "macro:usable-scuttlebrace",
                 "item:faydown-cloak"
               ],
               [
-                "item:silk-soar"
+                "macro:usable-scuttlebrace",
+                "item:flea-brew",
+                "option:skips-moderate"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "option:skips-moderate"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Flea Brew Stall",
-              "unresolved requirement vocabulary: Heal Stall"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -91424,11 +91694,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Flea Brew Stall",
-            "unresolved requirement vocabulary: Heal Stall"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-entrance#middle-third-right>vertical-shaft-upper@rvu",
@@ -91437,8 +91704,8 @@
           "source_node_id": "whiteward/whiteward-entrance#middle-third-right",
           "target_node_id": "whiteward/whiteward-entrance#vertical-shaft-upper",
           "requirement": {
-            "raw": "Silk Soar OR (Faydown AND Cling Grip AND Easy Tool  Skip)",
-            "mode": "unresolved",
+            "raw": "Silk Soar OR (Faydown Cloak AND Cling Grip AND Easy Skip)",
+            "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
@@ -91446,13 +91713,11 @@
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
-                "event:whiteward/whiteward-entrance/easy-tool-skip"
+                "option:skips-easy"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Easy Tool Skip"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -91467,10 +91732,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Easy Tool Skip"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-entrance#vertical-shaft-upper>middle-third-right@rvu",
@@ -91514,8 +91777,8 @@
           "source_node_id": "whiteward/whiteward-entrance#vertical-shaft-upper",
           "target_node_id": "whiteward/whiteward-entrance#top-right-entrance",
           "requirement": {
-            "raw": "Silk Soar OR (Faydown AND Cling Grip AND Easy Tool Skip)",
-            "mode": "unresolved",
+            "raw": "Silk Soar OR (Faydown Cloak AND Cling Grip AND Easy Skip)",
+            "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
@@ -91523,13 +91786,11 @@
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
-                "event:whiteward/whiteward-entrance/easy-tool-skip"
+                "option:skips-easy"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Easy Tool Skip"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -91544,10 +91805,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Easy Tool Skip"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-entrance#top-right-entrance>vertical-shaft-upper@vtr",
@@ -91697,43 +91956,10 @@
           "logic_status": "active"
         },
         {
-          "id": "whiteward/whiteward-entrance::check/whiteward-bench",
-          "label": "Whiteward Bench",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
-          "node_id": "whiteward/whiteward-entrance#top-third",
-          "requirement": {
-            "raw": "White Key",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:white-key"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 54,
-          "raw_cells": {
-            "check": "Whiteward Bench",
-            "subroom": "Top Third",
-            "requirements": "White Key",
-            "todo": "",
-            "verification": "Verified",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
           "id": "whiteward/whiteward-entrance::check/whiteward-map-purchase",
           "label": "Whiteward - Map Purchase",
           "canonical_location": "Whiteward - Map Purchase",
-          "canonical_mapping_confidence": "normalized-exact",
+          "canonical_mapping_confidence": "curated",
           "node_id": "whiteward/whiteward-entrance#vertical-shaft-lower",
           "requirement": {
             "raw": "Nothing",
@@ -91763,7 +91989,21 @@
           "logic_status": "active"
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "line": 54,
+          "cells": {
+            "check": "Whiteward Bench",
+            "subroom": "Top Third",
+            "requirements": "White Key",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "raw": "| Whiteward Bench | Top Third | White Key |  | Verified | Included |  |"
+        }
+      ]
     },
     {
       "id": "whiteward/whiteward-junk-dump",
@@ -91951,8 +92191,10 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "unresolved_reasons": [
+            "pickup route is not mapped"
+          ],
+          "logic_status": "unresolved"
         }
       ],
       "omitted_check_rows": []
@@ -92338,8 +92580,8 @@
         {
           "id": "whiteward/whiteward-map-room::check/map-whiteward",
           "label": "Map: Whiteward",
-          "canonical_location": null,
-          "canonical_mapping_confidence": null,
+          "canonical_location": "Relic: Choral Commandment (Western Whiteward)",
+          "canonical_mapping_confidence": "curated",
           "node_id": "whiteward/whiteward-map-room#pickup-section",
           "requirement": {
             "raw": "Nothing",
@@ -92652,7 +92894,7 @@
           "target_node_id": "whiteward/whiteward-unravelled-arena-room#vertical-left",
           "requirement": {
             "raw": "Ledge Grab OR Faydown OR Clawline OR Silk Soar OR (Proficient Movement AND Scuttlebrace)",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:free"
@@ -92665,16 +92907,12 @@
               ],
               [
                 "item:silk-soar"
-              ],
-              [
-                "event:whiteward/whiteward-unravelled-arena-room/proficient-movement",
-                "macro:usable-scuttlebrace"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Proficient Movement"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -92689,10 +92927,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Proficient Movement"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "whiteward/whiteward-unravelled-arena-room#vertical-left>surgery-tables-left@slv",
@@ -92736,17 +92972,11 @@
           "source_node_id": "whiteward/whiteward-unravelled-arena-room#surgery-tables-right",
           "target_node_id": "whiteward/whiteward-unravelled-arena-room#surgery-tables-left",
           "requirement": {
-            "raw": "Faydown OR Clawline OR Sharpdart",
+            "raw": "Nothing",
             "mode": "expression",
             "dnf": [
               [
-                "item:faydown-cloak"
-              ],
-              [
-                "item:clawline"
-              ],
-              [
-                "item:sharpdart"
+                "capability:free"
               ]
             ],
             "annotations": [],
@@ -92775,17 +93005,11 @@
           "source_node_id": "whiteward/whiteward-unravelled-arena-room#surgery-tables-left",
           "target_node_id": "whiteward/whiteward-unravelled-arena-room#surgery-tables-right",
           "requirement": {
-            "raw": "Faydown OR Clawline OR Sharpdart",
+            "raw": "Nothing",
             "mode": "expression",
             "dnf": [
               [
-                "item:faydown-cloak"
-              ],
-              [
-                "item:clawline"
-              ],
-              [
-                "item:sharpdart"
+                "capability:free"
               ]
             ],
             "annotations": [],
@@ -100327,7 +100551,7 @@
       "area_id": "the-slab",
       "name": "Slab Cavern Exit (Slab_23)",
       "source_file": "the-slab/slab-cavern-exit.md",
-      "source_sha256": "2d664974ea822c0db988e0974a16ff806230498886b46fd044eb95a8bfd3392e",
+      "source_sha256": "3e22c33f38ed87f0a3e4a03dbe0dbb3b79a4cfef7071ff8788857c7f4bf33be5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -100492,8 +100716,8 @@
             "fromsubroom": "Cavern",
             "destination": "[Slab Quiet Cell (Slab_Cell_Quiet)](slab-quiet-cell.md)",
             "destinationalias": "T",
-            "requirements": "",
-            "todo": "TODO",
+            "requirements": "none",
+            "todo": "",
             "verification": "",
             "notes": "Cavern door, for alternate entry, TBD"
           },
@@ -106142,9 +106366,9 @@
           "source_node_id": "fast-travel/bellway-menu#room",
           "target": {
             "raw": "[Shellwood Bellway  (Shellwood_19)](../shellwood/shellwood-bellway.md)",
-            "room_id": "shellwood/shellwood-bellway",
+            "room_id": "shellwood/shellwood-19",
             "alias": "BB",
-            "port_id": "shellwood/shellwood-bellway@bb",
+            "port_id": "shellwood/shellwood-19@bb",
             "label": "Shellwood Bellway  (Shellwood_19)"
           },
           "requirement": {

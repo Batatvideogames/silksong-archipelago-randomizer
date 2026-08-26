@@ -293,6 +293,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def generate_early(self) -> None:
         self._crest_slot_memory_locket_count = None
         self._vog_hint_plan = None
+        if self.is_alphabet_mode_enabled():
+            self.options.alphabet_mode.value = 1
         starting_crest = self.resolve_starting_crest()
         category_modes = self.get_category_modes()
         goal_key = self.get_goal_key()

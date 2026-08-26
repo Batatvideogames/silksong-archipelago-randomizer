@@ -102,6 +102,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:wanderer-crest": (_part("Crest: Wanderer"),),
     "item:witch-crest": (_part("Crest: Witch"),),
     "item:white-key": (_part("White Key"),),
+    "path:bellways": (_part("Path: Bellways"),),
     "macro:progressive-swift-step-first": (
         _part("Swift Step"),
         _part("Progressive Swift Step"),
@@ -425,7 +426,18 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         "event:choral-chambers/choral-chambers-flea-shaft/"
         "breakable-wall-must-be-opened-from-the-other-side"
     ): (
-        _part(room_node_name("choral-chambers/choral-chambers-spa#spa")),
+        _part(
+            room_node_name("choral-chambers/choral-chambers-spa#spa"),
+            "Ancestral Art: Cling Grip",
+        ),
+        _part(
+            room_node_name("choral-chambers/choral-chambers-spa#spa"),
+            "Ancestral Art: Silk Soar",
+        ),
+        _part(
+            room_node_name("choral-chambers/choral-chambers-spa#spa"),
+            "Ability: Faydown Cloak",
+        ),
     ),
     # This shortcut is opened while approaching from Underworks.
     (
@@ -435,7 +447,14 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(
             room_node_name(
                 "underworks/underworks-outside-choral-chambers#room"
-            )
+            ),
+            "Ancestral Art: Cling Grip",
+        ),
+        _part(
+            room_node_name(
+                "underworks/underworks-outside-choral-chambers#room"
+            ),
+            "Ancestral Art: Silk Soar",
         ),
     ),
     "event:choral-chambers/choral-chambers-outside-spa/gauntlet": (
@@ -448,6 +467,22 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:high-halls/high-halls-arena/gauntlet": (
         _part(room_node_name("high-halls/high-halls-arena#room")),
     ),
+    (
+        "event:choral-chambers/high-halls-corridor/"
+        "left-door-opened-from-flea-shaft"
+    ): (
+        _part(
+            room_node_name(
+                "choral-chambers/choral-chambers-flea-shaft#top-section-3-right"
+            )
+        ),
+    ),
+    (
+        "event:choral-chambers/high-halls-corridor/"
+        "top-door-opened-from-high-halls-vault"
+    ): (
+        _part(room_node_name("high-halls/high-halls-vault#room")),
+    ),
     "event:whiteward/whiteward-entrance/set-elevator-to-top": (
         _part(
             room_node_name("whiteward/whiteward-entrance#elevator-shaft"),
@@ -457,8 +492,9 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:whiteward/whiteward-unravelled-arena-room/beat-unravelled-arena": (
         _part(
             room_node_name(
-                "whiteward/whiteward-unravelled-arena-room#unravelled-arena"
-            )
+                "whiteward/whiteward-unravelled-arena-room#key-shaft"
+            ),
+            "Surgeon's Key",
         ),
     ),
     # The Dancers event comes from their arena and requires an owned crest. The
@@ -503,7 +539,30 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(room_node_name("shellwood/shellwood-01b#elevator-platform")),
     ),
     "event:shellwood/shellwood-15/door-opened": (
-        _part(room_node_name("shellwood/shellwood-15#room")),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Ability: Faydown Cloak",
+        ),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Ability: Drifter's Cloak",
+        ),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Swift Step",
+        ),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Ancestral Art: Clawline",
+        ),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Usable Sharpdart",
+        ),
+        _part(
+            room_node_name("shellwood/shellwood-15#room"),
+            "Crest: Beast",
+        ),
     ),
     "event:shellwood/shellwood-26/upper-wall-broken": (
         _part(room_node_name("shellwood/shellwood-26#upper-area")),

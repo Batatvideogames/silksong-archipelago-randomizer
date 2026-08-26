@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TeamCherry.Localization;
 
 namespace SilksongRandomizer.AlphabetMode
@@ -83,18 +82,6 @@ namespace SilksongRandomizer.AlphabetMode
                 itemName[LetterPrefix.Length]
             );
             return letterIndex >= 0;
-        }
-
-        internal static IEnumerable<char> GetOwnedLetters()
-        {
-            int mask = GetOwnedLetterMask();
-            for (int index = 0; index < 26; index++)
-            {
-                if ((mask & (1 << index)) != 0)
-                {
-                    yield return (char)('A' + index);
-                }
-            }
         }
 
         internal static int GetOwnedLetterMask()
@@ -205,6 +192,20 @@ namespace SilksongRandomizer.AlphabetMode
                 GameManager gameManager = GameManager.SilentInstance;
                 if (gameManager != null)
                 {
+                    if (AlphabetMapTextManager.NeedsEnglishSource())
+                    {
+                        BeginTextBypass();
+                        try
+                        {
+                            gameManager.RefreshLocalization();
+                            AlphabetMapTextManager.CaptureEnglishSource();
+                        }
+                        finally
+                        {
+                            EndTextBypass();
+                        }
+                    }
+
                     gameManager.RefreshLocalization();
                 }
                 AlphabetMapTextManager.Refresh();
@@ -255,7 +256,7 @@ namespace SilksongRandomizer.AlphabetMode
                    );
         }
 
-        private static bool IsEnglishLanguage(LanguageCode language)
+        internal static bool IsEnglishLanguage(LanguageCode language)
         {
             return language == LanguageCode.EN ||
                    language == LanguageCode.EN_US ||

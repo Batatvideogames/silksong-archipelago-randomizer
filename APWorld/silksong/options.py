@@ -582,9 +582,9 @@ class SilksongAccessibility(Accessibility):
 
 
 class Goal(Choice):
-    """Choose the victory condition.
-
-    Earlier goals omit locations that become available only after victory.
+    """Act 1-3 require beating the chosen act, Cursed Ending is self
+    explanatory, Flea Hunt is getting the set amount of fleas and Spelling Bee
+    is getting every letter in the Alphabet with Alphabet Rando on
     """
 
     display_name = "Goal"
@@ -1033,7 +1033,6 @@ class SilksongOptions(PerGameCommonOptions):
     ventrica_randomization: VentricaRandomization
     map_randomization: MapRandomization
     randomize_needle_upgrades: RandomizeNeedleUpgrades
-    alphabet_mode: AlphabetMode
     melody_randomization: MelodyRandomization
     pin_randomization: PinRandomization
     relic_randomization: RelicRandomization
@@ -1066,6 +1065,7 @@ class SilksongOptions(PerGameCommonOptions):
     silk_link: SilkLink
     rosary_link: RosaryLink
     shell_shard_link: ShellShardLink
+    alphabet_mode: AlphabetMode
     trap_percentage: TrapPercentage
     stagger_trap_weight: StaggerTrapWeight
     rosary_spill_trap_weight: RosarySpillTrapWeight

@@ -2,6 +2,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using TeamCherry.Localization;
 using TMProOld;
 
 namespace SilksongRandomizer.AlphabetMode
@@ -11,6 +12,7 @@ namespace SilksongRandomizer.AlphabetMode
         private sealed class TextRecord
         {
             internal readonly TMP_Text Text;
+            internal bool HasEnglishOriginal;
             internal string Original;
             internal string Rendered;
 
@@ -19,6 +21,11 @@ namespace SilksongRandomizer.AlphabetMode
                 Text = text;
                 Original = text.text ?? string.Empty;
                 Rendered = Original;
+                HasEnglishOriginal =
+                    AlphabetModeManager.IsEnglishLanguage(
+                        Language.CurrentLanguage()
+                    ) &&
+                    !AlphabetModeManager.IsFilteringCurrentText();
             }
         }
 
@@ -179,6 +186,61 @@ namespace SilksongRandomizer.AlphabetMode
             Refresh(GameRecords);
         }
 
+        internal static bool NeedsEnglishSource()
+        {
+            if (!AlphabetModeManager.IsEnglishLanguage(
+                    Language.CurrentLanguage()
+                ))
+            {
+                return false;
+            }
+
+            return NeedsEnglishSource(WideRecords) ||
+                   NeedsEnglishSource(GameRecords);
+        }
+
+        private static bool NeedsEnglishSource(
+            List<TextRecord> records)
+        {
+            foreach (TextRecord record in records)
+            {
+                if (record.Text != null && !record.HasEnglishOriginal)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal static void CaptureEnglishSource()
+        {
+            if (!AlphabetModeManager.IsEnglishLanguage(
+                    Language.CurrentLanguage()
+                ))
+            {
+                return;
+            }
+
+            CaptureEnglishSource(WideRecords);
+            CaptureEnglishSource(GameRecords);
+        }
+
+        private static void CaptureEnglishSource(
+            List<TextRecord> records)
+        {
+            foreach (TextRecord record in records)
+            {
+                if (record.Text == null)
+                {
+                    continue;
+                }
+
+                record.Original = record.Text.text ?? string.Empty;
+                record.Rendered = record.Original;
+                record.HasEnglishOriginal = true;
+            }
+        }
+
         private static void LogFailure(Exception ex)
         {
             if (refreshFailureLogged)
@@ -218,6 +280,9 @@ namespace SilksongRandomizer.AlphabetMode
         private static void Refresh(List<TextRecord> records)
         {
             bool filterActive = AlphabetModeManager.IsFilteringCurrentText();
+            bool english = AlphabetModeManager.IsEnglishLanguage(
+                Language.CurrentLanguage()
+            );
 
             for (int index = records.Count - 1; index >= 0; index--)
             {
@@ -229,14 +294,27 @@ namespace SilksongRandomizer.AlphabetMode
                 }
 
                 string current = record.Text.text ?? string.Empty;
+                if (!english)
+                {
+                    record.Rendered = current;
+                    continue;
+                }
+
                 if (!filterActive &&
-                    !string.Equals(
+                    (!record.HasEnglishOriginal ||
+                     !string.Equals(
                         current,
                         record.Rendered,
                         StringComparison.Ordinal
-                    ))
+                    )))
                 {
                     record.Original = current;
+                    record.HasEnglishOriginal = true;
+                }
+                if (!record.HasEnglishOriginal)
+                {
+                    record.Rendered = current;
+                    continue;
                 }
 
                 string rendered = AlphabetModeManager.FilterDirectText(
@@ -268,8 +346,9 @@ namespace SilksongRandomizer.AlphabetMode
             InventoryWideMap ___wideMap,
             ref bool __state)
         {
-            AlphabetMapTextManager.ReleaseTextBypass(ref __state);
             AlphabetMapTextManager.Capture(___wideMap);
+            AlphabetMapTextManager.ReleaseTextBypass(ref __state);
+            AlphabetMapTextManager.Refresh();
         }
 
         private static Exception Finalizer(
@@ -294,8 +373,9 @@ namespace SilksongRandomizer.AlphabetMode
             GameMap ___gameMap,
             ref bool __state)
         {
-            AlphabetMapTextManager.ReleaseTextBypass(ref __state);
             AlphabetMapTextManager.Capture(___gameMap);
+            AlphabetMapTextManager.ReleaseTextBypass(ref __state);
+            AlphabetMapTextManager.Refresh();
         }
 
         private static Exception Finalizer(

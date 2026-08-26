@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 import unittest
 from collections import Counter
+from dataclasses import fields
 
 from test.general import setup_multiworld
 
@@ -30,6 +31,7 @@ from worlds.silksong.options import (
     CATEGORY_OPTION_BY_LOCATION_CATEGORY,
     AlphabetMode,
     Goal,
+    SilksongOptions,
 )
 from worlds.silksong.alphabet_mode import (
     ALPHABET_ITEM_COUNT,
@@ -199,6 +201,25 @@ class TestAlphabetMode(unittest.TestCase):
         self.assertFalse(requirement.item_counts)
         self.assertFalse(requirement.require_any_crest)
 
+    def test_goal_description_and_alphabet_option_order(self) -> None:
+        self.assertEqual(
+            " ".join((Goal.__doc__ or "").split()),
+            (
+                "Act 1-3 require beating the chosen act, Cursed Ending is "
+                "self explanatory, Flea Hunt is getting the set amount of "
+                "fleas and Spelling Bee is getting every letter in the "
+                "Alphabet with Alphabet Rando on"
+            ),
+        )
+        option_names = tuple(
+            field.name for field in fields(SilksongOptions)
+        )
+        trap_index = option_names.index("trap_percentage")
+        self.assertEqual(
+            option_names[trap_index - 1],
+            "alphabet_mode",
+        )
+
     def test_spelling_bee_forces_alphabet_and_needs_every_letter(self) -> None:
         world = self.make_world(
             False,
@@ -208,6 +229,7 @@ class TestAlphabetMode(unittest.TestCase):
         slot_data = world.fill_slot_data()
 
         self.assertTrue(world.is_alphabet_mode_enabled())
+        self.assertEqual(world.options.alphabet_mode.value, 1)
         self.assertEqual(slot_data["goal"], SPELLING_BEE_GOAL_KEY)
         self.assertTrue(slot_data["alphabet_mode"])
         self.assertEqual(
