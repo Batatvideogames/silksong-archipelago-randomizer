@@ -1278,12 +1278,20 @@ namespace SilksongRandomizer
             connectionWindowRect.width = windowWidth;
             connectionWindowRect.height = windowHeight;
 
-            GUILayout.Window(
-                GetInstanceID(),
-                connectionWindowRect,
-                DrawConnectionWindow,
-                AlphabetModeManager.FilterDirectText("Archipelago")
-            );
+            AlphabetModeManager.BeginTextBypass();
+            try
+            {
+                GUILayout.Window(
+                    GetInstanceID(),
+                    connectionWindowRect,
+                    DrawConnectionWindow,
+                    AlphabetModeManager.FilterDirectText("Archipelago")
+                );
+            }
+            finally
+            {
+                AlphabetModeManager.EndTextBypass();
+            }
         }
 
         private void ShowConnectionGui()
