@@ -28,22 +28,22 @@ There are multiple installation methods due to different issues with each of the
 
 2.) Launch Cogfly and go to settings and make sure your path to your Silksong installation are valid.
 
-3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Mod Menu, Shakra Always Onsite, and all other dependencies.
+3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Recent Items Display, Mod Menu, Shakra Always Onsite, and all other dependencies.
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:**`01a02a84-c903-06e9-6a0d-71726aa04686`
+**Cogfly Import Code:** `01a03836-77ea-e7f3-1d05-c71f9999e6a2`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
 
 2.) Select Hollow Knight: Silksong in the Game Selection Menu and select your Silksong storefront.
 
-3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Mod Menu, Shakra Always Onsite, and all other dependencies.
+3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Recent Items Display, Mod Menu, Shakra Always Onsite, and all other dependencies.
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a02a85-d823-f95a-2190-49ea519fb876`
+**R2Modman Import Code:** `01a02f76-a121-3fe8-a3f4-74ecd0ad44a5`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -58,7 +58,7 @@ There are multiple installation methods due to different issues with each of the
 
 6.) There will be a folder named "PUT IN SILKSONG FOLDER" with a 'BepInEx' folder inside it. Drag the 'BepInEx' folder from the zip file into your Silksong installation folder. This will merge or prompt you to merge the folders which is what you want to do.
 
-The resulting folder structure should something like:
+The resulting folder structure should look something like:
 
 ```
 - 📂 BepInEx
@@ -97,11 +97,11 @@ The resulting folder structure should something like:
 
 ## Frequently Asked Questions (FAQ)
 
-### I got to Act 3 and missed some checks in Act 2?
+### I Got to Act 3 and Missed Some Checks in Act 2?
 Some items become unavailable once you enter act 3, go to the always open Bellhome in Bellhart. 
 Once you reach act 3 once, sit on the bed, press dash + needolin to get a pop-up asking to revert the world back to Act 2 and vice versa.
 
-### What are the Map Markers showing?
+### What Are the Map Markers Showing?
 When enabled in the yaml "check_map_markers", the map can show randomized checks at their physical locations.
 
 Key for these markers are as follows:
@@ -109,13 +109,13 @@ Key for these markers are as follows:
 - **Half transparent (with AP style rosary icon)**: Not reachable / not in logic.
 - **? / inverted icons**: Missing logic so far / guaranteed junk.
 
-### I’m stuck somewhere, what do I do?
+### I’m Stuck Somewhere, What Do I Do?
 **Press F4.**
 
 Seriously. It allows warping to homepoints like Bone Bottom, Bellhart, and Songclave as you reach them, skips the widow cutscene to stop softlocks and can save you from the slab. 
 Also you can press F3 and it'll allow changing of warp locations as of v0.4.3.
 
-### Do you have a feature like Benchwarp?
+### Do You Have a Feature like Benchwarp?
 Short answer, no. Please refer to I’m stuck somewhere, what do I do?
 
 Long answer, it can cause softlocks and other issues, it can be used but at your own risk of issues and potential woodchipper related incidents.
@@ -133,10 +133,34 @@ Please report bugs and logic issues through the repository's [issues](https://gi
 
 A second place to give this feedback can be this [Google Form](https://forms.gle/bAsQ2o453eccpL2i7).
 
-A [trello board](https://trello.com/b/as8YLuLA/skonging) is also available to post known bugs, what's been fixed, and what's upcoming.
+A [Trello board](https://trello.com/b/as8YLuLA/skonging) is also available to post known bugs, what's been fixed, and what's upcoming.
 
 ## Support and Additional Information
 
-The best place to get any further support would be [Archipelago's Discord](https://discord.gg/archipelago) where you can access the [Hollow Knight: Silksong (Batsong Implementation)](https://discord.com/channels/731205301247803413/1536792372321583124) thread. 
+The best place to get any further support would be [Archipelago's Discord](https://discord.gg/archipelago) where you can access the [Hollow Knight: Silksong (Batsong Implementation)](https://discord.com/channels/731205301247803413/1540758118361727056) channel. 
 
 This is a reminder that this is a passion project and people will try to help to the best of their ability but as always, please be respectful.
+
+## Credits
+
+A huge thanks goes out to all that support the channel and thread, the logic mapping team, and the mod developers who have helped contribute to this project:
+
+### Logic Mapping
+
+Some of these regions are still incomplete and being mapped out.
+
+| Contributor | Regions |
+| :--- | :--- |
+| **Asper** | Mount Fay |
+| **Herchey** | Bilewater, Sinner's Road |
+| **Hero** | Bone Bottom, Deep Docks, Far Fields, Hunter's March, Moss Grotto, The Marrow, Wormways |
+| **Isssma** | Greymoor (Right) |
+| **Pyxl** | The Abyss, Bellhart, Sands of Karak, Shellwood |
+| **Rebel** | Cogwork Core, Underworks (Right) Whispering Vaults |
+| **Sergio** | Choral Chambers, High Halls, The Slab, Underworks (West), Wisp Thicket |
+| **Skai** | Blasted Steps, Greymoor (Left), Whiteward |
+| **SuperEpicGuy** | Moss Grotto |
+
+### Mod Developers
+- [TheMathGeek314](https://github.com/TheMathGeek314) for the original [HK Alphabet Rando](https://github.com/TheMathGeek314/AlphabetRando) and for giving permission to extend their idea to Silksong.
+- [Nix](https://github.com/Nix-main) for [SilksongArchiDisplay](https://github.com/Nix-main/SilksongArchiDisplay) and all the additional help with [Cogfly](https://github.com/Nix-main/Cogfly) support.
