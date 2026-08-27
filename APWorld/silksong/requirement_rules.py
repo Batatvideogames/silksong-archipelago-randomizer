@@ -151,6 +151,55 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             return f"Can satisfy {self.requirement_name}"
 
 
+NativeSourceInventoryKey = tuple[
+    int,
+    tuple[tuple[str, int], ...],
+    bool,
+]
+NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey]
+
+
+def _enable_native_source_memo(multiworld) -> None:
+    setattr(
+        multiworld,
+        "_silksong_native_source_memo",
+        {
+            "inventory_keys": {},
+            "results": {},
+        },
+    )
+
+
+def _lookup_native_source_memo(
+    rule: Rule.Resolved,
+    state: CollectionState,
+) -> tuple[
+    dict[NativeSourceMemoKey, bool],
+    NativeSourceMemoKey,
+    bool | None,
+] | None:
+    memo = getattr(
+        state.multiworld,
+        "_silksong_native_source_memo",
+        None,
+    )
+    if memo is None:
+        return None
+
+    inventory_key: NativeSourceInventoryKey = (
+        rule.player,
+        tuple(sorted(state.prog_items[rule.player].items())),
+        state.allow_partial_entrances,
+    )
+    canonical_inventory_key = memo["inventory_keys"].setdefault(
+        inventory_key,
+        inventory_key,
+    )
+    key: NativeSourceMemoKey = (id(rule), canonical_inventory_key)
+    results = memo["results"]
+    return results, key, results.get(key)
+
+
 @dataclasses.dataclass()
 class NativeSourceRule(Rule, game=GAME_NAME):
     """Preserve the vanilla-source self-reward assumption.
@@ -216,6 +265,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             super().__post_init__()
 
         def _evaluate(self, state: CollectionState) -> bool:
+            memo_entry = _lookup_native_source_memo(self, state)
+            if memo_entry is not None:
+                results, key, cached_result = memo_entry
+                if cached_result is not None:
+                    return cached_result
+
             assumed_state = state.copy()
             assumed_state.collect(self.assumed_item, True)
             if (
@@ -225,8 +280,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                     self.player,
                 )
             ):
-                return False
-            return self.child(assumed_state)
+                result = False
+            else:
+                result = self.child(assumed_state)
+            if memo_entry is not None:
+                results[key] = result
+            return result
 
         def item_dependencies(self) -> dict[str, set[int]]:
             return {

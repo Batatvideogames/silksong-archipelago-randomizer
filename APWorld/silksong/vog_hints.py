@@ -7,6 +7,8 @@ from BaseClasses import CollectionState, ItemClassification
 
 from .requirements import REQUIREMENTS
 
+_PLAYTHROUGH_PRUNING_BATCH_SIZE = 16
+
 
 VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "bone-bottom": "Mosslands",
@@ -252,16 +254,35 @@ def find_required_playthrough_locations(multiworld) -> frozenset[object]:
         for location in sphere
     }
     for sphere_index in range(len(collection_spheres) - 1, -1, -1):
-        for location in sorted(
+        ordered_sphere = sorted(
             collection_spheres[sphere_index],
             key=_location_sort_key,
+        )
+        for batch_start in range(
+            0,
+            len(ordered_sphere),
+            _PLAYTHROUGH_PRUNING_BATCH_SIZE,
         ):
-            required_locations.remove(location)
-            if not multiworld.can_beat_game(
-                state_cache[sphere_index],
-                required_locations,
-            ):
-                required_locations.add(location)
+            batch = ordered_sphere[
+                batch_start:
+                batch_start + _PLAYTHROUGH_PRUNING_BATCH_SIZE
+            ]
+            if len(batch) > 1:
+                required_locations.difference_update(batch)
+                if multiworld.can_beat_game(
+                    state_cache[sphere_index],
+                    required_locations,
+                ):
+                    continue
+                required_locations.update(batch)
+
+            for location in batch:
+                required_locations.remove(location)
+                if not multiworld.can_beat_game(
+                    state_cache[sphere_index],
+                    required_locations,
+                ):
+                    required_locations.add(location)
 
     return frozenset(required_locations)
 

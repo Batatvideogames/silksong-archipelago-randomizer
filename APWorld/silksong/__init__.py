@@ -559,6 +559,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
             for option_name in option_names
         )
 
+    def uses_vog_playthrough_hints(self) -> bool:
+        woth_count, _, general_count = self.get_vog_hint_counts()
+        return bool(woth_count or general_count)
+
     def get_vog_hint_plan(self) -> dict[str, object]:
         plan = getattr(self, "_vog_hint_plan", None)
         if plan is None:
@@ -569,21 +573,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if not any(self.get_vog_hint_counts()):
             plan = empty_vog_hint_plan()
         else:
-            cache_name = "_silksong_vog_required_locations"
-            required_locations = getattr(
-                self.multiworld,
-                cache_name,
-                None,
-            )
-            if required_locations is None:
-                required_locations = find_required_playthrough_locations(
-                    self.multiworld
-                )
-                setattr(
+            required_locations = ()
+            if self.uses_vog_playthrough_hints():
+                cache_name = "_silksong_vog_required_locations"
+                required_locations = getattr(
                     self.multiworld,
                     cache_name,
-                    required_locations,
+                    None,
                 )
+                if required_locations is None:
+                    required_locations = find_required_playthrough_locations(
+                        self.multiworld
+                    )
+                    setattr(
+                        self.multiworld,
+                        cache_name,
+                        required_locations,
+                    )
             plan = build_vog_hint_plan(self, required_locations)
         self._vog_hint_plan = plan
         return copy_vog_hint_plan(plan)
@@ -1359,6 +1365,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         excluded_slots,
         slotless_state,
     ):
+        non_slot_locations = tuple(
+            location
+            for location in multiworld.get_filled_locations()
+            if location not in excluded_slots
+        )
         while True:
             required_count = get_crest_slot_memory_locket_count(world)
             reachable_count = slotless_state.count(
@@ -1399,7 +1410,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if not progression_slots or not replacement_locations:
                 return slotless_state
 
-            from Fill import swap_location_item
+            from Fill import swap_location_item, sweep_from_pool
 
             improved_state = None
             fallback_swap = None
@@ -1426,9 +1437,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         slot_item.player,
                     )
                     swap_location_item(slot_location, replacement_location)
-                    candidate_state = cls._build_crest_slotless_state(
-                        multiworld,
-                        excluded_slots,
+                    candidate_state = sweep_from_pool(
+                        slotless_state,
+                        locations=non_slot_locations,
                     )
                     candidate_count = candidate_state.count(
                         MEMORY_LOCKET_ITEM,
@@ -1450,6 +1461,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         )
                         fallback_state = candidate_state
                     swap_location_item(slot_location, replacement_location)
+                    break
                 if improved_state is not None:
                     break
 
@@ -1539,7 +1551,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if not worlds:
             return
 
-        if any(any(world.get_vog_hint_counts()) for world in worlds):
+        from .requirement_rules import _enable_native_source_memo
+
+        _enable_native_source_memo(multiworld)
+
+        if any(world.uses_vog_playthrough_hints() for world in worlds):
             required_locations = find_required_playthrough_locations(
                 multiworld
             )
