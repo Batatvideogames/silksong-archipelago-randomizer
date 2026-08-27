@@ -514,7 +514,7 @@ namespace SilksongRandomizer
             // Skills
             new Item("Ability: Faydown Cloak", ItemType.Skill, ItemGrants.GrantFaydownCloak),
             new Item("Ability: Needle Strike", ItemType.Skill, () => { SaveState.Instance.canChargeSlash = true; }),
-            new Item("Ancestral Art: Silk Soar", ItemType.Skill, () => { SaveState.Instance.canSilkSoar = true; }),
+            new Item("Ancestral Art: Silk Soar", ItemType.Skill, ItemGrants.GrantSilkSoar),
             new Item("Ancestral Art: Cling Grip", ItemType.Skill, ItemGrants.GrantClingGrip),
             new Item("Ability: Drifter's Cloak", ItemType.Skill, () => { SaveState.Instance.canBrolly = true; }),
             new Item("Ancestral Art: Swift Step", ItemType.Skill, ItemGrants.GrantDash),

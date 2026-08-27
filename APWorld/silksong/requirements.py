@@ -1707,7 +1707,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Abyss - Escape', 'Ancestral Art: Silk Soar'), # Act 3
     ),
     'Path: Deep Docks - Diving Bell': ( # ACT 3
-        req('Path: Deep Docks - Sauna'),
+        req('Path: Deep Docks - Sauna', 'Act: 3'),
     ),
     'Path: Deep Docks - Sauna': ( # ACT 3
         req('Path: Mosslands - Snail Shamans'), # Logic requirement

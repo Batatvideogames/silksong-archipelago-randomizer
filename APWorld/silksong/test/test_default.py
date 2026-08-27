@@ -59,6 +59,48 @@ class TestDefaultWorld(SilksongTestBase):
             state.collect(item)
         self.assertTrue(location.can_reach(state))
 
+    def test_diving_bell_and_void_require_act_three(self) -> None:
+        state = CollectionState(self.multiworld)
+        self.collect_all_but("Snare Setter", state)
+
+        self.assertTrue(state.has("Silk Soar", self.player))
+        self.assertTrue(
+            state.can_reach_region(
+                "Path: Deep Docks - Sauna",
+                self.player,
+            )
+        )
+        self.assertFalse(state.can_reach_region("Act: 3", self.player))
+        self.assertFalse(
+            state.can_reach_region(
+                "Path: Deep Docks - Diving Bell",
+                self.player,
+            )
+        )
+        self.assertFalse(
+            state.can_reach_region(
+                "Path: Abyss - Void Tendrils",
+                self.player,
+            )
+        )
+
+        for item in self.get_items_by_name("Snare Setter"):
+            state.collect(item)
+
+        self.assertTrue(state.can_reach_region("Act: 3", self.player))
+        self.assertTrue(
+            state.can_reach_region(
+                "Path: Deep Docks - Diving Bell",
+                self.player,
+            )
+        )
+        self.assertTrue(
+            state.can_reach_region(
+                "Path: Abyss - Void Tendrils",
+                self.player,
+            )
+        )
+
     def test_logic_unknown_locations_unlock_after_victory(self) -> None:
         locations = [
             location

@@ -48,6 +48,13 @@ namespace SilksongRandomizer
             FarFieldsWardenflyPatches.SynchronizeActiveScene();
         }
 
+        public static void GrantSilkSoar()
+        {
+            SaveState state = RequireSaveState();
+            state.canSilkSoar = true;
+            SilkSoarStoryPatches.SynchronizeActiveScene();
+        }
+
         public static void GrantProgressiveSwiftStep()
         {
             SaveState state = RequireSaveState();
