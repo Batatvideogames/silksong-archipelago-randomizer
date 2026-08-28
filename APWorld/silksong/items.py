@@ -1143,6 +1143,7 @@ def _trim_act_one_pool_entries(
     randomize_needle_upgrades: bool,
     individual_relic_turn_ins: bool,
     donation_tool_pouch_requirements: Mapping[str, int] | None,
+    skips_tier: int,
 ) -> list[ItemPoolEntry]:
     major_key_mode = category_modes.get("MajorKey", "vanilla")
     boss_mode = category_modes.get("Boss", "anywhere")
@@ -1151,6 +1152,7 @@ def _trim_act_one_pool_entries(
         boss_mode,
         randomize_needle_upgrades,
         donation_tool_pouch_requirements,
+        skips_tier,
     ) & frozenset(location_data_table)
     for location_name in sorted(excluded_location_names):
         location_data = location_data_table[location_name]
@@ -1549,6 +1551,7 @@ def build_item_pool_entries(
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    act_one_skips_tier: int = 0,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1565,6 +1568,7 @@ def build_item_pool_entries(
             category_modes.get("Boss", "anywhere"),
             randomize_needle_upgrades,
             act_one_donation_tool_pouch_requirements,
+            act_one_skips_tier,
         )
         if act_one_only
         else frozenset()
@@ -1836,6 +1840,7 @@ def build_item_pool_entries(
             randomize_needle_upgrades,
             individual_relic_turn_ins,
             act_one_donation_tool_pouch_requirements,
+            act_one_skips_tier,
         )
     elif act_two_only:
         entries = list(

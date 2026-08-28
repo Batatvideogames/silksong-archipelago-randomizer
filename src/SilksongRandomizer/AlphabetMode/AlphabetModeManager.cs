@@ -247,6 +247,7 @@ namespace SilksongRandomizer.AlphabetMode
                    state.IsRoomBound &&
                    state.alphabetMode &&
                    gameManager != null &&
+                   !gameManager.isPaused &&
                    !IsStartMenu(gameManager) &&
                    IsEnglishLanguage(language);
         }

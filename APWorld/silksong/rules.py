@@ -153,7 +153,7 @@ def finalize_crest_slot_memory_locket_logic(world) -> None:
             location.locked = True
 
 
-def _is_matching_shuffle_item(category: str):
+def _is_matching_shuffle_item(category: str, player: int):
     def item_rule(item: Item) -> bool:
         return (
             getattr(
@@ -162,23 +162,10 @@ def _is_matching_shuffle_item(category: str):
                 None,
             )
             == category
+            and item.player == player
         )
 
     return item_rule
-
-
-def _minimal_accessibility_players(multiworld) -> frozenset[int]:
-    players = set()
-    for player in multiworld.player_ids:
-        options = getattr(multiworld.worlds[player], "options", None)
-        accessibility = getattr(options, "accessibility", None)
-        if accessibility is None:
-            continue
-        value = getattr(accessibility, "value", accessibility)
-        minimal_value = getattr(accessibility, "option_minimal", 2)
-        if value == minimal_value or value in ("minimal", "none"):
-            players.add(player)
-    return frozenset(players)
 
 
 def enforce_global_shuffle_item_rules(multiworld):
@@ -190,7 +177,6 @@ def enforce_global_shuffle_item_rules(multiworld):
         return None
     enabled = [True]
     installed_rules = []
-    minimal_players = _minimal_accessibility_players(multiworld)
     for location in multiworld.get_locations():
         target_category = getattr(
             location,
@@ -219,13 +205,10 @@ def enforce_global_shuffle_item_rules(multiworld):
             if (
                 target_game != "Hollow Knight: Silksong"
                 or target_category != item_category
+                or target_player != item.player
             ):
                 return False
-            return not (
-                item.advancement
-                and target_player in minimal_players
-                and item.player not in minimal_players
-            )
+            return True
 
         previous_rule = location.item_rule
         add_item_rule(location, item_rule)
@@ -474,7 +457,10 @@ def set_silksong_rules(world) -> None:
             )
             add_item_rule(
                 location,
-                _is_matching_shuffle_item(placement_category),
+                _is_matching_shuffle_item(
+                    placement_category,
+                    world.player,
+                ),
             )
 
         if location_name in ROSARY_BANK_GATED_LOCATIONS:

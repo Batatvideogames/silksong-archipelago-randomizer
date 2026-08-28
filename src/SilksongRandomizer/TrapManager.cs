@@ -95,8 +95,13 @@ namespace SilksongRandomizer
                 HeroController hero = HeroController.instance;
                 if (gameManager == null ||
                     hero == null ||
-                    !hero.CanTakeControl() ||
                     !hero.CanCustomRecoil())
+                {
+                    return;
+                }
+
+                if (TryReleaseSprintForStagger(gameManager, hero) ||
+                    !hero.CanTakeControl())
                 {
                     return;
                 }
@@ -148,6 +153,47 @@ namespace SilksongRandomizer
                 pendingStaggerCount--;
                 Warn("Stagger Trap could not be applied", ex);
             }
+        }
+
+        private static bool TryReleaseSprintForStagger(
+            GameManager gameManager,
+            HeroController hero)
+        {
+            if (hero.cState == null || hero.sprintFSM == null)
+            {
+                return false;
+            }
+
+            var nativeSprintFlag =
+                hero.sprintFSM.FsmVariables?.FindFsmBool("Is Sprinting");
+            if (!hero.cState.isSprinting &&
+                (nativeSprintFlag == null || !nativeSprintFlag.Value))
+            {
+                return false;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null ||
+                gameManager.GameState != GlobalEnums.GameState.PLAYING ||
+                !gameManager.IsGameplayScene() ||
+                gameManager.isPaused ||
+                gameManager.IsLoadingSceneTransition ||
+                gameManager.IsInSceneTransition ||
+                TransitionPoint.IsTransitionBlocked ||
+                BossSceneController.IsTransitioning ||
+                playerData.HasStoredMemoryState ||
+                hero.cState.transitioning ||
+                hero.cState.dead ||
+                hero.cState.hazardDeath ||
+                hero.cState.hazardRespawning)
+            {
+                return true;
+            }
+
+            hero.sprintFSM.SendEvent("SPRINT CANCEL");
+            hero.RegainControl();
+            hero.StartAnimationControlToIdle();
+            return true;
         }
 
         internal static void TriggerRosarySpill()
