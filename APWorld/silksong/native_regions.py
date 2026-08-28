@@ -112,6 +112,8 @@ def native_source_requires_assumption(
     pollip_heart_count: int,
     anchor_requirement_name: str | None,
 ) -> bool:
+    if reward_name.startswith(("Bellway: ", "Ventrica: ")):
+        return False
     child = build_location_rule(
         location_name,
         pollip_heart_count=pollip_heart_count,
