@@ -86,6 +86,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Thief's Mark",
         "Snitch Pick",
         "Quick Sling",
+        "Threefold Pin",
         "Druid's Eyes",
         "Flintslate",
         "Sharpdart",
@@ -134,6 +135,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Rosary Cache #5",
         "Deep Docks - Rosary Cache #6",
         "Greymoor - Rosary Cache #1",
+        "Greymoor - Rosary Cache #20",
         "Sinner's Road - Rosary Cache #8",
         "Bone Bottom - Shell Shard Cache",
         "Deep Docks - Shell Shard Cache #1",
@@ -145,9 +147,17 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Shell Shard Cache #8",
         "Deep Docks - Shell Shard Cache #9",
         "Deep Docks - Shell Shard Cache #10",
+        "Far Fields - Pale Rosary Necklace",
+        "Far Fields - Rosary Cache #18",
+        "Far Fields - Rosary Chest #2",
+        "Far Fields - Shell Shard Cache #2",
+        "Far Fields - Shell Shard Cache #3",
+        "Far Fields - Shell Shard Cache #8",
         "Sands of Karak - Shell Shard Cache #1",
         "Sands of Karak - Shell Shard Cache #2",
         "Sands of Karak - Shell Shard Cache #3",
+        "Sands of Karak - Shell Shard Cache #4",
+        "Sands of Karak - Shell Shard Cache #11",
         "Sands of Karak - Shell Shard Cache #9",
         "Sands of Karak - Shell Shard Cache #10",
         "Sinner's Road - Shell Shard Cache #4",
@@ -163,6 +173,13 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Forge Note",
     )
 )
+
+_ACT_ONE_EASY_SKIP_LOCATION_NAMES = frozenset(
+    (
+        "Greymoor - Rosary Cache #2",
+        "Greymoor - Rosary Cache #3",
+    )
+)
 ACT_ONE_EXCLUDED_LOCATION_NAMES = (
     _POST_ACT_ONE_SOURCE_LOCATION_NAMES
     | _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES
@@ -176,6 +193,7 @@ def get_act_one_excluded_location_names(
     boss_mode: str = "anywhere",
     randomize_needle_upgrades: bool = False,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    skips_tier: int = 0,
 ) -> frozenset[str]:
     if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(
@@ -183,12 +201,16 @@ def get_act_one_excluded_location_names(
         )
     if boss_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Boss Sanity mode: {boss_mode!r}")
+    if skips_tier not in range(4):
+        raise ValueError(f"Unknown skip tier: {skips_tier!r}")
 
     requirements = donation_tool_pouch_requirements or {}
     if any(requirement < 0 for requirement in requirements.values()):
         raise ValueError("Tool Pouch requirements cannot be negative")
 
     excluded = ACT_ONE_EXCLUDED_LOCATION_NAMES
+    if skips_tier < 1:
+        excluded |= _ACT_ONE_EASY_SKIP_LOCATION_NAMES
     if (
         requirements.get(_BONE_BOTTOM_REPAIRS_LOCATION_NAME, 0)
         > ACT_ONE_TOOL_POUCH_SUPPLY

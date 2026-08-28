@@ -44,6 +44,8 @@ namespace SilksongRandomizer.Patches
             "Hunter's March - Rosary Necklace";
         private const string StationaryFarFieldsNecklaceLocation =
             "Far Fields - Pale Rosary Necklace";
+        private const string CoralDualAwardCacheLocation =
+            "Blasted Steps - Shell Shard Cache #4";
         private static readonly HashSet<string> DirectBreakCheckLocations =
             new HashSet<string>(StringComparer.Ordinal)
             {
@@ -71,6 +73,8 @@ namespace SilksongRandomizer.Patches
         private static bool loggedHangingGlowFailure;
         private static bool loggedCurrencyChestFailure;
         private static bool loggedInactiveChestFailure;
+        [ThreadStatic]
+        private static int dualAwardFlingDepth;
         private static readonly Dictionary<string, GameObject>
             InactiveChestPickups =
                 new Dictionary<string, GameObject>(StringComparer.Ordinal);
@@ -332,7 +336,18 @@ namespace SilksongRandomizer.Patches
             return DirectBreakCheckLocations.Contains(entry.LocationName);
         }
 
-        private static bool TryGetDirectBreakEntry(
+        private static bool IsCoralDualAwardEntry(
+            MinorCacheManifest.Entry entry
+        )
+        {
+            return entry != null && string.Equals(
+                entry.LocationName,
+                CoralDualAwardCacheLocation,
+                StringComparison.Ordinal
+            );
+        }
+
+        private static bool TryGetPreservedBreakEntry(
             BreakableHolder source,
             out SaveState state,
             out MinorCacheManifest.Entry entry
@@ -343,7 +358,8 @@ namespace SilksongRandomizer.Patches
                     MinorCacheManifest.SourceKind.BreakableHolder,
                     out state,
                     out entry) &&
-                RequiresDirectBreakCheck(entry);
+                (RequiresDirectBreakCheck(entry) ||
+                 IsCoralDualAwardEntry(entry));
         }
 
         private static bool TryGetRosaryVisualBounds(
@@ -1123,7 +1139,7 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(BreakableHolder __instance)
             {
-                if (TryGetDirectBreakEntry(
+                if (TryGetPreservedBreakEntry(
                         __instance,
                         out _,
                         out _))
@@ -1141,15 +1157,57 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(BreakableHolder), "FlingHolding")]
         private static class BreakableHolderFlingHoldingPatch
         {
-            private static bool Prefix(BreakableHolder __instance)
+            private static bool Prefix(
+                BreakableHolder __instance,
+                ref bool __state
+            )
             {
-                // Direct-break caches keep their native breakable but must
-                // not also leak their vanilla shell-shard payout.
-                return !TryGetDirectBreakEntry(
-                    __instance,
-                    out _,
-                    out _
-                );
+                if (!TryGetSeededEntry(
+                        __instance,
+                        MinorCacheManifest.SourceKind.BreakableHolder,
+                        out _,
+                        out MinorCacheManifest.Entry entry))
+                {
+                    return true;
+                }
+                if (!IsCoralDualAwardEntry(entry))
+                {
+                    return !RequiresDirectBreakCheck(entry);
+                }
+                dualAwardFlingDepth++;
+                __state = true;
+                return true;
+            }
+
+            private static Exception Finalizer(
+                Exception __exception,
+                bool __state
+            )
+            {
+                if (__state)
+                {
+                    dualAwardFlingDepth--;
+                }
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(FlingUtils),
+            nameof(FlingUtils.SpawnAndFlingShellShards),
+            new Type[]
+            {
+                typeof(FlingUtils.Config),
+                typeof(Transform),
+                typeof(Vector3),
+                typeof(List<GameObject>),
+            }
+        )]
+        private static class SpawnAndFlingShellShardsPatch
+        {
+            private static bool Prefix()
+            {
+                return dualAwardFlingDepth == 0;
             }
         }
 
@@ -1158,7 +1216,7 @@ namespace SilksongRandomizer.Patches
         {
             private static void Postfix(BreakableHolder __instance)
             {
-                if (!TryGetDirectBreakEntry(
+                if (!TryGetPreservedBreakEntry(
                         __instance,
                         out SaveState state,
                         out MinorCacheManifest.Entry entry) ||

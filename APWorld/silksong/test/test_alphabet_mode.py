@@ -598,6 +598,53 @@ class TestAlphabetMode(unittest.TestCase):
         ):
             SilksongWorld.stage_pre_fill(multiworld)
 
+    def test_pre_fill_rejects_non_alphabet_capacity_shortage(self) -> None:
+        progression_items = (
+            SimpleNamespace(advancement=True),
+            SimpleNamespace(advancement=True),
+        )
+        multiworld = SimpleNamespace(
+            worlds={
+                1: SimpleNamespace(
+                    game=SilksongWorld.game,
+                    is_alphabet_mode_enabled=lambda: False,
+                )
+            },
+            itempool=[
+                *progression_items,
+                SimpleNamespace(advancement=False),
+            ],
+            state=object(),
+            get_unfilled_locations=lambda: (
+                SimpleNamespace(
+                    can_fill=lambda _state, item, check_access: (
+                        item.advancement
+                    )
+                ),
+                SimpleNamespace(
+                    can_fill=lambda _state, _item, check_access: False
+                ),
+                SimpleNamespace(
+                    can_fill=lambda _state, _item, check_access: False
+                ),
+            ),
+        )
+        world_module = __import__(
+            SilksongWorld.__module__,
+            fromlist=("prefill_category_shuffles",),
+        )
+        with (
+            mock.patch.object(world_module, "prefill_category_shuffles"),
+            self.assertRaises(OptionError) as error,
+        ):
+            SilksongWorld.stage_pre_fill(multiworld)
+
+        self.assertIn(
+            "2 progression items for 1 progression-legal locations",
+            str(error.exception),
+        )
+        self.assertNotIn("Disable Alphabet Mode", str(error.exception))
+
     def test_world_generation_uses_the_option_and_keeps_pool_balance(
         self,
     ) -> None:

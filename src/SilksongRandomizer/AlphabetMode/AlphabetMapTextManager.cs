@@ -21,11 +21,7 @@ namespace SilksongRandomizer.AlphabetMode
                 Text = text;
                 Original = text.text ?? string.Empty;
                 Rendered = Original;
-                HasEnglishOriginal =
-                    AlphabetModeManager.IsEnglishLanguage(
-                        Language.CurrentLanguage()
-                    ) &&
-                    !AlphabetModeManager.IsFilteringCurrentText();
+                HasEnglishOriginal = TryCaptureLocalizedSource(this);
             }
         }
 
@@ -235,9 +231,44 @@ namespace SilksongRandomizer.AlphabetMode
                     continue;
                 }
 
+                if (TryCaptureLocalizedSource(record))
+                {
+                    continue;
+                }
+
                 record.Original = record.Text.text ?? string.Empty;
                 record.Rendered = record.Original;
                 record.HasEnglishOriginal = true;
+            }
+        }
+
+        private static bool TryCaptureLocalizedSource(TextRecord record)
+        {
+            if (!AlphabetModeManager.IsEnglishLanguage(
+                    Language.CurrentLanguage()
+                ))
+            {
+                return false;
+            }
+
+            SetTextMeshProGameText localizer =
+                record.Text.GetComponent<SetTextMeshProGameText>();
+            if (localizer == null)
+            {
+                return false;
+            }
+
+            AlphabetModeManager.BeginTextBypass();
+            try
+            {
+                record.Original = localizer.Text.ToString();
+                record.Rendered = record.Original;
+                record.HasEnglishOriginal = true;
+                return true;
+            }
+            finally
+            {
+                AlphabetModeManager.EndTextBypass();
             }
         }
 
@@ -308,8 +339,11 @@ namespace SilksongRandomizer.AlphabetMode
                         StringComparison.Ordinal
                     )))
                 {
-                    record.Original = current;
-                    record.HasEnglishOriginal = true;
+                    if (!TryCaptureLocalizedSource(record))
+                    {
+                        record.Original = current;
+                        record.HasEnglishOriginal = true;
+                    }
                 }
                 if (!record.HasEnglishOriginal)
                 {

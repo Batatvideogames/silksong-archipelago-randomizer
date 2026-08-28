@@ -26,7 +26,7 @@ def _assign_items(locations: list, items: list) -> None:
 
 
 def _can_fill_without_access(multiworld, location, item) -> bool:
-    return location.can_fill(
+    return location.player == item.player and location.can_fill(
         multiworld.state,
         item,
         check_access=False,
@@ -171,17 +171,9 @@ def _build_native_baseline(
             assigned[location] = item
 
     # The selected starting Crest is precollected and replaced with one
-    # currency item. That produces exactly one same-player deferred pair.
-    # The global fallback also keeps this compatible with legal cross-player
-    # plando that already consumed a native copy.
+    # currency item. That produces exactly one deferred pair.
     for location in deferred:
-        item = _pop_matching(
-            remaining,
-            lambda candidate: candidate.player == location.player,
-        )
-        if item is None:
-            item = remaining.pop(0)
-        assigned[location] = item
+        assigned[location] = remaining.pop(0)
 
     if remaining:
         raise ValueError(
@@ -345,35 +337,35 @@ def prefill_category_shuffles(
     if not shuffled_items and not active_shuffled_locations:
         return
 
-    items_by_category: dict[str, list] = defaultdict(list)
-    locations_by_category: dict[str, list] = defaultdict(list)
+    items_by_lane: dict[tuple[str, int], list] = defaultdict(list)
+    locations_by_lane: dict[tuple[str, int], list] = defaultdict(list)
     for item in shuffled_items:
-        items_by_category[_placement_category(item)].append(item)
+        items_by_lane[(_placement_category(item), item.player)].append(item)
     for location in shuffled_locations:
-        locations_by_category[_placement_category(location)].append(location)
+        locations_by_lane[
+            (_placement_category(location), location.player)
+        ].append(location)
 
-    categories = sorted(
-        set(items_by_category) | set(locations_by_category)
-    )
-    for category in categories:
-        category_items = items_by_category[category]
-        category_locations = locations_by_category[category]
+    lanes = sorted(set(items_by_lane) | set(locations_by_lane))
+    for category, player in lanes:
+        category_items = items_by_lane[(category, player)]
+        category_locations = locations_by_lane[(category, player)]
         if len(category_items) != len(category_locations):
             raise ValueError(
-                f"{category} shuffle has {len(category_items)} items but "
+                f"P{player} {category} shuffle has "
+                f"{len(category_items)} items but "
                 f"{len(category_locations)} available locations. Check "
                 "plando, start_inventory_from_pool, Item Links and category "
                 "settings for incompatible placements."
             )
-        category_items.sort(key=lambda item: (item.player, item.name))
-        category_locations.sort(
-            key=lambda location: (location.player, location.name)
-        )
+        category_items.sort(key=lambda item: item.name)
+        category_locations.sort(key=lambda location: location.name)
 
-    planned_items_by_category: dict[str, list] = {}
-    for category in categories:
-        category_items = items_by_category[category]
-        category_locations = locations_by_category[category]
+    planned_items_by_lane: dict[tuple[str, int], list] = {}
+    for category, player in lanes:
+        lane = (category, player)
+        category_items = items_by_lane[lane]
+        category_locations = locations_by_lane[lane]
         if category in OBSERVATION_LOCATION_CATEGORIES:
             planned_items = list(category_items)
             multiworld.random.shuffle(planned_items)
@@ -390,7 +382,7 @@ def prefill_category_shuffles(
             raise ValueError(
                 f"Unsupported Silksong shuffle category: {category!r}"
             )
-        planned_items_by_category[category] = _match_items_to_locations(
+        planned_items_by_lane[lane] = _match_items_to_locations(
             multiworld,
             category,
             category_locations,
@@ -404,25 +396,26 @@ def prefill_category_shuffles(
     )
 
     # Root the shuffled Skill lane from Quill through Silk Soar.
-    if "Skill" in planned_items_by_category:
-        for player in silksong_players:
+    for player in silksong_players:
+        lane = ("Skill", player)
+        if lane in planned_items_by_lane:
             _place_bootstrap_item(
-                locations_by_category["Skill"],
-                planned_items_by_category["Skill"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Item: Quill",
                 "Swift Step",
             )
             _place_bootstrap_item(
-                locations_by_category["Skill"],
-                planned_items_by_category["Skill"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Swift Step",
                 "Cling Grip",
             )
             _place_bootstrap_item(
-                locations_by_category["Skill"],
-                planned_items_by_category["Skill"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Cling Grip",
                 "Silk Soar",
@@ -431,8 +424,9 @@ def prefill_category_shuffles(
     # The modeled Bellhart/Greymoor/Shellwood cluster otherwise has no
     # external entrance. Put either cluster Bellway at the first Deep Docks
     # booth, keeping the choice randomized and inside the Bellway lane.
-    if "Bellway" in planned_items_by_category:
-        for player in silksong_players:
+    for player in silksong_players:
+        lane = ("Bellway", player)
+        if lane in planned_items_by_lane:
             cluster_source = multiworld.random.choice(
                 (
                     "Bellway: Bellhart",
@@ -440,25 +434,27 @@ def prefill_category_shuffles(
                 )
             )
             _place_bootstrap_item(
-                locations_by_category["Bellway"],
-                planned_items_by_category["Bellway"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Deep Docks - Bellway",
                 cluster_source,
             )
 
-    if "Ventrica" in planned_items_by_category:
-        for player in silksong_players:
+    for player in silksong_players:
+        lane = ("Ventrica", player)
+        if lane in planned_items_by_lane:
             _place_bootstrap_item(
-                locations_by_category["Ventrica"],
-                planned_items_by_category["Ventrica"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Underworks - Ventrica",
                 "Ventrica: Grand Bellway",
             )
 
-    if "Map" in planned_items_by_category:
-        for player in silksong_players:
+    for player in silksong_players:
+        lane = ("Map", player)
+        if lane in planned_items_by_lane:
             world = multiworld.worlds[player]
             get_requirement = getattr(
                 world,
@@ -470,28 +466,29 @@ def prefill_category_shuffles(
             if get_requirement() != "owned_maps":
                 continue
             _place_bootstrap_item(
-                locations_by_category["Map"],
-                planned_items_by_category["Map"],
+                locations_by_lane[lane],
+                planned_items_by_lane[lane],
                 player,
                 "Hunter's March - Map Purchase",
                 "Map: Hunter's March",
             )
 
-    for category in categories:
+    for category, player in lanes:
+        lane = (category, player)
         if not _items_obey_fill_rules(
             multiworld,
-            locations_by_category[category],
-            planned_items_by_category[category],
+            locations_by_lane[lane],
+            planned_items_by_lane[lane],
         ):
             raise ValueError(
-                f"The {category} bootstrap layout conflicts with a location "
-                "safety, exclusion or locality rule."
+                f"The P{player} {category} bootstrap layout conflicts with "
+                "a location safety, exclusion or locality rule."
             )
 
-    for category in categories:
+    for lane in lanes:
         for location, item in zip(
-            locations_by_category[category],
-            planned_items_by_category[category],
+            locations_by_lane[lane],
+            planned_items_by_lane[lane],
         ):
             multiworld.push_item(location, item, False)
             location.locked = True
@@ -551,8 +548,7 @@ def prefill_category_shuffles(
             continue
         player_skill_locations = [
             location
-            for location in locations_by_category.get("Skill", ())
-            if location.player == player
+            for location in locations_by_lane.get(("Skill", player), ())
         ]
         get_location = getattr(multiworld, "get_location", None)
         existing_quill = (
@@ -606,10 +602,10 @@ def prefill_category_shuffles(
     # walk outward from the valid baseline through a handful of individually
     # validated swaps instead. Non-progression rewards can always permute
     # freely after progression positions are settled.
-    for category in categories:
+    for lane in lanes:
         locations = [
             location
-            for location in locations_by_category[category]
+            for location in locations_by_lane[lane]
             if location not in protected_locations
         ]
         if len(locations) < 2:

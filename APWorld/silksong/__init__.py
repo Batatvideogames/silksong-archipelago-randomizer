@@ -303,6 +303,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     self.get_category_mode('Boss'),
                     self.is_needle_upgrade_randomization_enabled(),
                     self.get_act_one_donation_tool_pouch_requirements(),
+                    skips_tier=self.get_skips_tier(),
                 )
                 | verdania_location_names
                 | act_three_only_location_names
@@ -922,6 +923,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
+            act_one_skips_tier=self.get_skips_tier(),
         ))
 
         pool_item_names = {entry.name for entry in pool_entries}
@@ -1271,6 +1273,19 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 )
             parent_region.locations.append(location)
 
+        if not self.topology_present:
+            for entrance in self.get_entrances():
+                entrance.hide_path = True
+
+    def reached_region(
+        self,
+        state: CollectionState,
+        region: Region,
+    ) -> None:
+        super().reached_region(state, region)
+        if not self.topology_present:
+            state.path.pop(region, None)
+
     def set_rules(self) -> None:
         set_silksong_rules(self)
 
@@ -1293,14 +1308,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     multiworld,
                     "_silksong_shuffle_item_rule_scope",
                 )
-        if not any(
+        alphabet_mode_enabled = any(
             getattr(world, "game", None) == cls.game
             and getattr(
                 world, "is_alphabet_mode_enabled", lambda: False
             )()
             for world in multiworld.worlds.values()
-        ):
-            return
+        )
         progression_items = tuple(
             item for item in multiworld.itempool if item.advancement
         )
@@ -1309,24 +1323,32 @@ class SilksongWorld(CachedRuleBuilderWorld):
         unfilled_locations = tuple(
             multiworld.get_unfilled_locations()
         )
-        progression_location_count = sum(
-            any(
+        progression_location_count = 0
+        for location in unfilled_locations:
+            if not any(
                 location.can_fill(
                     multiworld.state,
                     item,
                     check_access=False,
                 )
                 for item in progression_items
-            )
-            for location in unfilled_locations
-        )
-        if len(progression_items) <= progression_location_count:
-            return
+            ):
+                continue
+            progression_location_count += 1
+            if len(progression_items) <= progression_location_count:
+                return
         non_progression_item_count = (
             len(multiworld.itempool) - len(progression_items)
         )
         non_progression_location_count = (
             len(unfilled_locations) - progression_location_count
+        )
+        advice = (
+            "Disable Alphabet Mode, set Crest Slot Randomization to vanilla "
+            "or randomize Memory Lockets."
+            if alphabet_mode_enabled
+            else "Change a restrictive randomization setting or remove "
+            "conflicting exclusion, locality or plando settings."
         )
         raise OptionError(
             f"The selected options leave {len(progression_items)} "
@@ -1334,9 +1356,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "progression-legal locations after category shuffles "
             f"({non_progression_location_count} locations require "
             "non-progression items, but only "
-            f"{non_progression_item_count} remain). Disable Alphabet "
-            "Mode, set Crest Slot Randomization to vanilla or randomize "
-            "Memory Lockets."
+            f"{non_progression_item_count} remain). {advice}"
         )
 
     @classmethod

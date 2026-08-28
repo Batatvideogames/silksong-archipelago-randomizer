@@ -42,6 +42,7 @@ from .locations import (
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
+    SPOOL_FRAGMENT_COUNT_ITEM,
     compile_room_graph,
     room_node_name,
 )
@@ -76,6 +77,10 @@ USABLE_FLEA_BREW_REQUIREMENT = 'Usable Flea Brew'
 USABLE_MAGMA_BELL_REQUIREMENT = 'Usable Magma Bell'
 USABLE_SCUTTLEBRACE_REQUIREMENT = 'Usable Scuttlebrace'
 USABLE_CINDRIL_LOADOUT_REQUIREMENT = 'Usable Cindril Loadout'
+SPOOL_FRAGMENT_ITEM_NAMES = tuple(
+    f'Spool Fragment #{index}'
+    for index in range(1, len(SPOOL_FRAGMENT_LOCATION_NAMES) + 1)
+)
 RED_TOOL_SLOT = 'Red'
 BLUE_TOOL_SLOT = 'Blue'
 YELLOW_TOOL_SLOT = 'Yellow'
@@ -859,7 +864,6 @@ PROGRESSION_SAFE_CENSUS_LOCATIONS: frozenset[str] = frozenset(
 ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
     (
         'Boss: Skull Tyrant (Bone Bottom)',
-        'Boss: Fourth Chorus',
         'Boss: Moorwing',
         'Throwing Ring',       # Trail's End / Shakra encounter reward.
         "Wish: Hero's Call",   # Garmond and Zaza encounter reward.
@@ -1348,7 +1352,14 @@ def _compiled_room_clause_requirement(
         silk_spear=clause.require_silk_spear,
         skip_tier=clause.minimum_skip_tier,
         item_counts=(
-            item_count(minimum, item_name)
+            item_count(
+                minimum,
+                *(
+                    SPOOL_FRAGMENT_ITEM_NAMES
+                    if item_name == SPOOL_FRAGMENT_COUNT_ITEM
+                    else (item_name,)
+                ),
+            )
             for item_name, minimum in clause.item_counts
         ),
     )
@@ -2530,9 +2541,6 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     # Trail's End uses Shakra's carried stock by default. owned_maps
     # replaces those purchases with ownership of the same 14 map items.
     'Event: Trail\'s End Completed': get_trails_end_requirements(),
-    # Silk and Soul has quest-point and four-component state that the AP item
-    # table does not expose. This event uses the represented prerequisites:
-    # the current Snare Setter item, every Flea and all required story areas.
     'Event: Silk and Soul Completed': (
         req(
             'Event: Act 2 Started',
@@ -2550,7 +2558,6 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             'Ability: Faydown Cloak',
             'Tool: Snare Setter',
             crest=False,
-            item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
         ),
     ),
     'Event: Grand Mother Silk Snared': (
@@ -4971,6 +4978,24 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
 ] = {
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.
+    'Greymoor - Bellshrine': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
+    'Flea: Greymoor - Craw Lake': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
+    'Threefold Pin': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
+    'Thread Storm': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
+    'Greymoor - Spool Fragment': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
+    'Greymoor - Map Purchase': (
+        req('Event: Craw Lake Cleared', crest=False),
+    ),
     'Silkshot (Forge Daughter)': (
         req(CRAFTMETAL_ITEM, crest=False),
     ),
@@ -5052,6 +5077,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Shellwood - Weaver Harp Inscription': (
         req('Ancestral Art: Needolin', crest=False),
     ),
+    'Cling Grip': (
+        req('Ancestral Art: Needolin', crest=False),
+    ),
     'Bellhart Roof - Memory Locket': (
         req('Act: 3', crest=False, act='Act 3'),
     ),
@@ -5108,6 +5136,12 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Bellhart - Bellshrine': (
         req('Event: Widow Defeated', crest=False),
     ),
+    'Boss: Skarrsinger Karmelita': (
+        req(),
+    ),
+    'Far Fields (Skull Cave) - Mask Shard': (
+        req('Act: 2', crest=False, act='Act 2'),
+    ),
     **{
         location_name: (
             req(
@@ -5130,6 +5164,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
 _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     str, tuple[LocationRequirement, ...]
 ] = {
+    'Greymoor - Map Purchase': (
+        req('Path: Greymoor - Halfway House', crest=False),
+    ),
     'Bone Bottom Shop - Craftmetal': grindle_access(3),
     'Bone Bottom Shop - Simple Key': grindle_access(3),
     'Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard': (
@@ -5151,6 +5188,15 @@ _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     'Blasted Steps - Map Purchase': (
         req('Event: Last Judge Defeated', crest=False),
     ),
+    'Far Fields - Map Purchase': (
+        req('Event: Widow Defeated', crest=False),
+        req('Event: Act 2 Started', crest=False),
+    ),
+    "Hunter's March - Map Purchase": (
+        req('Event: Act 2 Started', crest=False),
+    ),
+    "Pilgrim's Rest Shop - Memory Locket": grindle_access(3),
+    "Pilgrim's Rest - Tool Pouch": grindle_access(3),
     'Pin Purchase: Vendor Pins': (
         req('Path: Greymoor - Halfway House', crest=False),
     ),

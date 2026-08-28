@@ -1,5 +1,4 @@
 using HarmonyLib;
-using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1489,7 +1488,7 @@ namespace SilksongRandomizer.Patches
                         : Color.white;
                 lines.Add(
                     new LogicTooltipLine(
-                        AlphabetModeManager.FilterDirectText(locationName),
+                        locationName,
                         nameColor
                     )
                 );

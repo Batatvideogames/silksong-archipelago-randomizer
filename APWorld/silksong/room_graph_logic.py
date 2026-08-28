@@ -70,6 +70,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:bell-shellwood": (_part("Bell: Shellwood"),),
     "item:bellway-blasted-steps": (_part("Bellway: Blasted Steps"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
+    "item:bellway-far-fields": (_part("Bellway: Far Fields"),),
     "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
     "item:bellway-the-slab": (_part("Bellway: The Slab"),),
     "item:clawline": (_part("Ancestral Art: Clawline"),),
@@ -170,6 +171,17 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:usable-scuttlebrace": (
         _part("Usable Scuttlebrace", "Swift Step"),
     ),
+    "macro:usable-curveclaw": tuple(
+        _part("Progressive Curveclaw", crest)
+        for crest in (
+            "Crest: Hunter",
+            "Crest: Reaper",
+            "Crest: Architect",
+            "Crest: Wanderer",
+            "Crest: Beast",
+            "Crest: Witch",
+        )
+    ),
     "option:skips-easy": (_part(skip_tier=1),),
     "option:skips-moderate": (_part(skip_tier=2),),
     "option:skips-difficult": (_part(skip_tier=3),),
@@ -261,6 +273,18 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
         "right-door-switch-must-be-flipped"
     ):
         "event:deep-docks/deep-docks-magma-slug-tunnels/right-door-switch",
+    "event:far-fields/far-fields-deep-docks-loopback/gate-switch-flipped":
+        "event:far-fields/far-fields-deep-docks-loopback/gate-switch",
+    "event:far-fields/far-fields-deep-lower-west/door-switch-activated":
+        "event:far-fields/far-fields-deep-lower-west/door-switch",
+    "event:far-fields/far-fields-entrance-east/deep-docks-bellshrine-activated":
+        "event:deep-docks/deep-docks-bellshrine/activate-deep-docks-bellshrine-switch",
+    "event:hunter-s-march/chapel-of-the-beast/door-switch-flipped":
+        "event:hunter-s-march/chapel-of-the-beast/door-switch",
+    "event:hunter-s-march/hunter-s-march-deep-docks-passage/defeat-gauntlet":
+        "event:hunter-s-march/hunter-s-march-deep-docks-passage/gauntlet-fight",
+    "event:hunter-s-march/hunter-s-march-map-shop/defeat-gauntlet":
+        "event:hunter-s-march/hunter-s-march-map-shop/gauntlet-fight",
 }
 
 
@@ -272,7 +296,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#left")),
     ),
     "event:sinner-s-road/sinner-s-road-styx-room/cage-right-wall-broken": (
-        _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#cage")),
+        _part(),
     ),
     "event:bone-bottom/bone-bottom-town/door-opened-from-other-side": (
         _part(room_node_name("bone-bottom/bonegrave#graveyard")),
@@ -616,6 +640,132 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:shellwood/shellwood-26/upper-wall-broken": (
         _part(room_node_name("shellwood/shellwood-26#upper-area")),
     ),
+    "event:far-fields/far-fields-deep-docks-backdoor/door-opened": (
+        _part(
+            room_node_name(
+                "deep-docks/deep-docks-chains-upper-east#chain-platforms"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-deep-entrance/right-exit-door-switch-activated": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-deep-entrance#right-exit-area"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-deep-fort/grunt-defeated": (
+        _part(room_node_name("far-fields/far-fields-deep-fort#main-area")),
+    ),
+    "event:far-fields/far-fields-fort-upper-passage/platform-lowered": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-fort-upper-passage#left-exit-area"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-pilgrim-s-rest/deep-passage-opened": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-pilgrim-s-rest-deep-passage#room"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-pinstress-room/attic-blast-opened": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-pinstress-attic#bottom-left-area"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-skull-room-west/bone-bridge-wall-broken": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-skull-room-west#bone-bridge"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-skull-room-west/lower-left-wall-broken": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-skull-room-west#lower-left-exit-area"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-upper-shaft/bridge-lever-activated": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-upper-shaft#left-march-bridge-room"
+            )
+        ),
+    ),
+    "event:far-fields/far-fields-upper-shaft/lower-gate-opened": (
+        _part(
+            room_node_name("far-fields/far-fields-upper-shaft#the-bottom")
+        ),
+    ),
+    "event:far-fields/far-fields-upper-shaft/shaft-opened": (
+        _part(
+            room_node_name(
+                "far-fields/far-fields-upper-shaft#top-wind-tunnel"
+            ),
+            "Ability: Drifter's Cloak",
+        ),
+    ),
+    "event:greymoor/greymoor-bellshrine/activated": (
+        _part(
+            room_node_name("greymoor/greymoor-bellshrine#room"),
+            "Event: Craw Lake Cleared",
+        ),
+    ),
+    "event:greymoor/greymoor-craw-lake/lever-broken-from-greymoor-crow-nest": (
+        _part(
+            room_node_name("greymoor/greymoor-crow-nest#crow-arena")
+        ),
+    ),
+    "event:greymoor/greymoor-west-bellshrine-room/lever-switch": (
+        _part(
+            room_node_name(
+                "greymoor/greymoor-west-bellshrine-room#middle-section-right"
+            )
+        ),
+    ),
+    "event:hunter-s-march/chapel-of-the-beast/boss-defeated": tuple(
+        _part(
+            room_node_name("hunter-s-march/chapel-of-the-beast#boss-arena"),
+            crest,
+        )
+        for crest in (
+            "Crest: Hunter",
+            "Crest: Reaper",
+            "Crest: Shaman",
+            "Crest: Architect",
+            "Crest: Wanderer",
+            "Crest: Beast",
+            "Crest: Witch",
+        )
+    ),
+    "event:hunter-s-march/hunter-s-march-deep-docks-passage/gate-switch-flipped": (
+        _part(
+            room_node_name(
+                "hunter-s-march/hunter-s-march-deep-docks-passage#before-gate"
+            )
+        ),
+    ),
+    "event:hunter-s-march/hunter-s-march-entrance/grunt-defeated": (
+        _part(
+            room_node_name(
+                "hunter-s-march/hunter-s-march-entrance#before-door"
+            )
+        ),
+    ),
+    "event:hunter-s-march/hunter-s-march-treasure-vault/grunts-defeated": (
+        _part(
+            room_node_name(
+                "hunter-s-march/hunter-s-march-treasure-vault#right-of-door"
+            )
+        ),
+    ),
 }
 
 
@@ -626,6 +776,8 @@ _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
         "Event: Cogwork Dancers Defeated",
     "event:global/elegy-of-the-deep-learned":
         "Event: Elegy of the Deep Learned",
+    "event:global/flexile-spines-completed":
+        "Event: Flexile Spines Completed",
     "event:global/five-bellshrines-rung":
         "Event: Five Bellshrines Rung",
     "event:global/last-judge-defeated": "Event: Last Judge Defeated",
@@ -649,10 +801,6 @@ _NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 }
 
 
-# Deep Docks uses the room graph, but its western entrance crosses Hunter's
-# March which is not yet covered. That external boundary remains until Hunter's
-# March is included. From this port onward every route comes from the Deep
-# Docks nodes and one-way states. This is not an internal Deep Docks bypass.
 _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # The mapped Bellway room starts at the existing Blasted Steps endpoint.
     "blasted-steps/blasted-steps-bellway#room": (
@@ -670,6 +818,15 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
             "Path: Bilewater - Bellway",
             "Ancestral Art: Cling Grip",
             "Ancestral Art: Swift Step",
+        ),
+    ),
+    "greymoor/greymoor-lower-halfway-home-path#room": (
+        _part("Path: Greymoor - Halfway House"),
+    ),
+    "greymoor/greymoor-craw-lake#upper-craw-nest": (
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Ancestral Art: Cling Grip",
         ),
     ),
     # This room set contains the Bone Scroll side room but not the rest of lower
@@ -699,16 +856,15 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "choral-chambers/songclave-tube#room": (
         _part("Path: Ventrica - Songclave"),
     ),
-    "deep-docks/is-this-still-deep-docks-west#upper-level": (
-        _part("Path: Hunter's March - Trap"),
-    ),
-    # The graph does not yet model the Deep Docks Simple-Key door or the Far
-    # Fields backdoor, so the Lower Deep Docks boundary remains at this node.
+
     "deep-docks/deep-docks-chains-upper-east#chain-platforms": (
-        _part("Path: Deep Docks - Lower"),
+        _part("Path: Deep Docks - Forge", "Simple Key (Deep Docks)"),
     ),
     "deep-docks/deep-docks-bellway#room": (
         _part("Path: Bellway - Deep Docks"),
+    ),
+    "far-fields/far-fields-bellway#bellway": (
+        _part("Path: Bellway - Far Fields"),
     ),
     "shellwood/shellwood-19#right-puddle": (
         _part("Path: Bellway - Shellwood"),
@@ -826,20 +982,32 @@ _CURATED_EDGES: tuple[
         ),
     ),
     (
+        "greymoor/greymoor-craw-lake#craw-building",
+        "greymoor/greymoor-craw-lake#middle-craw-nest",
+        tuple(
+            _part(
+                room_event_name(
+                    "event:greymoor/greymoor-craw-lake/lever-broken-from-greymoor-crow-nest"
+                ),
+                crest,
+                skip_tier=1,
+            )
+            for crest in (
+                "Crest: Hunter",
+                "Crest: Reaper",
+                "Crest: Wanderer",
+                "Crest: Beast",
+                "Crest: Witch",
+                "Crest: Architect",
+                "Crest: Shaman",
+            )
+        ),
+    ),
+    (
         "sands-of-karak/sands-of-karak-lower-right-long-room#left-exit",
         "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform",
         (
             _part("Ancestral Art: Clawline"),
-        ),
-    ),
-    (
-        "sands-of-karak/sands-of-karak-lower-right-long-room#upper-centre-platform",
-        "sands-of-karak/sands-of-karak-lower-right-long-room#flea-ledge",
-        (
-            _part(
-                "Ancestral Art: Cling Grip",
-                "Ancestral Art: Clawline",
-            ),
         ),
     ),
 )
@@ -879,6 +1047,16 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
         "shellwood/shellwood-10#ground-level"
     ),
     "Bellshrine: Bellhart": "bellhart/belltown-shrine#arena",
+    "Curveclaw": "hunter-s-march/hunter-s-march-skarr-shop#skarr-shop",
+    "Far Fields - Rosary Chest #1": (
+        "far-fields/far-fields-fort-upper-passage#left-exit-area"
+    ),
+    "Far Fields - Rosary Chest #2": (
+        "far-fields/far-fields-deep-lower-west#upper-right-alcove"
+    ),
+    "Hunter's March - Rosary Chest": (
+        "hunter-s-march/hunter-s-march-treasure-vault#left-of-door"
+    ),
     "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)": (
         "bellhart/belltown-room-relic#room"
     ),
@@ -925,16 +1103,51 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
 }
 
 
+_GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS = tuple(
+    _part(
+        room_node_name(
+            "greymoor/greymoor-east-bellshrine-room#upper-crow-nest"
+        ),
+        crest,
+        movement,
+        skip_tier=1,
+    )
+    for crest in (
+        "Crest: Hunter",
+        "Crest: Reaper",
+        "Crest: Wanderer",
+        "Crest: Beast",
+        "Crest: Witch",
+        "Crest: Architect",
+        "Crest: Shaman",
+    )
+    for movement in (
+        "Ancestral Art: Clawline",
+        "Usable Sharpdart",
+        "Swift Step",
+        "Ability: Drifter's Cloak",
+    )
+)
+
+
 # Existing AP locations whose source is expressed by a persistent graph
 # event rather than by a dedicated Included check row.
 _EXISTING_LOCATION_CLAUSE_BINDINGS: Mapping[
     str, tuple[CompiledRoomClause, ...]
 ] = {
+    "Greymoor - Rosary Cache #2": _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
+    "Greymoor - Rosary Cache #3": _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
     "Beast Shard: Craggler": (
         _part(
             room_event_name(
                 "event:wormways/wormways-craggler-hallway/defeat-craggler"
             )
+        ),
+    ),
+    "Drifter's Cloak": (
+        _part(
+            room_node_name("far-fields/far-fields-pinstress-hut-interior#room"),
+            "Event: Flexile Spines Completed",
         ),
     ),
 }
@@ -1155,7 +1368,7 @@ def _semantic_reachability(
 
     Structural connectivity alone admits closed cycles such as a room whose
     only entrance needs a switch located inside that same room.  For this
-    compiler check, normal items, options and coarse paths are available.
+    compiler check, normal items and coarse paths are available.
     room nodes and room events still have to derive from a real seed.
     """
 
@@ -1171,7 +1384,8 @@ def _semantic_reachability(
             if owner in reachable:
                 continue
             if any(
-                all(
+                alternative.minimum_skip_tier == 0
+                and all(
                     (
                         reference in reachable
                         if reference.startswith(
@@ -1341,7 +1555,13 @@ def compile_room_graph() -> CompiledRoomGraph:
                     declared_owners,
                 )
             )
-            if not requirements:
+            if (
+                not requirements
+                or all(
+                    requirement.minimum_skip_tier > 0
+                    for requirement in requirements
+                )
+            ):
                 skipped_checks.append(check.id)
                 continue
             _append_requirements(

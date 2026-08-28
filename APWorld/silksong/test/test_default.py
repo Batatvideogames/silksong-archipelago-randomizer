@@ -4,6 +4,7 @@ from unittest import TestCase, mock
 
 from BaseClasses import CollectionState
 from rule_builder.rules import Rule
+from test.general import setup_multiworld
 
 from .. import LOGIC_UNKNOWN_REGION_NAME, SilksongWorld
 from .. import category_fill, rules
@@ -21,7 +22,14 @@ from ..requirements import (
     LOGIC_UNKNOWN_LOCATIONS,
     POLLIP_HEART_SOURCE_LOCATION_NAMES,
     REQUIREMENTS,
+    SPOOL_FRAGMENT_ITEM_NAMES,
+    _compiled_room_clause_requirement,
 )
+from ..room_graph_logic import (
+    CompiledRoomClause,
+    SPOOL_FRAGMENT_COUNT_ITEM,
+)
+from ..requirement_rules import _compile_item_count
 from .bases import SilksongTestBase
 
 
@@ -33,6 +41,20 @@ class TestDefaultWorld(SilksongTestBase):
     # Naming the default goal opts this class into WorldTestBase's generic
     # generation, fill, all-state and empty-state checks.
     options = {"goal": "act_3"}
+
+    def test_non_topology_world_omits_path_breadcrumbs(self) -> None:
+        self.assertFalse(self.world.topology_present)
+        self.assertTrue(
+            all(entrance.hide_path for entrance in self.world.get_entrances())
+        )
+        state = CollectionState(self.multiworld)
+        foreign_path = object()
+        state.path[foreign_path] = ("Foreign", None)
+
+        state.update_reachable_regions(self.player)
+
+        self.assertGreater(len(state.reachable_regions[self.player]), 1)
+        self.assertEqual(state.path, {foreign_path: ("Foreign", None)})
 
     def test_randomized_scrounge_relics_are_progression(self) -> None:
         for item_name in SCROUNGE_RELIC_ITEM_NAMES:
@@ -249,6 +271,65 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
                         for source_id in source_ids
                     )
                 )
+
+    def test_craw_lake_checks_stay_in_act_one(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        names = (
+            "Flea: Greymoor - Craw Lake",
+            "Greymoor - Frayed Rosary String #1",
+            "Greymoor - Rosary Cache #18",
+            "Greymoor - Rosary Cache #19",
+            "Greymoor - Rosary Cache #21",
+            "Greymoor - Rosary Cache #22",
+        )
+        for name in names:
+            with self.subTest(name=name):
+                self.assertTrue(
+                    self.multiworld.get_location(
+                        name,
+                        self.player,
+                    ).can_reach(state)
+                )
+
+        for name in (
+            "Greymoor - Rosary Cache #2",
+            "Greymoor - Rosary Cache #3",
+            "Greymoor - Rosary Cache #20",
+        ):
+            with self.subTest(name=name):
+                with self.assertRaises(KeyError):
+                    self.multiworld.get_location(
+                        name,
+                        self.player,
+                    )
+
+
+class TestActOneEasySkipGreymoor(SilksongTestBase):
+    options = {
+        'goal': 'act_1',
+        'quest_sanity': 'anywhere',
+        'skips': 'easy',
+    }
+
+    def test_easy_skip_caches_stay_in_act_one(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        for name in (
+            "Greymoor - Rosary Cache #2",
+            "Greymoor - Rosary Cache #3",
+        ):
+            with self.subTest(name=name):
+                self.assertTrue(
+                    self.multiworld.get_location(
+                        name,
+                        self.player,
+                    ).can_reach(state)
+                )
+
+        with self.assertRaises(KeyError):
+            self.multiworld.get_location(
+                "Greymoor - Rosary Cache #20",
+                self.player,
+            )
 
 
 class TestCrestSlotPostFillPerformance(TestCase):
@@ -508,7 +589,10 @@ class TestShufflePerformance(TestCase):
         )
         return SimpleNamespace(
             itempool=[
-                SimpleNamespace(silksong_placement_category="Skill")
+                SimpleNamespace(
+                    silksong_placement_category="Skill",
+                    advancement=False,
+                )
             ],
             player_ids=[1, 2],
             worlds={
@@ -573,6 +657,37 @@ class TestShufflePerformance(TestCase):
 
         self.assertIs(location.item_rule, original_rule)
         self.assertTrue(location.item_rule(self._item("Remote", 1)))
+
+    def test_two_player_category_shuffles_keep_local_ownership(self) -> None:
+        options = {
+            "skill_randomization": "shuffle",
+            "bellway_randomization": "shuffle",
+            "ventrica_randomization": "shuffle",
+            "map_randomization": "shuffle",
+            "relic_randomization": "shuffle",
+        }
+        multiworld = setup_multiworld(
+            [SilksongWorld, SilksongWorld],
+            seed=82026,
+            options=options,
+        )
+        shuffled_locations = [
+            location
+            for location in multiworld.get_filled_locations()
+            if getattr(
+                location,
+                "silksong_placement_category",
+                None,
+            ) is not None
+        ]
+
+        self.assertTrue(shuffled_locations)
+        for location in shuffled_locations:
+            with self.subTest(
+                player=location.player,
+                location=location.name,
+            ):
+                self.assertEqual(location.item.player, location.player)
 
     def test_shuffle_rule_cleanup_preserves_later_wrappers(self) -> None:
         original_rule = lambda _item: True
@@ -729,7 +844,12 @@ class TestShufflePerformance(TestCase):
         multiworld = self._multiworld([location])
         SilksongWorld.stage_generate_basic(multiworld)
         legal_plando = self._item(
-            "Legal cross-player Skill",
+            "Legal local Skill",
+            1,
+            advancement=False,
+        )
+        remote_plando = self._item(
+            "Illegal cross-player Skill",
             2,
             advancement=False,
         )
@@ -741,6 +861,7 @@ class TestShufflePerformance(TestCase):
         )
 
         self.assertTrue(location.item_rule(legal_plando))
+        self.assertFalse(location.item_rule(remote_plando))
         self.assertFalse(location.item_rule(illegal_plando))
         location.item = legal_plando
         world_module = importlib.import_module(SilksongWorld.__module__)
@@ -804,3 +925,43 @@ class TestShufflePerformance(TestCase):
                 "_silksong_shuffle_item_rule_scope",
             )
         )
+
+
+class TestRoomGraphCountRequirements(TestCase):
+    def test_six_spool_fragments_use_all_fragment_items(self) -> None:
+        requirement = _compiled_room_clause_requirement(
+            CompiledRoomClause(
+                item_counts=((SPOOL_FRAGMENT_COUNT_ITEM, 6),)
+            )
+        )
+
+        self.assertEqual(len(requirement.item_counts), 1)
+        fragment_count = requirement.item_counts[0]
+        self.assertEqual(fragment_count.minimum, 6)
+        self.assertEqual(
+            fragment_count.item_names,
+            SPOOL_FRAGMENT_ITEM_NAMES,
+        )
+        self.assertEqual(
+            fragment_count.as_slot_data(),
+            {
+                "items": list(SPOOL_FRAGMENT_ITEM_NAMES),
+                "minimum": 6,
+            },
+        )
+
+        multiworld = setup_multiworld(SilksongWorld, steps=())
+        rule = _compile_item_count(fragment_count).resolve(
+            multiworld.worlds[1]
+        )
+        five_fragment_state = CollectionState(multiworld)
+        five_fragment_state.prog_items[1].update(
+            SPOOL_FRAGMENT_ITEM_NAMES[:5]
+        )
+        six_fragment_state = CollectionState(multiworld)
+        six_fragment_state.prog_items[1].update(
+            SPOOL_FRAGMENT_ITEM_NAMES[:6]
+        )
+
+        self.assertFalse(rule(five_fragment_state))
+        self.assertTrue(rule(six_fragment_state))
