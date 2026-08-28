@@ -32,7 +32,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a03836-77ea-e7f3-1d05-c71f9999e6a2`
+**Cogfly Import Code:** `01a04643-7242-7a91-0161-7c1a61c3af68`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -43,7 +43,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a02f76-a121-3fe8-a3f4-74ecd0ad44a5`
+**R2Modman Import Code:** `01a04643-ac6a-8fe8-fe03-e29805858125`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -156,7 +156,7 @@ Some of these regions are still incomplete and being mapped out.
 | **Hero** | Bone Bottom, Deep Docks, Far Fields, Hunter's March, Moss Grotto, The Marrow, Wormways |
 | **Isssma** | Greymoor (Right) |
 | **Pyxl** | The Abyss, Bellhart, Sands of Karak, Shellwood |
-| **Rebel** | Cogwork Core, Underworks (Right) Whispering Vaults |
+| **Rebel** | Cogwork Core, Underworks (Right), Whispering Vaults |
 | **Sergio** | Choral Chambers, High Halls, The Slab, Underworks (West), Wisp Thicket |
 | **Skai** | Blasted Steps, Greymoor (Left), Whiteward |
 | **SuperEpicGuy** | Moss Grotto |
