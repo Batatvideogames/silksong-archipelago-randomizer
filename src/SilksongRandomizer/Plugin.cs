@@ -701,6 +701,20 @@ namespace SilksongRandomizer
                 TryWarpToPreferredHub();
             }
 
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                if (showMapMarkerLogic.Value)
+                {
+                    showMapMarkerLogic.Value = false;
+                    Config.Save();
+                }
+                else
+                {
+                    showMapMarkerLogic.Value = true;
+                    Config.Save();
+                }
+            }
+
         }
 
         private void OnDisable()

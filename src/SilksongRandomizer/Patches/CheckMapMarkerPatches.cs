@@ -1508,9 +1508,10 @@ namespace SilksongRandomizer.Patches
                 {
                     if (!string.IsNullOrWhiteSpace(extra?.Text))
                     {
+                        string truncatedText = extra.Text.Length > 90 ? extra.Text.Substring(0, 90) + "..." : extra.Text;
                         lines.Add(
                             new LogicTooltipLine(
-                                extra.Text,
+                                truncatedText,
                                 extra.Color
                             )
                         );
