@@ -4966,8 +4966,6 @@ _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
         # These two Deep Docks checks do not have room-graph records.
         'Deep Docks - Rosary Cache #1',
         'Deep Docks - Rosary Cache #2',
-        *LOCATION_NAMES_BY_CATEGORY['Bellway'],
-        *LOCATION_NAMES_BY_CATEGORY['Ventrica'],
     )
 )
 
