@@ -129,6 +129,16 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Beast"),
         _part("Crest: Witch"),
     ),
+    # Spike Pogo needs an owned Crest; skip difficulty is checked separately.
+    "macro:spike-pogo": (
+        _part("Crest: Hunter"),
+        _part("Crest: Reaper"),
+        _part("Crest: Shaman"),
+        _part("Crest: Architect"),
+        _part("Crest: Wanderer"),
+        _part("Crest: Beast"),
+        _part("Crest: Witch"),
+    ),
     "macro:crest-pogo": (
         _part("Crest: Hunter", skip_tier=1),
         _part("Crest: Reaper", skip_tier=1),
@@ -977,6 +987,25 @@ _TRANSITION_EXTRA_REQUIREMENTS: Mapping[
     ),
     "grand-gate/grand-bridge@r": (
         _part("Event: Act 2 Started"),
+    ),
+    # Library_07's top exit opens from its Clawline ring. Library_09's
+    # west shortcut opens from inside Library_09; the reverse exits are free.
+    "whispering-vaults/whispering-vaults-totally-not-white-palace@t": (
+        _part(
+            room_event_name(
+                "event:whispering-vaults/"
+                "whispering-vaults-totally-not-white-palace/"
+                "whispering-vaults-clawline-ring"
+            )
+        ),
+    ),
+    "whispering-vaults/whispering-vaults-hell@tr": (
+        _part(
+            room_event_name(
+                "event:whispering-vaults/whispering-vaults-jumps/"
+                "whispering-vaults-flip-switch-6-up"
+            )
+        ),
     ),
 }
 

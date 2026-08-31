@@ -8038,6 +8038,7 @@
               ],
               [
                 "option:skips-moderate",
+                "macro:spike-pogo",
                 "option:skips-easy",
                 "event:bone-bottom/the-big-fall/wall-cling",
                 "item:faydown-cloak"
@@ -8117,6 +8118,7 @@
               ],
               [
                 "option:skips-difficult",
+                "macro:spike-pogo",
                 "option:skips-easy",
                 "macro:progressive-swift-step-first",
                 "capability:ledge-grab",
@@ -8127,6 +8129,7 @@
               ],
               [
                 "option:skips-difficult",
+                "macro:spike-pogo",
                 "option:skips-easy",
                 "macro:progressive-swift-step-full",
                 "event:bone-bottom/the-big-fall/wall-cling",
@@ -11536,6 +11539,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -11749,6 +11753,7 @@
                 "capability:ledge-grab"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -11805,6 +11810,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -15668,6 +15674,7 @@
                 "item:faydown-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -16200,6 +16207,7 @@
             "dnf": [
               [
                 "capability:break-walls",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -16269,6 +16277,7 @@
               [
                 "capability:break-walls",
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -16618,6 +16627,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -16674,6 +16684,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -44703,6 +44714,7 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -45018,6 +45030,7 @@
                 "macro:progressive-swift-step-full"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45059,6 +45072,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45146,6 +45160,7 @@
                 "item:drifters-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45187,6 +45202,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45226,14 +45242,17 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "item:faydown-cloak",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "item:clawline",
                 "option:skips-easy"
               ]
@@ -45297,6 +45316,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45394,6 +45414,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45439,6 +45460,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45486,6 +45508,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45533,6 +45556,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45580,6 +45604,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45627,6 +45652,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -45674,6 +45700,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -46001,6 +46028,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -46041,6 +46069,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -46221,6 +46250,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -46257,6 +46287,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "item:faydown-cloak",
                 "option:skips-easy"
               ]
@@ -46300,6 +46331,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -46345,6 +46377,7 @@
                 "item:clawline"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -48111,6 +48144,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -48439,11 +48473,13 @@
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "event:blasted-steps/blasted-steps-mask-shard/easy-hazard-respawn",
                 "option:skips-easy"
               ]
@@ -58786,6 +58822,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -60232,6 +60269,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -61502,6 +61540,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -61545,6 +61584,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -61588,6 +61628,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -61631,6 +61672,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -61920,6 +61962,7 @@
                 "item:cling-grip"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -62498,6 +62541,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -65742,10 +65786,12 @@
               ],
               [
                 "macro:usable-scuttlebrace",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -65797,6 +65843,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -66070,6 +66117,7 @@
                 "macro:usable-scuttlebrace"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -66241,6 +66289,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -67440,6 +67489,7 @@
             "dnf": [
               [
                 "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -67504,6 +67554,7 @@
             "dnf": [
               [
                 "event:underworks/underworks-lever-spike-corridor/lever-flipped",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -68584,6 +68635,7 @@
                 "item:faydown-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
@@ -68633,6 +68685,7 @@
                 "item:faydown-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -69399,6 +69452,7 @@
                 "item:drifters-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -69566,6 +69620,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
@@ -69945,6 +70000,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -72153,6 +72209,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -72174,6 +72231,7 @@
               [
                 "macro:usable-scuttlebrace",
                 "macro:progressive-swift-step-full",
+                "macro:spike-pogo",
                 "option:skips-moderate"
               ]
             ],
@@ -72336,6 +72394,7 @@
               ],
               [
                 "macro:usable-scuttlebrace",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -72406,6 +72465,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -72485,6 +72545,7 @@
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -74337,6 +74398,7 @@
                 "item:faydown-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -74381,6 +74443,7 @@
                 "item:faydown-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -78318,6 +78381,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -79421,6 +79485,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -80058,6 +80123,7 @@
             "dnf": [
               [
                 "item:clawline",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -85764,6 +85830,7 @@
             "dnf": [
               [
                 "macro:usable-scuttlebrace",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -85775,6 +85842,7 @@
               ],
               [
                 "item:faydown-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -86105,6 +86173,7 @@
                 "item:drifters-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -86153,6 +86222,7 @@
                 "item:drifters-cloak"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -87265,10 +87335,7 @@
             "raw": "Spike Pogo (Hunter OR Reaper OR Architect OR Shaman) (Moderate Skip) AND (Cling Grip OR Faydown Cloak OR Ledge Grab) AND Enemy Pogo (Easy Skip) OR Clawline",
             "mode": "unresolved",
             "dnf": [],
-            "annotations": [
-              "Moderate Skip",
-              "Easy Skip"
-            ],
+            "annotations": [],
             "unresolved_reasons": [
               "requirement parse failure: unexpected trailing requirement token '('",
               "row contains deferred pogo technique"
@@ -88289,14 +88356,17 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "item:clawline",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "item:faydown-cloak",
                 "option:skips-easy"
               ],
@@ -88385,6 +88455,7 @@
               ],
               [
                 "item:faydown-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -88438,9 +88509,11 @@
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "item:faydown-cloak",
                 "option:skips-easy"
               ],
@@ -88528,6 +88601,7 @@
               ],
               [
                 "item:faydown-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -88602,9 +88676,7 @@
             "raw": "(Ledge Grab OR Clawline OR Scuttlebrace) AND (Spike Pogo AND (Cling Grip OR Faydown Cloak) OR (Clawline AND Faydown Cloak (Easy Skip))",
             "mode": "unresolved",
             "dnf": [],
-            "annotations": [
-              "Easy Skip"
-            ],
+            "annotations": [],
             "unresolved_reasons": [
               "requirement parse failure: unclosed requirement group",
               "row contains deferred pogo technique"
@@ -88823,6 +88895,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -88876,6 +88949,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -89960,22 +90034,26 @@
                 "item:sharpdart"
               ],
               [
+                "macro:spike-pogo",
                 "macro:usable-scuttlebrace",
                 "item:faydown-cloak",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "macro:usable-scuttlebrace",
                 "macro:progressive-swift-step-full",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "macro:usable-scuttlebrace",
                 "item:clawline",
                 "option:skips-easy"
               ],
               [
+                "macro:spike-pogo",
                 "macro:usable-scuttlebrace",
                 "item:sharpdart",
                 "option:skips-easy"
@@ -90416,6 +90494,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -95528,6 +95607,7 @@
               [
                 "item:clawline",
                 "macro:usable-scuttlebrace",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -95829,11 +95909,13 @@
                 "macro:progressive-swift-step-first",
                 "item:faydown-cloak",
                 "item:drifters-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
                 "item:faydown-cloak",
                 "macro:progressive-swift-step-full",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -96170,7 +96252,39 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:whispering-vaults/whispering-vaults-jumps/whispering-vaults-flip-switch-6-up",
+          "label": "Whispering Vaults: Flip Switch #6 (Up)",
+          "kind": "switch",
+          "node_id": "whispering-vaults/whispering-vaults-jumps#room-with-stuff",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "check": "Whispering Vaults: Flip Switch #6 (Up)",
+            "subroom": "Room With Stuff",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "whispering-vaults/whispering-vaults-jumps::check/whispering-vaults-flip-switch-6-up",
@@ -96191,7 +96305,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": true,
+          "currently_randomized": false,
           "source_line": 0,
           "raw_cells": {
             "check": "Whispering Vaults: Flip Switch #6 (Up)",
@@ -96905,18 +97019,22 @@
             "dnf": [
               [
                 "item:clawline",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
                 "item:faydown-cloak",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
                 "item:drifters-cloak",
+                "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
               ],
@@ -97206,7 +97324,39 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:whispering-vaults/whispering-vaults-totally-not-white-palace/whispering-vaults-clawline-ring",
+          "label": "Whispering Vaults: Clawline Ring",
+          "kind": "switch",
+          "node_id": "whispering-vaults/whispering-vaults-totally-not-white-palace#collectibles-tm",
+          "requirement": {
+            "raw": "Clawline.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:clawline"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 40,
+          "raw_cells": {
+            "check": "Whispering Vaults: Clawline Ring",
+            "subroom": "Collectibles(TM)",
+            "requirements": "Clawline.",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "whispering-vaults/whispering-vaults-totally-not-white-palace::check/whispering-vaults-clawline-ring",
@@ -97227,7 +97377,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": true,
+          "currently_randomized": false,
           "source_line": 40,
           "raw_cells": {
             "check": "Whispering Vaults: Clawline Ring",
@@ -97734,6 +97884,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -97790,6 +97941,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -97846,6 +97998,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -97902,6 +98055,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -101423,9 +101577,11 @@
             "label": "Whispering Vaults Totally Not White Palace (Library_07)"
           },
           "requirement": {
-            "raw": "",
-            "mode": "inherit",
-            "dnf": [],
+            "raw": "none",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -101459,9 +101615,11 @@
             "label": "Whispering Vaults Totally Not White Palace (Library_07)"
           },
           "requirement": {
-            "raw": "",
-            "mode": "inherit",
-            "dnf": [],
+            "raw": "none",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -101495,9 +101653,11 @@
             "label": "Whispering Vaults Totally Not White Palace (Library_07)"
           },
           "requirement": {
-            "raw": "",
-            "mode": "inherit",
-            "dnf": [],
+            "raw": "none",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -102807,13 +102967,19 @@
                 "item:sharpdart"
               ],
               [
+                "item:faydown-cloak",
+                "item:beast-crest"
+              ],
+              [
                 "item:sharpdart",
                 "capability:swim"
+              ],
+              [
+                "item:sharpdart",
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -102941,11 +103107,17 @@
               [
                 "item:clawline",
                 "item:drifters-cloak"
+              ],
+              [
+                "macro:any-crest",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:any-crest",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -103108,11 +103280,12 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -103158,11 +103331,12 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -103377,11 +103551,14 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -103444,11 +103621,13 @@
               [
                 "item:faydown-cloak",
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -103512,11 +103691,14 @@
                 "item:faydown-cloak",
                 "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -104157,11 +104339,18 @@
               ],
               [
                 "item:faydown-cloak"
+              ],
+              [
+                "item:hunter-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
               ]
             ],
-            "annotations": [
-              "3 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -104921,11 +105110,12 @@
               ],
               [
                 "item:clawline"
+              ],
+              [
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -104959,11 +105149,12 @@
               ],
               [
                 "item:clawline"
+              ],
+              [
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -105190,11 +105381,13 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -105236,11 +105429,13 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -105282,11 +105477,13 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:beast-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -105532,15 +105729,25 @@
                 "macro:progressive-swift-step-first"
               ],
               [
+                "item:hunter-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
+              ],
+              [
+                "item:shaman-crest"
+              ],
+              [
                 "capability:ledge-grab"
               ],
               [
                 "item:cling-grip"
               ]
             ],
-            "annotations": [
-              "4 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -105588,15 +105795,25 @@
                 "macro:progressive-swift-step-first"
               ],
               [
+                "item:hunter-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
+              ],
+              [
+                "item:shaman-crest"
+              ],
+              [
                 "capability:ledge-grab"
               ],
               [
                 "item:cling-grip"
               ]
             ],
-            "annotations": [
-              "4 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -106104,10 +106321,19 @@
               ],
               [
                 "capability:swim"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
+              ],
+              [
+                "item:shaman-crest"
               ]
             ],
             "annotations": [
-              "4 pogo routes are not in logic yet."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -106178,14 +106404,44 @@
           "source_node_id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform",
           "target_node_id": "bilewater/bilewater-sinner-s-entrance#middle-quarter",
           "requirement": {
-            "raw": "Clawline OR drifter’s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR architect pogo OR beast pogo)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
+            "raw": "Clawline OR drifter's cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR architect pogo OR beast pogo))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:clawline"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:cling-grip"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:architect-crest"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:beast-crest"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -106200,11 +106456,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bilewater/bilewater-sinner-s-entrance#right-quarter>middle-quarter@rqm",
@@ -106236,11 +106489,15 @@
               ],
               [
                 "macro:progressive-swift-step-first"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:architect-crest"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -106266,14 +106523,57 @@
           "source_node_id": "bilewater/bilewater-sinner-s-entrance#middle-quarter",
           "target_node_id": "bilewater/bilewater-sinner-s-entrance#right-quarter",
           "requirement": {
-            "raw": "(silk soar AND (beast pogo OR dash OR clawline OR sharpdart OR drifter’s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter’s cloak AND ledge grab))",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
+            "raw": "(silk soar AND (beast pogo OR dash OR clawline OR sharpdart OR drifter's cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter's cloak AND ledge grab)))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar",
+                "item:beast-crest"
+              ],
+              [
+                "item:silk-soar",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:silk-soar",
+                "item:clawline"
+              ],
+              [
+                "item:silk-soar",
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "capability:ledge-grab"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -106288,11 +106588,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -106454,13 +106751,16 @@
               ],
               [
                 "item:cling-grip",
+                "item:sharpdart",
+                "macro:any-crest"
+              ],
+              [
+                "item:cling-grip",
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -106773,11 +107073,6 @@
           "declared": true
         },
         {
-          "id": "bilewater/bilewater-upper-bloatroach-tower#lower-climb",
-          "name": "lower climb",
-          "declared": true
-        },
-        {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-left",
           "name": "middle left",
           "declared": true
@@ -106785,11 +107080,6 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-right",
           "name": "middle right",
-          "declared": true
-        },
-        {
-          "id": "bilewater/bilewater-upper-bloatroach-tower#middle-climb",
-          "name": "middle climb",
           "declared": true
         },
         {
@@ -107103,13 +107393,15 @@
                 "item:cling-grip"
               ],
               [
+                "macro:progressive-swift-step-full",
+                "macro:any-crest"
+              ],
+              [
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107154,12 +107446,15 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
+                "macro:any-crest"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107195,13 +107490,16 @@
               ],
               [
                 "item:cling-grip",
+                "item:faydown-cloak",
+                "macro:any-crest"
+              ],
+              [
+                "item:cling-grip",
                 "item:drifters-cloak",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107234,15 +107532,16 @@
                 "capability:swim"
               ],
               [
+                "macro:any-crest"
+              ],
+              [
                 "item:clawline"
               ],
               [
                 "macro:progressive-swift-step-full"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107283,6 +107582,12 @@
               ],
               [
                 "item:cling-grip",
+                "item:drifters-cloak",
+                "macro:any-crest",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip",
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ],
@@ -107305,11 +107610,14 @@
                 "macro:progressive-swift-step-first",
                 "item:faydown-cloak",
                 "item:clawline"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak",
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107389,12 +107697,15 @@
               [
                 "item:cling-grip",
                 "macro:progressive-swift-step-full",
+                "macro:any-crest"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107457,7 +107768,17 @@
               [
                 "item:faydown-cloak",
                 "capability:ledge-grab",
+                "macro:any-crest"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "macro:any-crest"
               ],
               [
                 "item:faydown-cloak",
@@ -107465,9 +107786,7 @@
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107515,12 +107834,13 @@
                 "macro:progressive-swift-step-full"
               ],
               [
+                "macro:any-crest"
+              ],
+              [
                 "macro:usable-scuttlebrace"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107561,11 +107881,6 @@
         {
           "id": "bilewater/bilewater-upper-east-column#low-right-door",
           "name": "low right door",
-          "declared": true
-        },
-        {
-          "id": "bilewater/bilewater-upper-east-column#center-climb",
-          "name": "center climb",
           "declared": true
         },
         {
@@ -107791,6 +108106,10 @@
                 "item:faydown-cloak"
               ],
               [
+                "capability:ledge-grab",
+                "item:beast-crest"
+              ],
+              [
                 "item:drifters-cloak"
               ],
               [
@@ -107803,9 +108122,7 @@
                 "macro:progressive-swift-step-first"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -107963,11 +108280,27 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "item:hunter-crest"
+              ],
+              [
+                "item:reaper-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:witch-crest"
+              ],
+              [
+                "item:architect-crest"
+              ],
+              [
+                "item:shaman-crest"
               ]
             ],
-            "annotations": [
-              "6 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -108286,11 +108619,19 @@
                 "item:cling-grip",
                 "item:faydown-cloak",
                 "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "macro:any-crest",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "macro:any-crest",
+                "item:sharpdart"
               ]
             ],
-            "annotations": [
-              "2 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -108375,11 +108716,13 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "macro:any-crest"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -108897,12 +109240,15 @@
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
+                "macro:any-crest"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -109367,6 +109713,23 @@
                 "item:sharpdart"
               ],
               [
+                "item:reaper-crest"
+              ],
+              [
+                "item:beast-crest"
+              ],
+              [
+                "item:shaman-crest"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:witch-crest"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:architect-crest"
+              ],
+              [
                 "capability:swim",
                 "item:faydown-cloak"
               ],
@@ -109376,7 +109739,7 @@
               ]
             ],
             "annotations": [
-              "6 pogo routes are not in logic yet."
+              "One pogo route is not in logic yet."
             ],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
@@ -109410,14 +109773,56 @@
             "label": "Bilewater Lower Bloatroach Tower (Shadow_02)"
           },
           "requirement": {
-            "raw": "(crest pogo AND (faydown cloak OR ((clawline OR sharpdart OR dash OR drifter’s cloak) AND cling grip))) OR (silk soar AND ((drifter’s cloak AND (cling grip OR clawline OR sharpdart)) OR (clawline AND sharpdart))",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
+            "raw": "(crest pogo AND (faydown cloak OR ((clawline OR sharpdart OR dash OR drifter's cloak) AND cling grip))) OR (silk soar AND ((drifter's cloak AND (cling grip OR clawline OR sharpdart)) OR (clawline AND sharpdart)))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:any-crest",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:any-crest",
+                "item:clawline",
+                "item:cling-grip"
+              ],
+              [
+                "macro:any-crest",
+                "item:sharpdart",
+                "item:cling-grip"
+              ],
+              [
+                "macro:any-crest",
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "macro:any-crest",
+                "item:drifters-cloak",
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak",
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak",
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar",
+                "item:clawline",
+                "item:sharpdart"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -109433,11 +109838,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [],
@@ -109513,7 +109915,7 @@
           "id": "bilewater/bilewater-west-secret-rooms@c",
           "alias": "C",
           "name": "ceiling",
-          "source_node_id": "bilewater/bilewater-west-secret-rooms#top-area",
+          "source_node_id": "bilewater/bilewater-west-secret-rooms#ceiling-exit",
           "target": {
             "raw": "[Bilewater Citadel Exit (Shadow_22)](bilewater-citadel-exit.md)",
             "room_id": "bilewater/bilewater-citadel-exit",
@@ -109523,14 +109925,16 @@
           },
           "requirement": {
             "raw": "cling grip AND crest pogo AND faydown cloak",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "One pogo route is not in logic yet."
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "macro:any-crest",
+                "item:faydown-cloak"
+              ]
             ],
-            "unresolved_reasons": [
-              "row contains deferred pogo technique"
-            ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "Requires an annoying enemy lure. Medium_skips. Should be one-way normally.",
@@ -109546,10 +109950,8 @@
             "verification": "",
             "notes": "Requires an annoying enemy lure. Medium_skips. Should be one-way normally."
           },
-          "unresolved_reasons": [
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -109633,9 +110035,24 @@
           "source_node_id": "bilewater/bilewater-west-secret-rooms#top-area",
           "target_node_id": "bilewater/bilewater-west-secret-rooms#ceiling-exit",
           "requirement": {
-            "raw": "(crest pogo OR clawline) AND (ledge grab OR cling grip OR faydown cloak)",
+            "raw": "((crest pogo AND moderate skip) OR clawline) AND (ledge grab OR cling grip OR faydown cloak)",
             "mode": "expression",
             "dnf": [
+              [
+                "macro:any-crest",
+                "option:skips-moderate",
+                "capability:ledge-grab"
+              ],
+              [
+                "macro:any-crest",
+                "option:skips-moderate",
+                "item:cling-grip"
+              ],
+              [
+                "macro:any-crest",
+                "option:skips-moderate",
+                "item:faydown-cloak"
+              ],
               [
                 "item:clawline",
                 "capability:ledge-grab"
@@ -109649,9 +110066,7 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "3 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -109685,6 +110100,10 @@
                 "capability:swim"
               ],
               [
+                "item:faydown-cloak",
+                "macro:any-crest"
+              ],
+              [
                 "item:drifters-cloak"
               ],
               [
@@ -109694,9 +110113,7 @@
                 "item:sharpdart"
               ]
             ],
-            "annotations": [
-              "One pogo route is not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -109735,11 +110152,66 @@
               [
                 "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:hunter-crest"
+              ],
+              [
+                "item:cling-grip",
+                "item:beast-crest"
+              ],
+              [
+                "item:cling-grip",
+                "item:architect-crest"
+              ],
+              [
+                "item:cling-grip",
+                "item:wanderer-crest",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:wanderer-crest",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:wanderer-crest",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:witch-crest",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:witch-crest",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:witch-crest",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:reaper-crest",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:reaper-crest",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:reaper-crest",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "12 pogo routes are not in logic yet."
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -109865,7 +110337,7 @@
           "name": "up door",
           "source_node_id": "bilewater/exhaust-organ-external#upper-door-plat",
           "target": {
-            "raw": "Exhaust Organ Interior (Dust_10)",
+            "raw": "TODO",
             "room_id": "bilewater/exhaust-organ-interior",
             "alias": "UL",
             "port_id": "bilewater/exhaust-organ-interior@ul",
@@ -109903,7 +110375,7 @@
           "name": "low door",
           "source_node_id": "bilewater/exhaust-organ-external#middle-platform",
           "target": {
-            "raw": "Exhaust Organ Interior (Dust_10)",
+            "raw": "TODO",
             "room_id": "bilewater/exhaust-organ-interior",
             "alias": "LL",
             "port_id": "bilewater/exhaust-organ-interior@ll",
@@ -110538,7 +111010,7 @@
           "name": "left1",
           "source_node_id": "bilewater/exhaust-organ-interior#room",
           "target": {
-            "raw": "Exhaust Organ External (Dust_09)",
+            "raw": "TODO",
             "room_id": "bilewater/exhaust-organ-external",
             "alias": "UD",
             "port_id": "bilewater/exhaust-organ-external@ud",
@@ -110574,7 +111046,7 @@
           "name": "left2",
           "source_node_id": "bilewater/exhaust-organ-interior#room",
           "target": {
-            "raw": "Exhaust Organ External (Dust_09)",
+            "raw": "TODO",
             "room_id": "bilewater/exhaust-organ-external",
             "alias": "LD",
             "port_id": "bilewater/exhaust-organ-external@ld",
@@ -115281,6 +115753,7 @@
               [
                 "item:faydown-cloak",
                 "item:clawline",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -122666,6 +123139,7 @@
                 "macro:progressive-swift-step-full",
                 "item:faydown-cloak",
                 "item:clawline",
+                "macro:spike-pogo",
                 "item:drifters-cloak",
                 "option:skips-easy"
               ]
@@ -134696,6 +135170,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -134745,6 +135220,7 @@
             "dnf": [
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -134765,6 +135241,7 @@
               ],
               [
                 "macro:usable-scuttlebrace",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -135601,6 +136078,7 @@
                 "capability:ledge-grab"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -135660,6 +136138,7 @@
                 "capability:ledge-grab"
               ],
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -146310,6 +146789,7 @@
             "mode": "expression",
             "dnf": [
               [
+                "macro:spike-pogo",
                 "option:skips-easy"
               ]
             ],
@@ -147527,6 +148007,7 @@
               [
                 "event:greymoor/greymoor-east-bellshrine-room/wall-broken-from-greymoor-east-bellshrine-room",
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [
@@ -148349,6 +148830,7 @@
               ],
               [
                 "item:cling-grip",
+                "macro:spike-pogo",
                 "option:skips-easy"
               ],
               [

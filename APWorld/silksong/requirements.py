@@ -1108,8 +1108,6 @@ PATH_ORDER: tuple[str, ...] = (
     "Sinner's Road - Broken Toll",
     "Sinner's Road - Styx",
     'Bilewater - Bellway',
-    'Bilewater - Ruined Tool', # Not a bench
-    'Bilewater - Corpse Sack Chamber',
     'Bilewater - Bilehaven',
     'Bilewater - Exhaust Organ',
     'Bilewater - Twisted Bud', # Not a bench
@@ -1896,14 +1894,6 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         # Bud enclosure. Opening its gate then reaches main Bilewater.
         req('Path: Bilewater - Twisted Bud'),
         req('Path: Bellway - Bilewater'), # Bellway
-    ),
-    'Path: Bilewater - Ruined Tool': (
-        req('Path: Bilewater - Bellway', 'Ancestral Art: Needolin', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
-        req('Path: Bilewater - Twisted Bud', 'Ancestral Art: Needolin', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
-    ),
-    'Path: Bilewater - Corpse Sack Chamber': (
-        req('Path: Bilewater - Bellway', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step'),
-        req('Path: Bilewater - Bilehaven', 'Ability: Faydown Cloak', 'Ancestral Art: Cling Grip'),
     ),
     'Path: Bilewater - Bilehaven': (
         req('Path: Bilewater - Bellway', 'Ability: Faydown Cloak', 'Ancestral Art: Cling Grip'),

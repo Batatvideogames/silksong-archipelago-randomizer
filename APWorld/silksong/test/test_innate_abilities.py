@@ -286,7 +286,7 @@ class TestInnateAbilityWorlds(TestCase):
                     state.collect(world.create_item(item_name))
                     self.assertTrue(entrance.access_rule(state))
 
-    def test_off_capability_entrances_keep_ap_default_access_rule(self) -> None:
+    def test_off_capability_entrances_keep_rule_builder_explanations(self) -> None:
         world = self.worlds[(False, False)]
         entrances = [
             self.capability_entrance(world, capability_name)
@@ -294,14 +294,20 @@ class TestInnateAbilityWorlds(TestCase):
         ]
 
         self.assertTrue(all(
-            entrance.access_rule is type(entrance).access_rule
-            for entrance in entrances
-        ))
-        self.assertFalse(any(
             isinstance(entrance.access_rule, Rule.Resolved)
-            and entrance.access_rule.always_true
             for entrance in entrances
         ))
+        self.assertTrue(all(
+            entrance.access_rule.always_true
+            for entrance in entrances
+        ))
+        state = CollectionState(world.multiworld)
+        for entrance in entrances:
+            with self.subTest(entrance=entrance.name):
+                self.assertIn(
+                    "True",
+                    str(entrance.access_rule.explain_json(state)),
+                )
 
     @staticmethod
     def collect(world, *item_names: str) -> CollectionState:

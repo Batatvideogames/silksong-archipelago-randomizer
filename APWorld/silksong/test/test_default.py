@@ -89,89 +89,41 @@ class TestDefaultWorld(SilksongTestBase):
         for first, second in zip(entrances, entrances[1:]):
             self.assertIs(first.connected_region, second.parent_region)
 
-    def test_explain_path_only_formats_native_route(self) -> None:
+    def test_world_leaves_universal_tracker_hooks_unoverridden(self) -> None:
+        for hook_name in (
+            "get_logical_path",
+            "explain_path",
+            "explain_spot",
+            "explain_rule",
+        ):
+            with self.subTest(hook_name=hook_name):
+                self.assertFalse(hasattr(self.world, hook_name))
+
+    def test_native_path_rules_support_rule_builder_explanations(self) -> None:
         state = self.multiworld.get_all_state(False)
-        location = self.world.get_location("Faydown Cloak")
+        location = self.world.get_location("Silkspear")
         path_value = state.path[location.parent_region]
         path_names = []
         while path_value:
             name, path_value = path_value
             path_names.append(str(name))
         path_names.reverse()
-        entrance = self.world.get_entrance(path_names[1])
+        entrances = [
+            self.world.get_entrance(name)
+            for name in path_names[1::2]
+        ]
 
-        explanation = self.world.explain_path(entrance, state)
-        rendered = "".join(
-            str(entry.get("text", "")) for entry in explanation
-        )
-
-        self.assertTrue(explanation)
-        self.assertIn(" -> ", rendered)
-        self.assertNotIn("\n", rendered)
-        self.assertTrue(rendered.isascii())
-
-    def test_world_does_not_override_get_logical_path(self) -> None:
-        self.assertNotIn("get_logical_path", SilksongWorld.__dict__)
-
-    def test_fixed_heretic_key_event_has_an_actionable_path_label(self) -> None:
-        self.assertEqual(
-            self.world._logic_region_label(
-                "Room Event: event:the-slab/slab-arena/key-of-heretic"
-            ),
-            "Collect Key of Heretic (Slab Arena)",
-        )
-
-    def test_explain_rule_labels_reachability_and_local_rule(self) -> None:
-        state = self.multiworld.get_all_state(False)
-
-        explanation = self.world.explain_rule("Silkspear", state)
-
-        rendered = "".join(
-            str(entry.get("text", "")) for entry in explanation
-        )
-        self.assertTrue(explanation)
+        self.assertTrue(entrances)
         self.assertTrue(
-            all(isinstance(entry, dict) for entry in explanation)
+            hasattr(location.access_rule, "explain_json")
         )
-        self.assertIn("Location: Silkspear", rendered)
-        self.assertIn("Overall: Reachable", rendered)
-        self.assertIn("Location requirement: Nothing", rendered)
-        self.assertIn(
-            "Parent region: Mosshome Upper - Main Area",
-            rendered,
-        )
-        self.assertIn("Parent region status: Reachable", rendered)
-        self.assertIn("Usable entrance", rendered)
-        self.assertNotIn("Possible entrance", rendered)
-        self.assertTrue(rendered.isascii())
-
-    def test_explain_rule_separates_blocked_parent_from_free_check(
-        self,
-    ) -> None:
-        state = CollectionState(self.multiworld)
-        location = next(
-            location
-            for location in self.world.get_locations()
-            if location.parent_region.entrances
-            and self.world._logic_rule_details(
-                location.access_rule,
-                state,
-            )[1]
-            and not location.parent_region.can_reach(state)
-        )
-
-        explanation = self.world.explain_rule(location.name, state)
-
-        rendered = "".join(
-            str(entry.get("text", "")) for entry in explanation
-        )
-        self.assertIn("Overall: Not reachable", rendered)
-        self.assertIn("Location requirement: Nothing", rendered)
-        self.assertIn("Parent region status: Not reachable", rendered)
-        self.assertIn("Possible entrance", rendered)
-        self.assertIn("Source region:", rendered)
-        self.assertIn("Transition requirement:", rendered)
-        self.assertIn("Route status:", rendered)
+        self.assertTrue(location.access_rule.explain_json(state))
+        for entrance in entrances:
+            with self.subTest(entrance=entrance.name):
+                self.assertTrue(
+                    hasattr(entrance.access_rule, "explain_json")
+                )
+                self.assertTrue(entrance.access_rule.explain_json(state))
 
     def test_shellwood_only_weaver_harp_requires_needolin(self) -> None:
         state = CollectionState(self.multiworld)
@@ -363,27 +315,33 @@ class TestDefaultWorld(SilksongTestBase):
         self.assertNotEqual(location.parent_region.name, LOGIC_UNKNOWN_REGION_NAME)
         self.assertFalse(location.item_rule(self.world.create_item("Cling Grip")))
 
-    def test_logic_free_native_entrances_keep_default_rule(self) -> None:
+    def test_native_entrances_keep_rule_builder_explanations(self) -> None:
         entrances = [
             entrance
             for region in self.multiworld.get_regions(self.player)
             for entrance in region.exits
             if entrance.name.startswith("Silksong Logic: ")
         ]
-        default_entrances = [
+        always_true_entrances = [
             entrance
             for entrance in entrances
-            if entrance.access_rule is type(entrance).access_rule
+            if isinstance(entrance.access_rule, Rule.Resolved)
+            and entrance.access_rule.always_true
         ]
 
-        self.assertTrue(default_entrances)
-        self.assertFalse(
-            any(
-                isinstance(entrance.access_rule, Rule.Resolved)
-                and entrance.access_rule.always_true
-                for entrance in entrances
-            )
-        )
+        self.assertTrue(entrances)
+        self.assertTrue(always_true_entrances)
+        self.assertTrue(all(
+            hasattr(entrance.access_rule, "explain_json")
+            for entrance in entrances
+        ))
+        state = CollectionState(self.multiworld)
+        for entrance in always_true_entrances:
+            with self.subTest(entrance=entrance.name):
+                self.assertIn(
+                    "True",
+                    str(entrance.access_rule.explain_json(state)),
+                )
 
     def test_courier_deliveries_are_not_quest_sanity(self) -> None:
         reserved_ids = {

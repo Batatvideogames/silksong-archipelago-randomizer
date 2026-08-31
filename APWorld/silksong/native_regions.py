@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 
 from BaseClasses import Region
-from rule_builder.rules import Rule, True_
+from rule_builder.rules import Rule
 
 from .requirement_rules import build_location_rule, build_requirements_rule
 from .requirements import (
@@ -200,7 +200,7 @@ def connect_native_logic_regions(
             entrance = world.create_entrance(
                 regions[anchor] if anchor is not None else menu,
                 target,
-                None if isinstance(rule, True_) else rule,
+                rule,
                 f"Silksong Logic: {owner} [{index}]",
             )
             if entrance is None:
