@@ -799,16 +799,26 @@ namespace SilksongRandomizer
                 new Dictionary<string, int>(
                     StringComparer.OrdinalIgnoreCase
                 );
+            SaveState activeState = SaveState.Instance;
+            if (activeState == null)
+            {
+                return counts;
+            }
 
             try
             {
                 if (IsConnected() &&
                     session?.Items?.AllItemsReceived != null)
                 {
-                    foreach (ItemInfo item in
-                        session.Items.AllItemsReceived)
+                    ReadOnlyCollection<ItemInfo> allItems =
+                        session.Items.AllItemsReceived;
+                    int endExclusive = Math.Min(
+                        Math.Max(0, activeState.receivedItemIndex),
+                        allItems.Count
+                    );
+                    for (int index = 0; index < endExclusive; index++)
                     {
-                        string itemName = GetItemName(item);
+                        string itemName = GetItemName(allItems[index]);
                         if (string.IsNullOrWhiteSpace(itemName))
                         {
                             continue;
@@ -827,17 +837,28 @@ namespace SilksongRandomizer
             {
                 RandomizerPlugin.Log?.LogWarning(
                     "[RANDOMIZER] Could not read repeated AP item " +
-                    "counts for map logic; using the saved inventory: " +
+                    "counts for map logic; using committed save history: " +
                     ex.Message
                 );
             }
 
-            lock (stateLock)
+            List<string> history = activeState.receivedItemHistory;
+            int historyEnd = Math.Min(
+                Math.Max(0, activeState.receivedItemIndex),
+                history?.Count ?? 0
+            );
+            for (int index = 0; index < historyEnd; index++)
             {
-                foreach (string itemName in receivedItems)
+                string itemName = ItemSet.GetCanonicalItemName(
+                    history[index]
+                );
+                if (string.IsNullOrWhiteSpace(itemName))
                 {
-                    counts[itemName] = 1;
+                    continue;
                 }
+
+                counts.TryGetValue(itemName, out int previousCount);
+                counts[itemName] = previousCount + 1;
             }
             return counts;
         }

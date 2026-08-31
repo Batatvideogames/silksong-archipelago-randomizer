@@ -79,6 +79,36 @@ class TestInnateAbilityGraphRows(TestCase):
             ),
         )
 
+    def test_bellhart_ledge_routes_are_never_free(self) -> None:
+        row_ids = (
+            "bellhart/belltown-basement@c",
+            "bellhart/belltown#ground-level>upper-level@pl",
+            "bellhart/belltown-basement-03#hermit>top-exit@pl",
+            (
+                "bellhart/belltown-basement-03"
+                "#lower-passage-2>passage-below-rosary@wp"
+            ),
+            (
+                "bellhart/belltown-basement-03"
+                "#passage-below-rosary>lower-passage-2@wp"
+            ),
+            "bellhart/belltown-04#lower-exits>lower-big-room@ts",
+            "bellhart/belltown-04#lower-big-room>lower-exits@ts",
+        )
+        rows = {
+            **self.graph.transition_by_id,
+            **self.graph.connection_by_id,
+        }
+        for row_id in row_ids:
+            with self.subTest(row_id=row_id):
+                row = rows[row_id]
+                self.assertEqual(row.status, LogicStatus.ACTIVE)
+                self.assertNotIn((), row.requirement.dnf)
+                self.assertTrue(any(
+                    "capability:ledge-grab" in clause
+                    for clause in row.requirement.dnf
+                ))
+
     def test_upper_halfway_tall_platform_dnf_both_directions(
         self,
     ) -> None:

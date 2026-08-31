@@ -38241,7 +38241,7 @@
           "target_node_id": "bellhart/belltown#upper-level",
           "requirement": {
             "raw": "Ledge Grab OR Dash OR Clawline OR Silk Soar OR Faydown Cloak OR Sharpdart OR Shaman Crest OR Cling Grip",
-            "mode": "none",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
@@ -38269,7 +38269,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native.",
+          "notes": "",
           "source_line": 25,
           "raw_cells": {
             "alias": "PL",
@@ -38279,7 +38279,7 @@
             "requirements": "Ledge Grab OR Dash OR Clawline OR Silk Soar OR Faydown Cloak OR Sharpdart OR Shaman Crest OR Cling Grip",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native."
+            "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -40433,7 +40433,7 @@
           },
           "requirement": {
             "raw": "Ledge Grab OR Clawline OR Faydown Cloak OR Cling Grip OR Silk Soar",
-            "mode": "none",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
@@ -40455,7 +40455,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native.",
+          "notes": "",
           "source_line": 130,
           "raw_cells": {
             "alias": "C",
@@ -40466,7 +40466,7 @@
             "requirements": "Ledge Grab OR Clawline OR Faydown Cloak OR Cling Grip OR Silk Soar",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native."
+            "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -40765,7 +40765,7 @@
           "target_node_id": "bellhart/belltown-basement-03#top-exit",
           "requirement": {
             "raw": "Clawline OR Ledge Grab OR Shaman Crest OR (Dash AND Scuttlebrace) OR Faydown Cloak OR Silk Soar OR Cling Grip",
-            "mode": "none",
+            "mode": "expression",
             "dnf": [
               [
                 "item:clawline"
@@ -40791,7 +40791,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native.",
+          "notes": "",
           "source_line": 149,
           "raw_cells": {
             "alias": "PL",
@@ -40801,7 +40801,7 @@
             "requirements": "Clawline OR Ledge Grab OR Shaman Crest OR (Dash AND Scuttlebrace) OR Faydown Cloak OR Silk Soar OR Cling Grip",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native."
+            "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -41484,7 +41484,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native inside the Dash branch.",
+          "notes": "",
           "source_line": 168,
           "raw_cells": {
             "alias": "WP",
@@ -41494,7 +41494,7 @@
             "requirements": "Breakable Floor Opened AND (Cling Grip OR Silk Soar OR (Dash AND Scuttlebrace AND (Ledge Grab OR Clawline OR Faydown Cloak OR Sharpdart OR Beast Crest)))",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native inside the Dash branch."
+            "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -41542,7 +41542,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native. The reciprocal row identifies this state as the breakable floor.",
+          "notes": "The reciprocal row identifies this state as the breakable floor.",
           "source_line": 169,
           "raw_cells": {
             "alias": "WP",
@@ -41552,7 +41552,7 @@
             "requirements": "One way wall broken From Underneath AND (Dash OR Sprint OR Ledge Grab OR Clawline OR Drifter's Cloak OR Faydown Cloak OR Cling Grip OR Shaman Crest OR Architect Crest OR Beast Crest)",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native. The reciprocal row identifies this state as the breakable floor."
+            "notes": "The reciprocal row identifies this state as the breakable floor."
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -42607,7 +42607,7 @@
           "target_node_id": "bellhart/belltown-04#lower-big-room",
           "requirement": {
             "raw": "Break wall AND (Ledge Grab OR Clawline OR Faydown Cloak OR (Dash AND Scuttlebrace) OR Damage Knockback OR Cling Grip)",
-            "mode": "none",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
@@ -42630,7 +42630,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native. The Damage Knockback route is omitted.",
+          "notes": "The Damage Knockback route is omitted.",
           "source_line": 212,
           "raw_cells": {
             "alias": "TS",
@@ -42640,7 +42640,7 @@
             "requirements": "Break wall AND (Ledge Grab OR Clawline OR Faydown Cloak OR (Dash AND Scuttlebrace) OR Damage Knockback OR Cling Grip)",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native. The Damage Knockback route is omitted."
+            "notes": "The Damage Knockback route is omitted."
           },
           "unresolved_reasons": [],
           "logic_status": "active"
@@ -42653,7 +42653,7 @@
           "target_node_id": "bellhart/belltown-04#lower-exits",
           "requirement": {
             "raw": "Break wall AND (Ledge Grab OR Clawline OR Faydown Cloak OR (Dash AND Scuttlebrace) OR Cling Grip)",
-            "mode": "none",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
@@ -42676,7 +42676,7 @@
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
-          "notes": "Ledge Grab is native.",
+          "notes": "",
           "source_line": 213,
           "raw_cells": {
             "alias": "TS",
@@ -42686,7 +42686,7 @@
             "requirements": "Break wall AND (Ledge Grab OR Clawline OR Faydown Cloak OR (Dash AND Scuttlebrace) OR Cling Grip)",
             "todo": "",
             "verification": "",
-            "notes": "Ledge Grab is native."
+            "notes": ""
           },
           "unresolved_reasons": [],
           "logic_status": "active"
