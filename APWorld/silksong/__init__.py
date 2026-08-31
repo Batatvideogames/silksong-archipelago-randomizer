@@ -8,6 +8,7 @@ from collections import Counter
 
 from BaseClasses import (
     CollectionState,
+    DEFAULT_COLLECTION_RULE,
     Item,
     ItemClassification,
     Region,
@@ -41,6 +42,7 @@ from .items import (
     OPTIONAL_START_REPLACEMENT_ITEM,
     POOL_ONLY_USEFUL_ITEM_NAMES,
     QUILL_ITEM,
+    PROGRESSIVE_SILK_HEART_ITEM,
     PROGRESSIVE_SWIFT_STEP_ITEM,
     START_WITH_MAP_ITEMS,
     STARTING_CREST_ITEM_BY_KEY,
@@ -53,7 +55,6 @@ from .items import (
     get_act_one_start_with_map_items,
     get_configured_item_pool_size,
     get_dynamic_trap_capacity,
-    get_act_two_skill_balance_precollected_item_name,
     get_vanilla_reward_name,
     item_data_table,
     item_name_groups,
@@ -63,6 +64,7 @@ from .locations import (
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
     NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    PALE_OIL_LOCATION_CATEGORY,
     OBSERVATION_LOCATION_CATEGORIES,
     PAIRED_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
@@ -70,6 +72,7 @@ from .locations import (
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
     SilksongLocation,
+    canonicalize_location_name,
     location_data_table,
     location_name_groups,
     location_table,
@@ -103,6 +106,7 @@ from .requirements import (
     CRAWFATHER_LOCATION,
     FLEA_HUNT_GOAL_KEY,
     JUDGE_BELL_ITEMS,
+    JUNK_ONLY_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
     MAX_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
@@ -116,11 +120,13 @@ from .requirements import (
     export_abstract_requirements,
     export_logic_item_dependencies,
     export_requirements,
+    export_wish_logic_events,
     get_location_requirements,
     get_logic_item_references,
     is_logic_unknown_location,
     normalize_trails_end_requirement,
 )
+from .wish_events import WISH_LOGIC_EVENTS
 from .rules import (
     enforce_global_shuffle_item_rules,
     finalize_crest_slot_memory_locket_logic,
@@ -150,6 +156,7 @@ LOGIC_PAYLOAD_FIELDS = (
     "requirements",
     "abstract_requirements",
     "logic_item_dependencies",
+    "logic_events",
 )
 LOGIC_UNKNOWN_REGION_NAME = "LogicUnknown"
 
@@ -172,6 +179,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     """Hollow Knight: Silksong item randomizer support for the uploaded BepInEx client."""
 
     game = "Hollow Knight: Silksong"
+    topology_present = True
     author = "BatAtVideoGames"
     web = SilksongWebWorld()
     options_dataclass = SilksongOptions
@@ -301,9 +309,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 get_act_one_excluded_location_names(
                     self.get_category_mode('MajorKey'),
                     self.get_category_mode('Boss'),
-                    self.is_needle_upgrade_randomization_enabled(),
                     self.get_act_one_donation_tool_pouch_requirements(),
                     skips_tier=self.get_skips_tier(),
+                    starting_crest_item=(
+                        STARTING_CREST_ITEM_BY_KEY[
+                            self.resolve_starting_crest()
+                        ]
+                    ),
                 )
                 | verdania_location_names
                 | act_three_only_location_names
@@ -334,7 +346,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.resolve_trap_counts(),
             self.is_split_dash_and_sprint(),
             category_modes,
-            self.is_needle_upgrade_randomization_enabled(),
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
             self.get_minor_family_shuffle_categories(),
@@ -350,7 +361,22 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
+            randomize_ledge_grab=(
+                self.is_ledgegrab_ability_rando_enabled()
+            ),
+            randomize_swim=self.is_swim_ability_rando_enabled(),
         )
+        if (
+            self.get_category_mode('Skill') != 'vanilla'
+            and self.get_category_mode('SilkHeart') == 'anywhere'
+        ):
+            player_early_items = self.multiworld.local_early_items[
+                self.player
+            ]
+            player_early_items[PROGRESSIVE_SILK_HEART_ITEM] = max(
+                1,
+                player_early_items.get(PROGRESSIVE_SILK_HEART_ITEM, 0),
+            )
         if self.is_early_dash_enabled():
             player_early_items = self.multiworld.local_early_items[
                 self.player
@@ -376,6 +402,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
             bool(self.options.early_dash.value)
             and self.get_category_mode('Skill') != 'vanilla'
         )
+
+    def is_ledgegrab_ability_rando_enabled(self) -> bool:
+        return bool(self.options.ledgegrab_ability_rando.value)
+
+    def is_swim_ability_rando_enabled(self) -> bool:
+        return bool(self.options.swim_ability_rando.value)
 
     def is_vanilla_flea_hunt_check(self, location_name: str) -> bool:
         return (
@@ -408,7 +440,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return count
 
     def is_needle_upgrade_randomization_enabled(self) -> bool:
-        return bool(self.options.randomize_needle_upgrades.value)
+        return self.get_category_mode(NEEDLE_UPGRADE_LOCATION_CATEGORY) != 'vanilla'
+
+    def is_pale_oil_randomization_enabled(self) -> bool:
+        return self.get_category_mode(PALE_OIL_LOCATION_CATEGORY) != 'vanilla'
 
     def is_alphabet_mode_enabled(self) -> bool:
         return bool(self.options.alphabet_mode.value) or (
@@ -662,7 +697,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.get_category_modes(),
             self.is_split_dash_and_sprint(),
             STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()],
-            self.is_needle_upgrade_randomization_enabled(),
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
             self.get_minor_family_shuffle_categories(),
@@ -680,6 +714,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
+            randomize_ledge_grab=(
+                self.is_ledgegrab_ability_rando_enabled()
+            ),
+            randomize_swim=self.is_swim_ability_rando_enabled(),
         )
         if percentage > 0 and trap_capacity == 0:
             raise ValueError(
@@ -899,12 +937,46 @@ class SilksongWorld(CachedRuleBuilderWorld):
         for item_name in sorted(precollected_option_items):
             self.multiworld.push_precollected(self.create_item(item_name))
 
+        get_locations = getattr(self.multiworld, 'get_locations', None)
+        addressed_unfilled_locations = (
+            [
+                location
+                for location in get_locations()
+                if (
+                    location.player == self.player
+                    and location.address is not None
+                    and location.item is None
+                )
+            ]
+            if callable(get_locations)
+            else []
+        )
+        nonadvancement_demand_by_lane = Counter(
+            getattr(
+                location,
+                'silksong_placement_category',
+                None,
+            )
+            for location in addressed_unfilled_locations
+            if (
+                location.name
+                in (LOGIC_UNKNOWN_LOCATIONS | JUNK_ONLY_LOCATIONS)
+                or (
+                    location_data_table[location.name].category
+                    == 'CrestSlot'
+                    and not uses_randomized_memory_lockets_for_crest_slots(
+                        self
+                    )
+                )
+            )
+        )
+
+        act_two_balance_precollected_items: list[str] = []
         pool_entries = list(build_item_pool_entries(
             starting_crest_item,
             self.resolve_trap_counts(),
             self.is_split_dash_and_sprint(),
             category_modes,
-            self.is_needle_upgrade_randomization_enabled(),
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
             self.get_minor_family_shuffle_categories(),
@@ -924,6 +996,19 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
             act_one_skips_tier=self.get_skips_tier(),
+            randomize_ledge_grab=(
+                self.is_ledgegrab_ability_rando_enabled()
+            ),
+            randomize_swim=self.is_swim_ability_rando_enabled(),
+            alphabet_nonadvancement_demand_by_placement_category=(
+                nonadvancement_demand_by_lane
+            ),
+            alphabet_item_is_advancement=(
+                lambda item_name: self.create_item(item_name).advancement
+            ),
+            act_two_balance_precollected_items=(
+                act_two_balance_precollected_items
+            ),
         ))
 
         pool_item_names = {entry.name for entry in pool_entries}
@@ -933,34 +1018,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     self.create_item(item_name)
                 )
 
-        if self.is_act_two_content_scope():
-            balance_item_name = (
-                get_act_two_skill_balance_precollected_item_name(
-                    pool_entries,
-                    category_modes,
-                    self.is_automatic_compass_enabled(),
-                    self.is_start_fully_mapped_enabled(),
-                )
+        for balance_item_name in act_two_balance_precollected_items:
+            self.multiworld.push_precollected(
+                self.create_item(balance_item_name)
             )
-            if balance_item_name is not None:
-                self.multiworld.push_precollected(
-                    self.create_item(balance_item_name)
-                )
 
-        get_locations = getattr(self.multiworld, 'get_locations', None)
-        addressed_unfilled_locations = (
-            [
-                location
-                for location in get_locations()
-                if (
-                    location.player == self.player
-                    and location.address is not None
-                    and location.item is None
-                )
-            ]
-            if callable(get_locations)
-            else []
-        )
         location_lane_counts = Counter(
             getattr(
                 location,
@@ -983,17 +1045,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 f"{location_lane_counts!r} != {original_pool_lane_counts!r}."
             )
 
-        unknown_demand_by_lane = Counter(
-            getattr(
-                location,
-                'silksong_placement_category',
-                None,
-            )
-            for location in addressed_unfilled_locations
-            if location.name in LOGIC_UNKNOWN_LOCATIONS
-        )
-        for placement_category, unknown_demand in (
-            unknown_demand_by_lane.items()
+        for placement_category, nonadvancement_demand in (
+            nonadvancement_demand_by_lane.items()
         ):
             matching_indices = [
                 index
@@ -1004,9 +1057,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 not self.create_item(pool_entries[index].name).advancement
                 for index in matching_indices
             )
-            shortage = unknown_demand - nonadvancement_count
+            shortage = nonadvancement_demand - nonadvancement_count
             if shortage <= 0:
                 continue
+
             advancement_indices = [
                 index
                 for index in matching_indices
@@ -1014,7 +1068,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ]
             if len(advancement_indices) < shortage:
                 raise ValueError(
-                    "LogicUnknown placement safety could not replace "
+                    "Non-advancement placement safety could not replace "
                     f"{shortage} advancement item(s) in lane "
                     f"{placement_category!r}."
                 )
@@ -1034,26 +1088,27 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         if len(pool_entries) != original_pool_size:
             raise AssertionError(
-                "LogicUnknown placement safety changed the item-pool size."
+                "Non-advancement placement safety changed the item-pool "
+                "size."
             )
         if Counter(
             entry.placement_category
             for entry in pool_entries
         ) != original_pool_lane_counts:
             raise AssertionError(
-                "LogicUnknown placement safety changed placement lanes."
+                "Non-advancement placement safety changed placement lanes."
             )
-        for placement_category, unknown_demand in (
-            unknown_demand_by_lane.items()
+        for placement_category, nonadvancement_demand in (
+            nonadvancement_demand_by_lane.items()
         ):
             nonadvancement_count = sum(
                 not self.create_item(entry.name).advancement
                 for entry in pool_entries
                 if entry.placement_category == placement_category
             )
-            if nonadvancement_count < unknown_demand:
+            if nonadvancement_count < nonadvancement_demand:
                 raise AssertionError(
-                    "LogicUnknown placement safety left too few "
+                    "Non-advancement placement safety left too few "
                     f"non-advancement items in lane {placement_category!r}."
                 )
 
@@ -1145,11 +1200,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if (
                 data.category == RELIC_TURN_IN_LOCATION_CATEGORY
                 and not self.is_individual_relic_turn_ins_enabled()
-            ):
-                continue
-            if (
-                data.category == NEEDLE_UPGRADE_LOCATION_CATEGORY
-                and not randomize_needle_upgrades
             ):
                 continue
             if (
@@ -1273,18 +1323,308 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 )
             parent_region.locations.append(location)
 
-        if not self.topology_present:
-            for entrance in self.get_entrances():
-                entrance.hide_path = True
+        # These addressless locations turn verified vanilla Wish completions
+        # into ordinary AP event items. A physical source uses its verified
+        # native anchor and exact source rule; it must not inherit a source
+        # check's LogicUnknown placement quarantine. An abstract source lives
+        # directly in that completed-event region.
+        self._silksong_active_wish_logic_events = {}
+        self._silksong_wish_logic_event_anchors = {}
+        excluded_location_names = self.get_goal_excluded_location_names()
+        for event in WISH_LOGIC_EVENTS:
+            if event.source_region:
+                parent_region = native_regions.get(event.source_region)
+                if parent_region is None:
+                    continue
+                anchor = event.source_region
+            else:
+                source_name = canonicalize_location_name(
+                    event.source_location
+                )
+                if source_name in excluded_location_names:
+                    continue
+                if (
+                    source_name == VOLATILE_FLINTBEETLES_QUEST_LOCATION
+                    and self.get_category_mode('MemoryLocket') != 'vanilla'
+                ):
+                    # The option removes this quest source entirely, so it
+                    # cannot contribute a Silk and Soul score point.
+                    continue
+                try:
+                    self.multiworld.get_location(
+                        source_name,
+                        self.player,
+                    )
+                except (KeyError, StopIteration):
+                    # Vanilla observation categories do not create AP reward
+                    # locations. Rebuild their exact declarative source under
+                    # the same native anchor instead of treating them as free.
+                    anchor = choose_location_anchor(
+                        get_location_requirements(
+                            source_name,
+                            pollip_heart_count=pollip_heart_count,
+                        ),
+                        abstract_names,
+                    )
+                    parent_region = (
+                        native_regions[anchor]
+                        if anchor is not None
+                        else pharloom
+                    )
+                else:
+                    anchor = self._silksong_native_location_anchors.get(
+                        source_name
+                    )
+                    parent_region = (
+                        native_regions[anchor]
+                        if anchor is not None
+                        else pharloom
+                    )
+            location = SilksongLocation(
+                self.player,
+                event.location_name,
+                None,
+                parent_region,
+            )
+            location.show_in_spoiler = False
+            parent_region.locations.append(location)
+            self._silksong_active_wish_logic_events[
+                event.location_name
+            ] = event
+            self._silksong_wish_logic_event_anchors[
+                event.location_name
+            ] = anchor
 
-    def reached_region(
+    @staticmethod
+    def _logic_region_label(region_name: str) -> str:
+        if region_name == "Menu":
+            return "Logical Start"
+        if region_name == (
+            "Room Event: event:the-slab/slab-arena/key-of-heretic"
+        ):
+            return "Collect Key of Heretic (Slab Arena)"
+        if not region_name.startswith("Room Node: "):
+            return region_name
+        node_id = region_name.removeprefix("Room Node: ")
+        room_id, separator, subroom_id = node_id.partition("#")
+        room_name = room_id.rsplit("/", 1)[-1]
+        room_label = room_name.replace("-", " ").replace("_", " ").title()
+        if not separator:
+            return room_label
+        subroom_label = (
+            subroom_id.replace("-", " ").replace("_", " ").title()
+        )
+        return f"{room_label} - {subroom_label}"
+
+    @staticmethod
+    def _logic_rule_details(rule, state: CollectionState):
+        if (
+            rule is DEFAULT_COLLECTION_RULE
+            or rule is DEFAULT_COLLECTION_RULE.__func__
+        ):
+            return [{"type": "text", "text": "Nothing"}], True
+        if hasattr(rule, "explain_json"):
+            parts = list(rule.explain_json(state))
+            rendered = "".join(
+                str(part.get("text", "")) for part in parts
+            ).strip()
+            if rendered == "True":
+                return [{"type": "text", "text": "Nothing"}], True
+            return parts, False
+        result = bool(rule(state))
+        return [
+            {
+                "type": "color",
+                "color": "green" if result else "salmon",
+                "text": "Met" if result else "Not met",
+            }
+        ], False
+
+    @staticmethod
+    def _logic_status(
+        value: bool,
+        true_text: str = "Reachable",
+        false_text: str = "Not reachable",
+    ) -> dict[str, str]:
+        return {
+            "type": "color",
+            "color": "green" if value else "salmon",
+            "text": true_text if value else false_text,
+        }
+
+    def explain_rule(
         self,
+        dest_name: str,
         state: CollectionState,
-        region: Region,
-    ) -> None:
-        super().reached_region(state, region)
-        if not self.topology_present:
-            state.path.pop(region, None)
+    ) -> list[dict[str, object]] | None:
+        location = None
+        try:
+            location = self.get_location(dest_name)
+            target_region = location.parent_region
+        except KeyError:
+            try:
+                target_region = self.get_region(dest_name)
+            except KeyError:
+                return None
+
+        if target_region is None:
+            return None
+        target_name = (
+            location.name
+            if location
+            else self._logic_region_label(target_region.name)
+        )
+        parent_reachable = target_region.can_reach(state)
+        overall_reachable = (
+            location.can_reach(state) if location else parent_reachable
+        )
+        message: list[dict[str, object]] = [
+            {
+                "type": "text",
+                "text": "Location: " if location else "Region: ",
+            },
+            {"type": "color", "color": "yellow", "text": target_name},
+            {"type": "text", "text": "\nOverall: "},
+            self._logic_status(overall_reachable),
+        ]
+        if location:
+            local_rule, _ = self._logic_rule_details(
+                location.access_rule,
+                state,
+            )
+            message.append(
+                {"type": "text", "text": "\nLocation requirement: "}
+            )
+            message.extend(local_rule)
+        message.extend(
+            [
+                {"type": "text", "text": "\nParent region: "},
+                {
+                    "type": "text",
+                    "text": self._logic_region_label(target_region.name),
+                },
+                {"type": "text", "text": "\nParent region status: "},
+                self._logic_status(parent_reachable),
+            ]
+        )
+
+        incoming_routes = [
+            entrance
+            for entrance in target_region.entrances
+            if entrance.parent_region is not None
+        ]
+        usable_routes = [
+            entrance
+            for entrance in incoming_routes
+            if entrance.parent_region.can_reach(state)
+            and entrance.access_rule(state)
+        ]
+        shown_routes = usable_routes if parent_reachable else incoming_routes
+        if not shown_routes:
+            if parent_reachable:
+                message.append(
+                    {
+                        "type": "text",
+                        "text": (
+                            "\nThis region is part of the configured "
+                            "starting area."
+                        ),
+                    }
+                )
+            return message
+
+        heading = (
+            "Usable entrance" if parent_reachable else "Possible entrance"
+        )
+        if len(shown_routes) != 1:
+            heading += "s"
+        message.append({"type": "text", "text": f"\n{heading}:"})
+        for entrance in shown_routes:
+            source_region = entrance.parent_region
+            destination_region = entrance.connected_region
+            source_reachable = source_region.can_reach(state)
+            rule_met = entrance.access_rule(state)
+            rule_details, _ = self._logic_rule_details(
+                entrance.access_rule,
+                state,
+            )
+            destination_name = (
+                self._logic_region_label(destination_region.name)
+                if destination_region is not None
+                else "Unconnected"
+            )
+            message.append(
+                {
+                    "type": "text",
+                    "text": (
+                        "\n- "
+                        f"{self._logic_region_label(source_region.name)}"
+                        f" -> {destination_name}"
+                    ),
+                }
+            )
+            if parent_reachable:
+                message.append(
+                    {"type": "text", "text": "\n  Requirement: "}
+                )
+                message.extend(rule_details)
+                continue
+            message.append(
+                {"type": "text", "text": "\n  Source region: "}
+            )
+            message.append(self._logic_status(source_reachable))
+            message.append(
+                {
+                    "type": "text",
+                    "text": "\n  Transition requirement: ",
+                }
+            )
+            message.extend(rule_details)
+            message.append(
+                {"type": "text", "text": "\n  Route status: "}
+            )
+            message.append(
+                self._logic_status(
+                    source_reachable and rule_met,
+                    "Available",
+                    "Blocked",
+                )
+            )
+        return message
+
+    def explain_path(
+        self,
+        entrance,
+        state: CollectionState,
+    ) -> list[dict[str, object]]:
+        source_region = entrance.parent_region
+        destination_region = entrance.connected_region
+        source_name = (
+            self._logic_region_label(source_region.name)
+            if source_region is not None
+            else "Unconnected"
+        )
+        destination_name = (
+            self._logic_region_label(destination_region.name)
+            if destination_region is not None
+            else "Unconnected"
+        )
+        message: list[dict[str, object]] = [
+            {
+                "type": "text",
+                "text": f"{source_name} -> {destination_name}",
+            }
+        ]
+        rule_details, is_free = self._logic_rule_details(
+            entrance.access_rule,
+            state,
+        )
+        if not is_free:
+            message.append(
+                {"type": "text", "text": " | Requires: "}
+            )
+            message.extend(rule_details)
+        return message
 
     def set_rules(self) -> None:
         set_silksong_rules(self)
@@ -1600,6 +1940,37 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 purchase_prices
             )['Wish: An Icon of Hope']
         )
+        exported_requirements = export_requirements(
+            goal_key,
+            flea_hunt_count,
+            self.allows_bellways_before_bell_beast(),
+            (
+                get_crest_slot_memory_locket_count(self)
+                if uses_randomized_memory_lockets_for_crest_slots(self)
+                else 0
+            ),
+            (
+                POLLIP_HEART_COUNT
+                if self.get_category_mode('PollipHeart') != 'vanilla'
+                else 0
+            ),
+            bone_bottom_statue_tool_pouch_count,
+            randomize_needle_upgrades=(
+                self.is_needle_upgrade_randomization_enabled()
+            ),
+            randomize_pale_oils=(
+                self.is_pale_oil_randomization_enabled()
+            ),
+            scuttlebrace_logic_enabled=(
+                self.is_scuttlebrace_logic_enabled()
+            ),
+            spelling_bee_item_names=(
+                self.get_spelling_bee_required_item_names()
+            ),
+            randomized_relics=(
+                self.get_category_mode('Relic') != 'vanilla'
+            ),
+        )
         slot_data = {
             "world_version": WORLD_VERSION,
             "item_name_to_id": dict(self.item_name_to_id),
@@ -1611,8 +1982,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "starting_crest": self.resolve_starting_crest(),
             "early_dash": self.is_early_dash_enabled(),
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
-            "randomize_needle_upgrades":
-                self.is_needle_upgrade_randomization_enabled(),
+            "ledgegrab_ability_rando": (
+                self.is_ledgegrab_ability_rando_enabled()
+            ),
+            "swim_ability_rando": (
+                self.is_swim_ability_rando_enabled()
+            ),
             "alphabet_mode": self.is_alphabet_mode_enabled(),
             "crest_slot_item_flags": {
                 location.name: int(location.item.classification)
@@ -1652,31 +2027,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "rosary_link": self.is_rosary_link_enabled(),
             "shell_shard_link": self.is_shell_shard_link_enabled(),
             "trap_counts": self.resolve_trap_counts(),
-            "requirements": export_requirements(
-                goal_key,
-                flea_hunt_count,
-                self.allows_bellways_before_bell_beast(),
-                (
-                    get_crest_slot_memory_locket_count(self)
-                    if uses_randomized_memory_lockets_for_crest_slots(self)
-                    else 0
-                ),
-                (
-                    POLLIP_HEART_COUNT
-                    if self.get_category_mode('PollipHeart') != 'vanilla'
-                    else 0
-                ),
-                bone_bottom_statue_tool_pouch_count,
-                randomize_needle_upgrades=(
-                    self.is_needle_upgrade_randomization_enabled()
-                ),
-                scuttlebrace_logic_enabled=(
-                    self.is_scuttlebrace_logic_enabled()
-                ),
-                spelling_bee_item_names=(
-                    self.get_spelling_bee_required_item_names()
-                ),
-            ),
+            "requirements": exported_requirements,
             "abstract_requirements": export_abstract_requirements(
                 self.allows_bellways_before_bell_beast(),
                 self.get_category_mode('CrestSlot') != 'vanilla',
@@ -1688,9 +2039,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     if self.get_category_mode('PollipHeart') != 'vanilla'
                     else 0
                 ),
+                randomize_ledge_grab=(
+                    self.is_ledgegrab_ability_rando_enabled()
+                ),
+                randomize_swim=(
+                    self.is_swim_ability_rando_enabled()
+                ),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
                 self.is_split_dash_and_sprint()
+            ),
+            "logic_events": export_wish_logic_events(
+                exported_requirements,
+                getattr(
+                    self,
+                    "_silksong_active_wish_logic_events",
+                    {},
+                ),
             ),
         }
         slot_data.update(

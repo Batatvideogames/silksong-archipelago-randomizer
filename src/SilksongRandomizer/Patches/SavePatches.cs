@@ -120,6 +120,11 @@ namespace SilksongRandomizer.Patches
                 SaveState.Instance = loadedState;
                 RandomizerPlugin.Instance.ClearPendingGameplayQueues();
             }
+            ShakraStockPersistencePatches.ReconcileShakraStock(
+                loadedState,
+                PlayerData.instance
+            );
+            MelodyPatches.ReconcileReceivedOwnership();
 
             // The native spool progress fields mirror the loaded AP inventory.
             // An existing persistent HUD is redrawn afterward.
@@ -129,6 +134,10 @@ namespace SilksongRandomizer.Patches
 
             RandomizerPlugin.Instance.StartCoroutine(
                 StartingCrestFix.EnsureUsableStartingCrest()
+            );
+            RandomizerPlugin.Instance.StartCoroutine(
+                ReceivedItemReconciliation
+                    .ReconcileReceivedMajorKeysAfterLoad(loadedState)
             );
             RandomizerPlugin.Instance.StartCoroutine(
                 ConsumableToolPatches.SynchronizeReceivedConsumables(

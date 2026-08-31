@@ -69,6 +69,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:beast-crest": (_part("Crest: Beast"),),
     "item:bell-shellwood": (_part("Bell: Shellwood"),),
     "item:bellway-blasted-steps": (_part("Bellway: Blasted Steps"),),
+    "item:bellway-bilewater": (_part("Bellway: Bilewater"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
     "item:bellway-far-fields": (_part("Bellway: Far Fields"),),
     "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
@@ -128,6 +129,36 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Beast"),
         _part("Crest: Witch"),
     ),
+    "macro:crest-pogo": (
+        _part("Crest: Hunter", skip_tier=1),
+        _part("Crest: Reaper", skip_tier=1),
+        _part("Crest: Shaman", skip_tier=1),
+        _part("Crest: Architect", skip_tier=1),
+        _part("Crest: Wanderer", skip_tier=1),
+        _part("Crest: Beast", skip_tier=1),
+        _part("Crest: Witch", skip_tier=1),
+    ),
+    "macro:architect-charge": (
+        _part("Ability: Needle Strike", "Crest: Architect"),
+    ),
+    "macro:beast-charge": (
+        _part("Ability: Needle Strike", "Crest: Beast"),
+    ),
+    "macro:hunter-charge": (
+        _part("Ability: Needle Strike", "Crest: Hunter"),
+    ),
+    "macro:reaper-charge": (
+        _part("Ability: Needle Strike", "Crest: Reaper"),
+    ),
+    "macro:shaman-charge": (
+        _part("Ability: Needle Strike", "Crest: Shaman"),
+    ),
+    "macro:wanderer-charge": (
+        _part("Ability: Needle Strike", "Crest: Wanderer"),
+    ),
+    "macro:witch-charge": (
+        _part("Ability: Needle Strike", "Crest: Witch"),
+    ),
     "macro:blasted-crest-pogo": (
         _part("Crest: Hunter", skip_tier=1),
         _part("Crest: Reaper", skip_tier=1),
@@ -147,12 +178,12 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:blasted-easy-heal-stall": (_part(skip_tier=1),),
     "macro:blasted-heal-stall": (_part(skip_tier=3),),
     "macro:any-non-hunter-crest": (
-        _part("Crest: Reaper"),
-        _part("Crest: Shaman"),
-        _part("Crest: Architect"),
-        _part("Crest: Wanderer"),
-        _part("Crest: Beast"),
-        _part("Crest: Witch"),
+        _part("Crest: Reaper", skip_tier=1),
+        _part("Crest: Shaman", skip_tier=1),
+        _part("Crest: Architect", skip_tier=1),
+        _part("Crest: Wanderer", skip_tier=1),
+        _part("Crest: Beast", skip_tier=1),
+        _part("Crest: Witch", skip_tier=1),
     ),
     "macro:any-non-witch-crest": (
         _part("Crest: Hunter"),
@@ -195,6 +226,8 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "capability:break-vines": (_part(),),
     "capability:break-walls": (_part(),),
     "capability:free": (_part(),),
+    "capability:ledge-grab": (_part("Capability: Ledge Grab"),),
+    "capability:swim": (_part("Capability: Swim"),),
     # The client keeps the randomized Wanderer chapel door open, making its
     # monotonic override a free capability in AP logic.
     "capability:wanderer-door-override": (_part(),),
@@ -296,7 +329,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#left")),
     ),
     "event:sinner-s-road/sinner-s-road-styx-room/cage-right-wall-broken": (
-        _part(),
+        _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#cage")),
     ),
     "event:bone-bottom/bone-bottom-town/door-opened-from-other-side": (
         _part(room_node_name("bone-bottom/bonegrave#graveyard")),
@@ -379,6 +412,12 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:deep-docks/deep-docks-forge/gauntlet-defeated": (
         _part(room_node_name("deep-docks/deep-docks-forge#gauntlet")),
     ),
+    "event:deep-docks/deep-docks-forge/open-airlock-up": (
+        _part(room_node_name("deep-docks/deep-docks-forge#gauntlet")),
+    ),
+    "event:deep-docks/deep-docks-forge/open-airlock-down": (
+        _part(room_node_name("deep-docks/deep-docks-forge#forge-daughter")),
+    ),
     # The reverse route says the Forge-side crossing is free
     # and activates the airlock.  This is the same state Lace requires from
     # the opposite direction and is unrelated to the spool-room airlock.
@@ -388,10 +427,8 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "event:deep-docks/deep-docks-forge/activate-airlock": (
         _part(room_node_name("deep-docks/deep-docks-forge#left-area")),
     ),
-    # The switch is on the left side. The separate Forge-Daughter action must
-    # not create a closed route through the current geometry.
     "event:deep-docks/deep-docks-forge/gate-switch-activated": (
-        _part(room_node_name("deep-docks/deep-docks-forge#left-area")),
+        _part(room_node_name("deep-docks/deep-docks-forge#right-area")),
     ),
     "event:deep-docks/deep-docks-lace-intro/defeat-lace": (
         _part(room_node_name("deep-docks/deep-docks-lace-intro#boss-arena")),
@@ -806,22 +843,42 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "blasted-steps/blasted-steps-bellway#room": (
         _part("Path: Blasted Steps - Bellway"),
     ),
-    # Ledge Grab is available from the start, so both routes enter through
-    # Greymoor's Halfway House.
+    # The Sinner's Road entrance uses Hornet's ordinary ledge grab. Keeping
+    # the capability in the clause makes it innate when the option is off and
+    # an additional item gate when Ledge Grab randomization is enabled.
     "sinner-s-road/sinner-s-road-entrance#room": (
-        _part("Path: Greymoor - Halfway House"),
-    ),
-    # The room graph skips the stretch between Bilewater's Bellway and this
-    # entrance. Use the existing east-side route at the boundary.
-    "bilewater/bilewater-entrance#room": (
         _part(
-            "Path: Bilewater - Bellway",
-            "Ancestral Art: Cling Grip",
-            "Ancestral Art: Swift Step",
+            "Path: Greymoor - Halfway House",
+            "Capability: Ledge Grab",
         ),
     ),
+    # The mapper's unresolved left transition is the missing handoff from
+    # Halfway House. Preserve every compilable alternative. Innate Swim keeps
+    # the normal graph unchanged; Swim randomization activates the other gates.
     "greymoor/greymoor-lower-halfway-home-path#room": (
-        _part("Path: Greymoor - Halfway House"),
+        _part("Path: Greymoor - Halfway House", "Swift Step"),
+        _part("Path: Greymoor - Halfway House", "Progressive Swift Step"),
+        _part("Path: Greymoor - Halfway House", "Ancestral Art: Clawline"),
+        _part("Path: Greymoor - Halfway House", "Ability: Faydown Cloak"),
+        _part("Path: Greymoor - Halfway House", "Ability: Drifter's Cloak"),
+        _part("Path: Greymoor - Halfway House", "Usable Sharpdart"),
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Crest: Beast",
+            skip_tier=1,
+        ),
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Usable Flea Brew",
+            skip_tier=1,
+        ),
+        _part("Path: Greymoor - Halfway House", "Capability: Swim"),
+    ),
+    "greymoor/greymoor-east-bellshrine-room#upper-crow-nest": (
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Ancestral Art: Cling Grip",
+        ),
     ),
     "greymoor/greymoor-craw-lake#upper-craw-nest": (
         _part(
@@ -829,10 +886,15 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
             "Ancestral Art: Cling Grip",
         ),
     ),
-    # This room set contains the Bone Scroll side room but not the rest of lower
-    # Greymoor. Its exit lands on the existing Halfway House path.
+    # The Bone Scroll side room is entered from the lower Halfway House route
+    # by swimming or by combining Clawline with the ordinary ledge grab.
     "greymoor/greymoor-bone-scroll-room#room": (
-        _part("Path: Greymoor - Halfway House"),
+        _part("Path: Greymoor - Halfway House", "Capability: Swim"),
+        _part(
+            "Path: Greymoor - Halfway House",
+            "Ancestral Art: Clawline",
+            "Capability: Ledge Grab",
+        ),
     ),
     # Last Judge's arena is outside this room set. Defeating it puts Hornet at
     # the top of the Grand Elevator before the collapse.
@@ -843,6 +905,9 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # room.
     "whisp-thicket/wisp-thicket-bench#bottom": (
         _part("Path: Greymoor - Wisp Thicket"),
+    ),
+    "bilewater/exhaust-organ-external#left-platform": (
+        _part("Path: Bilewater - Exhaust Organ"),
     ),
     # These station connections sit outside the imported rooms. Each route
     # stops at its station.
@@ -857,6 +922,9 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Path: Ventrica - Songclave"),
     ),
 
+    "deep-docks/deep-docks-forge#left-area": (
+        _part("Path: Deep Docks - Forge"),
+    ),
     "deep-docks/deep-docks-chains-upper-east#chain-platforms": (
         _part("Path: Deep Docks - Forge", "Simple Key (Deep Docks)"),
     ),
@@ -919,6 +987,41 @@ _TRANSITION_EXTRA_REQUIREMENTS: Mapping[
 _CURATED_EDGES: tuple[
     tuple[str, str, tuple[CompiledRoomClause, ...]], ...
 ] = (
+    (
+        "shellwood/shellwood-10#ground-level",
+        "shellwood/shellwood-10#central-level",
+        (_part(skip_tier=1),),
+    ),
+    (
+        "bilewater/bilewater-sinner-s-entrance#left-quarter",
+        "bilewater/bilewater-sinner-s-entrance#middle-quarter",
+        (
+            _part("Ancestral Art: Cling Grip", "Ability: Drifter's Cloak"),
+            _part("Ancestral Art: Cling Grip", "Ancestral Art: Clawline"),
+            _part("Ancestral Art: Cling Grip", "Usable Sharpdart"),
+            _part("Ancestral Art: Cling Grip", "Ability: Faydown Cloak", "Capability: Swim"),
+            _part("Ability: Faydown Cloak", "Usable Scuttlebrace", "Capability: Swim"),
+            _part("Ancestral Art: Clawline", "Usable Scuttlebrace"),
+            _part("Usable Sharpdart", "Usable Scuttlebrace"),
+            _part("Swift Step", "Usable Scuttlebrace"),
+        ),
+    ),
+    (
+        "greymoor/greymoor-east-bellshrine-room#upper-crow-nest",
+        "greymoor/greymoor-silver-shells-room#main-path",
+        (
+            _part("Ancestral Art: Silk Soar"),
+            _part("Ability: Faydown Cloak"),
+            _part("Ancestral Art: Cling Grip", skip_tier=1),
+            _part("Ancestral Art: Cling Grip", "Swift Step"),
+            _part("Ancestral Art: Cling Grip", "Ancestral Art: Clawline"),
+            _part("Ancestral Art: Cling Grip", "Usable Sharpdart"),
+            _part("Ancestral Art: Cling Grip", "Ability: Drifter's Cloak"),
+            _part(skip_tier=3),
+            _part("Capability: Ledge Grab", "Swift Step", skip_tier=2),
+            _part("Capability: Ledge Grab", "Ancestral Art: Clawline", skip_tier=2),
+        ),
+    ),
     (
         "sinner-s-road/sinner-s-road-vertical-hall-west#top",
         "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
@@ -1030,13 +1133,13 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
     "Bellshrine: The Marrow": "the-marrow/the-marrow-bellshrine#room",
     "Tool Pouch: Loddie": "the-marrow/the-marrow-jail#room",
     "The Marrow - Rosary Cache #11": (
-        "the-marrow/the-marrow-lava-track#left-maze"
+        "the-marrow/the-marrow-lava-track#left-alcove"
     ),
     "The Marrow - Rosary Cache #12": (
-        "the-marrow/the-marrow-lava-track#left-maze"
+        "the-marrow/the-marrow-lava-track#left-alcove"
     ),
     "The Marrow - Rosary Cache #13": (
-        "the-marrow/the-marrow-lava-track#right-maze"
+        "the-marrow/the-marrow-lava-track#right-alcove"
     ),
     "Map Purchase: Wormways": "wormways/wormways-upper-east#upper-area",
     "Pin Purchase: Vendor Pins": "wormways/wormways-upper-east#upper-area",
@@ -1050,12 +1153,6 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
     "Curveclaw": "hunter-s-march/hunter-s-march-skarr-shop#skarr-shop",
     "Far Fields - Rosary Chest #1": (
         "far-fields/far-fields-fort-upper-passage#left-exit-area"
-    ),
-    "Far Fields - Rosary Chest #2": (
-        "far-fields/far-fields-deep-lower-west#upper-right-alcove"
-    ),
-    "Hunter's March - Rosary Chest": (
-        "hunter-s-march/hunter-s-march-treasure-vault#left-of-door"
     ),
     "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)": (
         "bellhart/belltown-room-relic#room"

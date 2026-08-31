@@ -11,18 +11,19 @@ from .items import (
 )
 from .locations import (
     COURIER_DELIVERY_WISH_LOCATION_NAMES,
-    NEEDLE_UPGRADE_LOCATION_CATEGORY,
     OBSERVATION_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
+    canonicalize_location_name,
     location_data_table,
 )
 from .options import CATEGORY_OPTION_BY_LOCATION_CATEGORY
 from .prices import get_shell_shard_donation_tool_pouch_requirements
 from .requirements import (
     CREST_SLOT_LOCATION_NAMES,
+    JUNK_ONLY_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
     MEMORY_LOCKET_ITEM,
     POLLIP_HEART_COUNT,
@@ -30,6 +31,7 @@ from .requirements import (
     SIMPLE_KEY_ROSARY_BANK,
     UNVERIFIED_PROGRESSION_LOCATIONS,
     get_crawfather_requirements,
+    get_pinmaster_oil_requirements,
     validate_requirements,
 )
 from .requirement_rules import (
@@ -235,9 +237,10 @@ def set_silksong_rules(world) -> None:
         PROGRESSION_ITEMS,
     )
     split_dash_and_sprint = world.is_split_dash_and_sprint()
-    randomize_needle_upgrades = bool(
-        world.options.randomize_needle_upgrades.value
-    )
+    randomize_ledge_grab = world.is_ledgegrab_ability_rando_enabled()
+    randomize_swim = world.is_swim_ability_rando_enabled()
+    randomize_needle_upgrades = world.is_needle_upgrade_randomization_enabled()
+    randomize_pale_oils = world.is_pale_oil_randomization_enabled()
     allow_bellways_before_bell_beast = (
         world.allows_bellways_before_bell_beast()
     )
@@ -293,11 +296,6 @@ def set_silksong_rules(world) -> None:
         ):
             continue
         if (
-            location_data.category == NEEDLE_UPGRADE_LOCATION_CATEGORY
-            and not randomize_needle_upgrades
-        ):
-            continue
-        if (
             location_name == PINMASTER_OIL_QUEST_LOCATION
             and randomize_needle_upgrades
         ):
@@ -350,6 +348,8 @@ def set_silksong_rules(world) -> None:
                 scuttlebrace_logic_enabled=(
                     scuttlebrace_logic_enabled
                 ),
+                randomize_ledge_grab=randomize_ledge_grab,
+                randomize_swim=randomize_swim,
                 pollip_heart_count=pollip_heart_count,
                 anchor_requirement_name=(
                     world._silksong_native_location_anchors.get(
@@ -373,6 +373,8 @@ def set_silksong_rules(world) -> None:
                 scuttlebrace_logic_enabled=(
                     scuttlebrace_logic_enabled
                 ),
+                randomize_ledge_grab=randomize_ledge_grab,
+                randomize_swim=randomize_swim,
                 pollip_heart_count=pollip_heart_count,
                 native_abstract_regions=True,
                 anchor_requirement_name=(
@@ -384,7 +386,8 @@ def set_silksong_rules(world) -> None:
             if location_name == CRAWFATHER_LOCATION:
                 location_rule = build_requirements_rule(
                     get_crawfather_requirements(
-                        randomize_needle_upgrades
+                        randomize_needle_upgrades,
+                        randomize_pale_oils,
                     ),
                     split_dash_and_sprint=split_dash_and_sprint,
                     allow_bellways_before_bell_beast=(
@@ -399,6 +402,9 @@ def set_silksong_rules(world) -> None:
                     scuttlebrace_logic_enabled=(
                         scuttlebrace_logic_enabled
                     ),
+                    randomize_ledge_grab=randomize_ledge_grab,
+                    randomize_swim=randomize_swim,
+                    pollip_heart_count=pollip_heart_count,
                     native_abstract_regions=True,
                 )
             if (
@@ -409,6 +415,28 @@ def set_silksong_rules(world) -> None:
                     location_rule
                     & CrestSlotMemoryLocketRule()
                 )
+        if location_name == PINMASTER_OIL_QUEST_LOCATION:
+            location_rule = build_requirements_rule(
+                get_pinmaster_oil_requirements(randomize_pale_oils),
+                split_dash_and_sprint=split_dash_and_sprint,
+                allow_bellways_before_bell_beast=(
+                    allow_bellways_before_bell_beast
+                ),
+                skips_tier=skips_tier,
+                randomized_crest_slots_enabled=(
+                    randomized_crest_slots_enabled
+                ),
+                starting_location=starting_location,
+                trails_end_requirement=trails_end_requirement,
+                scuttlebrace_logic_enabled=(
+                    scuttlebrace_logic_enabled
+                ),
+                randomize_ledge_grab=randomize_ledge_grab,
+                randomize_swim=randomize_swim,
+                pollip_heart_count=pollip_heart_count,
+                native_abstract_regions=True,
+            )
+
         required_tool_pouch_count = (
             shell_shard_donation_pouch_requirements.get(location_name, 0)
         )
@@ -470,7 +498,10 @@ def set_silksong_rules(world) -> None:
             # an AP check.
             add_item_rule(location, _is_not_rosary_bank_key)
 
-        if location_name in LOGIC_UNKNOWN_LOCATIONS:
+        if (
+            location_name in LOGIC_UNKNOWN_LOCATIONS
+            or location_name in JUNK_ONLY_LOCATIONS
+        ):
             add_item_rule(location, _is_not_progression_item)
         # Randomized Lockets cannot sit behind their all-20 Crest Slot cost.
         # With vanilla Lockets their count is not represented, so the
@@ -484,6 +515,85 @@ def set_silksong_rules(world) -> None:
             )
         elif location_name in UNVERIFIED_PROGRESSION_LOCATIONS:
             add_item_rule(location, _is_not_progression_item)
+
+    for event in getattr(
+        world,
+        "_silksong_active_wish_logic_events",
+        {},
+    ).values():
+        event_location = world.multiworld.get_location(
+            event.location_name,
+            world.player,
+        )
+        if event.source_location:
+            source_name = canonicalize_location_name(
+                event.source_location
+            )
+            event_rule = world._silksong_rule_builder_rules.get(source_name)
+            if event_rule is None:
+                # Vanilla observation categories deliberately omit their AP
+                # reward location.  The native Wish still exists, so rebuild
+                # the same declarative, anchor-relative rule for this hidden
+                # completion event instead of treating the source as free.
+                event_rule = build_location_rule(
+                    source_name,
+                    split_dash_and_sprint=split_dash_and_sprint,
+                    allow_bellways_before_bell_beast=(
+                        allow_bellways_before_bell_beast
+                    ),
+                    skips_tier=skips_tier,
+                    randomized_crest_slots_enabled=(
+                        randomized_crest_slots_enabled
+                    ),
+                    starting_location=starting_location,
+                    trails_end_requirement=trails_end_requirement,
+                    scuttlebrace_logic_enabled=(
+                        scuttlebrace_logic_enabled
+                    ),
+                    randomize_ledge_grab=randomize_ledge_grab,
+                    randomize_swim=randomize_swim,
+                    pollip_heart_count=pollip_heart_count,
+                    native_abstract_regions=True,
+                    anchor_requirement_name=(
+                        world._silksong_wish_logic_event_anchors.get(
+                            event.location_name
+                        )
+                    ),
+                )
+                required_tool_pouch_count = (
+                    shell_shard_donation_pouch_requirements.get(
+                        source_name,
+                        0,
+                    )
+                )
+                if required_tool_pouch_count > 0:
+                    event_rule = event_rule & Has(
+                        PROGRESSIVE_TOOL_POUCH_ITEM,
+                        required_tool_pouch_count,
+                    )
+                if (
+                    randomize_needle_upgrades
+                    and source_name
+                    == RESTORATION_OF_BELLHART_QUEST_LOCATION
+                ):
+                    event_rule = event_rule & Has(
+                        PROGRESSIVE_NEEDLE_UPGRADE_ITEM
+                    )
+                if (
+                    relic_mode != 'vanilla'
+                    and source_name
+                    == RESTORATION_OF_BELLHART_QUEST_LOCATION
+                ):
+                    event_rule = event_rule & HasAny(
+                        *SCROUNGE_RELIC_ITEM_NAMES
+                    )
+            world._silksong_rule_builder_rules[
+                event.location_name
+            ] = event_rule
+            world.set_rule(event_location, event_rule)
+        event_location.place_locked_item(
+            world.create_event(event.item_name)
+        )
 
     goal_key = world.get_goal_key()
     flea_hunt_count = world.get_flea_hunt_goal_count()
@@ -506,6 +616,8 @@ def set_silksong_rules(world) -> None:
         starting_location=starting_location,
         trails_end_requirement=trails_end_requirement,
         scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
         native_abstract_regions=True,
     )
     world._silksong_rule_builder_rules["Goal"] = goal_rule

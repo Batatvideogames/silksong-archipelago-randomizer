@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using HarmonyLib;
+using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
 namespace SilksongRandomizer.Patches
@@ -21,6 +23,18 @@ namespace SilksongRandomizer.Patches
             "Cutscene States/Cutscene/Walk Area";
         private const string BellhartNoCutsceneArrivalPath =
             "Cutscene States/No Cutscene/Walk Area";
+        private const string BoneBottomTitlePath =
+            "Black Thread States/Normal World/Area Title Controller";
+        private const string BellhartTitlePath =
+            "Cutscene States/No Cutscene/Area Title Controller";
+        private const string BellhartDoorOneTitlePath =
+            "Cutscene States/No Cutscene/Area Title Controller (1)";
+        private const string AreaTitleFsmName = "Area Title Control";
+        private const string FleursUpState = "Fleurs Up";
+        private const string FleursUpCityState = "Fleurs Up 2";
+        private const string BigTitleEndState = "Big Title End";
+        private const string BigTitleEndCityState = "Big Title End 2";
+        private const string DestroyTitleState = "Destroy";
 
         // The Bellhart visited bool is written while its first title is still
         // playing. Capture the selected WalkArea in Awake, before any title
@@ -28,6 +42,12 @@ namespace SilksongRandomizer.Patches
         // the whole activation.
         private static readonly Dictionary<int, string>
             SuppressedWalkAreas = new Dictionary<int, string>();
+
+        // The native controller and shared title FSM both write the global
+        // interaction flag. Track only an exact first-arrival title paired
+        // with one of the captured walk zones above.
+        private static string ActiveArrivalTitleScene;
+        private static int ArrivalTitleWriteDepth;
 
         [HarmonyPatch(typeof(WalkArea), "Awake")]
         [HarmonyPostfix]
@@ -96,29 +116,13 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
-        internal static bool ShouldAllowArrivalBench()
+        private static bool HasSuppressedWalkArea(string sceneName)
         {
-            SaveState state = SaveState.Instance;
-            HeroController hero = HeroController.SilentInstance;
-            GameManager gameManager = GameManager.instance;
-            if (state == null ||
-                !state.IsRoomBound ||
-                hero == null ||
-                hero.cState == null ||
-                !hero.cState.nearBench ||
-                hero.controlReqlinquished ||
-                !hero.CanInput() ||
-                gameManager == null ||
-                string.IsNullOrEmpty(gameManager.sceneName))
-            {
-                return false;
-            }
-
-            foreach (string sceneName in SuppressedWalkAreas.Values)
+            foreach (string suppressedScene in SuppressedWalkAreas.Values)
             {
                 if (string.Equals(
+                        suppressedScene,
                         sceneName,
-                        gameManager.sceneName,
                         StringComparison.Ordinal))
                 {
                     return true;
@@ -126,6 +130,151 @@ namespace SilksongRandomizer.Patches
             }
 
             return false;
+        }
+
+        private static bool ShouldTrackArrivalTitle(
+            AreaTitleController controller
+        )
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                controller == null ||
+                playerData == null)
+            {
+                return false;
+            }
+
+            string sceneName = controller.gameObject.scene.name;
+            string hierarchyPath = Utils.GetHierarchyPath(
+                controller.transform
+            );
+            if (!HasSuppressedWalkArea(sceneName))
+            {
+                return false;
+            }
+
+            if (string.Equals(
+                    sceneName,
+                    BoneBottomScene,
+                    StringComparison.Ordinal))
+            {
+                return !playerData.visitedBoneBottom &&
+                       string.Equals(
+                           hierarchyPath,
+                           BoneBottomTitlePath,
+                           StringComparison.Ordinal
+                       );
+            }
+
+            if (!string.Equals(
+                    sceneName,
+                    BellhartScene,
+                    StringComparison.Ordinal) ||
+                (
+                    !string.Equals(
+                        hierarchyPath,
+                        BellhartTitlePath,
+                        StringComparison.Ordinal
+                    ) &&
+                    !string.Equals(
+                        hierarchyPath,
+                        BellhartDoorOneTitlePath,
+                        StringComparison.Ordinal
+                    )
+                ))
+            {
+                return false;
+            }
+
+            return playerData.spinnerDefeated
+                ? !playerData.visitedBellhartSaved
+                : !playerData.visitedBellhartHaunted;
+        }
+
+        private static bool IsActiveArrivalTitle()
+        {
+            if (string.IsNullOrEmpty(ActiveArrivalTitleScene))
+            {
+                return false;
+            }
+
+            SaveState state = SaveState.Instance;
+            GameManager gameManager = GameManager.instance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                gameManager == null ||
+                !string.Equals(
+                    ActiveArrivalTitleScene,
+                    gameManager.sceneName,
+                    StringComparison.Ordinal
+                ))
+            {
+                ClearActiveArrivalTitle();
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void ClearActiveArrivalTitle()
+        {
+            ActiveArrivalTitleScene = null;
+        }
+
+        private static bool IsSharedAreaTitleAction(
+            ActivateInteraction action
+        )
+        {
+            AreaTitle areaTitle = ManagerSingleton<AreaTitle>.Instance;
+            return action != null &&
+                   areaTitle != null &&
+                   action.Owner == areaTitle.gameObject &&
+                   action.Fsm != null &&
+                   string.Equals(
+                       action.Fsm.Name,
+                       AreaTitleFsmName,
+                       StringComparison.Ordinal
+                   ) &&
+                   action.State != null;
+        }
+
+        private static IEnumerator CaptureArrivalTitleWrites(
+            IEnumerator nativeEnumerator
+        )
+        {
+            while (true)
+            {
+                bool hasNext;
+                ArrivalTitleWriteDepth++;
+                try
+                {
+                    hasNext = nativeEnumerator.MoveNext();
+                }
+                finally
+                {
+                    ArrivalTitleWriteDepth--;
+                }
+
+                if (!hasNext)
+                {
+                    AreaTitle areaTitle =
+                        ManagerSingleton<AreaTitle>.Instance;
+                    if (areaTitle == null ||
+                        !areaTitle.gameObject.activeInHierarchy ||
+                        FSMUtility.GetFSM(areaTitle.gameObject) == null)
+                    {
+                        // Fail closed if the shared title was unavailable or
+                        // ended synchronously before this coroutine returned.
+                        ClearActiveArrivalTitle();
+                    }
+
+                    yield break;
+                }
+
+                yield return nativeEnumerator.Current;
+            }
         }
 
         internal static bool ShouldSuppressFirstArrival(
@@ -188,16 +337,111 @@ namespace SilksongRandomizer.Patches
                 : !playerData.visitedBellhartHaunted;
         }
 
-        [HarmonyPatch(typeof(InteractManager), "get_IsDisabled")]
-        private static class ArrivalBenchInteractionPatch
+        [HarmonyPatch(typeof(AreaTitleController), "UnvisitPause")]
+        private static class ArrivalTitleCoroutinePatch
         {
             [HarmonyPostfix]
-            private static void Postfix(ref bool __result)
+            private static void Postfix(
+                AreaTitleController __instance,
+                ref IEnumerator __result
+            )
             {
-                if (__result && ShouldAllowArrivalBench())
+                if (__result == null ||
+                    !ShouldTrackArrivalTitle(__instance))
                 {
-                    __result = false;
+                    return;
                 }
+
+                ActiveArrivalTitleScene =
+                    __instance.gameObject.scene.name;
+                __result = CaptureArrivalTitleWrites(__result);
+            }
+        }
+
+        [HarmonyPatch(typeof(InteractManager), "set_IsDisabled")]
+        private static class ArrivalTitleInteractionSetterPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(bool value)
+            {
+                return !value ||
+                       ArrivalTitleWriteDepth <= 0 ||
+                       !IsActiveArrivalTitle();
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(ActivateInteraction),
+            nameof(ActivateInteraction.OnEnter)
+        )]
+        private static class ArrivalTitleInteractionActionPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(ActivateInteraction __instance)
+            {
+                if (!IsActiveArrivalTitle() ||
+                    !IsSharedAreaTitleAction(__instance) ||
+                    __instance.Activate == null ||
+                    __instance.Activate.Value ||
+                    (
+                        !string.Equals(
+                            __instance.State.Name,
+                            FleursUpState,
+                            StringComparison.Ordinal
+                        ) &&
+                        !string.Equals(
+                            __instance.State.Name,
+                            FleursUpCityState,
+                            StringComparison.Ordinal
+                        )
+                    ))
+                {
+                    return true;
+                }
+
+                // Complete only the shared title FSM's own disable action.
+                // Its wait, animation and FINISHED transition remain native.
+                __instance.Finish();
+                return false;
+            }
+
+            [HarmonyPostfix]
+            private static void Postfix(ActivateInteraction __instance)
+            {
+                if (!IsActiveArrivalTitle() ||
+                    !IsSharedAreaTitleAction(__instance) ||
+                    __instance.Activate == null ||
+                    !__instance.Activate.Value)
+                {
+                    return;
+                }
+
+                string stateName = __instance.State.Name;
+                if (string.Equals(
+                        stateName,
+                        BigTitleEndState,
+                        StringComparison.Ordinal) ||
+                    string.Equals(
+                        stateName,
+                        BigTitleEndCityState,
+                        StringComparison.Ordinal) ||
+                    string.Equals(
+                        stateName,
+                        DestroyTitleState,
+                        StringComparison.Ordinal))
+                {
+                    ClearActiveArrivalTitle();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(InteractManager), "ResetState")]
+        private static class ArrivalTitleSceneResetPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix()
+            {
+                ClearActiveArrivalTitle();
             }
         }
     }

@@ -152,6 +152,8 @@ namespace SilksongRandomizer
         public bool startingLocationApplied;
         public string startingCrest = string.Empty;
         public bool splitDashAndSprint;
+        public bool ledgegrabAbilityRando;
+        public bool swimAbilityRando;
         public bool randomizeNeedleUpgrades;
         public bool startWithMaps;
         public bool startFullyMapped;
@@ -345,6 +347,8 @@ namespace SilksongRandomizer
         public RandomizationMode bellwayRandomization = RandomizationMode.Anywhere;
         public RandomizationMode ventricaRandomization = RandomizationMode.Anywhere;
         public RandomizationMode mapRandomization = RandomizationMode.Anywhere;
+        public RandomizationMode needleUpgradeRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode paleOilRandomization = RandomizationMode.Vanilla;
         public RandomizationMode melodyRandomization = RandomizationMode.Vanilla;
         public RandomizationMode pinRandomization = RandomizationMode.Anywhere;
         public RandomizationMode relicRandomization = RandomizationMode.Anywhere;
@@ -554,6 +558,13 @@ namespace SilksongRandomizer
                     " does not match the required schema " +
                     CurrentSchemaVersion + "."
                 );
+            }
+            if (randomizeNeedleUpgrades &&
+                needleUpgradeRandomization == RandomizationMode.Vanilla &&
+                paleOilRandomization == RandomizationMode.Vanilla)
+            {
+                needleUpgradeRandomization = RandomizationMode.Anywhere;
+                paleOilRandomization = RandomizationMode.Anywhere;
             }
 
             roomSeed = roomSeed ?? string.Empty;
@@ -924,8 +935,10 @@ namespace SilksongRandomizer
             startingLocation = archipelago.StartingLocation ?? string.Empty;
             startingCrest = archipelago.StartingCrest ?? string.Empty;
             splitDashAndSprint = archipelago.SplitDashAndSprint;
+            ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
+            swimAbilityRando = archipelago.SwimAbilityRando;
             randomizeNeedleUpgrades =
-                archipelago.RandomizeNeedleUpgrades;
+                archipelago.NeedleUpgradeRandomization != RandomizationMode.Vanilla;
             startWithMaps = archipelago.StartWithMaps;
             startFullyMapped = archipelago.StartFullyMapped;
             automaticCompass = archipelago.AutomaticCompass;
@@ -977,6 +990,8 @@ namespace SilksongRandomizer
             bellwayRandomization = archipelago.BellwayRandomization;
             ventricaRandomization = archipelago.VentricaRandomization;
             mapRandomization = archipelago.MapRandomization;
+            needleUpgradeRandomization = archipelago.NeedleUpgradeRandomization;
+            paleOilRandomization = archipelago.PaleOilRandomization;
             melodyRandomization = archipelago.MelodyRandomization;
             pinRandomization = archipelago.PinRandomization;
             relicRandomization = archipelago.RelicRandomization;
@@ -1038,8 +1053,9 @@ namespace SilksongRandomizer
                        StringComparison.Ordinal
                    ) &&
                    splitDashAndSprint == archipelago.SplitDashAndSprint &&
-                   randomizeNeedleUpgrades ==
-                       archipelago.RandomizeNeedleUpgrades &&
+                   ledgegrabAbilityRando ==
+                       archipelago.LedgegrabAbilityRando &&
+                   swimAbilityRando == archipelago.SwimAbilityRando &&
                    startWithMaps == archipelago.StartWithMaps &&
                    startFullyMapped == archipelago.StartFullyMapped &&
                    automaticCompass == archipelago.AutomaticCompass &&
@@ -1196,6 +1212,8 @@ namespace SilksongRandomizer
                 Tuple.Create("bellway_randomization", bellwayRandomization, archipelago.BellwayRandomization),
                 Tuple.Create("ventrica_randomization", ventricaRandomization, archipelago.VentricaRandomization),
                 Tuple.Create("map_randomization", mapRandomization, archipelago.MapRandomization),
+                Tuple.Create("needle_upgrade_randomization", needleUpgradeRandomization, archipelago.NeedleUpgradeRandomization),
+                Tuple.Create("pale_oil_randomization", paleOilRandomization, archipelago.PaleOilRandomization),
                 Tuple.Create("melody_randomization", melodyRandomization, archipelago.MelodyRandomization),
                 Tuple.Create("pin_randomization", pinRandomization, archipelago.PinRandomization),
                 Tuple.Create("relic_randomization", relicRandomization, archipelago.RelicRandomization),
@@ -1393,18 +1411,24 @@ namespace SilksongRandomizer
             }
 
             if (roomIdentityMatches &&
-                randomizeNeedleUpgrades !=
-                    archipelago.RandomizeNeedleUpgrades)
+                ledgegrabAbilityRando !=
+                    archipelago.LedgegrabAbilityRando)
             {
-                return "This randomizer save uses randomize_needle_upgrades '" +
-                       randomizeNeedleUpgrades
-                           .ToString()
-                           .ToLowerInvariant() +
-                       "', but the current slot uses '" +
-                       archipelago.RandomizeNeedleUpgrades
-                           .ToString()
-                           .ToLowerInvariant() +
-                       "'. Start or load the save created for this slot's settings.";
+                return GetBooleanSettingMismatchMessage(
+                    "ledgegrab_ability_rando",
+                    ledgegrabAbilityRando,
+                    archipelago.LedgegrabAbilityRando
+                );
+            }
+
+            if (roomIdentityMatches &&
+                swimAbilityRando != archipelago.SwimAbilityRando)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "swim_ability_rando",
+                    swimAbilityRando,
+                    archipelago.SwimAbilityRando
+                );
             }
 
             if (roomIdentityMatches &&
@@ -1776,7 +1800,11 @@ namespace SilksongRandomizer
                 case ItemType.Quest:
                     return questSanityMode;
                 case ItemType.NeedleUpgrade:
-                    return randomizeNeedleUpgrades
+                    return needleUpgradeRandomization;
+                case ItemType.PaleOil:
+                    return paleOilRandomization;
+                case ItemType.InnateAbility:
+                    return ledgegrabAbilityRando || swimAbilityRando
                         ? RandomizationMode.Anywhere
                         : RandomizationMode.Vanilla;
                 default:
@@ -1872,7 +1900,7 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            if (randomizeNeedleUpgrades &&
+            if (needleUpgradeRandomization != RandomizationMode.Vanilla &&
                 string.Equals(
                     canonicalName,
                     "Wish: Pinmaster's Oil",

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using SilksongRandomizer;
 using System;
 
@@ -17,6 +17,18 @@ internal static class HeroControllerWallJumpPatch
     private static void Restore(PlayerData playerData, bool oldValue)
     {
         playerData.hasWalljump = oldValue;
+    }
+
+    [HarmonyPatch(typeof(HeroController), "BeginWallSlide", typeof(bool))]
+    private static class BeginWallSlidePatch
+    {
+        private static bool Prefix()
+        {
+            SaveState state = SaveState.Instance;
+            return state == null ||
+                !state.IsRandomized(ItemType.Skill) ||
+                state.canWallJump;
+        }
     }
 
     [HarmonyPatch(typeof(HeroController), "TryQueueWallJumpInterrupt")]

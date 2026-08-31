@@ -404,6 +404,23 @@ namespace SilksongRandomizer.Patches
                    !playerData.BelltownDoctorCuredCurse;
         }
 
+        private static bool IsCursedEndingGoal()
+        {
+            SaveState state = SaveState.Instance;
+            return state?.IsRoomBound == true &&
+                   string.Equals(
+                       state.goal,
+                       Archipelago.CursedEndingGoal,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        private static bool ShouldOfferYarnabyCure(PlayerData playerData)
+        {
+            return !IsCursedEndingGoal() &&
+                   HasGenuineGreyrootCurse(playerData);
+        }
+
         private static void LogFailure(string reason)
         {
             RandomizerPlugin.Log?.LogWarning(
@@ -426,10 +443,11 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                if (HasGenuineGreyrootCurse(PlayerData.instance))
+                if (ShouldOfferYarnabyCure(PlayerData.instance))
                 {
                     // The TRUE event and all vanilla quest handling remain
-                    // active for Greyroot's real permanent curse.
+                    // active for Greyroot's real permanent curse unless the
+                    // configured goal requires preserving it.
                     return true;
                 }
 
@@ -440,8 +458,8 @@ namespace SilksongRandomizer.Patches
                 __instance.Fsm.Event(__instance.IsNotExpectedEvent);
                 __instance.Finish();
                 RandomizerPlugin.Log?.LogInfo(
-                    "[RANDOMIZER] Yarnaby ignored a temporary or " +
-                    "non-Greyroot Cursed Crest."
+                    "[RANDOMIZER] Yarnaby skipped the curse cure for the " +
+                    "configured goal or a non-Greyroot Cursed Crest."
                 );
                 return false;
             }

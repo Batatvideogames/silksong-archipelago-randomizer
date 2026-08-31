@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Iterable
 
+from BaseClasses import LocationProgressType
+
 from .items import get_vanilla_reward_name
 from .locations import (
     OBSERVATION_LOCATION_CATEGORIES,
@@ -270,6 +272,11 @@ def _shuffle_reachability_failures(
             for location in shuffled_locations
             if (
                 not location.can_reach(maximum_state)
+                and getattr(
+                    location,
+                    "progress_type",
+                    LocationProgressType.DEFAULT,
+                ) != LocationProgressType.EXCLUDED
                 and (
                     location.player not in minimal_players
                     or (
@@ -395,7 +402,8 @@ def prefill_category_shuffles(
         if multiworld.worlds[player].game == game_name
     )
 
-    # Root the shuffled Skill lane from Quill through Silk Soar.
+    # Root the shuffled Skill lane from Quill through Clawline. Clawline's
+    # physical source stays filler-only while its route remains unresolved.
     for player in silksong_players:
         lane = ("Skill", player)
         if lane in planned_items_by_lane:
@@ -418,7 +426,7 @@ def prefill_category_shuffles(
                 planned_items_by_lane[lane],
                 player,
                 "Cling Grip",
-                "Silk Soar",
+                "Clawline",
             )
 
     # The modeled Bellhart/Greymoor/Shellwood cluster otherwise has no

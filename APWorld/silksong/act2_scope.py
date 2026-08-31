@@ -127,7 +127,8 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Mask Shard #19": 1,
     },
     "Silkeater": {"Silkeater": 1},
-    "NeedleUpgrade": {"Pale Oil": 1, "Progressive Needle Upgrade": 1},
+    "NeedleUpgrade": {"Progressive Needle Upgrade": 1},
+    "PaleOil": {"Pale Oil": 1},
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {

@@ -20,7 +20,7 @@ VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "bellhart": "Bellhart",
     "far-fields": "Far Fields",
     "hunter-s-march": "Hunter's March",
-    "cogwork-core": "Outlying Citadel",
+    "cogwork-core": "Cogwork Core",
     "choral-chambers": "Choral Chambers",
     "grand-gate": "Grand Gate",
     "greymoor": "Greymoor",
@@ -37,6 +37,14 @@ VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "bilewater": "Bilewater",
     "sands-of-karak": "Sands of Karak",
     "the-slab": "The Slab",
+}
+
+VOG_HINT_PATH_AREA_NAMES: dict[str, str] = {
+    "Outlying Citadel - Lower Cogwork Core": "Cogwork Core",
+    "Outlying Citadel - Cogwork Core": "Cogwork Core",
+    "Outlying Citadel - High Halls Ventrica": "High Halls",
+    "Outlying Citadel - Memorium": "Memorium",
+    "Outlying Citadel - Library": "Whispering Vaults",
 }
 
 # Folder names usually match Vog's hint areas. The Choral Chambers folder also
@@ -178,7 +186,9 @@ def get_vog_hint_areas(location_name: str) -> frozenset[str]:
     for requirement in REQUIREMENTS.get(location_name, ()):
         path_name = requirement.path_name.strip()
         if path_name:
-            area_name = path_name.split(" - ", 1)[0].strip()
+            area_name = VOG_HINT_PATH_AREA_NAMES.get(path_name)
+            if area_name is None:
+                area_name = path_name.split(" - ", 1)[0].strip()
             if area_name:
                 areas.add(area_name)
 

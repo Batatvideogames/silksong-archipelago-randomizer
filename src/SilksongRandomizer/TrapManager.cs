@@ -388,15 +388,19 @@ namespace SilksongRandomizer
         /// HeroSlabCapture.ApplyCaptured calls this immediately before its
         /// AutoEquip(Cloakless, markTemp:false, swapTools:true).
         /// </summary>
-        internal static void PrepareForNativeSlabCapture()
+        internal static bool PrepareForNativeSlabCapture()
         {
             pendingCursedCrest = false;
             if (HasCursedCrestState && !TryRestoreCursedCrest())
             {
-                ForceRestoreCursedCrestFieldsForSave();
+                if (!ForceRestoreCursedCrestFieldsForSave())
+                {
+                    return false;
+                }
+                ClearCursedCrestState();
             }
 
-            NakedTrapManager.Reset();
+            return NakedTrapManager.Reset();
         }
 
         /// <summary>
@@ -522,6 +526,16 @@ namespace SilksongRandomizer
             }
 
             PlayerData playerData = PlayerData.instance;
+            if (playerData != null && playerData.atBench)
+            {
+                if (TryRestoreCursedCrest())
+                {
+                    RefillSilkAtBench();
+                }
+                TryApplyPendingCursedCrest();
+                return;
+            }
+
             if (playerData != null &&
                 !string.Equals(
                     playerData.CurrentCrestID,
@@ -531,6 +545,7 @@ namespace SilksongRandomizer
             {
                 // A story transition changed the crest, so the new state takes
                 // ownership.
+                RequestCursedCrestRuntimeRefresh();
                 ClearCursedCrestState();
                 TryApplyPendingCursedCrest();
                 return;
@@ -545,13 +560,18 @@ namespace SilksongRandomizer
 
         internal static void PrepareForSave()
         {
-            // CurrentCrestID is part of PlayerData. Ending this trap before
-            // CreateSaveGameData prevents a two-minute effect from ever being
-            // written into the randomizer save.
+            bool refillSilk = PlayerData.instance?.atBench == true;
             if (HasCursedCrestState && !TryRestoreCursedCrest())
             {
-                ForceRestoreCursedCrestFieldsForSave();
+                if (!ForceRestoreCursedCrestFieldsForSave())
+                {
+                    throw new InvalidOperationException(
+                        "Cursed Crest Trap could not restore the saved crest."
+                    );
+                }
+                ClearCursedCrestState();
             }
+            if (refillSilk) RefillSilkAtBench();
             NakedTrapManager.PrepareForSave();
         }
 
@@ -750,12 +770,20 @@ namespace SilksongRandomizer
                     return false;
                 }
 
+                if (playerData.IsAnyCursed &&
+                    !playerData.IsCurrentCrestTemp)
+                {
+                    RelinquishCursedCrestForNativeCurse();
+                    return true;
+                }
+
                 if (!string.Equals(
                     playerData.CurrentCrestID,
                     cursedCrestInternalName,
                     StringComparison.Ordinal
                 ))
                 {
+                    RequestCursedCrestRuntimeRefresh();
                     ClearCursedCrestState();
                     return true;
                 }
@@ -799,6 +827,26 @@ namespace SilksongRandomizer
             }
         }
 
+        private static void RefillSilkAtBench()
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null ||
+                !playerData.atBench ||
+                playerData.IsAnyCursed)
+            {
+                return;
+            }
+
+            int missingSilk = playerData.CurrentSilkMax - playerData.silk;
+            if (missingSilk > 0)
+            {
+                playerData.AddSilk(missingSilk);
+                cursedCrestSilkRefreshPending = true;
+                cursedCrestSpoolRefreshPending = true;
+                TryCompleteCursedCrestRuntimeRefresh();
+            }
+        }
+
         private static void SetCrest(ToolCrest crest, bool markTemporary)
         {
             // Trap transitions finalize their exact PlayerData bookkeeping
@@ -815,17 +863,27 @@ namespace SilksongRandomizer
             }
         }
 
-        private static void ForceRestoreCursedCrestFieldsForSave()
+        private static bool ForceRestoreCursedCrestFieldsForSave()
         {
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null)
+            {
+                return false;
+            }
+            if (!string.Equals(
+                    playerData.CurrentCrestID,
+                    cursedCrestInternalName,
+                    StringComparison.Ordinal))
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(previousCrestInternalName))
+            {
+                return false;
+            }
+
             try
             {
-                PlayerData playerData = PlayerData.instance;
-                if (playerData == null ||
-                    string.IsNullOrEmpty(previousCrestInternalName))
-                {
-                    return;
-                }
-
                 // Save safety takes precedence over keeping the visual trap
                 // alive. These are the exact three values snapshotted before
                 // Cursed Crest was equipped.
@@ -834,16 +892,25 @@ namespace SilksongRandomizer
                     previousPreviousCrestInternalName;
                 playerData.IsCurrentCrestTemp =
                     previousCrestWasTemporary;
+                if (string.Equals(
+                        playerData.CurrentCrestID,
+                        cursedCrestInternalName,
+                        StringComparison.Ordinal))
+                {
+                    return false;
+                }
 
                 RequestCursedCrestRuntimeRefresh();
+                return true;
             }
             catch (Exception ex)
             {
                 Warn("Cursed Crest save fallback failed", ex);
-            }
-            finally
-            {
-                ClearCursedCrestState();
+                return !string.Equals(
+                    playerData.CurrentCrestID,
+                    cursedCrestInternalName,
+                    StringComparison.Ordinal
+                );
             }
         }
 

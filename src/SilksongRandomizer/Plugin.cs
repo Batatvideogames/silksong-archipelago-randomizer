@@ -26,7 +26,7 @@ namespace SilksongRandomizer
             Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.4.4";
+        public const string PluginVersion = "0.4.5";
 
         public static bool OverrideUnlock { get; set; } = true;
 
@@ -671,7 +671,10 @@ namespace SilksongRandomizer
             LoreTabletPatches.UpdateInactiveSources();
             ProcessConnectionStatusQueue();
             ProcessAutomaticReconnectRequest();
+            Archipelago.Instance?.ProcessReceivedItems();
             ProcessQueuedReceivedItems();
+            BeastlingCallAct3Safety.Update();
+            InnateAbilityManager.Update();
             ProcessQueuedUnlockPopups();
             ShopPatches.ProcessQueuedHintRefreshes();
 
@@ -730,8 +733,9 @@ namespace SilksongRandomizer
             {
                 archipelago.Disconnect();
             }
-            ProcessDisconnectSaveRequest();
+            ProcessDisconnectSaveRequest(true);
             TrapManager.ResetTransientEffects();
+            BeastlingCallAct3Safety.Reset();
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
             CurrencyLinkManager.Reset();
@@ -802,7 +806,9 @@ namespace SilksongRandomizer
             saveAfterDisconnectRequested = true;
         }
 
-        private void ProcessDisconnectSaveRequest()
+        private void ProcessDisconnectSaveRequest(
+            bool flushImmediately = false
+        )
         {
             if (!saveAfterDisconnectRequested)
             {
@@ -824,7 +830,10 @@ namespace SilksongRandomizer
 
             saveAfterDisconnectRequested = false;
             gameManager.QueueSaveGame();
-            gameManager.DoQueuedSaveGame();
+            if (flushImmediately)
+            {
+                gameManager.DoQueuedSaveGame();
+            }
         }
 
         private void ProcessConnectionStatusQueue()
@@ -891,6 +900,7 @@ namespace SilksongRandomizer
         public void ClearPendingGameplayQueues()
         {
             TrapManager.ResetTransientEffects();
+            BeastlingCallAct3Safety.Reset();
             VogHintManager.Reset();
 
             lock (receivedItemQueueLock)

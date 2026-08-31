@@ -257,12 +257,12 @@ namespace SilksongRandomizer.Patches
     {
         [HarmonyPrefix]
         [HarmonyPriority(Priority.First)]
-        private static void Prefix()
+        private static bool Prefix()
         {
             // HeroSlabCapture snapshots CurrentCrestID into PreviousCrestID.
             // End temporary randomizer crest ownership first so the saved
             // return crest is always the player's genuine pre-capture crest.
-            TrapManager.PrepareForNativeSlabCapture();
+            return TrapManager.PrepareForNativeSlabCapture();
         }
     }
 

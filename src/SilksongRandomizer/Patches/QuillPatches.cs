@@ -10,6 +10,79 @@ namespace SilksongRandomizer.Patches
 {
     internal static class QuillPatches
     {
+        internal const string QuillItemName = "Item: Quill";
+        internal const string ProgressiveCompassItemName =
+            "Progressive Compass";
+
+        internal static void GrantQuill()
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null)
+            {
+                throw new InvalidOperationException(
+                    "Cannot grant Quill without an active randomizer save."
+                );
+            }
+
+            state.canUseQuill = true;
+            RefreshQuillMap();
+        }
+
+        internal static bool ReconcileReceivedQuill(
+            SaveState state,
+            PlayerData playerData,
+            bool hasReceivedQuill
+        )
+        {
+            if (state == null ||
+                !hasReceivedQuill ||
+                state.canUseQuill)
+            {
+                return false;
+            }
+
+            state.canUseQuill = true;
+            RefreshQuillMap(playerData);
+            return true;
+        }
+
+        private static void RefreshQuillMap(
+            PlayerData knownPlayerData = null
+        )
+        {
+            GameManager gameManager = GameManager.UnsafeInstance;
+            PlayerData playerData = knownPlayerData ??
+                (gameManager == null ? null : gameManager.playerData);
+            if (playerData == null)
+            {
+                return;
+            }
+
+            // Keep the native flag false until Shakra's Quill is purchased.
+            // That flag is also the source-location completion signal.
+            playerData.mapUpdateQueued = true;
+            playerData.HasSeenMapUpdated = false;
+            CollectableItemManager.IncrementVersion();
+
+            if (gameManager == null)
+            {
+                return;
+            }
+
+            try
+            {
+                gameManager.UpdateGameMap();
+            }
+            catch (Exception exception)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Could not refresh the map after " +
+                    "receiving Quill; a later map refresh will retry: " +
+                    exception.Message
+                );
+            }
+        }
+
         private static bool CanUseQuill()
         {
             SaveState state = SaveState.Instance;
@@ -38,6 +111,29 @@ namespace SilksongRandomizer.Patches
             return state == null || !state.IsRandomized(ItemType.Skill)
                 ? playerData != null && playerData.hasQuill
                 : state.canUseQuill;
+        }
+
+        private static int GetQuillState(PlayerData playerData)
+        {
+            int nativeState = playerData == null
+                ? 0
+                : playerData.QuillState;
+            SaveState state = SaveState.Instance;
+            bool virtualizeState = state != null &&
+                (state.startFullyMapped ||
+                 (state.IsRandomized(ItemType.Skill) &&
+                  state.canUseQuill));
+            return ResolveQuillState(virtualizeState, nativeState);
+        }
+
+        private static int ResolveQuillState(
+            bool virtualizeState,
+            int nativeState
+        )
+        {
+            return virtualizeState
+                ? Math.Max(1, nativeState)
+                : nativeState;
         }
 
         [HarmonyPatch(typeof(GameMap), "SetupMap", new[] { typeof(bool) })]
@@ -76,7 +172,9 @@ namespace SilksongRandomizer.Patches
         {
             private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
-                return ReplacePlayerDataHasQuillReads(instructions);
+                return ReplacePlayerDataQuillStateReads(
+                    ReplacePlayerDataHasQuillReads(instructions)
+                );
             }
         }
 
@@ -111,6 +209,48 @@ namespace SilksongRandomizer.Patches
                     instruction.operand = replacement;
                 }
                 else if (hasQuillGetter != null && instruction.Calls(hasQuillGetter))
+                {
+                    instruction.opcode = OpCodes.Call;
+                    instruction.operand = replacement;
+                }
+
+                yield return instruction;
+            }
+        }
+
+        private static IEnumerable<CodeInstruction>
+            ReplacePlayerDataQuillStateReads(
+                IEnumerable<CodeInstruction> instructions
+            )
+        {
+            FieldInfo quillStateField = AccessTools.Field(
+                typeof(PlayerData),
+                "QuillState"
+            );
+            PropertyInfo quillStateProperty = typeof(PlayerData).GetProperty(
+                "QuillState",
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.NonPublic
+            );
+            MethodInfo quillStateGetter =
+                quillStateProperty?.GetGetMethod(true);
+            MethodInfo replacement = AccessTools.Method(
+                typeof(QuillPatches),
+                nameof(GetQuillState),
+                new[] { typeof(PlayerData) }
+            );
+
+            foreach (CodeInstruction instruction in instructions)
+            {
+                if (quillStateField != null &&
+                    instruction.LoadsField(quillStateField))
+                {
+                    instruction.opcode = OpCodes.Call;
+                    instruction.operand = replacement;
+                }
+                else if (quillStateGetter != null &&
+                         instruction.Calls(quillStateGetter))
                 {
                     instruction.opcode = OpCodes.Call;
                     instruction.operand = replacement;

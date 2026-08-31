@@ -66,7 +66,12 @@ _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(
     COMPILED_ROOM_GRAPH.check_source_ids.items()
     if any(
         source_id.startswith(
-            ("choral-chambers/", "underworks/", "grand-gate/")
+            (
+                "choral-chambers/",
+                "cogwork-core/",
+                "underworks/",
+                "grand-gate/",
+            )
         )
         for source_id in source_ids
     )
@@ -127,6 +132,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "The Slab - Frayed Rosary String #2",
         "The Slab - Frayed Rosary String #3",
         "Choral Chambers - Heavy Rosary Necklace",
+        "Cogwork Core - Shard Bundle",
         "Songclave - Heavy Rosary Necklace",
         "Underworks - Frayed Rosary String #2",
         "Wisp Thicket - Rosary Necklace",
@@ -134,8 +140,11 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Rosary Cache #4",
         "Deep Docks - Rosary Cache #5",
         "Deep Docks - Rosary Cache #6",
+        "Deep Docks - Rosary Cache #1",
+        "Deep Docks - Rosary Cache #2",
         "Greymoor - Rosary Cache #1",
         "Greymoor - Rosary Cache #20",
+        "Flea: Exhaust Organ",
         "Sinner's Road - Rosary Cache #8",
         "Bone Bottom - Shell Shard Cache",
         "Deep Docks - Shell Shard Cache #1",
@@ -149,7 +158,6 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Shell Shard Cache #10",
         "Far Fields - Pale Rosary Necklace",
         "Far Fields - Rosary Cache #18",
-        "Far Fields - Rosary Chest #2",
         "Far Fields - Shell Shard Cache #2",
         "Far Fields - Shell Shard Cache #3",
         "Far Fields - Shell Shard Cache #8",
@@ -162,6 +170,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Sands of Karak - Shell Shard Cache #10",
         "Sinner's Road - Shell Shard Cache #4",
         "Sinner's Road - Shell Shard Cache #5",
+        "Roachkeeper - Simple Key",
         "Wisp Thicket - Shell Shard Cache #1",
         "Wisp Thicket - Shell Shard Cache #2",
         "Wisp Thicket - Shell Shard Cache #3",
@@ -176,10 +185,42 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
 
 _ACT_ONE_EASY_SKIP_LOCATION_NAMES = frozenset(
     (
+        "Flea: Sinner's Road",
+        "Sinner's Road - Shard Bundle",
+        "Bilewater - Rosary Cache #1",
+        "Bilewater - Rosary Cache #2",
+        "Sinner's Road - Rosary Cache #5",
+        "Sinner's Road - Rosary Cache #6",
+        "Sinner's Road - Rosary Cache #7",
         "Greymoor - Rosary Cache #2",
         "Greymoor - Rosary Cache #3",
     )
 )
+_POST_ACT_ONE_CREST_SLOT_LOCATION_NAMES_BY_CREST = {
+    "Crest: Witch": frozenset(
+        (
+            "Crest Slot: Witch (Red 1)",
+            "Crest Slot: Witch (Blue 1)",
+            "Crest Slot: Witch (Blue 2)",
+        )
+    ),
+    "Crest: Architect": frozenset(
+        (
+            "Crest Slot: Architect (Blue 1)",
+            "Crest Slot: Architect (Yellow 1)",
+            "Crest Slot: Architect (Yellow 2)",
+            "Crest Slot: Architect (Blue 2)",
+        )
+    ),
+    "Crest: Shaman": frozenset(
+        (
+            "Crest Slot: Shaman (Blue 1)",
+            "Crest Slot: Shaman (Blue 2)",
+        )
+    ),
+}
+
+
 ACT_ONE_EXCLUDED_LOCATION_NAMES = (
     _POST_ACT_ONE_SOURCE_LOCATION_NAMES
     | _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES
@@ -191,9 +232,9 @@ ACT_ONE_EXCLUDED_LOCATION_NAMES = (
 def get_act_one_excluded_location_names(
     major_key_mode: str = "vanilla",
     boss_mode: str = "anywhere",
-    randomize_needle_upgrades: bool = False,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     skips_tier: int = 0,
+    starting_crest_item: str | None = None,
 ) -> frozenset[str]:
     if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(
@@ -208,7 +249,12 @@ def get_act_one_excluded_location_names(
     if any(requirement < 0 for requirement in requirements.values()):
         raise ValueError("Tool Pouch requirements cannot be negative")
 
-    excluded = ACT_ONE_EXCLUDED_LOCATION_NAMES
+    excluded = ACT_ONE_EXCLUDED_LOCATION_NAMES - (
+        _POST_ACT_ONE_CREST_SLOT_LOCATION_NAMES_BY_CREST.get(
+            starting_crest_item,
+            frozenset(),
+        )
+    )
     if skips_tier < 1:
         excluded |= _ACT_ONE_EASY_SKIP_LOCATION_NAMES
     if (

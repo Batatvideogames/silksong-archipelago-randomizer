@@ -45,6 +45,8 @@ namespace SilksongRandomizer
         MajorKey,
         ToolPouch,
         LoreTablet,
+        PaleOil,
+        InnateAbility,
     }
 
     public class Item

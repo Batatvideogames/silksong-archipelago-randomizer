@@ -21,6 +21,7 @@ namespace SilksongRandomizer
         private static bool active;
         private static bool suspendedForSave;
         private static bool internalCrestWrite;
+        private static bool runtimeRefreshPending;
         private static float deadline;
         private static float pendingDuration = DurationSeconds;
 
@@ -28,21 +29,26 @@ namespace SilksongRandomizer
         private static string restorePreviousCrestInternalName = string.Empty;
         private static bool restoreCrestWasTemporary;
 
-        internal static bool IsActive => active && !suspendedForSave;
+        internal static bool IsActive => active;
         internal static bool HasState => active || pending || suspendedForSave;
         internal static bool SuppressesCloakAbilities =>
             IsActive && IsNativeCloaklessEquipped();
 
         internal static bool CanProcessReceivedItems(HeroController hero)
         {
+            return IsActive && IsSafeGameplayState(hero);
+        }
+
+        private static bool IsSafeGameplayState(HeroController hero)
+        {
             GameManager gameManager = GameManager.SilentInstance;
             PlayerData playerData = PlayerData.instance;
-            return IsActive &&
-                   hero != null &&
+            return hero != null &&
                    gameManager != null &&
                    playerData != null &&
                    gameManager.GameState == GameState.PLAYING &&
                    gameManager.IsGameplayScene() &&
+                   !gameManager.IsMemoryScene() &&
                    !gameManager.isPaused &&
                    !gameManager.IsLoadingSceneTransition &&
                    !gameManager.IsInSceneTransition &&
@@ -83,6 +89,8 @@ namespace SilksongRandomizer
 
         internal static void Update()
         {
+            TryCompleteRuntimeRefresh();
+
             PlayerData playerData = PlayerData.instance;
             if (HasState && playerData != null && playerData.atBench)
             {
@@ -92,12 +100,18 @@ namespace SilksongRandomizer
                 return;
             }
 
-            if (active && !suspendedForSave)
+            if (active &&
+                !IsSafeGameplayState(HeroController.instance))
+            {
+                SuspendUntilSafe();
+            }
+
+            if (active)
             {
                 UpdateActiveEffect();
             }
 
-            if (pending && !active && !suspendedForSave)
+            if (pending && !active)
             {
                 TryStartPending();
             }
@@ -127,52 +141,65 @@ namespace SilksongRandomizer
             // sequence has restored ordinary crest state.
             if (markTemporary)
             {
-                PrepareForNativeTemporaryCrest(true);
-                return false;
+                return !PrepareForNativeTemporaryCrest(true);
             }
 
             RememberRequestedRestoreCrest(crestName, false);
             return true;
         }
 
-        internal static void PrepareForNativeTemporaryCrest(
+        internal static bool PrepareForNativeTemporaryCrest(
             bool markTemporary)
         {
             if (!markTemporary || !IsActive)
             {
-                return;
+                return true;
             }
 
             float remaining = Math.Max(0f, deadline - Time.unscaledTime);
-            if (!TryRestorePhysicalCrest())
+            if (!TryRestorePhysicalCrest() &&
+                !ForceRestoreSnapshotFields())
             {
-                // The native sequence cannot snapshot Cloakless as its
-                // return crest. Update will retry after the current frame.
-                return;
+                return false;
             }
 
             active = false;
             pending = remaining > 0f;
             pendingDuration = remaining;
             ClearRestoreSnapshot();
+            return true;
+        }
+
+        internal static void PrepareForInventory()
+        {
+            if (active)
+            {
+                SuspendUntilSafe();
+            }
         }
 
         internal static void PrepareForSave()
         {
-            if (!active || suspendedForSave)
+            if (suspendedForSave || !HasState)
             {
                 return;
             }
 
-            float remaining = Math.Max(0f, deadline - Time.unscaledTime);
-            if (!TryRestorePhysicalCrest())
+            float remaining = active
+                ? Math.Max(0f, deadline - Time.unscaledTime)
+                : Math.Max(0f, pendingDuration);
+            if (active &&
+                !TryRestorePhysicalCrest() &&
+                !ForceRestoreSnapshotFields())
             {
-                ForceRestoreSnapshotFields();
+                throw new InvalidOperationException(
+                    "Naked Trap could not restore the saved crest."
+                );
             }
 
             active = false;
+            pending = false;
             suspendedForSave = remaining > 0f;
-            pending = suspendedForSave;
             pendingDuration = remaining;
             ClearRestoreSnapshot();
         }
@@ -185,27 +212,38 @@ namespace SilksongRandomizer
             }
 
             suspendedForSave = false;
+            if (pendingDuration <= 0f)
+            {
+                ClearAllState();
+                return;
+            }
+
+            pending = true;
             TryStartPending();
         }
 
-        internal static void Reset()
+        internal static bool Reset()
         {
             try
             {
-                if (active && !TryRestorePhysicalCrest())
+                if (active &&
+                    !TryRestorePhysicalCrest() &&
+                    !ForceRestoreSnapshotFields())
                 {
-                    ForceRestoreSnapshotFields();
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Warn("Naked Trap cleanup failed", ex);
-                ForceRestoreSnapshotFields();
+                if (!ForceRestoreSnapshotFields())
+                {
+                    return false;
+                }
             }
-            finally
-            {
-                ClearAllState();
-            }
+
+            ClearAllState();
+            return true;
         }
 
         private static void UpdateActiveEffect()
@@ -264,7 +302,8 @@ namespace SilksongRandomizer
         private static void TryStartPending()
         {
             if (!pending || active || suspendedForSave ||
-                TrapManager.IsCursedCrestActive)
+                TrapManager.IsCursedCrestActive ||
+                !IsSafeGameplayState(HeroController.instance))
             {
                 return;
             }
@@ -385,6 +424,12 @@ namespace SilksongRandomizer
                        !playerData.IsAnyCursed;
             }
 
+            HeroController hero = HeroController.instance;
+            if (hero == null || !IsSafeGameplayState(hero))
+            {
+                return false;
+            }
+
             ToolCrest restoreCrest = ToolItemManager.GetCrestByName(
                 restoreCrestInternalName
             );
@@ -418,6 +463,28 @@ namespace SilksongRandomizer
             );
         }
 
+        private static void SuspendUntilSafe()
+        {
+            if (!active || PlayerData.instance == null)
+            {
+                return;
+            }
+
+            float remaining = Math.Max(0f, deadline - Time.unscaledTime);
+            if (!TryRestorePhysicalCrest())
+            {
+                if (!ForceRestoreSnapshotFields())
+                {
+                    return;
+                }
+            }
+
+            active = false;
+            pending = remaining > 0f;
+            pendingDuration = remaining;
+            ClearRestoreSnapshot();
+        }
+
         private static void SuspendForNativeCrestOwner()
         {
             float remaining = Math.Max(0f, deadline - Time.unscaledTime);
@@ -427,35 +494,70 @@ namespace SilksongRandomizer
             ClearRestoreSnapshot();
         }
 
-        private static void ForceRestoreSnapshotFields()
+        private static bool ForceRestoreSnapshotFields()
         {
             PlayerData playerData = PlayerData.instance;
-            if (playerData == null ||
-                string.IsNullOrEmpty(restoreCrestInternalName) ||
-                !IsNativeCloaklessEquipped())
+            if (playerData == null)
+            {
+                return false;
+            }
+            if (!IsNativeCloaklessEquipped())
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(restoreCrestInternalName))
+            {
+                return false;
+            }
+
+            try
+            {
+                internalCrestWrite = true;
+                playerData.CurrentCrestID = restoreCrestInternalName;
+                playerData.PreviousCrestID =
+                    restorePreviousCrestInternalName;
+                playerData.IsCurrentCrestTemp = restoreCrestWasTemporary;
+                if (IsNativeCloaklessEquipped())
+                {
+                    return false;
+                }
+                runtimeRefreshPending = true;
+                TryCompleteRuntimeRefresh();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Warn("Naked Trap could not restore the saved crest", ex);
+                return !IsNativeCloaklessEquipped();
+            }
+            finally
+            {
+                internalCrestWrite = false;
+            }
+        }
+
+        private static void TryCompleteRuntimeRefresh()
+        {
+            HeroController hero = HeroController.instance;
+            if (!runtimeRefreshPending ||
+                PlayerData.instance == null ||
+                hero == null ||
+                !IsSafeGameplayState(hero))
             {
                 return;
             }
 
             try
             {
-                internalCrestWrite = true;
                 ToolPatches.PrepareHeroForCrestChange();
-                playerData.CurrentCrestID = restoreCrestInternalName;
-                playerData.PreviousCrestID =
-                    restorePreviousCrestInternalName;
-                playerData.IsCurrentCrestTemp = restoreCrestWasTemporary;
                 ToolItemManager.RefreshEquippedState();
                 ToolItemManager.SendEquippedChangedEvent(true);
                 ToolPatches.ResetHeroInputAfterCrestChange();
+                runtimeRefreshPending = false;
             }
             catch (Exception ex)
             {
-                Warn("Naked Trap save fallback could not refresh the crest", ex);
-            }
-            finally
-            {
-                internalCrestWrite = false;
+                Warn("Naked Trap restore is waiting for a runtime refresh", ex);
             }
         }
 
@@ -513,11 +615,27 @@ namespace SilksongRandomizer
     {
         [HarmonyPrefix]
         [HarmonyPriority(Priority.First)]
-        private static void Prefix(bool markTemp)
+        private static bool Prefix(bool markTemp)
         {
-            // AutoEquip snapshots CurrentCrestID into PreviousCrestID. Give
-            // it the real pre-trap crest, never the temporary Cloakless one.
-            NakedTrapManager.PrepareForNativeTemporaryCrest(markTemp);
+            return NakedTrapManager.PrepareForNativeTemporaryCrest(markTemp);
+        }
+    }
+
+    [HarmonyPatch(
+        typeof(GameManager),
+        nameof(GameManager.SetIsInventoryOpen),
+        new[] { typeof(bool) }
+    )]
+    internal static class NakedTrapInventoryOpenPatch
+    {
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.First)]
+        private static void Prefix(bool value)
+        {
+            if (value)
+            {
+                NakedTrapManager.PrepareForInventory();
+            }
         }
     }
 }

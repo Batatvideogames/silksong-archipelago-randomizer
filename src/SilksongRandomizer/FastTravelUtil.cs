@@ -75,11 +75,11 @@ namespace SilksongRandomizer
                 gameManager,
                 hero
             );
-            if (playerData != null &&
-                playerData.blackThreadWorld &&
-                (!playerData.act3_wokeUp ||
-                 !playerData.act3_enclaveWakeSceneCompleted ||
-                 isActThreeWakeEntry))
+            if (IsActThreeWakeSequenceUnsafe(
+                    playerData,
+                    gameManager,
+                    hero
+                ))
             {
                 reason = isActThreeWakeEntry
                     ? "Leave the Act 3 wake-up room before using F4."
@@ -432,6 +432,30 @@ namespace SilksongRandomizer
                     ActThreeWakeEntryGateName,
                     StringComparison.Ordinal
                 );
+        }
+
+        internal static bool IsActThreeWakeSequenceUnsafe()
+        {
+            return IsActThreeWakeSequenceUnsafe(
+                PlayerData.instance,
+                GameManager.SilentInstance,
+                HeroController.instance
+            );
+        }
+
+        private static bool IsActThreeWakeSequenceUnsafe(
+            PlayerData playerData,
+            GameManager gameManager,
+            HeroController hero
+        )
+        {
+            return playerData != null &&
+                   playerData.blackThreadWorld &&
+                   (
+                       !playerData.act3_wokeUp ||
+                       !playerData.act3_enclaveWakeSceneCompleted ||
+                       IsActThreeWakeEntry(gameManager, hero)
+                   );
         }
     }
 }

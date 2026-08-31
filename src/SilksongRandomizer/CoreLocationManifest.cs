@@ -156,6 +156,10 @@ namespace SilksongRandomizer
             "Pinmaster Plinney: Shining Needle",
             "Pinmaster Plinney: Hivesteel Needle",
             "Pinmaster Plinney: Pale Steel Needle",
+        };
+
+        internal static readonly string[] PaleOilLocationNames =
+        {
             "Pale Oil: Whispering Vaults",
             "Pale Oil: Great Taste of Pharloom",
             "Pale Oil: Ecstasy of the End",
@@ -244,6 +248,15 @@ namespace SilksongRandomizer
                 locations.Add(new Location(
                     locationName,
                     ItemType.NeedleUpgrade,
+                    null
+                ));
+            }
+
+            foreach (string locationName in PaleOilLocationNames)
+            {
+                locations.Add(new Location(
+                    locationName,
+                    ItemType.PaleOil,
                     null
                 ));
             }

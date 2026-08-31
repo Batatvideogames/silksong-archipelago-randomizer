@@ -29,6 +29,10 @@ def native_rule_options(world) -> dict[str, object]:
         "scuttlebrace_logic_enabled": (
             world.is_scuttlebrace_logic_enabled()
         ),
+        "randomize_ledge_grab": (
+            world.is_ledgegrab_ability_rando_enabled()
+        ),
+        "randomize_swim": world.is_swim_ability_rando_enabled(),
         "native_abstract_regions": True,
     }
 
@@ -44,6 +48,10 @@ def get_native_abstract_requirements(world):
             if world.get_category_mode("PollipHeart") != "vanilla"
             else 0
         ),
+        randomize_ledge_grab=(
+            world.is_ledgegrab_ability_rando_enabled()
+        ),
+        randomize_swim=world.is_swim_ability_rando_enabled(),
     )
 
 

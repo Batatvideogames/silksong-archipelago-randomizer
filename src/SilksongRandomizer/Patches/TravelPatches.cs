@@ -578,6 +578,11 @@ namespace SilksongRandomizer.Patches
                         action.State.Name,
                         "Can Appear 2",
                         StringComparison.Ordinal
+                    ) &&
+                    !string.Equals(
+                        action.State.Name,
+                        BellBeastWaitForUnlockState,
+                        StringComparison.Ordinal
                     )
                 ) ||
                 !TryGetRandomizedUnlock(

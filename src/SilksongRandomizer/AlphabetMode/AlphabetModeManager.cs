@@ -20,6 +20,7 @@ namespace SilksongRandomizer.AlphabetMode
         private static int letterMask;
         [ThreadStatic]
         private static int textBypassDepth;
+        private static string[] activeBossTitleKeys = new string[0];
 
         internal static string FilterDirectText(string value)
         {
@@ -37,6 +38,52 @@ namespace SilksongRandomizer.AlphabetMode
                 LogFilterFailure(ex);
                 return value;
             }
+        }
+
+        internal static string FilterLocalizedText(string key, string value)
+        {
+            try
+            {
+                if (!ShouldFilterCurrentText() &&
+                    !ShouldFilterPausedBossTitle(key))
+                {
+                    return value;
+                }
+
+                return AlphabetTextFilter.Filter(value, GetOwnedLetterMask());
+            }
+            catch (Exception ex)
+            {
+                LogFilterFailure(ex);
+                return value;
+            }
+        }
+
+        internal static void RegisterBossTitle(string key)
+        {
+            activeBossTitleKeys = string.IsNullOrEmpty(key)
+                ? new string[0]
+                : new string[] { key };
+        }
+
+        internal static void RegisterBossTitlePair(
+            string firstKey,
+            string secondKey)
+        {
+            if (string.IsNullOrEmpty(firstKey) ||
+                string.IsNullOrEmpty(secondKey))
+            {
+                activeBossTitleKeys = new string[0];
+                return;
+            }
+
+            activeBossTitleKeys =
+                new string[] { firstKey, secondKey };
+        }
+
+        internal static void ClearBossTitles()
+        {
+            activeBossTitleKeys = new string[0];
         }
 
         internal static bool IsFilteringCurrentText()
@@ -250,6 +297,38 @@ namespace SilksongRandomizer.AlphabetMode
                    !gameManager.isPaused &&
                    !IsStartMenu(gameManager) &&
                    IsEnglishLanguage(language);
+        }
+
+        private static bool ShouldFilterPausedBossTitle(string key)
+        {
+            SaveState state = SaveState.Instance;
+            GameManager gameManager = GameManager.SilentInstance;
+            return !string.IsNullOrEmpty(key) &&
+                   IsActiveBossTitleKey(key) &&
+                   textBypassDepth == 0 &&
+                   state != null &&
+                   state.IsRoomBound &&
+                   state.alphabetMode &&
+                   gameManager != null &&
+                   gameManager.isPaused &&
+                   !IsStartMenu(gameManager) &&
+                   IsEnglishLanguage(Language.CurrentLanguage());
+        }
+
+        private static bool IsActiveBossTitleKey(string key)
+        {
+            foreach (string activeKey in activeBossTitleKeys)
+            {
+                if (string.Equals(
+                        key,
+                        activeKey,
+                        StringComparison.Ordinal))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool IsStartMenu(GameManager gameManager)

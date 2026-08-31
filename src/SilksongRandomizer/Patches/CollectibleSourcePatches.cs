@@ -61,7 +61,7 @@ namespace SilksongRandomizer.Patches
                         "Great Gourmand",
                         Tuple.Create(
                             "Pale Oil: Great Taste of Pharloom",
-                            ItemType.NeedleUpgrade
+                            ItemType.PaleOil
                         )
                     },
                     {

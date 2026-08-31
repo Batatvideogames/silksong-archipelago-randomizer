@@ -20,23 +20,68 @@ namespace SilksongRandomizer.Patches
         private const string BellBeastReturnGate = "door_cinematicEnd";
         private const string BellBeastLocation = "Silk Heart: Bell Beast";
         private const string UnravelledReturnScene = "Ward_02";
+        private const string UnravelledMemoryScene =
+            "Memory_Silk_Heart_WardBoss";
         private const string UnravelledLocation =
             "Silk Heart: The Unravelled";
         private const string LaceTowerReturnScene = "Song_Tower_01";
+        private const string LaceTowerMemoryScene =
+            "Memory_Silk_Heart_LaceTower";
         private const string LaceTowerLocation =
             "Silk Heart: Lace (Cradle)";
 
-        private static readonly Dictionary<string, string>
-            LaterBossReturnLocationsByScene =
-                new Dictionary<string, string>(StringComparer.Ordinal)
+        private sealed class BossHeartSource
+        {
+            internal readonly string SourceScene;
+            internal readonly string MemoryScene;
+            internal readonly string ReturnScene;
+            internal readonly string LocationName;
+            internal readonly bool CompleteBellBeast;
+
+            internal BossHeartSource(
+                string sourceScene,
+                string memoryScene,
+                string returnScene,
+                string locationName,
+                bool completeBellBeast = false)
+            {
+                SourceScene = sourceScene;
+                MemoryScene = memoryScene;
+                ReturnScene = returnScene;
+                LocationName = locationName;
+                CompleteBellBeast = completeBellBeast;
+            }
+        }
+
+        private static readonly Dictionary<string, BossHeartSource>
+            BossHeartSourcesByScene =
+                new Dictionary<string, BossHeartSource>(
+                    StringComparer.Ordinal)
                 {
                     {
+                        BellBeastSourceScene,
+                        new BossHeartSource(
+                            BellBeastSourceScene,
+                            BellBeastMemoryScene,
+                            BellBeastReturnScene,
+                            BellBeastLocation,
+                            true)
+                    },
+                    {
                         UnravelledReturnScene,
-                        UnravelledLocation
+                        new BossHeartSource(
+                            UnravelledReturnScene,
+                            UnravelledMemoryScene,
+                            UnravelledReturnScene,
+                            UnravelledLocation)
                     },
                     {
                         LaceTowerReturnScene,
-                        LaceTowerLocation
+                        new BossHeartSource(
+                            LaceTowerReturnScene,
+                            LaceTowerMemoryScene,
+                            LaceTowerReturnScene,
+                            LaceTowerLocation)
                     },
                 };
 
@@ -71,15 +116,29 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                if (IsBellBeastSource(__instance))
+                if (TryGetBossHeartSource(
+                        __instance,
+                        out BossHeartSource bossSource))
                 {
-                    if (IsActive(BellBeastLocation) &&
-                        PatchBellBeastSource(__instance))
+                    if (IsActive(bossSource.LocationName) &&
+                        PatchBossHeartSource(__instance, bossSource))
                     {
                         RandomizerPlugin.Log?.LogInfo(
-                            "[RANDOMIZER] Bell Beast Silk Heart memory was " +
-                            "shortened through the native Bone_05 return " +
-                            "and redirected to the AP check."
+                            "[RANDOMIZER] Silk Heart memory skipped and " +
+                            "redirected to the AP check: " +
+                            bossSource.LocationName + "."
+                        );
+                    }
+                    if (IsActive(bossSource.LocationName) &&
+                        string.Equals(
+                            bossSource.SourceScene,
+                            bossSource.ReturnScene,
+                            StringComparison.Ordinal) &&
+                        PatchBellBeastReturnRecovery(__instance))
+                    {
+                        RandomizerPlugin.Log?.LogInfo(
+                            "[RANDOMIZER] Silk Heart return recovery patched: " +
+                            bossSource.LocationName + "."
                         );
                     }
 
@@ -94,23 +153,6 @@ namespace SilksongRandomizer.Patches
                         RandomizerPlugin.Log?.LogInfo(
                             "[RANDOMIZER] Bell Beast Silk Heart return now " +
                             "uses the native no-regeneration rise path."
-                        );
-                    }
-
-                    return;
-                }
-
-                if (TryGetLaterBossReturnLocation(
-                        __instance,
-                        out string bossReturnLocation))
-                {
-                    if (IsActive(bossReturnLocation) &&
-                        PatchBellBeastReturnRecovery(__instance))
-                    {
-                        RandomizerPlugin.Log?.LogInfo(
-                            "[RANDOMIZER] Silk Heart return now uses the " +
-                            "native no-regeneration rise path: " +
-                            bossReturnLocation + "."
                         );
                     }
 
@@ -166,25 +208,28 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
-        private static bool IsBellBeastSource(PlayMakerFSM fsm)
+        private static bool TryGetBossHeartSource(
+            PlayMakerFSM fsm,
+            out BossHeartSource source)
         {
-            return fsm != null &&
-                   fsm.gameObject != null &&
-                   string.Equals(
-                       fsm.gameObject.scene.name,
-                       BellBeastSourceScene,
-                       StringComparison.Ordinal
-                   ) &&
-                   string.Equals(
-                       fsm.gameObject.name,
-                       BellBeastSourceObject,
-                       StringComparison.Ordinal
-                   ) &&
-                   string.Equals(
-                       fsm.FsmName,
-                       BellBeastSourceFsmName,
-                       StringComparison.Ordinal
-                   );
+            source = null;
+            if (fsm == null || fsm.gameObject == null ||
+                !string.Equals(
+                    fsm.gameObject.name,
+                    BellBeastSourceObject,
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    fsm.FsmName,
+                    BellBeastSourceFsmName,
+                    StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            return BossHeartSourcesByScene.TryGetValue(
+                fsm.gameObject.scene.name,
+                out source
+            );
         }
 
         private static bool IsBellBeastReturnHeart(PlayMakerFSM fsm)
@@ -205,29 +250,6 @@ namespace SilksongRandomizer.Patches
                        fsm.FsmName,
                        BellBeastSourceFsmName,
                        StringComparison.Ordinal
-                   );
-        }
-
-        private static bool TryGetLaterBossReturnLocation(
-            PlayMakerFSM fsm,
-            out string locationName)
-        {
-            locationName = null;
-            return fsm != null &&
-                   fsm.gameObject != null &&
-                   string.Equals(
-                       fsm.gameObject.name,
-                       BellBeastSourceObject,
-                       StringComparison.Ordinal
-                   ) &&
-                   string.Equals(
-                       fsm.FsmName,
-                       BellBeastSourceFsmName,
-                       StringComparison.Ordinal
-                   ) &&
-                   LaterBossReturnLocationsByScene.TryGetValue(
-                       fsm.gameObject.scene.name,
-                       out locationName
                    );
         }
 
@@ -532,7 +554,9 @@ namespace SilksongRandomizer.Patches
             );
         }
 
-        private static bool PatchBellBeastSource(PlayMakerFSM fsm)
+        private static bool PatchBossHeartSource(
+            PlayMakerFSM fsm,
+            BossHeartSource source)
         {
             FsmString memoryScene =
                 fsm.FsmVariables?.FindFsmString("Memory Scene");
@@ -550,7 +574,7 @@ namespace SilksongRandomizer.Patches
             if (memoryScene != null &&
                 string.Equals(
                     memoryScene.Value,
-                    BellBeastReturnScene,
+                    source.ReturnScene,
                     StringComparison.Ordinal
                 ) &&
                 memoryCheck?.Actions != null &&
@@ -560,7 +584,14 @@ namespace SilksongRandomizer.Patches
                 setData?.Actions != null &&
                 setData.Actions.Length == 2 &&
                 IsActivatedTrueAction(setData.Actions[0]) &&
-                setData.Actions[1] is CompleteBellBeastSourceAction &&
+                setData.Actions[1] is CompleteBossHeartSourceAction
+                    patchedCompletion &&
+                string.Equals(
+                    patchedCompletion.LocationName,
+                    source.LocationName,
+                    StringComparison.Ordinal) &&
+                patchedCompletion.CompleteBellBeast ==
+                    source.CompleteBellBeast &&
                 HasOnlyTransitions(
                     memoryCheck,
                     Tuple.Create("MEMORY", setData),
@@ -581,8 +612,9 @@ namespace SilksongRandomizer.Patches
                 return true;
             }
 
-            if (!MatchesBellBeastSourceSequence(
+            if (!MatchesBossHeartSourceSequence(
                     fsm,
+                    source.MemoryScene,
                     memoryScene,
                     memoryCheck,
                     fadeAudio,
@@ -596,8 +628,8 @@ namespace SilksongRandomizer.Patches
                     collected))
             {
                 RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Bell Beast Silk Heart source patch " +
-                    "failed closed at " + fsm.gameObject.scene.name + "/" +
+                    "[RANDOMIZER] Silk Heart source patch failed closed at " +
+                    fsm.gameObject.scene.name + "/" +
                     fsm.gameObject.name + "/" + fsm.FsmName +
                     ": the shipped memory and cleanup sequence no longer " +
                     "matched."
@@ -605,10 +637,7 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            // The local non-memory branch never completes the arena.
-            // Shorten the real memory route instead: retain its native return
-            // controller in Bone_05 while omitting the platforming memory.
-            memoryScene.Value = BellBeastReturnScene;
+            memoryScene.Value = source.ReturnScene;
 
             FsmTransition memoryBranch = memoryCheck.Transitions.First(
                 transition =>
@@ -623,8 +652,10 @@ namespace SilksongRandomizer.Patches
             memoryBranch.ToState = setData.Name;
             memoryBranch.ToFsmState = setData;
 
-            CompleteBellBeastSourceAction completion =
-                new CompleteBellBeastSourceAction();
+            CompleteBossHeartSourceAction completion =
+                new CompleteBossHeartSourceAction(
+                    source.LocationName,
+                    source.CompleteBellBeast);
             completion.Init(setData);
             setData.Actions = new FsmStateAction[]
             {
@@ -650,8 +681,9 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
-        private static bool MatchesBellBeastSourceSequence(
+        private static bool MatchesBossHeartSourceSequence(
             PlayMakerFSM fsm,
+            string expectedMemoryScene,
             FsmString memoryScene,
             FsmState memoryCheck,
             FsmState fadeAudio,
@@ -668,7 +700,7 @@ namespace SilksongRandomizer.Patches
                 memoryScene == null ||
                 !string.Equals(
                     memoryScene.Value,
-                    BellBeastMemoryScene,
+                    expectedMemoryScene,
                     StringComparison.Ordinal
                 ) ||
                 memoryCheck?.Actions == null ||
@@ -1207,37 +1239,51 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        private sealed class CompleteBellBeastSourceAction : FsmStateAction
+        private sealed class CompleteBossHeartSourceAction : FsmStateAction
         {
+            internal readonly string LocationName;
+            internal readonly bool CompleteBellBeast;
+
+            internal CompleteBossHeartSourceAction(
+                string locationName,
+                bool completeBellBeast)
+            {
+                LocationName = locationName;
+                CompleteBellBeast = completeBellBeast;
+            }
+
             public override void OnEnter()
             {
                 try
                 {
-                    PlayerData playerData = PlayerData.instance;
-                    if (playerData == null)
+                    if (CompleteBellBeast)
                     {
-                        throw new InvalidOperationException(
-                            "PlayerData was unavailable."
-                        );
-                    }
+                        PlayerData playerData = PlayerData.instance;
+                        if (playerData == null)
+                        {
+                            throw new InvalidOperationException(
+                                "PlayerData was unavailable."
+                            );
+                        }
 
-                    playerData.defeatedBellBeast = true;
-                    playerData.bonebottomQuestBoardFixed = true;
+                        playerData.defeatedBellBeast = true;
+                        playerData.bonebottomQuestBoardFixed = true;
+                    }
 
                     SaveState state = SaveState.Instance;
                     if (state != null &&
                         state.IsRandomized(ItemType.SilkHeart) &&
-                        state.IsLocationEnabled(BellBeastLocation) &&
-                        state.IsLocationInSeed(BellBeastLocation))
+                        state.IsLocationEnabled(LocationName) &&
+                        state.IsLocationInSeed(LocationName))
                     {
-                        state.CheckLocation(BellBeastLocation);
+                        state.CheckLocation(LocationName);
                     }
                 }
                 catch (Exception ex)
                 {
                     RandomizerPlugin.Log?.LogError(
-                        "[RANDOMIZER] Failed to complete the Bell Beast " +
-                        "Silk Heart return: " + ex
+                        "[RANDOMIZER] Failed to complete Silk Heart source " +
+                        LocationName + ": " + ex
                     );
                 }
                 finally

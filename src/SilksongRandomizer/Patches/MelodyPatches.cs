@@ -25,6 +25,67 @@ namespace SilksongRandomizer.Patches
                    state.IsLocationInSeed(locationName);
         }
 
+        internal static void ReconcileReceivedOwnership()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null || playerData == null ||
+                !state.IsRandomized(ItemType.Melody))
+            {
+                return;
+            }
+
+            bool changed = false;
+            if (state.receivedItems.Contains(
+                    MelodyLocationManifest.ArchitectsMelody) &&
+                !playerData.HasMelodyArchitect)
+            {
+                playerData.HasMelodyArchitect = true;
+                changed = true;
+            }
+            if (state.receivedItems.Contains(
+                    MelodyLocationManifest.ConductorsMelody) &&
+                !playerData.HasMelodyConductor)
+            {
+                playerData.HasMelodyConductor = true;
+                changed = true;
+            }
+            if (state.receivedItems.Contains(
+                    MelodyLocationManifest.VaultkeepersMelody) &&
+                !playerData.HasMelodyLibrarian)
+            {
+                playerData.HasMelodyLibrarian = true;
+                changed = true;
+            }
+            if (state.receivedItems.Contains(
+                    MelodyLocationManifest.ElegyOfTheDeep) &&
+                !playerData.hasNeedolinMemoryPowerup)
+            {
+                playerData.hasNeedolinMemoryPowerup = true;
+                changed = true;
+            }
+            if (state.receivedItems.Contains(
+                    MelodyLocationManifest.BeastlingCall))
+            {
+                if (!state.canUseBeastlingCall)
+                {
+                    state.canUseBeastlingCall = true;
+                    changed = true;
+                }
+                if (!playerData.UnlockedFastTravelTeleport)
+                {
+                    playerData.UnlockedFastTravelTeleport = true;
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                CollectableItemManager.IncrementVersion();
+            }
+            BeastlingCallAct3Safety.Refresh();
+        }
+
         [HarmonyPatch(
             typeof(CollectableRelic),
             nameof(CollectableRelic.WillSendPlayEvent),
@@ -840,6 +901,7 @@ namespace SilksongRandomizer.Patches
                 {
                     PlayerData.instance.UnlockedFastTravelTeleport =
                         state.canUseBeastlingCall;
+                    BeastlingCallAct3Safety.Refresh();
                 }
                 Finish();
             }

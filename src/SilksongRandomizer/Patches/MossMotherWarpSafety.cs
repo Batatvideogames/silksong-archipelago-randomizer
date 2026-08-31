@@ -136,12 +136,9 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            // A native save can finish the transition to Bonetown before the
-            // randomizer metadata persists its starting-location latch. The
-            // opening setup may already have asserted defeatedMossMother, so
-            // PrepareForBoneBottomWarp would reject this
-            // recovery path. Re-arm only the existing quarantine flag. The
-            // real boss End state still clears it before recording defeat.
+            // If the game closes during the Bone Bottom warp, the intro can
+            // finish before the randomizer saves that the warp was used.
+            // Restore the bypass flag so it can finish cleaning up.
             state.mossMotherBypassedByBoneBottomWarp = true;
         }
 
@@ -162,9 +159,14 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            // Undo only the synthetic story assertion. The real boss End
-            // state clears the quarantine immediately before setting this
-            // field, so a legitimate kill remains set and reports normally.
+            // Bone Bottom temporarily marks Moss Mother as defeated during
+            // its intro.
+            if (!playerData.churchKeeperIntro)
+            {
+                return;
+            }
+
+            // A real kill clears the bypass flag before reaching this point.
             playerData.defeatedMossMother = false;
         }
 

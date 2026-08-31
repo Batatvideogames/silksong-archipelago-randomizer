@@ -21,6 +21,15 @@ namespace SilksongRandomizer
     {
         private const float RemoteDeathStartTimeoutSeconds = 5f;
         private const float RemoteDeathSafeDelaySeconds = 0.5f;
+        private const string KarmelitaMemorySceneName =
+            "Memory_Ant_Queen";
+        private const string NylethMemorySceneName =
+            "Shellwood_11b_Memory";
+        private const string CrustKingKhannMemorySceneName =
+            "Memory_Coral_Tower";
+        private const string PermadeathSceneName = "PermaDeath";
+        private const string PermadeathBodySheetName = "Credits List";
+        private const string PermadeathBodyKey = "PERMA_GAME_OVER_BODY";
 
         private sealed class RemoteDeathCocoonSnapshot
         {
@@ -114,6 +123,7 @@ namespace SilksongRandomizer
         private static float remoteDeathSafeSince;
         private static string lastReceivedSource = string.Empty;
         private static string lastReceivedCause = string.Empty;
+        private static string appliedRemoteDeathSource = string.Empty;
 
         internal static bool IsEnabled
         {
@@ -409,6 +419,7 @@ namespace SilksongRandomizer
                 remoteDeathInFlight = null;
                 lastReceivedSource = string.Empty;
                 lastReceivedCause = string.Empty;
+                appliedRemoteDeathSource = string.Empty;
                 QueuedStatusMessages.Clear();
             }
 
@@ -535,6 +546,11 @@ namespace SilksongRandomizer
                 {
                     appliedDeath = remoteDeathInFlight;
                     remoteDeathInFlight = null;
+                    appliedRemoteDeathSource = appliedDeath == null
+                        ? string.Empty
+                        : string.IsNullOrWhiteSpace(appliedDeath.Source)
+                            ? "another player"
+                            : appliedDeath.Source.Trim();
                 }
 
                 if (appliedDeath != null)
@@ -556,10 +572,18 @@ namespace SilksongRandomizer
                 return;
             }
 
+            string sceneName = GetCurrentSceneName();
+
             DeathLinkService currentService;
             string currentSource;
             lock (StateLock)
             {
+                appliedRemoteDeathSource = string.Empty;
+                if (IsDeathLinkMemoryFightScene(sceneName))
+                {
+                    return;
+                }
+
                 if (!enabled || service == null)
                 {
                     return;
@@ -569,7 +593,6 @@ namespace SilksongRandomizer
                 currentSource = sourcePlayer;
             }
 
-            string sceneName = GetCurrentSceneName();
             string cause = currentSource + " died";
             if (!string.IsNullOrWhiteSpace(sceneName))
             {
@@ -821,6 +844,60 @@ namespace SilksongRandomizer
             }
 
             return SceneManager.GetActiveScene().name;
+        }
+
+        private static bool IsDeathLinkMemoryFightScene(string sceneName)
+        {
+            return string.Equals(
+                       sceneName,
+                       KarmelitaMemorySceneName,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       sceneName,
+                       NylethMemorySceneName,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       sceneName,
+                       CrustKingKhannMemorySceneName,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        internal static string ResolvePermadeathBodyText(
+            string key,
+            string sheetTitle,
+            string original)
+        {
+            if (!string.Equals(
+                    SceneManager.GetActiveScene().name,
+                    PermadeathSceneName,
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    sheetTitle,
+                    PermadeathBodySheetName,
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    key,
+                    PermadeathBodyKey,
+                    StringComparison.Ordinal
+                ))
+            {
+                return original;
+            }
+
+            string appliedSource;
+            lock (StateLock)
+            {
+                appliedSource = appliedRemoteDeathSource;
+            }
+
+            return string.IsNullOrWhiteSpace(appliedSource)
+                ? original
+                : "Got death link'd by " + appliedSource;
         }
 
         private static void QueueStatus(string message)

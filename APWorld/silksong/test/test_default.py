@@ -1,8 +1,9 @@
 import importlib
+from collections import Counter
 from types import SimpleNamespace
 from unittest import TestCase, mock
 
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, LocationProgressType
 from rule_builder.rules import Rule
 from test.general import setup_multiworld
 
@@ -19,9 +20,15 @@ from ..locations import (
 )
 from ..requirements import (
     COMPILED_ROOM_GRAPH,
+    EVENT_REQUIREMENTS,
+    JUNK_ONLY_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
     POLLIP_HEART_SOURCE_LOCATION_NAMES,
+    PROGRESSION_SAFE_QUEST_LOCATIONS,
     REQUIREMENTS,
+    RITE_OF_REBIRTH_EVENT,
+    ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS,
+    ROOM_GRAPH_QUARANTINED_CHECK_NAMES,
     SPOOL_FRAGMENT_ITEM_NAMES,
     _compiled_room_clause_requirement,
 )
@@ -30,6 +37,14 @@ from ..room_graph_logic import (
     SPOOL_FRAGMENT_COUNT_ITEM,
 )
 from ..requirement_rules import _compile_item_count
+from ..wish_events import (
+    SILK_AND_SOUL_LACE_DEFEATED_ITEM,
+    SILK_AND_SOUL_MANDATORY_WISH_ITEM,
+    SILK_AND_SOUL_WISH_HALF_POINT_ITEM,
+    SILK_AND_SOUL_WISH_POINT_ITEM,
+    SONGCLAVE_BOARD_COMPLETION_ITEM,
+    WISH_LOGIC_EVENTS,
+)
 from .bases import SilksongTestBase
 
 
@@ -42,19 +57,159 @@ class TestDefaultWorld(SilksongTestBase):
     # generation, fill, all-state and empty-state checks.
     options = {"goal": "act_3"}
 
-    def test_non_topology_world_omits_path_breadcrumbs(self) -> None:
-        self.assertFalse(self.world.topology_present)
+    def test_native_topology_records_path_breadcrumbs(self) -> None:
+        self.assertTrue(self.world.topology_present)
         self.assertTrue(
-            all(entrance.hide_path for entrance in self.world.get_entrances())
+            all(
+                not entrance.hide_path
+                for entrance in self.world.get_entrances()
+            )
         )
+        state = self.multiworld.get_all_state(False)
+        location = self.world.get_location("Faydown Cloak")
+
+        self.assertTrue(location.can_reach(state))
+        path_value = state.path.get(location.parent_region)
+        self.assertTrue(path_value)
+        path_names = []
+        while path_value:
+            name, path_value = path_value
+            path_names.append(str(name))
+        path_names.reverse()
+        entrances = [
+            self.world.get_entrance(name)
+            for name in path_names[1::2]
+        ]
+        self.assertTrue(entrances)
+        self.assertEqual(entrances[0].parent_region.name, "Menu")
+        self.assertIs(
+            entrances[-1].connected_region,
+            location.parent_region,
+        )
+        for first, second in zip(entrances, entrances[1:]):
+            self.assertIs(first.connected_region, second.parent_region)
+
+    def test_explain_path_only_formats_native_route(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        location = self.world.get_location("Faydown Cloak")
+        path_value = state.path[location.parent_region]
+        path_names = []
+        while path_value:
+            name, path_value = path_value
+            path_names.append(str(name))
+        path_names.reverse()
+        entrance = self.world.get_entrance(path_names[1])
+
+        explanation = self.world.explain_path(entrance, state)
+        rendered = "".join(
+            str(entry.get("text", "")) for entry in explanation
+        )
+
+        self.assertTrue(explanation)
+        self.assertIn(" -> ", rendered)
+        self.assertNotIn("\n", rendered)
+        self.assertTrue(rendered.isascii())
+
+    def test_world_does_not_override_get_logical_path(self) -> None:
+        self.assertNotIn("get_logical_path", SilksongWorld.__dict__)
+
+    def test_fixed_heretic_key_event_has_an_actionable_path_label(self) -> None:
+        self.assertEqual(
+            self.world._logic_region_label(
+                "Room Event: event:the-slab/slab-arena/key-of-heretic"
+            ),
+            "Collect Key of Heretic (Slab Arena)",
+        )
+
+    def test_explain_rule_labels_reachability_and_local_rule(self) -> None:
+        state = self.multiworld.get_all_state(False)
+
+        explanation = self.world.explain_rule("Silkspear", state)
+
+        rendered = "".join(
+            str(entry.get("text", "")) for entry in explanation
+        )
+        self.assertTrue(explanation)
+        self.assertTrue(
+            all(isinstance(entry, dict) for entry in explanation)
+        )
+        self.assertIn("Location: Silkspear", rendered)
+        self.assertIn("Overall: Reachable", rendered)
+        self.assertIn("Location requirement: Nothing", rendered)
+        self.assertIn(
+            "Parent region: Mosshome Upper - Main Area",
+            rendered,
+        )
+        self.assertIn("Parent region status: Reachable", rendered)
+        self.assertIn("Usable entrance", rendered)
+        self.assertNotIn("Possible entrance", rendered)
+        self.assertTrue(rendered.isascii())
+
+    def test_explain_rule_separates_blocked_parent_from_free_check(
+        self,
+    ) -> None:
         state = CollectionState(self.multiworld)
-        foreign_path = object()
-        state.path[foreign_path] = ("Foreign", None)
+        location = next(
+            location
+            for location in self.world.get_locations()
+            if location.parent_region.entrances
+            and self.world._logic_rule_details(
+                location.access_rule,
+                state,
+            )[1]
+            and not location.parent_region.can_reach(state)
+        )
 
-        state.update_reachable_regions(self.player)
+        explanation = self.world.explain_rule(location.name, state)
 
-        self.assertGreater(len(state.reachable_regions[self.player]), 1)
-        self.assertEqual(state.path, {foreign_path: ("Foreign", None)})
+        rendered = "".join(
+            str(entry.get("text", "")) for entry in explanation
+        )
+        self.assertIn("Overall: Not reachable", rendered)
+        self.assertIn("Location requirement: Nothing", rendered)
+        self.assertIn("Parent region status: Not reachable", rendered)
+        self.assertIn("Possible entrance", rendered)
+        self.assertIn("Source region:", rendered)
+        self.assertIn("Transition requirement:", rendered)
+        self.assertIn("Route status:", rendered)
+
+    def test_shellwood_only_weaver_harp_requires_needolin(self) -> None:
+        state = CollectionState(self.multiworld)
+        self.collect_all_but("Needolin", state)
+
+        self.assertTrue(
+            self.multiworld.get_location("Cling Grip", self.player).can_reach(state)
+        )
+        self.assertTrue(
+            self.multiworld.get_location(
+                "Shellwood - Pollip Heart #3",
+                self.player,
+            ).can_reach(state)
+        )
+        inscription = self.multiworld.get_location(
+            "Shellwood - Weaver Harp Inscription",
+            self.player,
+        )
+        self.assertFalse(inscription.can_reach(state))
+
+        state.collect(self.get_item_by_name("Needolin"))
+        self.assertTrue(inscription.can_reach(state))
+
+    def test_forge_daughter_checks_are_mapped(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        names = (
+            "Silkshot (Forge Daughter)",
+            "Sting Shard",
+            "Magma Bell",
+            "Forge Daughter - Crafting Kit",
+        )
+
+        for name in names:
+            with self.subTest(name=name):
+                self.assertNotIn(name, LOGIC_UNKNOWN_LOCATIONS)
+                self.assertTrue(
+                    self.multiworld.get_location(name, self.player).can_reach(state)
+                )
 
     def test_randomized_scrounge_relics_are_progression(self) -> None:
         for item_name in SCROUNGE_RELIC_ITEM_NAMES:
@@ -80,6 +235,27 @@ class TestDefaultWorld(SilksongTestBase):
         for item in self.get_items_by_name(CLAWLINE_ITEM):
             state.collect(item)
         self.assertTrue(location.can_reach(state))
+
+    def test_high_halls_safeguards_require_clawline(self) -> None:
+        locations = tuple(
+            self.multiworld.get_location(name, self.player)
+            for name in (
+                "Cogfly",
+                "High Halls - Shell Shard Cache #2",
+            )
+        )
+
+        state = CollectionState(self.multiworld)
+        self.collect_all_but(CLAWLINE_ITEM, state)
+        for location in locations:
+            with self.subTest(name=location.name, has_clawline=False):
+                self.assertFalse(location.can_reach(state))
+
+        for item in self.get_items_by_name(CLAWLINE_ITEM):
+            state.collect(item)
+        for location in locations:
+            with self.subTest(name=location.name, has_clawline=True):
+                self.assertTrue(location.can_reach(state))
 
     def test_diving_bell_and_void_require_act_three(self) -> None:
         state = CollectionState(self.multiworld)
@@ -148,6 +324,45 @@ class TestDefaultWorld(SilksongTestBase):
             all(location.can_reach(state) for location in locations)
         )
 
+    def test_unresolved_mapper_checks_do_not_use_weak_fallbacks(self) -> None:
+        unsafe_advancement_fallbacks = {
+            "Bonegrave - Mossberry",
+            "Clawline",
+            "Flea: Underworks",
+            "Underworks - Craftmetal",
+            "Underworks - Memory Locket",
+        }
+        self.assertLessEqual(
+            unsafe_advancement_fallbacks,
+            LOGIC_UNKNOWN_LOCATIONS,
+        )
+        self.assertLessEqual(
+            {
+                "Boss: Gurr the Outcast",
+                "Far Fields - Rosary Cache #19",
+                "Underworks - Shell Shard Cache #13",
+            },
+            LOGIC_UNKNOWN_LOCATIONS,
+        )
+        self.assertEqual(
+            ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
+            & ROOM_GRAPH_QUARANTINED_CHECK_NAMES,
+            {
+                "Boss: Voltvyrm",
+                "Greymoor - Bellshrine",
+                "Volt Filament",
+            },
+        )
+
+    def test_pinmaster_oil_is_mapped_but_junk_only(self) -> None:
+        name = "Wish: Pinmaster's Oil"
+        location = self.multiworld.get_location(name, self.player)
+
+        self.assertIn(name, JUNK_ONLY_LOCATIONS)
+        self.assertNotIn(name, LOGIC_UNKNOWN_LOCATIONS)
+        self.assertNotEqual(location.parent_region.name, LOGIC_UNKNOWN_REGION_NAME)
+        self.assertFalse(location.item_rule(self.world.create_item("Cling Grip")))
+
     def test_logic_free_native_entrances_keep_default_rule(self) -> None:
         entrances = [
             entrance
@@ -212,6 +427,30 @@ class TestDefaultWorld(SilksongTestBase):
         self.assertEqual(len(QUEST_LOCATION_NAMES), 25)
         self.assertEqual(len(location_name_groups['Quests']), 25)
 
+    def test_queens_egg_keeps_its_courier_chain_and_destination(self) -> None:
+        location_name = "Wish: Queen's Egg"
+        self.assertIn(location_name, PROGRESSION_SAFE_QUEST_LOCATIONS)
+        self.assertNotIn(location_name, LOGIC_UNKNOWN_LOCATIONS)
+        self.assertNotIn(location_name, JUNK_ONLY_LOCATIONS)
+
+        other_delivery_routes = EVENT_REQUIREMENTS[
+            'Event: Other Courier Delivery Completed'
+        ]
+        self.assertEqual(6, len(other_delivery_routes))
+
+        queen_routes = EVENT_REQUIREMENTS["Event: Queen's Egg Delivered"]
+        self.assertEqual(1, len(queen_routes))
+        self.assertEqual(
+            {
+                'Path: Bellhart - Bellhart',
+                'Event: Missing Brother Rescued',
+                'Event: Other Courier Delivery Completed',
+                'Room Node: '
+                'sinner-s-road/sinner-s-road-styx-room#right',
+            },
+            set(queen_routes[0].all_of),
+        )
+
 
 class TestQuestSanityShuffle(SilksongTestBase):
     options = {
@@ -256,6 +495,22 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
                         self.player,
                     ).can_reach(state)
                 )
+
+    def test_confirmed_skip_routes_stay_out_without_skips(self) -> None:
+        for name in (
+            "Flea: Sinner's Road",
+            "Sinner's Road - Shard Bundle",
+            "Bilewater - Rosary Cache #1",
+            "Bilewater - Rosary Cache #2",
+            "Sinner's Road - Rosary Cache #5",
+            "Sinner's Road - Rosary Cache #6",
+            "Sinner's Road - Rosary Cache #7",
+            "Deep Docks - Rosary Cache #1",
+            "Deep Docks - Rosary Cache #2",
+        ):
+            with self.subTest(name=name):
+                with self.assertRaises(KeyError):
+                    self.multiworld.get_location(name, self.player)
 
     def test_citadel_checks_stay_out_of_act_one(self) -> None:
         prefixes = ("choral-chambers/", "underworks/", "grand-gate/")
@@ -330,6 +585,25 @@ class TestActOneEasySkipGreymoor(SilksongTestBase):
                 "Greymoor - Rosary Cache #20",
                 self.player,
             )
+
+    def test_confirmed_easy_skip_routes_stay_in_act_one(self) -> None:
+        state = self.multiworld.get_all_state(False)
+        for name in (
+            "Flea: Sinner's Road",
+            "Sinner's Road - Shard Bundle",
+            "Bilewater - Rosary Cache #1",
+            "Bilewater - Rosary Cache #2",
+            "Sinner's Road - Rosary Cache #5",
+            "Sinner's Road - Rosary Cache #6",
+            "Sinner's Road - Rosary Cache #7",
+        ):
+            with self.subTest(name=name):
+                self.assertTrue(
+                    self.multiworld.get_location(
+                        name,
+                        self.player,
+                    ).can_reach(state)
+                )
 
 
 class TestCrestSlotPostFillPerformance(TestCase):
@@ -666,11 +940,43 @@ class TestShufflePerformance(TestCase):
             "map_randomization": "shuffle",
             "relic_randomization": "shuffle",
         }
-        multiworld = setup_multiworld(
-            [SilksongWorld, SilksongWorld],
-            seed=82026,
-            options=options,
-        )
+        baseline_skill_layouts = {}
+        original_accessibility_check = category_fill._shuffle_is_accessible
+
+        def capture_baseline(
+            multiworld,
+            locations,
+            players,
+            reachability_context,
+        ):
+            if not baseline_skill_layouts:
+                for player in players:
+                    baseline_skill_layouts[player] = {
+                        location.name: location.item.name
+                        for location in multiworld.get_filled_locations(player)
+                        if getattr(
+                            location,
+                            "silksong_placement_category",
+                            None,
+                        ) == "Skill"
+                    }
+            return original_accessibility_check(
+                multiworld,
+                locations,
+                players,
+                reachability_context,
+            )
+
+        with mock.patch.object(
+            category_fill,
+            "_shuffle_is_accessible",
+            side_effect=capture_baseline,
+        ):
+            multiworld = setup_multiworld(
+                [SilksongWorld, SilksongWorld],
+                seed=82026,
+                options=options,
+            )
         shuffled_locations = [
             location
             for location in multiworld.get_filled_locations()
@@ -682,12 +988,67 @@ class TestShufflePerformance(TestCase):
         ]
 
         self.assertTrue(shuffled_locations)
+        self.assertEqual(set(baseline_skill_layouts), {1, 2})
+        for layout in baseline_skill_layouts.values():
+            self.assertEqual(layout["Clawline"], "Rosaries (60)")
+            self.assertEqual(layout["Item: Quill"], "Swift Step")
+            self.assertEqual(layout["Swift Step"], "Cling Grip")
+            self.assertEqual(layout["Cling Grip"], "Clawline")
+            self.assertEqual(layout["Silk Soar"], "Silk Soar")
+        lane_location_counts = {}
+        lane_item_counts = {}
         for location in shuffled_locations:
             with self.subTest(
                 player=location.player,
                 location=location.name,
             ):
                 self.assertEqual(location.item.player, location.player)
+                self.assertEqual(
+                    location.item.silksong_placement_category,
+                    location.silksong_placement_category,
+                )
+            location_lane = (
+                location.player,
+                location.silksong_placement_category,
+            )
+            item_lane = (
+                location.item.player,
+                location.item.silksong_placement_category,
+            )
+            lane_location_counts[location_lane] = (
+                lane_location_counts.get(location_lane, 0) + 1
+            )
+            lane_item_counts[item_lane] = (
+                lane_item_counts.get(item_lane, 0) + 1
+            )
+
+        self.assertEqual(lane_item_counts, lane_location_counts)
+        all_state = multiworld.get_all_state(False)
+        for player in multiworld.player_ids:
+            self.assertTrue(multiworld.has_beaten_game(all_state, player))
+            self.assertFalse(any(
+                item.name == "Clawline"
+                for item in multiworld.precollected_items[player]
+            ))
+            clawline_location = next(
+                location
+                for location in shuffled_locations
+                if (
+                    location.item.player == player
+                    and location.item.name == "Clawline"
+                )
+            )
+            self.assertNotIn(
+                clawline_location.name,
+                LOGIC_UNKNOWN_LOCATIONS,
+            )
+            self.assertTrue(clawline_location.can_reach(all_state))
+
+        self.assertIn("Clawline", LOGIC_UNKNOWN_LOCATIONS)
+        for location in shuffled_locations:
+            if location.progress_type == LocationProgressType.EXCLUDED:
+                continue
+            self.assertTrue(location.can_reach(all_state))
 
     def test_shuffle_rule_cleanup_preserves_later_wrappers(self) -> None:
         original_rule = lambda _item: True
@@ -790,6 +1151,7 @@ class TestShufflePerformance(TestCase):
                 "_silksong_shuffle_item_rule_scope",
             )
         )
+
 
     def test_shuffle_scope_composes_with_locality_and_exclusions(
         self,
@@ -927,7 +1289,106 @@ class TestShufflePerformance(TestCase):
         )
 
 
+class TestWishLogicEvents(SilksongTestBase):
+    options = {"goal": "act_3"}
+
+    def test_verified_completions_are_locked_hidden_native_events(self) -> None:
+        active_events = self.world._silksong_active_wish_logic_events
+        self.assertEqual(set(active_events), {
+            event.location_name for event in WISH_LOGIC_EVENTS
+        })
+
+        item_counts = Counter()
+        for event in WISH_LOGIC_EVENTS:
+            with self.subTest(event=event.location_name):
+                location = self.world.get_location(event.location_name)
+                self.assertIsNone(location.address)
+                self.assertFalse(location.show_in_spoiler)
+                self.assertTrue(location.locked)
+                self.assertIsNotNone(location.item)
+                self.assertEqual(location.item.name, event.item_name)
+                self.assertNotEqual(
+                    location.parent_region.name,
+                    LOGIC_UNKNOWN_REGION_NAME,
+                )
+                item_counts[event.item_name] += 1
+
+        self.assertEqual(item_counts, Counter({
+            SONGCLAVE_BOARD_COMPLETION_ITEM: 5,
+            SILK_AND_SOUL_MANDATORY_WISH_ITEM: 9,
+            SILK_AND_SOUL_WISH_POINT_ITEM: 16,
+            SILK_AND_SOUL_WISH_HALF_POINT_ITEM: 6,
+            SILK_AND_SOUL_LACE_DEFEATED_ITEM: 1,
+        }))
+
+    def test_songclave_and_silk_and_soul_counts_are_exact(self) -> None:
+        strengthening = EVENT_REQUIREMENTS[
+            "Event: Strengthening Songclave Completed"
+        ]
+        self.assertEqual(len(strengthening), 1)
+        self.assertIn(
+            "Event: Building Up Songclave Completed",
+            strengthening[0].all_of,
+        )
+        self.assertEqual(
+            strengthening[0].item_counts[0].minimum,
+            4,
+        )
+        self.assertEqual(
+            strengthening[0].item_counts[0].item_names,
+            (SONGCLAVE_BOARD_COMPLETION_ITEM,),
+        )
+
+        thresholds = set()
+        for requirement in EVENT_REQUIREMENTS[
+            "Event: Silk and Soul Completed"
+        ]:
+            counts = {
+                count.item_names[0]: count.minimum
+                for count in requirement.item_counts
+            }
+            self.assertEqual(
+                counts[SILK_AND_SOUL_MANDATORY_WISH_ITEM],
+                9,
+            )
+            self.assertIn(
+                SILK_AND_SOUL_LACE_DEFEATED_ITEM,
+                requirement.all_of,
+            )
+            thresholds.add((
+                counts[SILK_AND_SOUL_WISH_POINT_ITEM],
+                counts.get(SILK_AND_SOUL_WISH_HALF_POINT_ITEM, 0),
+            ))
+        self.assertEqual(
+            thresholds,
+            {(17, 0), (16, 2), (15, 4), (14, 6)},
+        )
+
+    def test_witch_and_bellhart_keep_their_wish_predecessors(self) -> None:
+        self.assertTrue(all(
+            RITE_OF_REBIRTH_EVENT in requirement.all_of
+            for requirement in REQUIREMENTS["Crest: Witch"]
+        ))
+        self.assertTrue(all(
+            "Wish: Restoration of Bellhart"
+            in requirement.required_locations
+            for requirement in REQUIREMENTS[
+                "Wish: Bellhart's Glory"
+            ]
+        ))
+
+
 class TestRoomGraphCountRequirements(TestCase):
+    def test_forced_act_three_boss_flags_remain_logic_sources(self) -> None:
+        for location_name in ('Boss: Fourth Chorus', 'Boss: Trobbio'):
+            with self.subTest(location=location_name):
+                self.assertTrue(
+                    any(
+                        'Event: Act 3 Started' in requirement.all_of
+                        for requirement in REQUIREMENTS[location_name]
+                    )
+                )
+
     def test_six_spool_fragments_use_all_fragment_items(self) -> None:
         requirement = _compiled_room_clause_requirement(
             CompiledRoomClause(
@@ -965,3 +1426,46 @@ class TestRoomGraphCountRequirements(TestCase):
 
         self.assertFalse(rule(five_fragment_state))
         self.assertTrue(rule(six_fragment_state))
+
+
+class TestShellwoodSkipBoundary(TestCase):
+    @staticmethod
+    def _setup(skips: str, bellway_randomization: str):
+        return setup_multiworld(
+            SilksongWorld,
+            steps=(
+                "generate_early",
+                "create_regions",
+                "create_items",
+                "set_rules",
+            ),
+            options={
+                "goal": "act_3",
+                "bellway_access": "randomized_stations",
+                "bellway_randomization": bellway_randomization,
+                "skips": skips,
+            },
+        )
+
+    def test_blasted_steps_bellway_does_not_unlock_sister_without_skips(
+        self,
+    ) -> None:
+        for bellway_randomization in ("vanilla", "anywhere", "shuffle"):
+            for skips, expected in (("none", False), ("easy", True)):
+                with self.subTest(
+                    bellway_randomization=bellway_randomization,
+                    skips=skips,
+                ):
+                    multiworld = self._setup(skips, bellway_randomization)
+                    world = multiworld.worlds[1]
+                    state = CollectionState(multiworld)
+                    location = multiworld.get_location(
+                        "Boss: Sister Splinter",
+                        1,
+                    )
+
+                    self.assertFalse(location.can_reach(state))
+                    state.collect(world.create_item("Bellway: Blasted Steps"))
+                    self.assertEqual(location.can_reach(state), expected)
+                    state.collect(world.create_item("Cling Grip"))
+                    self.assertTrue(location.can_reach(state))

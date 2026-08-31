@@ -52,6 +52,48 @@ namespace SilksongRandomizer.Patches
 
         public static IEnumerator EnsureUsableStartingCrest()
         {
+            while (PlayerData.instance == null ||
+                   SaveState.Instance == null)
+            {
+                yield return null;
+            }
+
+            while (NeedsRepair(PlayerData.instance.CurrentCrestID) &&
+                   PlayerData.instance.IsCurrentCrestTemp &&
+                   !SlabCaptureWarpSafety.IsActiveSlabCaptureCrest(
+                       PlayerData.instance))
+            {
+                string previousCrest = PlayerData.instance.PreviousCrestID;
+                string repairCrestName =
+                    !string.IsNullOrWhiteSpace(previousCrest) &&
+                    !NeedsRepair(previousCrest)
+                        ? previousCrest
+                        : SaveState.Instance.IsRandomized(ItemType.Crest)
+                            ? GetRepairCrest(
+                                SaveState.Instance.startingCrest
+                            )
+                            : "Hunter";
+                try
+                {
+                    if (Utils.ForceCrest(repairCrestName) &&
+                        !NeedsRepair(
+                            PlayerData.instance.CurrentCrestID
+                        ))
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning(
+                        "[RANDOMIZER] Temporary crest repair is waiting: " +
+                        ex.Message
+                    );
+                }
+
+                yield return new WaitForSecondsRealtime(0.25f);
+            }
+
             while (!IsCrestRuntimeReady() ||
                    SaveState.Instance == null ||
                    string.IsNullOrWhiteSpace(PlayerData.instance.CurrentCrestID))
@@ -60,6 +102,10 @@ namespace SilksongRandomizer.Patches
             }
 
             ToolPatches.EnsureReceivedBaseCrestsUnlocked();
+            if (ReceivedItemReconciliation.ReconcilePermanentState())
+            {
+                ToolItemManager.SendEquippedChangedEvent(force: true);
+            }
             ToolPatches.RemoveUnreceivedSilkspearFromCrests();
             ToolPatches.RemoveAutomaticCompassFromCrests();
             TravelPatches.ApplyBellwayAccessOption();
@@ -79,6 +125,10 @@ namespace SilksongRandomizer.Patches
             MaskShardsPatches.SynchronizeReceivedMaskShards(false);
             while (SaveState.Instance.IsRandomized(ItemType.Relic) &&
                    !CoreLocationPatches.TrySynchronizeReceivedRelics())
+            {
+                yield return null;
+            }
+            while (!RuinedToolPatches.TryReconcileReceivedOwnership())
             {
                 yield return null;
             }

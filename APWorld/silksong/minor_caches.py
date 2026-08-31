@@ -401,10 +401,21 @@ MINOR_CACHE_LOCATION_NAMES: tuple[str, ...] = tuple(
     ) not in NAMED_PICKUP_SOURCE_LOCATION_NAMES
 )
 
+RETIRED_MINOR_CACHE_LOCATION_NAMES: frozenset[str] = frozenset((
+    "Hunter's March - Rosary Chest",
+    "Far Fields - Rosary Chest #2",
+))
+
+ACTIVE_MINOR_CACHE_LOCATION_NAMES: tuple[str, ...] = tuple(
+    location_name
+    for location_name in MINOR_CACHE_LOCATION_NAMES
+    if location_name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
+)
+
 MINOR_CACHE_REWARD_BY_LOCATION: dict[str, str] = {
     location_first_name(location_name): reward_name
     for location_name, reward_name, *_identity in MINOR_CACHE_SOURCE
-    if location_first_name(location_name) in MINOR_CACHE_LOCATION_NAMES
+    if location_first_name(location_name) in ACTIVE_MINOR_CACHE_LOCATION_NAMES
 }
 
 MINOR_CACHE_FAMILY_BY_LOCATION: dict[str, str] = {
@@ -435,5 +446,5 @@ MINOR_CACHE_DISPLAY_AREA_BY_LOCATION: dict[str, str] = {
         _map_region,
         display_area,
     ) in MINOR_CACHE_SOURCE
-    if location_first_name(location_name) in MINOR_CACHE_LOCATION_NAMES
+    if location_first_name(location_name) in ACTIVE_MINOR_CACHE_LOCATION_NAMES
 }

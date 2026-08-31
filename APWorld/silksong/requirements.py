@@ -23,7 +23,7 @@ from .lore_tablets import (
     LORE_TABLET_SOURCES,
 )
 from .minor_caches import (
-    MINOR_CACHE_LOCATION_NAMES,
+    ACTIVE_MINOR_CACHE_LOCATION_NAMES,
     MINOR_CACHE_SOURCE,
 )
 from .locations import (
@@ -35,6 +35,7 @@ from .locations import (
     PINMASTER_OIL_QUEST_LOCATION,
     QUEST_LOCATION_NAMES,
     SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION,
+    SCROUNGE_RELIC_ITEM_NAMES,
     SILK_HEART_LOCATION_NAMES,
     SPOOL_FRAGMENT_LOCATION_NAMES,
     canonicalize_location_name,
@@ -45,6 +46,16 @@ from .room_graph_logic import (
     SPOOL_FRAGMENT_COUNT_ITEM,
     compile_room_graph,
     room_node_name,
+)
+from .wish_events import (
+    SILK_AND_SOUL_LACE_DEFEATED_ITEM,
+    SILK_AND_SOUL_MANDATORY_EVENTS,
+    SILK_AND_SOUL_MANDATORY_WISH_ITEM,
+    SILK_AND_SOUL_WISH_HALF_POINT_ITEM,
+    SILK_AND_SOUL_WISH_POINT_ITEM,
+    SONGCLAVE_BOARD_COMPLETION_ITEM,
+    WISH_LOGIC_EVENTS,
+    WISH_LOGIC_EVENT_ITEM_NAMES,
 )
 
 # Requirements are split between shared paths and individual locations.
@@ -274,6 +285,7 @@ CRAFTMETAL_ITEM = 'Craftmetal'
 MOSSBERRY_ITEM = 'Mossberry'
 POLLIP_HEART_ITEM = 'Pollip Heart'
 POLLIP_HEART_COUNT = 6
+RITE_OF_REBIRTH_EVENT = 'Event: Rite of Rebirth Completed'
 POLLIP_HEART_SOURCE_LOCATION_NAMES: tuple[str, ...] = tuple(
     LOCATION_NAMES_BY_CATEGORY['PollipHeart']
 )
@@ -837,8 +849,9 @@ PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
         # This Wish also needs its quest chain. Unlike the three nearby
         # Act-conversion Wishes, it is not permanently missable.
         'Wish: An Icon of Hope',
-        # The mapper supplied the capture route into the Slab combat Arena.
+        # The capture route reaches the Slab combat Arena.
         'Wish: Passing of the Age',
+        "Wish: Queen's Egg",
         *(
             (SINNER_MISSING_BROTHER_LOCATION,)
             if SINNER_MISSING_BROTHER_COMMUNITY_EVENT_COMPILED
@@ -988,7 +1001,7 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
     ROOM_GRAPH_CANONICAL_CHECK_NAMES
     & frozenset(
         canonicalize_location_name(name)
-        for name in MINOR_CACHE_LOCATION_NAMES
+        for name in ACTIVE_MINOR_CACHE_LOCATION_NAMES
     )
 )
 
@@ -996,13 +1009,10 @@ ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     "Architect's Key",
     'Blasted Steps - Map Purchase',
     'Blasted Steps - Memory Locket',
-    'Bonegrave - Mossberry',
     'Boss: Voltvyrm',
     'Choral Chambers - Memory Locket',
-    'Clawline',
     'Cogwork Wheel',
     'Crest: Architect',
-    'Flea: Underworks',
     'Greymoor - Bellshrine',
     'Sawtooth Circlet',
     'Sands of Karak - Map Purchase',
@@ -1012,16 +1022,9 @@ ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     'Silkshot (Twelfth Architect)',
     'Twelfth Architect - Crafting Kit',
     'Underworks (East) - Spool Fragment',
-    'Underworks - Craftmetal',
-    'Underworks - Memory Locket',
     'Underworks - Pristine Core',
-    'Underworks - Shard Bundle #2',
     'Underworks - Shell Shard Cache #1',
     'Underworks - Shell Shard Cache #2',
-    'Underworks - Shell Shard Cache #3',
-    'Underworks - Shell Shard Cache #4',
-    'Underworks - Shell Shard Cache #5',
-    'Underworks - Shell Shard Cache #6',
     'Underworks - Shell Shard Cache #7',
     'Underworks - Shell Shard Cache #8',
     'Underworks - Shell Shard Cache #9',
@@ -1396,6 +1399,7 @@ _POLLIP_RITE_BASE_REQUIREMENTS = ROOM_NODE_REQUIREMENTS.get(
 )
 
 
+@lru_cache(maxsize=2)
 def _get_pollip_rite_room_requirements(
     pollip_heart_count: int,
 ) -> tuple[LocationRequirement, ...]:
@@ -2102,7 +2106,25 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Deep Docks - Diving Bell'),
     ),
     'Path: Abyss - Escape': (
-        req('Path: Abyss - Void Tendrils', 'Ancestral Art: Silk Soar'),
+        # Abyss remains outside the authoritative room graph, but every escape
+        # route ends at the same one-way gauntlet. Keep its universal gate here
+        # without choosing between the earlier Upper Big Room/Landing branches.
+        req(
+            'Path: Abyss - Void Tendrils',
+            'Ancestral Art: Silk Soar',
+            "Ability: Drifter's Cloak",
+            'Ancestral Art: Cling Grip',
+            'Ability: Faydown Cloak',
+            skip_tier=1,
+        ),
+        req(
+            'Path: Abyss - Void Tendrils',
+            'Ancestral Art: Silk Soar',
+            "Ability: Drifter's Cloak",
+            'Ancestral Art: Cling Grip',
+            'Ability: Faydown Cloak',
+            'Ancestral Art: Clawline',
+        ),
     ),
     # Bellways
     'Path: Bellways': (
@@ -2259,6 +2281,20 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Widow Defeated': (
         req('Path: Bellhart - Widow', crest=False),
     ),
+    'Event: Rite of the Pollip Completed': (
+        req(POLLIP_RITE_ROOM_NODE, crest=False),
+    ),
+    # Greyroot cannot begin the Rite of Rebirth until the active six-flower
+    # Rite of Pollip is complete and Widow has been defeated. Twisted Bud and
+    # the six physical/randomized flower sources are inherited through the
+    # authoritative Shellwood_25b room node.
+    RITE_OF_REBIRTH_EVENT: (
+        req(
+            POLLIP_RITE_ROOM_NODE,
+            'Event: Widow Defeated',
+            crest=False,
+        ),
+    ),
     # The tools and Flea beyond the Craw Lake arena are all downstream of the
     # same combat gauntlet. Combat execution is not a separate difficulty gate,
     # so reaching the arena with the vanilla traversal ability resolves it.
@@ -2308,10 +2344,52 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
+    'Event: Other Courier Delivery Completed': (
+        area(
+            1,
+            'Mosslands - Bone Bottom',
+            'Path: Bellhart - Bellhart',
+            'Event: Bell Beast Defeated',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            3,
+            'Mosslands - Bone Bottom',
+            'Path: Bellhart - Bellhart',
+        ),
+        area(
+            2,
+            'Putrified Ducts - Fleatopia',
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+            item_counts=(item_count(22, *FLEA_ITEMS),),
+        ),
+        area(
+            1,
+            "Far Fields - Pilgrim's Rest",
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            2,
+            'Choral Chambers - Songclave',
+            'Path: Bellhart - Bellhart',
+            'Event: Missing Brother Rescued',
+        ),
+        area(
+            3,
+            'Choral Chambers - Songclave',
+            'Path: Bellhart - Bellhart',
+        ),
+    ),
     'Event: Queen\'s Egg Delivered': (
         req(
             'Path: Bellhart - Bellhart',
-            "Path: Sinner's Road - Styx",
+            'Event: Missing Brother Rescued',
+            'Event: Other Courier Delivery Completed',
+            room_node_name(
+                'sinner-s-road/sinner-s-road-styx-room#right'
+            ),
             crest=False,
         ),
     ),
@@ -2384,15 +2462,14 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Event: Strengthening Songclave Completed': (
         req(
-            # Donation 2 also checks a four-Wish Songclave counter. The AP
-            # graph cannot yet express that counter without making one
-            # arbitrary set of optional Wishes mandatory, so only its known
-            # prerequisite Wish chain and turn-in area are encoded here.
+            # Donation 2 is Donation 1 plus any three other verified
+            # pre-Donation-2 Enclave-board completions.
             'Event: Building Up Songclave Completed',
-            'Event: Fine Pins Completed',
-            'Event: Cloaks of the Choir Completed',
             'Path: Choral Chambers - Songclave',
             crest=False,
+            item_counts=(
+                item_count(4, SONGCLAVE_BOARD_COMPLETION_ITEM),
+            ),
         ),
     ),
     'Event: Whiteward Elevator Unlocked': (
@@ -2541,11 +2618,13 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     # Trail's End uses Shakra's carried stock by default. owned_maps
     # replaces those purchases with ownership of the same 14 map items.
     'Event: Trail\'s End Completed': get_trails_end_requirements(),
-    'Event: Silk and Soul Completed': (
+    'Event: Silk and Soul Completed': tuple(
         req(
             'Event: Act 2 Started',
             'Event: Cradle Opened',
             'Event: Trail\'s End Completed',
+            # These two paths also cover the native caravan-at-aqueduct and
+            # Bellhart full-house conversations after their required Wishes.
             'Path: Putrified Ducts - Fleatopia',
             'Path: Choral Chambers - Songclave',
             'Path: The Cradle - Terminus',
@@ -2557,8 +2636,40 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             'Ancestral Art: Needolin',
             'Ability: Faydown Cloak',
             'Tool: Snare Setter',
+            SILK_AND_SOUL_LACE_DEFEATED_ITEM,
             crest=False,
-        ),
+            item_counts=tuple(
+                count_requirement
+                for count_requirement in (
+                    item_count(
+                        len(SILK_AND_SOUL_MANDATORY_EVENTS),
+                        SILK_AND_SOUL_MANDATORY_WISH_ITEM,
+                    ),
+                    item_count(
+                        full_point_count,
+                        SILK_AND_SOUL_WISH_POINT_ITEM,
+                    ),
+                    (
+                        item_count(
+                            half_point_count,
+                            SILK_AND_SOUL_WISH_HALF_POINT_ITEM,
+                        )
+                        if half_point_count
+                        else None
+                    ),
+                )
+                if count_requirement is not None
+            ),
+        )
+        # The native target is 17 points. Full Wishes are one point and the
+        # six supply/delivery Wishes are half a point, so only even half-point
+        # thresholds change the minimum number of full Wishes.
+        for full_point_count, half_point_count in (
+            (17, 0),
+            (16, 2),
+            (15, 4),
+            (14, 6),
+        )
     ),
     'Event: Grand Mother Silk Snared': (
         req(
@@ -2657,8 +2768,24 @@ class _VersionedRequirementMap(
         return self
 
 
+LEDGE_GRAB_CAPABILITY_REQUIREMENT = 'Capability: Ledge Grab'
+SWIM_CAPABILITY_REQUIREMENT = 'Capability: Swim'
+INNATE_CAPABILITY_REQUIREMENTS = {
+    LEDGE_GRAB_CAPABILITY_REQUIREMENT: (req(crest=False),),
+    SWIM_CAPABILITY_REQUIREMENT: (req(crest=False),),
+}
+RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS = {
+    LEDGE_GRAB_CAPABILITY_REQUIREMENT: (
+        req('Ledge Grab', crest=False),
+    ),
+    SWIM_CAPABILITY_REQUIREMENT: (
+        req('Swim', crest=False),
+    ),
+}
+
 ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
     {
+        **INNATE_CAPABILITY_REQUIREMENTS,
         **ACT_REQUIREMENTS,
         **EVENT_REQUIREMENTS,
         **PATH_REQUIREMENTS,
@@ -2710,6 +2837,8 @@ def get_abstract_requirements(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     pollip_heart_count: int = 0,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
@@ -2729,10 +2858,24 @@ def get_abstract_requirements(
         and starting_location == STARTING_LOCATION_VANILLA
         and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
         and not pollip_heart_count
+        and not randomize_ledge_grab
+        and not randomize_swim
     ):
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    if randomize_ledge_grab:
+        adjusted_requirements[LEDGE_GRAB_CAPABILITY_REQUIREMENT] = (
+            RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
+                LEDGE_GRAB_CAPABILITY_REQUIREMENT
+            ]
+        )
+    if randomize_swim:
+        adjusted_requirements[SWIM_CAPABILITY_REQUIREMENT] = (
+            RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
+                SWIM_CAPABILITY_REQUIREMENT
+            ]
+        )
     if allow_bellways_before_bell_beast:
         adjusted_requirements['Path: Bellways'] = (
             BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
@@ -3210,7 +3353,11 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Greymoor - Bellshrine',
         CRAFTMETAL_ITEM,
     )),
-    ('Crest Unlock: Witch', area(2, 'Greymoor - Halfway House', 'Path: Shellwood - Greyroot', 'Path: Bilewater - Twisted Bud')),
+    ('Crest Unlock: Witch', area(
+        2,
+        'Greymoor - Halfway House',
+        RITE_OF_REBIRTH_EVENT,
+    )),
     ('Tool Unlock: Wisp Lantern', area(1, 'Greymoor - Wisp Thicket')),
 
     # The confirmed upper-tower route needs the complete movement set below.
@@ -3515,7 +3662,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Spell Unlock: Silk Boss Needle', area(3, 'Abyss - Void Tendrils')),  # Pale Nails requires Act 3 return using Silk Soar.
     ('Skill Unlock: Silk Soar', area(3, 'Abyss - Void Tendrils', 'Ancestral Art: Needolin')),
 
-    # OPTIONAL NEEDLE UPGRADE RANDOMIZATION
     # Rosary prices are grindable and therefore are not AP inventory gates.
     ('Pinmaster Plinney: Sharpened Needle', req(
         'Event: Widow Defeated',
@@ -3733,8 +3879,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Flexile Spines Completed',
     )),
     # StartAct3 force-sets this flag when the optional Act 1 encounter was
-    # skipped. Model the vanilla alias explicitly. The check remains
-    # always junk-only because its original encounter is missable.
+    # skipped. Model the vanilla alias explicitly.
     ('Boss Completion: defeatedSongGolem', req(
         'Event: Act 3 Started',
         crest=False,
@@ -3929,18 +4074,21 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Bellhart - Bellhart',
         'Event: Widow Defeated',
         'Event: Cogwork Dancers Defeated',
+        required_locations=('Quest Completion: Belltown House Start',),
     )),
     ('Quest Completion: Belltown House Mid', area(
         2,
         'Bellhart - Bellhart',
         'Event: Widow Defeated',
         'Ancestral Art: Clawline',
+        required_locations=('Quest Completion: Belltown House Start',),
     )),
     ('Quest Completion: Belltown House Mid', area(
         2,
         'Bellhart - Bellhart',
         'Event: Widow Defeated',
         'Path: Choral Chambers - Songclave',
+        required_locations=('Quest Completion: Belltown House Start',),
     )),
     ('Quest Completion: Building Materials', req(
         'Event: Bone Bottom Repairs Completed',
@@ -4912,7 +5060,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ),
     *(
         (location_name, _minor_cache_requirement(location_name))
-        for location_name in MINOR_CACHE_LOCATION_NAMES
+        for location_name in ACTIVE_MINOR_CACHE_LOCATION_NAMES
     ),
     *(
         (
@@ -4963,19 +5111,45 @@ _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
         'Relic: Choral Commandment (Moss Grotto)',
         'Bone Bottom - Rosary Cache #8',
         'Bone Bottom - Rosary Cache #9',
-        # These two Deep Docks checks do not have room-graph records.
+        # Their graph records are not yet connected by a complete route.
         'Deep Docks - Rosary Cache #1',
         'Deep Docks - Rosary Cache #2',
     )
 )
 
 
-# Conditions here describe completion or stock state, not how to stand at the
-# physical source. They are attached to every room-graph source
-# clause for the location instead of being mistaken for alternate geometry.
+_CLAWLINE_GATED_LOCATIONS: frozenset[str] = frozenset(
+    (
+        'Whispering Vaults - Rosary Cache #5',
+        'Whispering Vaults - Shell Shard Cache #1',
+        'Songclave - Heavy Rosary Necklace',
+        'Relic: Psalm Cylinder (East Whispering Vaults)',
+        'Deep Docks - Shard Bundle #1',
+        'Deep Docks - Shell Shard Cache #5',
+        'Deep Docks - Rosary Cache #1',
+        'Deep Docks - Rosary Cache #2',
+        'Flintslate',
+        'Deep Docks - Shell Shard Cache #6',
+        'Deep Docks - Shell Shard Cache #7',
+        'Deep Docks - Shell Shard Cache #8',
+        'Deep Docks - Shell Shard Cache #9',
+        'Cogfly',
+        'High Halls - Shell Shard Cache #2',
+    )
+)
+
+
+# These local conditions remain attached to every room-graph source clause.
+# They supplement source geometry instead of becoming alternate routes.
 _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     str, tuple[LocationRequirement, ...]
 ] = {
+    **{
+        location_name: (
+            req('Ancestral Art: Clawline', crest=False),
+        )
+        for location_name in _CLAWLINE_GATED_LOCATIONS
+    },
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.
     'Greymoor - Bellshrine': (
@@ -5004,6 +5178,11 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     ),
     'Magma Bell': (
         req(CRAFTMETAL_ITEM, crest=False),
+    ),
+    # Keelal appears only after Greyroot's Rite of Rebirth. Preserve this
+    # local story gate when the room graph replaces the old flat source row.
+    'Relic: Weaver Effigy (Keelal, Shellwood)': (
+        req(RITE_OF_REBIRTH_EVENT, crest=False),
     ),
     'Pin Purchase: Bellway Pins': (
         req('Event: Bell Beast Defeated', crest=False),
@@ -5075,9 +5254,6 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         req(SINNER_MISSING_COURIER_EVENT, crest=False),
     ),
     'Shellwood - Weaver Harp Inscription': (
-        req('Ancestral Art: Needolin', crest=False),
-    ),
-    'Cling Grip': (
         req('Ancestral Art: Needolin', crest=False),
     ),
     'Bellhart Roof - Memory Locket': (
@@ -5164,6 +5340,12 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
 _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     str, tuple[LocationRequirement, ...]
 ] = {
+    'Boss: Fourth Chorus': (
+        req('Event: Act 3 Started', crest=False),
+    ),
+    'Boss: Trobbio': (
+        req('Event: Act 3 Started', crest=False),
+    ),
     'Greymoor - Map Purchase': (
         req('Path: Greymoor - Halfway House', crest=False),
     ),
@@ -5287,6 +5469,21 @@ def _compile_requirements(
     return {name: tuple(requirements) for name, requirements in compiled.items()}
 
 
+def _attach_preserved_local_gates(
+    location_name: str,
+    sources: Iterable[LocationRequirement],
+) -> Iterable[LocationRequirement]:
+    gates = _ROOM_GRAPH_PRESERVED_LOCAL_GATES.get(location_name)
+    if not gates:
+        yield from sources
+        return
+    yield from (
+        _combine_room_graph_gate(source, gate)
+        for source in sources
+        for gate in gates
+    )
+
+
 _ESTABLISHED_REQUIREMENTS_BY_LOCATION: dict[
     str, tuple[LocationRequirement, ...]
 ] = _compile_requirements(_CANONICAL_REQUIREMENT_ROW_SOURCE)
@@ -5305,25 +5502,20 @@ def _authoritative_requirement_rows() -> Iterable[
         ):
             yield from (
                 (location_name, requirement)
-                for requirement in established
+                for requirement in _attach_preserved_local_gates(
+                    location_name,
+                    established,
+                )
             )
             continue
 
-        gates = _ROOM_GRAPH_PRESERVED_LOCAL_GATES.get(location_name)
-        if gates:
-            yield from (
-                (
-                    location_name,
-                    _combine_room_graph_gate(graph_source, gate),
-                )
-                for graph_source in graph_sources
-                for gate in gates
+        yield from (
+            (location_name, requirement)
+            for requirement in _attach_preserved_local_gates(
+                location_name,
+                graph_sources,
             )
-        else:
-            yield from (
-                (location_name, graph_source)
-                for graph_source in graph_sources
-            )
+        )
 
         yield from (
             (location_name, alternative)
@@ -5339,7 +5531,10 @@ def _authoritative_requirement_rows() -> Iterable[
         (location_name, requirement)
         for location_name, requirements in ROOM_CHECK_REQUIREMENTS.items()
         if location_name not in _ESTABLISHED_REQUIREMENTS_BY_LOCATION
-        for requirement in requirements
+        for requirement in _attach_preserved_local_gates(
+            location_name,
+            requirements,
+        )
     )
 
 
@@ -5429,7 +5624,7 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
         # requirements are represented.
         *(
             location_name
-            for location_name in MINOR_CACHE_LOCATION_NAMES
+            for location_name in ACTIVE_MINOR_CACHE_LOCATION_NAMES
             if (
                 canonicalize_location_name(location_name)
                 not in MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS
@@ -5443,7 +5638,7 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
 # hold advancement items.
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
-)
+) - frozenset((PINMASTER_OIL_QUEST_LOCATION,))
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = (
     _LOGIC_PASS_A_PROGRESSION_CANDIDATES - LOGIC_UNKNOWN_LOCATIONS
 )
@@ -5513,17 +5708,25 @@ _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
 )
 
 
-@lru_cache(maxsize=16)
+@lru_cache(maxsize=64)
 def _get_static_abstract_requirement_items(
     allow_bellways_before_bell_beast: bool,
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
     starting_location = normalize_starting_location_key(starting_location)
     trails_end_requirement = normalize_trails_end_requirement(
         trails_end_requirement
     )
+    if pollip_heart_count not in (0, POLLIP_HEART_COUNT):
+        raise ValueError(
+            "Pollip Heart count must use the live quest threshold of "
+            f"{POLLIP_HEART_COUNT} but received {pollip_heart_count!r}."
+        )
     if randomized_crest_slots_enabled:
         requirement_items = (
             _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS
@@ -5537,9 +5740,46 @@ def _get_static_abstract_requirement_items(
             else _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
         )
 
+    if randomize_ledge_grab or randomize_swim:
+        randomized_capabilities = {
+            **(
+                {
+                    LEDGE_GRAB_CAPABILITY_REQUIREMENT: (
+                        RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
+                            LEDGE_GRAB_CAPABILITY_REQUIREMENT
+                        ]
+                    )
+                }
+                if randomize_ledge_grab
+                else {}
+            ),
+            **(
+                {
+                    SWIM_CAPABILITY_REQUIREMENT: (
+                        RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
+                            SWIM_CAPABILITY_REQUIREMENT
+                        ]
+                    )
+                }
+                if randomize_swim
+                else {}
+            ),
+        }
+        requirement_items = tuple(
+            (
+                requirement_name,
+                randomized_capabilities.get(
+                    requirement_name,
+                    alternatives,
+                ),
+            )
+            for requirement_name, alternatives in requirement_items
+        )
+
     if (
         starting_location == STARTING_LOCATION_VANILLA
         and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
+        and not pollip_heart_count
     ):
         return requirement_items
 
@@ -5561,6 +5801,11 @@ def _get_static_abstract_requirement_items(
                 requirement_name == "Event: Trail's End Completed"
                 and trails_end_requirement
                 == TRAILS_END_REQUIREMENT_OWNED_MAPS
+            )
+            else _get_pollip_rite_room_requirements(pollip_heart_count)
+            if (
+                requirement_name == POLLIP_RITE_ROOM_NODE
+                and pollip_heart_count
             )
             else alternatives,
         )
@@ -5642,18 +5887,24 @@ def _compile_abstract_worklist_plan(
     )
 
 
-@lru_cache(maxsize=16)
+@lru_cache(maxsize=64)
 def _compile_static_abstract_worklist_plan(
     allow_bellways_before_bell_beast: bool,
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> _AbstractWorklistPlan:
     requirements_signature = _get_static_abstract_requirement_items(
         allow_bellways_before_bell_beast,
         randomized_crest_slots_enabled,
         starting_location,
         trails_end_requirement,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     )
     return _compile_abstract_worklist_plan(requirements_signature)
 
@@ -5667,6 +5918,9 @@ def _matches_static_abstract_requirements(
     randomized_crest_slots_enabled: bool,
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> bool:
     """Return whether this is the unchanged runtime graph."""
 
@@ -5675,6 +5929,9 @@ def _matches_static_abstract_requirements(
         randomized_crest_slots_enabled,
         starting_location,
         trails_end_requirement,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     )
     return (
         len(abstract_requirements) == len(expected_items)
@@ -5695,6 +5952,9 @@ def _compute_abstract_values(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> tuple[
     dict[str, bool],
     bool,
@@ -5728,6 +5988,9 @@ def _compute_abstract_values(
             normalize_starting_location_key(starting_location),
             normalize_trails_end_requirement(trails_end_requirement),
             scuttlebrace_logic_enabled,
+            randomize_ledge_grab,
+            randomize_swim,
+            pollip_heart_count,
             inventory_signature,
             ABSTRACT_REQUIREMENTS.revision,
         )
@@ -5779,6 +6042,9 @@ def _compute_abstract_values(
         randomized_crest_slots_enabled,
         starting_location,
         trails_end_requirement,
+        pollip_heart_count,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
     )
     if _matches_static_abstract_requirements(
         abstract_requirements,
@@ -5786,12 +6052,18 @@ def _compute_abstract_values(
         randomized_crest_slots_enabled,
         starting_location,
         trails_end_requirement,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     ):
         worklist_plan = _compile_static_abstract_worklist_plan(
             allow_bellways_before_bell_beast,
             randomized_crest_slots_enabled,
             starting_location,
             trails_end_requirement,
+            randomize_ledge_grab,
+            randomize_swim,
+            pollip_heart_count,
         )
     else:
         # Validation tools occasionally patch the graph. Compile those
@@ -6001,6 +6273,9 @@ def _has_named_requirement(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6018,6 +6293,9 @@ def _has_named_requirement(
         starting_location,
         trails_end_requirement,
         scuttlebrace_logic_enabled,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     )
     return _has_named_requirement_with_values(
         item_or_requirement_name,
@@ -6039,6 +6317,9 @@ def _satisfies_requirement(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6057,6 +6338,9 @@ def _satisfies_requirement(
             starting_location,
             trails_end_requirement,
             scuttlebrace_logic_enabled,
+            randomize_ledge_grab,
+            randomize_swim,
+            pollip_heart_count,
         )
     )
     return _satisfies_requirement_with_values(
@@ -6082,6 +6366,9 @@ def make_requirements_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ):
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
@@ -6098,6 +6385,9 @@ def make_requirements_rule(
                 starting_location,
                 trails_end_requirement,
                 scuttlebrace_logic_enabled,
+                randomize_ledge_grab,
+                randomize_swim,
+                pollip_heart_count,
             )
         )
         return any(
@@ -6129,6 +6419,9 @@ def make_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
 ):
     if is_logic_unknown_location(location_name):
         return lambda _state: True
@@ -6136,6 +6429,7 @@ def make_rule(
         get_location_requirements(
             location_name,
             crest_slot_memory_locket_count,
+            pollip_heart_count,
         ),
         player,
         split_dash_and_sprint,
@@ -6145,6 +6439,9 @@ def make_rule(
         starting_location,
         trails_end_requirement,
         scuttlebrace_logic_enabled,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     )
 
 
@@ -6212,13 +6509,31 @@ def get_location_requirements(
     return requirements
 
 
+def get_pinmaster_oil_requirements(
+    randomize_pale_oils: bool,
+) -> tuple[LocationRequirement, ...]:
+    requirements = get_location_requirements(PINMASTER_OIL_QUEST_LOCATION)
+    if not randomize_pale_oils:
+        return requirements
+    return (area(
+        2,
+        'Bellhart - Bellhart',
+        'Event: Widow Defeated',
+        item_counts=(
+            item_count(1, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),
+            item_count(1, PALE_OIL_ITEM),
+        ),
+    ),)
+
+
 def get_crawfather_requirements(
     randomize_needle_upgrades: bool,
+    randomize_pale_oils: bool,
 ) -> tuple[LocationRequirement, ...]:
     """Return Crawfather's movement and Needle upgrade gates."""
 
     requirements = get_location_requirements(CRAWFATHER_LOCATION)
-    if randomize_needle_upgrades:
+    if randomize_needle_upgrades or randomize_pale_oils:
         return tuple(
             replace(
                 requirement,
@@ -6364,6 +6679,8 @@ def make_goal_rule(
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
     spelling_bee_item_names: tuple[str, ...] | None = None,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ):
     return make_requirements_rule(
         get_goal_requirements(
@@ -6380,6 +6697,9 @@ def make_goal_rule(
         starting_location,
         trails_end_requirement,
         scuttlebrace_logic_enabled,
+        randomize_ledge_grab,
+        randomize_swim,
+        pollip_heart_count,
     )
 
 
@@ -6424,8 +6744,10 @@ def export_requirements(
     pollip_heart_count: int = 0,
     bone_bottom_statue_tool_pouch_count: int = 0,
     randomize_needle_upgrades: bool = False,
+    randomize_pale_oils: bool = False,
     scuttlebrace_logic_enabled: bool = True,
     spelling_bee_item_names: tuple[str, ...] | None = None,
+    randomized_relics: bool = False,
 ) -> Mapping[str, dict[str, object]]:
     exported: dict[str, dict[str, object]] = {}
     for name, requirements in REQUIREMENTS.items():
@@ -6438,9 +6760,14 @@ def export_requirements(
             )
             if name == 'Goal'
             else get_crawfather_requirements(
-                randomize_needle_upgrades
+                randomize_needle_upgrades,
+                randomize_pale_oils,
             )
             if name == CRAWFATHER_LOCATION
+            else get_pinmaster_oil_requirements(
+                randomize_pale_oils
+            )
+            if name == PINMASTER_OIL_QUEST_LOCATION
             else get_location_requirements(
                 name,
                 crest_slot_memory_locket_count,
@@ -6469,6 +6796,31 @@ def export_requirements(
                 )
                 for requirement in resolved_requirements
             )
+        if name == 'Quest Completion: Belltown House Start':
+            if randomize_needle_upgrades:
+                resolved_requirements = tuple(
+                    replace(
+                        requirement,
+                        item_counts=_merge_item_count_requirements(
+                            requirement.item_counts,
+                            (
+                                item_count(
+                                    1,
+                                    PROGRESSIVE_NEEDLE_UPGRADE_ITEM,
+                                ),
+                            ),
+                        ),
+                    )
+                    for requirement in resolved_requirements
+                )
+            if randomized_relics:
+                resolved_requirements = tuple(
+                    replace(
+                        requirement,
+                        any_of=SCROUNGE_RELIC_ITEM_NAMES,
+                    )
+                    for requirement in resolved_requirements
+                )
         group = _export_requirement_group(
             _apply_scuttlebrace_logic_option(
                 resolved_requirements,
@@ -6485,6 +6837,38 @@ def export_requirements(
     return exported
 
 
+def export_wish_logic_events(
+    exported_requirements: Mapping[str, dict[str, object]],
+    active_event_names: Iterable[str] | None = None,
+) -> list[dict[str, object]]:
+    """Export the same hidden event sources used by the AP region graph."""
+
+    active_names = (
+        None
+        if active_event_names is None
+        else frozenset(active_event_names)
+    )
+    exported_events: list[dict[str, object]] = []
+    for event in WISH_LOGIC_EVENTS:
+        if active_names is not None and event.location_name not in active_names:
+            continue
+        if event.source_location:
+            source_name = canonicalize_location_name(
+                event.source_location
+            )
+            source_group = exported_requirements[source_name]
+        else:
+            source_group = _export_requirement_group((
+                req(event.source_region, crest=False),
+            ))
+        exported_events.append({
+            'location': event.location_name,
+            'item': event.item_name,
+            'requirement': source_group,
+        })
+    return exported_events
+
+
 def export_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
@@ -6492,6 +6876,8 @@ def export_abstract_requirements(
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
     pollip_heart_count: int = 0,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
@@ -6508,6 +6894,8 @@ def export_abstract_requirements(
             starting_location,
             trails_end_requirement,
             pollip_heart_count,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
         ).items()
         if (
             scuttlebrace_logic_enabled
@@ -6628,9 +7016,16 @@ def _get_location_self_dependencies(
     # classifications. A location holding one copy of a repeatable item is
     # not self-locked when another copy of that same item can satisfy its
     # requirement. Validation must remove one copy, not the entire identity.
-    from .items import ITEM_POOL_COUNTS
+    from .items import ITEM_POOL_COUNTS, REPEATED_CATEGORY_ITEM_COUNTS
 
     item_name_set = frozenset(item_names)
+    maximum_item_counts = dict(ITEM_POOL_COUNTS)
+    for category_counts in REPEATED_CATEGORY_ITEM_COUNTS.values():
+        for item_name, count in category_counts.items():
+            maximum_item_counts[item_name] = max(
+                maximum_item_counts.get(item_name, 1),
+                count,
+            )
 
     class ValidationState:
         def __init__(self, missing_item: str | None):
@@ -6638,7 +7033,7 @@ def _get_location_self_dependencies(
             self.missing_item_count = (
                 0
                 if missing_item is None
-                else max(0, ITEM_POOL_COUNTS.get(missing_item, 1) - 1)
+                else max(0, maximum_item_counts.get(missing_item, 1) - 1)
             )
             self._silksong_inventory_signature = (
                 'validation',
@@ -6671,6 +7066,7 @@ def _get_location_self_dependencies(
             missing_item_states[item_name] = state
         return state
 
+    logic_item_references = get_logic_item_references()
     dependencies = {
         f"{location_name} -> {reward_name}"
         for location_name in location_names
@@ -6679,6 +7075,7 @@ def _get_location_self_dependencies(
             and location_name not in LOGIC_UNKNOWN_LOCATIONS
         )
         for reward_name in (_get_vanilla_reward_name(location_name),)
+        if reward_name in logic_item_references
         for access_rule in (make_rule(location_name, player, skips_tier=3),)
         if (
             reward_name in item_name_set
@@ -6699,6 +7096,11 @@ def get_logic_item_references() -> frozenset[str]:
     all_requirements = tuple(
         requirement
         for requirement_groups in _all_requirement_groups()
+        for requirement in requirement_groups
+    ) + tuple(
+        requirement
+        for requirement_groups
+        in RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS.values()
         for requirement in requirement_groups
     ) + get_trails_end_requirements(
         TRAILS_END_REQUIREMENT_OWNED_MAPS
@@ -6740,6 +7142,7 @@ def _requirements_validation_signature(
         progression_item_names,
         tuple(REQUIREMENTS.items()),
         tuple(ABSTRACT_REQUIREMENTS.items()),
+        tuple(RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS.items()),
         tuple(PATH_REQUIREMENTS.items()),
         PATH_ORDER,
         LOGIC_UNKNOWN_LOCATIONS,
@@ -6763,11 +7166,14 @@ def validate_requirements(
     progression_item_names: Iterable[str] | None = None,
 ) -> None:
     location_name_set = frozenset(location_names)
-    item_name_set = frozenset(item_names)
+    item_name_set = frozenset(item_names) | WISH_LOGIC_EVENT_ITEM_NAMES
     progression_item_name_set = (
         None
         if progression_item_names is None
-        else frozenset(progression_item_names)
+        else (
+            frozenset(progression_item_names)
+            | WISH_LOGIC_EVENT_ITEM_NAMES
+        )
     )
     validation_signature = _requirements_validation_signature(
         location_name_set,

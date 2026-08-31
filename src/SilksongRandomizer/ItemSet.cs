@@ -520,8 +520,10 @@ namespace SilksongRandomizer
             new Item("Ancestral Art: Swift Step", ItemType.Skill, ItemGrants.GrantDash),
             new Item("Progressive Swift Step", ItemType.Skill, ItemGrants.GrantProgressiveSwiftStep, true),
             new Item("Ancestral Art: Clawline", ItemType.Skill, () => { SaveState.Instance.canUseHarpoon = true; }),
-            new Item("Item: Quill", ItemType.Skill, () => { SaveState.Instance.canUseQuill = true; }),
-            new Item("Progressive Compass", ItemType.Skill, () => { SaveState.Instance.canUseQuill = true; }),
+            new Item("Item: Quill", ItemType.Skill,
+                Patches.QuillPatches.GrantQuill),
+            new Item("Progressive Compass", ItemType.Skill,
+                Patches.QuillPatches.GrantQuill),
             new Item("Ancestral Art: Needolin", ItemType.Skill, () => { SaveState.Instance.canUseNeedolin = true; }),
 
             // Repeatable filler and progressive upgrades. Each copy is applied once
@@ -540,7 +542,9 @@ namespace SilksongRandomizer
             new Item("Progressive Tool Pouch", ItemType.ToolPouch, ItemGrants.GrantToolPouchUpgrade, true),
             new Item("Progressive Druid's Eyes", ItemType.Upgrade, ItemGrants.GrantProgressiveDruidsEye, true),
             new Item("Progressive Needle Upgrade", ItemType.NeedleUpgrade, ItemGrants.GrantProgressiveNeedleUpgrade, true),
-            new Item("Pale Oil", ItemType.NeedleUpgrade, ItemGrants.GrantPaleOil, true),
+            new Item("Pale Oil", ItemType.PaleOil, ItemGrants.GrantPaleOil, true),
+            new Item("Ledge Grab", ItemType.InnateAbility, null),
+            new Item("Swim", ItemType.InnateAbility, null),
 
             // Optional repeatable traps. The APWorld replaces an equal number
             // of currency fillers, so enabling these never changes pool size.

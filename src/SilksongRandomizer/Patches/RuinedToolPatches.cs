@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
 namespace SilksongRandomizer.Patches
@@ -13,6 +14,11 @@ namespace SilksongRandomizer.Patches
         internal const string NativeSceneName = "Shadow_Weavehome";
         internal const float NativePositionX = 76.642f;
         internal const float NativePositionY = 54.577f;
+        private const string OriginalRepairSceneName = "Peak_12";
+        private const string OriginalRepairOwnerName = "Webshot Scene";
+        private const string OriginalRepairFsmName = "Repair webshot";
+        private const string OriginalRepairGateStateName =
+            "Has broken SilkShot?";
 
         private const float SourceMatchTolerance = 0.75f;
 
@@ -73,6 +79,34 @@ namespace SilksongRandomizer.Patches
             }
 
             RestoreSharedToolWhileRepairRemains(state);
+            return true;
+        }
+
+        internal static bool TryReconcileReceivedOwnership()
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null)
+            {
+                return false;
+            }
+            if (!state.IsRandomized(ItemType.Tool) ||
+                state.receivedItems == null ||
+                !state.receivedItems.Contains(LocationName) ||
+                !HasRemainingActiveRepair(state))
+            {
+                return true;
+            }
+
+            CollectableItem ruinedTool =
+                CollectableItemManager.GetItemByName(NativeAssetName);
+            if (ruinedTool == null)
+            {
+                return false;
+            }
+            if (ruinedTool.CollectedAmount <= 0)
+            {
+                ruinedTool.Collect(1, false);
+            }
             return true;
         }
 
@@ -183,6 +217,49 @@ namespace SilksongRandomizer.Patches
                 new Vector2(NativePositionX, NativePositionY);
             return offset.sqrMagnitude <=
                    SourceMatchTolerance * SourceMatchTolerance;
+        }
+
+        private static bool MatchesOriginalRepairOwnershipGate(
+            CollectableItemGetData action
+        )
+        {
+            return action != null &&
+                   action.Owner != null &&
+                   action.Fsm != null &&
+                   action.State != null &&
+                   string.Equals(
+                       action.Owner.scene.name,
+                       OriginalRepairSceneName,
+                       StringComparison.OrdinalIgnoreCase
+                   ) &&
+                   string.Equals(
+                       action.Owner.name,
+                       OriginalRepairOwnerName,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       action.Fsm.Name,
+                       OriginalRepairFsmName,
+                       StringComparison.Ordinal
+                   ) &&
+                   string.Equals(
+                       action.State.Name,
+                       OriginalRepairGateStateName,
+                       StringComparison.Ordinal
+                   );
+        }
+
+        [HarmonyPatch(typeof(CollectableItemGetData), "OnEnter")]
+        private static class OriginalRepairOwnershipGatePatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(CollectableItemGetData __instance)
+            {
+                if (MatchesOriginalRepairOwnershipGate(__instance))
+                {
+                    TryReconcileReceivedOwnership();
+                }
+            }
         }
 
         [HarmonyPatch(typeof(CollectableItemPickup), "Awake")]

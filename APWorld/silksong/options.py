@@ -471,6 +471,8 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Bellway": "bellway_randomization",
     "Ventrica": "ventrica_randomization",
     "Map": "map_randomization",
+    "NeedleUpgrade": "needle_upgrade_randomization",
+    "PaleOil": "pale_oil_randomization",
     "Melody": "melody_randomization",
     "Pin": "pin_randomization",
     "Relic": "relic_randomization",
@@ -666,11 +668,40 @@ class SplitDashAndSprint(Toggle):
     default = 0
 
 
-class RandomizeNeedleUpgrades(Toggle):
-    """Shuffle Plinney's Needle upgrades and their three Pale Oils."""
+class LedgegrabAbilityRando(Toggle):
+    """EXPERIMENTAL FEATURE: Disables Hornets Ledge Grab Ability and must be found as item to acquire that ability, enable at own risk"""
 
-    display_name = "Randomize Needle Upgrades"
+    display_name = "Ledgegrab Ability Rando"
     default = 0
+
+
+class SwimAbilityRando(Toggle):
+    """EXPERIMENTAL FEATURE: Disables Hornets Swim Ability and must be found as item to acquire that ability, enable at own risk"""
+
+    display_name = "Swim Ability Rando"
+    default = 0
+
+
+class NeedleUpgradeRandomization(GlobalRandomization):
+    """Randomizes Plinney's four Needle upgrades.
+
+    vanilla: leaves them at Plinney
+    anywhere: mixes them into the global item pool
+    """
+
+    display_name = "Needle Upgrade Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
+class PaleOilRandomization(GlobalRandomization):
+    """Randomizes the three Pale Oils in the game.
+
+    vanilla: leaves them where they normally are
+    anywhere: mixes them into the global item pool
+    """
+
+    display_name = "Pale Oil Randomization"
+    default = GlobalRandomization.option_vanilla
 
 
 class AlphabetMode(Toggle):
@@ -1016,6 +1047,8 @@ class SilksongOptions(PerGameCommonOptions):
     starting_crest: StartingCrest
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint
+    ledgegrab_ability_rando: LedgegrabAbilityRando
+    swim_ability_rando: SwimAbilityRando
     trails_end_requirement: TrailsEndRequirement
     skips: Skips
     scuttlebrace_logic: ScuttlebraceLogic
@@ -1051,7 +1084,8 @@ class SilksongOptions(PerGameCommonOptions):
     bellway_randomization: BellwayRandomization
     ventrica_randomization: VentricaRandomization
     map_randomization: MapRandomization
-    randomize_needle_upgrades: RandomizeNeedleUpgrades
+    needle_upgrade_randomization: NeedleUpgradeRandomization
+    pale_oil_randomization: PaleOilRandomization
     melody_randomization: MelodyRandomization
     pin_randomization: PinRandomization
     relic_randomization: RelicRandomization

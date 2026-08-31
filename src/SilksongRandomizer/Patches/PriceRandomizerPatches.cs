@@ -247,7 +247,8 @@ namespace SilksongRandomizer.Patches
 
                 SaveState state = SaveState.Instance;
                 int purchasedTier;
-                if (state != null && state.randomizeNeedleUpgrades)
+                if (state != null && state.GetRandomizationMode(
+                        ItemType.NeedleUpgrade) != RandomizationMode.Vanilla)
                 {
                     purchasedTier =
                         NeedleUpgradePatches.GetPurchasedPlinneyTier();

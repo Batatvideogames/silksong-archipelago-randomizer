@@ -71,6 +71,9 @@ namespace SilksongRandomizer
                 get;
                 set;
             }
+
+            [JsonProperty("logic_events")]
+            internal List<LogicEvent> LogicEvents { get; set; }
         }
 
         private sealed class LogicRequirement
@@ -115,6 +118,18 @@ namespace SilksongRandomizer
             internal int Minimum { get; set; }
         }
 
+        private sealed class LogicEvent
+        {
+            [JsonProperty("location")]
+            internal string Location { get; set; }
+
+            [JsonProperty("item")]
+            internal string Item { get; set; }
+
+            [JsonProperty("requirement")]
+            internal LogicRequirement Requirement { get; set; }
+        }
+
         private sealed class ParsedPayload
         {
             internal readonly Dictionary<string, LogicRequirement>
@@ -123,6 +138,7 @@ namespace SilksongRandomizer
                 AbstractRequirements;
             internal readonly Dictionary<string, List<string>>
                 Dependencies;
+            internal readonly List<LogicEvent> LogicEvents;
             internal readonly int SkipsTier;
 
             internal ParsedPayload(LogicPayload payload)
@@ -138,6 +154,12 @@ namespace SilksongRandomizer
                 Dependencies = CanonicalizeDependencyKeys(
                     payload?.LogicItemDependencies
                 );
+                LogicEvents = (payload?.LogicEvents ?? new List<LogicEvent>())
+                    .Where(logicEvent =>
+                        logicEvent != null &&
+                        !string.IsNullOrWhiteSpace(logicEvent.Item) &&
+                        logicEvent.Requirement != null)
+                    .ToList();
                 SkipsTier = payload?.SkipsTier ?? 0;
                 if (payload != null && !payload.ScuttlebraceLogic)
                 {
@@ -229,6 +251,7 @@ namespace SilksongRandomizer
         private static ParsedPayload cachedPayload;
         private static ParsedPayload cachedAbstractPayload;
         private static Dictionary<string, int> cachedAbstractInventory;
+        private static Dictionary<string, int> cachedResolvedInventory;
         private static Dictionary<string, bool> cachedAbstractValues;
         private static bool cachedAbstractGoalCompleted;
         private static bool loggedPayloadFailure;
@@ -940,9 +963,18 @@ namespace SilksongRandomizer
                     : gameManager.playerData;
                 if (playerData != null)
                 {
-            // receivedItems is a set, so repeated AP
-                    // items need their native persisted counters when the
-                    // socket cannot provide its ordered receipt list.
+                    if (
+                        state.GetRandomizationMode(ItemType.NeedleUpgrade) ==
+                        RandomizationMode.Vanilla
+                    )
+                    {
+                        SetMinimumCount(
+                            counts,
+                            "Progressive Needle Upgrade",
+                            Math.Max(0, playerData.nailUpgrades)
+                        );
+                    }
+
                     SetMinimumCount(
                         counts,
                         "Progressive Crafting Kit",
@@ -1036,10 +1068,17 @@ namespace SilksongRandomizer
                 MaxPaleOilCount
             );
 
-            // Sharpened Needle is oil-free. Each following sequential Plinney
-            // service consumes one Pale Oil before its check is completed.
-            int spentPaleOil = 0;
-            if (state.IsLocationChecked(
+            bool vanillaNeedleUpgrades =
+                state.GetRandomizationMode(ItemType.NeedleUpgrade) ==
+                RandomizationMode.Vanilla;
+            int spentPaleOil = vanillaNeedleUpgrades
+                ? Math.Max(
+                    0,
+                    Math.Min(MaxPaleOilCount, playerData.nailUpgrades - 1)
+                )
+                : 0;
+            if (!vanillaNeedleUpgrades &&
+                state.IsLocationChecked(
                     "Pinmaster Plinney: Sharpened Needle") &&
                 state.IsLocationChecked(
                     "Pinmaster Plinney: Shining Needle"))
@@ -1245,6 +1284,12 @@ namespace SilksongRandomizer
                 goalCompleted == cachedAbstractGoalCompleted &&
                 HaveEqualInventory(inventory, cachedAbstractInventory))
             {
+                foreach (KeyValuePair<string, int> entry in
+                    cachedResolvedInventory ??
+                    new Dictionary<string, int>())
+                {
+                    SetMinimumCount(inventory, entry.Key, entry.Value);
+                }
                 return cachedAbstractValues;
             }
 
@@ -1262,6 +1307,10 @@ namespace SilksongRandomizer
 
             cachedAbstractPayload = payload;
             cachedAbstractInventory = inventorySnapshot;
+            cachedResolvedInventory = new Dictionary<string, int>(
+                inventory,
+                StringComparer.OrdinalIgnoreCase
+            );
             cachedAbstractValues = abstractValues;
             cachedAbstractGoalCompleted = goalCompleted;
             return cachedAbstractValues;
@@ -1689,6 +1738,8 @@ namespace SilksongRandomizer
                 );
 
             bool changed = true;
+            HashSet<LogicEvent> collectedEvents =
+                new HashSet<LogicEvent>();
             while (changed)
             {
                 changed = false;
@@ -1714,6 +1765,32 @@ namespace SilksongRandomizer
                         continue;
                     }
                     values[entry.Key] = true;
+                    changed = true;
+                }
+
+                foreach (LogicEvent logicEvent in payload.LogicEvents)
+                {
+                    if (collectedEvents.Contains(logicEvent) ||
+                        !SatisfiesGroup(
+                            logicEvent.Requirement,
+                            goalCompleted,
+                            values,
+                            inventory,
+                            hasCrest,
+                            hasSilkSpear,
+                            payload.Requirements,
+                            payload.Dependencies,
+                            payload.SkipsTier,
+                            new HashSet<string>(
+                                StringComparer.OrdinalIgnoreCase
+                            )
+                        ))
+                    {
+                        continue;
+                    }
+
+                    collectedEvents.Add(logicEvent);
+                    AddCount(inventory, logicEvent.Item, 1);
                     changed = true;
                 }
             }

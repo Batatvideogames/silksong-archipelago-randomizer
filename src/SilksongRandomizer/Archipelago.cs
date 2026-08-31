@@ -72,8 +72,9 @@ namespace SilksongRandomizer
             StartingLocationVanilla;
         public string StartingCrest { get; private set; } = string.Empty;
         public bool SplitDashAndSprint { get; private set; }
+        public bool LedgegrabAbilityRando { get; private set; }
+        public bool SwimAbilityRando { get; private set; }
         public bool ScuttlebraceLogic { get; private set; } = true;
-        public bool RandomizeNeedleUpgrades { get; private set; }
         public bool StartWithMaps { get; private set; }
         public bool StartFullyMapped { get; private set; }
         public bool AutomaticCompass { get; private set; }
@@ -154,6 +155,8 @@ namespace SilksongRandomizer
         public RandomizationMode BellwayRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode VentricaRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode MapRandomization { get; private set; } = RandomizationMode.Anywhere;
+        public RandomizationMode NeedleUpgradeRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode PaleOilRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MelodyRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode PinRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode RelicRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -207,7 +210,15 @@ namespace SilksongRandomizer
         private const int DisconnectWaitMilliseconds = 3000;
 
         private readonly object connectionLock = new object();
+        private readonly SemaphoreSlim connectionAttemptGate =
+            new SemaphoreSlim(1, 1);
         private ArchipelagoSession session;
+        private ReceivedItemsHelper.ItemReceivedHandler
+            itemReceivedHandler;
+        private MessageLogHelper.MessageReceivedHandler
+            messageReceivedHandler;
+        private LocationCheckHelper.CheckedLocationsUpdatedHandler
+            checkedLocationsUpdatedHandler;
         private ArchipelagoSocketHelperDelagates.SocketClosedHandler
             socketClosedHandler;
         private ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
@@ -217,6 +228,7 @@ namespace SilksongRandomizer
         private SaveState queuedForSaveState;
         private bool goalStatusPending;
         private volatile bool sessionReady;
+        private int receivedItemsRefreshRequested;
 
         public Archipelago(string gameName = "Hollow Knight: Silksong")
         {
@@ -239,6 +251,31 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            connectionAttemptGate.Wait();
+            try
+            {
+                return ConnectSingleAttempt(
+                    ip,
+                    port,
+                    slot,
+                    pass,
+                    preserveState
+                );
+            }
+            finally
+            {
+                connectionAttemptGate.Release();
+            }
+        }
+
+        private bool ConnectSingleAttempt(
+            string ip,
+            int port,
+            string slot,
+            string pass,
+            bool preserveState
+        )
+        {
             Disconnect();
             WaitForPendingDisconnect();
             if (preserveState)
@@ -256,6 +293,18 @@ namespace SilksongRandomizer
             {
                 ArchipelagoSession connectedSession =
                     ArchipelagoSessionFactory.CreateSession(ip, port);
+                ReceivedItemsHelper.ItemReceivedHandler
+                    connectedItemReceivedHandler = helper =>
+                        HandleItemReceived(connectedSession, helper);
+                MessageLogHelper.MessageReceivedHandler
+                    connectedMessageReceivedHandler = message =>
+                        HandleMessageReceived(connectedSession, message);
+                LocationCheckHelper.CheckedLocationsUpdatedHandler
+                    connectedCheckedLocationsUpdatedHandler = locations =>
+                        OnCheckedLocationsUpdated(
+                            connectedSession,
+                            locations
+                        );
                 ArchipelagoSocketHelperDelagates.SocketClosedHandler
                     closedHandler = reason =>
                         OnSocketClosed(connectedSession, reason);
@@ -265,19 +314,24 @@ namespace SilksongRandomizer
                 lock (connectionLock)
                 {
                     session = connectedSession;
+                    itemReceivedHandler = connectedItemReceivedHandler;
+                    messageReceivedHandler = connectedMessageReceivedHandler;
+                    checkedLocationsUpdatedHandler =
+                        connectedCheckedLocationsUpdatedHandler;
                     socketClosedHandler = closedHandler;
                     socketErrorHandler = errorHandler;
                 }
 
-                connectedSession.Items.ItemReceived += HandleItemReceived;
+                connectedSession.Items.ItemReceived +=
+                    connectedItemReceivedHandler;
                 connectedSession.MessageLog.OnMessageReceived +=
-                    HandleMessageReceived;
+                    connectedMessageReceivedHandler;
                 connectedSession.Locations.CheckedLocationsUpdated +=
-                    OnCheckedLocationsUpdated;
+                    connectedCheckedLocationsUpdatedHandler;
                 connectedSession.Socket.SocketClosed += closedHandler;
                 connectedSession.Socket.ErrorReceived += errorHandler;
 
-                LoginResult result = session.TryConnectAndLogin(
+                LoginResult result = connectedSession.TryConnectAndLogin(
                     configuredGameName,
                     slot,
                     ItemsHandlingFlags.AllItems,
@@ -295,20 +349,34 @@ namespace SilksongRandomizer
                         ? string.Join("; ", failure.Errors)
                         : "The Archipelago server rejected the login.";
                     LastConnectionFailureRetryable =
-                        !IsDeterministicLoginFailure(failure);
+                        !IsDeterministicLoginFailure(
+                            failure,
+                            preserveState
+                        );
                     Disconnect();
                     return false;
                 }
 
                 LoginSuccessful successful = result as LoginSuccessful;
-                successful = GetSlotDataAfterLogin(successful);
-                RoomSeed = session.RoomState == null ? string.Empty : session.RoomState.Seed ?? string.Empty;
-                SlotName = session.Players.ActivePlayer == null ||
-                           string.IsNullOrWhiteSpace(session.Players.ActivePlayer.Name)
+                successful = GetSlotDataAfterLogin(
+                    connectedSession,
+                    successful
+                );
+                RoomSeed = connectedSession.RoomState == null
+                    ? string.Empty
+                    : connectedSession.RoomState.Seed ?? string.Empty;
+                SlotName = connectedSession.Players.ActivePlayer == null ||
+                           string.IsNullOrWhiteSpace(
+                               connectedSession.Players.ActivePlayer.Name
+                           )
                     ? slot
-                    : session.Players.ActivePlayer.Name;
-                Team = successful == null ? session.ConnectionInfo.Team : successful.Team;
-                Slot = successful == null ? session.ConnectionInfo.Slot : successful.Slot;
+                    : connectedSession.Players.ActivePlayer.Name;
+                Team = successful == null
+                    ? connectedSession.ConnectionInfo.Team
+                    : successful.Team;
+                Slot = successful == null
+                    ? connectedSession.ConnectionInfo.Slot
+                    : successful.Slot;
                 WorldVersion = GetWorldVersion(successful);
 
                 if (!IsSupportedWorldVersion(WorldVersion))
@@ -404,13 +472,17 @@ namespace SilksongRandomizer
                     successful,
                     "split_dash_and_sprint"
                 );
+                LedgegrabAbilityRando = GetBooleanSlotData(
+                    successful,
+                    "ledgegrab_ability_rando"
+                );
+                SwimAbilityRando = GetBooleanSlotData(
+                    successful,
+                    "swim_ability_rando"
+                );
                 ScuttlebraceLogic = GetBooleanSlotData(
                     successful,
                     "scuttlebrace_logic"
-                );
-                RandomizeNeedleUpgrades = GetBooleanSlotData(
-                    successful,
-                    "randomize_needle_upgrades"
                 );
                 StartWithMaps = GetBooleanSlotData(
                     successful,
@@ -556,6 +628,10 @@ namespace SilksongRandomizer
                     successful, "ventrica_randomization");
                 MapRandomization = GetRandomizationModeSlotData(
                     successful, "map_randomization");
+                NeedleUpgradeRandomization = GetRandomizationModeSlotData(
+                    successful, "needle_upgrade_randomization");
+                PaleOilRandomization = GetRandomizationModeSlotData(
+                    successful, "pale_oil_randomization");
                 MelodyRandomization = GetRandomizationModeSlotData(
                     successful, "melody_randomization");
                 PinRandomization = GetRandomizationModeSlotData(
@@ -605,9 +681,9 @@ namespace SilksongRandomizer
                     return false;
                 }
 
-                CaptureRoomLocations();
-                RefreshReceivedItems();
-                RefreshCheckedLocations();
+                CaptureRoomLocations(connectedSession);
+                RequestReceivedItemsRefresh();
+                RefreshCheckedLocations(connectedSession);
                 return true;
             }
             catch (Exception ex)
@@ -857,7 +933,8 @@ namespace SilksongRandomizer
                 }
             }
 
-            QueueUnprocessedReceivedItems();
+            RequestReceivedItemsRefresh();
+            ProcessReceivedItems();
 
             if (saveState.goalCompleted)
             {
@@ -892,14 +969,28 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            sessionReady = true;
+            lock (connectionLock)
+            {
+                if (!ReferenceEquals(session, connectedSession) ||
+                    connectedSession.Socket == null ||
+                    !connectedSession.Socket.Connected)
+                {
+                    LastError =
+                        "The Archipelago socket closed during login.";
+                    LastConnectionFailureRetryable = true;
+                    return false;
+                }
+                sessionReady = true;
+            }
             try
             {
                 TrackOfficialHints();
-                session.SetClientState(ArchipelagoClientState.ClientPlaying);
+                connectedSession.SetClientState(
+                    ArchipelagoClientState.ClientPlaying
+                );
                 Resynchronize();
                 if (!DeathLinkManager.Configure(
-                        session,
+                        connectedSession,
                         SlotName,
                         DeathLink,
                         DeathLinkCocoon
@@ -910,7 +1001,7 @@ namespace SilksongRandomizer
                     );
                 }
                 if (!SilkLinkManager.Configure(
-                        session,
+                        connectedSession,
                         SilkLink
                     ))
                 {
@@ -919,7 +1010,7 @@ namespace SilksongRandomizer
                     );
                 }
                 if (!CurrencyLinkManager.Configure(
-                        session,
+                        connectedSession,
                         RosaryLink,
                         ShellShardLink
                     ))
@@ -949,6 +1040,56 @@ namespace SilksongRandomizer
             }
         }
 
+        public void ProcessReceivedItems()
+        {
+            if (Interlocked.Exchange(
+                    ref receivedItemsRefreshRequested,
+                    0
+                ) == 0)
+            {
+                return;
+            }
+
+            ArchipelagoSession sourceSession;
+            lock (connectionLock)
+            {
+                sourceSession = sessionReady ? session : null;
+            }
+            if (sourceSession == null)
+            {
+                return;
+            }
+
+            try
+            {
+                ItemInfo[] allItems =
+                    sourceSession.Items.AllItemsReceived.ToArray();
+                if (!IsCurrentReadySession(sourceSession))
+                {
+                    return;
+                }
+
+                foreach (ItemInfo item in allItems)
+                {
+                    MarkItemUnlocked(item, false);
+                }
+                QueueUnprocessedReceivedItems(sourceSession, allItems);
+            }
+            catch (Exception ex)
+            {
+                if (IsCurrentReadySession(sourceSession))
+                {
+                    Interlocked.Exchange(
+                        ref receivedItemsRefreshRequested,
+                        1
+                    );
+                }
+                RandomizerPlugin.Log?.LogError(
+                    "[RANDOMIZER] Received-item reconciliation failed: " + ex
+                );
+            }
+        }
+
         public void ResetReceivedItemQueueCursor()
         {
             lock (stateLock)
@@ -956,6 +1097,7 @@ namespace SilksongRandomizer
                 queuedForSaveState = null;
                 lastQueuedItemIndex = 0;
             }
+            RequestReceivedItemsRefresh();
         }
 
         public void UnlockLocation(string locationName)
@@ -1086,6 +1228,12 @@ namespace SilksongRandomizer
         {
             ArchipelagoSession oldSession;
             bool wasSessionReady;
+            ReceivedItemsHelper.ItemReceivedHandler
+                oldItemReceivedHandler;
+            MessageLogHelper.MessageReceivedHandler
+                oldMessageReceivedHandler;
+            LocationCheckHelper.CheckedLocationsUpdatedHandler
+                oldCheckedLocationsUpdatedHandler;
             ArchipelagoSocketHelperDelagates.SocketClosedHandler
                 oldClosedHandler;
             ArchipelagoSocketHelperDelagates.ErrorReceivedHandler
@@ -1096,11 +1244,19 @@ namespace SilksongRandomizer
                 sessionReady = false;
                 oldSession = session;
                 session = null;
+                oldItemReceivedHandler = itemReceivedHandler;
+                itemReceivedHandler = null;
+                oldMessageReceivedHandler = messageReceivedHandler;
+                messageReceivedHandler = null;
+                oldCheckedLocationsUpdatedHandler =
+                    checkedLocationsUpdatedHandler;
+                checkedLocationsUpdatedHandler = null;
                 oldClosedHandler = socketClosedHandler;
                 socketClosedHandler = null;
                 oldErrorHandler = socketErrorHandler;
                 socketErrorHandler = null;
             }
+            Interlocked.Exchange(ref receivedItemsRefreshRequested, 0);
 
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
@@ -1119,7 +1275,10 @@ namespace SilksongRandomizer
 
             try
             {
-                oldSession.Items.ItemReceived -= HandleItemReceived;
+                if (oldItemReceivedHandler != null)
+                {
+                    oldSession.Items.ItemReceived -= oldItemReceivedHandler;
+                }
             }
             catch
             {
@@ -1127,7 +1286,11 @@ namespace SilksongRandomizer
 
             try
             {
-                oldSession.MessageLog.OnMessageReceived -= HandleMessageReceived;
+                if (oldMessageReceivedHandler != null)
+                {
+                    oldSession.MessageLog.OnMessageReceived -=
+                        oldMessageReceivedHandler;
+                }
             }
             catch
             {
@@ -1135,7 +1298,11 @@ namespace SilksongRandomizer
 
             try
             {
-                oldSession.Locations.CheckedLocationsUpdated -= OnCheckedLocationsUpdated;
+                if (oldCheckedLocationsUpdatedHandler != null)
+                {
+                    oldSession.Locations.CheckedLocationsUpdated -=
+                        oldCheckedLocationsUpdatedHandler;
+                }
             }
             catch
             {
@@ -1251,9 +1418,17 @@ namespace SilksongRandomizer
             }
         }
 
-        private void HandleItemReceived(ReceivedItemsHelper helper)
+        private void RequestReceivedItemsRefresh()
         {
-            if (helper == null)
+            Interlocked.Exchange(ref receivedItemsRefreshRequested, 1);
+        }
+
+        private void HandleItemReceived(
+            ArchipelagoSession sourceSession,
+            ReceivedItemsHelper helper
+        )
+        {
+            if (helper == null || !IsCurrentSession(sourceSession))
             {
                 return;
             }
@@ -1262,28 +1437,28 @@ namespace SilksongRandomizer
             {
                 while (helper.Any())
                 {
-                    ItemInfo item = helper.DequeueItem();
-                    MarkItemUnlocked(item, true);
+                    helper.DequeueItem();
                 }
-
-                if (sessionReady)
-                {
-                    QueueUnprocessedReceivedItems();
-                }
+                RequestReceivedItemsRefresh();
             }
             catch (Exception ex)
             {
-                LastError = "Failed to process received items: " + ex.Message;
-                ReportStatus(LastError);
+                RequestReceivedItemsRefresh();
+                RandomizerPlugin.Log?.LogError(
+                    "[RANDOMIZER] Received-item callback failed: " + ex
+                );
             }
         }
 
-        private void HandleMessageReceived(LogMessage message)
+        private void HandleMessageReceived(
+            ArchipelagoSession sourceSession,
+            LogMessage message
+        )
         {
             // Hint and !getitem messages derive from ItemSendLogMessage too.
             // Only the server message for a real item send belongs in
             // the gameplay notification queue.
-            if (!sessionReady || message == null ||
+            if (!IsCurrentReadySession(sourceSession) || message == null ||
                 message.GetType() != typeof(ItemSendLogMessage))
             {
                 return;
@@ -1336,45 +1511,44 @@ namespace SilksongRandomizer
             }
         }
 
-        private void OnCheckedLocationsUpdated(ReadOnlyCollection<long> newCheckedLocations)
+        private void OnCheckedLocationsUpdated(
+            ArchipelagoSession sourceSession,
+            ReadOnlyCollection<long> newCheckedLocations
+        )
         {
-            if (newCheckedLocations == null)
+            if (newCheckedLocations == null ||
+                !IsCurrentSession(sourceSession))
             {
                 return;
             }
 
             foreach (long locationId in newCheckedLocations)
             {
-                string locationName = GetLocationName(locationId);
+                string locationName = GetLocationName(
+                    sourceSession,
+                    locationId
+                );
                 MarkLocationUnlocked(locationName, locationId);
             }
         }
 
-        private void RefreshReceivedItems()
+        private void CaptureRoomLocations(
+            ArchipelagoSession sourceSession
+        )
         {
-            if (!IsConnected())
-            {
-                return;
-            }
-
-            foreach (ItemInfo item in session.Items.AllItemsReceived)
-            {
-                MarkItemUnlocked(item, false);
-            }
-        }
-
-        private void CaptureRoomLocations()
-        {
-            if (!IsConnected())
+            if (!IsCurrentSession(sourceSession))
             {
                 return;
             }
 
             HashSet<string> captured =
                 new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (long locationId in session.Locations.AllLocations)
+            foreach (long locationId in sourceSession.Locations.AllLocations)
             {
-                string locationName = GetLocationName(locationId);
+                string locationName = GetLocationName(
+                    sourceSession,
+                    locationId
+                );
                 if (!string.IsNullOrWhiteSpace(locationName))
                 {
                     captured.Add(locationName);
@@ -1388,16 +1562,22 @@ namespace SilksongRandomizer
             }
         }
 
-        private void RefreshCheckedLocations()
+        private void RefreshCheckedLocations(
+            ArchipelagoSession sourceSession
+        )
         {
-            if (!IsConnected())
+            if (!IsCurrentSession(sourceSession))
             {
                 return;
             }
 
-            foreach (long locationId in session.Locations.AllLocationsChecked)
+            foreach (long locationId in
+                sourceSession.Locations.AllLocationsChecked)
             {
-                string locationName = GetLocationName(locationId);
+                string locationName = GetLocationName(
+                    sourceSession,
+                    locationId
+                );
                 MarkLocationUnlocked(locationName, locationId);
             }
         }
@@ -1454,19 +1634,25 @@ namespace SilksongRandomizer
             }
         }
 
-        private void QueueUnprocessedReceivedItems()
+        private void QueueUnprocessedReceivedItems(
+            ArchipelagoSession sourceSession,
+            IReadOnlyList<ItemInfo> allItems
+        )
         {
-            if (!Connected || SaveState.Instance == null || RandomizerPlugin.Instance == null)
+            if (!IsCurrentReadySession(sourceSession) ||
+                SaveState.Instance == null ||
+                RandomizerPlugin.Instance == null ||
+                allItems == null)
             {
                 return;
             }
 
-            if (SaveState.Instance.IsRoomBound && !SaveState.Instance.MatchesRoom(this))
+            if (SaveState.Instance.IsRoomBound &&
+                !SaveState.Instance.MatchesRoom(this))
             {
                 return;
             }
 
-            ReadOnlyCollection<ItemInfo> allItems = session.Items.AllItemsReceived;
             List<Tuple<int, string, ItemFlags>> itemsToQueue =
                 new List<Tuple<int, string, ItemFlags>>();
 
@@ -1645,6 +1831,37 @@ namespace SilksongRandomizer
             return -1;
         }
 
+        private string GetLocationName(
+            ArchipelagoSession sourceSession,
+            long locationId
+        )
+        {
+            if (sourceSession == null || locationId < 0)
+            {
+                return null;
+            }
+
+            string gameName = sourceSession.ConnectionInfo != null &&
+                !string.IsNullOrWhiteSpace(
+                    sourceSession.ConnectionInfo.Game
+                )
+                    ? sourceSession.ConnectionInfo.Game
+                    : configuredGameName;
+            try
+            {
+                return LocationSet.GetCanonicalLocationName(
+                    sourceSession.Locations.GetLocationNameFromId(
+                        locationId,
+                        gameName
+                    )
+                );
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private string GetLocationName(long locationId)
         {
             if (!IsConnected() || locationId < 0)
@@ -1686,6 +1903,19 @@ namespace SilksongRandomizer
                    session.Socket.Connected;
         }
 
+        private bool IsCurrentSession(
+            ArchipelagoSession expectedSession
+        )
+        {
+            lock (connectionLock)
+            {
+                return ReferenceEquals(session, expectedSession) &&
+                       expectedSession != null &&
+                       expectedSession.Socket != null &&
+                       expectedSession.Socket.Connected;
+            }
+        }
+
         private bool IsCurrentReadySession(
             ArchipelagoSession expectedSession
         )
@@ -1701,6 +1931,7 @@ namespace SilksongRandomizer
         }
 
         private LoginSuccessful GetSlotDataAfterLogin(
+            ArchipelagoSession sourceSession,
             LoginSuccessful login
         )
         {
@@ -1712,13 +1943,13 @@ namespace SilksongRandomizer
             }
 
             Task<Dictionary<string, object>> request =
-                session.DataStorage.GetSlotDataAsync(login.Slot);
+                sourceSession.DataStorage.GetSlotDataAsync(login.Slot);
             DateTime deadline = DateTime.UtcNow.AddMilliseconds(
                 SlotDataTimeoutMilliseconds
             );
             while (!request.IsCompleted)
             {
-                if (!IsConnected())
+                if (!IsCurrentSession(sourceSession))
                 {
                     throw new InvalidOperationException(
                         "The Archipelago socket closed while receiving world data."
@@ -1930,6 +2161,10 @@ namespace SilksongRandomizer
                     login,
                     "logic_item_dependencies"
                 );
+                payload["logic_events"] = GetOptionalArraySlotData(
+                    login,
+                    "logic_events"
+                );
             }
             else
             {
@@ -1947,6 +2182,10 @@ namespace SilksongRandomizer
                         compressedPayload,
                         "logic_item_dependencies"
                     );
+                payload["logic_events"] = GetOptionalLogicPayloadArray(
+                    compressedPayload,
+                    "logic_events"
+                );
             }
 
             return JsonConvert.SerializeObject(payload);
@@ -2069,6 +2308,46 @@ namespace SilksongRandomizer
             }
 
             return objectValue;
+        }
+
+        private static JArray GetOptionalArraySlotData(
+            LoginSuccessful login,
+            string key
+        )
+        {
+            if (login?.SlotData == null ||
+                !login.SlotData.TryGetValue(key, out object value) ||
+                value == null)
+            {
+                return new JArray();
+            }
+            if (value is JArray arrayValue)
+            {
+                return arrayValue;
+            }
+            throw new FormatException(
+                "APWorld setting '" + key + "' must be an array."
+            );
+        }
+
+        private static JArray GetOptionalLogicPayloadArray(
+            JObject payload,
+            string key
+        )
+        {
+            JToken value = payload?[key];
+            if (value == null || value.Type == JTokenType.Null)
+            {
+                return new JArray();
+            }
+            if (value is JArray arrayValue)
+            {
+                return arrayValue;
+            }
+            throw new FormatException(
+                "APWorld logic payload setting '" + key +
+                "' must be an array."
+            );
         }
 
         private static IReadOnlyDictionary<string, string>
@@ -2585,7 +2864,8 @@ namespace SilksongRandomizer
         }
 
         private static bool IsDeterministicLoginFailure(
-            LoginFailure failure
+            LoginFailure failure,
+            bool preserveState
         )
         {
             if (failure?.ErrorCodes == null)
@@ -2597,9 +2877,10 @@ namespace SilksongRandomizer
             {
                 switch (error)
                 {
+                    case ConnectionRefusedError.SlotAlreadyTaken:
+                        return !preserveState;
                     case ConnectionRefusedError.InvalidSlot:
                     case ConnectionRefusedError.InvalidGame:
-                    case ConnectionRefusedError.SlotAlreadyTaken:
                     case ConnectionRefusedError.IncompatibleVersion:
                     case ConnectionRefusedError.InvalidPassword:
                     case ConnectionRefusedError.InvalidItemsHandling:
@@ -2799,8 +3080,9 @@ namespace SilksongRandomizer
             StartingLocation = StartingLocationVanilla;
             StartingCrest = string.Empty;
             SplitDashAndSprint = false;
+            LedgegrabAbilityRando = false;
+            SwimAbilityRando = false;
             ScuttlebraceLogic = true;
-            RandomizeNeedleUpgrades = false;
             StartWithMaps = false;
             StartFullyMapped = false;
             AutomaticCompass = false;
@@ -2860,6 +3142,8 @@ namespace SilksongRandomizer
             BellwayRandomization = RandomizationMode.Anywhere;
             VentricaRandomization = RandomizationMode.Anywhere;
             MapRandomization = RandomizationMode.Anywhere;
+            NeedleUpgradeRandomization = RandomizationMode.Vanilla;
+            PaleOilRandomization = RandomizationMode.Vanilla;
             MelodyRandomization = RandomizationMode.Vanilla;
             PinRandomization = RandomizationMode.Anywhere;
             RelicRandomization = RandomizationMode.Anywhere;

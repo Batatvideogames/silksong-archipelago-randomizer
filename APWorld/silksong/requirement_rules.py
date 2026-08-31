@@ -68,6 +68,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     starting_location: str = STARTING_LOCATION_VANILLA
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK
     scuttlebrace_logic_enabled: bool = True
+    randomize_ledge_grab: bool = False
+    randomize_swim: bool = False
+    pollip_heart_count: int = 0
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -79,6 +82,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.starting_location,
             self.trails_end_requirement,
             self.scuttlebrace_logic_enabled,
+            self.randomize_ledge_grab,
+            self.randomize_swim,
+            self.pollip_heart_count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -92,6 +98,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         starting_location: str
         trails_end_requirement: str
         scuttlebrace_logic_enabled: bool
+        randomize_ledge_grab: bool
+        randomize_swim: bool
+        pollip_heart_count: int
 
         def _evaluate(self, state: CollectionState) -> bool:
             return _has_named_requirement(
@@ -111,6 +120,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 scuttlebrace_logic_enabled=(
                     self.scuttlebrace_logic_enabled
                 ),
+                randomize_ledge_grab=self.randomize_ledge_grab,
+                randomize_swim=self.randomize_swim,
+                pollip_heart_count=self.pollip_heart_count,
             )
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -220,6 +232,8 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     scuttlebrace_logic_enabled: bool = True
     pollip_heart_count: int = 0
     anchor_requirement_name: str | None = None
+    randomize_ledge_grab: bool = False
+    randomize_swim: bool = False
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         child_rule = build_location_rule(
@@ -238,6 +252,8 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             pollip_heart_count=self.pollip_heart_count,
             native_abstract_regions=True,
             anchor_requirement_name=self.anchor_requirement_name,
+            randomize_ledge_grab=self.randomize_ledge_grab,
+            randomize_swim=self.randomize_swim,
         )
         return self.Resolved(
             self.location_name,
@@ -451,6 +467,9 @@ def _compile_named_requirement(
     starting_location: str,
     trails_end_requirement: str,
     scuttlebrace_logic_enabled: bool,
+    randomize_ledge_grab: bool,
+    randomize_swim: bool,
+    pollip_heart_count: int,
     native_abstract_regions: bool = False,
 ) -> Rule:
     if (
@@ -462,14 +481,21 @@ def _compile_named_requirement(
         if native_abstract_regions:
             return CanReachRegion(requirement_name)
         return AbstractRequirementRule(
-            requirement_name,
-            split_dash_and_sprint,
-            allow_bellways_before_bell_beast,
-            skips_tier,
-            randomized_crest_slots_enabled,
-            starting_location,
-            trails_end_requirement,
-            scuttlebrace_logic_enabled,
+            requirement_name=requirement_name,
+            split_dash_and_sprint=split_dash_and_sprint,
+            allow_bellways_before_bell_beast=(
+                allow_bellways_before_bell_beast
+            ),
+            skips_tier=skips_tier,
+            randomized_crest_slots_enabled=(
+                randomized_crest_slots_enabled
+            ),
+            starting_location=starting_location,
+            trails_end_requirement=trails_end_requirement,
+            scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
+            pollip_heart_count=pollip_heart_count,
         )
 
     item_name = clean_item_display_name(requirement_name)
@@ -501,6 +527,9 @@ def _compile_requirement(
     starting_location: str,
     trails_end_requirement: str,
     scuttlebrace_logic_enabled: bool,
+    randomize_ledge_grab: bool,
+    randomize_swim: bool,
+    pollip_heart_count: int,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     required_location_stack: tuple[str, ...] = (),
@@ -523,6 +552,9 @@ def _compile_requirement(
             starting_location=starting_location,
             trails_end_requirement=trails_end_requirement,
             scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
+            pollip_heart_count=pollip_heart_count,
             native_abstract_regions=native_abstract_regions,
         )
 
@@ -553,6 +585,9 @@ def _compile_requirement(
                 starting_location=starting_location,
                 trails_end_requirement=trails_end_requirement,
                 scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+                randomize_ledge_grab=randomize_ledge_grab,
+                randomize_swim=randomize_swim,
+                pollip_heart_count=pollip_heart_count,
                 native_abstract_regions=True,
                 required_location_stack=next_stack,
             )
@@ -605,6 +640,9 @@ def build_requirements_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
 ) -> Rule:
@@ -616,6 +654,9 @@ def build_requirements_rule(
             randomized_crest_slots_enabled,
             starting_location,
             trails_end_requirement,
+            pollip_heart_count,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
         )
     )
     return _or_rules(
@@ -633,6 +674,9 @@ def build_requirements_rule(
             starting_location=starting_location,
             trails_end_requirement=trails_end_requirement,
             scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
+            pollip_heart_count=pollip_heart_count,
             native_abstract_regions=native_abstract_regions,
             anchor_requirement_name=anchor_requirement_name,
         )
@@ -650,6 +694,8 @@ def build_location_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
@@ -668,6 +714,9 @@ def build_location_rule(
         starting_location=starting_location,
         trails_end_requirement=trails_end_requirement,
         scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
+        pollip_heart_count=pollip_heart_count,
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
     )
@@ -686,6 +735,8 @@ def build_goal_rule(
     starting_location: str = STARTING_LOCATION_VANILLA,
     trails_end_requirement: str = TRAILS_END_REQUIREMENT_SHAKRA_STOCK,
     scuttlebrace_logic_enabled: bool = True,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
 ) -> Rule:
@@ -703,6 +754,9 @@ def build_goal_rule(
         starting_location=starting_location,
         trails_end_requirement=trails_end_requirement,
         scuttlebrace_logic_enabled=scuttlebrace_logic_enabled,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
+        pollip_heart_count=pollip_heart_count,
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
     )
@@ -721,6 +775,8 @@ def build_native_source_rule(
     scuttlebrace_logic_enabled: bool = True,
     pollip_heart_count: int = 0,
     anchor_requirement_name: str | None = None,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -736,4 +792,6 @@ def build_native_source_rule(
         scuttlebrace_logic_enabled,
         pollip_heart_count,
         anchor_requirement_name,
+        randomize_ledge_grab,
+        randomize_swim,
     )

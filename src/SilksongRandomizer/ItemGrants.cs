@@ -803,6 +803,7 @@ namespace SilksongRandomizer
 
             state.canUseBeastlingCall = true;
             playerData.UnlockedFastTravelTeleport = true;
+            BeastlingCallAct3Safety.Refresh();
             CollectableItemManager.IncrementVersion();
         }
 

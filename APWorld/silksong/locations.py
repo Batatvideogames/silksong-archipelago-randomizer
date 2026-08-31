@@ -20,6 +20,7 @@ from .lore_tablets import (
 )
 from .minor_caches import (
     MINOR_CACHE_LOCATION_NAMES,
+    RETIRED_MINOR_CACHE_LOCATION_NAMES,
 )
 
 LOCATION_BASE_ID = 835500
@@ -846,11 +847,14 @@ CURRENT_LOCATION_SOURCE_ROWS_WITH_QUESTS = (
 )
 
 NEEDLE_UPGRADE_LOCATION_CATEGORY = 'NeedleUpgrade'
+PALE_OIL_LOCATION_CATEGORY = 'PaleOil'
 _NEEDLE_UPGRADE_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Pinmaster Plinney: Sharpened Needle',
     'Pinmaster Plinney: Shining Needle',
     'Pinmaster Plinney: Hivesteel Needle',
     'Pinmaster Plinney: Pale Steel Needle',
+)
+_PALE_OIL_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Pale Oil: Whispering Vaults',
     'Pale Oil: Great Taste of Pharloom',
     'Pale Oil: Ecstasy of the End',
@@ -858,6 +862,10 @@ _NEEDLE_UPGRADE_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
 NEEDLE_UPGRADE_LOCATION_NAMES: tuple[str, ...] = tuple(
     _location_first_display_name(name)
     for name in _NEEDLE_UPGRADE_ITEM_FIRST_LOCATION_NAMES
+)
+PALE_OIL_LOCATION_NAMES: tuple[str, ...] = tuple(
+    _location_first_display_name(name)
+    for name in _PALE_OIL_ITEM_FIRST_LOCATION_NAMES
 )
 PINMASTER_OIL_QUEST_LOCATION = "Wish: Pinmaster's Oil"
 VOLATILE_FLINTBEETLES_QUEST_LOCATION = 'Wish: Volatile Flintbeetles'
@@ -868,6 +876,9 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (location_name, NEEDLE_UPGRADE_LOCATION_CATEGORY)
     for location_name in NEEDLE_UPGRADE_LOCATION_NAMES
+) + tuple(
+    (location_name, PALE_OIL_LOCATION_CATEGORY)
+    for location_name in PALE_OIL_LOCATION_NAMES
 ) + tuple(
     (location_name, 'Resource')
     for location_name in MINOR_PICKUP_LOCATION_NAMES
@@ -1036,7 +1047,10 @@ location_table: Dict[str, int] = {
 location_data_table: Dict[str, SilksongLocationData] = {
     name: SilksongLocationData(location_table.get(name), category)
     for name, category in LOCATION_TABLE_SOURCE
-    if name not in COURIER_DELIVERY_WISH_LOCATION_NAMES
+    if (
+        name not in COURIER_DELIVERY_WISH_LOCATION_NAMES
+        and name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
+    )
 }
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
@@ -1052,6 +1066,8 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Bellway',
     'Ventrica',
     'Map',
+    NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    PALE_OIL_LOCATION_CATEGORY,
     'Melody',
     'Pin',
     'Relic',
@@ -1077,7 +1093,6 @@ OBSERVATION_LOCATION_CATEGORIES: tuple[str, ...] = (
 RANDOMIZATION_LOCATION_CATEGORIES: tuple[str, ...] = (
     *PAIRED_LOCATION_CATEGORIES,
     *OBSERVATION_LOCATION_CATEGORIES,
-    NEEDLE_UPGRADE_LOCATION_CATEGORY,
     RELIC_TURN_IN_LOCATION_CATEGORY,
 )
 
@@ -1098,6 +1113,9 @@ location_name_groups: Dict[str, set[str]] = {
 location_name_groups['Quests'] = set(QUEST_LOCATION_NAMES)
 location_name_groups['Needle Upgrades'] = set(
     NEEDLE_UPGRADE_LOCATION_NAMES
+)
+location_name_groups['Pale Oils'] = set(
+    PALE_OIL_LOCATION_NAMES
 )
 location_name_groups['Relic Turn-ins'] = set(
     INDIVIDUAL_RELIC_TURN_IN_LOCATION_NAMES

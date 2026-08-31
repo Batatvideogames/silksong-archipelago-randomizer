@@ -346,6 +346,31 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(
+            typeof(HeroController),
+            "HeroDash",
+            new[] { typeof(bool) }
+        )]
+        internal static class HeroController_HeroDash_Patch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix()
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Skill))
+                {
+                    return true;
+                }
+
+                // Some native sprint/air-dash transitions call HeroDash
+                // directly instead of consulting CanDash. Guard the action
+                // itself so Sprint alone cannot leak the Dash upgrade.
+                return
+                    state.canDash ||
+                    WidowSequenceSafety.CanUseEmergencySwiftStep(state);
+            }
+        }
+
         [HarmonyPatch(typeof(HeroController), "LookForQueueInput")]
         internal static class HeroController_LookForQueueInput_SprintPatch
         {

@@ -28,12 +28,25 @@ namespace SilksongRandomizer.Patches
             "Pinmaster Plinney: Pale Steel Needle",
         };
 
-        private static bool IsEnabled
+        private static bool NeedleUpgradesEnabled
         {
             get
             {
                 return SaveState.Instance != null &&
-                       SaveState.Instance.randomizeNeedleUpgrades;
+                       SaveState.Instance.GetRandomizationMode(
+                           ItemType.NeedleUpgrade
+                       ) != RandomizationMode.Vanilla;
+            }
+        }
+
+        private static bool PaleOilEnabled
+        {
+            get
+            {
+                return SaveState.Instance != null &&
+                       SaveState.Instance.GetRandomizationMode(
+                           ItemType.PaleOil
+                       ) != RandomizationMode.Vanilla;
             }
         }
 
@@ -121,7 +134,7 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(GetPlayerDataInt __instance)
             {
-                if (!IsEnabled ||
+                if (!NeedleUpgradesEnabled ||
                     !IsExactPlinneyAction(
                         __instance,
                         PlinneyUpgradeStateRead) ||
@@ -152,7 +165,7 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(SavedItemGetV2 __instance)
             {
-                if (!IsEnabled ||
+                if (!NeedleUpgradesEnabled ||
                     !IsExactPlinneyAction(
                         __instance,
                         PlinneyUpgradeState))
@@ -198,7 +211,7 @@ namespace SilksongRandomizer.Patches
             {
                 SaveState state = SaveState.Instance;
                 string locationName = GetPaleOilLocation();
-                if (!IsEnabled ||
+                if (!PaleOilEnabled ||
                     string.IsNullOrEmpty(locationName) ||
                     !state.IsLocationInSeed(locationName) ||
                     __instance == null ||

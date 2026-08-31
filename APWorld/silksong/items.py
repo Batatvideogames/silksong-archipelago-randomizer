@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from random import Random
-from typing import Dict, FrozenSet, Mapping
+from typing import Callable, Dict, FrozenSet, Mapping
 
 from BaseClasses import Item, ItemClassification
+from Options import OptionError
 
 from .act1_scope import get_act_one_excluded_location_names
 from .act2_scope import (
@@ -25,6 +26,7 @@ from .locations import (
     LOCATION_NAMES_BY_CATEGORY,
     MASK_SHARD_LOCATION_NAMES,
     NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    PALE_OIL_LOCATION_CATEGORY,
     OBSERVATION_LOCATION_CATEGORIES,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SPOOL_FRAGMENT_LOCATION_NAMES,
@@ -292,7 +294,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Muckmaggot Status Trap', 'Trap'),
     ('Progressive Swift Step', 'Skill'),
     ('Progressive Needle Upgrade', 'NeedleUpgrade'),
-    ('Pale Oil', 'NeedleUpgrade'),
+    ('Pale Oil', 'PaleOil'),
     ("Progressive Druid's Eyes", 'Upgrade'),
     # automatic_compass supplies the position-marker half at the start.
     # Receiving this conditional Skill grants Quill's map-updating half.
@@ -391,7 +393,10 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (item_name, LORE_TABLET_CATEGORY)
     for item_name in LORE_TABLET_ITEM_NAMES
-) + ALPHABET_ITEM_ROWS
+) + ALPHABET_ITEM_ROWS + (
+    ('Ledge Grab', 'InnateAbility'),
+    ('Swim', 'InnateAbility'),
+)
 
 # Rename in place so every established numeric item ID remains unchanged.
 # Item IDs stay tied to the ITEM_TABLE_SOURCE positions above. Native asset
@@ -580,6 +585,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
         "MajorKey",
         "ToolPouch",
         ALPHABET_ITEM_CATEGORY,
+        'InnateAbility',
     }
 ) | (
     get_logic_item_references()
@@ -683,17 +689,19 @@ item_name_groups: Dict[str, set[str]] = {
     "Currency": {name for name, category in ITEM_TABLE_SOURCE if category == "Currency"},
     "Resources": {name for name, category in ITEM_TABLE_SOURCE if category == "Resource"},
     "Traps": {name for name, category in ITEM_TABLE_SOURCE if category == "Trap"},
-    "Needle Upgrades": {
-        name
-        for name, category in ITEM_TABLE_SOURCE
-        if category == "NeedleUpgrade"
-    },
+    "Needle Upgrades": {'Progressive Needle Upgrade'},
+    "Pale Oils": {'Pale Oil'},
     "Lore": {
         name
         for name, category in ITEM_TABLE_SOURCE
         if category == LORE_TABLET_CATEGORY
     },
     "Alphabet Letters": set(ALPHABET_ITEM_NAMES),
+    "Innate Abilities": {
+        name
+        for name, category in ITEM_TABLE_SOURCE
+        if category == "InnateAbility"
+    },
 }
 
 
@@ -735,14 +743,20 @@ ITEM_POOL_COUNTS: Dict[str, int] = {
 }
 
 PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
+PROGRESSIVE_SILK_HEART_ITEM = 'Progressive Silkheart'
 REGULAR_SWIFT_STEP_ITEM = 'Swift Step'
 PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
 PALE_OIL_ITEM = 'Pale Oil'
+LEDGE_GRAB_ITEM = 'Ledge Grab'
+SWIM_ITEM = 'Swim'
+INNATE_ABILITY_ITEM_NAMES = (LEDGE_GRAB_ITEM, SWIM_ITEM)
 SILK_SOAR_ITEM = 'Silk Soar'
 QUILL_ITEM = 'Item: Quill'
 PROGRESSIVE_COMPASS_ITEM = 'Progressive Compass'
 NEEDLE_UPGRADE_POOL_COUNTS: Mapping[str, int] = {
     PROGRESSIVE_NEEDLE_UPGRADE_ITEM: 4,
+}
+PALE_OIL_POOL_COUNTS: Mapping[str, int] = {
     PALE_OIL_ITEM: 3,
 }
 
@@ -757,8 +771,10 @@ QUEST_FILLER_COUNTS: Dict[str, int] = {
 CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     PROGRESSIVE_SWIFT_STEP_ITEM,
     PROGRESSIVE_COMPASS_ITEM,
+    *PALE_OIL_POOL_COUNTS,
     *NEEDLE_UPGRADE_POOL_COUNTS,
     *ALPHABET_ITEM_NAMES,
+    *INNATE_ABILITY_ITEM_NAMES,
 })
 
 TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
@@ -842,6 +858,47 @@ def add_pool_only_useful_items(entries: list[ItemPoolEntry]) -> None:
         )
 
 
+def replace_filler_with_innate_ability_items(
+    entries: list[ItemPoolEntry],
+    item_names: tuple[str, ...],
+    randomizer: Random | None = None,
+) -> None:
+    if not item_names:
+        return
+    eligible_indices = [
+        index
+        for index, entry in enumerate(entries)
+        if item_data_table[entry.name].classification
+        == ItemClassification.filler
+    ]
+    if len(eligible_indices) < len(item_names):
+        raise OptionError(
+            "Innate ability randomization needs "
+            f"{len(item_names)} filler rewards in the configured random "
+            f"pool but only {len(eligible_indices)} are available."
+        )
+    unrestricted_indices = [
+        index
+        for index in eligible_indices
+        if entries[index].placement_category is None
+    ]
+    restricted_indices = [
+        index
+        for index in eligible_indices
+        if entries[index].placement_category is not None
+    ]
+    if randomizer is not None:
+        randomizer.shuffle(unrestricted_indices)
+        randomizer.shuffle(restricted_indices)
+    eligible_indices = unrestricted_indices + restricted_indices
+    for entry_index, item_name in zip(eligible_indices, item_names):
+        replaced_entry = entries[entry_index]
+        entries[entry_index] = ItemPoolEntry(
+            item_name,
+            replaced_entry.source_category,
+            replaced_entry.placement_category,
+        )
+
 OBSERVATION_FILLER_COUNTS_BY_CATEGORY: Dict[str, Dict[str, int]] = {
     # Observation checks use ordinary filler rather than boss rewards.
     'Boss': {
@@ -872,6 +929,8 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'Bellway',
     'Ventrica',
     'Map',
+    NEEDLE_UPGRADE_LOCATION_CATEGORY,
+    PALE_OIL_LOCATION_CATEGORY,
     'Melody',
     'Pin',
     'Relic',
@@ -893,6 +952,8 @@ REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
     'SilkHeart': {'Progressive Silkheart': 3},
     'MemoryLocket': {'Memory Locket': 20},
     'Craftmetal': {'Craftmetal': 8},
+    NEEDLE_UPGRADE_LOCATION_CATEGORY: NEEDLE_UPGRADE_POOL_COUNTS,
+    PALE_OIL_LOCATION_CATEGORY: PALE_OIL_POOL_COUNTS,
     'Mossberry': {'Mossberry': 7},
     'PollipHeart': {'Pollip Heart': 6},
     'Silkeater': {'Silkeater': 9},
@@ -1140,7 +1201,6 @@ def _trim_act_one_pool_entries(
     split_dash_and_sprint: bool,
     automatic_compass: bool,
     removed_option_items_by_category: Mapping[str, tuple[str, ...]],
-    randomize_needle_upgrades: bool,
     individual_relic_turn_ins: bool,
     donation_tool_pouch_requirements: Mapping[str, int] | None,
     skips_tier: int,
@@ -1150,9 +1210,9 @@ def _trim_act_one_pool_entries(
     excluded_location_names = get_act_one_excluded_location_names(
         major_key_mode,
         boss_mode,
-        randomize_needle_upgrades,
         donation_tool_pouch_requirements,
         skips_tier,
+        starting_crest_item,
     ) & frozenset(location_data_table)
     for location_name in sorted(excluded_location_names):
         location_data = location_data_table[location_name]
@@ -1164,13 +1224,11 @@ def _trim_act_one_pool_entries(
         ):
             continue
         if (
-            category == NEEDLE_UPGRADE_LOCATION_CATEGORY
-            and not randomize_needle_upgrades
-        ):
-            continue
-        if (
             location_name == "Wish: Pinmaster's Oil"
-            and randomize_needle_upgrades
+            and category_modes.get(
+                NEEDLE_UPGRADE_LOCATION_CATEGORY,
+                "vanilla",
+            ) != "vanilla"
         ):
             continue
         if (
@@ -1186,8 +1244,6 @@ def _trim_act_one_pool_entries(
         )
         if source_category == RELIC_TURN_IN_LOCATION_CATEGORY:
             active = individual_relic_turn_ins
-        elif source_category == NEEDLE_UPGRADE_LOCATION_CATEGORY:
-            active = randomize_needle_upgrades
         else:
             active = category_modes.get(source_category, "anywhere") != "vanilla"
         if not active:
@@ -1205,26 +1261,6 @@ def _trim_act_one_pool_entries(
                         entry.source_category == source_category
                         and item_data_table[entry.name].classification
                         == ItemClassification.filler
-                    )
-                ),
-                None,
-            )
-        elif source_category == NEEDLE_UPGRADE_LOCATION_CATEGORY:
-            source_location_name = get_item_first_location_name(
-                location_name
-            )
-            reward_name = (
-                PALE_OIL_ITEM
-                if source_location_name.startswith("Pale Oil: ")
-                else PROGRESSIVE_NEEDLE_UPGRADE_ITEM
-            )
-            entry_index = next(
-                (
-                    index
-                    for index, entry in enumerate(entries)
-                    if (
-                        entry.source_category == source_category
-                        and entry.name == reward_name
                     )
                 ),
                 None,
@@ -1296,20 +1332,22 @@ def _balance_act_two_retained_silk_soar(
     category_modes: Mapping[str, str],
     automatic_compass: bool,
     start_fully_mapped: bool = False,
-) -> None:
+) -> str | None:
     """Keep Silk Soar while balancing its omitted physical source.
 
     Anywhere mode substitutes Silk Soar for one unrestricted filler whenever
     possible. Skill shuffle has no spare location in its lane. A Skill-only
     anywhere seed has no filler at all. Those narrow cases remove
     Quill (or automatic compass's Progressive Compass replacement) from the
-    random pool. ``SilksongWorld.create_items`` precollects that item so
-    no useful inventory is lost.
+    random pool. If another option already consumed that item, one
+    unrestricted useful item is moved to starting inventory instead. The
+    caller precollects the returned name so no useful inventory is lost and
+    no progression requirement is granted early.
     """
 
     skill_mode = category_modes.get('Skill', 'anywhere')
     if skill_mode == 'vanilla':
-        return
+        return None
     if skill_mode not in {'shuffle', 'anywhere'}:
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
 
@@ -1351,6 +1389,7 @@ def _balance_act_two_retained_silk_soar(
             None,
         )
 
+    precollected_item_name = None
     if balance_index is None:
         fallback_item_name = (
             _get_act_two_skill_balance_fallback_item_name(
@@ -1368,45 +1407,44 @@ def _balance_act_two_retained_silk_soar(
             ),
             None,
         )
-        if balance_index is None:
-            raise ValueError(
-                "Act 2 Skill balancing could not find fallback item "
-                f"{fallback_item_name!r}."
-            )
+        if balance_index is not None:
+            precollected_item_name = fallback_item_name
+
+    if balance_index is None:
+        # Useful-classified items are absent from every logic requirement:
+        # _classification_for promotes all referenced names to progression.
+        # Moving one unrestricted useful item to starting inventory therefore
+        # preserves both value and logical reachability while keeping category
+        # shuffle lanes exactly balanced.
+        balance_index = next(
+            (
+                index
+                for index, entry in enumerate(entries)
+                if (
+                    entry.placement_category is None
+                    and item_data_table[entry.name].classification
+                    == ItemClassification.useful
+                )
+            ),
+            None,
+        )
+        if balance_index is not None:
+            precollected_item_name = entries[balance_index].name
+
+    if balance_index is None:
+        raise ValueError(
+            "Act 2 Skill balancing needs one unrestricted filler or useful "
+            "item after retaining Silk Soar, but none is available."
+        )
 
     entries.pop(balance_index)
-
-
-def get_act_two_skill_balance_precollected_item_name(
-    entries: tuple[ItemPoolEntry, ...] | list[ItemPoolEntry],
-    category_modes: Mapping[str, str],
-    automatic_compass: bool,
-    start_fully_mapped: bool = False,
-) -> str | None:
-    """Identify the Skill item moved from a constrained Act 2 pool."""
-
-    if (
-        category_modes.get('Skill', 'anywhere') == 'vanilla'
-        or start_fully_mapped
-    ):
-        return None
-    fallback_item_name = _get_act_two_skill_balance_fallback_item_name(
-        automatic_compass
-    )
-    if any(
-        entry.source_category == 'Skill'
-        and entry.name == fallback_item_name
-        for entry in entries
-    ):
-        return None
-    return fallback_item_name
+    return precollected_item_name
 
 
 def get_dynamic_trap_capacity(
     category_modes: Mapping[str, str],
     split_dash_and_sprint: bool = False,
     starting_crest_item: str = 'Crest: Hunter',
-    randomize_needle_upgrades: bool = False,
     start_with_maps: bool = False,
     automatic_compass: bool = False,
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
@@ -1418,6 +1456,8 @@ def get_dynamic_trap_capacity(
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
 
@@ -1429,7 +1469,6 @@ def get_dynamic_trap_capacity(
             None,
             split_dash_and_sprint,
             category_modes,
-            randomize_needle_upgrades,
             start_with_maps,
             automatic_compass,
             minor_shuffle_category_by_family,
@@ -1443,6 +1482,8 @@ def get_dynamic_trap_capacity(
             act_one_donation_tool_pouch_requirements=(
                 act_one_donation_tool_pouch_requirements
             ),
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
         )
     )
 
@@ -1538,7 +1579,6 @@ def build_item_pool_entries(
     trap_counts: Mapping[str, int] | None,
     split_dash_and_sprint: bool,
     category_modes: Mapping[str, str],
-    randomize_needle_upgrades: bool = False,
     start_with_maps: bool = False,
     automatic_compass: bool = False,
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
@@ -1552,6 +1592,13 @@ def build_item_pool_entries(
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     act_one_skips_tier: int = 0,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
+    alphabet_nonadvancement_demand_by_placement_category: (
+        Mapping[str | None, int] | None
+    ) = None,
+    alphabet_item_is_advancement: Callable[[str], bool] | None = None,
+    act_two_balance_precollected_items: list[str] | None = None,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1566,9 +1613,9 @@ def build_item_pool_entries(
         get_act_one_excluded_location_names(
             category_modes.get("MajorKey", "vanilla"),
             category_modes.get("Boss", "anywhere"),
-            randomize_needle_upgrades,
             act_one_donation_tool_pouch_requirements,
             act_one_skips_tier,
+            starting_crest_item,
         )
         if act_one_only
         else frozenset()
@@ -1740,7 +1787,7 @@ def build_item_pool_entries(
             )
 
     if (
-        randomize_needle_upgrades
+        category_modes.get(NEEDLE_UPGRADE_LOCATION_CATEGORY, 'vanilla') != 'vanilla'
         and category_modes.get('Quest', 'anywhere') != 'vanilla'
     ):
         # Pinmaster's Oil is the same vanilla interaction represented by the
@@ -1822,13 +1869,6 @@ def build_item_pool_entries(
             )
         entries.pop(duplicate_quest_filler_index)
 
-    if randomize_needle_upgrades:
-        entries.extend(
-            ItemPoolEntry(item_name, 'NeedleUpgrade')
-            for item_name, count in NEEDLE_UPGRADE_POOL_COUNTS.items()
-            for _copy_index in range(count)
-        )
-
     if act_one_only:
         entries = _trim_act_one_pool_entries(
             entries,
@@ -1837,7 +1877,6 @@ def build_item_pool_entries(
             split_dash_and_sprint,
             automatic_compass,
             removed_option_items_by_category,
-            randomize_needle_upgrades,
             individual_relic_turn_ins,
             act_one_donation_tool_pouch_requirements,
             act_one_skips_tier,
@@ -1851,7 +1890,11 @@ def build_item_pool_entries(
 
     # Act 2 may keep the otherwise Verdania-only key as an optional bingo
     # collectible without restoring any Verdania locations or requirements.
-    if exclude_verdania_content and not retain_green_prince_key:
+    if (
+        exclude_verdania_content
+        and not act_one_only
+        and not retain_green_prince_key
+    ):
         _replace_verdania_only_key_pool_entry(entries, category_modes)
 
     if split_dash_and_sprint:
@@ -1887,16 +1930,82 @@ def build_item_pool_entries(
         entries.pop(filler_index)
 
     if act_two_only:
-        _balance_act_two_retained_silk_soar(
+        balance_item_name = _balance_act_two_retained_silk_soar(
             entries,
             category_modes,
             automatic_compass,
             start_fully_mapped,
         )
+        if (
+            balance_item_name is not None
+            and act_two_balance_precollected_items is not None
+        ):
+            act_two_balance_precollected_items.append(balance_item_name)
 
     add_pool_only_useful_items(entries)
 
+    replace_filler_with_innate_ability_items(
+        entries,
+        (
+            *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
+            *((SWIM_ITEM,) if randomize_swim else ()),
+        ),
+        trap_randomizer,
+    )
+
     if alphabet_mode:
+        max_alphabet_replacements_by_category = None
+        if (
+            alphabet_nonadvancement_demand_by_placement_category
+            is not None
+        ):
+            if alphabet_item_is_advancement is None:
+                raise ValueError(
+                    "Alphabet placement capacity needs an item "
+                    "classification callback."
+                )
+            eligible_filler_count_by_category: Dict[
+                str | None,
+                int,
+            ] = {}
+            nonadvancement_count_by_category: Dict[
+                str | None,
+                int,
+            ] = {}
+            advancement_by_name = {
+                entry.name: alphabet_item_is_advancement(entry.name)
+                for entry in entries
+            }
+            for entry in entries:
+                category = entry.placement_category
+                if (
+                    item_data_table[entry.name].classification
+                    == ItemClassification.filler
+                ):
+                    eligible_filler_count_by_category[category] = (
+                        eligible_filler_count_by_category.get(category, 0)
+                        + 1
+                    )
+                if not advancement_by_name[entry.name]:
+                    nonadvancement_count_by_category[category] = (
+                        nonadvancement_count_by_category.get(category, 0)
+                        + 1
+                    )
+            max_alphabet_replacements_by_category = {
+                category: min(
+                    eligible_count,
+                    max(
+                        0,
+                        nonadvancement_count_by_category.get(category, 0)
+                        - (
+                            alphabet_nonadvancement_demand_by_placement_category
+                            .get(category, 0)
+                        ),
+                    ),
+                )
+                for category, eligible_count
+                in eligible_filler_count_by_category.items()
+            }
         replace_filler_with_alphabet_items(
             entries,
             lambda name: (
@@ -1904,6 +2013,8 @@ def build_item_pool_entries(
                 == ItemClassification.filler
             ),
             trap_randomizer,
+            max_alphabet_replacements_by_category,
+            alphabet_item_is_advancement,
         )
 
     configured_traps = {
@@ -1957,7 +2068,6 @@ def get_configured_item_pool_size(
     trap_counts: Mapping[str, int] | None,
     split_dash_and_sprint: bool,
     category_modes: Mapping[str, str],
-    randomize_needle_upgrades: bool = False,
     start_with_maps: bool = False,
     automatic_compass: bool = False,
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
@@ -1969,6 +2079,8 @@ def get_configured_item_pool_size(
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> int:
     return len(
         build_item_pool_entries(
@@ -1976,7 +2088,6 @@ def get_configured_item_pool_size(
             trap_counts,
             split_dash_and_sprint,
             category_modes,
-            randomize_needle_upgrades,
             start_with_maps,
             automatic_compass,
             minor_shuffle_category_by_family,
@@ -1990,6 +2101,8 @@ def get_configured_item_pool_size(
             act_one_donation_tool_pouch_requirements=(
                 act_one_donation_tool_pouch_requirements
             ),
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
         )
     )
 
@@ -2000,6 +2113,9 @@ def _get_adjusted_pool_counts(
     quest_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
     randomize_minor_pickups: bool = False,
+    randomize_pale_oils: bool = False,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> Dict[str, int]:
     configured_traps = {
         trap_name: int((trap_counts or {}).get(trap_name, 0))
@@ -2046,10 +2162,35 @@ def _get_adjusted_pool_counts(
     )
     for item_name, count in NEEDLE_UPGRADE_POOL_COUNTS.items():
         counts[item_name] = count if randomize_needle_upgrades else 0
+    for item_name, count in PALE_OIL_POOL_COUNTS.items():
+        counts[item_name] = count if randomize_pale_oils else 0
     if quest_sanity and randomize_needle_upgrades:
         counts['Rosaries (60)'] -= 1
     # Split Swift Step's extra copy consumes the starting-crest replacement.
     counts['Rosaries (60)'] -= int(split_dash_and_sprint)
+
+    innate_ability_items = (
+        *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
+        *((SWIM_ITEM,) if randomize_swim else ()),
+    )
+    for item_name in innate_ability_items:
+        counts[item_name] = 1
+    remaining_replacements = len(innate_ability_items)
+    for item_name, _category in ITEM_TABLE_SOURCE:
+        if (
+            remaining_replacements == 0
+            or item_data_table[item_name].classification
+            != ItemClassification.filler
+        ):
+            continue
+        replaced_count = min(counts[item_name], remaining_replacements)
+        counts[item_name] -= replaced_count
+        remaining_replacements -= replaced_count
+    if remaining_replacements:
+        raise OptionError(
+            "Innate ability randomization needs more filler rewards in the "
+            "configured random pool."
+        )
 
     total_traps = sum(configured_traps.values())
     trap_capacity = sum(
@@ -2088,14 +2229,20 @@ def iter_item_pool_names(
     split_dash_and_sprint: bool = False,
     quest_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
+    randomize_pale_oils: bool = False,
     randomize_minor_pickups: bool = False,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ):
     pool_counts = _get_adjusted_pool_counts(
-        trap_counts,
-        split_dash_and_sprint,
-        quest_sanity,
-        randomize_needle_upgrades,
-        randomize_minor_pickups,
+        trap_counts=trap_counts,
+        split_dash_and_sprint=split_dash_and_sprint,
+        quest_sanity=quest_sanity,
+        randomize_needle_upgrades=randomize_needle_upgrades,
+        randomize_minor_pickups=randomize_minor_pickups,
+        randomize_pale_oils=randomize_pale_oils,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
     )
     removed_starting_crest = False
     for name, _category in ITEM_TABLE_SOURCE:
@@ -2138,17 +2285,23 @@ def get_item_pool_size(
     split_dash_and_sprint: bool = False,
     quest_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
+    randomize_pale_oils: bool = False,
     randomize_minor_pickups: bool = False,
+    randomize_ledge_grab: bool = False,
+    randomize_swim: bool = False,
 ) -> int:
     return sum(
         1
         for _name in iter_item_pool_names(
-            None,
-            trap_counts,
-            split_dash_and_sprint,
-            quest_sanity,
-            randomize_needle_upgrades,
-            randomize_minor_pickups,
+            starting_crest_item=None,
+            trap_counts=trap_counts,
+            split_dash_and_sprint=split_dash_and_sprint,
+            quest_sanity=quest_sanity,
+            randomize_needle_upgrades=randomize_needle_upgrades,
+            randomize_minor_pickups=randomize_minor_pickups,
+            randomize_pale_oils=randomize_pale_oils,
+            randomize_ledge_grab=randomize_ledge_grab,
+            randomize_swim=randomize_swim,
         )
     )
 

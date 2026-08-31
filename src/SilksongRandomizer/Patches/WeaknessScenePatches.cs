@@ -287,10 +287,6 @@ namespace SilksongRandomizer.Patches
 
             end.Actions = patchedEndActions;
             CommitTransition(pauseFinished, setEnd);
-            if (PlayerData.instance != null)
-            {
-                PlayerData.instance.churchKeeperIntro = true;
-            }
 
             LogSuccess(
                 fsm,
