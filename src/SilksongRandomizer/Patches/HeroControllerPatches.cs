@@ -4,6 +4,7 @@ using HarmonyLib;
 using HutongGames.PlayMaker;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
@@ -343,6 +344,21 @@ namespace SilksongRandomizer.Patches
                             )
                         );
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroController), "HeroDash")]
+        internal static class HeroController_HeroDash_Patch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(HeroController __instance)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Skill))
+                {
+                    return true;
+                }
+                return state.canDash || WidowSequenceSafety.CanUseEmergencySwiftStep(state);
             }
         }
 
