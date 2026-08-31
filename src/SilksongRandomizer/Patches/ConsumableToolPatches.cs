@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using HarmonyLib;
 
 namespace SilksongRandomizer.Patches
 {
@@ -179,5 +180,21 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(ToolItemManager), nameof(ToolItemManager.TryReplenishTools))]
+        private static class ConsumableTool_InfiniteFleaBrewPatch
+        {
+            private static void Prefix()
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null)
+                {
+                    return;
+                }
+
+                // This should be technically useable for any tool but since it's purpose is just for Flea Brew right now I've named it accordingly.
+                ToolItemStatesLiquid fleaBrew = ToolItemManager.GetToolByName(FleaBrewToolName) as ToolItemStatesLiquid;
+                fleaBrew?.RefillRefills(false);
+            }
+        }
     }
 }
