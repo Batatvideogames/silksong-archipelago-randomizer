@@ -690,6 +690,11 @@ namespace SilksongRandomizer
             }
 
             playerData = PlayerData.instance;
+            if (WidowSequenceSafety.ShouldDeferDeathLink())
+            {
+                return false;
+            }
+
             if (gameManager.GameState != GameState.PLAYING ||
                 gameManager.isPaused ||
                 gameManager.IsLoadingSceneTransition ||

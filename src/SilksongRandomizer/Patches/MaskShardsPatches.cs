@@ -14,6 +14,11 @@ namespace SilksongRandomizer.Patches
         private const string HeartPieceControlFsmName =
             "Heart Container Control";
         private const string LooseMaskPickupStateName = "Shift Up?";
+        private const string ShellwoodMaskShardSceneName = "Shellwood_14";
+        private const string ShellwoodMaskShardLocationName =
+            "Mask Shard Unlock #4";
+        private const string NativeHeartPieceCollectedEvent =
+            "HEART PIECE COLLECTED";
 
         private struct InventoryState
         {
@@ -230,7 +235,17 @@ namespace SilksongRandomizer.Patches
                 }
 
                 CompleteLooseMaskShardLocation replacement =
-                    new CompleteLooseMaskShardLocation(locationName);
+                    new CompleteLooseMaskShardLocation(
+                        locationName,
+                        string.Equals(
+                            __instance.gameObject.scene.name,
+                            ShellwoodMaskShardSceneName,
+                            StringComparison.Ordinal) &&
+                        string.Equals(
+                            locationName,
+                            ShellwoodMaskShardLocationName,
+                            StringComparison.Ordinal)
+                    );
                 replacement.Init(pickupState);
                 pickupState.Actions = new FsmStateAction[]
                 {
@@ -268,11 +283,15 @@ namespace SilksongRandomizer.Patches
             FsmStateAction
         {
             private readonly string locationName;
+            private readonly bool sendShellwoodAmbushEvent;
 
             internal CompleteLooseMaskShardLocation(
-                string locationName)
+                string locationName,
+                bool sendShellwoodAmbushEvent)
             {
                 this.locationName = locationName;
+                this.sendShellwoodAmbushEvent =
+                    sendShellwoodAmbushEvent;
             }
 
             public override void OnEnter()
@@ -313,6 +332,12 @@ namespace SilksongRandomizer.Patches
                 persistence.SaveStateNoCondition();
 
                 state.CheckLocation(locationName);
+                if (sendShellwoodAmbushEvent)
+                {
+                    EventRegister.SendEvent(
+                        NativeHeartPieceCollectedEvent
+                    );
+                }
                 Owner.SetActive(false);
             }
         }

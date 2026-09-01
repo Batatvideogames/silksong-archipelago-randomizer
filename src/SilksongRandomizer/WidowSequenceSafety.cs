@@ -44,6 +44,49 @@ namespace SilksongRandomizer
             return IsInNeedolinMemory();
         }
 
+        internal static bool IsWidowCompletionPending(
+            string sceneName,
+            bool spinnerDefeated,
+            bool bellShrineBellhart)
+        {
+            if (!spinnerDefeated || bellShrineBellhart)
+            {
+                return false;
+            }
+
+            sceneName = sceneName ?? string.Empty;
+            return string.Equals(
+                       sceneName,
+                       WidowShrineSceneName,
+                       StringComparison.Ordinal
+                   ) ||
+                   string.Equals(
+                       sceneName,
+                       NeedolinMemorySceneName,
+                       StringComparison.Ordinal
+                   ) ||
+                   sceneName.StartsWith(
+                       NeedolinMemorySceneName + "_",
+                       StringComparison.Ordinal
+                   );
+        }
+
+        internal static bool ShouldDeferDeathLink()
+        {
+            SaveState state = SaveState.Instance;
+            GameManager gameManager = GameManager.SilentInstance;
+            PlayerData playerData = PlayerData.instance;
+            return state != null &&
+                   state.IsRoomBound &&
+                   gameManager != null &&
+                   playerData != null &&
+                   IsWidowCompletionPending(
+                       gameManager.sceneName,
+                       playerData.spinnerDefeated,
+                       playerData.bellShrineBellhart
+                   );
+        }
+
         internal static bool CanUseEmergencySwiftStep(
             SaveState state
         )

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using TeamCherry.NestedFadeGroup;
 using TMProOld;
 using UnityEngine;
@@ -131,7 +132,9 @@ namespace SilksongRandomizer.Patches
             internal ToolItem EquippedItem;
             internal bool CanUnlockSlot;
             internal bool HintResolved;
+            internal bool HintRefreshAttempted;
             internal int NextHintPollFrame;
+            internal Task<SaveState.HintData> PendingHintRequest;
         }
 
         private sealed class DisplayPatchState
@@ -359,7 +362,9 @@ namespace SilksongRandomizer.Patches
                     renderState.HintDisplayName = null;
                     renderState.HintClassification = null;
                     renderState.HintResolved = false;
+                    renderState.HintRefreshAttempted = false;
                     renderState.NextHintPollFrame = 0;
+                    renderState.PendingHintRequest = null;
                 }
                 else if (!sameLiveState)
                 {
@@ -400,7 +405,9 @@ namespace SilksongRandomizer.Patches
                             slotNames.LocationName,
                             out string user,
                             out string item,
-                            out ItemFlags flags))
+                            out ItemFlags flags,
+                            allowNetworkRequest:
+                                !renderState.HintRefreshAttempted))
                     {
                         renderState.HintDisplayName =
                             BuildHintDisplayName(user, item);
@@ -416,6 +423,13 @@ namespace SilksongRandomizer.Patches
                             (connected
                                 ? ConnectedHintPollFrames
                                 : DisconnectedHintPollFrames);
+                        BeginHintRefresh(
+                            __instance,
+                            selectable,
+                            state,
+                            slotNames.LocationName,
+                            renderState
+                        );
                     }
                 }
 
@@ -475,6 +489,138 @@ namespace SilksongRandomizer.Patches
             {
                 ReleaseAlphabetBypass(__state);
                 return __exception;
+            }
+        }
+
+        private static void BeginHintRefresh(
+            InventoryItemManager manager,
+            InventoryItemSelectable selectable,
+            SaveState state,
+            string locationName,
+            DescriptionRenderState renderState)
+        {
+            Archipelago client = Archipelago.Instance;
+            if ((object)manager == null ||
+                (object)selectable == null ||
+                state == null ||
+                renderState == null ||
+                client == null ||
+                !client.Connected ||
+                renderState.HintRefreshAttempted)
+            {
+                return;
+            }
+
+            renderState.HintRefreshAttempted = true;
+            Task<SaveState.HintData> request =
+                client.RequestHintAsync(locationName);
+            if (request == null)
+            {
+                return;
+            }
+
+            renderState.PendingHintRequest = request;
+            manager.StartCoroutine(
+                RefreshHintWhenReady(
+                    manager,
+                    selectable,
+                    state,
+                    locationName,
+                    renderState,
+                    client,
+                    request
+                )
+            );
+        }
+
+        private static IEnumerator RefreshHintWhenReady(
+            InventoryItemManager manager,
+            InventoryItemSelectable selectable,
+            SaveState state,
+            string locationName,
+            DescriptionRenderState renderState,
+            Archipelago client,
+            Task<SaveState.HintData> request)
+        {
+            while (!request.IsCompleted)
+            {
+                if (!IsCurrentHintRefresh(
+                        manager,
+                        selectable,
+                        state,
+                        locationName,
+                        renderState,
+                        request))
+                {
+                    ClearPendingHintRequest(renderState, request);
+                    yield break;
+                }
+
+                yield return null;
+            }
+
+            if (!IsCurrentHintRefresh(
+                    manager,
+                    selectable,
+                    state,
+                    locationName,
+                    renderState,
+                    request) ||
+                request.IsCanceled ||
+                request.IsFaulted)
+            {
+                client.ReleaseHintRequest(locationName, request);
+                ClearPendingHintRequest(renderState, request);
+                yield break;
+            }
+
+            SaveState.HintData hint = request.GetAwaiter().GetResult();
+            client.ReleaseHintRequest(locationName, request);
+            if (hint == null)
+            {
+                ClearPendingHintRequest(renderState, request);
+                yield break;
+            }
+
+            state.CacheHint(hint);
+
+            manager.SetDisplay(selectable);
+            ClearPendingHintRequest(renderState, request);
+        }
+
+        private static bool IsCurrentHintRefresh(
+            InventoryItemManager manager,
+            InventoryItemSelectable selectable,
+            SaveState state,
+            string locationName,
+            DescriptionRenderState renderState,
+            Task<SaveState.HintData> request)
+        {
+            return (object)manager != null &&
+                   (object)selectable != null &&
+                   renderState != null &&
+                   ReferenceEquals(
+                       renderState.PendingHintRequest,
+                       request) &&
+                   ReferenceEquals(renderState.Selectable, selectable) &&
+                   ReferenceEquals(renderState.OwnerState, state) &&
+                   ReferenceEquals(manager.CurrentSelected, selectable) &&
+                   string.Equals(
+                       renderState.LocationName,
+                       locationName,
+                       StringComparison.Ordinal);
+        }
+
+        private static void ClearPendingHintRequest(
+            DescriptionRenderState renderState,
+            Task<SaveState.HintData> request)
+        {
+            if (renderState != null &&
+                ReferenceEquals(
+                    renderState.PendingHintRequest,
+                    request))
+            {
+                renderState.PendingHintRequest = null;
             }
         }
 
@@ -842,7 +988,9 @@ namespace SilksongRandomizer.Patches
             renderState.EquippedItem = null;
             renderState.CanUnlockSlot = false;
             renderState.HintResolved = false;
+            renderState.HintRefreshAttempted = false;
             renderState.NextHintPollFrame = 0;
+            renderState.PendingHintRequest = null;
         }
 
         private static bool MatchesDisplayState(

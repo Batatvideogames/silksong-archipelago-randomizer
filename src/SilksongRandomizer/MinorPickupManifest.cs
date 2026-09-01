@@ -131,7 +131,16 @@ namespace SilksongRandomizer
             new Entry("Memory Locket: Whispering Vaults", "library_08", "Crest Socket Unlocker", 105.34f, 33.48f, "", ItemType.MemoryLocket),
             new Entry("Memory Locket: Bilewater West", "shadow_20", "Crest Socket Unlocker", 17.713f, 23.86f, "", ItemType.MemoryLocket),
             new Entry("Memory Locket: Deep Docks", "dock_13", "Crest Socket Unlocker", 15.26f, 3.29f, "", ItemType.MemoryLocket),
-            new Entry("Memory Locket: Bilewater East", "shadow_27", "Crest Socket Unlocker", 195.09f, 11.76f, "", ItemType.MemoryLocket),
+            new Entry(
+                "Memory Locket: Bilewater East",
+                "shadow_27",
+                "Crest Socket Unlocker",
+                195.09f,
+                11.76f,
+                "Breakable Hang Sack Memory Locket/Corpse Pilgrim 03/" +
+                "Sack Corpse Pickup",
+                ItemType.MemoryLocket
+            ),
             new Entry("Memory Locket: The Slab", "slab_cell_quiet", "Crest Socket Unlocker", 42.441864f, 30.40f, "", ItemType.MemoryLocket),
             new Entry("Memory Locket: Memorium", "arborium_05", "Crest Socket Unlocker", 3.95f, 7.27f, "", ItemType.MemoryLocket),
             new Entry("Memory Locket: Far Fields (Act 3)", "bone_east_25", "Crest Socket Unlocker", 151.952515f, 6.346909f, "", ItemType.MemoryLocket),

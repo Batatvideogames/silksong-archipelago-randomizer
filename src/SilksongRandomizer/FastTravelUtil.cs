@@ -34,6 +34,8 @@ namespace SilksongRandomizer
             "door_act3_wakeUp";
         private const string GreymoorCaravanSceneName = "Greymoor_08";
         private const string GreymoorCaravanEntryGateName = "left2";
+        private const string FirstAbyssEscapeQuestName =
+            "Black Thread Pt3 Escape";
 
         private enum WarpDestination
         {
@@ -116,6 +118,17 @@ namespace SilksongRandomizer
             {
                 reason =
                     "Finish the current scripted action before warping.";
+                return false;
+            }
+
+            FullQuestBase firstAbyssEscape = QuestManager.GetQuest(
+                FirstAbyssEscapeQuestName
+            );
+            if (firstAbyssEscape != null &&
+                firstAbyssEscape.IsAccepted &&
+                !firstAbyssEscape.IsCompleted)
+            {
+                reason = "Finish escaping the Abyss before warping.";
                 return false;
             }
 

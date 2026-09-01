@@ -84868,7 +84868,7 @@
           "label": "Cogwork Core: Architect's Melody",
           "canonical_location": "Architect's Melody",
           "canonical_mapping_confidence": "curated",
-          "node_id": null,
+          "node_id": "cogwork-core/cogwork-core-architect-s-melody#melody-puzzle",
           "requirement": {
             "raw": "",
             "mode": "inherit",
@@ -84889,10 +84889,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "check references an undeclared or blank subroom"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []

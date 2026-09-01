@@ -45,6 +45,7 @@ from .room_graph_logic import (
     CompiledRoomGraph,
     SPOOL_FRAGMENT_COUNT_ITEM,
     compile_room_graph,
+    room_event_name,
     room_node_name,
 )
 from .wish_events import (
@@ -2261,6 +2262,11 @@ def get_trails_end_requirements(
 # prerequisite means the corresponding vanilla story action can be completed.
 # Combat-only gates count as complete once their arena is
 # reachable, matching the rest of this no-difficulty-settings logic.
+LAST_JUDGE_ROOM_EVENT = room_event_name(
+    'event:blasted-steps/last-judge-arena/last-judge-defeated'
+)
+
+
 EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Bell Beast Defeated': (
         req(
@@ -2531,11 +2537,8 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Event: Last Judge Defeated': (
         req(
-            # The Grand Gate queues its own Needolin cutscene after the five
-            # shrines are active.  It does not consult hasNeedolin or the AP
-            # Needolin capability before starting the Last Judge sequence.
-            'Event: Five Bellshrines Rung',
-            'Path: Blasted Steps - Bellway',
+            LAST_JUDGE_ROOM_EVENT,
+            crest=False,
         ),
     ),
     'Event: Phantom Defeated': (
@@ -5555,6 +5558,7 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         "Beast Shard: Pilgrim's Rest",
         'Beast Shard: Memorium',
         'Beast Shard: Sprintmaster',
+        'Flea: Memorium - Huge Flea',
         *TEMPORARILY_UNVERIFIED_SHARED_CHECK_LOCATIONS,
         *TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS,
         *(
