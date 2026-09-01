@@ -40,6 +40,7 @@ from ..requirement_rules import _compile_item_count
 from ..wish_events import (
     SILK_AND_SOUL_LACE_DEFEATED_ITEM,
     SILK_AND_SOUL_MANDATORY_WISH_ITEM,
+    WIDOW_DEFEATED_EVENT_ITEM,
     SILK_AND_SOUL_WISH_HALF_POINT_ITEM,
     SILK_AND_SOUL_WISH_POINT_ITEM,
     SONGCLAVE_BOARD_COMPLETION_ITEM,
@@ -1303,7 +1304,17 @@ class TestWishLogicEvents(SilksongTestBase):
             SILK_AND_SOUL_WISH_POINT_ITEM: 16,
             SILK_AND_SOUL_WISH_HALF_POINT_ITEM: 6,
             SILK_AND_SOUL_LACE_DEFEATED_ITEM: 1,
+            WIDOW_DEFEATED_EVENT_ITEM: 1,
         }))
+
+    def test_widow_defeat_is_a_checked_source_event(self) -> None:
+        event = next(
+            event for event in WISH_LOGIC_EVENTS
+            if event.item_name == WIDOW_DEFEATED_EVENT_ITEM
+        )
+        self.assertEqual(event.source_location, "Boss: Widow")
+        self.assertTrue(event.requires_checked_source)
+        self.assertNotIn(WIDOW_DEFEATED_EVENT_ITEM, EVENT_REQUIREMENTS)
 
     def test_songclave_and_silk_and_soul_counts_are_exact(self) -> None:
         strengthening = EVENT_REQUIREMENTS[
@@ -1483,3 +1494,35 @@ class TestShellwoodSkipBoundary(TestCase):
             with self.subTest(location_name=location_name):
                 location = multiworld.get_location(location_name, 1)
                 self.assertFalse(location.can_reach(state))
+
+    def test_full_swift_does_not_make_upper_bellhart_jump(self) -> None:
+        multiworld = setup_multiworld(
+            SilksongWorld,
+            steps=(
+                "generate_early",
+                "create_regions",
+                "create_items",
+                "set_rules",
+            ),
+            options={
+                "goal": "act_3",
+                "skips": "none",
+                "split_dash_and_sprint": True,
+            },
+        )
+        world = multiworld.worlds[1]
+        state = CollectionState(multiworld)
+        for item_name in (
+            "Progressive Swift Step",
+            "Progressive Swift Step",
+            "Progressive Silkheart",
+            "Simple Key (Wormways)",
+            "Crest: Hunter",
+        ):
+            state.collect(world.create_item(item_name))
+
+        widow = multiworld.get_location("Boss: Widow", 1)
+        self.assertFalse(widow.can_reach(state))
+
+        state.collect(world.create_item("Cling Grip"))
+        self.assertTrue(widow.can_reach(state))

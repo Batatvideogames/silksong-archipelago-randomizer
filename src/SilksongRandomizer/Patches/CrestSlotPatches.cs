@@ -584,6 +584,7 @@ namespace SilksongRandomizer.Patches
 
             state.CacheHint(hint);
 
+            renderState.NextHintPollFrame = Time.frameCount;
             manager.SetDisplay(selectable);
             ClearPendingHintRequest(renderState, request);
         }

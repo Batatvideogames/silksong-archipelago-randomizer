@@ -139,6 +139,32 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(GameMap), "SetupMap", new[] { typeof(bool) })]
         private static class GameMap_SetupMap_Patch
         {
+            private static SaveState refreshedState;
+            private static GameMap refreshedMap;
+
+            [HarmonyPrefix]
+            private static void Prefix(
+                GameMap __instance,
+                ref int ___lastMappedCount
+            )
+            {
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (state == null ||
+                    !state.startFullyMapped ||
+                    playerData == null ||
+                    !playerData.mapAllRooms ||
+                    (ReferenceEquals(state, refreshedState) &&
+                     ReferenceEquals(__instance, refreshedMap)))
+                {
+                    return;
+                }
+
+                refreshedState = state;
+                refreshedMap = __instance;
+                ___lastMappedCount = int.MinValue;
+            }
+
             private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 return ReplacePlayerDataHasQuillReads(instructions);

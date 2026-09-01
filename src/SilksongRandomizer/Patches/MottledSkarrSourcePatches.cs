@@ -114,11 +114,11 @@ namespace SilksongRandomizer.Patches
 
                 if (activate != null)
                 {
-                    activate.SetActive(!isChecked);
+                    activate.SetActive(isChecked);
                 }
                 if (deactivate != null)
                 {
-                    deactivate.SetActive(isChecked);
+                    deactivate.SetActive(!isChecked);
                 }
                 return false;
             }

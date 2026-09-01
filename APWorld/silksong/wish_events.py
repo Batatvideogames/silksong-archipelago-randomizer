@@ -16,6 +16,7 @@ SILK_AND_SOUL_WISH_HALF_POINT_ITEM = (
 SILK_AND_SOUL_LACE_DEFEATED_ITEM = (
     "Silk and Soul: Lace Defeated"
 )
+WIDOW_DEFEATED_EVENT_ITEM = "Event: Widow Defeated"
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,7 @@ class WishLogicEvent:
     item_name: str
     source_location: str = ""
     source_region: str = ""
+    requires_checked_source: bool = False
 
     def __post_init__(self) -> None:
         if bool(self.source_location) == bool(self.source_region):
@@ -38,11 +40,13 @@ def _location_event(
     label: str,
     item_name: str,
     source_location: str,
+    requires_checked_source: bool = False,
 ) -> WishLogicEvent:
     return WishLogicEvent(
         f"Wish Logic: {label}",
         item_name,
         source_location=source_location,
+        requires_checked_source=requires_checked_source,
     )
 
 
@@ -243,7 +247,18 @@ SILK_AND_SOUL_FIXED_EVENTS: tuple[WishLogicEvent, ...] = (
 )
 
 
+WIDOW_DEFEATED_EVENTS: tuple[WishLogicEvent, ...] = (
+    _location_event(
+        "Widow defeated",
+        WIDOW_DEFEATED_EVENT_ITEM,
+        "Boss: Widow",
+        requires_checked_source=True,
+    ),
+)
+
+
 WISH_LOGIC_EVENTS: tuple[WishLogicEvent, ...] = (
+    *WIDOW_DEFEATED_EVENTS,
     *SONGCLAVE_BOARD_EVENTS,
     *SILK_AND_SOUL_MANDATORY_EVENTS,
     *SILK_AND_SOUL_FULL_POINT_EVENTS,

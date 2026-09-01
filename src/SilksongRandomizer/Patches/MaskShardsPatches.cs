@@ -19,6 +19,9 @@ namespace SilksongRandomizer.Patches
             "Mask Shard Unlock #4";
         private const string NativeHeartPieceCollectedEvent =
             "HEART PIECE COLLECTED";
+        private const string ShellwoodAmbushObjectName = "Ambush Scene";
+        private const string ShellwoodAmbushFsmName = "Control";
+        private const string ShellwoodAmbushIdleStateName = "Idle";
 
         private struct InventoryState
         {
@@ -279,6 +282,52 @@ namespace SilksongRandomizer.Patches
             return null;
         }
 
+        private static bool TriggerShellwoodAmbush()
+        {
+            PlayMakerFSM match = null;
+            foreach (PlayMakerFSM fsm in
+                     Resources.FindObjectsOfTypeAll<PlayMakerFSM>())
+            {
+                if (fsm == null ||
+                    fsm.gameObject == null ||
+                    !fsm.gameObject.activeInHierarchy ||
+                    !fsm.gameObject.scene.IsValid() ||
+                    !string.Equals(
+                        fsm.gameObject.scene.name,
+                        ShellwoodMaskShardSceneName,
+                        StringComparison.Ordinal) ||
+                    !string.Equals(
+                        fsm.gameObject.name,
+                        ShellwoodAmbushObjectName,
+                        StringComparison.Ordinal) ||
+                    !string.Equals(
+                        fsm.FsmName,
+                        ShellwoodAmbushFsmName,
+                        StringComparison.Ordinal) ||
+                    fsm.Fsm == null ||
+                    !string.Equals(
+                        fsm.Fsm.ActiveStateName,
+                        ShellwoodAmbushIdleStateName,
+                        StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                if (match != null)
+                {
+                    return false;
+                }
+                match = fsm;
+            }
+
+            if (match == null)
+            {
+                return false;
+            }
+
+            match.SendEvent(NativeHeartPieceCollectedEvent);
+            return true;
+        }
         private sealed class CompleteLooseMaskShardLocation :
             FsmStateAction
         {
@@ -334,9 +383,7 @@ namespace SilksongRandomizer.Patches
                 state.CheckLocation(locationName);
                 if (sendShellwoodAmbushEvent)
                 {
-                    EventRegister.SendEvent(
-                        NativeHeartPieceCollectedEvent
-                    );
+                    TriggerShellwoodAmbush();
                 }
                 Owner.SetActive(false);
             }

@@ -126,6 +126,9 @@ namespace SilksongRandomizer
             [JsonProperty("item")]
             internal string Item { get; set; }
 
+            [JsonProperty("checked_source")]
+            internal string CheckedSource { get; set; }
+
             [JsonProperty("requirement")]
             internal LogicRequirement Requirement { get; set; }
         }
@@ -250,6 +253,7 @@ namespace SilksongRandomizer
         private static string cachedJson = string.Empty;
         private static ParsedPayload cachedPayload;
         private static ParsedPayload cachedAbstractPayload;
+        private static string cachedAbstractCheckedSources = string.Empty;
         private static Dictionary<string, int> cachedAbstractInventory;
         private static Dictionary<string, int> cachedResolvedInventory;
         private static Dictionary<string, bool> cachedAbstractValues;
@@ -307,7 +311,8 @@ namespace SilksongRandomizer
                 GetAbstractRequirements(
                     payload,
                     inventory,
-                    goalCompleted
+                    goalCompleted,
+                    state
                 );
             bool hasCrest = CrestItemNames.Any(
                 itemName => CountItem(inventory, itemName) > 0
@@ -412,6 +417,7 @@ namespace SilksongRandomizer
             new Color(0.58f, 0.58f, 0.58f, 1f);
 
         private static ParsedPayload cachedExplainPayload;
+        private static string cachedHoverCheckedSources = string.Empty;
         private static Dictionary<string, int> cachedHoverInventory;
         private static HoverLogicContext cachedHoverContext;
         private static bool cachedHoverGoalCompleted;
@@ -498,9 +504,18 @@ namespace SilksongRandomizer
             Dictionary<string, int> inventory =
                 BuildInventoryCounts(state);
             bool goalCompleted = state?.goalCompleted == true;
+            string checkedSources = GetCheckedLogicSourcesKey(
+                payload,
+                state
+            );
             if (ReferenceEquals(payload, cachedExplainPayload) &&
                 cachedHoverContext != null &&
                 cachedHoverGoalCompleted == goalCompleted &&
+                string.Equals(
+                    checkedSources,
+                    cachedHoverCheckedSources,
+                    StringComparison.Ordinal
+                ) &&
                 HaveEqualInventory(inventory, cachedHoverInventory))
             {
                 return cachedHoverContext;
@@ -508,6 +523,7 @@ namespace SilksongRandomizer
 
             cachedExplainPayload = payload;
             cachedHoverGoalCompleted = goalCompleted;
+            cachedHoverCheckedSources = checkedSources;
             cachedHoverInventory = new Dictionary<string, int>(
                 inventory,
                 StringComparer.OrdinalIgnoreCase
@@ -519,7 +535,8 @@ namespace SilksongRandomizer
                 AbstractValues = GetAbstractRequirements(
                     payload,
                     inventory,
-                    goalCompleted
+                    goalCompleted,
+                    state
                 ),
                 HasSilkSpear =
                     CountItem(inventory, "Silkspear") > 0 &&
@@ -1274,14 +1291,74 @@ namespace SilksongRandomizer
             }
         }
 
+        private static bool IsCheckedLogicSource(
+            SaveState state,
+            string source
+        )
+        {
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                return true;
+            }
+            if (state?.IsLocationChecked(source) == true)
+            {
+                return true;
+            }
+            return string.Equals(
+                    source,
+                    "Boss: Widow",
+                    StringComparison.OrdinalIgnoreCase
+                ) &&
+                PlayerData.instance != null &&
+                PlayerData.instance.spinnerDefeated;
+        }
+
+        private static string GetCheckedLogicSourcesKey(
+            ParsedPayload payload,
+            SaveState state
+        )
+        {
+            return string.Join(
+                "\n",
+                (payload?.LogicEvents ?? new List<LogicEvent>())
+                    .Where(logicEvent =>
+                        logicEvent != null &&
+                        !string.IsNullOrWhiteSpace(
+                            logicEvent.CheckedSource
+                        ) &&
+                        IsCheckedLogicSource(
+                            state,
+                            logicEvent.CheckedSource
+                        ))
+                    .Select(logicEvent =>
+                        logicEvent.CheckedSource.Trim()
+                    )
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .OrderBy(
+                        source => source,
+                        StringComparer.OrdinalIgnoreCase
+                    )
+            );
+        }
+
         private static Dictionary<string, bool> GetAbstractRequirements(
             ParsedPayload payload,
             Dictionary<string, int> inventory,
-            bool goalCompleted
+            bool goalCompleted,
+            SaveState state
         )
         {
+            string checkedSources = GetCheckedLogicSourcesKey(
+                payload,
+                state
+            );
             if (ReferenceEquals(payload, cachedAbstractPayload) &&
                 goalCompleted == cachedAbstractGoalCompleted &&
+                string.Equals(
+                    checkedSources,
+                    cachedAbstractCheckedSources,
+                    StringComparison.Ordinal
+                ) &&
                 HaveEqualInventory(inventory, cachedAbstractInventory))
             {
                 foreach (KeyValuePair<string, int> entry in
@@ -1302,10 +1379,12 @@ namespace SilksongRandomizer
                 ResolveAbstractRequirements(
                     payload,
                     inventory,
-                    goalCompleted
+                    goalCompleted,
+                    state
                 );
 
             cachedAbstractPayload = payload;
+            cachedAbstractCheckedSources = checkedSources;
             cachedAbstractInventory = inventorySnapshot;
             cachedResolvedInventory = new Dictionary<string, int>(
                 inventory,
@@ -1719,7 +1798,8 @@ namespace SilksongRandomizer
             ResolveAbstractRequirements(
                 ParsedPayload payload,
                 Dictionary<string, int> inventory,
-                bool goalCompleted
+                bool goalCompleted,
+                SaveState state
             )
         {
             Dictionary<string, bool> values =
@@ -1771,6 +1851,10 @@ namespace SilksongRandomizer
                 foreach (LogicEvent logicEvent in payload.LogicEvents)
                 {
                     if (collectedEvents.Contains(logicEvent) ||
+                        !IsCheckedLogicSource(
+                            state,
+                            logicEvent.CheckedSource
+                        ) ||
                         !SatisfiesGroup(
                             logicEvent.Requirement,
                             goalCompleted,

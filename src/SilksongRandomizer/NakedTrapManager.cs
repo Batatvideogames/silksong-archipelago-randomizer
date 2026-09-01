@@ -100,12 +100,6 @@ namespace SilksongRandomizer
                 return;
             }
 
-            if (active &&
-                !IsSafeGameplayState(HeroController.instance))
-            {
-                SuspendUntilSafe();
-            }
-
             if (active)
             {
                 UpdateActiveEffect();

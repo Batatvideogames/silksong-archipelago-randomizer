@@ -7,7 +7,6 @@ using SetPlayerDataBoolAction =
 
 namespace SilksongRandomizer.Patches
 {
-    [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
     internal static class TrobbioMirrorRewardPatches
     {
         private const string SceneName = "Library_13";
@@ -23,135 +22,148 @@ namespace SilksongRandomizer.Patches
         private const string TormentedRewardStateName =
             "Spawn Tormented Item";
         private const string TormentedEndStateName = "End Battle";
+        private const string TormentedDefeatedFlag =
+            "defeatedTormentedTrobbio";
         private const string RegularLocationName =
             "Tool Unlock: Dazzle Bind";
         private const string TormentedLocationName =
             "Tool Unlock: Dazzle Bind Upgraded";
 
-        [HarmonyPostfix]
-        private static void Postfix(PlayMakerFSM __instance)
+        [HarmonyPatch(
+            typeof(ActivateGameObject),
+            nameof(ActivateGameObject.OnEnter)
+        )]
+        private static class RegularRewardPatch
         {
-            if (__instance == null ||
-                __instance.gameObject == null ||
+            [HarmonyPostfix]
+            private static void Postfix(ActivateGameObject __instance)
+            {
+                if (IsRegularRewardAction(__instance))
+                {
+                    CompleteLocation(RegularLocationName);
+                }
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(SetPlayerDataBoolAction),
+            nameof(SetPlayerDataBoolAction.OnEnter)
+        )]
+        private static class TormentedRewardPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(SetPlayerDataBoolAction __instance)
+            {
+                if (IsTormentedRewardAction(__instance))
+                {
+                    CompleteLocation(TormentedLocationName);
+                }
+            }
+        }
+
+        private static bool IsRegularRewardAction(
+            ActivateGameObject action)
+        {
+            if (!IsExactAction(
+                    action,
+                    RegularOwnerName,
+                    RegularRewardStateName) ||
+                action.Owner.transform.parent == null ||
                 !string.Equals(
-                    __instance.gameObject.scene.name,
-                    SceneName,
+                    action.Owner.transform.parent.name,
+                    RegularParentName,
                     StringComparison.Ordinal) ||
+                action.Owner.transform.parent.parent == null ||
                 !string.Equals(
-                    __instance.FsmName,
-                    FsmName,
-                    StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            if (IsRegularRewardFsm(__instance))
-            {
-                PatchRegularReward(__instance);
-                return;
-            }
-
-            if (string.Equals(
-                    __instance.gameObject.name,
+                    action.Owner.transform.parent.parent.name,
                     StageOwnerName,
                     StringComparison.Ordinal))
             {
-                PatchTormentedReward(__instance);
+                return false;
             }
+
+            FsmState state = action.State;
+            FsmStateAction[] actions = state.Actions;
+            return actions != null &&
+                   actions.Length == 4 &&
+                   actions[0] is Wait &&
+                   actions[1] is SetPositionToObject &&
+                   ReferenceEquals(actions[2], action) &&
+                   actions[3] is Wait &&
+                   HasOnlyTransition(
+                       state,
+                       FsmEvent.Finished.Name,
+                       RegularEndStateName);
         }
 
-        private static bool IsRegularRewardFsm(PlayMakerFSM fsm)
+        private static bool IsTormentedRewardAction(
+            SetPlayerDataBoolAction action)
         {
-            return string.Equals(
-                       fsm.gameObject.name,
-                       RegularOwnerName,
-                       StringComparison.Ordinal) &&
-                   fsm.transform.parent != null &&
-                   string.Equals(
-                       fsm.transform.parent.name,
-                       RegularParentName,
-                       StringComparison.Ordinal) &&
-                   fsm.transform.parent.parent != null &&
-                   string.Equals(
-                       fsm.transform.parent.parent.name,
-                       StageOwnerName,
-                       StringComparison.Ordinal);
-        }
-
-        private static void PatchRegularReward(PlayMakerFSM fsm)
-        {
-            FsmState rewardState =
-                fsm.Fsm?.GetState(RegularRewardStateName);
-            FsmStateAction[] actions = rewardState?.Actions;
-            if (ContainsCompletionAction(
-                    rewardState,
-                    RegularLocationName))
-            {
-                return;
-            }
-
-            if (actions == null ||
-                actions.Length != 4 ||
-                !(actions[0] is Wait) ||
-                !(actions[1] is SetPositionToObject) ||
-                !(actions[2] is ActivateGameObject) ||
-                !(actions[3] is Wait) ||
-                !HasOnlyTransition(
-                    rewardState,
-                    FsmEvent.Finished.Name,
-                    RegularEndStateName))
-            {
-                LogFailure(RegularLocationName);
-                return;
-            }
-
-            AppendCompletionAction(
-                rewardState,
-                RegularLocationName
-            );
-        }
-
-        private static void PatchTormentedReward(PlayMakerFSM fsm)
-        {
-            FsmState readyState =
-                fsm.Fsm?.GetState(TormentedReadyStateName);
-            FsmState rewardState =
-                fsm.Fsm?.GetState(TormentedRewardStateName);
-            FsmStateAction[] readyActions = readyState?.Actions;
-            FsmStateAction[] rewardActions = rewardState?.Actions;
-            if (ContainsCompletionAction(
-                    rewardState,
-                    TormentedLocationName))
-            {
-                return;
-            }
-
-            if (readyActions == null ||
-                readyActions.Length != 2 ||
-                !(readyActions[0] is ActivateGameObject) ||
-                !(readyActions[1] is ActivateGameObject) ||
-                rewardActions == null ||
-                rewardActions.Length != 3 ||
-                !(rewardActions[0] is SetPlayerDataBoolAction) ||
-                !(rewardActions[1] is Wait) ||
-                !(rewardActions[2] is SendEventToRegister) ||
-                !HasOnlyTransition(
-                    readyState,
-                    TormentedRewardEventName,
+            if (!IsExactAction(
+                    action,
+                    StageOwnerName,
                     TormentedRewardStateName) ||
-                !HasOnlyTransition(
-                    rewardState,
-                    FsmEvent.Finished.Name,
-                    TormentedEndStateName))
+                action.boolName == null ||
+                action.value == null ||
+                !string.Equals(
+                    action.boolName.Value,
+                    TormentedDefeatedFlag,
+                    StringComparison.Ordinal) ||
+                !action.value.Value)
             {
-                LogFailure(TormentedLocationName);
-                return;
+                return false;
             }
 
-            AppendCompletionAction(
-                rewardState,
-                TormentedLocationName
-            );
+            FsmState state = action.State;
+            FsmStateAction[] actions = state.Actions;
+            FsmState readyState =
+                action.Fsm.GetState(TormentedReadyStateName);
+            FsmStateAction[] readyActions = readyState?.Actions;
+            return actions != null &&
+                   actions.Length == 3 &&
+                   ReferenceEquals(actions[0], action) &&
+                   actions[1] is Wait &&
+                   actions[2] is SendEventToRegister &&
+                   readyActions != null &&
+                   readyActions.Length == 2 &&
+                   readyActions[0] is ActivateGameObject &&
+                   readyActions[1] is ActivateGameObject &&
+                   HasOnlyTransition(
+                       readyState,
+                       TormentedRewardEventName,
+                       TormentedRewardStateName) &&
+                   HasOnlyTransition(
+                       state,
+                       FsmEvent.Finished.Name,
+                       TormentedEndStateName);
+        }
+
+        private static bool IsExactAction(
+            FsmStateAction action,
+            string ownerName,
+            string stateName)
+        {
+            return action != null &&
+                   action.Owner != null &&
+                   action.Owner.transform != null &&
+                   action.Fsm != null &&
+                   action.State != null &&
+                   string.Equals(
+                       action.Owner.scene.name,
+                       SceneName,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       action.Owner.name,
+                       ownerName,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       action.Fsm.Name,
+                       FsmName,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       action.State.Name,
+                       stateName,
+                       StringComparison.Ordinal);
         }
 
         private static bool HasOnlyTransition(
@@ -173,84 +185,16 @@ namespace SilksongRandomizer.Patches
                        StringComparison.Ordinal);
         }
 
-        private static void AppendCompletionAction(
-            FsmState rewardState,
-            string locationName)
+        private static void CompleteLocation(string locationName)
         {
-            CompleteMirrorLocation completion =
-                new CompleteMirrorLocation(locationName);
-            completion.Init(rewardState);
-
-            FsmStateAction[] actions = rewardState.Actions;
-            FsmStateAction[] patchedActions =
-                new FsmStateAction[actions.Length + 1];
-            Array.Copy(actions, patchedActions, actions.Length);
-            patchedActions[actions.Length] = completion;
-            rewardState.Actions = patchedActions;
-        }
-
-        private static bool ContainsCompletionAction(
-            FsmState rewardState,
-            string locationName)
-        {
-            if (rewardState?.Actions == null)
+            SaveState state = SaveState.Instance;
+            if (state != null &&
+                state.IsRandomized(ItemType.Tool) &&
+                state.IsLocationEnabled(locationName) &&
+                state.IsLocationInSeed(locationName) &&
+                !state.IsLocationChecked(locationName))
             {
-                return false;
-            }
-
-            foreach (FsmStateAction action in rewardState.Actions)
-            {
-                CompleteMirrorLocation existing =
-                    action as CompleteMirrorLocation;
-                if (existing != null &&
-                    string.Equals(
-                        existing.LocationName,
-                        locationName,
-                        StringComparison.Ordinal))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static void LogFailure(string locationName)
-        {
-            RandomizerPlugin.Log?.LogWarning(
-                "[RANDOMIZER] Trobbio mirror completion hook was not " +
-                "installed for " + locationName + " because the " +
-                "validated native reward sequence changed."
-            );
-        }
-
-        private sealed class CompleteMirrorLocation : FsmStateAction
-        {
-            internal readonly string LocationName;
-
-            internal CompleteMirrorLocation(string locationName)
-            {
-                LocationName = locationName;
-            }
-
-            public override void OnEnter()
-            {
-                try
-                {
-                    SaveState state = SaveState.Instance;
-                    if (state != null &&
-                        state.IsRandomized(ItemType.Tool) &&
-                        state.IsLocationEnabled(LocationName) &&
-                        state.IsLocationInSeed(LocationName) &&
-                        !state.IsLocationChecked(LocationName))
-                    {
-                        state.CheckLocation(LocationName);
-                    }
-                }
-                finally
-                {
-                    Finish();
-                }
+                state.CheckLocation(locationName);
             }
         }
     }

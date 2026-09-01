@@ -37377,15 +37377,9 @@
           "source_node_id": "shellwood/shellwood-13#right-pond",
           "target_node_id": "shellwood/shellwood-13#upper-area",
           "requirement": {
-            "raw": "Ledge Grab OR Dash OR Clawline OR Faydown Cloak OR Cling Grip OR Silk soar",
+            "raw": "Clawline OR Faydown Cloak OR Cling Grip OR Silk Soar",
             "mode": "expression",
             "dnf": [
-              [
-                "capability:ledge-grab"
-              ],
-              [
-                "macro:progressive-swift-step-full"
-              ],
               [
                 "item:clawline"
               ],
@@ -37410,7 +37404,7 @@
             "name": "Platforms",
             "source": "Right Pond",
             "destination": "Upper Area",
-            "requirements": "Ledge Grab OR Dash OR Clawline OR Faydown Cloak OR Cling Grip OR Silk soar",
+            "requirements": "Clawline OR Faydown Cloak OR Cling Grip OR Silk Soar",
             "todo": "",
             "verification": "Verified",
             "notes": ""

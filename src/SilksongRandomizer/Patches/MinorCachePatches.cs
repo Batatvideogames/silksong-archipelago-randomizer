@@ -1141,10 +1141,17 @@ namespace SilksongRandomizer.Patches
             {
                 if (TryGetPreservedBreakEntry(
                         __instance,
-                        out _,
-                        out _))
+                        out SaveState state,
+                        out MinorCacheManifest.Entry entry))
                 {
-                    return true;
+                    if (!state.IsLocationChecked(entry.LocationName))
+                    {
+                        return true;
+                    }
+
+                    __instance.gameObject.SetActive(false);
+                    UnityEngine.Object.Destroy(__instance.gameObject);
+                    return false;
                 }
 
                 return !TryReplace(

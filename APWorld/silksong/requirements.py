@@ -2274,12 +2274,6 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             crest=False,
         ),
     ),
-    # Widow is the randomized Needolin source, not a Needolin gate. The client
-    # suppresses the vanilla ownership grant and redirects a player who has
-    # not received AP Needolin through the safe Belltown shrine wake sequence.
-    'Event: Widow Defeated': (
-        req('Path: Bellhart - Widow', crest=False),
-    ),
     'Event: Rite of the Pollip Completed': (
         req(POLLIP_RITE_ROOM_NODE, crest=False),
     ),
@@ -3315,7 +3309,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Bellhart - Bellhart',
         'Event: Missing Courier Rescued',
     )),
-    ('Skill Unlock: Needolin', area(1, 'Bellhart - Widow', 'Ancestral Art: Cling Grip')),
+    ('Skill Unlock: Needolin', area(1, 'Bellhart - Widow')),
 
     ('Save Flea: Bellhart (Bellphy)', area(
         1,
@@ -4002,7 +3996,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Boss Completion: spinnerDefeated', area(
         1,
         'Bellhart - Widow',
-        'Ancestral Art: Cling Grip',
     )),
 
     # CRAFTING KITS
@@ -6846,6 +6839,9 @@ def export_wish_logic_events(
         exported_events.append({
             'location': event.location_name,
             'item': event.item_name,
+            'checked_source': (
+                source_name if event.requires_checked_source else ''
+            ),
             'requirement': source_group,
         })
     return exported_events
