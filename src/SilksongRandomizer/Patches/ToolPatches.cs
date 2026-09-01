@@ -62,6 +62,65 @@ namespace SilksongRandomizer.Patches
                    state.receivedItems.Contains("Shell Satchel");
         }
 
+        private static ItemType GetRandomizedItemType(ToolItem tool)
+        {
+            return tool != null && tool.Type == ToolItemType.Skill
+                ? ItemType.Spell
+                : ItemType.Tool;
+        }
+
+        private static bool TryGetActiveToolSource(
+            SaveState state,
+            ToolItem tool,
+            out string locationName)
+        {
+            locationName = null;
+            if (state == null || tool == null)
+            {
+                return false;
+            }
+
+            ItemType itemType = GetRandomizedItemType(tool);
+            if (!state.IsRandomized(itemType))
+            {
+                return false;
+            }
+
+            locationName = LocationSet.GetCanonicalLocationName(
+                (itemType == ItemType.Spell
+                    ? "Spell Unlock: "
+                    : "Tool Unlock: ") + tool.name
+            );
+            if (!state.IsLocationEnabled(locationName) ||
+                !state.IsLocationInSeed(locationName))
+            {
+                locationName = null;
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool HasReceivedToolItem(
+            SaveState state,
+            ToolItem tool)
+        {
+            if (state == null ||
+                state.receivedItems == null ||
+                tool == null)
+            {
+                return false;
+            }
+
+            string itemName =
+                (GetRandomizedItemType(tool) == ItemType.Spell
+                    ? "Spell: "
+                    : "Tool: ") + tool.name;
+            return state.receivedItems.Contains(
+                ItemSet.GetCanonicalItemName(itemName)
+            );
+        }
+
         internal static void EnsureReceivedBaseCrestsUnlocked()
         {
             SaveState state = SaveState.Instance;
@@ -138,7 +197,8 @@ namespace SilksongRandomizer.Patches
             }
 
             ToolItem silkspear = ToolItemManager.GetToolByName("Silk Spear");
-            if (silkspear != null)
+            if (silkspear != null &&
+                TryGetActiveToolSource(state, silkspear, out _))
             {
                 // Unlocking a crest initializes its vanilla neutral skill slot
                 // with Silkspear. That default loadout reference remains absent
@@ -563,10 +623,10 @@ namespace SilksongRandomizer.Patches
                     return false;
                 }
 
-                ItemType itemType = tool.Type == ToolItemType.Skill
-                    ? ItemType.Spell
-                    : ItemType.Tool;
-                if (state == null || !state.IsRandomized(itemType))
+                if (!TryGetActiveToolSource(
+                        state,
+                        tool,
+                        out string locationName))
                 {
                     return true;
                 }
@@ -575,7 +635,7 @@ namespace SilksongRandomizer.Patches
                 Debug.Log("WAS ALREADY UNLOCKED: " + tool.IsUnlocked);
                 if (tool.Type == ToolItemType.Skill)
                 {
-                    SaveState.Instance.CheckLocation("Spell Unlock: " + tool.name);
+                    state.CheckLocation(locationName);
                     if (!tool.IsUnlocked && !HasReceivedSilkSkill(tool))
                     {
                         RandomizerPlugin.Instance.StartCoroutine(DelayRelock(tool));
@@ -670,40 +730,26 @@ namespace SilksongRandomizer.Patches
                     );
                     return true;
                 }
-                ItemType itemType =
-                    __instance != null &&
-                    __instance.Type == ToolItemType.Skill
-                        ? ItemType.Spell
-                        : ItemType.Tool;
                 bool isAutomaticCompass =
                     IsAutomaticCompassTool(state, __instance);
-                if (state == null ||
-                    (
-                        !state.IsRandomized(itemType) &&
-                        !isAutomaticCompass
-                    ))
+                bool hasActiveSource = TryGetActiveToolSource(
+                    state,
+                    __instance,
+                    out string locationName
+                );
+                if (!hasActiveSource && !isAutomaticCompass)
                 {
                     return true;
                 }
-                if (RuinedToolPatches.TryHandleWebShotRepair(
+                if (hasActiveSource &&
+                    RuinedToolPatches.TryHandleWebShotRepair(
                         state,
                         toolName))
                 {
                 }
-                else if (
-                    toolName == "Silk Spear" ||
-                    toolName == "Parry" ||
-                    toolName == "Silk Boss Needle" ||
-                    toolName == "Silk Charge" ||
-                    toolName == "Silk Bomb" ||
-                    toolName == "Thread Sphere"
-                    )
+                else if (hasActiveSource)
                 {
-                    SaveState.Instance.CheckLocation("Spell Unlock: " + toolName);
-                }
-                else
-                {
-                    SaveState.Instance.CheckLocation("Tool Unlock: " + toolName);
+                    state.CheckLocation(locationName);
                 }
 
                 // The location contains an Archipelago item rather than this
@@ -727,9 +773,11 @@ namespace SilksongRandomizer.Patches
                     !state.IsRandomized(ItemType.Tool) ||
                     !ItemGrants.TryGetProgressiveToolState(
                         __instance,
-                        out int _level,
+                        out int level,
                         out int _requiredLevel,
-                        out bool _isBaseTier))
+                        out bool _isBaseTier) ||
+                    (level <= 0 &&
+                     !TryGetActiveToolSource(state, __instance, out _)))
                 {
                     return;
                 }
@@ -791,7 +839,9 @@ namespace SilksongRandomizer.Patches
                         __instance,
                         out int level,
                         out int requiredLevel,
-                        out bool _isBaseTier))
+                        out bool _isBaseTier) ||
+                    (level <= 0 &&
+                     !TryGetActiveToolSource(state, __instance, out _)))
                 {
                     return true;
                 }
@@ -826,7 +876,9 @@ namespace SilksongRandomizer.Patches
                         __instance,
                         out int level,
                         out int requiredLevel,
-                        out bool _isBaseTier))
+                        out bool _isBaseTier) &&
+                    (level > 0 ||
+                     TryGetActiveToolSource(state, __instance, out _)))
                 {
                     __result = level >= requiredLevel;
                     return false;
@@ -857,13 +909,21 @@ namespace SilksongRandomizer.Patches
                     return false;
                 }
 
-                ItemType itemType = __instance.Type == ToolItemType.Skill
-                    ? ItemType.Spell
-                    : ItemType.Tool;
+                ItemType itemType = GetRandomizedItemType(__instance);
                 if (!state.IsRandomized(itemType))
                 {
                     return true;
                 }
+
+                bool hasReceivedItem = HasReceivedToolItem(
+                    state,
+                    __instance
+                );
+                bool hasActiveSource = TryGetActiveToolSource(
+                    state,
+                    __instance,
+                    out _
+                );
 
                 if (itemType == ItemType.Tool &&
                     ItemGrants.TryGetProgressiveToolState(
@@ -872,6 +932,11 @@ namespace SilksongRandomizer.Patches
                         out int requiredLevel,
                         out bool isBaseTier))
                 {
+                    if (progressiveLevel <= 0 && !hasActiveSource)
+                    {
+                        return true;
+                    }
+
                     __result = isBaseTier
                         ? progressiveLevel == 1
                         : progressiveLevel >= requiredLevel;
@@ -893,22 +958,19 @@ namespace SilksongRandomizer.Patches
                     }
                 }
 
+                if (!hasActiveSource && !hasReceivedItem)
+                {
+                    return true;
+                }
+
                 if (__instance.Type == ToolItemType.Skill)
                 {
-                    __result = state.receivedItems.Contains(
-                        ItemSet.GetCanonicalItemName(
-                            "Spell: " + __instance.name
-                        )
-                    );
+                    __result = hasReceivedItem;
                     return false;
                 }
                 else
                 {
-                    __result = state.receivedItems.Contains(
-                        ItemSet.GetCanonicalItemName(
-                            "Tool: " + __instance.name
-                        )
-                    );
+                    __result = hasReceivedItem;
                     return false;
                 }
             }

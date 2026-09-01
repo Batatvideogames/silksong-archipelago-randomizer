@@ -1880,7 +1880,10 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Bellway - Blasted Steps'), # Bellway
     ),
     "Path: Sinner's Road - Broken Toll": (
-        req('Path: Greymoor - Halfway House', 'Ancestral Art: Cling Grip'),
+        req(
+            room_node_name("sinner-s-road/sinner-s-road-entrance#room"),
+            crest=False,
+        ),
         req('Path: Bilewater - Exhaust Organ', 'Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ancestral Art: Needolin'),
     ),
     "Path: Sinner's Road - Styx": (
@@ -3305,7 +3308,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
 
     # Bellhart
     ('Tool Unlock: Multibind', area(
-        2,
+        1,
         'Bellhart - Bellhart',
         'Event: Missing Courier Rescued',
     )),
@@ -5256,12 +5259,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         req('Event: Missing Courier Rescued', crest=False),
     ),
     'Multibinder': (
-        req(
-            'Act: 2',
-            'Event: Missing Courier Rescued',
-            crest=False,
-            act='Act 2',
-        ),
+        req('Event: Missing Courier Rescued', crest=False),
     ),
     'Bellhart - Map Purchase': (
         req('Event: Widow Defeated', crest=False),
@@ -5371,16 +5369,6 @@ _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     "Pilgrim's Rest - Tool Pouch": grindle_access(3),
     'Pin Purchase: Vendor Pins': (
         req('Path: Greymoor - Halfway House', crest=False),
-    ),
-    # Keep this Act 1 path so Silk Soar does not depend on the Act 3 goal
-    # that may require every Shakra map.
-    "Sinner's Road - Map Purchase": (
-        req(
-            'Act: 1',
-            "Path: Sinner's Road - Broken Toll",
-            act='Act 1',
-            path_name="Sinner's Road - Broken Toll",
-        ),
     ),
 }
 

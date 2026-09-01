@@ -59,10 +59,28 @@ namespace SilksongRandomizer.Patches
                 },
             };
 
-        private static bool IsRandomized(ItemType type)
+        private static bool IsActiveLocation(
+            SaveState state,
+            ref string locationName)
         {
-            SaveState state = SaveState.Instance;
-            return state != null && state.IsRandomized(type);
+            if (state == null ||
+                string.IsNullOrWhiteSpace(locationName))
+            {
+                locationName = null;
+                return false;
+            }
+
+            locationName = LocationSet.GetCanonicalLocationName(
+                locationName
+            );
+            if (!state.IsLocationEnabled(locationName) ||
+                !state.IsLocationInSeed(locationName))
+            {
+                locationName = null;
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -100,13 +118,18 @@ namespace SilksongRandomizer.Patches
         private static bool IsUncheckedRelic(CollectableRelic relic)
         {
             SaveState state = SaveState.Instance;
-            return state != null &&
-                   state.IsRandomized(ItemType.Relic) &&
-                   relic != null &&
-                   CoreLocationManifest.TryGetRelicLocation(
-                       relic.name,
-                       out string locationName) &&
-                   !state.IsLocationChecked(locationName);
+            if (state == null ||
+                !state.IsRandomized(ItemType.Relic) ||
+                relic == null ||
+                !CoreLocationManifest.TryGetRelicLocation(
+                    relic.name,
+                    out string locationName) ||
+                !IsActiveLocation(state, ref locationName))
+            {
+                return false;
+            }
+
+            return !state.IsLocationChecked(locationName);
         }
 
         /// <summary>
@@ -145,6 +168,9 @@ namespace SilksongRandomizer.Patches
                 bool shouldOwn =
                     state.receivedItems != null &&
                     state.receivedItems.Contains(itemName);
+                bool isActiveSource =
+                    state.IsLocationEnabled(itemName) &&
+                    state.IsLocationInSeed(itemName);
                 CollectableRelicsData.Data data = relic.SavedData;
 
                 if (shouldOwn)
@@ -155,9 +181,10 @@ namespace SilksongRandomizer.Patches
                         relic.SavedData = data;
                     }
                 }
-                else if (data.IsCollected ||
+                else if (isActiveSource &&
+                         (data.IsCollected ||
                          data.IsDeposited ||
-                         data.HasSeenInRelicBoard)
+                         data.HasSeenInRelicBoard))
                 {
                     data.IsCollected = false;
                     data.IsDeposited = false;
@@ -174,7 +201,8 @@ namespace SilksongRandomizer.Patches
             out string locationName)
         {
             locationName = null;
-            if (shopItem == null)
+            SaveState state = SaveState.Instance;
+            if (state == null || shopItem == null)
             {
                 return false;
             }
@@ -183,26 +211,34 @@ namespace SilksongRandomizer.Patches
                     shopItem.name,
                     out NativeShopLocation shopLocation))
             {
-                if (!IsRandomized(shopLocation.Type))
+                if (!state.IsRandomized(shopLocation.Type))
                 {
                     return false;
                 }
 
                 locationName = shopLocation.LocationName;
-                return true;
+                return IsActiveLocation(state, ref locationName);
             }
 
             if (CoreLocationManifest.TryGetCraftingKitShopLocation(
                     shopItem.name,
                     out locationName))
             {
-                return IsRandomized(ItemType.Upgrade);
+                return state.IsRandomized(ItemType.Upgrade) &&
+                       IsActiveLocation(state, ref locationName);
             }
 
             CollectableRelic relic = shopItem.Item as CollectableRelic;
-            return relic != null &&
-                   IsRandomized(ItemType.Relic) &&
-                   CoreLocationManifest.TryGetRelicLocation(relic.name, out locationName);
+            if (relic == null ||
+                !state.IsRandomized(ItemType.Relic) ||
+                !CoreLocationManifest.TryGetRelicLocation(
+                    relic.name,
+                    out locationName))
+            {
+                return false;
+            }
+
+            return IsActiveLocation(state, ref locationName);
         }
 
         private static bool TryResolveShopPreviewLocation(
@@ -247,24 +283,7 @@ namespace SilksongRandomizer.Patches
             SaveState state,
             ref string locationName)
         {
-            if (state == null ||
-                string.IsNullOrWhiteSpace(locationName))
-            {
-                locationName = null;
-                return false;
-            }
-
-            locationName = LocationSet.GetCanonicalLocationName(
-                locationName
-            );
-            if (!state.IsLocationEnabled(locationName) ||
-                !state.IsLocationInSeed(locationName))
-            {
-                locationName = null;
-                return false;
-            }
-
-            return true;
+            return IsActiveLocation(state, ref locationName);
         }
 
         internal static bool TryResolveShopHintLocation(
@@ -471,7 +490,8 @@ namespace SilksongRandomizer.Patches
                     !state.IsRandomized(ItemType.Relic) ||
                     !CoreLocationManifest.TryGetRelicLocation(
                         __instance.name,
-                        out string locationName))
+                        out string locationName) ||
+                    !IsActiveLocation(state, ref locationName))
                 {
                     return true;
                 }
@@ -497,7 +517,8 @@ namespace SilksongRandomizer.Patches
                     relic == null ||
                     !CoreLocationManifest.TryGetRelicLocation(
                         relic.name,
-                        out string locationName))
+                        out string locationName) ||
+                    !IsActiveLocation(state, ref locationName))
                 {
                     return true;
                 }
@@ -532,13 +553,18 @@ namespace SilksongRandomizer.Patches
             {
                 __state = craftingKitShopLocationContext;
 
-                if (IsRandomized(ItemType.Upgrade) &&
+                SaveState state = SaveState.Instance;
+                if (state != null &&
+                    state.IsRandomized(ItemType.Upgrade) &&
                     __instance != null &&
                     CoreLocationManifest.TryGetCraftingKitShopLocation(
                         __instance.name,
                         out string locationName))
                 {
-                    craftingKitShopLocationContext = locationName;
+                    craftingKitShopLocationContext =
+                        IsActiveLocation(state, ref locationName)
+                            ? locationName
+                            : string.Empty;
                 }
             }
 
@@ -575,8 +601,14 @@ namespace SilksongRandomizer.Patches
                 }
 
                 string locationName =
-                    craftingKitShopLocationContext ??
-                    CoreLocationManifest.CrowFeathersCraftingKitLocation;
+                    craftingKitShopLocationContext == null
+                        ? CoreLocationManifest.CrowFeathersCraftingKitLocation
+                        : craftingKitShopLocationContext;
+
+                if (!IsActiveLocation(state, ref locationName))
+                {
+                    return true;
+                }
 
                 state.CheckLocation(locationName);
 
@@ -617,7 +649,13 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                if (state.IsLocationChecked(shopLocation.LocationName))
+                string locationName = shopLocation.LocationName;
+                if (!IsActiveLocation(state, ref locationName))
+                {
+                    return true;
+                }
+
+                if (state.IsLocationChecked(locationName))
                 {
                     onComplete?.Invoke();
                     return false;
@@ -626,7 +664,7 @@ namespace SilksongRandomizer.Patches
                 if (!UsesRosaries(__instance, out string currencyError))
                 {
                     ReportBlockingPurchaseError(
-                        shopLocation.LocationName,
+                        locationName,
                         currencyError
                     );
                     return false;
@@ -639,7 +677,7 @@ namespace SilksongRandomizer.Patches
                         out string conditionalError))
                 {
                     ReportBlockingPurchaseError(
-                        shopLocation.LocationName,
+                        locationName,
                         conditionalError
                     );
                     return false;
@@ -659,7 +697,7 @@ namespace SilksongRandomizer.Patches
 
                     // Every exact shop asset in this manifest uses Rosaries.
                     CurrencyManager.TakeGeo(__instance.Cost);
-                    state.CheckLocation(shopLocation.LocationName);
+                    state.CheckLocation(locationName);
                     if (shopLocation.Type == ItemType.Map)
                     {
                         ShakraStockPersistencePatches
@@ -674,7 +712,7 @@ namespace SilksongRandomizer.Patches
                 catch (Exception exception)
                 {
                     ReportBlockingPurchaseError(
-                        shopLocation.LocationName,
+                        locationName,
                         "The purchase hook failed.",
                         exception is TargetInvocationException &&
                         exception.InnerException != null

@@ -454,6 +454,15 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
                     ).can_reach(state)
                 )
 
+    def test_missing_courier_stays_in_act_one(self) -> None:
+        location = self.multiworld.get_location(
+            'Wish: My Missing Courier',
+            self.player,
+        )
+        self.assertTrue(
+            location.can_reach(self.multiworld.get_all_state(False))
+        )
+
     def test_confirmed_skip_routes_stay_out_without_skips(self) -> None:
         for name in (
             "Flea: Sinner's Road",
@@ -515,6 +524,23 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
                         name,
                         self.player,
                     )
+
+
+class TestActOneMultibinderAnywhere(SilksongTestBase):
+    options = {
+        'goal': 'act_1',
+        'tool_randomization': 'anywhere',
+    }
+
+    def test_multibinder_stays_randomized(self) -> None:
+        self.multiworld.get_location('Multibinder', self.player)
+        self.assertEqual(
+            1,
+            sum(
+                item.name == 'Multibinder'
+                for item in self.multiworld.itempool
+            ),
+        )
 
 
 class TestActOneEasySkipGreymoor(SilksongTestBase):
@@ -1427,3 +1453,33 @@ class TestShellwoodSkipBoundary(TestCase):
                     self.assertEqual(location.can_reach(state), expected)
                     state.collect(world.create_item("Cling Grip"))
                     self.assertTrue(location.can_reach(state))
+
+    def test_sprint_alone_does_not_unlock_shellwood_checks(self) -> None:
+        multiworld = setup_multiworld(
+            SilksongWorld,
+            steps=(
+                "generate_early",
+                "create_regions",
+                "create_items",
+                "set_rules",
+            ),
+            options={
+                "goal": "act_3",
+                "bellway_access": "randomized_stations",
+                "bellway_randomization": "anywhere",
+                "skips": "none",
+                "split_dash_and_sprint": True,
+            },
+        )
+        world = multiworld.worlds[1]
+        state = CollectionState(multiworld)
+        state.collect(world.create_item("Bellway: Blasted Steps"))
+        state.collect(world.create_item("Progressive Swift Step"))
+
+        for location_name in (
+            "Boss: Sister Splinter",
+            "Shellwood - Mask Shard",
+        ):
+            with self.subTest(location_name=location_name):
+                location = multiworld.get_location(location_name, 1)
+                self.assertFalse(location.can_reach(state))

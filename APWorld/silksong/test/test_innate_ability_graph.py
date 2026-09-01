@@ -6,6 +6,7 @@ from ..requirements import (
     PATH_REQUIREMENTS,
     RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS,
     SWIM_CAPABILITY_REQUIREMENT,
+    _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES,
     get_abstract_requirements,
     req,
 )
@@ -250,16 +251,23 @@ class TestInnateAbilityGraphRows(TestCase):
                 )
 
     def test_greymoor_external_boundaries(self) -> None:
+        entrance_node = "sinner-s-road/sinner-s-road-entrance#room"
+        self.assertNotIn(entrance_node, _EXTERNAL_BOUNDARY_SEEDS)
         self.assertEqual(
-            _EXTERNAL_BOUNDARY_SEEDS[
-                "sinner-s-road/sinner-s-road-entrance#room"
-            ],
+            PATH_REQUIREMENTS["Path: Sinner's Road - Broken Toll"],
             (
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Capability: Ledge Grab",
+                req(room_node_name(entrance_node), crest=False),
+                req(
+                    "Path: Bilewater - Exhaust Organ",
+                    "Ancestral Art: Cling Grip",
+                    "Ancestral Art: Swift Step",
+                    "Ancestral Art: Needolin",
                 ),
             ),
+        )
+        self.assertNotIn(
+            "Sinner's Road - Map Purchase",
+            _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES,
         )
 
     def test_abyss_escape_keeps_universal_final_gauntlet(self) -> None:

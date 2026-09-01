@@ -853,15 +853,6 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "blasted-steps/blasted-steps-bellway#room": (
         _part("Path: Blasted Steps - Bellway"),
     ),
-    # The Sinner's Road entrance uses Hornet's ordinary ledge grab. Keeping
-    # the capability in the clause makes it innate when the option is off and
-    # an additional item gate when Ledge Grab randomization is enabled.
-    "sinner-s-road/sinner-s-road-entrance#room": (
-        _part(
-            "Path: Greymoor - Halfway House",
-            "Capability: Ledge Grab",
-        ),
-    ),
     # The mapper's unresolved left transition is the missing handoff from
     # Halfway House. Preserve every compilable alternative. Innate Swim keeps
     # the normal graph unchanged; Swim randomization activates the other gates.

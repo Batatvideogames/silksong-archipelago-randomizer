@@ -690,17 +690,10 @@ namespace SilksongRandomizer.Patches
 
         private static bool IsRandomizedTarget(ShopItem shopItem)
         {
-            SaveState state = SaveState.Instance;
-            if (state == null || shopItem == null)
-            {
-                return false;
-            }
-
-            return
-                (shopItem.IsToolItem() &&
-                 state.IsRandomized(GetToolItemType(shopItem))) ||
-                (shopItem.name == "Mapper Quill" &&
-                 IsQuillCheckEnabled(state));
+            return TryResolveToolAndQuillPreviewLocation(
+                shopItem,
+                out _
+            );
         }
 
         private static bool IsQuillCheckEnabled(SaveState state)
@@ -753,13 +746,20 @@ namespace SilksongRandomizer.Patches
             out string locationName)
         {
             locationName = null;
-            if (!IsRandomizedTarget(shopItem))
+            SaveState state = SaveState.Instance;
+            if (state == null || shopItem == null)
             {
                 return false;
             }
 
             if (shopItem.IsToolItem())
             {
+                ItemType itemType = GetToolItemType(shopItem);
+                if (!state.IsRandomized(itemType))
+                {
+                    return false;
+                }
+
                 SavedItem savedItem = Traverse.Create(shopItem)
                     .Field("savedItem")
                     .GetValue() as SavedItem;
@@ -769,21 +769,35 @@ namespace SilksongRandomizer.Patches
                 }
 
                 locationName = LocationSet.GetCanonicalLocationName(
-                    "Tool Unlock: " + savedItem.name
+                    (itemType == ItemType.Spell
+                        ? "Spell Unlock: "
+                        : "Tool Unlock: ") + savedItem.name
                 );
-                return true;
             }
-
-            if (string.Equals(
+            else if (string.Equals(
                     shopItem.name,
                     "Mapper Quill",
-                    StringComparison.Ordinal))
+                    StringComparison.Ordinal) &&
+                IsQuillCheckEnabled(state))
             {
                 locationName = "Item: Quill";
-                return true;
+            }
+            else
+            {
+                return false;
             }
 
-            return false;
+            locationName = LocationSet.GetCanonicalLocationName(
+                locationName
+            );
+            if (!state.IsLocationEnabled(locationName) ||
+                !state.IsLocationInSeed(locationName))
+            {
+                locationName = null;
+                return false;
+            }
+
+            return true;
         }
 
         private static ItemType GetToolItemType(ShopItem shopItem)
@@ -920,32 +934,17 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(ShopItem __instance, ref bool __result)
             {
-                if (!IsRandomizedTarget(__instance))
+                SaveState state = SaveState.Instance;
+                if (state == null ||
+                    !TryResolveToolAndQuillPreviewLocation(
+                        __instance,
+                        out string locationName))
                 {
                     return true;
                 }
 
-                if (__instance.IsToolItem())
-                {
-                    SavedItem savedItem = Traverse.Create(__instance).Field("savedItem").GetValue() as SavedItem;
-                    if (savedItem == null) return true;
-                    string locationName = LocationSet.GetCanonicalLocationName(
-                        "Tool Unlock: " + savedItem.name
-                    );
-
-                    Location location = SaveState.Instance.locations.Locations.FirstOrDefault((f) => { return f.Name == locationName; });
-                    if (location != null)
-                    {
-                        __result = SaveState.Instance.IsLocationChecked(locationName);
-                        return false;
-                    }
-                }
-                if (__instance.name == "Mapper Quill")
-                {
-                    __result = SaveState.Instance.IsLocationChecked("Item: Quill");
-                    return false;
-                }
-                return true;
+                __result = state.IsLocationChecked(locationName);
+                return false;
             }
         }
 

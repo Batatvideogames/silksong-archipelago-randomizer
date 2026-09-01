@@ -34612,12 +34612,9 @@
           "canonical_mapping_confidence": "curated",
           "node_id": "shellwood/shellwood-14#room",
           "requirement": {
-            "raw": "Ledge Grab OR Dash OR Clawline OR Faydown Cloak OR Drifters Cloak OR Beast Crest",
+            "raw": "Dash OR Clawline OR Faydown Cloak OR Drifters Cloak OR Beast Crest",
             "mode": "expression",
             "dnf": [
-              [
-                "capability:ledge-grab"
-              ],
               [
                 "macro:progressive-swift-step-full"
               ],
