@@ -19,6 +19,10 @@ namespace SilksongRandomizer.Patches
         private const string PollipHeartAssetName = "Shell Flower";
         private const string SilkeaterAssetName = "Silk Grub";
         private const string RockRollersQuestName = "Rock Rollers";
+        private const string PilgrimRagsQuestName = "Pilgrim Rags";
+        private const string PilgrimRagsLocationName =
+            "Wish: Garb of the Pilgrims";
+        private const string PilgrimRagCollectableName = "Pilgrim Rag";
 
         [ThreadStatic]
         private static string activeSilkeaterLocation;
@@ -1207,6 +1211,53 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static void ClearPilgrimRagsAfterTurnIn(
+            FullQuestBase quest
+        )
+        {
+            if (quest == null ||
+                !string.Equals(
+                    quest.name,
+                    PilgrimRagsQuestName,
+                    StringComparison.Ordinal
+                ) ||
+                !TryGetActiveQuestLocation(
+                    quest,
+                    out string locationName
+                ) ||
+                !string.Equals(
+                    locationName,
+                    PilgrimRagsLocationName,
+                    StringComparison.Ordinal
+                ))
+            {
+                return;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            if (playerData?.Collectables == null)
+            {
+                return;
+            }
+
+            CollectableItemsData.Data data =
+                playerData.Collectables.GetData(
+                    PilgrimRagCollectableName
+                );
+            if (data.Amount == 0 && data.AmountWhileHidden == 0)
+            {
+                return;
+            }
+
+            data.Amount = 0;
+            data.AmountWhileHidden = 0;
+            playerData.Collectables.SetData(
+                PilgrimRagCollectableName,
+                data
+            );
+            CollectableItemManager.IncrementVersion();
+        }
+
         [HarmonyPatch(
             typeof(FullQuestBase),
             nameof(FullQuestBase.ConsumeTarget)
@@ -1221,6 +1272,7 @@ namespace SilksongRandomizer.Patches
             {
                 if (__result)
                 {
+                    ClearPilgrimRagsAfterTurnIn(__instance);
                     ReportConsumedQuestChecks(__instance);
                 }
             }

@@ -14,8 +14,9 @@ namespace SilksongRandomizer.Patches
         private const string RegularOwnerName = "Trobbio";
         private const string RegularParentName = "Boss Scene Trobbio";
         private const string StageOwnerName = "Grand Stage Scene";
-        private const string RegularRewardStateName = "Item Appear";
+        private const string RegularRewardStateName = "Collapse";
         private const string RegularEndStateName = "Battle End";
+        private const string RegularJournalKey = "Trobbio";
         private const string TormentedReadyStateName = "Trobbio Ready 2";
         private const string TormentedRewardEventName =
             "TORMENTED BATTLE END";
@@ -85,15 +86,34 @@ namespace SilksongRandomizer.Patches
             FsmState state = action.State;
             FsmStateAction[] actions = state.Actions;
             return actions != null &&
-                   actions.Length == 4 &&
-                   actions[0] is Wait &&
-                   actions[1] is SetPositionToObject &&
-                   ReferenceEquals(actions[2], action) &&
-                   actions[3] is Wait &&
+                   actions.Length == 8 &&
+                   actions[0] is AwardQueuedAchievements &&
+                   actions[1] is CancelCameraShake &&
+                   actions[2] is Tk2dPlayAnimation &&
+                   actions[3] is SetPositionToObject &&
+                   ReferenceEquals(actions[4], action) &&
+                   actions[5] is Wait &&
+                   actions[6] is AudioPlayerOneShotSingle &&
+                   actions[7] is AudioPlayerOneShotSingle &&
                    HasOnlyTransition(
                        state,
                        FsmEvent.Finished.Name,
                        RegularEndStateName);
+        }
+
+        internal static void ReconcileRegularReward()
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null ||
+                !playerData.defeatedTrobbio ||
+                playerData.EnemyJournalKillData == null ||
+                playerData.EnemyJournalKillData
+                    .GetKillData(RegularJournalKey).Kills <= 0)
+            {
+                return;
+            }
+
+            CompleteLocation(RegularLocationName);
         }
 
         private static bool IsTormentedRewardAction(

@@ -613,6 +613,7 @@ namespace SilksongRandomizer
                 SaveState activeState = SaveState.Instance;
                 if (activeState != null)
                 {
+                    TrobbioMirrorRewardPatches.ReconcileRegularReward();
                     foreach (Location location in activeState.locations.Locations)
                     {
                         if (!ReferenceEquals(activeState, SaveState.Instance))

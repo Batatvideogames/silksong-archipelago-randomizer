@@ -5139,6 +5139,12 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         )
         for location_name in _CLAWLINE_GATED_LOCATIONS
     },
+    'Needolin': (
+        req('Path: Bellhart - Widow', crest=False),
+    ),
+    'Boss: Widow': (
+        req('Path: Bellhart - Widow', crest=False),
+    ),
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.
     'Greymoor - Bellshrine': (

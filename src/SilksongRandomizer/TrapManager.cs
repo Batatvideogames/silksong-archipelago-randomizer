@@ -530,7 +530,7 @@ namespace SilksongRandomizer
             {
                 if (TryRestoreCursedCrest())
                 {
-                    RefillSilkAtBench();
+                    RegenerateSilkAtBench();
                 }
                 TryApplyPendingCursedCrest();
                 return;
@@ -560,7 +560,8 @@ namespace SilksongRandomizer
 
         internal static void PrepareForSave()
         {
-            bool refillSilk = PlayerData.instance?.atBench == true;
+            bool regenerateSilk =
+                HasCursedCrestState && PlayerData.instance?.atBench == true;
             if (HasCursedCrestState && !TryRestoreCursedCrest())
             {
                 if (!ForceRestoreCursedCrestFieldsForSave())
@@ -571,7 +572,7 @@ namespace SilksongRandomizer
                 }
                 ClearCursedCrestState();
             }
-            if (refillSilk) RefillSilkAtBench();
+            if (regenerateSilk) RegenerateSilkAtBench();
             NakedTrapManager.PrepareForSave();
         }
 
@@ -827,7 +828,7 @@ namespace SilksongRandomizer
             }
         }
 
-        private static void RefillSilkAtBench()
+        private static void RegenerateSilkAtBench()
         {
             PlayerData playerData = PlayerData.instance;
             if (playerData == null ||
@@ -837,13 +838,10 @@ namespace SilksongRandomizer
                 return;
             }
 
-            int missingSilk = playerData.CurrentSilkMax - playerData.silk;
-            if (missingSilk > 0)
+            HeroController hero = HeroController.instance;
+            if (hero != null)
             {
-                playerData.AddSilk(missingSilk);
-                cursedCrestSilkRefreshPending = true;
-                cursedCrestSpoolRefreshPending = true;
-                TryCompleteCursedCrestRuntimeRefresh();
+                hero.MaxRegenSilk();
             }
         }
 

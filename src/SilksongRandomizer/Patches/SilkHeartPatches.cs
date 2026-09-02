@@ -29,6 +29,13 @@ namespace SilksongRandomizer.Patches
             "Memory_Silk_Heart_LaceTower";
         private const string LaceTowerLocation =
             "Silk Heart: Lace (Cradle)";
+        private enum BossHeartCompletion
+        {
+            Unknown = 0,
+            BellBeast,
+            Unravelled,
+            LaceTower,
+        }
 
         private sealed class BossHeartSource
         {
@@ -36,20 +43,20 @@ namespace SilksongRandomizer.Patches
             internal readonly string MemoryScene;
             internal readonly string ReturnScene;
             internal readonly string LocationName;
-            internal readonly bool CompleteBellBeast;
+            internal readonly BossHeartCompletion Completion;
 
             internal BossHeartSource(
                 string sourceScene,
                 string memoryScene,
                 string returnScene,
                 string locationName,
-                bool completeBellBeast = false)
+                BossHeartCompletion completion)
             {
                 SourceScene = sourceScene;
                 MemoryScene = memoryScene;
                 ReturnScene = returnScene;
                 LocationName = locationName;
-                CompleteBellBeast = completeBellBeast;
+                Completion = completion;
             }
         }
 
@@ -65,7 +72,7 @@ namespace SilksongRandomizer.Patches
                             BellBeastMemoryScene,
                             BellBeastReturnScene,
                             BellBeastLocation,
-                            true)
+                            completion: BossHeartCompletion.BellBeast)
                     },
                     {
                         UnravelledReturnScene,
@@ -73,7 +80,8 @@ namespace SilksongRandomizer.Patches
                             UnravelledReturnScene,
                             UnravelledMemoryScene,
                             UnravelledReturnScene,
-                            UnravelledLocation)
+                            UnravelledLocation,
+                            completion: BossHeartCompletion.Unravelled)
                     },
                     {
                         LaceTowerReturnScene,
@@ -81,7 +89,8 @@ namespace SilksongRandomizer.Patches
                             LaceTowerReturnScene,
                             LaceTowerMemoryScene,
                             LaceTowerReturnScene,
-                            LaceTowerLocation)
+                            LaceTowerLocation,
+                            completion: BossHeartCompletion.LaceTower)
                     },
                 };
 
@@ -590,8 +599,7 @@ namespace SilksongRandomizer.Patches
                     patchedCompletion.LocationName,
                     source.LocationName,
                     StringComparison.Ordinal) &&
-                patchedCompletion.CompleteBellBeast ==
-                    source.CompleteBellBeast &&
+                patchedCompletion.Completion == source.Completion &&
                 HasOnlyTransitions(
                     memoryCheck,
                     Tuple.Create("MEMORY", setData),
@@ -655,7 +663,7 @@ namespace SilksongRandomizer.Patches
             CompleteBossHeartSourceAction completion =
                 new CompleteBossHeartSourceAction(
                     source.LocationName,
-                    source.CompleteBellBeast);
+                    source.Completion);
             completion.Init(setData);
             setData.Actions = new FsmStateAction[]
             {
@@ -1242,32 +1250,46 @@ namespace SilksongRandomizer.Patches
         private sealed class CompleteBossHeartSourceAction : FsmStateAction
         {
             internal readonly string LocationName;
-            internal readonly bool CompleteBellBeast;
+            internal readonly BossHeartCompletion Completion;
 
             internal CompleteBossHeartSourceAction(
                 string locationName,
-                bool completeBellBeast)
+                BossHeartCompletion completion)
             {
                 LocationName = locationName;
-                CompleteBellBeast = completeBellBeast;
+                Completion = completion;
             }
 
             public override void OnEnter()
             {
                 try
                 {
-                    if (CompleteBellBeast)
+                    PlayerData playerData = PlayerData.instance;
+                    if (playerData == null)
                     {
-                        PlayerData playerData = PlayerData.instance;
-                        if (playerData == null)
-                        {
-                            throw new InvalidOperationException(
-                                "PlayerData was unavailable."
-                            );
-                        }
+                        throw new InvalidOperationException(
+                            "PlayerData was unavailable."
+                        );
+                    }
 
-                        playerData.defeatedBellBeast = true;
-                        playerData.bonebottomQuestBoardFixed = true;
+                    switch (Completion)
+                    {
+                        case BossHeartCompletion.BellBeast:
+                            playerData.defeatedBellBeast = true;
+                            playerData.bonebottomQuestBoardFixed = true;
+                            break;
+                        case BossHeartCompletion.Unravelled:
+                            playerData.wardBossDefeated = true;
+                            break;
+                        case BossHeartCompletion.LaceTower:
+                            playerData.defeatedLaceTower = true;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(
+                                nameof(Completion),
+                                Completion,
+                                "Unknown Silk Heart completion."
+                            );
                     }
 
                     SaveState state = SaveState.Instance;
@@ -1292,7 +1314,6 @@ namespace SilksongRandomizer.Patches
                 }
             }
         }
-
         private static void RestoreHeroAfterSkippedPresentation()
         {
             PlayerData playerData = PlayerData.instance;
