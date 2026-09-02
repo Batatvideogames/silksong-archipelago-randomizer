@@ -2042,6 +2042,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Path: Putrified Ducts - Fleatopia': (
         req(
             'Path: Putrified Ducts - Bellway',
+            'Event: Last Judge Defeated',
             'Ancestral Art: Cling Grip',
             'Ability: Faydown Cloak',
             item_counts=(item_count(22, *FLEA_ITEMS),),
