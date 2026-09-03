@@ -36,6 +36,26 @@ namespace SilksongRandomizer.Patches
                 "itemDropGroups"
             );
 
+        private static readonly MethodInfo SpawnItemDropMethod =
+            AccessTools.Method(
+                typeof(HealthManager),
+                "SpawnItemDrop",
+                new Type[]
+                {
+                    typeof(SavedItem),
+                    typeof(int),
+                    typeof(CollectableItemPickup),
+                    typeof(Transform),
+                    typeof(int),
+                }
+            );
+
+        private static readonly Dictionary<string, int>
+            PendingDropSourceInstances =
+                new Dictionary<string, int>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+
         private static bool IsActive(string locationName)
         {
             SaveState state = SaveState.Instance;
@@ -136,6 +156,7 @@ namespace SilksongRandomizer.Patches
                 {
                     if (TryGetExpectedConfiguredDrop(
                             drop,
+                            locationName,
                             out FieldInfo itemField))
                     {
                         matches.Add(Tuple.Create(drop, itemField));
@@ -161,6 +182,7 @@ namespace SilksongRandomizer.Patches
 
         private static bool TryGetExpectedConfiguredDrop(
             object drop,
+            string locationName,
             out FieldInfo itemField)
         {
             itemField = null;
@@ -215,10 +237,7 @@ namespace SilksongRandomizer.Patches
             }
 
             bool matches =
-                string.Equals(
-                    item.name,
-                    BeastShardSourceManifest.NativeItemName,
-                    StringComparison.Ordinal) &&
+                IsExpectedEnemyDropItem(item, locationName) &&
                 startField.GetValue(amount) is int start &&
                 start == 1 &&
                 endField.GetValue(amount) is int end &&
@@ -233,6 +252,76 @@ namespace SilksongRandomizer.Patches
             return matches;
         }
 
+        private static bool IsExpectedEnemyDropItem(
+            SavedItem item,
+            string locationName)
+        {
+            return item != null &&
+                (
+                    string.Equals(
+                        item.name,
+                        BeastShardSourceManifest.NativeItemName,
+                        StringComparison.Ordinal
+                    ) ||
+                    ReferenceEquals(item, GetProxy(locationName))
+                );
+        }
+
+        private static void ArmPendingEnemyDrop(
+            HealthManager healthManager,
+            string locationName)
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null || healthManager == null)
+            {
+                return;
+            }
+
+            if (state.pendingBeastShardDrops == null)
+            {
+                state.pendingBeastShardDrops =
+                    new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            }
+            state.pendingBeastShardDrops.Add(locationName);
+            PendingDropSourceInstances[locationName] =
+                healthManager.GetInstanceID();
+        }
+
+        private static bool TryRespawnPendingEnemyDrop(
+            HealthManager healthManager,
+            string locationName)
+        {
+            if (SpawnItemDropMethod == null ||
+                GlobalSettings.Gameplay.CollectableItemPickupInstantPrefab == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                SpawnItemDropMethod.Invoke(
+                    healthManager,
+                    new object[]
+                    {
+                        GetProxy(locationName),
+                        1,
+                        null,
+                        healthManager.transform,
+                        0,
+                    }
+                );
+                return true;
+            }
+            catch (Exception exception)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Could not restore loose Beast Shard " +
+                    "check " + locationName + ": " + exception
+                );
+                return false;
+            }
+        }
+
         private static bool TryRecoverConsumedEnemySource(
             HealthManager healthManager)
         {
@@ -243,15 +332,48 @@ namespace SilksongRandomizer.Patches
                 !BeastShardSourceManifest.TryGetEnemyDropLocation(
                     healthManager,
                     out string locationName) ||
-                !IsActive(locationName) ||
-                state.IsLocationChecked(locationName))
+                !IsActive(locationName))
             {
                 return false;
             }
 
+            if (state.IsLocationChecked(locationName))
+            {
+                state.pendingBeastShardDrops?.Remove(locationName);
+                PendingDropSourceInstances.Remove(locationName);
+                return false;
+            }
+
+            if (state.pendingBeastShardDrops != null &&
+                state.pendingBeastShardDrops.Contains(locationName))
+            {
+                int sourceInstance = healthManager.GetInstanceID();
+                if (PendingDropSourceInstances.TryGetValue(
+                        locationName,
+                        out int restoredInstance) &&
+                    restoredInstance == sourceInstance)
+                {
+                    return false;
+                }
+
+                if (!TryRespawnPendingEnemyDrop(
+                        healthManager,
+                        locationName))
+                {
+                    return false;
+                }
+
+                PendingDropSourceInstances[locationName] = sourceInstance;
+                RandomizerPlugin.Log?.LogInfo(
+                    "[RANDOMIZER] Restored loose Beast Shard check: " +
+                    locationName
+                );
+                return true;
+            }
+
             state.CheckLocation(locationName);
             RandomizerPlugin.Log?.LogInfo(
-                "[RANDOMIZER] Recovered consumed Beast Shard check: " +
+                "[RANDOMIZER] Recovered legacy Beast Shard check: " +
                 locationName
             );
             return true;
@@ -358,19 +480,17 @@ namespace SilksongRandomizer.Patches
             {
                 if (!BeastShardSourceManifest.TryGetEnemyDropLocation(
                         __instance,
-                        dropItem,
-                        count,
-                        prefab,
-                        limit,
                         out string locationName) ||
-                    !IsActive(locationName))
+                    !IsActive(locationName) ||
+                    count != 1 ||
+                    prefab != null ||
+                    limit != 0 ||
+                    !IsExpectedEnemyDropItem(dropItem, locationName))
                 {
                     return;
                 }
 
-                // Replace only the selected Great Shard argument. Currency,
-                // other item-drop groups, death events and persistence all
-                // continue through the unmodified native method.
+                ArmPendingEnemyDrop(__instance, locationName);
                 dropItem = GetProxy(locationName);
             }
         }

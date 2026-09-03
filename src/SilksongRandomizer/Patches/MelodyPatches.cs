@@ -15,6 +15,17 @@ namespace SilksongRandomizer.Patches
         private const string NestedMelodySourceVariable = "UI Msg Event";
         private const string NestedMelodyConductorSource = "CONDUCTOR";
         private const string NestedMelodyVaultSource = "LIBRARIAN";
+        private const string CitadelAscentMelodiesQuest =
+            "Citadel Ascent Melodies";
+
+        private struct MelodyStateSnapshot
+        {
+            internal bool Applied;
+            internal PlayerData PlayerData;
+            internal bool HasArchitect;
+            internal bool HasConductor;
+            internal bool HasLibrarian;
+        }
 
         private static bool IsActive(string locationName)
         {
@@ -84,6 +95,196 @@ namespace SilksongRandomizer.Patches
                 CollectableItemManager.IncrementVersion();
             }
             BeastlingCallAct3Safety.Refresh();
+        }
+
+        internal static bool HasAllReceivedThreefoldMelodies()
+        {
+            SaveState state = SaveState.Instance;
+            return state != null &&
+                   state.IsRandomized(ItemType.Melody) &&
+                   state.receivedItems != null &&
+                   state.receivedItems.Contains(
+                       MelodyLocationManifest.ArchitectsMelody) &&
+                   state.receivedItems.Contains(
+                       MelodyLocationManifest.ConductorsMelody) &&
+                   state.receivedItems.Contains(
+                       MelodyLocationManifest.VaultkeepersMelody);
+        }
+
+        private static void ApplyThreefoldMelodyOwnership(
+            out MelodyStateSnapshot snapshot)
+        {
+            snapshot = default;
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null ||
+                playerData == null ||
+                !state.IsRandomized(ItemType.Melody))
+            {
+                return;
+            }
+
+            snapshot = new MelodyStateSnapshot
+            {
+                Applied = true,
+                PlayerData = playerData,
+                HasArchitect = playerData.HasMelodyArchitect,
+                HasConductor = playerData.HasMelodyConductor,
+                HasLibrarian = playerData.HasMelodyLibrarian,
+            };
+
+            try
+            {
+                playerData.HasMelodyArchitect =
+                    state.receivedItems != null &&
+                    state.receivedItems.Contains(
+                        MelodyLocationManifest.ArchitectsMelody
+                    );
+                playerData.HasMelodyConductor =
+                    state.receivedItems != null &&
+                    state.receivedItems.Contains(
+                        MelodyLocationManifest.ConductorsMelody
+                    );
+                playerData.HasMelodyLibrarian =
+                    state.receivedItems != null &&
+                    state.receivedItems.Contains(
+                        MelodyLocationManifest.VaultkeepersMelody
+                    );
+            }
+            catch
+            {
+                RestoreThreefoldMelodyOwnership(snapshot);
+                snapshot = default;
+                throw;
+            }
+        }
+
+        private static void RestoreThreefoldMelodyOwnership(
+            MelodyStateSnapshot snapshot)
+        {
+            if (!snapshot.Applied || snapshot.PlayerData == null)
+            {
+                return;
+            }
+
+            snapshot.PlayerData.HasMelodyArchitect =
+                snapshot.HasArchitect;
+            snapshot.PlayerData.HasMelodyConductor =
+                snapshot.HasConductor;
+            snapshot.PlayerData.HasMelodyLibrarian =
+                snapshot.HasLibrarian;
+        }
+
+        private static bool IsCitadelAscentMelodiesQuest(
+            FullQuestBase quest)
+        {
+            return quest != null &&
+                string.Equals(
+                    quest.name,
+                    CitadelAscentMelodiesQuest,
+                    StringComparison.Ordinal
+                );
+        }
+
+        [HarmonyPatch(typeof(FullQuestBase), "get_CanComplete")]
+        private static class CitadelAscentCanCompletePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out MelodyStateSnapshot __state)
+            {
+                ApplyThreefoldMelodyOwnership(out __state);
+            }
+
+            [HarmonyPostfix]
+            private static void Postfix(
+                FullQuestBase __instance,
+                ref bool __result)
+            {
+                if (IsCitadelAscentMelodiesQuest(__instance) &&
+                    SaveState.Instance != null &&
+                    SaveState.Instance.IsRandomized(ItemType.Melody))
+                {
+                    __result = HasAllReceivedThreefoldMelodies();
+                }
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                MelodyStateSnapshot __state)
+            {
+                RestoreThreefoldMelodyOwnership(__state);
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(FullQuestBase),
+            nameof(FullQuestBase.Counters),
+            MethodType.Getter
+        )]
+        private static class CitadelAscentCountersPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out MelodyStateSnapshot __state)
+            {
+                ApplyThreefoldMelodyOwnership(out __state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                MelodyStateSnapshot __state)
+            {
+                RestoreThreefoldMelodyOwnership(__state);
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(IconCounterItem), "OnEnable")]
+        private static class CitadelAscentIconCounterPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out MelodyStateSnapshot __state)
+            {
+                ApplyThreefoldMelodyOwnership(out __state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                MelodyStateSnapshot __state)
+            {
+                RestoreThreefoldMelodyOwnership(__state);
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(QuestMapMarker), "IsActive")]
+        private static class CitadelAscentQuestMapMarkerPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out MelodyStateSnapshot __state)
+            {
+                ApplyThreefoldMelodyOwnership(out __state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                MelodyStateSnapshot __state)
+            {
+                RestoreThreefoldMelodyOwnership(__state);
+                return __exception;
+            }
         }
 
         [HarmonyPatch(

@@ -3,7 +3,7 @@
   "source": {
     "name": "composite-area-snapshot",
     "document_count": 372,
-    "aggregate_sha256": "8dfaf47b04c0f8b48eccac3009b48b3e98e7e6b62febdebd2de46d2910778761",
+    "aggregate_sha256": "045b8ab001bcf85d19d5b2479d18823640a9eda3f27c7e5879062a3ec15a74a2",
     "aggregate_kind": "composite-source-manifest-v1",
     "base": {
       "name": "composite-area-snapshot",
@@ -43,6 +43,36 @@
         "name": "silksong-rando-ap-logic-main",
         "document_count": 8,
         "aggregate_sha256": "7c6c999590df816f4e9da7f9afad9a54ac5a6b44091097809fcf2071b2431f34"
+      },
+      "underworks": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 32,
+        "aggregate_sha256": "ca6b9fc5bc6e4755180b5d1f87ae081bf78bc9bc8184381a1f5764c591b7d527"
+      },
+      "bone-bottom": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 13,
+        "aggregate_sha256": "e40198a50933f843aa4e813f93fba9e99c846f744069269382ee8d02ab0a0485"
+      },
+      "blasted-steps": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 18,
+        "aggregate_sha256": "cda034ace15f506f469bcad214f9fc3ca3b29af454ab2b9ab871296e87a4dd0c"
+      },
+      "sands-of-karak": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 15,
+        "aggregate_sha256": "a69d9955bc3b757cceb830a6fb5dcb9c70bf138dea5bac52d3a0b09565d47b7b"
+      },
+      "cogwork-core": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 12,
+        "aggregate_sha256": "05f828840f2ffad31c6630d451948d441287f068f84e9452be3a2406f235584a"
+      },
+      "whispering-vaults": {
+        "name": "silksong-rando-ap-logic-main",
+        "document_count": 15,
+        "aggregate_sha256": "2649fd627c469e9189273f9a7fe2238a71c755d01b9aaaa8229264e0f9fe7955"
       }
     }
   },
@@ -2514,10 +2544,6 @@
               ],
               [
                 "item:cling-grip",
-                "event:bone-bottom/bone-bottom-town/ll-door-not-opened"
-              ],
-              [
-                "item:cling-grip",
                 "item:faydown-cloak"
               ],
               [
@@ -2526,10 +2552,11 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "One route still needs its requirements confirmed."
+            ],
             "unresolved_reasons": [
-              "non-monotonic negative state requirement",
-              "unresolved requirement vocabulary: LL door NOT opened"
+              "non-monotonic negative state requirement"
             ],
             "minimum_skip_tier": 0
           },
@@ -2546,8 +2573,7 @@
             "notes": ""
           },
           "unresolved_reasons": [
-            "non-monotonic negative state requirement",
-            "unresolved requirement vocabulary: LL door NOT opened"
+            "non-monotonic negative state requirement"
           ],
           "logic_status": "unresolved"
         },
@@ -2786,7 +2812,7 @@
           "target_node_id": "bone-bottom/bone-bottom-town#chapel-roof",
           "requirement": {
             "raw": "drifter's cloak OR clawline OR sharpdart OR beast OR architect OR (shaman AND (ledge grab AND easy skips) OR hard skips) OR ((hunter OR nude) AND dash) OR (dash AND (scuttlebrace OR flea brew OR silkspeed anklets OR faydown cloak)) OR (run AND flea brew AND easy skips)",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:drifters-cloak"
@@ -2798,26 +2824,7 @@
                 "item:sharpdart"
               ],
               [
-                "event:bone-bottom/bone-bottom-town/beast"
-              ],
-              [
-                "event:bone-bottom/bone-bottom-town/architect"
-              ],
-              [
-                "event:bone-bottom/bone-bottom-town/shaman",
-                "capability:ledge-grab",
-                "option:skips-easy"
-              ],
-              [
                 "option:skips-difficult"
-              ],
-              [
-                "event:bone-bottom/bone-bottom-town/hunter",
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "event:bone-bottom/bone-bottom-town/nude",
-                "macro:progressive-swift-step-full"
               ],
               [
                 "macro:progressive-swift-step-full",
@@ -2829,10 +2836,6 @@
               ],
               [
                 "macro:progressive-swift-step-full",
-                "event:bone-bottom/bone-bottom-town/silkspeed-anklets"
-              ],
-              [
-                "macro:progressive-swift-step-full",
                 "item:faydown-cloak"
               ],
               [
@@ -2841,15 +2844,10 @@
                 "option:skips-easy"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: beast",
-              "unresolved requirement vocabulary: architect",
-              "unresolved requirement vocabulary: shaman",
-              "unresolved requirement vocabulary: hunter",
-              "unresolved requirement vocabulary: nude",
-              "unresolved requirement vocabulary: silkspeed anklets"
+            "annotations": [
+              "6 routes still need their requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "Beast and architect can just spam pogo",
@@ -2864,15 +2862,8 @@
             "verification": "",
             "notes": "Beast and architect can just spam pogo"
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: beast",
-            "unresolved requirement vocabulary: architect",
-            "unresolved requirement vocabulary: shaman",
-            "unresolved requirement vocabulary: hunter",
-            "unresolved requirement vocabulary: nude",
-            "unresolved requirement vocabulary: silkspeed anklets"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bone-bottom/bone-bottom-town#upper-middle-platforms>ground-level@sm",
@@ -3627,7 +3618,7 @@
           "id": "bone-bottom/bone-bottom-town::check/wish-bone-bottom-supplies",
           "label": "wish bone bottom supplies",
           "canonical_location": "Wish: Bone Bottom Supplies",
-          "canonical_mapping_confidence": "normalized-exact",
+          "canonical_mapping_confidence": "curated",
           "node_id": "bone-bottom/bone-bottom-town#ground-level",
           "requirement": {
             "raw": "",
@@ -4233,7 +4224,7 @@
           "node_id": "bone-bottom/bonegrave#graveyard",
           "requirement": {
             "raw": "ledge grab OR clawline OR faydown cloak OR cling grip OR silk soar OR (upper right entrance AND dash OR sharpdart OR (easy skips AND any air stall better than heal))",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
@@ -4251,22 +4242,13 @@
                 "item:silk-soar"
               ],
               [
-                "event:bone-bottom/bonegrave/upper-right-entrance",
-                "macro:progressive-swift-step-full"
-              ],
-              [
                 "item:sharpdart"
-              ],
-              [
-                "option:skips-easy",
-                "event:bone-bottom/bonegrave/any-air-stall-better-than-heal"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: upper right entrance",
-              "unresolved requirement vocabulary: any air stall better than heal"
+            "annotations": [
+              "2 routes still need their requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "can be gotten with only jump -tested edit: jump *and* ledge grab  air stalls include tool stalls and architect, hunter, and beast down slashes, but NOT low silk spell stalls or needle strikes",
@@ -4281,11 +4263,8 @@
             "archipelago": "Included",
             "notes": "can be gotten with only jump -tested edit: jump *and* ledge grab  air stalls include tool stalls and architect, hunter, and beast down slashes, but NOT low silk spell stalls or needle strikes"
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: upper right entrance",
-            "unresolved requirement vocabulary: any air stall better than heal"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bone-bottom/bonegrave::check/rosary-cache-bone-bottom-6",
@@ -6444,22 +6423,19 @@
           "target_node_id": "bone-bottom/mosshome-upper#upper-main-area",
           "requirement": {
             "raw": "ledge grab OR any height gain OR easy skips",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab"
               ],
               [
-                "event:bone-bottom/mosshome-upper/any-height-gain"
-              ],
-              [
                 "option:skips-easy"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: any height gain"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -6474,10 +6450,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: any height gain"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bone-bottom/mosshome-upper#upper-main-area>main-area@rp",
@@ -8045,26 +8019,18 @@
           "target_node_id": "bone-bottom/the-big-fall#middle-right-ledge",
           "requirement": {
             "raw": "silk soar OR (CBT skips AND hard enemy pogo AND hard spike pogo AND (cocoon skip OR hard tool stall) AND wall cling AND drifters cloak) OR (medium enemy pogo AND easy spike pogo AND wall cling AND faydown cloak)",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
-              ],
-              [
-                "option:skips-moderate",
-                "macro:spike-pogo",
-                "option:skips-easy",
-                "event:bone-bottom/the-big-fall/wall-cling",
-                "item:faydown-cloak"
               ]
             ],
             "annotations": [
               "One Spike Pogo route needs Easy Skips.",
-              "2 pogo routes are not in logic yet."
+              "2 pogo routes are not in logic yet.",
+              "One route still needs its requirements confirmed."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: wall cling"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -8079,10 +8045,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: wall cling"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bone-bottom/the-big-fall#middle-right-ledge>lower-right-area@lm",
@@ -8125,39 +8089,17 @@
           "target_node_id": "bone-bottom/the-big-fall#wish-ledge",
           "requirement": {
             "raw": "silk soar OR (hard enemy pogo AND easy spike pogo AND ((run AND ledge grab) OR dash) AND wall cling AND faydown cloak AND drifters cloak AND clawline)",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
-              ],
-              [
-                "option:skips-difficult",
-                "macro:spike-pogo",
-                "option:skips-easy",
-                "macro:progressive-swift-step-first",
-                "capability:ledge-grab",
-                "event:bone-bottom/the-big-fall/wall-cling",
-                "item:faydown-cloak",
-                "item:drifters-cloak",
-                "item:clawline"
-              ],
-              [
-                "option:skips-difficult",
-                "macro:spike-pogo",
-                "option:skips-easy",
-                "macro:progressive-swift-step-full",
-                "event:bone-bottom/the-big-fall/wall-cling",
-                "item:faydown-cloak",
-                "item:drifters-cloak",
-                "item:clawline"
               ]
             ],
             "annotations": [
-              "2 Spike Pogo routes need Easy Skips."
+              "2 Spike Pogo routes need Easy Skips.",
+              "2 routes still need their requirements confirmed."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: wall cling"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -8172,10 +8114,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: wall cling"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "bone-bottom/the-big-fall#wish-ledge>lower-right-area@lw",
@@ -22415,11 +22355,15 @@
           "source_node_id": "deep-docks/deep-docks-chains-center#upper-chain-platforms",
           "target_node_id": "deep-docks/deep-docks-chains-center#upper-left-hallway",
           "requirement": {
-            "raw": "door switch flipped",
+            "raw": "Door Switch Flipped OR (Silk Soar AND 1 Silk Heart)",
             "mode": "expression",
             "dnf": [
               [
                 "event:deep-docks/deep-docks-chains-center/door-switch-flipped"
+              ],
+              [
+                "item:silk-soar",
+                "count:progressive-silkheart:1"
               ]
             ],
             "annotations": [],
@@ -25453,68 +25397,6 @@
           "raw_cells": {
             "check": "forebrothers boss fight",
             "subroom": "boss area",
-            "requirements": "none",
-            "todo": "",
-            "verification": "",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "deep-docks/deep-docks-forebrothers::check/rosary-cache-1",
-          "label": "rosary cache 1",
-          "canonical_location": "Deep Docks - Rosary Cache #1",
-          "canonical_mapping_confidence": "curated",
-          "node_id": "deep-docks/deep-docks-forebrothers#right-area",
-          "requirement": {
-            "raw": "none",
-            "mode": "none",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 34,
-          "raw_cells": {
-            "check": "rosary cache 1",
-            "subroom": "right area",
-            "requirements": "none",
-            "todo": "",
-            "verification": "",
-            "archipelago": "Included",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
-        },
-        {
-          "id": "deep-docks/deep-docks-forebrothers::check/rosary-cache-2",
-          "label": "rosary cache 2",
-          "canonical_location": "Deep Docks - Rosary Cache #2",
-          "canonical_mapping_confidence": "curated",
-          "node_id": "deep-docks/deep-docks-forebrothers#right-area",
-          "requirement": {
-            "raw": "none",
-            "mode": "none",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "currently_randomized": true,
-          "source_line": 35,
-          "raw_cells": {
-            "check": "rosary cache 2",
-            "subroom": "right area",
             "requirements": "none",
             "todo": "",
             "verification": "",
@@ -48503,7 +48385,7 @@
           "node_id": "blasted-steps/blasted-steps-mask-shard#room",
           "requirement": {
             "raw": "(Swift Step AND Scuttlebrace AND Faydown) OR (Cling Grip AND Spike Pogos AND (Ledge Grab OR Easy Hazard Respawn))",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "macro:progressive-swift-step-full",
@@ -48515,20 +48397,13 @@
                 "macro:spike-pogo",
                 "capability:ledge-grab",
                 "option:skips-easy"
-              ],
-              [
-                "item:cling-grip",
-                "macro:spike-pogo",
-                "event:blasted-steps/blasted-steps-mask-shard/easy-hazard-respawn",
-                "option:skips-easy"
               ]
             ],
             "annotations": [
-              "2 Spike Pogo routes need Easy Skips."
+              "2 Spike Pogo routes need Easy Skips.",
+              "One route still needs its requirements confirmed."
             ],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Easy Hazard Respawn"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -48543,10 +48418,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Easy Hazard Respawn"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -53906,7 +53779,7 @@
             "subroom": "room",
             "requirements": "Five Bellshrines Rung AND (Swift Step OR Faydown)",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -64669,7 +64542,7 @@
             "subroom": "Arena",
             "requirements": "Clawline",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -66166,6 +66039,147 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
+        },
+        {
+          "id": "underworks/underworks-east-shaft#bottom>bottom-left-entrance@blb",
+          "alias": "BLB",
+          "name": "Bottom to Bottom Left Entrance",
+          "source_node_id": "underworks/underworks-east-shaft#bottom",
+          "target_node_id": "underworks/underworks-east-shaft#bottom-left-entrance",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BLB",
+            "name": "Bottom to Bottom Left Entrance",
+            "source": "Bottom",
+            "destination": "Bottom Left Entrance",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "underworks/underworks-east-shaft#bottom-left-entrance>bottom@blb",
+          "alias": "BLB",
+          "name": "Bottom Left Entrance to Bottom",
+          "source_node_id": "underworks/underworks-east-shaft#bottom-left-entrance",
+          "target_node_id": "underworks/underworks-east-shaft#bottom",
+          "requirement": {
+            "raw": "Ledge Grab OR Faydown Cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BLB",
+            "name": "Bottom Left Entrance to Bottom",
+            "source": "Bottom Left Entrance",
+            "destination": "Bottom",
+            "requirements": "Ledge Grab OR Faydown Cloak",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "underworks/underworks-east-shaft#bottom>bottom-right-entrance@brb",
+          "alias": "BRB",
+          "name": "Bottom to Bottom Right Entrance",
+          "source_node_id": "underworks/underworks-east-shaft#bottom",
+          "target_node_id": "underworks/underworks-east-shaft#bottom-right-entrance",
+          "requirement": {
+            "raw": "Ledge Grab OR Faydown Cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BRB",
+            "name": "Bottom to Bottom Right Entrance",
+            "source": "Bottom",
+            "destination": "Bottom Right Entrance",
+            "requirements": "Ledge Grab OR Faydown Cloak",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "underworks/underworks-east-shaft#bottom-right-entrance>bottom@brb",
+          "alias": "BRB",
+          "name": "Bottom Right Entrance to Bottom",
+          "source_node_id": "underworks/underworks-east-shaft#bottom-right-entrance",
+          "target_node_id": "underworks/underworks-east-shaft#bottom",
+          "requirement": {
+            "raw": "Ledge Grab OR Faydown Cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BRB",
+            "name": "Bottom Right Entrance to Bottom",
+            "source": "Bottom Right Entrance",
+            "destination": "Bottom",
+            "requirements": "Ledge Grab OR Faydown Cloak",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -67468,7 +67482,7 @@
             "subroom": "Exhaust Organ Elevator",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -68647,7 +68661,7 @@
             "subroom": "Lever Shaft",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -70754,14 +70768,20 @@
           "source_node_id": "underworks/underworks-silk-spool#upper-right",
           "target_node_id": "underworks/underworks-silk-spool#shell-shard-alcove-1",
           "requirement": {
-            "raw": "Faydown Cloak AND Drifter's Cloak AND Ledge Grab AND Spike Pogo OR (Cling Grip OR Scuttlebrace) AND (Clawline OR (Dash AND Sharp Dart AND Spike Pogo AND Ledge Grab)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [],
-            "unresolved_reasons": [
-              "requirement parse failure: unclosed requirement group",
-              "row contains deferred pogo technique"
+            "raw": "(Cling Grip OR Scuttlebrace) AND Clawline",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "macro:usable-scuttlebrace",
+                "item:clawline"
+              ]
             ],
+            "annotations": [],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -70776,11 +70796,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "requirement parse failure: unclosed requirement group",
-            "row contains deferred pogo technique"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "underworks/underworks-silk-spool#upper-left>shell-shard-alcove-2@cs2",
@@ -72323,7 +72340,7 @@
             "subroom": "Left Exit (Top)",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -73034,10 +73051,13 @@
             "label": "Wisp Thicket Cave (Wisp_09)"
           },
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "cling grip and dash",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -73051,7 +73071,7 @@
             "fromsubroom": "",
             "destination": "[Wisp Thicket Cave (Wisp_09)](../whisp-thicket/wisp-thicket-cave.md)",
             "destinationalias": "T",
-            "requirements": "none",
+            "requirements": "cling grip and dash",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -85458,10 +85478,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3@t",
@@ -85501,8 +85519,7 @@
             "notes": ""
           },
           "unresolved_reasons": [
-            "target room is outside the imported production graph",
-            "Act 3 Cogwork room is outside the current production scope"
+            "target room is outside the imported production graph"
           ],
           "logic_status": "unresolved"
         }
@@ -85542,10 +85559,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3#center>bottom@bc",
@@ -85579,10 +85594,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3#center>silk-soar-ceiling@cse",
@@ -85614,10 +85627,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3#silk-soar-ceiling>center@cse",
@@ -85651,10 +85662,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3#silk-soar-ceiling>top-entrance@ste",
@@ -85692,10 +85701,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-architect-s-melody-act-3#top-entrance>silk-soar-ceiling@ste",
@@ -85729,10 +85736,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -86050,7 +86055,39 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:cogwork-core/cogwork-core-bench-map/cogwork-core-flip-switch-down-5",
+          "label": "Cogwork Core: Flip Switch (Down) #5",
+          "kind": "switch",
+          "node_id": "cogwork-core/cogwork-core-bench-map#map",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 30,
+          "raw_cells": {
+            "check": "Cogwork Core: Flip Switch (Down) #5",
+            "subroom": "Map",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "cogwork-core/cogwork-core-bench-map::check/cogwork-core-flip-switch-up-4",
@@ -86121,21 +86158,19 @@
         {
           "id": "cogwork-core/cogwork-core-bench-map::check/cogwork-core-map",
           "label": "Cogwork Core: Map",
-          "canonical_location": "Map Pickup: Cogwork Core",
+          "canonical_location": "Cogwork Core - Map Pickup",
           "canonical_mapping_confidence": "curated",
           "node_id": "cogwork-core/cogwork-core-bench-map#map",
           "requirement": {
             "raw": "Flipped Switch #5",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
-                "event:cogwork-core/cogwork-core-bench-map/flipped-switch-5"
+                "event:cogwork-core/cogwork-core-bench-map/cogwork-core-flip-switch-down-5"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Flipped Switch #5"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -86150,10 +86185,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Flipped Switch #5"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -86286,10 +86319,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "Act 3 Cogwork room is outside the current production scope"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -86301,12 +86332,8 @@
           "target_node_id": "cogwork-core/cogwork-core-breakable-walls#steam-shaft",
           "requirement": {
             "raw": "Break Wall #3 AND Dash OR Drifter's Cloak OR Faydown Cloak OR Sharp Dart OR Clawline OR Scuttlebrace OR Cling Grip",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
-              [
-                "event:cogwork-core/cogwork-core-breakable-walls/break-wall-3",
-                "macro:progressive-swift-step-full"
-              ],
               [
                 "item:drifters-cloak"
               ],
@@ -86326,10 +86353,10 @@
                 "item:cling-grip"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Break Wall #3"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -86344,10 +86371,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Break Wall #3"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-breakable-walls#steam-shaft>top-entrance@esh",
@@ -86427,12 +86452,8 @@
           "target_node_id": "cogwork-core/cogwork-core-breakable-walls#steam-shaft",
           "requirement": {
             "raw": "Break Wall #4 AND Silk Soar OR (Cling Grip OR Scuttlebrace) AND Faydown Cloak",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
-              [
-                "event:cogwork-core/cogwork-core-breakable-walls/break-wall-4",
-                "item:silk-soar"
-              ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
@@ -86442,10 +86463,10 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Break Wall #4"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -86460,10 +86481,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Break Wall #4"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-breakable-walls#center-shaft>northern-gauntlet@sng",
@@ -86586,21 +86605,17 @@
           "target_node_id": "cogwork-core/cogwork-core-breakable-walls#northern-gauntlet",
           "requirement": {
             "raw": "Complete Gauntlet AND Silk Soar OR Cling Grip AND Faydown Cloak",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
-              [
-                "event:cogwork-core/cogwork-core-breakable-walls/complete-gauntlet",
-                "item:silk-soar"
-              ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Complete Gauntlet"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -86615,10 +86630,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Complete Gauntlet"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-breakable-walls#southern-shaft>breakable-wall-shaft@sws",
@@ -86744,12 +86757,8 @@
           "target_node_id": "cogwork-core/cogwork-core-breakable-walls#breakable-wall-shaft",
           "requirement": {
             "raw": "Break Wall #7 AND Dash OR Faydown Cloak OR Drifter's Cloak OR Cling Grip OR Sharp Dart OR Clawline OR Scuttlebrace OR Ledge Grab",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
-              [
-                "event:cogwork-core/cogwork-core-breakable-walls/break-wall-7",
-                "macro:progressive-swift-step-full"
-              ],
               [
                 "item:faydown-cloak"
               ],
@@ -86772,10 +86781,10 @@
                 "capability:ledge-grab"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Break Wall #7"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -86790,10 +86799,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Break Wall #7"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-breakable-walls#spike-platform>bottom-entrance@spe",
@@ -87433,16 +87440,14 @@
           "target_node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#right-room",
           "requirement": {
             "raw": "Flipped Switch",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
-                "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/flipped-switch"
+                "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/cogwork-core-flip-switch-up-2"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Flipped Switch"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -87457,10 +87462,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Flipped Switch"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#right-room>bottom-room@rb",
@@ -87771,16 +87774,14 @@
           "target_node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room",
           "requirement": {
             "raw": "Flipped Switch",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
-                "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/flipped-switch"
+                "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/cogwork-core-flip-switch-up-2"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Flipped Switch"
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -87795,10 +87796,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Flipped Switch"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#bottom-room>right-room@rb",
@@ -87880,16 +87879,14 @@
           "target_node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room",
           "requirement": {
             "raw": "Beat Arena.",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/beat-arena"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Beat Arena."
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -87904,18 +87901,79 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Beat Arena."
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/cogwork-core-flip-switch-up-2",
+          "label": "Cogwork Core: Flip Switch (Up) #2",
+          "kind": "switch",
+          "node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "interacting with this switch causes a mini-boss type enemy to spawn",
+          "source_line": 47,
+          "raw_cells": {
+            "check": "Cogwork Core: Flip Switch (Up) #2",
+            "subroom": "Left Room",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Verified",
+            "archipelago": "Included",
+            "notes": "interacting with this switch causes a mini-boss type enemy to spawn"
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        },
+        {
+          "id": "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/beat-arena",
+          "label": "Beat Arena",
+          "kind": "combat",
+          "node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#arena",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "check": "Beat Arena",
+            "subroom": "Arena",
+            "requirements": "Nothing.",
+            "todo": "",
+            "verification": "Mapper confirmed after export",
+            "archipelago": "Not included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet::check/cogwork-core-silk-spool-1",
           "label": "Cogwork Core: Silk Spool #1",
-          "canonical_location": "Spool Fragment: Cogwork Core",
+          "canonical_location": "Cogwork Core - Spool Fragment",
           "canonical_mapping_confidence": "curated",
           "node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#silk-spool-jump-left",
           "requirement": {
@@ -87986,16 +88044,14 @@
           "node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#arena",
           "requirement": {
             "raw": "Beat Arena.",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/beat-arena"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Beat Arena."
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -88010,10 +88066,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Beat Arena."
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet::check/cogwork-core-gauntlet-2",
@@ -88023,16 +88077,14 @@
           "node_id": "cogwork-core/cogwork-core-east-silk-spool-gauntlet#arena",
           "requirement": {
             "raw": "Beat Arena.",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "event:cogwork-core/cogwork-core-east-silk-spool-gauntlet/beat-arena"
               ]
             ],
             "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Beat Arena."
-            ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -88047,10 +88099,8 @@
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Beat Arena."
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -91231,7 +91281,7 @@
             "destination": "Blocks",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -91264,7 +91314,7 @@
             "destination": "Bottom Right",
             "requirements": "Move sliding block from Bottom Right",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -91296,7 +91346,7 @@
             "subroom": "Bottom Right",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -96179,51 +96229,6 @@
           },
           "unresolved_reasons": [],
           "logic_status": "active"
-        },
-        {
-          "id": "whispering-vaults/whispering-vaults-hell#middle-hallway>shortcut-box@sb",
-          "alias": "SB",
-          "name": "Shortcut Box Access",
-          "source_node_id": "whispering-vaults/whispering-vaults-hell#middle-hallway",
-          "target_node_id": "whispering-vaults/whispering-vaults-hell#shortcut-box",
-          "requirement": {
-            "raw": "Ledge Grab OR Clawline OR Scuttlebrace OR Cling Grip OR Faydown Cloak",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:ledge-grab"
-              ],
-              [
-                "item:clawline"
-              ],
-              [
-                "macro:usable-scuttlebrace"
-              ],
-              [
-                "item:cling-grip"
-              ],
-              [
-                "item:faydown-cloak"
-              ]
-            ],
-            "annotations": [],
-            "unresolved_reasons": [],
-            "minimum_skip_tier": 0
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "alias": "SB",
-            "name": "Shortcut Box Access",
-            "source": "Middle Hallway",
-            "destination": "Shortcut Box",
-            "requirements": "Ledge Grab OR Clawline OR Scuttlebrace OR Cling Grip OR Faydown Cloak",
-            "todo": "",
-            "verification": "Verified after export",
-            "notes": ""
-          },
-          "unresolved_reasons": [],
-          "logic_status": "active"
         }
       ],
       "events": [
@@ -96251,7 +96256,7 @@
             "subroom": "Shortcut Box",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "archipelago": "Not included",
             "notes": ""
           },
@@ -97666,7 +97671,7 @@
       "area_id": "whispering-vaults",
       "name": "Whispering Vaults Totally Not White Palace (Library_07)",
       "source_file": "whispering-vaults/whispering-vaults-totally-not-white-palace.md",
-      "source_sha256": "be2aecf98e08384ca9af2ab84e32a53284698506aba64c7aa9e6d826c5cb5c3b",
+      "source_sha256": "b2f853cc319c4e8508dcb27c62fcd50711722f7a7ff05be3466b2a5a678f5647",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -97970,7 +97975,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 27,
+          "source_line": 29,
           "raw_cells": {
             "alias": "CS",
             "name": "Collect Shit",
@@ -98005,7 +98010,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 28,
+          "source_line": 30,
           "raw_cells": {
             "alias": "MC",
             "name": "More Collecting",
@@ -98066,7 +98071,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 29,
+          "source_line": 31,
           "raw_cells": {
             "alias": "NHA",
             "name": "NOT HIM AGAIN!",
@@ -98109,7 +98114,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 30,
+          "source_line": 32,
           "raw_cells": {
             "alias": "OH",
             "name": "GET ME OUTTA HERE!!",
@@ -98148,7 +98153,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 31,
+          "source_line": 33,
           "raw_cells": {
             "alias": "CS",
             "name": "Collect Shit",
@@ -98183,7 +98188,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 32,
+          "source_line": 34,
           "raw_cells": {
             "alias": "MC",
             "name": "More Collecting",
@@ -98218,7 +98223,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 33,
+          "source_line": 35,
           "raw_cells": {
             "alias": "NHA",
             "name": "NOT HIM AGAIN!",
@@ -98255,7 +98260,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 34,
+          "source_line": 36,
           "raw_cells": {
             "alias": "OH",
             "name": "GET ME OUTTA HERE!!",
@@ -98296,7 +98301,7 @@
             "destination": "Collectibles 2(TM)",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -98329,7 +98334,7 @@
             "destination": "Sky High",
             "requirements": "Nothing.",
             "todo": "",
-            "verification": "Verified after export",
+            "verification": "Mapper confirmed after export",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -98355,7 +98360,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "source_line": 40,
+          "source_line": 42,
           "raw_cells": {
             "check": "Whispering Vaults: Clawline Ring",
             "subroom": "Collectibles(TM)",
@@ -98390,7 +98395,7 @@
           },
           "notes": "",
           "currently_randomized": false,
-          "source_line": 40,
+          "source_line": 42,
           "raw_cells": {
             "check": "Whispering Vaults: Clawline Ring",
             "subroom": "Collectibles(TM)",
@@ -98423,7 +98428,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 41,
+          "source_line": 43,
           "raw_cells": {
             "check": "AP Minor Cache - Whispering Vaults - Rosary Cache #5",
             "subroom": "Collectibles 2(TM)",
@@ -98456,7 +98461,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 42,
+          "source_line": 44,
           "raw_cells": {
             "check": "AP Minor Cache - Whispering Vaults - Shell Shard Cache #1",
             "subroom": "Collectibles(TM)",
@@ -98489,7 +98494,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 43,
+          "source_line": 45,
           "raw_cells": {
             "check": "Whispering Vaults: Break Wall #2 (Left)",
             "subroom": "Collectibles(TM)",
@@ -98522,7 +98527,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 44,
+          "source_line": 46,
           "raw_cells": {
             "check": "Whispering Vaults: Break Wall #3 (Left)",
             "subroom": "Collectibles(TM)",
@@ -98555,7 +98560,7 @@
           },
           "notes": "",
           "currently_randomized": true,
-          "source_line": 45,
+          "source_line": 47,
           "raw_cells": {
             "check": "Whispering Vaults: Flip Switch #2 (Left OR Right)",
             "subroom": "White Palace Lite",
@@ -112262,7 +112267,7 @@
           "target_node_id": "sands-of-karak/coral-tower-entrance#door",
           "requirement": {
             "raw": "Clawline OR Sharpdart OR ( Sprint AND ( Dash OR Faydown Cloak OR Drifters Cloak OR Beast Crest OR Architect Crest ) )  OR ( Sprint AND ( Shaman Crest OR Hunter crest OR Heal stall OR ( Wanderers Crest AND Needle Strike AND Ledge Grab ) ) ) OR ( Dash AND ( Reaper Crest OR Beast Crest OR Faydown Cloak OR Drifters Cloak OR ( Architect Crest AND ( Ledge Grab OR Needle Strike ) ) ) ) OR ( Faydown Cloak AND ( Beast Crest OR Architect Crest OR Shaman Crest OR Hunter Crest OR Drifters Cloak OR ( Reaper Crest AND Ledge Grab ) OR ( Wanderer Crest AND Needle strike ) ) ) OR ( Drifters Cloak And ( Beast Crest OR Architect Crest OR Shaman Crest OR Wanderer Crest OR Heal Stall OR Ledge Grab OR Silk Soar OR ( Reaper Crest AND Needle Strike ) ) ) OR ( Silk Soar AND ( Beast Crest OR Architect Crest ) )",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:clawline"
@@ -112296,16 +112301,6 @@
               [
                 "macro:progressive-swift-step-first",
                 "item:hunter-crest"
-              ],
-              [
-                "macro:progressive-swift-step-first",
-                "event:sands-of-karak/coral-tower-entrance/heal-stall"
-              ],
-              [
-                "macro:progressive-swift-step-first",
-                "event:sands-of-karak/coral-tower-entrance/wanderers-crest",
-                "item:needle-strike",
-                "capability:ledge-grab"
               ],
               [
                 "macro:progressive-swift-step-full",
@@ -112381,10 +112376,6 @@
               ],
               [
                 "item:drifters-cloak",
-                "event:sands-of-karak/coral-tower-entrance/heal-stall"
-              ],
-              [
-                "item:drifters-cloak",
                 "capability:ledge-grab"
               ],
               [
@@ -112405,12 +112396,10 @@
                 "item:architect-crest"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Heal stall",
-              "unresolved requirement vocabulary: Wanderers Crest",
-              "unresolved requirement vocabulary: Heal Stall"
+            "annotations": [
+              "3 routes still need their requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -112425,12 +112414,8 @@
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Heal stall",
-            "unresolved requirement vocabulary: Wanderers Crest",
-            "unresolved requirement vocabulary: Heal Stall"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
@@ -113360,7 +113345,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -113398,7 +113383,7 @@
             "destinationalias": "L",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -113452,7 +113437,7 @@
           "target_node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#right",
           "requirement": {
             "raw": "Shamen Crest OR Ledge Grab OR Cling Grip OR Sprint OR ( Dash AND Scuttlebrace ) OR Silk Soar OR Beast Crest OR Clawline OR Elevator Activated OR ( ( Reaper Crest OR Hunter Crest ) AND Needle Strike )",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:shaman-crest"
@@ -113480,9 +113465,6 @@
                 "item:clawline"
               ],
               [
-                "event:sands-of-karak/sands-of-karak-elevator-to-blasted-steps/elevator-activated"
-              ],
-              [
                 "item:reaper-crest",
                 "item:needle-strike"
               ],
@@ -113491,10 +113473,10 @@
                 "item:needle-strike"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Elevator Activated"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -113506,13 +113488,11 @@
             "destination": "Right",
             "requirements": "Shamen Crest OR Ledge Grab OR Cling Grip OR Sprint OR ( Dash AND Scuttlebrace ) OR Silk Soar OR Beast Crest OR Clawline OR Elevator Activated OR ( ( Reaper Crest OR Hunter Crest ) AND Needle Strike )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Elevator Activated"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#right>left@oe",
@@ -113539,7 +113519,7 @@
             "destination": "Left",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -113574,7 +113554,7 @@
             "destination": "Bottom",
             "requirements": "Elevator Activated",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
@@ -113611,7 +113591,7 @@
             "destination": "Right",
             "requirements": "Elevator Activated",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
@@ -113626,58 +113606,13 @@
           "source_node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#bottom",
           "target_node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge",
           "requirement": {
-            "raw": "Silk Soar OR ( Cling grip AND ( Faydown Cloak OR Drifters Cloak OR Clawline OR Sharpdart OR ( Dash AND ( Beast Crest OR Shaman Crest ) OR ( Architect crest AND Needle Strike ) ) ) OR ( Dash AND Scuttlebrace AND Clawline AND ( Faydown Cloak OR Drifters Cloak ) ) )",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:silk-soar"
-              ],
-              [
-                "item:cling-grip",
-                "item:faydown-cloak"
-              ],
-              [
-                "item:cling-grip",
-                "item:drifters-cloak"
-              ],
-              [
-                "item:cling-grip",
-                "item:clawline"
-              ],
-              [
-                "item:cling-grip",
-                "item:sharpdart"
-              ],
-              [
-                "item:cling-grip",
-                "macro:progressive-swift-step-full",
-                "item:beast-crest"
-              ],
-              [
-                "item:cling-grip",
-                "macro:progressive-swift-step-full",
-                "item:shaman-crest"
-              ],
-              [
-                "item:cling-grip",
-                "item:architect-crest",
-                "item:needle-strike"
-              ],
-              [
-                "macro:progressive-swift-step-full",
-                "macro:usable-scuttlebrace",
-                "item:clawline",
-                "item:faydown-cloak"
-              ],
-              [
-                "macro:progressive-swift-step-full",
-                "macro:usable-scuttlebrace",
-                "item:clawline",
-                "item:drifters-cloak"
-              ]
-            ],
+            "raw": "Silk Soar OR ( Cling grip AND ( Faydown Cloak OR Drifters Cloak OR Clawline OR Sharpdart OR ( Dash AND ( Beast Crest OR Shaman Crest ) OR ( Architect crest AND Needle Strike ) ) ) OR ( Dash AND Scuttlebrace AND Clawline AND ( Faydown Cloak OR Drifters Cloak ) )",
+            "mode": "unresolved",
+            "dnf": [],
             "annotations": [],
-            "unresolved_reasons": [],
+            "unresolved_reasons": [
+              "requirement parse failure: unclosed requirement group"
+            ],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -113687,13 +113622,15 @@
             "name": "Shaft",
             "source": "Bottom",
             "destination": "Shardilard Ledge",
-            "requirements": "Silk Soar OR ( Cling grip AND ( Faydown Cloak OR Drifters Cloak OR Clawline OR Sharpdart OR ( Dash AND ( Beast Crest OR Shaman Crest ) OR ( Architect crest AND Needle Strike ) ) ) OR ( Dash AND Scuttlebrace AND Clawline AND ( Faydown Cloak OR Drifters Cloak ) ) )",
+            "requirements": "Silk Soar OR ( Cling grip AND ( Faydown Cloak OR Drifters Cloak OR Clawline OR Sharpdart OR ( Dash AND ( Beast Crest OR Shaman Crest ) OR ( Architect crest AND Needle Strike ) ) ) OR ( Dash AND Scuttlebrace AND Clawline AND ( Faydown Cloak OR Drifters Cloak ) )",
             "todo": "",
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [],
-          "logic_status": "active"
+          "unresolved_reasons": [
+            "requirement parse failure: unclosed requirement group"
+          ],
+          "logic_status": "unresolved"
         },
         {
           "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge>bottom@sh",
@@ -113720,7 +113657,7 @@
             "destination": "Bottom",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -113730,10 +113667,10 @@
       "events": [],
       "checks": [
         {
-          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/shell-shard-cache-sands-of-karak-5",
-          "label": "Shell shard cache: Sands of Karak #5",
+          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/sands-of-karak-shellshard-cache-5",
+          "label": "Sands of Karak - Shellshard Cache #5",
           "canonical_location": "Sands of Karak - Shell Shard Cache #5",
-          "canonical_mapping_confidence": "token-exact",
+          "canonical_mapping_confidence": "curated",
           "node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge",
           "requirement": {
             "raw": "None",
@@ -113749,11 +113686,11 @@
           "currently_randomized": true,
           "source_line": 37,
           "raw_cells": {
-            "check": "Shell shard cache: Sands of Karak #5",
+            "check": "Sands of Karak - Shellshard Cache #5",
             "subroom": "Shardilard Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
@@ -113761,10 +113698,10 @@
           "logic_status": "active"
         },
         {
-          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/shell-shard-cache-sands-of-karak-6",
-          "label": "Shell shard cache: Sands of Karak #6",
+          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/sands-of-karak-shellshard-cache-6",
+          "label": "Sands of Karak - Shellshard Cache #6",
           "canonical_location": "Sands of Karak - Shell Shard Cache #6",
-          "canonical_mapping_confidence": "token-exact",
+          "canonical_mapping_confidence": "curated",
           "node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge",
           "requirement": {
             "raw": "None",
@@ -113780,11 +113717,11 @@
           "currently_randomized": true,
           "source_line": 38,
           "raw_cells": {
-            "check": "Shell shard cache: Sands of Karak #6",
+            "check": "Sands of Karak - Shellshard Cache #6",
             "subroom": "Shardilard Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
@@ -113792,10 +113729,10 @@
           "logic_status": "active"
         },
         {
-          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/shell-shard-cache-sands-of-karak-7",
-          "label": "Shell shard cache: Sands of Karak #7",
+          "id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps::check/sands-of-karak-shellshard-cache-7",
+          "label": "Sands of Karak - Shellshard Cache #7",
           "canonical_location": "Sands of Karak - Shell Shard Cache #7",
-          "canonical_mapping_confidence": "token-exact",
+          "canonical_mapping_confidence": "curated",
           "node_id": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge",
           "requirement": {
             "raw": "None",
@@ -113811,11 +113748,11 @@
           "currently_randomized": true,
           "source_line": 39,
           "raw_cells": {
-            "check": "Shell shard cache: Sands of Karak #7",
+            "check": "Sands of Karak - Shellshard Cache #7",
             "subroom": "Shardilard Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
@@ -113877,7 +113814,7 @@
             "subroom": "Shardilard Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Not included",
             "notes": "Should these be included?"
           },
@@ -114104,7 +114041,7 @@
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": false,
+          "currently_randomized": true,
           "source_line": 30,
           "raw_cells": {
             "check": "Sands of Karak - Upper Coral Tablet",
@@ -114126,7 +114063,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Lower Left Long Room (Coral_23)",
       "source_file": "sands-of-karak/sands-of-karak-lower-left-long-room.md",
-      "source_sha256": "fb4266009288d944dc8cdff6e497398ed48980175e6515e3757c1b424fc65b54",
+      "source_sha256": "f89f878d9cf51111c4c995d576a7d90b0c4fba5d72bfa9fca3cf15c2f9a25d7a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -114189,7 +114126,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114227,7 +114164,7 @@
             "destinationalias": "LL",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114265,7 +114202,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114319,7 +114256,7 @@
             "destination": "Centre Platform",
             "requirements": "Dash OR Clawline OR Drifters Cloak OR Faydown Cloak OR Beast Crest OR Sharpdart OR ( Reaper Crest AND Ledge Grab )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114357,7 +114294,7 @@
             "destination": "Lower Entrance",
             "requirements": "Clawline OR ( Dash AND Sprint AND Faydown Cloak AND Drifters Cloak )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114370,7 +114307,7 @@
           "source_node_id": "sands-of-karak/sands-of-karak-lower-left-long-room#centre-platform",
           "target_node_id": "sands-of-karak/sands-of-karak-lower-left-long-room#upper-left-platform",
           "requirement": {
-            "raw": "( Cling grip OR Silk Soar ) AND ( Dash OR Clawline OR Sharpdart OR Faydown Cloak OR Drifters Cloak ) OR ( Silk Soar AND Beast Crest )",
+            "raw": "( ( Cling grip OR Silk Soar ) AND ( Dash OR Clawline OR Sharpdart OR Faydown Cloak OR Drifters Cloak ) ) OR ( Silk Soar AND Beast Crest )",
             "mode": "expression",
             "dnf": [
               [
@@ -114429,9 +114366,9 @@
             "name": "Upper Left Nut Platforming",
             "source": "Centre Platform",
             "destination": "Upper Left Platform",
-            "requirements": "( Cling grip OR Silk Soar ) AND ( Dash OR Clawline OR Sharpdart OR Faydown Cloak OR Drifters Cloak ) OR ( Silk Soar AND Beast Crest )",
+            "requirements": "( ( Cling grip OR Silk Soar ) AND ( Dash OR Clawline OR Sharpdart OR Faydown Cloak OR Drifters Cloak ) ) OR ( Silk Soar AND Beast Crest )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114479,7 +114416,7 @@
             "destination": "Centre Platform",
             "requirements": "Dash OR Clawline OR Beast Crest OR Drifters Cloak OR Faydown Cloak OR Sharpdart",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114512,7 +114449,7 @@
             "destination": "Hidden Exit",
             "requirements": "Silk Soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114543,7 +114480,7 @@
             "destination": "Upper Left Platform",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114594,7 +114531,7 @@
             "destination": "Right Exit",
             "requirements": "Cling Grip AND ( Dash OR Drifters Cloak OR Clawline OR Sharpdart OR ( Faydown Cloak AND Beast Crest  ) )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -114607,8 +114544,8 @@
           "source_node_id": "sands-of-karak/sands-of-karak-lower-left-long-room#right-exit",
           "target_node_id": "sands-of-karak/sands-of-karak-lower-left-long-room#centre-platform",
           "requirement": {
-            "raw": "Clawline AND ( Dash OR Drifters Cloak OR Faydown Cloak OR Sharpdart ) OR ( Drifters Cloak AND Sharpdart AND 16 Max silk )",
-            "mode": "unresolved",
+            "raw": "( Clawline AND ( Dash OR Drifters Cloak OR Faydown Cloak OR Sharpdart ) ) OR ( Drifters Cloak AND Sharpdart AND ( 7 Spool Upgrades OR ( 4 Spool Upgrades AND Spool extender Owned ) OR ( 3 Spool Upgrades AND Egg of Flealia ) OR ( Egg of Flealia AND Spool Extender ) ) )",
+            "mode": "expression",
             "dnf": [
               [
                 "item:clawline",
@@ -114625,17 +114562,12 @@
               [
                 "item:clawline",
                 "item:sharpdart"
-              ],
-              [
-                "item:drifters-cloak",
-                "item:sharpdart",
-                "event:sands-of-karak/sands-of-karak-lower-left-long-room/16-max-silk"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: 16 Max silk"
+            "annotations": [
+              "4 routes still need their requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -114645,22 +114577,20 @@
             "name": "Right Nut Platforming",
             "source": "Right Exit",
             "destination": "Centre Platform",
-            "requirements": "Clawline AND ( Dash OR Drifters Cloak OR Faydown Cloak OR Sharpdart ) OR ( Drifters Cloak AND Sharpdart AND 16 Max silk )",
+            "requirements": "( Clawline AND ( Dash OR Drifters Cloak OR Faydown Cloak OR Sharpdart ) ) OR ( Drifters Cloak AND Sharpdart AND ( 7 Spool Upgrades OR ( 4 Spool Upgrades AND Spool extender Owned ) OR ( 3 Spool Upgrades AND Egg of Flealia ) OR ( Egg of Flealia AND Spool Extender ) ) )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: 16 Max silk"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "events": [],
       "checks": [
         {
-          "id": "sands-of-karak/sands-of-karak-lower-left-long-room::check/memory-locket-15",
-          "label": "Memory Locket #15",
+          "id": "sands-of-karak/sands-of-karak-lower-left-long-room::check/dands-of-karak-memory-locket",
+          "label": "Dands of Karak - Memory Locket",
           "canonical_location": "Sands of Karak - Memory Locket",
           "canonical_mapping_confidence": "curated",
           "node_id": "sands-of-karak/sands-of-karak-lower-left-long-room#upper-left-platform",
@@ -114678,7 +114608,7 @@
           "currently_randomized": true,
           "source_line": 40,
           "raw_cells": {
-            "check": "Memory Locket #15",
+            "check": "Dands of Karak - Memory Locket",
             "subroom": "Upper Left Platform",
             "requirements": "None",
             "todo": "",
@@ -114878,7 +114808,7 @@
           "target_node_id": "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform",
           "requirement": {
             "raw": "Beast Crest OR Dash OR Clawline OR Faydown Cloak OR Drifters Cloak OR Sharpdart OR ( Ledge grab AND ( Reaper crest OR Shamen Crest OR Hunters Crest OR Wanderers Crest ) )",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:beast-crest"
@@ -114909,16 +114839,12 @@
               [
                 "capability:ledge-grab",
                 "item:hunter-crest"
-              ],
-              [
-                "capability:ledge-grab",
-                "event:sands-of-karak/sands-of-karak-lower-right-long-room/wanderers-crest"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Wanderers Crest"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -114933,10 +114859,8 @@
             "verification": "Verified",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Wanderers Crest"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform>left-exit@ln",
@@ -115769,7 +115693,7 @@
             "destinationalias": "L",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -115807,7 +115731,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -115826,16 +115750,16 @@
             "label": "Blasted Steps Thin Long Vertical (Coral_35)"
           },
           "requirement": {
-            "raw": "Giant Stalactite Above broken",
+            "raw": "Giant Stalactite from \"Stalactite\" broken",
             "mode": "unresolved",
             "dnf": [
               [
-                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-above-broken"
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-stalactite-broken"
               ]
             ],
             "annotations": [],
             "unresolved_reasons": [
-              "unresolved requirement vocabulary: Giant Stalactite Above broken"
+              "unresolved requirement vocabulary: Giant Stalactite from \"Stalactite\" broken"
             ],
             "minimum_skip_tier": 0
           },
@@ -115847,14 +115771,13 @@
             "fromsubroom": "Ground Level",
             "destination": "[Blasted Steps Thin Long Vertical (Coral_35)](../blasted-steps/blasted-steps-thin-long-vertical.md)",
             "destinationalias": "T",
-            "requirements": "Giant Stalactite Above broken",
-            "todo": "TODO",
-            "verification": "",
+            "requirements": "Giant Stalactite from \"Stalactite\" broken",
+            "todo": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
-            "unresolved requirement vocabulary: Giant Stalactite Above broken",
-            "transition TODO: TODO"
+            "unresolved requirement vocabulary: Giant Stalactite from \"Stalactite\" broken"
           ],
           "logic_status": "unresolved"
         },
@@ -115892,7 +115815,7 @@
             "destinationalias": "L",
             "requirements": "Break Wall",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -115930,7 +115853,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -115970,7 +115893,7 @@
             "destinationalias": "R",
             "requirements": "Break Wall",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116008,7 +115931,7 @@
             "destinationalias": "L",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116046,7 +115969,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116118,7 +116041,7 @@
             "destination": "Shakra Ledge",
             "requirements": "Silk Soar OR ( Faydown Cloak AND ( Cling grip OR ( Dash AND Scuttlebrace ) ) ) OR ( Cling grip AND ( Dash OR Sprint OR Drifters Cloak OR Clawline OR Sharpdart ) OR ( ( Beast Crest OR Architect Crest ) AND Needle Strike )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116149,7 +116072,7 @@
             "destination": "Ground Level",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116182,7 +116105,7 @@
             "destination": "Stalactite",
             "requirements": "Silk Soar",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116213,7 +116136,7 @@
             "destination": "Ground Level",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116226,7 +116149,7 @@
           "source_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#shakra-ledge",
           "target_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#stalactite",
           "requirement": {
-            "raw": "( ( Dash AND Scuttlebrace ) OR Cling grip ) AND ( Dash OR Sprint OR Drifters Cloak OR Faydown Cloak OR Sharp Dart OR Clawline )  OR ( Cling Grip AND ( Beast Crest OR Hunter Crest OR Shaman Crest OR ( ( Reaper Crest OR Architect Crest ) AND Needle Strike ) )",
+            "raw": "( ( Scuttlebrace OR Cling grip ) AND ( Dash OR Sprint OR Drifters Cloak OR Faydown Cloak OR Sharp Dart OR Clawline ) ) OR ( Cling Grip AND ( Beast Crest OR Hunter Crest OR Shaman Crest OR ( ( Reaper Crest OR Architect Crest ) AND Needle Strike ) )",
             "mode": "unresolved",
             "dnf": [],
             "annotations": [],
@@ -116242,9 +116165,9 @@
             "name": "Stalactite2",
             "source": "Shakra Ledge",
             "destination": "Stalactite",
-            "requirements": "( ( Dash AND Scuttlebrace ) OR Cling grip ) AND ( Dash OR Sprint OR Drifters Cloak OR Faydown Cloak OR Sharp Dart OR Clawline )  OR ( Cling Grip AND ( Beast Crest OR Hunter Crest OR Shaman Crest OR ( ( Reaper Crest OR Architect Crest ) AND Needle Strike ) )",
+            "requirements": "( ( Scuttlebrace OR Cling grip ) AND ( Dash OR Sprint OR Drifters Cloak OR Faydown Cloak OR Sharp Dart OR Clawline ) ) OR ( Cling Grip AND ( Beast Crest OR Hunter Crest OR Shaman Crest OR ( ( Reaper Crest OR Architect Crest ) AND Needle Strike ) )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
@@ -116277,7 +116200,7 @@
             "destination": "Shakra Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116380,7 +116303,7 @@
             "destination": "Shakra Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116393,14 +116316,75 @@
           "source_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#crust-nut-ledge",
           "target_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#bridge-level",
           "requirement": {
-            "raw": "Upper Stalactite Broken AND ( ( Dash AND Scuttlebrace AND Faydown Cloak ) OR Cling grip OR ( Silk Soar AND Faydown Cloak AND ( Ledge Grab OR Clawline OR Sharp Dart ) ) ) OR Faydown Cloak OR ( ( Silk Soar ) AND ( Architect Crest OR Witch Crest OR Reaper Crest OR Shaman Crest OR ( Wanderer Crest AND ( ledge grab or Dash OR Sharp Dart OR Clawline OR Drifters Cloak ) ) ) )",
+            "raw": "Giant stalactite from \"Bridge Level\" Broken AND ( (  Scuttlebrace OR Cling grip OR  Faydown Cloak  OR (  Silk Soar AND ( Architect Crest OR Witch Crest OR Reaper Crest OR Shaman Crest OR ( Wanderer Crest AND ( ledge grab or Dash OR Sharpdart OR Clawline OR Drifters Cloak ) ) ) ) ) )",
             "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Silk Soar"
+            "dnf": [
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "macro:usable-scuttlebrace"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:cling-grip"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:faydown-cloak"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:architect-crest"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:witch-crest"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:reaper-crest"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:shaman-crest"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:wanderer-crest",
+                "capability:ledge-grab"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:wanderer-crest",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:wanderer-crest",
+                "item:sharpdart"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:wanderer-crest",
+                "item:clawline"
+              ],
+              [
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/giant-stalactite-from-bridge-level-broken",
+                "item:silk-soar",
+                "item:wanderer-crest",
+                "item:drifters-cloak"
+              ]
             ],
+            "annotations": [],
             "unresolved_reasons": [
-              "requirement parse failure: unexpected requirement token 'AND'"
+              "unresolved requirement vocabulary: Giant stalactite from \"Bridge Level\" Broken"
             ],
             "minimum_skip_tier": 0
           },
@@ -116411,13 +116395,13 @@
             "name": "Upper Shaft2",
             "source": "Crust Nut Ledge",
             "destination": "Bridge Level",
-            "requirements": "Upper Stalactite Broken AND ( ( Dash AND Scuttlebrace AND Faydown Cloak ) OR Cling grip OR ( Silk Soar AND Faydown Cloak AND ( Ledge Grab OR Clawline OR Sharp Dart ) ) ) OR Faydown Cloak OR ( ( Silk Soar ) AND ( Architect Crest OR Witch Crest OR Reaper Crest OR Shaman Crest OR ( Wanderer Crest AND ( ledge grab or Dash OR Sharp Dart OR Clawline OR Drifters Cloak ) ) ) )",
+            "requirements": "Giant stalactite from \"Bridge Level\" Broken AND ( (  Scuttlebrace OR Cling grip OR  Faydown Cloak  OR (  Silk Soar AND ( Architect Crest OR Witch Crest OR Reaper Crest OR Shaman Crest OR ( Wanderer Crest AND ( ledge grab or Dash OR Sharpdart OR Clawline OR Drifters Cloak ) ) ) ) ) )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
-            "requirement parse failure: unexpected requirement token 'AND'"
+            "unresolved requirement vocabulary: Giant stalactite from \"Bridge Level\" Broken"
           ],
           "logic_status": "unresolved"
         },
@@ -116428,16 +116412,16 @@
           "source_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#bridge-level",
           "target_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#crust-nut-ledge",
           "requirement": {
-            "raw": "Upper Stalactite Broken",
+            "raw": "Upper Stalactite Broken from \"Bridge Level\"",
             "mode": "unresolved",
             "dnf": [
               [
-                "event:sands-of-karak/sands-of-karak-tall-centre-room/upper-stalactite-broken"
+                "event:sands-of-karak/sands-of-karak-tall-centre-room/upper-stalactite-broken-from-bridge-level"
               ]
             ],
             "annotations": [],
             "unresolved_reasons": [
-              "unresolved requirement vocabulary: Upper Stalactite Broken"
+              "unresolved requirement vocabulary: Upper Stalactite Broken from \"Bridge Level\""
             ],
             "minimum_skip_tier": 0
           },
@@ -116448,13 +116432,13 @@
             "name": "Upper Shaft2",
             "source": "Bridge Level",
             "destination": "Crust Nut Ledge",
-            "requirements": "Upper Stalactite Broken",
+            "requirements": "Upper Stalactite Broken from \"Bridge Level\"",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [
-            "unresolved requirement vocabulary: Upper Stalactite Broken"
+            "unresolved requirement vocabulary: Upper Stalactite Broken from \"Bridge Level\""
           ],
           "logic_status": "unresolved"
         },
@@ -116465,7 +116449,7 @@
           "source_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#bridge-level",
           "target_node_id": "sands-of-karak/sands-of-karak-tall-centre-room#voltnest-level",
           "requirement": {
-            "raw": "(Cling Grip AND Faydown Cloak AND (Clawline OR Dash OR Sharp Dart OR (Moderate Skip AND Beast Crest AND Needle Strike) OR (Architect Crest AND Needle Strike) OR (Reaper Crest AND Needle Strike) OR Shaman Crest)) OR (Silk Soar AND (Cling Grip OR Faydown Cloak OR Scuttlebrace))",
+            "raw": "( Cling Grip AND Faydown Cloak AND ( Clawline OR Dash OR Sharpdart OR ( Moderate Skips AND ( Beast Crest AND Needle Strike AND Cling Grip  )  OR ( ( ( Architect Crest OR Reaper Crest )  AND Needle Strike ) OR Shaman Crest )  )  )  ) OR (  Silk soar AND ( Cling Grip OR Faydown Cloak OR Scuttlebrace ) )",
             "mode": "expression",
             "dnf": [
               [
@@ -116484,6 +116468,30 @@
                 "item:sharpdart"
               ],
               [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "option:skips-moderate",
+                "item:beast-crest",
+                "item:needle-strike"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:architect-crest",
+                "item:needle-strike"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:reaper-crest",
+                "item:needle-strike"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:shaman-crest"
+              ],
+              [
                 "item:silk-soar",
                 "item:cling-grip"
               ],
@@ -116493,32 +116501,7 @@
               ],
               [
                 "item:silk-soar",
-                "macro:progressive-swift-step-full",
                 "macro:usable-scuttlebrace"
-              ],
-              [
-                "item:faydown-cloak",
-                "item:beast-crest",
-                "item:needle-strike",
-                "item:cling-grip",
-                "option:skips-moderate"
-              ],
-              [
-                "item:architect-crest",
-                "item:needle-strike",
-                "item:cling-grip",
-                "item:faydown-cloak"
-              ],
-              [
-                "item:reaper-crest",
-                "item:needle-strike",
-                "item:cling-grip",
-                "item:faydown-cloak"
-              ],
-              [
-                "item:shaman-crest",
-                "item:cling-grip",
-                "item:faydown-cloak"
               ]
             ],
             "annotations": [],
@@ -116532,9 +116515,9 @@
             "name": "Voltwyrm Shaft",
             "source": "Bridge Level",
             "destination": "Voltnest Level",
-            "requirements": "(Cling Grip AND Faydown Cloak AND (Clawline OR Dash OR Sharp Dart OR (Moderate Skip AND Beast Crest AND Needle Strike) OR (Architect Crest AND Needle Strike) OR (Reaper Crest AND Needle Strike) OR Shaman Crest)) OR (Silk Soar AND (Cling Grip OR Faydown Cloak OR Scuttlebrace))",
+            "requirements": "( Cling Grip AND Faydown Cloak AND ( Clawline OR Dash OR Sharpdart OR ( Moderate Skips AND ( Beast Crest AND Needle Strike AND Cling Grip  )  OR ( ( ( Architect Crest OR Reaper Crest )  AND Needle Strike ) OR Shaman Crest )  )  )  ) OR (  Silk soar AND ( Cling Grip OR Faydown Cloak OR Scuttlebrace ) )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116565,7 +116548,7 @@
             "destination": "Bridge Level",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116634,7 +116617,7 @@
             "destinationalias": "R",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116672,7 +116655,7 @@
             "destinationalias": "UL",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116722,7 +116705,7 @@
             "destination": "Right Ledge",
             "requirements": "Beast Crest OR Clawline OR Faydown Cloak OR Drifters Cloak OR Sharpdart OR Dash",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116851,7 +116834,7 @@
             "destination": "Shell Ledge",
             "requirements": "Hunters Crest OR Beast Crest OR Architect Crest OR Shamen Crest OR ( Ledge grab AND ( Reaper crest OR Witch Crest ) ) OR Dash OR Clawline OR Sharpdart OR Drifters Cloak OR Faydown Cloak OR ( Wanderer crest AND Needle Strike )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116893,7 +116876,7 @@
             "destination": "Left Ledge",
             "requirements": "Ledge Grab OR Clawline OR Faydown Cloak OR Beast Crest",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -116926,7 +116909,7 @@
             "subroom": "Shell Ledge",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
@@ -116972,19 +116955,16 @@
           "node_id": "sands-of-karak/sands-of-karak-upper-left-long-room#left-ledge",
           "requirement": {
             "raw": "Proficient Combat OR 2 x Needle Upgrade",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
-              [
-                "event:sands-of-karak/sands-of-karak-upper-left-long-room/proficient-combat"
-              ],
               [
                 "count:progressive-needle-upgrade:2"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Proficient Combat"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -116995,14 +116975,12 @@
             "subroom": "Left Ledge",
             "requirements": "Proficient Combat OR 2 x Needle Upgrade",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Proficient Combat"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -117680,7 +117658,7 @@
       "area_id": "sands-of-karak",
       "name": "Watcher at the Edge (Coral_39)",
       "source_file": "sands-of-karak/watcher-at-the-edge.md",
-      "source_sha256": "77aad9acc28e64daa6aadf7b2b759d22142951d26f99f6ae870be69ef42301ae",
+      "source_sha256": "0e82c3407784469f6248bc89138a763afda8a0c2d953c1ba6bce08cb593e607a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -117723,7 +117701,7 @@
             "destinationalias": "UL",
             "requirements": "None",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "notes": ""
           },
           "unresolved_reasons": [],
@@ -117741,21 +117719,17 @@
           "node_id": "sands-of-karak/watcher-at-the-edge#room",
           "requirement": {
             "raw": "Needolin AND ( 2 x Needle upgrade OR Proficient combat )",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:needolin",
                 "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "item:needolin",
-                "event:sands-of-karak/watcher-at-the-edge/proficient-combat"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Proficient combat"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
@@ -117766,14 +117740,12 @@
             "subroom": "",
             "requirements": "Needolin AND ( 2 x Needle upgrade OR Proficient combat )",
             "todo": "",
-            "verification": "",
+            "verification": "Verified",
             "archipelago": "Included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Proficient combat"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "sands-of-karak/watcher-at-the-edge::check/grey-memento",
@@ -117783,39 +117755,33 @@
           "node_id": "sands-of-karak/watcher-at-the-edge#room",
           "requirement": {
             "raw": "Needolin AND ( 2 x Needle upgrade OR Proficient combat )",
-            "mode": "unresolved",
+            "mode": "expression",
             "dnf": [
               [
                 "item:needolin",
                 "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "item:needolin",
-                "event:sands-of-karak/watcher-at-the-edge/proficient-combat"
               ]
             ],
-            "annotations": [],
-            "unresolved_reasons": [
-              "unresolved requirement vocabulary: Proficient combat"
+            "annotations": [
+              "One route still needs its requirements confirmed."
             ],
+            "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
           "notes": "",
-          "currently_randomized": true,
+          "currently_randomized": false,
           "source_line": 26,
           "raw_cells": {
             "check": "Grey Memento",
             "subroom": "",
             "requirements": "Needolin AND ( 2 x Needle upgrade OR Proficient combat )",
             "todo": "",
-            "verification": "",
-            "archipelago": "Included",
+            "verification": "Verified",
+            "archipelago": "Not included",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "unresolved requirement vocabulary: Proficient combat"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "omitted_check_rows": []
@@ -132702,12 +132668,10 @@
             "label": "Deep Docks Chains Upper East (Dock_03)"
           },
           "requirement": {
-            "raw": "door opened from Deep Docks",
-            "mode": "expression",
+            "raw": "none",
+            "mode": "none",
             "dnf": [
-              [
-                "event:far-fields/far-fields-deep-docks-backdoor/door-opened"
-              ]
+              []
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -140933,16 +140897,11 @@
           "source_node_id": "far-fields/far-fields-pinstress-attic#bottom-left-area",
           "target_node_id": "far-fields/far-fields-pinstress-attic#upper-right-area",
           "requirement": {
-            "raw": "Drifter's Cloak OR (Silk Soar AND Faydown Cloak AND Clawline)",
+            "raw": "Drifter's Cloak",
             "mode": "expression",
             "dnf": [
               [
                 "item:drifters-cloak"
-              ],
-              [
-                "item:silk-soar",
-                "item:faydown-cloak",
-                "item:clawline"
               ]
             ],
             "annotations": [],
@@ -142621,12 +142580,9 @@
           "source_node_id": "far-fields/far-fields-skull-arena#crossing",
           "target_node_id": "far-fields/far-fields-skull-arena#check-alcove",
           "requirement": {
-            "raw": "break blast rock up AND ( scuttlebrace OR cling grip )",
+            "raw": "Cling Grip",
             "mode": "expression",
             "dnf": [
-              [
-                "macro:usable-scuttlebrace"
-              ],
               [
                 "item:cling-grip"
               ]

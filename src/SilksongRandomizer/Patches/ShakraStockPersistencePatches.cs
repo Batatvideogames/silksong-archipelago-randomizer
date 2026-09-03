@@ -1,108 +1,28 @@
 using HarmonyLib;
+using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
     internal static class ShakraStockPersistencePatches
     {
-        private const int ExpectedShakraMapSourceCount = 14;
+        private const string ShakraFinalQuestName = "Shakra Final Quest";
+        private const string BellhartSceneName = "Belltown";
+        private const string MapperControlObjectName = "Mapper Control";
+        private const string MapperControlFsmName = "Control";
+        private const string MapperControlStateName = "Check";
+        private const string MapperDialogueFsmName = "Dialogue";
+        private const string MapperQuestStateName = "Quest?";
 
-        private static readonly NativeShopLocation[] ShakraMapSources =
-            GetShakraMapSources();
-
-        private static NativeShopLocation[] GetShakraMapSources()
-        {
-            List<NativeShopLocation> sources =
-                new List<NativeShopLocation>();
-            foreach (NativeShopLocation source in
-                     CoreLocationManifest.ShopLocations)
-            {
-                if (source != null && source.Type == ItemType.Map)
-                {
-                    sources.Add(source);
-                }
-            }
-
-            return sources.ToArray();
-        }
-
-        private static bool TryGetActiveShakraMapSources(
+        private static bool ShouldKeepShakraOnsite(
             SaveState state,
-            PlayerData playerData,
-            out List<NativeShopLocation> sourcesInSeed)
+            PlayerData playerData)
         {
-            sourcesInSeed = new List<NativeShopLocation>();
-            if (state == null ||
-                !state.IsRoomBound ||
-                !state.TrailsEndUsesOwnedMaps ||
-                !state.IsRandomized(ItemType.Map) ||
-                state.checkedLocations == null ||
-                playerData == null ||
-                !playerData.ShakraFinalQuestAppear ||
-                ShakraMapSources.Length != ExpectedShakraMapSourceCount)
-            {
-                return false;
-            }
-
-            HashSet<string> locations =
-                new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (NativeShopLocation source in ShakraMapSources)
-            {
-                string locationName = source == null
-                    ? null
-                    : LocationSet.GetCanonicalLocationName(
-                        source.LocationName
-                    );
-                if (string.IsNullOrWhiteSpace(locationName) ||
-                    !locations.Add(locationName))
-                {
-                    return false;
-                }
-
-                if (state.IsLocationEnabled(locationName) &&
-                    state.IsLocationInSeed(locationName))
-                {
-                    sourcesInSeed.Add(source);
-                }
-            }
-
-            return locations.Count == ExpectedShakraMapSourceCount &&
-                   sourcesInSeed.Count > 0;
-        }
-
-        private static bool HasUncheckedShakraMapSource(
-            SaveState state,
-            IEnumerable<NativeShopLocation> sourcesInSeed)
-        {
-            foreach (NativeShopLocation source in sourcesInSeed)
-            {
-                if (!state.IsLocationChecked(source.LocationName))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool HasFinalDepartureFlags(PlayerData playerData)
-        {
-            return playerData.MapperLeftBellhart &&
-                   playerData.MapperLeftBoneForest &&
-                   playerData.MapperLeftBonetown &&
-                   playerData.MapperLeftCoralCaverns &&
-                   playerData.MapperLeftCrawl &&
-                   playerData.MapperLeftDocks &&
-                   playerData.MapperLeftDustpens &&
-                   playerData.MapperLeftGreymoor &&
-                   playerData.MapperLeftHuntersNest &&
-                   playerData.MapperLeftJudgeSteps &&
-                   playerData.MapperLeftPeak &&
-                   playerData.MapperLeftShadow &&
-                   playerData.MapperLeftShellwood &&
-                   playerData.MapperLeftWilds;
+            return state != null &&
+                   state.IsRoomBound &&
+                   playerData != null;
         }
 
         private static void SetDepartureFlags(
@@ -150,40 +70,128 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static bool IsNoEvent(FsmEvent fsmEvent)
+        {
+            return fsmEvent == null || string.IsNullOrEmpty(fsmEvent.Name);
+        }
+
+        private static bool IsEventNamed(
+            FsmEvent fsmEvent,
+            string expectedName)
+        {
+            return fsmEvent != null &&
+                   string.Equals(
+                       fsmEvent.Name,
+                       expectedName,
+                       StringComparison.Ordinal);
+        }
+
+        private static bool IsExactShakraFinalQuestGate(
+            QuestPlaymakerActions.CheckQuestState action)
+        {
+            if (action == null ||
+                !action.Enabled ||
+                action.Owner == null ||
+                action.Fsm == null ||
+                action.State == null ||
+                (!action.Owner.name.StartsWith(
+                     "Mapper NPC",
+                     StringComparison.Ordinal) &&
+                 !action.Owner.name.StartsWith(
+                     "Mapper Sit NPC",
+                     StringComparison.Ordinal)) ||
+                !string.Equals(
+                    action.Fsm.Name,
+                    MapperDialogueFsmName,
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    action.State.Name,
+                    MapperQuestStateName,
+                    StringComparison.Ordinal) ||
+                !(action.Quest?.Value is FullQuestBase quest) ||
+                !string.Equals(
+                    quest.name,
+                    ShakraFinalQuestName,
+                    StringComparison.Ordinal) ||
+                !IsEventNamed(action.NotTrackedEvent, "FINISHED") ||
+                !IsEventNamed(action.TrackedEvent, "CANCEL") ||
+                !IsEventNamed(action.CompletedEvent, "FINISHED"))
+            {
+                return false;
+            }
+
+            FsmStateAction[] actions = action.State.Actions;
+            return actions != null &&
+                   actions.Length == 1 &&
+                   ReferenceEquals(actions[0], action);
+        }
+
+        private static bool IsExactBellhartFinalQuestGate(
+            BoolTestMulti action)
+        {
+            if (action == null ||
+                !action.Enabled ||
+                action.Owner == null ||
+                action.Fsm == null ||
+                action.State == null ||
+                !string.Equals(
+                    action.Owner.scene.name,
+                    BellhartSceneName,
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    action.Owner.name,
+                    MapperControlObjectName,
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    action.Fsm.Name,
+                    MapperControlFsmName,
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    action.State.Name,
+                    MapperControlStateName,
+                    StringComparison.Ordinal) ||
+                action.boolVariables == null ||
+                action.boolVariables.Length != 2 ||
+                action.boolStates == null ||
+                action.boolStates.Length != 2 ||
+                !IsEventNamed(action.trueEvent, "NONE") ||
+                !IsNoEvent(action.falseEvent) ||
+                action.storeResult == null ||
+                action.everyFrame)
+            {
+                return false;
+            }
+
+            FsmStateAction[] actions = action.State.Actions;
+            return actions != null &&
+                   actions.Length == 12 &&
+                   ReferenceEquals(actions[9], action) &&
+                   string.Equals(
+                       actions[6]?.GetType().FullName,
+                       "HutongGames.PlayMaker.Actions.GetPlayerDataBool",
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       actions[7]?.GetType().FullName,
+                       "QuestPlaymakerActions.GetQuestState",
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       actions[8]?.GetType().FullName,
+                       "HutongGames.PlayMaker.Actions.BoolAnyTrue",
+                       StringComparison.Ordinal) &&
+                   actions[10] is PlayerDataBoolTest &&
+                   actions[11] is PlayerDataBoolTest;
+        }
+
         internal static bool TryPreserveShakraStock(
             SaveState state,
             PlayerData playerData)
         {
-            if (!TryGetActiveShakraMapSources(
-                    state,
-                    playerData,
-                    out List<NativeShopLocation> sourcesInSeed) ||
-                !HasUncheckedShakraMapSource(state, sourcesInSeed))
+            if (!ShouldKeepShakraOnsite(state, playerData))
             {
                 return false;
             }
 
-            // Keep the final quest gate active, but undo only Shakra's native
-            // departure flags while physical randomized map checks remain.
             SetDepartureFlags(playerData, false);
-            return true;
-        }
-
-        internal static bool TryFinalizeShakraDeparture(
-            SaveState state,
-            PlayerData playerData)
-        {
-            if (!TryGetActiveShakraMapSources(
-                    state,
-                    playerData,
-                    out List<NativeShopLocation> sourcesInSeed) ||
-                HasUncheckedShakraMapSource(state, sourcesInSeed) ||
-                HasFinalDepartureFlags(playerData))
-            {
-                return false;
-            }
-
-            playerData.MapperLeaveAll();
             return true;
         }
 
@@ -191,8 +199,7 @@ namespace SilksongRandomizer.Patches
             SaveState state,
             PlayerData playerData)
         {
-            return TryPreserveShakraStock(state, playerData) ||
-                   TryFinalizeShakraDeparture(state, playerData);
+            return TryPreserveShakraStock(state, playerData);
         }
 
         [HarmonyPatch(typeof(PlayerData), nameof(PlayerData.MapperLeaveAll))]
@@ -223,6 +230,36 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
+        private static class TimePassesPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix()
+            {
+                TryPreserveShakraStock(
+                    SaveState.Instance,
+                    PlayerData.instance
+                );
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(SceneTravelerTempEval),
+            nameof(SceneTravelerTempEval.OnEnter))]
+        private static class SceneTravelerEvaluationPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix()
+            {
+                TryPreserveShakraStock(
+                    SaveState.Instance,
+                    PlayerData.instance
+                );
+            }
+        }
+
         [HarmonyPatch(
             typeof(GameManager),
             nameof(GameManager.FinishedEnteringScene))]
@@ -236,6 +273,50 @@ namespace SilksongRandomizer.Patches
                     SaveState.Instance,
                     PlayerData.instance
                 );
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(QuestPlaymakerActions.CheckQuestState),
+            "DoQuestAction")]
+        private static class ShakraFinalQuestDialoguePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(
+                QuestPlaymakerActions.CheckQuestState __instance)
+            {
+                if (!IsExactShakraFinalQuestGate(__instance) ||
+                    !ShouldKeepShakraOnsite(
+                        SaveState.Instance,
+                        PlayerData.instance))
+                {
+                    return true;
+                }
+
+                __instance.Fsm.Event(__instance.NotTrackedEvent);
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(BoolTestMulti), "DoAllTrue")]
+        private static class BellhartFinalQuestVisibilityPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(BoolTestMulti __instance)
+            {
+                if (!IsExactBellhartFinalQuestGate(__instance) ||
+                    !ShouldKeepShakraOnsite(
+                        SaveState.Instance,
+                        PlayerData.instance))
+                {
+                    return true;
+                }
+
+                __instance.storeResult.Value = false;
+                __instance.Fsm.Event(__instance.falseEvent);
+                return false;
             }
         }
 

@@ -698,14 +698,6 @@ namespace SilksongRandomizer.Patches
                     // Every exact shop asset in this manifest uses Rosaries.
                     CurrencyManager.TakeGeo(__instance.Cost);
                     state.CheckLocation(locationName);
-                    if (shopLocation.Type == ItemType.Map)
-                    {
-                        ShakraStockPersistencePatches
-                            .TryFinalizeShakraDeparture(
-                                state,
-                                PlayerData.instance
-                            );
-                    }
                     CollectableItemManager.IncrementVersion();
                     onComplete?.Invoke();
                 }

@@ -453,6 +453,8 @@ namespace SilksongRandomizer
 
         public HashSet<string> receivedItems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> checkedLocations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> pendingBeastShardDrops =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> roomLocationNames =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         public List<HintData> receivedHints = new List<HintData>();
@@ -769,6 +771,13 @@ namespace SilksongRandomizer
                     .Select(LocationSet.GetCanonicalLocationName),
                 StringComparer.OrdinalIgnoreCase
             );
+            pendingBeastShardDrops = new HashSet<string>(
+                (pendingBeastShardDrops ?? new HashSet<string>())
+                    .Select(LocationSet.GetCanonicalLocationName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name)),
+                StringComparer.OrdinalIgnoreCase
+            );
+            pendingBeastShardDrops.ExceptWith(checkedLocations);
             roomLocationNames = new HashSet<string>(
                 (roomLocationNames ?? new HashSet<string>())
                     .Select(LocationSet.GetCanonicalLocationName)
@@ -2108,8 +2117,13 @@ namespace SilksongRandomizer
         {
             string canonicalName =
                 LocationSet.GetCanonicalLocationName(locationName);
-            if (string.IsNullOrWhiteSpace(canonicalName) ||
-                !IsLocationEnabled(canonicalName) ||
+            if (string.IsNullOrWhiteSpace(canonicalName))
+            {
+                return;
+            }
+
+            pendingBeastShardDrops?.Remove(canonicalName);
+            if (!IsLocationEnabled(canonicalName) ||
                 !checkedLocations.Add(canonicalName))
             {
                 return;

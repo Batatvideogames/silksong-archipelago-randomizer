@@ -847,6 +847,7 @@ PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Wish: A Lifesaving Bridge',
         'Wish: My Missing Courier',
         'Wish: Volatile Flintbeetles',
+        'Wish: Balm for the Wounded',
         # This Wish also needs its quest chain. Unlike the three nearby
         # Act-conversion Wishes, it is not permanently missable.
         'Wish: An Icon of Hope',
@@ -904,7 +905,6 @@ TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
     canonicalize_location_name(location_name)
     for location_name in (
         'Mask Shard: Dark Hearts',
-        'Spool Fragment: Balm for the Wounded',
         'Spider Strings',
         'Relic: Choral Commandment (Jubilana)',
         'Spool Fragment: Jubilana (Songclave)',
@@ -3932,9 +3932,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Elegy of the Deep Learned',
         'Ancestral Art: Silk Soar',
     )),
-    # Great Conchflies is in Coral_11 (Roar Point), reached from the western
-    # Blasted Steps route. This check cannot hold progression until its
-    # minimum movement requirement is represented.
     ('Boss: Great Conchflies', area(1, 'Blasted Steps - Toll')),
     ('Boss Completion: defeatedLastJudge', req('Event: Last Judge Defeated')),
     ('Boss Completion: defeatedGreyWarrior', area(
@@ -5542,9 +5539,13 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
             ROOM_GRAPH_QUARANTINED_CHECK_NAMES
             - ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
         ),
+        # Its verified traversal can still self-lock required movement during
+        # fill, so keep the check non-progression until placement can model it.
+        'Blasted Steps - Mask Shard',
+        'Pimpillo',
+        'Far Fields - Shell Shard Cache #8',
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
-        'Boss: Great Conchflies',
         'Relic: Bone Scroll (Wisp Thicket)',
         'Wisp Thicket - Mask Shard',
         'Map Purchase: The Cradle',
@@ -5600,7 +5601,6 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
         # requirements, so they may hold only non-advancement rewards.
         'Fleatopia - Rosary Necklace',
         'Fleatopia - Rosary String',
-        'Cogwork Core - Pristine Core',
         'Whispering Vaults - Heavy Rosary Necklace',
         *HELD_MINOR_PICKUP_LOCATIONS,
         # These caches remain non-advancement-only until their room movement

@@ -15,6 +15,10 @@ namespace SilksongRandomizer.Patches
             "Shellwood - Shellgrave Inscription";
         private const string BellhartOuterSignLocationName =
             "Bellhart - Outer Sign";
+        private const string BlastedStepsEntranceSignLocationName =
+            "Blasted Steps - Shellwood Entrance Sign";
+        private const string TerminusCommandmentLocationName =
+            "The Cradle - Terminus Commandment";
 
         private sealed class InactiveSourceRecord
         {
@@ -133,6 +137,22 @@ namespace SilksongRandomizer.Patches
                     StringComparison.OrdinalIgnoreCase))
             {
                 return BellhartOuterSignLocationName;
+            }
+
+            if (string.Equals(
+                    sceneName,
+                    "Coral_19",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return BlastedStepsEntranceSignLocationName;
+            }
+
+            if (string.Equals(
+                    sceneName,
+                    "Tube_Hub",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return TerminusCommandmentLocationName;
             }
 
             return null;

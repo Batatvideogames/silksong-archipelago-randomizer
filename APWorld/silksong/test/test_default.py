@@ -279,10 +279,7 @@ class TestDefaultWorld(SilksongTestBase):
 
     def test_unresolved_mapper_checks_do_not_use_weak_fallbacks(self) -> None:
         unsafe_advancement_fallbacks = {
-            "Bonegrave - Mossberry",
-            "Clawline",
-            "Flea: Underworks",
-            "Underworks - Craftmetal",
+            "Blasted Steps - Mask Shard",
             "Underworks - Memory Locket",
         }
         self.assertLessEqual(
@@ -302,8 +299,13 @@ class TestDefaultWorld(SilksongTestBase):
             & ROOM_GRAPH_QUARANTINED_CHECK_NAMES,
             {
                 "Boss: Voltvyrm",
+                "Ecstasy of the End - Pale Oil",
+                "Egg of Flealia",
+                "Fleatopia - Tool Pouch",
                 "Greymoor - Bellshrine",
+                "Longclaw",
                 "Volt Filament",
+                "Wish: Passing of the Age",
             },
         )
 

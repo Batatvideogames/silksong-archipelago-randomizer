@@ -399,8 +399,6 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
-# Item IDs stay tied to the ITEM_TABLE_SOURCE positions above. Native asset
-# identifiers resolve to concise protocol names without assigning new IDs.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
     'Skill: Double Jump': 'Ability: Faydown Cloak',
     'Skill: Charge Slash': 'Ability: Needle Strike',

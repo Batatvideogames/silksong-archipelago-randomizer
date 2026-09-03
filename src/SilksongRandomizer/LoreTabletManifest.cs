@@ -145,34 +145,6 @@ namespace SilksongRandomizer
                 )
             ),
             new Entry(
-                "Memorium - Bone Plaque",
-                "Arborium_01",
-                23.966668f,
-                42.126671f,
-                29f,
-                151f,
-                Source(
-                    "arborium_01",
-                    "Group (1)/Inspect Region (1)",
-                    "Inspect",
-                    "ARBORIUM_PLAQUE_BONE"
-                )
-            ),
-            new Entry(
-                "Memorium - Clover Plaque",
-                "Arborium_01",
-                5.70f,
-                98.269997f,
-                29f,
-                151f,
-                Source(
-                    "arborium_01",
-                    "Group/Inspect Region (1)",
-                    "Inspect",
-                    "ARBORIUM_PLAQUE_CLOVER"
-                )
-            ),
-            new Entry(
                 "Memorium - Orders",
                 "Arborium_03",
                 17.91f,
@@ -624,6 +596,34 @@ namespace SilksongRandomizer
                     "Black Thread States Thread Only Variant/Normal World/Inspect Region",
                     "Inspect",
                     "BELLTOWN_OUTER_SIGN"
+                )
+            ),
+            new Entry(
+                "Blasted Steps - Shellwood Entrance Sign",
+                "Coral_19",
+                299.188232f,
+                39.795497f,
+                427f,
+                55f,
+                Source(
+                    "coral_19",
+                    "Black Thread States Thread Only Variant/Normal World/Inspect Region",
+                    "Inspect",
+                    "CORAL_JUDGEMENT_SIGN"
+                )
+            ),
+            new Entry(
+                "The Cradle - Terminus Commandment",
+                "Tube_Hub",
+                118.279995f,
+                39.840001f,
+                135f,
+                145f,
+                Source(
+                    "tube_hub",
+                    "Black Thread States/Normal World/Inspect Region",
+                    "Inspect",
+                    "TUBE_HUB_NOTICE"
                 )
             ),
         };

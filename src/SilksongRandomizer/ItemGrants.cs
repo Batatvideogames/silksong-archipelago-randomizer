@@ -1,4 +1,6 @@
+using HarmonyLib;
 using System;
+using System.Reflection;
 using SilksongRandomizer.Patches;
 
 namespace SilksongRandomizer
@@ -20,6 +22,12 @@ namespace SilksongRandomizer
         private const string DarkMirrorAssetName = "Dazzle Bind Upgraded";
         private const string CurveclawAssetName = "Curve Claws";
         private const string CurvesickleAssetName = "Curve Claws Upgraded";
+
+        private static readonly FieldInfo QueueAttackToolsChangedField =
+            AccessTools.Field(
+                typeof(ToolItemManager),
+                "queueAttackToolsChanged"
+            );
 
         public static void GrantDash()
         {
@@ -634,7 +642,17 @@ namespace SilksongRandomizer
                 );
             }
 
+            ToolItemManager manager =
+                ManagerSingleton<ToolItemManager>.UnsafeInstance;
+            if (manager != null &&
+                QueueAttackToolsChangedField != null)
+            {
+                QueueAttackToolsChangedField.SetValue(manager, true);
+            }
+
             ToolItemManager.RefreshEquippedState();
+            ToolItemManager.ReportAllBoundAttackToolsUpdated();
+            ToolItemManager.SendEquippedChangedEvent(force: true);
             CollectableItemManager.IncrementVersion();
         }
 

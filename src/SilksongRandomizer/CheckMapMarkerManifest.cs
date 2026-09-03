@@ -668,6 +668,8 @@ namespace SilksongRandomizer
             new[] { "Far Fields - Rosary Cache #14", "Far Fields - Rosary Cache #15" },
             new[] { "Far Fields - Rosary Cache #16", "Far Fields - Rosary Cache #17" },
             new[] { "Far Fields - Rosary Cache #20", "Far Fields - Rosary Cache #21", "Far Fields - Pale Rosary Necklace" },
+            new[] { "Far Fields - Shell Shard Cache #2", "Far Fields - Shell Shard Cache #3", "Far Fields - Rosary Cache #18" },
+            new[] { "Far Fields - Shell Shard Cache #4", "Far Fields - Shell Shard Cache #5" },
             new[] { "Greymoor - Rosary Cache #2", "Greymoor - Rosary Cache #3" },
             new[] { "Greymoor - Rosary Cache #4", "Greymoor - Rosary Cache #5" },
             new[] { "Greymoor - Rosary Cache #7", "Greymoor - Rosary Cache #8" },

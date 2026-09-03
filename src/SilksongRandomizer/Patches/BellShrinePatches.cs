@@ -195,12 +195,54 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(FullQuestBase), "get_CanComplete")]
+        private static class JudgeQuestCanCompletePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out JudgeStateSnapshot __state)
+            {
+                ApplyJudgeBellOwnership(out __state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                JudgeStateSnapshot __state)
+            {
+                RestoreJudgeBellOwnership(__state);
+                return __exception;
+            }
+        }
+
         [HarmonyPatch(
             typeof(FullQuestBase),
             nameof(FullQuestBase.Counters),
             MethodType.Getter
         )]
         private static class JudgeQuestCountersPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(out JudgeStateSnapshot __state)
+            {
+                ApplyJudgeBellOwnership(out __state);
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(
+                Exception __exception,
+                JudgeStateSnapshot __state)
+            {
+                RestoreJudgeBellOwnership(__state);
+                return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(QuestMapMarker), "IsActive")]
+        private static class JudgeQuestMapMarkerPatch
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
