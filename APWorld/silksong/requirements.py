@@ -1014,7 +1014,11 @@ ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     'Choral Chambers - Memory Locket',
     'Cogwork Wheel',
     'Crest: Architect',
+    'Ecstasy of the End - Pale Oil',
+    'Egg of Flealia',
+    'Fleatopia - Tool Pouch',
     'Greymoor - Bellshrine',
+    'Longclaw',
     'Sawtooth Circlet',
     'Sands of Karak - Map Purchase',
     'Sands of Karak - Memory Locket',
@@ -1034,6 +1038,7 @@ ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
     'Underworks - Shell Shard Cache #16',
     'Volt Filament',
     'Whispering Vaults - Shard Bundle',
+    'Wish: Passing of the Age',
 })
 
 _LOGIC_PASS_A_PROGRESSION_CANDIDATES: frozenset[str] = frozenset(
@@ -2017,7 +2022,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Path: Outlying Citadel - Memorium': (
         req('Path: Choral Chambers - Songclave', 'Ability: Faydown Cloak'),
-        req('Event: Act 2 Started', 'Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req(room_node_name("putrified-ducts/putrified-ducts-entrance#entrance")),
         req('Path: Ventrica', 'Path: Ventrica - Memorium'), # Ventrica
     ),
     'Path: Outlying Citadel - Library': (
@@ -2030,21 +2035,15 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Choral Chambers - Songclave', 'Ancestral Art: Cling Grip', 'Ancestral Art: Clawline'),
     ),
     'Path: Putrified Ducts - Bellway': (
-        req('Path: Putrified Ducts - Fleatopia', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
-        req('Path: Outlying Citadel - Memorium', 'Ability: Faydown Cloak'),
-        req('Path: Putrified Ducts - Huntress', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
-        req('Path: Bellway - Putrified Ducts'), # Bellway
+        req(room_node_name("putrified-ducts/putrified-ducts-bellway#bellway")),
     ),
     'Path: Putrified Ducts - Huntress': (
-        req('Path: Putrified Ducts - Bellway', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
-        req('Path: Bilewater - Bilehaven', 'Ability: Faydown Cloak'),
+        req(room_node_name("putrified-ducts/huntress#room")),
     ),
     'Path: Putrified Ducts - Fleatopia': (
         req(
-            'Path: Putrified Ducts - Bellway',
+            room_node_name("putrified-ducts/fleatopia#fleatopia"),
             'Event: Last Judge Defeated',
-            'Ancestral Art: Cling Grip',
-            'Ability: Faydown Cloak',
             item_counts=(item_count(22, *FLEA_ITEMS),),
         ),
     ),
@@ -5146,6 +5145,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Boss: Widow': (
         req('Path: Bellhart - Widow', crest=False),
     ),
+    'Boss: Nyleth': (
+        req('Event: Shrine Guardian Seth Defeated', crest=False),
+    ),
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.
     'Greymoor - Bellshrine': (
@@ -5545,7 +5547,6 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         'Boss: Great Conchflies',
         'Relic: Bone Scroll (Wisp Thicket)',
         'Wisp Thicket - Mask Shard',
-        'Map Pickup: Putrified Ducts',
         'Map Purchase: The Cradle',
         'Map Pickup: Verdania',
         'Map Pickup: The Abyss',

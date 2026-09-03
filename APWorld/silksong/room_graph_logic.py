@@ -72,6 +72,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:bellway-bilewater": (_part("Bellway: Bilewater"),),
     "item:bellway-bellhart": (_part("Bellway: Bellhart"),),
     "item:bellway-far-fields": (_part("Bellway: Far Fields"),),
+    "item:bellway-putrified-ducts": (_part("Bellway: Putrified Ducts"),),
     "item:bellway-shellwood": (_part("Bellway: Shellwood"),),
     "item:bellway-the-slab": (_part("Bellway: The Slab"),),
     "item:clawline": (_part("Ancestral Art: Clawline"),),
@@ -335,6 +336,19 @@ _ACTION_EVENT_ID_BY_ATOM: Mapping[str, str] = {
 # Every entry is monotonic: once that node is reachable, the player can perform
 # the action and retain the shortcut/state for the rest of the logic search.
 _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    "event:grand-gate/entrance-to-nyleth/vines-in-door-broken": (
+        _part(room_node_name("grand-gate/entrance-to-nyleth#entrance")),
+    ),
+    (
+        "event:putrified-ducts/putrified-ducts-bellway/"
+        "breakable-floor-broken-from-vog-camp"
+    ): (
+        _part(
+            room_node_name(
+                "putrified-ducts/putrified-ducts-bellway#vog-camp"
+            )
+        ),
+    ),
     "event:sinner-s-road/sinner-s-road-styx-room/left-right-wall-broken": (
         _part(room_node_name("sinner-s-road/sinner-s-road-styx-room#left")),
     ),
@@ -849,6 +863,12 @@ _NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 
 
 _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
+    "putrified-ducts/putrified-ducts-bellway#bellway": (
+        _part("Path: Bellway - Putrified Ducts"),
+    ),
+    "putrified-ducts/putrified-ducts-entrance#entrance": (
+        _part("Path: Outlying Citadel - Memorium"),
+    ),
     # The mapped Bellway room starts at the existing Blasted Steps endpoint.
     "blasted-steps/blasted-steps-bellway#room": (
         _part("Path: Blasted Steps - Bellway"),
