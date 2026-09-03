@@ -2142,7 +2142,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Bellways', 'Bellway: Blasted Steps'),
     ),
     'Path: Bellway - Grand Bellway': (
-        req('Event: Act 2 Started', 'Path: Bellways', 'Bellway: Grand Bellway'),
+        req('Path: Bellways', 'Bellway: Grand Bellway'),
     ),
     'Path: Bellway - The Slab': (
         req('Path: Bellways', 'Bellway: The Slab'),
