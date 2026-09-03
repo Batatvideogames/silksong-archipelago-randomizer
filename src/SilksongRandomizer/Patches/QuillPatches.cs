@@ -141,13 +141,26 @@ namespace SilksongRandomizer.Patches
         {
             private static SaveState refreshedState;
             private static GameMap refreshedMap;
+            private static GameMap hiddenModeMap;
 
             [HarmonyPrefix]
             private static void Prefix(
                 GameMap __instance,
+                bool pinsOnly,
                 ref int ___lastMappedCount
             )
             {
+                if (CollectableItemManager.IsInHiddenMode())
+                {
+                    hiddenModeMap = __instance;
+                }
+                else if (!pinsOnly &&
+                         ReferenceEquals(__instance, hiddenModeMap))
+                {
+                    hiddenModeMap = null;
+                    ___lastMappedCount = int.MinValue;
+                }
+
                 SaveState state = SaveState.Instance;
                 PlayerData playerData = PlayerData.instance;
                 if (state == null ||
