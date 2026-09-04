@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SilksongRandomizer.Patches
 {
@@ -34,20 +35,6 @@ namespace SilksongRandomizer.Patches
             AccessTools.Field(
                 typeof(HealthManager),
                 "itemDropGroups"
-            );
-
-        private static readonly MethodInfo SpawnItemDropMethod =
-            AccessTools.Method(
-                typeof(HealthManager),
-                "SpawnItemDrop",
-                new Type[]
-                {
-                    typeof(SavedItem),
-                    typeof(int),
-                    typeof(CollectableItemPickup),
-                    typeof(Transform),
-                    typeof(int),
-                }
             );
 
         private static bool IsActive(string locationName)
@@ -261,29 +248,7 @@ namespace SilksongRandomizer.Patches
                 );
         }
 
-        private static void ArmPendingEnemyDrop(
-            HealthManager healthManager,
-            string locationName)
-        {
-            SaveState state = SaveState.Instance;
-            string canonicalName =
-                LocationSet.GetCanonicalLocationName(locationName);
-            if (state == null ||
-                healthManager == null ||
-                string.IsNullOrWhiteSpace(canonicalName))
-            {
-                return;
-            }
-
-            if (state.pendingBeastShardDrops == null)
-            {
-                state.pendingBeastShardDrops =
-                    new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            }
-            state.pendingBeastShardDrops.Add(canonicalName);
-        }
-
-        private static bool HasPendingEnemyDropPickup(
+        private static bool HasEnemyDropPickup(
             string locationName,
             string sceneName)
         {
@@ -311,33 +276,35 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
-        private static bool TryRespawnPendingEnemyDrop(
+        private static bool TryRespawnEnemyDrop(
             HealthManager healthManager,
             string locationName)
         {
-            if (SpawnItemDropMethod == null ||
-                GlobalSettings.Gameplay.CollectableItemPickupInstantPrefab == null)
+            CollectableItemPickup prefab =
+                GlobalSettings.Gameplay.CollectableItemPickupInstantPrefab;
+            if (prefab == null)
             {
                 return false;
             }
 
+            CollectableItemPickup pickup = null;
             try
             {
-                SpawnItemDropMethod.Invoke(
-                    healthManager,
-                    new object[]
-                    {
-                        GetProxy(locationName),
-                        1,
-                        null,
-                        healthManager.transform,
-                        0,
-                    }
+                pickup = UnityEngine.Object.Instantiate(prefab);
+                Vector3 position = healthManager.transform.TransformPoint(
+                    healthManager.EffectOrigin
                 );
+                position.z = UnityEngine.Random.Range(0.003f, 0.0039f);
+                pickup.transform.position = position;
+                pickup.SetItem(GetProxy(locationName));
                 return true;
             }
             catch (Exception exception)
             {
+                if (pickup != null)
+                {
+                    UnityEngine.Object.Destroy(pickup.gameObject);
+                }
                 RandomizerPlugin.Log?.LogWarning(
                     "[RANDOMIZER] Could not restore loose Beast Shard " +
                     "check " + locationName + ": " + exception
@@ -346,14 +313,45 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static bool TryGetConsumedEnemyDropLocation(
+            HealthManager healthManager,
+            out string locationName)
+        {
+            locationName = null;
+            if (healthManager == null)
+            {
+                return false;
+            }
+
+            if (healthManager.isDead &&
+                BeastShardSourceManifest.TryGetEnemyDropLocation(
+                    healthManager,
+                    out locationName))
+            {
+                return true;
+            }
+
+            PlayerData playerData = PlayerData.instance;
+            EnemyDeathEffects deathEffects =
+                healthManager.GetComponent<EnemyDeathEffects>();
+            if (playerData != null &&
+                playerData.roofCrabDefeated &&
+                BeastShardSourceManifest.IsExpectedCraggler(deathEffects))
+            {
+                locationName = BeastShardSourceManifest.CragglerLocation;
+                return true;
+            }
+
+            return false;
+        }
+
         private static bool TryRecoverConsumedEnemySource(
             HealthManager healthManager)
         {
             SaveState state = SaveState.Instance;
             if (healthManager == null ||
                 state == null ||
-                !healthManager.isDead ||
-                !BeastShardSourceManifest.TryGetEnemyDropLocation(
+                !TryGetConsumedEnemyDropLocation(
                     healthManager,
                     out string locationName) ||
                 !IsActive(locationName))
@@ -363,47 +361,55 @@ namespace SilksongRandomizer.Patches
 
             string canonicalName =
                 LocationSet.GetCanonicalLocationName(locationName);
-            if (string.IsNullOrWhiteSpace(canonicalName))
+            if (string.IsNullOrWhiteSpace(canonicalName) ||
+                state.IsLocationChecked(canonicalName))
             {
                 return false;
             }
 
-            if (state.IsLocationChecked(canonicalName))
+            if (HasEnemyDropPickup(
+                    canonicalName,
+                    healthManager.gameObject.scene.name))
             {
-                state.pendingBeastShardDrops?.Remove(canonicalName);
                 return false;
             }
 
-            if (state.pendingBeastShardDrops != null &&
-                state.pendingBeastShardDrops.Contains(canonicalName))
+            if (!TryRespawnEnemyDrop(healthManager, canonicalName))
             {
-                if (HasPendingEnemyDropPickup(
-                        canonicalName,
-                        healthManager.gameObject.scene.name))
-                {
-                    return false;
-                }
-
-                if (!TryRespawnPendingEnemyDrop(
-                        healthManager,
-                        canonicalName))
-                {
-                    return false;
-                }
-
-                RandomizerPlugin.Log?.LogInfo(
-                    "[RANDOMIZER] Restored loose Beast Shard check: " +
-                    canonicalName
-                );
-                return true;
+                return false;
             }
 
-            state.CheckLocation(canonicalName);
             RandomizerPlugin.Log?.LogInfo(
-                "[RANDOMIZER] Recovered legacy Beast Shard check: " +
+                "[RANDOMIZER] Restored loose Beast Shard check: " +
                 canonicalName
             );
             return true;
+        }
+
+        private static void TryRecoverActiveSceneEnemyDrops()
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            if (!scene.IsValid())
+            {
+                return;
+            }
+
+            HealthManager[] healthManagers =
+                Resources.FindObjectsOfTypeAll<HealthManager>();
+            foreach (HealthManager healthManager in healthManagers)
+            {
+                if (healthManager == null ||
+                    !healthManager.gameObject.scene.IsValid() ||
+                    !string.Equals(
+                        healthManager.gameObject.scene.name,
+                        scene.name,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                TryRecoverConsumedEnemySource(healthManager);
+            }
         }
 
         private static void WatchForPersistedEnemyDeath(
@@ -461,10 +467,6 @@ namespace SilksongRandomizer.Patches
             }
 
             TryRecoverCompletedFlagSource(
-                BeastShardSourceManifest.CragglerLocation,
-                playerData.roofCrabDefeated
-            );
-            TryRecoverCompletedFlagSource(
                 BeastShardSourceManifest.SprintmasterLocation,
                 playerData.SprintMasterExtraRaceWon
             );
@@ -496,19 +498,22 @@ namespace SilksongRandomizer.Patches
             [HarmonyPriority(Priority.Last)]
             private static void Postfix()
             {
-                HealthManager[] healthManagers =
-                    Resources.FindObjectsOfTypeAll<HealthManager>();
-                foreach (HealthManager healthManager in healthManagers)
-                {
-                    if (healthManager == null ||
-                        !healthManager.gameObject.scene.IsValid())
-                    {
-                        continue;
-                    }
+                TryRecoverActiveSceneEnemyDrops();
+                TryRecoverCompletedFlagSources();
+            }
+        }
 
-                    TryRecoverConsumedEnemySource(healthManager);
-                }
-
+        [HarmonyPatch(
+            typeof(GameManager),
+            nameof(GameManager.FinishedEnteringScene)
+        )]
+        private static class ExactEnemySceneEntryRecoveryPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix()
+            {
+                TryRecoverActiveSceneEnemyDrops();
                 TryRecoverCompletedFlagSources();
             }
         }
@@ -548,7 +553,6 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                ArmPendingEnemyDrop(__instance, locationName);
                 dropItem = GetProxy(locationName);
             }
         }
