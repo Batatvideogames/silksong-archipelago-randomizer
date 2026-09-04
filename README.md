@@ -32,7 +32,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a04643-7242-7a91-0161-7c1a61c3af68`
+**Cogfly Import Code:** `01a068bb-6726-f9a1-a8d0-83a913e11e05`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -43,7 +43,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a04643-ac6a-8fe8-fe03-e29805858125`
+**R2Modman Import Code:** `01a068b7-f522-a947-60f8-7c6491518896`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.

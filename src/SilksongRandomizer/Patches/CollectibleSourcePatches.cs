@@ -1292,6 +1292,25 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
+                if (MaskAndSpoolLocationManifest.TryGetQuestSource(
+                        __instance.name,
+                        out string spoolLocation,
+                        out ItemType spoolType) &&
+                    spoolType == ItemType.SpoolFragment &&
+                    IsActive(
+                        SaveState.Instance,
+                        spoolLocation,
+                        spoolType
+                    ))
+                {
+                    __result = GetProxyItem(
+                        spoolLocation,
+                        spoolType,
+                        showGenericPresentation: true
+                    );
+                    return;
+                }
+
                 if (string.Equals(
                         __instance.name,
                         "Journal",

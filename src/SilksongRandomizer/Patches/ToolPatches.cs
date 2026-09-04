@@ -13,6 +13,9 @@ namespace SilksongRandomizer.Patches
 {
     public class ToolPatches
     {
+        private const string NeedlePhialInternalName = "Extractor";
+        private const string AlchemistAssistantQuest = "Extractor Blue";
+
         public static bool canUnlockedCrestBeEquipped = false;
         public static bool canCrestBeUnlockedByRandomizer = false;
         [ThreadStatic]
@@ -60,6 +63,26 @@ namespace SilksongRandomizer.Patches
             return state != null &&
                    state.receivedItems != null &&
                    state.receivedItems.Contains("Shell Satchel");
+        }
+
+        private static bool IsConsumedNeedlePhial(ToolItem tool)
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (tool == null ||
+                playerData?.QuestCompletionData == null ||
+                !string.Equals(
+                    tool.name,
+                    NeedlePhialInternalName,
+                    StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            QuestCompletionData.Completion completion =
+                playerData.QuestCompletionData.GetData(
+                    AlchemistAssistantQuest
+                );
+            return completion.IsCompleted || completion.WasEverCompleted;
         }
 
         private static ItemType GetRandomizedItemType(ToolItem tool)
@@ -919,6 +942,14 @@ namespace SilksongRandomizer.Patches
                     state,
                     __instance
                 );
+
+                if (itemType == ItemType.Tool &&
+                    IsConsumedNeedlePhial(__instance))
+                {
+                    __result = false;
+                    return false;
+                }
+
                 bool hasActiveSource = TryGetActiveToolSource(
                     state,
                     __instance,

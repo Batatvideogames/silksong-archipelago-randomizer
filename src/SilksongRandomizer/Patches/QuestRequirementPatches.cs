@@ -14,6 +14,7 @@ namespace SilksongRandomizer.Patches
         private const string ShakraFinalQuest = "Shakra Final Quest";
         private const string TormentedTrobbioQuest = "Tormented Trobbio";
         private const string SnareSetterItem = "Tool: Snare Setter";
+        private const string SoulSnareNativeTool = "Silk Snare";
         private const string BelltownScene = "Belltown";
         private const string GroalLocation = "Boss: Groal the Great";
 
@@ -241,8 +242,7 @@ namespace SilksongRandomizer.Patches
             bool nativeCanComplete,
             SaveState state)
         {
-            if (!nativeCanComplete ||
-                quest == null ||
+            if (quest == null ||
                 state == null ||
                 !state.IsRandomized(ItemType.Tool) ||
                 !string.Equals(
@@ -253,9 +253,32 @@ namespace SilksongRandomizer.Patches
                 return nativeCanComplete;
             }
 
-            return state.receivedItems != null &&
-                   state.receivedItems.Contains(
-                       ItemSet.GetCanonicalItemName(SnareSetterItem));
+            if (state.receivedItems == null ||
+                !state.receivedItems.Contains(
+                    ItemSet.GetCanonicalItemName(SnareSetterItem)))
+            {
+                return false;
+            }
+
+            foreach (var pair in quest.TargetsAndCounters)
+            {
+                ToolItem nativeTool = pair.target.Counter as ToolItem;
+                if (nativeTool != null &&
+                    string.Equals(
+                        nativeTool.name,
+                        SoulSnareNativeTool,
+                        StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                if (pair.count < pair.target.Count)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         internal static bool ApplyShakraFinalQuestRequirement(

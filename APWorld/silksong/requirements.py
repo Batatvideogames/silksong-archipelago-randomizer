@@ -89,6 +89,25 @@ USABLE_FLEA_BREW_REQUIREMENT = 'Usable Flea Brew'
 USABLE_MAGMA_BELL_REQUIREMENT = 'Usable Magma Bell'
 USABLE_SCUTTLEBRACE_REQUIREMENT = 'Usable Scuttlebrace'
 USABLE_CINDRIL_LOADOUT_REQUIREMENT = 'Usable Cindril Loadout'
+BROODFEAST_SEARED_TOOL_ITEMS: tuple[str, ...] = (
+    'Tool: Flintslate',
+    'Tool: Pimpillo',
+    'Tool: Wispfire Lantern',
+    'Tool: Voltvessels',
+)
+BROODFEAST_SHREDDED_TOOL_ITEMS: tuple[str, ...] = (
+    'Tool: Sawtooth Circlet',
+    'Tool: Cogwork Wheel',
+    "Tool: Delver's Drill",
+    'Tool: Conchcutter',
+    'Crest: Beast',
+    'Crest: Architect',
+)
+BROODFEAST_SKEWERED_TOOL_ITEMS: tuple[str, ...] = (
+    'Tool: Sting Shard',
+    'Tool: Longpin',
+    'Tool: Needle Phial',
+)
 SPOOL_FRAGMENT_ITEM_NAMES = tuple(
     f'Spool Fragment #{index}'
     for index in range(1, len(SPOOL_FRAGMENT_LOCATION_NAMES) + 1)
@@ -3581,7 +3600,15 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
 
     # Putrified Ducts
-    ('Tool Unlock: Longneedle', area(2, 'Putrified Ducts - Huntress')),
+    ('Tool Unlock: Longneedle', area(
+        2,
+        'Putrified Ducts - Huntress',
+        item_counts=(
+            item_count(1, *BROODFEAST_SEARED_TOOL_ITEMS),
+            item_count(1, *BROODFEAST_SHREDDED_TOOL_ITEMS),
+            item_count(1, *BROODFEAST_SKEWERED_TOOL_ITEMS),
+        ),
+    )),
     ('Tool Unlock: Maggot Charm', area(
         2,
         'Putrified Ducts - Bellway',
@@ -3685,6 +3712,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Pale Oil: Great Taste of Pharloom', area(
         2,
         'Choral Chambers - Below Dining',
+        'Event: Last Judge Defeated',
         'Path: Mosslands - Moss Druid',
         'Path: Greymoor - Halfway House',
         "Path: Far Fields - Pilgrim's Rest",
@@ -4154,6 +4182,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Quest Completion: Great Gourmand', area(
         2,
         'Choral Chambers - First Shrine',
+        'Event: Last Judge Defeated',
         'Path: Mosslands - Moss Druid',
         'Path: Greymoor - Halfway House',
         'Event: Missing Brother Rescued',
@@ -5543,6 +5572,7 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         # fill, so keep the check non-progression until placement can model it.
         'Blasted Steps - Mask Shard',
         'Pimpillo',
+        'Greymoor - Silkeater',
         'Far Fields - Shell Shard Cache #8',
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',

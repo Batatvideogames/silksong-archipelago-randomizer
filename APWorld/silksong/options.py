@@ -9,6 +9,7 @@ from Options import (
     PerGameCommonOptions,
     Range,
     Toggle,
+    Visibility,
 )
 
 from .minor_families import (
@@ -673,6 +674,7 @@ class LedgegrabAbilityRando(Toggle):
 
     display_name = "Ledgegrab Ability Rando"
     default = 0
+    visibility = Visibility.none
 
 
 class SwimAbilityRando(Toggle):
@@ -680,6 +682,7 @@ class SwimAbilityRando(Toggle):
 
     display_name = "Swim Ability Rando"
     default = 0
+    visibility = Visibility.none
 
 
 class NeedleUpgradeRandomization(GlobalRandomization):

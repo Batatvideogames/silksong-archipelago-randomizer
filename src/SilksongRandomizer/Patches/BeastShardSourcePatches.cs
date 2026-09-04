@@ -50,12 +50,6 @@ namespace SilksongRandomizer.Patches
                 }
             );
 
-        private static readonly Dictionary<string, int>
-            PendingDropSourceInstances =
-                new Dictionary<string, int>(
-                    StringComparer.OrdinalIgnoreCase
-                );
-
         private static bool IsActive(string locationName)
         {
             SaveState state = SaveState.Instance;
@@ -68,7 +62,7 @@ namespace SilksongRandomizer.Patches
         private static SavedItem GetProxy(string locationName)
         {
             return MinorPickupPatches.GetProxyItem(
-                locationName,
+                LocationSet.GetCanonicalLocationName(locationName),
                 ItemType.Resource
             );
         }
@@ -272,7 +266,11 @@ namespace SilksongRandomizer.Patches
             string locationName)
         {
             SaveState state = SaveState.Instance;
-            if (state == null || healthManager == null)
+            string canonicalName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            if (state == null ||
+                healthManager == null ||
+                string.IsNullOrWhiteSpace(canonicalName))
             {
                 return;
             }
@@ -282,9 +280,35 @@ namespace SilksongRandomizer.Patches
                 state.pendingBeastShardDrops =
                     new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             }
-            state.pendingBeastShardDrops.Add(locationName);
-            PendingDropSourceInstances[locationName] =
-                healthManager.GetInstanceID();
+            state.pendingBeastShardDrops.Add(canonicalName);
+        }
+
+        private static bool HasPendingEnemyDropPickup(
+            string locationName,
+            string sceneName)
+        {
+            SavedItem proxy = GetProxy(locationName);
+            CollectableItemPickup[] pickups =
+                Resources.FindObjectsOfTypeAll<CollectableItemPickup>();
+            foreach (CollectableItemPickup pickup in pickups)
+            {
+                if (pickup == null ||
+                    !pickup.gameObject.scene.IsValid() ||
+                    !pickup.gameObject.activeInHierarchy ||
+                    !string.Equals(
+                        pickup.gameObject.scene.name,
+                        sceneName,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (ReferenceEquals(pickup.Item, proxy))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool TryRespawnPendingEnemyDrop(
@@ -337,46 +361,75 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            if (state.IsLocationChecked(locationName))
+            string canonicalName =
+                LocationSet.GetCanonicalLocationName(locationName);
+            if (string.IsNullOrWhiteSpace(canonicalName))
             {
-                state.pendingBeastShardDrops?.Remove(locationName);
-                PendingDropSourceInstances.Remove(locationName);
+                return false;
+            }
+
+            if (state.IsLocationChecked(canonicalName))
+            {
+                state.pendingBeastShardDrops?.Remove(canonicalName);
                 return false;
             }
 
             if (state.pendingBeastShardDrops != null &&
-                state.pendingBeastShardDrops.Contains(locationName))
+                state.pendingBeastShardDrops.Contains(canonicalName))
             {
-                int sourceInstance = healthManager.GetInstanceID();
-                if (PendingDropSourceInstances.TryGetValue(
-                        locationName,
-                        out int restoredInstance) &&
-                    restoredInstance == sourceInstance)
+                if (HasPendingEnemyDropPickup(
+                        canonicalName,
+                        healthManager.gameObject.scene.name))
                 {
                     return false;
                 }
 
                 if (!TryRespawnPendingEnemyDrop(
                         healthManager,
-                        locationName))
+                        canonicalName))
                 {
                     return false;
                 }
 
-                PendingDropSourceInstances[locationName] = sourceInstance;
                 RandomizerPlugin.Log?.LogInfo(
                     "[RANDOMIZER] Restored loose Beast Shard check: " +
-                    locationName
+                    canonicalName
                 );
                 return true;
             }
 
-            state.CheckLocation(locationName);
+            state.CheckLocation(canonicalName);
             RandomizerPlugin.Log?.LogInfo(
                 "[RANDOMIZER] Recovered legacy Beast Shard check: " +
-                locationName
+                canonicalName
             );
             return true;
+        }
+
+        private static void WatchForPersistedEnemyDeath(
+            HealthManager healthManager)
+        {
+            if (healthManager == null ||
+                !BeastShardSourceManifest.TryGetEnemyDropLocation(
+                    healthManager,
+                    out string locationName) ||
+                !IsActive(locationName))
+            {
+                return;
+            }
+
+            Action recover = null;
+            recover = delegate
+            {
+                healthManager.StartedDead -= recover;
+                TryRecoverConsumedEnemySource(healthManager);
+            };
+            healthManager.StartedDead += recover;
+
+            if (healthManager.isDead)
+            {
+                recover();
+            }
         }
 
         private static void TryRecoverCompletedFlagSource(
@@ -422,9 +475,14 @@ namespace SilksongRandomizer.Patches
         {
             [HarmonyPostfix]
             [HarmonyPriority(Priority.Last)]
-            private static void Postfix(HealthManager __instance)
+            private static void Postfix(
+                HealthManager __instance,
+                bool __result)
             {
-                TryRecoverConsumedEnemySource(__instance);
+                if (__result)
+                {
+                    WatchForPersistedEnemyDeath(__instance);
+                }
             }
         }
 

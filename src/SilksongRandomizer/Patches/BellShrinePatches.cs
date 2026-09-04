@@ -217,11 +217,11 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPatch(
-            typeof(FullQuestBase),
-            nameof(FullQuestBase.Counters),
-            MethodType.Getter
+            typeof(InventoryItemQuest),
+            nameof(InventoryItemQuest.SetQuest),
+            new Type[] { typeof(BasicQuestBase), typeof(bool) }
         )]
-        private static class JudgeQuestCountersPatch
+        private static class JudgeQuestListSummaryPatch
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
