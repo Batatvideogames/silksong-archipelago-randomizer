@@ -8,6 +8,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
+using GetPlayerDataBoolAction =
+    HutongGames.PlayMaker.Actions.GetPlayerDataBool;
+using PlayerDataBoolTestAction =
+    HutongGames.PlayMaker.Actions.PlayerDataBoolTest;
 
 namespace SilksongRandomizer.Patches
 {
@@ -96,6 +100,125 @@ namespace SilksongRandomizer.Patches
             return ResolveDoubleJumpOwnership(
                 playerData != null && playerData.hasDoubleJump
             );
+        }
+    }
+
+    internal static class HeroController_SprintCloakInteropPatches
+    {
+        private const string SprintFsmName = "Sprint";
+        private const string AirDirectionStateName = "Air Dir";
+        private const string WallJumpCancelStateName = "W JumpCancel";
+
+        private static bool TryResolveAbilityFlag(
+            FsmStateAction action,
+            string stateName,
+            FsmString boolName,
+            out bool value)
+        {
+            value = false;
+            SaveState state = SaveState.Instance;
+            HeroController hero = HeroController.instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null ||
+                !state.IsRandomized(ItemType.Skill) ||
+                action == null ||
+                hero == null ||
+                action.Owner != hero.gameObject ||
+                action.Fsm == null ||
+                !string.Equals(
+                    action.Fsm.Name,
+                    SprintFsmName,
+                    StringComparison.Ordinal) ||
+                action.State == null ||
+                !string.Equals(
+                    action.State.Name,
+                    stateName,
+                    StringComparison.Ordinal) ||
+                boolName == null)
+            {
+                return false;
+            }
+
+            if (string.Equals(
+                    boolName.Value,
+                    nameof(PlayerData.hasBrolly),
+                    StringComparison.Ordinal))
+            {
+                value = HeroControllerAbilityPatchUtil.
+                    ResolveBrollyOwnership(
+                        playerData != null && playerData.hasBrolly
+                    );
+                return true;
+            }
+
+            if (string.Equals(
+                    boolName.Value,
+                    nameof(PlayerData.hasDoubleJump),
+                    StringComparison.Ordinal))
+            {
+                value = HeroControllerAbilityPatchUtil.
+                    ResolveDoubleJumpOwnership(
+                        playerData != null && playerData.hasDoubleJump
+                    );
+                return true;
+            }
+
+            return false;
+        }
+
+        [HarmonyPatch(
+            typeof(GetPlayerDataBoolAction),
+            nameof(GetPlayerDataBoolAction.OnEnter)
+        )]
+        private static class SprintAirDirectionCloakPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(GetPlayerDataBoolAction __instance)
+            {
+                if (__instance?.storeValue == null ||
+                    !TryResolveAbilityFlag(
+                        __instance,
+                        AirDirectionStateName,
+                        __instance.boolName,
+                        out bool value) ||
+                    !string.Equals(
+                        __instance.boolName.Value,
+                        nameof(PlayerData.hasBrolly),
+                        StringComparison.Ordinal))
+                {
+                    return true;
+                }
+
+                __instance.storeValue.Value = value;
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(PlayerDataBoolTestAction),
+            nameof(PlayerDataBoolTestAction.OnEnter)
+        )]
+        private static class SprintWallJumpCancelCloakPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(PlayerDataBoolTestAction __instance)
+            {
+                if (!TryResolveAbilityFlag(
+                        __instance,
+                        WallJumpCancelStateName,
+                        __instance?.boolName,
+                        out bool value))
+                {
+                    return true;
+                }
+
+                __instance.Fsm.Event(
+                    value ? __instance.isTrue : __instance.isFalse
+                );
+                __instance.Finish();
+                return false;
+            }
         }
     }
 

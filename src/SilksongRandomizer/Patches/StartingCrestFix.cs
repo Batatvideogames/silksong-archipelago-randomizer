@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections;
 using UnityEngine;
@@ -60,6 +60,7 @@ namespace SilksongRandomizer.Patches
 
             while (NeedsRepair(PlayerData.instance.CurrentCrestID) &&
                    PlayerData.instance.IsCurrentCrestTemp &&
+                   !NakedTrapManager.IsActive &&
                    !SlabCaptureWarpSafety.IsActiveSlabCaptureCrest(
                        PlayerData.instance))
             {

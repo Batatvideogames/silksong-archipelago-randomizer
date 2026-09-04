@@ -1,11 +1,17 @@
 using HarmonyLib;
 using System;
 using System.Reflection;
+using SetPlayerDataBoolAction =
+    HutongGames.PlayMaker.Actions.SetPlayerDataBool;
 
 namespace SilksongRandomizer.Patches
 {
     internal static class BellShrinePatches
     {
+        private const string GrandGateQuestName =
+            "Grand Gate Bellshrines";
+        private const string ActTwoStartedField = "act2Started";
+
         private sealed class Entry
         {
             internal readonly string SceneName;
@@ -87,6 +93,30 @@ namespace SilksongRandomizer.Patches
 
         private static readonly FieldInfo IsCompleteBoolField =
             AccessTools.Field(typeof(StateChangeSequence), "isCompleteBool");
+
+        [HarmonyPatch(
+            typeof(SetPlayerDataBoolAction),
+            nameof(SetPlayerDataBoolAction.OnEnter)
+        )]
+        private static class ActTwoTitleCardPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(SetPlayerDataBoolAction __instance)
+            {
+                if (__instance?.boolName == null ||
+                    __instance.value == null ||
+                    !__instance.value.Value ||
+                    !string.Equals(
+                        __instance.boolName.Value,
+                        ActTwoStartedField,
+                        StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                ReconcileGrandGateQuest();
+            }
+        }
 
         [HarmonyPatch(typeof(StateChangeSequence), "SetIsCompleteBool")]
         private static class SetIsCompleteBoolPatch
@@ -295,6 +325,34 @@ namespace SilksongRandomizer.Patches
             }
 
             state.CheckLocation(entry.LocationName);
+        }
+
+        internal static void ReconcileGrandGateQuest()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            GameManager gameManager = GameManager.SilentInstance;
+            if (state == null ||
+                !state.IsRoomBound ||
+                !state.IsRandomized(ItemType.BellShrine) ||
+                playerData == null ||
+                !playerData.act2Started ||
+                gameManager == null ||
+                gameManager.profileID < 0)
+            {
+                return;
+            }
+
+            FullQuestBase quest = QuestManager.GetQuest(
+                GrandGateQuestName
+            );
+            if (quest == null || quest.IsAccepted || quest.IsCompleted)
+            {
+                return;
+            }
+
+            quest.BeginQuest(null);
+            gameManager.QueueSaveGame();
         }
 
         private static void ApplyJudgeBellOwnership(

@@ -26,6 +26,7 @@ namespace SilksongRandomizer.Patches
 
             playerData.act2Started = true;
             gameManager.QueueSaveGame();
+            BellShrinePatches.ReconcileGrandGateQuest();
         }
     }
 }

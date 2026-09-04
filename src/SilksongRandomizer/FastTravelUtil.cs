@@ -282,6 +282,7 @@ namespace SilksongRandomizer
                 MossMotherWarpSafety.PrepareForBoneBottomWarp();
             try
             {
+                DeliveryQuestItem.BreakAll();
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,

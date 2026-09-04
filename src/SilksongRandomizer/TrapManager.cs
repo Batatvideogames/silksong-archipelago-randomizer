@@ -430,14 +430,6 @@ namespace SilksongRandomizer
         {
             try
             {
-                if (IsWreathOfPurityEquipped())
-                {
-            // Gameplay.MaggotCharm is the native asset
-                    // for Wreath of Purity. IsEquipped checks the live crest,
-                    // not merely whether the AP item has been received.
-                    return;
-                }
-
                 HeroController hero = HeroController.instance;
                 if (hero == null)
                 {
@@ -445,6 +437,11 @@ namespace SilksongRandomizer
                         "Muckmaggot Status Trap skipped because the hero is " +
                         "not ready"
                     );
+                    return;
+                }
+
+                if (TryUseWreathOfPurity(hero))
+                {
                     return;
                 }
 
@@ -493,7 +490,8 @@ namespace SilksongRandomizer
 
             if (muckmaggotActive)
             {
-                if (IsWreathOfPurityEquipped())
+                HeroController hero = HeroController.instance;
+                if (TryUseWreathOfPurity(hero))
                 {
                     RestoreMuckmaggotStatus();
                 }
@@ -503,7 +501,6 @@ namespace SilksongRandomizer
                 }
                 else
                 {
-                    HeroController hero = HeroController.instance;
                     if (hero != null &&
                         !HeroControllerAbilityPatchUtil.CState(
                             hero,
@@ -1024,6 +1021,20 @@ namespace SilksongRandomizer
         {
             ToolItem wreath = GlobalSettings.Gameplay.MaggotCharm;
             return wreath != null && wreath.IsEquipped;
+        }
+
+        private static bool TryUseWreathOfPurity(HeroController hero)
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (hero == null || playerData == null ||
+                !IsWreathOfPurityEquipped() ||
+                playerData.MaggotCharmHits >= 3)
+            {
+                return false;
+            }
+
+            hero.DidMaggotCharmHit();
+            return true;
         }
 
         private static void TryApplyPendingCursedCrest()

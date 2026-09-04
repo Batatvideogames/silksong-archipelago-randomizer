@@ -15,13 +15,10 @@ namespace SilksongRandomizer.Patches
             "Heart Container Control";
         private const string LooseMaskPickupStateName = "Shift Up?";
         private const string ShellwoodMaskShardSceneName = "Shellwood_14";
-        private const string ShellwoodMaskShardLocationName =
+        private const string ShellwoodMaskShardSourceName =
             "Mask Shard Unlock #4";
         private const string NativeHeartPieceCollectedEvent =
             "HEART PIECE COLLECTED";
-        private const string ShellwoodAmbushObjectName = "Ambush Scene";
-        private const string ShellwoodAmbushFsmName = "Control";
-        private const string ShellwoodAmbushIdleStateName = "Idle";
 
         private struct InventoryState
         {
@@ -240,14 +237,10 @@ namespace SilksongRandomizer.Patches
                 CompleteLooseMaskShardLocation replacement =
                     new CompleteLooseMaskShardLocation(
                         locationName,
-                        string.Equals(
+                        IsShellwoodMaskShardSource(
                             __instance.gameObject.scene.name,
-                            ShellwoodMaskShardSceneName,
-                            StringComparison.Ordinal) &&
-                        string.Equals(
-                            locationName,
-                            ShellwoodMaskShardLocationName,
-                            StringComparison.Ordinal)
+                            locationName
+                        )
                     );
                 replacement.Init(pickupState);
                 pickupState.Actions = new FsmStateAction[]
@@ -282,51 +275,26 @@ namespace SilksongRandomizer.Patches
             return null;
         }
 
-        private static bool TriggerShellwoodAmbush()
+        private static bool IsShellwoodMaskShardSource(
+            string sceneName,
+            string locationName)
         {
-            PlayMakerFSM match = null;
-            foreach (PlayMakerFSM fsm in
-                     Resources.FindObjectsOfTypeAll<PlayMakerFSM>())
-            {
-                if (fsm == null ||
-                    fsm.gameObject == null ||
-                    !fsm.gameObject.activeInHierarchy ||
-                    !fsm.gameObject.scene.IsValid() ||
-                    !string.Equals(
-                        fsm.gameObject.scene.name,
-                        ShellwoodMaskShardSceneName,
-                        StringComparison.Ordinal) ||
-                    !string.Equals(
-                        fsm.gameObject.name,
-                        ShellwoodAmbushObjectName,
-                        StringComparison.Ordinal) ||
-                    !string.Equals(
-                        fsm.FsmName,
-                        ShellwoodAmbushFsmName,
-                        StringComparison.Ordinal) ||
-                    fsm.Fsm == null ||
-                    !string.Equals(
-                        fsm.Fsm.ActiveStateName,
-                        ShellwoodAmbushIdleStateName,
-                        StringComparison.Ordinal))
-                {
-                    continue;
-                }
+            return string.Equals(
+                       sceneName,
+                       ShellwoodMaskShardSceneName,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       locationName,
+                       LocationSet.GetCanonicalLocationName(
+                           ShellwoodMaskShardSourceName
+                       ),
+                       StringComparison.OrdinalIgnoreCase
+                   );
+        }
 
-                if (match != null)
-                {
-                    return false;
-                }
-                match = fsm;
-            }
-
-            if (match == null)
-            {
-                return false;
-            }
-
-            match.SendEvent(NativeHeartPieceCollectedEvent);
-            return true;
+        private static void TriggerShellwoodAmbush()
+        {
+            EventRegister.SendEvent(NativeHeartPieceCollectedEvent);
         }
         private sealed class CompleteLooseMaskShardLocation :
             FsmStateAction

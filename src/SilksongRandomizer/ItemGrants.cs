@@ -633,6 +633,7 @@ namespace SilksongRandomizer
                     upgradedTool,
                     baseTool
                 );
+                upgradedTool.Lock();
             }
             else
             {
@@ -640,6 +641,7 @@ namespace SilksongRandomizer
                     baseTool,
                     upgradedTool
                 );
+                baseTool.Lock();
             }
 
             ToolItemManager manager =

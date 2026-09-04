@@ -64,6 +64,22 @@ namespace SilksongRandomizer.Patches
                    IsAt(activator.transform, CurveclawX, CurveclawY);
         }
 
+        private static bool IsCurveclawFallback(
+            BreakableHolder holder)
+        {
+            return holder != null &&
+                   holder.gameObject != null &&
+                   string.Equals(
+                       holder.gameObject.scene.name,
+                       CurveclawScene,
+                       StringComparison.OrdinalIgnoreCase) &&
+                   string.Equals(
+                       holder.gameObject.name,
+                       CurveclawObject,
+                       StringComparison.Ordinal) &&
+                   IsAt(holder.transform, CurveclawX, CurveclawY);
+        }
+
         private static bool IsFracturedMaskFallback(
             CollectableItemPickup pickup)
         {
@@ -121,6 +137,24 @@ namespace SilksongRandomizer.Patches
                     deactivate.SetActive(!isChecked);
                 }
                 return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(BreakableHolder), "SetBroken")]
+        private static class CurveclawBreakPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(BreakableHolder __instance)
+            {
+                SaveState state = SaveState.Instance;
+                if (!IsActiveLocation(state, CurveclawLocation) ||
+                    state.IsLocationChecked(CurveclawLocation) ||
+                    !IsCurveclawFallback(__instance))
+                {
+                    return;
+                }
+
+                state.CheckLocation(CurveclawLocation);
             }
         }
 
