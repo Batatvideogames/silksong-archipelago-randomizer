@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
@@ -26,6 +27,14 @@ namespace SilksongRandomizer.Patches
 
         [ThreadStatic]
         private static string activeSilkeaterLocation;
+
+        private static readonly ConditionalWeakTable<
+            PersistentBoolItem,
+            CollectibleSourceManifest.CocoonEntry>
+                SilkeaterCocoonByPersistence =
+                    new ConditionalWeakTable<
+                        PersistentBoolItem,
+                        CollectibleSourceManifest.CocoonEntry>();
 
         private static readonly Dictionary<string, ArchipelagoSourceItem>
             ProxyByLocation =
@@ -652,6 +661,71 @@ namespace SilksongRandomizer.Patches
             {
                 activeSilkeaterLocation = __state.PreviousLocation;
                 return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(SilkGrubCocoon), "Awake")]
+        private static class SilkeaterCocoonPersistenceIdentityPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(
+                SilkGrubCocoon __instance,
+                PersistentBoolItem ___persistent)
+            {
+                if (__instance == null || ___persistent == null)
+                {
+                    return;
+                }
+
+                CollectibleSourceManifest.CocoonEntry entry =
+                    CollectibleSourceManifest.FindSilkeaterCocoon(
+                        __instance.gameObject.scene.name,
+                        __instance.gameObject.name,
+                        __instance.transform.position
+                    );
+                if (entry == null)
+                {
+                    return;
+                }
+
+                SilkeaterCocoonByPersistence.Remove(___persistent);
+                SilkeaterCocoonByPersistence.Add(___persistent, entry);
+            }
+        }
+
+        [HarmonyPatch(typeof(PersistentBoolItem), "TryGetValue")]
+        private static class SilkeaterCocoonPersistenceLoadPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(
+                PersistentBoolItem __instance,
+                ref PersistentItemData<bool> newItemData,
+                ref bool __result)
+            {
+                if (__instance == null ||
+                    newItemData == null ||
+                    !SilkeaterCocoonByPersistence.TryGetValue(
+                        __instance,
+                        out CollectibleSourceManifest.CocoonEntry entry
+                    ))
+                {
+                    return;
+                }
+
+                SaveState state = SaveState.Instance;
+                if (!IsActive(
+                        state,
+                        entry.LocationName,
+                        ItemType.Silkeater))
+                {
+                    return;
+                }
+
+                newItemData.Value =
+                    state.IsLocationChecked(entry.LocationName);
+                __result = true;
             }
         }
 

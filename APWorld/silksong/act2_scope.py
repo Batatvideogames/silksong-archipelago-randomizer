@@ -52,9 +52,14 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "The Abyss - Shell Shard Cache #8",
         "The Abyss - Shell Shard Cache #9",
         "Far Fields - Rosary Cache #19",
+        "Boss: Skarrsinger Karmelita",
+        "Boss: Crust King Khann",
+        "Boss: Nyleth",
+        "Boss: Tormented Trobbio",
         "Boss: Gurr the Outcast",
         "Boss: Clover Dancers",
         "Boss: Palestag",
+        "Dark Mirror",
         "The Hidden Hunter - Mask Shard",
         "Dark Hearts - Mask Shard",
         "The Cradle - Silkeater",
@@ -122,6 +127,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Map: Verdania": 1,
     },
     "Relic": {"Relic: Arcane Egg": 1},
+    "Tool": {"Progressive Claw Mirror": 1},
     "MaskShard": {
         "Mask Shard #18": 1,
         "Mask Shard #19": 1,
@@ -132,8 +138,8 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
-        "Rosaries (60)": 2,
-        "Shell Shards (80)": 1,
+        "Rosaries (60)": 4,
+        "Shell Shards (80)": 3,
     },
     "Quest": {
         "Rosaries (60)": 1,

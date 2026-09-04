@@ -672,6 +672,11 @@ namespace SilksongRandomizer
             LoreTabletPatches.UpdateInactiveSources();
             ProcessConnectionStatusQueue();
             ProcessAutomaticReconnectRequest();
+            Archipelago archipelago = Archipelago.Instance;
+            if (archipelago != null && archipelago.ProcessCheckedLocations())
+            {
+                CheckMapMarkerManager.RequestCurrentMarkerStateRefresh();
+            }
             Archipelago.Instance?.ProcessReceivedItems();
             ProcessQueuedReceivedItems();
             BeastlingCallAct3Safety.Update();

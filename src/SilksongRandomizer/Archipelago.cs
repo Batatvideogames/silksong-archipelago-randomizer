@@ -229,6 +229,7 @@ namespace SilksongRandomizer
         private bool goalStatusPending;
         private volatile bool sessionReady;
         private int receivedItemsRefreshRequested;
+        private int checkedLocationsRefreshRequested;
 
         public Archipelago(string gameName = "Hollow Knight: Silksong")
         {
@@ -1061,6 +1062,48 @@ namespace SilksongRandomizer
             }
         }
 
+        public bool ProcessCheckedLocations()
+        {
+            if (Volatile.Read(ref checkedLocationsRefreshRequested) == 0)
+            {
+                return false;
+            }
+
+            SaveState saveState = SaveState.Instance;
+            if (saveState == null || !Connected ||
+                (saveState.IsRoomBound && !saveState.MatchesRoom(this)))
+            {
+                return false;
+            }
+
+            if (Interlocked.Exchange(
+                    ref checkedLocationsRefreshRequested,
+                    0
+                ) == 0)
+            {
+                return false;
+            }
+
+            string[] serverChecks;
+            lock (stateLock)
+            {
+                serverChecks = unlockedLocationNames.ToArray();
+            }
+
+            bool changed = false;
+            foreach (string locationName in serverChecks)
+            {
+                string canonicalName =
+                    LocationSet.GetCanonicalLocationName(locationName);
+                if (!string.IsNullOrWhiteSpace(canonicalName))
+                {
+                    changed |= saveState.checkedLocations.Add(canonicalName);
+                }
+            }
+
+            return changed;
+        }
+
         public void ProcessReceivedItems()
         {
             if (Interlocked.Exchange(
@@ -1278,6 +1321,7 @@ namespace SilksongRandomizer
                 socketErrorHandler = null;
             }
             Interlocked.Exchange(ref receivedItemsRefreshRequested, 0);
+            Interlocked.Exchange(ref checkedLocationsRefreshRequested, 0);
 
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
@@ -1439,6 +1483,11 @@ namespace SilksongRandomizer
             }
         }
 
+        private void RequestCheckedLocationsRefresh()
+        {
+            Interlocked.Exchange(ref checkedLocationsRefreshRequested, 1);
+        }
+
         private void RequestReceivedItemsRefresh()
         {
             Interlocked.Exchange(ref receivedItemsRefreshRequested, 1);
@@ -1551,6 +1600,8 @@ namespace SilksongRandomizer
                 );
                 MarkLocationUnlocked(locationName, locationId);
             }
+
+            RequestCheckedLocationsRefresh();
         }
 
         private void CaptureRoomLocations(

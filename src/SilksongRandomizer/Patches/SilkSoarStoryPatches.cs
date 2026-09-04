@@ -175,7 +175,6 @@ namespace SilksongRandomizer.Patches
                         ),
                 };
                 playerData.hasSuperJump =
-                    state.canSilkSoar &&
                     playerData.BallowMovedToDivingBell;
             }
 
@@ -229,7 +228,8 @@ namespace SilksongRandomizer.Patches
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump =
+                    playerData.BallowMovedToDivingBell;
             }
 
             [HarmonyFinalizer]
@@ -278,7 +278,8 @@ namespace SilksongRandomizer.Patches
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump =
+                    playerData.BallowMovedToDivingBell;
             }
 
             [HarmonyFinalizer]
@@ -326,7 +327,8 @@ namespace SilksongRandomizer.Patches
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump =
+                    playerData.BallowMovedToDivingBell;
             }
 
             [HarmonyFinalizer]
