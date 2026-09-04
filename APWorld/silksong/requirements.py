@@ -3268,6 +3268,11 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         1,
         'Deep Docks - Lower',
         'Ancestral Art: Clawline',
+        any_of=(
+            'Ancestral Art: Cling Grip',
+            USABLE_SCUTTLEBRACE_REQUIREMENT,
+            'Ancestral Art: Silk Soar',
+        ),
     )),
 
     # Far Fields
@@ -4663,6 +4668,10 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Outlying Citadel - Memorium',
         'Ability: Faydown Cloak',
         'Ancestral Art: Clawline',
+        any_of=(
+            'Ancestral Art: Cling Grip',
+            USABLE_SCUTTLEBRACE_REQUIREMENT,
+        ),
     )),
     *(
         ('Spool Fragment: Grindle (Blasted Steps)', requirement)
