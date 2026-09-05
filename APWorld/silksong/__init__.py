@@ -125,7 +125,11 @@ from .requirements import (
     is_logic_unknown_location,
     normalize_trails_end_requirement,
 )
-from .wish_events import WISH_LOGIC_EVENTS
+from .wish_events import (
+    SILK_AND_SOUL_FULL_POINT_EVENTS,
+    SILK_AND_SOUL_HALF_POINT_EVENTS,
+    WISH_LOGIC_EVENTS,
+)
 from .rules import (
     enforce_global_shuffle_item_rules,
     finalize_crest_slot_memory_locket_logic,
@@ -837,6 +841,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             placement_category,
         )
 
+    def get_filler_item_name(self) -> str:
+        return OPTIONAL_START_REPLACEMENT_ITEM
+
     def is_rosary_bank_key_progression_enabled(self) -> bool:
         return True
 
@@ -1328,7 +1335,20 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._silksong_wish_logic_event_anchors = {}
         excluded_location_names = self.get_goal_excluded_location_names()
         for event in WISH_LOGIC_EVENTS:
+            if (
+                (self.is_act_one_content_scope() or self.is_act_two_content_scope())
+                and event in (
+                    *SILK_AND_SOUL_FULL_POINT_EVENTS,
+                    *SILK_AND_SOUL_HALF_POINT_EVENTS,
+                )
+            ):
+                continue
             if event.source_region:
+                if (
+                    event.source_region == "Event: Balm for the Wounded Completed"
+                    and "Wish: Balm for the Wounded" in excluded_location_names
+                ):
+                    continue
                 parent_region = native_regions.get(event.source_region)
                 if parent_region is None:
                     continue
@@ -1786,6 +1806,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.get_enemy_shard_multiplier_key(),
             "purchase_prices": purchase_prices,
             "faster_dialogue": self.is_faster_dialogue_enabled(),
+            "faster_silkheart_animation":
+                bool(self.options.faster_silkheart_animation.value),
             "death_link": self.is_death_link_enabled(),
             "death_link_cocoon": self.get_death_link_cocoon_key(),
             "silk_link": self.is_silk_link_enabled(),

@@ -922,10 +922,11 @@ _EXTERNAL_BOUNDARY_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "grand-gate/grand-elevator#top": (
         _part("Event: Act 2 Started", "Event: Last Judge Defeated"),
     ),
-    # The missing lower Greymoor transition enters the bottom of the Wisp bench
-    # room.
-    "whisp-thicket/wisp-thicket-bench#bottom": (
-        _part("Path: Greymoor - Wisp Thicket"),
+    "greymoor/greymoor-bellway#bellway": (
+        _part("Path: Bellway - Greymoor"),
+    ),
+    "greymoor/greymoor-03#bottom": (
+        _part("Path: Greymoor - Halfway House"),
     ),
     "bilewater/exhaust-organ-external#left-platform": (
         _part("Path: Bilewater - Exhaust Organ"),
@@ -1019,6 +1020,27 @@ _TRANSITION_EXTRA_REQUIREMENTS: Mapping[
         ),
     ),
 }
+
+_CONNECTION_REQUIREMENT_OVERRIDES: Mapping[
+    str, tuple[CompiledRoomClause, ...]
+] = {
+    (
+        "far-fields/far-fields-pinstress-attic"
+        "#bottom-left-area>upper-right-area@d1"
+    ): (
+        _part(
+            "Ability: Drifter's Cloak",
+            "Ancestral Art: Cling Grip",
+        ),
+        _part(
+            "Ability: Drifter's Cloak",
+            "Usable Scuttlebrace",
+            "Swift Step",
+        ),
+        _part("Ancestral Art: Silk Soar"),
+    ),
+}
+
 
 
 # Dust_02 is missing its free downward route from the top opening. The y=93
@@ -1602,13 +1624,26 @@ def compile_room_graph() -> CompiledRoomGraph:
             structural_edges.append(
                 (connection.source_node_id, connection.target_node_id)
             )
+            connection_requirements = (
+                _CONNECTION_REQUIREMENT_OVERRIDES.get(connection.id)
+            )
+            if connection_requirements is None:
+                connection_requirements = _compile_spec(
+                    connection.requirement,
+                    room_node_name(connection.source_node_id),
+                )
+            else:
+                connection_requirements = tuple(
+                    _merge(
+                        _part(room_node_name(connection.source_node_id)),
+                        requirement,
+                    )
+                    for requirement in connection_requirements
+                )
             _append_requirements(
                 node_requirements,
                 room_node_name(connection.target_node_id),
-                _compile_spec(
-                    connection.requirement,
-                    room_node_name(connection.source_node_id),
-                ),
+                connection_requirements,
             )
 
     for source, target, requirements in _CURATED_EDGES:

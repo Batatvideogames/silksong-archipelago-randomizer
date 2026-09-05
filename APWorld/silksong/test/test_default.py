@@ -9,6 +9,11 @@ from test.general import setup_multiworld
 
 from .. import LOGIC_UNKNOWN_REGION_NAME, SilksongWorld
 from .. import category_fill, rules
+from ..act1_scope import ACT_ONE_EXCLUDED_LOCATION_NAMES
+from ..act2_scope import (
+    ACT_THREE_ONLY_GOAL_LOCATION_NAMES,
+    ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY,
+)
 from ..items import QUEST_FILLER_COUNTS
 from ..locations import (
     COURIER_DELIVERY_WISH_LOCATION_NAMES,
@@ -163,6 +168,74 @@ class TestDefaultWorld(SilksongTestBase):
                 self.assertTrue(
                     self.multiworld.get_location(name, self.player).can_reach(state)
                 )
+
+    def test_cogwork_core_pristine_core_requires_act_three(self) -> None:
+        name = "Cogwork Core - Pristine Core"
+        requirements = REQUIREMENTS[name]
+        arena_event = (
+            "Room Event: cogwork-core/"
+            "cogwork-core-east-silk-spool-gauntlet/beat-arena"
+        )
+
+        self.assertTrue(requirements)
+        self.assertTrue(all(
+            {"Act: 3", arena_event} <= set(requirement.all_of)
+            for requirement in requirements
+        ))
+        self.assertIn(name, ACT_ONE_EXCLUDED_LOCATION_NAMES)
+        self.assertIn(name, ACT_THREE_ONLY_GOAL_LOCATION_NAMES)
+        self.assertEqual(
+            {"Pristine Core": 1},
+            ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY[
+                "Resource:pristine_core"
+            ],
+        )
+
+    def test_far_fields_attic_caches_share_movement_gate(self) -> None:
+        source = (
+            "Room Node: far-fields/far-fields-pinstress-attic"
+            "#bottom-left-area"
+        )
+        target = (
+            "Room Node: far-fields/far-fields-pinstress-attic"
+            "#upper-right-area"
+        )
+        clauses = tuple(
+            clause
+            for clause in COMPILED_ROOM_GRAPH.node_requirements[target]
+            if source in clause.all_of
+        )
+        signatures = {
+            frozenset(set(clause.all_of) - {source})
+            for clause in clauses
+        }
+
+        self.assertEqual(
+            {
+                frozenset({
+                    "Ability: Drifter's Cloak",
+                    "Ancestral Art: Cling Grip",
+                }),
+                frozenset({
+                    "Ability: Drifter's Cloak",
+                    "Usable Scuttlebrace",
+                    "Swift Step",
+                }),
+                frozenset({"Ancestral Art: Silk Soar"}),
+            },
+            signatures,
+        )
+        for name in (
+            "Far Fields - Rosary Cache #3",
+            "Far Fields - Rosary Cache #4",
+        ):
+            requirements = REQUIREMENTS[name]
+            self.assertTrue(requirements)
+            self.assertTrue(all(
+                target in requirement.all_of
+                for requirement in requirements
+            ))
+
 
     def test_randomized_scrounge_relics_are_progression(self) -> None:
         for item_name in SCROUNGE_RELIC_ITEM_NAMES:
@@ -483,7 +556,12 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
                     self.multiworld.get_location(name, self.player)
 
     def test_citadel_checks_stay_out_of_act_one(self) -> None:
-        prefixes = ("choral-chambers/", "underworks/", "grand-gate/")
+        prefixes = (
+            "choral-chambers/",
+            "cogwork-core/",
+            "underworks/",
+            "grand-gate/",
+        )
         for location in self.multiworld.get_locations(self.player):
             source_ids = COMPILED_ROOM_GRAPH.check_source_ids.get(
                 location.name,

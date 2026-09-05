@@ -19,10 +19,13 @@ from .lore_tablets import (
 ACT_TWO_GOAL_KEY = "act_2"
 CURSED_ENDING_GOAL_KEY = "cursed_ending"
 
-# Fatal Resolve cannot be finished before Act 3 changes Pinstress. Keep it out
-# of Act 1, Act 2 and Cursed Ending. Flea Hunt is not tied to an act.
+# These sources cannot be completed before Act 3. Keep them out of Act 1,
+# Act 2 and Cursed Ending. Flea Hunt is not tied to an act.
 ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
-    ("Wish: Fatal Resolve",)
+    (
+        "Cogwork Core - Pristine Core",
+        "Wish: Fatal Resolve",
+    )
 )
 
 # Canonical AP locations whose physical sources are unavailable before the
@@ -127,6 +130,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Map: Verdania": 1,
     },
     "Relic": {"Relic: Arcane Egg": 1},
+    "Resource:pristine_core": {"Pristine Core": 1},
     "Tool": {"Progressive Claw Mirror": 1},
     "MaskShard": {
         "Mask Shard #18": 1,

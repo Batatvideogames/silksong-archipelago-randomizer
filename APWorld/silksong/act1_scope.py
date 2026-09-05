@@ -180,6 +180,17 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Wisp Thicket - Shell Shard Cache #7",
         "Deep Docks Church - Shell Shard Chest",
         "Deep Docks - Forge Note",
+        "Conchcutter",
+        "Flea: Bilehaven",
+        "Putrified Ducts - Frayed Rosary String",
+        "Bilewater - Frayed Rosary String",
+        "Bilewater - Rosary Cache #3",
+        "Bilewater - Shell Shard Cache #1",
+        "Bilewater - Shell Shard Cache #2",
+        "Bilewater - Shell Shard Cache #3",
+        "Bilewater - Shell Shard Cache #4",
+        "Sands of Karak East Bench - Simple Key",
+        "Sands of Karak - Upper Coral Tablet",
     )
 )
 

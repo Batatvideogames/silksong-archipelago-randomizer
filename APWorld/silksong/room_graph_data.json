@@ -34542,9 +34542,12 @@
           "canonical_mapping_confidence": "curated",
           "node_id": "shellwood/shellwood-14#room",
           "requirement": {
-            "raw": "Dash OR Clawline OR Faydown Cloak OR Drifters Cloak OR Beast Crest",
+            "raw": "Ledge Grab OR Dash OR Clawline OR Faydown Cloak OR Drifters Cloak OR Beast Crest",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
               [
                 "macro:progressive-swift-step-full"
               ],
@@ -44898,11 +44901,11 @@
           "name": "bot1",
           "source_node_id": "whisp-thicket/wisp-thicket-bench#bottom",
           "target": {
-            "raw": "TODO",
-            "room_id": null,
-            "alias": null,
-            "port_id": null,
-            "label": null
+            "raw": "Greymoor_06 WT",
+            "room_id": "greymoor/greymoor-06",
+            "alias": "WT",
+            "port_id": "greymoor/greymoor-06@wt",
+            "label": "Greymoor_06"
           },
           "requirement": {
             "raw": "none",
@@ -44920,17 +44923,15 @@
             "alias": "B",
             "name": "bot1",
             "fromsubroom": "Bottom",
-            "destination": "TODO",
-            "destinationalias": "",
+            "destination": "Greymoor_06",
+            "destinationalias": "WT",
             "requirements": "none",
             "todo": "",
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "transition destination is not a resolved room/alias reference"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         }
       ],
       "connections": [
@@ -56924,11 +56925,11 @@
                 "item:silk-soar"
               ],
               [
-                "macro:crest-pogo",
+                "macro:any-crest",
                 "capability:swim"
               ],
               [
-                "macro:crest-pogo",
+                "macro:any-crest",
                 "capability:ledge-grab"
               ]
             ],
@@ -57263,11 +57264,11 @@
           "name": "left",
           "source_node_id": "sinner-s-road/sinner-s-road-entrance#room",
           "target": {
-            "raw": "[Greymoor Halfway House Exterior](../greymoor/greymoor-halfway-house-exterior.md)",
-            "room_id": "greymoor/greymoor-halfway-house-exterior",
-            "alias": "UR",
-            "port_id": "greymoor/greymoor-halfway-house-exterior@ur",
-            "label": "Greymoor Halfway House Exterior"
+            "raw": "Greymoor_03 TR",
+            "room_id": "greymoor/greymoor-03",
+            "alias": "TR",
+            "port_id": "greymoor/greymoor-03@tr",
+            "label": "Greymoor_03"
           },
           "requirement": {
             "raw": "ledge grab",
@@ -57287,17 +57288,15 @@
             "alias": "L",
             "name": "left",
             "fromsubroom": "",
-            "destination": "[Greymoor Halfway House Exterior](../greymoor/greymoor-halfway-house-exterior.md)",
-            "destinationalias": "UR",
+            "destination": "Greymoor_03",
+            "destinationalias": "TR",
             "requirements": "ledge grab OR cling grip",
             "todo": "",
             "verification": "",
             "notes": ""
           },
-          "unresolved_reasons": [
-            "target room is outside the imported production graph"
-          ],
-          "logic_status": "unresolved"
+          "unresolved_reasons": [],
+          "logic_status": "active"
         },
         {
           "id": "sinner-s-road/sinner-s-road-entrance@r",
@@ -58637,7 +58636,7 @@
                 "item:faydown-cloak"
               ],
               [
-                "macro:crest-pogo",
+                "macro:any-crest",
                 "item:drifters-cloak"
               ],
               [
@@ -58970,7 +58969,7 @@
               ],
               [
                 "item:drifters-cloak",
-                "macro:crest-pogo"
+                "macro:any-crest"
               ],
               [
                 "item:sharpdart",
@@ -103172,10 +103171,12 @@
             "label": "Bilewater Weavenest Murglin (Shadow_Weavehome)"
           },
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "Needolin",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:needolin"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -103189,7 +103190,7 @@
             "fromsubroom": "floor",
             "destination": "[Bilewater Weavenest Murglin (Shadow_Weavehome)](bilewater-weavenest-murglin.md)",
             "destinationalias": "L",
-            "requirements": "none",
+            "requirements": "Needolin",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -157612,6 +157613,1369 @@
           "logic_status": "active"
         }
       ],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-bellway",
+      "area_id": "greymoor",
+      "name": "Greymoor Bellway (Bellway_04)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-bellway#bellway",
+          "name": "Bellway",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-bellway@ul",
+          "alias": "UL",
+          "name": "UL",
+          "source_node_id": "greymoor/greymoor-bellway#bellway",
+          "target": {
+            "raw": "Greymoor_05 BR",
+            "room_id": "greymoor/greymoor-05",
+            "alias": "BR",
+            "port_id": "greymoor/greymoor-05@br",
+            "label": "Greymoor_05"
+          },
+          "requirement": {
+            "raw": "Cling Grip or Ledge Grab or Silk Soar or Faydown Cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "UL",
+            "fromsubroom": "Bellway",
+            "destination": "Greymoor_05",
+            "destinationalias": "BR",
+            "requirements": "Cling Grip or Ledge Grab or Silk Soar or Faydown Cloak"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-bellway@bl",
+          "alias": "BL",
+          "name": "BL",
+          "source_node_id": "greymoor/greymoor-bellway#bellway",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BL",
+            "fromsubroom": "Bellway",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        }
+      ],
+      "connections": [],
+      "events": [],
+      "checks": [
+        {
+          "id": "greymoor/greymoor-bellway::check/greymoor-bellway",
+          "label": "Greymoor Bellway",
+          "canonical_location": "Greymoor - Bellway",
+          "canonical_mapping_confidence": "exact",
+          "node_id": "greymoor/greymoor-bellway#bellway",
+          "requirement": {
+            "raw": "Rosaries",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "Rosaries are farmable.",
+          "currently_randomized": true,
+          "source_line": 0,
+          "raw_cells": {
+            "name": "Greymoor Bellway",
+            "subroom": "Bellway",
+            "requirements": "Rosaries"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-05",
+      "area_id": "greymoor",
+      "name": "Greymoor 05 (Greymoor_05)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-05#room",
+          "name": "Room",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-05@br",
+          "alias": "BR",
+          "name": "BR",
+          "source_node_id": "greymoor/greymoor-05#room",
+          "target": {
+            "raw": "Bellway_04 UL",
+            "room_id": "greymoor/greymoor-bellway",
+            "alias": "UL",
+            "port_id": "greymoor/greymoor-bellway@ul",
+            "label": "Bellway_04"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BR",
+            "fromsubroom": "Room",
+            "destination": "Bellway_04",
+            "destinationalias": "UL",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-05@ur",
+          "alias": "UR",
+          "name": "UR",
+          "source_node_id": "greymoor/greymoor-05#room",
+          "target": {
+            "raw": "Greymoor_04 BL",
+            "room_id": "greymoor/greymoor-04",
+            "alias": "BL",
+            "port_id": "greymoor/greymoor-04@bl",
+            "label": "Greymoor_04"
+          },
+          "requirement": {
+            "raw": "Ledge Grab or Cling Grip or Faydown Cloak or Silk Soar",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "UR",
+            "fromsubroom": "Room",
+            "destination": "Greymoor_04",
+            "destinationalias": "BL",
+            "requirements": "Ledge Grab or Cling Grip or Faydown Cloak or Silk Soar"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-05@bl",
+          "alias": "BL",
+          "name": "BL",
+          "source_node_id": "greymoor/greymoor-05#room",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BL",
+            "fromsubroom": "Room",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-05@ul",
+          "alias": "UL",
+          "name": "UL",
+          "source_node_id": "greymoor/greymoor-05#room",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "UL",
+            "fromsubroom": "Room",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        }
+      ],
+      "connections": [],
+      "events": [],
+      "checks": [],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-04",
+      "area_id": "greymoor",
+      "name": "Greymoor 04 (Greymoor_04)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-04#bottom",
+          "name": "Bottom",
+          "declared": true
+        },
+        {
+          "id": "greymoor/greymoor-04#mid",
+          "name": "Mid",
+          "declared": true
+        },
+        {
+          "id": "greymoor/greymoor-04#top",
+          "name": "Top",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-04@bl",
+          "alias": "BL",
+          "name": "BL",
+          "source_node_id": "greymoor/greymoor-04#bottom",
+          "target": {
+            "raw": "Greymoor_05 UR",
+            "room_id": "greymoor/greymoor-05",
+            "alias": "UR",
+            "port_id": "greymoor/greymoor-05@ur",
+            "label": "Greymoor_05"
+          },
+          "requirement": {
+            "raw": "Gauntlet",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:greymoor/greymoor-04/gauntlet-cleared"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BL",
+            "fromsubroom": "Bottom",
+            "destination": "Greymoor_05",
+            "destinationalias": "UR",
+            "requirements": "Gauntlet"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04@br",
+          "alias": "BR",
+          "name": "BR",
+          "source_node_id": "greymoor/greymoor-04#bottom",
+          "target": {
+            "raw": "Greymoor_03 BL",
+            "room_id": "greymoor/greymoor-03",
+            "alias": "BL",
+            "port_id": "greymoor/greymoor-03@bl",
+            "label": "Greymoor_03"
+          },
+          "requirement": {
+            "raw": "Gauntlet",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:greymoor/greymoor-04/gauntlet-cleared"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BR",
+            "fromsubroom": "Bottom",
+            "destination": "Greymoor_03",
+            "destinationalias": "BL",
+            "requirements": "Gauntlet"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04@ml",
+          "alias": "ML",
+          "name": "ML",
+          "source_node_id": "greymoor/greymoor-04#mid",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "ML",
+            "fromsubroom": "Mid",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-04@mr",
+          "alias": "MR",
+          "name": "MR",
+          "source_node_id": "greymoor/greymoor-04#mid",
+          "target": {
+            "raw": "Greymoor_03 ML",
+            "room_id": "greymoor/greymoor-03",
+            "alias": "ML",
+            "port_id": "greymoor/greymoor-03@ml",
+            "label": "Greymoor_03"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "MR",
+            "fromsubroom": "Mid",
+            "destination": "Greymoor_03",
+            "destinationalias": "ML",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04@tl",
+          "alias": "TL",
+          "name": "TL",
+          "source_node_id": "greymoor/greymoor-04#top",
+          "target": {
+            "raw": "Greymoor_11 R",
+            "room_id": "greymoor/greymoor-11",
+            "alias": "R",
+            "port_id": "greymoor/greymoor-11@r",
+            "label": "Greymoor_11"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "TL",
+            "fromsubroom": "Top",
+            "destination": "Greymoor_11",
+            "destinationalias": "R",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "greymoor/greymoor-04#bottom>mid@bm",
+          "alias": "BM",
+          "name": "Bottom to Mid",
+          "source_node_id": "greymoor/greymoor-04#bottom",
+          "target_node_id": "greymoor/greymoor-04#mid",
+          "requirement": {
+            "raw": "Silk Soar or (Cling Grip and (Ledge Grab or Faydown Cloak))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "Includes the provisional detour through the adjacent unmapped room.",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Bottom",
+            "tosubroom": "Mid",
+            "requirements": "Silk Soar or (Cling Grip and (Ledge Grab or Faydown Cloak))"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04#mid>bottom@mb",
+          "alias": "MB",
+          "name": "Mid to Bottom",
+          "source_node_id": "greymoor/greymoor-04#mid",
+          "target_node_id": "greymoor/greymoor-04#bottom",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Mid",
+            "tosubroom": "Bottom",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04#mid>top@mt",
+          "alias": "MT",
+          "name": "Mid to Top",
+          "source_node_id": "greymoor/greymoor-04#mid",
+          "target_node_id": "greymoor/greymoor-04#top",
+          "requirement": {
+            "raw": "Silk Soar or (Cling Grip and Faydown Cloak and Drifter's Cloak)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:drifters-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Mid",
+            "tosubroom": "Top",
+            "requirements": "Silk Soar or (Cling Grip and Faydown Cloak and Drifter's Cloak)"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-04#top>mid@tm",
+          "alias": "TM",
+          "name": "Top to Mid",
+          "source_node_id": "greymoor/greymoor-04#top",
+          "target_node_id": "greymoor/greymoor-04#mid",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Top",
+            "tosubroom": "Mid",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "events": [
+        {
+          "id": "event:greymoor/greymoor-04/gauntlet-cleared",
+          "label": "Gauntlet cleared",
+          "kind": "event",
+          "node_id": "greymoor/greymoor-04#bottom",
+          "requirement": {
+            "raw": "Ordinary combat",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:any-crest"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "name": "Gauntlet cleared",
+            "subroom": "Bottom",
+            "requirements": "Ordinary combat"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "checks": [],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-11",
+      "area_id": "greymoor",
+      "name": "Greymoor 11 (Greymoor_11)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-11#room",
+          "name": "Room",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-11@l",
+          "alias": "L",
+          "name": "L",
+          "source_node_id": "greymoor/greymoor-11#room",
+          "target": {
+            "raw": "Greymoor_06 WR",
+            "room_id": "greymoor/greymoor-06",
+            "alias": "WR",
+            "port_id": "greymoor/greymoor-06@wr",
+            "label": "Greymoor_06"
+          },
+          "requirement": {
+            "raw": "Cling Grip and Drifter's Cloak; ordinary pogos",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "macro:any-crest"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "L",
+            "fromsubroom": "Room",
+            "destination": "Greymoor_06",
+            "destinationalias": "WR",
+            "requirements": "Cling Grip and Drifter's Cloak; ordinary pogos"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-11@r",
+          "alias": "R",
+          "name": "R",
+          "source_node_id": "greymoor/greymoor-11#room",
+          "target": {
+            "raw": "Greymoor_04 TL",
+            "room_id": "greymoor/greymoor-04",
+            "alias": "TL",
+            "port_id": "greymoor/greymoor-04@tl",
+            "label": "Greymoor_04"
+          },
+          "requirement": {
+            "raw": "Ordinary pogos",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:any-crest"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "R",
+            "fromsubroom": "Room",
+            "destination": "Greymoor_04",
+            "destinationalias": "TL",
+            "requirements": "Ordinary pogos"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "connections": [],
+      "events": [],
+      "checks": [],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-06",
+      "area_id": "greymoor",
+      "name": "Greymoor 06 (Greymoor_06)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-06#wisp-thicket",
+          "name": "Wisp Thicket",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-06@wt",
+          "alias": "WT",
+          "name": "WT",
+          "source_node_id": "greymoor/greymoor-06#wisp-thicket",
+          "target": {
+            "raw": "Wisp_04 B",
+            "room_id": "whisp-thicket/wisp-thicket-bench",
+            "alias": "B",
+            "port_id": "whisp-thicket/wisp-thicket-bench@b",
+            "label": "Wisp_04"
+          },
+          "requirement": {
+            "raw": "Faydown Cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "WT",
+            "fromsubroom": "Wisp Thicket",
+            "destination": "Wisp_04",
+            "destinationalias": "B",
+            "requirements": "Faydown Cloak"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-06@wr",
+          "alias": "WR",
+          "name": "WR",
+          "source_node_id": "greymoor/greymoor-06#wisp-thicket",
+          "target": {
+            "raw": "Greymoor_11 L",
+            "room_id": "greymoor/greymoor-11",
+            "alias": "L",
+            "port_id": "greymoor/greymoor-11@l",
+            "label": "Greymoor_11"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "WR",
+            "fromsubroom": "Wisp Thicket",
+            "destination": "Greymoor_11",
+            "destinationalias": "L",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-06@ul",
+          "alias": "UL",
+          "name": "UL",
+          "source_node_id": null,
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "UL",
+            "fromsubroom": "TODO",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-06@ur",
+          "alias": "UR",
+          "name": "UR",
+          "source_node_id": null,
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "UR",
+            "fromsubroom": "TODO",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-06@mr",
+          "alias": "MR",
+          "name": "MR",
+          "source_node_id": null,
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "MR",
+            "fromsubroom": "TODO",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-06@bl",
+          "alias": "BL",
+          "name": "BL",
+          "source_node_id": null,
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BL",
+            "fromsubroom": "TODO",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-06@br",
+          "alias": "BR",
+          "name": "BR",
+          "source_node_id": null,
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BR",
+            "fromsubroom": "TODO",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        }
+      ],
+      "connections": [],
+      "events": [],
+      "checks": [],
+      "omitted_check_rows": []
+    },
+    {
+      "id": "greymoor/greymoor-03",
+      "area_id": "greymoor",
+      "name": "Greymoor 03 (Greymoor_03)",
+      "source_file": "",
+      "source_sha256": "",
+      "geometry_act_independent": true,
+      "notes": "",
+      "nodes": [
+        {
+          "id": "greymoor/greymoor-03#bottom",
+          "name": "Bottom",
+          "declared": true
+        },
+        {
+          "id": "greymoor/greymoor-03#top",
+          "name": "Top",
+          "declared": true
+        }
+      ],
+      "transitions": [
+        {
+          "id": "greymoor/greymoor-03@bl",
+          "alias": "BL",
+          "name": "BL",
+          "source_node_id": "greymoor/greymoor-03#bottom",
+          "target": {
+            "raw": "Greymoor_04 BR",
+            "room_id": "greymoor/greymoor-04",
+            "alias": "BR",
+            "port_id": "greymoor/greymoor-04@br",
+            "label": "Greymoor_04"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BL",
+            "fromsubroom": "Bottom",
+            "destination": "Greymoor_04",
+            "destinationalias": "BR",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-03@br",
+          "alias": "BR",
+          "name": "BR",
+          "source_node_id": "greymoor/greymoor-03#bottom",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BR",
+            "fromsubroom": "Bottom",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-03@br2",
+          "alias": "BR2",
+          "name": "BR2",
+          "source_node_id": "greymoor/greymoor-03#bottom",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "BR2",
+            "fromsubroom": "Bottom",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-03@ml",
+          "alias": "ML",
+          "name": "ML",
+          "source_node_id": "greymoor/greymoor-03#top",
+          "target": {
+            "raw": "Greymoor_04 MR",
+            "room_id": "greymoor/greymoor-04",
+            "alias": "MR",
+            "port_id": "greymoor/greymoor-04@mr",
+            "label": "Greymoor_04"
+          },
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "ML",
+            "fromsubroom": "Top",
+            "destination": "Greymoor_04",
+            "destinationalias": "MR",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-03@mr",
+          "alias": "MR",
+          "name": "MR",
+          "source_node_id": "greymoor/greymoor-03#top",
+          "target": {
+            "raw": "TODO",
+            "room_id": null,
+            "alias": null,
+            "port_id": null,
+            "label": null
+          },
+          "requirement": {
+            "raw": "TODO",
+            "mode": "unresolved",
+            "dnf": [],
+            "annotations": [],
+            "unresolved_reasons": [
+              "TODO"
+            ],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "MR",
+            "fromsubroom": "Top",
+            "destination": "TODO",
+            "destinationalias": "",
+            "requirements": "TODO"
+          },
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "TODO"
+          ]
+        },
+        {
+          "id": "greymoor/greymoor-03@tr",
+          "alias": "TR",
+          "name": "TR",
+          "source_node_id": "greymoor/greymoor-03#top",
+          "target": {
+            "raw": "Dust_01 L",
+            "room_id": "sinner-s-road/sinner-s-road-entrance",
+            "alias": "L",
+            "port_id": "sinner-s-road/sinner-s-road-entrance@l",
+            "label": "Dust_01"
+          },
+          "requirement": {
+            "raw": "(Cling Grip and (Ledge Grab or Faydown Cloak)) or Silk Soar",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "alias": "TR",
+            "fromsubroom": "Top",
+            "destination": "Dust_01",
+            "destinationalias": "L",
+            "requirements": "(Cling Grip and (Ledge Grab or Faydown Cloak)) or Silk Soar"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "connections": [
+        {
+          "id": "greymoor/greymoor-03#top>bottom@tb",
+          "alias": "TB",
+          "name": "Top to Bottom",
+          "source_node_id": "greymoor/greymoor-03#top",
+          "target_node_id": "greymoor/greymoor-03#bottom",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Top",
+            "tosubroom": "Bottom",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "greymoor/greymoor-03#bottom>top@bt",
+          "alias": "BT",
+          "name": "Bottom to Top",
+          "source_node_id": "greymoor/greymoor-03#bottom",
+          "target_node_id": "greymoor/greymoor-03#top",
+          "requirement": {
+            "raw": "Silk Soar or Elevator",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "event:greymoor/greymoor-03/elevator-activated"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "fromsubroom": "Bottom",
+            "tosubroom": "Top",
+            "requirements": "Silk Soar or Elevator"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "events": [
+        {
+          "id": "event:greymoor/greymoor-03/elevator-activated",
+          "label": "Elevator activated",
+          "kind": "event",
+          "node_id": "greymoor/greymoor-03#top",
+          "requirement": {
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "name": "Elevator activated",
+            "subroom": "Top",
+            "requirements": "None"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "checks": [],
       "omitted_check_rows": []
     }
   ]

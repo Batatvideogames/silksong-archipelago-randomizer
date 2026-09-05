@@ -146,13 +146,17 @@ namespace SilksongRandomizer.Patches
             [HarmonyPrefix]
             private static void Prefix(
                 GameMap __instance,
-                bool pinsOnly,
-                ref int ___lastMappedCount
+                ref bool pinsOnly,
+                ref int ___lastMappedCount,
+                bool ___initZoneMaps,
+                out SaveState __state
             )
             {
+                __state = null;
                 if (CollectableItemManager.IsInHiddenMode())
                 {
                     hiddenModeMap = __instance;
+                    return;
                 }
                 else if (!pinsOnly &&
                          ReferenceEquals(__instance, hiddenModeMap))
@@ -167,15 +171,32 @@ namespace SilksongRandomizer.Patches
                     !state.startFullyMapped ||
                     playerData == null ||
                     !playerData.mapAllRooms ||
+                    !___initZoneMaps ||
                     (ReferenceEquals(state, refreshedState) &&
                      ReferenceEquals(__instance, refreshedMap)))
                 {
                     return;
                 }
 
-                refreshedState = state;
-                refreshedMap = __instance;
+                pinsOnly = false;
+                __state = state;
                 ___lastMappedCount = int.MinValue;
+            }
+
+            [HarmonyPostfix]
+            private static void Postfix(
+                GameMap __instance,
+                bool pinsOnly,
+                SaveState __state
+            )
+            {
+                if (__state != null &&
+                    !pinsOnly &&
+                    ReferenceEquals(__state, SaveState.Instance))
+                {
+                    refreshedState = __state;
+                    refreshedMap = __instance;
+                }
             }
 
             private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

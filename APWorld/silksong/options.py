@@ -921,6 +921,13 @@ class FasterDialogue(Toggle):
     default = 1
 
 
+class FasterSilkheartAnimation(Toggle):
+    """Collect boss Silkhearts on contact. Off keeps the shortened pickup sequence and skips memories."""
+
+    display_name = "Faster Silkheart Animation"
+    default = 0
+
+
 class DeathLink(Toggle):
     """Share deaths with other DeathLink-enabled players."""
 
@@ -1075,6 +1082,7 @@ class SilksongOptions(PerGameCommonOptions):
     donation_prices: DonationPrices
     vog_hint_prices: VogHintPrices
     faster_dialogue: FasterDialogue
+    faster_silkheart_animation: FasterSilkheartAnimation
     skill_randomization: SkillRandomization
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization

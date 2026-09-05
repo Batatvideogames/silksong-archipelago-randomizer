@@ -1860,9 +1860,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Path: Greymoor - Halfway House': (
         req('Path: Bellhart - Bellhart'),
         req('Path: Greymoor - Bellshrine', any_of=('Ancestral Art: Cling Grip', 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak')),
-        req("Path: Sinner's Road - Broken Toll"),
-        req('Path: Greymoor - Wisp Thicket'),
-        req('Path: Bellway - Greymoor'), # Bellway
+        req('Room Node: greymoor/greymoor-03#bottom', crest=False),
         req(
             'Room Node: the-marrow/the-marrow-flea-caravan#main-area',
             crest=False,
@@ -1878,7 +1876,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         # Path from Sinner's Road - Styx blocked (one way wall)
     ),
     'Path: Greymoor - Wisp Thicket': (
-        req('Path: Greymoor - Halfway House', 'Ancestral Art: Swift Step', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak'),
+        req('Room Node: whisp-thicket/wisp-thicket-bench#bottom', crest=False),
     ),
     'Path: Blasted Steps - Toll': (
         req('Path: Blasted Steps - Bellway', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
@@ -5182,6 +5180,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     ),
     'Boss: Nyleth': (
         req('Event: Shrine Guardian Seth Defeated', crest=False),
+    ),
+    'Cogwork Core - Pristine Core': (
+        req('Act: 3', crest=False, act='Act 3'),
     ),
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.

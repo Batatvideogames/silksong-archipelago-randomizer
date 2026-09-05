@@ -18,6 +18,7 @@ from worlds.silksong.items import (
     ITEM_BASE_ID,
     ITEM_TABLE_SOURCE,
     ItemPoolEntry,
+    OPTIONAL_START_REPLACEMENT_ITEM,
     TRAP_ITEM_NAMES,
     build_item_pool_entries,
     get_dynamic_trap_capacity,
@@ -396,6 +397,13 @@ class TestAlphabetMode(unittest.TestCase):
             get_dynamic_trap_capacity(modes),
             get_dynamic_trap_capacity(modes, alphabet_mode=False),
         )
+
+    def test_core_replacements_use_repeatable_filler(self) -> None:
+        world = self.make_world(False)
+        filler = world.create_filler()
+
+        self.assertEqual(filler.name, OPTIONAL_START_REPLACEMENT_ITEM)
+        self.assertFalse(filler.advancement)
 
     def test_enabled_mode_replaces_filler_and_preserves_every_lane(
         self,
