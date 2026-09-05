@@ -120,6 +120,14 @@ Short answer, no. Please refer to I’m stuck somewhere, what do I do?
 
 Long answer, it can cause softlocks and other issues, it can be used but at your own risk of issues and potential woodchipper related incidents.
 
+### I Got An Error Saying My APWorld Version is Incompatible
+This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
+
+Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers:
+
+Version v0.4.4 Code: `01a068bb-6726-f9a1-a8d0-83a913e11e05`
+Version v0.4.3 Code: `01a02f76-a121-3fe8-a3f4-74ecd0ad44a5`
+
 ## Troubleshooting
 
 - If Silksong does not connect, confirm that BepInEx is installed correctly and that the plugin is in the `BepInEx/plugins` folder.
