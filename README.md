@@ -32,7 +32,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a07215-7a55-1c20-0983-e6cab8fcb97f`
+**Cogfly Import Code:** `01a07396-af7e-cd86-458a-830e98370535`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -43,7 +43,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a07214-5cfb-0f91-d079-f54439be30b6`
+**R2Modman Import Code:** `01a07396-af7e-cd86-458a-830e98370535`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -123,10 +123,18 @@ Long answer, it can cause softlocks and other issues, it can be used but at your
 ### I Got An Error Saying My APWorld Version is Incompatible
 This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
 
-Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers:
+Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers (these work for both):
 
-Version v0.4.4 Code: `01a068bb-6726-f9a1-a8d0-83a913e11e05`
-Version v0.4.3 Code: `01a02f76-a121-3fe8-a3f4-74ecd0ad44a5`
+**v0.4.4** Import Code: `01a07254-1646-8e29-7cee-2ba65c34300d`
+
+**v0.4.3** Import Code: `01a07252-fdcb-41ae-1ea2-84fb05e3f1e5`
+
+### My Mod Manager Boots The Game In Vanilla
+For **Cogfly**, press 'Copy Launch Arguments' at the top. Go to Hollow Knight: Silksong on Steam, right-click and press "Properties...". In Launch Options, paste the the arguments Cogfly copied for you and start your game.
+
+If this still doesn't work, make sure your Silksong folder doesn't have any BepInEx files (folder and doorstop files) from the manual installation. This *can* conflict with the mod managers and Cogfly will place these back for you.
+
+Worst case scenario, delete your Silksong folder, reinstall it using Verify Integrity of Game Files, relaunch Cogfly, then import the a new profile with one of the codes.
 
 ## Troubleshooting
 
@@ -159,15 +167,15 @@ Some of these regions are still incomplete and being mapped out.
 
 | Contributor | Regions |
 | :--- | :--- |
-| **Asper** | Mount Fay |
 | **Herchey** | Bilewater, Sinner's Road |
-| **Hero** | Bone Bottom, Deep Docks, Far Fields, Hunter's March, Moss Grotto, The Marrow, Wormways |
-| **Isssma** | Greymoor (Right) |
-| **Pyxl** | The Abyss, Bellhart, Sands of Karak, Shellwood |
-| **Rebel** | Cogwork Core, Underworks (Right), Whispering Vaults |
-| **Sergio** | Choral Chambers, High Halls, The Slab, Underworks (West), Wisp Thicket |
-| **Skai** | Blasted Steps, Greymoor (Left), Whiteward |
+| **Hero** | Bone Bottom, Deep Docks, Far Fields, Hunter's March, The Marrow, Moss Grotto, Weavenest Atla, Wormways |
+| **Isssma** | Greymoor |
+| **Pyxl** | Bellhart, The Abyss, The Cradle, Grand Gate, Mount Fay, Putrified Ducts, Sands of Karak, Shellwood |
+| **Rebel** | Cogwork Core, Underworks (East), Whispering Vaults |
+| **Sergio** | Choral Chambers, Grand Gate, High Halls, The Slab, Underworks (West), Wisp Thicket |
+| **Skai** | Blasted Steps, Whiteward, Grand Gate |
 | **SuperEpicGuy** | Moss Grotto |
+| **UNMAPPED AREAS** | Memorium, The Mist, Red Memory, Verdania |
 
 ### Mod Developers
 - [TheMathGeek314](https://github.com/TheMathGeek314) for the original [HK Alphabet Rando](https://github.com/TheMathGeek314/AlphabetRando) and for giving permission to extend their idea to Silksong.
