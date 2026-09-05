@@ -1813,6 +1813,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "silk_link": self.is_silk_link_enabled(),
             "rosary_link": self.is_rosary_link_enabled(),
             "shell_shard_link": self.is_shell_shard_link_enabled(),
+            "knockback_link": bool(self.options.knockback_link.value),
             "trap_counts": self.resolve_trap_counts(),
             "requirements": exported_requirements,
             "abstract_requirements": export_abstract_requirements(

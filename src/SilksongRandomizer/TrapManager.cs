@@ -123,26 +123,7 @@ namespace SilksongRandomizer
                     )
                         ? GlobalEnums.CollisionSide.right
                         : GlobalEnums.CollisionSide.left;
-                IEnumerator recoil = StartRecoilMethod.Invoke(
-                    hero,
-                    new object[] { impactSide, 1 }
-                ) as IEnumerator;
-                if (recoil == null)
-                {
-                    pendingStaggerCount--;
-                    Warn(
-                        "Stagger Trap skipped because Hornet's native " +
-                        "damage-recoil routine could not be created"
-                    );
-                    return;
-                }
-
-                // The native routine handle remains available so an ordinary scene,
-                // control or damage cancellation can end the trap recoil by
-                // the same path as a real hit.
-                Coroutine routine = hero.StartCoroutine(recoil);
-                RecoilRoutineField.SetValue(hero, routine);
-                CameraShake.Shake(CameraShakeCues.BigRumble);
+                TryStartStagger(hero, impactSide, null);
                 pendingStaggerCount--;
             }
             catch (Exception ex)
@@ -153,6 +134,51 @@ namespace SilksongRandomizer
                 pendingStaggerCount--;
                 Warn("Stagger Trap could not be applied", ex);
             }
+        }
+
+        internal static bool TryApplyLinkedStagger(Vector2 direction)
+        {
+            GameManager gameManager = GameManager.instance;
+            HeroController hero = HeroController.instance;
+            if (gameManager == null || hero == null || !hero.CanCustomRecoil() ||
+                TryReleaseSprintForStagger(gameManager, hero) || !hero.CanTakeControl())
+            {
+                return false;
+            }
+
+            var side = direction.x < 0f
+                ? GlobalEnums.CollisionSide.right
+                : GlobalEnums.CollisionSide.left;
+            return TryStartStagger(hero, side, direction);
+        }
+
+        private static bool TryStartStagger(
+            HeroController hero, GlobalEnums.CollisionSide impactSide,
+            Vector2? direction)
+        {
+            if (StartRecoilMethod == null || RecoilRoutineField == null ||
+                (direction.HasValue && KnockbackLinkManager.RecoilVectorField == null))
+            {
+                return false;
+            }
+
+            IEnumerator recoil = StartRecoilMethod.Invoke(
+                hero, new object[] { impactSide, 1 }) as IEnumerator;
+            if (recoil == null)
+            {
+                return false;
+            }
+
+            Coroutine routine = hero.StartCoroutine(recoil);
+            RecoilRoutineField.SetValue(hero, routine);
+            if (direction.HasValue)
+            {
+                Vector2 native = (Vector2)KnockbackLinkManager.RecoilVectorField.GetValue(hero);
+                KnockbackLinkManager.RecoilVectorField.SetValue(
+                    hero, direction.Value * native.magnitude);
+            }
+            CameraShake.Shake(CameraShakeCues.BigRumble);
+            return true;
         }
 
         private static bool TryReleaseSprintForStagger(

@@ -137,6 +137,7 @@ namespace SilksongRandomizer
         public bool DeathLink { get; private set; }
         public string DeathLinkCocoon { get; private set; } =
             DeathLinkCocoonProtected;
+        public bool KnockbackLink { get; private set; }
         public bool SilkLink { get; private set; }
         public bool RosaryLink { get; private set; }
         public bool ShellShardLink { get; private set; }
@@ -589,6 +590,8 @@ namespace SilksongRandomizer
                     "death_link"
                 );
                 DeathLinkCocoon = GetDeathLinkCocoonMode(successful);
+                KnockbackLink = successful.SlotData.ContainsKey("knockback_link") &&
+                    GetBooleanSlotData(successful, "knockback_link");
                 SilkLink = GetBooleanSlotData(
                     successful,
                     "silk_link"
@@ -1022,6 +1025,7 @@ namespace SilksongRandomizer
                         "DeathLink could not be initialized."
                     );
                 }
+                KnockbackLinkManager.Configure(connectedSession, SlotName, KnockbackLink);
                 if (!SilkLinkManager.Configure(
                         connectedSession,
                         SilkLink
@@ -1325,6 +1329,7 @@ namespace SilksongRandomizer
 
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
+            KnockbackLinkManager.Reset();
             CurrencyLinkManager.Reset();
             Patches.VogHintManager.Reset();
 
@@ -2978,6 +2983,7 @@ namespace SilksongRandomizer
                 sessionReady = false;
                 DeathLinkManager.Reset();
                 SilkLinkManager.Reset();
+                KnockbackLinkManager.Reset();
                 CurrencyLinkManager.Reset();
                 Patches.VogHintManager.Reset();
                 LastError = status;
@@ -3197,6 +3203,7 @@ namespace SilksongRandomizer
                 );
             DeathLink = false;
             DeathLinkCocoon = DeathLinkCocoonProtected;
+            KnockbackLink = false;
             SilkLink = false;
             RosaryLink = false;
             ShellShardLink = false;

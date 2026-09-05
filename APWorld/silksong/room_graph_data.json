@@ -37112,10 +37112,22 @@
           "source_node_id": "shellwood/shellwood-13#upper-area",
           "target_node_id": "shellwood/shellwood-13#bell-ledge",
           "requirement": {
-            "raw": "None",
-            "mode": "none",
+            "raw": "Cling Grip OR Faydown Cloak OR Silk soar OR ( Dash AND Scuttlebrace )",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -37128,7 +37140,7 @@
             "name": "Bell Ledge",
             "source": "Upper Area",
             "destination": "Bell Ledge",
-            "requirements": "None",
+            "requirements": "Cling Grip OR Faydown Cloak OR Silk soar OR ( Dash AND Scuttlebrace )",
             "todo": "",
             "verification": "Verified",
             "notes": ""
