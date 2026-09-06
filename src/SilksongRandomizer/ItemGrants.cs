@@ -794,6 +794,10 @@ namespace SilksongRandomizer
         {
             PlayerData playerData = RequirePlayerData();
             playerData.mapAllRooms = true;
+            if (playerData.QuillState < 1)
+            {
+                playerData.QuillState = 1;
+            }
             playerData.mapUpdateQueued = true;
             playerData.HasSeenMapUpdated = false;
         }
