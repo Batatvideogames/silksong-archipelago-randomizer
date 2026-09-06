@@ -32,7 +32,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a07396-af7e-cd86-458a-830e98370535`
+**Cogfly Import Code:** `01a07453-512c-e2a9-e1fa-d3ca3d2e9b5f`
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -43,7 +43,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a07396-af7e-cd86-458a-830e98370535`
+**R2Modman Import Code:** `01a07453-512c-e2a9-e1fa-d3ca3d2e9b5f`
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -163,7 +163,7 @@ A huge thanks goes out to all that support the channel and thread, the logic map
 
 ### Logic Mapping
 
-Some of these regions are still incomplete even if they have a mapper assigned.
+Some of these regions are still incomplete and being mapped out.
 
 | Contributor | Regions |
 | :--- | :--- |
