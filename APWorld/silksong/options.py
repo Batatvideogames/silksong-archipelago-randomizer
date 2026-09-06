@@ -977,6 +977,16 @@ class ShellShardLink(Toggle):
     default = 0
 
 
+class KnockbackLink(Toggle):
+    """Share hit and Stagger Trap knockback with other enabled players.
+
+    Incoming impacts use their direction at normal Stagger Trap strength.
+    """
+
+    display_name = "Knockback Link"
+    default = 0
+
+
 class TrapPercentage(Range):
     """Percent of all filler items in the random pool replaced by traps."""
 
@@ -1129,6 +1139,7 @@ class SilksongOptions(PerGameCommonOptions):
     silk_link: SilkLink
     rosary_link: RosaryLink
     shell_shard_link: ShellShardLink
+    knockback_link: KnockbackLink
     alphabet_mode: AlphabetMode
     trap_percentage: TrapPercentage
     stagger_trap_weight: StaggerTrapWeight

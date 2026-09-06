@@ -663,6 +663,7 @@ namespace SilksongRandomizer
             BellhomePhaseManager.Update();
             DeathLinkManager.Update();
             SilkLinkManager.Update();
+            KnockbackLinkManager.Update();
             CurrencyLinkManager.Update();
             FleaRescueAudio.Update();
             FleaPatches.Update();
@@ -744,6 +745,7 @@ namespace SilksongRandomizer
             BeastlingCallAct3Safety.Reset();
             DeathLinkManager.Reset();
             SilkLinkManager.Reset();
+            KnockbackLinkManager.Reset();
             CurrencyLinkManager.Reset();
             FleaRescueAudio.ResetPending();
             VogHintManager.Reset();

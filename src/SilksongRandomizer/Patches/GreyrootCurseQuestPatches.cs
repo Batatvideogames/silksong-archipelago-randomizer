@@ -385,7 +385,7 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
-        private static bool HasGenuineGreyrootCurse(PlayerData playerData)
+        internal static bool HasGenuineGreyrootCurse(PlayerData playerData)
         {
             // IsAnyCursed alone is only a CurrentCrestID comparison and is
             // therefore also true during the AP trap. gainedCurse can also

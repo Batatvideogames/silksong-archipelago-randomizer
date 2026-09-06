@@ -23723,7 +23723,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains West (Dock_02)",
       "source_file": "deep-docks/deep-docks-chains-west.md",
-      "source_sha256": "07cc88a2aadf423c2ce5aec605c99df8e7df8d8e00fe44961048e673966f5c10",
+      "source_sha256": "df6e7f2eb2166b0521c3c16020977ff0ecefcae24c3a487ed12f4fe3ad4e7883",
       "geometry_act_independent": true,
       "notes": "need to verify how this room works - thought it had some of the platforms go away, but not sure if that was in act 3",
       "nodes": [
@@ -23757,10 +23757,12 @@
             "label": "Deep Docks Forge (Room_Forge)"
           },
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "Deep Docks Key",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:deep-docks-key"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -23774,7 +23776,7 @@
             "fromsubroom": "main area",
             "destination": "[Deep Docks Forge (Room_Forge)](deep-docks-forge.md)",
             "destinationalias": "R",
-            "requirements": "none",
+            "requirements": "Deep Docks Key",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -23943,12 +23945,12 @@
           "source_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
           "target_node_id": "deep-docks/deep-docks-chains-west#main-area",
           "requirement": {
-            "raw": "cling grip AND can break floor",
+            "raw": "Cling Grip AND floor broken from below",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip",
-                "capability:break-walls"
+                "event:deep-docks/deep-docks-chains-west/floor-broken-from-below"
               ]
             ],
             "annotations": [],
@@ -23962,7 +23964,7 @@
             "name": "break floor",
             "source": "middle crossing",
             "destination": "main area",
-            "requirements": "cling grip AND can break floor",
+            "requirements": "Cling Grip AND floor broken from below",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -23977,14 +23979,14 @@
           "source_node_id": "deep-docks/deep-docks-chains-west#main-area",
           "target_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
           "requirement": {
-            "raw": "none (falling)",
-            "mode": "none",
+            "raw": "floor broken from below",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:deep-docks/deep-docks-chains-west/floor-broken-from-below"
+              ]
             ],
-            "annotations": [
-              "falling"
-            ],
+            "annotations": [],
             "unresolved_reasons": [],
             "minimum_skip_tier": 0
           },
@@ -23995,7 +23997,7 @@
             "name": "break floor",
             "source": "main area",
             "destination": "middle crossing",
-            "requirements": "none (falling)",
+            "requirements": "floor broken from below",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -24070,7 +24072,40 @@
           "logic_status": "active"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:deep-docks/deep-docks-chains-west/floor-broken-from-below",
+          "label": "floor broken from below",
+          "kind": "breakable",
+          "node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
+          "requirement": {
+            "raw": "cling grip AND can break floor",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "capability:break-walls"
+              ]
+            ],
+            "annotations": [],
+            "unresolved_reasons": [],
+            "minimum_skip_tier": 0
+          },
+          "notes": "",
+          "source_line": 41,
+          "raw_cells": {
+            "check": "floor broken from below",
+            "subroom": "middle crossing",
+            "requirements": "cling grip AND can break floor",
+            "todo": "",
+            "verification": "",
+            "archipelago": "Not included",
+            "notes": ""
+          },
+          "unresolved_reasons": [],
+          "logic_status": "active"
+        }
+      ],
       "checks": [
         {
           "id": "deep-docks/deep-docks-chains-west::check/shard-bundle-deep-docks-1",
@@ -25414,7 +25449,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Forge (Room_Forge)",
       "source_file": "deep-docks/deep-docks-forge.md",
-      "source_sha256": "dc517d523c8b9953d7692ae59e3aeb0c71d84b4090a4646369ed2635794e9718",
+      "source_sha256": "7261c1d9b561320b934fc99b34c2831ce8bb151544503f817ad30205e5f180b8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -25534,10 +25569,12 @@
             "label": "Deep Docks Chains West (Dock_02)"
           },
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "Deep Docks Key",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:deep-docks-key"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -25551,7 +25588,7 @@
             "fromsubroom": "right exit platform",
             "destination": "[Deep Docks Chains West (Dock_02)](deep-docks-chains-west.md)",
             "destinationalias": "UL",
-            "requirements": "none",
+            "requirements": "Deep Docks Key",
             "todo": "",
             "verification": "Verified",
             "notes": ""
@@ -28850,7 +28887,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Upper Spire (Bone_East_05)",
       "source_file": "deep-docks/deep-docks-upper-spire.md",
-      "source_sha256": "60ccf2a8b00e0c588a5fd7a2924e4598e7100a5f62ce3564ae115a57a8dbf433",
+      "source_sha256": "7cbfe44bcd240503b2cd10e05448dc6789786427e9dd64d0d37facacee63815d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -28875,7 +28912,7 @@
           "id": "deep-docks/deep-docks-upper-spire@l",
           "alias": "L",
           "name": "left1",
-          "source_node_id": "deep-docks/deep-docks-upper-spire#left-flea-platform",
+          "source_node_id": "deep-docks/deep-docks-upper-spire#spire",
           "target": {
             "raw": "[Deep Docks Bench Shaft (Dock_01)](deep-docks-bench-shaft.md)",
             "room_id": "deep-docks/deep-docks-bench-shaft",
@@ -28900,7 +28937,7 @@
           "raw_cells": {
             "alias": "L",
             "name": "left1",
-            "fromsubroom": "left flea platform",
+            "fromsubroom": "spire",
             "destination": "[Deep Docks Bench Shaft (Dock_01)](deep-docks-bench-shaft.md)",
             "destinationalias": "UR",
             "requirements": "none (door switch is on this side)",
@@ -29044,29 +29081,11 @@
           "source_node_id": "deep-docks/deep-docks-upper-spire#spire",
           "target_node_id": "deep-docks/deep-docks-upper-spire#left-flea-platform",
           "requirement": {
-            "raw": "run OR dash OR drifter's cloak OR faydown cloak OR clawline OR sharpdart OR silk soar",
+            "raw": "platform switch",
             "mode": "expression",
             "dnf": [
               [
-                "macro:progressive-swift-step-first"
-              ],
-              [
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "item:drifters-cloak"
-              ],
-              [
-                "item:faydown-cloak"
-              ],
-              [
-                "item:clawline"
-              ],
-              [
-                "item:sharpdart"
-              ],
-              [
-                "item:silk-soar"
+                "event:deep-docks/deep-docks-upper-spire/platform-switch"
               ]
             ],
             "annotations": [],
@@ -29080,7 +29099,7 @@
             "name": "platform gaps",
             "source": "spire",
             "destination": "left flea platform",
-            "requirements": "run OR dash OR drifter's cloak OR faydown cloak OR clawline OR sharpdart OR silk soar",
+            "requirements": "platform switch",
             "todo": "",
             "verification": "",
             "notes": ""
@@ -29156,12 +29175,32 @@
           "id": "event:deep-docks/deep-docks-upper-spire/platform-switch",
           "label": "platform switch",
           "kind": "switch",
-          "node_id": "deep-docks/deep-docks-upper-spire#left-flea-platform",
+          "node_id": "deep-docks/deep-docks-upper-spire#spire",
           "requirement": {
-            "raw": "none",
-            "mode": "none",
+            "raw": "run OR dash OR drifter's cloak OR faydown cloak OR clawline OR sharpdart OR silk soar",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -29171,8 +29210,8 @@
           "source_line": 36,
           "raw_cells": {
             "check": "platform switch",
-            "subroom": "left flea platform",
-            "requirements": "none",
+            "subroom": "spire",
+            "requirements": "run OR dash OR drifter's cloak OR faydown cloak OR clawline OR sharpdart OR silk soar",
             "todo": "",
             "verification": "",
             "archipelago": "Not included",
@@ -37112,10 +37151,22 @@
           "source_node_id": "shellwood/shellwood-13#upper-area",
           "target_node_id": "shellwood/shellwood-13#bell-ledge",
           "requirement": {
-            "raw": "None",
-            "mode": "none",
+            "raw": "Cling Grip OR Faydown Cloak OR Silk soar OR ( Dash AND Scuttlebrace )",
+            "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "macro:usable-scuttlebrace"
+              ]
             ],
             "annotations": [],
             "unresolved_reasons": [],
@@ -37128,7 +37179,7 @@
             "name": "Bell Ledge",
             "source": "Upper Area",
             "destination": "Bell Ledge",
-            "requirements": "None",
+            "requirements": "Cling Grip OR Faydown Cloak OR Silk soar OR ( Dash AND Scuttlebrace )",
             "todo": "",
             "verification": "Verified",
             "notes": ""

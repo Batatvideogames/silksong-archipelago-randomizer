@@ -215,6 +215,7 @@ namespace SilksongRandomizer
         public bool deathLink;
         public string deathLinkCocoon =
             Archipelago.DeathLinkCocoonProtected;
+        public bool knockbackLink;
         public bool silkLink;
         // Retains upgraded-capacity Silk across a live network reconnect only.
         // The game clears current Silk on a full save load, so this runtime
@@ -970,6 +971,7 @@ namespace SilksongRandomizer
             alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
             deathLinkCocoon = archipelago.DeathLinkCocoon;
+            knockbackLink = archipelago.KnockbackLink;
             silkLink = archipelago.SilkLink;
             rosaryLink = archipelago.RosaryLink;
             shellShardLink = archipelago.ShellShardLink;
@@ -1095,6 +1097,7 @@ namespace SilksongRandomizer
                        archipelago.DeathLinkCocoon,
                        StringComparison.Ordinal
                    ) &&
+                    knockbackLink == archipelago.KnockbackLink &&
                     silkLink == archipelago.SilkLink &&
                     rosaryLink == archipelago.RosaryLink &&
                     shellShardLink == archipelago.ShellShardLink &&
@@ -1625,6 +1628,13 @@ namespace SilksongRandomizer
                        "', but the current slot uses '" +
                        archipelago.DeathLinkCocoon +
                        "'. Start or load the save created for this slot's settings.";
+            }
+
+            if (roomIdentityMatches &&
+                knockbackLink != archipelago.KnockbackLink)
+            {
+                return GetBooleanSettingMismatchMessage(
+                    "knockback_link", knockbackLink, archipelago.KnockbackLink);
             }
 
             if (roomIdentityMatches &&

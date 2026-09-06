@@ -41,6 +41,15 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
 ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Silk Soar",
+        "Pale Nails",
+        "Pin Badge",
+        "Brightvein - Mask Shard",
+        "Relic: Rune Harp (High Halls)",
+        "Far Fields - Pale Rosary Necklace",
+        "Elegy of the Deep",
+        "Bellhart Roof - Memory Locket",
+        "Craw Summons",
+        "Boss: Crawfather",
         "Crest: Shaman",
         "Relic: Arcane Egg",
         "The Abyss - Map Pickup",
@@ -75,7 +84,10 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
 )
 
 ACT_TWO_REQUIRED_DEPENDENCY_LOCATION_NAMES: frozenset[str] = frozenset(
-    ("Relic Turn-in: Arcane Egg",)
+    (
+        "Relic Turn-in: Arcane Egg",
+        "Relic Turn-in: Rune Harp (High Halls)",
+    )
 )
 
 ACT_TWO_EXCLUDED_LOCATION_NAMES: frozenset[str] = (
@@ -129,12 +141,21 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Map: The Abyss": 1,
         "Map: Verdania": 1,
     },
-    "Relic": {"Relic: Arcane Egg": 1},
+    "Relic": {
+        "Relic: Arcane Egg": 1,
+        "Relic: Rune Harp (High Halls)": 1,
+    },
     "Resource:pristine_core": {"Pristine Core": 1},
-    "Tool": {"Progressive Claw Mirror": 1},
+    "Tool": {"Progressive Claw Mirror": 1, "Pin Badge": 1},
+    "Spell": {"Pale Nails": 1},
+    "Melody": {"Elegy of the Deep": 1},
+    "MemoryLocket": {"Memory Locket": 1},
+    "MajorKey": {"Craw Summons": 1},
+    "Resource:pale_rosary_necklace": {"Pale Rosary Necklace": 1},
     "MaskShard": {
         "Mask Shard #18": 1,
         "Mask Shard #19": 1,
+        "Mask Shard #20": 1,
     },
     "Silkeater": {"Silkeater": 1},
     "NeedleUpgrade": {"Progressive Needle Upgrade": 1},
@@ -142,14 +163,14 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
-        "Rosaries (60)": 4,
+        "Rosaries (60)": 5,
         "Shell Shards (80)": 3,
     },
     "Quest": {
         "Rosaries (60)": 1,
         "Shell Shards (80)": 1,
     },
-    "RelicTurnIn": {"Shell Shards (80)": 1},
+    "RelicTurnIn": {"Shell Shards (80)": 2},
     "LoreTablet": {
         LORE_TABLET_ITEM_BY_LOCATION[location_name]: 1
         for location_name in LORE_TABLET_ACT_THREE_LOCATION_NAMES

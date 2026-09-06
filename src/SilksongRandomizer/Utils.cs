@@ -44,6 +44,11 @@ namespace SilksongRandomizer
                 // before equipping an AP-owned crest. The direct randomizer
                 // path avoids AutoEquip's inventory-pane/transfer side effect.
                 crest.Unlock();
+                if (GreyrootCurseQuestPatches.HasGenuineGreyrootCurse(PlayerData.instance))
+                {
+                    ToolPatches.RemoveUnreceivedSilkspearFromCrests();
+                    return true;
+                }
                 return ToolPatches.SetRandomizerCrest(crest, false);
             }
             finally

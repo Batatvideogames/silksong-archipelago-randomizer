@@ -354,9 +354,10 @@ namespace SilksongRandomizer.Patches
                        actionVariable.Name,
                        variableName,
                        StringComparison.Ordinal) &&
-                   ReferenceEquals(
-                       actionVariable.CastVariable,
-                       expectedVariable);
+                   (ReferenceEquals(actionVariable, expectedVariable) ||
+                    ReferenceEquals(
+                        actionVariable.CastVariable,
+                        expectedVariable));
         }
 
         private static bool TryGetCheckedSourceEvent(

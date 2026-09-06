@@ -101,6 +101,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:silk-soar": (_part("Ancestral Art: Silk Soar"),),
     "item:silk-spear": (_part(silk_spear=True),),
     "item:simple-key": (_part("Simple Key (Wormways)"),),
+    "item:deep-docks-key": (_part("Simple Key (Deep Docks)"),),
     "item:thread-storm": (_part("Usable Thread Storm"),),
     "item:wanderer-crest": (_part("Crest: Wanderer"),),
     "item:witch-crest": (_part("Crest: Witch"),),
