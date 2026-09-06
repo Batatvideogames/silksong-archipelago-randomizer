@@ -1228,7 +1228,7 @@ namespace SilksongRandomizer
             if (saveState == null ||
                 !saveState.startFullyMapped ||
                 playerData == null ||
-                playerData.mapAllRooms)
+                (playerData.mapAllRooms && playerData.QuillState >= 1))
             {
                 return;
             }

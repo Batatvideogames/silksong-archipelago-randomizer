@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using System.Text;
 using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
+using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
@@ -146,13 +147,10 @@ namespace SilksongRandomizer.Patches
             [HarmonyPrefix]
             private static void Prefix(
                 GameMap __instance,
-                ref bool pinsOnly,
-                ref int ___lastMappedCount,
-                bool ___initZoneMaps,
-                out SaveState __state
+                bool pinsOnly,
+                ref int ___lastMappedCount
             )
             {
-                __state = null;
                 if (CollectableItemManager.IsInHiddenMode())
                 {
                     hiddenModeMap = __instance;
@@ -162,41 +160,43 @@ namespace SilksongRandomizer.Patches
                          ReferenceEquals(__instance, hiddenModeMap))
                 {
                     hiddenModeMap = null;
+                    refreshedMap = null;
                     ___lastMappedCount = int.MinValue;
                 }
+            }
 
+            [HarmonyPostfix]
+            private static void Postfix(GameMap __instance, bool pinsOnly)
+            {
                 SaveState state = SaveState.Instance;
-                PlayerData playerData = PlayerData.instance;
-                if (state == null ||
+                if (pinsOnly ||
+                    CollectableItemManager.IsInHiddenMode() ||
+                    state == null ||
                     !state.startFullyMapped ||
-                    playerData == null ||
-                    !playerData.mapAllRooms ||
-                    !___initZoneMaps ||
                     (ReferenceEquals(state, refreshedState) &&
                      ReferenceEquals(__instance, refreshedMap)))
                 {
                     return;
                 }
 
-                pinsOnly = false;
-                __state = state;
-                ___lastMappedCount = int.MinValue;
-            }
-
-            [HarmonyPostfix]
-            private static void Postfix(
-                GameMap __instance,
-                bool pinsOnly,
-                SaveState __state
-            )
-            {
-                if (__state != null &&
-                    !pinsOnly &&
-                    ReferenceEquals(__state, SaveState.Instance))
+                GameMapScene[] scenes =
+                    __instance.GetComponentsInChildren<GameMapScene>(true);
+                if (scenes.Length == 0)
                 {
-                    refreshedState = __state;
-                    refreshedMap = __instance;
+                    return;
                 }
+
+                for (int index = 0; index < scenes.Length; index++)
+                {
+                    GameMapScene scene = scenes[index];
+                    if (scene != null)
+                    {
+                        scene.SetMapped();
+                    }
+                }
+
+                refreshedState = state;
+                refreshedMap = __instance;
             }
 
             private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
