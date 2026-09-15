@@ -65,6 +65,9 @@ namespace SilksongRandomizer
             new QuestLocationDefinition("Songclave Donation 1"),
             new QuestLocationDefinition("Songclave Donation 2"),
             new QuestLocationDefinition("Steel Sentinel Pt2"),
+            new QuestLocationDefinition("Song Knight"),
+            new QuestLocationDefinition("Tormented Trobbio"),
+            new QuestLocationDefinition("Pinstress Battle"),
         };
 
         // Generic currency rewards from the quest
@@ -196,6 +199,11 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            return HasCompletedNativeQuest(assetName);
+        }
+
+        internal static bool HasCompletedNativeQuest(string assetName)
+        {
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || playerData.QuestCompletionData == null)
             {

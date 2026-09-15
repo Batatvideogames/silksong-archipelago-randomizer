@@ -58,7 +58,6 @@ namespace SilksongRandomizer.Patches
                 "Mount Fay - Shell Shard Cache #5",
                 "Mount Fay - Shell Shard Cache #6",
                 "Mount Fay - Shell Shard Cache #7",
-                "Putrified Ducts - Shell Shard Cache #6",
                 "Putrified Ducts - Shell Shard Cache #8",
                 "Putrified Ducts - Shell Shard Cache #9",
                 "Putrified Ducts - Shell Shard Cache #10",
@@ -262,7 +261,9 @@ namespace SilksongRandomizer.Patches
                     replacement.name =
                         "AP Minor Cache - " + entry.LocationName;
                     replacement.transform.position =
-                        source.transform.position;
+                        entry.LocationName == "Putrified Ducts - Shell Shard Cache #6"
+                            ? new Vector3(77.24f, 54.3f, source.transform.position.z)
+                            : source.transform.position;
                     if (RequiresStationaryAntVeto(entry.LocationName))
                     {
                         replacement.AddComponent<PreventAntRegionCarry>();

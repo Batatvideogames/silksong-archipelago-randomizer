@@ -189,7 +189,8 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                __instance.storeValue.Value = value;
+                __instance.storeValue.Value = value ||
+                    HeroControllerAbilityPatchUtil.HasDoubleJump(PlayerData.instance);
                 __instance.Finish();
                 return false;
             }

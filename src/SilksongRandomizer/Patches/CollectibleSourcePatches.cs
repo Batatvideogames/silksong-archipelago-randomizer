@@ -1285,27 +1285,25 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        private static void ClearPilgrimRagsAfterTurnIn(
+        private static void ClearQuestClothingAfterTurnIn(
             FullQuestBase quest
         )
         {
-            if (quest == null ||
-                !string.Equals(
-                    quest.name,
-                    PilgrimRagsQuestName,
-                    StringComparison.Ordinal
-                ) ||
-                !TryGetActiveQuestLocation(
-                    quest,
-                    out string locationName
-                ) ||
-                !string.Equals(
-                    locationName,
-                    PilgrimRagsLocationName,
-                    StringComparison.Ordinal
-                ))
+            if (quest == null || !TryGetActiveQuestLocation(quest, out string _))
             {
                 return;
+            }
+            string itemName;
+            switch (quest.name)
+            {
+                case PilgrimRagsQuestName:
+                    itemName = PilgrimRagCollectableName;
+                    break;
+                case "Song Pilgrim Cloaks":
+                    itemName = "Song Pilgrim Cloak";
+                    break;
+                default:
+                    return;
             }
 
             PlayerData playerData = PlayerData.instance;
@@ -1316,7 +1314,7 @@ namespace SilksongRandomizer.Patches
 
             CollectableItemsData.Data data =
                 playerData.Collectables.GetData(
-                    PilgrimRagCollectableName
+                    itemName
                 );
             if (data.Amount == 0 && data.AmountWhileHidden == 0)
             {
@@ -1326,7 +1324,7 @@ namespace SilksongRandomizer.Patches
             data.Amount = 0;
             data.AmountWhileHidden = 0;
             playerData.Collectables.SetData(
-                PilgrimRagCollectableName,
+                itemName,
                 data
             );
             CollectableItemManager.IncrementVersion();
@@ -1346,7 +1344,7 @@ namespace SilksongRandomizer.Patches
             {
                 if (__result)
                 {
-                    ClearPilgrimRagsAfterTurnIn(__instance);
+                    ClearQuestClothingAfterTurnIn(__instance);
                     ReportConsumedQuestChecks(__instance);
                 }
             }

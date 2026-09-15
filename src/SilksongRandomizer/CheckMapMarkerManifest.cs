@@ -52,6 +52,14 @@ namespace SilksongRandomizer
         // pickup census. Entries without a matching AP identity are omitted.
         private static readonly MapCheckPosition[] StaticPositions =
         {
+            new MapCheckPosition("Boss: Grand Mother Silk", "Cradle_03", 50.61f, 138.94f, 80f, 160f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Bell Eater", "Bellway_Centipede_Arena", 139.36f, 10.03f, 191f, 43f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Plasmified Zango", "Crawl_10", 16.774002f, 7.98f, 53f, 30f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Lost Garmond", "Coral_33", 23.74f, 61.99f, 58f, 74f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Pinstress", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Fatal Resolve", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Torment, Anguish and Misery", "Library_13", 77.059998f, 16.3f, 124f, 56f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Last Audience", "Hang_17b", 30.220001f, 0.09f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Double Jump", "Peak_08b", 279.5f, 105.53f, 336f, 138f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Silk Soar", "Abyss_08", 86.91002f, 9.861683f, 164f, 106f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Wall Jump", "Shellwood_10", 40.59f, 79.24f, 79f, 102f, MapMarkerPositionConfidence.ExactUpstream),

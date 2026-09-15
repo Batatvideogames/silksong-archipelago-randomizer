@@ -782,6 +782,9 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
     'Extractor Blue Worms': 'Wish: Advanced Alchemy',
     'Fine Pins': 'Wish: Fine Pins',
     'Garmond Black Threaded': "Wish: Hero's Call",
+    'Song Knight': 'Wish: Last Audience',
+    'Tormented Trobbio': 'Wish: Torment, Anguish and Misery',
+    'Pinstress Battle': 'Wish: Fatal Resolve',
     'Great Gourmand': 'Wish: Great Taste of Pharloom',
     'Journal': 'Wish: Bugs of Pharloom',
     'Mr Mushroom': 'Wish: Passing of the Age',
@@ -1018,6 +1021,15 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (location_name, LORE_TABLET_CATEGORY)
     for location_name in LORE_TABLET_LOCATION_NAMES
+) + (
+    ('Boss: Grand Mother Silk', 'Boss'),
+    ('Boss: Bell Eater', 'Boss'),
+    ('Boss: Plasmified Zango', 'Boss'),
+    ('Boss: Lost Garmond', 'Boss'),
+    ('Boss: Pinstress', 'Boss'),
+    ('Wish: Last Audience', 'Quest'),
+    ('Wish: Torment, Anguish and Misery', 'Quest'),
+    ('Wish: Fatal Resolve', 'Quest'),
 )
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
@@ -1033,6 +1045,10 @@ QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
 ) + tuple(
     canonicalize_location_name(f'Quest Completion: {asset_name}')
     for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
+) + (
+    'Wish: Last Audience',
+    'Wish: Torment, Anguish and Misery',
+    'Wish: Fatal Resolve',
 )
 
 location_table: Dict[str, int] = {
@@ -1050,6 +1066,8 @@ location_data_table: Dict[str, SilksongLocationData] = {
     if (
         name not in COURIER_DELIVERY_WISH_LOCATION_NAMES
         and name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
+        and name != "Verdania - Lake Plaque"
+        and name != "Whispering Vaults - Heavy Rosary Necklace"
     )
 }
 

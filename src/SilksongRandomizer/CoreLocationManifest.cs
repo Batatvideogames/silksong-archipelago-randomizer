@@ -541,6 +541,13 @@ namespace SilksongRandomizer
                 ItemType.Boss,
                 () => PlayerData.instance != null && PlayerData.instance.spinnerDefeated
             ));
+            locations.Add(new Location("Boss: Grand Mother Silk", ItemType.Boss, () => false));
+            locations.Add(new Location("Boss: Bell Eater", ItemType.Boss, () => false));
+            locations.Add(new Location("Boss: Plasmified Zango", ItemType.Boss, () => false));
+            locations.Add(new Location("Boss: Pinstress", ItemType.Boss,
+                () => QuestLocationManifest.HasCompletedNativeQuest("Pinstress Battle")));
+            locations.Add(new Location("Boss: Lost Garmond", ItemType.Boss,
+                () => PlayerData.instance != null && PlayerData.instance.garmondBlackThreadDefeated));
             locations.Add(new Location(
                 "Boss Completion: skullKingDefeated",
                 ItemType.Boss,

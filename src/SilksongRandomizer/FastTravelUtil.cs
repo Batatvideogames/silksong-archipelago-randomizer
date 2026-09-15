@@ -98,6 +98,16 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            string sceneName = gameManager.GetSceneNameString();
+            if (playerData != null && playerData.gainedCurse &&
+                (string.Equals(sceneName, "Shellwood_25b", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(sceneName, "Shellwood_25", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(sceneName, "Mosstown_03", StringComparison.OrdinalIgnoreCase)))
+            {
+                reason = "Leave the Chapel of the Witch on foot before warping.";
+                return false;
+            }
+
             if (gameManager.IsInSceneTransition ||
                 TransitionPoint.IsTransitionBlocked)
             {

@@ -422,8 +422,17 @@ namespace SilksongRandomizer.Patches
             BellhomePhaseManager.EnsureBellhomeUnlocked();
         }
 
-        private static void Postfix()
+        private static readonly MethodInfo ClonePlayerData =
+            AccessTools.Method(typeof(object), "MemberwiseClone");
+
+        private static void Postfix(SaveGameData __result)
         {
+            if (TrapManager.HasCursedCrestSaveSnapshot ||
+                NakedTrapManager.HasState)
+            {
+                __result.playerData =
+                    (PlayerData)ClonePlayerData.Invoke(__result.playerData, null);
+            }
             TrapManager.ResumeAfterSave();
         }
     }

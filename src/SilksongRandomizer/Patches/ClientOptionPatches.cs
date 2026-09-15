@@ -182,6 +182,59 @@ namespace SilksongRandomizer.Patches
             );
         }
 
+        internal static int ScaleLooseDrop(int count)
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null)
+            {
+                return count;
+            }
+            if (!ReferenceEquals(roundingState, state) ||
+                roundingMultiplier != state.enemyRosaryMultiplier)
+            {
+                ResetRounding(state, state.enemyRosaryMultiplier);
+            }
+            return ScaleCountDeterministically(count,
+                GetScaleNumerator(state.enemyRosaryMultiplier), ref smallRemainder);
+        }
+
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.FlingObjectsFromGlobalPool), "OnEnter")]
+        private static class RosaryPilgrimDropPatch
+        {
+            private static void Prefix(
+                HutongGames.PlayMaker.Actions.FlingObjectsFromGlobalPool __instance,
+                out HutongGames.PlayMaker.FsmInt[] __state)
+            {
+                __state = null;
+                if (SaveState.Instance == null || __instance.Owner == null ||
+                    __instance.Owner.name != "Rosary Pilgrim" ||
+                    __instance.Fsm?.Name != "Drop Rosaries" ||
+                    __instance.State?.Name != "Do Fling" ||
+                    __instance.gameObject?.Value != GlobalSettings.Gameplay.SmallGeoPrefab ||
+                    __instance.spawnMin?.Value != 1 || __instance.spawnMax?.Value != 1)
+                {
+                    return;
+                }
+                int count = ScaleLooseDrop(1);
+                __state = new[] { __instance.spawnMin, __instance.spawnMax };
+                __instance.spawnMin = new HutongGames.PlayMaker.FsmInt { Value = count };
+                __instance.spawnMax = new HutongGames.PlayMaker.FsmInt { Value = count };
+            }
+
+            private static Exception Finalizer(
+                HutongGames.PlayMaker.Actions.FlingObjectsFromGlobalPool __instance,
+                HutongGames.PlayMaker.FsmInt[] __state,
+                Exception __exception)
+            {
+                if (__state != null)
+                {
+                    __instance.spawnMin = __state[0];
+                    __instance.spawnMax = __state[1];
+                }
+                return __exception;
+            }
+        }
+
         internal static int GetScaleNumerator(string multiplier)
         {
             switch (multiplier)

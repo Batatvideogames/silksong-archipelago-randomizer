@@ -728,8 +728,8 @@ ITEM_POOL_COUNTS: Dict[str, int] = {
     'Progressive Curveclaw': 2,
     'Progressive Silkheart': 3,
     # Boss checks use ordinary currency rewards.
-    'Rosaries (60)': 17,
-    'Shell Shards (80)': 17,
+    'Rosaries (60)': 20,
+    'Shell Shards (80)': 19,
     'Memory Locket': 20,
     'Craftmetal': 8,
     'Mossberry': 7,
@@ -761,8 +761,8 @@ PALE_OIL_POOL_COUNTS: Mapping[str, int] = {
 # Quest Sanity adds one ordinary currency filler per added quest check. These
 # copies participate in trap_percentage whenever Quest Sanity is randomized.
 QUEST_FILLER_COUNTS: Dict[str, int] = {
-    'Rosaries (60)': 13,
-    'Shell Shards (80)': 12,
+    'Rosaries (60)': 15,
+    'Shell Shards (80)': 13,
 }
 
 # These items enter the pool only when their corresponding option is enabled.
@@ -900,8 +900,8 @@ def replace_filler_with_innate_ability_items(
 OBSERVATION_FILLER_COUNTS_BY_CATEGORY: Dict[str, Dict[str, int]] = {
     # Observation checks use ordinary filler rather than boss rewards.
     'Boss': {
-        'Rosaries (60)': 17,
-        'Shell Shards (80)': 17,
+        'Rosaries (60)': 20,
+        'Shell Shards (80)': 19,
     },
     'Quest': dict(QUEST_FILLER_COUNTS),
 }
@@ -991,6 +991,11 @@ SHUFFLE_FIXED_LOCATION_REWARDS: Dict[str, Dict[str, str]] = {
 def get_category_item_names(category: str) -> tuple[str, ...]:
     """Return the exact reward multiset paired with a source category."""
 
+    if category == LORE_TABLET_CATEGORY:
+        return tuple(
+            item for location, item in LORE_TABLET_ITEM_BY_LOCATION.items()
+            if location in location_data_table
+        )
     if category in MINOR_FAMILY_SHUFFLE_CATEGORIES:
         family_key = category.split(":", 1)[1]
         return tuple(

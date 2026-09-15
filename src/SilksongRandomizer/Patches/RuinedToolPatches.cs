@@ -152,6 +152,44 @@ namespace SilksongRandomizer.Patches
             craftmetal.Collect(1, false);
         }
 
+        [HarmonyPatch(typeof(PlayerDataTestResponse), "Evaluate")]
+        private static class ArchitectRepairShopPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(PlayerDataTestResponse __instance)
+            {
+                const string repairLocation = "Tool Unlock: WebShot Architect";
+                SaveState state = SaveState.Instance;
+                if (__instance.gameObject.name != "Architect Scene Control" ||
+                    __instance.gameObject.scene.name != "Under_17" ||
+                    PlayerData.instance == null ||
+                    !PlayerData.instance.ArchitectLeft ||
+                    state == null || !state.IsRandomized(ItemType.Tool) ||
+                    !state.IsLocationEnabled(repairLocation) ||
+                    !state.IsLocationInSeed(repairLocation) ||
+                    state.IsLocationChecked(repairLocation))
+                {
+                    return;
+                }
+
+                GameObject shop = null;
+                GameObject finalScene = null;
+                foreach (GameObject root in __instance.gameObject.scene.GetRootGameObjects())
+                {
+                    if (root.name == "Architect Scene") shop = root;
+                    if (root.name == "Architect Final_Scene") finalScene = root;
+                }
+                if (shop == null || finalScene == null) return;
+                Transform chair = finalScene.transform.Find("Chair");
+                Transform core = finalScene.transform.Find("Collectable Item Pickup");
+                if (chair == null || core == null ||
+                    core.GetComponent<CollectableItemPickup>() == null) return;
+
+                chair.gameObject.SetActive(false);
+                shop.SetActive(true);
+            }
+        }
+
         private static bool HasRemainingActiveRepair(SaveState state)
         {
             foreach (string repairLocation in

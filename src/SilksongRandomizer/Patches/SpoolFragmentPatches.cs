@@ -333,6 +333,42 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class ScriptedSpoolPresentationPatch
+        {
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (SaveState.Instance?.IsRandomized(ItemType.SpoolFragment) != true ||
+                    __instance == null || __instance.FsmName != "Silk Spool UI")
+                {
+                    return;
+                }
+                FsmState increase = FindState(__instance, "Increase Silk");
+                FsmState end = FindState(__instance, "Hero Anim End");
+                if (increase?.Actions == null || increase.Actions.Length != 5 ||
+                    !(increase.Actions[0] is HutongGames.PlayMaker.Actions.AddHeroInputBlocker) ||
+                    !(increase.Actions[4] is HutongGames.PlayMaker.Actions.IntCompare) ||
+                    end?.Actions == null || end.Actions.Length != 1 ||
+                    !(end.Actions[0] is HutongGames.PlayMaker.Actions.Tk2dPlayAnimationWithEvents))
+                {
+                    return;
+                }
+                var skip = new SkipSpoolUpgrade();
+                skip.Init(increase);
+                increase.Actions = new[] { increase.Actions[0], skip };
+            }
+        }
+
+        private sealed class SkipSpoolUpgrade : FsmStateAction
+        {
+            public override void OnEnter()
+            {
+                SynchronizeReceivedSpoolProgress(PlayerData.instance);
+                Fsm.SetState("Hero Anim End");
+                Finish();
+            }
+        }
+
         [HarmonyPatch(
             typeof(PrefabCollectable),
             nameof(PrefabCollectable.Get),

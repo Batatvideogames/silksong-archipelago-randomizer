@@ -25,6 +25,11 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Cogwork Core - Pristine Core",
         "Wish: Fatal Resolve",
+        "Wish: Torment, Anguish and Misery",
+        "Boss: Bell Eater",
+        "Boss: Plasmified Zango",
+        "Boss: Lost Garmond",
+        "Boss: Pinstress",
     )
 )
 
@@ -40,6 +45,7 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
 # Longclaw check with Act 2 Broodfeast, so that shared location remains.
 ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
     (
+        "Boss: Grand Mother Silk",
         "Silk Soar",
         "Pale Nails",
         "Pin Badge",
@@ -93,6 +99,7 @@ ACT_TWO_REQUIRED_DEPENDENCY_LOCATION_NAMES: frozenset[str] = frozenset(
 ACT_TWO_EXCLUDED_LOCATION_NAMES: frozenset[str] = (
     ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES
     | ACT_TWO_REQUIRED_DEPENDENCY_LOCATION_NAMES
+    | ACT_THREE_ONLY_GOAL_LOCATION_NAMES
 )
 ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES: frozenset[str] = frozenset(
     ("Silk Soar",)
@@ -163,12 +170,12 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Resource:rosary_cache": {"Rosaries (10)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
-        "Rosaries (60)": 5,
-        "Shell Shards (80)": 3,
+        "Rosaries (60)": 8,
+        "Shell Shards (80)": 5,
     },
     "Quest": {
-        "Rosaries (60)": 1,
-        "Shell Shards (80)": 1,
+        "Rosaries (60)": 2,
+        "Shell Shards (80)": 2,
     },
     "RelicTurnIn": {"Shell Shards (80)": 2},
     "LoreTablet": {

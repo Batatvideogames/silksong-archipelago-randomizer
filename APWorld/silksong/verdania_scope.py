@@ -11,6 +11,5 @@ VERDANIA_LOCATION_NAMES: frozenset[str] = frozenset(
         "Boss: Clover Dancers",
         "Verdania - Map Pickup",
         "Verdania - Oath Plaque",
-        "Verdania - Lake Plaque",
     )
 )

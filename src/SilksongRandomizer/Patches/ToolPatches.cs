@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
 using GlobalEnums;
 using System;
@@ -82,7 +82,8 @@ namespace SilksongRandomizer.Patches
                 playerData.QuestCompletionData.GetData(
                     AlchemistAssistantQuest
                 );
-            return completion.IsCompleted || completion.WasEverCompleted;
+            return (completion.IsCompleted || completion.WasEverCompleted) &&
+                   tool.SavedData.IsHidden;
         }
 
         private static ItemType GetRandomizedItemType(ToolItem tool)
@@ -353,7 +354,7 @@ namespace SilksongRandomizer.Patches
             nativeCureOwnedCrestEquipDepth++;
             try
             {
-                ToolItemManager.AutoEquip(crest, false, true);
+                ToolItemManager.AutoEquip(crest, false, false);
             }
             finally
             {

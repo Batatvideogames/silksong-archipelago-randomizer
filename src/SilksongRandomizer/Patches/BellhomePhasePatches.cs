@@ -29,6 +29,9 @@ namespace SilksongRandomizer.Patches
         private static readonly FieldInfo DialogueYesNoBoxInstanceField =
             AccessTools.Field(typeof(DialogueYesNoBox), "_instance");
 
+        private static readonly object PromptInputBlocker = new object();
+        private static HeroController promptHero;
+        private static SaveState promptState;
         private static bool promptOpen;
         private static bool phaseChangeInProgress;
         private static GameObject bellhomeExteriorRoot;
@@ -38,6 +41,18 @@ namespace SilksongRandomizer.Patches
 
         internal static void Update()
         {
+            if (promptOpen &&
+                (promptHero == null ||
+                 promptHero != HeroController.instance ||
+                 !ReferenceEquals(promptState, SaveState.Instance) ||
+                 SaveState.Instance?.IsRoomBound != true ||
+                 !IsBellhomeSceneLoaded()))
+            {
+                promptOpen = false;
+                ReleasePromptInput();
+                DialogueYesNoBox.ForceClose();
+            }
+
             EnsureBellhomeUnlocked();
 
             SaveState state = SaveState.Instance;
@@ -224,11 +239,13 @@ namespace SilksongRandomizer.Patches
         internal static bool TryInterceptBellhomeNeedolin(
             ListenForDreamNail action)
         {
-            if (!IsBellhomeBenchNeedolinListener(action) ||
-                promptOpen ||
-                phaseChangeInProgress)
+            if (!IsBellhomeBenchNeedolinListener(action))
             {
                 return false;
+            }
+            if (promptOpen || phaseChangeInProgress)
+            {
+                return true;
             }
 
             SaveState state = SaveState.Instance;
@@ -264,6 +281,13 @@ namespace SilksongRandomizer.Patches
                 playerData.act3_wokeUp
             );
 
+            promptHero = HeroController.instance;
+            if (promptHero == null)
+            {
+                return false;
+            }
+            promptState = state;
+            promptHero.AddInputBlocker(PromptInputBlocker);
             inputHandler.ForceDreamNailRePress = true;
             promptOpen = true;
             try
@@ -271,10 +295,18 @@ namespace SilksongRandomizer.Patches
                 DialogueYesNoBox.Open(
                     () =>
                     {
+                        if (!promptOpen)
+                        {
+                            return;
+                        }
                         promptOpen = false;
                         BeginPhaseChange(targetBlackThreadWorld);
                     },
-                    () => promptOpen = false,
+                    () =>
+                    {
+                        promptOpen = false;
+                        ReleasePromptInput();
+                    },
                     true,
                     AlphabetModeManager.FilterDirectText(prompt)
                 );
@@ -282,6 +314,7 @@ namespace SilksongRandomizer.Patches
             catch (Exception ex)
             {
                 promptOpen = false;
+                ReleasePromptInput();
                 RandomizerPlugin.Log?.LogWarning(
                     "[RANDOMIZER] Could not open the Bellhome phase " +
                     "confirmation: " + ex.Message
@@ -375,11 +408,22 @@ namespace SilksongRandomizer.Patches
                    "\n\nYour Act 3 progress will be preserved.";
         }
 
+        private static void ReleasePromptInput()
+        {
+            if (promptHero != null)
+            {
+                promptHero.RemoveInputBlocker(PromptInputBlocker);
+            }
+            promptHero = null;
+            promptState = null;
+        }
+
         private static void BeginPhaseChange(
             bool targetBlackThreadWorld)
         {
             if (phaseChangeInProgress || RandomizerPlugin.Instance == null)
             {
+                ReleasePromptInput();
                 return;
             }
 
@@ -392,7 +436,20 @@ namespace SilksongRandomizer.Patches
         private static IEnumerator ApplyPhaseChange(
             bool targetBlackThreadWorld)
         {
-            // The native confirmation box restores its HUD and input state.
+            try
+            {
+                yield return ApplyPhaseChangeCore(targetBlackThreadWorld);
+            }
+            finally
+            {
+                phaseChangeInProgress = false;
+                ReleasePromptInput();
+            }
+        }
+
+        private static IEnumerator ApplyPhaseChangeCore(
+            bool targetBlackThreadWorld)
+        {
             yield return null;
 
             SaveState state = SaveState.Instance;
@@ -402,6 +459,8 @@ namespace SilksongRandomizer.Patches
                 !state.IsRoomBound ||
                 playerData == null ||
                 gameManager == null ||
+                !ReferenceEquals(state, promptState) ||
+                !playerData.atBench ||
                 !IsBellhomeSceneLoaded() ||
                 !HasBellhomeEntryGate())
             {

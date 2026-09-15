@@ -64,9 +64,12 @@ def _region_event(
 
 # Donation 2 appears after four completed Enclave-board Wishes. Donation 1
 # and these four verified pre-Donation-2 completions are safe logical sources.
-# Final Audience remains excluded until its physical Second Sentinel route is
-# mapped; Pain, Anguish and Misery and the remaining board Wishes are later.
 SONGCLAVE_BOARD_EVENTS: tuple[WishLogicEvent, ...] = (
+    _location_event(
+        "Last Audience board credit",
+        SONGCLAVE_BOARD_COMPLETION_ITEM,
+        "Wish: Last Audience",
+    ),
     _region_event(
         "Building Up Songclave board credit",
         SONGCLAVE_BOARD_COMPLETION_ITEM,
@@ -146,6 +149,7 @@ SILK_AND_SOUL_MANDATORY_EVENTS: tuple[WishLogicEvent, ...] = (
 
 
 _SILK_AND_SOUL_FULL_POINT_SOURCES: tuple[tuple[str, str], ...] = (
+    ("Last Audience point", "Wish: Last Audience"),
     ("Berry Picking point", "Tool Unlock: Mosscreep Tool 2"),
     (
         "An Icon of Hope point",
@@ -188,8 +192,8 @@ _SILK_AND_SOUL_FULL_POINT_SOURCES: tuple[tuple[str, str], ...] = (
 )
 
 
-# Pinmaster's Oil, Terrible Tyrant, Bugs of Pharloom, Silver Bells, Final
-# Audience and Wailing Mother deliberately do not contribute yet: their exact
+# Pinmaster's Oil, Terrible Tyrant, Bugs of Pharloom, Silver Bells
+# and Wailing Mother deliberately do not contribute yet: their exact
 # service, turn-in, counter or traversal routes are still quarantined. This is
 # conservative but leaves more than the required 17 points available.
 SILK_AND_SOUL_FULL_POINT_EVENTS: tuple[WishLogicEvent, ...] = tuple(

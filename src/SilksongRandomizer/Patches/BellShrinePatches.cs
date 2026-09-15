@@ -271,6 +271,29 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(FullQuestBase), nameof(FullQuestBase.GetDescription))]
+        private static class JudgeQuestDescriptionPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(FullQuestBase __instance, out JudgeStateSnapshot __state)
+            {
+                __state = default;
+                if (__instance != null && __instance.name == GrandGateQuestName)
+                {
+                    ApplyJudgeBellOwnership(out __state);
+                }
+            }
+
+            [HarmonyFinalizer]
+            [HarmonyPriority(Priority.Last)]
+            private static Exception Finalizer(Exception __exception, JudgeStateSnapshot __state)
+            {
+                RestoreJudgeBellOwnership(__state);
+                return __exception;
+            }
+        }
+
         [HarmonyPatch(typeof(QuestMapMarker), "IsActive")]
         private static class JudgeQuestMapMarkerPatch
         {

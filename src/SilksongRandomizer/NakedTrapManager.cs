@@ -55,6 +55,7 @@ namespace SilksongRandomizer
                    !TransitionPoint.IsTransitionBlocked &&
                    !BossSceneController.IsTransitioning &&
                    !playerData.HasStoredMemoryState &&
+                   !playerData.isInventoryOpen &&
                    hero.cState != null &&
                    !hero.cState.transitioning &&
                    !hero.cState.dead &&
@@ -597,6 +598,18 @@ namespace SilksongRandomizer
                 ? message
                 : message + ": " + exception.Message;
             RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] " + detail);
+        }
+    }
+
+    [HarmonyPatch(typeof(CollectableItemManager), nameof(CollectableItemManager.IsInHiddenMode))]
+    internal static class NakedTrapInventoryVisibilityPatch
+    {
+        private static void Postfix(ref bool __result)
+        {
+            if (NakedTrapManager.SuppressesCloakAbilities)
+            {
+                __result = false;
+            }
         }
     }
 

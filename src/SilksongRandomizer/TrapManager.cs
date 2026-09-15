@@ -62,6 +62,11 @@ namespace SilksongRandomizer
         private static bool cursedCrestSilkRefreshPending;
         private static bool cursedCrestSpoolRefreshPending;
         private static bool pendingCursedCrest;
+        private static float cursedCrestSaveRemaining;
+        private static PlayerData cursedCrestSaveOwner;
+
+        internal static bool HasCursedCrestSaveSnapshot =>
+            cursedCrestSaveOwner != null && cursedCrestSaveRemaining > 0f;
 
         private static bool muckmaggotActive;
         private static bool muckmaggotApplied;
@@ -314,6 +319,11 @@ namespace SilksongRandomizer
 
         internal static void TriggerCursedCrest()
         {
+            ApplyCursedCrest(false);
+        }
+
+        private static void ApplyCursedCrest(bool resumingAfterSave)
+        {
             try
             {
                 if (IsCursedCrestActive)
@@ -328,7 +338,7 @@ namespace SilksongRandomizer
                 // Naked and Cursed Crest both own CurrentCrestID. Serialization
                 // preserves both received traps so neither temporary crest
                 // overwrites the other.
-                if (NakedTrapManager.HasState)
+                if (NakedTrapManager.HasState && !resumingAfterSave)
                 {
                     pendingCursedCrest = true;
                     return;
@@ -585,6 +595,11 @@ namespace SilksongRandomizer
         {
             bool regenerateSilk =
                 HasCursedCrestState && PlayerData.instance?.atBench == true;
+            float remaining = IsCursedCrestActive && !regenerateSilk &&
+                PlayerData.instance?.IsCurrentCrestTemp == true &&
+                PlayerData.instance.CurrentCrestID == cursedCrestInternalName
+                    ? Math.Max(0f, cursedCrestDeadline - Time.unscaledTime)
+                    : 0f;
             if (HasCursedCrestState && !TryRestoreCursedCrest())
             {
                 if (!ForceRestoreCursedCrestFieldsForSave())
@@ -595,17 +610,34 @@ namespace SilksongRandomizer
                 }
                 ClearCursedCrestState();
             }
+            cursedCrestSaveRemaining = remaining;
+            cursedCrestSaveOwner = remaining > 0f ? PlayerData.instance : null;
             if (regenerateSilk) RegenerateSilkAtBench();
             NakedTrapManager.PrepareForSave();
         }
 
         internal static void ResumeAfterSave()
         {
+            float remaining = cursedCrestSaveRemaining;
+            PlayerData owner = cursedCrestSaveOwner;
+            cursedCrestSaveRemaining = 0f;
+            cursedCrestSaveOwner = null;
+            if (remaining > 0f && ReferenceEquals(owner, PlayerData.instance) &&
+                owner.atBench == false)
+            {
+                ApplyCursedCrest(true);
+                if (IsCursedCrestActive)
+                {
+                    cursedCrestDeadline = Time.unscaledTime + remaining;
+                }
+            }
             NakedTrapManager.ResumeAfterSave();
         }
 
         internal static void ResetTransientEffects()
         {
+            cursedCrestSaveRemaining = 0f;
+            cursedCrestSaveOwner = null;
             pendingStaggerCount = 0;
             RestoreDarkness();
             RestoreMuckmaggotStatus();

@@ -70,7 +70,7 @@ namespace SilksongRandomizer
             new Entry("Shellwood - Rosary String #1", "shellwood_01b", "Rosary_Set_Small", 33.13f, 72.38f),
             new Entry("Shellwood - Shard Bundle", "shellwood_13", "Shard Pouch", 82.2928f, 67.2101f),
             new Entry("Shellwood - Rosary String #2", "shellwood_25", "Rosary_Set_Small", 83.3f, 25.4172f),
-            new Entry("The Slab - Frayed Rosary String #1", "slab_02", "Rosary_Set_Frayed", 53.4572f, 21.2107f),
+            new Entry("The Slab - Frayed Rosary String #1", "slab_02", "Rosary_Set_Frayed", 53.4572f, 21.2107f, "Slab Chain cage_small_break (2)/lamp/Broken/Collectable Item Pickup"),
             new Entry("The Slab - Shard Bundle", "slab_04", "Shard Pouch", 9.4863f, 15.6907f),
             new Entry("The Slab - Frayed Rosary String #2", "slab_18", "Rosary_Set_Frayed", 17.2344f, 21.2003f),
             new Entry("The Slab - Frayed Rosary String #3", "slab_22", "Rosary_Set_Frayed", 28.3f, 30.39f),

@@ -443,6 +443,23 @@ namespace SilksongRandomizer.Patches
             return melodyCount >= 2;
         }
 
+        [HarmonyPatch(typeof(ToolItem), nameof(ToolItem.GetCompletionAmount))]
+        private static class SoulSnareCounterPatch
+        {
+            private static bool Prefix(ToolItem __instance, ref int __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Tool) ||
+                    __instance == null || __instance.name != SoulSnareNativeTool)
+                {
+                    return true;
+                }
+                __result = state.receivedItems.Contains(
+                    ItemSet.GetCanonicalItemName(SnareSetterItem)) ? 1 : 0;
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_CanComplete")]
         private static class SoulSnareCanCompletePatch
         {

@@ -15,7 +15,7 @@ from .display_names import (
     clean_item_display_name,
 )
 from .minor_pickups import (
-    MINOR_PICKUP_LOCATION_NAMES,
+    ACTIVE_MINOR_PICKUP_LOCATION_NAMES,
     MINOR_PICKUP_SOURCE,
 )
 from .lore_tablets import (
@@ -106,7 +106,6 @@ BROODFEAST_SHREDDED_TOOL_ITEMS: tuple[str, ...] = (
 BROODFEAST_SKEWERED_TOOL_ITEMS: tuple[str, ...] = (
     'Tool: Sting Shard',
     'Tool: Longpin',
-    'Tool: Needle Phial',
 )
 SPOOL_FRAGMENT_ITEM_NAMES = tuple(
     f'Spool Fragment #{index}'
@@ -861,6 +860,9 @@ LOGIC_PASS_A_QUEST_LOCATIONS: tuple[str, ...] = tuple(
 
 PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
     (
+        'Wish: Last Audience',
+        'Wish: Torment, Anguish and Misery',
+        'Wish: Fatal Resolve',
         'Wish: Restoration of Bellhart',
         'Wish: Bone Bottom Repairs',
         'Wish: A Lifesaving Bridge',
@@ -901,6 +903,7 @@ ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
         'Boss: Moorwing',
         'Throwing Ring',       # Trail's End / Shakra encounter reward.
         "Wish: Hero's Call",   # Garmond and Zaza encounter reward.
+        'Boss: Lost Garmond',
         # These delivery wishes explicitly require the pre-Act-3 world.
         'Wish: Bone Bottom Supplies',
         "Wish: Pilgrim's Rest Supplies",
@@ -949,7 +952,7 @@ VERIFIED_MINOR_PICKUP_LOCATIONS: frozenset[str] = (
         ROOM_GRAPH_CANONICAL_CHECK_NAMES
         & frozenset(
             canonicalize_location_name(name)
-            for name in MINOR_PICKUP_LOCATION_NAMES
+            for name in ACTIVE_MINOR_PICKUP_LOCATION_NAMES
         )
     )
 ) - HELD_MINOR_PICKUP_LOCATIONS
@@ -3153,6 +3156,39 @@ def _minor_cache_requirement(location_name: str) -> LocationRequirement:
         crest=map_region != 'Tut',
     )
 
+LAST_AUDIENCE_REQUIREMENTS = tuple(
+    area(
+        2,
+        'Outlying Citadel - High Halls Ventrica',
+        room_node_name('cogwork-core/cogwork-core-second-sentinel#shard-bundle-check'),
+        'Path: Choral Chambers - Songclave',
+        *route,
+    )
+    for route in (
+        (
+            room_node_name('choral-chambers/memorium-entrance-tunnel#base'),
+            room_node_name('choral-chambers/choral-chambers-east-to-west#left-side'),
+            room_node_name('choral-chambers/choral-chambers-east-to-west#right-side'),
+            "Conductor's Melody",
+            'Event: Building Up Songclave Completed',
+        ),
+        (
+            room_node_name('choral-chambers/memorium-entrance-tunnel#base'),
+            'Event: Everbloom Obtained',
+        ),
+    )
+)
+
+PINSTRESS_BATTLE_REQUIREMENT = area(
+    3,
+    'Mount Fay - Workbench',
+    'Path: Blasted Steps - Pinstress',
+    'Ability: Needle Strike',
+    'Ancestral Art: Silk Soar',
+    'Ancestral Art: Needolin',
+    "Ability: Drifter's Cloak",
+)
+
 REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     # STARTING LOCATIONS
     ('Crest Unlock: Hunter', req(crest=False)),  # No act/path gate: bootstrap row.
@@ -3582,10 +3618,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
 
     # High Halls
-    ('Tool Unlock: Reserve Bind', area(2, 'Outlying Citadel - High Halls Ventrica')),  # Final Audience wish unmodeled.
-    # Grindle carries the same ToolItem from the beginning.  This supplies a
-    # concrete alternate physical source while Final Audience remains
-    # progression-quarantined for its separate, unmodelled quest state.
+    *(("Tool Unlock: Reserve Bind", rule) for rule in LAST_AUDIENCE_REQUIREMENTS),
     *(
         ('Tool Unlock: Reserve Bind', requirement)
         for requirement in grindle_access(1)
@@ -3634,12 +3667,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         CRAFTMETAL_ITEM,
     )),  # Needs Ruined Tool, Craftmetal, then Mount Fay repair.
     ('Skill Unlock: Double Jump', area(2, 'Mount Fay - Workbench', 'Ancestral Art: Needolin', "Ability: Drifter's Cloak")),  # Faydown Cloak summit requires Needolin. Harpoon and Drifter's Cloak are in Path: Mount Fay.
-    ('Tool Unlock: Pinstress Tool', area(
-        3,
-        'Mount Fay - Workbench',
-        'Path: Blasted Steps - Pinstress',
-        'Ability: Needle Strike',
-    )),
+    ('Tool Unlock: Pinstress Tool', PINSTRESS_BATTLE_REQUIREMENT),
     ('Tool Unlock: Revenge Crystal', area(2, 'Mount Fay - Toll')),
 
     ('Save Flea: Mount Fay (Ice Cube)', area(
@@ -3963,6 +3991,27 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Elegy of the Deep Learned',
         'Ancestral Art: Silk Soar',
     )),
+    ('Boss: Grand Mother Silk', req(ACT_TWO_GOAL_EVENT, act='Act 2')),
+    ('Boss: Bell Eater', req(
+        'Event: Act 3 Started', 'Event: Bell Beast Defeated', act='Act 3',
+    )),
+    ('Boss: Plasmified Zango', req(
+        'Event: Act 3 Started',
+        room_node_name('wormways/wormways-zango-arena#room'),
+        act='Act 3',
+    )),
+    ('Boss: Lost Garmond', area(
+        3, 'Blasted Steps - Bellway',
+        'Event: Widow Defeated', 'Event: Everbloom Obtained',
+    )),
+    ('Boss: Pinstress', PINSTRESS_BATTLE_REQUIREMENT),
+    ('Wish: Fatal Resolve', PINSTRESS_BATTLE_REQUIREMENT),
+    ('Wish: Torment, Anguish and Misery', area(
+        3, 'Outlying Citadel - Library',
+        'Path: Choral Chambers - Songclave',
+        'Progressive Claw Mirror', 'Ancestral Art: Silk Soar',
+    )),
+    *(("Wish: Last Audience", rule) for rule in LAST_AUDIENCE_REQUIREMENTS),
     ('Boss: Great Conchflies', area(1, 'Blasted Steps - Toll')),
     ('Boss Completion: defeatedLastJudge', req('Event: Last Judge Defeated')),
     ('Boss Completion: defeatedGreyWarrior', area(
@@ -5076,7 +5125,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ),
     *(
         (location_name, _minor_pickup_requirement(location_name))
-        for location_name in MINOR_PICKUP_LOCATION_NAMES
+        for location_name in ACTIVE_MINOR_PICKUP_LOCATION_NAMES
         if canonicalize_location_name(location_name)
         not in VERIFIED_MINOR_PICKUP_LOCATIONS
     ),
@@ -5102,6 +5151,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
             ),
         )
         for source in LORE_TABLET_SOURCES
+        if source.location_name != "Verdania - Lake Plaque"
     ),
     (
         'Moss Grotto - Rosary Cache',
@@ -5285,7 +5335,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         req('Event: Missing Courier Rescued', crest=False),
     ),
     SINNER_MISSING_BROTHER_LOCATION: (
-        req(SINNER_MISSING_COURIER_EVENT, crest=False),
+        req('Event: Missing Brother Rescued', crest=False),
     ),
     'Shellwood - Weaver Harp Inscription': (
         req('Ancestral Art: Needolin', crest=False),
@@ -5616,7 +5666,7 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         ),
         *(
             location_name
-            for location_name in MINOR_PICKUP_LOCATION_NAMES
+            for location_name in ACTIVE_MINOR_PICKUP_LOCATION_NAMES
             if location_name not in {
                 'Moss Grotto - Frayed Rosary String',
                 'The Marrow (Flea Caravan Passage) - Frayed Rosary String',
@@ -5641,7 +5691,6 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
         # requirements, so they may hold only non-advancement rewards.
         'Fleatopia - Rosary Necklace',
         'Fleatopia - Rosary String',
-        'Whispering Vaults - Heavy Rosary Necklace',
         *HELD_MINOR_PICKUP_LOCATIONS,
         # These caches remain non-advancement-only until their room movement
         # requirements are represented.

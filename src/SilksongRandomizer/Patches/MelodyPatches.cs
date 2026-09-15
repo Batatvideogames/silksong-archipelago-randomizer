@@ -1028,7 +1028,9 @@ namespace SilksongRandomizer.Patches
                     if (PlayerData.instance != null)
                     {
                         PlayerData.instance.disableInventory = false;
+                        PlayerData.instance.disablePause = false;
                     }
+                    GameCameras.instance?.HUDIn();
                     if (hero != null)
                     {
                         hero.RegainControl();
