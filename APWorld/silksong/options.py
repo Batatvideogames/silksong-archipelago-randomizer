@@ -922,7 +922,7 @@ class FasterDialogue(Toggle):
 
 
 class FasterSilkheartAnimation(Toggle):
-    """Collect boss Silkhearts on contact. Off keeps the shortened pickup sequence and skips memories."""
+    """Collect boss Silkhearts on contact. False keeps the vanilla pickup animation but skips the dream sequence."""
 
     display_name = "Faster Silkheart Animation"
     default = 0
