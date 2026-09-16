@@ -997,6 +997,78 @@ namespace SilksongRandomizer.Patches
             );
         }
 
+        [HarmonyPatch(typeof(Fsm), nameof(Fsm.CreateSubFsm))]
+        private static class CrawSummonsSpawnPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                FsmTemplateControl templateControl,
+                Fsm __result)
+            {
+                if (templateControl?.fsmTemplate?.name !=
+                    "craw_summons_spawn_check")
+                {
+                    return;
+                }
+
+                FsmState state = __result?.GetState("Can Appear?");
+                FsmStateAction[] actions = state?.Actions;
+                if (actions == null || actions.Length != 7 ||
+                    !(actions[4] is CollectableItemGetData item) ||
+                    !(item.Item?.Value is CollectableItem collectable) ||
+                    collectable.name != CollectibleSourceManifest.CrawSummons ||
+                    item.NeededAmount?.Value != 1 ||
+                    item.IsCollected?.Name != "CANCEL" ||
+                    !string.IsNullOrEmpty(item.NotCollected?.Name) ||
+                    !(actions[5] is PlayerDataVariableTest door) ||
+                    door.VariableName?.Value != "OpenedCrowSummonsDoor" ||
+                    door.ExpectedValue == null ||
+                    door.ExpectedValue.Type != VariableType.Bool ||
+                    !door.ExpectedValue.boolValue ||
+                    door.IsExpectedEvent?.Name != "CANCEL" ||
+                    !string.IsNullOrEmpty(door.IsNotExpectedEvent?.Name) ||
+                    !HasTransition(state, "CANCEL", "Send CANCEL"))
+                {
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] Craw Summons spawn check has an unexpected layout."
+                    );
+                    return;
+                }
+
+                for (int index = 4; index <= 5; index++)
+                {
+                    var replacement = new CrawSpawnSourceGate(actions[index]);
+                    replacement.Init(state);
+                    actions[index] = replacement;
+                }
+            }
+        }
+
+        private sealed class CrawSpawnSourceGate : FsmStateAction
+        {
+            private readonly FsmStateAction nativeAction;
+
+            internal CrawSpawnSourceGate(FsmStateAction nativeAction)
+            {
+                this.nativeAction = nativeAction;
+            }
+
+            public override void OnEnter()
+            {
+                SaveState state = SaveState.Instance;
+                if (!IsActive(state, CollectibleSourceManifest.CrawSummons,
+                    ItemType.MajorKey))
+                {
+                    nativeAction.OnEnter();
+                }
+                else if (state.IsLocationChecked(CollectibleSourceManifest.CrawSummons))
+                {
+                    Fsm.Event("CANCEL");
+                }
+                Finish();
+            }
+        }
+
         private static void PatchCrawSummonsPin(PlayMakerFSM fsm)
         {
             if (!CollectibleSourceManifest.IsCrawPin(

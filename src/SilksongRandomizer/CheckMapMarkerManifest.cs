@@ -284,10 +284,7 @@ namespace SilksongRandomizer
             // the grouped check at its fixed Craw Lake/court doorway instead.
             new MapCheckPosition("Craw Summons", "Room_CrowCourt_02", 19.410000f, 44.277000f, 70f, 92f, MapMarkerPositionConfidence.ExactUpstream),
 
-            // Shakra's authored NPC roots at the first shop where each
-            // randomized purchase becomes available. Later encounters can
-            // still sell missed stock. Each marker uses the first shop where
-            // its product is available.
+            // Shakra shop positions; Hunter's March uses her later camp.
             new MapCheckPosition("Item: Quill", "Bone_04", 56.810001f, 14.640000f, 233f, 31f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Compass", "Bone_04", 56.810001f, 14.640000f, 233f, 31f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Mosslands", "Bone_04", 56.810001f, 14.640000f, 233f, 31f, MapMarkerPositionConfidence.ExactUpstream),
@@ -295,7 +292,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Map Purchase: Deep Docks", "Bone_East_01", 16.990000f, 8.700000f, 47f, 83f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Far Fields", "Bone_East_21", 18.780001f, 5.807000f, 40f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Wormways", "Crawl_01", 30.910000f, 58.430000f, 150f, 130f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Map Purchase: Hunter's March", "Ant_04_mid", 198.811740f, 15.244139f, 235f, 37f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Map Purchase: Hunter's March", "Ant_20", 75.349998f, 9.060000f, 222f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Greymoor", "Greymoor_02", 67.983109f, 5.863520f, 90f, 150f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Bellhart", "Belltown", 102.260002f, 22.850000f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Map Purchase: Shellwood", "Shellwood_16", 44.360001f, 11.390000f, 85f, 25f, MapMarkerPositionConfidence.ExactUpstream),
