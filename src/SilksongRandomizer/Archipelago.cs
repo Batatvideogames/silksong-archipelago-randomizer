@@ -727,142 +727,41 @@ namespace SilksongRandomizer
             }
         }
 
-        public IReadOnlyList<string> GetRecentReceivedItemNames(
-            int maximum
-        )
+        public IReadOnlyList<string> GetRecentReceivedItemNames(int maximum)
         {
             if (maximum <= 0)
             {
                 return Array.Empty<string>();
             }
-
-            SaveState activeState = SaveState.Instance;
-            try
+            List<string> history = SaveState.Instance?.receivedItemHistory;
+            if (history != null && history.Count > 0)
             {
-                ReadOnlyCollection<ItemInfo> allItems =
-                    session?.Items?.AllItemsReceived;
-                if (activeState != null && allItems != null)
-                {
-                    int endExclusive = Math.Min(
-                        Math.Max(0, activeState.receivedItemIndex),
-                        allItems.Count
-                    );
-                    List<string> recent = new List<string>(
-                        Math.Min(maximum, endExclusive)
-                    );
-                    for (
-                        int index = endExclusive - 1;
-                        index >= 0 && recent.Count < maximum;
-                        index--
-                    )
-                    {
-                        string itemName = GetItemName(allItems[index]);
-                        if (!string.IsNullOrWhiteSpace(itemName))
-                        {
-                            recent.Add(itemName);
-                        }
-                    }
-
-                    return recent;
-                }
+                return history.Take(Math.Max(0, SaveState.Instance.receivedItemIndex)).Reverse().Where(name =>
+                    !string.IsNullOrWhiteSpace(name)).Take(maximum).ToArray();
             }
-            catch (Exception)
-            {
-            }
-
             lock (stateLock)
             {
-                int endExclusive = receivedItems.Count;
-                if (activeState != null)
-                {
-                    endExclusive = Math.Min(
-                        Math.Max(0, activeState.receivedItemIndex),
-                        endExclusive
-                    );
-                }
-
-                List<string> recent = new List<string>(
-                    Math.Min(maximum, endExclusive)
-                );
-                for (
-                    int index = endExclusive - 1;
-                    index >= 0 && recent.Count < maximum;
-                    index--
-                )
-                {
-                    recent.Add(receivedItems[index]);
-                }
-
-                return recent;
+                return receivedItems.AsEnumerable().Reverse().Take(maximum).ToArray();
             }
         }
 
         public IReadOnlyDictionary<string, int> GetReceivedItemCounts()
         {
-            Dictionary<string, int> counts =
-                new Dictionary<string, int>(
-                    StringComparer.OrdinalIgnoreCase
-                );
-            SaveState activeState = SaveState.Instance;
-            if (activeState == null)
+            Dictionary<string, int> counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            SaveState state = SaveState.Instance;
+            if (state == null)
             {
                 return counts;
             }
-
-            try
+            foreach (string entry in (state.receivedItemHistory ?? new List<string>())
+                .Take(Math.Max(0, state.receivedItemIndex)))
             {
-                if (IsConnected() &&
-                    session?.Items?.AllItemsReceived != null)
+                string name = ItemSet.GetCanonicalItemName(entry);
+                if (!string.IsNullOrWhiteSpace(name))
                 {
-                    ReadOnlyCollection<ItemInfo> allItems =
-                        session.Items.AllItemsReceived;
-                    int endExclusive = Math.Min(
-                        Math.Max(0, activeState.receivedItemIndex),
-                        allItems.Count
-                    );
-                    for (int index = 0; index < endExclusive; index++)
-                    {
-                        string itemName = GetItemName(allItems[index]);
-                        if (string.IsNullOrWhiteSpace(itemName))
-                        {
-                            continue;
-                        }
-
-                        counts.TryGetValue(
-                            itemName,
-                            out int previousCount
-                        );
-                        counts[itemName] = previousCount + 1;
-                    }
-                    return counts;
+                    counts.TryGetValue(name, out int previous);
+                    counts[name] = previous + 1;
                 }
-            }
-            catch (Exception ex)
-            {
-                RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Could not read repeated AP item " +
-                    "counts for map logic; using committed save history: " +
-                    ex.Message
-                );
-            }
-
-            List<string> history = activeState.receivedItemHistory;
-            int historyEnd = Math.Min(
-                Math.Max(0, activeState.receivedItemIndex),
-                history?.Count ?? 0
-            );
-            for (int index = 0; index < historyEnd; index++)
-            {
-                string itemName = ItemSet.GetCanonicalItemName(
-                    history[index]
-                );
-                if (string.IsNullOrWhiteSpace(itemName))
-                {
-                    continue;
-                }
-
-                counts.TryGetValue(itemName, out int previousCount);
-                counts[itemName] = previousCount + 1;
             }
             return counts;
         }
@@ -882,11 +781,12 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            string[] serverItems = session.Items.AllItemsReceived
-                .Select(GetItemName)
-                .ToArray();
-            if (saveState.TrySynchronizeReceivedItemHistory(serverItems))
+            List<ReceivedItemReceipt> serverItems = ReceivedItemReceipt.FromServer(
+                session.Items.AllItemsReceived.ToArray(), GetItemName);
+            if (saveState.TrySynchronizeReceivedReceipts(serverItems))
             {
+                RandomizerPlugin.Instance?.ClearPendingReceivedItems();
+                ResetReceivedItemQueueCursor();
                 return true;
             }
 
@@ -1730,8 +1630,9 @@ namespace SilksongRandomizer
                 return;
             }
 
-            List<Tuple<int, string, ItemFlags>> itemsToQueue =
-                new List<Tuple<int, string, ItemFlags>>();
+            List<ReceivedItemReceipt> receipts = ReceivedItemReceipt.FromServer(allItems, GetItemName);
+            List<Tuple<int, string, ItemFlags, ReceivedItemReceipt>> itemsToQueue =
+                new List<Tuple<int, string, ItemFlags, ReceivedItemReceipt>>();
 
             lock (stateLock)
             {
@@ -1744,28 +1645,36 @@ namespace SilksongRandomizer
                 if (!ReferenceEquals(queuedForSaveState, activeState))
                 {
                     queuedForSaveState = activeState;
-                    lastQueuedItemIndex = activeState.receivedItemIndex;
+                    lastQueuedItemIndex = activeState.NextReceivedItemIndex;
                 }
 
-                int firstIndex = Math.Max(activeState.receivedItemIndex, lastQueuedItemIndex);
+                if (!activeState.receivedItemReceiptsInitialized &&
+                    !activeState.TrySynchronizeReceivedReceipts(receipts))
+                {
+                    RandomizerPlugin.Instance.ReportBlockingError("Could not reconcile received AP items.");
+                    return;
+                }
+                int firstIndex = Math.Max(activeState.NextReceivedItemIndex, lastQueuedItemIndex);
                 for (int index = firstIndex; index < allItems.Count; index++)
                 {
                     itemsToQueue.Add(Tuple.Create(
                         index,
                         GetItemName(allItems[index]),
-                        allItems[index].Flags
+                        allItems[index].Flags,
+                        receipts[index]
                     ));
                 }
 
                 lastQueuedItemIndex = Math.Max(lastQueuedItemIndex, allItems.Count);
             }
 
-            foreach (Tuple<int, string, ItemFlags> queuedItem in itemsToQueue)
+            foreach (Tuple<int, string, ItemFlags, ReceivedItemReceipt> queuedItem in itemsToQueue)
             {
                 RandomizerPlugin.Instance.QueueReceivedItem(
                     queuedItem.Item1,
                     queuedItem.Item2,
-                    queuedItem.Item3
+                    queuedItem.Item3,
+                    queuedItem.Item4
                 );
             }
         }

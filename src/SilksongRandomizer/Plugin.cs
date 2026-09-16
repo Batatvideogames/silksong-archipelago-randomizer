@@ -115,6 +115,7 @@ namespace SilksongRandomizer
 
         private struct QueuedReceivedItem
         {
+            public ReceivedItemReceipt Receipt;
             public int Index;
             public string Name;
             public ItemFlags Flags;
@@ -930,6 +931,15 @@ namespace SilksongRandomizer
             Log.LogError("[RANDOMIZER] " + message);
         }
 
+        internal void ClearPendingReceivedItems()
+        {
+            lock (receivedItemQueueLock)
+            {
+                receivedItemQueue.Clear();
+            }
+            nextItemRetryTime = 0f;
+        }
+
         public void ClearPendingGameplayQueues()
         {
             TrapManager.ResetTransientEffects();
@@ -953,7 +963,8 @@ namespace SilksongRandomizer
         public void QueueReceivedItem(
             int itemIndex,
             string itemName,
-            ItemFlags flags)
+            ItemFlags flags,
+            ReceivedItemReceipt receipt = null)
         {
             if (itemIndex < 0 || string.IsNullOrWhiteSpace(itemName))
             {
@@ -964,6 +975,7 @@ namespace SilksongRandomizer
             {
                 receivedItemQueue.Enqueue(new QueuedReceivedItem
                 {
+                    Receipt = receipt,
                     Index = itemIndex,
                     Name = itemName,
                     Flags = flags
@@ -1000,10 +1012,6 @@ namespace SilksongRandomizer
             }
         }
 
-        // Returns true only after consuming a guaranteed start-with-maps
-        // packet whose native state was applied by the one-time bootstrap.
-        // That permits a bounded number of these bookkeeping-only packets to
-        // drain in one frame without changing ordinary receipt pacing.
         private bool ProcessQueuedReceivedItem()
         {
             SaveState saveState = SaveState.Instance;
@@ -1030,7 +1038,7 @@ namespace SilksongRandomizer
                 queuedItem = receivedItemQueue.Peek();
             }
 
-            if (queuedItem.Index < saveState.receivedItemIndex)
+            if (queuedItem.Index < saveState.NextReceivedItemIndex)
             {
                 lock (receivedItemQueueLock)
                 {
@@ -1041,11 +1049,11 @@ namespace SilksongRandomizer
                 );
             }
 
-            if (queuedItem.Index > saveState.receivedItemIndex)
+            if (queuedItem.Index > saveState.NextReceivedItemIndex)
             {
                 Log.LogWarning(
                     "[RANDOMIZER] AP item queue skipped index " +
-                    saveState.receivedItemIndex + "; rebuilding the queue."
+                    saveState.NextReceivedItemIndex + "; rebuilding the queue."
                 );
 
                 lock (receivedItemQueueLock)
@@ -1065,8 +1073,10 @@ namespace SilksongRandomizer
 
             Item item = saveState.GetItem(queuedItem.Name);
             string canonicalItemName = item == null ? queuedItem.Name : item.Name;
-            bool alreadyReceived = saveState.receivedItems.Contains(canonicalItemName) &&
-                                   (item == null || !item.Repeatable);
+            bool replayedReceipt = saveState.HasReceivedReceipt(queuedItem.Receipt);
+            bool alreadyReceived = replayedReceipt ||
+                (saveState.receivedItems.Contains(canonicalItemName) &&
+                 (item == null || !item.Repeatable));
 
             if (item == null && !saveState.receivedItems.Contains(canonicalItemName))
             {
@@ -1133,10 +1143,11 @@ namespace SilksongRandomizer
 
             try
             {
-                bool newlyReceived = saveState.CommitReceivedItemAtIndex(
+                bool newlyReceived = saveState.CommitReceivedReceiptAtIndex(
                     queuedItem.Index,
                     canonicalItemName,
-                    item != null && item.Repeatable
+                    item != null && item.Repeatable,
+                    queuedItem.Receipt
                 );
 
                 if (newlyReceived)
@@ -1182,7 +1193,7 @@ namespace SilksongRandomizer
                 // Play the receipt cue for every AP Flea packet, including a
                 // duplicate manually sent for testing.  The packet is still
                 // consumed normally. This only affects the client feedback.
-                if (item != null && item.Type == ItemType.Flea)
+                if (!replayedReceipt && item != null && item.Type == ItemType.Flea)
                 {
                     FleaRescueAudio.QueueForReceivedFlea();
                 }
@@ -1197,7 +1208,7 @@ namespace SilksongRandomizer
                     QueueUnlockPopup(canonicalItemName, queuedItem.Flags);
                 }
 
-                return alreadyReceived &&
+                return replayedReceipt || alreadyReceived &&
                        saveState.IsStartWithMapsBootstrapItem(
                            canonicalItemName
                        );

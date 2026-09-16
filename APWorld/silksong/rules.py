@@ -142,6 +142,7 @@ def finalize_crest_slot_memory_locket_logic(world) -> None:
     world._crest_slot_memory_locket_count = (
         get_crest_slot_memory_locket_count(world)
     )
+    apply_crest_slot_memory_locket_rules(world)
     for location_name in CREST_SLOT_LOCATION_NAMES:
         try:
             location = world.multiworld.get_location(
@@ -154,6 +155,17 @@ def finalize_crest_slot_memory_locket_logic(world) -> None:
             # Progression balancing must not change the number after the
             # access rules and client slot data have agreed on it.
             location.locked = True
+
+
+def apply_crest_slot_memory_locket_rules(world) -> None:
+    count = world._crest_slot_memory_locket_count
+    if count is None:
+        return
+    for name, base_rule in world._crest_slot_base_rules.items():
+        rule = base_rule & Has(MEMORY_LOCKET_ITEM, count)
+        world._silksong_rule_builder_rules[name] = rule
+        world.set_rule(world.multiworld.get_location(name, world.player), rule)
+    world.register_rule_builder_dependencies()
 
 
 def _is_matching_shuffle_item(category: str, player: int):
@@ -289,6 +301,7 @@ def set_silksong_rules(world) -> None:
     )
     excluded_location_names = world.get_goal_excluded_location_names()
     world._silksong_rule_builder_rules = {}
+    world._crest_slot_base_rules = {}
 
     for location_name, location_data in location_data_table.items():
         if location_name == "Goal":
@@ -421,14 +434,6 @@ def set_silksong_rules(world) -> None:
                     proficient_movement=proficient_movement,
                     bell_shrine_sanity=bell_shrine_sanity,
                 )
-            if (
-                randomized_memory_lockets_for_crest_slots
-                and location_data.category == "CrestSlot"
-            ):
-                location_rule = (
-                    location_rule
-                    & CrestSlotMemoryLocketRule()
-                )
         if location_name == PINMASTER_OIL_QUEST_LOCATION:
             location_rule = build_requirements_rule(
                 get_pinmaster_oil_requirements(randomize_pale_oils),
@@ -490,6 +495,17 @@ def set_silksong_rules(world) -> None:
         ):
             location_rule = True_()
 
+        if (
+            randomized_memory_lockets_for_crest_slots
+            and location_data.category == "CrestSlot"
+            and location_name not in logic_unknown_locations
+        ):
+            world._crest_slot_base_rules[location_name] = location_rule
+            count = world._crest_slot_memory_locket_count
+            location_rule = location_rule & (
+                CrestSlotMemoryLocketRule() if count is None
+                else Has(MEMORY_LOCKET_ITEM, count)
+            )
         world._silksong_rule_builder_rules[location_name] = location_rule
         world.set_rule(location, location_rule)
 

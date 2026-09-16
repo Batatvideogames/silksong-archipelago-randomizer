@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace SilksongRandomizer
 {
     [System.Serializable]
-    public class SaveState
+    public partial class SaveState
     {
         public const int CurrentSchemaVersion = 26;
 

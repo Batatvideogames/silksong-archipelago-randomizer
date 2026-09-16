@@ -211,6 +211,41 @@ class SilksongWorld(CachedRuleBuilderWorld):
         del _requirement_rules
         return super().rule_from_dict(data)
 
+    def interpret_slot_data(self, slot_data):
+        from .rules import apply_crest_slot_memory_locket_rules
+
+        for category in ("CrestSlot", "MemoryLocket"):
+            key = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
+            if key in slot_data and slot_data[key] != self.get_category_mode(category):
+                raise ValueError(f"Tracker YAML {key} must match this slot.")
+        if not uses_randomized_memory_lockets_for_crest_slots(self):
+            return
+
+        count = slot_data.get("crest_slot_memory_locket_count")
+        if count is None:
+            payload = slot_data
+            if slot_data.get("logic_payload_format") == LOGIC_PAYLOAD_FORMAT:
+                payload = json.loads(gzip.decompress(base64.b64decode(
+                    slot_data["logic_payload"]
+                )))
+            counts = {
+                item_count["minimum"]
+                for location in get_active_crest_slot_locations(self)
+                for alternative in payload.get("requirements", {}).get(
+                    location.name, {}
+                ).get("alternatives", ())
+                for item_count in alternative.get("item_counts", ())
+                if item_count.get("items") == [MEMORY_LOCKET_ITEM]
+            }
+            if len(counts) != 1:
+                raise ValueError("Slot data is missing the Crest Slot Locket requirement.")
+            count = counts.pop()
+        active_count = len(get_active_crest_slot_locations(self))
+        if type(count) is not int or not (min(1, active_count) <= count <= active_count):
+            raise ValueError("Invalid Crest Slot Locket requirement in slot data.")
+        self._crest_slot_memory_locket_count = count
+        apply_crest_slot_memory_locket_rules(self)
+
     def resolve_starting_crest(self) -> str:
         if self._resolved_starting_crest is not None:
             return self._resolved_starting_crest
@@ -1819,6 +1854,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_swim_ability_rando_enabled()
             ),
             "alphabet_mode": self.is_alphabet_mode_enabled(),
+            "crest_slot_memory_locket_count": (
+                get_crest_slot_memory_locket_count(self)
+                if uses_randomized_memory_lockets_for_crest_slots(self)
+                else 0
+            ),
             "crest_slot_item_flags": {
                 location.name: int(location.item.classification)
                 for location in get_active_crest_slot_locations(self)

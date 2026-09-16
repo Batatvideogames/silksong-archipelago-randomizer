@@ -610,7 +610,8 @@ class Goal(Choice):
 class SpellingBeePhrase(FreeText):
     """The word or phrase used by the Spelling Bee goal.
 
-    Only A-Z letters and spaces are valid. Other characters change the goal to
+    A-Z letters, spaces, commas, periods, question marks and exclamation marks
+    are supported. At least one letter is required. Other characters change the goal to
     Act 2 and do not automatically enable Alphabet Mode.
     """
 

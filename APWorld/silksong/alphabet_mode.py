@@ -25,7 +25,7 @@ def parse_spelling_bee_phrase(
     if not isinstance(value, str):
         return None
     if any(
-        character != " "
+        character not in " ,.!?"
         and not (
             "A" <= character <= "Z"
             or "a" <= character <= "z"
@@ -41,14 +41,14 @@ def parse_spelling_bee_phrase(
     item_names = []
     seen_letters = set()
     for character in phrase:
-        if character == " ":
+        if character in " ,.!?":
             continue
         letter = character.upper()
         if letter in seen_letters:
             continue
         seen_letters.add(letter)
         item_names.append(f"Letter: {letter}")
-    return phrase, tuple(item_names)
+    return (phrase, tuple(item_names)) if item_names else None
 
 
 class PoolEntry(Protocol):

@@ -48,7 +48,8 @@ namespace SilksongRandomizer.AlphabetMode
 
             foreach (char character in phrase)
             {
-                if (character == ' ')
+                if (character == ' ' || character == ',' || character == '.' ||
+                    character == '?' || character == '!')
                 {
                     continue;
                 }

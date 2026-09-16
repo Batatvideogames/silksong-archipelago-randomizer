@@ -340,14 +340,14 @@ class TestAlphabetMode(unittest.TestCase):
                 ),
             ),
         )
-        for invalid in ("", "   ", "Hornet!", "Act 2", "Café", "Hornet\tNest"):
+        for invalid in ("", "   ", "Hornet2", "Act 2", "Café", "Hornet\tNest"):
             with self.subTest(phrase=invalid):
                 self.assertIsNone(parse_spelling_bee_phrase(invalid))
 
         world = self.make_world(
             False,
             goal=SPELLING_BEE_GOAL_KEY,
-            spelling_bee_phrase="Hornet!",
+            spelling_bee_phrase="Hornet2",
         )
         slot_data = world.fill_slot_data()
         self.assertEqual(world.get_goal_key(), "act_2")
@@ -359,7 +359,7 @@ class TestAlphabetMode(unittest.TestCase):
         alphabet_world = self.make_world(
             True,
             goal=SPELLING_BEE_GOAL_KEY,
-            spelling_bee_phrase="Hornet!",
+            spelling_bee_phrase="Hornet2",
         )
         self.assertEqual(alphabet_world.get_goal_key(), "act_2")
         self.assertTrue(alphabet_world.is_alphabet_mode_enabled())
