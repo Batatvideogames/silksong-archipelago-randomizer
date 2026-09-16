@@ -446,6 +446,31 @@ namespace SilksongRandomizer
                 : ArchipelagoIcon;
         }
 
+        public Sprite GetItemIcon(string itemName, ItemFlags flags)
+        {
+            return ItemIcons.GetSprite(
+                itemName,
+                GetItemClassificationIcon(flags)
+            );
+        }
+
+        public Sprite GetItemIcon(
+            string itemName,
+            ItemFlags flags,
+            out float iconScale)
+        {
+            return ItemIcons.GetSprite(
+                itemName,
+                GetItemClassificationIcon(flags),
+                out iconScale
+            );
+        }
+
+        public Sprite GetItemIcon(string itemName, Sprite fallback)
+        {
+            return ItemIcons.GetSprite(itemName, fallback);
+        }
+
         private static Sprite CreateWhiteOutlineIcon(Sprite source)
         {
             if (source == null || source.texture == null)
@@ -1272,11 +1297,12 @@ namespace SilksongRandomizer
                 popup = unlockQueue.Dequeue();
             }
 
+            float iconScale;
             CollectableUIMsg.Spawn(new UIMsgDisplay
             {
                 Name = AlphabetModeManager.FilterDirectText(popup.Text),
-                Icon = GetItemClassificationIcon(popup.Flags),
-                IconScale = 1.0f,
+                Icon = GetItemIcon(popup.Text, popup.Flags, out iconScale),
+                IconScale = iconScale,
                 RepresentingObject = null,
             }, null, false);
         }
