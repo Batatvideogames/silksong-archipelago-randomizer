@@ -39,7 +39,9 @@ from .locations import (
     SILK_HEART_LOCATION_NAMES,
     SPOOL_FRAGMENT_LOCATION_NAMES,
     canonicalize_location_name,
+    location_data_table,
 )
+from .room_graph import load_room_graph
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
@@ -357,6 +359,7 @@ def _canonicalize_compiled_checks(
     )
 
 
+MAPPER_GRAPH_ENABLED = load_room_graph().assumptions.get("mapper_schema") == 3
 _SOURCE_COMPILED_ROOM_GRAPH = compile_room_graph()
 (
     _CANONICAL_ROOM_GRAPH_CHECK_REQUIREMENTS,
@@ -1310,8 +1313,8 @@ _VOLATILE_FLINTBEETLE_AVAILABILITY_PATHS: tuple[str, ...] = (
     'Path: Shellwood - Overgrown West',
 )
 _VOLATILE_FLINTBEETLE_TARGET_NODES: tuple[str, ...] = (
-    'Room Node: the-marrow/the-marrow-entrance#before-gauntlet',
-    'Room Node: the-marrow/the-marrow-shakra-intro#main-area',
+    'Room Node: the-marrow/the-marrow-entrance#above-gauntlet',
+    'Room Node: the-marrow/the-marrow-map-shop#right-upper-path',
     'Room Node: the-marrow/the-marrow-skull-wall#room',
     'Room Node: the-marrow/the-marrow-lower-pogo#room',
 )
@@ -1386,6 +1389,8 @@ def _compiled_room_clause_requirement(
                 *(
                     SPOOL_FRAGMENT_ITEM_NAMES
                     if item_name == SPOOL_FRAGMENT_COUNT_ITEM
+                    else JUDGE_BELL_ITEMS if item_name == "$bellshrines"
+                    else FLEA_ITEMS if item_name == "$fleas"
                     else (item_name,)
                 ),
             )
@@ -1416,12 +1421,15 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
 }
 
-POLLIP_RITE_ROOM_NODE = room_node_name(
-    "shellwood/shellwood-25b#room"
+POLLIP_RITE_ROOM_NODE = (
+    room_event_name("event:mapper/pollip-rite-completed")
+    if MAPPER_GRAPH_ENABLED
+    else room_node_name("shellwood/shellwood-25b#room")
 )
-_POLLIP_RITE_BASE_REQUIREMENTS = ROOM_NODE_REQUIREMENTS.get(
-    POLLIP_RITE_ROOM_NODE,
-    (),
+_POLLIP_RITE_BASE_REQUIREMENTS = (
+    (req(room_node_name("shellwood/greyroot#room"), crest=False),)
+    if MAPPER_GRAPH_ENABLED
+    else ROOM_NODE_REQUIREMENTS.get(POLLIP_RITE_ROOM_NODE, ())
 )
 
 
@@ -1579,6 +1587,15 @@ COLORED_TOOL_LOADOUTS: Mapping[
     str,
     tuple[tuple[str, str], ...],
 ] = MappingProxyType({
+    **{
+        f"Usable {name.removeprefix('Tool: ')}": ((name, RED_TOOL_SLOT),)
+        for name in (
+            *BROODFEAST_SEARED_TOOL_ITEMS,
+            *BROODFEAST_SHREDDED_TOOL_ITEMS,
+            *BROODFEAST_SKEWERED_TOOL_ITEMS,
+        )
+        if name.startswith('Tool: ')
+    },
     USABLE_FLEA_BREW_REQUIREMENT: (
         ('Tool: Flea Brew', RED_TOOL_SLOT),
     ),
@@ -1591,6 +1608,7 @@ COLORED_TOOL_LOADOUTS: Mapping[
     USABLE_SCUTTLEBRACE_REQUIREMENT: (
         ('Tool: Scuttlebrace', YELLOW_TOOL_SLOT),
     ),
+    'Usable Silkspeed Anklets': (('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),),
     USABLE_CINDRIL_LOADOUT_REQUIREMENT: (
         ('Tool: Flea Brew', RED_TOOL_SLOT),
         ('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),
@@ -2297,10 +2315,6 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Rite of the Pollip Completed': (
         req(POLLIP_RITE_ROOM_NODE, crest=False),
     ),
-    # Greyroot cannot begin the Rite of Rebirth until the active six-flower
-    # Rite of Pollip is complete and Widow has been defeated. Twisted Bud and
-    # the six physical/randomized flower sources are inherited through the
-    # authoritative Shellwood_25b room node.
     RITE_OF_REBIRTH_EVENT: (
         req(
             POLLIP_RITE_ROOM_NODE,
@@ -2628,6 +2642,9 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     # Trail's End uses Shakra's carried stock by default. owned_maps
     # replaces those purchases with ownership of the same 14 map items.
     'Event: Trail\'s End Completed': get_trails_end_requirements(),
+    'Event: Bellhart Full House Conversation': (
+        req('Path: Bellhart - Bellhart', crest=False),
+    ),
     'Event: Silk and Soul Completed': tuple(
         req(
             'Event: Act 2 Started',
@@ -2640,7 +2657,7 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             'Path: The Cradle - Terminus',
             'Path: Bilewater - Bilehaven',
             'Path: Weavenest - Atla',
-            'Path: Bellhart - Bellhart',
+            'Event: Bellhart Full House Conversation',
             'Path: Mosslands - Bone Bottom',
             'Path: Mount Fay - Workbench',
             'Ancestral Art: Needolin',
@@ -2793,20 +2810,61 @@ RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS = {
     ),
 }
 
+if MAPPER_GRAPH_ENABLED:
+    EVENT_REQUIREMENTS[RITE_OF_REBIRTH_EVENT] = (
+        req(POLLIP_RITE_ROOM_NODE, 'Event: Widow Defeated', 'Event: Mapper Rebirth Started', crest=False),
+    )
+    EVENT_REQUIREMENTS['Event: Everbloom Obtained'] = (
+        req(room_event_name('event:mapper/owned/everbloom'), crest=False),
+    )
+
+PROFICIENT_COMBAT_REQUIREMENT = "Option: Proficient Combat"
+PROFICIENT_COMBAT_REQUIREMENTS = (req(crest=False),)
+
 ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
     {
+        PROFICIENT_COMBAT_REQUIREMENT: (),
+        "Option: Proficient Movement": (),
+        "Option: Bellshrinesanity On": (),
+        "Option: Bellshrinesanity Off": (req(crest=False),),
         **INNATE_CAPABILITY_REQUIREMENTS,
         **ACT_REQUIREMENTS,
         **EVENT_REQUIREMENTS,
         **PATH_REQUIREMENTS,
         **EQUIPPED_SILK_SKILL_REQUIREMENTS,
         **EQUIPPED_COLORED_TOOL_REQUIREMENTS,
+        **{
+            f'Damage: {kind}': tuple(
+                req(
+                    f"Usable {name.removeprefix('Tool: ')}"
+                    if name.startswith('Tool: ') else name,
+                    crest=False,
+                )
+                for name in names
+            )
+            for kind, names in (
+                ('Searing', BROODFEAST_SEARED_TOOL_ITEMS),
+                ('Shredding', BROODFEAST_SHREDDED_TOOL_ITEMS),
+                ('Skewering', BROODFEAST_SKEWERED_TOOL_ITEMS),
+            )
+        },
         **ROOM_NODE_REQUIREMENTS,
         # The Bell Beast room event replaces the earlier path-derived event
         # of the same name.
         **ROOM_EVENT_REQUIREMENTS,
     }
 )
+
+MAPPER_UNRESOLVED_LEGACY_REFERENCES: frozenset[str] = frozenset()
+if MAPPER_GRAPH_ENABLED:
+    MAPPER_UNRESOLVED_LEGACY_REFERENCES = frozenset(
+        name
+        for alternatives in ABSTRACT_REQUIREMENTS.values()
+        for alternative in alternatives
+        for name in (*alternative.all_of, *alternative.any_of)
+        if name.startswith(('Room Node: ', 'Room Event: ')) and name not in ABSTRACT_REQUIREMENTS
+    )
+    ABSTRACT_REQUIREMENTS.update({name: () for name in MAPPER_UNRESOLVED_LEGACY_REFERENCES})
 
 BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
     req(
@@ -2841,6 +2899,13 @@ def normalize_starting_location_key(starting_location: str) -> str:
     return normalized
 
 
+DONATION_CAPACITY_EVENTS: Mapping[str, str] = {
+    'Room Event: event:mapper/reviewed:bone-bottom-repairs-capacity': 'Wish: Bone Bottom Repairs',
+    'Room Event: event:mapper/reviewed:bone-bottom-bridge-capacity': 'Wish: A Lifesaving Bridge',
+    'Room Event: event:mapper/reviewed:bone-bottom-statue-capacity': 'Wish: An Icon of Hope',
+}
+
+
 def get_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
@@ -2849,6 +2914,10 @@ def get_abstract_requirements(
     pollip_heart_count: int = 0,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
+    donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
@@ -2870,10 +2939,21 @@ def get_abstract_requirements(
         and not pollip_heart_count
         and not randomize_ledge_grab
         and not randomize_swim
+        and not proficient_combat
+        and not proficient_movement
+        and not bell_shrine_sanity
+        and not any(name in ABSTRACT_REQUIREMENTS for name in DONATION_CAPACITY_EVENTS)
     ):
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    if proficient_movement:
+        adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
+    if bell_shrine_sanity:
+        adjusted_requirements["Option: Bellshrinesanity On"] = (req(crest=False),)
+        adjusted_requirements["Option: Bellshrinesanity Off"] = ()
+    if proficient_combat:
+        adjusted_requirements[PROFICIENT_COMBAT_REQUIREMENT] = PROFICIENT_COMBAT_REQUIREMENTS
     if randomize_ledge_grab:
         adjusted_requirements[LEDGE_GRAB_CAPABILITY_REQUIREMENT] = (
             RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
@@ -2897,6 +2977,17 @@ def get_abstract_requirements(
             VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS
         )
     if starting_location == STARTING_LOCATION_BONE_BOTTOM:
+        if MAPPER_GRAPH_ENABLED:
+            for node in load_room_graph().assumptions['starting_nodes']:
+                name = 'Room Node: ' + node
+                adjusted_requirements[name] = tuple(
+                    clause for clause in adjusted_requirements[name]
+                    if clause != req(crest=False)
+                )
+            start = 'Room Node: bone-bottom/bone-bottom-town#ground-level'
+            if start not in adjusted_requirements:
+                raise ValueError('Mapper graph has no Bone Bottom starting node')
+            adjusted_requirements[start] = (*adjusted_requirements[start], req(crest=False))
         # Replace the zero-requirement Moss Grotto root with Bone Bottom.
         # Every normal return route remains intact, so the fixed-point graph
         # derives Moss Grotto from its physical route back out of Bone Bottom.
@@ -2914,6 +3005,21 @@ def get_abstract_requirements(
         adjusted_requirements[POLLIP_RITE_ROOM_NODE] = (
             _get_pollip_rite_room_requirements(pollip_heart_count)
         )
+    capacity_events = DONATION_CAPACITY_EVENTS.keys() & adjusted_requirements.keys()
+    if capacity_events:
+        from .prices import get_shell_shard_donation_tool_pouch_requirements
+        capacities = get_shell_shard_donation_tool_pouch_requirements({})
+        if donation_tool_pouch_requirements is not None:
+            capacities.update(donation_tool_pouch_requirements)
+        for name in capacity_events:
+            count = capacities[DONATION_CAPACITY_EVENTS[name]]
+            if type(count) is not int or not 0 <= count <= 4:
+                raise ValueError(f'Invalid donation Tool Pouch requirement: {count!r}')
+            if count:
+                adjusted_requirements[name] = tuple(
+                    replace(clause, item_counts=(*clause.item_counts, item_count(count, 'Progressive Tool Pouch')))
+                    for clause in adjusted_requirements[name]
+                )
     return adjusted_requirements
 
 
@@ -5543,6 +5649,15 @@ def _attach_preserved_local_gates(
     sources: Iterable[LocationRequirement],
 ) -> Iterable[LocationRequirement]:
     gates = _ROOM_GRAPH_PRESERVED_LOCAL_GATES.get(location_name)
+    if MAPPER_GRAPH_ENABLED and location_name in {
+        'Wish: Volatile Flintbeetles',
+        'Volatile Flintbeetles - Memory Locket',
+        'Pinmaster Plinney: Sharpened Needle',
+        'Pinmaster Plinney: Shining Needle',
+        'Pinmaster Plinney: Hivesteel Needle',
+        'Pinmaster Plinney: Pale Steel Needle',
+    }:
+        gates = None
     if not gates:
         yield from sources
         return
@@ -5565,9 +5680,12 @@ def _authoritative_requirement_rows() -> Iterable[
 
     for location_name, established in _ESTABLISHED_REQUIREMENTS_BY_LOCATION.items():
         graph_sources = ROOM_CHECK_REQUIREMENTS.get(location_name)
+        if MAPPER_GRAPH_ENABLED and not graph_sources and location_name != 'Goal':
+            yield location_name, req(crest=False)
+            continue
         if (
             not graph_sources
-            or location_name in _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS
+            or (not MAPPER_GRAPH_ENABLED and location_name in _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS)
         ):
             yield from (
                 (location_name, requirement)
@@ -5588,10 +5706,10 @@ def _authoritative_requirement_rows() -> Iterable[
 
         yield from (
             (location_name, alternative)
-            for alternative in _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES.get(
+            for alternative in (() if MAPPER_GRAPH_ENABLED else _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES.get(
                 location_name,
                 (),
-            )
+            ))
         )
 
     # A graph source may precede its flat fallback row and takes precedence
@@ -5711,9 +5829,36 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
 ) - frozenset((PINMASTER_OIL_QUEST_LOCATION,))
+if MAPPER_GRAPH_ENABLED:
+    UNVERIFIED_PROGRESSION_LOCATIONS = ROOM_GRAPH_QUARANTINED_CHECK_NAMES
+    JUNK_ONLY_LOCATIONS = frozenset(ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS & location_data_table.keys())
+    LOGIC_UNKNOWN_LOCATIONS = UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
+
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = (
     _LOGIC_PASS_A_PROGRESSION_CANDIDATES - LOGIC_UNKNOWN_LOCATIONS
 )
+
+
+class _AssumedMapperInventory:
+    def __init__(self, unavailable_items):
+        self.unavailable_items = unavailable_items
+        self.prog_items = {1: Counter({'assumed inventory': 1})}
+
+    def count(self, item, player):
+        return 0 if clean_item_display_name(item) in self.unavailable_items else 1_000_000
+
+    def has(self, item, player, count=1):
+        return self.count(item, player) >= count
+
+
+def get_mapper_option_quarantines(unavailable_items=frozenset(), **options) -> frozenset[str]:
+    if not MAPPER_GRAPH_ENABLED:
+        return frozenset()
+    state = _AssumedMapperInventory(unavailable_items)
+    return frozenset(
+        name for name in ROOM_GRAPH_CANONICAL_CHECK_NAMES
+        if not make_requirements_rule(get_location_requirements(name), 1, **options)(state)
+    )
 
 
 def is_logic_unknown_location(location_name: str) -> bool:
@@ -5789,6 +5934,9 @@ def _get_static_abstract_requirement_items(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
     starting_location = normalize_starting_location_key(starting_location)
     trails_end_requirement = normalize_trails_end_requirement(
@@ -5810,6 +5958,24 @@ def _get_static_abstract_requirement_items(
             _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
             if allow_bellways_before_bell_beast
             else _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
+        )
+
+    if bell_shrine_sanity:
+        requirement_items = tuple(
+            (name, (req(crest=False),) if name == "Option: Bellshrinesanity On" else () if name == "Option: Bellshrinesanity Off" else alternatives)
+            for name, alternatives in requirement_items
+        )
+
+    if proficient_movement:
+        requirement_items = tuple(
+            (name, PROFICIENT_COMBAT_REQUIREMENTS if name == "Option: Proficient Movement" else alternatives)
+            for name, alternatives in requirement_items
+        )
+
+    if proficient_combat:
+        requirement_items = tuple(
+            (name, PROFICIENT_COMBAT_REQUIREMENTS if name == PROFICIENT_COMBAT_REQUIREMENT else alternatives)
+            for name, alternatives in requirement_items
         )
 
     if randomize_ledge_grab or randomize_swim:
@@ -5968,6 +6134,9 @@ def _compile_static_abstract_worklist_plan(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> _AbstractWorklistPlan:
     requirements_signature = _get_static_abstract_requirement_items(
         allow_bellways_before_bell_beast,
@@ -5977,6 +6146,9 @@ def _compile_static_abstract_worklist_plan(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
     return _compile_abstract_worklist_plan(requirements_signature)
 
@@ -5993,6 +6165,9 @@ def _matches_static_abstract_requirements(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> bool:
     """Return whether this is the unchanged runtime graph."""
 
@@ -6004,6 +6179,9 @@ def _matches_static_abstract_requirements(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
     return (
         len(abstract_requirements) == len(expected_items)
@@ -6027,6 +6205,9 @@ def _compute_abstract_values(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> tuple[
     dict[str, bool],
     bool,
@@ -6063,6 +6244,9 @@ def _compute_abstract_values(
             randomize_ledge_grab,
             randomize_swim,
             pollip_heart_count,
+            proficient_combat,
+            proficient_movement,
+            bell_shrine_sanity,
             inventory_signature,
             ABSTRACT_REQUIREMENTS.revision,
         )
@@ -6117,6 +6301,9 @@ def _compute_abstract_values(
         pollip_heart_count,
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
     if _matches_static_abstract_requirements(
         abstract_requirements,
@@ -6127,6 +6314,9 @@ def _compute_abstract_values(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     ):
         worklist_plan = _compile_static_abstract_worklist_plan(
             allow_bellways_before_bell_beast,
@@ -6136,6 +6326,9 @@ def _compute_abstract_values(
             randomize_ledge_grab,
             randomize_swim,
             pollip_heart_count,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
     else:
         # Validation tools occasionally patch the graph. Compile those
@@ -6348,6 +6541,9 @@ def _has_named_requirement(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6368,6 +6564,9 @@ def _has_named_requirement(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
     return _has_named_requirement_with_values(
         item_or_requirement_name,
@@ -6392,6 +6591,9 @@ def _satisfies_requirement(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6413,6 +6615,9 @@ def _satisfies_requirement(
             randomize_ledge_grab,
             randomize_swim,
             pollip_heart_count,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
     )
     return _satisfies_requirement_with_values(
@@ -6441,6 +6646,9 @@ def make_requirements_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ):
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
@@ -6460,6 +6668,9 @@ def make_requirements_rule(
                 randomize_ledge_grab,
                 randomize_swim,
                 pollip_heart_count,
+                proficient_combat=proficient_combat,
+                proficient_movement=proficient_movement,
+                bell_shrine_sanity=bell_shrine_sanity,
             )
         )
         return any(
@@ -6494,6 +6705,9 @@ def make_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ):
     if is_logic_unknown_location(location_name):
         return lambda _state: True
@@ -6514,6 +6728,9 @@ def make_rule(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
 
 
@@ -6605,6 +6822,8 @@ def get_crawfather_requirements(
     """Return Crawfather's movement and Needle upgrade gates."""
 
     requirements = get_location_requirements(CRAWFATHER_LOCATION)
+    if MAPPER_GRAPH_ENABLED and CRAWFATHER_LOCATION in ROOM_GRAPH_CANONICAL_CHECK_NAMES:
+        return requirements
     if randomize_needle_upgrades or randomize_pale_oils:
         return tuple(
             replace(
@@ -6753,6 +6972,9 @@ def make_goal_rule(
     spelling_bee_item_names: tuple[str, ...] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ):
     return make_requirements_rule(
         get_goal_requirements(
@@ -6772,6 +6994,9 @@ def make_goal_rule(
         randomize_ledge_grab,
         randomize_swim,
         pollip_heart_count,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
 
 
@@ -6953,6 +7178,10 @@ def export_abstract_requirements(
     pollip_heart_count: int = 0,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
+    donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
@@ -6971,6 +7200,10 @@ def export_abstract_requirements(
             pollip_heart_count,
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
+            donation_tool_pouch_requirements=donation_tool_pouch_requirements,
         ).items()
         if (
             scuttlebrace_logic_enabled
@@ -7290,8 +7523,8 @@ def validate_requirements(
         item_name_set,
     )
     dead_paths = _get_dead_paths()
-    unexpected_dead_paths = dead_paths - ALLOWED_DEAD_PATHS
-    stale_dead_path_allowlist = ALLOWED_DEAD_PATHS - dead_paths
+    unexpected_dead_paths = frozenset() if MAPPER_GRAPH_ENABLED else dead_paths - ALLOWED_DEAD_PATHS
+    stale_dead_path_allowlist = frozenset() if MAPPER_GRAPH_ENABLED else ALLOWED_DEAD_PATHS - dead_paths
     unknown_quarantined_locations = (
         LOGIC_UNKNOWN_LOCATIONS - location_name_set
     )

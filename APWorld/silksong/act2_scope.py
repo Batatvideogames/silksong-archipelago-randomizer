@@ -24,9 +24,11 @@ CURSED_ENDING_GOAL_KEY = "cursed_ending"
 ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Cogwork Core - Pristine Core",
+        "Curvesickle",
         "Wish: Fatal Resolve",
         "Wish: Torment, Anguish and Misery",
         "Boss: Bell Eater",
+        "Beastling Call",
         "Boss: Plasmified Zango",
         "Boss: Lost Garmond",
         "Boss: Pinstress",
@@ -153,9 +155,9 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
         "Relic: Rune Harp (High Halls)": 1,
     },
     "Resource:pristine_core": {"Pristine Core": 1},
-    "Tool": {"Progressive Claw Mirror": 1, "Pin Badge": 1},
+    "Tool": {"Progressive Claw Mirror": 1, "Progressive Curveclaw": 1, "Pin Badge": 1},
     "Spell": {"Pale Nails": 1},
-    "Melody": {"Elegy of the Deep": 1},
+    "Melody": {"Elegy of the Deep": 1, "Beastling Call": 1},
     "MemoryLocket": {"Memory Locket": 1},
     "MajorKey": {"Craw Summons": 1},
     "Resource:pale_rosary_necklace": {"Pale Rosary Necklace": 1},

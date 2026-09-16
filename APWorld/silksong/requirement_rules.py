@@ -71,6 +71,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     randomize_ledge_grab: bool = False
     randomize_swim: bool = False
     pollip_heart_count: int = 0
+    proficient_combat: bool = False
+    proficient_movement: bool = False
+    bell_shrine_sanity: bool = False
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -85,6 +88,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.randomize_ledge_grab,
             self.randomize_swim,
             self.pollip_heart_count,
+            self.proficient_combat,
+            self.proficient_movement,
+            self.bell_shrine_sanity,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -101,6 +107,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         randomize_ledge_grab: bool
         randomize_swim: bool
         pollip_heart_count: int
+        proficient_combat: bool
+        proficient_movement: bool
+        bell_shrine_sanity: bool
 
         def _evaluate(self, state: CollectionState) -> bool:
             return _has_named_requirement(
@@ -123,6 +132,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 randomize_ledge_grab=self.randomize_ledge_grab,
                 randomize_swim=self.randomize_swim,
                 pollip_heart_count=self.pollip_heart_count,
+                proficient_combat=self.proficient_combat,
+                proficient_movement=self.proficient_movement,
+                bell_shrine_sanity=self.bell_shrine_sanity,
             )
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -234,6 +246,9 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     anchor_requirement_name: str | None = None
     randomize_ledge_grab: bool = False
     randomize_swim: bool = False
+    proficient_combat: bool = False
+    proficient_movement: bool = False
+    bell_shrine_sanity: bool = False
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         child_rule = build_location_rule(
@@ -254,6 +269,9 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             anchor_requirement_name=self.anchor_requirement_name,
             randomize_ledge_grab=self.randomize_ledge_grab,
             randomize_swim=self.randomize_swim,
+            proficient_combat=self.proficient_combat,
+            proficient_movement=self.proficient_movement,
+            bell_shrine_sanity=self.bell_shrine_sanity,
         )
         return self.Resolved(
             self.location_name,
@@ -471,6 +489,9 @@ def _compile_named_requirement(
     randomize_swim: bool,
     pollip_heart_count: int,
     native_abstract_regions: bool = False,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     if (
         not scuttlebrace_logic_enabled
@@ -496,6 +517,9 @@ def _compile_named_requirement(
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
             pollip_heart_count=pollip_heart_count,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
 
     item_name = clean_item_display_name(requirement_name)
@@ -533,6 +557,9 @@ def _compile_requirement(
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     required_location_stack: tuple[str, ...] = (),
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     if requirement.minimum_skip_tier > skips_tier:
         return False_()
@@ -556,6 +583,9 @@ def _compile_requirement(
             randomize_swim=randomize_swim,
             pollip_heart_count=pollip_heart_count,
             native_abstract_regions=native_abstract_regions,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
 
     def compile_required_location(location_name: str) -> Rule:
@@ -590,6 +620,9 @@ def _compile_requirement(
                 pollip_heart_count=pollip_heart_count,
                 native_abstract_regions=True,
                 required_location_stack=next_stack,
+                proficient_combat=proficient_combat,
+                proficient_movement=proficient_movement,
+                bell_shrine_sanity=bell_shrine_sanity,
             )
             for alternative in alternatives
         )
@@ -645,6 +678,9 @@ def build_requirements_rule(
     pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
 
@@ -657,6 +693,9 @@ def build_requirements_rule(
             pollip_heart_count,
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
     )
     return _or_rules(
@@ -679,6 +718,9 @@ def build_requirements_rule(
             pollip_heart_count=pollip_heart_count,
             native_abstract_regions=native_abstract_regions,
             anchor_requirement_name=anchor_requirement_name,
+            proficient_combat=proficient_combat,
+            proficient_movement=proficient_movement,
+            bell_shrine_sanity=bell_shrine_sanity,
         )
         for requirement in requirements
     )
@@ -699,6 +741,9 @@ def build_location_rule(
     pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -719,6 +764,9 @@ def build_location_rule(
         pollip_heart_count=pollip_heart_count,
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
 
 
@@ -739,6 +787,9 @@ def build_goal_rule(
     randomize_swim: bool = False,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     return build_requirements_rule(
         get_goal_requirements(
@@ -759,6 +810,9 @@ def build_goal_rule(
         pollip_heart_count=pollip_heart_count,
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
 
 
@@ -777,6 +831,9 @@ def build_native_source_rule(
     anchor_requirement_name: str | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    proficient_combat: bool = False,
+    proficient_movement: bool = False,
+    bell_shrine_sanity: bool = False,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -794,4 +851,7 @@ def build_native_source_rule(
         anchor_requirement_name,
         randomize_ledge_grab,
         randomize_swim,
+        proficient_combat,
+        proficient_movement,
+        bell_shrine_sanity,
     )

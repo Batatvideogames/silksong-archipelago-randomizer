@@ -11,6 +11,7 @@ from .requirements import (
     POLLIP_HEART_COUNT,
     get_abstract_requirements,
 )
+from .prices import get_shell_shard_donation_tool_pouch_requirements
 from .room_graph_logic import ROOM_NODE_PREFIX
 
 
@@ -21,6 +22,9 @@ def native_rule_options(world) -> dict[str, object]:
             world.allows_bellways_before_bell_beast()
         ),
         "skips_tier": world.get_skips_tier(),
+        "proficient_combat": bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
+        "proficient_movement": bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
+        "bell_shrine_sanity": world.get_category_mode("BellShrine") != "vanilla",
         "randomized_crest_slots_enabled": (
             world.get_category_mode("CrestSlot") != "vanilla"
         ),
@@ -52,6 +56,10 @@ def get_native_abstract_requirements(world):
             world.is_ledgegrab_ability_rando_enabled()
         ),
         randomize_swim=world.is_swim_ability_rando_enabled(),
+        proficient_combat=bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
+        proficient_movement=bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
+        bell_shrine_sanity=world.get_category_mode("BellShrine") != "vanilla",
+        donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
     )
 
 

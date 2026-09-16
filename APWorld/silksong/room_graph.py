@@ -422,7 +422,10 @@ def load_room_graph() -> RoomGraph:
         payload = Path(__file__).with_name(ROOM_GRAPH_RESOURCE).read_bytes()
     if payload is None:
         raise FileNotFoundError(f"missing packaged room graph resource: {ROOM_GRAPH_RESOURCE}")
-    value = json.loads(payload.decode("utf-8"))
+    return parse_room_graph(json.loads(payload.decode("utf-8")))
+
+
+def parse_room_graph(value: Mapping[str, Any]) -> RoomGraph:
     schema_version = int(value["schema_version"])
     if schema_version != ROOM_GRAPH_SCHEMA_VERSION:
         raise ValueError(

@@ -745,6 +745,20 @@ class Skips(Choice):
     default = option_none
 
 
+class ProficientCombat(Toggle):
+    """Increase combat encounter difficulty by removing requirements for needle upgrades, basic movement kit and other requirements that may reduce difficulty in boss fights or gauntlets."""
+
+    display_name = "Proficient Combat"
+    default = 0
+
+
+class ProficientMovement(Toggle):
+    """Increase traversal difficulty by substituting parts of movement requirements for traversal with frame-precise inputs or timings or special usage of movement abilities."""
+
+    display_name = "Proficient Movement"
+    default = 0
+
+
 class ScuttlebraceLogic(Toggle):
     """Allow Scuttlebrace movement routes in logic"""
 
@@ -1071,6 +1085,8 @@ class SilksongOptions(PerGameCommonOptions):
     swim_ability_rando: SwimAbilityRando
     trails_end_requirement: TrailsEndRequirement
     skips: Skips
+    proficient_combat: ProficientCombat
+    proficient_movement: ProficientMovement
     scuttlebrace_logic: ScuttlebraceLogic
     start_with_maps: StartWithMaps
     start_fully_mapped: StartFullyMapped

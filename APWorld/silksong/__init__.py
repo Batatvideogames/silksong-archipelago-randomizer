@@ -122,13 +122,15 @@ from .requirements import (
     export_wish_logic_events,
     get_location_requirements,
     get_logic_item_references,
-    is_logic_unknown_location,
+    get_mapper_option_quarantines,
+    MAPPER_GRAPH_ENABLED,
     normalize_trails_end_requirement,
 )
 from .wish_events import (
     SILK_AND_SOUL_FULL_POINT_EVENTS,
     SILK_AND_SOUL_HALF_POINT_EVENTS,
     WISH_LOGIC_EVENTS,
+    WISH_REGION_SOURCE_LOCATIONS,
 )
 from .rules import (
     enforce_global_shuffle_item_rules,
@@ -336,6 +338,42 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.get_purchase_prices()
         )
 
+    def get_logic_unknown_locations(self) -> frozenset[str]:
+        if not MAPPER_GRAPH_ENABLED:
+            return LOGIC_UNKNOWN_LOCATIONS
+        if not hasattr(self, '_mapper_option_quarantines'):
+            unavailable_items = set()
+            if self.is_act_one_content_scope():
+                excluded = self.get_goal_excluded_location_names()
+                retained_items = set()
+                for name, data in location_data_table.items():
+                    if data.category not in PAIRED_LOCATION_CATEGORIES:
+                        continue
+                    reward = get_vanilla_reward_name(name, data.category)
+                    (unavailable_items if name in excluded else retained_items).add(reward)
+                unavailable_items.difference_update(retained_items)
+                unavailable_items.difference_update(
+                    name for name, count in self.options.start_inventory.value.items()
+                    if count > 0
+                )
+            self._mapper_option_quarantines = get_mapper_option_quarantines(
+                unavailable_items=frozenset(unavailable_items),
+                split_dash_and_sprint=self.is_split_dash_and_sprint(),
+                allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
+                skips_tier=self.get_skips_tier(),
+                proficient_combat=self.is_proficient_combat_enabled(),
+                proficient_movement=self.is_proficient_movement_enabled(),
+                bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                randomized_crest_slots_enabled=self.get_category_mode('CrestSlot') != 'vanilla',
+                starting_location=self.get_starting_location_key(),
+                trails_end_requirement=self.get_trails_end_requirement_key(),
+                scuttlebrace_logic_enabled=self.is_scuttlebrace_logic_enabled(),
+                randomize_ledge_grab=self.is_ledgegrab_ability_rando_enabled(),
+                randomize_swim=self.is_swim_ability_rando_enabled(),
+                pollip_heart_count=POLLIP_HEART_COUNT if self.get_category_mode('PollipHeart') != 'vanilla' else 0,
+            )
+        return LOGIC_UNKNOWN_LOCATIONS | self._mapper_option_quarantines
+
     def generate_early(self) -> None:
         self._crest_slot_memory_locket_count = None
         self._vog_hint_plan = None
@@ -421,6 +459,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def is_individual_relic_turn_ins_enabled(self) -> bool:
         return bool(self.options.individual_relic_turn_ins.value)
+
+    def is_proficient_combat_enabled(self) -> bool:
+        return bool(getattr(getattr(self.options, "proficient_combat", None), "value", 0))
+
+    def is_proficient_movement_enabled(self) -> bool:
+        return bool(getattr(getattr(self.options, "proficient_movement", None), "value", 0))
 
     def get_skips_tier(self) -> int:
         return int(self.options.skips.value)
@@ -883,7 +927,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             )
             effective_reward = self.create_item(effective_reward_name)
             if (
-                location_name in LOGIC_UNKNOWN_LOCATIONS
+                location_name in self.get_logic_unknown_locations()
                 and effective_reward.advancement
             ):
                 # Keep required items off checks with incomplete routes.
@@ -966,7 +1010,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             for location in addressed_unfilled_locations
             if (
                 location.name
-                in (LOGIC_UNKNOWN_LOCATIONS | JUNK_ONLY_LOCATIONS)
+                in (self.get_logic_unknown_locations() | JUNK_ONLY_LOCATIONS)
                 or (
                     location_data_table[location.name].category
                     == 'CrestSlot'
@@ -1120,8 +1164,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         accessibility = getattr(self.options, 'accessibility', None)
         if (
-            self.is_act_one_content_scope()
-            and uses_randomized_memory_lockets_for_crest_slots(self)
+            uses_randomized_memory_lockets_for_crest_slots(self)
             and getattr(accessibility, 'value', accessibility)
             == getattr(accessibility, 'option_full', 0)
         ):
@@ -1273,7 +1316,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if (
                 name != "Goal"
                 and name != CRAWFATHER_LOCATION
-                and not is_logic_unknown_location(name)
+                and name not in self.get_logic_unknown_locations()
             ):
                 anchor = choose_location_anchor(
                     get_location_requirements(
@@ -1302,7 +1345,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             parent_anchor = None if uses_native_source else anchor
             parent_region = (
                 logic_unknown
-                if is_logic_unknown_location(name)
+                if name in self.get_logic_unknown_locations()
                 else (
                     native_regions[parent_anchor]
                     if parent_anchor is not None
@@ -1345,8 +1388,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 continue
             if event.source_region:
                 if (
-                    event.source_region == "Event: Balm for the Wounded Completed"
-                    and "Wish: Balm for the Wounded" in excluded_location_names
+                    WISH_REGION_SOURCE_LOCATIONS.get(event.source_region)
+                    in excluded_location_names
                 ):
                     continue
                 parent_region = native_regions.get(event.source_region)
@@ -1756,6 +1799,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.get_category_mode('Relic') != 'vanilla'
             ),
         )
+        for name in self.get_logic_unknown_locations() - LOGIC_UNKNOWN_LOCATIONS:
+            exported_requirements[name] = {'alternatives': [], 'logic_unknown': True}
         slot_data = {
             "world_version": WORLD_VERSION,
             "item_name_to_id": dict(self.item_name_to_id),
@@ -1783,6 +1828,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "skips": self.get_skips_tier(),
+            "proficient_combat": self.is_proficient_combat_enabled(),
+            "proficient_movement": self.is_proficient_movement_enabled(),
             "scuttlebrace_logic":
                 self.is_scuttlebrace_logic_enabled(),
             "start_with_maps": self.is_start_with_maps_enabled(),
@@ -1833,6 +1880,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 randomize_swim=(
                     self.is_swim_ability_rando_enabled()
                 ),
+                proficient_combat=self.is_proficient_combat_enabled(),
+                proficient_movement=self.is_proficient_movement_enabled(),
+                bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(self.get_purchase_prices()),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
                 self.is_split_dash_and_sprint()

@@ -225,6 +225,12 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
             "Crest: Witch",
         )
     ),
+    "macro:damage-searing": (_part("Damage: Searing"),),
+    "macro:damage-shredding": (_part("Damage: Shredding"),),
+    "macro:damage-skewering": (_part("Damage: Skewering"),),
+    "state:bellshrinesanity-on": (_part("Option: Bellshrinesanity On"),),
+    "state:bellshrinesanity-off": (_part("Option: Bellshrinesanity Off"),),
+    "option:proficient-combat": (_part("Option: Proficient Combat"),),
     "option:skips-easy": (_part(skip_tier=1),),
     "option:skips-moderate": (_part(skip_tier=2),),
     "option:skips-difficult": (_part(skip_tier=3),),
@@ -1337,9 +1343,67 @@ def _event_requirement_name(atom: str) -> str:
 
 
 def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
+    if atom == "mapper:act-2":
+        return (_part("Act: 2"),)
+    if atom.startswith("mapper:"):
+        _, kind, difficulty = atom.split(":")
+        if kind == "attack" and difficulty in {"up", "down", "left", "right"}:
+            return _ATOM_ALTERNATIVES["macro:any-crest"]
+        if kind.endswith("-crest-attack") and difficulty in {"up", "down", "left", "right"}:
+            return (_part("Crest: " + kind.removesuffix("-crest-attack").title()),)
+        if kind == "clawline":
+            casts = int(difficulty)
+            if not 1 <= casts <= 8:
+                raise ValueError(f"unsupported Clawline quantity: {casts}")
+            return (_part("Ancestral Art: Clawline"),)
+        if kind == "sharpdart":
+            casts = int(difficulty)
+            if not 1 <= casts <= 4:
+                raise ValueError(f"unsupported Sharpdart quantity: {casts}")
+            fragments = max(0, (casts * 4 - 9) * 2)
+            return (_part("Usable Sharpdart", item_counts=((SPOOL_FRAGMENT_COUNT_ITEM, fragments),) if fragments else ()),)
+        tier = {"none": 0, "easy": 1, "medium": 2, "hard": 3}[difficulty]
+        if kind == "bellway-network":
+            return (_part("Path: Bellways"),)
+        if kind == "marrow-bellway":
+            return (_part("Event: Bell Beast Defeated"),)
+        if kind == "silkspeed-anklets":
+            return (_part("Usable Silkspeed Anklets"),)
+        if kind == "elegy-of-the-deep":
+            return (_part("Elegy of the Deep", "Ancestral Art: Needolin"),)
+        if kind == "wind-skip":
+            return (_part("Ability: Drifter's Cloak", skip_tier=tier),)
+        if kind == "needle-strike-stall":
+            return tuple(_part("Ability: Needle Strike", crest.all_of[0], skip_tier=tier) for crest in _ATOM_ALTERNATIVES["macro:any-crest"])
+        if kind == "flea-brew-stall":
+            return (_part("Usable Flea Brew", skip_tier=tier),)
+        if kind == "proficient-movement":
+            return (_part("Option: Proficient Movement"),)
+        if kind == "scuttlebrace":
+            return (_part("Usable Scuttlebrace", "Swift Step", skip_tier=tier),)
+        if kind in {"enemy-pogo", "spike-pogo-skip"}:
+            return tuple(_part("Crest: " + crest, skip_tier=tier) for crest in ("Hunter", "Wanderer", "Beast", "Reaper", "Witch", "Architect", "Shaman"))
+        if kind.endswith("-crest-pogo"):
+            return (_part("Crest: " + kind.removesuffix("-crest-pogo").title(), skip_tier=tier),)
+        if kind.endswith("-crest-needle-strike"):
+            return (_part("Crest: " + kind.removesuffix("-crest-needle-strike").title(), "Ability: Needle Strike", skip_tier=tier),)
+        raise ValueError(f"unsupported mapper atom: {atom}")
+    if atom.startswith("received:"):
+        name = atom[len("received:"):]
+        if not name:
+            raise ValueError("received item name cannot be empty")
+        if name == "Swift Step":
+            return (_part(name),)
+        return (_part(item_counts=((name, 1),)),)
     alternatives = _ATOM_ALTERNATIVES.get(atom)
     if alternatives is not None:
         return alternatives
+    if atom.startswith(("count:fleas:", "count:pale-oil:", "count:bellshrines-activated:", "count:craftmetal:")):
+        _, kind, quantity = atom.split(":")
+        minimum = int(quantity)
+        if minimum < 1:
+            raise ValueError(f"invalid count: {atom}")
+        return (_part(item_counts=(({"fleas":"$fleas", "pale-oil":"Pale Oil", "bellshrines-activated":"$bellshrines", "craftmetal":"Craftmetal"}[kind], minimum),)),)
     if atom.startswith("count:mossberry:"):
         try:
             minimum = int(atom.rsplit(":", 1)[1])
@@ -1486,6 +1550,7 @@ def _structural_reachability(
     graph,
     authoritative_node_ids: frozenset[str],
     extra_edges: Iterable[tuple[str, str]],
+    seed_ids: Iterable[str] | None = None,
 ) -> frozenset[str]:
     outgoing: dict[str, set[str]] = {}
     transition_by_id = graph.transition_by_id
@@ -1508,7 +1573,7 @@ def _structural_reachability(
     for source, target in extra_edges:
         outgoing.setdefault(source, set()).add(target)
 
-    reachable = set(_ALL_NODE_SEEDS)
+    reachable = set(_ALL_NODE_SEEDS if seed_ids is None else seed_ids)
     pending = list(reachable)
     while pending:
         source = pending.pop()
@@ -1520,9 +1585,10 @@ def _structural_reachability(
     return frozenset(reachable)
 
 
-def _semantic_reachability(
+def _semantic_reachable_owners(
     node_requirements: Mapping[str, Iterable[CompiledRoomClause]],
     event_requirements: Mapping[str, Iterable[CompiledRoomClause]],
+    strict_owners: bool = False,
 ) -> frozenset[str]:
     """Resolve nodes which have a satisfiable monotonic route with all items.
 
@@ -1548,7 +1614,7 @@ def _semantic_reachability(
                 and all(
                     (
                         reference in reachable
-                        if reference.startswith(
+                        if (strict_owners and reference in owners) or reference.startswith(
                             (ROOM_NODE_PREFIX, ROOM_EVENT_PREFIX)
                         )
                         else True
@@ -1560,20 +1626,47 @@ def _semantic_reachability(
                 reachable.add(owner)
                 changed = True
 
+    return frozenset(reachable)
+
+
+def _semantic_reachability(node_requirements, event_requirements) -> frozenset[str]:
     return frozenset(
         name[len(ROOM_NODE_PREFIX):]
-        for name in reachable
+        for name in _semantic_reachable_owners(node_requirements, event_requirements)
         if name.startswith(ROOM_NODE_PREFIX)
     )
 
 
-def compile_room_graph() -> CompiledRoomGraph:
-    graph = load_room_graph()
+def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None) -> CompiledRoomGraph:
+    graph = load_room_graph() if graph is None else graph
+    mapper = graph.assumptions.get("mapper_schema") == 3
+    if legacy_rules is None:
+        legacy_rules = not mapper
+    if mapper and legacy_rules:
+        raise ValueError("mapper graphs cannot use legacy traversal rules")
+    if mapper and node_seeds is None and graph.assumptions.get("starting_nodes"):
+        node_seeds = {node: (_part(),) for node in graph.assumptions["starting_nodes"]}
+    if not legacy_rules and node_seeds is None:
+        raise ValueError("mapper graphs require explicit starting nodes")
+    seeds = _ALL_NODE_SEEDS if node_seeds is None else node_seeds
+    curated_edges = _CURATED_EDGES if legacy_rules else ()
+    transition_extras = _TRANSITION_EXTRA_REQUIREMENTS if legacy_rules else {}
+    connection_overrides = _CONNECTION_REQUIREMENT_OVERRIDES if legacy_rules else {}
+    implicit_events = _IMPLICIT_EVENT_SOURCE if legacy_rules else {}
+    location_nodes = _EXISTING_LOCATION_NODE_BINDINGS if legacy_rules else {}
+    location_clauses = _EXISTING_LOCATION_CLAUSE_BINDINGS if legacy_rules else {}
     authoritative_rooms = graph.authoritative_rooms
     authoritative_node_ids = frozenset(
         node.id for room in authoritative_rooms for node in room.nodes
     )
-    unknown_seed_ids = tuple(sorted(set(_ALL_NODE_SEEDS) - authoritative_node_ids))
+    if mapper:
+        seeds = dict(seeds)
+        for arrival in graph.assumptions.get('story_arrivals', ()):
+            if arrival.get('act') not in {'Act: 2', 'Act: 3'}:
+                raise ValueError('invalid mapper story arrival')
+            node_id = arrival['node_id']
+            seeds[node_id] = (*seeds.get(node_id, ()), _part(arrival['act']))
+    unknown_seed_ids = tuple(sorted(set(seeds) - authoritative_node_ids))
     if unknown_seed_ids:
         raise ValueError(
             "room graph compiler has undeclared node seeds: "
@@ -1582,7 +1675,7 @@ def compile_room_graph() -> CompiledRoomGraph:
     node_requirements: dict[str, list[CompiledRoomClause]] = {
         room_node_name(node_id): [] for node_id in authoritative_node_ids
     }
-    for node_id, requirements in _ALL_NODE_SEEDS.items():
+    for node_id, requirements in seeds.items():
         _append_requirements(
             node_requirements,
             room_node_name(node_id),
@@ -1604,7 +1697,7 @@ def compile_room_graph() -> CompiledRoomGraph:
                 transition.requirement,
                 room_node_name(transition.source_node_id),
             )
-            extra_requirements = _TRANSITION_EXTRA_REQUIREMENTS.get(
+            extra_requirements = transition_extras.get(
                 transition.id,
                 (_part(),),
             )
@@ -1626,7 +1719,7 @@ def compile_room_graph() -> CompiledRoomGraph:
                 (connection.source_node_id, connection.target_node_id)
             )
             connection_requirements = (
-                _CONNECTION_REQUIREMENT_OVERRIDES.get(connection.id)
+                connection_overrides.get(connection.id)
             )
             if connection_requirements is None:
                 connection_requirements = _compile_spec(
@@ -1647,7 +1740,7 @@ def compile_room_graph() -> CompiledRoomGraph:
                 connection_requirements,
             )
 
-    for source, target, requirements in _CURATED_EDGES:
+    for source, target, requirements in curated_edges:
         structural_edges.append((source, target))
         _append_requirements(
             node_requirements,
@@ -1662,10 +1755,12 @@ def compile_room_graph() -> CompiledRoomGraph:
     for room in authoritative_rooms:
         for event in room.events:
             if not event.is_compilable:
+                if mapper:
+                    event_requirements.setdefault(room_event_name(event.id), [])
                 continue
             # The Shakra switch row puts its effect in the requirement column.
             # Reaching the switch is sufficient to lower the platform.
-            if event.id.endswith("/lower-platform-switch-into-floor"):
+            if legacy_rules and event.id.endswith("/lower-platform-switch-into-floor"):
                 requirements = (_part(room_node_name(event.node_id)),)
             else:
                 requirements = _compile_spec(
@@ -1678,21 +1773,45 @@ def compile_room_graph() -> CompiledRoomGraph:
                 requirements,
             )
 
-    for atom, requirements in _IMPLICIT_EVENT_SOURCE.items():
+    for atom, requirements in implicit_events.items():
         _append_requirements(
             event_requirements,
             _event_requirement_name(atom),
             requirements,
         )
 
-    semantically_reachable_nodes = _semantic_reachability(
-        node_requirements,
-        event_requirements,
+    if mapper:
+        for name, targets in graph.assumptions.get("node_aliases", {}).items():
+            _append_requirements(node_requirements, name, (_part(room_node_name(target)) for target in targets))
+        for name, targets in graph.assumptions.get("event_aliases", {}).items():
+            event_requirements.setdefault(name, [])
+            guards = graph.assumptions.get("event_alias_requirements", {}).get(name, ())
+            _append_requirements(event_requirements, name, (_part(room_event_name("event:mapper/" + target), *guards) for target in targets))
+        for slug, binding in graph.assumptions.get('inventory_bindings', {}).items():
+            owner = room_event_name('event:mapper/owned/' + slug)
+            if binding['mode'] == 'received':
+                clauses = _atom_alternatives('received:' + binding['item_name'])
+            elif binding['mode'] == 'vanilla':
+                clauses = tuple(_part(room_event_name('event:mapper/' + source)) for source in binding['source_events'])
+            else:
+                raise ValueError('invalid mapper inventory mode')
+            event_requirements.setdefault(owner, [])
+            _append_requirements(event_requirements, owner, clauses)
+        for owner, clauses in node_requirements.items():
+            clauses[:] = [clause for clause in clauses if owner not in clause.all_of]
+
+    semantically_reachable_owners = _semantic_reachable_owners(
+        node_requirements, event_requirements, strict_owners=mapper,
+    )
+    semantically_reachable_nodes = frozenset(
+        name[len(ROOM_NODE_PREFIX):] for name in semantically_reachable_owners
+        if name.startswith(ROOM_NODE_PREFIX)
     )
     reachable_nodes = _structural_reachability(
         graph,
         authoritative_node_ids,
-        ((source, target) for source, target, _requirements in _CURATED_EDGES),
+        ((source, target) for source, target, _requirements in curated_edges),
+        seeds,
     )
     check_requirements: dict[str, list[CompiledRoomClause]] = {}
     check_source_ids: dict[str, list[str]] = {}
@@ -1709,11 +1828,18 @@ def compile_room_graph() -> CompiledRoomGraph:
     )
     for room in authoritative_rooms:
         for check in room.checks:
+            independent_source = mapper and (
+                (check.raw_cells.get('inventory_service') == 'crest-slot'
+                 and (check.canonical_location or '').startswith('Crest Slot: '))
+                or (check.raw_cells.get('automatic_check') == 'hunter-crest'
+                    and check.canonical_location == 'Crest: Hunter')
+            )
             if (
                 not check.currently_randomized
+                or (mapper and check.canonical_location in graph.assumptions.get('quarantined_checks', {}))
                 or
                 not check.is_compilable
-                or check.node_id not in semantically_reachable_nodes
+                or (not independent_source and check.node_id not in semantically_reachable_nodes)
             ):
                 skipped_checks.append(check.id)
                 continue
@@ -1721,12 +1847,16 @@ def compile_room_graph() -> CompiledRoomGraph:
                 requirement
                 for requirement in _compile_spec(
                     check.requirement,
-                    room_node_name(check.node_id),
+                    *(() if independent_source else (room_node_name(check.node_id),)),
                 )
                 if _has_only_declared_room_references(
                     requirement,
                     declared_owners,
                 )
+                and (not mapper or all(
+                    reference not in declared_owners or reference in semantically_reachable_owners
+                    for reference in requirement.all_of
+                ))
             )
             if (
                 not requirements
@@ -1746,7 +1876,7 @@ def compile_room_graph() -> CompiledRoomGraph:
                 check.id
             )
 
-    for location_name, node_id in _EXISTING_LOCATION_NODE_BINDINGS.items():
+    for location_name, node_id in location_nodes.items():
         if node_id not in semantically_reachable_nodes:
             continue
         _append_requirements(
@@ -1758,7 +1888,7 @@ def compile_room_graph() -> CompiledRoomGraph:
             f"derived-node:{node_id}"
         )
 
-    for location_name, requirements in _EXISTING_LOCATION_CLAUSE_BINDINGS.items():
+    for location_name, requirements in location_clauses.items():
         valid_requirements = tuple(
             requirement
             for requirement in requirements
@@ -1778,8 +1908,8 @@ def compile_room_graph() -> CompiledRoomGraph:
     present_authoritative_checks = frozenset(
         (
             *present_authoritative_checks,
-            *_EXISTING_LOCATION_NODE_BINDINGS,
-            *_EXISTING_LOCATION_CLAUSE_BINDINGS,
+            *location_nodes,
+            *location_clauses,
         )
     )
 
@@ -1798,7 +1928,7 @@ def compile_room_graph() -> CompiledRoomGraph:
         ),
         authoritative_check_names=frozenset(check_requirements),
         quarantined_check_names=frozenset(
-            present_authoritative_checks - set(check_requirements)
+            (present_authoritative_checks | frozenset(graph.assumptions.get("expected_checks", ()))) - set(check_requirements)
         ),
         structurally_reachable_nodes=reachable_nodes,
         semantically_reachable_nodes=semantically_reachable_nodes,

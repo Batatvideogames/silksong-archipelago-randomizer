@@ -20,6 +20,7 @@ _POST_ACT_ONE_SOURCE_ACTS = frozenset(("Act 2", "Act 3"))
 _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
     (
         "Throwing Ring",
+        "Curvesickle",
         "Egg of Flealia",
         "Wish: Fine Pins",
         "Wish: The Wandering Merchant",

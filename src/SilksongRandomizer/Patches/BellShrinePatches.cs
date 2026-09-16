@@ -336,6 +336,93 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class ShrineExitActivationPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
+            {
+                if (!TryGetRandomizedExit(__instance, out _))
+                {
+                    return true;
+                }
+
+                if (__instance.GetComponent<BellShrineExitWatcher>() == null)
+                {
+                    __instance.gameObject.AddComponent<BellShrineExitWatcher>();
+                }
+                RefreshExit(__instance);
+                return false;
+            }
+        }
+
+        [HarmonyPatch]
+        private static class ShrineExitPhysicalOpenPatch
+        {
+            private static MethodBase[] TargetMethods()
+            {
+                return new MethodBase[]
+                {
+                    AccessTools.Method(typeof(Gate), nameof(Gate.Open)),
+                    AccessTools.Method(typeof(Gate), nameof(Gate.Opened)),
+                };
+            }
+
+            [HarmonyPrefix]
+            private static bool Prefix(Gate __instance)
+            {
+                var activation = __instance.GetComponent<DeactivateIfPlayerdataTrue>();
+                if (!TryGetRandomizedExit(activation, out _))
+                {
+                    return true;
+                }
+
+                RefreshExit(activation);
+                return false;
+            }
+        }
+
+        internal static void RefreshExit(DeactivateIfPlayerdataTrue activation)
+        {
+            if (TryGetRandomizedExit(activation, out JudgeBell bell) &&
+                SaveState.Instance.receivedItems != null &&
+                SaveState.Instance.receivedItems.Contains(bell.ItemName))
+            {
+                activation.gameObject.SetActive(false);
+            }
+        }
+
+        private static bool TryGetRandomizedExit(
+            DeactivateIfPlayerdataTrue activation,
+            out JudgeBell bell)
+        {
+            bell = null;
+            SaveState state = SaveState.Instance;
+            if (activation == null || state == null ||
+                !state.IsRandomized(ItemType.BellShrine) ||
+                activation.objectToDeactivate != null ||
+                activation.GetComponent<Gate>() == null)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < 4; index++)
+            {
+                Entry entry = Entries[index];
+                string gateName = entry.SceneName == "Bellshrine_03"
+                    ? "bellshrine_gate_curved (1)"
+                    : "bellshrine_gate_curved";
+                if (activation.gameObject.scene.name == entry.SceneName &&
+                    activation.name == gateName &&
+                    activation.boolName == entry.PlayerDataFlag)
+                {
+                    bell = JudgeBells[index];
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static void ReportPhysicalCompletion(
             StateChangeSequence sequence)
         {
@@ -491,4 +578,20 @@ namespace SilksongRandomizer.Patches
             return false;
         }
     }
+
+    internal sealed class BellShrineExitWatcher : UnityEngine.MonoBehaviour
+    {
+        private DeactivateIfPlayerdataTrue activation;
+
+        private void Awake()
+        {
+            activation = GetComponent<DeactivateIfPlayerdataTrue>();
+        }
+
+        private void Update()
+        {
+            BellShrinePatches.RefreshExit(activation);
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from BaseClasses import Item, ItemClassification
-from rule_builder.rules import Has, HasAny
+from rule_builder.rules import Has, HasAny, True_
 from worlds.generic.Rules import add_item_rule
 
 from .items import (
@@ -25,6 +25,7 @@ from .requirements import (
     CREST_SLOT_LOCATION_NAMES,
     JUNK_ONLY_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
+    MAPPER_GRAPH_ENABLED,
     MEMORY_LOCKET_ITEM,
     POLLIP_HEART_COUNT,
     ROSARY_BANK_GATED_LOCATIONS,
@@ -236,6 +237,7 @@ def set_silksong_rules(world) -> None:
         item_data_table.keys(),
         PROGRESSION_ITEMS,
     )
+    logic_unknown_locations = getattr(world, 'get_logic_unknown_locations', lambda: LOGIC_UNKNOWN_LOCATIONS)()
     split_dash_and_sprint = world.is_split_dash_and_sprint()
     randomize_ledge_grab = world.is_ledgegrab_ability_rando_enabled()
     randomize_swim = world.is_swim_ability_rando_enabled()
@@ -245,6 +247,9 @@ def set_silksong_rules(world) -> None:
         world.allows_bellways_before_bell_beast()
     )
     skips_tier = world.get_skips_tier()
+    proficient_combat = bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0))
+    proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
+    bell_shrine_sanity = world.get_category_mode("BellShrine") != "vanilla"
     scuttlebrace_logic_enabled = (
         world.is_scuttlebrace_logic_enabled()
     )
@@ -356,6 +361,9 @@ def set_silksong_rules(world) -> None:
                         location_name
                     )
                 ),
+                proficient_combat=proficient_combat,
+                proficient_movement=proficient_movement,
+                bell_shrine_sanity=bell_shrine_sanity,
             )
         else:
             location_rule = build_location_rule(
@@ -382,6 +390,9 @@ def set_silksong_rules(world) -> None:
                         location_name
                     )
                 ),
+                proficient_combat=proficient_combat,
+                proficient_movement=proficient_movement,
+                bell_shrine_sanity=bell_shrine_sanity,
             )
             if location_name == CRAWFATHER_LOCATION:
                 location_rule = build_requirements_rule(
@@ -406,6 +417,9 @@ def set_silksong_rules(world) -> None:
                     randomize_swim=randomize_swim,
                     pollip_heart_count=pollip_heart_count,
                     native_abstract_regions=True,
+                    proficient_combat=proficient_combat,
+                    proficient_movement=proficient_movement,
+                    bell_shrine_sanity=bell_shrine_sanity,
                 )
             if (
                 randomized_memory_lockets_for_crest_slots
@@ -435,6 +449,9 @@ def set_silksong_rules(world) -> None:
                 randomize_swim=randomize_swim,
                 pollip_heart_count=pollip_heart_count,
                 native_abstract_regions=True,
+                proficient_combat=proficient_combat,
+                proficient_movement=proficient_movement,
+                bell_shrine_sanity=bell_shrine_sanity,
             )
 
         required_tool_pouch_count = (
@@ -468,6 +485,11 @@ def set_silksong_rules(world) -> None:
                 *SCROUNGE_RELIC_ITEM_NAMES
             )
 
+        if location_name in logic_unknown_locations and (
+            MAPPER_GRAPH_ENABLED or location_name not in LOGIC_UNKNOWN_LOCATIONS
+        ):
+            location_rule = True_()
+
         world._silksong_rule_builder_rules[location_name] = location_rule
         world.set_rule(location, location_rule)
 
@@ -499,7 +521,7 @@ def set_silksong_rules(world) -> None:
             add_item_rule(location, _is_not_rosary_bank_key)
 
         if (
-            location_name in LOGIC_UNKNOWN_LOCATIONS
+            location_name in logic_unknown_locations
             or location_name in JUNK_ONLY_LOCATIONS
         ):
             add_item_rule(location, _is_not_progression_item)
@@ -559,6 +581,9 @@ def set_silksong_rules(world) -> None:
                             event.location_name
                         )
                     ),
+                    proficient_combat=proficient_combat,
+                    proficient_movement=proficient_movement,
+                    bell_shrine_sanity=bell_shrine_sanity,
                 )
                 required_tool_pouch_count = (
                     shell_shard_donation_pouch_requirements.get(
@@ -619,6 +644,9 @@ def set_silksong_rules(world) -> None:
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
         native_abstract_regions=True,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        bell_shrine_sanity=bell_shrine_sanity,
     )
     world._silksong_rule_builder_rules["Goal"] = goal_rule
     world.set_rule(

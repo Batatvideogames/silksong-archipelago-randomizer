@@ -19,6 +19,18 @@ SILK_AND_SOUL_LACE_DEFEATED_ITEM = (
 WIDOW_DEFEATED_EVENT_ITEM = "Event: Widow Defeated"
 
 
+WISH_REGION_SOURCE_LOCATIONS: dict[str, str] = {
+    "Event: Bone Bottom Repairs Completed": "Wish: Bone Bottom Repairs",
+    "Event: Lifesaving Bridge Completed": "Wish: A Lifesaving Bridge",
+    "Event: Building Up Songclave Completed": "Wish: Building Up Songclave",
+    "Event: Fine Pins Completed": "Wish: Fine Pins",
+    "Event: Wandering Merchant Rescued": "Wish: The Wandering Merchant",
+    "Event: Cloaks of the Choir Completed": "Wish: Cloaks of the Choir",
+    "Event: Strengthening Songclave Completed": "Wish: Strengthening Songclave",
+    "Event: Balm for the Wounded Completed": "Wish: Balm for the Wounded",
+}
+
+
 @dataclass(frozen=True)
 class WishLogicEvent:
     """One addressless AP event derived from a verified logical source."""
