@@ -7,11 +7,11 @@ BLUE_VESTICREST = 'Blue Vesticrest'
 SYLPHSONG = 'Sylphsong'
 EVA_POINT = 'Eva Crest Point'
 EVA_REWARDS = {
-    'Eva: Hunter Evolution 1': (EVOLVED_HUNTER, 'Eva', 0),
-    'Eva: Yellow Vesticrest': (YELLOW_VESTICREST, 'Eva', 12),
-    'Eva: Blue Vesticrest': (BLUE_VESTICREST, 'Eva', 20),
-    'Eva: Hunter Evolution 2': (EVOLVED_HUNTER, 'Eva', 27),
-    'Eva: Sylphsong': (SYLPHSONG, 'Eva', 32),
+    'Hunter Evolution 1': (EVOLVED_HUNTER, 'Eva', 0),
+    'Yellow Vesticrest': (YELLOW_VESTICREST, 'Eva', 12),
+    'Blue Vesticrest': (BLUE_VESTICREST, 'Eva', 20),
+    'Hunter Evolution 2': (EVOLVED_HUNTER, 'Eva', 27),
+    'Sylphsong': (SYLPHSONG, 'Eva', 32),
 }
 EVA_CREST_SLOTS = {
     'Crest: Reaper': (4, ('Red 1', 'Blue 1', 'Yellow 1')),

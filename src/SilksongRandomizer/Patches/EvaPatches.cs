@@ -8,12 +8,12 @@ namespace SilksongRandomizer.Patches
 {
     internal static class EvaPatches
     {
-        internal const string FirstEvolution = "Eva: Hunter Evolution 1";
-        internal const string SecondEvolution = "Eva: Hunter Evolution 2";
-        internal const string YellowSource = "Eva: Yellow Vesticrest";
-        internal const string BlueSource = "Eva: Blue Vesticrest";
+        internal const string FirstEvolution = "Hunter Evolution 1";
+        internal const string SecondEvolution = "Hunter Evolution 2";
+        internal const string YellowSource = "Yellow Vesticrest";
+        internal const string BlueSource = "Blue Vesticrest";
         internal const string EvolutionItem = "Evolved Hunter Crest";
-        internal const string SylphsongSource = "Eva: Sylphsong";
+        internal const string SylphsongSource = "Sylphsong";
 
         private static bool IsEva(FsmStateAction action)
         {

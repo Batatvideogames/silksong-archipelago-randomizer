@@ -19,7 +19,6 @@ namespace SilksongRandomizer
             { "Needolin", "Inv_0029_spell_core_outer_icons_0000_1" },
             { "Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
             { "Progressive Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
-            { "Sylphsong", "Inv_0029_spell_core_outer_icons_eva_heal.png" },
 
             // Silk Spells
             { "Silkspear", "S_needle_throw" },
@@ -39,17 +38,20 @@ namespace SilksongRandomizer
             { "Crest: Shaman", "Crest__0009_spell_full" },
 
             // Eva
-            { "Eva: Hunter Evolution 1", "Crest__0013_hunter_lv2_full" },
-            { "Eva: Hunter Evolution 2", "Crest__0014_hunter_lv3_silhouette" },
-            { "Eva: Hunter Evolution 3", "Crest__0014_hunter_lv4_silhouette" },
+            { "Hunter Evolution 1", "Crest__0013_hunter_lv2_full" },
+            { "Hunter Evolution 2", "Crest__0014_hunter_lv3_silhouette" },
+            { "Evolved Hunter Crest", "Crest__0014_hunter_lv4_silhouette" },
+            { "Blue Vesticrest", "UI_tool_slot_defend0000" },
+            { "Yellow Vesticrest", "UI_tool_slot_explore0000" },
+            { "Sylphsong", "Inv_0029_spell_core_outer_icons_eva_heal.png" },
 
             // Tools
-            { "Silkshot (Forge Daughter)", "tiny_tool_icon_silk_shot_forge" },
-            { "Silkshot (Twelfth Architect)", "tiny_tool_icon_silk_shot_architect" },
-            { "Silkshot (Original)", "tiny_tool_icon_silk_shot_weaver" },
-            { "Silkshot", "tiny_tool_icon_silk_shot_weaver" },
+            { "Ruined Tool", "_0000_T_web_shot_broken" },
+            { "Silkshot (Original)", "_0001_T_web_shot_forge_runes" },
+            { "Silkshot (Forge Daughter)", "_0000_T_web_shot_forge" },
+            { "Silkshot (Twelfth Architect)", "_0000_T_web_shot_architect" },
             { "Volt Filament", "T_zap_imbuement" },
-            { "Tacks", "tiny_tool_icon_tacks" },
+            { "Tacks", "tiny_tool_icon_tacks" }, // Don't see a T_ prefix for this one.
             { "Voltvessels", "_0004_T_lightning__0000_1" },
             { "Snare Setter", "_0004_T_snare_setter" },
             { "Threefold Pin", "T_tri_pin" },
@@ -61,7 +63,7 @@ namespace SilksongRandomizer
             { "Delver's Drill", "T_Spine_head" },
             { "Pimpillo", "T_pimpilo" },
             { "Pollip Pouch", "T_poison_pouch" },
-            { "Conchcutter", "tiny_tool_icon_conchcutter" },
+            { "Conchcutter", "T_Conch_Drill_Shot" },
             { "Cogfly", "T_cogwork_flier" },
             { "Sting Shard", "T_sting_shard" },
             { "Cogwork Wheel", "T_cogwork_saw" },
@@ -112,7 +114,6 @@ namespace SilksongRandomizer
             { "Pollip Heart", "_0007_shell_flower_purple_icon" },
             { "Egg of Flealia", "Flea_Egg" },
             { "Craftmetal", "Hornet_Tool_Metal" },
-            { "Ruined Tool", "_0000_T_web_shot_broken" },
             { "White Key", "I_key_whiteward" },
             { "Surgeon's Key", "I_chute_key_whiteward" },
             { "Architect's Key", "I_key_architect" },
@@ -168,7 +169,7 @@ namespace SilksongRandomizer
             { "Map", "I_map" },
             { "Ventrica", "pin_tube_station" },
             { "Progressive Silkheart", "silk_heart_inv_icon" },
-            { "Crest Slot", "UI_tool_slot_explore0000" }, // Need to color these slots but for now a generic icon...
+            { "Crest Slot", "UI_tool_slot_attack0000" }, // Need to color these slots but for now a generic icon... attack0000 is Red, explore0000 is Yellow, defend0000 is Blue.
 
             // Traps
             { "Cursed Crest Trap", "cursed_death0004"},
