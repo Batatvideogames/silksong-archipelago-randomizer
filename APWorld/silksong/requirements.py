@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
@@ -393,6 +393,7 @@ COMPILED_ROOM_GRAPH = replace(
     check_requirements=MappingProxyType({**COMPILED_ROOM_GRAPH.check_requirements, **_eva_clauses}),
     check_source_ids=MappingProxyType({**COMPILED_ROOM_GRAPH.check_source_ids, **{name: (EVA_NODE,) for name in EVA_REWARDS}}),
     authoritative_check_names=COMPILED_ROOM_GRAPH.authoritative_check_names | EVA_REWARDS.keys(),
+    quarantined_check_names=COMPILED_ROOM_GRAPH.quarantined_check_names - EVA_REWARDS.keys(),
 )
 
 # Compiled room-graph checks use live logic. Checks that cannot be compiled

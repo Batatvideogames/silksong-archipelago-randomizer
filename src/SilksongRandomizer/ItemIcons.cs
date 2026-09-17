@@ -38,18 +38,18 @@ namespace SilksongRandomizer
             { "Crest: Shaman", "Crest__0009_spell_full" },
 
             // Eva
-            { "Hunter Evolution 1", "Crest__0013_hunter_lv2_full" },
-            { "Hunter Evolution 2", "Crest__0014_hunter_lv3_silhouette" },
-            { "Evolved Hunter Crest", "Crest__0014_hunter_lv4_silhouette" },
+            { "Hunter Evolution 1", "Crest__0013_hunter_lvl2_full" },
+            { "Hunter Evolution 2", "Crest__0014_hunter_lvl3_silhouette" },
+            { "Evolved Hunter Crest", "Crest__0014_hunter_lvl4_silhouette" },
             { "Blue Vesticrest", "UI_tool_slot_defend0000" },
             { "Yellow Vesticrest", "UI_tool_slot_explore0000" },
-            { "Sylphsong", "Inv_0029_spell_core_outer_icons_eva_heal.png" },
+            { "Sylphsong", "Inv_0029_spell_core_outer_icons_eva_heal" },
 
             // Tools
             { "Ruined Tool", "_0000_T_web_shot_broken" },
             { "Silkshot (Original)", "_0001_T_web_shot_forge_runes" },
-            { "Silkshot (Forge Daughter)", "_0000_T_web_shot_forge" },
-            { "Silkshot (Twelfth Architect)", "_0000_T_web_shot_architect" },
+            { "Silkshot (Forge Daughter)", "_0002_T_web_shot_forge" },
+            { "Silkshot (Twelfth Architect)", "_0003_T_web_shot_architect" },
             { "Volt Filament", "T_zap_imbuement" },
             { "Tacks", "tiny_tool_icon_tacks" }, // Don't see a T_ prefix for this one.
             { "Voltvessels", "_0004_T_lightning__0000_1" },

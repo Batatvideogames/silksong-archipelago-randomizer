@@ -58,6 +58,9 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "Bellhart Roof - Memory Locket",
         "Craw Summons",
         "Boss: Crawfather",
+        "Greymoor - Rosary Cache #35",
+        "Greymoor - Rosary Cache #36",
+        "Greymoor - Rosary Cache #37",
         "Crest: Shaman",
         "Relic: Arcane Egg",
         "The Abyss - Map Pickup",
@@ -169,7 +172,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Silkeater": {"Silkeater": 1},
     "NeedleUpgrade": {"Progressive Needle Upgrade": 1},
     "PaleOil": {"Pale Oil": 1},
-    "Resource:rosary_cache": {"Rosaries (10)": 1},
+    "Resource:rosary_cache": {"Rosaries (10)": 4},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
         "Rosaries (60)": 8,

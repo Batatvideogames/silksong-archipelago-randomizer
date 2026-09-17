@@ -1,4 +1,4 @@
-﻿"""Act 1 goal content exclusions."""
+"""Act 1 goal content exclusions."""
 
 from __future__ import annotations
 
@@ -103,6 +103,9 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Boss: Groal the Great",
         "Boss: Voltvyrm",
         "Boss: Crawfather",
+        "Greymoor - Rosary Cache #35",
+        "Greymoor - Rosary Cache #36",
+        "Greymoor - Rosary Cache #37",
         "Boss: Father of the Flame",
         "Wispfire Lantern",
         "Pinmaster Plinney: Shining Needle",
