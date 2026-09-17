@@ -78,6 +78,17 @@ class CrestRandomization(CategoryRandomization):
     display_name = "Crest Randomization"
 
 
+class EvaRandomization(GlobalRandomization):
+    """Randomizes Eva's two Hunter evolutions, two Vesticrests, and Sylphsong.
+
+    vanilla: Eva gives her normal rewards
+    anywhere: mixes her rewards into the global item pool
+    """
+
+    display_name = "Eva Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class FleaRandomization(CategoryRandomization):
     """Randomizes the 30 Fleas in the game, including Kratt, Vog and the Huge Flea.
 
@@ -464,6 +475,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Tool": "tool_randomization",
     "Spell": "silk_skill_randomization",
     "Crest": "crest_randomization",
+    "Eva": "eva_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
     "MaskShard": "mask_shard_randomization",
@@ -813,31 +825,14 @@ class RandomizedMelodyMarkers(Toggle):
     default = 1
 
 
-class VogHintCount(Range):
-    """Maximum number of hints Vog can offer from one hint category."""
+class VogAreaHints(Range):
+    """Number of area reports Vog can sell. Reports count remaining progression
+    items for any player without revealing their names, and update as you complete checks.
+    """
 
+    display_name = "Vog Area Hints"
     range_start = 0
     range_end = 30
-
-
-class VogWothHints(VogHintCount):
-    """Maximum Way of the Hero area hints offered by Vog."""
-
-    display_name = "Vog Way of the Hero Hints"
-    default = 0
-
-
-class VogFoolishHints(VogHintCount):
-    """Maximum Foolish area hints offered by Vog."""
-
-    display_name = "Vog Foolish Hints"
-    default = 0
-
-
-class VogGeneralHints(VogHintCount):
-    """Maximum exact item location hints offered by Vog."""
-
-    display_name = "Vog General Hints"
     default = 0
 
 
@@ -924,7 +919,7 @@ class DonationPrices(PurchasePriceRandomization):
 
 
 class VogHintPrices(PurchasePriceRandomization):
-    """Randomize prices for Vog's Hero, Foolish and General hints."""
+    """Randomize the price of Vog's area reports."""
 
     display_name = "Vog Hint Prices"
 
@@ -1072,8 +1067,29 @@ class NakedTrapWeight(TrapWeight):
     display_name = "Naked Trap Weight"
 
 
+class SilkAndSoulPoints(Range):
+    """Wish points required for Silk and Soul for the Act 3 goal. Other goals
+    keep the vanilla 17-point requirement. Mandatory wishes and story
+    requirements remain unchanged. Values above 25 are treated as 25.
+    """
+    display_name = "Silk and Soul Points"
+    range_start = 0
+    range_end = 25
+    default = 17
+
+    def __init__(self, value: int):
+        super().__init__(min(value, self.range_end))
+
+
+def get_silk_and_soul_points(options) -> int:
+    if getattr(getattr(options, 'goal', None), 'current_key', None) != 'act_3':
+        return 17
+    return max(0, min(25, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
+
+
 @dataclass
 class SilksongOptions(PerGameCommonOptions):
+    silk_and_soul_points: SilkAndSoulPoints
     accessibility: SilksongAccessibility
     goal: Goal
     spelling_bee_phrase: SpellingBeePhrase
@@ -1095,9 +1111,7 @@ class SilksongOptions(PerGameCommonOptions):
     check_map_markers: CheckMapMarkers
     randomized_bell_markers: RandomizedBellMarkers
     randomized_melody_markers: RandomizedMelodyMarkers
-    vog_woth_hints: VogWothHints
-    vog_foolish_hints: VogFoolishHints
-    vog_general_hints: VogGeneralHints
+    vog_area_hints: VogAreaHints
     bellway_access: BellwayAccess
     enemy_rosary_multiplier: EnemyRosaryMultiplier
     enemy_shard_multiplier: EnemyShardMultiplier
@@ -1114,6 +1128,7 @@ class SilksongOptions(PerGameCommonOptions):
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
     crest_randomization: CrestRandomization
+    eva_randomization: EvaRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
     mask_shard_randomization: MaskShardRandomization

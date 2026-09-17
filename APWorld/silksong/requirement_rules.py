@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import dataclasses
 from typing import TYPE_CHECKING, Iterable
@@ -74,6 +74,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     proficient_combat: bool = False
     proficient_movement: bool = False
     bell_shrine_sanity: bool = False
+    silk_and_soul_points: int = 17
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -91,6 +92,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.proficient_combat,
             self.proficient_movement,
             self.bell_shrine_sanity,
+            self.silk_and_soul_points,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -110,6 +112,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         proficient_combat: bool
         proficient_movement: bool
         bell_shrine_sanity: bool
+        silk_and_soul_points: int
 
         def _evaluate(self, state: CollectionState) -> bool:
             return _has_named_requirement(
@@ -135,6 +138,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 proficient_combat=self.proficient_combat,
                 proficient_movement=self.proficient_movement,
                 bell_shrine_sanity=self.bell_shrine_sanity,
+                silk_and_soul_points=self.silk_and_soul_points,
             )
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -249,6 +253,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     proficient_combat: bool = False
     proficient_movement: bool = False
     bell_shrine_sanity: bool = False
+    silk_and_soul_points: int = 17
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         child_rule = build_location_rule(
@@ -272,6 +277,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             proficient_combat=self.proficient_combat,
             proficient_movement=self.proficient_movement,
             bell_shrine_sanity=self.bell_shrine_sanity,
+            silk_and_soul_points=self.silk_and_soul_points,
         )
         return self.Resolved(
             self.location_name,
@@ -492,6 +498,7 @@ def _compile_named_requirement(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     if (
         not scuttlebrace_logic_enabled
@@ -520,6 +527,7 @@ def _compile_named_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
 
     item_name = clean_item_display_name(requirement_name)
@@ -560,6 +568,7 @@ def _compile_requirement(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     if requirement.minimum_skip_tier > skips_tier:
         return False_()
@@ -586,6 +595,7 @@ def _compile_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
 
     def compile_required_location(location_name: str) -> Rule:
@@ -623,6 +633,7 @@ def _compile_requirement(
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 bell_shrine_sanity=bell_shrine_sanity,
+                silk_and_soul_points=silk_and_soul_points,
             )
             for alternative in alternatives
         )
@@ -681,6 +692,7 @@ def build_requirements_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
 
@@ -696,6 +708,7 @@ def build_requirements_rule(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
     )
     return _or_rules(
@@ -721,6 +734,7 @@ def build_requirements_rule(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
         for requirement in requirements
     )
@@ -744,6 +758,7 @@ def build_location_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -767,6 +782,7 @@ def build_location_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
 
 
@@ -790,6 +806,7 @@ def build_goal_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     return build_requirements_rule(
         get_goal_requirements(
@@ -813,6 +830,7 @@ def build_goal_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
 
 
@@ -834,6 +852,7 @@ def build_native_source_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -854,4 +873,5 @@ def build_native_source_rule(
         proficient_combat,
         proficient_movement,
         bell_shrine_sanity,
+        silk_and_soul_points,
     )

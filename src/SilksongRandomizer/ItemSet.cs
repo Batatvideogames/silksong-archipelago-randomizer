@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Concurrent;
 using SilksongRandomizer.AlphabetMode;
@@ -692,7 +692,7 @@ namespace SilksongRandomizer
             new Item("Crest: Shaman", ItemType.Crest, () => { Utils.ForceCrest("Spell");}),
             new Item("Crest: Reaper", ItemType.Crest, () => { Utils.ForceCrest("Reaper");}),
             new Item("Crest: Wanderer", ItemType.Crest, () => { Utils.ForceCrest("Wanderer");}),
-            new Item("Crest: Hunter", ItemType.Crest, () => { Utils.ForceCrest("Hunter");}),
+            new Item("Crest: Hunter", ItemType.Crest, Patches.EvaPatches.GrantHunter),
 
             // Fleas
             new Item("Flea: The Marrow", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Bone_06 = true; }),
@@ -896,6 +896,11 @@ namespace SilksongRandomizer
 
             // Repeatable native collectibles. Physical sources are replaced
             // separately, so AP receipt is the sole way these counters grow.
+            new Item("Evolved Hunter Crest", ItemType.Eva, Patches.EvaPatches.GrantEvolution, true),
+            new Item("Yellow Vesticrest", ItemType.Eva, () => { PlayerData.instance.UnlockedExtraYellowSlot = true; }),
+            new Item("Blue Vesticrest", ItemType.Eva, () => { PlayerData.instance.UnlockedExtraBlueSlot = true; }),
+            new Item("Sylphsong", ItemType.Eva, Patches.EvaPatches.GrantSylphsong),
+
             new Item("Memory Locket", ItemType.MemoryLocket, () => { ItemGrants.GrantCollectable("Crest Socket Unlocker"); }, true),
             new Item("Craftmetal", ItemType.Craftmetal, () => { ItemGrants.GrantCollectable("Tool Metal"); }, true),
             new Item("Mossberry", ItemType.Mossberry, () => { ItemGrants.GrantCollectable("Mossberry"); }, true),

@@ -1,14 +1,8 @@
 from __future__ import annotations
 
-import hashlib
-from typing import Iterable
-
-from BaseClasses import CollectionState, ItemClassification
+from copy import deepcopy
 
 from .requirements import REQUIREMENTS
-
-_PLAYTHROUGH_PRUNING_BATCH_SIZE = 16
-
 
 VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "bone-bottom": "Mosslands",
@@ -37,6 +31,12 @@ VOG_HINT_ROOM_AREA_NAMES: dict[str, str] = {
     "bilewater": "Bilewater",
     "sands-of-karak": "Sands of Karak",
     "the-slab": "The Slab",
+    "mount-fay": "Mount Fay",
+    "memorium": "Memorium",
+    "putrified-ducts": "Putrified Ducts",
+    "the-cradle": "The Cradle",
+    "the-abyss": "The Abyss",
+    "verdania": "Verdania",
 }
 
 VOG_HINT_PATH_AREA_NAMES: dict[str, str] = {
@@ -157,24 +157,14 @@ VOG_HINT_AREALESS_LOCATIONS = frozenset(
 
 def empty_vog_hint_plan() -> dict[str, object]:
     return {
-        "woth_areas": [],
-        "foolish_areas": [],
-        "general_locations": [],
-        "general_count": 0,
+        "format": "area_counts_v1",
+        "area_count": 0,
+        "area_locations": {},
     }
 
 
-def copy_vog_hint_plan(
-    plan: dict[str, object],
-) -> dict[str, object]:
-    return {
-        "woth_areas": list(plan.get("woth_areas", ())),
-        "foolish_areas": list(plan.get("foolish_areas", ())),
-        "general_locations": list(
-            plan.get("general_locations", ())
-        ),
-        "general_count": int(plan.get("general_count", 0)),
-    }
+def copy_vog_hint_plan(plan: dict[str, object]) -> dict[str, object]:
+    return deepcopy(plan)
 
 
 def get_vog_hint_areas(location_name: str) -> frozenset[str]:
@@ -212,217 +202,21 @@ def get_vog_hint_areas(location_name: str) -> frozenset[str]:
     return frozenset(areas)
 
 
-def _location_sort_key(location) -> tuple[int, str, int, str]:
-    item = location.item
-    return (
-        int(location.player),
-        str(location.name),
-        int(item.player),
-        str(item.name),
-    )
-
-
-def find_required_playthrough_locations(multiworld) -> frozenset[object]:
-    """Return the locations retained by conventional playthrough pruning."""
-
-    progression_locations = {
-        location
-        for location in multiworld.get_filled_locations()
-        if location.item.advancement
-    }
-    if not progression_locations:
-        return frozenset()
-
-    state = CollectionState(multiworld)
-    state_cache = [state.copy()]
-    collection_spheres: list[set[object]] = []
-    sphere_candidates = set(progression_locations)
-
-    while sphere_candidates:
-        sphere = {
-            location
-            for location in sphere_candidates
-            if state.can_reach(location)
-        }
-        if not sphere:
-            if multiworld.has_beaten_game(state):
-                break
-            raise RuntimeError(
-                "Vog hint generation could not build a complete "
-                "playthrough."
-            )
-
-        for location in sorted(sphere, key=_location_sort_key):
-            state.collect(location.item, True, location)
-        sphere_candidates.difference_update(sphere)
-        collection_spheres.append(sphere)
-        state_cache.append(state.copy())
-
-    required_locations = {
-        location
-        for sphere in collection_spheres
-        for location in sphere
-    }
-    for sphere_index in range(len(collection_spheres) - 1, -1, -1):
-        ordered_sphere = sorted(
-            collection_spheres[sphere_index],
-            key=_location_sort_key,
-        )
-        for batch_start in range(
-            0,
-            len(ordered_sphere),
-            _PLAYTHROUGH_PRUNING_BATCH_SIZE,
-        ):
-            batch = ordered_sphere[
-                batch_start:
-                batch_start + _PLAYTHROUGH_PRUNING_BATCH_SIZE
-            ]
-            if len(batch) > 1:
-                required_locations.difference_update(batch)
-                if multiworld.can_beat_game(
-                    state_cache[sphere_index],
-                    required_locations,
-                ):
-                    continue
-                required_locations.update(batch)
-
-            for location in batch:
-                required_locations.remove(location)
-                if not multiworld.can_beat_game(
-                    state_cache[sphere_index],
-                    required_locations,
-                ):
-                    required_locations.add(location)
-
-    return frozenset(required_locations)
-
-
-def _hint_sort_key(
-    world,
-    category: str,
-    value: str,
-) -> tuple[bytes, str]:
-    seed_name = str(getattr(world.multiworld, "seed_name", ""))
-    digest = hashlib.sha256(
-        (
-            seed_name
-            + "\0"
-            + str(world.player)
-            + "\0"
-            + category
-            + "\0"
-            + value
-        ).encode("utf-8")
-    ).digest()
-    return digest, value
-
-
-def _is_addressed(location) -> bool:
-    return getattr(
-        location,
-        "address",
-        getattr(location, "code", None),
-    ) is not None
-
-
-def _is_progression_or_useful(item) -> bool:
-    major_flags = (
-        ItemClassification.progression
-        | ItemClassification.useful
-    )
-    return bool(item.classification & major_flags)
-
-
-def _ordered_values(
-    world,
-    category: str,
-    values: Iterable[str],
-) -> list[str]:
-    return sorted(
-        set(values),
-        key=lambda value: _hint_sort_key(world, category, value),
-    )
-
-
-def build_vog_hint_plan(
-    world,
-    required_locations: Iterable[object],
-) -> dict[str, object]:
-    woth_count, foolish_count, general_count = (
-        world.get_vog_hint_counts()
-    )
-    if not any((woth_count, foolish_count, general_count)):
-        return empty_vog_hint_plan()
-
-    required_location_set = set(required_locations)
-    local_locations = [
-        location
-        for location in world.multiworld.get_locations()
-        if location.player == world.player and _is_addressed(location)
-    ]
-
-    area_members: dict[str, list[object]] = {}
-    incomplete_areas: set[str] = set()
-    major_locations: list[object] = []
-
-    for location in local_locations:
-        areas = get_vog_hint_areas(location.name)
-        if location.item is None:
-            incomplete_areas.update(areas)
+def build_vog_hint_plan(world) -> dict[str, object]:
+    plan = empty_vog_hint_plan()
+    count = world.get_vog_area_hint_count()
+    if not count:
+        return plan
+    area_locations: dict[str, list[str]] = {}
+    for location in world.multiworld.get_locations(world.player):
+        if location.address is None or location.name in VOG_HINT_AREALESS_LOCATIONS:
             continue
-
-        if _is_progression_or_useful(location.item):
-            major_locations.append(location)
-
-        for area_name in areas:
-            area_members.setdefault(area_name, []).append(location)
-
-    woth_candidates = (
-        next(iter(areas))
-        for location in required_location_set
-        if location.player == world.player and _is_addressed(location)
-        for areas in (get_vog_hint_areas(location.name),)
-        if len(areas) == 1
-    )
-    woth_areas = _ordered_values(
-        world,
-        "woth",
-        woth_candidates,
-    )[:woth_count]
-
-    foolish_candidates = (
-        area_name
-        for area_name, members in area_members.items()
-        if (
-            area_name not in incomplete_areas
-            and members
-            and all(
-                member.item is not None
-                and not _is_progression_or_useful(member.item)
-                for member in members
-            )
-        )
-    )
-    foolish_areas = _ordered_values(
-        world,
-        "foolish",
-        foolish_candidates,
-    )[:foolish_count]
-
-    general_candidates = (
-        location.name
-        for location in major_locations
-        if location not in required_location_set
-    )
-    general_locations = _ordered_values(
-        world,
-        "general",
-        general_candidates,
-    )
-
-    return {
-        "woth_areas": woth_areas,
-        "foolish_areas": foolish_areas,
-        "general_locations": general_locations,
-        "general_count": min(general_count, len(general_locations)),
+        areas = get_vog_hint_areas(location.name)
+        for area in areas:
+            area_locations.setdefault(area, []).append(location.name)
+    plan["area_locations"] = {
+        area: sorted(set(locations))
+        for area, locations in sorted(area_locations.items())
     }
+    plan["area_count"] = min(count, len(area_locations))
+    return plan

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 
 namespace SilksongRandomizer.Patches
@@ -472,6 +472,29 @@ namespace SilksongRandomizer.Patches
                     __instance,
                     __result,
                     SaveState.Instance);
+            }
+        }
+
+        [HarmonyPatch(typeof(QuestCompleteTotalGroup), "get_IsFulfilled")]
+        private static class SoulSnarePointsPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(QuestCompleteTotalGroup __instance,
+                ref float ___target, out float __state)
+            {
+                __state = ___target;
+                if (SaveState.Instance != null && __instance.name == SoulSnareQuest)
+                {
+                    ___target = SaveState.Instance.goal == "act_3"
+                        ? Math.Max(0, Math.Min(25, SaveState.Instance.silkAndSoulPoints))
+                        : 17;
+                }
+            }
+
+            [HarmonyFinalizer]
+            private static void Finalizer(ref float ___target, float __state)
+            {
+                ___target = __state;
             }
         }
 

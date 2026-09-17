@@ -74,11 +74,6 @@ class TestNativeSourceMemo(SilksongTestBase):
             },
         )
         with (
-            mock.patch.object(
-                self.world,
-                "uses_vog_playthrough_hints",
-                return_value=False,
-            ),
             mock.patch.object(self.world, "build_vog_hint_plan"),
         ):
             SilksongWorld.stage_finalize_multiworld(self.multiworld)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST, SYLPHSONG
+
 from dataclasses import dataclass
 from random import Random
 from typing import Callable, Dict, FrozenSet, Mapping
@@ -396,6 +398,10 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 ) + ALPHABET_ITEM_ROWS + (
     ('Ledge Grab', 'InnateAbility'),
     ('Swim', 'InnateAbility'),
+    (EVOLVED_HUNTER, 'Eva'),
+    (YELLOW_VESTICREST, 'Eva'),
+    (BLUE_VESTICREST, 'Eva'),
+    (SYLPHSONG, 'Eva'),
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
@@ -602,6 +608,7 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
     } and category in {
         "Tool",
         "Spell",
+        "Eva",
         "CrestSlot",
         "MaskShard",
         "SpoolFragment",
@@ -722,6 +729,7 @@ item_data_table: Dict[str, SilksongItemData] = {
 # applies these by received-item index, so progressive upgrades and currency
 # remain repeatable without inventing numbered aliases.
 ITEM_POOL_COUNTS: Dict[str, int] = {
+    EVOLVED_HUNTER: 2,
     'Progressive Crafting Kit': 4,
     "Progressive Druid's Eyes": 2,
     'Progressive Claw Mirror': 2,
@@ -915,6 +923,7 @@ RELIC_TURN_IN_FILLER_COUNTS: Dict[str, int] = {
 }
 
 PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
+    'Eva',
     'Skill',
     'Tool',
     'Spell',
@@ -991,6 +1000,8 @@ SHUFFLE_FIXED_LOCATION_REWARDS: Dict[str, Dict[str, str]] = {
 def get_category_item_names(category: str) -> tuple[str, ...]:
     """Return the exact reward multiset paired with a source category."""
 
+    if category == 'Eva':
+        return tuple(reward for reward, _, _ in EVA_REWARDS.values())
     if category == LORE_TABLET_CATEGORY:
         return tuple(
             item for location, item in LORE_TABLET_ITEM_BY_LOCATION.items()
@@ -1058,6 +1069,8 @@ def get_vanilla_reward_name(
     """Map an AP source to the native reward represented by that source."""
 
     location_name = canonicalize_location_name(location_name)
+    if location_name in EVA_REWARDS:
+        return EVA_REWARDS[location_name][0]
     source_location_name = get_item_first_location_name(location_name)
 
     if category == 'Key':
@@ -1487,6 +1500,7 @@ def get_dynamic_trap_capacity(
             ),
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            include_later_act_items=False,
         )
     )
 
@@ -1602,6 +1616,7 @@ def build_item_pool_entries(
     ) = None,
     alphabet_item_is_advancement: Callable[[str], bool] | None = None,
     act_two_balance_precollected_items: list[str] | None = None,
+    include_later_act_items: bool = True,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1872,6 +1887,8 @@ def build_item_pool_entries(
             )
         entries.pop(duplicate_quest_filler_index)
 
+    entries_before_goal_trim = tuple(entries)
+
     if act_one_only:
         entries = _trim_act_one_pool_entries(
             entries,
@@ -1932,6 +1949,7 @@ def build_item_pool_entries(
             )
         entries.pop(filler_index)
 
+    balance_item_name = None
     if act_two_only:
         balance_item_name = _balance_act_two_retained_silk_soar(
             entries,
@@ -2063,6 +2081,55 @@ def build_item_pool_entries(
             replaced_entry.source_category,
             replaced_entry.placement_category,
         )
+    if include_later_act_items and (act_one_only or act_two_only):
+        from collections import Counter
+        remaining = Counter((entry.name, entry.source_category) for entry in entries)
+        if balance_item_name is not None:
+            for entry in entries_before_goal_trim:
+                if entry.name == balance_item_name:
+                    remaining[(entry.name, entry.source_category)] += 1
+                    break
+        retained = []
+        for entry in entries_before_goal_trim:
+            key = (entry.name, entry.source_category)
+            if remaining[key]:
+                remaining[key] -= 1
+            elif (
+                category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
+                and entry.source_category not in OBSERVATION_ITEM_CATEGORIES
+                and entry.source_category != RELIC_TURN_IN_LOCATION_CATEGORY
+                and not entry.source_category.startswith('Resource')
+                and not entry.name.startswith(('Rosaries (', 'Shell Shards ('))
+            ):
+                retained.append(entry)
+        filler_indices = [
+            index for index, entry in enumerate(entries)
+            if entry.placement_category is None
+            and entry.name.startswith(('Rosaries (', 'Shell Shards ('))
+        ]
+        rng = trap_randomizer or Random(0)
+        rng.shuffle(retained)
+        is_advancement = alphabet_item_is_advancement or (
+            lambda name: bool(item_data_table[name].classification & ItemClassification.progression)
+        )
+        nonadvancement_count = sum(
+            not is_advancement(entry.name)
+            for entry in entries if entry.placement_category is None
+        )
+        reserved = (alphabet_nonadvancement_demand_by_placement_category or {}).get(None, 0)
+        advancement_capacity = max(0, nonadvancement_count - reserved)
+        selected = []
+        for entry in retained:
+            if len(selected) >= len(filler_indices):
+                break
+            if is_advancement(entry.name):
+                if advancement_capacity == 0:
+                    continue
+                advancement_capacity -= 1
+            selected.append(entry)
+        for index, entry in zip(filler_indices, selected):
+            entries[index] = entry
+
     return tuple(entries)
 
 

@@ -47,6 +47,7 @@ namespace SilksongRandomizer
         LoreTablet,
         PaleOil,
         InnateAbility,
+        Eva,
     }
 
     public class Item

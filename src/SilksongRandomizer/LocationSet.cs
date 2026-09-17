@@ -974,6 +974,12 @@ namespace SilksongRandomizer
             new Location("Ventrica Unlock: Songclave", ItemType.Ventrica, () => { return PlayerData.instance.UnlockedEnclaveTube; }),
             new Location("Ventrica Unlock: Memorium", ItemType.Ventrica, () => { return PlayerData.instance.UnlockedArboriumTube; }),
 
+            new Location("Eva: Hunter Evolution 1", ItemType.Eva, null),
+            new Location("Eva: Hunter Evolution 2", ItemType.Eva, null),
+            new Location("Eva: Yellow Vesticrest", ItemType.Eva, null),
+            new Location("Eva: Blue Vesticrest", ItemType.Eva, null),
+            new Location("Eva: Sylphsong", ItemType.Eva, null),
+
             new Location("Goal", ItemType.Event,
                 Patches.GoalState.IsConfiguredGoalComplete),
 

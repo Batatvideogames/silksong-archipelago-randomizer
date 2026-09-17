@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from dataclasses import dataclass
 from random import Random
@@ -201,9 +201,7 @@ DONATION_PRICE_SOURCES: tuple[PriceSource, ...] = (
 
 
 VOG_HINT_PRICE_SOURCES: tuple[PriceSource, ...] = (
-    PriceSource('vog:woth', VOG_HINTS, ROSARIES, 120),
-    PriceSource('vog:foolish', VOG_HINTS, ROSARIES, 80),
-    PriceSource('vog:general', VOG_HINTS, ROSARIES, 150),
+    PriceSource('vog:area', VOG_HINTS, ROSARIES, 120),
 )
 
 

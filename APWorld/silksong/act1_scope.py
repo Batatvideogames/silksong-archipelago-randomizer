@@ -1,10 +1,11 @@
-"""Act 1 goal content exclusions."""
+﻿"""Act 1 goal content exclusions."""
 
 from __future__ import annotations
 
 from typing import Mapping
 
 from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION
+from .eva import EVA_REWARDS
 from .requirements import (
     COMPILED_ROOM_GRAPH,
     _ESTABLISHED_REQUIREMENTS_BY_LOCATION,
@@ -19,6 +20,7 @@ _LIFESAVING_BRIDGE_LOCATION_NAME = "Wish: A Lifesaving Bridge"
 _POST_ACT_ONE_SOURCE_ACTS = frozenset(("Act 2", "Act 3"))
 _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
     (
+        *EVA_REWARDS,
         "Throwing Ring",
         "Curvesickle",
         "Egg of Flealia",

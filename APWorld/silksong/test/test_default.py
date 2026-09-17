@@ -746,173 +746,24 @@ class TestCrestSlotPostFillPerformance(TestCase):
 
 
 class TestVogHintPerformance(TestCase):
-    class ReachableCollectionState:
-        def __init__(self, multiworld):
-            self.multiworld = multiworld
-
-        def can_reach(self, _location):
-            return True
-
-        def collect(self, _item, _event, _location):
-            return None
-
-        def copy(self):
-            return self
-
-    @staticmethod
-    def _progression_locations(count):
-        locations = []
-        for index in range(count):
-            item = SimpleNamespace(
-                advancement=True,
-                player=1,
-                name=f"Item {index:02}",
-            )
-            location = mock.Mock()
-            location.player = 1
-            location.name = f"Location {index:02}"
-            location.item = item
-            locations.append(location)
-        return locations
-
-    @staticmethod
-    def _vog_world(counts):
-        world = SilksongWorld.__new__(SilksongWorld)
-        world.player = 1
-        world.multiworld = SimpleNamespace()
-        world.get_vog_hint_counts = lambda: counts
-        return world
-
-    def test_foolish_only_finalize_skips_playthrough_pruning(self) -> None:
-        world = SimpleNamespace(
-            game=SilksongWorld.game,
-            get_vog_hint_counts=lambda: (0, 5, 0),
-            uses_vog_playthrough_hints=lambda: False,
-            build_vog_hint_plan=mock.Mock(),
-        )
+    def test_area_plan_does_not_evaluate_multiworld_logic(self) -> None:
+        from ..vog_hints import build_vog_hint_plan
+        location = SimpleNamespace(name="Boss: Crawfather", address=835001)
         multiworld = SimpleNamespace(
-            player_ids=(1,),
-            worlds={1: world},
+            get_locations=mock.Mock(return_value=[location]),
+            can_beat_game=mock.Mock(side_effect=AssertionError("Vog evaluated logic")),
         )
-        world_module = importlib.import_module(SilksongWorld.__module__)
+        world = SimpleNamespace(player=2, multiworld=multiworld, get_vog_area_hint_count=lambda: 5)
+        plan = build_vog_hint_plan(world)
+        multiworld.get_locations.assert_called_once_with(2)
+        multiworld.can_beat_game.assert_not_called()
+        self.assertEqual(plan["area_locations"], {"Greymoor": ["Boss: Crawfather"]})
+        self.assertEqual(plan["area_count"], 1)
 
-        with mock.patch.object(
-            world_module,
-            "find_required_playthrough_locations",
-        ) as find_required:
-            SilksongWorld.stage_finalize_multiworld(multiworld)
-
-        find_required.assert_not_called()
-        world.build_vog_hint_plan.assert_called_once_with()
-
-    def test_foolish_only_plan_skips_fallback_pruning(self) -> None:
-        world = self._vog_world((0, 5, 0))
-        expected = {
-            "woth_areas": [],
-            "foolish_areas": ["Shellwood"],
-            "general_locations": [],
-            "general_count": 0,
-        }
-        world_module = importlib.import_module(SilksongWorld.__module__)
-
-        with (
-            mock.patch.object(
-                world_module,
-                "find_required_playthrough_locations",
-            ) as find_required,
-            mock.patch.object(
-                world_module,
-                "build_vog_hint_plan",
-                return_value=expected,
-            ) as build_plan,
-        ):
-            result = SilksongWorld.build_vog_hint_plan(world)
-
-        find_required.assert_not_called()
-        required_locations = build_plan.call_args.args[1]
-        self.assertFalse(required_locations)
-        self.assertEqual(result, expected)
-
-    def test_woth_finalize_still_prunes_once(self) -> None:
-        foolish_world = SimpleNamespace(
-            game=SilksongWorld.game,
-            get_vog_hint_counts=lambda: (0, 5, 0),
-            uses_vog_playthrough_hints=lambda: False,
-            build_vog_hint_plan=mock.Mock(),
-        )
-        woth_world = SimpleNamespace(
-            game=SilksongWorld.game,
-            get_vog_hint_counts=lambda: (5, 0, 0),
-            uses_vog_playthrough_hints=lambda: True,
-            build_vog_hint_plan=mock.Mock(),
-        )
-        multiworld = SimpleNamespace(
-            player_ids=(1, 2),
-            worlds={1: foolish_world, 2: woth_world},
-        )
-        required_locations = frozenset((object(),))
-        world_module = importlib.import_module(SilksongWorld.__module__)
-
-        with mock.patch.object(
-            world_module,
-            "find_required_playthrough_locations",
-            return_value=required_locations,
-        ) as find_required:
-            SilksongWorld.stage_finalize_multiworld(multiworld)
-
-        find_required.assert_called_once_with(multiworld)
-        self.assertIs(
-            multiworld._silksong_vog_required_locations,
-            required_locations,
-        )
-        foolish_world.build_vog_hint_plan.assert_called_once_with()
-        woth_world.build_vog_hint_plan.assert_called_once_with()
-
-    def test_playthrough_pruning_batches_removable_locations(self) -> None:
-        locations = self._progression_locations(33)
-        multiworld = SimpleNamespace(
-            get_filled_locations=lambda: locations,
-            has_beaten_game=lambda _state: True,
-            can_beat_game=mock.Mock(return_value=True),
-        )
-        vog_module = importlib.import_module("worlds.silksong.vog_hints")
-
-        with mock.patch.object(
-            vog_module,
-            "CollectionState",
-            self.ReachableCollectionState,
-        ):
-            required = vog_module.find_required_playthrough_locations(
-                multiworld
-            )
-
-        self.assertEqual(required, frozenset())
-        self.assertEqual(multiworld.can_beat_game.call_count, 3)
-
-    def test_failed_batch_keeps_sequential_pruning_result(self) -> None:
-        first, second = self._progression_locations(2)
-
-        def can_beat_game(_state, required_locations):
-            return first in required_locations or second in required_locations
-
-        multiworld = SimpleNamespace(
-            get_filled_locations=lambda: (first, second),
-            has_beaten_game=lambda _state: True,
-            can_beat_game=mock.Mock(side_effect=can_beat_game),
-        )
-        vog_module = importlib.import_module("worlds.silksong.vog_hints")
-
-        with mock.patch.object(
-            vog_module,
-            "CollectionState",
-            self.ReachableCollectionState,
-        ):
-            required = vog_module.find_required_playthrough_locations(
-                multiworld
-            )
-
-        self.assertEqual(required, frozenset((second,)))
-        self.assertEqual(multiworld.can_beat_game.call_count, 3)
+    def test_disabled_hints_skip_location_enumeration(self) -> None:
+        from ..vog_hints import build_vog_hint_plan
+        world = SimpleNamespace(get_vog_area_hint_count=lambda: 0)
+        self.assertEqual(build_vog_hint_plan(world)["area_locations"], {})
 
 
 class TestShufflePerformance(TestCase):

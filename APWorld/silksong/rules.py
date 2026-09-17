@@ -1,4 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
+
+from .options import get_silk_and_soul_points
 
 from BaseClasses import Item, ItemClassification
 from rule_builder.rules import Has, HasAny, True_
@@ -377,6 +379,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 bell_shrine_sanity=bell_shrine_sanity,
+                silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
         else:
             location_rule = build_location_rule(
@@ -406,6 +409,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 bell_shrine_sanity=bell_shrine_sanity,
+                silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
             if location_name == CRAWFATHER_LOCATION:
                 location_rule = build_requirements_rule(
@@ -433,6 +437,7 @@ def set_silksong_rules(world) -> None:
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
                     bell_shrine_sanity=bell_shrine_sanity,
+                    silk_and_soul_points=get_silk_and_soul_points(world.options),
                 )
         if location_name == PINMASTER_OIL_QUEST_LOCATION:
             location_rule = build_requirements_rule(
@@ -457,6 +462,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 bell_shrine_sanity=bell_shrine_sanity,
+                silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
 
         required_tool_pouch_count = (
@@ -497,7 +503,7 @@ def set_silksong_rules(world) -> None:
 
         if (
             randomized_memory_lockets_for_crest_slots
-            and location_data.category == "CrestSlot"
+            and location_name in CREST_SLOT_LOCATION_NAMES
             and location_name not in logic_unknown_locations
         ):
             world._crest_slot_base_rules[location_name] = location_rule
@@ -544,7 +550,7 @@ def set_silksong_rules(world) -> None:
         # Randomized Lockets cannot sit behind their all-20 Crest Slot cost.
         # With vanilla Lockets their count is not represented, so the
         # conservative non-progression restriction remains.
-        elif location_data_table[location_name].category == "CrestSlot":
+        elif location_name in CREST_SLOT_LOCATION_NAMES:
             add_item_rule(
                 location,
                 _is_not_memory_locket
@@ -600,6 +606,7 @@ def set_silksong_rules(world) -> None:
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
                     bell_shrine_sanity=bell_shrine_sanity,
+                    silk_and_soul_points=get_silk_and_soul_points(world.options),
                 )
                 required_tool_pouch_count = (
                     shell_shard_donation_pouch_requirements.get(
@@ -663,6 +670,7 @@ def set_silksong_rules(world) -> None:
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=get_silk_and_soul_points(world.options),
     )
     world._silksong_rule_builder_rules["Goal"] = goal_rule
     world.set_rule(

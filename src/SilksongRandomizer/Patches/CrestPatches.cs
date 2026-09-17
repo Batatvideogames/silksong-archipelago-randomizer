@@ -56,12 +56,8 @@ namespace SilksongRandomizer.Patches
                 if (CrestNames.IsHunterInternalName(toolName) &&
                     !__instance.IsBaseVersion)
                 {
-                    // Eva's Hunter v2/v3 upgrades are not new AP checks.
-                    // Permit the native version-chain upgrade only after the
-                    // shuffled base Hunter crest has actually been received.
-                    return SaveState.Instance.receivedItems.Contains(
-                        "Crest: Hunter"
-                    );
+                    return !SaveState.Instance.IsRandomized(ItemType.Eva) &&
+                        SaveState.Instance.receivedItems.Contains("Crest: Hunter");
                 }
 
                 SaveState.Instance.CheckLocation(

@@ -1,4 +1,4 @@
-using Archipelago.MultiClient.Net.Enums;
+﻿using Archipelago.MultiClient.Net.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -177,21 +177,12 @@ namespace SilksongRandomizer
                 StringComparer.OrdinalIgnoreCase
             );
         public bool vogHintSettingsBound;
-        public int vogWothHintCount;
-        public int vogFoolishHintCount;
-        public int vogGeneralHintCount;
-        public List<string> vogWothAreas = new List<string>();
-        public List<string> vogFoolishAreas = new List<string>();
-        public List<string> vogGeneralLocations = new List<string>();
-        public HashSet<string> purchasedVogHints =
-            new HashSet<string>(StringComparer.Ordinal);
-        public List<string> vogHintHistory = new List<string>();
         public int vogHintHistoryReadIndex;
-        public string pendingVogGeneralKey = string.Empty;
-        public string pendingVogGeneralLocation = string.Empty;
-        public int pendingVogGeneralPrice;
         public string bellwayAccess =
             Archipelago.BellwayAccessBellBeastRequired;
+        public int hunterEvolutionCount;
+        public HashSet<string> evaVanillaRewards = new HashSet<string>();
+        public int silkAndSoulPoints = 17;
         public string trailsEndRequirement =
             Archipelago.TrailsEndRequirementShakraStock;
         public string enemyRosaryMultiplier =
@@ -340,6 +331,7 @@ namespace SilksongRandomizer
         public RandomizationMode toolRandomization = RandomizationMode.Anywhere;
         public RandomizationMode silkSkillRandomization = RandomizationMode.Anywhere;
         public RandomizationMode crestRandomization = RandomizationMode.Anywhere;
+        public RandomizationMode evaRandomization = RandomizationMode.Vanilla;
         public RandomizationMode fleaRandomization = RandomizationMode.Anywhere;
         public RandomizationMode crestSlotRandomization = RandomizationMode.Anywhere;
         public RandomizationMode maskShardRandomization = RandomizationMode.Anywhere;
@@ -669,61 +661,7 @@ namespace SilksongRandomizer
                             (ItemFlags)entry.flags
                         ))
             );
-            vogWothHintCount = Math.Max(
-                0,
-                Math.Min(30, vogWothHintCount)
-            );
-            vogFoolishHintCount = Math.Max(
-                0,
-                Math.Min(30, vogFoolishHintCount)
-            );
-            vogGeneralHintCount = Math.Max(
-                0,
-                Math.Min(30, vogGeneralHintCount)
-            );
-            vogWothAreas = NormalizeVogHintPlan(vogWothAreas);
-            vogFoolishAreas = NormalizeVogHintPlan(vogFoolishAreas);
-            vogGeneralLocations = NormalizeVogHintPlan(
-                vogGeneralLocations
-            );
-            purchasedVogHints = new HashSet<string>(
-                (purchasedVogHints ?? new HashSet<string>())
-                    .Where(key => !string.IsNullOrWhiteSpace(key))
-                    .Select(key => key.Trim()),
-                StringComparer.Ordinal
-            );
-            vogHintHistory = (vogHintHistory ?? new List<string>())
-                .Where(text => !string.IsNullOrWhiteSpace(text))
-                .Select(text => text.Trim())
-                .ToList();
-            vogHintHistoryReadIndex = vogHintHistory.Count == 0
-                ? 0
-                : Math.Max(0, vogHintHistoryReadIndex) %
-                    vogHintHistory.Count;
-            pendingVogGeneralKey =
-                (pendingVogGeneralKey ?? string.Empty).Trim();
-            pendingVogGeneralLocation =
-                (pendingVogGeneralLocation ?? string.Empty).Trim();
-            pendingVogGeneralPrice = Math.Max(
-                0,
-                pendingVogGeneralPrice
-            );
-            if (string.IsNullOrWhiteSpace(pendingVogGeneralKey) ||
-                string.IsNullOrWhiteSpace(pendingVogGeneralLocation) ||
-                !pendingVogGeneralKey.StartsWith(
-                    "general:",
-                    StringComparison.Ordinal
-                ) ||
-                !string.Equals(
-                    pendingVogGeneralKey,
-                    "general:" + pendingVogGeneralLocation,
-                    StringComparison.Ordinal
-                ))
-            {
-                pendingVogGeneralKey = string.Empty;
-                pendingVogGeneralLocation = string.Empty;
-                pendingVogGeneralPrice = 0;
-            }
+            vogHintHistoryReadIndex = Math.Max(0, vogHintHistoryReadIndex);
             receivedItems = new HashSet<string>(
                 (receivedItems ?? new HashSet<string>())
                     .Select(ItemSet.GetCanonicalItemName),
@@ -792,16 +730,6 @@ namespace SilksongRandomizer
             return Archipelago.IsSupportedPurchasePriceMode(mode)
                 ? mode
                 : Archipelago.PriceModeVanilla;
-        }
-
-        private static List<string> NormalizeVogHintPlan(
-            IEnumerable<string> values
-        )
-        {
-            return (values ?? Array.Empty<string>())
-                .Where(value => !string.IsNullOrWhiteSpace(value))
-                .Select(value => value.Trim())
-                .ToList();
         }
 
         private void SetPurchasePrices(
@@ -954,6 +882,7 @@ namespace SilksongRandomizer
             SetCrestSlotItemFlags(archipelago.CrestSlotItemFlags);
             BindVogHintSettings(archipelago);
             bellwayAccess = archipelago.BellwayAccess;
+            silkAndSoulPoints = archipelago.SilkAndSoulPoints;
             trailsEndRequirement = archipelago.TrailsEndRequirement;
             enemyRosaryMultiplier =
                 archipelago.EnemyRosaryMultiplier;
@@ -984,6 +913,7 @@ namespace SilksongRandomizer
             toolRandomization = archipelago.ToolRandomization;
             silkSkillRandomization = archipelago.SilkSkillRandomization;
             crestRandomization = archipelago.CrestRandomization;
+            evaRandomization = archipelago.EvaRandomization;
             fleaRandomization = archipelago.FleaRandomization;
             crestSlotRandomization = archipelago.CrestSlotRandomization;
             maskShardRandomization = archipelago.MaskShardRandomization;
@@ -1113,67 +1043,13 @@ namespace SilksongRandomizer
                 return;
             }
 
-            vogWothHintCount = archipelago.VogWothHintCount;
-            vogFoolishHintCount = archipelago.VogFoolishHintCount;
-            vogGeneralHintCount = archipelago.VogGeneralHintCount;
-            vogWothAreas = NormalizeVogHintPlan(
-                archipelago.VogWothAreas
-            );
-            vogFoolishAreas = NormalizeVogHintPlan(
-                archipelago.VogFoolishAreas
-            );
-            vogGeneralLocations = NormalizeVogHintPlan(
-                archipelago.VogGeneralLocations
-            );
+            BindVogAreaHints(archipelago);
             vogHintSettingsBound = true;
         }
 
         private bool VogHintSettingsMatch(Archipelago archipelago)
         {
-            return archipelago != null &&
-                   vogWothHintCount == archipelago.VogWothHintCount &&
-                   vogFoolishHintCount ==
-                       archipelago.VogFoolishHintCount &&
-                   vogGeneralHintCount ==
-                       archipelago.VogGeneralHintCount &&
-                   VogHintPlanMatches(
-                       vogWothAreas,
-                       archipelago.VogWothAreas
-                   ) &&
-                   VogHintPlanMatches(
-                       vogFoolishAreas,
-                       archipelago.VogFoolishAreas
-                   ) &&
-                   VogHintPlanMatches(
-                       vogGeneralLocations,
-                       archipelago.VogGeneralLocations
-                   );
-        }
-
-        private static bool VogHintPlanMatches(
-            IReadOnlyList<string> savedPlan,
-            IReadOnlyList<string> roomPlan
-        )
-        {
-            if (savedPlan == null || roomPlan == null ||
-                savedPlan.Count != roomPlan.Count)
-            {
-                return false;
-            }
-
-            for (int index = 0; index < savedPlan.Count; index++)
-            {
-                if (!string.Equals(
-                        savedPlan[index],
-                        roomPlan[index],
-                        StringComparison.Ordinal
-                    ))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return archipelago != null && VogAreaHintsMatch(archipelago);
         }
 
         private bool RandomizationModesMatch(Archipelago archipelago)
@@ -1207,6 +1083,7 @@ namespace SilksongRandomizer
                 Tuple.Create("tool_randomization", toolRandomization, archipelago.ToolRandomization),
                 Tuple.Create("silk_skill_randomization", silkSkillRandomization, archipelago.SilkSkillRandomization),
                 Tuple.Create("crest_randomization", crestRandomization, archipelago.CrestRandomization),
+                Tuple.Create("eva_randomization", evaRandomization, archipelago.EvaRandomization),
                 Tuple.Create("flea_randomization", fleaRandomization, archipelago.FleaRandomization),
                 Tuple.Create("crest_slot_randomization", crestSlotRandomization, archipelago.CrestSlotRandomization),
                 Tuple.Create("mask_shard_randomization", maskShardRandomization, archipelago.MaskShardRandomization),
@@ -1761,6 +1638,8 @@ namespace SilksongRandomizer
                     return crestRandomization;
                 case ItemType.Flea:
                     return fleaRandomization;
+                case ItemType.Eva:
+                    return evaRandomization;
                 case ItemType.CrestSlot:
                     return crestSlotRandomization;
                 case ItemType.MaskShard:
@@ -2385,41 +2264,7 @@ namespace SilksongRandomizer
             HashSet<string> addedEntries = new HashSet<string>(
                 StringComparer.OrdinalIgnoreCase
             );
-            List<string> entries = new List<string>();
-
-            foreach (string historyText in vogHintHistory ??
-                     new List<string>())
-            {
-                string text = (historyText ?? string.Empty).Trim();
-                if (text.Length == 0)
-                {
-                    continue;
-                }
-
-                HintData hint = officialHints.FirstOrDefault(candidate =>
-                    text.StartsWith(
-                        candidate.locationName + " contains ",
-                        StringComparison.OrdinalIgnoreCase
-                    ));
-                if (hint != null)
-                {
-                    addedOfficialLocations.Add(hint.locationName);
-                    if (IsHintFound(hint))
-                    {
-                        continue;
-                    }
-
-                    string officialText = FormatOfficialJournalEntry(hint);
-                    if (addedEntries.Add(officialText))
-                    {
-                        entries.Add(officialText);
-                    }
-                }
-                else if (addedEntries.Add(text))
-                {
-                    entries.Add(text);
-                }
-            }
+            List<string> entries = new List<string>(GetVogAreaReports());
 
             foreach (HintData hint in officialHints)
             {

@@ -1,4 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
+
+from .options import get_silk_and_soul_points
 
 from collections.abc import Mapping
 
@@ -25,6 +27,7 @@ def native_rule_options(world) -> dict[str, object]:
         "proficient_combat": bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
         "proficient_movement": bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         "bell_shrine_sanity": world.get_category_mode("BellShrine") != "vanilla",
+        "silk_and_soul_points": get_silk_and_soul_points(world.options),
         "randomized_crest_slots_enabled": (
             world.get_category_mode("CrestSlot") != "vanilla"
         ),
@@ -59,6 +62,7 @@ def get_native_abstract_requirements(world):
         proficient_combat=bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
         proficient_movement=bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         bell_shrine_sanity=world.get_category_mode("BellShrine") != "vanilla",
+        silk_and_soul_points=get_silk_and_soul_points(world.options),
         donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
     )
 

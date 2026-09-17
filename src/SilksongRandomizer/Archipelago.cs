@@ -1,4 +1,4 @@
-using Archipelago.MultiClient.Net;
+﻿using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.MessageLog.Messages;
@@ -89,15 +89,9 @@ namespace SilksongRandomizer
                         StringComparer.OrdinalIgnoreCase
                     )
                 );
-        public int VogWothHintCount { get; private set; }
-        public int VogFoolishHintCount { get; private set; }
-        public int VogGeneralHintCount { get; private set; }
-        public IReadOnlyList<string> VogWothAreas { get; private set; } =
-            Array.Empty<string>();
-        public IReadOnlyList<string> VogFoolishAreas { get; private set; } =
-            Array.Empty<string>();
-        public IReadOnlyList<string> VogGeneralLocations { get; private set; } =
-            Array.Empty<string>();
+        public int SilkAndSoulPoints { get; private set; } = 17;
+        public int VogAreaHintCount { get; private set; }
+        public IReadOnlyList<VogAreaHint> VogAreaHints { get; private set; } = Array.Empty<VogAreaHint>();
         public string BellwayAccess { get; private set; } =
             BellwayAccessBellBeastRequired;
         public string TrailsEndRequirement { get; private set; } =
@@ -148,6 +142,7 @@ namespace SilksongRandomizer
         public RandomizationMode ToolRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode SilkSkillRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestRandomization { get; private set; } = RandomizationMode.Anywhere;
+        public RandomizationMode EvaRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FleaRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestSlotRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode MaskShardRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -510,35 +505,16 @@ namespace SilksongRandomizer
                 );
                 RandomizedItemMarkerLocations =
                     GetRandomizedItemMarkerLocations(successful);
-                VogWothAreas = GetVogHintPlanList(
-                    successful,
-                    "woth_areas"
-                );
-                VogFoolishAreas = GetVogHintPlanList(
-                    successful,
-                    "foolish_areas"
-                );
-                VogGeneralLocations = GetVogHintPlanList(
-                    successful,
-                    "general_locations"
-                );
-                VogWothHintCount = Math.Min(
-                    30,
-                    VogWothAreas.Count
-                );
-                VogFoolishHintCount = Math.Min(
-                    30,
-                    VogFoolishAreas.Count
-                );
-                VogGeneralHintCount = Math.Min(
-                    VogGeneralLocations.Count,
-                    GetVogHintPlanInteger(
-                        successful,
-                        "general_count",
-                        0,
-                        30
-                    )
-                );
+                JObject vogPlan = GetRequiredObjectSlotData(successful, "vog_hints");
+                VogAreaHints = GetVogAreaHints(vogPlan);
+                VogAreaHintCount = GetVogHintPlanInteger(successful, "area_count", 0, 30);
+                if (VogAreaHintCount > VogAreaHints.Count)
+                {
+                    throw new FormatException("Vog area count exceeds the available areas.");
+                }
+                SilkAndSoulPoints = goal == "act_3"
+                    ? Math.Min(25, GetIntegerSlotData(successful, "silk_and_soul_points", 0, int.MaxValue))
+                    : 17;
                 BellwayAccess = GetBellwayAccess(successful);
                 TrailsEndRequirement =
                     GetTrailsEndRequirement(successful);
@@ -616,6 +592,8 @@ namespace SilksongRandomizer
                     successful, "silk_skill_randomization");
                 CrestRandomization = GetRandomizationModeSlotData(
                     successful, "crest_randomization");
+                EvaRandomization = GetRandomizationModeSlotData(
+                    successful, "eva_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
                     successful, "flea_randomization");
                 CrestSlotRandomization = GetRandomizationModeSlotData(
@@ -2471,38 +2449,30 @@ namespace SilksongRandomizer
             }
         }
 
-        private static IReadOnlyList<string> GetVogHintPlanList(
-            LoginSuccessful login,
-            string listName
-        )
+        private static IReadOnlyList<VogAreaHint> GetVogAreaHints(JObject plan)
         {
-            JObject plan = GetRequiredObjectSlotData(login, "vog_hints");
-            JToken values = plan[listName];
-            if (values == null || values.Type == JTokenType.Null)
+            if (plan["format"]?.Value<string>() != "area_counts_v1" ||
+                !(plan["area_locations"] is JObject areas))
             {
-                throw new FormatException(
-                    "APWorld slot data is missing required setting '" +
-                    "vog_hints." + listName + "'."
-                );
+                throw new FormatException("Unsupported Vog area hint format.");
             }
-            if (values.Type != JTokenType.Array)
+            var result = new List<VogAreaHint>();
+            foreach (JProperty area in areas.Properties().OrderBy(p => p.Name, StringComparer.Ordinal))
             {
-                throw new FormatException(
-                    "APWorld setting 'vog_hints." + listName +
-                    "' must be a list."
-                );
+                if (string.IsNullOrWhiteSpace(area.Name) || !(area.Value is JArray locations) ||
+                    locations.Count == 0 || locations.Any(value => value.Type != JTokenType.String ||
+                        string.IsNullOrWhiteSpace(value.Value<string>())))
+                {
+                    throw new FormatException("Invalid Vog area locations.");
+                }
+                result.Add(new VogAreaHint
+                {
+                    area = area.Name,
+                    locations = locations.Values<string>().Select(LocationSet.GetCanonicalLocationName)
+                        .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(name => name, StringComparer.Ordinal).ToList()
+                });
             }
-            if (values.Children().Any(value =>
-                    value.Type != JTokenType.String ||
-                    string.IsNullOrWhiteSpace(value.Value<string>())))
-            {
-                throw new FormatException(
-                    "APWorld setting 'vog_hints." + listName +
-                    "' must contain only non-empty text values."
-                );
-            }
-
-            return values.Values<string>().ToArray();
+            return result;
         }
 
         private static int GetVogHintPlanInteger(
@@ -2750,17 +2720,7 @@ namespace SilksongRandomizer
                        ) ||
                        string.Equals(
                            value,
-                           "vog:woth",
-                           StringComparison.Ordinal
-                       ) ||
-                       string.Equals(
-                           value,
-                           "vog:foolish",
-                           StringComparison.Ordinal
-                       ) ||
-                       string.Equals(
-                           value,
-                           "vog:general",
+                           "vog:area",
                            StringComparison.Ordinal
                        )
                    );
@@ -3082,13 +3042,10 @@ namespace SilksongRandomizer
                         StringComparer.OrdinalIgnoreCase
                     )
                 );
-            VogWothHintCount = 0;
-            VogFoolishHintCount = 0;
-            VogGeneralHintCount = 0;
-            VogWothAreas = Array.Empty<string>();
-            VogFoolishAreas = Array.Empty<string>();
-            VogGeneralLocations = Array.Empty<string>();
+            VogAreaHintCount = 0;
+            VogAreaHints = Array.Empty<VogAreaHint>();
             BellwayAccess = BellwayAccessBellBeastRequired;
+            SilkAndSoulPoints = 17;
             TrailsEndRequirement = TrailsEndRequirementShakraStock;
             EnemyRosaryMultiplier = RosaryMultiplierVanilla;
             EnemyShardMultiplier = RosaryMultiplierVanilla;
@@ -3122,6 +3079,7 @@ namespace SilksongRandomizer
             ToolRandomization = RandomizationMode.Anywhere;
             SilkSkillRandomization = RandomizationMode.Anywhere;
             CrestRandomization = RandomizationMode.Anywhere;
+            EvaRandomization = RandomizationMode.Vanilla;
             FleaRandomization = RandomizationMode.Anywhere;
             CrestSlotRandomization = RandomizationMode.Anywhere;
             MaskShardRandomization = RandomizationMode.Anywhere;

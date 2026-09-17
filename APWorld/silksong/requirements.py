@@ -1,4 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
+
+from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
 from collections import Counter, OrderedDict, deque
 from dataclasses import dataclass, field, replace
@@ -42,6 +44,7 @@ from .locations import (
     location_data_table,
 )
 from .room_graph import load_room_graph
+from .journal import JOURNAL_ENTRY, JOURNAL_ENCOUNTERS
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
@@ -300,7 +303,7 @@ SIMPLE_KEY_ITEMS: tuple[str, ...] = (
 )
 MEMORY_LOCKET_ITEM = 'Memory Locket'
 CREST_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
-    LOCATION_NAMES_BY_CATEGORY['CrestSlot']
+    name for name in LOCATION_NAMES_BY_CATEGORY['CrestSlot'] if name not in EVA_REWARDS
 )
 CRAFTMETAL_ITEM = 'Craftmetal'
 MOSSBERRY_ITEM = 'Mossberry'
@@ -377,6 +380,19 @@ COMPILED_ROOM_GRAPH = replace(
         canonicalize_location_name(name)
         for name in _SOURCE_COMPILED_ROOM_GRAPH.quarantined_check_names
     ),
+)
+
+_eva_clauses = {
+    name: (CompiledRoomClause(all_of=(room_node_name(EVA_NODE), *(
+        (f'Event: Eva {points} Points',) if points else ()
+    ))),)
+    for name, (_, _, points) in EVA_REWARDS.items()
+}
+COMPILED_ROOM_GRAPH = replace(
+    COMPILED_ROOM_GRAPH,
+    check_requirements=MappingProxyType({**COMPILED_ROOM_GRAPH.check_requirements, **_eva_clauses}),
+    check_source_ids=MappingProxyType({**COMPILED_ROOM_GRAPH.check_source_ids, **{name: (EVA_NODE,) for name in EVA_REWARDS}}),
+    authoritative_check_names=COMPILED_ROOM_GRAPH.authoritative_check_names | EVA_REWARDS.keys(),
 )
 
 # Compiled room-graph checks use live logic. Checks that cannot be compiled
@@ -1522,64 +1538,27 @@ def _build_equipped_colored_tool_requirements(
         )
     required_slot_counts = Counter(required_colors)
 
-    def missing_slot_counts(crest_item: str) -> dict[str, int]:
-        native_slot_counts = NATIVE_TOOL_SLOT_COUNTS_BY_CREST[crest_item]
-        return {
-            slot_color: required_count - native_slot_counts.get(
-                slot_color,
-                0,
-            )
-            for slot_color, required_count
-            in required_slot_counts.items()
-            if required_count > native_slot_counts.get(slot_color, 0)
-        }
-
-    requirements = [
-        req(*tool_item_names, crest_item, crest=False)
-        for crest_item in sorted(NATIVE_TOOL_SLOT_COUNTS_BY_CREST)
-        if not missing_slot_counts(crest_item)
-    ]
-    if not randomized_crest_slots_enabled:
-        return tuple(requirements)
-
-    randomized_candidate_crests: list[str] = []
-    for slot_color in required_colors:
-        for crest_item in (
-            RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST
-            .get(slot_color, {})
-        ):
-            if crest_item not in randomized_candidate_crests:
-                randomized_candidate_crests.append(crest_item)
-
-    for crest_item in randomized_candidate_crests:
-        missing_counts = missing_slot_counts(crest_item)
-        if not missing_counts:
-            continue
-        slot_item_choice_groups = tuple(
-            tuple(combinations(
-                RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST
-                .get(slot_color, {})
-                .get(crest_item, ()),
-                missing_count,
-            ))
-            for slot_color, missing_count in missing_counts.items()
-        )
-        if any(not choices for choices in slot_item_choice_groups):
-            continue
-        requirements.extend(
-            req(
-                *tool_item_names,
-                crest_item,
-                *(
-                    slot_item
-                    for selected_slot_items in selected_slot_groups
-                    for slot_item in selected_slot_items
-                ),
-                crest=False,
-            )
-            for selected_slot_groups in product(*slot_item_choice_groups)
-        )
-
+    requirements = []
+    extras = ((BLUE_TOOL_SLOT, BLUE_VESTICREST), (YELLOW_TOOL_SLOT, YELLOW_VESTICREST))
+    for crest_item in sorted(NATIVE_TOOL_SLOT_COUNTS_BY_CREST):
+        for size in range(3):
+            for selected_extras in combinations(extras, size):
+                extra_colors = {color for color, _ in selected_extras}
+                missing = {
+                    color: max(0, count - NATIVE_TOOL_SLOT_COUNTS_BY_CREST[crest_item].get(color, 0) - int(color in extra_colors))
+                    for color, count in required_slot_counts.items()
+                }
+                choices = []
+                for color, count in missing.items():
+                    slots = RANDOMIZED_TOOL_SLOT_ITEMS_BY_COLOR_AND_CREST.get(color, {}).get(crest_item, ()) if randomized_crest_slots_enabled else ()
+                    choices.append(tuple(combinations(slots, count)))
+                for selected_slots in product(*choices):
+                    requirements.append(req(
+                        *tool_item_names, crest_item,
+                        *(name for _, name in selected_extras),
+                        *(slot for group in selected_slots for slot in group),
+                        crest=False,
+                    ))
     return tuple(requirements)
 
 
@@ -2821,6 +2800,73 @@ if MAPPER_GRAPH_ENABLED:
 PROFICIENT_COMBAT_REQUIREMENT = "Option: Proficient Combat"
 PROFICIENT_COMBAT_REQUIREMENTS = (req(crest=False),)
 
+def eva_point_requirements(randomized_slots: bool):
+    result = {
+        source: (req(crest, *((slot,) if slot else ()), crest=False),)
+        for source, crest, slot in EVA_POINT_SOURCES
+    }
+    for points in (12, 20, 27, 32):
+        name = f'Event: Eva {points} Points'
+        if randomized_slots:
+            result[name] = (req(crest=False, item_counts=(item_count(points, EVA_POINT),)),)
+        else:
+            result[name] = tuple(
+                req(*crests, crest=False, item_counts=(
+                    (item_count(points - free, MEMORY_LOCKET_ITEM),) if points > free else ()
+                ))
+                for size in range(1, len(EVA_CREST_SLOTS) + 1)
+                for crests in combinations(EVA_CREST_SLOTS, size)
+                for free, locked in ((
+                    sum(EVA_CREST_SLOTS[crest][0] for crest in crests),
+                    sum(len(EVA_CREST_SLOTS[crest][1]) for crest in crests),
+                ),)
+                if free + locked >= points
+            )
+    return result
+
+
+_journal_rooms = {room.id: room for room in load_room_graph().rooms}
+JOURNAL_REQUIREMENTS = {
+    'Event: Journal ' + name: tuple(
+        req('Event: Hunt Combat Ready', *(room_node_name(node.id) for node in _journal_rooms[room_id].nodes))
+        for room_id in room_ids
+    )
+    for name, room_ids in JOURNAL_ENCOUNTERS.items()
+}
+JOURNAL_REQUIREMENTS['Event: Journal Coral Warrior Grey'] = (
+    req('Event: Hunt Combat Ready',
+        room_node_name('sands-of-karak/watcher-at-the-edge#room'),
+        'Ancestral Art: Needolin'),
+)
+EVENT_REQUIREMENTS.update({
+    'Event: Hunt Combat Ready': (
+        req(PROFICIENT_COMBAT_REQUIREMENT),
+        req('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', item_counts=(item_count(3, 'Progressive Needle Upgrade'),)),
+    ),
+    'Event: Volatile Flintbeetles Completed': (
+        _volatile_flintbeetle_act_one_requirement('Path: The Marrow - Toll', crest=True),
+    ),
+    "Event: Pinmaster's Oil Completed": ROOM_CHECK_REQUIREMENTS["Wish: Pinmaster's Oil"],
+    'Event: Silver Bells Completed': ROOM_CHECK_REQUIREMENTS['Wish: Silver Bells'],
+    'Event: The Terrible Tyrant Completed': (
+        req(room_node_name('bone-bottom/bone-bottom-town#ground-level'),
+            room_node_name('the-marrow/the-marrow-skull-tyrant-arena#room'),
+            'Ancestral Art: Cling Grip', 'Event: Hunt Combat Ready'),
+    ),
+    'Event: Wailing Mother Completed': (
+        req(room_node_name('the-slab/slab-arena#arena'),
+            room_event_name('event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5'),
+            'Event: Strengthening Songclave Completed', 'Path: Choral Chambers - Songclave',
+            'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak', 'Event: Hunt Combat Ready'),
+    ),
+    'Event: Bugs of Pharloom Completed': (
+        req(room_node_name('greymoor/greymoor-halfway-home#room'),
+            any_of=('Capability: Ledge Grab', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak', 'Ancestral Art: Silk Soar'),
+            item_counts=(item_count(100, JOURNAL_ENTRY),)),
+    ),
+})
+
+
 ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
     {
         PROFICIENT_COMBAT_REQUIREMENT: (),
@@ -2828,6 +2874,8 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
         "Option: Bellshrinesanity On": (),
         "Option: Bellshrinesanity Off": (req(crest=False),),
         **INNATE_CAPABILITY_REQUIREMENTS,
+        **eva_point_requirements(True),
+        **JOURNAL_REQUIREMENTS,
         **ACT_REQUIREMENTS,
         **EVENT_REQUIREMENTS,
         **PATH_REQUIREMENTS,
@@ -2906,6 +2954,20 @@ DONATION_CAPACITY_EVENTS: Mapping[str, str] = {
 }
 
 
+@lru_cache(maxsize=26)
+def get_silk_and_soul_requirements(points: int = 17):
+    points = max(0, min(25, points))
+    template = ABSTRACT_REQUIREMENTS['Event: Silk and Soul Completed'][0]
+    mandatory = template.item_counts[0]
+    return tuple(
+        replace(template, item_counts=(mandatory, *(
+            (item_count(max(0, points - halves // 2), SILK_AND_SOUL_WISH_POINT_ITEM),)
+            if points > halves // 2 else ()
+        ), *((item_count(halves, SILK_AND_SOUL_WISH_HALF_POINT_ITEM),) if halves else ())))
+        for halves in range(0, min(6, points * 2) + 1, 2)
+    )
+
+
 def get_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
@@ -2917,6 +2979,7 @@ def get_abstract_requirements(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
@@ -2932,7 +2995,8 @@ def get_abstract_requirements(
         )
 
     if (
-        not allow_bellways_before_bell_beast
+        silk_and_soul_points == 17
+        and not allow_bellways_before_bell_beast
         and randomized_crest_slots_enabled
         and starting_location == STARTING_LOCATION_VANILLA
         and trails_end_requirement == TRAILS_END_REQUIREMENT_SHAKRA_STOCK
@@ -2947,6 +3011,7 @@ def get_abstract_requirements(
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    adjusted_requirements['Event: Silk and Soul Completed'] = get_silk_and_soul_requirements(silk_and_soul_points)
     if proficient_movement:
         adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
     if bell_shrine_sanity:
@@ -2971,6 +3036,7 @@ def get_abstract_requirements(
             BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
         )
     if not randomized_crest_slots_enabled:
+        adjusted_requirements.update(eva_point_requirements(False))
         # Vanilla Crest Slots do not consume received AP slot items and their
         # Memory Locket spending is not represented in AP inventory logic.
         adjusted_requirements.update(
@@ -5937,6 +6003,7 @@ def _get_static_abstract_requirement_items(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
     starting_location = normalize_starting_location_key(starting_location)
     trails_end_requirement = normalize_trails_end_requirement(
@@ -5958,6 +6025,16 @@ def _get_static_abstract_requirement_items(
             _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
             if allow_bellways_before_bell_beast
             else _STATIC_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS
+        )
+
+    if not randomized_crest_slots_enabled:
+        eva_rules = eva_point_requirements(False)
+        requirement_items = tuple((name, eva_rules.get(name, alternatives)) for name, alternatives in requirement_items)
+
+    if silk_and_soul_points != 17:
+        requirement_items = tuple(
+            (name, get_silk_and_soul_requirements(silk_and_soul_points) if name == 'Event: Silk and Soul Completed' else alternatives)
+            for name, alternatives in requirement_items
         )
 
     if bell_shrine_sanity:
@@ -6137,6 +6214,7 @@ def _compile_static_abstract_worklist_plan(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> _AbstractWorklistPlan:
     requirements_signature = _get_static_abstract_requirement_items(
         allow_bellways_before_bell_beast,
@@ -6149,6 +6227,7 @@ def _compile_static_abstract_worklist_plan(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
     return _compile_abstract_worklist_plan(requirements_signature)
 
@@ -6168,6 +6247,7 @@ def _matches_static_abstract_requirements(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> bool:
     """Return whether this is the unchanged runtime graph."""
 
@@ -6182,6 +6262,7 @@ def _matches_static_abstract_requirements(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
     return (
         len(abstract_requirements) == len(expected_items)
@@ -6208,6 +6289,7 @@ def _compute_abstract_values(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> tuple[
     dict[str, bool],
     bool,
@@ -6247,6 +6329,7 @@ def _compute_abstract_values(
             proficient_combat,
             proficient_movement,
             bell_shrine_sanity,
+            silk_and_soul_points,
             inventory_signature,
             ABSTRACT_REQUIREMENTS.revision,
         )
@@ -6304,6 +6387,7 @@ def _compute_abstract_values(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
     if _matches_static_abstract_requirements(
         abstract_requirements,
@@ -6317,6 +6401,7 @@ def _compute_abstract_values(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     ):
         worklist_plan = _compile_static_abstract_worklist_plan(
             allow_bellways_before_bell_beast,
@@ -6329,6 +6414,7 @@ def _compute_abstract_values(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
     else:
         # Validation tools occasionally patch the graph. Compile those
@@ -6544,6 +6630,7 @@ def _has_named_requirement(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6567,6 +6654,7 @@ def _has_named_requirement(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
     return _has_named_requirement_with_values(
         item_or_requirement_name,
@@ -6594,6 +6682,7 @@ def _satisfies_requirement(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
@@ -6618,6 +6707,7 @@ def _satisfies_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
         )
     )
     return _satisfies_requirement_with_values(
@@ -6649,6 +6739,7 @@ def make_requirements_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ):
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
@@ -6671,6 +6762,7 @@ def make_requirements_rule(
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 bell_shrine_sanity=bell_shrine_sanity,
+                silk_and_soul_points=silk_and_soul_points,
             )
         )
         return any(
@@ -6708,6 +6800,7 @@ def make_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ):
     if is_logic_unknown_location(location_name):
         return lambda _state: True
@@ -6731,6 +6824,7 @@ def make_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
 
 
@@ -6975,6 +7069,7 @@ def make_goal_rule(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
 ):
     return make_requirements_rule(
         get_goal_requirements(
@@ -6997,6 +7092,7 @@ def make_goal_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         bell_shrine_sanity=bell_shrine_sanity,
+        silk_and_soul_points=silk_and_soul_points,
     )
 
 
@@ -7181,6 +7277,7 @@ def export_abstract_requirements(
     proficient_combat: bool = False,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
+    silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
@@ -7203,6 +7300,7 @@ def export_abstract_requirements(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             bell_shrine_sanity=bell_shrine_sanity,
+            silk_and_soul_points=silk_and_soul_points,
             donation_tool_pouch_requirements=donation_tool_pouch_requirements,
         ).items()
         if (

@@ -10,13 +10,13 @@ using GetPlayerDataBoolAction =
     HutongGames.PlayMaker.Actions.GetPlayerDataBool;
 using PlayerDataVariableTestAction =
     HutongGames.PlayMaker.Actions.PlayerDataVariableTest;
+using SendEventByNameAction =
+    HutongGames.PlayMaker.Actions.SendEventByName;
+using SetPlayerDataBoolAction =
+    HutongGames.PlayMaker.Actions.SetPlayerDataBool;
 
 namespace SilksongRandomizer.Patches
 {
-    /// <summary>
-    /// Lets exact story gates use randomized Silk Soar ownership without
-    /// collecting the native source.
-    /// </summary>
     internal static class SilkSoarStoryPatches
     {
         private const string EscapeSceneName = "Dock_04";
@@ -24,12 +24,26 @@ namespace SilksongRandomizer.Patches
         private const string FsmName = "Advance Quest";
         private const string StateName = "State 2";
         private const string NativeFlag = "hasSuperJump";
+        private const string SilkSoarSourceSceneName = "Abyss_08";
+        private const string SilkSoarSourcePath =
+            "weaver_spire_base control/Shrine Weaver Ability";
+        private const string SilkSoarSourceFsmName = "Inspection";
+        private const string SilkSoarSourceEndStateName = "End";
+        private const string SilkSoarSourceFinishedStateName =
+            "Set Finished";
+        private const string SilkSoarSourceLocationName =
+            "Skill Unlock: Silk Soar";
+        private const string ShrineSequenceEndEventName =
+            "SHRINE SEQUENCE END";
         private const string EcstasyQuestAssetName = "Flea Games Pre";
         private const string DockSceneName = "Dock_12";
         private const string ForgeSceneName = "Room_Forge";
         private const string BellInteriorSceneName = "Room_Diving_Bell";
+        private const string BellBrokenInteriorSceneName =
+            "Room_Diving_Bell_Abyss";
         private const string BellFixedInteriorSceneName =
             "Room_Diving_Bell_Abyss_Fixed";
+        private const string AbyssDivingBellSceneName = "Abyss_03";
         private const string DialogueFsmName = "Dialogue";
         private const string BallowPostStateName = "Post Ver?";
         private const string ForgePostStateName = "Post Abyss?";
@@ -43,6 +57,25 @@ namespace SilksongRandomizer.Patches
             "Diving Bell/States/Repair";
         private const string DivingBellStandardPath =
             "Diving Bell/States/Standard";
+        private const string DivingBellHalfUpgradedPath =
+            "Diving Bell/States/Repair/Half_Upgraded";
+        private const string DivingBellUpgradedPath =
+            "Diving Bell/States/Repair/Upgraded";
+        private const string AbyssDivingBellStatesPath =
+            "Diving Bell States";
+        private const string AbyssDivingBellGonePath =
+            "Diving Bell States/Gone";
+        private const string AbyssDivingBellBrokenPath =
+            "Diving Bell States/Diving Bell Broken";
+        private const string AbyssDivingBellGoneZonePath =
+            "Diving Bell States/Gone/Bell Gone Zone";
+        private const string AbyssDivingBellUpgradedPath =
+            "Diving Bell States/Gone/Diving Bell Upgraded";
+        private const string AbyssDivingBellEntryGateName = "door2";
+        private const string BellBrokenSurfaceEntryGateName =
+            "door_wakeOnGround";
+        private const string BellFixedSurfaceEntryGateName =
+            "door_cinematicEnd";
         private const string DivingBellTrapdoorPath = "trapdoor states";
         private const string DivingBellTrapdoorOpenPath =
             "trapdoor states/trapdoor open";
@@ -58,10 +91,17 @@ namespace SilksongRandomizer.Patches
         private const string BellTravelDialogueStateName = "Travel Dlg";
         private const string BellBenchDialogueStateName = "Bench Dlg";
         private const string BellShieldedPath = "Diving Bell Shielded";
-        private const string DivingBellPt3QuestName =
+        private const string DivingBellInspectQuestName =
+            "Diving Bell Pt1 Inspect";
+        private const string DivingBellBallowQuestName =
+            "Diving Bell Pt2 Ballow";
+        private const string DivingBellDescendQuestName =
             "Diving Bell Pt3 Descend";
+        private const string DivingBellAbyssQuestName =
+            "Black Thread Pt2 Abyss";
         private const string BallowMovedFlag =
             "BallowMovedToDivingBell";
+        private const string WhiteFlowerFlag = "HasWhiteFlower";
 
         private static readonly System.Reflection.FieldInfo
             ActivatorTestField = AccessTools.Field(
@@ -83,6 +123,11 @@ namespace SilksongRandomizer.Patches
         {
             internal PlayerData PlayerData;
             internal bool NativeSuperJump;
+            internal PlayerDataTest.Test[] SelectorTests;
+            internal PlayerDataTest.Test NativeSelectorTest;
+            internal bool RestoreSelectorTest;
+            internal GetPlayerDataBoolAction DialogueBoolAction;
+            internal string NativeDialogueBoolName;
             internal bool SynchronizeBallow;
         }
 
@@ -102,18 +147,22 @@ namespace SilksongRandomizer.Patches
 
                 SaveState state = SaveState.Instance;
                 PlayerData playerData = PlayerData.instance;
+                bool isBallowPostGate =
+                    IsExactBallowPostGate(__instance);
+                bool isEscapeGate = IsExactEscapeQuestGate(__instance);
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
-                    !IsExactPlayerDataStoryGate(__instance))
+                    !IsExactPlayerDataStoryGate(__instance) ||
+                    (!isBallowPostGate && !isEscapeGate &&
+                     !state.IsRandomized(ItemType.Skill)))
                 {
                     return;
                 }
 
-                if (IsExactBallowPostGate(__instance) ||
+                if (isBallowPostGate ||
                     IsExactForgeDaughterPostGate(__instance))
                 {
-                    TryRecoverDivingBellProgression(
+                    TryEnableDivingBellForAcceptedQuest(
                         state,
                         playerData
                     );
@@ -124,7 +173,11 @@ namespace SilksongRandomizer.Patches
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump = isEscapeGate
+                    ? HasCollectedAbyssShrine(state, playerData)
+                    : isBallowPostGate
+                        ? playerData.BallowMovedToDivingBell
+                        : state.canSilkSoar;
             }
 
             [HarmonyFinalizer]
@@ -143,6 +196,81 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(
+            typeof(SetPlayerDataBoolAction),
+            nameof(SetPlayerDataBoolAction.OnEnter)
+        )]
+        private static class SilkSoarSourceWritePatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(SetPlayerDataBoolAction __instance)
+            {
+                if (!IsExactSilkSoarSourceWrite(__instance))
+                {
+                    return true;
+                }
+
+                SaveState state = SaveState.Instance;
+                if (!IsSilkSoarRandomized(state))
+                {
+                    return true;
+                }
+
+                bool isSuperJumpWrite = string.Equals(
+                    __instance.boolName.Value,
+                    NativeFlag,
+                    StringComparison.Ordinal
+                );
+                if (isSuperJumpWrite &&
+                    IsRandomizedSilkSoarSource(state))
+                {
+                    state.CheckLocation(SilkSoarSourceLocationName);
+                }
+
+                PlayerData playerData = PlayerData.instance;
+                if (state.canSilkSoar &&
+                    (isSuperJumpWrite ||
+                     (playerData != null && playerData.hasSuperJump)))
+                {
+                    return true;
+                }
+
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(SendEventByNameAction),
+            nameof(SendEventByNameAction.OnEnter)
+        )]
+        private static class SilkSoarEscapeStartPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(SendEventByNameAction __instance)
+            {
+                if (!IsExactSilkSoarEscapeStart(__instance))
+                {
+                    return true;
+                }
+
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (!IsSilkSoarRandomized(state) ||
+                    (state.canSilkSoar &&
+                     playerData != null &&
+                     playerData.hasSuperJump))
+                {
+                    return true;
+                }
+
+                __instance.Finish();
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
         private static class DivingBellStatePatch
         {
@@ -156,27 +284,51 @@ namespace SilksongRandomizer.Patches
 
                 SaveState state = SaveState.Instance;
                 PlayerData playerData = PlayerData.instance;
+                bool isWhiteFlowerSelector =
+                    IsExactDivingBellWhiteFlowerActivator(__instance) ||
+                    IsExactAbyssDivingBellWhiteFlowerActivator(
+                        __instance
+                    );
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
-                    !IsExactDivingBellStateActivator(__instance))
+                    (!IsExactDivingBellStateActivator(__instance) &&
+                     !IsExactAbyssDivingBellStateActivator(__instance) &&
+                     !isWhiteFlowerSelector))
                 {
                     return;
                 }
 
+                bool synchronizeBallow =
+                    TryEnableDivingBellForAcceptedQuest(
+                        state,
+                        playerData
+                    );
                 __state = new SilkSoarSnapshot
                 {
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
-                    SynchronizeBallow =
-                        TryRecoverDivingBellProgression(
-                            state,
-                            playerData
-                        ),
+                    SynchronizeBallow = synchronizeBallow,
                 };
-                playerData.hasSuperJump =
-                    state.canSilkSoar &&
-                    playerData.BallowMovedToDivingBell;
+                if (isWhiteFlowerSelector)
+                {
+                    PlayerDataTest test =
+                        ActivatorTestField.GetValue(__instance) as
+                            PlayerDataTest;
+                    PlayerDataTest.Test[] tests =
+                        test.TestGroups[0].Tests;
+                    PlayerDataTest.Test original = tests[0];
+                    PlayerDataTest.Test redirected = original;
+                    redirected.FieldName = BallowMovedFlag;
+                    tests[0] = redirected;
+                    __state.SelectorTests = tests;
+                    __state.NativeSelectorTest = original;
+                    __state.RestoreSelectorTest = true;
+                }
+                else
+                {
+                    playerData.hasSuperJump =
+                        playerData.BallowMovedToDivingBell;
+                }
             }
 
             [HarmonyFinalizer]
@@ -189,6 +341,12 @@ namespace SilksongRandomizer.Patches
                 {
                     __state.PlayerData.hasSuperJump =
                         __state.NativeSuperJump;
+                    if (__state.RestoreSelectorTest &&
+                        __state.SelectorTests != null)
+                    {
+                        __state.SelectorTests[0] =
+                            __state.NativeSelectorTest;
+                    }
                     if (__state.SynchronizeBallow)
                     {
                         SynchronizeRecoveredBallowObjects();
@@ -217,19 +375,19 @@ namespace SilksongRandomizer.Patches
                 PlayerData playerData = PlayerData.instance;
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
                     !IsExactDivingBellVariableRead(__instance))
                 {
                     return;
                 }
 
-                TryRecoverDivingBellProgression(state, playerData);
+                TryEnableDivingBellForAcceptedQuest(state, playerData);
                 __state = new SilkSoarSnapshot
                 {
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump =
+                    playerData.BallowMovedToDivingBell;
             }
 
             [HarmonyFinalizer]
@@ -264,21 +422,43 @@ namespace SilksongRandomizer.Patches
 
                 SaveState state = SaveState.Instance;
                 PlayerData playerData = PlayerData.instance;
+                bool isSuperJumpRead =
+                    IsExactDivingBellFirstPostRead(
+                        __instance,
+                        NativeFlag,
+                        3
+                    );
+                bool isWhiteFlowerRead =
+                    IsExactDivingBellFirstPostRead(
+                        __instance,
+                        WhiteFlowerFlag,
+                        4
+                    );
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
-                    !IsExactDivingBellFirstPostRead(__instance))
+                    (!isSuperJumpRead && !isWhiteFlowerRead))
                 {
                     return;
                 }
 
-                TryRecoverDivingBellProgression(state, playerData);
+                TryEnableDivingBellForAcceptedQuest(state, playerData);
                 __state = new SilkSoarSnapshot
                 {
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                if (isWhiteFlowerRead)
+                {
+                    __state.DialogueBoolAction = __instance;
+                    __state.NativeDialogueBoolName =
+                        __instance.boolName.Value;
+                    __instance.boolName.Value = BallowMovedFlag;
+                }
+                else
+                {
+                    playerData.hasSuperJump =
+                        playerData.BallowMovedToDivingBell;
+                }
             }
 
             [HarmonyFinalizer]
@@ -291,6 +471,11 @@ namespace SilksongRandomizer.Patches
                 {
                     __state.PlayerData.hasSuperJump =
                         __state.NativeSuperJump;
+                    if (__state.DialogueBoolAction != null)
+                    {
+                        __state.DialogueBoolAction.boolName.Value =
+                            __state.NativeDialogueBoolName;
+                    }
                 }
 
                 return __exception;
@@ -315,7 +500,6 @@ namespace SilksongRandomizer.Patches
                 PlayerData playerData = PlayerData.instance;
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
                     !IsExactDivingBellShield(__instance))
                 {
                     return;
@@ -325,8 +509,14 @@ namespace SilksongRandomizer.Patches
                 {
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
+                    SynchronizeBallow =
+                        TryEnableDivingBellForAcceptedQuest(
+                            state,
+                            playerData
+                        ),
                 };
-                playerData.hasSuperJump = state.canSilkSoar;
+                playerData.hasSuperJump =
+                    playerData.BallowMovedToDivingBell;
             }
 
             [HarmonyFinalizer]
@@ -339,9 +529,111 @@ namespace SilksongRandomizer.Patches
                 {
                     __state.PlayerData.hasSuperJump =
                         __state.NativeSuperJump;
+                    if (__state.SynchronizeBallow)
+                    {
+                        SynchronizeRecoveredBallowObjects();
+                    }
                 }
 
                 return __exception;
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(GameManager),
+            nameof(GameManager.BeginSceneTransition)
+        )]
+        private static class DivingBellTransitionPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(GameManager.SceneLoadInfo info)
+            {
+                if (info == null ||
+                    !string.Equals(
+                        info.SceneName,
+                        BellBrokenInteriorSceneName,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                TryEnableDivingBellForAcceptedQuest(state, playerData);
+                if (IsDivingBellReady(state, playerData))
+                {
+                    info.SceneName = BellFixedInteriorSceneName;
+                    if (string.Equals(
+                            info.EntryGateName,
+                            BellBrokenSurfaceEntryGateName,
+                            StringComparison.Ordinal))
+                    {
+                        info.EntryGateName =
+                            BellFixedSurfaceEntryGateName;
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(GameManager),
+            nameof(GameManager.FinishedEnteringScene)
+        )]
+        private static class DivingBellAbyssQuestPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix()
+            {
+                GameManager gameManager = GameManager.SilentInstance;
+                HeroController hero = HeroController.instance;
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (gameManager == null ||
+                    hero == null ||
+                    !string.Equals(
+                        gameManager.GetSceneNameString(),
+                        AbyssDivingBellSceneName,
+                        StringComparison.OrdinalIgnoreCase) ||
+                    !string.Equals(
+                        hero.GetEntryGateName(),
+                        AbyssDivingBellEntryGateName,
+                        StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                TryEnableDivingBellForAcceptedQuest(state, playerData);
+                if (IsDivingBellReady(state, playerData))
+                {
+                    TryBeginDivingBellAbyssQuest();
+                }
+            }
+        }
+
+        [HarmonyPatch(
+            typeof(FullQuestBase),
+            nameof(FullQuestBase.BeginQuest)
+        )]
+        private static class DivingBellQuestAcceptedPatch
+        {
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(FullQuestBase __instance)
+            {
+                if (__instance == null ||
+                    !IsDivingBellIntroductionQuest(__instance.name))
+                {
+                    return;
+                }
+
+                if (TryEnableDivingBellForAcceptedQuest(
+                        SaveState.Instance,
+                        PlayerData.instance))
+                {
+                    SynchronizeRecoveredBallowObjects();
+                }
             }
         }
 
@@ -392,6 +684,133 @@ namespace SilksongRandomizer.Patches
 
                 return __exception;
             }
+        }
+
+        private static bool IsSilkSoarRandomized(SaveState state)
+        {
+            return state != null &&
+                   state.IsRandomized(ItemType.Skill);
+        }
+
+        private static bool IsRandomizedSilkSoarSource(
+            SaveState state)
+        {
+            return IsSilkSoarRandomized(state) &&
+                   state.IsLocationEnabled(SilkSoarSourceLocationName) &&
+                   state.IsLocationInSeed(SilkSoarSourceLocationName);
+        }
+
+        private static bool IsExactSilkSoarSourceWrite(
+            SetPlayerDataBoolAction action)
+        {
+            if (!IsExactSilkSoarSourceAction(
+                    action,
+                    SilkSoarSourceEndStateName) ||
+                action.boolName == null ||
+                action.value == null ||
+                !action.value.Value)
+            {
+                return false;
+            }
+
+            FsmStateAction[] actions = action.State.Actions;
+            SetPlayerDataBoolAction superJump =
+                actions != null && actions.Length == 10
+                    ? actions[2] as SetPlayerDataBoolAction
+                    : null;
+            SetPlayerDataBoolAction silkSpecial =
+                actions != null && actions.Length == 10
+                    ? actions[4] as SetPlayerDataBoolAction
+                    : null;
+            if (actions == null ||
+                actions.Length != 10 ||
+                !(actions[0] is SendEventByNameAction) ||
+                superJump?.boolName == null ||
+                superJump.value == null ||
+                !string.Equals(
+                    superJump.boolName.Value,
+                    NativeFlag,
+                    StringComparison.Ordinal) ||
+                !superJump.value.Value ||
+                silkSpecial?.boolName == null ||
+                silkSpecial.value == null ||
+                !string.Equals(
+                    silkSpecial.boolName.Value,
+                    "hasSilkSpecial",
+                    StringComparison.Ordinal) ||
+                !silkSpecial.value.Value)
+            {
+                return false;
+            }
+
+            return ReferenceEquals(action, superJump) ||
+                   ReferenceEquals(action, silkSpecial);
+        }
+
+        private static bool IsExactSilkSoarEscapeStart(
+            SendEventByNameAction action)
+        {
+            FsmEventTarget target = action?.eventTarget;
+            FsmOwnerDefault targetObject = target?.gameObject;
+            FsmGameObject parent = targetObject?.GameObject;
+            if (!IsExactSilkSoarSourceAction(
+                    action,
+                    SilkSoarSourceFinishedStateName) ||
+                action.sendEvent == null ||
+                action.delay == null ||
+                target == null ||
+                target.target != FsmEventTarget.EventTarget.GameObject ||
+                targetObject == null ||
+                targetObject.OwnerOption !=
+                    OwnerDefaultOption.SpecifyGameObject ||
+                parent == null ||
+                !parent.UseVariable ||
+                !string.Equals(
+                    parent.Name,
+                    "Parent",
+                    StringComparison.Ordinal) ||
+                !string.Equals(
+                    action.sendEvent.Value,
+                    ShrineSequenceEndEventName,
+                    StringComparison.Ordinal) ||
+                action.delay.Value != 0f ||
+                action.everyFrame)
+            {
+                return false;
+            }
+
+            FsmStateAction[] actions = action.State.Actions;
+            return actions != null &&
+                   actions.Length == 5 &&
+                   ReferenceEquals(actions[2], action) &&
+                   actions[0] is SetPlayerDataBoolAction &&
+                   string.Equals(
+                       actions[3]?.GetType().FullName,
+                       "SaveGameV2",
+                       StringComparison.Ordinal);
+        }
+
+        private static bool IsExactSilkSoarSourceAction(
+            FsmStateAction action,
+            string stateName)
+        {
+            return action != null &&
+                   action.Enabled &&
+                   action.Owner != null &&
+                   action.Fsm != null &&
+                   action.State != null &&
+                   HasExactPath(
+                       action.Owner,
+                       SilkSoarSourceSceneName,
+                       SilkSoarSourcePath) &&
+                   string.Equals(
+                       action.Fsm.Name,
+                       SilkSoarSourceFsmName,
+                       StringComparison.Ordinal) &&
+                   string.Equals(
+                       action.State.Name,
+                       stateName,
+                       StringComparison.Ordinal);
         }
 
         private static bool IsExactEscapeQuestGate(
@@ -633,10 +1052,50 @@ namespace SilksongRandomizer.Patches
         {
             return IsExactSingleBoolActivator(
                 activator,
+                DockSceneName,
                 DivingBellStatesPath,
                 NativeFlag,
                 DivingBellRepairPath,
                 DivingBellStandardPath
+            );
+        }
+
+        private static bool IsExactDivingBellWhiteFlowerActivator(
+            TestGameObjectActivator activator)
+        {
+            return IsExactSingleBoolActivator(
+                activator,
+                DockSceneName,
+                DivingBellRepairPath,
+                WhiteFlowerFlag,
+                DivingBellUpgradedPath,
+                DivingBellHalfUpgradedPath
+            );
+        }
+
+        private static bool IsExactAbyssDivingBellStateActivator(
+            TestGameObjectActivator activator)
+        {
+            return IsExactSingleBoolActivator(
+                activator,
+                AbyssDivingBellSceneName,
+                AbyssDivingBellStatesPath,
+                NativeFlag,
+                AbyssDivingBellGonePath,
+                AbyssDivingBellBrokenPath
+            );
+        }
+
+        private static bool IsExactAbyssDivingBellWhiteFlowerActivator(
+            TestGameObjectActivator activator)
+        {
+            return IsExactSingleBoolActivator(
+                activator,
+                AbyssDivingBellSceneName,
+                AbyssDivingBellGonePath,
+                WhiteFlowerFlag,
+                AbyssDivingBellUpgradedPath,
+                AbyssDivingBellGoneZonePath
             );
         }
 
@@ -645,6 +1104,7 @@ namespace SilksongRandomizer.Patches
         {
             return IsExactSingleBoolActivator(
                 activator,
+                DockSceneName,
                 DivingBellTrapdoorPath,
                 BallowMovedFlag,
                 DivingBellTrapdoorOpenPath,
@@ -654,6 +1114,7 @@ namespace SilksongRandomizer.Patches
 
         private static bool IsExactSingleBoolActivator(
             TestGameObjectActivator activator,
+            string sceneName,
             string activatorPath,
             string fieldName,
             string activatePath,
@@ -665,17 +1126,17 @@ namespace SilksongRandomizer.Patches
                 DeactivatorTargetField == null ||
                 !HasExactPath(
                     activator.gameObject,
-                    DockSceneName,
+                    sceneName,
                     activatorPath) ||
                 !HasExactPath(
                     ActivatorTargetField.GetValue(activator) as
                         GameObject,
-                    DockSceneName,
+                    sceneName,
                     activatePath) ||
                 !HasExactPath(
                     DeactivatorTargetField.GetValue(activator) as
                         GameObject,
-                    DockSceneName,
+                    sceneName,
                     deactivatePath))
             {
                 return false;
@@ -828,7 +1289,9 @@ namespace SilksongRandomizer.Patches
         }
 
         private static bool IsExactDivingBellFirstPostRead(
-            GetPlayerDataBoolAction action)
+            GetPlayerDataBoolAction action,
+            string fieldName,
+            int actionIndex)
         {
             if (action == null ||
                 !action.Enabled ||
@@ -848,7 +1311,7 @@ namespace SilksongRandomizer.Patches
                     StringComparison.Ordinal) ||
                 !string.Equals(
                     action.boolName?.Value,
-                    NativeFlag,
+                    fieldName,
                     StringComparison.Ordinal))
             {
                 return false;
@@ -857,8 +1320,11 @@ namespace SilksongRandomizer.Patches
             FsmStateAction[] actions = action.State.Actions;
             return actions != null &&
                    actions.Length == 9 &&
-                   ReferenceEquals(actions[3], action) &&
+                   actionIndex >= 0 &&
+                   actionIndex < actions.Length &&
+                   ReferenceEquals(actions[actionIndex], action) &&
                    actions[2] is GetPlayerDataBoolAction &&
+                   actions[3] is GetPlayerDataBoolAction &&
                    actions[4] is GetPlayerDataBoolAction &&
                    string.Equals(
                        actions[5]?.GetType().FullName,
@@ -892,56 +1358,128 @@ namespace SilksongRandomizer.Patches
                        BellShieldedPath);
         }
 
-        private static bool TryRecoverDivingBellProgression(
+        private static bool IsDivingBellIntroductionQuest(string questName)
+        {
+            return string.Equals(questName, DivingBellInspectQuestName, StringComparison.Ordinal) ||
+                   string.Equals(questName, DivingBellBallowQuestName, StringComparison.Ordinal);
+        }
+
+        private static bool HasCollectedAbyssShrine(SaveState state, PlayerData playerData)
+        {
+            return state != null && playerData != null &&
+                   (state.IsRandomized(ItemType.Skill)
+                       ? state.IsLocationChecked(SilkSoarSourceLocationName)
+                       : playerData.hasSuperJump);
+        }
+
+        private static bool TryEnableDivingBellForAcceptedQuest(
             SaveState state,
             PlayerData playerData)
         {
             if (state == null ||
-                playerData == null ||
-                !state.IsRandomized(ItemType.Skill) ||
-                !state.canSilkSoar ||
-                !playerData.act3_wokeUp ||
-                !playerData.HasWhiteFlower ||
-                playerData.BallowMovedToDivingBell)
+                playerData == null)
             {
                 return false;
             }
 
-            FullQuestBase quest = QuestManager.GetQuest(
-                DivingBellPt3QuestName
+            FullQuestBase inspectQuest = QuestManager.GetQuest(
+                DivingBellInspectQuestName
             );
-            if (quest == null)
+            if (inspectQuest == null ||
+                (!inspectQuest.IsAccepted &&
+                 !inspectQuest.IsCompleted))
             {
                 return false;
             }
 
             try
             {
-                if (!quest.IsAccepted && !quest.IsCompleted)
-                {
-                    quest.BeginQuest(null, false);
-                }
-                if (!quest.IsAccepted && !quest.IsCompleted)
+                FullQuestBase descendQuest = QuestManager.GetQuest(
+                    DivingBellDescendQuestName
+                );
+                if (descendQuest == null)
                 {
                     return false;
                 }
 
+                bool changed =
+                    !descendQuest.IsAccepted &&
+                    !descendQuest.IsCompleted;
+                if (changed)
+                {
+                    descendQuest.BeginQuest(null, false);
+                }
+                if (!descendQuest.IsAccepted &&
+                    !descendQuest.IsCompleted)
+                {
+                    return false;
+                }
+
+                changed =
+                    changed ||
+                    !playerData.ForgeDaughterMentionedDivingBell ||
+                    !playerData.BallowMovedToDivingBell;
                 playerData.ForgeDaughterMentionedDivingBell = true;
                 playerData.BallowMovedToDivingBell = true;
-                playerData.BallowTalkedPostRepair = true;
-                RandomizerPlugin.Log?.LogInfo(
-                    "[RANDOMIZER] Recovered the skipped Diving Bell " +
-                    "quest chain for randomized Silk Soar."
-                );
-                return true;
+                if (changed)
+                {
+                    RandomizerPlugin.Log?.LogInfo(
+                        "[RANDOMIZER] Enabled the repaired Diving Bell " +
+                        "for SEEK: The Dark Below."
+                    );
+                }
+                return changed;
             }
             catch (Exception ex)
             {
                 RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Diving Bell quest recovery failed " +
+                    "[RANDOMIZER] Diving Bell quest activation failed " +
                     "closed: " + ex.Message
                 );
                 return false;
+            }
+        }
+
+        private static bool IsDivingBellReady(
+            SaveState state,
+            PlayerData playerData)
+        {
+            if (state == null ||
+                playerData == null ||
+                !playerData.BallowMovedToDivingBell)
+            {
+                return false;
+            }
+
+            FullQuestBase quest = QuestManager.GetQuest(
+                DivingBellInspectQuestName
+            );
+            return quest != null &&
+                   (quest.IsAccepted || quest.IsCompleted);
+        }
+
+        private static void TryBeginDivingBellAbyssQuest()
+        {
+            FullQuestBase quest = QuestManager.GetQuest(
+                DivingBellAbyssQuestName
+            );
+            if (quest == null ||
+                quest.IsAccepted ||
+                quest.IsCompleted)
+            {
+                return;
+            }
+
+            try
+            {
+                quest.BeginQuest(null, true);
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning(
+                    "[RANDOMIZER] Diving Bell Abyss quest start failed " +
+                    "closed: " + ex.Message
+                );
             }
         }
 
@@ -953,7 +1491,17 @@ namespace SilksongRandomizer.Patches
                          Resources.FindObjectsOfTypeAll<
                              TestGameObjectActivator>())
                 {
-                    if (IsExactBallowTrapdoorActivator(activator))
+                    if (IsExactBallowTrapdoorActivator(activator) ||
+                        IsExactDivingBellStateActivator(activator) ||
+                        IsExactDivingBellWhiteFlowerActivator(
+                            activator
+                        ) ||
+                        IsExactAbyssDivingBellStateActivator(
+                            activator
+                        ) ||
+                        IsExactAbyssDivingBellWhiteFlowerActivator(
+                            activator
+                        ))
                     {
                         activator.DoEvaluate();
                     }

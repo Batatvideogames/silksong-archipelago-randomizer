@@ -1,4 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
+
+from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
 from dataclasses import dataclass
 from typing import Dict, Mapping
@@ -1030,7 +1032,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Wish: Last Audience', 'Quest'),
     ('Wish: Torment, Anguish and Misery', 'Quest'),
     ('Wish: Fatal Resolve', 'Quest'),
-)
+) + tuple((name, category) for name, (_, category, _) in EVA_REWARDS.items())
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(location_name), category)
@@ -1072,6 +1074,7 @@ location_data_table: Dict[str, SilksongLocationData] = {
 }
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
+    'Eva',
     'Skill',
     'Tool',
     'Spell',

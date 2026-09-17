@@ -1,4 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
+
+from .options import get_silk_and_soul_points
 
 import base64
 import gzip
@@ -147,7 +149,6 @@ from .vog_hints import (
     build_vog_hint_plan,
     copy_vog_hint_plan,
     empty_vog_hint_plan,
-    find_required_playthrough_locations,
 )
 from .verdania_scope import (
     ACT_THREE_GOAL_KEY,
@@ -214,10 +215,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def interpret_slot_data(self, slot_data):
         from .rules import apply_crest_slot_memory_locket_rules
 
-        for category in ("CrestSlot", "MemoryLocket"):
+        for category in ("CrestSlot", "MemoryLocket", "Eva"):
             key = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
             if key in slot_data and slot_data[key] != self.get_category_mode(category):
                 raise ValueError(f"Tracker YAML {key} must match this slot.")
+        if slot_data.get("silk_and_soul_points", 17) != get_silk_and_soul_points(self.options):
+            raise ValueError("Tracker YAML silk_and_soul_points must match this slot.")
         if not uses_randomized_memory_lockets_for_crest_slots(self):
             return
 
@@ -399,6 +402,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 proficient_combat=self.is_proficient_combat_enabled(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                silk_and_soul_points=get_silk_and_soul_points(self.options),
                 randomized_crest_slots_enabled=self.get_category_mode('CrestSlot') != 'vanilla',
                 starting_location=self.get_starting_location_key(),
                 trails_end_requirement=self.get_trails_end_requirement_key(),
@@ -660,26 +664,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def is_shell_shard_link_enabled(self) -> bool:
         return bool(self.options.shell_shard_link.value)
 
-    def get_vog_hint_counts(self) -> tuple[int, int, int]:
-        option_names = (
-            "vog_woth_hints",
-            "vog_foolish_hints",
-            "vog_general_hints",
-        )
-        return tuple(
-            max(
-                0,
-                min(
-                    30,
-                    int(getattr(self.options, option_name).value),
-                ),
-            )
-            for option_name in option_names
-        )
-
-    def uses_vog_playthrough_hints(self) -> bool:
-        woth_count, _, general_count = self.get_vog_hint_counts()
-        return bool(woth_count or general_count)
+    def get_vog_area_hint_count(self) -> int:
+        return self.options.vog_area_hints.value
 
     def get_vog_hint_plan(self) -> dict[str, object]:
         plan = getattr(self, "_vog_hint_plan", None)
@@ -688,29 +674,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return copy_vog_hint_plan(plan)
 
     def build_vog_hint_plan(self) -> dict[str, object]:
-        if not any(self.get_vog_hint_counts()):
-            plan = empty_vog_hint_plan()
-        else:
-            required_locations = ()
-            if self.uses_vog_playthrough_hints():
-                cache_name = "_silksong_vog_required_locations"
-                required_locations = getattr(
-                    self.multiworld,
-                    cache_name,
-                    None,
-                )
-                if required_locations is None:
-                    required_locations = find_required_playthrough_locations(
-                        self.multiworld
-                    )
-                    setattr(
-                        self.multiworld,
-                        cache_name,
-                        required_locations,
-                    )
-            plan = build_vog_hint_plan(self, required_locations)
-        self._vog_hint_plan = plan
-        return copy_vog_hint_plan(plan)
+        self._vog_hint_plan = build_vog_hint_plan(self)
+        return copy_vog_hint_plan(self._vog_hint_plan)
 
     def is_quest_sanity_enabled(self) -> bool:
         return self.get_category_mode('Quest') != 'vanilla'
@@ -1240,6 +1205,15 @@ class SilksongWorld(CachedRuleBuilderWorld):
             for entry in pool_entries
         )
 
+    def pre_fill(self) -> None:
+        state = self.multiworld.get_all_state()
+        for name in tuple(self._silksong_active_wish_logic_events):
+            location = self.multiworld.get_location(name, self.player)
+            if not location.can_reach(state):
+                location.parent_region.locations.remove(location)
+                del self._silksong_active_wish_logic_events[name]
+                self._silksong_wish_logic_event_anchors.pop(name, None)
+
     def create_regions(self) -> None:
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
@@ -1413,6 +1387,14 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._silksong_wish_logic_event_anchors = {}
         excluded_location_names = self.get_goal_excluded_location_names()
         for event in WISH_LOGIC_EVENTS:
+            if event.location_name.startswith('Journal Logic: ') and (
+                self.is_act_one_content_scope() or self.is_act_two_content_scope()
+            ):
+                continue
+            if event.location_name.startswith('Eva Logic: ') and (
+                self.is_act_one_content_scope() or self.get_category_mode('CrestSlot') == 'vanilla'
+            ):
+                continue
             if (
                 (self.is_act_one_content_scope() or self.is_act_two_content_scope())
                 and event in (
@@ -1777,17 +1759,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .requirement_rules import _enable_native_source_memo
 
         _enable_native_source_memo(multiworld)
-
-        if any(world.uses_vog_playthrough_hints() for world in worlds):
-            required_locations = find_required_playthrough_locations(
-                multiworld
-            )
-            setattr(
-                multiworld,
-                "_silksong_vog_required_locations",
-                required_locations,
-            )
-
         for world in worlds:
             world.build_vog_hint_plan()
 
@@ -1838,6 +1809,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             exported_requirements[name] = {'alternatives': [], 'logic_unknown': True}
         slot_data = {
             "world_version": WORLD_VERSION,
+            "silk_and_soul_points": get_silk_and_soul_points(self.options),
             "item_name_to_id": dict(self.item_name_to_id),
             "location_name_to_id": dict(self.location_name_to_id),
             "goal": goal_key,
@@ -1923,6 +1895,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 proficient_combat=self.is_proficient_combat_enabled(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                silk_and_soul_points=get_silk_and_soul_points(self.options),
                 donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(self.get_purchase_prices()),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
