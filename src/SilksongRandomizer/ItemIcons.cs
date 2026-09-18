@@ -304,7 +304,7 @@ namespace SilksongRandomizer
             scale = reportedScale > 0f ? reportedScale : 1f;
             if (sprite == null) return null;
 
-            float maxDim = Mathf.Max(sprite.rect.width, sprite.rect.height);
+            float maxDim = Mathf.Max(sprite.rect.width, sprite.rect.height) * 100f / sprite.pixelsPerUnit;
             if (maxDim > TargetIconSize)
             {
                 scale = Mathf.Min(scale, TargetIconSize / maxDim);

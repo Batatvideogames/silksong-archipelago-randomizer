@@ -121,10 +121,13 @@ namespace SilksongRandomizer.Patches
             if (!ownsHunter || count <= 0) return;
             ToolCrest crest = ToolItemManager.GetCrestByName(count >= 2 ? "Hunter_v3" : "Hunter_v2");
             if (crest == null) throw new InvalidOperationException("Hunter evolution is not ready.");
+            string equippedCrest = PlayerData.instance.CurrentCrestID;
             bool previous = ToolPatches.canCrestBeUnlockedByRandomizer;
             ToolPatches.canCrestBeUnlockedByRandomizer = true;
             try { crest.Unlock(); }
             finally { ToolPatches.canCrestBeUnlockedByRandomizer = previous; }
+            if (crest.IsEquipped && equippedCrest != crest.name)
+                ToolItemManager.SendEquippedChangedEvent(true);
         }
 
         [HarmonyPatch(typeof(GetIsCrestUnlocked), "get_IsTrue")]

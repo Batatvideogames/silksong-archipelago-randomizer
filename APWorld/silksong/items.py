@@ -2059,9 +2059,11 @@ def build_item_pool_entries(
         )
         reserved = (alphabet_nonadvancement_demand_by_placement_category or {}).get(None, 0)
         advancement_capacity = max(0, nonadvancement_count - reserved)
+        minimum_filler = (len(filler_indices) + 3) // 4
+        later_act_capacity = len(filler_indices) - minimum_filler
         selected = []
         for entry in retained:
-            if len(selected) >= len(filler_indices):
+            if len(selected) >= later_act_capacity:
                 break
             if is_advancement(entry.name):
                 if advancement_capacity == 0:
