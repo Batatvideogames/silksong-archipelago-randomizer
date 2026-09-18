@@ -1109,7 +1109,6 @@ def get_silk_and_soul_points(options) -> int:
 
 @dataclass
 class SilksongOptions(PerGameCommonOptions):
-    silk_and_soul_points: SilkAndSoulPoints
     accessibility: SilksongAccessibility
     goal: Goal
     spelling_bee_phrase: SpellingBeePhrase
@@ -1118,6 +1117,7 @@ class SilksongOptions(PerGameCommonOptions):
     starting_crest: StartingCrest
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint
+    silk_and_soul_points: SilkAndSoulPoints
     ledgegrab_ability_rando: LedgegrabAbilityRando
     swim_ability_rando: SwimAbilityRando
     trails_end_requirement: TrailsEndRequirement

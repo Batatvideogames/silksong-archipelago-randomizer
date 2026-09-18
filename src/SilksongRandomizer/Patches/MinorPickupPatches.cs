@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ namespace SilksongRandomizer.Patches
                 new Dictionary<string, ArchipelagoLocationItem>(
                     StringComparer.OrdinalIgnoreCase
                 );
+
+        private static readonly ConditionalWeakTable<CollectableItemPickup, MinorPickupManifest.Entry>
+            CageSources = new ConditionalWeakTable<CollectableItemPickup, MinorPickupManifest.Entry>();
 
         private sealed class ArchipelagoLocationItem : SavedItem
         {
@@ -123,6 +127,102 @@ namespace SilksongRandomizer.Patches
             return match;
         }
 
+        private static bool IsCageSource(MinorPickupManifest.Entry entry)
+        {
+            return entry != null &&
+                   (entry.LocationName == "The Slab - Shard Bundle" ||
+                    entry.LocationName == "The Slab - Frayed Rosary String #1");
+        }
+
+        private static MinorPickupManifest.Entry FindPickupSource(
+            CollectableItemPickup pickup,
+            SavedItem item)
+        {
+            if (CageSources.TryGetValue(pickup, out MinorPickupManifest.Entry cached) &&
+                (item is ArchipelagoLocationItem || item.name == cached.AssetName))
+            {
+                return cached;
+            }
+
+            MinorPickupManifest.Entry entry = FindExactSource(
+                pickup.gameObject.scene.name,
+                item.name,
+                pickup.transform.position,
+                Utils.GetHierarchyPath(pickup.transform)
+            );
+            if (IsCageSource(entry))
+            {
+                CageSources.Remove(pickup);
+                CageSources.Add(pickup, entry);
+            }
+            return entry;
+        }
+
+        private static MinorPickupManifest.Entry FindCageSource(PersistentBoolItem persistent)
+        {
+            string scene = persistent.gameObject.scene.name;
+            if (!string.Equals(scene, "Slab_02", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(scene, "Slab_04", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            CollectableItemPickup pickup = persistent.GetComponent<CollectableItemPickup>();
+            if (pickup != null && pickup.Item != null)
+            {
+                MinorPickupManifest.Entry entry = FindPickupSource(pickup, pickup.Item);
+                return IsCageSource(entry) ? entry : null;
+            }
+
+            string path = Utils.GetHierarchyPath(persistent.transform);
+            foreach (MinorPickupManifest.Entry entry in MinorPickupManifest.Entries)
+            {
+                if (!IsCageSource(entry) ||
+                    !string.Equals(scene, entry.SceneName, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                string cage = entry.HierarchyPath.Substring(
+                    0, entry.HierarchyPath.LastIndexOf("/Broken/", StringComparison.Ordinal));
+                if (path == cage + "/Active" || path == cage + "/Active/Collectable Item Fake")
+                {
+                    return entry;
+                }
+            }
+            return null;
+        }
+
+        [HarmonyPatch(typeof(PersistentBoolItem), "TryGetValue")]
+        private static class CagePersistenceLoadPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(
+                PersistentBoolItem __instance,
+                ref PersistentItemData<bool> newItemData,
+                ref bool __result)
+            {
+                if (__instance == null || newItemData == null)
+                {
+                    return;
+                }
+
+                MinorPickupManifest.Entry entry = FindCageSource(__instance);
+                SaveState state = SaveState.Instance;
+                if (entry == null || state == null ||
+                    !state.IsRandomized(entry.Type) ||
+                    !state.IsLocationEnabled(entry.LocationName) ||
+                    !state.IsLocationInSeed(entry.LocationName))
+                {
+                    return;
+                }
+
+                // Opening the cage marks the native pickup used before collection.
+                newItemData.Value = state.IsLocationChecked(entry.LocationName);
+                __result = true;
+            }
+        }
+
         private static void TryReplaceSourceItem(
             CollectableItemPickup pickup,
             ref SavedItem item)
@@ -133,12 +233,7 @@ namespace SilksongRandomizer.Patches
             }
 
             SaveState state = SaveState.Instance;
-            MinorPickupManifest.Entry entry = FindExactSource(
-                pickup.gameObject.scene.name,
-                item.name,
-                pickup.transform.position,
-                Utils.GetHierarchyPath(pickup.transform)
-            );
+            MinorPickupManifest.Entry entry = FindPickupSource(pickup, item);
             if (entry == null ||
                 state == null ||
                 !state.IsRandomized(entry.Type) ||
@@ -160,19 +255,13 @@ namespace SilksongRandomizer.Patches
                 SavedItem nativeItem = __instance == null
                     ? null
                     : __instance.Item;
-                if (state == null ||
-                    nativeItem == null)
+                if (nativeItem == null)
                 {
                     return;
                 }
 
-                MinorPickupManifest.Entry entry = FindExactSource(
-                    __instance.gameObject.scene.name,
-                    nativeItem.name,
-                    __instance.transform.position,
-                    Utils.GetHierarchyPath(__instance.transform)
-                );
-                if (entry == null ||
+                MinorPickupManifest.Entry entry = FindPickupSource(__instance, nativeItem);
+                if (entry == null || state == null ||
                     !state.IsRandomized(entry.Type) ||
                     !state.IsLocationEnabled(entry.LocationName) ||
                     !state.IsLocationInSeed(entry.LocationName))
