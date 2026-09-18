@@ -1177,7 +1177,7 @@ class SilksongWorld(World):
             )
             required = get_silk_and_soul_points(self.options)
             if available < required:
-                raise ValueError(
+                raise OptionError(
                     f"Silk and Soul requires {required} points, but verified wish logic "
                     f"supports only {available} with these settings. "
                     "Unresolved wishes cannot contribute progression points."
