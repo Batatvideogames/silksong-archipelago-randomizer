@@ -824,6 +824,11 @@ namespace SilksongRandomizer
             return minimum <= 1 ? names : names + " x" + minimum;
         }
 
+        internal static void PreparePayload(SaveState state)
+        {
+            GetPayload(state);
+        }
+
         private static ParsedPayload GetPayload(SaveState state)
         {
             string json = state?.mapLogicPayloadJson ?? string.Empty;
@@ -833,6 +838,7 @@ namespace SilksongRandomizer
             }
             if (string.Equals(json, cachedJson, StringComparison.Ordinal))
             {
+                cachedJson = json;
                 return cachedPayload;
             }
 

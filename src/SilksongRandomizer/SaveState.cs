@@ -580,6 +580,7 @@ namespace SilksongRandomizer
             }
             mapLogicPayloadJson = mapLogicPayloadJson ?? string.Empty;
             PrimeMapLogicPayloadCompression();
+            MapLogicEvaluator.PreparePayload(this);
             if (!Archipelago.IsSupportedFleaHuntGoalCount(
                     fleaHuntGoalCount
                 ))
@@ -914,6 +915,7 @@ namespace SilksongRandomizer
             mapLogicPayloadJson =
                 archipelago.MapLogicPayloadJson ?? string.Empty;
             PrimeMapLogicPayloadCompression();
+            MapLogicEvaluator.PreparePayload(this);
             skillRandomization = archipelago.SkillRandomization;
             toolRandomization = archipelago.ToolRandomization;
             silkSkillRandomization = archipelago.SilkSkillRandomization;

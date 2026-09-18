@@ -5,7 +5,7 @@
     "document_count": 505,
     "aggregate_sha256": "3127feb61aa238eebb4db3ff66cdd387a55f43d9703fe311e86b6b454bc6a991",
     "catalogue_sha256": "9bb7901388a238c0871886fa1da7986a085bf68540199065d04a697a07c610d3",
-    "bindings_sha256": "8caa832a06e7591cfaa0be13b8889dd583c84fa5607073f1aba366fa0c9bf432"
+    "bindings_sha256": "df6dc9c5877900cd636db7e59efc4eedd9ec7ba57929407123aa24f271b1e80f"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -4477,6 +4477,9 @@
             "dnf": [
               [
                 "item:silk-soar"
+              ],
+              [
+                "item:cling-grip"
               ],
               [
                 "mapper:scuttlebrace:none",

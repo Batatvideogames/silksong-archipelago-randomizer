@@ -502,6 +502,68 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal sealed class BonegraveDoorMotion : MonoBehaviour
+        {
+            private static readonly Vector3 OpenOffset = new Vector3(0f, -9f, 0f);
+            private Vector3 closedPosition;
+
+            private bool IsPlayerNear(HeroController hero)
+            {
+                return (hero.transform.position - closedPosition).sqrMagnitude < 64f;
+            }
+
+            private void Start()
+            {
+                closedPosition = transform.position;
+                HeroController hero = HeroController.instance;
+                if (hero != null && PlayerData.instance != null &&
+                    PlayerData.instance.bonegraveOpen && IsPlayerNear(hero))
+                {
+                    transform.position = closedPosition + OpenOffset;
+                }
+            }
+
+            private void Update()
+            {
+                HeroController hero = HeroController.instance;
+                PlayerData playerData = PlayerData.instance;
+                if (!IsActive || hero == null || playerData == null)
+                {
+                    return;
+                }
+
+                Vector3 target = playerData.bonegraveOpen && IsPlayerNear(hero)
+                    ? closedPosition + OpenOffset
+                    : closedPosition;
+                transform.position = Vector3.MoveTowards(
+                    transform.position, target, Time.deltaTime
+                );
+            }
+        }
+
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class BonegraveDoorPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
+            {
+                if (!IsActive || __instance == null ||
+                    __instance.boolName != "bonegraveOpen" ||
+                    __instance.name != "bone_gate_02004" ||
+                    __instance.objectToDeactivate != null ||
+                    GetBaseSceneName(__instance.gameObject) != "Bonetown")
+                {
+                    return true;
+                }
+
+                if (__instance.GetComponent<BonegraveDoorMotion>() == null)
+                {
+                    __instance.gameObject.AddComponent<BonegraveDoorMotion>();
+                }
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(TrapBridgeExtend), "Awake")]
         private static class TrapBridgeExtendPatch
         {

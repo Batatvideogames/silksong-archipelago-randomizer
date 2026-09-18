@@ -815,6 +815,7 @@ namespace SilksongRandomizer
             saveState.mapLogicPayloadJson =
                 MapLogicPayloadJson ?? string.Empty;
             saveState.PrimeMapLogicPayloadCompression();
+            MapLogicEvaluator.PreparePayload(saveState);
             saveState.TryCompleteFleaHuntGoal();
 
             string[] serverChecks;
