@@ -100,6 +100,18 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Seeker Soul", ItemType.Soul, "Shadow_Bilehaven_Room",
+                "Snare Soul Swamp Bug", "Group/Collectable Item Pickup (1)", 26.111969f, 6.517456f),
+            new DirectPickupEntry("Pollen Heart", ItemType.OldHeart, "Shellwood_11b",
+                "Flower Heart", "memory_font/Completed/Collectable Item Pickup", 22.010000f, 149.009997f),
+            new DirectPickupEntry("Hunter's Heart", ItemType.OldHeart, "Ant_Queen",
+                "Hunter Heart", "Memory Group/gone/Collectable Item Pickup", 32.820000f, 20.171078f),
+            new DirectPickupEntry("Encrusted Heart", ItemType.OldHeart, "Coral_Tower_01",
+                "Coral Heart", "Memory Group/after/Collectable Item Pickup Heart", 82.580000f, 6.370000f),
+            new DirectPickupEntry("Encrusted Heart", ItemType.OldHeart, "Coral_Tower_01",
+                "Coral Heart", "Memory Group/after/GK_collapse/Collectable Item Pickup Heart", 80.880000f, 10.110000f),
+            new DirectPickupEntry("Twisted Bud", ItemType.TwistedBud, "Shadow_20",
+                "Wood Witch Item", "Collectable Mandrake Scene/Collectable Item Pickup (1)", 107.983002f, 48.877998f),
             new DirectPickupEntry(
                 "Key of Apostate",
                 ItemType.MajorKey,

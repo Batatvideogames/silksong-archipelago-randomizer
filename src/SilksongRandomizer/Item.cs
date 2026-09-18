@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace SilksongRandomizer
 {
@@ -48,6 +48,9 @@ namespace SilksongRandomizer
         PaleOil,
         InnateAbility,
         Eva,
+        Soul,
+        OldHeart,
+        TwistedBud,
     }
 
     public class Item

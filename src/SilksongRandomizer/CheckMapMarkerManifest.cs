@@ -52,13 +52,25 @@ namespace SilksongRandomizer
         // pickup census. Entries without a matching AP identity are omitted.
         private static readonly MapCheckPosition[] StaticPositions =
         {
+            new MapCheckPosition("Hunter Evolution 1", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Hunter Evolution 2", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Yellow Vesticrest", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Blue Vesticrest", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Sylphsong", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Maiden Soul", "Bonetown", 71.978536f, 8.31f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Hermit Soul", "Belltown_basement_03", 94.689999f, 103.889999f, 150f, 150f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Seeker Soul", "Shadow_Bilehaven_Room", 26.111969f, 6.517456f, 40f, 20f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Pollen Heart", "Shellwood_11b", 22.01f, 149.009997f, 120f, 170f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Hunter's Heart", "Ant_Queen", 32.82f, 20.171078f, 55f, 34f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Encrusted Heart", "Coral_Tower_01", 82.58f, 6.37f, 138f, 22f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Twisted Bud", "Shadow_20", 107.983002f, 48.877998f, 230f, 65f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Grand Mother Silk", "Cradle_03", 50.61f, 138.94f, 80f, 160f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Bell Eater", "Bellway_Centipede_Arena", 139.36f, 10.03f, 191f, 43f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Plasmified Zango", "Crawl_10", 16.774002f, 7.98f, 53f, 30f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Lost Garmond", "Coral_33", 23.74f, 61.99f, 58f, 74f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Pinstress", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Fatal Resolve", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Torment, Anguish and Misery", "Library_13", 77.059998f, 16.3f, 124f, 56f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Pain, Anguish and Misery", "Library_13", 77.059998f, 16.3f, 124f, 56f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Last Audience", "Hang_17b", 30.220001f, 0.09f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Double Jump", "Peak_08b", 279.5f, 105.53f, 336f, 138f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Silk Soar", "Abyss_08", 86.91002f, 9.861683f, 164f, 106f, MapMarkerPositionConfidence.ExactUpstream),
@@ -190,10 +202,10 @@ namespace SilksongRandomizer
             new MapCheckPosition("Sting Shard", "Room_Forge", 114.190002f, 34.540005f, 140f, 69f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Magma Bell", "Room_Forge", 114.190002f, 34.540005f, 140f, 69f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Longclaw", "Room_Huntress", 24.24f, 10.43f, 35f, 25f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Cogwork Wheel", "Under_17", 76.820007f, 27.17063f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Sawtooth Circlet", "Under_17", 76.820007f, 27.17063f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Scuttlebrace", "Under_17", 76.820007f, 27.17063f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Silkshot (Twelfth Architect)", "Under_17", 76.820007f, 27.17063f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Cogwork Wheel", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Sawtooth Circlet", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Scuttlebrace", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Silkshot (Twelfth Architect)", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Magnetite Brooch", "Bonetown", 277.10223f, 8.04f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Multibinder", "Belltown", 55.43f, 7.88f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Thief's Mark", "Coral_42", 24.99f, 21.43f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
@@ -343,7 +355,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Relic: Choral Commandment (Jubilana)", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Relic: Psalm Cylinder (Grindle)", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Forge Daughter", "Room_Forge", 114.190002f, 34.540005f, 140f, 69f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Crafting Kit: Twelfth Architect", "Under_17", 76.831480f, 27.930002f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Crafting Kit: Twelfth Architect", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Grindle", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Crawbug Clearing (Creige)", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
 
@@ -868,11 +880,16 @@ namespace SilksongRandomizer
                     continue;
                 }
 
+                bool architectCore = string.Equals(
+                    minor.LocationName,
+                    "Underworks - Pristine Core",
+                    StringComparison.OrdinalIgnoreCase
+                );
                 yield return new MapCheckPosition(
                     minor.LocationName,
                     minor.SceneName,
-                    minor.X,
-                    minor.Y,
+                    architectCore ? 76.831480f : minor.X,
+                    architectCore ? 27.930000f : minor.Y,
                     sceneSize.x,
                     sceneSize.y,
                     MapMarkerPositionConfidence.ExactUpstream

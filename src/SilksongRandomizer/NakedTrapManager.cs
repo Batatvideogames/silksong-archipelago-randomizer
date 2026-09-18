@@ -13,7 +13,7 @@ namespace SilksongRandomizer
     /// </summary>
     internal static class NakedTrapManager
     {
-        internal const float DurationSeconds = 120f;
+        internal const float DurationSeconds = 90f;
 
         private const string CloaklessCrestName = "Cloakless";
 
@@ -30,6 +30,8 @@ namespace SilksongRandomizer
         private static bool restoreCrestWasTemporary;
 
         internal static bool IsActive => active;
+        internal static bool OwnsCloaklessCrest =>
+            (active || internalCrestWrite) && IsNativeCloaklessEquipped();
         internal static bool HasState => active || pending || suspendedForSave;
         internal static bool SuppressesCloakAbilities =>
             IsActive && IsNativeCloaklessEquipped();
@@ -73,7 +75,7 @@ namespace SilksongRandomizer
                 if (active)
                 {
                     // A second copy restarts, rather than stacks, the
-                    // two-minute duration.
+                    // duration.
                     deadline = Time.unscaledTime + DurationSeconds;
                     return;
                 }

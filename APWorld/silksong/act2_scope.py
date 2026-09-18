@@ -23,10 +23,13 @@ CURSED_ENDING_GOAL_KEY = "cursed_ending"
 # Act 2 and Cursed Ending. Flea Hunt is not tied to an act.
 ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
     (
+        "Pollen Heart",
+        "Hunter's Heart",
+        "Encrusted Heart",
         "Cogwork Core - Pristine Core",
         "Curvesickle",
         "Wish: Fatal Resolve",
-        "Wish: Torment, Anguish and Misery",
+        "Wish: Pain, Anguish and Misery",
         "Boss: Bell Eater",
         "Beastling Call",
         "Boss: Plasmified Zango",
@@ -39,7 +42,8 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
 # Act 2 ending. Two source-level exceptions apply:
 #
 # * Silk Soar's Abyss source leaves, but its item is not listed in the
-#   pool-removal table. Randomized Skill modes keep one shuffled copy.
+#   pool-removal table. The pool builder keeps it only in Anywhere when
+#   unrestricted filler can make room for it.
 # * The Cradle - Map Purchase remains because Cradle_02 is a valid Act 2 source.
 #   Tube_Hub is only the same check's post-Act-3 fallback.
 #
@@ -127,7 +131,7 @@ def get_act_two_excluded_location_names(
     Vanilla Skill keeps Silk Soar as an addressless locked native source. Its
     existing post-goal rule lets maximum logic acquire the item without
     inventing a starting grant. Randomized Skill modes omit that physical
-    source and keep the item in their random pool instead.
+    source. Shuffle also omits its reward. Anywhere may include the item.
     """
 
     excluded = ACT_TWO_EXCLUDED_LOCATION_NAMES
@@ -149,6 +153,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     str,
     Mapping[str, int],
 ] = {
+    "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1},
     "Map": {
         "Map: The Abyss": 1,
         "Map: Verdania": 1,

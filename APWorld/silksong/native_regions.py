@@ -132,7 +132,7 @@ def native_source_requires_assumption(
     pollip_heart_count: int,
     anchor_requirement_name: str | None,
 ) -> bool:
-    if reward_name.startswith(("Bellway: ", "Ventrica: ")):
+    if reward_name == "Memory Locket" or reward_name.startswith(("Bellway: ", "Ventrica: ")):
         return False
     child = build_location_rule(
         location_name,
@@ -198,22 +198,19 @@ def connect_native_logic_regions(
 
     for owner, alternatives in requirements.items():
         target = regions[owner]
-        for index, requirement in enumerate(alternatives, 1):
-            anchor = choose_requirement_anchor(
-                requirement,
-                abstract_names,
-                owner,
-            )
+        grouped: dict[str | None, list[LocationRequirement]] = {}
+        for requirement in alternatives:
+            anchor = choose_requirement_anchor(requirement, abstract_names, owner)
+            grouped.setdefault(anchor, []).append(requirement)
+        for index, (anchor, grouped_requirements) in enumerate(grouped.items(), 1):
             rule = build_requirements_rule(
-                (requirement,),
+                tuple(grouped_requirements),
                 anchor_requirement_name=anchor,
                 **options,
             )
-            entrance = world.create_entrance(
+            world.create_entrance(
                 regions[anchor] if anchor is not None else menu,
                 target,
                 rule,
                 f"Silksong Logic: {owner} [{index}]",
             )
-            if entrance is None:
-                continue

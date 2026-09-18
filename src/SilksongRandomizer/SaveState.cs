@@ -1,4 +1,4 @@
-﻿using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -231,6 +231,8 @@ namespace SilksongRandomizer
         public int shellShardLinkPrivateShards = -1;
         public bool individualRelicTurnIns;
         public string preferredF4Hub = string.Empty;
+        public bool slabCaptureReturnUnlocked;
+        public bool slabChoralApproachVisited;
         // Set only by the Bone Bottom-to-Greymoor caravan arrival
         // sequence. Unlike CaravanTroupeLocation, this cannot be advanced by
         // declining the ride and remains true if the troupe later relocates.
@@ -332,6 +334,9 @@ namespace SilksongRandomizer
         public RandomizationMode silkSkillRandomization = RandomizationMode.Anywhere;
         public RandomizationMode crestRandomization = RandomizationMode.Anywhere;
         public RandomizationMode evaRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode soulRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode oldHeartRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode twistedBudRandomization = RandomizationMode.Vanilla;
         public RandomizationMode fleaRandomization = RandomizationMode.Anywhere;
         public RandomizationMode crestSlotRandomization = RandomizationMode.Anywhere;
         public RandomizationMode maskShardRandomization = RandomizationMode.Anywhere;
@@ -914,6 +919,9 @@ namespace SilksongRandomizer
             silkSkillRandomization = archipelago.SilkSkillRandomization;
             crestRandomization = archipelago.CrestRandomization;
             evaRandomization = archipelago.EvaRandomization;
+            soulRandomization = archipelago.SoulRandomization;
+            oldHeartRandomization = archipelago.OldHeartRandomization;
+            twistedBudRandomization = archipelago.TwistedBudRandomization;
             fleaRandomization = archipelago.FleaRandomization;
             crestSlotRandomization = archipelago.CrestSlotRandomization;
             maskShardRandomization = archipelago.MaskShardRandomization;
@@ -1084,6 +1092,9 @@ namespace SilksongRandomizer
                 Tuple.Create("silk_skill_randomization", silkSkillRandomization, archipelago.SilkSkillRandomization),
                 Tuple.Create("crest_randomization", crestRandomization, archipelago.CrestRandomization),
                 Tuple.Create("eva_randomization", evaRandomization, archipelago.EvaRandomization),
+                Tuple.Create("soul_randomization", soulRandomization, archipelago.SoulRandomization),
+                Tuple.Create("old_heart_randomization", oldHeartRandomization, archipelago.OldHeartRandomization),
+                Tuple.Create("twisted_bud_randomization", twistedBudRandomization, archipelago.TwistedBudRandomization),
                 Tuple.Create("flea_randomization", fleaRandomization, archipelago.FleaRandomization),
                 Tuple.Create("crest_slot_randomization", crestSlotRandomization, archipelago.CrestSlotRandomization),
                 Tuple.Create("mask_shard_randomization", maskShardRandomization, archipelago.MaskShardRandomization),
@@ -1640,6 +1651,12 @@ namespace SilksongRandomizer
                     return fleaRandomization;
                 case ItemType.Eva:
                     return evaRandomization;
+                case ItemType.Soul:
+                    return soulRandomization;
+                case ItemType.OldHeart:
+                    return oldHeartRandomization;
+                case ItemType.TwistedBud:
+                    return twistedBudRandomization;
                 case ItemType.CrestSlot:
                     return crestSlotRandomization;
                 case ItemType.MaskShard:

@@ -175,7 +175,16 @@ namespace SilksongRandomizer
             { "Cursed Crest Trap", "cursed_death0004"},
             { "Naked Trap", "Hornet_Cloakless_Frost_Death0000" },
             { "Rosary Spill Trap", "I_rosary_icon_mid_clean"},
-            { "Darkness Trap", "Hornet_death_pieces_0000s_0000_death_spider_core"}
+            { "Darkness Trap", "Hornet_death_pieces_0000s_0000_death_spider_core"},
+
+            // Quest Items
+            { "Maiden Soul", "snail_icon__0000_churchkeeper_soul" },
+            { "Hermit Soul", "snail_icon__0001_bell_hermit_soul" },
+            { "Seeker Soul", "snail_icon__0001_bell_swamp_soul" },
+            { "Pollen Heart", "flower_queen_heart_icon0000" },
+            { "Hunter's Heart", "ant_queen_heart_icon0002" },
+            { "Encrusted Heart", "coral_king_heart_icon0000" },
+            { "Twisted Bud", "mandrake_icon0000" },
         };
 
         private static readonly Dictionary<string, CachedIcon> IconCache = 

@@ -402,6 +402,14 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (YELLOW_VESTICREST, 'Eva'),
     (BLUE_VESTICREST, 'Eva'),
     (SYLPHSONG, 'Eva'),
+) + (
+    ('Maiden Soul', 'Soul'),
+    ('Hermit Soul', 'Soul'),
+    ('Seeker Soul', 'Soul'),
+    ('Pollen Heart', 'OldHeart'),
+    ("Hunter's Heart", 'OldHeart'),
+    ('Encrusted Heart', 'OldHeart'),
+    ('Twisted Bud', 'TwistedBud'),
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
@@ -590,6 +598,9 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
         "ToolPouch",
         ALPHABET_ITEM_CATEGORY,
         'InnateAbility',
+        'Soul',
+        'OldHeart',
+        'TwistedBud',
     }
 ) | (
     get_logic_item_references()
@@ -923,6 +934,9 @@ RELIC_TURN_IN_FILLER_COUNTS: Dict[str, int] = {
 }
 
 PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
+    'Soul',
+    'OldHeart',
+    'TwistedBud',
     'Eva',
     'Skill',
     'Tool',
@@ -1335,126 +1349,36 @@ def get_sprint_filler_source(
     )
 
 
-def _get_act_two_skill_balance_fallback_item_name(
-    automatic_compass: bool,
-) -> str:
-    """Return the Skill item precollected only when no filler can balance."""
-
-    return PROGRESSIVE_COMPASS_ITEM if automatic_compass else QUILL_ITEM
-
-
-def _balance_act_two_retained_silk_soar(
+def _balance_act_two_skill_pool(
     entries: list[ItemPoolEntry],
     category_modes: Mapping[str, str],
-    automatic_compass: bool,
-    start_fully_mapped: bool = False,
-) -> str | None:
-    """Keep Silk Soar while balancing its omitted physical source.
+) -> None:
+    """Keep the pool balanced when Silk Soar's physical source is omitted."""
 
-    Anywhere mode substitutes Silk Soar for one unrestricted filler whenever
-    possible. Skill shuffle has no spare location in its lane. A Skill-only
-    anywhere seed has no filler at all. Those narrow cases remove
-    Quill (or automatic compass's Progressive Compass replacement) from the
-    random pool. If another option already consumed that item, one
-    unrestricted useful item is moved to starting inventory instead. The
-    caller precollects the returned name so no useful inventory is lost and
-    no progression requirement is granted early.
-    """
-
-    skill_mode = category_modes.get('Skill', 'anywhere')
-    if skill_mode == 'vanilla':
-        return None
-    if skill_mode not in {'shuffle', 'anywhere'}:
-        raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
-
-    silk_soar_count = sum(
-        entry.source_category == 'Skill' and entry.name == SILK_SOAR_ITEM
-        for entry in entries
-    )
-    if silk_soar_count != 1:
-        raise ValueError(
-            "Act 2 Skill balancing requires exactly one randomized "
-            f"{SILK_SOAR_ITEM!r} but found {silk_soar_count}."
-        )
-
-    balance_index = None
-    if skill_mode == 'anywhere':
-        balance_index = next(
+    mode = category_modes.get('Skill', 'anywhere')
+    if mode == 'vanilla':
+        return
+    soar_indices = [
+        index for index, entry in enumerate(entries)
+        if entry.source_category == 'Skill' and entry.name == SILK_SOAR_ITEM
+    ]
+    if len(soar_indices) != 1:
+        raise ValueError("Act 2 Skill pool must contain exactly one Silk Soar before balancing.")
+    if mode == 'anywhere':
+        filler_index = next(
             (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.placement_category is None
-                    and item_data_table[entry.name].classification
-                    == ItemClassification.filler
-                )
+                index for index, entry in enumerate(entries)
+                if entry.placement_category is None
+                and item_data_table[entry.name].classification == ItemClassification.filler
             ),
             None,
         )
-
-    if balance_index is None and start_fully_mapped:
-        balance_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == 'Skill'
-                    and entry.name == OPTIONAL_START_REPLACEMENT_ITEM
-                )
-            ),
-            None,
-        )
-
-    precollected_item_name = None
-    if balance_index is None:
-        fallback_item_name = (
-            _get_act_two_skill_balance_fallback_item_name(
-                automatic_compass
-            )
-        )
-        balance_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == 'Skill'
-                    and entry.name == fallback_item_name
-                )
-            ),
-            None,
-        )
-        if balance_index is not None:
-            precollected_item_name = fallback_item_name
-
-    if balance_index is None:
-        # Useful-classified items are absent from every logic requirement:
-        # _classification_for promotes all referenced names to progression.
-        # Moving one unrestricted useful item to starting inventory therefore
-        # preserves both value and logical reachability while keeping category
-        # shuffle lanes exactly balanced.
-        balance_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.placement_category is None
-                    and item_data_table[entry.name].classification
-                    == ItemClassification.useful
-                )
-            ),
-            None,
-        )
-        if balance_index is not None:
-            precollected_item_name = entries[balance_index].name
-
-    if balance_index is None:
-        raise ValueError(
-            "Act 2 Skill balancing needs one unrestricted filler or useful "
-            "item after retaining Silk Soar, but none is available."
-        )
-
-    entries.pop(balance_index)
-    return precollected_item_name
+        if filler_index is not None:
+            entries.pop(filler_index)
+            return
+    elif mode != 'shuffle':
+        raise ValueError(f"Unknown Skill randomization mode: {mode!r}")
+    entries.pop(soar_indices[0])
 
 
 def get_dynamic_trap_capacity(
@@ -1474,6 +1398,7 @@ def get_dynamic_trap_capacity(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    minimum_memory_lockets: int = 0,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
 
@@ -1501,6 +1426,7 @@ def get_dynamic_trap_capacity(
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
             include_later_act_items=False,
+            minimum_memory_lockets=minimum_memory_lockets,
         )
     )
 
@@ -1615,8 +1541,8 @@ def build_item_pool_entries(
         Mapping[str | None, int] | None
     ) = None,
     alphabet_item_is_advancement: Callable[[str], bool] | None = None,
-    act_two_balance_precollected_items: list[str] | None = None,
     include_later_act_items: bool = True,
+    minimum_memory_lockets: int = 0,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1942,26 +1868,44 @@ def build_item_pool_entries(
             ),
         )
         if filler_index is None:
-            raise ValueError(
+            raise OptionError(
                 "split_dash_and_sprint needs one unrestricted filler item "
                 "from an 'anywhere' category to balance its second "
                 "Progressive Swift Step."
             )
         entries.pop(filler_index)
 
-    balance_item_name = None
     if act_two_only:
-        balance_item_name = _balance_act_two_retained_silk_soar(
-            entries,
-            category_modes,
-            automatic_compass,
-            start_fully_mapped,
+        _balance_act_two_skill_pool(entries, category_modes)
+
+    missing_lockets = max(
+        0, minimum_memory_lockets - sum(entry.name == 'Memory Locket' for entry in entries)
+    )
+    if missing_lockets:
+        is_advancement = alphabet_item_is_advancement or (
+            lambda name: bool(item_data_table[name].classification & ItemClassification.progression)
         )
-        if (
-            balance_item_name is not None
-            and act_two_balance_precollected_items is not None
-        ):
-            act_two_balance_precollected_items.append(balance_item_name)
+        eligible_indices = [
+            index for index, entry in enumerate(entries)
+            if entry.placement_category is None
+            and item_data_table[entry.name].classification == ItemClassification.filler
+            and not is_advancement(entry.name)
+        ]
+        nonadvancement_count = sum(
+            not is_advancement(entry.name)
+            for entry in entries if entry.placement_category is None
+        )
+        reserved = (alphabet_nonadvancement_demand_by_placement_category or {}).get(None, 0)
+        capacity = min(len(eligible_indices), max(0, nonadvancement_count - reserved))
+        if missing_lockets > capacity:
+            raise OptionError(
+                f"Crest slot randomization needs {missing_lockets} more Memory "
+                "Lockets, but there is not enough unrestricted filler. "
+                "Set more categories to anywhere or reduce crest slots."
+            )
+        for index in eligible_indices[:missing_lockets]:
+            entry = entries[index]
+            entries[index] = ItemPoolEntry('Memory Locket', entry.source_category, None)
 
     add_pool_only_useful_items(entries)
 
@@ -2084,11 +2028,6 @@ def build_item_pool_entries(
     if include_later_act_items and (act_one_only or act_two_only):
         from collections import Counter
         remaining = Counter((entry.name, entry.source_category) for entry in entries)
-        if balance_item_name is not None:
-            for entry in entries_before_goal_trim:
-                if entry.name == balance_item_name:
-                    remaining[(entry.name, entry.source_category)] += 1
-                    break
         retained = []
         for entry in entries_before_goal_trim:
             key = (entry.name, entry.source_category)
@@ -2096,6 +2035,8 @@ def build_item_pool_entries(
                 remaining[key] -= 1
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
+                and entry.source_category != 'OldHeart'
+                and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
                 and entry.source_category not in OBSERVATION_ITEM_CATEGORIES
                 and entry.source_category != RELIC_TURN_IN_LOCATION_CATEGORY
                 and not entry.source_category.startswith('Resource')

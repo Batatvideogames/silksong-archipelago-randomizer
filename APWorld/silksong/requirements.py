@@ -44,7 +44,6 @@ from .locations import (
     location_data_table,
 )
 from .room_graph import load_room_graph
-from .journal import JOURNAL_ENTRY, JOURNAL_ENCOUNTERS
 from .room_graph_logic import (
     CompiledRoomClause,
     CompiledRoomGraph,
@@ -394,6 +393,44 @@ COMPILED_ROOM_GRAPH = replace(
     check_source_ids=MappingProxyType({**COMPILED_ROOM_GRAPH.check_source_ids, **{name: (EVA_NODE,) for name in EVA_REWARDS}}),
     authoritative_check_names=COMPILED_ROOM_GRAPH.authoritative_check_names | EVA_REWARDS.keys(),
     quarantined_check_names=COMPILED_ROOM_GRAPH.quarantined_check_names - EVA_REWARDS.keys(),
+)
+
+_quest_item_clauses = {
+    'Maiden Soul': (CompiledRoomClause(all_of=(
+        room_node_name('bone-bottom/bone-bottom-town#ground-level'),
+        'Event: Silk and Soul Offered',
+    )),),
+    'Hermit Soul': (CompiledRoomClause(all_of=(
+        room_node_name('bellhart/bellhart-lower#hermit'),
+        'Event: Silk and Soul Offered',
+    )),),
+    'Seeker Soul': (CompiledRoomClause(all_of=(
+        room_node_name('bilewater/bilewater-arena-shack#room'),
+    )),),
+    'Pollen Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Nyleth'],
+    "Hunter's Heart": COMPILED_ROOM_GRAPH.check_requirements['Boss: Skarrsinger Karmelita'],
+    'Encrusted Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Crust King Khann'],
+    'Twisted Bud': (CompiledRoomClause(all_of=(
+        room_event_name('event:mapper/reviewed:twisted-bud-collected'),
+    )),),
+}
+_quest_item_nodes = {
+    'Maiden Soul': 'bone-bottom/bone-bottom-town#ground-level',
+    'Hermit Soul': 'bellhart/bellhart-lower#hermit',
+    'Seeker Soul': 'bilewater/bilewater-arena-shack#room',
+    'Pollen Heart': 'grand-gate/nyleth-fight#room',
+    "Hunter's Heart": 'far-fields/memory-karmelita#arena',
+    'Encrusted Heart': 'sands-of-karak/coral-tower#main',
+    'Twisted Bud': 'bilewater/bilewater-west-secret-rooms#top-area',
+}
+COMPILED_ROOM_GRAPH = replace(
+    COMPILED_ROOM_GRAPH,
+    check_requirements=MappingProxyType({**COMPILED_ROOM_GRAPH.check_requirements, **_quest_item_clauses}),
+    check_source_ids=MappingProxyType({**COMPILED_ROOM_GRAPH.check_source_ids, **{
+        name: (node,) for name, node in _quest_item_nodes.items()
+    }}),
+    authoritative_check_names=COMPILED_ROOM_GRAPH.authoritative_check_names | _quest_item_clauses.keys(),
+    quarantined_check_names=COMPILED_ROOM_GRAPH.quarantined_check_names - _quest_item_clauses.keys(),
 )
 
 # Compiled room-graph checks use live logic. Checks that cannot be compiled
@@ -881,7 +918,7 @@ LOGIC_PASS_A_QUEST_LOCATIONS: tuple[str, ...] = tuple(
 PROGRESSION_SAFE_QUEST_LOCATIONS: frozenset[str] = frozenset(
     (
         'Wish: Last Audience',
-        'Wish: Torment, Anguish and Misery',
+        'Wish: Pain, Anguish and Misery',
         'Wish: Fatal Resolve',
         'Wish: Restoration of Bellhart',
         'Wish: Bone Bottom Repairs',
@@ -921,7 +958,6 @@ ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
     (
         'Boss: Skull Tyrant (Bone Bottom)',
         'Boss: Moorwing',
-        'Throwing Ring',       # Trail's End / Shakra encounter reward.
         "Wish: Hero's Call",   # Garmond and Zaza encounter reward.
         'Boss: Lost Garmond',
         # These delivery wishes explicitly require the pre-Act-3 world.
@@ -1430,6 +1466,16 @@ ROOM_EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.event_requirements.items()
 }
+for _event in WISH_LOGIC_EVENTS:
+    if not _event.requires_checked_source:
+        continue
+    for _target in load_room_graph().assumptions.get("event_aliases", {}).get(_event.item_name, ()):
+        _name = room_event_name("event:mapper/" + _target)
+        ROOM_EVENT_REQUIREMENTS[_name] = tuple(
+            replace(clause, item_counts=(*clause.item_counts, item_count(1, _event.item_name)))
+            for clause in ROOM_EVENT_REQUIREMENTS[_name]
+        )
+
 ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     canonicalize_location_name(name): tuple(
         _compiled_room_clause_requirement(clause)
@@ -1437,6 +1483,23 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
 }
+
+
+BUGS_OF_PHARLOOM_REWARD_LOCATIONS = frozenset((
+    canonicalize_location_name('Tool Pouch: Bugs of Pharloom'),
+    'Wish: Bugs of Pharloom',
+))
+for _room in load_room_graph().rooms:
+    for _event in _room.events:
+        if canonicalize_location_name(_event.label) in BUGS_OF_PHARLOOM_REWARD_LOCATIONS:
+            ROOM_EVENT_REQUIREMENTS[room_event_name(_event.id)] = ()
+for _journal_reward in BUGS_OF_PHARLOOM_REWARD_LOCATIONS:
+    if _journal_reward in ROOM_CHECK_REQUIREMENTS:
+        ROOM_CHECK_REQUIREMENTS[_journal_reward] = tuple(
+            replace(source, all_of=(*source.all_of, 'Event: Bugs of Pharloom Completed'))
+            for source in ROOM_CHECK_REQUIREMENTS[_journal_reward]
+        )
+
 
 POLLIP_RITE_ROOM_NODE = (
     room_event_name("event:mapper/pollip-rite-completed")
@@ -2615,7 +2678,7 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req(
             ACT_TWO_GOAL_EVENT,
             'Path: Shellwood - Greyroot',
-            'Path: Bilewater - Twisted Bud',
+            'Twisted Bud',
             crest=False,
         ),
     ),
@@ -2625,24 +2688,13 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Bellhart Full House Conversation': (
         req('Path: Bellhart - Bellhart', crest=False),
     ),
-    'Event: Silk and Soul Completed': tuple(
+    'Event: Silk and Soul Offered': tuple(
         req(
             'Event: Act 2 Started',
-            'Event: Cradle Opened',
-            'Event: Trail\'s End Completed',
-            # These two paths also cover the native caravan-at-aqueduct and
-            # Bellhart full-house conversations after their required Wishes.
             'Path: Putrified Ducts - Fleatopia',
             'Path: Choral Chambers - Songclave',
-            'Path: The Cradle - Terminus',
-            'Path: Bilewater - Bilehaven',
-            'Path: Weavenest - Atla',
             'Event: Bellhart Full House Conversation',
-            'Path: Mosslands - Bone Bottom',
-            'Path: Mount Fay - Workbench',
-            'Ancestral Art: Needolin',
             'Ability: Faydown Cloak',
-            'Tool: Snare Setter',
             SILK_AND_SOUL_LACE_DEFEATED_ITEM,
             crest=False,
             item_counts=tuple(
@@ -2678,6 +2730,9 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             (14, 6),
         )
     ),
+    'Event: Silk and Soul Completed': (
+        req('Event: Silk and Soul Offered', 'Maiden Soul', 'Hermit Soul', 'Seeker Soul', 'Tool: Snare Setter', crest=False),
+    ),
     'Event: Grand Mother Silk Snared': (
         req(
             'Event: Silk and Soul Completed',
@@ -2695,9 +2750,9 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req(
             'Act: 3',
             'Path: Abyss - Escape',
-            'Path: Far Fields - Karmelita',
-            'Path: Grand Gate',
-            'Path: Sands of Karak - Coral Tower',
+            'Pollen Heart',
+            "Hunter's Heart",
+            'Encrusted Heart',
             'Path: Mosslands - Snail Shamans',
             'Ancestral Art: Needolin',
             'Ancestral Art: Silk Soar',
@@ -2801,6 +2856,7 @@ if MAPPER_GRAPH_ENABLED:
 PROFICIENT_COMBAT_REQUIREMENT = "Option: Proficient Combat"
 PROFICIENT_COMBAT_REQUIREMENTS = (req(crest=False),)
 
+@lru_cache(maxsize=2)
 def eva_point_requirements(randomized_slots: bool):
     result = {
         source: (req(crest, *((slot,) if slot else ()), crest=False),)
@@ -2823,22 +2879,9 @@ def eva_point_requirements(randomized_slots: bool):
                 ),)
                 if free + locked >= points
             )
-    return result
+    return MappingProxyType(result)
 
 
-_journal_rooms = {room.id: room for room in load_room_graph().rooms}
-JOURNAL_REQUIREMENTS = {
-    'Event: Journal ' + name: tuple(
-        req('Event: Hunt Combat Ready', *(room_node_name(node.id) for node in _journal_rooms[room_id].nodes))
-        for room_id in room_ids
-    )
-    for name, room_ids in JOURNAL_ENCOUNTERS.items()
-}
-JOURNAL_REQUIREMENTS['Event: Journal Coral Warrior Grey'] = (
-    req('Event: Hunt Combat Ready',
-        room_node_name('sands-of-karak/watcher-at-the-edge#room'),
-        'Ancestral Art: Needolin'),
-)
 EVENT_REQUIREMENTS.update({
     'Event: Hunt Combat Ready': (
         req(PROFICIENT_COMBAT_REQUIREMENT),
@@ -2860,11 +2903,7 @@ EVENT_REQUIREMENTS.update({
             'Event: Strengthening Songclave Completed', 'Path: Choral Chambers - Songclave',
             'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak', 'Event: Hunt Combat Ready'),
     ),
-    'Event: Bugs of Pharloom Completed': (
-        req(room_node_name('greymoor/greymoor-halfway-home#room'),
-            any_of=('Capability: Ledge Grab', 'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak', 'Ancestral Art: Silk Soar'),
-            item_counts=(item_count(100, JOURNAL_ENTRY),)),
-    ),
+    'Event: Bugs of Pharloom Completed': (),
 })
 
 
@@ -2876,7 +2915,6 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
         "Option: Bellshrinesanity Off": (req(crest=False),),
         **INNATE_CAPABILITY_REQUIREMENTS,
         **eva_point_requirements(True),
-        **JOURNAL_REQUIREMENTS,
         **ACT_REQUIREMENTS,
         **EVENT_REQUIREMENTS,
         **PATH_REQUIREMENTS,
@@ -2955,10 +2993,10 @@ DONATION_CAPACITY_EVENTS: Mapping[str, str] = {
 }
 
 
-@lru_cache(maxsize=26)
+@lru_cache(maxsize=25)
 def get_silk_and_soul_requirements(points: int = 17):
-    points = max(0, min(25, points))
-    template = ABSTRACT_REQUIREMENTS['Event: Silk and Soul Completed'][0]
+    points = max(0, min(24, points))
+    template = ABSTRACT_REQUIREMENTS['Event: Silk and Soul Offered'][0]
     mandatory = template.item_counts[0]
     return tuple(
         replace(template, item_counts=(mandatory, *(
@@ -3012,7 +3050,7 @@ def get_abstract_requirements(
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
-    adjusted_requirements['Event: Silk and Soul Completed'] = get_silk_and_soul_requirements(silk_and_soul_points)
+    adjusted_requirements['Event: Silk and Soul Offered'] = get_silk_and_soul_requirements(silk_and_soul_points)
     if proficient_movement:
         adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
     if bell_shrine_sanity:
@@ -4179,7 +4217,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
     ('Boss: Pinstress', PINSTRESS_BATTLE_REQUIREMENT),
     ('Wish: Fatal Resolve', PINSTRESS_BATTLE_REQUIREMENT),
-    ('Wish: Torment, Anguish and Misery', area(
+    ('Wish: Pain, Anguish and Misery', area(
         3, 'Outlying Citadel - Library',
         'Path: Choral Chambers - Songclave',
         'Progressive Claw Mirror', 'Ancestral Art: Silk Soar',
@@ -4415,8 +4453,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         "Path: Sinner's Road - Styx",
         'Ability: Faydown Cloak',
     )),
-    # Reaching Halfway Home is enough to accept Bugs of Pharloom. Its journal
-    # completion is an unrepresented 100-entry counter, so it stays junk-only.
     ('Quest Completion: Journal', area(
         1,
         'Greymoor - Halfway House',
@@ -4952,8 +4988,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         ("Tool Pouch: Pilgrim's Rest", requirement)
         for requirement in grindle_access(3)
     ),
-    # Loddie's minimum local route and the full Bugs of Pharloom journal
-    # counter are not represented, so these checks cannot hold progression.
     ('Tool Pouch: Loddie', area(
         1,
         'The Marrow - Shooting Gallery',
@@ -5395,6 +5429,13 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         )
         for location_name in _CLAWLINE_GATED_LOCATIONS
     },
+    'Throwing Ring': (
+        req(
+            "Event: Trail's End Completed",
+            room_node_name('bellhart/belltown#lower-area'),
+            crest=False,
+        ),
+    ),
     'Needolin': (
         req('Path: Bellhart - Widow', crest=False),
     ),
@@ -5869,9 +5910,6 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
         *JUNK_ONLY_QUEST_LOCATIONS,
         *SINNER_ROAD_UNRESOLVED_COMMUNITY_CHECK_NAMES,
         *SINNER_ROAD_NON_COMMUNITY_FALLBACK_CHECK_NAMES,
-        # Trail's End already reports its vanilla Shakra Ring reward through
-        # this location, which replaces a separate quest check.
-        'Tool Unlock: Shakra Ring',
         # These scripted or held sources have incomplete encounter
         # requirements, so they may hold only non-advancement rewards.
         'Fleatopia - Rosary Necklace',
@@ -5900,6 +5938,8 @@ if MAPPER_GRAPH_ENABLED:
     UNVERIFIED_PROGRESSION_LOCATIONS = ROOM_GRAPH_QUARANTINED_CHECK_NAMES
     JUNK_ONLY_LOCATIONS = frozenset(ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS & location_data_table.keys())
     LOGIC_UNKNOWN_LOCATIONS = UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
+
+LOGIC_UNKNOWN_LOCATIONS |= BUGS_OF_PHARLOOM_REWARD_LOCATIONS
 
 LOGIC_PASS_A_PROGRESSION_LOCATIONS: frozenset[str] = (
     _LOGIC_PASS_A_PROGRESSION_CANDIDATES - LOGIC_UNKNOWN_LOCATIONS
@@ -6034,7 +6074,7 @@ def _get_static_abstract_requirement_items(
 
     if silk_and_soul_points != 17:
         requirement_items = tuple(
-            (name, get_silk_and_soul_requirements(silk_and_soul_points) if name == 'Event: Silk and Soul Completed' else alternatives)
+            (name, get_silk_and_soul_requirements(silk_and_soul_points) if name == 'Event: Silk and Soul Offered' else alternatives)
             for name, alternatives in requirement_items
         )
 
@@ -6427,7 +6467,8 @@ def _compute_abstract_values(
         requirement_name: False
         for requirement_name in worklist_plan.requirement_names
     }
-    pending: deque[str] = deque()
+    pending: deque[str] = deque(worklist_plan.requirement_names)
+    queued = set(worklist_plan.requirement_names)
 
     def activate_if_satisfied(requirement_name: str) -> None:
         if abstract_values[requirement_name]:
@@ -6447,20 +6488,17 @@ def _compute_abstract_values(
             for alternative in abstract_requirements[requirement_name]
         ):
             abstract_values[requirement_name] = True
-            pending.append(requirement_name)
-
-    for requirement_name in worklist_plan.requirement_names:
-        activate_if_satisfied(requirement_name)
+            for owner_name in worklist_plan.dependents_by_requirement.get(
+                requirement_name, (),
+            ):
+                if not abstract_values[owner_name] and owner_name not in queued:
+                    pending.append(owner_name)
+                    queued.add(owner_name)
 
     while pending:
-        dependency_name = pending.popleft()
-        for owner_name in (
-            worklist_plan.dependents_by_requirement.get(
-                dependency_name,
-                (),
-            )
-        ):
-            activate_if_satisfied(owner_name)
+        requirement_name = pending.popleft()
+        queued.remove(requirement_name)
+        activate_if_satisfied(requirement_name)
 
     if cache_key is not None:
         _store_abstract_values_cache(
@@ -7571,6 +7609,8 @@ def validate_requirements(
     location_names: Iterable[str],
     item_names: Iterable[str],
     progression_item_names: Iterable[str] | None = None,
+    *,
+    check_vanilla_self_locks: bool = True,
 ) -> None:
     location_name_set = frozenset(location_names)
     item_name_set = frozenset(item_names) | WISH_LOGIC_EVENT_ITEM_NAMES
@@ -7586,7 +7626,7 @@ def validate_requirements(
         location_name_set,
         item_name_set,
         progression_item_name_set,
-    )
+    ) + (check_vanilla_self_locks,)
     if validation_signature in _REQUIREMENTS_VALIDATION_CACHE:
         _REQUIREMENTS_VALIDATION_CACHE.move_to_end(validation_signature)
         return
@@ -7617,11 +7657,12 @@ def validate_requirements(
             for alternative in alternatives
         )
     }
-    location_self_dependencies = _get_location_self_dependencies(
-        location_name_set,
-        item_name_set,
+    location_self_dependencies = (
+        _get_location_self_dependencies(location_name_set, item_name_set)
+        if check_vanilla_self_locks
+        else frozenset()
     )
-    dead_paths = _get_dead_paths()
+    dead_paths = frozenset() if MAPPER_GRAPH_ENABLED else _get_dead_paths()
     unexpected_dead_paths = frozenset() if MAPPER_GRAPH_ENABLED else dead_paths - ALLOWED_DEAD_PATHS
     stale_dead_path_allowlist = frozenset() if MAPPER_GRAPH_ENABLED else ALLOWED_DEAD_PATHS - dead_paths
     unknown_quarantined_locations = (

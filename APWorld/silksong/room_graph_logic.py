@@ -108,7 +108,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:white-key": (_part("White Key"),),
     "path:bellways": (_part("Path: Bellways"),),
     "path:bilewater-twisted-bud": (
-        _part("Path: Bilewater - Twisted Bud"),
+        _part("Twisted Bud"),
     ),
     "macro:progressive-swift-step-first": (
         _part("Swift Step"),
@@ -1662,10 +1662,14 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None) -> Com
     if mapper:
         seeds = dict(seeds)
         for arrival in graph.assumptions.get('story_arrivals', ()):
-            if arrival.get('act') not in {'Act: 2', 'Act: 3'}:
+            if arrival.get('act') in {'Act: 2', 'Act: 3'} and not arrival.get('event'):
+                requirement = arrival['act']
+            elif not arrival.get('act') and arrival.get('event') in graph.event_by_id:
+                requirement = room_event_name(arrival['event'])
+            else:
                 raise ValueError('invalid mapper story arrival')
             node_id = arrival['node_id']
-            seeds[node_id] = (*seeds.get(node_id, ()), _part(arrival['act']))
+            seeds[node_id] = (*seeds.get(node_id, ()), _part(requirement))
     unknown_seed_ids = tuple(sorted(set(seeds) - authoritative_node_ids))
     if unknown_seed_ids:
         raise ValueError(

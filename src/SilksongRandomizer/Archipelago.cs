@@ -1,4 +1,4 @@
-﻿using Archipelago.MultiClient.Net;
+using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.MessageLog.Messages;
@@ -143,6 +143,9 @@ namespace SilksongRandomizer
         public RandomizationMode SilkSkillRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode EvaRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode SoulRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode OldHeartRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode TwistedBudRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FleaRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestSlotRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode MaskShardRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -594,6 +597,9 @@ namespace SilksongRandomizer
                     successful, "crest_randomization");
                 EvaRandomization = GetRandomizationModeSlotData(
                     successful, "eva_randomization");
+                SoulRandomization = GetRandomizationModeSlotData(successful, "soul_randomization");
+                OldHeartRandomization = GetRandomizationModeSlotData(successful, "old_heart_randomization");
+                TwistedBudRandomization = GetRandomizationModeSlotData(successful, "twisted_bud_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
                     successful, "flea_randomization");
                 CrestSlotRandomization = GetRandomizationModeSlotData(
@@ -3080,6 +3086,9 @@ namespace SilksongRandomizer
             SilkSkillRandomization = RandomizationMode.Anywhere;
             CrestRandomization = RandomizationMode.Anywhere;
             EvaRandomization = RandomizationMode.Vanilla;
+            SoulRandomization = RandomizationMode.Vanilla;
+            OldHeartRandomization = RandomizationMode.Vanilla;
+            TwistedBudRandomization = RandomizationMode.Vanilla;
             FleaRandomization = RandomizationMode.Anywhere;
             CrestSlotRandomization = RandomizationMode.Anywhere;
             MaskShardRandomization = RandomizationMode.Anywhere;
@@ -3529,6 +3538,14 @@ namespace SilksongRandomizer
 
         internal void ImportTrackedHints()
         {
+            lock (stateLock)
+            {
+                if (trackedHintUpdates.Count == 0)
+                {
+                    return;
+                }
+            }
+
             if (!Connected)
             {
                 return;

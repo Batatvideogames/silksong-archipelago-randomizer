@@ -792,14 +792,13 @@ namespace SilksongRandomizer
 
             try
             {
-                // A temporary or cursed crest can lower the usable spool below
-                // nine. That state uses local Silk until the crest returns to
-                // normal and restores the linked reservoirs.
-                return playerData.IsAnyCursed ||
-                       playerData.IsCurrentCrestTemp ||
-                       playerData.UnlockSilkFinalCutscene ||
-                       playerData.CurrentSilkMaxBasic <
-                           SharedSilkCapacity;
+                return ShouldSuspendForCrest(
+                    playerData.IsAnyCursed,
+                    playerData.IsCurrentCrestTemp,
+                    NakedTrapManager.OwnsCloaklessCrest,
+                    playerData.UnlockSilkFinalCutscene,
+                    playerData.CurrentSilkMaxBasic
+                );
             }
             catch
             {
@@ -808,6 +807,19 @@ namespace SilksongRandomizer
                 // read.
                 return true;
             }
+        }
+
+        internal static bool ShouldSuspendForCrest(
+            bool isCursed,
+            bool isTemporary,
+            bool isNakedTrap,
+            bool isFinalCutscene,
+            int silkMaximum)
+        {
+            return isCursed ||
+                   (isTemporary && !isNakedTrap) ||
+                   isFinalCutscene ||
+                   silkMaximum < SharedSilkCapacity;
         }
 
         private static void ApplyLinkedSilk(PlayerData playerData)

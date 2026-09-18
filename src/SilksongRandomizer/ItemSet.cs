@@ -900,6 +900,13 @@ namespace SilksongRandomizer
             new Item("Yellow Vesticrest", ItemType.Eva, () => { PlayerData.instance.UnlockedExtraYellowSlot = true; }),
             new Item("Blue Vesticrest", ItemType.Eva, () => { PlayerData.instance.UnlockedExtraBlueSlot = true; }),
             new Item("Sylphsong", ItemType.Eva, Patches.EvaPatches.GrantSylphsong),
+            new Item("Maiden Soul", ItemType.Soul, () => ItemGrants.GrantCollectable("Snare Soul Churchkeeper")),
+            new Item("Hermit Soul", ItemType.Soul, () => ItemGrants.GrantCollectable("Snare Soul Bell Hermit")),
+            new Item("Seeker Soul", ItemType.Soul, () => ItemGrants.GrantCollectable("Snare Soul Swamp Bug")),
+            new Item("Pollen Heart", ItemType.OldHeart, () => ItemGrants.GrantCollectable("Flower Heart")),
+            new Item("Hunter's Heart", ItemType.OldHeart, () => ItemGrants.GrantCollectable("Hunter Heart")),
+            new Item("Encrusted Heart", ItemType.OldHeart, () => ItemGrants.GrantCollectable("Coral Heart")),
+            new Item("Twisted Bud", ItemType.TwistedBud, () => ItemGrants.GrantCollectable("Wood Witch Item")),
 
             new Item("Memory Locket", ItemType.MemoryLocket, () => { ItemGrants.GrantCollectable("Crest Socket Unlocker"); }, true),
             new Item("Craftmetal", ItemType.Craftmetal, () => { ItemGrants.GrantCollectable("Tool Metal"); }, true),

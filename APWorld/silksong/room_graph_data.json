@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 505,
-    "aggregate_sha256": "232459aac2e38f53fd343dea1368c9d870567dd9a37f5902e8c5478879fd0dab",
-    "catalogue_sha256": "32d8df90e25e74bec611b5b88f97411ad1821457c90d916c73584ab42e803864",
-    "bindings_sha256": "a36aa11d203e62ac06998b8403a548e304565f3f9b2df08b65c00517eb5e8761"
+    "aggregate_sha256": "3127feb61aa238eebb4db3ff66cdd387a55f43d9703fe311e86b6b454bc6a991",
+    "catalogue_sha256": "9bb7901388a238c0871886fa1da7986a085bf68540199065d04a697a07c610d3",
+    "bindings_sha256": "8caa832a06e7591cfaa0be13b8889dd583c84fa5607073f1aba366fa0c9bf432"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -17,6 +17,18 @@
       {
         "node_id": "the-cradle/act3-lace2-arena#flower-bed",
         "act": "Act: 3"
+      },
+      {
+        "node_id": "greymoor/greymoor-entry-to-bellhart#bottom-left-section",
+        "event": "event:mapper/reviewed:lost-fleas-completed"
+      },
+      {
+        "node_id": "blasted-steps/last-judge-arena#room",
+        "event": "event:mapper/reviewed:caravan-left-greymoor"
+      },
+      {
+        "node_id": "putrified-ducts/fleatopia#fleatopia",
+        "event": "event:mapper/reviewed:caravan-reached-fleatopia"
       }
     ],
     "expected_checks": [
@@ -260,6 +272,7 @@
       "Ecstasy of the End - Pale Oil",
       "Egg of Flealia",
       "Elegy of the Deep",
+      "Encrusted Heart",
       "Exhaust Organ - Silkeater",
       "Far Fields (Above the Seamstress) - Mask Shard",
       "Far Fields (Act 3) - Memory Locket",
@@ -408,6 +421,7 @@
       "Grindle (Blasted Steps) - Spool Fragment",
       "Grindle - Crafting Kit",
       "Halfway Home - Memory Locket",
+      "Hermit Soul",
       "High Halls - Frayed Rosary String",
       "High Halls - Map Purchase",
       "High Halls - Pale Rosary Necklace",
@@ -427,6 +441,7 @@
       "High Halls Bank - Rosary Chest #3",
       "Hunter Evolution 1",
       "Hunter Evolution 2",
+      "Hunter's Heart",
       "Hunter's March - Map Purchase",
       "Hunter's March - Memory Locket",
       "Hunter's March - Rosary Cache #1",
@@ -459,6 +474,7 @@
       "Magma Bell",
       "Magnetite Brooch",
       "Magnetite Dice",
+      "Maiden Soul",
       "Marrowmaw - Beast Shard",
       "Memorium - Beast Shard",
       "Memorium - Lower Plaque",
@@ -527,6 +543,7 @@
       "Pinmaster Plinney: Sharpened Needle",
       "Pinmaster Plinney: Shining Needle",
       "Plasmium Phial",
+      "Pollen Heart",
       "Pollip Pouch",
       "Putrified Ducts - Bellway",
       "Putrified Ducts - Craftmetal",
@@ -614,6 +631,7 @@
       "Savage Beastfly - Mask Shard",
       "Sawtooth Circlet",
       "Scuttlebrace",
+      "Seeker Soul",
       "Shard Pendant",
       "Sharpdart",
       "Shellwood - Bellshrine",
@@ -766,6 +784,7 @@
       "Threefold Pin",
       "Throwing Ring",
       "Twelfth Architect - Crafting Kit",
+      "Twisted Bud",
       "Underworks (East) - Spool Fragment",
       "Underworks (Gauntlet) - Spool Fragment",
       "Underworks - Craftmetal",
@@ -852,6 +871,7 @@
       "Wish: Last Audience",
       "Wish: My Missing Brother",
       "Wish: My Missing Courier",
+      "Wish: Pain, Anguish and Misery",
       "Wish: Passing of the Age",
       "Wish: Pinmaster's Oil",
       "Wish: Restoration of Bellhart",
@@ -860,7 +880,6 @@
       "Wish: The Lost Merchant",
       "Wish: The Terrible Tyrant",
       "Wish: The Wandering Merchant",
-      "Wish: Torment, Anguish and Misery",
       "Wish: Volatile Flintbeetles",
       "Wisp Thicket - Craftmetal",
       "Wisp Thicket - Mask Shard",
@@ -962,7 +981,7 @@
         ]
       },
       "twisted-bud": {
-        "mode": "vanilla",
+        "mode": "received",
         "item_name": "Twisted Bud",
         "source_events": [
           "reviewed:twisted-bud-collected"
@@ -3894,9 +3913,9 @@
               [
                 "state:act-3",
                 "item:silk-soar",
-                "event:mapper/reviewed:khann-memory-heart",
-                "event:mapper/aaa5b6fd-8789-470e-8c34-46fa8674a4ce",
-                "event:mapper/26dd56dc-f3c6-4c9e-a181-6ee04d115736"
+                "received:Pollen Heart",
+                "received:Hunter's Heart",
+                "received:Encrusted Heart"
               ]
             ],
             "annotations": [],
@@ -10139,6 +10158,29 @@
           "label": "bench",
           "kind": "bench",
           "node_id": "bone-bottom/mosshome-druid#room"
+        },
+        {
+          "id": "event:mapper/reviewed:gourmand-mossberry-stew",
+          "label": "Gourmand Mossberry Stew",
+          "kind": "event",
+          "node_id": "bone-bottom/mosshome-druid#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-quest-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -41305,6 +41347,9 @@
             "dnf": [
               [
                 "item:silk-soar"
+              ],
+              [
+                "item:drifters-cloak"
               ]
             ],
             "annotations": [],
@@ -41518,7 +41563,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:down"
+                "mapper:attack:down",
+                "item:silk-soar"
               ]
             ],
             "annotations": [],
@@ -70016,24 +70062,22 @@
           "id": "bellhart/bellhart-right-entrance@r",
           "requirement": {
             "raw": "None",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Update once skai sends in the left greymoor export only here so moriko doesnt crucify me",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "61cb5bcd-fa67-4a0d-8e28-88879b9c362d"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
           "source_node_id": "bellhart/bellhart-right-entrance#lower-level",
@@ -71081,26 +71125,24 @@
           "id": "event:mapper/48f190c6-4af9-4daf-af8e-a617abba9603",
           "requirement": {
             "raw": "Travel to Song_09b fast",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:Travel to Song_09b fast"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-meat-delivered"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:Travel to Song_09b fast"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "48f190c6-4af9-4daf-af8e-a617abba9603"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:Travel to Song_09b fast"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Wish: Couriers Rasher",
           "kind": "event",
           "node_id": "bellhart/belltown#upper-area"
@@ -71454,6 +71496,31 @@
             "mode": "expression",
             "dnf": [
               []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:gourmand-courier-meat",
+          "label": "Gourmand Courier Meat",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-quest-accepted",
+                "event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
+                "event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe"
+              ]
             ],
             "annotations": [],
             "minimum_skip_tier": 0,
@@ -82501,6 +82568,31 @@
           "label": "tied airstream",
           "kind": "blockade",
           "node_id": "greymoor/greymoor-entry-to-bellhart#top-section"
+        },
+        {
+          "id": "event:mapper/reviewed:caravan-left-greymoor",
+          "label": "Caravan Left Greymoor",
+          "kind": "event",
+          "node_id": "greymoor/greymoor-entry-to-bellhart#bottom-left-section",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:lost-fleas-completed",
+                "count:fleas:12",
+                "event:mapper/2149c0f6-3492-4a11-96c3-0fcbe57abc38"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -82704,28 +82796,25 @@
           "id": "greymoor/greymoor-halfway-home@b",
           "requirement": {
             "raw": "prereq Wish: \nGreat Taste of Pharloom Started IN choral chambers dining room",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-quest-accepted",
+                "event:mapper/reviewed:crawbug-clearing-accepted"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "dependency check was not found: Wish: \nGreat Taste of Pharloom Started",
-              "mapper row is unresolved",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "93cb3509-2449-47e6-b5ee-505b5f111edb"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "dependency check was not found: Wish: \nGreat Taste of Pharloom Started",
-            "mapper row is unresolved",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "B",
           "name": "bottom",
           "source_node_id": "greymoor/greymoor-halfway-home#room",
@@ -91533,6 +91622,34 @@
           "label": "vintage nectar",
           "kind": "event",
           "node_id": "greymoor/halfway-home-cellar#room"
+        },
+        {
+          "id": "event:mapper/reviewed:gourmand-vintage-nectar",
+          "label": "Gourmand Vintage Nectar",
+          "kind": "event",
+          "node_id": "greymoor/halfway-home-cellar#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/d717dcd5-a3e9-490b-a0d0-e51adc5825c8",
+                "mapper:attack:left"
+              ],
+              [
+                "event:mapper/d717dcd5-a3e9-490b-a0d0-e51adc5825c8",
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [],
@@ -100321,6 +100438,30 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:caravan-reached-fleatopia",
+          "label": "Caravan Reached Fleatopia",
+          "kind": "event",
+          "node_id": "blasted-steps/last-judge-arena#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:caravan-left-greymoor",
+                "count:fleas:22"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -104387,6 +104528,34 @@
           "label": "Boss: Disgraced Chef Lugoli",
           "kind": "boss",
           "node_id": "sinner-s-road/sinner-s-road-chef-s-kitchen#upper"
+        },
+        {
+          "id": "event:mapper/reviewed:gourmand-pickled-roach-egg",
+          "label": "Gourmand Pickled Roach Egg",
+          "kind": "event",
+          "node_id": "sinner-s-road/sinner-s-road-chef-s-kitchen#upper",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/ece84bf2-8875-4350-8d8a-a8cd071e0b5e",
+                "mapper:attack:left"
+              ],
+              [
+                "event:mapper/ece84bf2-8875-4350-8d8a-a8cd071e0b5e",
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -107767,7 +107936,7 @@
           "unresolved_reasons": [],
           "alias": "UR",
           "name": "upper right",
-          "source_node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#top",
+          "source_node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "target": {
             "raw": "sinner-s-road/sinner-s-road-hanging-cages@ul",
             "room_id": "sinner-s-road/sinner-s-road-hanging-cages",
@@ -107837,6 +108006,9 @@
             "mode": "expression",
             "dnf": [
               [
+                "item:cling-grip"
+              ],
+              [
                 "item:silk-soar"
               ],
               [
@@ -107844,9 +108016,7 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:noneCling grip"
-            ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -107999,28 +108169,24 @@
           "id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right>top@urt",
           "requirement": {
             "raw": "Silk soar OR (cling grip AND crest pogo",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is unresolved",
-              "unrecognized predicate: crest pogo"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "8b98f95f-9e75-4e74-a30f-22a27e0a78d5"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is unresolved",
-            "unrecognized predicate: crest pogo"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "URT",
           "name": "upper right to top",
           "source_node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
@@ -111633,7 +111799,6 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:scuttlebrace:none",
                 "item:cling-grip",
                 "item:clawline"
               ]
@@ -114902,24 +115067,27 @@
           "id": "underworks/confession-toll@t",
           "requirement": {
             "raw": "none",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "has to be checked from white ward",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "6841618b-d9c3-4d01-8864-a2b3e00450fa"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "T",
           "name": "top1",
           "source_node_id": "underworks/confession-toll#secret",
@@ -115015,24 +115183,30 @@
           "id": "underworks/confession-toll#top>memory@v2",
           "requirement": {
             "raw": "faydown cloak or ledge grab or silk soar",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "check cling grip as well when there's no ledge grab",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ceed5a80-b5c9-4abc-9531-07ccd6716590"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "V2",
           "name": "Top To Memory",
           "source_node_id": "underworks/confession-toll#top",
@@ -115067,24 +115241,22 @@
           "id": "underworks/confession-toll#secret>top@s",
           "requirement": {
             "raw": "none",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "falling",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "91ac5cdf-61cf-477a-930e-6d3d68e6baa9"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "S",
           "name": "Secret to Top",
           "source_node_id": "underworks/confession-toll#secret",
@@ -115094,24 +115266,22 @@
           "id": "underworks/confession-toll#secret>memory@s2",
           "requirement": {
             "raw": "none",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "falling",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d0d905a6-9c81-4ad5-89a1-0d97d3c5ab9e"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "S2",
           "name": "Secret to Memory",
           "source_node_id": "underworks/confession-toll#secret",
@@ -115176,28 +115346,22 @@
           "id": "underworks/confession-toll::mapper-check:b762f1de-dba8-4f83-9960-c9f017d39e88:835706",
           "requirement": {
             "raw": "TBD",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:TBD"
+            "mode": "expression",
+            "dnf": [
+              []
             ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "unsupported mapper capability: unresolved-catalogue:TBD"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "b762f1de-dba8-4f83-9960-c9f017d39e88"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "unsupported mapper capability: unresolved-catalogue:TBD"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Relic: Psalm Cylinder (Underworks)",
           "node_id": "underworks/confession-toll#secret",
           "canonical_location": "Relic: Psalm Cylinder (Underworks)",
@@ -115340,24 +115504,24 @@
           "id": "underworks/underworks-below-confession#left>center@lc",
           "requirement": {
             "raw": "spike pogo or dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Very hard for me to verify",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "55016a4d-2de9-40f4-96a1-0aa2331ad13b"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "LC",
           "name": "Left-Center",
           "source_node_id": "underworks/underworks-below-confession#left",
@@ -115367,24 +115531,24 @@
           "id": "underworks/underworks-below-confession#center>left@lc",
           "requirement": {
             "raw": "spike pogo or dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Very hard for me to verify",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "490f9b69-a37b-45d8-8e12-4b64d7b1c4bf"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "LC",
           "name": "Left-Center",
           "source_node_id": "underworks/underworks-below-confession#center",
@@ -115394,24 +115558,24 @@
           "id": "underworks/underworks-below-confession#right>center@rc",
           "requirement": {
             "raw": "spike pogo or dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Very hard for me to verify",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "6285cb0c-b6c7-448d-bd2d-505200df0a59"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "RC",
           "name": "Right-Center",
           "source_node_id": "underworks/underworks-below-confession#right",
@@ -115421,24 +115585,24 @@
           "id": "underworks/underworks-below-confession#center>right@rc",
           "requirement": {
             "raw": "spike pogo or dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Very hard for me to verify",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c712b4e1-530c-4ed6-b0b3-562a1b136970"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "RC",
           "name": "Right-Center",
           "source_node_id": "underworks/underworks-below-confession#center",
@@ -116330,26 +116494,24 @@
           "id": "underworks/underworks-western-gauntlet@r",
           "requirement": {
             "raw": "gauntlet",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:gauntlet"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:underworks-western-gauntlet"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:gauntlet"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "3607a921-94f3-4e85-9b3d-2321bf6b97ee"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:gauntlet"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right2",
           "source_node_id": "underworks/underworks-western-gauntlet#room",
@@ -116402,26 +116564,24 @@
           "id": "underworks/underworks-western-gauntlet@l",
           "requirement": {
             "raw": "gauntlet",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:gauntlet"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:underworks-western-gauntlet"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:gauntlet"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c4389310-1213-4668-9dbc-ee5065f6a150"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:gauntlet"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "L",
           "name": "left3",
           "source_node_id": "underworks/underworks-western-gauntlet#room",
@@ -116435,7 +116595,34 @@
         }
       ],
       "connections": [],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/reviewed:underworks-western-gauntlet",
+          "label": "Underworks Western Gauntlet",
+          "kind": "event",
+          "node_id": "underworks/underworks-western-gauntlet#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ],
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "checks": [
         {
           "id": "underworks/underworks-western-gauntlet::mapper-check:e9af279d-a6f2-4eae-a744-6ead71878b64:836012",
@@ -116883,24 +117070,27 @@
           "id": "underworks/underworks-crushing-path@l",
           "requirement": {
             "raw": "dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:clawline"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "may be other options",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ddb136dc-6d65-40a4-9ee4-d218014da8d3"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "L",
           "name": "left1",
           "source_node_id": "underworks/underworks-crushing-path#room",
@@ -116916,24 +117106,24 @@
           "id": "underworks/underworks-crushing-path@t",
           "requirement": {
             "raw": "cling grip",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "may be other options",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "b3c701e7-4cdf-479f-9e2c-733a78ed7054"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "T",
           "name": "top1",
           "source_node_id": "underworks/underworks-crushing-path#room",
@@ -116949,24 +117139,27 @@
           "id": "underworks/underworks-crushing-path@r",
           "requirement": {
             "raw": "dash or clawline",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:clawline"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "may be other options",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c80a338a-1311-4f08-88b9-d30e9fc824b8"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
           "source_node_id": "underworks/underworks-crushing-path#room",
@@ -118583,6 +118776,30 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:lost-merchant-accepted",
+          "label": "Lost Merchant Accepted",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:lost-merchant-available",
+                "event:mapper/reviewed:songclave-board-open"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -118803,6 +119020,110 @@
             "dnf": [
               [
                 "event:mapper/reviewed:wandering-merchant-shop-met",
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/songclave::reviewed-check:835705",
+          "label": "Relic: Choral Commandment (Jubilana)",
+          "node_id": "choral-chambers/songclave#base",
+          "canonical_location": "Relic: Choral Commandment (Jubilana)",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/songclave::reviewed-check:835662",
+          "label": "Jubilana (Songclave) - Spool Fragment",
+          "node_id": "choral-chambers/songclave#base",
+          "canonical_location": "Jubilana (Songclave) - Spool Fragment",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/songclave::reviewed-check:836248",
+          "label": "Songclave Shop - Craftmetal",
+          "node_id": "choral-chambers/songclave#base",
+          "canonical_location": "Songclave Shop - Craftmetal",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+                "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/songclave::reviewed-check:835528",
+          "label": "Spider Strings",
+          "node_id": "choral-chambers/songclave#base",
+          "canonical_location": "Spider Strings",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
                 "capability:free"
               ]
             ],
@@ -121128,24 +121449,30 @@
           "id": "choral-chambers/choral-chambers-flea-shaft#top-section-3-right>top-section-3-left@h",
           "requirement": {
             "raw": "ledge grab or clawline or drifter's cloak",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:drifters-cloak"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "check sharpdart",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "01d23d77-3725-4b59-a711-b50dd3b45617"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "H",
           "name": "Top Horizontal Traversal",
           "source_node_id": "choral-chambers/choral-chambers-flea-shaft#top-section-3-right",
@@ -122029,6 +122356,65 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:gourmand-meat-delivered",
+          "label": "Gourmand Meat Delivered",
+          "kind": "event",
+          "node_id": "choral-chambers/choral-chambers-dining-room#diner",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-courier-meat",
+                "item:clawline",
+                "item:cling-grip",
+                "macro:progressive-swift-step-full",
+                "item:faydown-cloak",
+                "capability:ledge-grab",
+                "event:mapper/2149c0f6-3492-4a11-96c3-0fcbe57abc38",
+                "event:mapper/de579219-b38b-42e6-b4df-b02e702d3b39",
+                "event:mapper/df652891-f554-4a76-a77d-74b5d82bde8d"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:great-taste-completed",
+          "label": "Great Taste Completed",
+          "kind": "event",
+          "node_id": "choral-chambers/choral-chambers-dining-room#diner",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:gourmand-quest-accepted",
+                "event:mapper/reviewed:gourmand-mossberry-stew",
+                "event:mapper/reviewed:gourmand-vintage-nectar",
+                "event:mapper/f13fe393-db78-4124-a98a-bf9e2bd1e8c5",
+                "event:mapper/reviewed:gourmand-pickled-roach-egg",
+                "event:mapper/reviewed:gourmand-meat-delivered"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -122088,6 +122474,56 @@
           "canonical_location": "Choral Chambers East - Silkeater",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "choral-chambers/choral-chambers-dining-room::reviewed-check:835771",
+          "label": "Wish: Great Taste of Pharloom",
+          "node_id": "choral-chambers/choral-chambers-dining-room#diner",
+          "canonical_location": "Wish: Great Taste of Pharloom",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:great-taste-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/choral-chambers-dining-room::reviewed-check:835792",
+          "label": "Great Taste of Pharloom - Pale Oil",
+          "node_id": "choral-chambers/choral-chambers-dining-room#diner",
+          "canonical_location": "Great Taste of Pharloom - Pale Oil",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:great-taste-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": []
@@ -122323,28 +122759,32 @@
           "id": "choral-chambers/choral-chambers-eastern-shaft#section-1>section-2@v1",
           "requirement": {
             "raw": "(ledge grab and pogo) or silk soar or (cling grip and (dash or clawline)",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is unresolved",
-              "unrecognized predicate: ledge grab and pogo"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "dc91e21b-e14a-4a44-b9ac-fb57e18175fb"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is unresolved",
-            "unrecognized predicate: ledge grab and pogo"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "V1",
           "name": "Section 1 to Section 2",
           "source_node_id": "choral-chambers/choral-chambers-eastern-shaft#section-1",
@@ -123238,6 +123678,54 @@
                 "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
                 "event:mapper/reviewed:choir-cloaks-completed",
                 "event:mapper/reviewed:wandering-merchant-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:songclave-level-three",
+          "label": "Songclave Level Three",
+          "kind": "event",
+          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-second-donation-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:lost-merchant-available",
+          "label": "Lost Merchant Available",
+          "kind": "event",
+          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-level-three",
+                "event:mapper/reviewed:wandering-merchant-shop-met",
+                "item:faydown-cloak"
               ]
             ],
             "annotations": [],
@@ -133815,7 +134303,7 @@
           "unresolved_reasons": [],
           "alias": "CL",
           "name": "Center Left",
-          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#middle-hallway",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#left-side-shaft",
           "target": {
             "raw": "whispering-vaults/trobbio-entrance@r",
             "room_id": "whispering-vaults/trobbio-entrance",
@@ -133846,7 +134334,7 @@
           "unresolved_reasons": [],
           "alias": "LL",
           "name": "Low Left",
-          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#left-side-shaft",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#middle-hallway",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-flea-shaft@br",
             "room_id": "whispering-vaults/whispering-vaults-flea-shaft",
@@ -133877,7 +134365,7 @@
           "unresolved_reasons": [],
           "alias": "LR",
           "name": "Low Right",
-          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#upper-platform",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#upper-low-hallway",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-east-to-west@bl",
             "room_id": "whispering-vaults/whispering-vaults-east-to-west",
@@ -134633,6 +135121,28 @@
           "name": "Use Shortcut",
           "source_node_id": "whispering-vaults/whispering-vaults-hub-area#shortcut-box",
           "target_node_id": "whispering-vaults/whispering-vaults-hub-area#middle-hallway"
+        },
+        {
+          "id": "reviewed:vaults-hub-lower-descent",
+          "alias": "reviewed:vaults-hub-lower-descent",
+          "name": "Left Side Shaft to Lowest Hallway",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#left-side-shaft",
+          "target_node_id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "events": [
@@ -138041,7 +138551,7 @@
           "unresolved_reasons": [],
           "label": "Tormented Trobbio",
           "node_id": "whispering-vaults/trobbio#fight",
-          "canonical_location": "Wish: Torment, Anguish and Misery",
+          "canonical_location": "Wish: Pain, Anguish and Misery",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -144272,7 +144782,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Arena Shack",
       "source_file": "bilewater/bilewater-arena-shack.json",
-      "source_sha256": "b7c471c69049b710e17dad57ec656f7ec9128109a3f0bfac38d2a764ea92f90d",
+      "source_sha256": "0ffbdbf31a67cc23cc66cdbb8cfbe9a7ab49580c9bc7b84572596cfcc6dd5c43",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -144287,29 +144797,23 @@
         {
           "id": "bilewater/bilewater-arena-shack@l",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "nada",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ee0a389d-5684-4aef-961a-1ff6a2d05caf"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "L",
           "name": "left",
           "source_node_id": "bilewater/bilewater-arena-shack#room",
@@ -144332,7 +144836,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Bellway",
       "source_file": "bilewater/bilewater-bellway.json",
-      "source_sha256": "273b0b5fef7d5ba2c69d0700b4510367b22e8b0f264cf69a6deb42150c35a1c9",
+      "source_sha256": "727ad8b9ca536c67dc57eab9bf316d631e35da31a98493afb768fcc341e03bb8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -144347,11 +144851,10 @@
         {
           "id": "bilewater/bilewater-bellway@d",
           "requirement": {
-            "raw": "unlock bellway bilewater",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/f679163f-3cc0-457a-a09a-32c308a4036a",
                 "received:Bellway: Bilewater",
                 "mapper:bellway-network:none"
               ]
@@ -144416,12 +144919,10 @@
         {
           "id": "event:mapper/f679163f-3cc0-457a-a09a-32c308a4036a",
           "requirement": {
-            "raw": "Unlock Bellway Rosary Lock",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/13586ffb-f7a9-41c6-9775-e519bd19cdb1"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -144435,14 +144936,17 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Bellway: Bilewater",
+          "label": "Bilewater - Bellway",
           "kind": "travel",
           "node_id": "bilewater/bilewater-bellway#room"
         },
         {
-          "id": "event:mapper/13586ffb-f7a9-41c6-9775-e519bd19cdb1",
+          "id": "event:mapper/reviewed:bilewater-bellway-paid",
+          "label": "Bilewater Bellway Paid",
+          "kind": "event",
+          "node_id": "bilewater/bilewater-bellway#room",
           "requirement": {
-            "raw": "rosaries 80",
+            "raw": "",
             "mode": "expression",
             "dnf": [
               [
@@ -144450,32 +144954,24 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "13586ffb-f7a9-41c6-9775-e519bd19cdb1"
-          },
+          "raw_cells": {},
           "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "Bellway Rosary Lock",
-          "kind": "lock",
-          "node_id": "bilewater/bilewater-bellway#room"
+          "unresolved_reasons": []
         }
       ],
       "checks": [
         {
           "id": "bilewater/bilewater-bellway::mapper-check:f679163f-3cc0-457a-a09a-32c308a4036a:835674",
           "requirement": {
-            "raw": "Unlock Bellway Rosary Lock",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/13586ffb-f7a9-41c6-9775-e519bd19cdb1"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -144489,7 +144985,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Bellway: Bilewater",
+          "label": "Bilewater - Bellway",
           "node_id": "bilewater/bilewater-bellway#room",
           "canonical_location": "Bilewater - Bellway",
           "canonical_mapping_confidence": "explicit",
@@ -144508,7 +145004,7 @@
             "dnf": [
               [
                 "event:mapper/reviewed:craw-summons-ready",
-                "event:mapper/13586ffb-f7a9-41c6-9775-e519bd19cdb1"
+                "event:mapper/reviewed:bilewater-bellway-paid"
               ]
             ],
             "annotations": [],
@@ -144529,7 +145025,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Bullshit Bench",
       "source_file": "bilewater/bilewater-bullshit-bench.json",
-      "source_sha256": "e47f4eb6f92130e735ea9c7a0729349a44c22a8f4e9eed78d27e06f86d647442",
+      "source_sha256": "3c5995e62839cb3d08f8d1135de7b06fa2a658658c413bb928fe32794797761b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -144626,7 +145122,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "Going back up to upper is impossible. One way connection.",
+          "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "6ca798e2-7a9c-4653-9868-7ad2d165ca8f"
@@ -144637,6 +145133,29 @@
           "name": "upper to lower",
           "source_node_id": "bilewater/bilewater-bullshit-bench#upper",
           "target_node_id": "bilewater/bilewater-bullshit-bench#lower"
+        },
+        {
+          "id": "bilewater/bilewater-bullshit-bench#lower>upper@ul",
+          "requirement": {
+            "raw": "invalid",
+            "mode": "expression",
+            "dnf": [],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "Going back up to upper is impossible. One way connection.",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "4d496aa5-6712-48c8-a650-61bc04c9fa06"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "UL",
+          "name": "upper to lower",
+          "source_node_id": "bilewater/bilewater-bullshit-bench#lower",
+          "target_node_id": "bilewater/bilewater-bullshit-bench#upper"
         }
       ],
       "events": [],
@@ -144648,13 +145167,19 @@
       "area_id": "bilewater",
       "name": "Bilewater Citadel Exit",
       "source_file": "bilewater/bilewater-citadel-exit.json",
-      "source_sha256": "a78d1ffd8d13f931c4669b8fe744377ddf29620f8676b779a761f4ada246183c",
+      "source_sha256": "18bf04ef7b2d46a77a6221a6d9432bf0082ee845798a870b97289e3e2b5311c1",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
         {
-          "id": "bilewater/bilewater-citadel-exit#room",
-          "name": "room",
+          "id": "bilewater/bilewater-citadel-exit#pond",
+          "name": "pond",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "bilewater/bilewater-citadel-exit#platform",
+          "name": "platform",
           "notes": "",
           "declared": true
         }
@@ -144663,34 +145188,24 @@
         {
           "id": "bilewater/bilewater-citadel-exit@t1",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
+            "raw": "invalid",
+            "mode": "expression",
             "dnf": [],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "a56d1485-dd6a-43f1-aefb-c96aa9a0d77b"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "T1",
           "name": "top1",
-          "source_node_id": "bilewater/bilewater-citadel-exit#room",
+          "source_node_id": "bilewater/bilewater-citadel-exit#pond",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-palace@b1",
             "room_id": "whispering-vaults/whispering-vaults-palace",
@@ -144702,34 +145217,24 @@
         {
           "id": "bilewater/bilewater-citadel-exit@t2",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
+            "raw": "invalid",
+            "mode": "expression",
             "dnf": [],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ddd7aedf-0e79-4cda-9c7c-72939d340041"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "T2",
           "name": "top2",
-          "source_node_id": "bilewater/bilewater-citadel-exit#room",
+          "source_node_id": "bilewater/bilewater-citadel-exit#pond",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-palace@b2",
             "room_id": "whispering-vaults/whispering-vaults-palace",
@@ -144741,34 +145246,24 @@
         {
           "id": "bilewater/bilewater-citadel-exit@t3",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
+            "raw": "invalid",
+            "mode": "expression",
             "dnf": [],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "24c2c371-8420-499e-8dbc-876813e720af"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "T3",
           "name": "top3",
-          "source_node_id": "bilewater/bilewater-citadel-exit#room",
+          "source_node_id": "bilewater/bilewater-citadel-exit#pond",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-palace@b3",
             "room_id": "whispering-vaults/whispering-vaults-palace",
@@ -144780,34 +145275,26 @@
         {
           "id": "bilewater/bilewater-citadel-exit@b",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "nada",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "62313c55-7d6a-4a35-ba26-8fd0800d2502"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "B",
           "name": "bot1",
-          "source_node_id": "bilewater/bilewater-citadel-exit#room",
+          "source_node_id": "bilewater/bilewater-citadel-exit#platform",
           "target": {
             "raw": "bilewater/bilewater-west-secret-rooms@c",
             "room_id": "bilewater/bilewater-west-secret-rooms",
@@ -144817,7 +145304,66 @@
           }
         }
       ],
-      "connections": [],
+      "connections": [
+        {
+          "id": "bilewater/bilewater-citadel-exit#pond>platform@pp",
+          "requirement": {
+            "raw": "cling grip OR ledge grab OR faydown cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "8eacb250-2d9a-4e89-84f3-dcd551f6a023"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "pp",
+          "name": "pond and platform",
+          "source_node_id": "bilewater/bilewater-citadel-exit#pond",
+          "target_node_id": "bilewater/bilewater-citadel-exit#platform"
+        },
+        {
+          "id": "bilewater/bilewater-citadel-exit#platform>pond@pp",
+          "requirement": {
+            "raw": "nada",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c25e37c5-7890-4712-a1f4-b09c4ee5e43e"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "pp",
+          "name": "pond and platform",
+          "source_node_id": "bilewater/bilewater-citadel-exit#platform",
+          "target_node_id": "bilewater/bilewater-citadel-exit#pond"
+        }
+      ],
       "events": [],
       "checks": [],
       "omitted_check_rows": []
@@ -144827,7 +145373,7 @@
       "area_id": "bilewater",
       "name": "Bilewater East Bench",
       "source_file": "bilewater/bilewater-east-bench.json",
-      "source_sha256": "ee89ec9bc1584dde15bba9bdfc7ad2158d13b1046ebcaa964b1437b964cc24f2",
+      "source_sha256": "38cce26952238c2978b0b83a87454bf1b355e575a4a9526a65ca1edfd4078960",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -144924,7 +145470,7 @@
         {
           "id": "bilewater/bilewater-east-bench#right-room>bench-room@rb",
           "requirement": {
-            "raw": "(cling grip OR scuttlebrace) AND (swim OR clawline OR sharpdart OR drifter's cloak OR faydown cloak) AND left attack",
+            "raw": "(cling grip OR scuttlebrace) AND (swim OR clawline OR sharpdart OR drifter's cloak OR faydown cloak) AND break wall left",
             "mode": "expression",
             "dnf": [
               [
@@ -144979,7 +145525,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -144998,7 +145544,7 @@
         {
           "id": "bilewater/bilewater-east-bench#bench-room>right-room@rb",
           "requirement": {
-            "raw": "right attack AND (cling grip OR silk soar OR scuttlebrace)",
+            "raw": "break wall right AND (cling grip OR silk soar OR scuttlebrace)",
             "mode": "expression",
             "dnf": [
               [
@@ -145015,7 +145561,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -145034,7 +145580,7 @@
         {
           "id": "bilewater/bilewater-east-bench#bench-entrance>bench-room@be",
           "requirement": {
-            "raw": "right attack",
+            "raw": "break wall right",
             "mode": "expression",
             "dnf": [
               [
@@ -145042,7 +145588,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -145061,7 +145607,7 @@
         {
           "id": "bilewater/bilewater-east-bench#bench-room>bench-entrance@be",
           "requirement": {
-            "raw": "left attack",
+            "raw": "break wall left",
             "mode": "expression",
             "dnf": [
               [
@@ -145069,7 +145615,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -145175,7 +145721,7 @@
       "area_id": "bilewater",
       "name": "Bilewater East Column",
       "source_file": "bilewater/bilewater-east-column.json",
-      "source_sha256": "dd68621ffae49326870b0a2a6de0bd81f2fd2a9f5eebd10a196b0586eae6c737",
+      "source_sha256": "f4c9b2e78ff75c1f9ebbeff8535c501b7a3d807623fc25b2864cf1bab41d1371",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -145227,18 +145773,15 @@
         {
           "id": "bilewater/bilewater-east-column@ml",
           "requirement": {
-            "raw": "left attack OR right attack",
+            "raw": "break wall left",
             "mode": "expression",
             "dnf": [
               [
                 "mapper:attack:left"
-              ],
-              [
-                "mapper:attack:right"
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -145417,7 +145960,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Flea Rescue",
       "source_file": "bilewater/bilewater-flea-rescue.json",
-      "source_sha256": "928cdd4a23c3e75975c4c66699801ace61995e147d3944b900c99c2af0e66094",
+      "source_sha256": "da9e266a4021a1ee39076cc54cc90ec7fc24c6c0efefd11befef0f8fd253ef44",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -145503,7 +146046,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Groal Arena",
       "source_file": "bilewater/bilewater-groal-arena.json",
-      "source_sha256": "4d723348f278513dabf2afe810acb4e826a7e5a652d9a4048662f83a5dbe1040",
+      "source_sha256": "b66556eab86359a92ca02da935f0e4af861f8c8233ce6c16dae9602914b5521a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -145751,7 +146294,57 @@
           "target_node_id": "bilewater/bilewater-groal-arena#right-of-arena"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/reviewed:groal-defeated",
+          "label": "Groal Defeated",
+          "kind": "event",
+          "node_id": "bilewater/bilewater-groal-arena#arena",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ],
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:groal-left-exit-access",
+          "label": "Groal Left Exit Access",
+          "kind": "event",
+          "node_id": "bilewater/bilewater-groal-arena#left-of-arena",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:groal-defeated"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "checks": [
         {
           "id": "bilewater/bilewater-groal-arena::mapper-check:c072b5f9-82a5-469b-8bf6-b91bb53e5180:835739",
@@ -145821,7 +146414,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Hanging Corpse Room",
       "source_file": "bilewater/bilewater-hanging-corpse-room.json",
-      "source_sha256": "67c774b07a6554967ff8ee2ca89d89425ebb89e2808ea6974674fd5449c4182e",
+      "source_sha256": "47f8f9fc0bb60e05ad3fd0e0d2b6f8894ce9bb4b4dae8a79968c3adf5d644af6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -145881,7 +146474,7 @@
         {
           "id": "bilewater/bilewater-hanging-corpse-room@l",
           "requirement": {
-            "raw": "drifter's cloak OR clawline OR (faydown AND (run OR sharpdart OR beast pogo)) OR (sharpdart AND (swim OR beast pogo))",
+            "raw": "drifter's cloak OR clawline OR (faydown AND (run OR sharpdart OR easy beast pogo)) OR (sharpdart AND (swim OR easy beast pogo))",
             "mode": "expression",
             "dnf": [
               [
@@ -145899,14 +146492,20 @@
                 "item:sharpdart"
               ],
               [
+                "item:faydown-cloak",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
                 "item:sharpdart",
                 "capability:swim"
+              ],
+              [
+                "item:sharpdart",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:beast pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -145939,7 +146538,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower Bloatroach Tower",
       "source_file": "bilewater/bilewater-lower-bloatroach-tower.json",
-      "source_sha256": "a38fa50248ce480e83ca8b54263989afa4ae93306985c707df28ba3b31a43988",
+      "source_sha256": "21addc5fb69f21a3897d691e0c69f171d999ba0e4c63ff4a6c10d1b2e1f617b0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -146015,7 +146614,7 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower@ur",
           "requirement": {
-            "raw": "(clawline OR crest pogo) AND (faydown cloak OR drifter's cloak)",
+            "raw": "(clawline OR enemy pogo) AND (faydown cloak OR drifter's cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -146025,12 +146624,18 @@
               [
                 "item:clawline",
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146150,7 +146755,7 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower#low-left>low-right@low",
           "requirement": {
-            "raw": "swim OR dash OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR beast pogo",
+            "raw": "swim OR dash OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR easy beast pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -146170,12 +146775,13 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:beast pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146194,7 +146800,7 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower#low-right>low-left@low",
           "requirement": {
-            "raw": "swim OR dash OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR beast pogo",
+            "raw": "swim OR dash OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR easy beast pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -146214,12 +146820,13 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:beast pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146394,7 +147001,7 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower#mid-right>halfway-up@mur",
           "requirement": {
-            "raw": "cling grip AND (clawline OR faydown cloak OR (drifter's cloak AND crest pogo))",
+            "raw": "cling grip AND (clawline OR faydown cloak OR (drifter's cloak AND enemy pogo))",
             "mode": "expression",
             "dnf": [
               [
@@ -146404,12 +147011,15 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146453,18 +147063,20 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower#halfway-up>rosary-plat@upr",
           "requirement": {
-            "raw": "faydown cloak AND (clawline OR crest pogo)",
+            "raw": "faydown cloak AND (clawline OR enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146508,19 +147120,22 @@
         {
           "id": "bilewater/bilewater-lower-bloatroach-tower#halfway-up>up-left@hul",
           "requirement": {
-            "raw": "faydown cloak AND cling grip AND (clawline OR crest pogo)",
+            "raw": "faydown cloak AND cling grip AND (clawline OR enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -146598,7 +147213,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower East Hall",
       "source_file": "bilewater/bilewater-lower-east-hall.json",
-      "source_sha256": "905e46a6903153c8d38b4593e670a287db48956f91c7197b40a768a6ecf46e94",
+      "source_sha256": "54c685218e1489d7fab2f9d71df74a644579816613ea827904043fef55ecd210",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -147004,7 +147619,7 @@
         {
           "id": "bilewater/bilewater-lower-east-hall#under-upper>right-hall@ruu",
           "requirement": {
-            "raw": "swim OR run OR sharpdart OR clawline OR scuttlebrace OR drifter's cloak OR faydown cloak OR hunter pogo OR beast pogo OR architect pogo",
+            "raw": "swim OR run OR sharpdart OR clawline OR scuttlebrace OR drifter's cloak OR faydown cloak OR easy hunter pogo OR easy beast pogo OR easy architect pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -147027,14 +147642,19 @@
               ],
               [
                 "item:faydown-cloak"
+              ],
+              [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:architect pogo",
-              "unsupported mapper capability: unresolved-catalogue:beast pogo",
-              "unsupported mapper capability: unresolved-catalogue:hunter pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147115,7 +147735,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower East Hall Secret",
       "source_file": "bilewater/bilewater-lower-east-hall-secret.json",
-      "source_sha256": "ecf37e1e0f2908de739f271233eb27f244323a0c09f712d45b430e34badd4221",
+      "source_sha256": "547c4bf257bb01012e64d5d484877e2f1ee190f5bc5541ccde34f20cf97c416b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -147130,29 +147750,23 @@
         {
           "id": "bilewater/bilewater-lower-east-hall-secret@l",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "nada",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "e7ff6682-13bd-4299-b073-70f1304d2d99"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "L",
           "name": "lower",
           "source_node_id": "bilewater/bilewater-lower-east-hall-secret#room",
@@ -147166,7 +147780,54 @@
         }
       ],
       "connections": [],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/72e2d50d-267c-43a4-8576-1d801b863377",
+          "requirement": {
+            "raw": "clawline OR (enemy pogo AND (cling grip OR ledge grab OR faydown cloak OR drifter's cloak OR dash))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:clawline"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "macro:progressive-swift-step-full"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "72e2d50d-267c-43a4-8576-1d801b863377"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Get Kidnapped",
+          "kind": "event",
+          "node_id": "bilewater/bilewater-lower-east-hall-secret#room"
+        }
+      ],
       "checks": [],
       "omitted_check_rows": []
     },
@@ -147175,7 +147836,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower Trap Gauntlet Hall",
       "source_file": "bilewater/bilewater-lower-trap-gauntlet-hall.json",
-      "source_sha256": "006fcc8c6c16b4039a89ca16dab9ab5a3d6c9d28e741b48c32bf176bfffcb475",
+      "source_sha256": "431792929a73587d055b3cf7e9b406b268dc5cb622a7b338836187a335f5d038",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -147214,15 +147875,15 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall@lr",
           "requirement": {
-            "raw": "right attack",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:right"
+                "event:mapper/c8300e13-3b71-44cc-ac0c-0843b043260a"
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147383,7 +148044,7 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea>left-door-plat@lm",
           "requirement": {
-            "raw": "(cling grip OR scuttlebrace) AND (swim OR run OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR beast crest)",
+            "raw": "(cling grip OR scuttlebrace) AND (swim OR run OR clawline OR sharpdart OR faydown cloak OR drifter's cloak OR easy beast pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -147411,6 +148072,10 @@
                 "item:drifters-cloak"
               ],
               [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
                 "mapper:scuttlebrace:none",
                 "capability:swim"
               ],
@@ -147433,12 +148098,14 @@
               [
                 "mapper:scuttlebrace:none",
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:beast crest"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147512,29 +148179,23 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea>bottom-right@mbr",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d06967a2-47b9-4875-a2f4-45d4316a2746"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "MBR",
           "name": "mid to bottom right",
           "source_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea",
@@ -147543,41 +148204,120 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall#bottom-right>below-flea@mbr",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "cling grip OR scuttlebrace",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d0ec3966-c5cd-49a9-b9a7-92d19296b51b"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "MBR",
           "name": "mid to bottom right",
           "source_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#bottom-right",
           "target_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea"
+        },
+        {
+          "id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea>right-door-plat@mrp",
+          "requirement": {
+            "raw": "faydown cloak AND cling grip",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak",
+                "item:cling-grip"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "23fad453-3d11-4e18-8cbf-869f93d6b618"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "MRP",
+          "name": "mid to right plat",
+          "source_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea",
+          "target_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#right-door-plat"
+        },
+        {
+          "id": "bilewater/bilewater-lower-trap-gauntlet-hall#right-door-plat>below-flea@mrp",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "falling",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "9c84511f-80cc-4ecc-9dcf-d48b3edc5107"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "MRP",
+          "name": "mid to right plat",
+          "source_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#right-door-plat",
+          "target_node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#below-flea"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/c8300e13-3b71-44cc-ac0c-0843b043260a",
+          "requirement": {
+            "raw": "attack right",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c8300e13-3b71-44cc-ac0c-0843b043260a"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Breakable wall",
+          "kind": "blockade",
+          "node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#bottom-right"
+        }
+      ],
       "checks": [
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall::mapper-check:d48ac773-f3b2-45f1-8a97-cc1581366cfc:835596",
           "requirement": {
-            "raw": "left attack",
+            "raw": "break vines left",
             "mode": "expression",
             "dnf": [
               [
@@ -147585,7 +148325,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147605,7 +148345,7 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall::mapper-check:c39bce1c-a7f1-494d-9c21-7b4747393d55:836025",
           "requirement": {
-            "raw": "up attack AND swim",
+            "raw": "attack up AND swim",
             "mode": "expression",
             "dnf": [
               [
@@ -147614,7 +148354,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147634,7 +148374,7 @@
         {
           "id": "bilewater/bilewater-lower-trap-gauntlet-hall::mapper-check:bc1005e9-4f9d-4040-82a0-002bd349c2bf:836026",
           "requirement": {
-            "raw": "up attack AND swim",
+            "raw": "attack up AND swim",
             "mode": "expression",
             "dnf": [
               [
@@ -147643,7 +148383,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147668,7 +148408,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Mothleaf Hall",
       "source_file": "bilewater/bilewater-mothleaf-hall.json",
-      "source_sha256": "dbd2419386c4789cd3e1f1a5ed37f88a0bc39b975e403d2ac986632a7032c4ae",
+      "source_sha256": "ff8a0c0c8517f740118695f447dfc301ef80e4cf927afbf371867dd51c7dd3f3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -147685,7 +148425,7 @@
           "declared": true
         },
         {
-          "id": "bilewater/bilewater-mothleaf-hall#center",
+          "id": "bilewater/bilewater-mothleaf-hall#center-ground",
           "name": "center ground",
           "notes": "",
           "declared": true
@@ -147757,9 +148497,9 @@
       ],
       "connections": [
         {
-          "id": "bilewater/bilewater-mothleaf-hall#left>center@lc",
+          "id": "bilewater/bilewater-mothleaf-hall#left>center-ground@lc",
           "requirement": {
-            "raw": "swim OR (clawline OR crest pogo)",
+            "raw": "swim OR (clawline OR enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -147767,12 +148507,13 @@
               ],
               [
                 "item:clawline"
+              ],
+              [
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147786,12 +148527,12 @@
           "alias": "LC",
           "name": "left to center",
           "source_node_id": "bilewater/bilewater-mothleaf-hall#left",
-          "target_node_id": "bilewater/bilewater-mothleaf-hall#center"
+          "target_node_id": "bilewater/bilewater-mothleaf-hall#center-ground"
         },
         {
-          "id": "bilewater/bilewater-mothleaf-hall#center>left@lc",
+          "id": "bilewater/bilewater-mothleaf-hall#center-ground>left@lc",
           "requirement": {
-            "raw": "swim OR (clawline OR crest pogo)",
+            "raw": "swim OR (clawline OR enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -147799,12 +148540,13 @@
               ],
               [
                 "item:clawline"
+              ],
+              [
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -147817,11 +148559,11 @@
           "unresolved_reasons": [],
           "alias": "LC",
           "name": "left to center",
-          "source_node_id": "bilewater/bilewater-mothleaf-hall#center",
+          "source_node_id": "bilewater/bilewater-mothleaf-hall#center-ground",
           "target_node_id": "bilewater/bilewater-mothleaf-hall#left"
         },
         {
-          "id": "bilewater/bilewater-mothleaf-hall#right>center@rc",
+          "id": "bilewater/bilewater-mothleaf-hall#right>center-ground@rc",
           "requirement": {
             "raw": "(drifter's cloak OR faydown cloak OR clawline OR sharpdart) OR swim",
             "mode": "expression",
@@ -147857,10 +148599,10 @@
           "alias": "RC",
           "name": "right to center",
           "source_node_id": "bilewater/bilewater-mothleaf-hall#right",
-          "target_node_id": "bilewater/bilewater-mothleaf-hall#center"
+          "target_node_id": "bilewater/bilewater-mothleaf-hall#center-ground"
         },
         {
-          "id": "bilewater/bilewater-mothleaf-hall#center>right@rc",
+          "id": "bilewater/bilewater-mothleaf-hall#center-ground>right@rc",
           "requirement": {
             "raw": "(drifter's cloak OR faydown cloak OR clawline OR sharpdart) OR swim",
             "mode": "expression",
@@ -147895,7 +148637,7 @@
           "unresolved_reasons": [],
           "alias": "RC",
           "name": "right to center",
-          "source_node_id": "bilewater/bilewater-mothleaf-hall#center",
+          "source_node_id": "bilewater/bilewater-mothleaf-hall#center-ground",
           "target_node_id": "bilewater/bilewater-mothleaf-hall#right"
         }
       ],
@@ -147935,7 +148677,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Northeast Tiny Room",
       "source_file": "bilewater/bilewater-northeast-tiny-room.json",
-      "source_sha256": "443ebc95806242c539924f20540361ee2c504db6c33dbeb1247304cf76ac71d4",
+      "source_sha256": "554cdb10639c910ef8de6081daaf8f994cd938b2694c273a0a668ace31dc4f81",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -147985,7 +148727,7 @@
         {
           "id": "bilewater/bilewater-northeast-tiny-room::mapper-check:4a563e5f-fc7f-48d4-af88-9982b7017ce1:836029",
           "requirement": {
-            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grab AND beast pogo)",
+            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grip AND easy beast pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -148001,12 +148743,14 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:cling grab"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -148026,7 +148770,7 @@
         {
           "id": "bilewater/bilewater-northeast-tiny-room::mapper-check:49536835-e23d-4b59-bc32-ac0824befde0:836030",
           "requirement": {
-            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grab AND beast pogo)",
+            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grip AND easy beast pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -148042,12 +148786,14 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:cling grab"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -148067,7 +148813,7 @@
         {
           "id": "bilewater/bilewater-northeast-tiny-room::mapper-check:00e06698-22a8-46bf-a22d-c89954daa14b:836031",
           "requirement": {
-            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grab AND beast pogo)",
+            "raw": "silk soar OR faydown cloak OR (ledge grab AND (sharpdart OR clawline)) OR (cling grip AND easy beast pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -148083,12 +148829,14 @@
               [
                 "capability:ledge-grab",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:cling grab"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -148113,7 +148861,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Organ Entrance",
       "source_file": "bilewater/bilewater-organ-entrance.json",
-      "source_sha256": "232f3b67277815ad7b6778d6dd66ecbad15ef6a35a805b65ca69eb23197d952a",
+      "source_sha256": "65e8bf8e42bf531473631201b7a9b65ef9949a4ebe31ea2f248a20fe71e2a888",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -148146,7 +148894,7 @@
         {
           "id": "bilewater/bilewater-organ-entrance@lr",
           "requirement": {
-            "raw": "attack",
+            "raw": "break wall right",
             "mode": "expression",
             "dnf": [
               [
@@ -148292,7 +149040,7 @@
         {
           "id": "bilewater/bilewater-organ-entrance#left>lower-right@llr",
           "requirement": {
-            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR hunter pogo OR beast pogo OR architect pogo OR shaman pogo OR ledge grab OR cling grip",
+            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo OR ledge grab OR cling grip",
             "mode": "expression",
             "dnf": [
               [
@@ -148305,7 +149053,25 @@
                 "item:clawline"
               ],
               [
+                "item:sharpdart"
+              ],
+              [
                 "mapper:scuttlebrace:none"
+              ],
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
               ],
               [
                 "capability:ledge-grab"
@@ -148315,7 +149081,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -148334,7 +149100,7 @@
         {
           "id": "bilewater/bilewater-organ-entrance#lower-right>left@llr",
           "requirement": {
-            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR hunter pogo OR beast pogo OR architect pogo OR shaman pogo OR ledge grab OR cling grip",
+            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo OR ledge grab OR cling grip",
             "mode": "expression",
             "dnf": [
               [
@@ -148347,7 +149113,25 @@
                 "item:clawline"
               ],
               [
+                "item:sharpdart"
+              ],
+              [
                 "mapper:scuttlebrace:none"
+              ],
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
               ],
               [
                 "capability:ledge-grab"
@@ -148357,7 +149141,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -148508,7 +149292,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Shakra Room",
       "source_file": "bilewater/bilewater-shakra-room.json",
-      "source_sha256": "de97d95ed160e9d4b2f877e601f297b3a4f60584ec9a1c493d06ff83b516b43b",
+      "source_sha256": "3aebbdd65c6025253b843681b7bfbd44e6164781a3d41660aed449fad204c190",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -149108,7 +149892,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Sinner's Entrance",
       "source_file": "bilewater/bilewater-sinner-s-entrance.json",
-      "source_sha256": "8fca57d9a4598340bcd62ffb0dd279a6b12904b60ecd4050a3ef150c57539929",
+      "source_sha256": "ebaaa9720fbe6cb0cf62d566065cca1d757be4d746d4efcf1eb0e3cf93fdc02e",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -149261,12 +150045,42 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-quarter>middle-quarter@lmq",
           "requirement": {
-            "raw": "(cling grip AND (drifter’s cloak OR clawline OR sharpdart OR (faydown cloak AND swim)) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
+            "raw": "(cling grip AND (drifter’s cloak OR clawline OR sharpdart OR (faydown cloak AND swim))) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "capability:swim"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:scuttlebrace:none",
+                "capability:swim"
+              ],
+              [
+                "item:clawline",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:sharpdart",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "mapper:scuttlebrace:none"
               ]
             ],
             "annotations": [],
@@ -149289,9 +150103,12 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>left-quarter@lmq",
           "requirement": {
-            "raw": "Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR hunter’s pogo OR beast pogo OR architect pogo OR shaman pogo",
+            "raw": "Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo",
             "mode": "expression",
             "dnf": [
+              [
+                "item:drifters-cloak"
+              ],
               [
                 "item:faydown-cloak"
               ],
@@ -149312,16 +150129,22 @@
               ],
               [
                 "capability:swim"
+              ],
+              [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:Drifter’s cloak",
-              "unsupported mapper capability: unresolved-catalogue:architect pogo",
-              "unsupported mapper capability: unresolved-catalogue:beast pogo",
-              "unsupported mapper capability: unresolved-catalogue:hunter’s pogo",
-              "unsupported mapper capability: unresolved-catalogue:shaman pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -149378,29 +150201,54 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform>middle-quarter@mql",
           "requirement": {
-            "raw": "Clawline OR drifter’s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR architect pogo OR beast pogo)",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "Clawline OR drifter’s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR easy architect pogo OR easy beast pogo))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:clawline"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "item:cling-grip"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "macro:progressive-swift-step-first",
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "required difficulty is missing for: architect pogo",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "40da0ae1-936e-4f2a-b4ea-2b05e52029d7"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "required difficulty is missing for: architect pogo",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "MQL",
           "name": "middle quarter to left rosary",
           "source_node_id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform",
@@ -149409,9 +150257,12 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#right-quarter>middle-quarter@rqm",
           "requirement": {
-            "raw": "Drifter’s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR beast pogo OR architect pogo",
+            "raw": "Drifter’s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR easy beast pogo OR easy architect pogo",
             "mode": "expression",
             "dnf": [
+              [
+                "item:drifters-cloak"
+              ],
               [
                 "item:faydown-cloak"
               ],
@@ -149429,14 +150280,16 @@
               ],
               [
                 "macro:progressive-swift-step-first"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:Drifter’s cloak",
-              "unsupported mapper capability: unresolved-catalogue:architect pogo",
-              "unsupported mapper capability: unresolved-catalogue:beast pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -149455,12 +150308,53 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>right-quarter@rqm",
           "requirement": {
-            "raw": "(silk soar AND (beast pogo OR dash OR clawline OR sharpdart OR drifter’s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter’s cloak AND ledge grab))",
+            "raw": "(silk soar AND (easy beast pogo OR dash OR clawline OR sharpdart OR drifter’s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter’s cloak AND ledge grab)))",
             "mode": "expression",
             "dnf": [
               [
+                "item:silk-soar",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:silk-soar",
+                "item:clawline"
+              ],
+              [
+                "item:silk-soar",
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:scuttlebrace:none"
+              ],
+              [
                 "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "capability:ledge-grab"
               ]
             ],
             "annotations": [],
@@ -149556,7 +150450,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Slubberlug River",
       "source_file": "bilewater/bilewater-slubberlug-river.json",
-      "source_sha256": "e7dbf41c5c2bd4fc3e1007cd1b4ef8aa2dbfa6ee78bcb71ec034321717226414",
+      "source_sha256": "494d66a18912601177dabd8c0f278c7dcd652d4cbbe6bcb84c1d18578e0004e9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -149606,7 +150500,7 @@
         {
           "id": "bilewater/bilewater-slubberlug-river::mapper-check:b6916ee1-be22-49e0-866b-3b43df8f0686:835634",
           "requirement": {
-            "raw": "cling grip AND (clawline OR (sharpdart AND (faydown cloaK OR crest pogo)) OR (faydown cloak AND drifter's cloak))",
+            "raw": "cling grip AND (clawline OR (sharpdart AND (faydown cloaK OR enemy pogo)) OR (faydown cloak AND drifter's cloak))",
             "mode": "expression",
             "dnf": [
               [
@@ -149620,14 +150514,17 @@
               ],
               [
                 "item:cling-grip",
+                "item:sharpdart",
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "item:cling-grip",
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -149652,7 +150549,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Spike Ball Ceiling Trap Room",
       "source_file": "bilewater/bilewater-spike-ball-ceiling-trap-room.json",
-      "source_sha256": "eb4889af7e0fd3b52bff5cd9138b4938d0fc88cebcd1f388e0032573859c642b",
+      "source_sha256": "c2554cd6ed29e79516125e1c7c397d4e2c89cbee8b7b4523bee5a256796cbaba",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -149847,7 +150744,7 @@
         {
           "id": "bilewater/bilewater-spike-ball-ceiling-trap-room::mapper-check:29cdd63f-eea0-4983-8ffd-22bb89db6914:835527",
           "requirement": {
-            "raw": "cling grab OR silk soar AND up attack",
+            "raw": "(cling grip OR silk soar) AND attack up",
             "mode": "expression",
             "dnf": [
               [
@@ -149860,7 +150757,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -149885,7 +150782,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper Bloatroach Tower",
       "source_file": "bilewater/bilewater-upper-bloatroach-tower.json",
-      "source_sha256": "5915a1ae2900177c9e0bffd671366b6cdee71c1354a83e8d3daf608bfd23e1f0",
+      "source_sha256": "70e75aaa6b1b67cc8cf014d573f74874ae8f5df7935ca4875d091525f6ebd92f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -149902,12 +150799,6 @@
           "declared": true
         },
         {
-          "id": "bilewater/bilewater-upper-bloatroach-tower#lower-climb",
-          "name": "lower climb",
-          "notes": "",
-          "declared": true
-        },
-        {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-left",
           "name": "middle left",
           "notes": "",
@@ -149916,12 +150807,6 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-right",
           "name": "middle right",
-          "notes": "",
-          "declared": true
-        },
-        {
-          "id": "bilewater/bilewater-upper-bloatroach-tower#middle-climb",
-          "name": "middle climb",
           "notes": "",
           "declared": true
         },
@@ -150041,7 +150926,7 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower@ml",
           "requirement": {
-            "raw": "right attack",
+            "raw": "break wall right",
             "mode": "expression",
             "dnf": [
               [
@@ -150049,7 +150934,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150169,7 +151054,7 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#lower-left>lower-right@llr",
           "requirement": {
-            "raw": "swim OR (dash AND (faydown cloak OR cling grip OR crest pogo)) OR (faydown cloak AND drifter's cloak)",
+            "raw": "swim OR (dash AND (faydown cloak OR cling grip OR enemy pogo)) OR (faydown cloak AND drifter's cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -150184,14 +151069,16 @@
                 "item:cling-grip"
               ],
               [
+                "macro:progressive-swift-step-full",
+                "mapper:enemy-pogo:none"
+              ],
+              [
                 "item:faydown-cloak",
                 "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150210,7 +151097,7 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#lower-right>lower-left@llr",
           "requirement": {
-            "raw": "(swim AND faydown cloak AND (ledge grab OR cling grip)) OR clawline OR (cling grip AND faydown cloak AND (crest pogo OR clawline))",
+            "raw": "(swim AND faydown cloak AND (ledge grab OR cling grip)) OR clawline OR (cling grip AND faydown cloak AND (enemy pogo OR clawline))",
             "mode": "expression",
             "dnf": [
               [
@@ -150229,13 +151116,16 @@
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150254,7 +151144,7 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#lower-left>middle-right@lmr",
           "requirement": {
-            "raw": "cling grip AND ((faydown cloak AND (clawline OR crest pogo)) OR (drifter's cloak AND clawline))",
+            "raw": "cling grip AND ((faydown cloak AND (clawline OR enemy pogo)) OR (drifter's cloak AND clawline))",
             "mode": "expression",
             "dnf": [
               [
@@ -150264,14 +151154,17 @@
               ],
               [
                 "item:cling-grip",
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "item:cling-grip",
                 "item:drifters-cloak",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150290,11 +151183,14 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-right>lower-left@lmr",
           "requirement": {
-            "raw": "swim OR crest pogo OR clawline OR dash",
+            "raw": "swim OR enemy pogo OR clawline OR dash",
             "mode": "expression",
             "dnf": [
               [
                 "capability:swim"
+              ],
+              [
+                "mapper:enemy-pogo:none"
               ],
               [
                 "item:clawline"
@@ -150303,10 +151199,8 @@
                 "macro:progressive-swift-step-full"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150325,13 +151219,24 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-right>middle-left@rml",
           "requirement": {
-            "raw": "cling grip AND (drifter's cloak AND (shartdart OR clawline OR (crest pogo AND ledge grab)) OR (faydown cloak AND (drifter's cloak OR dash OR clawline OR sharpdart))) OR (run AND faydown cloak AND (clawline OR crestpogo))",
+            "raw": "cling grip AND \n((drifter's cloak AND (sharpdart OR clawline OR (enemy pogo AND ledge grab))) OR (faydown cloak AND (drifter's cloak OR dash OR clawline OR sharpdart)) OR (run AND faydown cloak AND (clawline OR enemy pogo)))",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip",
                 "item:drifters-cloak",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "mapper:enemy-pogo:none",
+                "capability:ledge-grab"
               ],
               [
                 "item:cling-grip",
@@ -150354,17 +151259,20 @@
                 "item:sharpdart"
               ],
               [
+                "item:cling-grip",
                 "macro:progressive-swift-step-first",
                 "item:faydown-cloak",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo",
-              "unsupported mapper capability: unresolved-catalogue:crestpogo",
-              "unsupported mapper capability: unresolved-catalogue:shartdart"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150425,19 +151333,22 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#upper-right>top@urt",
           "requirement": {
-            "raw": "cling grip AND dash AND (crest pogo OR clawline)",
+            "raw": "cling grip AND dash AND (enemy pogo OR clawline)",
             "mode": "expression",
             "dnf": [
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full",
+                "mapper:enemy-pogo:none"
+              ],
               [
                 "item:cling-grip",
                 "macro:progressive-swift-step-full",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150481,9 +151392,14 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#middle-left>upper-left@mll",
           "requirement": {
-            "raw": "faydown cloak AND (ledge grab OR cling grip) AND (crest pogo OR clawline)",
+            "raw": "faydown cloak AND (ledge grab OR cling grip) AND (enemy pogo OR clawline)",
             "mode": "expression",
             "dnf": [
+              [
+                "item:faydown-cloak",
+                "capability:ledge-grab",
+                "mapper:enemy-pogo:none"
+              ],
               [
                 "item:faydown-cloak",
                 "capability:ledge-grab",
@@ -150492,13 +151408,16 @@
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150517,7 +151436,7 @@
         {
           "id": "bilewater/bilewater-upper-bloatroach-tower#upper-left>middle-left@mll",
           "requirement": {
-            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR run OR dash OR crest pogo OR scuttlebrace",
+            "raw": "drifter's cloak OR faydown cloak OR clawline OR sharpdart OR run OR dash OR enemy pogo OR scuttlebrace",
             "mode": "expression",
             "dnf": [
               [
@@ -150539,13 +151458,14 @@
                 "macro:progressive-swift-step-full"
               ],
               [
+                "mapper:enemy-pogo:none"
+              ],
+              [
                 "mapper:scuttlebrace:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150560,9 +151480,149 @@
           "name": "middle left to upper left",
           "source_node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-left",
           "target_node_id": "bilewater/bilewater-upper-bloatroach-tower#middle-left"
+        },
+        {
+          "id": "bilewater/bilewater-upper-bloatroach-tower#upper-left>upper-right@ulr",
+          "requirement": {
+            "raw": "faydown cloak AND cling grip AND (enemy pogo OR sharpdart OR clawline)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:bilewater-upper-tower-planks-lowered",
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "event:mapper/reviewed:bilewater-upper-tower-planks-lowered",
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "event:mapper/reviewed:bilewater-upper-tower-planks-lowered",
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "item:clawline"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "9ecb1b9a-9c44-41af-8f62-8c4119a67873"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "ULR",
+          "name": "upper left to upper right",
+          "source_node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-left",
+          "target_node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-right"
+        },
+        {
+          "id": "bilewater/bilewater-upper-bloatroach-tower#upper-right>upper-left@ulr",
+          "requirement": {
+            "raw": "drifter's cloak OR (cling grip AND (dash OR sharpdart OR clawline OR faydown cloak OR easy beast pogo))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "f1b1b0bc-8ccb-4e2e-bcd8-7728da5c90eb"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "ULR",
+          "name": "upper left to upper right",
+          "source_node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-right",
+          "target_node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-left"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/e45d1dfc-2895-4c58-8da2-a583aee62335",
+          "requirement": {
+            "raw": "attack left",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:bilewater-upper-tower-planks-lowered"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e45d1dfc-2895-4c58-8da2-a583aee62335"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "collapsible bridge",
+          "kind": "blockade",
+          "node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-right"
+        },
+        {
+          "id": "event:mapper/reviewed:bilewater-upper-tower-planks-lowered",
+          "label": "Bilewater Upper Tower Planks Lowered",
+          "kind": "event",
+          "node_id": "bilewater/bilewater-upper-bloatroach-tower#upper-right",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:groal-left-exit-access",
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "checks": [],
       "omitted_check_rows": []
     },
@@ -150571,7 +151631,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper East Column",
       "source_file": "bilewater/bilewater-upper-east-column.json",
-      "source_sha256": "c78afaca8ec860a0c2d1e11873a5a742c559d0fe3788455720bea98cc6753ba9",
+      "source_sha256": "12059851f0467ef635fffc8cee42d5c888585ace78abd2a5936b489b746ed272",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -150584,12 +151644,6 @@
         {
           "id": "bilewater/bilewater-upper-east-column#low-right-door",
           "name": "low right door",
-          "notes": "",
-          "declared": true
-        },
-        {
-          "id": "bilewater/bilewater-upper-east-column#center-climb",
-          "name": "center climb",
           "notes": "",
           "declared": true
         },
@@ -150772,12 +151826,16 @@
         {
           "id": "bilewater/bilewater-upper-east-column#low-right-door>low-left-door@ldc",
           "requirement": {
-            "raw": "(ledge grab AND (faydown cloak OR beast pogo)) OR drifter's cloak OR clawline OR sharpdart OR run",
+            "raw": "(ledge grab AND (faydown cloak OR easy beast pogo)) OR drifter's cloak OR clawline OR sharpdart OR run",
             "mode": "expression",
             "dnf": [
               [
                 "capability:ledge-grab",
                 "item:faydown-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:beast-crest-pogo:easy"
               ],
               [
                 "item:drifters-cloak"
@@ -150792,10 +151850,8 @@
                 "macro:progressive-swift-step-first"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:beast pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150914,7 +151970,7 @@
         {
           "id": "bilewater/bilewater-upper-east-column#up-right-door>up-left-door@udc",
           "requirement": {
-            "raw": "clawline OR sharpdart OR faydown cloak OR drifter's cloak OR hunter pogo OR reaper pogo OR beast pogo OR witch pogo OR architect pogo OR shaman pogo",
+            "raw": "clawline OR sharpdart OR faydown cloak OR drifter's cloak OR easy hunter pogo OR easy reaper pogo OR easy beast pogo OR easy witch pogo OR easy architect pogo OR easy shaman pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -150928,17 +151984,28 @@
               ],
               [
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:witch-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:architect pogo",
-              "unsupported mapper capability: unresolved-catalogue:beast pogo",
-              "unsupported mapper capability: unresolved-catalogue:hunter pogo",
-              "unsupported mapper capability: unresolved-catalogue:reaper pogo",
-              "unsupported mapper capability: unresolved-catalogue:shaman pogo",
-              "unsupported mapper capability: unresolved-catalogue:witch pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -150964,7 +152031,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper Trap Gauntlet Hall",
       "source_file": "bilewater/bilewater-upper-trap-gauntlet-hall.json",
-      "source_sha256": "9785817baff50519fc66b8f49a22cd7e3f6e83329f88cd82465d01198746273d",
+      "source_sha256": "d4ae63ee1f4f0c90de55dde1b6c233db97a4fe102663f646b661dcc17535b809",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151128,7 +152195,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper West Column",
       "source_file": "bilewater/bilewater-upper-west-column.json",
-      "source_sha256": "2d906d41f202ad68c97b8de1fa97a45926ef7d7d4cb730411f370575453aba12",
+      "source_sha256": "ab9c73cf84ae786dbb8d409100ddbf1206e95ebfa2d5907013cb0499a294b107",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151213,27 +152280,42 @@
         {
           "id": "bilewater/bilewater-upper-west-column#lower>upper@lm",
           "requirement": {
-            "raw": "cling_grip AND (Faydown cloak OR crest_pogo) AND (clawline OR sharpdart)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:cling_grip"
+            "raw": "cling grip AND (Faydown cloak OR enemy pogo) AND (clawline OR sharpdart)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:enemy-pogo:none",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:enemy-pogo:none",
+                "item:sharpdart"
+              ]
             ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:cling_grip"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "crest_pogo should be an easy or medium skip since it requires a one-hit death enemy that you need to let float up before pogoing",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "1936774f-020e-4ce6-ba3b-b3dc3c201e2f"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:cling_grip"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "LM",
           "name": "low to up",
           "source_node_id": "bilewater/bilewater-upper-west-column#lower",
@@ -151289,18 +152371,20 @@
         {
           "id": "bilewater/bilewater-upper-west-column::mapper-check:44ebc94c-167a-4185-b635-f9abb90da80b:835852",
           "requirement": {
-            "raw": "Cling grip AND (faydown cloak OR crest pogo)",
+            "raw": "Cling grip AND (faydown cloak OR enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip",
                 "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:enemy-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -151325,7 +152409,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Vertical Sac Pogo Room",
       "source_file": "bilewater/bilewater-vertical-sac-pogo-room.json",
-      "source_sha256": "0799dc014012b6aae7f2b729f1766cbf33eef20eff3f2054d422e96843f6cae8",
+      "source_sha256": "4f651056ad59a0fbb95efd7994ad0416897ac6813d2fded1650ebf3750b37068",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151721,19 +152805,22 @@
         {
           "id": "bilewater/bilewater-vertical-sac-pogo-room#up-left-door-platform>upper-platform@ult",
           "requirement": {
-            "raw": "faydown cloak AND cling grip AND (crest pogo OR clawline)",
+            "raw": "faydown cloak AND cling grip AND (enemy pogo OR clawline)",
             "mode": "expression",
             "dnf": [
+              [
+                "item:faydown-cloak",
+                "item:cling-grip",
+                "mapper:enemy-pogo:none"
+              ],
               [
                 "item:faydown-cloak",
                 "item:cling-grip",
                 "item:clawline"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -151848,7 +152935,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Waterfall",
       "source_file": "bilewater/bilewater-waterfall.json",
-      "source_sha256": "11165c3d11a196cbabb9fac177fb6bc8bb74aa69d670da8a03ad8ce1285db049",
+      "source_sha256": "d3e67a853a120a05e8b5276696ae20b1db1fa7b88c47f669ea53a0419696f9db",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151898,29 +152985,46 @@
         {
           "id": "bilewater/bilewater-waterfall::mapper-check:aa97dbd4-2f25-4e94-b8ef-47a236e4204e:835525",
           "requirement": {
-            "raw": "faydown cloak AND swim AND cling grip AND (ledge grab OR dash OR clawline OR sharpdart))",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "faydown cloak AND swim AND cling grip AND (ledge grab OR dash OR clawline OR sharpdart)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak",
+                "capability:swim",
+                "item:cling-grip",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:swim",
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:swim",
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:swim",
+                "item:cling-grip",
+                "item:sharpdart"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is unresolved",
-              "unmatched closing parenthesis"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Dash, clawline, and sharpdart are a bit precise and require you to get nearly the most possible height out of first and second jumps",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "aa97dbd4-2f25-4e94-b8ef-47a236e4204e"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is unresolved",
-            "unmatched closing parenthesis"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Throwing Ring",
           "node_id": "bilewater/bilewater-waterfall#room",
           "canonical_location": "Throwing Ring",
@@ -151935,7 +153039,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Weavenest Murglin",
       "source_file": "bilewater/bilewater-weavenest-murglin.json",
-      "source_sha256": "8ab3b7db5dd17b623ca83b303fa0f103a4e1a0c9ed303fdbe30bc0b1b0ca10df",
+      "source_sha256": "ce96d29dfc627baf321b2a35f05608248d6723a05f900b72a96244fb43daa67f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152036,7 +153140,7 @@
         {
           "id": "bilewater/bilewater-weavenest-murglin::mapper-check:1e980897-5a1c-4780-be90-84e2a050ae59:836347",
           "requirement": {
-            "raw": "(cling grip OR silk soar) AND (swim OR clawline OR drifter's cloak) AND right attack",
+            "raw": "(cling grip OR silk soar) AND (swim OR clawline OR drifter's cloak) AND attack right",
             "mode": "expression",
             "dnf": [
               [
@@ -152071,7 +153175,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -152096,7 +153200,7 @@
       "area_id": "bilewater",
       "name": "Bilewater West Hall",
       "source_file": "bilewater/bilewater-west-hall.json",
-      "source_sha256": "69c1019bde4fa2c1523fe0b95c2a85d8e2ca58b286c6db4d29213af1eefff38c",
+      "source_sha256": "1d91fc0243016dda6d9f7e84bc4b5a91debf5afc225a37865c25f9d282fbab08",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152117,13 +153221,13 @@
         {
           "id": "bilewater/bilewater-west-hall@l",
           "requirement": {
-            "raw": "Clawline OR sharpdart OR hunter’s pogo OR reaper pogo OR beast pogo OR shaman pogo OR (ledge grab AND (witch pogo OR architect pogo)) OR (swim AND faydown cloak) OR (silk soar AND drifter’s cloak)",
+            "raw": "Clawline OR sharpdart OR easy hunter pogo OR easy reaper pogo OR easy beast pogo OR easy shaman pogo OR (ledge grab AND (easy witch pogo OR easy architect pogo)) OR (swim AND faydown cloak) OR (silk soar AND drifter’s cloak)",
             "mode": "expression",
             "dnf": [
               []
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -152148,7 +153252,7 @@
         {
           "id": "bilewater/bilewater-west-hall@r",
           "requirement": {
-            "raw": "(crest pogo AND (faydown cloak OR ((clawline OR sharpdart OR dash OR drifter’s cloak) AND cling grip))) OR (silk soar AND ((drifter’s cloak AND (cling grip OR clawline OR sharpdart)) OR (clawline AND sharpdart))\n",
+            "raw": "(enemy pogo AND (faydown cloak OR ((clawline OR sharpdart OR dash OR drifter’s cloak) AND cling grip))) OR (silk soar AND ((drifter’s cloak AND (cling grip OR clawline OR sharpdart)) OR (clawline AND sharpdart)))\n",
             "mode": "expression",
             "dnf": [
               []
@@ -152188,6 +153292,30 @@
             "raw": "",
             "mode": "expression",
             "dnf": [
+              [
+                "mapper:enemy-pogo:none",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:clawline",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:sharpdart",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "macro:progressive-swift-step-full",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:drifters-cloak",
+                "item:cling-grip"
+              ],
               [
                 "item:silk-soar",
                 "item:drifters-cloak",
@@ -152236,6 +153364,26 @@
                 "item:sharpdart"
               ],
               [
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:witch-crest-pogo:easy"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
                 "capability:swim",
                 "item:faydown-cloak"
               ],
@@ -152264,7 +153412,7 @@
       "area_id": "bilewater",
       "name": "Bilewater West Secret Rooms",
       "source_file": "bilewater/bilewater-west-secret-rooms.json",
-      "source_sha256": "95afee204e1ce684c8838962b9740b8c968621990469516e0fa3e383d4731b21",
+      "source_sha256": "a5c63c858ef5a5f4046729e43fbcf99304885b17e400c758064ca304b6cab98a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152322,27 +153470,27 @@
         {
           "id": "bilewater/bilewater-west-secret-rooms@c",
           "requirement": {
-            "raw": "cling grip AND crest pogo AND faydown cloak",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
+            "raw": "cling grip AND enemy pogo AND faydown cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "mapper:enemy-pogo:none",
+                "item:faydown-cloak"
+              ]
             ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Requires an annoying enemy lure. Medium_skips. Should be one-way normally.",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "8bc9abed-bac5-49d7-8282-dafcd0e6e8ae"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:crest pogo"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "C",
           "name": "ceiling",
           "source_node_id": "bilewater/bilewater-west-secret-rooms#top-area",
@@ -152420,9 +153568,21 @@
         {
           "id": "bilewater/bilewater-west-secret-rooms#top-area>ceiling-exit@tc",
           "requirement": {
-            "raw": "(crest pogo OR clawline) AND (ledge grab OR cling grip OR faydown cloak)",
+            "raw": "(enemy pogo OR clawline) AND (ledge grab OR cling grip OR faydown cloak)",
             "mode": "expression",
             "dnf": [
+              [
+                "mapper:enemy-pogo:none",
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:enemy-pogo:none",
+                "item:faydown-cloak"
+              ],
               [
                 "item:clawline",
                 "capability:ledge-grab"
@@ -152436,10 +153596,8 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -152458,12 +153616,16 @@
         {
           "id": "bilewater/bilewater-west-secret-rooms#ceiling-exit>top-area@tc",
           "requirement": {
-            "raw": "(faydown cloak AND (swim OR crest pogo)) OR drifter's cloak OR clawline OR sharpdart ",
+            "raw": "(faydown cloak AND (swim OR enemy pogo)) OR drifter's cloak OR clawline OR sharpdart ",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
                 "capability:swim"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:none"
               ],
               [
                 "item:drifters-cloak"
@@ -152475,10 +153637,8 @@
                 "item:sharpdart"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -152528,7 +153688,7 @@
         {
           "id": "bilewater/bilewater-west-secret-rooms::mapper-check:2a61a319-4c9a-47a6-b52e-7f690f970ed1:836234",
           "requirement": {
-            "raw": "cling grip AND (swim OR clawline OR hunter pogo OR beast pogo OR architect pogo OR ((wanderer pogo OR witch pogo OR reaper pogo) AND (dash OR faydown cloak OR drifter's cloak)))",
+            "raw": "cling grip AND (swim OR clawline OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR ((easy wanderer pogo OR easy witch pogo OR easy reaper pogo) AND (dash OR faydown cloak OR drifter's cloak)))",
             "mode": "expression",
             "dnf": [
               [
@@ -152538,17 +153698,67 @@
               [
                 "item:cling-grip",
                 "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:wanderer-crest-pogo:easy",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:wanderer-crest-pogo:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:wanderer-crest-pogo:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:witch-crest-pogo:easy",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:witch-crest-pogo:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:witch-crest-pogo:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:reaper-crest-pogo:easy",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:reaper-crest-pogo:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:reaper-crest-pogo:easy",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:architect pogo",
-              "unsupported mapper capability: unresolved-catalogue:beast pogo",
-              "unsupported mapper capability: unresolved-catalogue:hunter pogo",
-              "unsupported mapper capability: unresolved-catalogue:reaper pogo",
-              "unsupported mapper capability: unresolved-catalogue:wanderer pogo",
-              "unsupported mapper capability: unresolved-catalogue:witch pogo"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -152625,7 +153835,7 @@
       "area_id": "bilewater",
       "name": "Exhaust Organ External",
       "source_file": "bilewater/exhaust-organ-external.json",
-      "source_sha256": "2a43a52cc21475254ed8cc8dca8e5a7f2f90e24893488b69b6189a73c64f70ec",
+      "source_sha256": "74d39a35d8272b34368a9f6f2e9241b57a6f80a791a8d895c6335e3c16de71d0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152695,10 +153905,10 @@
           "name": "up door",
           "source_node_id": "bilewater/exhaust-organ-external#upper-door-plat",
           "target": {
-            "raw": "bilewater/exhaust-organ-interior@ul",
+            "raw": "bilewater/exhaust-organ-interior@ml",
             "room_id": "bilewater/exhaust-organ-interior",
-            "alias": "ul",
-            "port_id": "bilewater/exhaust-organ-interior@ul",
+            "alias": "ml",
+            "port_id": "bilewater/exhaust-organ-interior@ml",
             "label": null
           }
         },
@@ -153340,7 +154550,7 @@
         {
           "id": "bilewater/exhaust-organ-external#upper-door-plat>flea-hall-plat@upf",
           "requirement": {
-            "raw": "cling grip OR ledge grip OR scuttlebrace",
+            "raw": "(cling grip OR ledge grab) OR scuttlebrace",
             "mode": "expression",
             "dnf": [
               [
@@ -153350,6 +154560,19 @@
               ],
               [
                 "item:cling-grip",
+                "mapper:scuttlebrace:none",
+                "macro:progressive-swift-step-full",
+                "item:needolin",
+                "count:progressive-silkheart:1"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:cling-grip",
+                "item:needolin",
+                "count:progressive-silkheart:1"
+              ],
+              [
+                "capability:ledge-grab",
                 "mapper:scuttlebrace:none",
                 "macro:progressive-swift-step-full",
                 "item:needolin",
@@ -153368,10 +154591,8 @@
                 "count:progressive-silkheart:1"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:ledge grip"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -153506,7 +154727,7 @@
         {
           "id": "bilewater/exhaust-organ-external::mapper-check:e7a0ca17-c356-467c-8d59-b19ac3e1413c:835589",
           "requirement": {
-            "raw": "(swim OR cling grip OR faydown cloak OR (silk soar AND (clawline OR ((drifter's cloak OR sharpdart) AND ledge grab)))) AND left attack",
+            "raw": "(swim OR cling grip OR faydown cloak OR (silk soar AND (clawline OR ((drifter's cloak OR sharpdart) AND ledge grab)))) AND break vines left",
             "mode": "expression",
             "dnf": [
               [
@@ -153610,7 +154831,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -153635,10 +154856,16 @@
       "area_id": "bilewater",
       "name": "Exhaust Organ Interior",
       "source_file": "bilewater/exhaust-organ-interior.json",
-      "source_sha256": "04e367517edc8658598a9d71781b0458a6fd02dd1636b00a228a14d9b8975c41",
+      "source_sha256": "55295ec084521eb0fc1f0beacbe4018c364b3b6d4a90a9279930934e11c57c04",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
+        {
+          "id": "bilewater/exhaust-organ-interior#after-phantom",
+          "name": "after phantom",
+          "notes": "",
+          "declared": true
+        },
         {
           "id": "bilewater/exhaust-organ-interior#room",
           "name": "room",
@@ -153685,7 +154912,7 @@
           }
         },
         {
-          "id": "bilewater/exhaust-organ-interior@ul",
+          "id": "bilewater/exhaust-organ-interior@ml",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -153715,8 +154942,8 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "UL",
-          "name": "left1",
+          "alias": "ML",
+          "name": "mid left",
           "source_node_id": "bilewater/exhaust-organ-interior#room",
           "target": {
             "raw": "bilewater/exhaust-organ-external@ud",
@@ -153758,7 +154985,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "alias": "LL",
-          "name": "left2",
+          "name": "low left",
           "source_node_id": "bilewater/exhaust-organ-interior#room",
           "target": {
             "raw": "bilewater/exhaust-organ-external@ld",
@@ -153771,6 +154998,32 @@
       ],
       "connections": [],
       "events": [
+        {
+          "id": "event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:phantom-defeated"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c4afe77b-1bc4-4258-a379-a5b74998ce59"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Boss: Phantom",
+          "kind": "boss",
+          "node_id": "bilewater/exhaust-organ-interior#room"
+        },
         {
           "id": "event:mapper/reviewed:phantom-defeated",
           "label": "Phantom Defeated",
@@ -157363,30 +158616,29 @@
           "id": "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
           "requirement": {
             "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:lost-merchant-accepted",
+                "mapper:attack:left"
+              ],
+              [
+                "event:mapper/reviewed:lost-merchant-accepted",
+                "mapper:attack:right"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review",
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "need to mark the requirments of like starting the wish",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "36657c01-a7ca-49db-b968-25cddb4d03fc"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review",
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Wish: The Lost Merchant",
           "kind": "event",
           "node_id": "memorium/shopkeeper-hides#main-area"
@@ -157444,6 +158696,39 @@
           "label": "Memorium - Shard Bundle",
           "node_id": "memorium/shopkeeper-hides#entrance",
           "canonical_location": "Memorium - Shard Bundle",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "memorium/shopkeeper-hides::mapper-check:36657c01-a7ca-49db-b968-25cddb4d03fc:835777",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:lost-merchant-accepted",
+                "mapper:attack:left"
+              ],
+              [
+                "event:mapper/reviewed:lost-merchant-accepted",
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "need to mark the requirments of like starting the wish",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "36657c01-a7ca-49db-b968-25cddb4d03fc"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Wish: The Lost Merchant",
+          "node_id": "memorium/shopkeeper-hides#main-area",
+          "canonical_location": "Wish: The Lost Merchant",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -176280,26 +177565,26 @@
           "id": "event:mapper/2b3c2d69-7749-429d-b1df-0b1690ec4d40",
           "requirement": {
             "raw": "ACT 3 AND Beat all 3 highscores in the festival minigames",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:Beat all 3 highscores in the festival minigames"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:flea-festival-started",
+                "macro:progressive-swift-step-full",
+                "item:faydown-cloak"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:Beat all 3 highscores in the festival minigames"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "2b3c2d69-7749-429d-b1df-0b1690ec4d40"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:Beat all 3 highscores in the festival minigames"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Wish: Ecstasy of the end",
           "kind": "event",
           "node_id": "putrified-ducts/fleatopia#fleatopia"
@@ -176422,6 +177707,31 @@
               [
                 "state:act-3",
                 "item:needolin"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:flea-festival-started",
+          "label": "Flea Festival Started",
+          "kind": "event",
+          "node_id": "putrified-ducts/fleatopia#fleatopia",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:caravan-reached-fleatopia",
+                "state:act-3",
+                "received:Egg of Flealia"
               ]
             ],
             "annotations": [],

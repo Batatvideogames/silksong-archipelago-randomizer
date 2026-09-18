@@ -1,6 +1,7 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .options import get_silk_and_soul_points
+from .eva import EVA_POINT_SOURCES
 
 import base64
 import gzip
@@ -17,9 +18,8 @@ from BaseClasses import (
 )
 
 from Options import OptionError
-from rule_builder.cached_world import CachedRuleBuilderWorld
 from rule_builder.rules import Has
-from worlds.AutoWorld import WebWorld
+from worlds.AutoWorld import WebWorld, World
 
 from .act1_scope import (
     ACT_ONE_GOAL_KEY,
@@ -104,10 +104,12 @@ from .prices import (
     resolve_purchase_prices,
 )
 from .requirements import (
+    CREST_SLOT_LOCATION_NAMES,
     CRAWFATHER_LOCATION,
     FLEA_HUNT_GOAL_KEY,
     JUDGE_BELL_ITEMS,
     JUNK_ONLY_LOCATIONS,
+    BUGS_OF_PHARLOOM_REWARD_LOCATIONS,
     LOGIC_UNKNOWN_LOCATIONS,
     MAX_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
@@ -115,6 +117,7 @@ from .requirements import (
     OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES,
     POLLIP_HEART_COUNT,
     ROSARY_BANK_GATED_LOCATIONS,
+    ROOM_CHECK_REQUIREMENTS,
     SIMPLE_KEY_GREEN_PRINCE,
     SIMPLE_KEY_ROSARY_BANK,
     THREEFOLD_MELODY_ITEMS,
@@ -131,6 +134,8 @@ from .requirements import (
 from .wish_events import (
     SILK_AND_SOUL_FULL_POINT_EVENTS,
     SILK_AND_SOUL_HALF_POINT_EVENTS,
+    SILK_AND_SOUL_WISH_POINT_ITEM,
+    SILK_AND_SOUL_WISH_HALF_POINT_ITEM,
     WISH_LOGIC_EVENTS,
     WISH_REGION_SOURCE_LOCATIONS,
 )
@@ -142,6 +147,7 @@ from .rules import (
     get_crest_slot_progression_item_count,
     restore_global_shuffle_item_rules,
     set_silksong_rules,
+    uses_crest_slot_locket_logic,
     uses_randomized_memory_lockets_for_crest_slots,
 )
 from .version import WORLD_VERSION
@@ -181,7 +187,7 @@ class SilksongWebWorld(WebWorld):
     ]
 
 
-class SilksongWorld(CachedRuleBuilderWorld):
+class SilksongWorld(World):
     """Hollow Knight: Silksong item randomizer support for the uploaded BepInEx client."""
 
     game = "Hollow Knight: Silksong"
@@ -215,13 +221,25 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def interpret_slot_data(self, slot_data):
         from .rules import apply_crest_slot_memory_locket_rules
 
-        for category in ("CrestSlot", "MemoryLocket", "Eva"):
+        for category in ("CrestSlot", "MemoryLocket", "Eva", "Soul", "OldHeart", "TwistedBud"):
             key = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
             if key in slot_data and slot_data[key] != self.get_category_mode(category):
                 raise ValueError(f"Tracker YAML {key} must match this slot.")
         if slot_data.get("silk_and_soul_points", 17) != get_silk_and_soul_points(self.options):
             raise ValueError("Tracker YAML silk_and_soul_points must match this slot.")
-        if not uses_randomized_memory_lockets_for_crest_slots(self):
+        starting_crest = slot_data.get("starting_crest", self.resolve_starting_crest())
+        if starting_crest not in STARTING_CREST_ITEM_BY_KEY:
+            raise ValueError("Invalid starting crest in slot data.")
+        prices = slot_data.get("purchase_prices", self.get_purchase_prices())
+        if prices != self.get_purchase_prices() or starting_crest != self.resolve_starting_crest():
+            return {
+                "starting_crest": starting_crest,
+                "purchase_prices": dict(prices),
+                "crest_slot_memory_locket_count": slot_data.get(
+                    "crest_slot_memory_locket_count"
+                ),
+            }
+        if not uses_crest_slot_locket_logic(self):
             return
 
         count = slot_data.get("crest_slot_memory_locket_count")
@@ -326,10 +344,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_act_two_excluded_location_names(self) -> frozenset[str]:
         if not self.is_act_two_content_scope():
             return frozenset()
-        return get_act_two_excluded_location_names(
+        excluded = get_act_two_excluded_location_names(
             STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()],
             self.get_category_mode('Skill'),
         )
+        if self.get_category_mode('Soul') == 'vanilla':
+            return excluded | {'Maiden Soul', 'Hermit Soul', 'Seeker Soul'}
+        return excluded
 
     def get_goal_excluded_location_names(self) -> frozenset[str]:
         goal_key = self.get_goal_key()
@@ -411,10 +432,28 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 randomize_swim=self.is_swim_ability_rando_enabled(),
                 pollip_heart_count=POLLIP_HEART_COUNT if self.get_category_mode('PollipHeart') != 'vanilla' else 0,
             )
-        return LOGIC_UNKNOWN_LOCATIONS | self._mapper_option_quarantines
+        unknown = LOGIC_UNKNOWN_LOCATIONS | self._mapper_option_quarantines
+        if self.is_act_one_content_scope() or self.is_act_two_content_scope():
+            unknown |= BUGS_OF_PHARLOOM_REWARD_LOCATIONS
+        return unknown
 
     def generate_early(self) -> None:
+        from .requirement_rules import build_requirements_rule
+
+        build_requirements_rule.cache_clear()
         self._crest_slot_memory_locket_count = None
+        passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
+        if passthrough is not None:
+            starting_crest = passthrough.get("starting_crest")
+            if starting_crest is not None:
+                if starting_crest not in STARTING_CREST_ITEM_BY_KEY:
+                    raise ValueError("Invalid starting crest in slot data.")
+                self.options.starting_crest.value = self.options.starting_crest.options[starting_crest]
+                self._resolved_starting_crest = None
+            self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
+            self._crest_slot_memory_locket_count = passthrough.get(
+                "crest_slot_memory_locket_count"
+            )
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
@@ -735,6 +774,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
         return modes
 
+    def _minimum_pool_lockets(self) -> int:
+        if not uses_crest_slot_locket_logic(self):
+            return 0
+        excluded = self.get_goal_excluded_location_names()
+        active_count = len(set(CREST_SLOT_LOCATION_NAMES) - excluded)
+        native_count = 0
+        if self.get_category_mode('MemoryLocket') == 'vanilla':
+            native_count = len(
+                set(LOCATION_NAMES_BY_CATEGORY['MemoryLocket'])
+                - excluded - self.get_logic_unknown_locations()
+            )
+        starting_count = sum(
+            item.name == MEMORY_LOCKET_ITEM
+            for item in self.multiworld.precollected_items[self.player]
+        )
+        return max(0, active_count - native_count - starting_count)
+
     def resolve_trap_counts(self) -> dict[str, int]:
         if self._resolved_trap_counts is not None:
             return dict(self._resolved_trap_counts)
@@ -765,9 +821,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            minimum_memory_lockets=self._minimum_pool_lockets(),
         )
         if percentage > 0 and trap_capacity == 0:
-            raise ValueError(
+            raise OptionError(
                 "trap_percentage is above zero, but the configured random "
                 "pool contains no trap-replaceable filler."
             )
@@ -779,7 +836,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         }
         total_weight = sum(weights.values())
         if total_traps > 0 and total_weight == 0:
-            raise ValueError(
+            raise OptionError(
                 "trap_percentage is above zero, but every trap weight is "
                 "zero. Give at least one enabled trap a positive weight."
             )
@@ -845,23 +902,15 @@ class SilksongWorld(CachedRuleBuilderWorld):
             classification = ItemClassification.useful
         if name in OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES:
             crest_slot_mode = self.get_category_mode('CrestSlot')
-            memory_locket_mode = self.get_category_mode('MemoryLocket')
-            if (
-                crest_slot_mode == 'vanilla'
-                or (
-                    crest_slot_mode == 'shuffle'
-                    and memory_locket_mode == 'vanilla'
-                )
-            ):
-                # Received slots are real logic items except when their lane
-                # can only place them behind physical Crest Slot checks whose
-                # vanilla Locket spending AP cannot model.
+            if crest_slot_mode == 'vanilla':
                 classification = ItemClassification.useful
         if (
-            (
-                name in SCROUNGE_RELIC_ITEM_NAMES
-                and self.get_category_mode('Relic') != 'vanilla'
-            )
+            self.get_category_mode('CrestSlot') != 'vanilla'
+            and any(slot == name for _, _, slot in EVA_POINT_SOURCES)
+        ):
+            classification = ItemClassification.progression
+        if (
+            name in SCROUNGE_RELIC_ITEM_NAMES
             or (
                 name in INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES
                 and self.is_individual_relic_turn_ins_enabled()
@@ -870,7 +919,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             classification = ItemClassification.progression
         if (
             name == MEMORY_LOCKET_ITEM
-            and uses_randomized_memory_lockets_for_crest_slots(self)
+            and uses_crest_slot_locket_logic(self)
         ):
             # These consumable logic keys must stay where restrictive fill
             # proved them reachable. Core progression balancing otherwise
@@ -926,15 +975,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 else reward_name
             )
             effective_reward = self.create_item(effective_reward_name)
-            if (
-                location_name in self.get_logic_unknown_locations()
-                and effective_reward.advancement
-            ):
-                # Keep required items off checks with incomplete routes.
-                self.multiworld.push_precollected(effective_reward)
-                effective_reward = self.create_item(
-                    OPTIONAL_START_REPLACEMENT_ITEM
-                )
             self.multiworld.get_location(
                 location_name,
                 self.player,
@@ -1011,17 +1051,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if (
                 location.name
                 in (self.get_logic_unknown_locations() | JUNK_ONLY_LOCATIONS)
-                or (
-                    location_data_table[location.name].category
-                    == 'CrestSlot'
-                    and not uses_randomized_memory_lockets_for_crest_slots(
-                        self
-                    )
-                )
             )
         )
 
-        act_two_balance_precollected_items: list[str] = []
         pool_entries = list(build_item_pool_entries(
             starting_crest_item,
             self.resolve_trap_counts(),
@@ -1056,22 +1088,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             alphabet_item_is_advancement=(
                 lambda item_name: self.create_item(item_name).advancement
             ),
-            act_two_balance_precollected_items=(
-                act_two_balance_precollected_items
-            ),
+            minimum_memory_lockets=self._minimum_pool_lockets(),
         ))
-
-        pool_item_names = {entry.name for entry in pool_entries}
-        for item_name in POOL_ONLY_USEFUL_ITEM_NAMES:
-            if item_name not in pool_item_names:
-                self.multiworld.push_precollected(
-                    self.create_item(item_name)
-                )
-
-        for balance_item_name in act_two_balance_precollected_items:
-            self.multiworld.push_precollected(
-                self.create_item(balance_item_name)
-            )
 
         location_lane_counts = Counter(
             getattr(
@@ -1111,30 +1129,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if shortage <= 0:
                 continue
 
-            advancement_indices = [
-                index
-                for index in matching_indices
-                if self.create_item(pool_entries[index].name).advancement
-            ]
-            if len(advancement_indices) < shortage:
-                raise ValueError(
-                    "Non-advancement placement safety could not replace "
-                    f"{shortage} advancement item(s) in lane "
-                    f"{placement_category!r}."
-                )
-            for index in advancement_indices[:shortage]:
-                displaced_entry = pool_entries[index]
-                self.multiworld.push_precollected(
-                    self.create_item(
-                        displaced_entry.name,
-                        displaced_entry.placement_category,
-                    )
-                )
-                pool_entries[index] = ItemPoolEntry(
-                    OPTIONAL_START_REPLACEMENT_ITEM,
-                    displaced_entry.source_category,
-                    displaced_entry.placement_category,
-                )
+            raise OptionError(
+                f"{placement_category or 'Anywhere'} needs {shortage} more "
+                "non-progression items for checks with incomplete logic. "
+                "Use more anywhere categories or disable the affected checks."
+            )
 
         if len(pool_entries) != original_pool_size:
             raise AssertionError(
@@ -1162,42 +1161,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     f"non-advancement items in lane {placement_category!r}."
                 )
 
-        accessibility = getattr(self.options, 'accessibility', None)
-        if (
-            uses_randomized_memory_lockets_for_crest_slots(self)
-            and getattr(accessibility, 'value', accessibility)
-            == getattr(accessibility, 'option_full', 0)
-        ):
-            precollected_items = getattr(
-                self.multiworld,
-                'precollected_items',
-                (),
-            )
-            if isinstance(precollected_items, dict):
-                player_precollected_items = precollected_items.get(
-                    self.player,
-                    (),
-                )
-            else:
-                player_precollected_items = precollected_items
-            available_locket_count = sum(
-                entry.name == MEMORY_LOCKET_ITEM
-                for entry in pool_entries
-            ) + sum(
-                item.name == MEMORY_LOCKET_ITEM
-                and getattr(item, 'player', self.player) == self.player
-                for item in player_precollected_items
-            )
-            active_slot_count = len(
-                get_active_crest_slot_locations(self)
-            )
-            for _copy_index in range(
-                max(0, active_slot_count - available_locket_count)
-            ):
-                self.multiworld.push_precollected(
-                    self.create_item(MEMORY_LOCKET_ITEM)
-                )
-
         pool_entries = tuple(pool_entries)
 
         self.multiworld.itempool.extend(
@@ -1207,6 +1170,18 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def pre_fill(self) -> None:
         state = self.multiworld.get_all_state()
+        if self.get_goal_key() == "act_3":
+            available = (
+                state.count(SILK_AND_SOUL_WISH_POINT_ITEM, self.player)
+                + state.count(SILK_AND_SOUL_WISH_HALF_POINT_ITEM, self.player) // 2
+            )
+            required = get_silk_and_soul_points(self.options)
+            if available < required:
+                raise ValueError(
+                    f"Silk and Soul requires {required} points, but verified wish logic "
+                    f"supports only {available} with these settings. "
+                    "Unresolved wishes cannot contribute progression points."
+                )
         for name in tuple(self._silksong_active_wish_logic_events):
             location = self.multiworld.get_location(name, self.player)
             if not location.can_reach(state):
@@ -1387,16 +1362,14 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._silksong_wish_logic_event_anchors = {}
         excluded_location_names = self.get_goal_excluded_location_names()
         for event in WISH_LOGIC_EVENTS:
-            if event.location_name.startswith('Journal Logic: ') and (
-                self.is_act_one_content_scope() or self.is_act_two_content_scope()
-            ):
-                continue
             if event.location_name.startswith('Eva Logic: ') and (
                 self.is_act_one_content_scope() or self.get_category_mode('CrestSlot') == 'vanilla'
             ):
                 continue
             if (
-                (self.is_act_one_content_scope() or self.is_act_two_content_scope())
+                (self.is_act_one_content_scope() or (
+                    self.is_act_two_content_scope() and self.get_category_mode('Soul') == 'vanilla'
+                ))
                 and event in (
                     *SILK_AND_SOUL_FULL_POINT_EVENTS,
                     *SILK_AND_SOUL_HALF_POINT_EVENTS,
@@ -1417,7 +1390,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 source_name = canonicalize_location_name(
                     event.source_location
                 )
-                if source_name in excluded_location_names:
+                if (
+                    source_name in excluded_location_names
+                    or source_name in self.get_logic_unknown_locations()
+                    or (MAPPER_GRAPH_ENABLED and not ROOM_CHECK_REQUIREMENTS.get(source_name))
+                ):
                     continue
                 if (
                     source_name == VOLATILE_FLINTBEETLES_QUEST_LOCATION
@@ -1470,6 +1447,19 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self._silksong_wish_logic_event_anchors[
                 event.location_name
             ] = anchor
+
+    def write_spoiler(self, spoiler_handle) -> None:
+        hidden = {
+            str(location) for location in self.get_locations()
+            if not location.show_in_spoiler
+        }
+        spoiler = self.multiworld.spoiler
+        for sphere in spoiler.playthrough.values():
+            if isinstance(sphere, dict):
+                for name in hidden:
+                    sphere.pop(name, None)
+        for name in hidden:
+            spoiler.paths.pop(name, None)
 
     def set_rules(self) -> None:
         set_silksong_rules(self)
@@ -1550,6 +1540,40 @@ class SilksongWorld(CachedRuleBuilderWorld):
             enforce_global_shuffle_item_rules(multiworld)
         )
 
+    def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
+        if not uses_crest_slot_locket_logic(self):
+            return
+        if self.options.accessibility == "minimal":
+            from rule_builder.rules import Has
+
+            available_items = {
+                id(item): item
+                for item in (
+                    *self.multiworld.get_items(),
+                    *self.multiworld.precollected_items[self.player],
+                )
+                if item.player == self.player and item.name == MEMORY_LOCKET_ITEM
+            }
+            budget = min(
+                len(get_active_crest_slot_locations(self)),
+                len(available_items),
+            )
+            self.set_completion_rule(
+                Has("Victory") & Has(MEMORY_LOCKET_ITEM, budget)
+            )
+            self._crest_slot_fill_completion_guard = True
+        indices = [
+            index for index, item in enumerate(progitempool)
+            if item.player == self.player
+        ]
+        # Restrictive fill places from the end. Place Lockets before movement.
+        ordered = sorted(
+            (progitempool[index] for index in indices),
+            key=lambda item: item.name == MEMORY_LOCKET_ITEM,
+        )
+        for index, item in zip(indices, ordered):
+            progitempool[index] = item
+
     @staticmethod
     def _build_crest_slotless_state(multiworld, excluded_slots):
         state = CollectionState(multiworld)
@@ -1617,6 +1641,15 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
             from Fill import swap_location_item, sweep_from_pool
 
+            pending_locations = {
+                location
+                for location in non_slot_locations
+                if (
+                    location.advancement
+                    and location not in slotless_state.advancements
+                )
+            }
+            candidate_locations = {}
             improved_state = None
             fallback_swap = None
             fallback_state = None
@@ -1642,9 +1675,18 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         slot_item.player,
                     )
                     swap_location_item(slot_location, replacement_location)
+                    if replacement_location not in candidate_locations:
+                        candidate_locations[replacement_location] = tuple(
+                            location
+                            for location in non_slot_locations
+                            if (
+                                location in pending_locations
+                                or location is replacement_location
+                            )
+                        )
                     candidate_state = sweep_from_pool(
                         slotless_state,
-                        locations=non_slot_locations,
+                        locations=candidate_locations[replacement_location],
                     )
                     candidate_count = candidate_state.count(
                         MEMORY_LOCKET_ITEM,
@@ -1684,13 +1726,20 @@ class SilksongWorld(CachedRuleBuilderWorld):
             for player in multiworld.player_ids
             if (
                 multiworld.worlds[player].game == cls.game
-                and uses_randomized_memory_lockets_for_crest_slots(
+                and uses_crest_slot_locket_logic(
                     multiworld.worlds[player]
                 )
             )
         ]
         if not combined_worlds:
             return
+
+        for world in combined_worlds:
+            if getattr(world, "_crest_slot_fill_completion_guard", False):
+                world.set_completion_rule(
+                    world._silksong_rule_builder_rules["Completion"]
+                )
+                world._crest_slot_fill_completion_guard = False
 
         excluded_slots = set()
         for world in combined_worlds:
@@ -1729,16 +1778,16 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 MEMORY_LOCKET_ITEM,
                 world.player,
             )
-            # Minimal may leave optional Crest Slots beyond the goal. That is
-            # fine when they hold no progression because AP cannot count native
-            # Lockets outside the room. Fail if progression would be trapped.
-            if progression_count and reachable_count < required_count:
+            require_all_slots = (
+                world.options.accessibility.value
+                != world.options.accessibility.option_minimal
+            )
+            if (progression_count or require_all_slots) and reachable_count < required_count:
                 from Fill import FillError
 
                 raise FillError(
                     f"{multiworld.player_name[world.player]}'s Crest Slot "
-                    f"checks contain {progression_count} progression "
-                    "rewards, but only "
+                    "checks require more Lockets. Only "
                     f"{reachable_count} of the required {required_count} "
                     "Memory Lockets are reachable without Crest Slot "
                     "rewards. Check forced placements, exclusions and "
@@ -1780,7 +1829,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.allows_bellways_before_bell_beast(),
             (
                 get_crest_slot_memory_locket_count(self)
-                if uses_randomized_memory_lockets_for_crest_slots(self)
+                if uses_crest_slot_locket_logic(self)
                 else 0
             ),
             (
@@ -1828,7 +1877,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "alphabet_mode": self.is_alphabet_mode_enabled(),
             "crest_slot_memory_locket_count": (
                 get_crest_slot_memory_locket_count(self)
-                if uses_randomized_memory_lockets_for_crest_slots(self)
+                if uses_crest_slot_locket_logic(self)
                 else 0
             ),
             "crest_slot_item_flags": {

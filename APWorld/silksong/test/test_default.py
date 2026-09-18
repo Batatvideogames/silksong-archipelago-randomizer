@@ -854,7 +854,7 @@ class TestShufflePerformance(TestCase):
             "bellway_randomization": "shuffle",
             "ventrica_randomization": "shuffle",
             "map_randomization": "shuffle",
-            "relic_randomization": "shuffle",
+            "relic_randomization": "anywhere",
         }
         baseline_skill_layouts = {}
         original_accessibility_check = category_fill._shuffle_is_accessible

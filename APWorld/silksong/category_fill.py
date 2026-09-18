@@ -75,22 +75,6 @@ def _match_items_to_locations(
             candidates.remove(preferred_index)
             candidates.insert(0, preferred_index)
         if not candidates:
-            if category == "Relic":
-                detail = (
-                    "Jubilana is progression-restricted, so it needs an "
-                    "available non-progression Relic that is also legal "
-                    "under exclusion, locality and prior plando rules. "
-                    if location.name
-                    == "Relic: Choral Commandment (Jubilana)"
-                    else ""
-                )
-                raise ValueError(
-                    f"Relic shuffle has no legal reward for "
-                    f"{location.name!r}. {detail}Exact Relic shuffle cannot "
-                    "bypass these constraints. Remove the conflicting "
-                    "exclude_locations, locality or plando setting or use "
-                    "relic_randomization: anywhere."
-                )
             raise ValueError(
                 f"{category} shuffle has no legal reward for "
                 f"{location.name!r}. Check excluded/local item settings."

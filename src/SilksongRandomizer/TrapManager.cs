@@ -16,7 +16,7 @@ namespace SilksongRandomizer
     {
         internal const int RosarySpillAmount = 60;
         internal const float DarknessDurationSeconds = 20f;
-        internal const float CursedCrestDurationSeconds = 120f;
+        internal const float CursedCrestDurationSeconds = 90f;
 
         // Level 2 is the game's full native darkness vignette. Level 0 is
         // ordinary lighting and level 1 is the lighter darkness variant.

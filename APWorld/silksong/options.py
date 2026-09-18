@@ -89,6 +89,27 @@ class EvaRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
+class SoulRandomization(GlobalRandomization):
+    """Randomizes Maiden Soul, Hermit Soul and Seeker Soul for Act 2, Cursed and Act 3 goals."""
+
+    display_name = "Soul Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
+class OldHeartRandomization(GlobalRandomization):
+    """Randomizes Pollen Heart, Hunter's Heart and Encrusted Heart for the Act 3 goal. Conjoined Heart stays vanilla."""
+
+    display_name = "Old Heart Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
+class TwistedBudRandomization(GlobalRandomization):
+    """Randomizes Twisted Bud."""
+
+    display_name = "Twisted Bud Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class FleaRandomization(CategoryRandomization):
     """Randomizes the 30 Fleas in the game, including Kratt, Vog and the Huge Flea.
 
@@ -106,6 +127,9 @@ class CrestSlotRandomization(CategoryRandomization):
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
     shuffle: mixes them up between one another
+
+    If needed, filler rewards become extra Memory Lockets so every randomized
+    slot has enough Lockets available. Native pickups stay unchanged.
     """
 
     display_name = "Crest Slot Randomization"
@@ -196,12 +220,11 @@ class PinRandomization(CategoryRandomization):
     display_name = "Pin Randomization"
 
 
-class RelicRandomization(CategoryRandomization):
+class RelicRandomization(GlobalRandomization):
     """Randomizes the 21 Relics in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Relic Randomization"
@@ -227,16 +250,15 @@ class ToolPouchRandomization(GlobalRandomization):
     display_name = "Tool Pouch Randomization"
 
 
-class LoreTabletRandomization(CategoryRandomization):
+class LoreTabletRandomization(GlobalRandomization):
     """Randomizes the 38 Lore Tablets in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Lore Tablet Randomization"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class RepeatedCollectibleRandomization(GlobalRandomization):
@@ -331,10 +353,10 @@ class MinorFamilyRandomization(RepeatedCollectibleRandomization):
     """Choose how this minor pickup family participates in the seed."""
 
 
-class MinorCacheRandomization(CategoryRandomization):
+class MinorCacheRandomization(GlobalRandomization):
     """Choose how a cache family with varied amounts joins the seed."""
 
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class FrayedRosaryStringRandomization(MinorFamilyRandomization):
@@ -424,7 +446,6 @@ class RosaryCacheRandomization(MinorCacheRandomization):
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Rosary Cache Randomization"
@@ -437,7 +458,6 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Shell Shard Cache Randomization"
@@ -476,6 +496,9 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Spell": "silk_skill_randomization",
     "Crest": "crest_randomization",
     "Eva": "eva_randomization",
+    "Soul": "soul_randomization",
+    "OldHeart": "old_heart_randomization",
+    "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
     "MaskShard": "mask_shard_randomization",
@@ -548,7 +571,7 @@ def get_minor_family_mode_key(options, family_key: str) -> str:
     ):
         raise ValueError(f"{option_name} does not support shuffle.")
     key = option.current_key
-    if key not in {"vanilla", "shuffle", "anywhere"}:
+    if key not in {"vanilla", "anywhere"}:
         raise ValueError(
             f"Unknown {option_name} mode: {key!r}"
         )
@@ -580,11 +603,7 @@ def get_minor_family_shuffle_placement_category(
 
 def get_aggregate_minor_mode_key(options) -> str:
     modes = tuple(get_minor_family_modes(options).values())
-    if all(mode == "vanilla" for mode in modes):
-        return "vanilla"
-    if any(mode == "anywhere" for mode in modes):
-        return "anywhere"
-    return "shuffle"
+    return "anywhere" if "anywhere" in modes else "vanilla"
 
 
 class SilksongAccessibility(Accessibility):
@@ -1041,7 +1060,7 @@ class DarknessTrapWeight(TrapWeight):
 class CursedCrestTrapWeight(TrapWeight):
     """Relative frequency of Cursed Crest Traps, zero disables them.
 
-    Hornet is inflicted with the Cursed Crest for 2 minutes, as if she had done
+    Hornet is inflicted with the Cursed Crest for 90 seconds, as if she had done
     the Rite of Rebirth quest with Greyroot.
     """
 
@@ -1059,9 +1078,9 @@ class MuckmaggotStatusTrapWeight(TrapWeight):
 
 
 class NakedTrapWeight(TrapWeight):
-    """Relative frequency of two-minute Naked Traps, zero disables them.
+    """Relative frequency of 90-second Naked Traps, zero disables them.
 
-    Hornet is left naked as if she were in the Slab escape sequence for 2 minutes.
+    Hornet is left naked as if she were in the Slab escape sequence for 90 seconds.
     """
 
     display_name = "Naked Trap Weight"
@@ -1070,11 +1089,12 @@ class NakedTrapWeight(TrapWeight):
 class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
     keep the vanilla 17-point requirement. Mandatory wishes and story
-    requirements remain unchanged. Values above 25 are treated as 25.
+    requirements remain unchanged. Nuu's wish does not count in logic.
+    Values above 24 are treated as 24.
     """
     display_name = "Silk and Soul Points"
     range_start = 0
-    range_end = 25
+    range_end = 24
     default = 17
 
     def __init__(self, value: int):
@@ -1084,7 +1104,7 @@ class SilkAndSoulPoints(Range):
 def get_silk_and_soul_points(options) -> int:
     if getattr(getattr(options, 'goal', None), 'current_key', None) != 'act_3':
         return 17
-    return max(0, min(25, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
+    return max(0, min(24, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
 
 
 @dataclass
@@ -1129,6 +1149,9 @@ class SilksongOptions(PerGameCommonOptions):
     silk_skill_randomization: SilkSkillRandomization
     crest_randomization: CrestRandomization
     eva_randomization: EvaRandomization
+    soul_randomization: SoulRandomization
+    old_heart_randomization: OldHeartRandomization
+    twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
     mask_shard_randomization: MaskShardRandomization

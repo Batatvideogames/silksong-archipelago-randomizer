@@ -91,6 +91,18 @@ namespace SilksongRandomizer.Patches
             new JudgeBell("bellShrineBellhart", "Bell: Bellhart"),
         };
 
+        private static readonly (string SceneName, string ObjectName, int BellIndex)[] ShrineDoors =
+        {
+            ("Bellshrine", "bellshrine_gate_curved", 0),
+            ("Bone_03", "Bellshrine gate", 0),
+            ("Bellshrine_05", "bellshrine_gate_curved", 1),
+            ("Bone_East_02", "Bellshrine gate", 1),
+            ("Bellshrine_02", "bellshrine_gate_curved", 2),
+            ("Greymoor_01", "Bellshrine gate", 2),
+            ("Bellshrine_03", "bellshrine_gate_curved (1)", 3),
+            ("Shellwood_19", "Bellshrine gate (1)", 3),
+        };
+
         private static readonly FieldInfo IsCompleteBoolField =
             AccessTools.Field(typeof(StateChangeSequence), "isCompleteBool");
 
@@ -342,17 +354,52 @@ namespace SilksongRandomizer.Patches
             [HarmonyPrefix]
             private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
             {
+                EnsureExitWatcher(__instance);
                 if (!TryGetRandomizedExit(__instance, out _))
                 {
                     return true;
                 }
 
-                if (__instance.GetComponent<BellShrineExitWatcher>() == null)
-                {
-                    __instance.gameObject.AddComponent<BellShrineExitWatcher>();
-                }
                 RefreshExit(__instance);
                 return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(Gate), "Start")]
+        private static class ShrineExitStartPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(Gate __instance)
+            {
+                var activation = __instance.GetComponent<DeactivateIfPlayerdataTrue>();
+                EnsureExitWatcher(activation);
+                RefreshExit(activation);
+            }
+        }
+
+        private static void EnsureExitWatcher(DeactivateIfPlayerdataTrue activation)
+        {
+            if (TryGetExit(activation, out _) &&
+                activation.GetComponent<BellShrineExitWatcher>() == null)
+            {
+                activation.gameObject.AddComponent<BellShrineExitWatcher>();
+            }
+        }
+
+        internal static void RefreshLoadedExits()
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null || !state.IsRandomized(ItemType.BellShrine))
+            {
+                return;
+            }
+
+            foreach (var activation in UnityEngine.Object.FindObjectsByType<DeactivateIfPlayerdataTrue>(
+                UnityEngine.FindObjectsInactive.Include,
+                UnityEngine.FindObjectsSortMode.None))
+            {
+                EnsureExitWatcher(activation);
+                RefreshExit(activation);
             }
         }
 
@@ -398,25 +445,30 @@ namespace SilksongRandomizer.Patches
         {
             bell = null;
             SaveState state = SaveState.Instance;
-            if (activation == null || state == null ||
-                !state.IsRandomized(ItemType.BellShrine) ||
+            return state != null && state.IsRandomized(ItemType.BellShrine) &&
+                   TryGetExit(activation, out bell);
+        }
+
+        private static bool TryGetExit(
+            DeactivateIfPlayerdataTrue activation,
+            out JudgeBell bell)
+        {
+            bell = null;
+            if (activation == null ||
                 activation.objectToDeactivate != null ||
                 activation.GetComponent<Gate>() == null)
             {
                 return false;
             }
 
-            for (int index = 0; index < 4; index++)
+            foreach (var door in ShrineDoors)
             {
-                Entry entry = Entries[index];
-                string gateName = entry.SceneName == "Bellshrine_03"
-                    ? "bellshrine_gate_curved (1)"
-                    : "bellshrine_gate_curved";
-                if (activation.gameObject.scene.name == entry.SceneName &&
-                    activation.name == gateName &&
-                    activation.boolName == entry.PlayerDataFlag)
+                JudgeBell candidate = JudgeBells[door.BellIndex];
+                if (activation.gameObject.scene.name == door.SceneName &&
+                    activation.name == door.ObjectName &&
+                    activation.boolName == candidate.PlayerDataFlag)
                 {
-                    bell = JudgeBells[index];
+                    bell = candidate;
                     return true;
                 }
             }

@@ -135,6 +135,7 @@ namespace SilksongRandomizer.Patches
         private static bool loggedPanBoundsFailure;
         private static bool loggedBuildSummary;
         private static bool markerStatesDirty;
+        private static bool markerBuildDirty;
         private static int lastMarkerStateRefreshFrame = -1;
         private static int lastTooltipHitTestFrame = -1;
         private static bool tooltipInputArmed;
@@ -164,12 +165,9 @@ namespace SilksongRandomizer.Patches
                 currentMap = map;
             }
 
-            // Reconcile on every refresh. The map can be constructed before
-            // the AP room's active location set reaches the save state and a
-            // canonical check can have multiple legitimate physical sources.
-            BuildMarkers(map, state);
-
-            RefreshMarkerStates(map, state);
+            markerBuildDirty = true;
+            markerStatesDirty = true;
+            ProcessPendingMarkerStateRefresh(map);
         }
 
         private static void RefreshMarkerStates(
@@ -319,6 +317,11 @@ namespace SilksongRandomizer.Patches
             SaveState state = SaveState.Instance;
             if (state != null)
             {
+                if (markerBuildDirty)
+                {
+                    BuildMarkers(map, state);
+                    markerBuildDirty = false;
+                }
                 RefreshMarkerStates(map, state);
             }
         }
@@ -411,6 +414,7 @@ namespace SilksongRandomizer.Patches
             loggedPanBoundsFailure = false;
             loggedBuildSummary = false;
             markerStatesDirty = false;
+            markerBuildDirty = false;
             lastMarkerStateRefreshFrame = -1;
             lastTooltipHitTestFrame = -1;
             tooltipInputArmed = false;
@@ -1408,8 +1412,8 @@ namespace SilksongRandomizer.Patches
                 tooltipInputArmed = false;
                 tooltipMouseOrigin = Input.mousePosition;
             }
-            if (!TryArmTooltip(map) ||
-                !TryGetTooltipPointer(map, mapCamera, out Vector2 pointer))
+            if (!TryGetTooltipPointer(map, mapCamera, out Vector2 pointer) ||
+                !mapCamera.pixelRect.Contains(pointer))
             {
                 return;
             }
@@ -1422,6 +1426,11 @@ namespace SilksongRandomizer.Patches
                 return;
             }
             lastTooltipHitTestFrame = Time.frameCount;
+            DrawMapCrosshair(pointer);
+            if (!TryArmTooltip(map))
+            {
+                return;
+            }
 
             MarkerRecord closest = null;
             float closestDistanceSquared = 34f * 34f;
@@ -1580,11 +1589,35 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static void DrawMapCrosshair(Vector2 pointer)
+        {
+            float x = Mathf.Round(pointer.x);
+            float y = Mathf.Round(Screen.height - pointer.y);
+            Color previousColor = GUI.color;
+            try
+            {
+                GUI.color = Color.black;
+                GUI.DrawTexture(new Rect(x - 12f, y - 2f, 9f, 4f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x + 3f, y - 2f, 9f, 4f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x - 2f, y - 12f, 4f, 9f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x - 2f, y + 3f, 4f, 9f), Texture2D.whiteTexture);
+                GUI.color = Color.white;
+                GUI.DrawTexture(new Rect(x - 11f, y - 1f, 7f, 2f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x + 4f, y - 1f, 7f, 2f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x - 1f, y - 11f, 2f, 7f), Texture2D.whiteTexture);
+                GUI.DrawTexture(new Rect(x - 1f, y + 4f, 2f, 7f), Texture2D.whiteTexture);
+            }
+            finally
+            {
+                GUI.color = previousColor;
+            }
+        }
+
         private static Camera GetMapCamera(GameMap map)
         {
             InventoryMapManager mapManager =
                 MapManagerField?.GetValue(map) as InventoryMapManager;
-            if (mapManager == null)
+            if (mapManager == null || !mapManager.isActiveAndEnabled)
             {
                 return null;
             }

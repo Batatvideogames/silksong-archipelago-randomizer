@@ -65,6 +65,10 @@ def _is_not_rosary_bank_key(item: Item) -> bool:
     return item.name != SIMPLE_KEY_ROSARY_BANK
 
 
+def uses_crest_slot_locket_logic(world) -> bool:
+    return world.get_category_mode('CrestSlot') != 'vanilla'
+
+
 def uses_randomized_memory_lockets_for_crest_slots(world) -> bool:
     memory_locket_mode = world.get_category_mode('MemoryLocket')
     crest_slot_mode = world.get_category_mode('CrestSlot')
@@ -137,7 +141,7 @@ def get_crest_slot_memory_locket_count(world) -> int:
 
 
 def finalize_crest_slot_memory_locket_logic(world) -> None:
-    if not uses_randomized_memory_lockets_for_crest_slots(world):
+    if not uses_crest_slot_locket_logic(world):
         world._crest_slot_memory_locket_count = None
         return
 
@@ -167,7 +171,6 @@ def apply_crest_slot_memory_locket_rules(world) -> None:
         rule = base_rule & Has(MEMORY_LOCKET_ITEM, count)
         world._silksong_rule_builder_rules[name] = rule
         world.set_rule(world.multiworld.get_location(name, world.player), rule)
-    world.register_rule_builder_dependencies()
 
 
 def _is_matching_shuffle_item(category: str, player: int):
@@ -250,6 +253,7 @@ def set_silksong_rules(world) -> None:
         location_data_table.keys() | COURIER_DELIVERY_WISH_LOCATION_NAMES,
         item_data_table.keys(),
         PROGRESSION_ITEMS,
+        check_vanilla_self_locks=False,
     )
     logic_unknown_locations = getattr(world, 'get_logic_unknown_locations', lambda: LOGIC_UNKNOWN_LOCATIONS)()
     split_dash_and_sprint = world.is_split_dash_and_sprint()
@@ -279,10 +283,7 @@ def set_silksong_rules(world) -> None:
         if pollip_heart_mode != 'vanilla'
         else 0
     )
-    randomized_memory_lockets_for_crest_slots = (
-        memory_locket_mode != 'vanilla'
-        and crest_slot_mode != 'vanilla'
-    )
+    crest_slot_locket_logic = uses_crest_slot_locket_logic(world)
     randomized_crest_slots_enabled = crest_slot_mode != 'vanilla'
     starting_location = world.get_starting_location_key()
     trails_end_requirement = world.get_trails_end_requirement_key()
@@ -502,12 +503,14 @@ def set_silksong_rules(world) -> None:
             location_rule = True_()
 
         if (
-            randomized_memory_lockets_for_crest_slots
+            crest_slot_locket_logic
             and location_name in CREST_SLOT_LOCATION_NAMES
             and location_name not in logic_unknown_locations
         ):
             world._crest_slot_base_rules[location_name] = location_rule
             count = world._crest_slot_memory_locket_count
+            if count is None and world.options.accessibility != "minimal":
+                count = get_crest_slot_memory_locket_count(world)
             location_rule = location_rule & (
                 CrestSlotMemoryLocketRule() if count is None
                 else Has(MEMORY_LOCKET_ITEM, count)
@@ -547,16 +550,8 @@ def set_silksong_rules(world) -> None:
             or location_name in JUNK_ONLY_LOCATIONS
         ):
             add_item_rule(location, _is_not_progression_item)
-        # Randomized Lockets cannot sit behind their all-20 Crest Slot cost.
-        # With vanilla Lockets their count is not represented, so the
-        # conservative non-progression restriction remains.
         elif location_name in CREST_SLOT_LOCATION_NAMES:
-            add_item_rule(
-                location,
-                _is_not_memory_locket
-                if randomized_memory_lockets_for_crest_slots
-                else _is_not_progression_item,
-            )
+            add_item_rule(location, _is_not_memory_locket)
         elif location_name in UNVERIFIED_PROGRESSION_LOCATIONS:
             add_item_rule(location, _is_not_progression_item)
 

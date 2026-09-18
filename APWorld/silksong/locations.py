@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
@@ -785,7 +785,7 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
     'Fine Pins': 'Wish: Fine Pins',
     'Garmond Black Threaded': "Wish: Hero's Call",
     'Song Knight': 'Wish: Last Audience',
-    'Tormented Trobbio': 'Wish: Torment, Anguish and Misery',
+    'Tormented Trobbio': 'Wish: Pain, Anguish and Misery',
     'Pinstress Battle': 'Wish: Fatal Resolve',
     'Great Gourmand': 'Wish: Great Taste of Pharloom',
     'Journal': 'Wish: Bugs of Pharloom',
@@ -1030,9 +1030,17 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Boss: Lost Garmond', 'Boss'),
     ('Boss: Pinstress', 'Boss'),
     ('Wish: Last Audience', 'Quest'),
-    ('Wish: Torment, Anguish and Misery', 'Quest'),
+    ('Wish: Pain, Anguish and Misery', 'Quest'),
     ('Wish: Fatal Resolve', 'Quest'),
-) + tuple((name, category) for name, (_, category, _) in EVA_REWARDS.items())
+) + tuple((name, category) for name, (_, category, _) in EVA_REWARDS.items()) + (
+    ('Maiden Soul', 'Soul'),
+    ('Hermit Soul', 'Soul'),
+    ('Seeker Soul', 'Soul'),
+    ('Pollen Heart', 'OldHeart'),
+    ("Hunter's Heart", 'OldHeart'),
+    ('Encrusted Heart', 'OldHeart'),
+    ('Twisted Bud', 'TwistedBud'),
+)
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(location_name), category)
@@ -1049,7 +1057,7 @@ QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
 ) + (
     'Wish: Last Audience',
-    'Wish: Torment, Anguish and Misery',
+    'Wish: Pain, Anguish and Misery',
     'Wish: Fatal Resolve',
 )
 
@@ -1074,6 +1082,9 @@ location_data_table: Dict[str, SilksongLocationData] = {
 }
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
+    'Soul',
+    'OldHeart',
+    'TwistedBud',
     'Eva',
     'Skill',
     'Tool',

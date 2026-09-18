@@ -1,6 +1,7 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import dataclasses
+from functools import lru_cache
 from typing import TYPE_CHECKING, Iterable
 
 from BaseClasses import CollectionState, Item
@@ -674,6 +675,7 @@ def _compile_requirement(
     return _and_rules(rules)
 
 
+@lru_cache(maxsize=8192)
 def build_requirements_rule(
     requirements: tuple[LocationRequirement, ...],
     *,

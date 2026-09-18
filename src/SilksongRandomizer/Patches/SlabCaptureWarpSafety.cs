@@ -16,8 +16,38 @@ namespace SilksongRandomizer.Patches
 
         private static bool benchRestoreFailureReported;
 
+        private static void RecordArrival()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            GameManager gameManager = GameManager.SilentInstance;
+            if (state == null || playerData == null || gameManager == null ||
+                gameManager.GameState != GlobalEnums.GameState.PLAYING ||
+                !gameManager.IsGameplayScene())
+            {
+                return;
+            }
+
+            string scene = gameManager.GetSceneNameString();
+            if (scene == SlabCaptureRespawnScene &&
+                playerData.respawnScene == SlabCaptureRespawnScene &&
+                playerData.respawnMarkerName == "Cage Broken Respawn Marker")
+            {
+                state.slabCaptureReturnUnlocked = true;
+            }
+
+            HeroController hero = HeroController.instance;
+            if (scene == "Slab_01" && hero != null &&
+                hero.GetEntryGateName() == "right1" &&
+                !gameManager.IsInSceneTransition && hero.CanInput())
+            {
+                state.slabChoralApproachVisited = true;
+            }
+        }
+
         internal static void Update()
         {
+            RecordArrival();
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || !playerData.atBench)
             {
@@ -55,6 +85,7 @@ namespace SilksongRandomizer.Patches
 
         internal static void PrepareForSave()
         {
+            RecordArrival();
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || !playerData.atBench)
             {
@@ -83,6 +114,7 @@ namespace SilksongRandomizer.Patches
         internal static bool TryRestoreBeforeRecoveryWarp(
             out string error)
         {
+            RecordArrival();
             error = string.Empty;
 
             // A Naked Trap received while the native Slab capture owns

@@ -95,6 +95,10 @@ namespace SilksongRandomizer.Patches
 
         internal static void Refresh(GameMap map)
         {
+            if (map != currentMap)
+            {
+                ReportedErrors.Clear();
+            }
             Clear();
             currentMap = map;
             SaveState state = SaveState.Instance;
@@ -135,7 +139,8 @@ namespace SilksongRandomizer.Patches
                 Sprite nativeSprite = nativeRenderer.sprite;
                 GameObject replacement = null;
                 string locationName = string.Empty;
-                if (state.TryGetRandomizedItemMarkerLocation(
+                if (TryGetPhysicalMarkerLocation(
+                        state,
                         definition.ItemName,
                         out locationName) &&
                     CheckMapMarkerManager.TryGetProjectedWorldPosition(
@@ -154,7 +159,7 @@ namespace SilksongRandomizer.Patches
                 {
                     ReportError(
                         definition.ItemName,
-                        "Its randomized check has no map position."
+                        "No map position for randomized check: " + locationName
                     );
                 }
 
@@ -217,7 +222,8 @@ namespace SilksongRandomizer.Patches
                 Sprite nativeSprite = nativeRenderer.sprite;
                 GameObject replacement = null;
                 string locationName = string.Empty;
-                if (state.TryGetRandomizedItemMarkerLocation(
+                if (TryGetPhysicalMarkerLocation(
+                        state,
                         definition.ItemName,
                         out locationName) &&
                     CheckMapMarkerManager
@@ -243,7 +249,7 @@ namespace SilksongRandomizer.Patches
                 {
                     ReportError(
                         definition.ItemName,
-                        "Its randomized check has no wide map position."
+                        "No wide map position for randomized check: " + locationName
                     );
                 }
 
@@ -281,8 +287,8 @@ namespace SilksongRandomizer.Patches
             if (map != null)
             {
                 ClearWide();
+                ReportedErrors.Clear();
             }
-            ReportedErrors.Clear();
         }
 
         private static void ClearWide(InventoryWideMap wideMap = null)
@@ -296,6 +302,27 @@ namespace SilksongRandomizer.Patches
 
             ClearRecords(WideRecords);
             currentWideMap = null;
+        }
+
+        internal static bool TryGetPhysicalMarkerLocation(
+            SaveState state,
+            string itemName,
+            out string locationName)
+        {
+            if (!state.TryGetRandomizedItemMarkerLocation(itemName, out locationName))
+            {
+                return false;
+            }
+
+            string canonicalName = LocationSet.GetCanonicalLocationName(locationName);
+            if (state.locations.Locations.Any(location =>
+                location.Type == ItemType.CrestSlot &&
+                string.Equals(location.Name, canonicalName, StringComparison.OrdinalIgnoreCase)))
+            {
+                locationName = string.Empty;
+                return false;
+            }
+            return true;
         }
 
         private static bool IsEnabled(

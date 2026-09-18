@@ -818,6 +818,7 @@ namespace SilksongRandomizer
         {
             PlayerData playerData = RequirePlayerData();
             playerData.HasSeenMapMarkerUpdated = false;
+            BellShrinePatches.RefreshLoadedExits();
         }
 
         public static void GrantBeastlingCall()

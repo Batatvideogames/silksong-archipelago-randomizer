@@ -12,12 +12,16 @@ namespace SilksongRandomizer
         internal const string GreymoorHubKey = "greymoor";
         internal const string BellhartHubKey = "bellhart";
         internal const string SongclaveHubKey = "songclave";
+        internal const string SlabReturnHubKey = "slab_return";
+        internal const string TerminusHubKey = "terminus";
         private static readonly string[] MainHubKeys =
         {
             BoneBottomHubKey,
             GreymoorHubKey,
             BellhartHubKey,
             SongclaveHubKey,
+            SlabReturnHubKey,
+            TerminusHubKey,
         };
 
         private const string BellwayEntryGateName =
@@ -34,6 +38,8 @@ namespace SilksongRandomizer
             "door_act3_wakeUp";
         private const string GreymoorCaravanSceneName = "Greymoor_08";
         private const string GreymoorCaravanEntryGateName = "left2";
+        private const string SlabReturnSceneName = "Slab_03";
+        private const string SlabReturnEntryGateName = "left2";
         private const string FirstAbyssEscapeQuestName =
             "Black Thread Pt3 Escape";
 
@@ -45,6 +51,7 @@ namespace SilksongRandomizer
             Terminus,
             Greymoor,
             WidowShrine,
+            SlabReturn,
         }
 
         internal static bool CanTeleportToPreferredHub(out string reason)
@@ -219,6 +226,8 @@ namespace SilksongRandomizer
         {
             switch (destination)
             {
+                case WarpDestination.SlabReturn:
+                    return "Slab Return";
                 case WarpDestination.WidowShrine:
                     return "Widow Shrine";
                 case WarpDestination.Songclave:
@@ -252,6 +261,10 @@ namespace SilksongRandomizer
             string entryGateName;
             switch (destination)
             {
+                case WarpDestination.SlabReturn:
+                    sceneName = SlabReturnSceneName;
+                    entryGateName = SlabReturnEntryGateName;
+                    break;
                 case WarpDestination.WidowShrine:
                     sceneName = WidowSequenceSafety.WidowShrineSceneName;
                     entryGateName = WidowSequenceSafety.WidowWakeGateName;
@@ -327,6 +340,10 @@ namespace SilksongRandomizer
             );
             switch (selectedHub)
             {
+                case SlabReturnHubKey:
+                    return WarpDestination.SlabReturn;
+                case TerminusHubKey:
+                    return WarpDestination.Terminus;
                 case SongclaveHubKey:
                     return WarpDestination.Songclave;
                 case BellhartHubKey:
@@ -352,7 +369,8 @@ namespace SilksongRandomizer
             if (playerData != null &&
                 playerData.blackThreadWorld &&
                 playerData.act3_wokeUp &&
-                playerData.act3_enclaveWakeSceneCompleted)
+                playerData.act3_enclaveWakeSceneCompleted &&
+                !IsSlabReturnAvailable())
             {
                 destination = WarpDestination.Terminus;
                 return true;
@@ -367,6 +385,16 @@ namespace SilksongRandomizer
         )
         {
             List<string> available = new List<string>();
+            if (playerData != null && playerData.blackThreadWorld &&
+                playerData.act3_wokeUp && playerData.act3_enclaveWakeSceneCompleted)
+            {
+                available.Add(TerminusHubKey);
+                if (IsSlabReturnAvailable())
+                {
+                    available.Add(SlabReturnHubKey);
+                }
+                return available;
+            }
             foreach (string hubKey in MainHubKeys)
             {
                 if (IsMainHubAvailable(hubKey, playerData))
@@ -384,6 +412,8 @@ namespace SilksongRandomizer
         {
             switch (hubKey)
             {
+                case SlabReturnHubKey:
+                    return IsSlabReturnAvailable();
                 case GreymoorHubKey:
                     return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
@@ -398,6 +428,38 @@ namespace SilksongRandomizer
                         StringComparison.Ordinal
                     );
             }
+        }
+
+        private static bool IsSlabReturnAvailable()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null || !state.slabCaptureReturnUnlocked)
+            {
+                return false;
+            }
+
+            bool randomizedSkills = state.IsRandomized(ItemType.Skill);
+            bool clingGrip = randomizedSkills
+                ? state.canWallJump : playerData != null && playerData.hasWalljump;
+            bool faydown = randomizedSkills
+                ? state.canDoubleJump : playerData != null && playerData.hasDoubleJump;
+            if (playerData == null || !playerData.slab_cloak_battle_completed ||
+                !clingGrip || !faydown ||
+                !(playerData.HasSlabKeyC || playerData.slab_05_gateOpen))
+            {
+                return true;
+            }
+
+            bool bellwayUnlocked = state.IsRandomized(ItemType.Bellway)
+                ? state.UnlockedPeakStation
+                : playerData.UnlockedPeakStation;
+            bool bellwayUsable = playerData.UnlockedFastTravel && bellwayUnlocked;
+            bool choralRouteOpen = state.slabChoralApproachVisited &&
+                SceneData.instance != null &&
+                SceneData.instance.PersistentBools.GetValueOrDefault(
+                    "Slab_02", "slab_jail_lever");
+            return !bellwayUsable && !choralRouteOpen;
         }
 
         private static bool IsGreymoorHubAvailable(PlayerData playerData)
@@ -434,9 +496,18 @@ namespace SilksongRandomizer
                 return normalized;
             }
 
-            return available.Count == 0
-                ? BoneBottomHubKey
-                : available[available.Count - 1];
+            if (available.Contains(TerminusHubKey))
+            {
+                return TerminusHubKey;
+            }
+            for (int index = available.Count - 1; index >= 0; index--)
+            {
+                if (available[index] != SlabReturnHubKey)
+                {
+                    return available[index];
+                }
+            }
+            return BoneBottomHubKey;
         }
 
         private static bool IsActThreeWakeEntry(

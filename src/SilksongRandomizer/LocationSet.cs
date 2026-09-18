@@ -410,7 +410,7 @@ namespace SilksongRandomizer
                 },
                 { "Quest Completion: Fine Pins", "Wish: Fine Pins" },
                 { "Quest Completion: Song Knight", "Wish: Last Audience" },
-                { "Quest Completion: Tormented Trobbio", "Wish: Torment, Anguish and Misery" },
+                { "Quest Completion: Tormented Trobbio", "Wish: Pain, Anguish and Misery" },
                 { "Quest Completion: Pinstress Battle", "Wish: Fatal Resolve" },
                 {
                     "Quest Completion: Garmond Black Threaded",
@@ -979,6 +979,13 @@ namespace SilksongRandomizer
             new Location("Yellow Vesticrest", ItemType.Eva, null),
             new Location("Blue Vesticrest", ItemType.Eva, null),
             new Location("Sylphsong", ItemType.Eva, null),
+            new Location("Maiden Soul", ItemType.Soul, null),
+            new Location("Hermit Soul", ItemType.Soul, null),
+            new Location("Seeker Soul", ItemType.Soul, null),
+            new Location("Pollen Heart", ItemType.OldHeart, null),
+            new Location("Hunter's Heart", ItemType.OldHeart, null),
+            new Location("Encrusted Heart", ItemType.OldHeart, null),
+            new Location("Twisted Bud", ItemType.TwistedBud, null),
 
             new Location("Goal", ItemType.Event,
                 Patches.GoalState.IsConfiguredGoalComplete),

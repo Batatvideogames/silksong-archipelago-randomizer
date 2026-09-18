@@ -3,7 +3,6 @@
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
 from dataclasses import dataclass
-from .journal import JOURNAL_ENTRY, JOURNAL_ENCOUNTERS
 
 
 SONGCLAVE_BOARD_COMPLETION_ITEM = (
@@ -217,7 +216,6 @@ SILK_AND_SOUL_FULL_POINT_EVENTS: tuple[WishLogicEvent, ...] = tuple(
     _region_event('Silver Bells point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Silver Bells Completed'),
     _region_event('The Terrible Tyrant point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: The Terrible Tyrant Completed'),
     _region_event('Wailing Mother point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Wailing Mother Completed'),
-    _region_event('Bugs of Pharloom point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Bugs of Pharloom Completed'),
 )
 
 
@@ -275,7 +273,6 @@ WIDOW_DEFEATED_EVENTS: tuple[WishLogicEvent, ...] = (
 
 
 WISH_LOGIC_EVENTS: tuple[WishLogicEvent, ...] = (
-    *(WishLogicEvent("Journal Logic: " + name, JOURNAL_ENTRY, source_region="Event: Journal " + name) for name in JOURNAL_ENCOUNTERS),
     *(WishLogicEvent("Eva Logic: " + source, EVA_POINT, source_region=source) for source, _, _ in EVA_POINT_SOURCES),
     *WIDOW_DEFEATED_EVENTS,
     *SONGCLAVE_BOARD_EVENTS,

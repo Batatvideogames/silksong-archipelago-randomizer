@@ -82,6 +82,13 @@ _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(
 
 _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
     (
+        "Pollen Heart",
+        "Hunter's Heart",
+        "Encrusted Heart",
+        "Twisted Bud",
+        "Maiden Soul",
+        "Hermit Soul",
+        "Seeker Soul",
         "Bilewater - Map Purchase",
         "Sands of Karak - Map Purchase",
         "Flea: Bilewater - Thieves",
