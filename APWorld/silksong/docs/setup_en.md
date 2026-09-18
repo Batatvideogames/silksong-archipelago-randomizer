@@ -32,7 +32,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a075b1-14ad-fe0c-617a-038021488fa5`
+**Cogfly Import Code:** `01a0b6c0-a24b-cc11-7b3e-ba412942686b` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -43,7 +43,7 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a075b1-14ad-fe0c-617a-038021488fa5`
+**R2Modman Import Code:** `01a0b6c0-a24b-cc11-7b3e-ba412942686b` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -125,11 +125,13 @@ This occurs when you've changed your APWorld to a new version for an update whil
 
 Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers (these work for both):
 
-**v0.4.52** Import Code: `01a075b1-14ad-fe0c-617a-038021488fa5`
+**v0.4.6** Import Code: `01a0b6c0-a24b-cc11-7b3e-ba412942686b`
 
-**v0.4.51** Import Code: `01a07453-512c-e2a9-e1fa-d3ca3d2e9b5f`
+**v0.4.52** Import Code: `01a0926a-7b73-7a11-66bb-42117f64248f`
 
-**v0.4.5** Import Code: `01a07446-92c6-f7aa-efe3-97adbc960e38`
+**v0.4.51** Import Code: `01a0926b-eab2-0a1b-bf2c-76345f9973d3`
+
+**v0.4.5** Import Code: `01a0926c-50d2-f57d-ea27-e6261857cd3d`
 
 **v0.4.4** Import Code: `01a07254-1646-8e29-7cee-2ba65c34300d`
 
