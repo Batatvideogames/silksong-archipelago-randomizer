@@ -57,7 +57,7 @@ namespace SilksongRandomizer
             { "Threefold Pin", "T_tri_pin" },
             { "Rosary Cannon", "_0004_T_rosary_cannon_loaded" },
             { "Straight Pin", "T_straight_pin" },
-            { "Longpin", "T_longneedle" },
+            { "Longpin", "T_claw_javelin" },
             { "Sawtooth Circlet", "T_cogwork_saw" },
             { "Throwing Ring", "T_shakra_ring" },
             { "Delver's Drill", "T_Spine_head" },
@@ -87,7 +87,7 @@ namespace SilksongRandomizer
             { "Plasmium Phial", "T_syringe_lifeblood" },
             { "Thief's Mark", "Thief_Brooch" },
             { "Snitch Pick", "Thief_Claw" },
-            { "Wreath of Purity", "T_attunement_charm" },
+            { "Wreath of Purity", "poultice_pouch_icon" },
             { "Ascendant's Grip", "T_longneedle_old1" },
             { "Longclaw", "T_longneedle" },
             { "Memory Crystal", "T_revenge_crystal" },
@@ -100,6 +100,7 @@ namespace SilksongRandomizer
             { "Reserve Bind", "T_focus_spool" },
             { "Flea Brew", "T_flea_brew" },
             { "Shell Satchel", "T_shell_satchel" },
+            { "Growstone", "Growstone_0004" },
             { "Dead Bug's Purse", "T_dead_purse" },
             { "Scuttlebrace", "T_steel_spine" },
             { "Shard Pendant", "Hornet_Bone_Necklace" },
@@ -157,7 +158,7 @@ namespace SilksongRandomizer
             // Pins
             { "Bench Pins", "pin_bench" },
             { "Ventrica Pins", "pin_tube_station" },
-            { "Bellway Pins", "Hornet_icon_bell_clapper" },
+            { "Bellway Pins", "pin_stag_station" },
             { "Vendor Pins", "pin_shop" },
 
             // Generic Upgrades & Collectables
@@ -165,6 +166,7 @@ namespace SilksongRandomizer
             { "Spool Fragment", "Hornet_Spool_Upgrade_Shop_Icon" },
             { "Flea", "Flea_Scoreboard_Icons_0001_Generic" },
             { "Lore", "Hornet_icon_0002_R_bone_record" },
+            { "Bell", "QI_Main_bellshrines_counter" },
             { "Bellway", "Hornet_icon_bell_clapper" },
             { "Map", "I_map" },
             { "Ventrica", "pin_tube_station" },
@@ -174,7 +176,7 @@ namespace SilksongRandomizer
             // Traps
             { "Cursed Crest Trap", "cursed_death0004"},
             { "Naked Trap", "Hornet_Cloakless_Frost_Death0000" },
-            { "Rosary Spill Trap", "I_rosary_icon_mid_clean"},
+            { "Rosary Spill Trap", "rosary_cache0030_bowl_cache"},
             { "Darkness Trap", "Hornet_death_pieces_0000s_0000_death_spider_core"},
 
             // Quest Items
