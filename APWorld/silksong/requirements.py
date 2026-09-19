@@ -7321,7 +7321,7 @@ def export_abstract_requirements(
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
-    return {
+    exported = {
         name: _export_requirement_group(
             _apply_scuttlebrace_logic_option(
                 requirements,
@@ -7347,6 +7347,21 @@ def export_abstract_requirements(
             or name != USABLE_SCUTTLEBRACE_REQUIREMENT
         )
     }
+
+    for event, source in {
+        LAST_JUDGE_ROOM_EVENT: 'Boss: Last Judge',
+        'Event: Last Judge Defeated': 'Boss: Last Judge',
+        'Room Event: event:mapper/reviewed:phantom-defeated': 'Boss: Phantom',
+        'Event: Act 2 Started': 'Act: 2',
+    }.items():
+        if event in exported:
+            exported[event]['checked_source'] = source
+        for target in load_room_graph().assumptions.get('event_aliases', {}).get(event, ()):
+            target_name = room_event_name('event:mapper/' + target)
+            if target_name in exported:
+                exported[target_name]['checked_source'] = source
+    return exported
+
 
 
 def export_logic_item_dependencies(

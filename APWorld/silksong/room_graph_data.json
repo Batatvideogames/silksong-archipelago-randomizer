@@ -5,7 +5,7 @@
     "document_count": 505,
     "aggregate_sha256": "3127feb61aa238eebb4db3ff66cdd387a55f43d9703fe311e86b6b454bc6a991",
     "catalogue_sha256": "9bb7901388a238c0871886fa1da7986a085bf68540199065d04a697a07c610d3",
-    "bindings_sha256": "df6dc9c5877900cd636db7e59efc4eedd9ec7ba57929407123aa24f271b1e80f"
+    "bindings_sha256": "6419f20e39dd74f57e1efcf3aba29f06a4ede17b0acf052c648f9284b5ca4fd0"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -899,7 +899,9 @@
       "Wreath of Purity",
       "Yellow Vesticrest"
     ],
-    "quarantined_checks": {},
+    "quarantined_checks": {
+      "Reserve Bind": "The reward is in Hang_17b after Last Audience, not at Grindle. The reward room is not mapped."
+    },
     "event_aliases": {
       "Event: Mapper Rebirth Started": [
         "0579d689-67d7-443a-a85b-916aa61ccabe"
@@ -931,7 +933,9 @@
       "Event: Lost Lace Defeated": [
         "a4febb13-a6cc-49c4-a655-a40e40ea43b5"
       ],
-      "Event: Phantom Defeated": [],
+      "Event: Phantom Defeated": [
+        "reviewed:phantom-defeated"
+      ],
       "Event: Cradle Opened": [
         "reviewed:cradle-lift"
       ],
@@ -6250,24 +6254,24 @@
           "id": "event:mapper/c98af456-e892-4765-b77d-db5b394c22df",
           "requirement": {
             "raw": "defeat THE bell beast boss fight",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:bellway-network:none"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c98af456-e892-4765-b77d-db5b394c22df"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "bellway bone bottom",
           "kind": "travel",
           "node_id": "bone-bottom/bone-bottom-bellway#room"
@@ -24769,7 +24773,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/46dc6593-9d45-4f47-801f-727cfc2ffed7"
+                "event:mapper/08027bae-2be6-439c-95eb-1ddc027ceb5f"
               ]
             ],
             "annotations": [],
@@ -25032,6 +25036,32 @@
           "label": "door switch",
           "kind": "unknown",
           "node_id": "wormways/wormways-shaft#middle-platform-area"
+        },
+        {
+          "id": "event:mapper/08027bae-2be6-439c-95eb-1ddc027ceb5f",
+          "requirement": {
+            "raw": "simple key",
+            "mode": "expression",
+            "dnf": [
+              [
+                "received:Simple Key (Wormways)"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": true,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "unlocks the LL room exit",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "08027bae-2be6-439c-95eb-1ddc027ceb5f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "use simple key on lock",
+          "kind": "unknown",
+          "node_id": "wormways/wormways-shaft#lower-area"
         }
       ],
       "checks": [
@@ -25093,13 +25123,7 @@
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "08027bae-2be6-439c-95eb-1ddc027ceb5f",
-          "label": "use simple key on lock",
-          "kind": "unknown"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "wormways/wormways-flea-rescue",
@@ -41585,6 +41609,29 @@
           "label": "hunter's march bridge lever",
           "kind": "switch",
           "node_id": "far-fields/far-fields-upper-shaft#left-march-bridge-room"
+        },
+        {
+          "id": "event:mapper/reviewed:far-fields-greymoor-shortcut",
+          "label": "Far Fields Greymoor Shortcut",
+          "kind": "event",
+          "node_id": "far-fields/far-fields-upper-shaft#top-wind-tunnel",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:drifters-cloak"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [],
@@ -82491,7 +82538,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:fleas:14"
+                "count:fleas:14",
+                "event:mapper/reviewed:caravan-left-greymoor"
               ]
             ],
             "annotations": [],
@@ -82660,7 +82708,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:fleas:14"
+                "count:fleas:14",
+                "event:mapper/reviewed:caravan-left-greymoor"
               ]
             ],
             "annotations": [],
@@ -88646,7 +88695,9 @@
             "raw": "nothing ",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/reviewed:far-fields-greymoor-shortcut"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -93580,30 +93631,6 @@
           "node_id": "blasted-steps/blasted-steps-grindle#upper-half"
         },
         {
-          "id": "event:mapper/9df2b16f-ed91-48c2-ac82-09932809a1de",
-          "requirement": {
-            "raw": "Nothing",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "9df2b16f-ed91-48c2-ac82-09932809a1de"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "Reserve Bind",
-          "kind": "collectible",
-          "node_id": "blasted-steps/blasted-steps-grindle#upper-half"
-        },
-        {
           "id": "event:mapper/d004c0f3-8b78-4236-b5fe-56580c92f7db",
           "requirement": {
             "raw": "Nothing",
@@ -93914,32 +93941,6 @@
           "currently_randomized": true
         },
         {
-          "id": "blasted-steps/blasted-steps-grindle::mapper-check:9df2b16f-ed91-48c2-ac82-09932809a1de:835533",
-          "requirement": {
-            "raw": "Nothing",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "9df2b16f-ed91-48c2-ac82-09932809a1de"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "Reserve Bind",
-          "node_id": "blasted-steps/blasted-steps-grindle#upper-half",
-          "canonical_location": "Reserve Bind",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true
-        },
-        {
           "id": "blasted-steps/blasted-steps-grindle::mapper-check:d004c0f3-8b78-4236-b5fe-56580c92f7db:835712",
           "requirement": {
             "raw": "Nothing",
@@ -94018,7 +94019,13 @@
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "mapper_id": "9df2b16f-ed91-48c2-ac82-09932809a1de",
+          "label": "Reserve Bind",
+          "kind": "collectible"
+        }
+      ]
     },
     {
       "id": "blasted-steps/blasted-steps-horizontal-room-with-two-sand-pits",
@@ -135497,7 +135504,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "mapper:proficient-movement:none"
               ],
               [
                 "item:clawline",
@@ -145748,7 +145756,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:needolin"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -154881,31 +154891,25 @@
           "id": "bilewater/exhaust-organ-interior@ue",
           "requirement": {
             "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "e4ca4666-68d7-4480-a118-d9081e1c8725"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "UE",
           "name": "Underworks Elevator",
-          "source_node_id": "bilewater/exhaust-organ-interior#room",
+          "source_node_id": "bilewater/exhaust-organ-interior#after-phantom",
           "target": {
             "raw": "underworks/underworks-exhaust-organ-transit@ev",
             "room_id": "underworks/underworks-exhaust-organ-transit",
@@ -154999,7 +155003,54 @@
           }
         }
       ],
-      "connections": [],
+      "connections": [
+        {
+          "id": "bilewater/exhaust-organ-interior#room>after-phantom@reviewed-phantom-lift",
+          "alias": "bilewater/exhaust-organ-interior#room>after-phantom@reviewed-phantom-lift",
+          "name": "room to after phantom",
+          "source_node_id": "bilewater/exhaust-organ-interior#room",
+          "target_node_id": "bilewater/exhaust-organ-interior#after-phantom",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:phantom-defeated"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "bilewater/exhaust-organ-interior#after-phantom>room@reviewed-phantom-lift",
+          "alias": "bilewater/exhaust-organ-interior#after-phantom>room@reviewed-phantom-lift",
+          "name": "after phantom to room",
+          "source_node_id": "bilewater/exhaust-organ-interior#after-phantom",
+          "target_node_id": "bilewater/exhaust-organ-interior#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "events": [
         {
           "id": "event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59",
@@ -155036,6 +155087,16 @@
             "raw": "",
             "mode": "expression",
             "dnf": [
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full",
+                "mapper:attack:left"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full",
+                "mapper:attack:right"
+              ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
@@ -173670,7 +173731,8 @@
             "dnf": [
               [
                 "item:clawline",
-                "capability:swim"
+                "capability:swim",
+                "mapper:proficient-movement:none"
               ],
               [
                 "item:clawline",

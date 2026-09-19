@@ -104,6 +104,33 @@ namespace SilksongRandomizer.Patches
                        FracturedMaskY);
         }
 
+        [HarmonyPatch(typeof(HitSequence), "OnObjHit")]
+        private static class CurvesickleTargetSequencePatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(
+                HitSequence __instance,
+                ref HitInstance hitInstance,
+                ToolItem ___requireHitWith)
+            {
+                SaveState state = SaveState.Instance;
+                if (!IsActiveLocation(state, "Curvesickle") ||
+                    state.curveclawLevel < 2 ||
+                    __instance.gameObject.scene.name != "Bone_East_22" ||
+                    Utils.GetHierarchyPath(__instance.transform) !=
+                        "Target States/Targets/Target Sequence" ||
+                    ___requireHitWith == null ||
+                    ___requireHitWith.name != "Curve Claws" ||
+                    hitInstance.RepresentingTool == null ||
+                    hitInstance.RepresentingTool.name != "Curve Claws Upgraded")
+                {
+                    return;
+                }
+
+                hitInstance.RepresentingTool = ___requireHitWith;
+            }
+        }
+
         [HarmonyPatch(typeof(ToolGameObjectActivator), "Evaulate")]
         private static class CurveclawFallbackPatch
         {

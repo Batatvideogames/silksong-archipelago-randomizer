@@ -92,6 +92,7 @@ namespace SilksongRandomizer.Patches
             new HashSet<string>(StringComparer.Ordinal);
         private static GameMap currentMap;
         private static InventoryWideMap currentWideMap;
+        private static InventoryPane wideMapPane;
 
         internal static void Refresh(GameMap map)
         {
@@ -180,6 +181,9 @@ namespace SilksongRandomizer.Patches
         {
             ClearWide();
             currentWideMap = wideMap;
+            wideMapPane = wideMap != null
+                ? wideMap.GetComponentInParent<InventoryPane>(true)
+                : null;
             SaveState state = SaveState.Instance;
             GameManager gameManager = GameManager.instance;
             GameMap map = gameManager != null
@@ -302,6 +306,7 @@ namespace SilksongRandomizer.Patches
 
             ClearRecords(WideRecords);
             currentWideMap = null;
+            wideMapPane = null;
         }
 
         internal static bool TryGetPhysicalMarkerLocation(
@@ -344,13 +349,18 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            UpdateRecords(state, Records);
-            UpdateRecords(state, WideRecords);
+            UpdateRecords(state, Records, CheckMapMarkerManager.IsMapDisplayed(currentMap));
+            UpdateRecords(
+                state,
+                WideRecords,
+                wideMapPane != null && wideMapPane.IsPaneActive
+            );
         }
 
         private static void UpdateRecords(
             SaveState state,
-            List<MarkerRecord> records)
+            List<MarkerRecord> records,
+            bool mapVisible)
         {
             foreach (MarkerRecord record in records)
             {
@@ -363,7 +373,7 @@ namespace SilksongRandomizer.Patches
                 bool collected = state.receivedItems.Contains(
                     record.Definition.ItemName
                 ) || state.IsLocationChecked(record.LocationName);
-                bool visible = !collected &&
+                bool visible = mapVisible && !collected &&
                     record.NativeRenderer.enabled &&
                     record.NativeRenderer.gameObject.activeInHierarchy;
                 if (record.Replacement.activeSelf != visible)
@@ -429,6 +439,7 @@ namespace SilksongRandomizer.Patches
                 }
                 if (record.Replacement != null)
                 {
+                    record.Replacement.SetActive(false);
                     UnityEngine.Object.Destroy(record.Replacement);
                 }
             }

@@ -303,9 +303,15 @@ namespace SilksongRandomizer
             bool protectedOpeningBoss =
                 destination == WarpDestination.BoneBottom &&
                 MossMotherWarpSafety.PrepareForBoneBottomWarp();
+            PlayerData playerData = PlayerData.instance;
+            bool wasTravelling = playerData != null && playerData.travelling;
             try
             {
                 DeliveryQuestItem.BreakAll();
+                if (playerData != null)
+                {
+                    playerData.travelling = false;
+                }
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,
@@ -314,6 +320,10 @@ namespace SilksongRandomizer
             }
             catch
             {
+                if (playerData != null)
+                {
+                    playerData.travelling = wasTravelling;
+                }
                 if (protectedOpeningBoss)
                 {
                     MossMotherWarpSafety.CancelPreparedWarp();

@@ -78,6 +78,9 @@ namespace SilksongRandomizer
 
         private sealed class LogicRequirement
         {
+            [JsonProperty("checked_source")]
+            internal string CheckedSource { get; set; }
+
             [JsonProperty("all_of")]
             internal List<string> AllOf { get; set; }
 
@@ -142,6 +145,7 @@ namespace SilksongRandomizer
             internal readonly Dictionary<string, List<string>>
                 Dependencies;
             internal readonly List<LogicEvent> LogicEvents;
+            internal readonly string[] CheckedSources;
             internal readonly int SkipsTier;
 
             internal ParsedPayload(LogicPayload payload)
@@ -163,6 +167,13 @@ namespace SilksongRandomizer
                         !string.IsNullOrWhiteSpace(logicEvent.Item) &&
                         logicEvent.Requirement != null)
                     .ToList();
+                CheckedSources = LogicEvents.Select(entry => entry.CheckedSource)
+                    .Concat(AbstractRequirements.Values.Select(entry => entry.CheckedSource))
+                    .Where(source => !string.IsNullOrWhiteSpace(source))
+                    .Select(source => source.Trim())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .OrderBy(source => source, StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
                 SkipsTier = payload?.SkipsTier ?? 0;
                 if (payload != null && !payload.ScuttlebraceLogic)
                 {
@@ -1310,13 +1321,19 @@ namespace SilksongRandomizer
             {
                 return true;
             }
-            return string.Equals(
-                    source,
-                    "Boss: Widow",
-                    StringComparison.OrdinalIgnoreCase
-                ) &&
-                PlayerData.instance != null &&
-                PlayerData.instance.spinnerDefeated;
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null)
+            {
+                return false;
+            }
+            switch (source)
+            {
+                case "Boss: Widow": return playerData.spinnerDefeated;
+                case "Boss: Last Judge": return playerData.defeatedLastJudge;
+                case "Boss: Phantom": return playerData.defeatedPhantom;
+                case "Act: 2": return playerData.act2Started;
+                default: return false;
+            }
         }
 
         private static string GetCheckedLogicSourcesKey(
@@ -1326,24 +1343,8 @@ namespace SilksongRandomizer
         {
             return string.Join(
                 "\n",
-                (payload?.LogicEvents ?? new List<LogicEvent>())
-                    .Where(logicEvent =>
-                        logicEvent != null &&
-                        !string.IsNullOrWhiteSpace(
-                            logicEvent.CheckedSource
-                        ) &&
-                        IsCheckedLogicSource(
-                            state,
-                            logicEvent.CheckedSource
-                        ))
-                    .Select(logicEvent =>
-                        logicEvent.CheckedSource.Trim()
-                    )
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .OrderBy(
-                        source => source,
-                        StringComparer.OrdinalIgnoreCase
-                    )
+                payload.CheckedSources.Where(source =>
+                    IsCheckedLogicSource(state, source))
             );
         }
 
@@ -1811,7 +1812,11 @@ namespace SilksongRandomizer
             Dictionary<string, bool> values =
                 payload.AbstractRequirements.Keys.ToDictionary(
                     name => name,
-                    _ => false,
+                    name => !string.IsNullOrWhiteSpace(
+                        payload.AbstractRequirements[name].CheckedSource) &&
+                        IsCheckedLogicSource(
+                            state,
+                            payload.AbstractRequirements[name].CheckedSource),
                     StringComparer.Ordinal
                 );
             bool hasCrest = CrestItemNames.Any(

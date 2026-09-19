@@ -1090,11 +1090,11 @@ class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
     keep the vanilla 17-point requirement. Mandatory wishes and story
     requirements remain unchanged. Nuu's wish does not count in logic.
-    Values above 24 are treated as 24.
+    Values above 19 are treated as 19.
     """
     display_name = "Silk and Soul Points"
     range_start = 0
-    range_end = 24
+    range_end = 19
     default = 17
 
     def __init__(self, value: int):
@@ -1104,7 +1104,7 @@ class SilkAndSoulPoints(Range):
 def get_silk_and_soul_points(options) -> int:
     if getattr(getattr(options, 'goal', None), 'current_key', None) != 'act_3':
         return 17
-    return max(0, min(24, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
+    return max(0, min(SilkAndSoulPoints.range_end, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
 
 
 @dataclass

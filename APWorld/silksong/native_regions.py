@@ -14,7 +14,7 @@ from .requirements import (
     get_abstract_requirements,
 )
 from .prices import get_shell_shard_donation_tool_pouch_requirements
-from .room_graph_logic import ROOM_NODE_PREFIX
+from .room_graph_logic import ROOM_NODE_PREFIX, native_region_name
 
 
 def native_rule_options(world) -> dict[str, object]:
@@ -116,7 +116,7 @@ def create_native_logic_region_map(world) -> Mapping[str, Region]:
     requirements = get_native_abstract_requirements(world)
     abstract_names = frozenset(requirements)
     regions = {
-        name: Region(name, world.player, world.multiworld)
+        name: Region(native_region_name(name), world.player, world.multiworld)
         for name in abstract_names
     }
     world.multiworld.regions.extend(regions.values())
@@ -149,7 +149,7 @@ def native_source_requires_assumption(
         return True
     pending = set(child.region_dependencies())
     if anchor_requirement_name is not None:
-        pending.add(anchor_requirement_name)
+        pending.add(native_region_name(anchor_requirement_name))
     visited: set[str] = set()
     while pending:
         region_name = pending.pop()
@@ -212,5 +212,5 @@ def connect_native_logic_regions(
                 regions[anchor] if anchor is not None else menu,
                 target,
                 rule,
-                f"Silksong Logic: {owner} [{index}]",
+                f"Silksong Logic: {target.name} [{index}]",
             )

@@ -20,6 +20,7 @@ from rule_builder.rules import (
 )
 
 from .display_names import clean_item_display_name
+from .room_graph_logic import native_region_name
 from .items import get_vanilla_reward_name
 from .locations import canonicalize_location_name
 from .requirements import (
@@ -166,7 +167,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 {
                     "type": "color",
                     "color": color,
-                    "text": self.requirement_name,
+                    "text": native_region_name(self.requirement_name),
                 },
             ]
 
@@ -174,10 +175,10 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             if state is None:
                 return str(self)
             prefix = "Satisfied" if self(state) else "Cannot satisfy"
-            return f"{prefix} {self.requirement_name}"
+            return f"{prefix} {native_region_name(self.requirement_name)}"
 
         def __str__(self) -> str:
-            return f"Can satisfy {self.requirement_name}"
+            return f"Can satisfy {native_region_name(self.requirement_name)}"
 
 
 NativeSourceInventoryKey = tuple[
@@ -317,7 +318,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             if (
                 self.anchor_requirement_name is not None
                 and not assumed_state.can_reach_region(
-                    self.anchor_requirement_name,
+                    native_region_name(self.anchor_requirement_name),
                     self.player,
                 )
             ):
@@ -337,7 +338,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
         def region_dependencies(self) -> dict[str, set[int]]:
             region_names = set(self.child.region_dependencies())
             if self.anchor_requirement_name is not None:
-                region_names.add(self.anchor_requirement_name)
+                region_names.add(native_region_name(self.anchor_requirement_name))
             return {
                 region_name: {id(self)}
                 for region_name in region_names
@@ -508,7 +509,7 @@ def _compile_named_requirement(
         return False_()
     if requirement_name in abstract_requirement_names:
         if native_abstract_regions:
-            return CanReachRegion(requirement_name)
+            return CanReachRegion(native_region_name(requirement_name))
         return AbstractRequirementRule(
             requirement_name=requirement_name,
             split_dash_and_sprint=split_dash_and_sprint,

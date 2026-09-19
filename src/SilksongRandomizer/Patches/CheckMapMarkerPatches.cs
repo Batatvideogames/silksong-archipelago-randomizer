@@ -128,6 +128,8 @@ namespace SilksongRandomizer.Patches
             AccessTools.Method(typeof(GameMap), "GetPositionLocalBounds");
 
         private static GameMap currentMap;
+        private static GameMap displayedMap;
+        private static GameObject markerRoot;
         private static Transform nativeMarkerParent;
         private static SpriteRenderer nativePinRenderer;
         private static bool loggedMapOwnershipFailure;
@@ -277,6 +279,42 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static bool IsMapDisplayed(GameMap map)
+        {
+            return map != null && map == displayedMap && map.isActiveAndEnabled;
+        }
+
+        internal static void ShowMap(GameMap map)
+        {
+            if (map == null)
+            {
+                return;
+            }
+            if (map != currentMap)
+            {
+                Refresh(map);
+            }
+            displayedMap = map;
+            ProcessPendingMarkerStateRefresh(map);
+            if (markerRoot != null)
+            {
+                markerRoot.SetActive(true);
+            }
+        }
+
+        internal static void HideMap(GameMap map)
+        {
+            if (map != displayedMap)
+            {
+                return;
+            }
+            displayedMap = null;
+            if (markerRoot != null)
+            {
+                markerRoot.SetActive(false);
+            }
+        }
+
         internal static void RefreshCurrentMap()
         {
             GameMap map = currentMap;
@@ -305,12 +343,8 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            Camera mapCamera = GetMapCamera(map);
-            if (mapCamera == null || !mapCamera.isActiveAndEnabled)
+            if (!IsMapDisplayed(map))
             {
-                // The state remains dirty while the inventory map is not
-                // rendered. Every received item joins one refresh when
-                // the existing map camera becomes active again.
                 return;
             }
 
@@ -319,10 +353,17 @@ namespace SilksongRandomizer.Patches
             {
                 if (markerBuildDirty)
                 {
-                    BuildMarkers(map, state);
+                    if (!BuildMarkers(map, state))
+                    {
+                        return;
+                    }
                     markerBuildDirty = false;
                 }
                 RefreshMarkerStates(map, state);
+                if (markerRoot != null)
+                {
+                    markerRoot.SetActive(true);
+                }
             }
         }
 
@@ -404,6 +445,13 @@ namespace SilksongRandomizer.Patches
                 }
             }
 
+            if (markerRoot != null)
+            {
+                markerRoot.SetActive(false);
+                UnityEngine.Object.Destroy(markerRoot);
+            }
+            markerRoot = null;
+            displayedMap = null;
             MarkersByLocation.Clear();
             ReachabilityByLocation.Clear();
             currentMap = null;
@@ -422,7 +470,7 @@ namespace SilksongRandomizer.Patches
             tooltipMouseOrigin = Vector2.zero;
         }
 
-        private static void BuildMarkers(GameMap map, SaveState state)
+        private static bool BuildMarkers(GameMap map, SaveState state)
         {
             Dictionary<string, GameMapScene> scenes =
                 map.GetComponentsInChildren<GameMapScene>(true)
@@ -447,7 +495,7 @@ namespace SilksongRandomizer.Patches
                         "check markers cannot be rendered."
                     );
                 }
-                return;
+                return false;
             }
 
             int supportedCount = 0;
@@ -659,6 +707,7 @@ namespace SilksongRandomizer.Patches
                     state.checkMapMarkers + "."
                 );
             }
+            return true;
         }
 
         private static MarkerRecord CreateMarker(
@@ -681,7 +730,13 @@ namespace SilksongRandomizer.Patches
             );
             markerObject.SetActive(false);
             markerObject.layer = nativePinRenderer.gameObject.layer;
-            markerObject.transform.SetParent(nativeMarkerParent, false);
+            if (markerRoot == null)
+            {
+                markerRoot = new GameObject("AP Check Markers");
+                markerRoot.SetActive(false);
+                markerRoot.transform.SetParent(nativeMarkerParent, false);
+            }
+            markerObject.transform.SetParent(markerRoot.transform, false);
             Vector3 worldPosition = map.transform.TransformPoint(
                 new Vector3(mapPosition.x, mapPosition.y, -1f)
             );
@@ -1781,12 +1836,44 @@ namespace SilksongRandomizer.Patches
     {
         private static void Postfix(GameMap __instance)
         {
-            CheckMapMarkerManager.ProcessPendingMarkerStateRefresh(
-                __instance
-            );
+            CheckMapMarkerManager.ShowMap(__instance);
+            RandomizedItemMarkerManager.Update(__instance);
             CheckMapMarkerManager.IncludeVisibleMarkersInPanBounds(
                 __instance
             );
+        }
+    }
+
+    [HarmonyPatch(typeof(GameMap), nameof(GameMap.TryOpenQuickMap))]
+    internal static class CheckMapMarkerQuickMapPatch
+    {
+        private static void Postfix(GameMap __instance, bool __result)
+        {
+            if (__result)
+            {
+                CheckMapMarkerManager.ShowMap(__instance);
+                RandomizedItemMarkerManager.Update(__instance);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameMap), "DisableAllAreas")]
+    internal static class CheckMapMarkerHidePatch
+    {
+        private static void Prefix(GameMap __instance)
+        {
+            CheckMapMarkerManager.HideMap(__instance);
+            RandomizedItemMarkerManager.Update(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(GameMap), "OnDisable")]
+    internal static class CheckMapMarkerDisablePatch
+    {
+        private static void Prefix(GameMap __instance)
+        {
+            CheckMapMarkerManager.HideMap(__instance);
+            RandomizedItemMarkerManager.Update(__instance);
         }
     }
 

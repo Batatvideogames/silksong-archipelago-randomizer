@@ -121,7 +121,6 @@ namespace SilksongRandomizer.Patches
                         state,
                         ItemType.Spell,
                         RuneRageLocationName) ||
-                    !state.IsLocationChecked(RuneRageLocationName) ||
                     !TryGetCheckedSourceEvent(
                         __instance,
                         out FsmEvent collectedEvent))
@@ -129,7 +128,10 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                __instance.Fsm.Event(collectedEvent);
+                if (state.IsLocationChecked(RuneRageLocationName))
+                {
+                    __instance.Fsm.Event(collectedEvent);
+                }
                 __instance.Finish();
                 return false;
             }

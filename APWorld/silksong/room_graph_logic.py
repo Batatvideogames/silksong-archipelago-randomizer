@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass
+from functools import lru_cache
 from itertools import product
 from types import MappingProxyType
 from typing import Iterable, Mapping
@@ -47,6 +49,38 @@ def room_node_name(node_id: str) -> str:
 
 def room_event_name(event_id: str) -> str:
     return ROOM_EVENT_PREFIX + event_id
+
+
+@lru_cache(maxsize=1)
+def room_event_display_names() -> Mapping[str, str]:
+    grouped = defaultdict(list)
+    for room in load_room_graph().rooms:
+        nodes = {node.id: node.name.strip() for node in room.nodes}
+        for event in room.events:
+            label = " ".join(event.label.split()) or "Event"
+            label = label[0].upper() + label[1:]
+            name = f"{ROOM_EVENT_PREFIX}{room.name.strip()} - {label}"
+            grouped[name].append((room_event_name(event.id), nodes.get(event.node_id, "")))
+    names = {}
+    used = set(grouped)
+    for name, entries in sorted(grouped.items()):
+        for index, (event_id, node) in enumerate(sorted(entries), 1):
+            display = name
+            if len(entries) > 1:
+                display = f"{name} ({node})" if node else f"{name} [{index}]"
+                suffix = index
+                while display in used:
+                    display = f"{name} ({node}) [{suffix}]" if node else f"{name} [{suffix}]"
+                    suffix += 1
+            used.add(display)
+            names[event_id] = display
+    return MappingProxyType(names)
+
+
+def native_region_name(requirement_name: str) -> str:
+    if not requirement_name.startswith(ROOM_EVENT_PREFIX):
+        return requirement_name
+    return room_event_display_names().get(requirement_name, requirement_name)
 
 
 def _part(

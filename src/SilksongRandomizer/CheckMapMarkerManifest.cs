@@ -344,9 +344,10 @@ namespace SilksongRandomizer
             new MapCheckPosition("Spider Strings", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Ascendant's Grip", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Spool Extender", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Reserve Bind", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Reserve Bind", "Hang_17b", 30.220001f, 0.090000f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
             // Greymoor_08_caravan and Aqueduct_05_caravan are event-state
             // layers authored in their visible base scenes' coordinates.
+            new MapCheckPosition("Flea Brew", "Bone_10", 37.722256f, 16.846193f, 115f, 69f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Flea Brew", "Greymoor_08", 37.950001f, 5.030001f, 161f, 38f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Egg of Flealia", "Aqueduct_05", 123.043003f, 9.847813f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
             // The Doctor's interior has no GameMapScene. Its authored
