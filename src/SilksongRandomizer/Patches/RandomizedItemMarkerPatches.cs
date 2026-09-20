@@ -32,6 +32,9 @@ namespace SilksongRandomizer.Patches
             internal readonly Sprite NativeSprite;
             internal readonly string LocationName;
             internal readonly GameObject Replacement;
+            internal readonly MapMarkerArrow Arrow;
+            internal readonly Vector2 OriginalPosition;
+            internal readonly Vector2 DestinationPosition;
 
             internal MarkerRecord(
                 Definition definition,
@@ -45,6 +48,27 @@ namespace SilksongRandomizer.Patches
                 NativeSprite = nativeSprite;
                 LocationName = locationName;
                 Replacement = replacement;
+                Arrow = nativeRenderer.GetComponentInParent<MapMarkerArrow>(true);
+                if (Arrow == null) return;
+                OriginalPosition = Traverse.Create(Arrow).Field("initialPos").GetValue<Vector2>();
+                DestinationPosition = OriginalPosition;
+                if (replacement != null)
+                {
+                    Vector3 target = Arrow.transform.position +
+                        replacement.transform.position - nativeRenderer.transform.position;
+                    DestinationPosition = Arrow.transform.parent.InverseTransformPoint(target);
+                }
+                ArrowRecords[Arrow] = this;
+                if (replacement != null)
+                {
+                    Arrow.SetPosition(DestinationPosition);
+                    Arrow.transform.localPosition = new Vector3(
+                        DestinationPosition.x, DestinationPosition.y, Arrow.transform.localPosition.z);
+                    replacement.transform.SetParent(nativeRenderer.transform, false);
+                    replacement.transform.localPosition = Vector3.zero;
+                    replacement.transform.localRotation = Quaternion.identity;
+                    replacement.transform.localScale = Vector3.one;
+                }
             }
         }
 
@@ -83,6 +107,37 @@ namespace SilksongRandomizer.Patches
                 "Vaultkeeper's Melody",
                 ItemType.Melody),
         };
+
+        private static readonly Dictionary<MapMarkerArrow, MarkerRecord> ArrowRecords =
+            new Dictionary<MapMarkerArrow, MarkerRecord>();
+
+        [HarmonyPatch(typeof(MapMarkerArrow), nameof(MapMarkerArrow.SetPosition))]
+        private static class RandomizedArrowPositionPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(MapMarkerArrow __instance, ref Vector2 position)
+            {
+                if (ArrowRecords.TryGetValue(__instance, out MarkerRecord record))
+                    position = record.DestinationPosition;
+            }
+        }
+
+        [HarmonyPatch(typeof(QuestMapMarker), "IsActive")]
+        private static class RandomizedArrowVisibilityPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(QuestMapMarker __instance, ref bool __result)
+            {
+                if (ArrowRecords.TryGetValue(__instance, out MarkerRecord record))
+                    __result &= record.Replacement != null && !IsCollected(SaveState.Instance, record);
+            }
+        }
+
+        private static bool IsCollected(SaveState state, MarkerRecord record)
+        {
+            return state == null || state.receivedItems.Contains(record.Definition.ItemName) ||
+                state.IsLocationChecked(record.LocationName);
+        }
 
         private static readonly List<MarkerRecord> Records =
             new List<MarkerRecord>();
@@ -364,15 +419,11 @@ namespace SilksongRandomizer.Patches
         {
             foreach (MarkerRecord record in records)
             {
-                if (record.Replacement == null ||
-                    record.NativeRenderer == null)
-                {
+                bool collected = IsCollected(state, record);
+                if (record.Arrow != null && (record.Replacement == null || collected))
+                    record.Arrow.gameObject.SetActive(false);
+                if (record.Replacement == null || record.NativeRenderer == null)
                     continue;
-                }
-
-                bool collected = state.receivedItems.Contains(
-                    record.Definition.ItemName
-                ) || state.IsLocationChecked(record.LocationName);
                 bool visible = mapVisible && !collected &&
                     record.NativeRenderer.enabled &&
                     record.NativeRenderer.gameObject.activeInHierarchy;
@@ -433,6 +484,14 @@ namespace SilksongRandomizer.Patches
         {
             foreach (MarkerRecord record in records)
             {
+                if (record.Arrow != null)
+                {
+                    ArrowRecords.Remove(record.Arrow);
+                    record.Arrow.SetPosition(record.OriginalPosition);
+                    record.Arrow.transform.localPosition = new Vector3(
+                        record.OriginalPosition.x, record.OriginalPosition.y,
+                        record.Arrow.transform.localPosition.z);
+                }
                 if (record.NativeRenderer != null)
                 {
                     record.NativeRenderer.sprite = record.NativeSprite;

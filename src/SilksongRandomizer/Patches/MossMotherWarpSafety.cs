@@ -15,6 +15,25 @@ namespace SilksongRandomizer.Patches
     {
         internal const string LocationName = "Boss: Moss Mother";
 
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class ChapelMaidArrivalPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
+            {
+                if (SaveState.Instance != null &&
+                    __instance.gameObject.scene.name == "Tut_03" &&
+                    __instance.gameObject.name == "Churchkeeper Basement" &&
+                    __instance.boolName == "soulSnareReady" &&
+                    !IsLegitimateDefeat())
+                {
+                    __instance.gameObject.SetActive(false);
+                    return false;
+                }
+                return true;
+            }
+        }
+
         [HarmonyPostfix]
         private static void Postfix(PlayMakerFSM __instance)
         {

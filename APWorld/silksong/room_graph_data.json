@@ -118321,7 +118321,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/6d60fbd2-b8bd-472f-9527-6dec4af20efc"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -125687,7 +125689,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/69fb097c-6947-46c2-932b-e2f2a18e91fd"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -127979,7 +127983,7 @@
           "unresolved_reasons": [],
           "alias": "L",
           "name": "left1",
-          "source_node_id": "cogwork-core/cogwork-core-bench-map#map",
+          "source_node_id": "cogwork-core/cogwork-core-bench-map#bench",
           "target": {
             "raw": "cogwork-core/cogwork-core-south-main@dl",
             "room_id": "cogwork-core/cogwork-core-south-main",
@@ -137213,7 +137217,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "whispering-vaults/grand-bellway-library#oil-room",
+          "source_node_id": "whispering-vaults/grand-bellway-library#entrance",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-flea-shaft@cl",
             "room_id": "whispering-vaults/whispering-vaults-flea-shaft",
@@ -139528,7 +139532,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:White Key"
+                "received:White Key",
+                "event:mapper/reviewed:whiteward-lift-passage"
               ]
             ],
             "annotations": [],
@@ -139680,6 +139685,27 @@
           "label": "Set Elevator to Top",
           "kind": "event",
           "node_id": "whiteward/whiteward-entrance#top-third"
+        },
+        {
+          "id": "event:mapper/reviewed:whiteward-lift-passage",
+          "label": "Whiteward Lift Passage",
+          "kind": "event",
+          "node_id": "whiteward/whiteward-entrance#middle-third-left",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [

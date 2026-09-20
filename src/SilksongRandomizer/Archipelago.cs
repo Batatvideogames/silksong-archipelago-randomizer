@@ -3245,8 +3245,7 @@ namespace SilksongRandomizer
             {
                 RandomizerPlugin.Log?.LogWarning(
                     "[RANDOMIZER] Cannot scout " + requestPurpose +
-                    " because a previous scout timed out. Reconnect to " +
-                    "Archipelago before retrying."
+                    " because a previous scout is still awaiting a response."
                 );
                 return hints;
             }
@@ -3327,7 +3326,8 @@ namespace SilksongRandomizer
                 requestTeam = Team;
                 requestSlot = Slot;
                 Task<Dictionary<long, ScoutedItemInfo>> scoutTask =
-                    requestSession.Locations.ScoutLocationsAsync(
+                    ScoutAfterCallbackAsync(
+                        requestSession,
                         hintCreationPolicy,
                         locations.Values.Distinct().ToArray()
                     );
@@ -3345,8 +3345,8 @@ namespace SilksongRandomizer
                     );
                     RandomizerPlugin.Log?.LogWarning(
                         "[RANDOMIZER] Timed out scouting " +
-                        requestPurpose + ". Reconnect to Archipelago " +
-                        "before retrying so no scout responses can cross."
+                        requestPurpose + ". Waiting for the outstanding " +
+                        "response before allowing another request."
                     );
                     return hints;
                 }
@@ -3400,6 +3400,41 @@ namespace SilksongRandomizer
             return hints;
         }
 
+        private static async Task<Dictionary<long, ScoutedItemInfo>> ScoutAfterCallbackAsync(
+            ArchipelagoSession requestSession,
+            HintCreationPolicy policy,
+            long[] locationIds)
+        {
+            long[] availableIds = locationIds.Where(
+                requestSession.Locations.AllLocations.Contains).ToArray();
+            if (availableIds.Length == 0)
+                return new Dictionary<long, ScoutedItemInfo>();
+
+            var callbackFinished = new TaskCompletionSource<bool>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            void OnPacket(ArchipelagoPacketBase packet)
+            {
+                if (packet is LocationInfoPacket ||
+                    (packet is InvalidPacketPacket invalid &&
+                     invalid.OriginalCmd == ArchipelagoPacketType.LocationScouts))
+                    callbackFinished.TrySetResult(true);
+            }
+
+            requestSession.Socket.PacketReceived += OnPacket;
+            try
+            {
+                Task<Dictionary<long, ScoutedItemInfo>> request =
+                    requestSession.Locations.ScoutLocationsAsync(policy, availableIds);
+                // This observer runs after the library clears its scout callback.
+                await callbackFinished.Task.ConfigureAwait(false);
+                return await request.ConfigureAwait(false);
+            }
+            finally
+            {
+                requestSession.Socket.PacketReceived -= OnPacket;
+            }
+        }
+
         private static async Task ObservePoisonedScoutAsync(
             HintScoutChannel scoutChannel,
             Task<Dictionary<long, ScoutedItemInfo>> scoutTask
@@ -3416,9 +3451,7 @@ namespace SilksongRandomizer
             }
             finally
             {
-                // The channel remains poisoned after the request settles.
-                // MultiClient.Net 6.7.1 owns one scout callback per session.
-                // Only reconnecting and replacing the channel is unambiguous.
+                scoutChannel.Poisoned = false;
                 scoutChannel.Gate.Release();
             }
         }

@@ -100,6 +100,8 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Curvesickle", ItemType.Tool, "Bone_East_22",
+                "Curve Claws Upgraded", "Collectable Item Pickup", 46.03f, 4.81f),
             new DirectPickupEntry("Seeker Soul", ItemType.Soul, "Shadow_Bilehaven_Room",
                 "Snare Soul Swamp Bug", "Group/Collectable Item Pickup (1)", 26.111969f, 6.517456f),
             new DirectPickupEntry("Pollen Heart", ItemType.OldHeart, "Shellwood_11b",

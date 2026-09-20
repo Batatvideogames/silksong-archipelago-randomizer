@@ -128,7 +128,11 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                if (state.IsLocationChecked(RuneRageLocationName))
+                bool defeated = PlayerData.instance != null &&
+                    PlayerData.instance.defeatedFirstWeaver;
+                if (defeated &&
+                    (__instance.Owner.name == BossObjectName ||
+                     state.IsLocationChecked(RuneRageLocationName)))
                 {
                     __instance.Fsm.Event(collectedEvent);
                 }

@@ -27,6 +27,9 @@ namespace SilksongRandomizer.Patches
         private static int shopSessionTeam = -1;
         private static int shopSessionSlot = -1;
         private const int StaleShopRequestSeconds = 15;
+        private static readonly HashSet<ShopMenuStock> OpenedShopMenus =
+            new HashSet<ShopMenuStock>();
+        private static DateTime nextShopHintRetryUtc;
 
         [ThreadStatic]
         private static int presentationRefreshDepth;
@@ -100,6 +103,7 @@ namespace SilksongRandomizer.Patches
                 PendingShopHintRefreshes.Clear();
                 PendingShopPreviewPrefetches.Clear();
                 DeferredShopDetailRefreshes.Clear();
+                OpenedShopMenus.Clear();
             }
         }
 
@@ -155,6 +159,7 @@ namespace SilksongRandomizer.Patches
                 }
             }
 
+            OpenedShopMenus.Add(shopMenu);
             RequestShopHintRefresh(shopMenu, locationNames);
         }
 
@@ -365,6 +370,17 @@ namespace SilksongRandomizer.Patches
             }
 
             ProcessDeferredShopDetailRefreshes();
+            if (OpenedShopMenus.Count != 0 && DateTime.UtcNow >= nextShopHintRetryUtc)
+            {
+                nextShopHintRetryUtc = DateTime.UtcNow.AddSeconds(5);
+                OpenedShopMenus.RemoveWhere(menu => menu == null);
+                foreach (ShopMenuStock menu in OpenedShopMenus.ToArray())
+                {
+                    if (menu.gameObject.activeInHierarchy &&
+                        FindItemListControl(menu)?.Fsm?.ActiveStateName == "Idle")
+                        RevealAvailableStock(menu);
+                }
+            }
         }
 
         private static void ProcessCompletedHintRefresh(
