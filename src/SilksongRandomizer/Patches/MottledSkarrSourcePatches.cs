@@ -104,6 +104,41 @@ namespace SilksongRandomizer.Patches
                        FracturedMaskY);
         }
 
+        private static bool HasUncollectedStock(SaveState state, string locationName)
+        {
+            return IsActiveLocation(state, locationName) &&
+                   !state.IsLocationChecked(locationName);
+        }
+
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class KeepRandomizedSkarrShopPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(
+                TestGameObjectActivator __instance,
+                GameObject ___activateGameObject,
+                GameObject ___deactivateGameObject)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRoomBound ||
+                    __instance == null ||
+                    __instance.gameObject.scene.name != FracturedMaskScene ||
+                    Utils.GetHierarchyPath(__instance.transform) != "_NPCs/Ant Merchant States" ||
+                    ___activateGameObject == null || ___deactivateGameObject == null ||
+                    ___activateGameObject.name != "Ant Merchant Dead" ||
+                    ___deactivateGameObject.name != "Ant Merchant" ||
+                    !(HasUncollectedStock(state, CurveclawLocation) ||
+                      HasUncollectedStock(state, FracturedMaskLocation)))
+                {
+                    return true;
+                }
+
+                ___activateGameObject.SetActive(false);
+                ___deactivateGameObject.SetActive(true);
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(HitSequence), "OnObjHit")]
         private static class CurvesickleTargetSequencePatch
         {

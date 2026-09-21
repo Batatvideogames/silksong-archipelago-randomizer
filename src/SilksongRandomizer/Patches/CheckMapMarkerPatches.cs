@@ -132,6 +132,8 @@ namespace SilksongRandomizer.Patches
         private static GameObject markerRoot;
         private static Transform nativeMarkerParent;
         private static SpriteRenderer nativePinRenderer;
+        private static Material markerMaterial;
+        private static Material outlineMaterial;
         private static bool loggedMapOwnershipFailure;
         private static bool loggedMarkerHostFailure;
         private static bool loggedPanBoundsFailure;
@@ -450,6 +452,10 @@ namespace SilksongRandomizer.Patches
                 markerRoot.SetActive(false);
                 UnityEngine.Object.Destroy(markerRoot);
             }
+            if (markerMaterial != null) UnityEngine.Object.Destroy(markerMaterial);
+            if (outlineMaterial != null) UnityEngine.Object.Destroy(outlineMaterial);
+            markerMaterial = null;
+            outlineMaterial = null;
             markerRoot = null;
             displayedMap = null;
             MarkersByLocation.Clear();
@@ -710,6 +716,14 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
+        private static Material CreateOverlayMaterial(Material source)
+        {
+            return new Material(source)
+            {
+                renderQueue = Math.Max(3000, source.renderQueue) + 1
+            };
+        }
+
         private static MarkerRecord CreateMarker(
             GameMap map,
             GameMapScene scene,
@@ -738,7 +752,8 @@ namespace SilksongRandomizer.Patches
             }
             markerObject.transform.SetParent(markerRoot.transform, false);
             Vector3 worldPosition = map.transform.TransformPoint(
-                new Vector3(mapPosition.x, mapPosition.y, -1f)
+                new Vector3(mapPosition.x, mapPosition.y,
+                    map.transform.InverseTransformPoint(nativePinRenderer.transform.position).z)
             );
             markerObject.transform.localPosition =
                 nativeMarkerParent.InverseTransformPoint(worldPosition);
@@ -749,7 +764,9 @@ namespace SilksongRandomizer.Patches
             renderer.color = Color.white;
             if (nativePinRenderer != null)
             {
-                renderer.sharedMaterial = nativePinRenderer.sharedMaterial;
+                if (markerMaterial == null)
+                    markerMaterial = CreateOverlayMaterial(nativePinRenderer.sharedMaterial);
+                renderer.sharedMaterial = markerMaterial;
                 // Silksong gives native map markers renderer-specific shader
                 // properties (including the shimmer time offset). Copy those
                 // without advancing Unity's global random state.
@@ -787,6 +804,9 @@ namespace SilksongRandomizer.Patches
                     new Vector3(0f, 0f, -0.01f);
                 outlineRenderer =
                     outlineObject.AddComponent<SpriteRenderer>();
+                if (outlineMaterial == null)
+                    outlineMaterial = CreateOverlayMaterial(outlineRenderer.sharedMaterial);
+                outlineRenderer.sharedMaterial = outlineMaterial;
                 outlineRenderer.sprite = outlineSprite;
                 outlineRenderer.color = Color.white;
                 outlineRenderer.sortingLayerID =

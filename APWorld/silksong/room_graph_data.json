@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 505,
-    "aggregate_sha256": "3127feb61aa238eebb4db3ff66cdd387a55f43d9703fe311e86b6b454bc6a991",
-    "catalogue_sha256": "9bb7901388a238c0871886fa1da7986a085bf68540199065d04a697a07c610d3",
-    "bindings_sha256": "6419f20e39dd74f57e1efcf3aba29f06a4ede17b0acf052c648f9284b5ca4fd0"
+    "aggregate_sha256": "ca5187dfc2c7c8a5d96e86b1f0535aa30700bfab9e4ae63673514fa0e873e843",
+    "catalogue_sha256": "a60dba6bbe028d94db78e5254f25be4b5e9f8123b48765e0da493c4bf377ea0f",
+    "bindings_sha256": "803cdb418495f7242a369d91b99f07c894ef592ee82b33df54fab4c70cdd5a86"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -17923,7 +17923,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
@@ -24572,9 +24592,9 @@
       "area_id": "wormways",
       "name": "Wormways Craggler Hallway",
       "source_file": "wormways/wormways-craggler-hallway.json",
-      "source_sha256": "6f36face390783b0bad3e1f88dae6577459594bf5276216a52b19cd2d79e226b",
+      "source_sha256": "288d885a46a5c3f52268a82c6c36d361d9c7aff78a85fe3f0d5fc084ed6d08b4",
       "geometry_act_independent": true,
-      "notes": "",
+      "notes": "cry: were we adding craggler into logic?",
       "nodes": [
         {
           "id": "wormways/wormways-craggler-hallway#room",
@@ -24678,7 +24698,7 @@
         {
           "id": "wormways/wormways-craggler-hallway::mapper-check:a99ba226-9712-4714-81f7-ed1f52c3ed47:836301",
           "requirement": {
-            "raw": "defeat craggler mini boss fight",
+            "raw": "defeat craggler",
             "mode": "expression",
             "dnf": [
               [
@@ -24690,7 +24710,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "NOT CURRENTLY RANDOMIZED",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "a99ba226-9712-4714-81f7-ed1f52c3ed47"
@@ -24711,13 +24731,13 @@
       "area_id": "wormways",
       "name": "Wormways Shaft",
       "source_file": "wormways/wormways-shaft.json",
-      "source_sha256": "e787939c78c846ac307d728688eab145c23ef99d8b22a4978c71a24d6053c397",
+      "source_sha256": "39f2111827babf5c40d8fa3b8645c5e1f7be1e18d77f52e422620e5d49574cd8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
         {
-          "id": "wormways/wormways-shaft#lower-area",
-          "name": "lower area",
+          "id": "wormways/wormways-shaft#entrance-tunnel",
+          "name": "entrance tunnel",
           "notes": "",
           "declared": true
         },
@@ -24730,6 +24750,18 @@
         {
           "id": "wormways/wormways-shaft#upper-platform-area",
           "name": "upper platform area",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-shaft#mask-grotto",
+          "name": "mask grotto",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-shaft#rosary-duct",
+          "name": "rosary duct",
           "notes": "",
           "declared": true
         }
@@ -24757,7 +24789,7 @@
           "unresolved_reasons": [],
           "alias": "LR",
           "name": "lower right",
-          "source_node_id": "wormways/wormways-shaft#lower-area",
+          "source_node_id": "wormways/wormways-shaft#entrance-tunnel",
           "target": {
             "raw": "wormways/wormways-craggler-hallway@l",
             "room_id": "wormways/wormways-craggler-hallway",
@@ -24769,7 +24801,7 @@
         {
           "id": "wormways/wormways-shaft@ll",
           "requirement": {
-            "raw": "activate door switch",
+            "raw": "door unlocked",
             "mode": "expression",
             "dnf": [
               [
@@ -24790,7 +24822,7 @@
           "unresolved_reasons": [],
           "alias": "LL",
           "name": "lower left",
-          "source_node_id": "wormways/wormways-shaft#lower-area",
+          "source_node_id": "wormways/wormways-shaft#entrance-tunnel",
           "target": {
             "raw": "wormways/wormways-middle@r",
             "room_id": "wormways/wormways-middle",
@@ -24803,28 +24835,24 @@
           "id": "wormways/wormways-shaft@ul",
           "requirement": {
             "raw": "breakable wall -must be opened from the other side (verified)",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:wormways-upper-west-shortcut-open"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is unresolved",
-              "unrecognized predicate: breakable wall -must be opened from the other side"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "50889245-baa4-4f0c-8fac-4e7837f83041"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is unresolved",
-            "unrecognized predicate: breakable wall -must be opened from the other side"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "UL",
           "name": "upper left",
           "source_node_id": "wormways/wormways-shaft#upper-platform-area",
@@ -24870,10 +24898,12 @@
         {
           "id": "wormways/wormways-shaft@mr",
           "requirement": {
-            "raw": "none",
+            "raw": "",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/reviewed:wormways-flea-shortcut-open"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -24901,14 +24931,12 @@
       ],
       "connections": [
         {
-          "id": "wormways/wormways-shaft#middle-platform-area>lower-area@ds",
+          "id": "wormways/wormways-shaft#middle-platform-area>entrance-tunnel@ds",
           "requirement": {
-            "raw": "activate door switch",
+            "raw": "none (door switch is on this side)",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/46dc6593-9d45-4f47-801f-727cfc2ffed7"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -24925,12 +24953,12 @@
           "alias": "DS",
           "name": "door switch",
           "source_node_id": "wormways/wormways-shaft#middle-platform-area",
-          "target_node_id": "wormways/wormways-shaft#lower-area"
+          "target_node_id": "wormways/wormways-shaft#entrance-tunnel"
         },
         {
-          "id": "wormways/wormways-shaft#lower-area>middle-platform-area@ds",
+          "id": "wormways/wormways-shaft#entrance-tunnel>middle-platform-area@ds",
           "requirement": {
-            "raw": "activate door switch",
+            "raw": "door switch needs to be flipped",
             "mode": "expression",
             "dnf": [
               [
@@ -24951,20 +24979,39 @@
           "unresolved_reasons": [],
           "alias": "DS",
           "name": "door switch",
-          "source_node_id": "wormways/wormways-shaft#lower-area",
+          "source_node_id": "wormways/wormways-shaft#entrance-tunnel",
           "target_node_id": "wormways/wormways-shaft#middle-platform-area"
         },
         {
           "id": "wormways/wormways-shaft#middle-platform-area>upper-platform-area@cg",
           "requirement": {
-            "raw": "silk soar OR cling grip",
+            "raw": "(ledgegrab AND (silk soar OR cling grip OR scatterbrace OR faydown cloak)) OR\n(silk soar OR cling grip OR scatterbrace)",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab",
+                "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
               [
                 "item:silk-soar"
               ],
               [
                 "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
               ]
             ],
             "annotations": [],
@@ -25008,18 +25055,158 @@
           "name": "platform gaps",
           "source_node_id": "wormways/wormways-shaft#upper-platform-area",
           "target_node_id": "wormways/wormways-shaft#middle-platform-area"
+        },
+        {
+          "id": "wormways/wormways-shaft#entrance-tunnel>mask-grotto@gt",
+          "requirement": {
+            "raw": "none (falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e5dedf64-2fac-42ed-b157-8137d5a9c237"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "GT",
+          "name": "grotto tunnel",
+          "source_node_id": "wormways/wormways-shaft#entrance-tunnel",
+          "target_node_id": "wormways/wormways-shaft#mask-grotto"
+        },
+        {
+          "id": "wormways/wormways-shaft#mask-grotto>entrance-tunnel@gt",
+          "requirement": {
+            "raw": "ledge grab OR (cling grip OR faydown cloak OR scuttlebrace OR silksoar)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "3cd74e2e-2526-4e0c-acd9-a366c6fe791a"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "GT",
+          "name": "grotto tunnel",
+          "source_node_id": "wormways/wormways-shaft#mask-grotto",
+          "target_node_id": "wormways/wormways-shaft#entrance-tunnel"
+        },
+        {
+          "id": "wormways/wormways-shaft#upper-platform-area>rosary-duct@dl",
+          "requirement": {
+            "raw": "cling grip",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e12049be-dbac-407c-923d-5785c55799b5"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "DL",
+          "name": "duct ledge",
+          "source_node_id": "wormways/wormways-shaft#upper-platform-area",
+          "target_node_id": "wormways/wormways-shaft#rosary-duct"
+        },
+        {
+          "id": "wormways/wormways-shaft#rosary-duct>upper-platform-area@dl",
+          "requirement": {
+            "raw": "none (falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c1aeb743-3675-458a-b692-7e1f11acf08b"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "DL",
+          "name": "duct ledge",
+          "source_node_id": "wormways/wormways-shaft#rosary-duct",
+          "target_node_id": "wormways/wormways-shaft#upper-platform-area"
         }
       ],
       "events": [
         {
-          "id": "event:mapper/46dc6593-9d45-4f47-801f-727cfc2ffed7",
+          "id": "event:mapper/08027bae-2be6-439c-95eb-1ddc027ceb5f",
           "requirement": {
-            "raw": "flip switch down",
+            "raw": "simple key",
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:down"
+                "received:Simple Key (Wormways)"
               ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "unlocks the LL room exit",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "08027bae-2be6-439c-95eb-1ddc027ceb5f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "use simple key on lock",
+          "kind": "unknown",
+          "node_id": "wormways/wormways-shaft#entrance-tunnel"
+        },
+        {
+          "id": "event:mapper/46dc6593-9d45-4f47-801f-727cfc2ffed7",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -25033,52 +25220,64 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "door switch",
+          "label": "flip door switch",
           "kind": "unknown",
           "node_id": "wormways/wormways-shaft#middle-platform-area"
         },
         {
-          "id": "event:mapper/08027bae-2be6-439c-95eb-1ddc027ceb5f",
+          "id": "event:mapper/reviewed:wormways-flea-shortcut-open",
+          "label": "Wormways Flea Shortcut Open",
+          "kind": "event",
+          "node_id": "wormways/wormways-shaft#middle-platform-area",
           "requirement": {
-            "raw": "simple key",
+            "raw": "",
             "mode": "expression",
             "dnf": [
               [
-                "received:Simple Key (Wormways)"
+                "mapper:attack:right"
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "unlocks the LL room exit",
+          "notes": "",
           "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "08027bae-2be6-439c-95eb-1ddc027ceb5f"
-          },
+          "raw_cells": {},
           "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "use simple key on lock",
-          "kind": "unknown",
-          "node_id": "wormways/wormways-shaft#lower-area"
+          "unresolved_reasons": []
         }
       ],
       "checks": [
         {
           "id": "wormways/wormways-shaft::mapper-check:25b2d828-14c1-4419-9c10-d1ea8eaae51d:835626",
           "requirement": {
-            "raw": "none",
+            "raw": "swim AND (ledgegrab OR cling grip OR silksoar OR faydown cloak)\n",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "capability:swim",
+                "capability:ledge-grab"
+              ],
+              [
+                "capability:swim",
+                "item:cling-grip"
+              ],
+              [
+                "capability:swim",
+                "item:silk-soar"
+              ],
+              [
+                "capability:swim",
+                "item:faydown-cloak"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "current hazard respawn from grotto water makes the theoretical no-swim req arbitrary, (you spawn in the entrance tunnel  or in the shaft if you came from above)",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "25b2d828-14c1-4419-9c10-d1ea8eaae51d"
@@ -25086,7 +25285,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "mask shard wormways",
-          "node_id": "wormways/wormways-shaft#lower-area",
+          "node_id": "wormways/wormways-shaft#mask-grotto",
           "canonical_location": "Wormways - Mask Shard",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -25094,14 +25293,42 @@
         {
           "id": "wormways/wormways-shaft::mapper-check:ab8b9c13-8619-4021-b2e4-3e935dd83da9:835807",
           "requirement": {
-            "raw": "cling grip OR silk soar",
+            "raw": "(ledgegrab AND (cling grip OR silk soar OR scatterbrace))\nOR (cling grip OR silk soar OR (scatterbrace AND (flea brew OR clawline OR sharpdart OR faydown cloak)) )",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab",
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:scuttlebrace:none"
+              ],
               [
                 "item:cling-grip"
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:flea-brew"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:clawline"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:sharpdart"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak"
               ]
             ],
             "annotations": [],
@@ -25130,9 +25357,9 @@
       "area_id": "wormways",
       "name": "Wormways Flea Rescue",
       "source_file": "wormways/wormways-flea-rescue.json",
-      "source_sha256": "c07573c83cc45065cb215952cef0871643fa2a7576d2ffea717b036984481b05",
+      "source_sha256": "466f7607dd22a4901b0f417c0d34e7bd56684353dd3e14f6c1e43aa0bbbb257e",
       "geometry_act_independent": true,
-      "notes": "",
+      "notes": "cry: exit - for room rando - the entrance is functional and open regardless of whether you broke the wall in the shaft, but entering shaft's connected entrance will clip you out of bounds if the wall on the other side is unbroken",
       "nodes": [
         {
           "id": "wormways/wormways-flea-rescue#entrance",
@@ -25151,10 +25378,12 @@
         {
           "id": "wormways/wormways-flea-rescue@l",
           "requirement": {
-            "raw": "none",
+            "raw": "breakable wall - must be broken from otherside",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/reviewed:wormways-flea-shortcut-open"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -25184,10 +25413,30 @@
         {
           "id": "wormways/wormways-flea-rescue#entrance>main-area@d",
           "requirement": {
-            "raw": "none",
+            "raw": "spike pogo OR run OR dash OR clawline OR sharpdart OR faydown cloak OR drifter's cloak",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "macro:spike-pogo"
+              ],
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:drifters-cloak"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -25237,10 +25486,24 @@
         {
           "id": "wormways/wormways-flea-rescue::mapper-check:1b0089a4-d9ff-4aa7-9b74-806f8157db9f:835591",
           "requirement": {
-            "raw": "none",
+            "raw": "ledge grab OR enemy pogo OR silk soar OR faydown cloak OR cling grip",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -25268,19 +25531,19 @@
       "area_id": "wormways",
       "name": "Wormways Middle",
       "source_file": "wormways/wormways-middle.json",
-      "source_sha256": "a5c46cddf9e29f9ac1e7c51cdd93ac4483067235b4bc9aaf18f7f76d0c6f64d1",
+      "source_sha256": "bc92378e1e8bb3ad4607c8188ba2df337126da06732ba4b1a685ea53598a8406",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
         {
-          "id": "wormways/wormways-middle#right-area",
-          "name": "right area",
+          "id": "wormways/wormways-middle#wormways-west-scaffold",
+          "name": "wormways west scaffold",
           "notes": "",
           "declared": true
         },
         {
-          "id": "wormways/wormways-middle#left-area",
-          "name": "left area",
+          "id": "wormways/wormways-middle#main-tunnel",
+          "name": "main tunnel",
           "notes": "",
           "declared": true
         }
@@ -25290,29 +25553,27 @@
           "id": "wormways/wormways-middle@r",
           "requirement": {
             "raw": "door must be unlocked from the other side",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:door must be unlocked from the other side"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/08027bae-2be6-439c-95eb-1ddc027ceb5f"
+              ]
             ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:door must be unlocked from the other side"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "3dd0cab4-e9dc-4fbd-bbee-876c19ecf9f8"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:door must be unlocked from the other side"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right",
-          "source_node_id": "wormways/wormways-middle#right-area",
+          "source_node_id": "wormways/wormways-middle#main-tunnel",
           "target": {
             "raw": "wormways/wormways-shaft@ll",
             "room_id": "wormways/wormways-shaft",
@@ -25343,7 +25604,7 @@
           "unresolved_reasons": [],
           "alias": "F",
           "name": "floor",
-          "source_node_id": "wormways/wormways-middle#right-area",
+          "source_node_id": "wormways/wormways-middle#main-tunnel",
           "target": {
             "raw": "wormways/wormways-lower-east@c",
             "room_id": "wormways/wormways-lower-east",
@@ -25374,7 +25635,7 @@
           "unresolved_reasons": [],
           "alias": "C",
           "name": "ceiling",
-          "source_node_id": "wormways/wormways-middle#left-area",
+          "source_node_id": "wormways/wormways-middle#wormways-west-scaffold",
           "target": {
             "raw": "wormways/wormways-upper-west@f",
             "room_id": "wormways/wormways-upper-west",
@@ -25386,11 +25647,43 @@
       ],
       "connections": [
         {
-          "id": "wormways/wormways-middle#left-area>right-area@rj",
+          "id": "wormways/wormways-middle#main-tunnel>wormways-west-scaffold@rj",
           "requirement": {
-            "raw": "run OR dash OR drifter's cloak OR faydown cloak OR sharpdart OR clawline",
+            "raw": "(ledge grab AND (run OR dash OR faydown OR drifter's cloak OR clawline OR silksoar OR sharpdart OR flea brew))\nOR (run OR dash OR faydown OR drifter's cloak OR clawline OR silksoar OR sharpdart OR  (cling grip AND fleabrew))\nOR (cling grip AND (architech pogo OR shaman pogo)) OR beast pogo",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab",
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "capability:ledge-grab",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:drifters-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:clawline"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:sharpdart"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:flea-brew"
+              ],
               [
                 "macro:progressive-swift-step-first"
               ],
@@ -25398,16 +25691,34 @@
                 "macro:progressive-swift-step-full"
               ],
               [
+                "item:faydown-cloak"
+              ],
+              [
                 "item:drifters-cloak"
               ],
               [
-                "item:faydown-cloak"
+                "item:clawline"
+              ],
+              [
+                "item:silk-soar"
               ],
               [
                 "item:sharpdart"
               ],
               [
-                "item:clawline"
+                "item:cling-grip",
+                "item:flea-brew"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
             "annotations": [],
@@ -25415,7 +25726,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "architech pogo req is technically inaccurate, (you just use reg slash for extra distance) but i don't think we have a specific option for that?",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ff64187c-d82d-4314-bcb8-ea5179554d3a"
@@ -25424,11 +25735,11 @@
           "unresolved_reasons": [],
           "alias": "RJ",
           "name": "running jump",
-          "source_node_id": "wormways/wormways-middle#left-area",
-          "target_node_id": "wormways/wormways-middle#right-area"
+          "source_node_id": "wormways/wormways-middle#main-tunnel",
+          "target_node_id": "wormways/wormways-middle#wormways-west-scaffold"
         },
         {
-          "id": "wormways/wormways-middle#right-area>left-area@rj",
+          "id": "wormways/wormways-middle#wormways-west-scaffold>main-tunnel@rj",
           "requirement": {
             "raw": "none (falling)",
             "mode": "expression",
@@ -25449,8 +25760,8 @@
           "unresolved_reasons": [],
           "alias": "RJ",
           "name": "running jump",
-          "source_node_id": "wormways/wormways-middle#right-area",
-          "target_node_id": "wormways/wormways-middle#left-area"
+          "source_node_id": "wormways/wormways-middle#wormways-west-scaffold",
+          "target_node_id": "wormways/wormways-middle#main-tunnel"
         }
       ],
       "events": [
@@ -25458,7 +25769,7 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-middle#right-area",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-middle#right-area",
+          "node_id": "wormways/wormways-middle#wormways-west-scaffold",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -25479,7 +25790,7 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-middle#left-area",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-middle#left-area",
+          "node_id": "wormways/wormways-middle#main-tunnel",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -25505,19 +25816,19 @@
       "area_id": "wormways",
       "name": "Wormways Upper West",
       "source_file": "wormways/wormways-upper-west.json",
-      "source_sha256": "1ea51074771878c993eab3d781b8d085b19c994debe0f9040fe9b6379798afcd",
+      "source_sha256": "acf86a22834d189351a7016cd0cf2faa055123cd01a62fa9a79de4714ae01e11",
       "geometry_act_independent": true,
-      "notes": "",
+      "notes": "does anything show up in that tunnel opposite to the plasmium alcove later on? feels like there'd be an item or something relevant there",
       "nodes": [
         {
-          "id": "wormways/wormways-upper-west#main-area",
-          "name": "main area",
+          "id": "wormways/wormways-upper-west#main-area-upper",
+          "name": "main area upper",
           "notes": "",
           "declared": true
         },
         {
-          "id": "wormways/wormways-upper-west#plasmium-spot",
-          "name": "plasmium spot",
+          "id": "wormways/wormways-upper-west#plasmium-alcove",
+          "name": "plasmium alcove",
           "notes": "",
           "declared": true
         },
@@ -25526,38 +25837,38 @@
           "name": "weavenest landing",
           "notes": "",
           "declared": true
+        },
+        {
+          "id": "wormways/wormways-upper-west#main-tunnel-lower",
+          "name": "main tunnel lower",
+          "notes": "",
+          "declared": true
         }
       ],
       "transitions": [
         {
           "id": "wormways/wormways-upper-west@f",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "2dd9f0bd-435e-4581-8d88-48839fa637c8"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "F",
           "name": "floor",
-          "source_node_id": "wormways/wormways-upper-west#main-area",
+          "source_node_id": "wormways/wormways-upper-west#main-tunnel-lower",
           "target": {
             "raw": "wormways/wormways-middle@c",
             "room_id": "wormways/wormways-middle",
@@ -25569,32 +25880,28 @@
         {
           "id": "wormways/wormways-upper-west@r",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "ledgegrab OR faydown cloak OR clinggrip OR silksoar OR shaman pogo",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:wormways-upper-west-shortcut-open"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "b9dc6ee3-2688-4680-ad22-1ecb2e90047e"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right",
-          "source_node_id": "wormways/wormways-upper-west#main-area",
+          "source_node_id": "wormways/wormways-upper-west#main-area-upper",
           "target": {
             "raw": "wormways/wormways-shaft@ul",
             "room_id": "wormways/wormways-shaft",
@@ -25606,7 +25913,7 @@
         {
           "id": "wormways/wormways-upper-west@c",
           "requirement": {
-            "raw": "silk soar OR cling grip",
+            "raw": "silk soar OR cling grip OR scuttlebrace",
             "mode": "expression",
             "dnf": [
               [
@@ -25614,6 +25921,9 @@
               ],
               [
                 "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
               ]
             ],
             "annotations": [],
@@ -25630,7 +25940,7 @@
           "unresolved_reasons": [],
           "alias": "C",
           "name": "ceiling",
-          "source_node_id": "wormways/wormways-upper-west#main-area",
+          "source_node_id": "wormways/wormways-upper-west#main-area-upper",
           "target": {
             "raw": "wormways/wormways-laboratory@f",
             "room_id": "wormways/wormways-laboratory",
@@ -25675,19 +25985,32 @@
       ],
       "connections": [
         {
-          "id": "wormways/wormways-upper-west#main-area>plasmium-spot@cg",
+          "id": "wormways/wormways-upper-west#main-area-upper>plasmium-alcove@cg",
           "requirement": {
-            "raw": "cling grip OR silk soar OR faydown cloak",
+            "raw": "(ledge grab AND (cling grip OR faydown cloak OR scuttlebrace))\nOR (cling grip OR scuttlebrace OR (faydown cloak AND shaman pogo))",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab",
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:scuttlebrace:none"
+              ],
               [
                 "item:cling-grip"
               ],
               [
-                "item:silk-soar"
+                "mapper:scuttlebrace:none"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "mapper:shaman-crest-pogo:easy"
               ]
             ],
             "annotations": [],
@@ -25703,24 +26026,33 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "alias": "CG",
-          "name": "climb",
-          "source_node_id": "wormways/wormways-upper-west#main-area",
-          "target_node_id": "wormways/wormways-upper-west#plasmium-spot"
+          "name": "upper climb",
+          "source_node_id": "wormways/wormways-upper-west#main-area-upper",
+          "target_node_id": "wormways/wormways-upper-west#plasmium-alcove"
         },
         {
-          "id": "wormways/wormways-upper-west#plasmium-spot>main-area@cg",
+          "id": "wormways/wormways-upper-west#plasmium-alcove>main-area-upper@cg",
           "requirement": {
-            "raw": "cling grip OR silk soar OR faydown cloak",
+            "raw": "(ledge grab AND (cling grip OR silk soar OR faydown cloak))\nOR (silk soar OR clinggrip)",
             "mode": "expression",
             "dnf": [
               [
+                "capability:ledge-grab",
                 "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
               ],
               [
                 "item:silk-soar"
               ],
               [
-                "item:faydown-cloak"
+                "item:cling-grip"
               ]
             ],
             "annotations": [],
@@ -25736,16 +26068,29 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "alias": "CG",
-          "name": "climb",
-          "source_node_id": "wormways/wormways-upper-west#plasmium-spot",
-          "target_node_id": "wormways/wormways-upper-west#main-area"
+          "name": "upper climb",
+          "source_node_id": "wormways/wormways-upper-west#plasmium-alcove",
+          "target_node_id": "wormways/wormways-upper-west#main-area-upper"
         },
         {
-          "id": "wormways/wormways-upper-west#main-area>weavenest-landing@bj",
+          "id": "wormways/wormways-upper-west#main-tunnel-lower>weavenest-landing@bj",
           "requirement": {
-            "raw": "silk soar OR faydown cloak OR ( run AND dash AND clawline )",
+            "raw": "(ledge grab AND (silk soar OR faydown cloak OR (run AND clawline))) OR silk soar OR faydown cloak OR (run AND clawline AND cling grip)",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab",
+                "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "macro:progressive-swift-step-first",
+                "item:clawline"
+              ],
               [
                 "item:silk-soar"
               ],
@@ -25754,8 +26099,8 @@
               ],
               [
                 "macro:progressive-swift-step-first",
-                "macro:progressive-swift-step-full",
-                "item:clawline"
+                "item:clawline",
+                "item:cling-grip"
               ]
             ],
             "annotations": [],
@@ -25772,11 +26117,11 @@
           "unresolved_reasons": [],
           "alias": "BJ",
           "name": "big jump",
-          "source_node_id": "wormways/wormways-upper-west#main-area",
+          "source_node_id": "wormways/wormways-upper-west#main-tunnel-lower",
           "target_node_id": "wormways/wormways-upper-west#weavenest-landing"
         },
         {
-          "id": "wormways/wormways-upper-west#weavenest-landing>main-area@bj",
+          "id": "wormways/wormways-upper-west#weavenest-landing>main-tunnel-lower@bj",
           "requirement": {
             "raw": "none (falling)",
             "mode": "expression",
@@ -25798,7 +26143,99 @@
           "alias": "BJ",
           "name": "big jump",
           "source_node_id": "wormways/wormways-upper-west#weavenest-landing",
-          "target_node_id": "wormways/wormways-upper-west#main-area"
+          "target_node_id": "wormways/wormways-upper-west#main-tunnel-lower"
+        },
+        {
+          "id": "wormways/wormways-upper-west#main-tunnel-lower>plasmium-alcove@cl",
+          "requirement": {
+            "raw": "silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR run) AND (faydown cloak OR flea brew))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline",
+                "item:flea-brew"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-first",
+                "item:flea-brew"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:clawline",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:clawline",
+                "item:flea-brew"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "macro:progressive-swift-step-first",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "macro:progressive-swift-step-first",
+                "item:flea-brew"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "aeac6413-a32d-4f62-82c6-7b1fbc76e6cb"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "CL",
+          "name": "lower climb",
+          "source_node_id": "wormways/wormways-upper-west#main-tunnel-lower",
+          "target_node_id": "wormways/wormways-upper-west#plasmium-alcove"
+        },
+        {
+          "id": "wormways/wormways-upper-west#plasmium-alcove>main-tunnel-lower@cl",
+          "requirement": {
+            "raw": "none (falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "ff53e61a-0503-4c45-884c-6b84245c3e28"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "CL",
+          "name": "lower climb",
+          "source_node_id": "wormways/wormways-upper-west#plasmium-alcove",
+          "target_node_id": "wormways/wormways-upper-west#main-tunnel-lower"
         }
       ],
       "events": [
@@ -25827,21 +26264,20 @@
           "unresolved_reasons": [],
           "label": "plasmium pustule upper west",
           "kind": "unknown",
-          "node_id": "wormways/wormways-upper-west#plasmium-spot"
+          "node_id": "wormways/wormways-upper-west#plasmium-alcove"
         },
         {
           "id": "event:mapper/reviewed:advanced-alchemy-upper-west-samples",
           "label": "Advanced Alchemy Upper West Samples",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-west#main-area",
+          "node_id": "wormways/wormways-upper-west#main-area-upper",
           "requirement": {
             "raw": "",
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:advanced-alchemy-accepted",
-                "state:act-3",
-                "item:needle-phial"
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples"
               ]
             ],
             "annotations": [],
@@ -25858,7 +26294,7 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-west#main-area",
+          "node_id": "wormways/wormways-upper-west#main-area-upper",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -25879,7 +26315,7 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#plasmium-spot",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-west#plasmium-spot",
+          "node_id": "wormways/wormways-upper-west#plasmium-alcove",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -25916,6 +26352,117 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:wormways-upper-west-shortcut-open",
+          "label": "Wormways Upper West Shortcut Open",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-west#main-area-upper",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:right",
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:attack:right",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:attack:right",
+                "item:cling-grip"
+              ],
+              [
+                "mapper:attack:right",
+                "item:silk-soar"
+              ],
+              [
+                "mapper:attack:right",
+                "mapper:shaman-crest-pogo:easy"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower",
+          "label": "Visited Wormways",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-west#main-tunnel-lower",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+          "label": "Advanced Alchemy Upper West Upper Samples",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-west#main-area-upper",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:advanced-alchemy-accepted",
+                "state:act-3",
+                "item:needle-phial"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+          "label": "Advanced Alchemy Upper West Lower Samples",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-west#main-tunnel-lower",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:advanced-alchemy-accepted",
+                "state:act-3",
+                "item:needle-phial"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [],
@@ -25926,19 +26473,43 @@
       "area_id": "wormways",
       "name": "Wormways Upper East",
       "source_file": "wormways/wormways-upper-east.json",
-      "source_sha256": "02c7abbce8e116c72eb29cfa74fa93b14fd3e490b883fc55369575791dfff60f",
+      "source_sha256": "a04c70b1375fd1560fc5c8d4e87492be2f09b5fea5cabce9096dfc8dd8b431bb",
       "geometry_act_independent": true,
-      "notes": "",
+      "notes": "elevator abyss cross is one and done if entered from above without the requirements to climb back up the abyss",
       "nodes": [
         {
-          "id": "wormways/wormways-upper-east#lower-area",
-          "name": "lower area",
+          "id": "wormways/wormways-upper-east#spike-abyss",
+          "name": "spike abyss",
           "notes": "",
           "declared": true
         },
         {
-          "id": "wormways/wormways-upper-east#upper-area",
-          "name": "upper area",
+          "id": "wormways/wormways-upper-east#upper-exit-tunnel",
+          "name": "upper exit tunnel",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-upper-east#shakra-camp",
+          "name": "shakra camp",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-upper-east#pilgrim-grave",
+          "name": "pilgrim grave",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-upper-east#central-elevator",
+          "name": "central elevator",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-upper-east#abyss-crossing",
+          "name": "abyss crossing",
           "notes": "",
           "declared": true
         }
@@ -25966,7 +26537,7 @@
           "unresolved_reasons": [],
           "alias": "L",
           "name": "left",
-          "source_node_id": "wormways/wormways-upper-east#lower-area",
+          "source_node_id": "wormways/wormways-upper-east#spike-abyss",
           "target": {
             "raw": "wormways/wormways-shaft@ur",
             "room_id": "wormways/wormways-shaft",
@@ -25997,7 +26568,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right",
-          "source_node_id": "wormways/wormways-upper-east#upper-area",
+          "source_node_id": "wormways/wormways-upper-east#upper-exit-tunnel",
           "target": {
             "raw": "bone-bottom/the-big-fall@ul",
             "room_id": "bone-bottom/the-big-fall",
@@ -26009,11 +26580,17 @@
       ],
       "connections": [
         {
-          "id": "wormways/wormways-upper-east#lower-area>upper-area@ld",
+          "id": "wormways/wormways-upper-east#central-elevator>upper-exit-tunnel@eg",
           "requirement": {
-            "raw": "run OR dash OR cling grip OR drifter's cloak OR faydown cloak OR sharpdart OR clawline",
+            "raw": "ledge grab OR spike pogo OR run OR dash OR cling grip OR drifter's cloak OR faydown cloak OR sharpdart OR clawline",
             "mode": "expression",
             "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "macro:spike-pogo"
+              ],
               [
                 "macro:progressive-swift-step-first"
               ],
@@ -26048,13 +26625,13 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "LD",
-          "name": "left dash",
-          "source_node_id": "wormways/wormways-upper-east#lower-area",
-          "target_node_id": "wormways/wormways-upper-east#upper-area"
+          "alias": "EG",
+          "name": "elevator gap",
+          "source_node_id": "wormways/wormways-upper-east#central-elevator",
+          "target_node_id": "wormways/wormways-upper-east#upper-exit-tunnel"
         },
         {
-          "id": "wormways/wormways-upper-east#upper-area>lower-area@ld",
+          "id": "wormways/wormways-upper-east#upper-exit-tunnel>central-elevator@eg",
           "requirement": {
             "raw": "none (falling)",
             "mode": "expression",
@@ -26073,17 +26650,297 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "LD",
-          "name": "left dash",
-          "source_node_id": "wormways/wormways-upper-east#upper-area",
-          "target_node_id": "wormways/wormways-upper-east#lower-area"
+          "alias": "EG",
+          "name": "elevator gap",
+          "source_node_id": "wormways/wormways-upper-east#upper-exit-tunnel",
+          "target_node_id": "wormways/wormways-upper-east#central-elevator"
+        },
+        {
+          "id": "wormways/wormways-upper-east#spike-abyss>abyss-crossing@sc",
+          "requirement": {
+            "raw": "(ledge grab AND (run OR dash OR cling grip OR shaman pogo OR beast pogo OR clawline OR drifter's cloak OR faydown cloak)) OR (proficient movement AND cling grip) OR faydown cloak OR scuttlebrace OR (cling grip AND (clawline OR sharpdart)) OR silk soar",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab",
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "capability:ledge-grab",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:clawline"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:drifters-cloak"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:proficient-movement:none",
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:cling-grip",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "badecb93-a51b-4b72-b2b6-1890130c8184"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "SC",
+          "name": "camp abyss climb",
+          "source_node_id": "wormways/wormways-upper-east#spike-abyss",
+          "target_node_id": "wormways/wormways-upper-east#abyss-crossing"
+        },
+        {
+          "id": "wormways/wormways-upper-east#abyss-crossing>spike-abyss@sc",
+          "requirement": {
+            "raw": "none (falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "4bd55fdf-c879-4545-ba44-8174b3592021"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "SC",
+          "name": "camp abyss climb",
+          "source_node_id": "wormways/wormways-upper-east#abyss-crossing",
+          "target_node_id": "wormways/wormways-upper-east#spike-abyss"
+        },
+        {
+          "id": "wormways/wormways-upper-east#abyss-crossing>central-elevator@ea",
+          "requirement": {
+            "raw": "ledge grab OR cling grip OR faydown cloak OR scuttlebrace",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "ba6be833-c6aa-4c12-911b-6d8d44644ce9"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "EA",
+          "name": "elevator abyss cross",
+          "source_node_id": "wormways/wormways-upper-east#abyss-crossing",
+          "target_node_id": "wormways/wormways-upper-east#central-elevator"
+        },
+        {
+          "id": "wormways/wormways-upper-east#central-elevator>abyss-crossing@ea",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "341f42b4-b246-43da-b2ae-cd70cf0df5ab"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "EA",
+          "name": "elevator abyss cross",
+          "source_node_id": "wormways/wormways-upper-east#central-elevator",
+          "target_node_id": "wormways/wormways-upper-east#abyss-crossing"
+        },
+        {
+          "id": "wormways/wormways-upper-east#central-elevator>pilgrim-grave@gp",
+          "requirement": {
+            "raw": "ledgegrab OR cling grip OR silk soar OR enemy pogo OR scuttlebrace OR faydown cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "mapper:enemy-pogo:none"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "8832d316-b44b-4d09-a1d4-8d22221bb315"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "GP",
+          "name": "grave passage",
+          "source_node_id": "wormways/wormways-upper-east#central-elevator",
+          "target_node_id": "wormways/wormways-upper-east#pilgrim-grave"
+        },
+        {
+          "id": "wormways/wormways-upper-east#pilgrim-grave>central-elevator@gp",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "ed2d9331-07f5-49e7-af4c-30910956ebb2"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "GP",
+          "name": "grave passage",
+          "source_node_id": "wormways/wormways-upper-east#pilgrim-grave",
+          "target_node_id": "wormways/wormways-upper-east#central-elevator"
+        },
+        {
+          "id": "wormways/wormways-upper-east#abyss-crossing>shakra-camp@cc",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "2dc53330-ca59-4d93-9f21-ecb7ddfc6042"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "CC",
+          "name": "camp crossing",
+          "source_node_id": "wormways/wormways-upper-east#abyss-crossing",
+          "target_node_id": "wormways/wormways-upper-east#shakra-camp"
+        },
+        {
+          "id": "wormways/wormways-upper-east#shakra-camp>abyss-crossing@cc",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "32475098-cd9e-405c-b128-c74221002538"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "CC",
+          "name": "camp crossing",
+          "source_node_id": "wormways/wormways-upper-east#shakra-camp",
+          "target_node_id": "wormways/wormways-upper-east#abyss-crossing"
         }
       ],
       "events": [
         {
           "id": "event:mapper/98ae458f-387a-4246-824b-daa6d2c5cdf1",
           "requirement": {
-            "raw": "",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
               [
@@ -26104,13 +26961,13 @@
           "unresolved_reasons": [],
           "label": "shakra shop items",
           "kind": "unknown",
-          "node_id": "wormways/wormways-upper-east#upper-area"
+          "node_id": "wormways/wormways-upper-east#shakra-camp"
         },
         {
           "id": "event:mapper/reviewed:shakra-shop-wormways-upper-east",
           "label": "Shakra's shop",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -26133,7 +26990,7 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#lower-area",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-east#lower-area",
+          "node_id": "wormways/wormways-upper-east#spike-abyss",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -26154,7 +27011,91 @@
           "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#upper-area",
           "label": "Visited Wormways",
           "kind": "event",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#upper-exit-tunnel",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp",
+          "label": "Visited Wormways",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave",
+          "label": "Visited Wormways",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-east#pilgrim-grave",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator",
+          "label": "Visited Wormways",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-east#central-elevator",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing",
+          "label": "Visited Wormways",
+          "kind": "event",
+          "node_id": "wormways/wormways-upper-east#abyss-crossing",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -26194,7 +27135,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "dead bugs purse",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#pilgrim-grave",
           "canonical_location": "Dead Bug's Purse",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -26202,7 +27143,7 @@
         {
           "id": "wormways/wormways-upper-east::mapper-check:98ae458f-387a-4246-824b-daa6d2c5cdf1:835686",
           "requirement": {
-            "raw": "",
+            "raw": "none",
             "mode": "expression",
             "dnf": [
               [
@@ -26222,7 +27163,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "shakra shop items",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Wormways - Map Purchase",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -26230,7 +27171,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835507",
           "label": "Item: Quill",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Item: Quill",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26255,7 +27196,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835553",
           "label": "Compass",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Compass",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26280,7 +27221,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835682",
           "label": "Mosslands - Map Purchase",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Mosslands - Map Purchase",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26305,7 +27246,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835683",
           "label": "The Marrow - Map Purchase",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "The Marrow - Map Purchase",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26330,7 +27271,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835696",
           "label": "Pin Purchase: Bench Pins",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Pin Purchase: Bench Pins",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26355,7 +27296,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835698",
           "label": "Pin Purchase: Bellway Pins",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Pin Purchase: Bellway Pins",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26381,7 +27322,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835689",
           "label": "Bellhart - Map Purchase",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Bellhart - Map Purchase",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26407,7 +27348,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835699",
           "label": "Pin Purchase: Vendor Pins",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Pin Purchase: Vendor Pins",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26433,7 +27374,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-wormways-upper-east",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-wormways-upper-east",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-wormways-upper-east",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-wormways-upper-east",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-wormways-upper-east",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-wormways-upper-east",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-wormways-upper-east",
@@ -26677,7 +27638,7 @@
         {
           "id": "wormways/wormways-upper-east::reviewed-check:835697",
           "label": "Pin Purchase: Ventrica Pins",
-          "node_id": "wormways/wormways-upper-east#upper-area",
+          "node_id": "wormways/wormways-upper-east#shakra-camp",
           "canonical_location": "Pin Purchase: Ventrica Pins",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
@@ -26732,7 +27693,7 @@
       "area_id": "wormways",
       "name": "Wormways Laboratory",
       "source_file": "wormways/wormways-laboratory.json",
-      "source_sha256": "0023b7675d673cfcce03c80ff3b3c5fd74de655d2fdded9fb1c1954136fe09a2",
+      "source_sha256": "fe63a3442615fc910429e81534a2a7c850e4c9ca753756892a949f5f55e6ad55",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -26747,29 +27708,23 @@
         {
           "id": "wormways/wormways-laboratory@f",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper row is unresolved",
-              "requirement is blank",
-              "requirement is unresolved"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "0c10070d-fda4-498a-9d02-340d694ac507"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper row is unresolved",
-            "requirement is blank",
-            "requirement is unresolved"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "F",
           "name": "floor",
           "source_node_id": "wormways/wormways-laboratory#room",
@@ -26787,7 +27742,7 @@
         {
           "id": "event:mapper/9730064b-fd6c-40d9-a7d9-7ec9ed669b96",
           "requirement": {
-            "raw": "",
+            "raw": "turn in 3 plasmium",
             "mode": "expression",
             "dnf": [
               []
@@ -26867,22 +27822,72 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:advanced-alchemy-upper-west-samples",
-                "event:mapper/reviewed:advanced-alchemy-lower-west-samples",
-                "event:mapper/reviewed:advanced-alchemy-lower-east-samples"
-              ],
-              [
-                "event:mapper/reviewed:advanced-alchemy-upper-west-samples",
-                "event:mapper/reviewed:advanced-alchemy-lower-west-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
                 "event:mapper/reviewed:advanced-alchemy-zango-samples"
               ],
               [
-                "event:mapper/reviewed:advanced-alchemy-upper-west-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
                 "event:mapper/reviewed:advanced-alchemy-lower-east-samples",
                 "event:mapper/reviewed:advanced-alchemy-zango-samples"
               ],
               [
-                "event:mapper/reviewed:advanced-alchemy-lower-west-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-zango-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+                "event:mapper/reviewed:advanced-alchemy-zango-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+                "event:mapper/reviewed:advanced-alchemy-zango-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-east-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-east-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-east-samples",
+                "event:mapper/reviewed:advanced-alchemy-zango-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-east-samples",
+                "event:mapper/reviewed:advanced-alchemy-zango-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-upper-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-east-samples"
+              ],
+              [
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
                 "event:mapper/reviewed:advanced-alchemy-lower-east-samples",
                 "event:mapper/reviewed:advanced-alchemy-zango-samples"
               ]
@@ -26936,7 +27941,7 @@
               ]
             ],
             "annotations": [],
-            "catalogue_recovered": true,
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
@@ -26984,6 +27989,16 @@
           "mapper_id": "3d9fe91e-cdc7-4e50-abe5-627563550f32",
           "label": "wish missing assitant",
           "kind": "unknown"
+        },
+        {
+          "mapper_id": "355cb2bc-56b7-45b8-b18a-50969993ca44",
+          "label": "wish advanced alchemy",
+          "kind": "unknown"
+        },
+        {
+          "mapper_id": "9b03034b-3e6a-4e6f-aad7-1683d7941cb7",
+          "label": "plasmium gland",
+          "kind": "unknown"
         }
       ]
     },
@@ -26992,9 +28007,9 @@
       "area_id": "wormways",
       "name": "Wormways Lower East",
       "source_file": "wormways/wormways-lower-east.json",
-      "source_sha256": "6bf334875cc208157be751d7e264676eb74c5df8e6ceddfbb71f507383431335",
+      "source_sha256": "c5439c69b89c73f081fd765ebb43f375d8f847adb46cbdf1f9966ee72dfba3b1",
       "geometry_act_independent": true,
-      "notes": "this one seems a bit tricky, but also it's just a bit late\r\ni think you need cling grip to from any one point to another in here\r\nTODO: review the mapping in here",
+      "notes": "this one seems a bit tricky, but also it's just a bit late\ni think you need cling grip to from any one point to another in here\nTODO: review the mapping in here\nupdate from cry: Most of this area can be navigated without mobility upgrades simply with pogos, every worm-spawn shaft has a blind spot on the right side hornet can hug to safely avoid the worms and pogo over, this is consistent in the rest of wormways too\n",
       "nodes": [
         {
           "id": "wormways/wormways-lower-east#ceiling-exit-area",
@@ -27120,12 +28135,10 @@
         {
           "id": "wormways/wormways-lower-east#ceiling-exit-area>tunnels@cc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "none (falling)",
             "mode": "expression",
             "dnf": [
-              [
-                "item:cling-grip"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -27147,11 +28160,25 @@
         {
           "id": "wormways/wormways-lower-east#tunnels>ceiling-exit-area@cc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR (ledgegrab AND faydown cloak) OR (faydown cloak AND shaman pogo) OR scuttlebrace OR silk soar",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:silk-soar"
               ]
             ],
             "annotations": [],
@@ -27174,12 +28201,10 @@
         {
           "id": "wormways/wormways-lower-east#left-exit-area>tunnels@lc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "none (falling)",
             "mode": "expression",
             "dnf": [
-              [
-                "item:cling-grip"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -27201,11 +28226,18 @@
         {
           "id": "wormways/wormways-lower-east#tunnels>left-exit-area@lc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR scuttlebrace OR (faydown cloak AND moderate enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:medium"
               ]
             ],
             "annotations": [],
@@ -27228,11 +28260,19 @@
         {
           "id": "wormways/wormways-lower-east#floor-exit-area>tunnels@rc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR (ledgegrab  AND (proficient movement OR faydown cloak))",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:proficient-movement:none"
+              ],
+              [
+                "capability:ledge-grab",
+                "item:faydown-cloak"
               ]
             ],
             "annotations": [],
@@ -27255,12 +28295,10 @@
         {
           "id": "wormways/wormways-lower-east#tunnels>floor-exit-area@rc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "none (falling)",
             "mode": "expression",
             "dnf": [
-              [
-                "item:cling-grip"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -27426,25 +28464,43 @@
       "area_id": "wormways",
       "name": "Wormways Lower West",
       "source_file": "wormways/wormways-lower-west.json",
-      "source_sha256": "2b2cd9b41d3d5198dee1d38de69eb3634417e2e3a40a157612037cdf68c26d87",
+      "source_sha256": "a770c669732dc522410b1eaae361d3c44fdfd53b9ca0d865719f86ec27d42a0e",
       "geometry_act_independent": true,
-      "notes": "this one seems a bit tricky, but also it's just a bit late\r\ni think you need cling grip to from any one point to another in here\r\nTODO: review the mapping in here",
+      "notes": "this one seems a bit tricky, but also it's just a bit late\ni think you need cling grip to from any one point to another in here\nTODO: review the mapping in here\ncry: wasn't sure how to mark the second markable wall in this room, there's one at the left exit and one right before the climb connecting to the tunnel network -- the full area behind this second wall is left in the dark until that wall is broken; worth noting since you will have to navigate to it blindly in future room rando if you first enter this room from the left entrance",
       "nodes": [
         {
-          "id": "wormways/wormways-lower-west#left-exit-area",
-          "name": "left exit area",
+          "id": "wormways/wormways-lower-west#left-exit-shaft",
+          "name": "left exit shaft",
           "notes": "",
           "declared": true
         },
         {
-          "id": "wormways/wormways-lower-west#right-exit-area",
-          "name": "right exit area",
+          "id": "wormways/wormways-lower-west#right-exit-tunnel",
+          "name": "right exit tunnel",
           "notes": "",
           "declared": true
         },
         {
-          "id": "wormways/wormways-lower-west#tunnels",
-          "name": "tunnels",
+          "id": "wormways/wormways-lower-west#upper-tunnels",
+          "name": "upper tunnels",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-lower-west#lower-tunnels",
+          "name": "lower tunnels",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-lower-west#right-exit-basement",
+          "name": "right exit basement",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "wormways/wormways-lower-west#pilgrim-tomb",
+          "name": "pilgrim tomb",
           "notes": "",
           "declared": true
         }
@@ -27472,7 +28528,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right",
-          "source_node_id": "wormways/wormways-lower-west#right-exit-area",
+          "source_node_id": "wormways/wormways-lower-west#right-exit-tunnel",
           "target": {
             "raw": "wormways/wormways-lower-east@l",
             "room_id": "wormways/wormways-lower-east",
@@ -27494,7 +28550,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "breakable wall - can be broken from either side",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "8110ed42-23e4-41f1-a25e-3bee3c1e2549"
@@ -27503,7 +28559,7 @@
           "unresolved_reasons": [],
           "alias": "L",
           "name": "left",
-          "source_node_id": "wormways/wormways-lower-west#left-exit-area",
+          "source_node_id": "wormways/wormways-lower-west#left-exit-shaft",
           "target": {
             "raw": "wormways/wormways-zango-arena@r",
             "room_id": "wormways/wormways-zango-arena",
@@ -27515,13 +28571,21 @@
       ],
       "connections": [
         {
-          "id": "wormways/wormways-lower-west#left-exit-area>tunnels@lc",
+          "id": "wormways/wormways-lower-west#left-exit-shaft>upper-tunnels@lc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR (silk soar AND spike pogo) OR (scuttlebrace AND spike pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "item:silk-soar",
+                "macro:spike-pogo"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "macro:spike-pogo"
               ]
             ],
             "annotations": [],
@@ -27538,17 +28602,36 @@
           "unresolved_reasons": [],
           "alias": "LC",
           "name": "left climb",
-          "source_node_id": "wormways/wormways-lower-west#left-exit-area",
-          "target_node_id": "wormways/wormways-lower-west#tunnels"
+          "source_node_id": "wormways/wormways-lower-west#left-exit-shaft",
+          "target_node_id": "wormways/wormways-lower-west#upper-tunnels"
         },
         {
-          "id": "wormways/wormways-lower-west#tunnels>left-exit-area@lc",
+          "id": "wormways/wormways-lower-west#upper-tunnels>left-exit-shaft@lc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR faydown cloak OR architech pogo OR shaman pogo OR reaper pogo OR beast pogo OR (scuttlebrace AND spike pogo)",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "macro:spike-pogo"
               ]
             ],
             "annotations": [],
@@ -27565,18 +28648,16 @@
           "unresolved_reasons": [],
           "alias": "LC",
           "name": "left climb",
-          "source_node_id": "wormways/wormways-lower-west#tunnels",
-          "target_node_id": "wormways/wormways-lower-west#left-exit-area"
+          "source_node_id": "wormways/wormways-lower-west#upper-tunnels",
+          "target_node_id": "wormways/wormways-lower-west#left-exit-shaft"
         },
         {
-          "id": "wormways/wormways-lower-west#right-exit-area>tunnels@rc",
+          "id": "wormways/wormways-lower-west#right-exit-tunnel>right-exit-basement@rc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "none (falling)",
             "mode": "expression",
             "dnf": [
-              [
-                "item:cling-grip"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -27592,17 +28673,23 @@
           "unresolved_reasons": [],
           "alias": "RC",
           "name": "right climb",
-          "source_node_id": "wormways/wormways-lower-west#right-exit-area",
-          "target_node_id": "wormways/wormways-lower-west#tunnels"
+          "source_node_id": "wormways/wormways-lower-west#right-exit-tunnel",
+          "target_node_id": "wormways/wormways-lower-west#right-exit-basement"
         },
         {
-          "id": "wormways/wormways-lower-west#tunnels>right-exit-area@rc",
+          "id": "wormways/wormways-lower-west#right-exit-basement>right-exit-tunnel@rc",
           "requirement": {
-            "raw": "cling grip",
+            "raw": "cling grip OR scuttlebrace OR enemy pogo",
             "mode": "expression",
             "dnf": [
               [
                 "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "mapper:enemy-pogo:none"
               ]
             ],
             "annotations": [],
@@ -27619,8 +28706,182 @@
           "unresolved_reasons": [],
           "alias": "RC",
           "name": "right climb",
-          "source_node_id": "wormways/wormways-lower-west#tunnels",
-          "target_node_id": "wormways/wormways-lower-west#right-exit-area"
+          "source_node_id": "wormways/wormways-lower-west#right-exit-basement",
+          "target_node_id": "wormways/wormways-lower-west#right-exit-tunnel"
+        },
+        {
+          "id": "wormways/wormways-lower-west#lower-tunnels>upper-tunnels@ts",
+          "requirement": {
+            "raw": "silk soar OR scuttlebrace OR cling grip",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:cling-grip"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "cd39a7ec-fcf3-4b1f-8331-b7121b31a45c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TS",
+          "name": "tunnel shaft",
+          "source_node_id": "wormways/wormways-lower-west#lower-tunnels",
+          "target_node_id": "wormways/wormways-lower-west#upper-tunnels"
+        },
+        {
+          "id": "wormways/wormways-lower-west#upper-tunnels>lower-tunnels@ts",
+          "requirement": {
+            "raw": "none (falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "aec14fc6-f112-47ab-bdd7-da983c189d6c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TS",
+          "name": "tunnel shaft",
+          "source_node_id": "wormways/wormways-lower-west#upper-tunnels",
+          "target_node_id": "wormways/wormways-lower-west#lower-tunnels"
+        },
+        {
+          "id": "wormways/wormways-lower-west#right-exit-tunnel>upper-tunnels@tc",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e788bb62-6ea5-447b-ab98-a57ff2fae167"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TC",
+          "name": "tunnel connector",
+          "source_node_id": "wormways/wormways-lower-west#right-exit-tunnel",
+          "target_node_id": "wormways/wormways-lower-west#upper-tunnels"
+        },
+        {
+          "id": "wormways/wormways-lower-west#upper-tunnels>right-exit-tunnel@tc",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "f22ba8b9-4b31-42fe-a0bc-7d246c9a5b24"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TC",
+          "name": "tunnel connector",
+          "source_node_id": "wormways/wormways-lower-west#upper-tunnels",
+          "target_node_id": "wormways/wormways-lower-west#right-exit-tunnel"
+        },
+        {
+          "id": "wormways/wormways-lower-west#lower-tunnels>pilgrim-tomb@pc",
+          "requirement": {
+            "raw": "spike pogo OR dash OR faydown cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:spike-pogo"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "067f4b95-c255-428e-84de-0036d3c6f882"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "PC",
+          "name": "pilgrim crevace",
+          "source_node_id": "wormways/wormways-lower-west#lower-tunnels",
+          "target_node_id": "wormways/wormways-lower-west#pilgrim-tomb"
+        },
+        {
+          "id": "wormways/wormways-lower-west#pilgrim-tomb>lower-tunnels@pc",
+          "requirement": {
+            "raw": "cling grip OR scuttlebrace OR faydown cloak",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "5e9dd49c-95fd-44e1-8f6d-69529278ecc5"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "PC",
+          "name": "pilgrim crevace",
+          "source_node_id": "wormways/wormways-lower-west#pilgrim-tomb",
+          "target_node_id": "wormways/wormways-lower-west#lower-tunnels"
         }
       ],
       "events": [
@@ -27649,13 +28910,146 @@
           "unresolved_reasons": [],
           "label": "plasmium pustule lower west",
           "kind": "unknown",
-          "node_id": "wormways/wormways-lower-west#tunnels"
+          "node_id": "wormways/wormways-lower-west#left-exit-shaft"
+        },
+        {
+          "id": "event:mapper/000fc9c2-c662-4804-81c1-bf26891b89d9",
+          "requirement": {
+            "raw": "breakable wall - can be broken form either side",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ],
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "000fc9c2-c662-4804-81c1-bf26891b89d9"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Breakable Mid Wall",
+          "kind": "unknown",
+          "node_id": "wormways/wormways-lower-west#upper-tunnels"
+        },
+        {
+          "id": "event:mapper/09f0ef7f-ee5d-426e-aa5a-846d5e8a4f81",
+          "requirement": {
+            "raw": "breakable wall - can be broken from either side",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ],
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "09f0ef7f-ee5d-426e-aa5a-846d5e8a4f81"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Breakable Wall Exit",
+          "kind": "unknown",
+          "node_id": "wormways/wormways-lower-west#left-exit-shaft"
         },
         {
           "id": "event:mapper/reviewed:advanced-alchemy-lower-west-samples",
           "label": "Advanced Alchemy Lower West Samples",
           "kind": "event",
-          "node_id": "wormways/wormways-lower-west#tunnels",
+          "node_id": "wormways/wormways-lower-west#upper-tunnels",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+                "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:advanced-alchemy-lower-west-upper-samples",
+          "label": "Advanced Alchemy Lower West Upper Samples",
+          "kind": "event",
+          "node_id": "wormways/wormways-lower-west#upper-tunnels",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:advanced-alchemy-accepted",
+                "state:act-3",
+                "item:needle-phial"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:advanced-alchemy-lower-west-lower-samples",
+          "label": "Advanced Alchemy Lower West Lower Samples",
+          "kind": "event",
+          "node_id": "wormways/wormways-lower-west#lower-tunnels",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:advanced-alchemy-accepted",
+                "state:act-3",
+                "item:needle-phial"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:advanced-alchemy-lower-west-basement-samples",
+          "label": "Advanced Alchemy Lower West Basement Samples",
+          "kind": "event",
+          "node_id": "wormways/wormways-lower-west#right-exit-basement",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -27698,8 +29092,8 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "memory locket",
-          "node_id": "wormways/wormways-lower-west#tunnels",
+          "label": "wormways memory locket",
+          "node_id": "wormways/wormways-lower-west#pilgrim-tomb",
           "canonical_location": "Wormways - Memory Locket",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -27712,9 +29106,9 @@
       "area_id": "wormways",
       "name": "Wormways Weavenest",
       "source_file": "wormways/wormways-weavenest.json",
-      "source_sha256": "aa34beded7d2e2cb41d69fd60c8fcb30adff13a88ffb8b18744d52f4dd3fa089",
+      "source_sha256": "52f33878fe7c712b4b5fd64c5f5a74bebed4a1cb19e9b4c48adf9cf5d4697f7e",
       "geometry_act_independent": true,
-      "notes": "",
+      "notes": "cry: would any difficulty modifiers be appropriate? ledge grab and horizontal movement abilities are unnecessary but make it considerably easier to deal with the worms, finding a safe gap to cross is pretty strict without them, just trying to be conscious of room rando",
       "nodes": [
         {
           "id": "wormways/wormways-weavenest#room",
@@ -27795,7 +29189,7 @@
       "area_id": "wormways",
       "name": "Wormways Zango Arena",
       "source_file": "wormways/wormways-zango-arena.json",
-      "source_sha256": "c332f5c038a7d49da3c3a9e2724c0300bf4756684b86e74e5915ead3dfffd2b1",
+      "source_sha256": "c97aa8b19e99a9c6a90ddb21bbf5ae4ce41362591f9d38d73a577e63918983f2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -27844,7 +29238,7 @@
         {
           "id": "event:mapper/b94cbf57-5e84-4771-8178-ddcff1955087",
           "requirement": {
-            "raw": "TODO (act 3?)",
+            "raw": "Act 3",
             "mode": "expression",
             "dnf": [
               [
@@ -27902,7 +29296,7 @@
         {
           "id": "wormways/wormways-zango-arena::mapper-check:b94cbf57-5e84-4771-8178-ddcff1955087:836359",
           "requirement": {
-            "raw": "TODO (act 3?)",
+            "raw": "Act 3",
             "mode": "expression",
             "dnf": [
               [
@@ -29088,7 +30482,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
@@ -32599,6 +34013,12 @@
           "name": "lower left exit",
           "notes": "",
           "declared": true
+        },
+        {
+          "id": "deep-docks/deep-docks-chains-west#lower-right-entrance",
+          "name": "lower right entrance",
+          "notes": "",
+          "declared": true
         }
       ],
       "transitions": [
@@ -32750,7 +34170,7 @@
           "unresolved_reasons": [],
           "alias": "LR",
           "name": "right3",
-          "source_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
+          "source_node_id": "deep-docks/deep-docks-chains-west#lower-right-entrance",
           "target": {
             "raw": "deep-docks/deep-docks-chains-center@ll",
             "room_id": "deep-docks/deep-docks-chains-center",
@@ -32879,11 +34299,132 @@
           "target_node_id": "deep-docks/deep-docks-chains-west#lower-left-exit"
         },
         {
-          "id": "reviewed:chains-west-lower-approach",
-          "alias": "reviewed:chains-west-lower-approach",
+          "id": "reviewed:chains-west-upper-approach",
+          "alias": "reviewed:chains-west-upper-approach",
           "name": "middle crossing to lower left exit",
           "source_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
           "target_node_id": "deep-docks/deep-docks-chains-west#lower-left-exit",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "reviewed:chains-west-climb",
+          "alias": "reviewed:chains-west-climb",
+          "name": "lower right entrance to middle crossing",
+          "source_node_id": "deep-docks/deep-docks-chains-west#lower-right-entrance",
+          "target_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:proficient-movement:none",
+                "item:silk-soar"
+              ],
+              [
+                "item:sharpdart",
+                "item:silk-soar"
+              ],
+              [
+                "macro:progressive-swift-step-full",
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:cling-grip",
+                "item:drifters-cloak",
+                "mapper:proficient-movement:none"
+              ],
+              [
+                "item:cling-grip",
+                "item:sharpdart"
+              ],
+              [
+                "item:cling-grip",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:cling-grip",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:shaman-crest-pogo:hard",
+                "mapper:proficient-movement:none"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:drifters-cloak",
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:drifters-cloak",
+                "mapper:proficient-movement:none"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:sharpdart"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:shaman-crest-pogo:hard",
+                "mapper:proficient-movement:none"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "reviewed:chains-west-descent",
+          "alias": "reviewed:chains-west-descent",
+          "name": "middle crossing to lower right entrance",
+          "source_node_id": "deep-docks/deep-docks-chains-west#middle-crossing",
+          "target_node_id": "deep-docks/deep-docks-chains-west#lower-right-entrance",
           "requirement": {
             "raw": "",
             "mode": "expression",
@@ -33356,12 +34897,19 @@
             "mode": "expression",
             "dnf": [
               [
+                "item:faydown-cloak",
                 "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:silk-soar",
+                "macro:usable-magma-bell"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:blue slot"
-            ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -45320,7 +46868,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-far-fields-map-shop",
@@ -54158,7 +55726,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-chapel-passage",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-chapel-passage",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-chapel-passage",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-chapel-passage",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-chapel-passage",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-chapel-passage",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-chapel-passage",
@@ -55983,7 +57571,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
@@ -64841,7 +66449,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-shellwood-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-shellwood-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-shellwood-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-shellwood-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-shellwood-shakra",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-shellwood-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-shellwood-shakra",
@@ -72164,7 +73792,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-belltown",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-belltown",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-belltown",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-belltown",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-belltown",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-belltown",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-belltown",
@@ -80977,7 +82625,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
@@ -96144,7 +97812,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
@@ -104010,7 +105698,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
@@ -149632,7 +151340,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
@@ -164120,7 +165848,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-sands-of-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sands-of-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sands-of-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sands-of-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sands-of-shakra",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-sands-of-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-sands-of-shakra",
@@ -170683,10 +172431,10 @@
           "name": "top4",
           "source_node_id": "mount-fay/mount-fay-entrance#upper-left-exit",
           "target": {
-            "raw": "mount-fay/mount-fay-right-side-middle-room@f4",
+            "raw": "mount-fay/mount-fay-right-side-middle-room@f3",
             "room_id": "mount-fay/mount-fay-right-side-middle-room",
-            "alias": "f4",
-            "port_id": "mount-fay/mount-fay-right-side-middle-room@f4",
+            "alias": "f3",
+            "port_id": "mount-fay/mount-fay-right-side-middle-room@f3",
             "label": null
           }
         },
@@ -172040,10 +173788,10 @@
           "name": "bot6",
           "source_node_id": "mount-fay/fayforn#drop",
           "target": {
-            "raw": "mount-fay/mount-fay-right-side-middle-room@c3",
+            "raw": "mount-fay/mount-fay-right-side-middle-room@c2",
             "room_id": "mount-fay/mount-fay-right-side-middle-room",
-            "alias": "c3",
-            "port_id": "mount-fay/mount-fay-right-side-middle-room@c3",
+            "alias": "c2",
+            "port_id": "mount-fay/mount-fay-right-side-middle-room@c2",
             "label": null
           }
         },
@@ -174996,10 +176744,10 @@
           "name": "bot5",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#bottom",
           "target": {
-            "raw": "mount-fay/mount-fay-entrance@du",
+            "raw": "mount-fay/mount-fay-entrance@c3",
             "room_id": "mount-fay/mount-fay-entrance",
-            "alias": "du",
-            "port_id": "mount-fay/mount-fay-entrance@du",
+            "alias": "c3",
+            "port_id": "mount-fay/mount-fay-entrance@c3",
             "label": null
           }
         },
@@ -175029,10 +176777,10 @@
           "name": "top3",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#top",
           "target": {
-            "raw": "mount-fay/fayforn@f3",
+            "raw": "mount-fay/fayforn@f2",
             "room_id": "mount-fay/fayforn",
-            "alias": "f3",
-            "port_id": "mount-fay/fayforn@f3",
+            "alias": "f2",
+            "port_id": "mount-fay/fayforn@f2",
             "label": null
           }
         },
@@ -175153,10 +176901,10 @@
           "name": "bot4",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#bottom",
           "target": {
-            "raw": "mount-fay/mount-fay-entrance@c4",
+            "raw": "mount-fay/mount-fay-entrance@c3",
             "room_id": "mount-fay/mount-fay-entrance",
-            "alias": "c4",
-            "port_id": "mount-fay/mount-fay-entrance@c4",
+            "alias": "c3",
+            "port_id": "mount-fay/mount-fay-entrance@c3",
             "label": null
           }
         },
@@ -176759,7 +178507,27 @@
               ],
               [
                 "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#shakra-camp"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#pilgrim-grave"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#central-elevator"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-east#abyss-crossing"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
                 "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-area"
+              ],
+              [
+                "event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+                "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-lower"
               ],
               [
                 "event:mapper/reviewed:shakra-shop-mount-fay-shakra",

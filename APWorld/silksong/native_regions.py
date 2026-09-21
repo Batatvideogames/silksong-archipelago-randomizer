@@ -45,6 +45,8 @@ def native_rule_options(world) -> dict[str, object]:
 
 
 def get_native_abstract_requirements(world):
+    from .entrance_randomization import node_overrides
+
     return get_abstract_requirements(
         world.allows_bellways_before_bell_beast(),
         world.get_category_mode("CrestSlot") != "vanilla",
@@ -64,6 +66,7 @@ def get_native_abstract_requirements(world):
         bell_shrine_sanity=world.get_category_mode("BellShrine") != "vanilla",
         silk_and_soul_points=get_silk_and_soul_points(world.options),
         donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
+        room_node_overrides=node_overrides(world),
     )
 
 

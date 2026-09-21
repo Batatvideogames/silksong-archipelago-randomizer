@@ -1107,6 +1107,28 @@ def get_silk_and_soul_points(options) -> int:
     return max(0, min(SilkAndSoulPoints.range_end, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
 
 
+class EntranceRandomization(Choice):
+    """EXPERIMENTAL FEATURE. Couple room exits with matching directions"""
+    display_name = "Entrance Randomization (Beta)"
+    visibility = Visibility.none
+    option_off = 0
+    option_coupled = 1
+    default = 0
+
+
+class EntranceRandomizationScope(Choice):
+    """Choose the coupled entrance pool. Full shuffles all supported connections.
+    Interiors shuffles door/interior pairs. Within Areas shuffles connections
+    inside each area and leaves area boundaries unchanged.
+    """
+    display_name = "Entrance Randomization Scope (Beta)"
+    visibility = Visibility.none
+    option_full = 0
+    option_interiors = 1
+    option_within_areas = 2
+    default = 0
+
+
 @dataclass
 class SilksongOptions(PerGameCommonOptions):
     accessibility: SilksongAccessibility
@@ -1114,6 +1136,8 @@ class SilksongOptions(PerGameCommonOptions):
     spelling_bee_phrase: SpellingBeePhrase
     flea_hunt_count: FleaHuntCount
     starting_location: StartingLocation
+    entrance_randomization: EntranceRandomization
+    entrance_randomization_scope: EntranceRandomizationScope
     starting_crest: StartingCrest
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint

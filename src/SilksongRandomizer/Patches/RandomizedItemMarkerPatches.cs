@@ -106,6 +106,10 @@ namespace SilksongRandomizer.Patches
                 "Quest_Pin_Librarian",
                 "Vaultkeeper's Melody",
                 ItemType.Melody),
+            new Definition(
+                "Quest_Pin_Librarian Return",
+                "Vaultkeeper's Melody",
+                ItemType.Melody),
         };
 
         private static readonly Dictionary<MapMarkerArrow, MarkerRecord> ArrowRecords =

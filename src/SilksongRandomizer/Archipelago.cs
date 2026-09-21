@@ -56,6 +56,40 @@ namespace SilksongRandomizer
         public const string PriceModeCheap = "cheap";
         public const string PriceModeExpensive = "expensive";
         public static Archipelago Instance { get; private set; }
+        public string EntranceLayoutJson { get; private set; } = "{}";
+        private ArchipelagoSession entranceSyncSession;
+        private SaveState entranceSyncSave;
+        private int entranceSyncCount = -1;
+
+        internal void SynchronizeExploredEntrances()
+        {
+            var state = SaveState.Instance;
+            var activeSession = session;
+            if (!Connected || state == null || !state.IsRoomBound || state.entranceLayoutJson == "{}" ||
+                state.roomSeed != RoomSeed || state.team != Team || state.slot != Slot ||
+                state.entranceLayoutJson != EntranceLayoutJson) return;
+            int count = state.exploredEntrances?.Count ?? 0;
+            if (ReferenceEquals(activeSession, entranceSyncSession) && ReferenceEquals(state, entranceSyncSave) && count == entranceSyncCount) return;
+            var layout = JObject.Parse(EntranceLayoutJson);
+            var found = new JObject();
+            foreach (string id in state.exploredEntrances ?? new HashSet<string>())
+                if (layout[id] is JObject row) found[id] = row["target"].DeepClone();
+            try
+            {
+                activeSession.Socket.SendPacket(new SetPacket {
+                    Key = $"Silksong:Entrances:{Team}:{Slot}", DefaultValue = new JObject(), WantReply = false,
+                    Operations = new[] { new OperationSpecification { OperationType = OperationType.Update, Value = found } }
+                });
+                entranceSyncSession = activeSession;
+                entranceSyncSave = state;
+                entranceSyncCount = count;
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning("Entrance discoveries will retry: " + ex.Message);
+            }
+        }
+
 
         public bool Connected => sessionReady && IsConnected();
         public string RoomSeed { get; private set; } = string.Empty;
@@ -656,6 +690,12 @@ namespace SilksongRandomizer
                     successful,
                     "quest_sanity"
                 );
+                string entranceMode = successful.SlotData.ContainsKey("entrance_randomization")
+                    ? GetRequiredStringSlotData(successful, "entrance_randomization") : "off";
+                if (entranceMode != "off" && entranceMode != "coupled")
+                    throw new FormatException("Unsupported entrance randomization mode.");
+                EntranceLayoutJson = entranceMode == "off" ? "{}" :
+                    EntranceRandomization.NormalizeLayout(GetRequiredObjectSlotData(successful, "entrance_layout"));
                 MapLogicPayloadJson =
                     GetMapLogicPayloadJson(successful);
                 if (SaveState.Instance != null && SaveState.Instance.IsRoomBound &&
@@ -2117,7 +2157,16 @@ namespace SilksongRandomizer
                 login,
                 "scuttlebrace_logic"
             );
-            JObject compressedPayload = GetCompressedLogicPayload(login);
+            JObject compressedPayload = login.SlotData.ContainsKey("logic_base")
+                ? BundledMapLogic.Restore(
+                    GetRequiredStringSlotData(login, "logic_base"),
+                    GetRequiredObjectSlotData(login, "logic_overrides"),
+                    GetBooleanSlotData(login, "scuttlebrace_logic"),
+                    GetRequiredStringSlotData(login, "entrance_randomization") == "coupled"
+                        ? GetRequiredStringSlotData(login, "entrance_randomization_scope") : null,
+                    login.SlotData.ContainsKey("entrance_pairs")
+                        ? GetRequiredObjectSlotData(login, "entrance_pairs") : null)
+                : GetCompressedLogicPayload(login);
             if (compressedPayload == null)
             {
                 payload["requirements"] = GetRequiredObjectSlotData(

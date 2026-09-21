@@ -691,6 +691,7 @@ namespace SilksongRandomizer
             SilkLinkManager.Update();
             KnockbackLinkManager.Update();
             CurrencyLinkManager.Update();
+            EntranceRandomization.Update();
             FleaRescueAudio.Update();
             FleaPatches.Update();
             VogHintManager.Update();

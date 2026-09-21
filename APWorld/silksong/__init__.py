@@ -219,6 +219,10 @@ class SilksongWorld(World):
         return super().rule_from_dict(data)
 
     def interpret_slot_data(self, slot_data):
+        if "logic_base" in slot_data:
+            from .map_logic_data import load_base
+            if slot_data["logic_base"] != load_base()[0]:
+                raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
         from .rules import apply_crest_slot_memory_locket_rules
 
         for category in ("CrestSlot", "MemoryLocket", "Eva", "Soul", "OldHeart", "TwistedBud"):
@@ -227,12 +231,15 @@ class SilksongWorld(World):
                 raise ValueError(f"Tracker YAML {key} must match this slot.")
         if slot_data.get("silk_and_soul_points", 17) != get_silk_and_soul_points(self.options):
             raise ValueError("Tracker YAML silk_and_soul_points must match this slot.")
+        from .entrance_randomization import tracker_passthrough
+        er_data = tracker_passthrough(self, slot_data)
         starting_crest = slot_data.get("starting_crest", self.resolve_starting_crest())
         if starting_crest not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError("Invalid starting crest in slot data.")
         prices = slot_data.get("purchase_prices", self.get_purchase_prices())
-        if prices != self.get_purchase_prices() or starting_crest != self.resolve_starting_crest():
+        if er_data is not None or prices != self.get_purchase_prices() or starting_crest != self.resolve_starting_crest():
             return {
+                "entrance_pairs": slot_data.get("entrance_pairs", {}),
                 "starting_crest": starting_crest,
                 "purchase_prices": dict(prices),
                 "crest_slot_memory_locket_count": slot_data.get(
@@ -1189,6 +1196,18 @@ class SilksongWorld(World):
                 del self._silksong_active_wish_logic_events[name]
                 self._silksong_wish_logic_event_anchors.pop(name, None)
 
+    @property
+    def found_entrances_datastorage_key(self):
+        return "Silksong:Entrances:{team}:{player}" if self.options.entrance_randomization else []
+
+    def reconnect_found_entrances(self, found_key, data_storage_value):
+        from .entrance_randomization import reconnect_found
+        reconnect_found(self, data_storage_value)
+
+    def connect_entrances(self) -> None:
+        from .entrance_randomization import connect_exits
+        connect_exits(self)
+
     def create_regions(self) -> None:
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
@@ -1210,6 +1229,8 @@ class SilksongWorld(World):
             "Silksong Logic: LogicUnknown",
         )
         connect_native_logic_regions(self, menu, native_regions)
+        from .entrance_randomization import create_exits
+        create_exits(self, native_regions)
         randomize_needle_upgrades = (
             self.is_needle_upgrade_randomization_enabled()
         )
@@ -1812,6 +1833,7 @@ class SilksongWorld(World):
             world.build_vog_hint_plan()
 
     def fill_slot_data(self) -> dict[str, object]:
+        from .entrance_randomization import node_overrides as entrance_node_overrides, slot_entrances
         goal_key = self.get_goal_key()
         flea_hunt_count = self.get_flea_hunt_goal_count()
         category_modes = self.get_category_modes()
@@ -1859,8 +1881,6 @@ class SilksongWorld(World):
         slot_data = {
             "world_version": WORLD_VERSION,
             "silk_and_soul_points": get_silk_and_soul_points(self.options),
-            "item_name_to_id": dict(self.item_name_to_id),
-            "location_name_to_id": dict(self.location_name_to_id),
             "goal": goal_key,
             "spelling_bee_phrase": self.get_spelling_bee_phrase(),
             "flea_hunt_count": flea_hunt_count,
@@ -1946,6 +1966,7 @@ class SilksongWorld(World):
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
                 donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(self.get_purchase_prices()),
+                room_node_overrides=entrance_node_overrides(self, connected=True),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
                 self.is_split_dash_and_sprint()
@@ -1966,6 +1987,7 @@ class SilksongWorld(World):
                 in CATEGORY_OPTION_BY_LOCATION_CATEGORY.items()
             }
         )
+        slot_data.update(slot_entrances(self))
         slot_data["minor_pickup_randomization"] = category_modes["Resource"]
         slot_data.update(
             {
@@ -1989,13 +2011,5 @@ class SilksongWorld(World):
             key: slot_data.pop(key)
             for key in LOGIC_PAYLOAD_FIELDS
         }
-        payload_json = json.dumps(
-            logic_payload,
-            ensure_ascii=False,
-            separators=(",", ":"),
-            sort_keys=True,
-        ).encode("utf-8")
-        slot_data["logic_payload_format"] = LOGIC_PAYLOAD_FORMAT
-        slot_data["logic_payload"] = base64.b64encode(
-            gzip.compress(payload_json, mtime=0)
-        ).decode("ascii")
+        from .map_logic_data import encode
+        slot_data.update(encode(logic_payload, slot_data))

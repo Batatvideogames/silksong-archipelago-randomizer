@@ -3020,6 +3020,7 @@ def get_abstract_requirements(
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
@@ -3034,7 +3035,8 @@ def get_abstract_requirements(
         )
 
     if (
-        silk_and_soul_points == 17
+        not room_node_overrides
+        and silk_and_soul_points == 17
         and not allow_bellways_before_bell_beast
         and randomized_crest_slots_enabled
         and starting_location == STARTING_LOCATION_VANILLA
@@ -3050,6 +3052,8 @@ def get_abstract_requirements(
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    if room_node_overrides:
+        adjusted_requirements.update(room_node_overrides)
     adjusted_requirements['Event: Silk and Soul Offered'] = get_silk_and_soul_requirements(silk_and_soul_points)
     if proficient_movement:
         adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
@@ -7318,6 +7322,7 @@ def export_abstract_requirements(
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
+    room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
@@ -7341,6 +7346,7 @@ def export_abstract_requirements(
             bell_shrine_sanity=bell_shrine_sanity,
             silk_and_soul_points=silk_and_soul_points,
             donation_tool_pouch_requirements=donation_tool_pouch_requirements,
+            room_node_overrides=room_node_overrides,
         ).items()
         if (
             scuttlebrace_logic_enabled

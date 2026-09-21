@@ -109,4 +109,7 @@
            Text="BepInEx was not found under '$(SilksongGameDir)'. Install BepInEx or set SilksongGameDir correctly." />
   </Target>
 
+  <ItemGroup>
+    <EmbeddedResource Include="../../APWorld/silksong/map_logic.json" LogicalName="SilksongRandomizer.MapLogic.json" />
+  </ItemGroup>
 </Project>

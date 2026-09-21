@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from collections import defaultdict
+import json
+import pkgutil
+
 from dataclasses import dataclass
 from functools import lru_cache
 from itertools import product
@@ -51,30 +53,69 @@ def room_event_name(event_id: str) -> str:
     return ROOM_EVENT_PREFIX + event_id
 
 
+@dataclass(frozen=True)
+class RoomEventIdentity:
+    name: str
+    kind: str
+    locations: tuple[str, ...]
+
+
+@lru_cache(maxsize=1)
+def room_event_catalog() -> Mapping[str, RoomEventIdentity]:
+    rows = json.loads(pkgutil.get_data(__package__, "room_event_names.json"))
+    if not isinstance(rows, dict):
+        raise ValueError("Room event catalog must map event IDs to identities.")
+    entries = {}
+    for event_id, row in rows.items():
+        if (not isinstance(event_id, str) or not isinstance(row, dict)
+                or not isinstance(row.get("name"), str)
+                or not row["name"].strip() or row["name"] != row["name"].strip()
+                or not isinstance(row.get("kind"), str)
+                or not isinstance(row.get("locations"), list)
+                or any(not isinstance(name, str) or not name.strip()
+                       for name in row["locations"])):
+            raise ValueError(f"Invalid room event identity: {event_id}")
+        entries[event_id] = RoomEventIdentity(row["name"], row["kind"], tuple(row["locations"]))
+    if len({entry.name.casefold() for entry in entries.values()}) != len(entries):
+        raise ValueError("Room event display names must be unique.")
+    for room in load_room_graph().rooms:
+        for event in room.events:
+            if event.id not in entries:
+                raise ValueError(f"Room event needs an identity: {event.id}")
+            identity = entries[event.id]
+            mapper_id = event.raw_cells.get("mapper_id")
+            locations = tuple(sorted({
+                check.canonical_location for check in room.checks
+                if mapper_id and check.raw_cells.get("mapper_id") == mapper_id
+                and check.canonical_location
+            }))
+            mapper_kind = rows[event.id].get("mapper_kind", identity.kind)
+            if (mapper_kind != event.kind or identity.locations != locations
+                    or (identity.kind != mapper_kind and mapper_kind != "unknown")):
+                raise ValueError(f"Room event identity is out of date: {event.id}")
+            if len(locations) == 1 and identity.name != locations[0]:
+                raise ValueError(f"Room event must use its existing location name: {event.id}")
+    return MappingProxyType(entries)
+
+
+@lru_cache(maxsize=1)
+def room_event_action_names() -> Mapping[str, str]:
+    return MappingProxyType({
+        event_id: identity.name for event_id, identity in room_event_catalog().items()
+        if identity.kind in {"switch", "blockade"} and not identity.locations
+    })
+
+
+def room_event_action_name(event_id: str) -> str:
+    return room_event_action_names()[event_id]
+
+
 @lru_cache(maxsize=1)
 def room_event_display_names() -> Mapping[str, str]:
-    grouped = defaultdict(list)
-    for room in load_room_graph().rooms:
-        nodes = {node.id: node.name.strip() for node in room.nodes}
-        for event in room.events:
-            label = " ".join(event.label.split()) or "Event"
-            label = label[0].upper() + label[1:]
-            name = f"{ROOM_EVENT_PREFIX}{room.name.strip()} - {label}"
-            grouped[name].append((room_event_name(event.id), nodes.get(event.node_id, "")))
-    names = {}
-    used = set(grouped)
-    for name, entries in sorted(grouped.items()):
-        for index, (event_id, node) in enumerate(sorted(entries), 1):
-            display = name
-            if len(entries) > 1:
-                display = f"{name} ({node})" if node else f"{name} [{index}]"
-                suffix = index
-                while display in used:
-                    display = f"{name} ({node}) [{suffix}]" if node else f"{name} [{suffix}]"
-                    suffix += 1
-            used.add(display)
-            names[event_id] = display
-    return MappingProxyType(names)
+    return MappingProxyType({
+        room_event_name(event_id): ROOM_EVENT_PREFIX + identity.name
+        for event_id, identity in room_event_catalog().items()
+    })
 
 
 def native_region_name(requirement_name: str) -> str:
@@ -1671,7 +1712,12 @@ def _semantic_reachability(node_requirements, event_requirements) -> frozenset[s
     )
 
 
-def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None) -> CompiledRoomGraph:
+def compile_transition_requirements(transition, *, include_source=True):
+    prefix = (room_node_name(transition.source_node_id),) if include_source else ()
+    return _compile_spec(transition.requirement, *prefix)
+
+
+def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transition_targets=None) -> CompiledRoomGraph:
     graph = load_room_graph() if graph is None else graph
     mapper = graph.assumptions.get("mapper_schema") == 3
     if legacy_rules is None:
@@ -1726,15 +1772,15 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None) -> Com
         for transition in room.transitions:
             if not transition.is_compilable:
                 continue
-            target_port = transition_by_id[transition.target.port_id]
+            target_id = transition.target.port_id if transition_targets is None else transition_targets.get(transition.id, transition.target.port_id)
+            if target_id is None:
+                continue
+            target_port = transition_by_id[target_id]
             target_node_id = target_port.source_node_id
             if target_node_id not in authoritative_node_ids:
                 continue
             structural_edges.append((transition.source_node_id, target_node_id))
-            requirements = _compile_spec(
-                transition.requirement,
-                room_node_name(transition.source_node_id),
-            )
+            requirements = compile_transition_requirements(transition)
             extra_requirements = transition_extras.get(
                 transition.id,
                 (_part(),),

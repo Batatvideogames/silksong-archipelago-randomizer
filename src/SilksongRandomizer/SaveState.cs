@@ -14,6 +14,9 @@ namespace SilksongRandomizer
     {
         public const int CurrentSchemaVersion = 26;
 
+        public string entranceLayoutJson = "{}";
+        public HashSet<string> exploredEntrances = new HashSet<string>();
+
         internal static readonly string[] StartWithMapsItemNames =
         {
             "Map: Mosslands",
@@ -869,6 +872,7 @@ namespace SilksongRandomizer
             fleaHuntGoalCount = archipelago.FleaHuntGoalCount;
             startingLocation = archipelago.StartingLocation ?? string.Empty;
             startingCrest = archipelago.StartingCrest ?? string.Empty;
+            entranceLayoutJson = archipelago.EntranceLayoutJson;
             splitDashAndSprint = archipelago.SplitDashAndSprint;
             ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
             swimAbilityRando = archipelago.SwimAbilityRando;
@@ -994,6 +998,7 @@ namespace SilksongRandomizer
                        archipelago.StartingCrest,
                        StringComparison.Ordinal
                    ) &&
+                   string.Equals(entranceLayoutJson, archipelago.EntranceLayoutJson, StringComparison.Ordinal) &&
                    splitDashAndSprint == archipelago.SplitDashAndSprint &&
                    ledgegrabAbilityRando ==
                        archipelago.LedgegrabAbilityRando &&

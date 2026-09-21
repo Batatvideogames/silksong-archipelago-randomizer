@@ -115,7 +115,7 @@ namespace SilksongRandomizer
             // so the check marker agrees with the in-game Hornet-head marker.
             new MapCheckPosition("Druid's Eye", "Mosstown_02", 157.5f, 34f, 160f, 65f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Druid's Eyes", "Mosstown_02", 157.5f, 34f, 160f, 65f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Tool Unlock: Curve Claws", "Ant_21", 44.78f, 76.93f, 138f, 89f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Tool Unlock: Curve Claws", "Ant_Merchant", 20.9f, 15.19f, 152f, 30f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Curvesickle", "Bone_East_22", 46.03f, 4.81f, 59f, 35f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Fractured Mask", "Ant_Merchant", 20.9f, 15.19f, 152f, 30f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Lightning Rod", "Arborium_07", 154.27f, 10.54f, 180f, 22f, MapMarkerPositionConfidence.ExactUpstream),
