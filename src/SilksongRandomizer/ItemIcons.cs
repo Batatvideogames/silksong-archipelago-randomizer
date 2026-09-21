@@ -187,6 +187,7 @@ namespace SilksongRandomizer
             { "Hunter's Heart", "ant_queen_heart_icon0002" },
             { "Encrusted Heart", "coral_king_heart_icon0000" },
             { "Twisted Bud", "mandrake_icon0000" },
+            { "Mossberry", "I_moss_berry" },
         };
 
         private static readonly Dictionary<string, CachedIcon> IconCache = 
