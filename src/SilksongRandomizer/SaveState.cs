@@ -332,6 +332,8 @@ namespace SilksongRandomizer
                 return Encoding.UTF8.GetString(output.ToArray());
             }
         }
+        public RandomizationMode quillRandomization = RandomizationMode.Anywhere;
+        public RandomizationMode compassRandomization = RandomizationMode.Anywhere;
         public RandomizationMode skillRandomization = RandomizationMode.Anywhere;
         public RandomizationMode toolRandomization = RandomizationMode.Anywhere;
         public RandomizationMode silkSkillRandomization = RandomizationMode.Anywhere;
@@ -920,6 +922,8 @@ namespace SilksongRandomizer
                 archipelago.MapLogicPayloadJson ?? string.Empty;
             PrimeMapLogicPayloadCompression();
             MapLogicEvaluator.PreparePayload(this);
+            quillRandomization = archipelago.QuillRandomization;
+            compassRandomization = archipelago.CompassRandomization;
             skillRandomization = archipelago.SkillRandomization;
             toolRandomization = archipelago.ToolRandomization;
             silkSkillRandomization = archipelago.SilkSkillRandomization;
@@ -1094,6 +1098,8 @@ namespace SilksongRandomizer
 
             Tuple<string, RandomizationMode, RandomizationMode>[] modes =
             {
+                Tuple.Create("quill_randomization", quillRandomization, archipelago.QuillRandomization),
+                Tuple.Create("compass_randomization", compassRandomization, archipelago.CompassRandomization),
                 Tuple.Create("skill_randomization", skillRandomization, archipelago.SkillRandomization),
                 Tuple.Create("tool_randomization", toolRandomization, archipelago.ToolRandomization),
                 Tuple.Create("silk_skill_randomization", silkSkillRandomization, archipelago.SilkSkillRandomization),
@@ -1646,6 +1652,10 @@ namespace SilksongRandomizer
         {
             switch (type)
             {
+                case ItemType.Quill:
+                    return quillRandomization;
+                case ItemType.Compass:
+                    return compassRandomization;
                 case ItemType.Skill:
                     return skillRandomization;
                 case ItemType.Tool:
@@ -1727,6 +1737,12 @@ namespace SilksongRandomizer
 
         public bool IsRandomized(ItemType type)
         {
+            if ((type == ItemType.Quill && startFullyMapped) ||
+                (type == ItemType.Compass && automaticCompass))
+            {
+                return true;
+            }
+
             // start_with_maps converts every map source into a real AP check
             // even when map_randomization itself is vanilla: 27 map rewards
             // are precollected/replaced with filler and Verdania stays at its

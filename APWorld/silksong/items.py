@@ -71,7 +71,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ("Ability: Drifter's Cloak", 'Skill'),
     ('Ancestral Art: Swift Step', 'Skill'),
     ('Ancestral Art: Clawline', 'Skill'),
-    ('Item: Quill', 'Skill'),
+    ('Item: Quill', 'Quill'),
     ('Ancestral Art: Needolin', 'Skill'),
     ('Tool: Silkshot (Forge Daughter)', 'Tool'),
     ('Tool: Silkshot (Twelfth Architect)', 'Tool'),
@@ -118,7 +118,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ("Tool: Dead Bug's Purse", 'Tool'),
     ('Tool: Scuttlebrace', 'Tool'),
     ("Tool: Thief's Mark", 'Tool'),
-    ('Tool: Compass', 'Tool'),
+    ('Tool: Compass', 'Compass'),
     ('Tool: Snitch Pick', 'Tool'),
     ('Tool: Flintslate', 'Tool'),
     ('Tool: Wreath of Purity', 'Tool'),
@@ -298,9 +298,6 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Progressive Needle Upgrade', 'NeedleUpgrade'),
     ('Pale Oil', 'PaleOil'),
     ("Progressive Druid's Eyes", 'Upgrade'),
-    # automatic_compass supplies the position-marker half at the start.
-    # Receiving this conditional Skill grants Quill's map-updating half.
-    ('Progressive Compass', 'Skill'),
     # Appended one-time consumables. Duplicate physical sources share these
     # repeatable AP identities.
     ('Frayed Rosary String', 'Resource'),
@@ -585,6 +582,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
     for name, category in ITEM_TABLE_SOURCE
     if category in {
         "Skill",
+        "Quill",
         "Flea",
         "Crest",
         "Key",
@@ -618,6 +616,7 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
         'Progressive Crafting Kit',
     } and category in {
         "Tool",
+        "Compass",
         "Spell",
         "Eva",
         "CrestSlot",
@@ -652,7 +651,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Tools": {
         name
         for name, category in ITEM_TABLE_SOURCE
-        if category == "Tool" and name not in VANILLA_ONLY_ITEM_NAMES
+        if category in {"Tool", "Compass"} and name not in VANILLA_ONLY_ITEM_NAMES
     },
     "Fleas": {name for name, category in ITEM_TABLE_SOURCE if category == "Flea"},
     "MaskShard": {name for name, category in ITEM_TABLE_SOURCE if category == "MaskShard"},
@@ -769,7 +768,6 @@ SWIM_ITEM = 'Swim'
 INNATE_ABILITY_ITEM_NAMES = (LEDGE_GRAB_ITEM, SWIM_ITEM)
 SILK_SOAR_ITEM = 'Silk Soar'
 QUILL_ITEM = 'Item: Quill'
-PROGRESSIVE_COMPASS_ITEM = 'Progressive Compass'
 NEEDLE_UPGRADE_POOL_COUNTS: Mapping[str, int] = {
     PROGRESSIVE_NEEDLE_UPGRADE_ITEM: 4,
 }
@@ -787,7 +785,6 @@ QUEST_FILLER_COUNTS: Dict[str, int] = {
 # These items enter the pool only when their corresponding option is enabled.
 CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     PROGRESSIVE_SWIFT_STEP_ITEM,
-    PROGRESSIVE_COMPASS_ITEM,
     *PALE_OIL_POOL_COUNTS,
     *NEEDLE_UPGRADE_POOL_COUNTS,
     *ALPHABET_ITEM_NAMES,
@@ -939,6 +936,8 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'TwistedBud',
     'Eva',
     'Skill',
+    'Quill',
+    'Compass',
     'Tool',
     'Spell',
     'Crest',
@@ -1307,8 +1306,6 @@ def _trim_act_one_pool_entries(
                 and split_dash_and_sprint
             ):
                 reward_name = PROGRESSIVE_SWIFT_STEP_ITEM
-            elif reward_name == QUILL_ITEM and automatic_compass:
-                reward_name = PROGRESSIVE_COMPASS_ITEM
             elif reward_name in removed_option_items_by_category.get(
                 category,
                 (),
@@ -1584,14 +1581,8 @@ def build_item_pool_entries(
     )
     removed_option_items_by_category: Dict[str, tuple[str, ...]] = {
         'Map': start_with_map_items if start_with_maps else (),
-        'Skill': (
-            (
-                PROGRESSIVE_COMPASS_ITEM
-                if automatic_compass
-                else QUILL_ITEM
-            ),
-        ) if start_fully_mapped else (),
-        'Tool': (
+        'Quill': (QUILL_ITEM,) if start_fully_mapped else (),
+        'Compass': (
             (AUTOMATIC_COMPASS_ITEM,)
             if automatic_compass
             else ()
@@ -1630,15 +1621,6 @@ def build_item_pool_entries(
                     'in the Skill pool.'
                 ) from exc
             item_names.extend((PROGRESSIVE_SWIFT_STEP_ITEM,) * 2)
-
-        if category == 'Skill' and automatic_compass:
-            try:
-                quill_index = item_names.index(QUILL_ITEM)
-            except ValueError as exc:
-                raise ValueError(
-                    'automatic_compass requires Quill in the Skill pool.'
-                ) from exc
-            item_names[quill_index] = PROGRESSIVE_COMPASS_ITEM
 
         for removed_name in removed_option_items_by_category.get(
             category,

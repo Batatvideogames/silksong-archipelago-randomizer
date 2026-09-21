@@ -113,10 +113,6 @@ namespace SilksongRandomizer
                 HasReceived(
                     state,
                     Patches.QuillPatches.QuillItemName
-                ) ||
-                HasReceived(
-                    state,
-                    Patches.QuillPatches.ProgressiveCompassItemName
                 )
             );
 

@@ -1,4 +1,4 @@
-﻿using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
 using SilksongRandomizer.AlphabetMode;
 using System;
@@ -716,7 +716,7 @@ namespace SilksongRandomizer.Patches
         {
             return state != null &&
                    (state.startFullyMapped ||
-                    state.IsRandomized(ItemType.Skill));
+                    state.IsRandomized(ItemType.Quill));
         }
 
         private static bool TryResolveShopPreviewLocation(
@@ -824,6 +824,8 @@ namespace SilksongRandomizer.Patches
             string name = savedItem == null ? string.Empty : savedItem.name;
             switch (name)
             {
+                case "Compass":
+                    return ItemType.Compass;
                 case "Silk Spear":
                 case "Parry":
                 case "Silk Boss Needle":

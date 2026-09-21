@@ -792,7 +792,7 @@ namespace SilksongRandomizer
             new Location("Skill Unlock: Drifter's Cloak", ItemType.Skill, IsDriftersCloakSourceCompleted),
             new Location("Skill Unlock: Dash", ItemType.Skill, () => { return PlayerData.instance.hasDash; }),
             new Location("Skill Unlock: Harpoon", ItemType.Skill, () => { return PlayerData.instance.hasHarpoonDash; }),
-            new Location("Skill Unlock: Quill", ItemType.Skill, () => { return PlayerData.instance.hasQuill; }),
+            new Location("Skill Unlock: Quill", ItemType.Quill, () => { return PlayerData.instance.hasQuill; }),
             new Location("Skill Unlock: Needolin", ItemType.Skill, () => { return PlayerData.instance.hasNeedolin; }),
 
             // Tools
@@ -844,7 +844,7 @@ namespace SilksongRandomizer
             new Location("Tool Unlock: Dead Mans Purse", ItemType.Tool, null),
             new Location("Tool Unlock: Scuttlebrace", ItemType.Tool, null),
             new Location("Tool Unlock: Thief Charm", ItemType.Tool, null),
-            new Location("Tool Unlock: Compass", ItemType.Tool, null),
+            new Location("Tool Unlock: Compass", ItemType.Compass, null),
             new Location("Tool Unlock: Thief Claw", ItemType.Tool, null),
             new Location("Tool Unlock: Mosscreep Tool 1", ItemType.Tool, null),
             new Location("Tool Unlock: Mosscreep Tool 2", ItemType.Tool, null),

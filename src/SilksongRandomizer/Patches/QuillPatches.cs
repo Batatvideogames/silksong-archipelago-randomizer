@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -12,8 +12,6 @@ namespace SilksongRandomizer.Patches
     internal static class QuillPatches
     {
         internal const string QuillItemName = "Item: Quill";
-        internal const string ProgressiveCompassItemName =
-            "Progressive Compass";
 
         internal static void GrantQuill()
         {
@@ -92,7 +90,7 @@ namespace SilksongRandomizer.Patches
                 return true;
             }
 
-            if (state == null || !state.IsRandomized(ItemType.Skill))
+            if (state == null || !state.IsRandomized(ItemType.Quill))
             {
                 return PlayerData.instance != null &&
                        PlayerData.instance.hasQuill;
@@ -109,7 +107,7 @@ namespace SilksongRandomizer.Patches
                 return true;
             }
 
-            return state == null || !state.IsRandomized(ItemType.Skill)
+            return state == null || !state.IsRandomized(ItemType.Quill)
                 ? playerData != null && playerData.hasQuill
                 : state.canUseQuill;
         }
@@ -122,7 +120,7 @@ namespace SilksongRandomizer.Patches
             SaveState state = SaveState.Instance;
             bool virtualizeState = state != null &&
                 (state.startFullyMapped ||
-                 (state.IsRandomized(ItemType.Skill) &&
+                 (state.IsRandomized(ItemType.Quill) &&
                   state.canUseQuill));
             return ResolveQuillState(virtualizeState, nativeState);
         }
@@ -217,7 +215,7 @@ namespace SilksongRandomizer.Patches
                     return false;
                 }
 
-                if (state == null || !state.IsRandomized(ItemType.Skill))
+                if (state == null || !state.IsRandomized(ItemType.Quill))
                 {
                     return true;
                 }

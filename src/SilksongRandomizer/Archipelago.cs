@@ -172,6 +172,8 @@ namespace SilksongRandomizer
         public bool IndividualRelicTurnIns { get; private set; }
         public string MapLogicPayloadJson { get; private set; } =
             string.Empty;
+        public RandomizationMode QuillRandomization { get; private set; } = RandomizationMode.Anywhere;
+        public RandomizationMode CompassRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode SkillRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode ToolRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode SilkSkillRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -621,6 +623,8 @@ namespace SilksongRandomizer
                     successful,
                     "individual_relic_turn_ins"
                 );
+                QuillRandomization = GetRandomizationModeSlotData(successful, "quill_randomization");
+                CompassRandomization = GetRandomizationModeSlotData(successful, "compass_randomization");
                 SkillRandomization = GetRandomizationModeSlotData(
                     successful, "skill_randomization");
                 ToolRandomization = GetRandomizationModeSlotData(
@@ -3131,6 +3135,8 @@ namespace SilksongRandomizer
             ShellShardLink = false;
             IndividualRelicTurnIns = false;
             MapLogicPayloadJson = string.Empty;
+            QuillRandomization = RandomizationMode.Anywhere;
+            CompassRandomization = RandomizationMode.Anywhere;
             SkillRandomization = RandomizationMode.Anywhere;
             ToolRandomization = RandomizationMode.Anywhere;
             SilkSkillRandomization = RandomizationMode.Anywhere;

@@ -51,6 +51,8 @@ namespace SilksongRandomizer
         Soul,
         OldHeart,
         TwistedBud,
+        Quill,
+        Compass,
     }
 
     public class Item

@@ -1278,7 +1278,7 @@ class SilksongWorld(World):
                     )
                     and not (
                         self.is_automatic_compass_enabled()
-                        and data.category == 'Tool'
+                        and data.category == 'Compass'
                         and get_vanilla_reward_name(
                             name,
                             data.category,
@@ -1286,7 +1286,7 @@ class SilksongWorld(World):
                     )
                     and not (
                         self.is_start_fully_mapped_enabled()
-                        and data.category == 'Skill'
+                        and data.category == 'Quill'
                         and get_vanilla_reward_name(
                             name,
                             data.category,

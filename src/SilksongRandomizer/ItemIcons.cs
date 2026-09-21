@@ -118,7 +118,6 @@ namespace SilksongRandomizer
             { "White Key", "I_key_whiteward" },
             { "Surgeon's Key", "I_chute_key_whiteward" },
             { "Architect's Key", "I_key_architect" },
-            { "Progressive Compass", "T_Compass" },
             { "Progressive Crafting Kit", "icon_tool_kit_upgrade" },
             { "Progressive Needle Upgrade", "Hornet_Inv_pane_icons_0003_needle_sharpened" },
             { "Pale Oil", "oil_phial" },

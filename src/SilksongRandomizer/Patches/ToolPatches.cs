@@ -86,8 +86,13 @@ namespace SilksongRandomizer.Patches
                    tool.SavedData.IsHidden;
         }
 
-        private static ItemType GetRandomizedItemType(ToolItem tool)
+        internal static ItemType GetRandomizedItemType(ToolItem tool)
         {
+            if (tool != null && ReferenceEquals(tool, GlobalSettings.Gameplay.CompassTool))
+            {
+                return ItemType.Compass;
+            }
+
             return tool != null && tool.Type == ToolItemType.Skill
                 ? ItemType.Spell
                 : ItemType.Tool;
@@ -1048,6 +1053,7 @@ namespace SilksongRandomizer.Patches
                 if (state == null ||
                     (
                         !state.IsRandomized(ItemType.Tool) &&
+                        !state.IsRandomized(ItemType.Compass) &&
                         !state.IsRandomized(ItemType.Spell) &&
                         !state.IsRandomized(ItemType.Crest) &&
                         !state.IsRandomized(ItemType.CrestSlot)

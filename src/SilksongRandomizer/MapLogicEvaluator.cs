@@ -1238,12 +1238,17 @@ namespace SilksongRandomizer
             SaveState state
         )
         {
+            PlayerData playerData = PlayerData.instance;
+            if (!state.IsRandomized(ItemType.Quill) &&
+                (state.canUseQuill || (playerData != null && playerData.hasQuill)))
+            {
+                SetMinimumCount(counts, "Quill", 1);
+            }
             if (state.IsRandomized(ItemType.Skill))
             {
                 return;
             }
 
-            PlayerData playerData = PlayerData.instance;
             if (state.canDoubleJump ||
                 (playerData != null && playerData.hasDoubleJump))
             {
@@ -1292,11 +1297,6 @@ namespace SilksongRandomizer
             {
                 SetMinimumCount(counts, "Needolin", 1);
             }
-            if (state.canUseQuill ||
-                (playerData != null && playerData.hasQuill))
-            {
-                SetMinimumCount(counts, "Quill", 1);
-            }
         }
 
         private static void AddNativeEquipmentState(
@@ -1305,16 +1305,17 @@ namespace SilksongRandomizer
         )
         {
             bool needsTools = !state.IsRandomized(ItemType.Tool);
+            bool needsCompass = !state.IsRandomized(ItemType.Compass);
             bool needsSpells = !state.IsRandomized(ItemType.Spell);
             bool needsCrests = !state.IsRandomized(ItemType.Crest);
-            if (!needsTools && !needsSpells && !needsCrests)
+            if (!needsTools && !needsCompass && !needsSpells && !needsCrests)
             {
                 return;
             }
 
             try
             {
-                if (needsTools || needsSpells)
+                if (needsTools || needsCompass || needsSpells)
                 {
                     foreach (ToolItem tool in
                         Resources.FindObjectsOfTypeAll<ToolItem>())
@@ -1324,9 +1325,7 @@ namespace SilksongRandomizer
                             continue;
                         }
 
-                        ItemType itemType = tool.Type == ToolItemType.Skill
-                            ? ItemType.Spell
-                            : ItemType.Tool;
+                        ItemType itemType = Patches.ToolPatches.GetRandomizedItemType(tool);
                         if (state.IsRandomized(itemType))
                         {
                             continue;

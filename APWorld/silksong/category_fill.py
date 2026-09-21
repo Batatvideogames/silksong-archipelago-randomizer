@@ -3,7 +3,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Iterable
 
-from BaseClasses import LocationProgressType
+from BaseClasses import CollectionState, LocationProgressType
+from Options import OptionError
 
 from .items import get_vanilla_reward_name
 from .locations import (
@@ -386,32 +387,35 @@ def prefill_category_shuffles(
         if multiworld.worlds[player].game == game_name
     )
 
-    # Root the shuffled Skill lane from Quill through Clawline. Clawline's
-    # physical source stays filler-only while its route remains unresolved.
+    protected_locations = set()
+    opening_state = CollectionState(multiworld)
+    opening_state.sweep_for_advancements()
     for player in silksong_players:
         lane = ("Skill", player)
         if lane in planned_items_by_lane:
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Item: Quill",
-                "Swift Step",
-            )
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Swift Step",
-                "Cling Grip",
-            )
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Cling Grip",
-                "Clawline",
-            )
+            world = multiworld.worlds[player]
+            if world.is_early_dash_enabled() and opening_state.has("Swift Step", player):
+                multiworld.local_early_items[player].pop("Swift Step", None)
+            elif world.is_early_dash_enabled():
+                dash = next((item for item in planned_items_by_lane[lane]
+                             if item.name == "Swift Step"), None)
+                candidates = [location for location in locations_by_lane[lane]
+                              if dash is not None and location.can_fill(opening_state, dash)]
+                if not candidates:
+                    raise OptionError("Early Dash with Skill shuffle needs a reachable starting Skill check. "
+                                      "Disable Early Dash or change the starting settings; Quill is a separate check.")
+                opening = multiworld.random.choice(candidates)
+                _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
+                                      player, opening.name, "Swift Step")
+                protected_locations.add(opening)
+            if not any(location.name == "Swift Step" for location in protected_locations
+                       if location.player == player):
+                _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
+                                      player, "Swift Step", "Cling Grip")
+            if not any(location.name == "Cling Grip" for location in protected_locations
+                       if location.player == player):
+                _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
+                                      player, "Cling Grip", "Clawline")
 
     # The modeled Bellhart/Greymoor/Shellwood cluster otherwise has no
     # external entrance. Put either cluster Bellway at the first Deep Docks
@@ -528,67 +532,8 @@ def prefill_category_shuffles(
             "This indicates a logic or plando conflict."
         )
 
-    protected_locations = set()
-    for player in silksong_players:
-        world = multiworld.worlds[player]
-        early_dash_enabled = getattr(world, "is_early_dash_enabled", None)
-        if not (
-            early_dash_enabled()
-            if callable(early_dash_enabled)
-            else bool(world.options.early_dash.value)
-        ):
-            continue
-        player_skill_locations = [
-            location
-            for location in locations_by_lane.get(("Skill", player), ())
-        ]
-        get_location = getattr(multiworld, "get_location", None)
-        existing_quill = (
-            get_location("Item: Quill", player)
-            if callable(get_location)
-            else None
-        )
-        if (
-            existing_quill is not None
-            and existing_quill.item is not None
-            and existing_quill.item.player == player
-            and existing_quill.item.name == "Swift Step"
-        ):
-            # A tagged Quill was filled by this pre-fill and must remain
-            # reserved through the later Skill permutation. A Quill outside
-            # this list was already filled by plando, so it is already locked
-            # independently and needs no additional protection here.
-            if existing_quill in player_skill_locations:
-                protected_locations.add(existing_quill)
-            multiworld.local_early_items[player].pop(
-                "Swift Step",
-                None,
-            )
-            continue
-        if not player_skill_locations:
-            continue
-        quill_location = next(
-            (
-                location
-                for location in player_skill_locations
-                if (
-                    location.name == "Item: Quill"
-                    and location.item is not None
-                    and location.item.player == player
-                    and location.item.name == "Swift Step"
-                )
-            ),
-            None,
-        )
-        if quill_location is None:
-            raise ValueError(
-                "early_dash with Skill shuffle could not reserve Dash at "
-                f"{multiworld.player_name[player]}'s opening Skill source."
-            )
-        protected_locations.add(quill_location)
-        # The normal early-item phase runs after pre-fill. We have already
-        # fulfilled this local guarantee, so remove the stale request.
-        multiworld.local_early_items[player].pop("Swift Step", None)
+    for location in protected_locations:
+        multiworld.local_early_items[location.player].pop("Swift Step", None)
 
     # Try a full permutation per lane. If it creates a progression cycle,
     # walk outward from the valid baseline through a handful of individually

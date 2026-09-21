@@ -99,7 +99,7 @@ CURRENT_LOCATION_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ("Skill Unlock: Drifter's Cloak", 'Skill'),
     ('Skill Unlock: Dash', 'Skill'),
     ('Skill Unlock: Harpoon', 'Skill'),
-    ('Skill Unlock: Quill', 'Skill'),
+    ('Skill Unlock: Quill', 'Quill'),
     ('Skill Unlock: Needolin', 'Skill'),
     ('Tool Unlock: WebShot Forge', 'Tool'),
     ('Tool Unlock: WebShot Architect', 'Tool'),
@@ -145,7 +145,7 @@ CURRENT_LOCATION_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Tool Unlock: Dead Mans Purse', 'Tool'),
     ('Tool Unlock: Scuttlebrace', 'Tool'),
     ('Tool Unlock: Thief Charm', 'Tool'),
-    ('Tool Unlock: Compass', 'Tool'),
+    ('Tool Unlock: Compass', 'Compass'),
     ('Tool Unlock: Thief Claw', 'Tool'),
     ('Tool Unlock: Mosscreep Tool 1', 'Tool'),
     ('Tool Unlock: Mosscreep Tool 2', 'Tool'),
@@ -691,7 +691,7 @@ _DIRECT_LOCATION_RENAMES: dict[str, str] = {
         (
             name
             for name, category in CURRENT_LOCATION_SOURCE_ROWS
-            if category in ('Skill', 'Tool', 'Spell', 'Crest')
+            if category in ('Skill', 'Quill', 'Tool', 'Compass', 'Spell', 'Crest')
         ),
         _CORE_CANONICAL_LOCATION_NAMES,
     )),
@@ -1087,6 +1087,8 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'TwistedBud',
     'Eva',
     'Skill',
+    'Quill',
+    'Compass',
     'Tool',
     'Spell',
     'Crest',

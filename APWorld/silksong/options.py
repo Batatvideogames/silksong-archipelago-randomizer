@@ -35,7 +35,7 @@ class CategoryRandomization(GlobalRandomization):
 
 
 class SkillRandomization(CategoryRandomization):
-    """Randomizes the 9 traversal skills in the game.
+    """Randomizes the 8 traversal skills in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
@@ -46,7 +46,7 @@ class SkillRandomization(CategoryRandomization):
 
 
 class ToolRandomization(CategoryRandomization):
-    """Randomizes the 59 tools in the game.
+    """Randomizes tools other than Compass in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
@@ -54,6 +54,24 @@ class ToolRandomization(CategoryRandomization):
     """
 
     display_name = "Tool Randomization"
+
+
+class QuillRandomization(GlobalRandomization):
+    """Keep Quill at Shakra's shop or mix it into the global item pool.
+
+    Independent of Skill Randomization. Start Fully Mapped removes the need for Quill.
+    """
+
+    display_name = "Quill Randomization"
+
+
+class CompassRandomization(GlobalRandomization):
+    """Keep Compass at Shakra's shop or mix it into the global item pool.
+
+    Independent of Tool Randomization. Automatic Compass supplies the position marker without the tool.
+    """
+
+    display_name = "Compass Randomization"
 
 
 class SilkSkillRandomization(CategoryRandomization):
@@ -492,6 +510,8 @@ class QuestSanity(CategoryRandomization):
 
 CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Skill": "skill_randomization",
+    "Quill": "quill_randomization",
+    "Compass": "compass_randomization",
     "Tool": "tool_randomization",
     "Spell": "silk_skill_randomization",
     "Crest": "crest_randomization",
@@ -1168,6 +1188,8 @@ class SilksongOptions(PerGameCommonOptions):
     vog_hint_prices: VogHintPrices
     faster_dialogue: FasterDialogue
     faster_silkheart_animation: FasterSilkheartAnimation
+    quill_randomization: QuillRandomization
+    compass_randomization: CompassRandomization
     skill_randomization: SkillRandomization
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
