@@ -271,6 +271,71 @@ namespace SilksongRandomizer
         private static bool cachedAbstractGoalCompleted;
         private static bool loggedPayloadFailure;
 
+        private const string UnderworksCrashNode = "Room Node: grand-gate/grand-elevator#crash-site";
+        private const string UnderworksLiftTopNode = "Room Node: grand-gate/grand-elevator#top";
+        private const string UnderworksReturnNode = "Room Node: underworks/broken-elevator#room";
+        private static ParsedPayload underworksSourcePayload;
+        private static ParsedPayload underworksReturnPayload;
+        private static Dictionary<string, int> underworksReturnInventory;
+        private static string underworksReturnCheckedSources;
+        private static bool underworksReachableWithoutCrash;
+
+        private static ParsedPayload GetUnderworksReturnPayload(ParsedPayload payload)
+        {
+            if (ReferenceEquals(payload, underworksSourcePayload))
+                return underworksReturnPayload;
+            underworksSourcePayload = payload;
+            underworksReturnPayload = null;
+            underworksReturnInventory = null;
+            if (payload == null ||
+                !payload.AbstractRequirements.ContainsKey(UnderworksReturnNode) ||
+                !payload.AbstractRequirements.TryGetValue(UnderworksCrashNode, out var crash) ||
+                crash?.Alternatives == null ||
+                !crash.Alternatives.Any(rule => rule?.AllOf?.Contains(UnderworksLiftTopNode) == true))
+                return null;
+
+            var requirements = new Dictionary<string, LogicRequirement>(payload.AbstractRequirements, StringComparer.Ordinal);
+            requirements[UnderworksCrashNode] = new LogicRequirement
+            {
+                Alternatives = crash.Alternatives.Where(rule =>
+                    rule != null && rule.AllOf?.Contains(UnderworksLiftTopNode) != true).ToList()
+            };
+            underworksReturnPayload = new ParsedPayload(new LogicPayload
+            {
+                Requirements = payload.Requirements,
+                AbstractRequirements = requirements,
+                LogicItemDependencies = payload.Dependencies,
+                LogicEvents = payload.LogicEvents,
+                SkipsTier = payload.SkipsTier,
+                ScuttlebraceLogic = true
+            });
+            return underworksReturnPayload;
+        }
+
+        internal static bool CanReachUnderworksWithoutCrash(SaveState state)
+        {
+            ParsedPayload payload = GetPayload(state);
+            return payload != null && EvaluateUnderworksReturnRoute(payload, BuildInventoryCounts(state), state);
+        }
+
+        private static bool EvaluateUnderworksReturnRoute(ParsedPayload source, Dictionary<string, int> inventory, SaveState state)
+        {
+            ParsedPayload payload = GetUnderworksReturnPayload(source);
+            if (payload == null)
+                return false;
+            string checkedSources = GetCheckedLogicSourcesKey(payload, state);
+            if (HaveEqualInventory(inventory, underworksReturnInventory) &&
+                string.Equals(checkedSources, underworksReturnCheckedSources, StringComparison.Ordinal))
+                return underworksReachableWithoutCrash;
+
+            var snapshot = new Dictionary<string, int>(inventory, StringComparer.OrdinalIgnoreCase);
+            var values = ResolveAbstractRequirements(payload, inventory, false, state);
+            underworksReachableWithoutCrash = values.TryGetValue(UnderworksReturnNode, out bool reachable) && reachable;
+            underworksReturnInventory = snapshot;
+            underworksReturnCheckedSources = checkedSources;
+            return underworksReachableWithoutCrash;
+        }
+
         internal static MapCheckReachability Evaluate(
             SaveState state,
             string locationName

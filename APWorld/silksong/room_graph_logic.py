@@ -9,6 +9,8 @@ from itertools import product
 from types import MappingProxyType
 from typing import Iterable, Mapping
 
+from .combat import requirement_name as combat_requirement_name
+
 from .room_graph import (
     LogicStatus,
     RequirementMode,
@@ -1418,6 +1420,8 @@ def _event_requirement_name(atom: str) -> str:
 
 
 def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
+    if atom.startswith("combat:"):
+        return (_part(combat_requirement_name(atom.removeprefix("combat:"))),)
     if atom == "mapper:act-2":
         return (_part("Act: 2"),)
     if atom.startswith("mapper:"):

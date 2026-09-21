@@ -8,19 +8,23 @@ namespace SilksongRandomizer
 {
     internal static class FastTravelUtil
     {
+        internal const string EntranceHubKey = "room_entrance";
         internal const string BoneBottomHubKey = "bone_bottom";
         internal const string GreymoorHubKey = "greymoor";
         internal const string BellhartHubKey = "bellhart";
         internal const string SongclaveHubKey = "songclave";
         internal const string SlabReturnHubKey = "slab_return";
+        internal const string UnderworksReturnHubKey = "underworks_return";
         internal const string TerminusHubKey = "terminus";
         private static readonly string[] MainHubKeys =
         {
+            EntranceHubKey,
             BoneBottomHubKey,
             GreymoorHubKey,
             BellhartHubKey,
             SongclaveHubKey,
             SlabReturnHubKey,
+            UnderworksReturnHubKey,
             TerminusHubKey,
         };
 
@@ -40,11 +44,14 @@ namespace SilksongRandomizer
         private const string GreymoorCaravanEntryGateName = "left2";
         private const string SlabReturnSceneName = "Slab_03";
         private const string SlabReturnEntryGateName = "left2";
+        private const string UnderworksReturnSceneName = "Under_01b";
+        private const string UnderworksReturnEntryGateName = "left1";
         private const string FirstAbyssEscapeQuestName =
             "Black Thread Pt3 Escape";
 
         private enum WarpDestination
         {
+            RoomEntrance,
             BoneBottom,
             Bellhart,
             Songclave,
@@ -52,6 +59,7 @@ namespace SilksongRandomizer
             Greymoor,
             WidowShrine,
             SlabReturn,
+            UnderworksReturn,
         }
 
         internal static bool CanTeleportToPreferredHub(out string reason)
@@ -226,8 +234,12 @@ namespace SilksongRandomizer
         {
             switch (destination)
             {
+                case WarpDestination.RoomEntrance:
+                    return "Room Entrance";
                 case WarpDestination.SlabReturn:
                     return "Slab Return";
+                case WarpDestination.UnderworksReturn:
+                    return "Underworks Return";
                 case WarpDestination.WidowShrine:
                     return "Widow Shrine";
                 case WarpDestination.Songclave:
@@ -261,6 +273,17 @@ namespace SilksongRandomizer
             string entryGateName;
             switch (destination)
             {
+                case WarpDestination.RoomEntrance:
+                    if (!EntranceRandomization.TryGetReturnPoint(out sceneName, out entryGateName))
+                    {
+                        error = "No entrance return point is available in this room.";
+                        return false;
+                    }
+                    break;
+                case WarpDestination.UnderworksReturn:
+                    sceneName = UnderworksReturnSceneName;
+                    entryGateName = UnderworksReturnEntryGateName;
+                    break;
                 case WarpDestination.SlabReturn:
                     sceneName = SlabReturnSceneName;
                     entryGateName = SlabReturnEntryGateName;
@@ -350,8 +373,12 @@ namespace SilksongRandomizer
             );
             switch (selectedHub)
             {
+                case EntranceHubKey:
+                    return WarpDestination.RoomEntrance;
                 case SlabReturnHubKey:
                     return WarpDestination.SlabReturn;
+                case UnderworksReturnHubKey:
+                    return WarpDestination.UnderworksReturn;
                 case TerminusHubKey:
                     return WarpDestination.Terminus;
                 case SongclaveHubKey:
@@ -380,7 +407,9 @@ namespace SilksongRandomizer
                 playerData.blackThreadWorld &&
                 playerData.act3_wokeUp &&
                 playerData.act3_enclaveWakeSceneCompleted &&
-                !IsSlabReturnAvailable())
+                !IsSlabReturnAvailable() &&
+                !IsUnderworksReturnAvailable(playerData) &&
+                !EntranceRandomization.TryGetReturnPoint(out _, out _))
             {
                 destination = WarpDestination.Terminus;
                 return true;
@@ -398,10 +427,16 @@ namespace SilksongRandomizer
             if (playerData != null && playerData.blackThreadWorld &&
                 playerData.act3_wokeUp && playerData.act3_enclaveWakeSceneCompleted)
             {
+                if (EntranceRandomization.TryGetReturnPoint(out _, out _))
+                    available.Add(EntranceHubKey);
                 available.Add(TerminusHubKey);
                 if (IsSlabReturnAvailable())
                 {
                     available.Add(SlabReturnHubKey);
+                }
+                if (IsUnderworksReturnAvailable(playerData))
+                {
+                    available.Add(UnderworksReturnHubKey);
                 }
                 return available;
             }
@@ -422,8 +457,12 @@ namespace SilksongRandomizer
         {
             switch (hubKey)
             {
+                case EntranceHubKey:
+                    return EntranceRandomization.TryGetReturnPoint(out _, out _);
                 case SlabReturnHubKey:
                     return IsSlabReturnAvailable();
+                case UnderworksReturnHubKey:
+                    return IsUnderworksReturnAvailable(playerData);
                 case GreymoorHubKey:
                     return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
@@ -438,6 +477,12 @@ namespace SilksongRandomizer
                         StringComparison.Ordinal
                     );
             }
+        }
+
+        private static bool IsUnderworksReturnAvailable(PlayerData playerData)
+        {
+            return playerData != null && playerData.understoreLiftBroke &&
+                !MapLogicEvaluator.CanReachUnderworksWithoutCrash(SaveState.Instance);
         }
 
         private static bool IsSlabReturnAvailable()
@@ -506,13 +551,16 @@ namespace SilksongRandomizer
                 return normalized;
             }
 
+            if (available.Contains(EntranceHubKey))
+                return EntranceHubKey;
             if (available.Contains(TerminusHubKey))
             {
                 return TerminusHubKey;
             }
             for (int index = available.Count - 1; index >= 0; index--)
             {
-                if (available[index] != SlabReturnHubKey)
+                if (available[index] != SlabReturnHubKey &&
+                    available[index] != UnderworksReturnHubKey)
                 {
                     return available[index];
                 }
@@ -561,6 +609,38 @@ namespace SilksongRandomizer
                        !playerData.act3_enclaveWakeSceneCompleted ||
                        IsActThreeWakeEntry(gameManager, hero)
                    );
+        }
+    }
+
+    internal sealed class EntranceReturnPoint
+    {
+        private object owner;
+        private string scene;
+        private string gate;
+        private int sceneHandle;
+
+        internal void Clear()
+        {
+            owner = null;
+            scene = gate = null;
+        }
+
+        internal void Record(object state, string sceneName, string gateName, int handle)
+        {
+            Clear();
+            if (state == null || string.IsNullOrWhiteSpace(sceneName) || string.IsNullOrWhiteSpace(gateName)) return;
+            owner = state;
+            scene = sceneName;
+            gate = gateName;
+            sceneHandle = handle;
+        }
+
+        internal bool TryGet(object state, string sceneName, int handle, out string gateName)
+        {
+            gateName = null;
+            if (owner == null || !ReferenceEquals(owner, state) || scene != sceneName || sceneHandle != handle) return false;
+            gateName = gate;
+            return true;
         }
     }
 }

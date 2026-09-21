@@ -3,9 +3,7 @@ from __future__ import annotations
 from .options import get_silk_and_soul_points
 from .eva import EVA_POINT_SOURCES
 
-import base64
-import gzip
-import json
+from copy import deepcopy
 import random
 from collections import Counter
 
@@ -163,7 +161,6 @@ from .verdania_scope import (
 
 __version__ = WORLD_VERSION
 
-LOGIC_PAYLOAD_FORMAT = "gzip_base64_v1"
 LOGIC_PAYLOAD_FIELDS = (
     "requirements",
     "abstract_requirements",
@@ -171,6 +168,10 @@ LOGIC_PAYLOAD_FIELDS = (
     "logic_events",
 )
 LOGIC_UNKNOWN_REGION_NAME = "LogicUnknown"
+TRACKER_OPTION_NAMES = tuple(
+    name for name in SilksongOptions.__annotations__
+    if name not in {"vog_area_hints", "trap_percentage", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
+) + ("start_inventory", "exclude_locations")
 
 
 class SilksongWebWorld(WebWorld):
@@ -192,6 +193,7 @@ class SilksongWorld(World):
 
     game = "Hollow Knight: Silksong"
     topology_present = True
+    ut_can_gen_without_yaml = True
     author = "BatAtVideoGames"
     web = SilksongWebWorld()
     options_dataclass = SilksongOptions
@@ -218,61 +220,40 @@ class SilksongWorld(World):
         del _requirement_rules
         return super().rule_from_dict(data)
 
-    def interpret_slot_data(self, slot_data):
-        if "logic_base" in slot_data:
-            from .map_logic_data import load_base
-            if slot_data["logic_base"] != load_base()[0]:
-                raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
-        from .rules import apply_crest_slot_memory_locket_rules
+    @staticmethod
+    def _tracker_silk_and_soul_points(slot_data):
+        from .options import SilkAndSoulPoints
+        points = slot_data.get("silk_and_soul_points", SilkAndSoulPoints.default)
+        if type(points) is not int or not SilkAndSoulPoints.range_start <= points <= SilkAndSoulPoints.range_end:
+            raise ValueError("Invalid Silk and Soul point total in slot data.")
+        return points
 
-        for category in ("CrestSlot", "MemoryLocket", "Eva", "Soul", "OldHeart", "TwistedBud"):
-            key = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
-            if key in slot_data and slot_data[key] != self.get_category_mode(category):
-                raise ValueError(f"Tracker YAML {key} must match this slot.")
-        if slot_data.get("silk_and_soul_points", 17) != get_silk_and_soul_points(self.options):
-            raise ValueError("Tracker YAML silk_and_soul_points must match this slot.")
-        from .entrance_randomization import tracker_passthrough
-        er_data = tracker_passthrough(self, slot_data)
-        starting_crest = slot_data.get("starting_crest", self.resolve_starting_crest())
-        if starting_crest not in STARTING_CREST_ITEM_BY_KEY:
+    @staticmethod
+    def interpret_slot_data(slot_data):
+        from .map_logic_data import load_base
+        from .entrance_randomization import validate_pairs
+
+        if slot_data.get("logic_base") != load_base()[0]:
+            raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
+        missing = set(TRACKER_OPTION_NAMES) - slot_data.keys()
+        if missing:
+            raise ValueError(f"Tracker slot data is missing options: {', '.join(sorted(missing))}.")
+        option_types = SilksongOptions.type_hints
+        for name in TRACKER_OPTION_NAMES:
+            option_types[name].from_any(deepcopy(slot_data[name]))
+        SilksongWorld._tracker_silk_and_soul_points(slot_data)
+        if slot_data["starting_crest"] not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError("Invalid starting crest in slot data.")
-        prices = slot_data.get("purchase_prices", self.get_purchase_prices())
-        if er_data is not None or prices != self.get_purchase_prices() or starting_crest != self.resolve_starting_crest():
-            return {
-                "entrance_pairs": slot_data.get("entrance_pairs", {}),
-                "starting_crest": starting_crest,
-                "purchase_prices": dict(prices),
-                "crest_slot_memory_locket_count": slot_data.get(
-                    "crest_slot_memory_locket_count"
-                ),
-            }
-        if not uses_crest_slot_locket_logic(self):
-            return
-
+        if slot_data["entrance_randomization"] == "coupled":
+            validate_pairs(slot_data.get("entrance_pairs"), slot_data["entrance_randomization_scope"])
         count = slot_data.get("crest_slot_memory_locket_count")
-        if count is None:
-            payload = slot_data
-            if slot_data.get("logic_payload_format") == LOGIC_PAYLOAD_FORMAT:
-                payload = json.loads(gzip.decompress(base64.b64decode(
-                    slot_data["logic_payload"]
-                )))
-            counts = {
-                item_count["minimum"]
-                for location in get_active_crest_slot_locations(self)
-                for alternative in payload.get("requirements", {}).get(
-                    location.name, {}
-                ).get("alternatives", ())
-                for item_count in alternative.get("item_counts", ())
-                if item_count.get("items") == [MEMORY_LOCKET_ITEM]
-            }
-            if len(counts) != 1:
-                raise ValueError("Slot data is missing the Crest Slot Locket requirement.")
-            count = counts.pop()
-        active_count = len(get_active_crest_slot_locations(self))
-        if type(count) is not int or not (min(1, active_count) <= count <= active_count):
+        if type(count) is not int or not 0 <= count <= len(CREST_SLOT_LOCATION_NAMES):
             raise ValueError("Invalid Crest Slot Locket requirement in slot data.")
-        self._crest_slot_memory_locket_count = count
-        apply_crest_slot_memory_locket_rules(self)
+        for name in ("purchase_prices", "trap_counts"):
+            values = slot_data.get(name)
+            if not isinstance(values, dict) or any(type(value) is not int or value < 0 for value in values.values()):
+                raise ValueError(f"Invalid {name} in slot data.")
+        return slot_data
 
     def resolve_starting_crest(self) -> str:
         if self._resolved_starting_crest is not None:
@@ -451,16 +432,13 @@ class SilksongWorld(World):
         self._crest_slot_memory_locket_count = None
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
         if passthrough is not None:
-            starting_crest = passthrough.get("starting_crest")
-            if starting_crest is not None:
-                if starting_crest not in STARTING_CREST_ITEM_BY_KEY:
-                    raise ValueError("Invalid starting crest in slot data.")
-                self.options.starting_crest.value = self.options.starting_crest.options[starting_crest]
-                self._resolved_starting_crest = None
+            option_types = SilksongOptions.type_hints
+            for name in TRACKER_OPTION_NAMES:
+                setattr(self.options, name, option_types[name].from_any(deepcopy(passthrough[name])))
+            self._resolved_starting_crest = passthrough["starting_crest"]
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
-            self._crest_slot_memory_locket_count = passthrough.get(
-                "crest_slot_memory_locket_count"
-            )
+            self._resolved_trap_counts = dict(passthrough["trap_counts"])
+            self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
@@ -1879,6 +1857,7 @@ class SilksongWorld(World):
         for name in self.get_logic_unknown_locations() - LOGIC_UNKNOWN_LOCATIONS:
             exported_requirements[name] = {'alternatives': [], 'logic_unknown': True}
         slot_data = {
+            **self.options.as_dict("accessibility", "start_inventory", "exclude_locations"),
             "world_version": WORLD_VERSION,
             "silk_and_soul_points": get_silk_and_soul_points(self.options),
             "goal": goal_key,
@@ -2013,3 +1992,4 @@ class SilksongWorld(World):
         }
         from .map_logic_data import encode
         slot_data.update(encode(logic_payload, slot_data))
+

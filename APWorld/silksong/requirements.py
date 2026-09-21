@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from .combat import SKILLS_BY_TIER, TOOLS_BY_TIER, build_requirements as build_combat_requirements
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
 from collections import Counter, OrderedDict, deque
@@ -1636,6 +1637,8 @@ COLORED_TOOL_LOADOUTS: Mapping[
             *BROODFEAST_SEARED_TOOL_ITEMS,
             *BROODFEAST_SHREDDED_TOOL_ITEMS,
             *BROODFEAST_SKEWERED_TOOL_ITEMS,
+            *('Tool: ' + name for tools in TOOLS_BY_TIER.values() for name in tools
+              if name not in ('Curveclaw', 'Curvesickle')),
         )
         if name.startswith('Tool: ')
     },
@@ -1658,6 +1661,31 @@ COLORED_TOOL_LOADOUTS: Mapping[
     ),
 })
 
+VOLT_SKILL_REQUIREMENTS = {
+    'Volt Skill: ' + skill: tuple(
+        alternative
+        for alternative in _build_equipped_colored_tool_requirements(
+            ('Tool: Volt Filament', BLUE_TOOL_SLOT),
+            additional_required_items=(skill,),
+        )
+        if any(crest in alternative.all_of for crest in NON_ARCHITECT_CREST_ITEMS)
+    )
+    for skills in SKILLS_BY_TIER.values() for skill in skills
+}
+VANILLA_VOLT_SKILL_REQUIREMENTS = {
+    'Volt Skill: ' + skill: tuple(
+        alternative
+        for alternative in _build_equipped_colored_tool_requirements(
+            ('Tool: Volt Filament', BLUE_TOOL_SLOT),
+            randomized_crest_slots_enabled=False,
+            additional_required_items=(skill,),
+        )
+        if any(crest in alternative.all_of for crest in NON_ARCHITECT_CREST_ITEMS)
+    )
+    for skills in SKILLS_BY_TIER.values() for skill in skills
+}
+
+
 COLORED_TOOL_ACTIVATION_ITEMS: Mapping[str, tuple[str, ...]] = (
     MappingProxyType({
         USABLE_SCUTTLEBRACE_REQUIREMENT: (
@@ -1670,27 +1698,29 @@ EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
     str,
     tuple[LocationRequirement, ...],
 ] = MappingProxyType({
-    requirement_name: _build_equipped_colored_tool_requirements(
+    **VOLT_SKILL_REQUIREMENTS,
+    **{requirement_name: _build_equipped_colored_tool_requirements(
         *loadout,
         additional_required_items=(
             COLORED_TOOL_ACTIVATION_ITEMS.get(requirement_name, ())
         ),
     )
-    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()
+    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()}
 })
 
 VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS: Mapping[
     str,
     tuple[LocationRequirement, ...],
 ] = MappingProxyType({
-    requirement_name: _build_equipped_colored_tool_requirements(
+    **VANILLA_VOLT_SKILL_REQUIREMENTS,
+    **{requirement_name: _build_equipped_colored_tool_requirements(
         *loadout,
         randomized_crest_slots_enabled=False,
         additional_required_items=(
             COLORED_TOOL_ACTIVATION_ITEMS.get(requirement_name, ())
         ),
     )
-    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()
+    for requirement_name, loadout in COLORED_TOOL_LOADOUTS.items()}
 })
 
 OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES: frozenset[str] = frozenset(
@@ -2895,13 +2925,14 @@ EVENT_REQUIREMENTS.update({
     'Event: The Terrible Tyrant Completed': (
         req(room_node_name('bone-bottom/bone-bottom-town#ground-level'),
             room_node_name('the-marrow/the-marrow-skull-tyrant-arena#room'),
-            'Ancestral Art: Cling Grip', 'Event: Hunt Combat Ready'),
+            'Ancestral Art: Cling Grip', 'Combat: Skull Tyrant (Bone Bottom)'),
     ),
     'Event: Wailing Mother Completed': (
         req(room_node_name('the-slab/slab-arena#arena'),
             room_event_name('event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5'),
             'Event: Strengthening Songclave Completed', 'Path: Choral Chambers - Songclave',
-            'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak', 'Event: Hunt Combat Ready'),
+            'Ancestral Art: Cling Grip', 'Ability: Faydown Cloak',
+            'Combat: Broodmother', 'Combat: Broodmother Gauntlet'),
     ),
     'Event: Bugs of Pharloom Completed': (),
 })
@@ -2918,6 +2949,7 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
         **ACT_REQUIREMENTS,
         **EVENT_REQUIREMENTS,
         **PATH_REQUIREMENTS,
+        **build_combat_requirements(req, item_count, CREST_ITEMS),
         **EQUIPPED_SILK_SKILL_REQUIREMENTS,
         **EQUIPPED_COLORED_TOOL_REQUIREMENTS,
         **{

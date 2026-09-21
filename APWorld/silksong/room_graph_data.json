@@ -5,7 +5,7 @@
     "document_count": 505,
     "aggregate_sha256": "ca5187dfc2c7c8a5d96e86b1f0535aa30700bfab9e4ae63673514fa0e873e843",
     "catalogue_sha256": "a60dba6bbe028d94db78e5254f25be4b5e9f8123b48765e0da493c4bf377ea0f",
-    "bindings_sha256": "803cdb418495f7242a369d91b99f07c894ef592ee82b33df54fab4c70cdd5a86"
+    "bindings_sha256": "c46511f82acac83e8df5fee4cd39c2d22dff81e09b8469e7cd0c7a251da900b2"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -3697,7 +3697,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:moss-mother-ruined-chapel"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -3747,7 +3749,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:moss-mother-ruined-chapel"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -8010,7 +8014,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:chapel-of-the-wanderer"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -14093,10 +14099,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:the-marrow-entrance"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:the-marrow-entrance"
               ]
             ],
             "annotations": [],
@@ -18545,7 +18553,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-spear"
+                "item:silk-spear",
+                "combat:boss:bell-beast"
               ]
             ],
             "annotations": [],
@@ -18625,7 +18634,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-spear"
+                "item:silk-spear",
+                "combat:boss:bell-beast"
               ]
             ],
             "annotations": [],
@@ -19183,19 +19193,23 @@
             "dnf": [
               [
                 "item:cling-grip",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:the-marrow-northeast"
               ],
               [
                 "item:cling-grip",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:the-marrow-northeast"
               ],
               [
                 "state:act-3",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:the-marrow-northeast"
               ],
               [
                 "state:act-3",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:the-marrow-northeast"
               ]
             ],
             "annotations": [],
@@ -21337,7 +21351,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:skull-tyrant-the-marrow"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -23121,7 +23137,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:moss-mother-weavenest-atla"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -29243,11 +29261,13 @@
             "dnf": [
               [
                 "state:act-3",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:plasmified-zango"
               ],
               [
                 "state:act-3",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:plasmified-zango"
               ]
             ],
             "annotations": [],
@@ -29301,11 +29321,13 @@
             "dnf": [
               [
                 "state:act-3",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:plasmified-zango"
               ],
               [
                 "state:act-3",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:plasmified-zango"
               ]
             ],
             "annotations": [],
@@ -29647,7 +29669,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:deep-docks-entrance"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -31511,10 +31535,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:lace-deep-docks"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:lace-deep-docks"
               ]
             ],
             "annotations": [],
@@ -33121,7 +33147,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:deep-docks-center"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -36560,10 +36588,14 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "item:clawline",
+                "combat:gauntlet:deep-docks-southeast"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "item:clawline",
+                "combat:gauntlet:deep-docks-southeast"
               ]
             ],
             "annotations": [],
@@ -36980,7 +37012,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:forebrothers-signis-gron"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -37006,7 +37040,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:forebrothers-signis-gron"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -44723,7 +44759,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/88ab2f59-9e0c-41a1-ab62-d18f910e4f88"
+                "event:mapper/88ab2f59-9e0c-41a1-ab62-d18f910e4f88",
+                "combat:boss:fourth-chorus"
               ]
             ],
             "annotations": [],
@@ -44778,12 +44815,14 @@
               [
                 "event:mapper/reviewed:savage-beastfly-accepted",
                 "item:drifters-cloak",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:savage-beastfly-far-fields"
               ],
               [
                 "event:mapper/reviewed:savage-beastfly-accepted",
                 "item:drifters-cloak",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:savage-beastfly-far-fields"
               ]
             ],
             "annotations": [],
@@ -44805,7 +44844,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/88ab2f59-9e0c-41a1-ab62-d18f910e4f88"
+                "event:mapper/88ab2f59-9e0c-41a1-ab62-d18f910e4f88",
+                "combat:boss:fourth-chorus"
               ]
             ],
             "annotations": [],
@@ -50192,7 +50232,8 @@
                 "item:cling-grip",
                 "item:drifters-cloak",
                 "item:faydown-cloak",
-                "macro:progressive-swift-step-full"
+                "macro:progressive-swift-step-full",
+                "combat:gauntlet:skull-cavern"
               ]
             ],
             "annotations": [],
@@ -50269,7 +50310,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:skull-cavern"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -50321,7 +50364,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:skull-cavern"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -52683,11 +52728,13 @@
             "dnf": [
               [
                 "event:mapper/reviewed:hidden-hunter-accepted",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:gurr-the-outcast"
               ],
               [
                 "event:mapper/reviewed:hidden-hunter-accepted",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:gurr-the-outcast"
               ]
             ],
             "annotations": [],
@@ -52777,11 +52824,13 @@
             "dnf": [
               [
                 "event:mapper/reviewed:hidden-hunter-accepted",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:gurr-the-outcast"
               ],
               [
                 "event:mapper/reviewed:hidden-hunter-accepted",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:gurr-the-outcast"
               ]
             ],
             "annotations": [],
@@ -54104,10 +54153,14 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "item:silk-soar",
+                "combat:gauntlet:black-threaded-skarrgard"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "item:silk-soar",
+                "combat:gauntlet:black-threaded-skarrgard"
               ]
             ],
             "annotations": [],
@@ -54391,7 +54444,10 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:skarrsinger-karmelita",
+                "combat:gauntlet:karmelita-gauntlet"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -54443,7 +54499,10 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:skarrsinger-karmelita",
+                "combat:gauntlet:karmelita-gauntlet"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -55126,10 +55185,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:savage-beastfly-chapel-of-the-beast"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:savage-beastfly-chapel-of-the-beast"
               ]
             ],
             "annotations": [],
@@ -56326,7 +56387,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:hunter-s-march-entrance"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -57296,7 +57359,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:hunter-s-march-center"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -57351,6 +57416,30 @@
             "dnf": [
               [
                 "event:mapper/39f82c50-7dd7-4822-9716-b60617c2d4d2"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:hunters-march-act-3-gauntlet",
+          "label": "Hunters March Act 3 Gauntlet",
+          "kind": "gauntlet",
+          "node_id": "hunter-s-march/hunters-march-map-shop#gauntlet",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:act-3",
+                "combat:gauntlet:hunter-s-march-center-2"
               ]
             ],
             "annotations": [],
@@ -59624,7 +59713,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:hunter-s-march-northeast"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -60293,7 +60384,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:hunter-s-march-east"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -67001,7 +67094,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:gauntlet:shellwood-east"
               ]
             ],
             "annotations": [],
@@ -67028,23 +67122,29 @@
             "mode": "expression",
             "dnf": [
               [
-                "capability:ledge-grab"
+                "capability:ledge-grab",
+                "combat:gauntlet:shellwood-east"
               ],
               [
                 "macro:progressive-swift-step-full",
-                "mapper:scuttlebrace:none"
+                "mapper:scuttlebrace:none",
+                "combat:gauntlet:shellwood-east"
               ],
               [
-                "item:clawline"
+                "item:clawline",
+                "combat:gauntlet:shellwood-east"
               ],
               [
-                "item:cling-grip"
+                "item:cling-grip",
+                "combat:gauntlet:shellwood-east"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:gauntlet:shellwood-east"
               ],
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:gauntlet:shellwood-east"
               ]
             ],
             "annotations": [],
@@ -68907,7 +69007,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:sister-splinter"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -68933,7 +69035,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:sister-splinter"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -75128,7 +75232,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:widow"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -75258,7 +75364,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:widow"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -77878,37 +77986,15 @@
             "dnf": [
               [
                 "received:Craw Summons",
-                "item:drifters-cloak",
                 "mapper:attack:left",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "received:Craw Summons",
-                "item:drifters-cloak",
-                "mapper:attack:right",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "received:Craw Summons",
-                "item:silk-soar",
-                "mapper:attack:left",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "received:Craw Summons",
-                "item:silk-soar",
-                "mapper:attack:right",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "received:Craw Summons",
-                "mapper:attack:left",
-                "option:proficient-combat"
+                "combat:boss:crawfather",
+                "combat:gauntlet:crawfather-gauntlet"
               ],
               [
                 "received:Craw Summons",
                 "mapper:attack:right",
-                "option:proficient-combat"
+                "combat:boss:crawfather",
+                "combat:gauntlet:crawfather-gauntlet"
               ]
             ],
             "annotations": [],
@@ -78423,7 +78509,9 @@
             "raw": "nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:craw-lake"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -80030,7 +80118,9 @@
             "raw": "nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:chapel-of-the-reaper"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -83506,7 +83596,9 @@
             "raw": "nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:greymoor-tower"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -83699,6 +83791,30 @@
           "label": "top airstream",
           "kind": "switch",
           "node_id": "greymoor/greymoor-eastern-tower#tower-top"
+        },
+        {
+          "id": "event:mapper/reviewed:greymoor-tower-act-3-gauntlet",
+          "label": "Greymoor Tower Act 3 Gauntlet",
+          "kind": "gauntlet",
+          "node_id": "greymoor/greymoor-eastern-tower#arena-encounter",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:act-3",
+                "combat:gauntlet:greymoor-tower-act-3"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -93293,14 +93409,17 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:gauntlet:halfway-home"
               ],
               [
-                "item:cling-grip"
+                "item:cling-grip",
+                "combat:gauntlet:halfway-home"
               ],
               [
                 "item:faydown-cloak",
-                "capability:ledge-grab"
+                "capability:ledge-grab",
+                "combat:gauntlet:halfway-home"
               ]
             ],
             "annotations": [],
@@ -94235,11 +94354,13 @@
             "dnf": [
               [
                 "item:faydown-cloak",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:father-of-the-flame"
               ],
               [
                 "item:faydown-cloak",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:father-of-the-flame"
               ]
             ],
             "annotations": [],
@@ -94296,11 +94417,13 @@
             "dnf": [
               [
                 "item:faydown-cloak",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:father-of-the-flame"
               ],
               [
                 "item:faydown-cloak",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:father-of-the-flame"
               ]
             ],
             "annotations": [],
@@ -101746,7 +101869,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:great-conchflies"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -101772,7 +101897,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:great-conchflies"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -102083,15 +102210,7 @@
             "dnf": [
               [
                 "event:mapper/reviewed:last-judge-five-bells",
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "event:mapper/reviewed:last-judge-five-bells",
-                "item:faydown-cloak"
-              ],
-              [
-                "event:mapper/reviewed:last-judge-five-bells",
-                "option:proficient-combat"
+                "combat:boss:last-judge"
               ]
             ],
             "annotations": [],
@@ -102171,15 +102290,7 @@
             "dnf": [
               [
                 "event:mapper/reviewed:last-judge-five-bells",
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "event:mapper/reviewed:last-judge-five-bells",
-                "item:faydown-cloak"
-              ],
-              [
-                "event:mapper/reviewed:last-judge-five-bells",
-                "option:proficient-combat"
+                "combat:boss:last-judge"
               ]
             ],
             "annotations": [],
@@ -104811,10 +104922,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:shrine-guardian-seth"
               ]
             ],
             "annotations": [],
@@ -104842,10 +104950,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:shrine-guardian-seth"
               ]
             ],
             "annotations": [],
@@ -105023,10 +105128,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:nyleth"
               ]
             ],
             "annotations": [],
@@ -105080,10 +105182,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:nyleth"
               ]
             ],
             "annotations": [],
@@ -106225,10 +106324,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:boss:disgraced-chef-lugoli"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:boss:disgraced-chef-lugoli"
               ]
             ],
             "annotations": [],
@@ -106284,10 +106385,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:boss:disgraced-chef-lugoli"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:boss:disgraced-chef-lugoli"
               ]
             ],
             "annotations": [],
@@ -111673,7 +111776,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:clawline"
+                "item:clawline",
+                "combat:gauntlet:the-cauldron-gauntlet"
               ]
             ],
             "annotations": [],
@@ -113138,22 +113242,28 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:gauntlet:underworks-center"
               ],
               [
-                "item:cling-grip"
+                "item:cling-grip",
+                "combat:gauntlet:underworks-center"
               ],
               [
-                "mapper:scuttlebrace:none"
+                "mapper:scuttlebrace:none",
+                "combat:gauntlet:underworks-center"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:gauntlet:underworks-center"
               ],
               [
-                "capability:ledge-grab"
+                "capability:ledge-grab",
+                "combat:gauntlet:underworks-center"
               ],
               [
-                "item:clawline"
+                "item:clawline",
+                "combat:gauntlet:underworks-center"
               ]
             ],
             "annotations": [],
@@ -113182,7 +113292,9 @@
             "raw": "Nothing.",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:underworks-center"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -118324,10 +118436,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:underworks-northwest"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:underworks-northwest"
               ]
             ],
             "annotations": [],
@@ -121345,7 +121459,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:choral-chambers-west"
               ]
             ],
             "annotations": [],
@@ -128297,13 +128412,15 @@
                 "state:act-3",
                 "event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a",
                 "event:mapper/ac130e35-c5c1-4446-8e31-23abe9127249",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:bell-eater"
               ],
               [
                 "state:act-3",
                 "event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a",
                 "event:mapper/ac130e35-c5c1-4446-8e31-23abe9127249",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:bell-eater"
               ]
             ],
             "annotations": [],
@@ -129124,7 +129241,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:cogwork-dancers"
               ]
             ],
             "annotations": [],
@@ -129178,7 +129296,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:cogwork-dancers"
               ]
             ],
             "annotations": [],
@@ -130650,7 +130769,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:cogwork-core-northeast"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -131460,7 +131581,10 @@
             "raw": "Nothing.",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:silk-soar",
+                "combat:gauntlet:cogwork-core-southeast"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -133427,7 +133551,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:cogwork-core-southwest"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -133500,7 +133626,7 @@
           "unresolved_reasons": [],
           "alias": "B",
           "name": "Bottom",
-          "source_node_id": "whispering-vaults/vaultkeeper-cauldron-entrance#left-side",
+          "source_node_id": "whispering-vaults/vaultkeeper-cauldron-entrance#right-side",
           "target": {
             "raw": "underworks/underworks-below-vaultkeeper@t",
             "room_id": "underworks/underworks-below-vaultkeeper",
@@ -133531,7 +133657,7 @@
           "unresolved_reasons": [],
           "alias": "L",
           "name": "Left",
-          "source_node_id": "whispering-vaults/vaultkeeper-cauldron-entrance#right-side",
+          "source_node_id": "whispering-vaults/vaultkeeper-cauldron-entrance#left-side",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-hub-area@br",
             "room_id": "whispering-vaults/whispering-vaults-hub-area",
@@ -139476,7 +139602,9 @@
             "raw": "Nothing.",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:whispering-vaults-entrance"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -139973,7 +140101,9 @@
             "raw": "Nothing.",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:trobbio"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -140074,12 +140204,14 @@
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:tormented-trobbio"
               ],
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:tormented-trobbio"
               ]
             ],
             "annotations": [],
@@ -140134,7 +140266,9 @@
             "raw": "Nothing.",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:trobbio"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -140217,12 +140351,14 @@
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:tormented-trobbio"
               ],
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:tormented-trobbio"
               ]
             ],
             "annotations": [],
@@ -140252,12 +140388,14 @@
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:tormented-trobbio"
               ],
               [
                 "state:act-3",
                 "event:mapper/f0746147-73b5-4752-bc3c-fd940ebf81fc",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:tormented-trobbio"
               ]
             ],
             "annotations": [],
@@ -141531,11 +141669,13 @@
             "dnf": [
               [
                 "event:mapper/6af6bd82-2c24-4786-949e-25baa323f37e",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:balm-for-the-wounded-gauntlet"
               ],
               [
                 "event:mapper/6af6bd82-2c24-4786-949e-25baa323f37e",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:balm-for-the-wounded-gauntlet"
               ]
             ],
             "annotations": [],
@@ -143637,7 +143777,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:gauntlet:the-unravelled-gauntlet"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -143662,7 +143804,9 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/1e615cb9-baee-4b7b-b212-1ffceb438f03"
+                "event:mapper/1e615cb9-baee-4b7b-b212-1ffceb438f03",
+                "received:Surgeon's Key",
+                "combat:boss:the-unravelled"
               ]
             ],
             "annotations": [],
@@ -143739,7 +143883,9 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/1e615cb9-baee-4b7b-b212-1ffceb438f03"
+                "event:mapper/1e615cb9-baee-4b7b-b212-1ffceb438f03",
+                "received:Surgeon's Key",
+                "combat:boss:the-unravelled"
               ]
             ],
             "annotations": [],
@@ -146505,7 +146651,32 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:high-halls-gauntlet"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:high-halls-act-3-gauntlet",
+          "label": "High Halls Act 3 Gauntlet",
+          "kind": "gauntlet",
+          "node_id": "high-halls/high-halls-arena#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:act-3",
+                "combat:gauntlet:high-halls-gauntlet-2"
               ]
             ],
             "annotations": [],
@@ -148052,10 +148223,14 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:groal-the-great",
+                "combat:gauntlet:bilehaven-groal-the-great"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:groal-the-great",
+                "combat:gauntlet:bilehaven-groal-the-great"
               ]
             ],
             "annotations": [],
@@ -148099,7 +148274,9 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/reviewed:groal-defeated"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -156844,22 +157021,26 @@
               [
                 "item:cling-grip",
                 "macro:progressive-swift-step-full",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:phantom"
               ],
               [
                 "item:cling-grip",
                 "macro:progressive-swift-step-full",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:phantom"
               ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:phantom"
               ],
               [
                 "item:cling-grip",
                 "item:faydown-cloak",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:phantom"
               ]
             ],
             "annotations": [],
@@ -159416,10 +159597,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:memorium-northeast"
               ],
               [
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:gauntlet:memorium-northeast"
               ]
             ],
             "annotations": [],
@@ -160486,7 +160669,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Memorium - Map Purchase",
-          "node_id": "memorium/shopkeeper-hides#main-area",
+          "node_id": "memorium/shopkeeper-hides#entrance",
           "canonical_location": "Memorium - Map Purchase",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -160512,7 +160695,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Memorium - Shard Bundle",
-          "node_id": "memorium/shopkeeper-hides#entrance",
+          "node_id": "memorium/shopkeeper-hides#main-area",
           "canonical_location": "Memorium - Shard Bundle",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -160885,14 +161068,8 @@
                 "item:needolin",
                 "received:Elegy of the Deep",
                 "item:silk-soar",
-                "count:progressive-needle-upgrade:3"
-              ],
-              [
-                "state:act-3",
-                "item:needolin",
-                "received:Elegy of the Deep",
-                "item:silk-soar",
-                "option:proficient-combat"
+                "combat:boss:crust-king-khann",
+                "combat:gauntlet:coral-tower-all-4"
               ]
             ],
             "annotations": [],
@@ -165141,10 +165318,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:raging-conchfly"
               ]
             ],
             "annotations": [],
@@ -165224,10 +165398,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:raging-conchfly"
               ]
             ],
             "annotations": [],
@@ -166221,11 +166392,7 @@
             "dnf": [
               [
                 "item:needolin",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "item:needolin",
-                "option:proficient-combat"
+                "combat:boss:watcher-at-the-edge"
               ]
             ],
             "annotations": [],
@@ -166280,11 +166447,7 @@
             "dnf": [
               [
                 "item:needolin",
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "item:needolin",
-                "option:proficient-combat"
+                "combat:boss:watcher-at-the-edge"
               ]
             ],
             "annotations": [],
@@ -166585,7 +166748,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:voltvyrm"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -166637,7 +166802,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:voltvyrm"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -167046,7 +167213,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:gauntlet:the-slab-east"
               ]
             ],
             "annotations": [],
@@ -169423,7 +169591,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
+                "combat:gauntlet:the-slab-northwest"
               ]
             ],
             "annotations": [],
@@ -169450,7 +169619,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
+                "combat:gauntlet:the-slab-northwest"
               ]
             ],
             "annotations": [],
@@ -169927,7 +170097,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:boss:first-sinner"
               ]
             ],
             "annotations": [],
@@ -169955,7 +170126,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:boss:first-sinner"
               ]
             ],
             "annotations": [],
@@ -177283,13 +177455,15 @@
                 "state:act-3",
                 "event:mapper/reviewed:fatal-resolve-accepted",
                 "received:Needle Strike",
-                "mapper:attack:left"
+                "mapper:attack:left",
+                "combat:boss:pinstress"
               ],
               [
                 "state:act-3",
                 "event:mapper/reviewed:fatal-resolve-accepted",
                 "received:Needle Strike",
-                "mapper:attack:right"
+                "mapper:attack:right",
+                "combat:boss:pinstress"
               ]
             ],
             "annotations": [],
@@ -185005,7 +185179,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:grand-mother-silk"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -185031,7 +185207,9 @@
             "raw": "None",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "combat:boss:grand-mother-silk"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -185624,10 +185802,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:lace-the-cradle"
               ]
             ],
             "annotations": [],
@@ -185681,10 +185856,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "count:progressive-needle-upgrade:2"
-              ],
-              [
-                "option:proficient-combat"
+                "combat:boss:lace-the-cradle"
               ]
             ],
             "annotations": [],
@@ -191030,13 +191202,16 @@
             "mode": "expression",
             "dnf": [
               [
-                "item:cling-grip"
+                "item:cling-grip",
+                "combat:boss:lost-lace"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "combat:boss:lost-lace"
               ],
               [
-                "item:silk-soar"
+                "item:silk-soar",
+                "combat:boss:lost-lace"
               ]
             ],
             "annotations": [],

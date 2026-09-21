@@ -1499,7 +1499,9 @@
     "target_scene": "Bone_East_Weavehome",
     "target_gate": "left1",
     "is_door": false,
-    "group": "right"
+    "group": "right",
+    "arrival_requires": "far-fields/far-fields-skull-room-east@r",
+    "return_requires": "far-fields/far-fields-skull-room-east@r"
   },
   {
     "id": "far-fields/far-fields-skull-room-east@ul",
@@ -1679,7 +1681,9 @@
     "target_scene": "Bone_East_14b",
     "target_gate": "right1",
     "is_door": false,
-    "group": "left"
+    "group": "left",
+    "arrival_requires": "far-fields/weavenest-cindril-entrance@l",
+    "return_requires": "far-fields/weavenest-cindril-entrance@l"
   },
   {
     "id": "grand-gate/entrance-to-nyleth@l",
@@ -3023,7 +3027,9 @@
     "target_scene": "Weave_04",
     "target_gate": "left1",
     "is_door": false,
-    "group": "right"
+    "group": "right",
+    "arrival_requires": "moss-grotto/moss-grotto-east@wd",
+    "return_requires": "moss-grotto/moss-grotto-east@wd"
   },
   {
     "id": "mount-fay/brightvein-entrance@d",
@@ -4823,7 +4829,9 @@
     "target_scene": "Abyss_08",
     "target_gate": "left1",
     "is_door": false,
-    "group": "right"
+    "group": "right",
+    "arrival_requires": "the-abyss/abyss-lower-big-room@r",
+    "return_requires": "the-abyss/abyss-lower-big-room@r"
   },
   {
     "id": "the-abyss/abyss-tall-room@l",
@@ -4919,7 +4927,9 @@
     "target_scene": "Abyss_05",
     "target_gate": "right1",
     "is_door": false,
-    "group": "left"
+    "group": "left",
+    "arrival_requires": "the-abyss/weavenest-absolom@l",
+    "return_requires": "the-abyss/weavenest-absolom@l"
   },
   {
     "id": "the-cradle/act2-cradle-connector-hallway@l",
@@ -5707,7 +5717,9 @@
     "target_scene": "Tut_01b",
     "target_gate": "right1",
     "is_door": false,
-    "group": "left"
+    "group": "left",
+    "arrival_requires": "weavenest-atla/weavenest-atla-entrance@wd",
+    "return_requires": "weavenest-atla/weavenest-atla-entrance@wd"
   },
   {
     "id": "weavenest-atla/weavenest-atla-grotto@r",
@@ -6355,7 +6367,9 @@
     "target_scene": "Crawl_05",
     "target_gate": "right1",
     "is_door": false,
-    "group": "left"
+    "group": "left",
+    "arrival_requires": "wormways/wormways-upper-west@wd",
+    "return_requires": "wormways/wormways-upper-west@wd"
   },
   {
     "id": "wormways/wormways-weavenest@wd",
@@ -6367,6 +6381,8 @@
     "target_scene": "Crawl_03",
     "target_gate": "left1",
     "is_door": false,
-    "group": "right"
+    "group": "right",
+    "arrival_requires": "wormways/wormways-weavenest@wd",
+    "return_requires": "wormways/wormways-weavenest@wd"
   }
 ]

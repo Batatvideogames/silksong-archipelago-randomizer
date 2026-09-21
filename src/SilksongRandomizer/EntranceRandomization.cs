@@ -22,6 +22,26 @@ namespace SilksongRandomizer
         private static SaveState pendingState;
         private static Exit pendingExit;
         private static float nextSync;
+        private static string pendingScene, pendingGate;
+        private static readonly EntranceReturnPoint returnPoint = new EntranceReturnPoint();
+
+        internal static bool TryGetReturnPoint(out string scene, out string gate)
+        {
+            scene = gate = null;
+            Prepare(SaveState.Instance);
+            var manager = GameManager.SilentInstance;
+            var hero = HeroController.instance;
+            if (exits.Count == 0 || manager == null || hero == null) return false;
+            scene = manager.GetSceneNameString();
+            return returnPoint.TryGet(SaveState.Instance, scene, hero.gameObject.scene.handle, out gate);
+        }
+
+        private static void ClearPending()
+        {
+            pendingExit = null;
+            pendingState = null;
+            pendingScene = pendingGate = null;
+        }
 
         internal static string NormalizeLayout(JObject layout)
         {
@@ -163,8 +183,8 @@ namespace SilksongRandomizer
             exits = updated;
             cachedState = state;
             cachedJson = state?.entranceLayoutJson;
-            pendingExit = null;
-            pendingState = null;
+            ClearPending();
+            returnPoint.Clear();
         }
 
         internal static void Update()
@@ -202,17 +222,18 @@ namespace SilksongRandomizer
         {
             private static void Prefix(TransitionPoint __instance)
             {
-                pendingExit = null;
-                pendingState = null;
+                ClearPending();
                 var exit = ApplyExit(__instance, false);
-                if (exit == null) return;
+                if (exits.Count == 0) return;
                 pendingState = SaveState.Instance;
                 pendingExit = exit;
+                pendingScene = __instance.targetScene;
+                pendingGate = __instance.entryPoint;
             }
 
             private static Exception Finalizer(Exception __exception)
             {
-                if (__exception != null) { pendingExit = null; pendingState = null; }
+                if (__exception != null) ClearPending();
                 return __exception;
             }
         }
@@ -223,11 +244,16 @@ namespace SilksongRandomizer
             [HarmonyPriority(Priority.Last)]
             private static void Prefix(GameManager.SceneLoadInfo info)
             {
-                if (pendingExit != null && (info == null || info.SceneName != pendingExit.TargetScene || info.EntryGateName != pendingExit.TargetGate))
+                if (pendingState == null && info != null &&
+                    TryGetReturnPoint(out var scene, out var gate) && info.SceneName == scene && info.EntryGateName == gate)
                 {
-                    pendingExit = null;
-                    pendingState = null;
+                    pendingState = SaveState.Instance;
+                    pendingScene = scene;
+                    pendingGate = gate;
                 }
+                if (pendingState != null && (info == null || info.SceneName != pendingScene || info.EntryGateName != pendingGate))
+                    ClearPending();
+                returnPoint.Clear();
             }
         }
 
@@ -238,11 +264,14 @@ namespace SilksongRandomizer
             {
                 var exit = pendingExit;
                 var state = pendingState;
-                pendingExit = null;
-                pendingState = null;
-                if (exit == null || state == null || !ReferenceEquals(state, SaveState.Instance) ||
-                    __instance.GetSceneNameString() != exit.TargetScene || HeroController.instance == null ||
-                    HeroController.instance.GetEntryGateName() != exit.TargetGate) return;
+                var scene = pendingScene;
+                var gate = pendingGate;
+                ClearPending();
+                var hero = HeroController.instance;
+                if (state == null || !ReferenceEquals(state, SaveState.Instance) ||
+                    __instance.GetSceneNameString() != scene || hero == null || hero.GetEntryGateName() != gate) return;
+                returnPoint.Record(state, scene, gate, hero.gameObject.scene.handle);
+                if (exit == null) return;
                 if (state.exploredEntrances == null) state.exploredEntrances = new HashSet<string>();
                 state.exploredEntrances.Add(exit.Id);
                 Archipelago.Instance?.SynchronizeExploredEntrances();

@@ -918,6 +918,17 @@ namespace SilksongRandomizer
                     markerWidth = 315f;
                     markerHeight = 82f;
                 }
+                if (cache.LocationName == "Blasted Steps - Shell Shard Cache #4" ||
+                    cache.LocationName == "Blasted Steps - Shell Shard Cache #5")
+                {
+                    markerX = 20.0542f;
+                    markerY = 48.5738f;
+                }
+                if (cache.LocationName == "Putrified Ducts - Shell Shard Cache #6")
+                {
+                    markerX = 77.24f;
+                    markerY = 50.8f;
+                }
                 if (ExplicitMinorCacheGroupAnchors.TryGetValue(
                         cache.LocationName,
                         out Vector2 groupAnchor

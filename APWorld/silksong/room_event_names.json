@@ -5280,5 +5280,20 @@
     "name": "Wormways Upper West - Advanced Alchemy Lower Tunnel Samples",
     "kind": "event",
     "locations": []
+  },
+  "event:mapper/reviewed:greymoor-tower-act-3-gauntlet": {
+    "name": "Greymoor Tower - Act 3 Gauntlet",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/reviewed:hunters-march-act-3-gauntlet": {
+    "name": "Hunter's March Map Shop - Act 3 Gauntlet",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/reviewed:high-halls-act-3-gauntlet": {
+    "name": "High Halls - Act 3 Gauntlet",
+    "kind": "gauntlet",
+    "locations": []
   }
 }

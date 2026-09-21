@@ -262,7 +262,7 @@ namespace SilksongRandomizer.Patches
                         "AP Minor Cache - " + entry.LocationName;
                     replacement.transform.position =
                         entry.LocationName == "Putrified Ducts - Shell Shard Cache #6"
-                            ? new Vector3(77.24f, 54.3f, source.transform.position.z)
+                            ? new Vector3(77.24f, 50.8f, source.transform.position.z)
                             : source.transform.position;
                     if (RequiresStationaryAntVeto(entry.LocationName))
                     {

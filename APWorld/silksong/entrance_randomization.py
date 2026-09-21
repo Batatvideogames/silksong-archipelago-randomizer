@@ -65,6 +65,16 @@ def endpoint_name(data, ports):
     return room_node_name(ports[data['id']].source_node_id)
 
 
+def exit_clauses(data, ports, include_source=True):
+    if not data.get('arrival_requires'):
+        return compile_transition_requirements(ports[data['id']], include_source=include_source)
+    clauses = (compile_transition_requirements(ports[data['return_requires']], include_source=False)
+               if data.get('return_requires') else (CompiledRoomClause(),))
+    if include_source:
+        return tuple(replace(clause, all_of=(endpoint_name(data, ports), *clause.all_of)) for clause in clauses)
+    return clauses
+
+
 def _validate_pool(ports):
     gates = {}
     claimed = set()
@@ -89,6 +99,9 @@ def _validate_pool(ports):
         arrival = data.get('arrival_requires')
         if arrival and (arrival not in group_members or not ports[arrival].requirement.dnf):
             raise OptionError(f'Entrance beta has an invalid arrival requirement: {source}')
+        returning = data.get('return_requires')
+        if returning and (not arrival or returning not in group_members):
+            raise OptionError(f'Entrance beta has an invalid return requirement: {source}')
         rows = ({'port': source, **data}, *data.get('aliases', ()))
         if {row['port'] for row in rows} != set(group_members):
             raise OptionError(f'Entrance beta group is missing a native gate: {source}')
@@ -128,9 +141,7 @@ def _node_overrides(pairs, scope_name='full'):
         destinations = dict(pairs)
         for source, data in selected.items():
             target = POOL[destinations.get(source, data['vanilla'])]
-            requirements = ((CompiledRoomClause(all_of=(endpoint_name(data, ports),)),)
-                            if data.get('arrival_requires')
-                            else compile_transition_requirements(ports[source]))
+            requirements = exit_clauses(data, ports)
             _append_requirements(clauses, endpoint_name(target, ports), requirements)
     return {
         name: tuple(dict.fromkeys(_compiled_room_clause_requirement(clause) for clause in alternatives))
@@ -158,8 +169,7 @@ def create_exits(world, regions):
     options = native_rule_options(world)
     world._entrance_exits = {}
     for source, data in scoped_pool(scope(world)).items():
-        clauses = ((CompiledRoomClause(),) if data.get('arrival_requires')
-                   else compile_transition_requirements(ports[source], include_source=False))
+        clauses = exit_clauses(data, ports, include_source=False)
         requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
         entrance = world.create_entrance(
             regions[endpoint_name(data, ports)],
@@ -299,20 +309,6 @@ def connect_exits(world):
             world.multiworld.spoiler.set_entrance(POOL[source]['name'], POOL[target]['name'], 'entrance', world.player)
 
 
-def tracker_passthrough(world, slot_data):
-    mode = slot_data.get('entrance_randomization', 'off')
-    if mode != world.options.entrance_randomization.current_key:
-        raise OptionError('Tracker YAML entrance_randomization must match this slot.')
-    if mode == 'off':
-        return None
-    if slot_data.get('entrance_randomization_scope', 'full') != scope(world):
-        raise OptionError('Tracker YAML entrance_randomization_scope must match this slot.')
-    pairs = validate_pairs(slot_data.get('entrance_pairs'), scope(world))
-    if pairs != getattr(world, '_entrance_pairs', None):
-        return pairs
-    return None
-
-
 def reconnect_found(world, value):
     if not enabled(world) or not getattr(world, '_entrance_deferred', False) or not isinstance(value, dict):
         return
@@ -330,7 +326,7 @@ def reconnect_found(world, value):
 
 def slot_entrances(world):
     if not enabled(world):
-        return {'entrance_randomization': 'off'}
+        return {'entrance_randomization': 'off', 'entrance_randomization_scope': scope(world)}
     pairs = validate_pairs(world._entrance_pairs, scope(world))
     return {
         'entrance_randomization': 'coupled',

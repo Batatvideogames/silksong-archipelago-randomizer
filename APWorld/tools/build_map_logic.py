@@ -28,7 +28,6 @@ def main():
         "logic_events": rules.export_wish_logic_events(requirements),
     })
     entrances = importlib.import_module(package.__name__ + ".entrance_randomization")
-    graph_logic = importlib.import_module(package.__name__ + ".room_graph_logic")
     ports = entrances.load_room_graph().transition_by_id
     profiles = {}
     for scope in ("full", "interiors", "within_areas"):
@@ -37,8 +36,7 @@ def main():
             room_node_overrides=entrances._node_overrides((), scope)))
         sources = []
         for source, data in selected.items():
-            clauses = ((graph_logic.CompiledRoomClause(all_of=(entrances.endpoint_name(data, ports),)),)
-                       if data.get("arrival_requires") else graph_logic.compile_transition_requirements(ports[source]))
+            clauses = entrances.exit_clauses(data, ports)
             sources.append({
                 "id": source,
                 "vanilla": data["vanilla"],
