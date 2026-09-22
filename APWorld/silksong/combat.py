@@ -126,7 +126,7 @@ def requirement_name(key):
     return f"Combat: {profile['name']}{' Gauntlet' if key.startswith('gauntlet:') and 'gauntlet' not in profile['name'].lower() else ''}{suffix}"
 
 
-def build_requirements(req, item_count, crests):
+def build_requirements(req, item_count, crests, tier_reduction=0):
     result = {}
     skill_crests = tuple(sorted(c for c in crests if c != 'Crest: Architect'))
     for skill in (s for skills in SKILLS_BY_TIER.values() for s in skills):
@@ -164,7 +164,7 @@ def build_requirements(req, item_count, crests):
                       "Drifter's": "Ability: Drifter's Cloak", 'Clawline': 'Ancestral Art: Clawline'}
     for key, profile in profiles().items():
         name = requirement_name(key)
-        needle = profile['needle']
+        needle = max(0, profile['needle'] - tier_reduction)
         damage = [req(crest=False, item_counts=(item_count(needle, 'Progressive Needle Upgrade'),)
                       if needle else ())]
         if profile['dps']:
@@ -172,6 +172,10 @@ def build_requirements(req, item_count, crests):
                                      (3, 'Very High DPS Skills')):
                 if reduction > needle:
                     continue
+                if tier_reduction:
+                    group = {'Mid DPS Skills/Tools': 'Low DPS Skills/Tools',
+                             'High DPS Skills/Tools': 'Mid DPS Skills/Tools',
+                             'Very High DPS Skills': 'High DPS Skills'}[group]
                 damage.append(req(group, crest=False, item_counts=(
                     (item_count(needle - reduction, 'Progressive Needle Upgrade'),)
                     if needle > reduction else ())))

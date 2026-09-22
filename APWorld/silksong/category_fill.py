@@ -236,20 +236,16 @@ def _shuffle_reachability_failures(
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
     reachability_context=None,
+    maximum_state=None,
 ) -> tuple[list[str], list[int]]:
     from Fill import sweep_from_pool
 
-    if reachability_context is None:
-        maximum_state = sweep_from_pool(
-            multiworld.state,
-            multiworld.itempool,
-        )
-    else:
-        maximum_pool_state, filled_locations = reachability_context
-        maximum_state = sweep_from_pool(
-            maximum_pool_state,
-            locations=filled_locations,
-        )
+    if maximum_state is None:
+        if reachability_context is None:
+            maximum_state = sweep_from_pool(multiworld.state, multiworld.itempool)
+        else:
+            maximum_pool_state, filled_locations = reachability_context
+            maximum_state = sweep_from_pool(maximum_pool_state, locations=filled_locations)
     minimal_players = _minimal_accessibility_players(multiworld)
     unreachable_locations = sorted(
         (
@@ -295,6 +291,109 @@ def _build_shuffle_reachability_context(multiworld):
     )
 
 
+def _repair_shuffle_bootstrap(
+    multiworld, shuffled_locations, silksong_players,
+    candidates, protected_locations, reachability_context,
+) -> bool:
+    from Fill import sweep_from_pool
+
+    priority = {"Skill": 0, "Bellway": 1, "Ventrica": 2, "Melody": 3, "Spell": 4, "BellShrine": 5}
+    candidates = sorted(
+        (location for location in candidates if location not in protected_locations),
+        key=lambda location: (priority.get(_placement_category(location), 6),
+                              location.player, _placement_category(location), location.name),
+    )
+    if len(candidates) < 2:
+        return False
+    pool_state, filled_locations = reachability_context
+    all_items_state = sweep_from_pool(pool_state, locations=filled_locations)
+    for location in candidates:
+        all_items_state.collect(location.item, True)
+    if not _shuffle_is_accessible(
+        multiworld, shuffled_locations, silksong_players,
+        (all_items_state, filled_locations),
+    ):
+        return False
+
+    baseline = [location.item for location in candidates]
+    accepted = False
+    attempts = 0
+    try:
+        failures = tuple(map(set, _shuffle_reachability_failures(
+            multiworld, shuffled_locations, silksong_players, reachability_context,
+        )))
+        while any(failures) and attempts < 128:
+            state = sweep_from_pool(pool_state, locations=filled_locations)
+            reachable_count = sum(location.can_reach(state) for location in filled_locations)
+            reached = [location for location in candidates if location.can_reach(state)]
+            blocked = [location for location in candidates
+                       if location.item.advancement and not location.can_reach(state)]
+            improved = False
+            for source in blocked:
+                for target in reached:
+                    if (source.player != target.player
+                            or _placement_category(source) != _placement_category(target)
+                            or not _can_fill_without_access(multiworld, source, target.item)
+                            or not _can_fill_without_access(multiworld, target, source.item)):
+                        continue
+                    before = [source.item, target.item]
+                    _assign_items([source, target], before[::-1])
+                    attempts += 1
+                    trial_state = sweep_from_pool(pool_state, locations=filled_locations)
+                    remaining = tuple(map(set, _shuffle_reachability_failures(
+                        multiworld, shuffled_locations, silksong_players, reachability_context,
+                        maximum_state=trial_state,
+                    )))
+                    improves_reach = (remaining == failures and
+                                     sum(location.can_reach(trial_state) for location in filled_locations)
+                                     > reachable_count)
+                    if all(a <= b for a, b in zip(remaining, failures)) and (remaining != failures or improves_reach):
+                        failures = remaining
+                        improved = True
+                        break
+                    _assign_items([source, target], before)
+                    if attempts >= 128:
+                        break
+                if improved or attempts >= 128:
+                    break
+            if not improved:
+                return False
+        accepted = not any(failures)
+        return accepted
+    finally:
+        if not accepted:
+            _assign_items(candidates, baseline)
+
+
+def _validate_unrestricted_opening(multiworld):
+    if multiworld.players != 1:
+        return
+    items = [item for item in multiworld.itempool
+             if item.advancement and _placement_category(item) is None]
+    if not items:
+        return
+    state = CollectionState(multiworld)
+    for item in multiworld.itempool:
+        if _placement_category(item) is not None:
+            state.collect(item, True)
+    for location in multiworld.get_filled_locations():
+        if _placement_category(location) is not None:
+            state.collect(location.item, True)
+    state.sweep_for_advancements()
+    if multiworld.has_beaten_game(state):
+        return
+    if any(location.can_reach(state) and any(
+            location.can_fill(state, item, check_access=False) for item in items)
+            for location in multiworld.get_unfilled_locations()):
+        return
+    raise OptionError(
+        "The starting and entrance settings leave no reachable check that can hold "
+        "unrestricted progression, even with all category-shuffled items available. "
+        "Set an early check category to Anywhere, change the starting location, "
+        "or provide a starting movement item."
+    )
+
+
 def prefill_category_shuffles(
     multiworld,
     game_name: str,
@@ -307,6 +406,7 @@ def prefill_category_shuffles(
     while retaining only reachable progression layouts.
     """
 
+    _validate_unrestricted_opening(multiworld)
     shuffled_items = [
         item
         for item in multiworld.itempool
@@ -503,6 +603,10 @@ def prefill_category_shuffles(
         all_shuffled_locations,
         silksong_players,
         reachability_context,
+    ) and not _repair_shuffle_bootstrap(
+        multiworld, all_shuffled_locations, silksong_players,
+        [location for locations in locations_by_lane.values() for location in locations],
+        protected_locations, reachability_context,
     ):
         unreachable_locations, unbeaten_players = (
             _shuffle_reachability_failures(

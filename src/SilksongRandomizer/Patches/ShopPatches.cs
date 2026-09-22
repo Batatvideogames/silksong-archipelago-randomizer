@@ -633,42 +633,21 @@ namespace SilksongRandomizer.Patches
             out string item,
             out ItemFlags flags)
         {
-            user = null;
-            item = null;
-            flags = ItemFlags.None;
+            bool found = TryGetPresentationHintData(locationName, out SaveState.HintData hint);
+            user = hint?.user;
+            item = hint?.item;
+            flags = hint?.flags ?? ItemFlags.None;
+            return found;
+        }
+
+        internal static bool TryGetPresentationHintData(string locationName, out SaveState.HintData hint)
+        {
             SynchronizeShopSession();
-            string canonicalLocationName =
-                LocationSet.GetCanonicalLocationName(locationName);
-            if (shopSessionState == null ||
-                string.IsNullOrWhiteSpace(canonicalLocationName))
-            {
-                return false;
-            }
-
-            if (shopSessionState.GetHint(
-                    canonicalLocationName,
-                    out user,
-                    out item,
-                    out flags,
-                    allowNetworkRequest: false
-                ))
-            {
-                return true;
-            }
-
-            if (!SilentPreviewHints.TryGetValue(
-                    canonicalLocationName,
-                    out SaveState.HintData hint
-                ) ||
-                hint == null)
-            {
-                return false;
-            }
-
-            user = hint.user;
-            item = hint.item;
-            flags = hint.flags;
-            return true;
+            locationName = LocationSet.GetCanonicalLocationName(locationName);
+            hint = shopSessionState?.receivedHints?.FirstOrDefault(x => x != null &&
+                string.Equals(x.locationName, locationName, StringComparison.OrdinalIgnoreCase));
+            if (hint != null) return true;
+            return !string.IsNullOrWhiteSpace(locationName) && SilentPreviewHints.TryGetValue(locationName, out hint) && hint != null;
         }
 
         [HarmonyPatch(
@@ -971,27 +950,8 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(ShopItem __instance, ref string __result)
             {
-                if (!TryResolveShopPreviewLocation(
-                        __instance,
-                        out string locationName))
-                {
-                    return true;
-                }
-
-                if (TryGetPresentationHint(
-                        locationName,
-                        out string user,
-                        out string item,
-                        out ItemFlags flags))
-                {
-                    __result = user + "'s " + item;
-                }
-                else
-                {
-                    __result = "AP Item";
-                }
-
-                __result = AlphabetModeManager.FilterDirectText(__result);
+                if (!TryResolveShopPreviewLocation(__instance, out string locationName)) return true;
+                __result = AlphabetModeManager.FilterDirectText(ItemPreview.Get(locationName, true)?.Name ?? "AP Item");
                 return false;
             }
         }
@@ -1001,47 +961,10 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(ShopItem __instance, ref string __result)
             {
-                if (!TryResolveShopPreviewLocation(
-                        __instance,
-                        out string locationName))
-                {
-                    return true;
-                }
-
-                if (TryGetPresentationHint(
-                        locationName,
-                        out string user,
-                        out string item,
-                        out ItemFlags flags))
-                {
-                    __result = user + "'s " + item + ".\r\n";
-                    switch (flags)
-                    {
-                        case ItemFlags.None:
-                            __result += "Seems not important.";
-                            break;
-                        case ItemFlags.Advancement:
-                            __result += "It is very important!";
-                            break;
-                        case ItemFlags.NeverExclude:
-                            __result += "Seems useful.";
-                            break;
-                        case ItemFlags.Trap:
-                            __result += "Seems fun...";
-                            break;
-                    }
-                }
-                else
-                {
-                    __result = "Something for someone else, maybe...";
-                }
-
+                if (!TryResolveShopPreviewLocation(__instance, out string locationName)) return true;
+                __result = ItemPreview.Get(locationName, true)?.Description ?? "Something for someone else, maybe...";
                 if (IsRuinedToolRepair(__instance))
-                {
-                    __result +=
-                        "\r\nRequires Ruined Tool and 1 Craftmetal.";
-                }
-
+                    __result += "\r\nRequires Ruined Tool and 1 Craftmetal.";
                 __result = AlphabetModeManager.FilterDirectText(__result);
                 return false;
             }
@@ -1052,32 +975,20 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(ShopItem __instance, ref Sprite __result)
             {
-                if (!TryResolveShopPreviewLocation(
-                        __instance,
-                        out string locationName))
-                {
-                    return true;
-                }
+                if (!TryResolveShopPreviewLocation(__instance, out string locationName)) return true;
+                __result = ItemPreview.Get(locationName, true)?.Icon ??
+                    RandomizerPlugin.Instance?.MapCheckIcon ?? RandomizerPlugin.Instance?.ArchipelagoIcon;
+                return false;
+            }
+        }
 
-                RandomizerPlugin plugin = RandomizerPlugin.Instance;
-                if (plugin == null)
-                {
-                    return true;
-                }
-
-                if (TryGetPresentationHint(
-                        locationName,
-                        out _,
-                        out _,
-                        out ItemFlags flags))
-                {
-                    __result = plugin.GetItemClassificationIcon(flags);
-                }
-                else
-                {
-                    __result =
-                        plugin.MapCheckIcon ?? plugin.ArchipelagoIcon;
-                }
+        [HarmonyPatch(typeof(ShopItem), "get_ItemSpriteScale")]
+        private static class ShopItemScalePatch
+        {
+            private static bool Prefix(ShopItem __instance, ref float __result)
+            {
+                if (!TryResolveShopPreviewLocation(__instance, out string locationName)) return true;
+                __result = ItemPreview.Get(locationName, true)?.Scale ?? 1f;
                 return false;
             }
         }

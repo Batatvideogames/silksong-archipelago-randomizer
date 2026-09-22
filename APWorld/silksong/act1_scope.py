@@ -21,6 +21,7 @@ _POST_ACT_ONE_SOURCE_ACTS = frozenset(("Act 2", "Act 3"))
 _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
     (
         *EVA_REWARDS,
+        "Bellhart Roof - Memory Locket",
         "Throwing Ring",
         "Curvesickle",
         "Egg of Flealia",
@@ -31,6 +32,9 @@ _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
         "Wish: Cloaks of the Choir",
         "Wish: Building Up Songclave",
         "Wish: Strengthening Songclave",
+        "Wish: Songclave Supplies",
+        "Wish: Fleatopia Supplies",
+        "Wish: Liquid Lacquer",
         "Beastling Call",
         "Craw Summons",
         "Boss: Broodmother",

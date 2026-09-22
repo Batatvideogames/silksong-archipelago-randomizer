@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .options import get_silk_and_soul_points
 
@@ -265,7 +265,7 @@ def set_silksong_rules(world) -> None:
         world.allows_bellways_before_bell_beast()
     )
     skips_tier = world.get_skips_tier()
-    proficient_combat = bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0))
+    proficient_combat = world.get_proficient_combat_mode()
     proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
     bell_shrine_sanity = world.get_category_mode("BellShrine") != "vanilla"
     scuttlebrace_logic_enabled = (

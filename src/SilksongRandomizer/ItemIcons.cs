@@ -198,6 +198,9 @@ namespace SilksongRandomizer
             public float Scale;
         }
 
+        private static readonly Dictionary<string, float> MissingUntil =
+            new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase);
+
         public static string GetSpriteName(string itemName)
             => Mappings.TryGetValue(itemName, out string spriteName) ? spriteName : null;
 
@@ -209,12 +212,14 @@ namespace SilksongRandomizer
             scale = 1f;
             if (string.IsNullOrWhiteSpace(itemName)) return fallback;
 
-            if (IconCache.TryGetValue(itemName, out var cached))
+            if (IconCache.TryGetValue(itemName, out var cached) && cached.Sprite != null)
             {
                 scale = cached.Scale;
                 return cached.Sprite;
             }
 
+            if (MissingUntil.TryGetValue(itemName, out float retry) && Time.realtimeSinceStartup < retry)
+                return fallback;
             string stripped = StripName(itemName);
             string cleanName = Normalize(stripped);
 
@@ -227,11 +232,16 @@ namespace SilksongRandomizer
             else
             {
                 scale = 1f;
+                MissingUntil[itemName] = Time.realtimeSinceStartup + 2f;
                 sprite = fallback;
                 Debug.LogWarning($"[ItemIcons Debug] FAILED to resolve icon for: '{itemName}'");
             }
 
-            IconCache[itemName] = new CachedIcon { Sprite = sprite, Scale = scale };
+            if (sprite != null && sprite != fallback)
+            {
+                MissingUntil.Remove(itemName);
+                IconCache[itemName] = new CachedIcon { Sprite = sprite, Scale = scale };
+            }
             return sprite;
         }
 
@@ -274,7 +284,10 @@ namespace SilksongRandomizer
 
             int colonIdx = result.IndexOf(':');
             if (colonIdx > 0) 
-                result = result.Substring(0, colonIdx);
+                {
+                string prefix = result.Substring(0, colonIdx);
+                result = Mappings.ContainsKey(prefix) ? prefix : result.Substring(colonIdx + 1).Trim();
+            }
 
             int parenIdx = result.IndexOf('(');
             if (parenIdx > 0) 

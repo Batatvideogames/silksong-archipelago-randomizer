@@ -181,8 +181,8 @@ namespace SilksongRandomizer.Patches
             public override Sprite GetPopupIcon()
             {
                 return ShowGenericPresentation
-                    ? RandomizerPlugin.Instance?.MapCheckIcon ??
-                        RandomizerPlugin.Instance?.ArchipelagoIcon
+                    ? ItemPreview.Get(LocationName, false, true)?.Icon ??
+                        RandomizerPlugin.Instance?.MapCheckIcon ?? RandomizerPlugin.Instance?.ArchipelagoIcon
                     : null;
             }
 
@@ -190,7 +190,7 @@ namespace SilksongRandomizer.Patches
             {
                 return ShowGenericPresentation
                     ? AlphabetModeManager.FilterDirectText(
-                        "Archipelago Item"
+                        ItemPreview.Get(LocationName, false, true)?.Name ?? "Archipelago Item"
                     )
                     : null;
             }
@@ -1528,6 +1528,61 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static string GetQuestPreviewLocation(FullQuestBase quest)
+        {
+            if (TryGetActiveQuestRewardSource(quest, out string location, out ItemType _)) return location;
+            return TryGetActiveQuestLocation(quest, out location) ? location : null;
+        }
+
+        [HarmonyPatch(typeof(QuestItemDescription), nameof(QuestItemDescription.SetDisplay))]
+        private static class QuestPreviewRefreshPatch
+        {
+            private static void Postfix(QuestItemDescription __instance, BasicQuestBase quest, SpriteRenderer ___rewardIcon)
+            {
+                var refresh = __instance.GetComponent<WishPreviewRefresh>();
+                if (quest is FullQuestBase fullQuest && ShouldUseGenericQuestPresentation(fullQuest))
+                {
+                    if (refresh == null) refresh = __instance.gameObject.AddComponent<WishPreviewRefresh>();
+                    refresh.Bind(GetQuestPreviewLocation(fullQuest), ___rewardIcon);
+                }
+                else if (refresh != null) refresh.Bind(null, ___rewardIcon);
+            }
+        }
+
+        private sealed class WishPreviewRefresh : MonoBehaviour
+        {
+            private string location;
+            private SpriteRenderer icon;
+            private Vector3 originalScale;
+            private bool captured;
+            private float nextUpdate;
+
+            internal void Bind(string nextLocation, SpriteRenderer renderer)
+            {
+                if (captured && icon != null) icon.transform.localScale = originalScale;
+                if (renderer != icon) captured = false;
+                icon = renderer;
+                location = nextLocation;
+                if (icon != null && !captured)
+                {
+                    originalScale = icon.transform.localScale;
+                    captured = true;
+                }
+                nextUpdate = 0f;
+                Update();
+            }
+
+            private void Update()
+            {
+                if (location == null || icon == null || Time.unscaledTime < nextUpdate) return;
+                nextUpdate = Time.unscaledTime + 0.25f;
+                ItemPreview.Presentation preview = ItemPreview.Get(location, false, true);
+                if (preview?.Icon == null) return;
+                icon.sprite = preview.Icon;
+                icon.transform.localScale = Vector3.Scale(originalScale, new Vector3(preview.Scale, preview.Scale, 1f));
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_RewardIcon")]
         private static class QuestRewardIconPatch
         {
@@ -1539,9 +1594,9 @@ namespace SilksongRandomizer.Patches
             {
                 if (ShouldUseGenericQuestPresentation(__instance))
                 {
-                    __result =
-                        RandomizerPlugin.Instance?.MapCheckIcon ??
-                        RandomizerPlugin.Instance?.ArchipelagoIcon;
+                    string location = GetQuestPreviewLocation(__instance);
+                    __result = ItemPreview.Get(location, false, true)?.Icon ??
+                        RandomizerPlugin.Instance?.MapCheckIcon ?? RandomizerPlugin.Instance?.ArchipelagoIcon;
                 }
             }
         }

@@ -73,7 +73,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     randomize_ledge_grab: bool = False
     randomize_swim: bool = False
     pollip_heart_count: int = 0
-    proficient_combat: bool = False
+    proficient_combat: int = 0
     proficient_movement: bool = False
     bell_shrine_sanity: bool = False
     silk_and_soul_points: int = 17
@@ -111,7 +111,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         randomize_ledge_grab: bool
         randomize_swim: bool
         pollip_heart_count: int
-        proficient_combat: bool
+        proficient_combat: int
         proficient_movement: bool
         bell_shrine_sanity: bool
         silk_and_soul_points: int
@@ -252,7 +252,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     anchor_requirement_name: str | None = None
     randomize_ledge_grab: bool = False
     randomize_swim: bool = False
-    proficient_combat: bool = False
+    proficient_combat: int = 0
     proficient_movement: bool = False
     bell_shrine_sanity: bool = False
     silk_and_soul_points: int = 17
@@ -312,6 +312,16 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 results, key, cached_result = memo_entry
                 if cached_result is not None:
                     return cached_result
+
+            if (
+                (self.anchor_requirement_name is None
+                 or state.can_reach_region(
+                     native_region_name(self.anchor_requirement_name), self.player))
+                and self.child(state)
+            ):
+                if memo_entry is not None:
+                    results[key] = True
+                return True
 
             assumed_state = state.copy()
             assumed_state.collect(self.assumed_item, True)
@@ -497,7 +507,7 @@ def _compile_named_requirement(
     randomize_swim: bool,
     pollip_heart_count: int,
     native_abstract_regions: bool = False,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -567,7 +577,7 @@ def _compile_requirement(
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     required_location_stack: tuple[str, ...] = (),
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -692,7 +702,7 @@ def build_requirements_rule(
     pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -758,7 +768,7 @@ def build_location_rule(
     pollip_heart_count: int = 0,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -806,7 +816,7 @@ def build_goal_rule(
     randomize_swim: bool = False,
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -852,7 +862,7 @@ def build_native_source_rule(
     anchor_requirement_name: str | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,

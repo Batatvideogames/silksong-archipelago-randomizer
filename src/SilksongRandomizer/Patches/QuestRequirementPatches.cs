@@ -5,6 +5,39 @@ namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        [HarmonyPatch(typeof(DeliveryQuestItem), nameof(DeliveryQuestItem.CanTakeHit))]
+        private static class DeliveryDamagePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(ref bool __result)
+            {
+                if (SaveState.Instance == null)
+                    return true;
+                __result = false;
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(DeliveryQuestItem), "BreakAllInternal")]
+        private static class DeliveryBreakPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix() => SaveState.Instance == null;
+        }
+
+        [HarmonyPatch(typeof(DeliveryQuestItem), nameof(DeliveryQuestItem.GetChunkDuration))]
+        private static class DeliveryTimerPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(ref float __result)
+            {
+                if (SaveState.Instance == null)
+                    return true;
+                __result = 0f;
+                return false;
+            }
+        }
+
         private const string LiquidLacquerQuest =
             "Courier Delivery Mask Maker";
         private const string PinstressBattleQuest = "Pinstress Battle Pre";

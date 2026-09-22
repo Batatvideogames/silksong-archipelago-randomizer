@@ -1050,8 +1050,6 @@ LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     canonicalize_location_name(location_name)
     for location_name in CURRENT_QUEST_LOCATION_SOURCES
-    if canonicalize_location_name(location_name)
-    not in COURIER_DELIVERY_WISH_LOCATION_NAMES
 ) + tuple(
     canonicalize_location_name(f'Quest Completion: {asset_name}')
     for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
@@ -1074,8 +1072,7 @@ location_data_table: Dict[str, SilksongLocationData] = {
     name: SilksongLocationData(location_table.get(name), category)
     for name, category in LOCATION_TABLE_SOURCE
     if (
-        name not in COURIER_DELIVERY_WISH_LOCATION_NAMES
-        and name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
+        name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
         and name != "Verdania - Lake Plaque"
         and name != "Whispering Vaults - Heavy Rosary Necklace"
     )

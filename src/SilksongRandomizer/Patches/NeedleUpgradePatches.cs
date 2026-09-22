@@ -2,11 +2,95 @@ using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace SilksongRandomizer.Patches
 {
     internal static class NeedleUpgradePatches
     {
+        private static readonly MethodInfo UpdateNeedleState =
+            AccessTools.Method(typeof(InventoryItemNail), "UpdateState");
+        private static readonly MethodInfo UpdateNeedleDisplay =
+            AccessTools.Method(typeof(InventoryItemUpdateable), "UpdateDisplay");
+
+        internal static int ResolveSelectedNeedleTier(int unlocked, int selected)
+        {
+            unlocked = Math.Max(0, Math.Min(4, unlocked));
+            return selected < 0 ? unlocked : Math.Min(unlocked, selected);
+        }
+
+        private static int GetUnlockedNeedleTier(SaveState state, PlayerData playerData)
+        {
+            return Math.Max(playerData.nailUpgrades,
+                state.IsRandomized(ItemType.NeedleUpgrade) ? state.needleUpgradeLevel : 0);
+        }
+
+        internal static int GetSelectedNeedleTier(PlayerData playerData)
+        {
+            SaveState state = SaveState.Instance;
+            return state == null ? playerData.nailUpgrades : ResolveSelectedNeedleTier(
+                GetUnlockedNeedleTier(state, playerData), state.selectedNeedleUpgradeLevel);
+        }
+
+        internal static bool TryCycleNeedle(SaveState state, PlayerData playerData)
+        {
+            int unlocked = Math.Max(0, Math.Min(4, GetUnlockedNeedleTier(state, playerData)));
+            if (unlocked == 0)
+            {
+                return false;
+            }
+            int selected = ResolveSelectedNeedleTier(unlocked, state.selectedNeedleUpgradeLevel);
+            state.selectedNeedleUpgradeLevel = (selected + 1) % (unlocked + 1);
+            return true;
+        }
+
+        [HarmonyPatch(typeof(InventoryItemSelectable), nameof(InventoryItemSelectable.Submit))]
+        private static class CycleNeedlePatch
+        {
+            private static bool Prefix(InventoryItemSelectable __instance, ref bool __result)
+            {
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (!(__instance is InventoryItemNail needle) || state == null ||
+                    playerData == null || !TryCycleNeedle(state, playerData))
+                {
+                    return true;
+                }
+                UpdateNeedleState.Invoke(needle, null);
+                UpdateNeedleDisplay.Invoke(needle, null);
+                __result = true;
+                return false;
+            }
+        }
+
+        [HarmonyPatch]
+        private static class SelectedNeedleTierPatch
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.PropertyGetter(typeof(PlayerData), nameof(PlayerData.nailDamage));
+                yield return AccessTools.Method(typeof(HealthManager), "ApplyDamageScaling");
+                yield return UpdateNeedleState;
+            }
+
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                FieldInfo field = AccessTools.Field(typeof(PlayerData), nameof(PlayerData.nailUpgrades));
+                MethodInfo selected = AccessTools.Method(typeof(NeedleUpgradePatches), nameof(GetSelectedNeedleTier));
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    if (instruction.LoadsField(field))
+                    {
+                        instruction.opcode = OpCodes.Call;
+                        instruction.operand = selected;
+                    }
+                    yield return instruction;
+                }
+            }
+        }
+
         private const string PlinneyScene = "Belltown_Room_pinsmith";
         private const string PlinneyObject = "Plinney Inside";
         private const string PlinneyFsm = "Dialogue";

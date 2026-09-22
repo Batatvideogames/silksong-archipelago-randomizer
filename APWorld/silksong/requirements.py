@@ -30,6 +30,7 @@ from .minor_caches import (
     MINOR_CACHE_SOURCE,
 )
 from .locations import (
+    COURIER_DELIVERY_WISH_LOCATION_NAMES,
     CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
@@ -3039,6 +3040,27 @@ def get_silk_and_soul_requirements(points: int = 17):
     )
 
 
+@lru_cache(maxsize=3)
+def combat_requirement_overrides(proficient_combat: int):
+    if proficient_combat == 2:
+        return {PROFICIENT_COMBAT_REQUIREMENT: PROFICIENT_COMBAT_REQUIREMENTS}
+    if proficient_combat == 1:
+        overrides = {
+            name: alternatives
+            for name, alternatives in build_combat_requirements(
+                req, item_count, CREST_ITEMS, tier_reduction=1
+            ).items()
+            if name.endswith(' Damage')
+        }
+        overrides['Event: Hunt Combat Ready'] = (
+            req(PROFICIENT_COMBAT_REQUIREMENT),
+            req('Ancestral Art: Swift Step', 'Ability: Faydown Cloak',
+                item_counts=(item_count(2, 'Progressive Needle Upgrade'),)),
+        )
+        return overrides
+    return {}
+
+
 def get_abstract_requirements(
     allow_bellways_before_bell_beast: bool = False,
     randomized_crest_slots_enabled: bool = True,
@@ -3047,7 +3069,7 @@ def get_abstract_requirements(
     pollip_heart_count: int = 0,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -3092,8 +3114,7 @@ def get_abstract_requirements(
     if bell_shrine_sanity:
         adjusted_requirements["Option: Bellshrinesanity On"] = (req(crest=False),)
         adjusted_requirements["Option: Bellshrinesanity Off"] = ()
-    if proficient_combat:
-        adjusted_requirements[PROFICIENT_COMBAT_REQUIREMENT] = PROFICIENT_COMBAT_REQUIREMENTS
+    adjusted_requirements.update(combat_requirement_overrides(proficient_combat))
     if randomize_ledge_grab:
         adjusted_requirements[LEDGE_GRAB_CAPABILITY_REQUIREMENT] = (
             RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
@@ -5079,7 +5100,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Widow Defeated',
     )),
     ('Memory Locket: Bellhart Roof', area(
-        3,
+        1,
         'Bellhart - Bellhart',
         'Ancestral Art: Silk Soar',
     )),
@@ -5303,7 +5324,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         (
             location_name,
             area(
-                2,
+                1,
                 'Bellhart - Bellhart',
                 'Event: Widow Defeated',
                 relic_item_name,
@@ -5571,16 +5592,6 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
             act='Act 1',
         ),
     ),
-    'Wish: Bone Bottom Supplies': (
-        req(
-            'Act: 1',
-            'Path: Bellhart - Bellhart',
-            'Event: Bell Beast Defeated',
-            'Event: Missing Brother Rescued',
-            crest=False,
-            act='Act 1',
-        ),
-    ),
     'Wish: My Missing Courier': (
         req('Event: Missing Courier Rescued', crest=False),
     ),
@@ -5589,9 +5600,6 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     ),
     'Shellwood - Weaver Harp Inscription': (
         req('Ancestral Art: Needolin', crest=False),
-    ),
-    'Bellhart Roof - Memory Locket': (
-        req('Act: 3', crest=False, act='Act 3'),
     ),
     'Bellhart Shop - Memory Locket': (
         req('Event: Widow Defeated', crest=False),
@@ -5650,11 +5658,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     **{
         location_name: (
             req(
-                'Act: 2',
                 'Event: Widow Defeated',
                 relic_item_name,
                 crest=False,
-                act='Act 2',
             ),
         )
         for location_name, relic_item_name
@@ -5974,6 +5980,9 @@ if MAPPER_GRAPH_ENABLED:
     UNVERIFIED_PROGRESSION_LOCATIONS = ROOM_GRAPH_QUARANTINED_CHECK_NAMES
     JUNK_ONLY_LOCATIONS = frozenset(ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS & location_data_table.keys())
     LOGIC_UNKNOWN_LOCATIONS = UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
+    LOGIC_UNKNOWN_LOCATIONS -= (
+        COURIER_DELIVERY_WISH_LOCATION_NAMES - UNVERIFIED_PROGRESSION_LOCATIONS
+    )
 
 LOGIC_UNKNOWN_LOCATIONS |= BUGS_OF_PHARLOOM_REWARD_LOCATIONS
 
@@ -6077,7 +6086,7 @@ def _get_static_abstract_requirement_items(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6127,8 +6136,9 @@ def _get_static_abstract_requirement_items(
         )
 
     if proficient_combat:
+        combat_overrides = combat_requirement_overrides(proficient_combat)
         requirement_items = tuple(
-            (name, PROFICIENT_COMBAT_REQUIREMENTS if name == PROFICIENT_COMBAT_REQUIREMENT else alternatives)
+            (name, combat_overrides.get(name, alternatives))
             for name, alternatives in requirement_items
         )
 
@@ -6288,7 +6298,7 @@ def _compile_static_abstract_worklist_plan(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6321,7 +6331,7 @@ def _matches_static_abstract_requirements(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6363,7 +6373,7 @@ def _compute_abstract_values(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6702,7 +6712,7 @@ def _has_named_requirement(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6754,7 +6764,7 @@ def _satisfies_requirement(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6811,7 +6821,7 @@ def make_requirements_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -6872,7 +6882,7 @@ def make_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -7141,7 +7151,7 @@ def make_goal_rule(
     spelling_bee_item_names: tuple[str, ...] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -7349,7 +7359,7 @@ def export_abstract_requirements(
     pollip_heart_count: int = 0,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
-    proficient_combat: bool = False,
+    proficient_combat: int = 0,
     proficient_movement: bool = False,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
@@ -7389,6 +7399,7 @@ def export_abstract_requirements(
     for event, source in {
         LAST_JUDGE_ROOM_EVENT: 'Boss: Last Judge',
         'Event: Last Judge Defeated': 'Boss: Last Judge',
+        'Event: Widow Defeated': 'Boss: Widow',
         'Room Event: event:mapper/reviewed:phantom-defeated': 'Boss: Phantom',
         'Event: Act 2 Started': 'Act: 2',
     }.items():

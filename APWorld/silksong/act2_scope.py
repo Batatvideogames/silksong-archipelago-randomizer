@@ -19,10 +19,10 @@ from .lore_tablets import (
 ACT_TWO_GOAL_KEY = "act_2"
 CURSED_ENDING_GOAL_KEY = "cursed_ending"
 
-# These sources cannot be completed before Act 3. Keep them out of Act 1,
-# Act 2 and Cursed Ending. Flea Hunt is not tied to an act.
+# These sources are reserved for Act 3 content scopes.
 ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
     (
+        "Bellhart Roof - Memory Locket",
         "Pollen Heart",
         "Hunter's Heart",
         "Encrusted Heart",
@@ -30,11 +30,14 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
         "Curvesickle",
         "Wish: Fatal Resolve",
         "Wish: Pain, Anguish and Misery",
+        "Wish: Survivor's Camp Supplies",
         "Boss: Bell Eater",
         "Beastling Call",
         "Boss: Plasmified Zango",
         "Boss: Lost Garmond",
         "Boss: Pinstress",
+        "Boss: Shrine Guardian Seth",
+        "Boss: Watcher at the Edge",
     )
 )
 
@@ -59,7 +62,6 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "Relic: Rune Harp (High Halls)",
         "Far Fields - Pale Rosary Necklace",
         "Elegy of the Deep",
-        "Bellhart Roof - Memory Locket",
         "Craw Summons",
         "Boss: Crawfather",
         "Greymoor - Rosary Cache #35",
@@ -110,9 +112,6 @@ ACT_TWO_EXCLUDED_LOCATION_NAMES: frozenset[str] = (
     | ACT_TWO_REQUIRED_DEPENDENCY_LOCATION_NAMES
     | ACT_THREE_ONLY_GOAL_LOCATION_NAMES
 )
-ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES: frozenset[str] = frozenset(
-    ("Silk Soar",)
-)
 ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Crest Slot: Shaman (Blue 1)",
@@ -122,26 +121,34 @@ ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
 
 
 
+ACT_TWO_SILK_SOAR_LOCATION_NAMES: frozenset[str] = frozenset((
+    "Whispering Vaults - Mask Shard",
+    "Whispering Vaults - Shard Bundle",
+    *(f"Far Fields - Rosary Cache #{number}" for number in (18, 20, 21)),
+    *(f"Far Fields - Shell Shard Cache #{number}" for number in range(2, 8)),
+    "Grand Gate - Shell Shard Cache",
+    "Mount Fay - Shell Shard Cache #3",
+    "Mount Fay - Shell Shard Cache #4",
+    "Putrified Ducts - Shell Shard Cache #8",
+    *(f"Underworks - Shell Shard Cache #{number}" for number in (7, 8, 11)),
+    "Far Fields (Act 3) - Memory Locket",
+))
+
+
 def get_act_two_excluded_location_names(
     starting_crest_item: str,
     skill_mode: str = "anywhere",
 ) -> frozenset[str]:
-    """Return goal exclusions for the configured Skill source behavior.
-
-    Vanilla Skill keeps Silk Soar as an addressless locked native source. Its
-    existing post-goal rule lets maximum logic acquire the item without
-    inventing a starting grant. Randomized Skill modes omit that physical
-    source. Shuffle also omits its reward. Anywhere may include the item.
-    """
+    """Exclude later-act sources in every Skill randomization mode."""
 
     excluded = ACT_TWO_EXCLUDED_LOCATION_NAMES
     if starting_crest_item != "Crest: Shaman":
         excluded |= ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES
 
-    if skill_mode == "vanilla":
-        return excluded - ACT_TWO_VANILLA_SKILL_RETAINED_LOCATION_NAMES
-    if skill_mode not in {"shuffle", "anywhere"}:
+    if skill_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
+    if skill_mode != "anywhere":
+        excluded |= ACT_TWO_SILK_SOAR_LOCATION_NAMES
     return excluded
 
 
@@ -180,11 +187,11 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Resource:rosary_cache": {"Rosaries (10)": 4},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
-        "Rosaries (60)": 8,
-        "Shell Shards (80)": 5,
+        "Rosaries (60)": 9,
+        "Shell Shards (80)": 6,
     },
     "Quest": {
-        "Rosaries (60)": 2,
+        "Rosaries (60)": 3,
         "Shell Shards (80)": 2,
     },
     "RelicTurnIn": {"Shell Shards (80)": 2},
@@ -198,6 +205,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
 def trim_act_two_pool_entries(
     entries: Iterable,
     starting_crest_item: str,
+    skill_mode: str = "anywhere",
 ):
     remaining = list(entries)
     removals = {
@@ -205,6 +213,15 @@ def trim_act_two_pool_entries(
         for category, item_counts in
         ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY.items()
     }
+    if skill_mode != "anywhere":
+        for category, item_counts in {
+            "MaskShard": {"Mask Shard #9": 1},
+            "MemoryLocket": {"Memory Locket": 1},
+            "Resource:shard_bundle": {"Shard Bundle": 1},
+            "Resource:rosary_cache": {"Rosaries (10)": 3},
+            "Resource:shell_shard_cache": {"Shell Shards (10)": 13},
+        }.items():
+            removals.setdefault(category, Counter()).update(item_counts)
     if starting_crest_item == "Crest: Shaman":
         removals.setdefault("Crest", Counter())["Rosaries (60)"] += 1
     else:

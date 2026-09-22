@@ -60,6 +60,7 @@ namespace SilksongRandomizer
             public string locationName;
             public string user;
             public string item;
+            public string game;
             public ItemFlags flags;
             public bool official;
             public bool found;
@@ -204,6 +205,7 @@ namespace SilksongRandomizer
         [NonSerialized]
         [XmlIgnore]
         private Dictionary<string, int> purchasePriceLookup;
+        public bool trapDisguises;
         public bool fasterDialogue;
         public bool alphabetMode;
         public bool deathLink;
@@ -395,6 +397,7 @@ namespace SilksongRandomizer
         public int curveclawLevel = 0;
         public int silkHeartLevel = 0;
         public int needleUpgradeLevel = 0;
+        public int selectedNeedleUpgradeLevel = -1;
 
         // AP tool ownership is virtual, so the native ToolItem.Unlock path
         // does not initialize liquid amount/reserve data. These markers make
@@ -703,6 +706,7 @@ namespace SilksongRandomizer
                 0,
                 Math.Min(4, needleUpgradeLevel)
             );
+            selectedNeedleUpgradeLevel = Math.Max(-1, Math.Min(4, selectedNeedleUpgradeLevel));
             if (splitDashAndSprint)
             {
                 if (swiftStepLevel >= 1)
@@ -730,7 +734,8 @@ namespace SilksongRandomizer
             {
                 hint.locationName =
                     LocationSet.GetCanonicalLocationName(hint.locationName);
-                hint.item = ItemSet.GetCanonicalItemName(hint.item);
+                if (hint.game == "Hollow Knight: Silksong")
+                    hint.item = ItemSet.GetCanonicalItemName(hint.item);
             }
             items = new ItemSet();
             locations = new LocationSet();
@@ -908,6 +913,7 @@ namespace SilksongRandomizer
             donationPrices = archipelago.DonationPrices;
             vogHintPrices = archipelago.VogHintPrices;
             SetPurchasePrices(archipelago.PurchasePrices);
+            trapDisguises = archipelago.TrapDisguises;
             fasterDialogue = archipelago.FasterDialogue;
             alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
@@ -1038,6 +1044,7 @@ namespace SilksongRandomizer
                        StringComparison.Ordinal
                    ) &&
                    PurchasePriceSettingsMatch(archipelago) &&
+                   trapDisguises == archipelago.TrapDisguises &&
                    fasterDialogue == archipelago.FasterDialogue &&
                    alphabetMode == archipelago.AlphabetMode &&
                    deathLink == archipelago.DeathLink &&
@@ -1485,6 +1492,11 @@ namespace SilksongRandomizer
                 return "This randomizer save's resolved purchase prices " +
                        "do not match the current slot. Start or load the " +
                        "save created for this slot's settings.";
+            }
+
+            if (roomIdentityMatches && trapDisguises != archipelago.TrapDisguises)
+            {
+                return GetBooleanSettingMismatchMessage("trap_disguises", trapDisguises, archipelago.TrapDisguises);
             }
 
             if (roomIdentityMatches &&
@@ -2258,6 +2270,11 @@ namespace SilksongRandomizer
             {
                 if (!hint.official)
                 {
+                    if (string.IsNullOrEmpty(existingHint.game) && !string.IsNullOrEmpty(hint.game))
+                    {
+                        existingHint.game = hint.game;
+                        return true;
+                    }
                     return false;
                 }
 
@@ -2277,6 +2294,7 @@ namespace SilksongRandomizer
                                existingHint.flags != hint.flags;
                 existingHint.user = hint.user;
                 existingHint.item = hint.item;
+                existingHint.game = hint.game;
                 existingHint.flags = hint.flags;
                 existingHint.official = true;
                 existingHint.found = found;

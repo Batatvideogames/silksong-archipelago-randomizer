@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .options import get_silk_and_soul_points
 
@@ -24,7 +24,7 @@ def native_rule_options(world) -> dict[str, object]:
             world.allows_bellways_before_bell_beast()
         ),
         "skips_tier": world.get_skips_tier(),
-        "proficient_combat": bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
+        "proficient_combat": world.get_proficient_combat_mode(),
         "proficient_movement": bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         "bell_shrine_sanity": world.get_category_mode("BellShrine") != "vanilla",
         "silk_and_soul_points": get_silk_and_soul_points(world.options),
@@ -61,7 +61,7 @@ def get_native_abstract_requirements(world):
             world.is_ledgegrab_ability_rando_enabled()
         ),
         randomize_swim=world.is_swim_ability_rando_enabled(),
-        proficient_combat=bool(getattr(getattr(world.options, "proficient_combat", None), "value", 0)),
+        proficient_combat=world.get_proficient_combat_mode(),
         proficient_movement=bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         bell_shrine_sanity=world.get_category_mode("BellShrine") != "vanilla",
         silk_and_soul_points=get_silk_and_soul_points(world.options),

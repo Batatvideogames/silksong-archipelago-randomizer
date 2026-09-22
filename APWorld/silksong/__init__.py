@@ -205,6 +205,7 @@ class SilksongWorld(World):
     location_name_groups = location_name_groups
 
     required_client_version = (0, 6, 0)
+    _resolved_content_scope: str | None = None
     _resolved_starting_crest: str | None = None
     _resolved_trap_counts: dict[str, int] | None = None
     _crest_slot_memory_locket_count: int | None = None
@@ -242,6 +243,18 @@ class SilksongWorld(World):
         for name in TRACKER_OPTION_NAMES:
             option_types[name].from_any(deepcopy(slot_data[name]))
         SilksongWorld._tracker_silk_and_soul_points(slot_data)
+        goal = slot_data["goal"]
+        if goal in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
+            count = (
+                slot_data["flea_hunt_count"] if goal == FLEA_HUNT_GOAL_KEY
+                else len(parse_spelling_bee_phrase(slot_data["spelling_bee_phrase"])[1])
+            )
+            act = 1 if count <= 10 else 2 if count <= 20 else 3
+            valid_scopes = {f"act_{act}", f"act_{min(act + 1, 3)}"}
+        else:
+            valid_scopes = {ACT_TWO_GOAL_KEY if goal == CURSED_ENDING_GOAL_KEY else goal}
+        if slot_data.get("content_scope") not in valid_scopes:
+            raise ValueError("Invalid content scope in slot data.")
         if slot_data["starting_crest"] not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError("Invalid starting crest in slot data.")
         if slot_data["entrance_randomization"] == "coupled":
@@ -307,14 +320,30 @@ class SilksongWorld(World):
         phrase_data = self.get_spelling_bee_phrase_data()
         return () if phrase_data is None else phrase_data[1]
 
+    def get_content_scope(self) -> str:
+        if self._resolved_content_scope is None:
+            goal = self.get_goal_key()
+            if goal in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
+                count = (
+                    self.get_flea_hunt_goal_count()
+                    if goal == FLEA_HUNT_GOAL_KEY
+                    else len(self.get_spelling_bee_required_item_names())
+                )
+                act = 1 if count <= 10 else 2 if count <= 20 else 3
+                if act < 3 and self.random.randrange(5) == 0:
+                    act += 1
+                self._resolved_content_scope = f"act_{act}"
+            else:
+                self._resolved_content_scope = (
+                    ACT_TWO_GOAL_KEY if goal == CURSED_ENDING_GOAL_KEY else goal
+                )
+        return self._resolved_content_scope
+
     def is_act_two_content_scope(self) -> bool:
-        return self.get_goal_key() in {
-            ACT_TWO_GOAL_KEY,
-            CURSED_ENDING_GOAL_KEY,
-        }
+        return self.get_content_scope() == ACT_TWO_GOAL_KEY
 
     def is_act_one_content_scope(self) -> bool:
-        return self.get_goal_key() == ACT_ONE_GOAL_KEY
+        return self.get_content_scope() == ACT_ONE_GOAL_KEY
 
     def get_start_with_map_item_names(self) -> tuple[str, ...]:
         if not self.is_start_with_maps_enabled():
@@ -341,10 +370,10 @@ class SilksongWorld(World):
         return excluded
 
     def get_goal_excluded_location_names(self) -> frozenset[str]:
-        goal_key = self.get_goal_key()
+        goal_key = self.get_content_scope()
         verdania_location_names = (
             frozenset()
-            if goal_key == ACT_THREE_GOAL_KEY
+            if self.get_goal_key() == ACT_THREE_GOAL_KEY
             else VERDANIA_LOCATION_NAMES
         )
         act_three_only_location_names = (
@@ -403,12 +432,14 @@ class SilksongWorld(World):
                     name for name, count in self.options.start_inventory.value.items()
                     if count > 0
                 )
+            if self.is_act_two_content_scope() and self.get_category_mode('Skill') != 'anywhere':
+                unavailable_items.add('Silk Soar')
             self._mapper_option_quarantines = get_mapper_option_quarantines(
                 unavailable_items=frozenset(unavailable_items),
                 split_dash_and_sprint=self.is_split_dash_and_sprint(),
                 allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
                 skips_tier=self.get_skips_tier(),
-                proficient_combat=self.is_proficient_combat_enabled(),
+                proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
@@ -435,6 +466,7 @@ class SilksongWorld(World):
             option_types = SilksongOptions.type_hints
             for name in TRACKER_OPTION_NAMES:
                 setattr(self.options, name, option_types[name].from_any(deepcopy(passthrough[name])))
+            self._resolved_content_scope = passthrough["content_scope"]
             self._resolved_starting_crest = passthrough["starting_crest"]
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
@@ -523,8 +555,8 @@ class SilksongWorld(World):
     def is_individual_relic_turn_ins_enabled(self) -> bool:
         return bool(self.options.individual_relic_turn_ins.value)
 
-    def is_proficient_combat_enabled(self) -> bool:
-        return bool(getattr(getattr(self.options, "proficient_combat", None), "value", 0))
+    def get_proficient_combat_mode(self) -> int:
+        return self.options.proficient_combat.value
 
     def is_proficient_movement_enabled(self) -> bool:
         return bool(getattr(getattr(self.options, "proficient_movement", None), "value", 0))
@@ -808,11 +840,6 @@ class SilksongWorld(World):
             randomize_swim=self.is_swim_ability_rando_enabled(),
             minimum_memory_lockets=self._minimum_pool_lockets(),
         )
-        if percentage > 0 and trap_capacity == 0:
-            raise OptionError(
-                "trap_percentage is above zero, but the configured random "
-                "pool contains no trap-replaceable filler."
-            )
         total_traps = (trap_capacity * percentage + 50) // 100
         weights = {
             item_name: int(getattr(self.options, option_name).value)
@@ -1448,6 +1475,9 @@ class SilksongWorld(World):
             ] = anchor
 
     def write_spoiler(self, spoiler_handle) -> None:
+        if self.get_goal_key() in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
+            scope = self.get_content_scope().replace("_", " ").title()
+            spoiler_handle.write(f"Content scope: {scope}\n")
         hidden = {
             str(location) for location in self.get_locations()
             if not location.show_in_spoiler
@@ -1861,6 +1891,7 @@ class SilksongWorld(World):
             "world_version": WORLD_VERSION,
             "silk_and_soul_points": get_silk_and_soul_points(self.options),
             "goal": goal_key,
+            "content_scope": self.get_content_scope(),
             "spelling_bee_phrase": self.get_spelling_bee_phrase(),
             "flea_hunt_count": flea_hunt_count,
             "starting_location": self.get_starting_location_key(),
@@ -1888,7 +1919,7 @@ class SilksongWorld(World):
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "skips": self.get_skips_tier(),
-            "proficient_combat": self.is_proficient_combat_enabled(),
+            "proficient_combat": self.get_proficient_combat_mode(),
             "proficient_movement": self.is_proficient_movement_enabled(),
             "scuttlebrace_logic":
                 self.is_scuttlebrace_logic_enabled(),
@@ -1921,6 +1952,7 @@ class SilksongWorld(World):
             "rosary_link": self.is_rosary_link_enabled(),
             "shell_shard_link": self.is_shell_shard_link_enabled(),
             "knockback_link": bool(self.options.knockback_link.value),
+            "trap_disguises": bool(self.options.trap_disguises.value),
             "trap_counts": self.resolve_trap_counts(),
             "requirements": exported_requirements,
             "abstract_requirements": export_abstract_requirements(
@@ -1940,7 +1972,7 @@ class SilksongWorld(World):
                 randomize_swim=(
                     self.is_swim_ability_rando_enabled()
                 ),
-                proficient_combat=self.is_proficient_combat_enabled(),
+                proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
                 silk_and_soul_points=get_silk_and_soul_points(self.options),

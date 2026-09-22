@@ -1,4 +1,4 @@
-﻿using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
 using SilksongRandomizer.AlphabetMode;
 using System;
@@ -410,9 +410,10 @@ namespace SilksongRandomizer.Patches
                                 !renderState.HintRefreshAttempted))
                     {
                         renderState.HintDisplayName =
-                            BuildHintDisplayName(user, item);
-                        renderState.HintClassification =
-                            BuildHintClassification(flags);
+                            BuildHintDisplayName(user, ItemPreview.CrestName(slotNames.LocationName, item, flags));
+                        renderState.HintClassification = ItemPreview.DisguisesEnabled && (flags & ItemFlags.Trap) != 0
+                            ? null
+                            : BuildHintClassification(flags);
                         renderState.HintResolved = true;
                     }
                     else
@@ -450,7 +451,7 @@ namespace SilksongRandomizer.Patches
                 }
 
                 string detailText = showHint
-                    ? renderState.HintClassification
+                    ? renderState.HintClassification ?? renderState.BaseText
                     : renderState.BaseText;
                 string renderedText = unlockPromptVisible
                     ? string.Empty

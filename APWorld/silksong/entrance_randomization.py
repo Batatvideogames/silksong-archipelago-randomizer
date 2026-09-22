@@ -223,6 +223,92 @@ def _has_early_item_space(world):
                    for location in world.get_locations()))
 
 
+def _has_possible_category_progression(world):
+    from collections import defaultdict
+    from .category_fill import _placement_category
+
+    multiworld = world.multiworld
+    state = CollectionState(multiworld)
+    pending = defaultdict(list)
+    for item in multiworld.itempool:
+        category = _placement_category(item)
+        if item.player == world.player and category:
+            pending[category].append(item)
+        else:
+            state.collect(item, True)
+    for location in multiworld.get_filled_locations():
+        if location.item.code is not None and (
+                location.player != world.player or location.item.player != world.player):
+            state.collect(location.item, True)
+    locations = defaultdict(list)
+    for location in world.get_locations():
+        category = _placement_category(location)
+        if location.item is None and category:
+            locations[category].append(location)
+    changed = True
+    while changed:
+        state.sweep_for_advancements()
+        changed = False
+        for category, items in tuple(pending.items()):
+            if any(location.can_reach(state) and any(
+                    location.can_fill(state, item, check_access=False) for item in items)
+                    for location in locations[category]):
+                for item in items:
+                    state.collect(item, True)
+                del pending[category]
+                changed = True
+    return (multiworld.has_beaten_game(state, world.player)
+            and _has_possible_melody_progression(world))
+
+
+def _has_possible_melody_progression(world):
+    from .category_fill import _placement_category
+
+    multiworld = world.multiworld
+    items = [item for item in multiworld.itempool
+             if item.player == world.player and _placement_category(item) == 'Melody']
+    if not items:
+        return True
+    locations = [location for location in world.get_locations()
+                 if location.item is None and _placement_category(location) == 'Melody']
+    state = CollectionState(multiworld)
+    for item in multiworld.itempool:
+        if item not in items:
+            state.collect(item, True)
+    for location in multiworld.get_filled_locations():
+        if location.item.code is not None and (
+                location.player != world.player or location.item.player != world.player):
+            state.collect(location.item, True)
+    pending_states = [(state, tuple(range(len(items))), tuple(range(len(locations))))]
+    visited = set()
+    while pending_states:
+        state, pending, slots = pending_states.pop()
+        key = pending, slots
+        if key in visited:
+            continue
+        visited.add(key)
+        if len(visited) > 128:
+            return True
+        state.sweep_for_advancements()
+        if multiworld.has_beaten_game(state, world.player):
+            return True
+        for location_index in slots:
+            location = locations[location_index]
+            if not location.can_reach(state):
+                continue
+            for item_index in pending:
+                if not location.can_fill(state, items[item_index], check_access=False):
+                    continue
+                trial = state.copy()
+                trial.collect(items[item_index], True)
+                pending_states.append((
+                    trial,
+                    tuple(index for index in pending if index != item_index),
+                    tuple(index for index in slots if index != location_index),
+                ))
+    return False
+
+
 def _randomize_group(world, exits):
     destinations = {entrance: entrance.connected_region for entrance in exits.values()}
     incoming = {entrance.parent_region: list(entrance.parent_region.entrances) for entrance in exits.values()}
@@ -236,6 +322,8 @@ def _randomize_group(world, exits):
             result = randomize_entrances(world, coupled=True, target_group_lookup=groups, exits=list(exits.values()))
             if not _has_early_item_space(world):
                 raise EntranceRandomizationError('Entrance layout has insufficient checks for local early items.')
+            if scope(world) != 'within_areas' and not _has_possible_category_progression(world):
+                raise EntranceRandomizationError('Entrance layout blocks category progression.')
             return result
         except EntranceRandomizationError as error:
             for region, entrances in incoming.items():
@@ -262,6 +350,8 @@ def _randomize_exits(world, exits):
             for area_name in area_names:
                 selected = {source: entrance for source, entrance in exits.items() if area(source) == area_name}
                 pairings.extend(_randomize_group(world, selected).pairings)
+            if not _has_possible_category_progression(world):
+                raise OptionError('Entrance layout blocks category progression.')
             return pairings
         except OptionError:
             for region, entrances in incoming.items():

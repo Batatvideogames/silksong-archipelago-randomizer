@@ -11,8 +11,8 @@ from Options import OptionError
 
 from .act1_scope import get_act_one_excluded_location_names
 from .act2_scope import (
-    ACT_TWO_EXCLUDED_LOCATION_NAMES,
     trim_act_two_pool_entries,
+    get_act_two_excluded_location_names,
 )
 from .display_names import clean_item_display_name
 from .minor_families import (
@@ -778,7 +778,7 @@ PALE_OIL_POOL_COUNTS: Mapping[str, int] = {
 # Quest Sanity adds one ordinary currency filler per added quest check. These
 # copies participate in trap_percentage whenever Quest Sanity is randomized.
 QUEST_FILLER_COUNTS: Dict[str, int] = {
-    'Rosaries (60)': 15,
+    'Rosaries (60)': 22,
     'Shell Shards (80)': 13,
 }
 
@@ -1564,7 +1564,8 @@ def build_item_pool_entries(
     goal_excluded_location_names = (
         act_one_excluded_location_names
         if act_one_only
-        else ACT_TWO_EXCLUDED_LOCATION_NAMES
+        else get_act_two_excluded_location_names(
+            starting_crest_item, category_modes.get("Skill", "anywhere"))
         if act_two_only
         else VERDANIA_LOCATION_NAMES
         if exclude_verdania
@@ -1811,7 +1812,8 @@ def build_item_pool_entries(
         )
     elif act_two_only:
         entries = list(
-            trim_act_two_pool_entries(entries, starting_crest_item)
+            trim_act_two_pool_entries(
+                entries, starting_crest_item, category_modes.get("Skill", "anywhere"))
         )
     elif exclude_verdania:
         entries = _trim_verdania_pool_entries(entries, category_modes)

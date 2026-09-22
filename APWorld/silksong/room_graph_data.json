@@ -5,7 +5,7 @@
     "document_count": 505,
     "aggregate_sha256": "ca5187dfc2c7c8a5d96e86b1f0535aa30700bfab9e4ae63673514fa0e873e843",
     "catalogue_sha256": "a60dba6bbe028d94db78e5254f25be4b5e9f8123b48765e0da493c4bf377ea0f",
-    "bindings_sha256": "c46511f82acac83e8df5fee4cd39c2d22dff81e09b8469e7cd0c7a251da900b2"
+    "bindings_sha256": "d2bd92a1a862b42dbea9e7b574dec961ca36fea700feb057c3482b0aef1c6b02"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -860,23 +860,30 @@
       "Wish: Balm for the Wounded",
       "Wish: Bellhart's Glory",
       "Wish: Bone Bottom Repairs",
+      "Wish: Bone Bottom Supplies",
       "Wish: Bugs of Pharloom",
       "Wish: Building Up Songclave",
       "Wish: Cloaks of the Choir",
       "Wish: Fatal Resolve",
       "Wish: Fine Pins",
+      "Wish: Fleatopia Supplies",
       "Wish: Garb of the Pilgrims",
       "Wish: Great Taste of Pharloom",
       "Wish: Hero's Call",
       "Wish: Last Audience",
+      "Wish: Liquid Lacquer",
       "Wish: My Missing Brother",
       "Wish: My Missing Courier",
       "Wish: Pain, Anguish and Misery",
       "Wish: Passing of the Age",
+      "Wish: Pilgrim's Rest Supplies",
       "Wish: Pinmaster's Oil",
+      "Wish: Queen's Egg",
       "Wish: Restoration of Bellhart",
       "Wish: Silver Bells",
+      "Wish: Songclave Supplies",
       "Wish: Strengthening Songclave",
+      "Wish: Survivor's Camp Supplies",
       "Wish: The Lost Merchant",
       "Wish: The Terrible Tyrant",
       "Wish: The Wandering Merchant",
@@ -974,6 +981,9 @@
       ],
       "Event: Wandering Merchant Rescued": [
         "reviewed:wandering-merchant-completed"
+      ],
+      "Event: Queen's Egg Delivered": [
+        "reviewed:courier-queens-egg-delivered"
       ]
     },
     "inventory_bindings": {
@@ -5775,6 +5785,29 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-bonebottom-delivered",
+          "label": "Courier Bonebottom Delivered",
+          "kind": "event",
+          "node_id": "bone-bottom/bone-bottom-town#ground-level",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-bonebottom-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -6153,6 +6186,31 @@
             "dnf": [
               [
                 "event:mapper/reviewed:volatile-flintbeetles-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "bone-bottom/bone-bottom-town::reviewed-check:835761",
+          "label": "Wish: Bone Bottom Supplies",
+          "node_id": "bone-bottom/bone-bottom-town#ground-level",
+          "canonical_location": "Wish: Bone Bottom Supplies",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-bonebottom-delivered"
               ]
             ],
             "annotations": [],
@@ -16365,6 +16423,29 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-fixer-delivered",
+          "label": "Courier Fixer Delivered",
+          "kind": "event",
+          "node_id": "the-marrow/the-marrow-flea-caravan#main-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-fixer-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -16467,6 +16548,31 @@
             "dnf": [
               [
                 "state:act-3"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "the-marrow/the-marrow-flea-caravan::reviewed-check:835763",
+          "label": "Wish: Survivor's Camp Supplies",
+          "node_id": "the-marrow/the-marrow-flea-caravan#main-area",
+          "canonical_location": "Wish: Survivor's Camp Supplies",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-fixer-delivered"
               ]
             ],
             "annotations": [],
@@ -44239,6 +44345,29 @@
           "label": "pilgrims rest supplies wish granted",
           "kind": "collectible",
           "node_id": "far-fields/far-fields-pilgrims-rest-shop#room"
+        },
+        {
+          "id": "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+          "label": "Courier Pilgrims Rest Delivered",
+          "kind": "event",
+          "node_id": "far-fields/far-fields-pilgrims-rest-shop#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-pilgrims-rest-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -44319,6 +44448,31 @@
           "canonical_location": "Pilgrim's Rest - Tool Pouch",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "far-fields/far-fields-pilgrims-rest-shop::reviewed-check:835766",
+          "label": "Wish: Pilgrim's Rest Supplies",
+          "node_id": "far-fields/far-fields-pilgrims-rest-shop#room",
+          "canonical_location": "Wish: Pilgrim's Rest Supplies",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": []
@@ -71298,8 +71452,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Weaver Effigy (Keelal, Shellwood)",
-                "mapper:act-2"
+                "received:Relic: Weaver Effigy (Keelal, Shellwood)"
               ]
             ],
             "annotations": [],
@@ -71324,8 +71477,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Bone Scroll (Wisp Thicket)",
-                "mapper:act-2"
+                "received:Relic: Bone Scroll (Wisp Thicket)"
               ]
             ],
             "annotations": [],
@@ -71350,8 +71502,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Weaver Effigy (Camora, Moss Grotto)",
-                "mapper:act-2"
+                "received:Relic: Weaver Effigy (Camora, Moss Grotto)"
               ]
             ],
             "annotations": [],
@@ -71376,8 +71527,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Choral Commandment (Jubilana)",
-                "mapper:act-2"
+                "received:Relic: Choral Commandment (Jubilana)"
               ]
             ],
             "annotations": [],
@@ -71402,8 +71552,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Rune Harp (High Halls)",
-                "mapper:act-2"
+                "received:Relic: Rune Harp (High Halls)"
               ]
             ],
             "annotations": [],
@@ -71428,8 +71577,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Choral Commandment (Western Whiteward)",
-                "mapper:act-2"
+                "received:Relic: Choral Commandment (Western Whiteward)"
               ]
             ],
             "annotations": [],
@@ -71454,8 +71602,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Rune Harp (Weavenest Cindril)",
-                "mapper:act-2"
+                "received:Relic: Rune Harp (Weavenest Cindril)"
               ]
             ],
             "annotations": [],
@@ -71480,8 +71627,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Rune Harp (Weavenest Atla)",
-                "mapper:act-2"
+                "received:Relic: Rune Harp (Weavenest Atla)"
               ]
             ],
             "annotations": [],
@@ -71506,8 +71652,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Bone Scroll (Underworks)",
-                "mapper:act-2"
+                "received:Relic: Bone Scroll (Underworks)"
               ]
             ],
             "annotations": [],
@@ -71532,8 +71677,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Bone Scroll (Far Fields)",
-                "mapper:act-2"
+                "received:Relic: Bone Scroll (Far Fields)"
               ]
             ],
             "annotations": [],
@@ -71558,8 +71702,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Choral Commandment (Moss Grotto)",
-                "mapper:act-2"
+                "received:Relic: Choral Commandment (Moss Grotto)"
               ]
             ],
             "annotations": [],
@@ -71584,8 +71727,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Choral Commandment (Eastern Whiteward)",
-                "mapper:act-2"
+                "received:Relic: Choral Commandment (Eastern Whiteward)"
               ]
             ],
             "annotations": [],
@@ -71610,8 +71752,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Bone Scroll (Greymoor)",
-                "mapper:act-2"
+                "received:Relic: Bone Scroll (Greymoor)"
               ]
             ],
             "annotations": [],
@@ -71636,8 +71777,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Weaver Effigy (Atla, The Slab)",
-                "mapper:act-2"
+                "received:Relic: Weaver Effigy (Atla, The Slab)"
               ]
             ],
             "annotations": [],
@@ -71662,8 +71802,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "received:Relic: Arcane Egg",
-                "mapper:act-2"
+                "received:Relic: Arcane Egg"
               ]
             ],
             "annotations": [],
@@ -73302,6 +73441,232 @@
                 "event:mapper/reviewed:gourmand-quest-accepted",
                 "event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
                 "event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-service-ready",
+          "label": "Courier Service Ready",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
+                "event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe",
+                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-bonebottom-accepted",
+          "label": "Courier Bonebottom Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "state:act-1",
+                "event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-pilgrims-rest-accepted",
+          "label": "Courier Pilgrims Rest Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "state:act-1"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-songclave-accepted",
+          "label": "Courier Songclave Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:songclave-caretaker-met"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "state:act-3"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-fleatopia-accepted",
+          "label": "Courier Fleatopia Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:caravan-reached-fleatopia"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-fixer-accepted",
+          "label": "Courier Fixer Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "state:act-3"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-queens-egg-accepted",
+          "label": "Courier Queens Egg Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-bonebottom-delivered"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-songclave-delivered"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:great-taste-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-liquid-lacquer-accepted",
+          "label": "Courier Liquid Lacquer Accepted",
+          "kind": "event",
+          "node_id": "bellhart/belltown#lower-area",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked"
               ]
             ],
             "annotations": [],
@@ -107041,12 +107406,49 @@
             "mode": "expression",
             "dnf": [
               [
+                "mapper:architect-crest-pogo:none"
+              ],
+              [
+                "mapper:beast-crest-pogo:none"
+              ],
+              [
                 "item:clawline"
+              ],
+              [
+                "mapper:hunter-crest-pogo:none"
+              ],
+              [
+                "mapper:reaper-crest-pogo:none"
+              ],
+              [
+                "mapper:shaman-crest-pogo:none"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:wanderer-crest-pogo:none"
+              ],
+              [
+                "item:cling-grip",
+                "mapper:witch-crest-pogo:none"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:wanderer-crest-pogo:none"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:witch-crest-pogo:none"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:wanderer-crest-pogo:none"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:witch-crest-pogo:none"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:crest pogo"
-            ],
+            "annotations": [],
             "catalogue_recovered": true,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -109060,8 +109462,79 @@
           "target_node_id": "sinner-s-road/sinner-s-road-styx-room#cage"
         }
       ],
-      "events": [],
-      "checks": [],
+      "events": [
+        {
+          "id": "event:mapper/reviewed:styx-first-grub-grown",
+          "label": "Styx First Grub Grown",
+          "kind": "event",
+          "node_id": "sinner-s-road/sinner-s-road-styx-room#right",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-queens-egg-delivered",
+          "label": "Courier Queens Egg Delivered",
+          "kind": "event",
+          "node_id": "sinner-s-road/sinner-s-road-styx-room#right",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-queens-egg-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "checks": [
+        {
+          "id": "sinner-s-road/sinner-s-road-styx-room::reviewed-check:835762",
+          "label": "Wish: Queen's Egg",
+          "node_id": "sinner-s-road/sinner-s-road-styx-room#right",
+          "canonical_location": "Wish: Queen's Egg",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "omitted_check_rows": []
     },
     {
@@ -115879,6 +116352,20 @@
             "dnf": [
               [
                 "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:easy"
               ]
             ],
             "annotations": [],
@@ -115906,6 +116393,20 @@
             "dnf": [
               [
                 "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:clawline"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "mapper:scuttlebrace:easy"
               ]
             ],
             "annotations": [],
@@ -120634,6 +121135,29 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-songclave-delivered",
+          "label": "Courier Songclave Delivered",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-songclave-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -120959,6 +121483,31 @@
               [
                 "event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
                 "capability:free"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "choral-chambers/songclave::reviewed-check:835767",
+          "label": "Wish: Songclave Supplies",
+          "node_id": "choral-chambers/songclave#base",
+          "canonical_location": "Wish: Songclave Supplies",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-songclave-delivered"
               ]
             ],
             "annotations": [],
@@ -124202,15 +124751,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:gourmand-courier-meat",
-                "item:clawline",
-                "item:cling-grip",
-                "macro:progressive-swift-step-full",
-                "item:faydown-cloak",
-                "capability:ledge-grab",
-                "event:mapper/2149c0f6-3492-4a11-96c3-0fcbe57abc38",
-                "event:mapper/de579219-b38b-42e6-b4df-b02e702d3b39",
-                "event:mapper/df652891-f554-4a76-a77d-74b5d82bde8d"
+                "event:mapper/reviewed:gourmand-courier-meat"
               ]
             ],
             "annotations": [],
@@ -129275,6 +129816,33 @@
                 "received:Architect's Melody",
                 "received:Conductor's Melody",
                 "received:Vaultkeeper's Melody"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-melody-lift-unlocked",
+          "label": "Courier Melody Lift Unlocked",
+          "kind": "event",
+          "node_id": "cogwork-core/cog-dancers#bossarena",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/282aae6f-3964-4935-93ea-5beaa6ef9fa4",
+                "received:Architect's Melody",
+                "received:Conductor's Melody",
+                "received:Vaultkeeper's Melody",
+                "item:needolin"
               ]
             ],
             "annotations": [],
@@ -139313,7 +139881,7 @@
           "unresolved_reasons": [],
           "alias": "BL",
           "name": "left1",
-          "source_node_id": "whispering-vaults/songclave-steam-tunnel#top",
+          "source_node_id": "whispering-vaults/songclave-steam-tunnel#bottom",
           "target": {
             "raw": "choral-chambers/rotating-tunnel@rh",
             "room_id": "choral-chambers/rotating-tunnel",
@@ -139344,7 +139912,7 @@
           "unresolved_reasons": [],
           "alias": "TL",
           "name": "left2",
-          "source_node_id": "whispering-vaults/songclave-steam-tunnel#bottom",
+          "source_node_id": "whispering-vaults/songclave-steam-tunnel#top",
           "target": {
             "raw": "choral-chambers/rotating-tunnel@r1",
             "room_id": "choral-chambers/rotating-tunnel",
@@ -172603,10 +173171,10 @@
           "name": "top4",
           "source_node_id": "mount-fay/mount-fay-entrance#upper-left-exit",
           "target": {
-            "raw": "mount-fay/mount-fay-right-side-middle-room@f3",
+            "raw": "mount-fay/mount-fay-right-side-middle-room@f4",
             "room_id": "mount-fay/mount-fay-right-side-middle-room",
-            "alias": "f3",
-            "port_id": "mount-fay/mount-fay-right-side-middle-room@f3",
+            "alias": "f4",
+            "port_id": "mount-fay/mount-fay-right-side-middle-room@f4",
             "label": null
           }
         },
@@ -173960,10 +174528,10 @@
           "name": "bot6",
           "source_node_id": "mount-fay/fayforn#drop",
           "target": {
-            "raw": "mount-fay/mount-fay-right-side-middle-room@c2",
+            "raw": "mount-fay/mount-fay-right-side-middle-room@c3",
             "room_id": "mount-fay/mount-fay-right-side-middle-room",
-            "alias": "c2",
-            "port_id": "mount-fay/mount-fay-right-side-middle-room@c2",
+            "alias": "c3",
+            "port_id": "mount-fay/mount-fay-right-side-middle-room@c3",
             "label": null
           }
         },
@@ -174427,8 +174995,58 @@
         }
       ],
       "connections": [],
-      "events": [],
-      "checks": [],
+      "events": [
+        {
+          "id": "event:mapper/reviewed:courier-liquid-lacquer-delivered",
+          "label": "Courier Liquid Lacquer Delivered",
+          "kind": "event",
+          "node_id": "mount-fay/mask-maker#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-liquid-lacquer-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
+      "checks": [
+        {
+          "id": "mount-fay/mask-maker::reviewed-check:835765",
+          "label": "Wish: Liquid Lacquer",
+          "node_id": "mount-fay/mask-maker#room",
+          "canonical_location": "Wish: Liquid Lacquer",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "omitted_check_rows": []
     },
     {
@@ -176916,10 +177534,10 @@
           "name": "bot5",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#bottom",
           "target": {
-            "raw": "mount-fay/mount-fay-entrance@c3",
+            "raw": "mount-fay/mount-fay-entrance@du",
             "room_id": "mount-fay/mount-fay-entrance",
-            "alias": "c3",
-            "port_id": "mount-fay/mount-fay-entrance@c3",
+            "alias": "du",
+            "port_id": "mount-fay/mount-fay-entrance@du",
             "label": null
           }
         },
@@ -176949,10 +177567,10 @@
           "name": "top3",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#top",
           "target": {
-            "raw": "mount-fay/fayforn@f2",
+            "raw": "mount-fay/fayforn@f3",
             "room_id": "mount-fay/fayforn",
-            "alias": "f2",
-            "port_id": "mount-fay/fayforn@f2",
+            "alias": "f3",
+            "port_id": "mount-fay/fayforn@f3",
             "label": null
           }
         },
@@ -177073,10 +177691,10 @@
           "name": "bot4",
           "source_node_id": "mount-fay/mount-fay-right-side-middle-room#bottom",
           "target": {
-            "raw": "mount-fay/mount-fay-entrance@c3",
+            "raw": "mount-fay/mount-fay-entrance@c4",
             "room_id": "mount-fay/mount-fay-entrance",
-            "alias": "c3",
-            "port_id": "mount-fay/mount-fay-entrance@c3",
+            "alias": "c4",
+            "port_id": "mount-fay/mount-fay-entrance@c4",
             "label": null
           }
         },
@@ -179776,6 +180394,29 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:courier-fleatopia-delivered",
+          "label": "Courier Fleatopia Delivered",
+          "kind": "event",
+          "node_id": "putrified-ducts/fleatopia#fleatopia",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-fleatopia-accepted"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -180058,6 +180699,31 @@
           "canonical_location": "Fleatopia - Tool Pouch",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "putrified-ducts/fleatopia::reviewed-check:835764",
+          "label": "Wish: Fleatopia Supplies",
+          "node_id": "putrified-ducts/fleatopia#fleatopia",
+          "canonical_location": "Wish: Fleatopia Supplies",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": []

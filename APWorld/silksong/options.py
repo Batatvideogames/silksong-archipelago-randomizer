@@ -502,7 +502,7 @@ class BellShrineSanity(CategoryRandomization):
 class QuestSanity(CategoryRandomization):
     """Vanilla keeps quest rewards unchanged. Shuffle randomizes rewards only among quest checks. Anywhere joins the global item pool.
 
-    This covers 25 quest rewards without randomizing the quests themselves.
+    The quests themselves remain unchanged.
     """
 
     display_name = "Quest Sanity"
@@ -645,7 +645,7 @@ class SilksongAccessibility(Accessibility):
 class Goal(Choice):
     """Act 1-3 require beating the chosen act, Cursed Ending is self
     explanatory, Flea Hunt is getting the set amount of fleas and Spelling Bee
-    is getting every unique letter in the chosen phrase with Alphabet Rando on
+    is getting every unique letter in the chosen phrase with Alphabet Rando on.
     """
 
     display_name = "Goal"
@@ -797,11 +797,18 @@ class Skips(Choice):
     default = option_none
 
 
-class ProficientCombat(Toggle):
-    """Increase combat encounter difficulty by removing requirements for needle upgrades, basic movement kit and other requirements that may reduce difficulty in boss fights or gauntlets."""
+class ProficientCombat(Choice):
+    """Off: use the normal combat requirements.
+
+    Goated: lower Needle and DPS requirements by one tier, keeping combat movement requirements.
+    Hell: bypass combat requirements, including combat movement.
+    """
 
     display_name = "Proficient Combat"
-    default = 0
+    option_off = 0
+    option_goated = 1
+    option_hell = 2
+    default = option_off
 
 
 class ProficientMovement(Toggle):
@@ -1036,6 +1043,16 @@ class KnockbackLink(Toggle):
     default = 0
 
 
+class TrapDisguises(Toggle):
+    """Disguise traps as major items in shops, wishes and crest slots.
+
+    Shop and wish icons are mirrored. Shop and crest-slot names contain small typos.
+    """
+
+    display_name = "Trap Disguises"
+    default = 0
+
+
 class TrapPercentage(Range):
     """Percent of all filler items in the random pool replaced by traps."""
 
@@ -1110,11 +1127,11 @@ class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
     keep the vanilla 17-point requirement. Mandatory wishes and story
     requirements remain unchanged. Nuu's wish does not count in logic.
-    Values above 19 are treated as 19.
+    Values above 22 are treated as 22.
     """
     display_name = "Silk and Soul Points"
     range_start = 0
-    range_end = 19
+    range_end = 22
     default = 17
 
     def __init__(self, value: int):
@@ -1242,6 +1259,7 @@ class SilksongOptions(PerGameCommonOptions):
     shell_shard_link: ShellShardLink
     knockback_link: KnockbackLink
     alphabet_mode: AlphabetMode
+    trap_disguises: TrapDisguises
     trap_percentage: TrapPercentage
     stagger_trap_weight: StaggerTrapWeight
     rosary_spill_trap_weight: RosarySpillTrapWeight

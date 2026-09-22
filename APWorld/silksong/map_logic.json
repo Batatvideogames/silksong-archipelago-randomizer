@@ -36438,9 +36438,6 @@
             ]
           },
           "Room Node: whispering-vaults/songclave-steam-tunnel#bottom": {
-            "alternatives": []
-          },
-          "Room Node: whispering-vaults/songclave-steam-tunnel#top": {
             "alternatives": [
               {
                 "act": "",
@@ -36456,6 +36453,9 @@
                 "required_locations": []
               }
             ]
+          },
+          "Room Node: whispering-vaults/songclave-steam-tunnel#top": {
+            "alternatives": []
           },
           "Room Node: whispering-vaults/trobbio#top": {
             "alternatives": [
@@ -39272,7 +39272,7 @@
         "weavenest-atla/weavenest-atla-teleporter@ul": "Room Node: weavenest-atla/weavenest-atla-teleporter#upper-telepad",
         "weavenest-atla/weavenest-atla-teleporter@ur": "Room Node: weavenest-atla/weavenest-atla-teleporter#upper-telepad",
         "whispering-vaults/songclave-steam-tunnel@br": "Room Node: whispering-vaults/songclave-steam-tunnel#bottom",
-        "whispering-vaults/songclave-steam-tunnel@tl": "Room Node: whispering-vaults/songclave-steam-tunnel#bottom",
+        "whispering-vaults/songclave-steam-tunnel@tl": "Room Node: whispering-vaults/songclave-steam-tunnel#top",
         "whispering-vaults/songclave-steam-tunnel@tr": "Room Node: whispering-vaults/songclave-steam-tunnel#top",
         "whispering-vaults/trobbio-entrance@l": "Room Node: whispering-vaults/trobbio-entrance#the-only-jump-in-this-entire-room",
         "whispering-vaults/trobbio@tr": "Room Node: whispering-vaults/trobbio#top",
@@ -52709,7 +52709,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: whispering-vaults/songclave-steam-tunnel#bottom"
+                "Room Node: whispering-vaults/songclave-steam-tunnel#top"
               ],
               "any_of": [],
               "item_counts": [],
@@ -91776,7 +91776,7 @@
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: choral-chambers/rotating-tunnel#centraarea"
+                  "Room Node: choral-chambers/rotating-tunnel#horizontal-tunnel"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -116501,10 +116501,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Bellhart - Bellhart",
-              "Event: Missing Brother Rescued",
-              "Event: Other Courier Delivery Completed",
-              "Room Node: sinner-s-road/sinner-s-road-styx-room#right"
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
             ],
             "any_of": [],
             "item_counts": [],
@@ -117209,7 +117206,8 @@
             "require_silk_spear": false,
             "required_locations": []
           }
-        ]
+        ],
+        "checked_source": "Boss: Widow"
       },
       "High DPS Skills": {
         "alternatives": [
@@ -146740,7 +146738,8 @@
             "require_silk_spear": false,
             "required_locations": []
           }
-        ]
+        ],
+        "checked_source": "Boss: Widow"
       },
       "Room Event: event:mapper/f01ef11e-9470-4576-a18a-202468b547a4": {
         "alternatives": [
@@ -150120,6 +150119,422 @@
           }
         ]
       },
+      "Room Event: event:mapper/reviewed:courier-bonebottom-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Act: 1",
+              "Room Event: event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-bonebottom-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-fixer-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Act: 3"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-fixer-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-marrow/the-marrow-flea-caravan#main-area",
+              "Room Event: event:mapper/reviewed:courier-fixer-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-fleatopia-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:caravan-reached-fleatopia"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-fleatopia-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-liquid-lacquer-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: mount-fay/mask-maker#room",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: cogwork-core/cog-dancers#bossarena",
+              "Room Event: event:mapper/282aae6f-3964-4935-93ea-5beaa6ef9fa4",
+              "Needolin"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Architect's Melody"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Conductor's Melody"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Vaultkeeper's Melody"
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-pilgrims-rest-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Act: 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: far-fields/far-fields-pilgrims-rest-shop#room",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-queens-egg-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-queens-egg-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-styx-room#right",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-service-ready": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
+              "Room Event: event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe",
+              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-songclave-accepted": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Act: 3"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:courier-songclave-delivered": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:courier-songclave-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Event: event:mapper/reviewed:cradle-lift": {
         "alternatives": [
           {
@@ -151127,15 +151542,7 @@
             "act": "",
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-dining-room#diner",
-              "Room Event: event:mapper/reviewed:gourmand-courier-meat",
-              "Clawline",
-              "Cling Grip",
-              "Swift Step",
-              "Faydown Cloak",
-              "Capability: Ledge Grab",
-              "Room Event: event:mapper/2149c0f6-3492-4a11-96c3-0fcbe57abc38",
-              "Room Event: event:mapper/de579219-b38b-42e6-b4df-b02e702d3b39",
-              "Room Event: event:mapper/df652891-f554-4a76-a77d-74b5d82bde8d"
+              "Room Event: event:mapper/reviewed:gourmand-courier-meat"
             ],
             "any_of": [],
             "item_counts": [],
@@ -154525,6 +154932,23 @@
             "all_of": [
               "Room Node: sinner-s-road/sinner-s-road-shack#room",
               "Room Event: event:mapper/reviewed:infestation-operation-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:styx-first-grub-grown": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-styx-room#right"
             ],
             "any_of": [],
             "item_counts": [],
@@ -190070,7 +190494,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/songclave-steam-tunnel#bottom"
+              "Room Node: whispering-vaults/songclave-steam-tunnel#top"
             ],
             "any_of": [],
             "item_counts": [],
@@ -190101,7 +190525,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/songclave-steam-tunnel#top"
+              "Room Node: whispering-vaults/songclave-steam-tunnel#bottom"
             ],
             "any_of": [],
             "item_counts": [],
@@ -264791,7 +265215,167 @@
             "act": "",
             "all_of": [
               "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Crest: Architect"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Crest: Beast"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
               "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Crest: Hunter"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Crest: Reaper"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Crest: Shaman"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Cling Grip",
+              "Crest: Wanderer"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Cling Grip",
+              "Crest: Witch"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Capability: Ledge Grab",
+              "Crest: Wanderer"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Capability: Ledge Grab",
+              "Crest: Witch"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Silk Soar",
+              "Crest: Wanderer"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#lower-entry",
+              "Silk Soar",
+              "Crest: Witch"
             ],
             "any_of": [],
             "item_counts": [],
@@ -284870,6 +285454,65 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Faydown Cloak",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Faydown Cloak",
+              "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Usable Scuttlebrace",
+              "Swift Step"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 1,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
@@ -284917,6 +285560,65 @@
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Faydown Cloak",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Faydown Cloak",
+              "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: underworks/underworks-twelfth-architect#first-floor",
+              "Usable Scuttlebrace",
+              "Swift Step"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 1,
             "path": "",
             "require_any_crest": false,
             "require_silk_spear": false,
@@ -292986,7 +293688,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: choral-chambers/rotating-tunnel#centraarea"
+              "Room Node: choral-chambers/rotating-tunnel#horizontal-tunnel"
             ],
             "any_of": [],
             "item_counts": [],
@@ -293046,7 +293748,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: choral-chambers/rotating-tunnel#horizontal-tunnel"
+              "Room Node: choral-chambers/rotating-tunnel#centraarea"
             ],
             "any_of": [],
             "item_counts": [],
@@ -318689,7 +319391,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: bone-bottom/bone-bottom-town#ground-level",
+                "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -318889,7 +319594,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: putrified-ducts/fleatopia#fleatopia",
+                "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -319040,7 +319748,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: mount-fay/mask-maker#room",
+                "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -319302,7 +320013,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: far-fields/far-fields-pilgrims-rest-shop#room",
+                "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -319344,7 +320058,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: sinner-s-road/sinner-s-road-styx-room#right",
+                "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -319500,7 +320217,10 @@
           "alternatives": [
             {
               "act": "",
-              "all_of": [],
+              "all_of": [
+                "Room Node: choral-chambers/songclave#base",
+                "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+              ],
               "any_of": [],
               "item_counts": [],
               "minimum_skip_tier": 0,
@@ -320444,11 +321164,10 @@
       "Bellhart Roof - Memory Locket": {
         "alternatives": [
           {
-            "act": "Act 3",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#upper-area",
-              "Silk Soar",
-              "Act: 3"
+              "Silk Soar"
             ],
             "any_of": [],
             "item_counts": [],
@@ -358196,10 +358915,9 @@
       "Relic Turn-in: Arcane Egg": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Arcane Egg"
             ],
@@ -358223,10 +358941,9 @@
       "Relic Turn-in: Bone Scroll (Far Fields)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Bone Scroll (Far Fields)"
             ],
@@ -358250,10 +358967,9 @@
       "Relic Turn-in: Bone Scroll (Greymoor)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Bone Scroll (Greymoor)"
             ],
@@ -358277,10 +358993,9 @@
       "Relic Turn-in: Bone Scroll (Underworks)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Bone Scroll (Underworks)"
             ],
@@ -358304,10 +359019,9 @@
       "Relic Turn-in: Bone Scroll (Wisp Thicket)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Bone Scroll (Wisp Thicket)"
             ],
@@ -358331,10 +359045,9 @@
       "Relic Turn-in: Choral Commandment (Eastern Whiteward)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Choral Commandment (Eastern Whiteward)"
             ],
@@ -358358,10 +359071,9 @@
       "Relic Turn-in: Choral Commandment (Jubilana)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Choral Commandment (Jubilana)"
             ],
@@ -358385,10 +359097,9 @@
       "Relic Turn-in: Choral Commandment (Moss Grotto)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Choral Commandment (Moss Grotto)"
             ],
@@ -358412,10 +359123,9 @@
       "Relic Turn-in: Choral Commandment (Western Whiteward)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Choral Commandment (Western Whiteward)"
             ],
@@ -358559,10 +359269,9 @@
       "Relic Turn-in: Rune Harp (High Halls)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Rune Harp (High Halls)"
             ],
@@ -358586,10 +359295,9 @@
       "Relic Turn-in: Rune Harp (Weavenest Atla)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Rune Harp (Weavenest Atla)"
             ],
@@ -358613,10 +359321,9 @@
       "Relic Turn-in: Rune Harp (Weavenest Cindril)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Rune Harp (Weavenest Cindril)"
             ],
@@ -358664,10 +359371,9 @@
       "Relic Turn-in: Weaver Effigy (Atla, The Slab)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Weaver Effigy (Atla, The Slab)"
             ],
@@ -358691,10 +359397,9 @@
       "Relic Turn-in: Weaver Effigy (Camora, Moss Grotto)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Weaver Effigy (Camora, Moss Grotto)"
             ],
@@ -358718,10 +359423,9 @@
       "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)": {
         "alternatives": [
           {
-            "act": "Act 2",
+            "act": "",
             "all_of": [
               "Room Node: bellhart/bellhart-relic-shop#room",
-              "Act: 2",
               "Event: Widow Defeated",
               "Relic: Weaver Effigy (Keelal, Shellwood)"
             ],
@@ -366441,7 +367145,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -366593,7 +367300,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -366674,7 +367384,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: mount-fay/mask-maker#room",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -367062,7 +367775,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: far-fields/far-fields-pilgrims-rest-shop#room",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -367103,7 +367819,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-styx-room#right",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -367329,7 +368048,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -367362,7 +368084,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: the-marrow/the-marrow-flea-caravan#main-area",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,

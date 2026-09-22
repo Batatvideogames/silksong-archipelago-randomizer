@@ -1640,4 +1640,24 @@ namespace SilksongRandomizer.Patches
                        StringComparison.Ordinal);
         }
     }
+
+    [HarmonyPatch(typeof(Fsm), nameof(Fsm.ProcessEvent), new[] { typeof(FsmEvent), typeof(FsmEventData) })]
+    internal static class SilkSoarPlatformPatches
+    {
+        [HarmonyPrefix]
+        internal static bool Prefix(Fsm __instance, FsmEvent fsmEvent)
+        {
+            string eventName = fsmEvent?.Name;
+            if (eventName != "SHRINE SEQUENCE END" && eventName != "HERO RESPAWNING HERE" &&
+                eventName != "SEQUENCE COMPLETED") return true;
+
+            SaveState state = SaveState.Instance;
+            if (state == null || !state.IsRandomized(ItemType.Skill) || state.canSilkSoar ||
+                __instance == null || __instance.Name != "Control") return true;
+
+            var owner = __instance.GameObject;
+            return owner == null || owner.scene.name != "Abyss_08" ||
+                owner.name != "weaver_spire_base control" || owner.transform.parent != null;
+        }
+    }
 }

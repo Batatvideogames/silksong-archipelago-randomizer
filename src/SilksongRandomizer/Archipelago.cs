@@ -153,6 +153,7 @@ namespace SilksongRandomizer
         } = new ReadOnlyDictionary<string, int>(
             new Dictionary<string, int>(StringComparer.Ordinal)
         );
+        public bool TrapDisguises { get; private set; }
         public bool FasterDialogue { get; private set; }
         public bool AlphabetMode { get; private set; }
         public IReadOnlyDictionary<string, ItemFlags>
@@ -590,6 +591,7 @@ namespace SilksongRandomizer
                     "vog_hint_prices"
                 );
                 PurchasePrices = GetPurchasePrices(successful);
+                TrapDisguises = GetBooleanSlotData(successful, "trap_disguises");
                 FasterDialogue = GetBooleanSlotData(
                     successful,
                     "faster_dialogue"
@@ -3119,6 +3121,7 @@ namespace SilksongRandomizer
             PurchasePrices = new ReadOnlyDictionary<string, int>(
                 new Dictionary<string, int>(StringComparer.Ordinal)
             );
+            TrapDisguises = false;
             FasterDialogue = false;
             AlphabetMode = false;
             CrestSlotItemFlags =
@@ -3559,6 +3562,7 @@ namespace SilksongRandomizer
                 locationName = locationName,
                 user = userName,
                 item = itemName,
+                game = info.Player?.Game,
                 flags = info.Flags
             };
         }
@@ -3749,6 +3753,7 @@ namespace SilksongRandomizer
                 locationName = locationName,
                 user = userName,
                 item = itemName,
+                game = receivingGame,
                 flags = hint.ItemFlags,
                 official = true,
                 found = hint.Found,

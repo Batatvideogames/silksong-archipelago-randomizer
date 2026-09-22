@@ -1926,11 +1926,9 @@ namespace SilksongRandomizer
                 foreach (LogicEvent logicEvent in payload.LogicEvents)
                 {
                     if (collectedEvents.Contains(logicEvent) ||
-                        !IsCheckedLogicSource(
-                            state,
-                            logicEvent.CheckedSource
-                        ) ||
-                        !SatisfiesGroup(
+                        (!string.IsNullOrWhiteSpace(logicEvent.CheckedSource)
+                            ? !IsCheckedLogicSource(state, logicEvent.CheckedSource)
+                            : !SatisfiesGroup(
                             logicEvent.Requirement,
                             goalCompleted,
                             values,
@@ -1943,7 +1941,7 @@ namespace SilksongRandomizer
                             new HashSet<string>(
                                 StringComparer.OrdinalIgnoreCase
                             )
-                        ))
+                        )))
                     {
                         continue;
                     }

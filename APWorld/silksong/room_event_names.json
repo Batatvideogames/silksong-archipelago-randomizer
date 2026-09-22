@@ -5295,5 +5295,90 @@
     "name": "High Halls - Act 3 Gauntlet",
     "kind": "gauntlet",
     "locations": []
+  },
+  "event:mapper/reviewed:courier-bonebottom-delivered": {
+    "name": "Courier Bonebottom Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-fixer-delivered": {
+    "name": "Courier Fixer Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-pilgrims-rest-delivered": {
+    "name": "Courier Pilgrims Rest Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-service-ready": {
+    "name": "Courier Service Ready",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-bonebottom-accepted": {
+    "name": "Courier Bonebottom Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-pilgrims-rest-accepted": {
+    "name": "Courier Pilgrims Rest Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-songclave-accepted": {
+    "name": "Courier Songclave Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-fleatopia-accepted": {
+    "name": "Courier Fleatopia Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-fixer-accepted": {
+    "name": "Courier Fixer Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-queens-egg-accepted": {
+    "name": "Courier Queens Egg Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-liquid-lacquer-accepted": {
+    "name": "Courier Liquid Lacquer Accepted",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:styx-first-grub-grown": {
+    "name": "Styx First Grub Grown",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-queens-egg-delivered": {
+    "name": "Courier Queens Egg Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-songclave-delivered": {
+    "name": "Courier Songclave Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-liquid-lacquer-delivered": {
+    "name": "Courier Liquid Lacquer Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-fleatopia-delivered": {
+    "name": "Courier Fleatopia Delivered",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:courier-melody-lift-unlocked": {
+    "name": "Courier Melody Lift Unlocked",
+    "kind": "event",
+    "locations": []
   }
 }

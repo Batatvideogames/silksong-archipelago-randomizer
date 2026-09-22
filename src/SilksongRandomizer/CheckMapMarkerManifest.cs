@@ -603,6 +603,7 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, Vector2> DirectMapPositions =
             new Dictionary<string, Vector2>(StringComparer.OrdinalIgnoreCase)
             {
+                { "Memory Locket: The Slab", new Vector2(-9.137366f, 5.571693f) },
             };
 
         private static readonly Dictionary<string, Vector2> MinorSceneSizes =
