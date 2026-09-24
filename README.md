@@ -35,7 +35,6 @@ There are multiple installation methods due to different issues with each of the
 > 
 > **Server returned HTTP response code: 502 for URL**
 
-
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
 **Cogfly Import Code:** `01a0b6c0-a24b-cc11-7b3e-ba412942686b` (Same as R2Modman)
@@ -153,6 +152,8 @@ Worst case scenario, delete your Silksong folder, reinstall it using Verify Inte
 ### Cogfly - Getting a Server Returned HTTP Response Code 502 Error
 This has been happening for a little bit where it seems that Cogfly is having a connection issue with Thunderstore. 
 Try manually installing the mod list using the photo below, [swap to R2Modman](https://github.com/Batatvideogames/silksong-archipelago-randomizer#using-r2modman-3218--thunderstore-manager-11231) using the same code, or try a [manual install](https://github.com/Batatvideogames/silksong-archipelago-randomizer#manually).
+<img width="1377" height="506" alt="image" src="https://github.com/user-attachments/assets/dcc2824c-d762-4300-8aac-1493a651054d" />
+
 
 ## Troubleshooting
 
