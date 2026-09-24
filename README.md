@@ -30,6 +30,11 @@ There are multiple installation methods due to different issues with each of the
 
 3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Recent Items Display, Mod Menu and all other dependencies.
 
+> [!WARNING]
+> If you get an error when importing a code into Cogfly, especially the error below, refer to [here](https://github.com/Batatvideogames/silksong-archipelago-randomizer#cogfly-getting-a-server-returned-http-response-code-502-error):
+> 
+> **Server returned HTTP response code: 502 for URL**
+
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
 **Cogfly Import Code:** `01a0b6c0-a24b-cc11-7b3e-ba412942686b` (Same as R2Modman)
@@ -143,6 +148,12 @@ For **Cogfly**, press 'Copy Launch Arguments' at the top. Go to Hollow Knight: S
 If this still doesn't work, make sure your Silksong folder doesn't have any BepInEx files (folder and doorstop files) from the manual installation. This *can* conflict with the mod managers and Cogfly will place these back for you.
 
 Worst case scenario, delete your Silksong folder, reinstall it using Verify Integrity of Game Files, relaunch Cogfly, then import the a new profile with one of the codes.
+
+### Cogfly - Getting a Server Returned HTTP Response Code 502 Error
+This has been happening for a little bit where it seems that Cogfly is having a connection issue with Thunderstore. 
+Try manually installing the mod list using the photo below, [swap to R2Modman](https://github.com/Batatvideogames/silksong-archipelago-randomizer#using-r2modman-3218--thunderstore-manager-11231) using the same code, or try a [manual install](https://github.com/Batatvideogames/silksong-archipelago-randomizer#manually).
+<img width="1377" height="506" alt="image" src="https://github.com/user-attachments/assets/dcc2824c-d762-4300-8aac-1493a651054d" />
+
 
 ## Troubleshooting
 
