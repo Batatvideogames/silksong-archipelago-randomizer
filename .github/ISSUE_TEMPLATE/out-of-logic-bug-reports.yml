@@ -1,0 +1,65 @@
+name: Out of Logic Bug Reports
+description: Reached a check that was out of logic? Make sure this area is listed as mapped on the README.
+title: "[REGION] - Out of Logic - AP LOCATION NAME"
+labels: ["bug", "low-priority"]
+type: Bug
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of the randomizer are you using?
+      options:
+        - v0.4.4
+        - v0.4.5-Hotfix2
+        - v0.4.6-Hotfix
+        - v0.4.7
+    validations:
+      required: true
+
+  - type: input
+    id: room-id-name
+    attributes:
+      label: What Room ID / Name does this apply to?
+      description: |
+        Room IDs can be retrieved from several mods, MapWarp is an example.
+        Room names and logic can be retrieved from [silksong-rando-ap-logic](https://github.com/zerounit-dev/silksong-rando-ap-logic).
+    validations:
+      required: true
+
+  - type: dropdown
+    id: is-skip
+    attributes:
+      label: Is this a Skip?
+      description: Did getting to this check out of logic require an unconventional route or skip?
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: textarea
+    id: explanation
+    attributes:
+      label: Explanation
+      description: What is the actual issue and how do we recreate it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: inventory
+    attributes:
+      label: Inventory List
+      description: What does your current movement inventory look like that helped you break the requirement?
+    validations:
+      required: false
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: |
+        If applicable, add screenshots to help explain your problem.
+        UT images using `/get_logical_path` are immensely helpful for diagnosing these issues, which can be acquired [here](https://github.com/FarisTheAncient/Archipelago/releases/latest).
+    validations:
+      required: false

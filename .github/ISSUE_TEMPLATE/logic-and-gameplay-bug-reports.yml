@@ -1,0 +1,52 @@
+name: Logic and Gameplay Bug Reports
+description: Any non out-of-logic or gameplay bug reports.
+title: "[Bug] - Gameplay/Logic - "
+labels: ["bug"]
+type: Bug
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of the randomizer are you using?
+      options:
+        - v0.4.4
+        - v0.4.5-Hotfix2
+        - v0.4.6-Hotfix
+        - v0.4.7
+    validations:
+      required: true
+
+  - type: input
+    id: room-id-name
+    attributes:
+      label: What Room ID / Name does this apply to (if relevant)?
+      description: |
+        Room IDs can be retrieved from several mods, MapWarp is an example.
+        Room names and logic can be retrieved from [silksong-rando-ap-logic](https://github.com/zerounit-dev/silksong-rando-ap-logic).
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reasoning / Steps
+      description: What is the actual issue and how do we recreate it?
+    validations:
+      required: true
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra-mods
+    attributes:
+      label: Extra Mod List
+      description: If you're using any mods other than the default profile, please provide a list here.
+    validations:
+      required: false
