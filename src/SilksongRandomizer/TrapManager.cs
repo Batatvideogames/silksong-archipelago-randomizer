@@ -584,7 +584,7 @@ namespace SilksongRandomizer
                 return;
             }
 
-            if (Time.unscaledTime >= cursedCrestDeadline)
+            if (Time.unscaledTime >= cursedCrestDeadline && CanExpireCursedCrest())
             {
                 TryRestoreCursedCrest();
             }
@@ -808,6 +808,23 @@ namespace SilksongRandomizer
             {
                 muckmaggotWriteInProgress = false;
             }
+        }
+
+        private static bool CanExpireCursedCrest()
+        {
+            HeroController hero = HeroController.SilentInstance;
+            GameManager manager = GameManager.SilentInstance;
+            if (hero == null || hero.cState == null || manager == null ||
+                manager.isPaused || !manager.IsGameplayScene() ||
+                manager.IsInSceneTransition || manager.IsLoadingSceneTransition ||
+                manager.inputHandler?.inputActions?.Dash.IsPressed == true ||
+                hero.controlReqlinquished || !hero.CanInput() ||
+                hero.cState.dead || hero.cState.hazardDeath || hero.cState.hazardRespawning ||
+                hero.cState.dashing || hero.cState.isSprinting ||
+                hero.sprintFSM?.FsmVariables.FindFsmBool("Is Sprinting")?.Value == true)
+                return false;
+
+            return hero.sprintFSM == null || hero.sprintFSM.ActiveStateName == "Idle";
         }
 
         private static bool TryRestoreCursedCrest()

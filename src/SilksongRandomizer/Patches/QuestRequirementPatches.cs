@@ -1,10 +1,44 @@
-﻿using HarmonyLib;
+using HarmonyLib;
+using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using System;
+using System.Linq;
 
 namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class FlickWishWallConversationPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (SaveState.Instance == null || __instance == null ||
+                    __instance.gameObject.name != "Fixer NPC Standing" ||
+                    __instance.gameObject.scene.name != "Bonetown" ||
+                    __instance.FsmName != "Conversation")
+                {
+                    return;
+                }
+
+                KeepFlickInteractable(__instance.Fsm?.GetState("Init"));
+            }
+        }
+
+        private static void KeepFlickInteractable(FsmState init)
+        {
+            if (init?.Actions == null)
+                return;
+
+            init.Actions = init.Actions.Where(action =>
+                !(action is PlayerDataBoolTest wall &&
+                  wall.boolName?.Value == "defeatedBellBeast" &&
+                  wall.isFalse?.Name == "NO WISHWALL") &&
+                !(action is BoolNoneTrue ambient &&
+                  ambient.sendEvent?.Name == "AMBIENT")).ToArray();
+        }
+
         [HarmonyPatch(typeof(DeliveryQuestItem), nameof(DeliveryQuestItem.CanTakeHit))]
         private static class DeliveryDamagePatch
         {

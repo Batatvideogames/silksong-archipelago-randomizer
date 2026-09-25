@@ -36,8 +36,8 @@ namespace SilksongRandomizer.Patches
         )]
         private static class RegularRewardPatch
         {
-            [HarmonyPostfix]
-            private static void Postfix(ActivateGameObject __instance)
+            [HarmonyPrefix]
+            private static void Prefix(ActivateGameObject __instance)
             {
                 if (IsRegularRewardAction(__instance))
                 {
@@ -59,6 +59,43 @@ namespace SilksongRandomizer.Patches
                 {
                     CompleteLocation(TormentedLocationName);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(CollectableItemPickup), "CheckActivation")]
+        private static class RewardPickupPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItemPickup __instance)
+            {
+                if (__instance == null || __instance.gameObject.scene.name != SceneName)
+                    return true;
+
+                string location = GetPickupLocation(Utils.GetHierarchyPath(__instance.transform));
+                SaveState state = SaveState.Instance;
+                if (location == null || state == null || !state.IsRandomized(ItemType.Tool) ||
+                    !state.IsLocationEnabled(location) || !state.IsLocationInSeed(location) ||
+                    !state.IsLocationChecked(location))
+                    return true;
+
+                __instance.SetActivation(true);
+                __instance.gameObject.SetActive(false);
+                return false;
+            }
+        }
+
+        internal static string GetPickupLocation(string path)
+        {
+            switch (path)
+            {
+                case "Grand Stage Scene/Re-Entry Pickup":
+                case "Grand Stage Scene/Boss Scene Trobbio/Collectable Item Pickup":
+                    return RegularLocationName;
+                case "Grand Stage Scene/Re-Entry Pickup Upgrade":
+                case "Grand Stage Scene/Boss Scene TormentedTrobbio/Item Spawn/Collectable Item Pickup":
+                    return TormentedLocationName;
+                default:
+                    return null;
             }
         }
 

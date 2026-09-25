@@ -18,6 +18,47 @@ OPPOSITE_GROUP = {'left': 'right', 'right': 'left', 'top': 'bot', 'bot': 'top',
 POOL = {entry['id']: entry for entry in json.loads(pkgutil.get_data(__package__, 'entrance_pool.json'))}
 
 
+ACT_ONE_AREAS = frozenset({
+    'moss-grotto', 'bone-bottom', 'the-marrow', 'weavenest-atla', 'wormways',
+    'deep-docks', 'far-fields', 'hunter-s-march', 'shellwood', 'bellhart',
+    'greymoor', 'whisp-thicket', 'blasted-steps', 'sinner-s-road', 'bilewater',
+    'sands-of-karak',
+})
+ACT_TWO_AREAS = frozenset({
+    'grand-gate', 'underworks', 'choral-chambers', 'cogwork-core',
+    'whispering-vaults', 'whiteward', 'high-halls', 'memorium', 'the-slab',
+    'mount-fay', 'putrified-ducts', 'the-cradle',
+})
+ACT_THREE_ROOMS = frozenset({
+    'deep-docks/deep-docks-magma-slug-tunnels',
+    'deep-docks/deep-docks-diving-bell-room',
+    'far-fields/far-fields-deep-entrance',
+    'far-fields/far-fields-deep-lower-west',
+    'far-fields/far-fields-deep-lower-east',
+    'far-fields/far-fields-deep-fort-passage',
+    'far-fields/far-fields-deep-fort',
+    'far-fields/current-karmelita',
+    'far-fields/sprintmaster-cave',
+    'grand-gate/shrine-guardian-seth',
+    'grand-gate/nyleth-shrine',
+    'sands-of-karak/watcher-at-the-edge',
+    'cogwork-core/cogwork-core-architect-s-melody-act-3',
+    'the-cradle/act3-connection-to-gms',
+    'the-cradle/act3-gms-arena',
+    'the-cradle/act3-lace2-arena',
+    'the-cradle/cradle-path-of-pain-first-room',
+    'the-cradle/path-of-pain-bench',
+    'the-cradle/path-of-pain-silksong',
+    'the-cradle/the-surface',
+})
+
+
+def room_act(source):
+    if source.split('@', 1)[0] in ACT_THREE_ROOMS:
+        return 3
+    return 1 if area(source) in ACT_ONE_AREAS else 2 if area(source) in ACT_TWO_AREAS else 3
+
+
 def enabled(world):
     return bool(world.options.entrance_randomization)
 
@@ -31,20 +72,24 @@ def area(source):
     return source.split('/', 1)[0]
 
 
-@lru_cache(maxsize=3)
-def scoped_pool(scope_name):
+@lru_cache(maxsize=9)
+def scoped_pool(scope_name, content_scope='act_3'):
     if scope_name not in {'full', 'interiors', 'within_areas'}:
         raise OptionError('Unknown entrance randomization scope.')
+    if content_scope not in {'act_1', 'act_2', 'act_3'}:
+        raise OptionError('Unknown entrance randomization content scope.')
+    act = int(content_scope[-1])
     return {
         source: data for source, data in POOL.items()
-        if (scope_name == 'full'
+        if max(room_act(source), room_act(data['vanilla'])) <= act
+        and (scope_name == 'full'
             or scope_name == 'interiors' and data['group'] in {'door_in', 'door_out'}
             or scope_name == 'within_areas' and area(source) == area(data['vanilla']))
     }
 
 
-def validate_pairs(pairs, scope_name='full'):
-    if not isinstance(pairs, dict) or not pairs or not set(pairs) <= set(scoped_pool(scope_name)):
+def validate_pairs(pairs, scope_name='full', content_scope='act_3'):
+    if not isinstance(pairs, dict) or not pairs or not set(pairs) <= set(scoped_pool(scope_name, content_scope)):
         raise OptionError('Entrance beta slot data does not match the verified transition pool.')
     for source, target in pairs.items():
         if (POOL[source]['vanilla'] not in pairs
@@ -117,13 +162,13 @@ def _validate_pool(ports):
 
 
 @lru_cache(maxsize=8)
-def _node_overrides(pairs, scope_name='full'):
+def _node_overrides(pairs, scope_name='full', content_scope='act_3'):
     from .requirements import _compiled_room_clause_requirement
 
     graph = load_room_graph()
     ports = graph.transition_by_id
     _validate_pool(ports)
-    selected = scoped_pool(scope_name)
+    selected = scoped_pool(scope_name, content_scope)
     removed = {member: None for data in selected.values() for member in members(data)}
     compiled = compile_room_graph(graph, transition_targets=removed)
     affected = {room_node_name(ports[member].source_node_id) for member in removed}
@@ -155,7 +200,7 @@ def node_overrides(world, connected=False):
     pairs = getattr(world, '_entrance_pairs', None) if connected else None
     if connected and pairs is None:
         raise OptionError('Entrance layout has not been generated.')
-    return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world))
+    return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world), world.get_content_scope())
 
 
 def create_exits(world, regions):
@@ -168,7 +213,7 @@ def create_exits(world, regions):
     ports = load_room_graph().transition_by_id
     options = native_rule_options(world)
     world._entrance_exits = {}
-    for source, data in scoped_pool(scope(world)).items():
+    for source, data in scoped_pool(scope(world), world.get_content_scope()).items():
         clauses = exit_clauses(data, ports, include_source=False)
         requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
         entrance = world.create_entrance(
@@ -188,10 +233,17 @@ def _disconnect(entrance):
         entrance.connected_region = None
 
 
-def _has_early_item_space(world):
+def _early_sweep_locations(world):
+    locations = world.multiworld.get_filled_locations()
+    if any(location.player != world.player and location.item.player == world.player for location in locations):
+        return locations
+    return [location for location in locations if location.player == world.player]
+
+
+def _early_item_assignment(world):
     state = CollectionState(world.multiworld)
     state.sweep_for_advancements(locations=(
-        location for location in world.multiworld.get_filled_locations() if location.address is None
+        location for location in _early_sweep_locations(world) if location.address is None
     ))
     pending = dict(world.multiworld.local_early_items[world.player])
     items = []
@@ -213,11 +265,17 @@ def _has_early_item_space(world):
                 return True
         return False
 
-    if not all(place(index, set()) for index in range(len(items))):
+    fits = all(place(index, set()) for index in range(len(items)))
+    return state, items, assigned, fits
+
+
+def _has_early_item_space(world):
+    state, items, assigned, fits = _early_item_assignment(world)
+    if not fits:
         return False
     for item in items:
         state.collect(item, True)
-    state.sweep_for_advancements()
+    state.sweep_for_advancements(_early_sweep_locations(world))
     return (world.multiworld.completion_condition[world.player](state)
             or any(location.item is None and location not in assigned and location.can_reach(state)
                    for location in world.get_locations()))
@@ -247,7 +305,7 @@ def _has_possible_category_progression(world):
             locations[category].append(location)
     changed = True
     while changed:
-        state.sweep_for_advancements()
+        state.sweep_for_advancements(world.get_locations())
         changed = False
         for category, items in tuple(pending.items()):
             if any(location.can_reach(state) and any(
@@ -257,20 +315,21 @@ def _has_possible_category_progression(world):
                     state.collect(item, True)
                 del pending[category]
                 changed = True
-    return (multiworld.has_beaten_game(state, world.player)
-            and _has_possible_melody_progression(world))
+    return (not pending and multiworld.has_beaten_game(state, world.player)
+            and _has_possible_category_order(world, 'Skill')
+            and _has_possible_category_order(world, 'Melody'))
 
 
-def _has_possible_melody_progression(world):
+def _has_possible_category_order(world, category):
     from .category_fill import _placement_category
 
     multiworld = world.multiworld
     items = [item for item in multiworld.itempool
-             if item.player == world.player and _placement_category(item) == 'Melody']
+             if item.player == world.player and _placement_category(item) == category]
     if not items:
         return True
     locations = [location for location in world.get_locations()
-                 if location.item is None and _placement_category(location) == 'Melody']
+                 if location.item is None and _placement_category(location) == category]
     state = CollectionState(multiworld)
     for item in multiworld.itempool:
         if item not in items:
@@ -279,6 +338,18 @@ def _has_possible_melody_progression(world):
         if location.item.code is not None and (
                 location.player != world.player or location.item.player != world.player):
             state.collect(location.item, True)
+    early_dash_locations = None
+    if category == 'Skill' and world.is_early_dash_enabled():
+        opening = CollectionState(multiworld)
+        opening.sweep_for_advancements(world.get_locations())
+        if not opening.has('Swift Step', world.player):
+            dash = next((item for item in items if item.name == 'Swift Step'), None)
+            if dash is None:
+                return False
+            early_dash_locations = {
+                index for index, location in enumerate(locations)
+                if location.can_fill(opening, dash)
+            }
     pending_states = [(state, tuple(range(len(items))), tuple(range(len(locations))))]
     visited = set()
     while pending_states:
@@ -288,15 +359,20 @@ def _has_possible_melody_progression(world):
             continue
         visited.add(key)
         if len(visited) > 128:
-            return True
-        state.sweep_for_advancements()
-        if multiworld.has_beaten_game(state, world.player):
+            return False
+        state.sweep_for_advancements(world.get_locations())
+        placing_early_dash = early_dash_locations is not None and len(pending) == len(items)
+        if not pending:
             return True
         for location_index in slots:
+            if placing_early_dash and location_index not in early_dash_locations:
+                continue
             location = locations[location_index]
             if not location.can_reach(state):
                 continue
             for item_index in pending:
+                if placing_early_dash and items[item_index].name != 'Swift Step':
+                    continue
                 if not location.can_fill(state, items[item_index], check_access=False):
                     continue
                 trial = state.copy()
@@ -363,30 +439,161 @@ def _randomize_exits(world, exits):
                 raise
 
 
+def _validate_early_dash_start(world, exits):
+    if world.get_category_mode('Skill') != 'shuffle' or not world.is_early_dash_enabled():
+        return
+    from .category_fill import _placement_category
+
+    state = CollectionState(world.multiworld)
+    state.sweep_for_advancements()
+    if state.has('Swift Step', world.player) or any(entrance.can_reach(state) for entrance in exits.values()):
+        return
+    dash = next((item for item in world.multiworld.itempool
+                 if item.player == world.player and item.name == 'Swift Step'), None)
+    if dash is not None and any(
+        location.item is None and _placement_category(location) == 'Skill' and location.can_fill(state, dash)
+        for location in world.get_locations()
+    ):
+        return
+    raise OptionError(
+        'Early Dash with Skill Shuffle has no reachable starting Skill check or shuffled entrance. '
+        'Entrance rerolls cannot fix this starting setup. Disable Early Dash, use Skills Anywhere, '
+        'or change the starting abilities or entrance scope.'
+    )
+
+
+def _validate_fixed_start(world, exits):
+    _validate_early_dash_start(world, exits)
+    state, items, assigned, fits = _early_item_assignment(world)
+    if any(entrance.can_reach(state) for entrance in exits.values()):
+        return
+    if not fits:
+        names = ', '.join(sorted({item.name for item in items}))
+        raise OptionError(
+            f'The fixed starting area has too few eligible checks for local early items: {names}. '
+            'No shuffled entrance is reachable from this start, so entrance rerolls cannot help. '
+            'Change the starting abilities, starting location, or early-item settings.'
+        )
+    for item in items:
+        state.collect(item, True)
+    state.sweep_for_advancements(world.get_locations())
+    if (not world.multiworld.has_beaten_game(state, world.player)
+            and not any(entrance.can_reach(state) for entrance in exits.values())
+            and not any(location.item is None and location not in assigned and location.can_reach(state)
+                        for location in world.get_locations())):
+        raise OptionError(
+            'The local early items use every starting check without opening a route forward. '
+            'No shuffled entrance is reachable, so entrance rerolls cannot help. '
+            'Change the starting abilities, starting location, or early-item settings.'
+        )
+
+
+def _repair_entrance_layout(world, exits):
+    pairs = {source: POOL[source]['vanilla'] for source in exits}
+    original_destinations = {entrance: entrance.connected_region for entrance in exits.values()}
+    original_incoming = {entrance.parent_region: list(entrance.parent_region.entrances) for entrance in exits.values()}
+    completed = False
+
+    def connect(changes):
+        for source, target in changes.items():
+            _disconnect(exits[source])
+            exits[source].connect(exits[target].parent_region)
+
+    def valid():
+        if not _has_early_item_space(world) or not _has_possible_category_progression(world):
+            return False
+        state = world.multiworld.get_all_state(perform_sweep=False)
+        state.sweep_for_advancements(world.get_locations())
+        return all(entrance.can_reach(state) for entrance in exits.values())
+
+    def swap(first, second):
+        changes = {first: pairs[second], second: pairs[first], pairs[first]: second, pairs[second]: first}
+        connect(changes)
+        if valid():
+            pairs.update(changes)
+            return True
+        connect({source: pairs[source] for source in changes})
+        return False
+
+    groups = {}
+    for source in exits:
+        key = (area(source), POOL[source]['group']) if scope(world) == 'within_areas' else POOL[source]['group']
+        groups.setdefault(key, []).append(source)
+    try:
+        connect(pairs)
+        if not valid():
+            state = CollectionState(world.multiworld)
+            state.sweep_for_advancements()
+            starts = [source for source, entrance in exits.items() if entrance.can_reach(state)]
+            world.random.shuffle(starts)
+            found = False
+            for first in starts:
+                key = (area(first), POOL[first]['group']) if scope(world) == 'within_areas' else POOL[first]['group']
+                candidates = [source for source in groups[key] if source != first]
+                world.random.shuffle(candidates)
+                if any(swap(first, second) for second in candidates):
+                    found = True
+                    break
+            if not found:
+                return None
+        candidates = [group for group in groups.values() if len(group) > 1]
+        if candidates:
+            for _ in range(2 * len(exits)):
+                first, second = world.random.sample(world.random.choice(candidates), 2)
+                swap(first, second)
+        validate_pairs(pairs, scope(world), world.get_content_scope())
+        completed = True
+        return [(exits[source].name, exits[target].name) for source, target in pairs.items()]
+    finally:
+        if not completed:
+            for region, entrances in original_incoming.items():
+                region.entrances[:] = entrances
+            for entrance, destination in original_destinations.items():
+                entrance.connected_region = destination
+        world.multiworld.state.stale[world.player] = True
+
+
 def connect_exits(world):
     if not enabled(world):
+        _validate_fixed_start(world, {})
         return
     all_exits = world._entrance_exits
     passthrough = getattr(world.multiworld, 're_gen_passthrough', {}).get(world.game, {})
     restored = passthrough.get('entrance_pairs')
     deferred = getattr(world.multiworld, 'enforce_deferred_connections', 'off') != 'off'
     if restored is not None:
-        pairs = validate_pairs(restored, scope(world))
+        pairs = validate_pairs(restored, scope(world), world.get_content_scope())
         exits = {source: all_exits[source] for source in pairs}
         for source, entrance in exits.items():
             _disconnect(entrance)
             if not deferred:
                 entrance.connect(exits[pairs[source]].parent_region)
     else:
+        from .category_fill import _placement_category
+
         all_state = world.multiworld.get_all_state()
+        blocked = sorted(location.name for location in world.get_locations()
+                         if _placement_category(location) and not location.can_reach(all_state))
+        if blocked:
+            raise OptionError(
+                'The current room logic cannot reach these shuffled checks even with all available items: '
+                + ', '.join(blocked)
+                + '. Entrance randomization cannot repair checks outside its reachable transition pool.'
+            )
         reachable = {source for source, entrance in all_exits.items() if entrance.can_reach(all_state)}
         exits = {source: entrance for source, entrance in all_exits.items()
                  if source in reachable and POOL[source]['vanilla'] in reachable}
         if not exits:
             raise OptionError('No verified entrance pairs are reachable with these settings.')
-        result = _randomize_exits(world, exits)
+        _validate_fixed_start(world, exits)
+        try:
+            result = _randomize_exits(world, exits)
+        except OptionError:
+            result = _repair_entrance_layout(world, exits)
+            if result is None:
+                raise
         by_name = {entrance.name: source for source, entrance in exits.items()}
-        pairs = validate_pairs({by_name[source]: by_name[target] for source, target in result}, scope(world))
+        pairs = validate_pairs({by_name[source]: by_name[target] for source, target in result}, scope(world), world.get_content_scope())
         if deferred:
             for entrance in exits.values():
                 _disconnect(entrance)
@@ -414,10 +621,37 @@ def reconnect_found(world, value):
     world.multiworld.state.stale[world.player] = True
 
 
+def reconnect_warps(world, value):
+    if (getattr(world.multiworld, 'enforce_deferred_connections', 'off') == 'off'
+            or not isinstance(value, dict)):
+        return
+    destinations = {
+        'bone_bottom': ('Bone Bottom', 'bone-bottom/bone-bottom-bellway#room'),
+        'bellhart': ('Bellhart', 'bellhart/belltown#upper-area'),
+        'songclave': ('Songclave', 'choral-chambers/bellshrine-enclave#room'),
+    }
+    entrances = getattr(world, '_unlocked_warp_entrances', {})
+    menu = world.multiworld.get_region('Menu', world.player)
+    from rule_builder.rules import True_
+    for key, (label, node) in destinations.items():
+        entrance = entrances.get(key)
+        if value.get(key) is True:
+            destination = world.multiworld.get_region(room_node_name(node), world.player)
+            if entrance is None:
+                entrance = world.create_entrance(menu, destination, True_(), f'F4 Warp: {label}')
+                entrances[key] = entrance
+            elif entrance.connected_region is None:
+                entrance.connect(destination)
+        elif entrance is not None:
+            _disconnect(entrance)
+    world._unlocked_warp_entrances = entrances
+    world.multiworld.state.stale[world.player] = True
+
+
 def slot_entrances(world):
     if not enabled(world):
         return {'entrance_randomization': 'off', 'entrance_randomization_scope': scope(world)}
-    pairs = validate_pairs(world._entrance_pairs, scope(world))
+    pairs = validate_pairs(world._entrance_pairs, scope(world), world.get_content_scope())
     return {
         'entrance_randomization': 'coupled',
         'entrance_randomization_scope': scope(world),

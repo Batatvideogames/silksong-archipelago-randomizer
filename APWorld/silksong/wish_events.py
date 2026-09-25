@@ -80,9 +80,9 @@ def _region_event(
 # and these four verified pre-Donation-2 completions are safe logical sources.
 SONGCLAVE_BOARD_EVENTS: tuple[WishLogicEvent, ...] = (
     _location_event(
-        "Last Audience board credit",
+        "Final Audience board credit",
         SONGCLAVE_BOARD_COMPLETION_ITEM,
-        "Wish: Last Audience",
+        "Wish: Final Audience",
     ),
     _region_event(
         "Building Up Songclave board credit",
@@ -163,7 +163,7 @@ SILK_AND_SOUL_MANDATORY_EVENTS: tuple[WishLogicEvent, ...] = (
 
 
 _SILK_AND_SOUL_FULL_POINT_SOURCES: tuple[tuple[str, str], ...] = (
-    ("Last Audience point", "Wish: Last Audience"),
+    ("Final Audience point", "Wish: Final Audience"),
     ("Berry Picking point", "Tool Unlock: Mosscreep Tool 2"),
     (
         "An Icon of Hope point",

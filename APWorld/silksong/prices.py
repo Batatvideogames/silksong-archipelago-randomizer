@@ -273,6 +273,7 @@ def _resolve_group(
     random: Random,
     sources: Iterable[PriceSource],
     mode: str,
+    max_shell_shards: int,
 ) -> dict[str, int]:
     ordered_sources = sorted(sources, key=lambda source: source.key)
     if mode == "vanilla":
@@ -291,7 +292,7 @@ def _resolve_group(
         return {
             source.key: random.randint(
                 1,
-                800 if source.currency == SHELL_SHARDS else 500,
+                max_shell_shards if source.currency == SHELL_SHARDS else 500,
             )
             for source in ordered_sources
         }
@@ -319,7 +320,11 @@ def _resolve_group(
 def resolve_purchase_prices(
     random: Random,
     category_modes: dict[str, str],
+    tool_pouch_count: int = SHELL_SHARD_MAX_TOOL_POUCH_UPGRADES,
 ) -> dict[str, int]:
+    if not 0 <= tool_pouch_count <= SHELL_SHARD_MAX_TOOL_POUCH_UPGRADES:
+        raise ValueError(f"Invalid Tool Pouch count: {tool_pouch_count!r}")
+    max_shell_shards = SHELL_SHARD_BASE_CAPACITY + tool_pouch_count * SHELL_SHARD_CAPACITY_PER_TOOL_POUCH
     unknown_categories = set(category_modes).difference(
         PRICE_CATEGORY_OPTION_NAMES
     )
@@ -345,6 +350,7 @@ def resolve_purchase_prices(
                     if source.category == category
                 ),
                 mode,
+                max_shell_shards,
             )
         )
 

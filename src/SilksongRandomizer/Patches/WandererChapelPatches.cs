@@ -72,46 +72,12 @@ namespace SilksongRandomizer.Patches
             new ChapelSource("Crest: Shaman", "Tut_05", "Spell"),
         };
 
-        private static readonly Dictionary<string, string[]>
-            ProtectedLocationsByClosedFlag =
-                new Dictionary<string, string[]>(
-                    StringComparer.OrdinalIgnoreCase
-                )
-                {
-                    {
-                        WandererClosedFlag,
-                        new[]
-                        {
-                            "Crest: Wanderer",
-                            "Bonegrave - Rosary Cache #1",
-                            "Bonegrave - Rosary Cache #2",
-                            "Bonegrave - Rosary Cache #3",
-                            "Bonegrave - Rosary Cache #4",
-                        }
-                    },
-                    {
-                        ReaperClosedFlag,
-                        new[] { "Crest: Reaper" }
-                    },
-                    {
-                        BeastClosedFlag,
-                        new[] { "Crest: Beast" }
-                    },
-                };
-
         private static bool IsManagedLocation(string locationName)
         {
             SaveState state = SaveState.Instance;
             return state != null &&
                    state.IsLocationEnabled(locationName) &&
                    state.IsLocationInSeed(locationName);
-        }
-
-        private static bool IsPendingLocation(string locationName)
-        {
-            SaveState state = SaveState.Instance;
-            return IsManagedLocation(locationName) &&
-                   !state.IsLocationChecked(locationName);
         }
 
         private static bool TryGetLocationCompletion(
@@ -131,24 +97,9 @@ namespace SilksongRandomizer.Patches
 
         private static bool ShouldKeepChapelOpen(string closedFlag)
         {
-            if (string.IsNullOrWhiteSpace(closedFlag) ||
-                !ProtectedLocationsByClosedFlag.TryGetValue(
-                    closedFlag,
-                    out string[] protectedLocationNames
-                ))
-            {
-                return false;
-            }
-
-            foreach (string locationName in protectedLocationNames)
-            {
-                if (IsPendingLocation(locationName))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return SaveState.Instance != null &&
+                (closedFlag == WandererClosedFlag || closedFlag == ReaperClosedFlag ||
+                 closedFlag == BeastClosedFlag);
         }
 
         private static string GetSceneName(GetIsCrestUnlocked action)
@@ -454,10 +405,7 @@ namespace SilksongRandomizer.Patches
                     "Got Crest? 2"
                 ))
             {
-                return TryGetLocationCompletion(
-                    "Crest: Architect",
-                    out sourceCompleted
-                );
+                return SaveState.Instance != null;
             }
 
             if (string.Equals(

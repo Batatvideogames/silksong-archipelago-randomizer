@@ -75,6 +75,13 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     pollip_heart_count: int = 0
     proficient_combat: int = 0
     proficient_movement: bool = False
+    flea_brew_stall_tier: int = 0
+    flintslate_stall_tier: int = 0
+    plasmium_phial_stall_tier: int = 0
+    voltvessels_stall_tier: int = 0
+    heal_stall_tier: int = 0
+    hazard_respawn_tier: int = 0
+    scuttlebrace_tier: int = 0
     bell_shrine_sanity: bool = False
     silk_and_soul_points: int = 17
 
@@ -93,6 +100,13 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.pollip_heart_count,
             self.proficient_combat,
             self.proficient_movement,
+            self.flea_brew_stall_tier,
+            self.flintslate_stall_tier,
+            self.plasmium_phial_stall_tier,
+            self.voltvessels_stall_tier,
+            self.heal_stall_tier,
+            self.hazard_respawn_tier,
+            self.scuttlebrace_tier,
             self.bell_shrine_sanity,
             self.silk_and_soul_points,
             player=world.player,
@@ -113,6 +127,13 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         pollip_heart_count: int
         proficient_combat: int
         proficient_movement: bool
+        flea_brew_stall_tier: int
+        flintslate_stall_tier: int
+        plasmium_phial_stall_tier: int
+        voltvessels_stall_tier: int
+        heal_stall_tier: int
+        hazard_respawn_tier: int
+        scuttlebrace_tier: int
         bell_shrine_sanity: bool
         silk_and_soul_points: int
 
@@ -139,6 +160,13 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 pollip_heart_count=self.pollip_heart_count,
                 proficient_combat=self.proficient_combat,
                 proficient_movement=self.proficient_movement,
+                flea_brew_stall_tier=self.flea_brew_stall_tier,
+                flintslate_stall_tier=self.flintslate_stall_tier,
+                plasmium_phial_stall_tier=self.plasmium_phial_stall_tier,
+                voltvessels_stall_tier=self.voltvessels_stall_tier,
+                heal_stall_tier=self.heal_stall_tier,
+                hazard_respawn_tier=self.hazard_respawn_tier,
+                scuttlebrace_tier=self.scuttlebrace_tier,
                 bell_shrine_sanity=self.bell_shrine_sanity,
                 silk_and_soul_points=self.silk_and_soul_points,
             )
@@ -254,6 +282,13 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     randomize_swim: bool = False
     proficient_combat: int = 0
     proficient_movement: bool = False
+    flea_brew_stall_tier: int = 0
+    flintslate_stall_tier: int = 0
+    plasmium_phial_stall_tier: int = 0
+    voltvessels_stall_tier: int = 0
+    heal_stall_tier: int = 0
+    hazard_respawn_tier: int = 0
+    scuttlebrace_tier: int = 0
     bell_shrine_sanity: bool = False
     silk_and_soul_points: int = 17
 
@@ -278,6 +313,13 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             randomize_swim=self.randomize_swim,
             proficient_combat=self.proficient_combat,
             proficient_movement=self.proficient_movement,
+            flea_brew_stall_tier=self.flea_brew_stall_tier,
+            flintslate_stall_tier=self.flintslate_stall_tier,
+            plasmium_phial_stall_tier=self.plasmium_phial_stall_tier,
+            voltvessels_stall_tier=self.voltvessels_stall_tier,
+            heal_stall_tier=self.heal_stall_tier,
+            hazard_respawn_tier=self.hazard_respawn_tier,
+            scuttlebrace_tier=self.scuttlebrace_tier,
             bell_shrine_sanity=self.bell_shrine_sanity,
             silk_and_soul_points=self.silk_and_soul_points,
         )
@@ -509,6 +551,13 @@ def _compile_named_requirement(
     native_abstract_regions: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -538,6 +587,13 @@ def _compile_named_requirement(
             pollip_heart_count=pollip_heart_count,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_stall_tier=flea_brew_stall_tier,
+            flintslate_stall_tier=flintslate_stall_tier,
+            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+            voltvessels_stall_tier=voltvessels_stall_tier,
+            heal_stall_tier=heal_stall_tier,
+            hazard_respawn_tier=hazard_respawn_tier,
+            scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
             silk_and_soul_points=silk_and_soul_points,
         )
@@ -579,6 +635,13 @@ def _compile_requirement(
     required_location_stack: tuple[str, ...] = (),
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -606,6 +669,13 @@ def _compile_requirement(
             native_abstract_regions=native_abstract_regions,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_stall_tier=flea_brew_stall_tier,
+            flintslate_stall_tier=flintslate_stall_tier,
+            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+            voltvessels_stall_tier=voltvessels_stall_tier,
+            heal_stall_tier=heal_stall_tier,
+            hazard_respawn_tier=hazard_respawn_tier,
+            scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
             silk_and_soul_points=silk_and_soul_points,
         )
@@ -644,6 +714,13 @@ def _compile_requirement(
                 required_location_stack=next_stack,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_stall_tier=flea_brew_stall_tier,
+                flintslate_stall_tier=flintslate_stall_tier,
+                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                voltvessels_stall_tier=voltvessels_stall_tier,
+                heal_stall_tier=heal_stall_tier,
+                hazard_respawn_tier=hazard_respawn_tier,
+                scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=silk_and_soul_points,
             )
@@ -704,6 +781,13 @@ def build_requirements_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -720,6 +804,13 @@ def build_requirements_rule(
             randomize_swim=randomize_swim,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_stall_tier=flea_brew_stall_tier,
+            flintslate_stall_tier=flintslate_stall_tier,
+            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+            voltvessels_stall_tier=voltvessels_stall_tier,
+            heal_stall_tier=heal_stall_tier,
+            hazard_respawn_tier=hazard_respawn_tier,
+            scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
             silk_and_soul_points=silk_and_soul_points,
         )
@@ -746,6 +837,13 @@ def build_requirements_rule(
             anchor_requirement_name=anchor_requirement_name,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_stall_tier=flea_brew_stall_tier,
+            flintslate_stall_tier=flintslate_stall_tier,
+            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+            voltvessels_stall_tier=voltvessels_stall_tier,
+            heal_stall_tier=heal_stall_tier,
+            hazard_respawn_tier=hazard_respawn_tier,
+            scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
             silk_and_soul_points=silk_and_soul_points,
         )
@@ -770,6 +868,13 @@ def build_location_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -794,6 +899,13 @@ def build_location_rule(
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_stall_tier=flea_brew_stall_tier,
+        flintslate_stall_tier=flintslate_stall_tier,
+        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+        voltvessels_stall_tier=voltvessels_stall_tier,
+        heal_stall_tier=heal_stall_tier,
+        hazard_respawn_tier=hazard_respawn_tier,
+        scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
         silk_and_soul_points=silk_and_soul_points,
     )
@@ -818,6 +930,13 @@ def build_goal_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -842,6 +961,13 @@ def build_goal_rule(
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_stall_tier=flea_brew_stall_tier,
+        flintslate_stall_tier=flintslate_stall_tier,
+        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+        voltvessels_stall_tier=voltvessels_stall_tier,
+        heal_stall_tier=heal_stall_tier,
+        hazard_respawn_tier=hazard_respawn_tier,
+        scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
         silk_and_soul_points=silk_and_soul_points,
     )
@@ -864,6 +990,13 @@ def build_native_source_rule(
     randomize_swim: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_stall_tier: int = 0,
+    flintslate_stall_tier: int = 0,
+    plasmium_phial_stall_tier: int = 0,
+    voltvessels_stall_tier: int = 0,
+    heal_stall_tier: int = 0,
+    hazard_respawn_tier: int = 0,
+    scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
 ) -> Rule:
@@ -885,6 +1018,13 @@ def build_native_source_rule(
         randomize_swim,
         proficient_combat,
         proficient_movement,
+        flea_brew_stall_tier,
+        flintslate_stall_tier,
+        plasmium_phial_stall_tier,
+        voltvessels_stall_tier,
+        heal_stall_tier,
+        hazard_respawn_tier,
+        scuttlebrace_tier,
         bell_shrine_sanity,
         silk_and_soul_points,
     )

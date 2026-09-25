@@ -784,7 +784,7 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
     'Extractor Blue Worms': 'Wish: Advanced Alchemy',
     'Fine Pins': 'Wish: Fine Pins',
     'Garmond Black Threaded': "Wish: Hero's Call",
-    'Song Knight': 'Wish: Last Audience',
+    'Song Knight': 'Wish: Final Audience',
     'Tormented Trobbio': 'Wish: Pain, Anguish and Misery',
     'Pinstress Battle': 'Wish: Fatal Resolve',
     'Great Gourmand': 'Wish: Great Taste of Pharloom',
@@ -1029,7 +1029,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Boss: Plasmified Zango', 'Boss'),
     ('Boss: Lost Garmond', 'Boss'),
     ('Boss: Pinstress', 'Boss'),
-    ('Wish: Last Audience', 'Quest'),
+    ('Wish: Final Audience', 'Quest'),
     ('Wish: Pain, Anguish and Misery', 'Quest'),
     ('Wish: Fatal Resolve', 'Quest'),
 ) + tuple((name, category) for name, (_, category, _) in EVA_REWARDS.items()) + (
@@ -1054,7 +1054,7 @@ QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     canonicalize_location_name(f'Quest Completion: {asset_name}')
     for asset_name in BELLHOME_QUEST_LOCATION_ASSETS
 ) + (
-    'Wish: Last Audience',
+    'Wish: Final Audience',
     'Wish: Pain, Anguish and Misery',
     'Wish: Fatal Resolve',
 )

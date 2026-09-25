@@ -71,7 +71,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Boss: Pinstress", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Fatal Resolve", "Peak_07", 38.05f, 90.49f, 115f, 150f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Pain, Anguish and Misery", "Library_13", 77.059998f, 16.3f, 124f, 56f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Last Audience", "Hang_17b", 30.220001f, 0.09f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Final Audience", "Hang_17b", 30.220001f, 0.09f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Double Jump", "Peak_08b", 279.5f, 105.53f, 336f, 138f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Silk Soar", "Abyss_08", 86.91002f, 9.861683f, 164f, 106f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Skill Unlock: Wall Jump", "Shellwood_10", 40.59f, 79.24f, 79f, 102f, MapMarkerPositionConfidence.ExactUpstream),

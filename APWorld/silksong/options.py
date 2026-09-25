@@ -97,7 +97,7 @@ class CrestRandomization(CategoryRandomization):
 
 
 class EvaRandomization(GlobalRandomization):
-    """Randomizes Eva's two Hunter evolutions, two Vesticrests, and Sylphsong.
+    """Randomizes Eva's two Hunter evolutions, two Vesticrests and Sylphsong.
 
     vanilla: Eva gives her normal rewards
     anywhere: mixes her rewards into the global item pool
@@ -680,7 +680,10 @@ class FleaHuntCount(Range):
 
 
 class StartingLocation(Choice):
-    """Use the vanilla opening or experimental Bone Bottom start with normal cloak."""
+    """Use the vanilla opening or experimental Bone Bottom start with normal cloak.
+
+    With Ledge Grab randomization, Vanilla uses Bone Bottom instead.
+    """
 
     display_name = "Starting Location"
     option_vanilla = 0
@@ -708,7 +711,12 @@ class StartingCrest(Choice):
 
 
 class EarlyDash(Toggle):
-    """Place Dash early when Skills are randomized."""
+    """Place Dash early when Skills are randomized.
+
+    With Skill Shuffle, you must be able to reach at least one place that normally
+    gives a movement ability before finding any new abilities. If none are reachable,
+    turn this off or set Skill Randomization to Anywhere.
+    """
 
     display_name = "Early Dash"
     default = 1
@@ -787,7 +795,8 @@ class IndividualRelicTurnIns(Toggle):
 
 
 class Skips(Choice):
-    """Choose the hardest explicitly labelled movement skips allowed in logic."""
+    """Choose the difficulty of movement tricks without their own setting.
+    Separate technique settings are independent of this option."""
 
     display_name = "Skips"
     option_none = 0
@@ -800,8 +809,8 @@ class Skips(Choice):
 class ProficientCombat(Choice):
     """Off: use the normal combat requirements.
 
-    Goated: lower Needle and DPS requirements by one tier, keeping combat movement requirements.
-    Hell: bypass combat requirements, including combat movement.
+    Goated: lower Needle, DPS and Crafting Kit requirements by one tier.
+    Hell: bypass combat requirements including combat movement.
     """
 
     display_name = "Proficient Combat"
@@ -818,11 +827,69 @@ class ProficientMovement(Toggle):
     default = 0
 
 
-class ScuttlebraceLogic(Toggle):
-    """Allow Scuttlebrace movement routes in logic"""
+class TechniqueDifficulty(Choice):
+    option_none = 0
+    option_easy = 1
+    option_moderate = 2
+    option_difficult = 3
+    default = option_none
+
+
+class ScuttlebraceLogic(TechniqueDifficulty):
+    """Use Scuttlebrace dodges to extend jumps and reach ledges.
+    None disables this technique. Higher settings also allow easier uses.
+    """
 
     display_name = "Scuttlebrace Logic"
-    default = 0
+
+
+class HealStallLogic(TechniqueDifficulty):
+    """Start binding in midair to briefly delay your fall and extend a jump.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Heal Stall Logic"
+
+
+class HazardRespawnLogic(TechniqueDifficulty):
+    """Deliberately touch a hazard to return to a useful respawn point,
+    allowing shortcuts across gaps or obstacles.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Hazard Respawn Logic"
+
+
+class FleaBrewStallLogic(TechniqueDifficulty):
+    """Drink Flea Brew in midair to briefly delay your fall and extend a jump.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Flea Brew Stall Logic"
+
+
+class FlintslateStallLogic(TechniqueDifficulty):
+    """Use Flintslate in midair to briefly delay your fall and extend a jump.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Flintslate Stall Logic"
+
+
+class PlasmiumPhialStallLogic(TechniqueDifficulty):
+    """Use Plasmium Phial in midair to briefly delay your fall and extend a jump.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Plasmium Phial Stall Logic"
+
+
+class VoltvesselsStallLogic(TechniqueDifficulty):
+    """Use Voltvessels in midair to briefly delay your fall and extend a jump.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Voltvessels Stall Logic"
 
 
 class StartWithMaps(Toggle):
@@ -873,7 +940,7 @@ class RandomizedMelodyMarkers(Toggle):
 
 class VogAreaHints(Range):
     """Number of area reports Vog can sell. Reports count remaining progression
-    items for any player without revealing their names, and update as you complete checks.
+    items for any player without revealing their names and update as you complete checks.
     """
 
     display_name = "Vog Area Hints"
@@ -1185,7 +1252,13 @@ class SilksongOptions(PerGameCommonOptions):
     skips: Skips
     proficient_combat: ProficientCombat
     proficient_movement: ProficientMovement
+    flea_brew_stall_logic: FleaBrewStallLogic
+    flintslate_stall_logic: FlintslateStallLogic
+    plasmium_phial_stall_logic: PlasmiumPhialStallLogic
+    voltvessels_stall_logic: VoltvesselsStallLogic
     scuttlebrace_logic: ScuttlebraceLogic
+    heal_stall_logic: HealStallLogic
+    hazard_respawn_logic: HazardRespawnLogic
     start_with_maps: StartWithMaps
     start_fully_mapped: StartFullyMapped
     automatic_compass: AutomaticCompass

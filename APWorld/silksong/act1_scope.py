@@ -78,6 +78,10 @@ _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(
                 "cogwork-core/",
                 "underworks/",
                 "grand-gate/",
+                "whispering-vaults/",
+                "whiteward/",
+                "high-halls/",
+                "memorium/",
             )
         )
         for source_id in source_ids
@@ -105,7 +109,6 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Thief's Mark",
         "Snitch Pick",
         "Quick Sling",
-        "Threefold Pin",
         "Druid's Eyes",
         "Flintslate",
         "Sharpdart",

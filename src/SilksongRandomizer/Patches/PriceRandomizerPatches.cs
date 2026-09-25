@@ -190,6 +190,45 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(Wait), nameof(Wait.OnEnter))]
+        private static class FreeDonationCounterWaitPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(Wait __instance)
+            {
+                if (__instance.Owner == null ||
+                    __instance.Owner.name != "Quest_Board" ||
+                    __instance.Fsm?.Name != "Hand In Sequence" ||
+                    __instance.State?.Name != "Wait for Counter" ||
+                    __instance.finishEvent?.Name != "FINISHED")
+                {
+                    return true;
+                }
+
+                string scene = GameManager.GetBaseSceneName(
+                    __instance.Owner.scene.name ?? string.Empty);
+                if (scene != "Bonetown" && scene != "Belltown" &&
+                    scene != "Song_Enclave")
+                {
+                    return true;
+                }
+
+                FullQuestBase quest = __instance.Fsm.Variables?
+                    .GetFsmObject("Quest")?.Value as FullQuestBase;
+                if (quest == null ||
+                    !VanillaDonationPrices.ContainsKey(quest.name) ||
+                    !TryGetPrice(DonationPrefix + quest.name, out int price) ||
+                    price != 0)
+                {
+                    return true;
+                }
+
+                __instance.Finish();
+                __instance.Fsm.Event(__instance.finishEvent);
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_Targets")]
         private static class DonationTargetsPatch
         {

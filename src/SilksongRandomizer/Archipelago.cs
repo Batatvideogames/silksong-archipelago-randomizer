@@ -60,6 +60,36 @@ namespace SilksongRandomizer
         private ArchipelagoSession entranceSyncSession;
         private SaveState entranceSyncSave;
         private int entranceSyncCount = -1;
+        private ArchipelagoSession warpSyncSession;
+        private SaveState warpSyncSave;
+        private string warpSyncValue;
+
+        internal void SynchronizeUnlockedWarps()
+        {
+            var state = SaveState.Instance;
+            var activeSession = session;
+            if (!Connected || state == null || !state.IsRoomBound || PlayerData.instance == null ||
+                state.roomSeed != RoomSeed || state.team != Team || state.slot != Slot) return;
+            var unlocked = new JObject();
+            foreach (string key in FastTravelUtil.GetTrackerHubKeys()) unlocked[key] = true;
+            string value = unlocked.ToString(Formatting.None);
+            if (ReferenceEquals(activeSession, warpSyncSession) && ReferenceEquals(state, warpSyncSave) &&
+                value == warpSyncValue) return;
+            try
+            {
+                activeSession.Socket.SendPacket(new SetPacket {
+                    Key = $"Silksong:Warps:{Team}:{Slot}", DefaultValue = new JObject(), WantReply = false,
+                    Operations = new[] { new OperationSpecification { OperationType = OperationType.Replace, Value = unlocked } }
+                });
+                warpSyncSession = activeSession;
+                warpSyncSave = state;
+                warpSyncValue = value;
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning("Warp unlocks will retry: " + ex.Message);
+            }
+        }
 
         internal void SynchronizeExploredEntrances()
         {
@@ -155,6 +185,7 @@ namespace SilksongRandomizer
         );
         public bool TrapDisguises { get; private set; }
         public bool FasterDialogue { get; private set; }
+        public bool FasterSilkheartAnimation { get; private set; }
         public bool AlphabetMode { get; private set; }
         public IReadOnlyDictionary<string, ItemFlags>
             CrestSlotItemFlags { get; private set; } =
@@ -517,10 +548,7 @@ namespace SilksongRandomizer
                     successful,
                     "swim_ability_rando"
                 );
-                ScuttlebraceLogic = GetBooleanSlotData(
-                    successful,
-                    "scuttlebrace_logic"
-                );
+                ScuttlebraceLogic = GetIntegerSlotData(successful, "scuttlebrace_logic", 0, 3) > 0;
                 StartWithMaps = GetBooleanSlotData(
                     successful,
                     "start_with_maps"
@@ -596,6 +624,8 @@ namespace SilksongRandomizer
                     successful,
                     "faster_dialogue"
                 );
+                FasterSilkheartAnimation =
+                    GetFasterSilkheartAnimation(successful);
                 AlphabetMode = GetBooleanSlotData(
                     successful,
                     "alphabet_mode"
@@ -2159,15 +2189,12 @@ namespace SilksongRandomizer
                 0,
                 3
             );
-            payload["scuttlebrace_logic"] = GetBooleanSlotData(
-                login,
-                "scuttlebrace_logic"
-            );
+            payload["scuttlebrace_logic"] = GetIntegerSlotData(login, "scuttlebrace_logic", 0, 3) > 0;
             JObject compressedPayload = login.SlotData.ContainsKey("logic_base")
                 ? BundledMapLogic.Restore(
                     GetRequiredStringSlotData(login, "logic_base"),
                     GetRequiredObjectSlotData(login, "logic_overrides"),
-                    GetBooleanSlotData(login, "scuttlebrace_logic"),
+                    GetIntegerSlotData(login, "scuttlebrace_logic", 0, 3) > 0,
                     GetRequiredStringSlotData(login, "entrance_randomization") == "coupled"
                         ? GetRequiredStringSlotData(login, "entrance_randomization_scope") : null,
                     login.SlotData.ContainsKey("entrance_pairs")
@@ -2406,6 +2433,12 @@ namespace SilksongRandomizer
             }
 
             return new ReadOnlyDictionary<string, string>(result);
+        }
+
+        private static bool GetFasterSilkheartAnimation(LoginSuccessful login)
+        {
+            const string key = "faster_silkheart_animation";
+            return login.SlotData.ContainsKey(key) && GetBooleanSlotData(login, key);
         }
 
         private static bool GetBooleanSlotData(
@@ -3123,6 +3156,7 @@ namespace SilksongRandomizer
             );
             TrapDisguises = false;
             FasterDialogue = false;
+            FasterSilkheartAnimation = false;
             AlphabetMode = false;
             CrestSlotItemFlags =
                 new ReadOnlyDictionary<string, ItemFlags>(

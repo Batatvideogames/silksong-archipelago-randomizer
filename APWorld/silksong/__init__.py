@@ -258,7 +258,10 @@ class SilksongWorld(World):
         if slot_data["starting_crest"] not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError("Invalid starting crest in slot data.")
         if slot_data["entrance_randomization"] == "coupled":
-            validate_pairs(slot_data.get("entrance_pairs"), slot_data["entrance_randomization_scope"])
+            validate_pairs(
+                slot_data.get("entrance_pairs"), slot_data["entrance_randomization_scope"],
+                slot_data["content_scope"],
+            )
         count = slot_data.get("crest_slot_memory_locket_count")
         if type(count) is not int or not 0 <= count <= len(CREST_SLOT_LOCATION_NAMES):
             raise ValueError("Invalid Crest Slot Locket requirement in slot data.")
@@ -441,6 +444,13 @@ class SilksongWorld(World):
                 skips_tier=self.get_skips_tier(),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
+                flea_brew_stall_tier=int(self.options.flea_brew_stall_logic.value),
+                flintslate_stall_tier=int(self.options.flintslate_stall_logic.value),
+                plasmium_phial_stall_tier=int(self.options.plasmium_phial_stall_logic.value),
+                voltvessels_stall_tier=int(self.options.voltvessels_stall_logic.value),
+                heal_stall_tier=int(self.options.heal_stall_logic.value),
+                hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
+                scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
                 randomized_crest_slots_enabled=self.get_category_mode('CrestSlot') != 'vanilla',
@@ -471,6 +481,9 @@ class SilksongWorld(World):
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
             self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
+        if (self.is_ledgegrab_ability_rando_enabled()
+                and self.options.starting_location.current_key == 'vanilla'):
+            self.options.starting_location.value = self.options.starting_location.option_bone_bottom
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
@@ -690,9 +703,17 @@ class SilksongWorld(World):
     def get_purchase_prices(self) -> dict[str, int]:
         cached = getattr(self, "_resolved_purchase_prices", None)
         if cached is None:
+            pouch_count = sum(
+                data.category == 'ToolPouch' and (
+                    self.get_category_mode('ToolPouch') != 'vanilla'
+                    or name not in LOGIC_UNKNOWN_LOCATIONS
+                )
+                for name, data in location_data_table.items()
+            )
             cached = resolve_purchase_prices(
                 getattr(self, "random", None) or random.Random(0),
                 self.get_purchase_price_modes(),
+                tool_pouch_count=pouch_count,
             )
             self._resolved_purchase_prices = cached
         return dict(cached)
@@ -1203,11 +1224,17 @@ class SilksongWorld(World):
 
     @property
     def found_entrances_datastorage_key(self):
-        return "Silksong:Entrances:{team}:{player}" if self.options.entrance_randomization else []
+        keys = ["Silksong:Warps:{team}:{player}"]
+        if self.options.entrance_randomization:
+            keys.append("Silksong:Entrances:{team}:{player}")
+        return keys
 
     def reconnect_found_entrances(self, found_key, data_storage_value):
-        from .entrance_randomization import reconnect_found
-        reconnect_found(self, data_storage_value)
+        from .entrance_randomization import reconnect_found, reconnect_warps
+        if found_key.startswith("Silksong:Warps:"):
+            reconnect_warps(self, data_storage_value)
+        elif found_key.startswith("Silksong:Entrances:"):
+            reconnect_found(self, data_storage_value)
 
     def connect_entrances(self) -> None:
         from .entrance_randomization import connect_exits
@@ -1921,8 +1948,13 @@ class SilksongWorld(World):
             "skips": self.get_skips_tier(),
             "proficient_combat": self.get_proficient_combat_mode(),
             "proficient_movement": self.is_proficient_movement_enabled(),
-            "scuttlebrace_logic":
-                self.is_scuttlebrace_logic_enabled(),
+            "scuttlebrace_logic": int(self.options.scuttlebrace_logic.value),
+            "heal_stall_logic": int(self.options.heal_stall_logic.value),
+            "flea_brew_stall_logic": int(self.options.flea_brew_stall_logic.value),
+            "flintslate_stall_logic": int(self.options.flintslate_stall_logic.value),
+            "plasmium_phial_stall_logic": int(self.options.plasmium_phial_stall_logic.value),
+            "voltvessels_stall_logic": int(self.options.voltvessels_stall_logic.value),
+            "hazard_respawn_logic": int(self.options.hazard_respawn_logic.value),
             "start_with_maps": self.is_start_with_maps_enabled(),
             "start_fully_mapped":
                 self.is_start_fully_mapped_enabled(),
@@ -1974,6 +2006,13 @@ class SilksongWorld(World):
                 ),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
+                flea_brew_stall_tier=int(self.options.flea_brew_stall_logic.value),
+                flintslate_stall_tier=int(self.options.flintslate_stall_logic.value),
+                plasmium_phial_stall_tier=int(self.options.plasmium_phial_stall_logic.value),
+                voltvessels_stall_tier=int(self.options.voltvessels_stall_logic.value),
+                heal_stall_tier=int(self.options.heal_stall_logic.value),
+                hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
+                scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
                 donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(self.get_purchase_prices()),

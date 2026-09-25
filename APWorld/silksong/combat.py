@@ -23,46 +23,46 @@ _PROFILES = {
     'boss:last-judge': {'name': 'Last Judge', 'needle': 0, 'dps': None, 'movement': '(Faydown OR Dash)'},
     'boss:moorwing': {'name': 'Moorwing', 'needle': 0, 'dps': None, 'movement': ''},
     'boss:moss-mother-ruined-chapel': {'name': 'Moss Mother (Ruined Chapel)', 'needle': 0, 'dps': None, 'movement': ''},
-    'boss:moss-mother-weavenest-atla': {'name': 'Moss Mother (Weavenest Atla)', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:phantom': {'name': 'Phantom', 'needle': 0, 'dps': None, 'movement': ''},
-    'boss:savage-beastfly-chapel-of-the-beast': {'name': 'Savage Beastfly (Chapel of the Beast)', 'needle': 0, 'dps': None, 'movement': '(Dash OR Faydown OR Clawline)'},
-    'boss:sister-splinter': {'name': 'Sister Splinter', 'needle': 0, 'dps': None, 'movement': 'Dash OR Clawline'},
+    'boss:moss-mother-weavenest-atla': {'name': 'Moss Mother (Weavenest Atla)', 'needle': 0, 'dps': None, 'movement': ''},
+    'boss:phantom': {'name': 'Phantom', 'needle': 0, 'dps': None, 'movement': '(Clawline OR Dash OR Sprint)'},
+    'boss:savage-beastfly-chapel-of-the-beast': {'name': 'Savage Beastfly (Chapel of the Beast)', 'needle': 0, 'dps': None, 'movement': '(Clawline OR Dash OR Sprint)'},
+    'boss:sister-splinter': {'name': 'Sister Splinter', 'needle': 0, 'dps': None, 'movement': '(Clawline OR Dash)'},
     'boss:skull-tyrant-the-marrow': {'name': 'Skull Tyrant (The Marrow)', 'needle': 0, 'dps': None, 'movement': ''},
     'boss:skull-tyrant-bone-bottom': {'name': 'Skull Tyrant (Bone Bottom)', 'needle': 0, 'dps': None, 'movement': ''},
     'boss:widow': {'name': 'Widow', 'needle': 0, 'dps': None, 'movement': "(Faydown OR Drifter's)"},
-    'boss:broodmother': {'name': 'Broodmother', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:cogwork-dancers': {'name': 'Cogwork Dancers', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Dash"},
-    'boss:disgraced-chef-lugoli': {'name': 'Disgraced Chef Lugoli', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:father-of-the-flame': {'name': 'Father of the Flame', 'needle': 1, 'dps': None, 'movement': 'Faydown'},
-    'boss:first-sinner': {'name': 'First Sinner', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:forebrothers-signis-gron': {'name': 'Forebrothers Signis & Gron', 'needle': 3, 'dps': 'mid', 'movement': ''},
-    'boss:garmond-and-zaza': {'name': 'Garmond and Zaza', 'needle': 1, 'dps': None, 'movement': 'Dash'},
-    'boss:grand-mother-silk': {'name': 'Grand Mother Silk', 'needle': 1, 'dps': None, 'movement': "(Faydown OR Drifter's) AND Dash"},
-    'boss:groal-the-great': {'name': 'Groal the Great', 'needle': 1, 'dps': None, 'movement': '(Dash OR Faydown)'},
-    'boss:lace-the-cradle': {'name': 'Lace (The Cradle)', 'needle': 1, 'dps': None, 'movement': 'Dash'},
-    'boss:raging-conchfly': {'name': 'Raging Conchfly', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:savage-beastfly-far-fields': {'name': 'Savage Beastfly (Far Fields)', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:second-sentinel': {'name': 'Second Sentinel', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:shakra': {'name': 'Shakra', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:summoned-saviour': {'name': 'Summoned Saviour', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:the-unravelled': {'name': 'The Unravelled', 'needle': 1, 'dps': None, 'movement': ''},
-    'boss:trobbio': {'name': 'Trobbio', 'needle': 1, 'dps': 'mid', 'movement': ''},
-    'boss:voltvyrm': {'name': 'Voltvyrm', 'needle': 1, 'dps': 'mid', 'movement': ''},
-    'boss:bell-eater': {'name': 'Bell Eater', 'needle': 3, 'dps': 'high', 'movement': ''},
-    'boss:clover-dancers': {'name': 'Clover Dancers', 'needle': 3, 'dps': None, 'movement': ''},
-    'boss:crawfather': {'name': 'Crawfather', 'needle': 3, 'dps': 'mid', 'movement': ''},
-    'boss:crust-king-khann': {'name': 'Crust King Khann', 'needle': 3, 'dps': None, 'movement': ''},
-    'boss:gurr-the-outcast': {'name': 'Gurr the Outcast', 'needle': 3, 'dps': None, 'movement': ''},
-    'boss:lost-garmond': {'name': 'Lost Garmond', 'needle': 3, 'dps': None, 'movement': ''},
-    'boss:lost-lace': {'name': 'Lost Lace', 'needle': 4, 'dps': 'high', 'movement': ''},
-    'boss:nyleth': {'name': 'Nyleth', 'needle': 4, 'dps': 'high', 'movement': ''},
-    'boss:palestag': {'name': 'Palestag', 'needle': 3, 'dps': 'high', 'movement': ''},
-    'boss:pinstress': {'name': 'Pinstress', 'needle': 3, 'dps': 'mid', 'movement': ''},
+    'boss:broodmother': {'name': 'Broodmother', 'needle': 2, 'dps': 'mid', 'movement': '(Clawline OR Faydown OR Dash)'},
+    'boss:cogwork-dancers': {'name': 'Cogwork Dancers', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:disgraced-chef-lugoli': {'name': 'Disgraced Chef Lugoli', 'needle': 2, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:father-of-the-flame': {'name': 'Father of the Flame', 'needle': 2, 'dps': 'mid', 'movement': 'Faydown'},
+    'boss:first-sinner': {'name': 'First Sinner', 'needle': 3, 'dps': 'high', 'movement': '(Clawline OR Faydown) AND Sprint'},
+    'boss:forebrothers-signis-gron': {'name': 'Forebrothers Signis & Gron', 'needle': 3, 'dps': 'high', 'movement': 'Faydown AND Sprint'},
+    'boss:garmond-and-zaza': {'name': 'Garmond and Zaza', 'needle': 2, 'dps': 'mid', 'movement': 'Dash'},
+    'boss:grand-mother-silk': {'name': 'Grand Mother Silk', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Dash"},
+    'boss:groal-the-great': {'name': 'Groal the Great', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Dash"},
+    'boss:lace-the-cradle': {'name': 'Lace (The Cradle)', 'needle': 2, 'dps': 'mid', 'movement': '(Dash OR Faydown)'},
+    'boss:raging-conchfly': {'name': 'Raging Conchfly', 'needle': 3, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:savage-beastfly-far-fields': {'name': 'Savage Beastfly (Far Fields)', 'needle': 2, 'dps': 'mid', 'movement': '(Clawline OR Dash OR Sprint)'},
+    'boss:second-sentinel': {'name': 'Second Sentinel', 'needle': 3, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:shakra': {'name': 'Shakra', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:summoned-saviour': {'name': 'Summoned Saviour', 'needle': 2, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:the-unravelled': {'name': 'The Unravelled', 'needle': 3, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:trobbio': {'name': 'Trobbio', 'needle': 2, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:voltvyrm': {'name': 'Voltvyrm', 'needle': 1, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:bell-eater': {'name': 'Bell Eater', 'needle': 3, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:clover-dancers': {'name': 'Clover Dancers', 'needle': 4, 'dps': 'high', 'movement': "(Clawline OR Drifter's OR Faydown) AND Sprint"},
+    'boss:crawfather': {'name': 'Crawfather', 'needle': 3, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:crust-king-khann': {'name': 'Crust King Khann', 'needle': 4, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:gurr-the-outcast': {'name': 'Gurr the Outcast', 'needle': 3, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:lost-garmond': {'name': 'Lost Garmond', 'needle': 3, 'dps': 'mid', 'movement': 'Sprint'},
+    'boss:lost-lace': {'name': 'Lost Lace', 'needle': 4, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint AND Cling Grip"},
+    'boss:nyleth': {'name': 'Nyleth', 'needle': 4, 'dps': 'high', 'movement': "(Clawline OR Drifter's OR Faydown) AND Cling Grip"},
+    'boss:palestag': {'name': 'Palestag', 'needle': 3, 'dps': 'high', 'movement': 'Sprint'},
+    'boss:pinstress': {'name': 'Pinstress', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint"},
     'boss:plasmified-zango': {'name': 'Plasmified Zango', 'needle': 3, 'dps': 'mid', 'movement': ''},
-    'boss:shrine-guardian-seth': {'name': 'Shrine Guardian Seth', 'needle': 4, 'dps': 'high', 'movement': ''},
-    'boss:skarrsinger-karmelita': {'name': 'Skarrsinger Karmelita', 'needle': 4, 'dps': 'high', 'movement': ''},
-    'boss:tormented-trobbio': {'name': 'Tormented Trobbio', 'needle': 3, 'dps': 'high', 'movement': ''},
-    'boss:watcher-at-the-edge': {'name': 'Watcher at the Edge', 'needle': 4, 'dps': 'high', 'movement': ''},
+    'boss:shrine-guardian-seth': {'name': 'Shrine Guardian Seth', 'needle': 4, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:skarrsinger-karmelita': {'name': 'Skarrsinger Karmelita', 'needle': 4, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint"},
+    'boss:tormented-trobbio': {'name': 'Tormented Trobbio', 'needle': 3, 'dps': 'high', 'movement': 'Sprint'},
+    'boss:watcher-at-the-edge': {'name': 'Watcher at the Edge', 'needle': 3, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Sprint"},
     'gauntlet:chapel-of-the-wanderer': {'name': 'Chapel of the Wanderer', 'needle': 0, 'dps': None, 'movement': ''},
     'gauntlet:deep-docks-center': {'name': 'Deep Docks Center', 'needle': 0, 'dps': None, 'movement': ''},
     'gauntlet:deep-docks-entrance': {'name': 'Deep Docks Entrance', 'needle': 0, 'dps': None, 'movement': ''},
@@ -160,25 +160,41 @@ def build_requirements(req, item_count, crests, tier_reduction=0):
     result['Very High DPS Skills'] = tuple(
         req('Volt Skill: ' + skill, crest=False) for skill in SKILLS_BY_TIER['high']
     )
+    for index, tier in enumerate(TIERS):
+        result['Volt ' + tier.title() + ' DPS Skills'] = tuple(
+            req('Volt Skill: ' + skill, crest=False)
+            for level in TIERS[index:] for skill in SKILLS_BY_TIER[level]
+        )
+    result['Combat Sprint'] = (req(crest=False, any_of=('Swift Step', 'Progressive Swift Step')),)
     movement_items = {'Dash': 'Ancestral Art: Swift Step', 'Faydown': 'Ability: Faydown Cloak',
-                      "Drifter's": "Ability: Drifter's Cloak", 'Clawline': 'Ancestral Art: Clawline'}
+                      "Drifter's": "Ability: Drifter's Cloak", 'Clawline': 'Ancestral Art: Clawline',
+                      'Sprint': 'Combat Sprint', 'Cling Grip': 'Ancestral Art: Cling Grip'}
     for key, profile in profiles().items():
         name = requirement_name(key)
         needle = max(0, profile['needle'] - tier_reduction)
         damage = [req(crest=False, item_counts=(item_count(needle, 'Progressive Needle Upgrade'),)
                       if needle else ())]
         if profile['dps']:
-            for reduction, group in ((1, 'Mid DPS Skills/Tools'), (2, 'High DPS Skills/Tools'),
-                                     (3, 'Very High DPS Skills')):
-                if reduction > needle:
-                    continue
-                if tier_reduction:
-                    group = {'Mid DPS Skills/Tools': 'Low DPS Skills/Tools',
-                             'High DPS Skills/Tools': 'Mid DPS Skills/Tools',
-                             'Very High DPS Skills': 'High DPS Skills'}[group]
-                damage.append(req(group, crest=False, item_counts=(
-                    (item_count(needle - reduction, 'Progressive Needle Upgrade'),)
-                    if needle > reduction else ())))
+            def add_damage(reduction, tier, kind, boosted=False):
+                if reduction > profile['needle']:
+                    return
+                level = TIERS[max(0, TIERS.index(tier) - tier_reduction)]
+                group = ('Volt ' + level.title() + ' DPS Skills' if boosted and kind == 'skills'
+                         else requirement_name('group:' + level + ':' + kind))
+                counts = []
+                if needle > reduction:
+                    counts.append(item_count(needle - reduction, 'Progressive Needle Upgrade'))
+                if boosted and kind == 'tools':
+                    counts.append(item_count(max(0, 3 - tier_reduction), 'Progressive Crafting Kit'))
+                damage.append(req(group, crest=False, item_counts=tuple(counts)))
+
+            add_damage(1, 'mid', 'either')
+            add_damage(2, 'mid', 'skills', boosted=True)
+            add_damage(2, 'mid', 'tools', boosted=True)
+            if profile['dps'] == 'high':
+                add_damage(2, 'high', 'either')
+                add_damage(3, 'high', 'skills', boosted=True)
+                add_damage(3, 'high', 'tools', boosted=True)
         result[name + ' Damage'] = tuple(damage)
         groups = [part.strip().strip('()').strip() for part in profile['movement'].split(' AND ') if part]
         alternatives = [()]

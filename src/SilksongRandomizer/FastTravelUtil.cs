@@ -419,6 +419,15 @@ namespace SilksongRandomizer
             return false;
         }
 
+        internal static IEnumerable<string> GetTrackerHubKeys()
+        {
+            PlayerData playerData = PlayerData.instance;
+            if (playerData == null || TryResolveStoryDestination(out _)) yield break;
+            foreach (string key in GetAvailableMainHubKeys(playerData))
+                if (key == BoneBottomHubKey || key == BellhartHubKey || key == SongclaveHubKey)
+                    yield return key;
+        }
+
         private static List<string> GetAvailableMainHubKeys(
             PlayerData playerData
         )

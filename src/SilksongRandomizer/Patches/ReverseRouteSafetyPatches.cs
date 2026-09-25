@@ -15,6 +15,8 @@ namespace SilksongRandomizer.Patches
         private const string ArboriumScene = "Arborium_11";
         private const string ArboriumWallPath = "Breakable Wall (1)";
         private const string ArboriumWallFsm = "breakable_wall_v2";
+        private const string WormwaysScene = "Crawl_09";
+        private const string WormwaysWallPath = "Breakable Wall (1)";
         private const string PeakScene = "Peak_04d";
         private const string PeakWallPath = "junk_pile_break_peak";
         private const string PeakWholePart = "junk_wall_break_pile";
@@ -24,26 +26,6 @@ namespace SilksongRandomizer.Patches
         private const string PeakRemasker = "Remasker New Sharp Ultra";
         private const string ShellwoodScene = "Shellwood_13";
         private const string ShellwoodWallPath = "Bell Wall Tall";
-        private const string ShellwoodWallFsm = "Control";
-        private const string ShellwoodWallPlayerData =
-            "shellwood13_BellWall";
-        private const string ShellwoodTerrainCollider =
-            "Terrain Collider";
-        private const string ShellwoodRemasker = "Remasker New";
-        private const string ShellwoodPlayerDataVariable = "PD Bool";
-        private const string ShellwoodFullyBreakVariable = "Fully Break";
-        private const string ShellwoodDamageableRangeVariable =
-            "Damageable Range";
-        private const string ShellwoodTerrainColliderVariable =
-            "Terrain Collider";
-        private const string ShellwoodRangeCheckState = "Range Check 2";
-        private const string ShellwoodHeavyBreakState = "Heavy Break";
-        private const string ShellwoodHitState = "Hit";
-        private const string ShellwoodStrikeEffectState = "Strike Effect";
-        private const string ShellwoodBreakPauseState = "Break Pause";
-        private const string ShellwoodBrokenState = "Broken";
-        private const string ShellwoodFullyBrokenState = "Fully Broken";
-        private const string ShellwoodBreakEvent = "BREAK";
         private const string WallInitState = "Init";
         private const string WallIdleState = "Idle";
         private const string WallBreakState = "Break";
@@ -94,22 +76,171 @@ namespace SilksongRandomizer.Patches
             return IsRoomBoundScene(hero, AqueductScene);
         }
 
+        private static bool IsFarFieldsArrival(HeroController hero)
+        {
+            return IsRoomBoundScene(hero, "Bone_East_11") &&
+                (hero.GetEntryGateName() == "left1" || hero.GetEntryGateName() == "right1");
+        }
+
+        private static bool IsSethArrival(HeroController hero)
+        {
+            return IsRoomBoundScene(hero, "Shellwood_22") &&
+                (hero.GetEntryGateName() == "door1" || hero.GetEntryGateName() == "right1");
+        }
+
+        private static IEnumerator RevealGatedEntry(bool farFields)
+        {
+            string scene = farFields ? "Bone_East_11" : "Shellwood_22";
+            string rootPath = farFields
+                ? "Bone East 11 Cross Over Group/Gate"
+                : "Boss Scene/Flower Gate/vine_wall";
+            string firstName = farFields ? "CameraLockArea (1)" : "CameraLockArea (4)";
+            string secondName = farFields ? "CameraLockArea (2)" : "CameraLockArea (5)";
+            for (int frame = 0; frame < WallSearchFrames; frame++)
+            {
+                HeroController hero = HeroController.SilentInstance;
+                if (!(farFields ? IsFarFieldsArrival(hero) : IsSethArrival(hero))) yield break;
+                CameraLockArea[] locks = Resources.FindObjectsOfTypeAll<CameraLockArea>()
+                    .Where(area => area != null && area.gameObject.scene.name == scene &&
+                        (Utils.GetHierarchyPath(area.transform) == rootPath + "/" + firstName ||
+                         Utils.GetHierarchyPath(area.transform) == rootPath + "/" + secondName)).ToArray();
+                if (locks.Length != 2)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                if (farFields)
+                {
+                    Remasker[] masks = Resources.FindObjectsOfTypeAll<Remasker>()
+                        .Where(mask => mask != null && mask.gameObject.scene.name == scene &&
+                            Utils.GetHierarchyPath(mask.transform) == rootPath + "/centre_mask/Remasker New Sharp").ToArray();
+                    if (masks.Length != 1)
+                    {
+                        yield return null;
+                        continue;
+                    }
+                    masks[0].enabled = false;
+                    masks[0].AlphaSelf = 1f;
+                }
+
+                foreach (CameraLockArea area in locks) area.gameObject.SetActive(false);
+                yield break;
+            }
+            RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve " + scene + " entry camera locks.");
+        }
+
+        private static bool IsWormwaysArrival(HeroController hero)
+        {
+            return IsRoomBoundScene(hero, WormwaysScene) &&
+                   hero.GetEntryGateName() == "left1";
+        }
+
+        private static IEnumerator RevealSideEntry(string scene, string gate)
+        {
+            yield return null;
+            for (int frame = 0; frame < WallSearchFrames; frame++)
+            {
+                HeroController hero = HeroController.SilentInstance;
+                if (!IsRoomBoundScene(hero, scene) || hero.GetEntryGateName() != gate)
+                    yield break;
+                if (!TryResolveEntryVisuals(scene, out GameObject[] covers, out GameObject[] locks))
+                {
+                    yield return null;
+                    continue;
+                }
+                foreach (GameObject cover in covers) cover.SetActive(false);
+                foreach (GameObject cameraLock in locks) cameraLock.SetActive(false);
+                yield return null;
+                if (!IsRoomBoundScene(hero, scene) || hero.GetEntryGateName() != gate)
+                    yield break;
+                foreach (GameObject cover in covers)
+                    if (cover != null) cover.SetActive(false);
+                foreach (GameObject cameraLock in locks)
+                    if (cameraLock != null) cameraLock.SetActive(false);
+                RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Disabled " + covers.Length +
+                    " wall cover groups and " + locks.Length + " camera lock groups in " + scene + " " + gate + ".");
+                yield break;
+            }
+            RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve entry covers and camera locks in " +
+                scene + " " + gate + ".");
+        }
+
+        private static bool TryResolveEntryVisuals(string scene, out GameObject[] covers,
+            out GameObject[] locks)
+        {
+            covers = null;
+            locks = null;
+            Transform[] objects = Resources.FindObjectsOfTypeAll<Transform>()
+                .Where(candidate => candidate != null && candidate.gameObject.scene.name == scene).ToArray();
+            GameObject Find(string path)
+            {
+                Transform[] matches = objects.Where(
+                    candidate => Utils.GetHierarchyPath(candidate) == path).Take(2).ToArray();
+                return matches.Length == 1 ? matches[0].gameObject : null;
+            }
+            if (scene == WormwaysScene)
+            {
+                GameObject[] walls = { Find("Breakable Wall"), Find(WormwaysWallPath) };
+                if (walls.Any(wall => wall == null)) return false;
+                PlayMakerFSM[] fsms = walls.Select(wall => wall.GetComponents<PlayMakerFSM>()
+                    .FirstOrDefault(fsm => fsm.FsmName == ArboriumWallFsm)).ToArray();
+                covers = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallMasksVariable)?.Value).ToArray();
+                locks = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallCameraLocksVariable)?.Value).ToArray();
+            }
+            else if (scene == ShellwoodScene)
+            {
+                covers = new[] {
+                    "Bell Wall Tall/Terrain Collider/Remasker New",
+                    "Bell Wall Tall (1)/Terrain Collider/Remasker New",
+                    "Bell Wall Tall (1)/Terrain Collider/Remasker New (1)",
+                    "Bell Wall Tall (2)/Terrain Collider/Remasker New",
+                    "Bell Wall Tall (2)/Terrain Collider/Remasker New (1)"
+                }.Select(Find).ToArray();
+                locks = new[] {
+                    "Bell Wall Tall (1)/Terrain Collider/CameraLockArea (10)",
+                    "Bell Wall Tall (2)/Terrain Collider/CameraLockArea (10)",
+                    "Bell Wall Tall (2)/Terrain Collider/CameraLockArea (8)"
+                }.Select(Find).ToArray();
+            }
+            else if (scene == "Shellwood_25")
+            {
+                covers = new[] {
+                    "Shellwood Twig Wall (3)/Mask",
+                    "Shellwood Twig Wall (2)/Mask",
+                    "Shellwood Twig Wall (1)/Mask"
+                }.Select(Find).ToArray();
+                locks = new[] {
+                    "Shellwood Twig Wall (2)/Terrain/CameraLockArea (13)",
+                    "Shellwood Twig Wall (1)/Terrain/CameraLockArea (13)",
+                    "Shellwood Twig Wall (1)/Terrain/CameraLockArea (14)"
+                }.Select(Find).ToArray();
+            }
+            else return false;
+            return covers.All(cover => IsEntryVisual(cover, scene) &&
+                       cover.GetComponentsInChildren<SpriteRenderer>(true).Length > 0) &&
+                   locks.All(cameraLock => IsEntryVisual(cameraLock, scene) &&
+                       cameraLock.GetComponentsInChildren<CameraLockArea>(true).Length > 0);
+        }
+
+        private static bool IsEntryVisual(GameObject visual, string scene)
+        {
+            return visual != null && visual.scene.name == scene &&
+                visual.GetComponentsInChildren<Collider2D>(true).All(collider => collider.isTrigger) &&
+                visual.GetComponentsInChildren<PlayMakerFSM>(true).Length == 0 &&
+                visual.GetComponentsInChildren<Breakable>(true).Length == 0;
+        }
+
         private static bool IsPeakArrival(HeroController hero)
         {
-            return IsRoomBoundScene(hero, PeakScene);
+            return IsRoomBoundScene(hero, PeakScene) &&
+                   hero.GetEntryGateName() == "left1";
         }
 
         private static bool IsShellwoodArrival(HeroController hero)
         {
-            return IsRoomBoundScene(hero, ShellwoodScene);
-        }
-
-        private static bool IsPeakRoomBound()
-        {
-            return IsRoomBoundScene(
-                HeroController.SilentInstance,
-                PeakScene
-            );
+            return IsRoomBoundScene(hero, ShellwoodScene) &&
+                   hero.GetEntryGateName() == "right1";
         }
 
         private static bool IsAqueductRoomBound()
@@ -117,14 +248,6 @@ namespace SilksongRandomizer.Patches
             return IsRoomBoundScene(
                 HeroController.SilentInstance,
                 AqueductScene
-            );
-        }
-
-        private static bool IsShellwoodRoomBound()
-        {
-            return IsRoomBoundScene(
-                HeroController.SilentInstance,
-                ShellwoodScene
             );
         }
 
@@ -373,165 +496,6 @@ namespace SilksongRandomizer.Patches
             );
         }
 
-        private static bool TryFindShellwoodWall(out PlayMakerFSM wall)
-        {
-            wall = null;
-            int matches = 0;
-            foreach (PlayMakerFSM candidate in
-                     Resources.FindObjectsOfTypeAll<PlayMakerFSM>())
-            {
-                if (!IsExactShellwoodWall(candidate))
-                {
-                    continue;
-                }
-
-                wall = candidate;
-                matches++;
-            }
-
-            return matches == 1;
-        }
-
-        private static bool IsExactShellwoodWall(PlayMakerFSM wall)
-        {
-            if (wall == null || wall.gameObject == null ||
-                !string.Equals(
-                    wall.gameObject.scene.name,
-                    ShellwoodScene,
-                    StringComparison.Ordinal
-                ) ||
-                !string.Equals(
-                    Utils.GetHierarchyPath(wall.transform),
-                    ShellwoodWallPath,
-                    StringComparison.Ordinal
-                ) ||
-                !string.Equals(
-                    wall.FsmName,
-                    ShellwoodWallFsm,
-                    StringComparison.Ordinal
-                ) ||
-                Vector2.Distance(
-                    wall.transform.position,
-                    new Vector2(139.059998f, 34.84f)
-                ) > 0.01f ||
-                wall.gameObject.GetComponents<PlayMakerFSM>().Length != 1 ||
-                wall.transform.childCount != 5)
-            {
-                return false;
-            }
-
-            Component wallCollider = GetSingleComponentNamed(
-                wall.gameObject,
-                "UnityEngine.PolygonCollider2D"
-            );
-            Component wallRenderer = GetSingleComponentNamed(
-                wall.gameObject,
-                "UnityEngine.MeshRenderer"
-            );
-            return TryReadPolygonColliderShape(
-                       wallCollider,
-                       out bool wallIsTrigger,
-                       out int wallPathCount,
-                       out int wallPointCount
-                   ) &&
-                   wallIsTrigger && wallPathCount == 1 &&
-                   wallPointCount == 8 && wallRenderer != null &&
-                   HasNativeShellwoodWallFsmShape(wall);
-        }
-
-        private static bool HasNativeShellwoodWallFsmShape(
-            PlayMakerFSM wall
-        )
-        {
-            FsmString playerData = wall.FsmVariables
-                ?.FindFsmString(ShellwoodPlayerDataVariable);
-            FsmBool fullyBreak = wall.FsmVariables
-                ?.FindFsmBool(ShellwoodFullyBreakVariable);
-            FsmGameObject damageableRange = wall.FsmVariables
-                ?.FindFsmGameObject(ShellwoodDamageableRangeVariable);
-            FsmGameObject terrainCollider = wall.FsmVariables
-                ?.FindFsmGameObject(ShellwoodTerrainColliderVariable);
-            FsmState init = wall.Fsm?.GetState(WallInitState);
-            FsmState idle = wall.Fsm?.GetState(WallIdleState);
-            FsmState rangeCheck = wall.Fsm?.GetState(
-                ShellwoodRangeCheckState
-            );
-            FsmState heavyBreak = wall.Fsm?.GetState(
-                ShellwoodHeavyBreakState
-            );
-            FsmState hit = wall.Fsm?.GetState(ShellwoodHitState);
-            FsmState strikeEffect = wall.Fsm?.GetState(
-                ShellwoodStrikeEffectState
-            );
-            FsmState breakPause = wall.Fsm?.GetState(
-                ShellwoodBreakPauseState
-            );
-            FsmState breakState = wall.Fsm?.GetState(WallBreakState);
-            FsmState broken = wall.Fsm?.GetState(ShellwoodBrokenState);
-            FsmState fullyBroken = wall.Fsm?.GetState(
-                ShellwoodFullyBrokenState
-            );
-
-            return playerData != null &&
-                   string.Equals(
-                       playerData.Value,
-                       ShellwoodWallPlayerData,
-                       StringComparison.Ordinal
-                   ) &&
-                   fullyBreak != null && fullyBreak.Value &&
-                   damageableRange != null && terrainCollider != null &&
-                   init?.Actions?.Length == 17 &&
-                   idle?.Actions?.Length == 1 &&
-                   HasSingleTransition(
-                       idle,
-                       ShellwoodBreakEvent,
-                       ShellwoodRangeCheckState
-                   ) &&
-                   rangeCheck?.Actions?.Length == 2 &&
-                   HasSingleTransition(
-                       rangeCheck,
-                       "FINISHED",
-                       ShellwoodHeavyBreakState
-                   ) &&
-                   heavyBreak?.Actions?.Length == 1 &&
-                   HasSingleTransition(
-                       heavyBreak,
-                       "FINISHED",
-                       ShellwoodHitState
-                   ) &&
-                   hit?.Actions?.Length == 9 &&
-                   HasSingleTransition(
-                       hit,
-                       "FINISHED",
-                       ShellwoodStrikeEffectState
-                   ) &&
-                   strikeEffect?.Actions?.Length == 4 &&
-                   HasSingleTransition(
-                       strikeEffect,
-                       ShellwoodBreakEvent,
-                       ShellwoodBreakPauseState
-                   ) &&
-                   breakPause?.Actions?.Length == 4 &&
-                   HasSingleTransition(
-                       breakPause,
-                       "FINISHED",
-                       WallBreakState
-                   ) &&
-                   breakState?.Actions?.Length == 12 &&
-                   HasSingleTransition(
-                       breakState,
-                       "FINISHED",
-                       ShellwoodBrokenState
-                   ) &&
-                   broken?.Actions?.Length == 12 &&
-                   HasSingleTransition(
-                       broken,
-                       ShellwoodBreakEvent,
-                       ShellwoodFullyBrokenState
-                   ) &&
-                   fullyBroken?.Actions?.Length == 1;
-        }
-
         private static bool HasSingleTransition(
             FsmState state,
             string eventName,
@@ -550,266 +514,6 @@ namespace SilksongRandomizer.Patches
                            targetState,
                            StringComparison.Ordinal
                        )) == 1;
-        }
-
-        private static IEnumerator OpenShellwoodWall()
-        {
-            bool foundIdentity = false;
-            bool validRuntimeObjects = false;
-            string lastState = string.Empty;
-
-            for (int frame = 0; frame < WallSearchFrames; frame++)
-            {
-                if (!IsShellwoodRoomBound())
-                {
-                    yield break;
-                }
-
-                if (!TryFindShellwoodWall(out PlayMakerFSM wall))
-                {
-                    yield return null;
-                    continue;
-                }
-
-                foundIdentity = true;
-                if (!TryResolveShellwoodWallObjects(
-                        wall,
-                        out Component wallCollider,
-                        out Component wallRenderer,
-                        out GameObject terrainCollider,
-                        out GameObject remasker
-                    ))
-                {
-                    yield return null;
-                    continue;
-                }
-
-                validRuntimeObjects = true;
-                if (HasNativeShellwoodWallOpened(
-                        wall,
-                        wallCollider,
-                        wallRenderer,
-                        terrainCollider,
-                        remasker
-                    ))
-                {
-                    yield break;
-                }
-
-                lastState = wall.ActiveStateName ?? string.Empty;
-                if (string.Equals(
-                        lastState,
-                        WallIdleState,
-                        StringComparison.Ordinal
-                    ))
-                {
-                    wall.SendEvent(ShellwoodBreakEvent);
-                    yield return VerifyNativeShellwoodWallRelease(
-                        wall,
-                        wallCollider,
-                        wallRenderer,
-                        terrainCollider,
-                        remasker
-                    );
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            RandomizerPlugin.Log?.LogWarning(
-                "[RANDOMIZER] Could not open Shellwood_13 right1: " +
-                (foundIdentity
-                    ? validRuntimeObjects
-                        ? "wall FSM never reached Idle (last state '" +
-                          lastState + "')."
-                        : "the native wall objects did not initialize."
-                    : "the matching native wall was not found.")
-            );
-        }
-
-        private static bool TryResolveShellwoodWallObjects(
-            PlayMakerFSM wall,
-            out Component wallCollider,
-            out Component wallRenderer,
-            out GameObject terrainCollider,
-            out GameObject remasker
-        )
-        {
-            wallCollider = wall == null
-                ? null
-                : GetSingleComponentNamed(
-                    wall.gameObject,
-                    "UnityEngine.PolygonCollider2D"
-                );
-            wallRenderer = wall == null
-                ? null
-                : GetSingleComponentNamed(
-                    wall.gameObject,
-                    "UnityEngine.MeshRenderer"
-                );
-            terrainCollider = null;
-            remasker = null;
-            if (wall == null || wallCollider == null ||
-                wallRenderer == null ||
-                !TryGetSingleDirectChild(
-                    wall.transform,
-                    ShellwoodTerrainCollider,
-                    out Transform terrainTransform
-                ) ||
-                terrainTransform.childCount != 4 ||
-                Vector2.Distance(
-                    terrainTransform.localPosition,
-                    Vector2.zero
-                ) > 0.001f)
-            {
-                return false;
-            }
-
-            Component terrainBox = GetSingleComponentNamed(
-                terrainTransform.gameObject,
-                "UnityEngine.BoxCollider2D"
-            );
-            if (!TryReadBoxColliderShape(
-                    terrainBox,
-                    out bool terrainIsTrigger,
-                    out Vector2 terrainOffset,
-                    out Vector2 terrainSize
-                ) ||
-                terrainIsTrigger ||
-                Vector2.Distance(
-                    terrainOffset,
-                    new Vector2(0.14f, -0.4372468f)
-                ) > 0.001f ||
-                Vector2.Distance(
-                    terrainSize,
-                    new Vector2(2.35f, 8.021665f)
-                ) > 0.001f ||
-                !TryGetSingleDirectChild(
-                    terrainTransform,
-                    ShellwoodRemasker,
-                    out Transform remaskerTransform
-                ) ||
-                remaskerTransform.childCount != 2 ||
-                Vector2.Distance(
-                    remaskerTransform.localPosition,
-                    new Vector2(6.9f, -0.57f)
-                ) > 0.001f)
-            {
-                return false;
-            }
-
-            Component remaskerBox = GetSingleComponentNamed(
-                remaskerTransform.gameObject,
-                "UnityEngine.BoxCollider2D"
-            );
-            FsmGameObject damageableRange = wall.FsmVariables
-                ?.FindFsmGameObject(ShellwoodDamageableRangeVariable);
-            FsmGameObject terrainVariable = wall.FsmVariables
-                ?.FindFsmGameObject(ShellwoodTerrainColliderVariable);
-            if (!TryReadBoxColliderShape(
-                    remaskerBox,
-                    out bool remaskerIsTrigger,
-                    out Vector2 remaskerOffset,
-                    out Vector2 remaskerSize
-                ) ||
-                !remaskerIsTrigger ||
-                Vector2.Distance(
-                    remaskerOffset,
-                    new Vector2(1.107916f, 0f)
-                ) > 0.001f ||
-                Vector2.Distance(
-                    remaskerSize,
-                    new Vector2(2.894306f, 0.828125f)
-                ) > 0.001f ||
-                !HasSingleComponentNamed(
-                    remaskerTransform.gameObject,
-                    "Remasker"
-                ) ||
-                !HasSingleComponentNamed(
-                    remaskerTransform.gameObject,
-                    "PersistentBoolItem"
-                ) ||
-                damageableRange == null ||
-                damageableRange.Value != null ||
-                terrainVariable == null ||
-                terrainVariable.Value != terrainTransform.gameObject)
-            {
-                return false;
-            }
-
-            terrainCollider = terrainTransform.gameObject;
-            remasker = remaskerTransform.gameObject;
-            return true;
-        }
-
-        private static bool HasNativeShellwoodWallOpened(
-            PlayMakerFSM wall,
-            Component wallCollider,
-            Component wallRenderer,
-            GameObject terrainCollider,
-            GameObject remasker
-        )
-        {
-            return wall != null &&
-                   string.Equals(
-                       wall.ActiveStateName,
-                       ShellwoodFullyBrokenState,
-                       StringComparison.Ordinal
-                   ) &&
-                   wallCollider is Behaviour wallColliderBehaviour &&
-                   !wallColliderBehaviour.enabled &&
-                   wallRenderer is Renderer wallRendererComponent &&
-                   !wallRendererComponent.enabled &&
-                   terrainCollider != null &&
-                   !terrainCollider.activeInHierarchy &&
-                   remasker != null && !remasker.activeInHierarchy;
-        }
-
-        private static IEnumerator VerifyNativeShellwoodWallRelease(
-            PlayMakerFSM wall,
-            Component wallCollider,
-            Component wallRenderer,
-            GameObject terrainCollider,
-            GameObject remasker
-        )
-        {
-            for (int frame = 0; frame < WallReleaseFrames; frame++)
-            {
-                if (HasNativeShellwoodWallOpened(
-                        wall,
-                        wallCollider,
-                        wallRenderer,
-                        terrainCollider,
-                        remasker
-                    ))
-                {
-                    RandomizerPlugin.Log?.LogInfo(
-                        "[RANDOMIZER] Opened Shellwood_13 right1 with " +
-                        "its native wall FSM."
-                    );
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            RandomizerPlugin.Log?.LogWarning(
-                "[RANDOMIZER] Shellwood_13 right1 native wall did not " +
-                "settle (state='" +
-                (wall?.ActiveStateName ?? string.Empty) +
-                "', wall collider enabled=" +
-                (wallCollider is Behaviour wallColliderBehaviour &&
-                 wallColliderBehaviour.enabled) +
-                ", wall renderer enabled=" +
-                (wallRenderer is Renderer wallRendererComponent &&
-                 wallRendererComponent.enabled) +
-                ", terrain active=" +
-                (terrainCollider != null &&
-                 terrainCollider.activeInHierarchy) +
-                ", remasker active=" +
-                (remasker != null && remasker.activeInHierarchy) + ")."
-            );
         }
 
         private static bool TryFindPeakWall(out Breakable wall)
@@ -868,59 +572,27 @@ namespace SilksongRandomizer.Patches
             );
         }
 
-        private static IEnumerator OpenPeakWall()
+        private static IEnumerator RevealPeakEntry()
         {
             for (int frame = 0; frame < WallSearchFrames; frame++)
             {
-                if (!IsPeakRoomBound())
+                if (!IsPeakArrival(HeroController.SilentInstance))
+                    yield break;
+
+                if (TryFindPeakWall(out Breakable wall) &&
+                    TryResolvePeakWallObjects(wall, out _, out _, out _,
+                        out _, out GameObject cameraLock, out GameObject remasker))
                 {
+                    remasker.SetActive(false);
+                    cameraLock.SetActive(false);
                     yield break;
                 }
 
-                if (!TryFindPeakWall(out Breakable wall) ||
-                    !TryResolvePeakWallObjects(
-                        wall,
-                        out Component wallCollider,
-                        out PersistentBoolItem persistent,
-                        out GameObject wholePart,
-                        out GameObject terrainCollider,
-                        out GameObject cameraLock,
-                        out GameObject remasker
-                    ))
-                {
-                    yield return null;
-                    continue;
-                }
-
-                if (HasNativePeakWallOpened(
-                        wall,
-                        wallCollider,
-                        wholePart,
-                        terrainCollider,
-                        cameraLock,
-                        remasker
-                    ))
-                {
-                    yield break;
-                }
-
-                wall.BreakSelf();
-                yield return VerifyNativePeakWallRelease(
-                    wall,
-                    wallCollider,
-                    persistent,
-                    wholePart,
-                    terrainCollider,
-                    cameraLock,
-                    remasker
-                );
-                yield break;
+                yield return null;
             }
 
             RandomizerPlugin.Log?.LogWarning(
-                "[RANDOMIZER] Could not open Peak_04d left1: " +
-                "the matching native Breakable was not found."
-            );
+                "[RANDOMIZER] Could not resolve Peak_04d left1 wall visuals.");
         }
 
         private static bool TryResolvePeakWallObjects(
@@ -1232,76 +904,6 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        private static bool HasNativePeakWallOpened(
-            Breakable wall,
-            Component wallCollider,
-            GameObject wholePart,
-            GameObject terrainCollider,
-            GameObject cameraLock,
-            GameObject remasker
-        )
-        {
-            return wall != null && wall.IsBroken &&
-                   wallCollider is Behaviour wallBehaviour &&
-                   !wallBehaviour.enabled &&
-                   wholePart != null && !wholePart.activeSelf &&
-                   terrainCollider != null &&
-                   !terrainCollider.activeInHierarchy &&
-                   cameraLock != null && !cameraLock.activeInHierarchy &&
-                   remasker != null && !remasker.activeInHierarchy;
-        }
-
-        private static IEnumerator VerifyNativePeakWallRelease(
-            Breakable wall,
-            Component wallCollider,
-            PersistentBoolItem persistent,
-            GameObject wholePart,
-            GameObject terrainCollider,
-            GameObject cameraLock,
-            GameObject remasker
-        )
-        {
-            for (int frame = 0; frame < WallReleaseFrames; frame++)
-            {
-                if (HasNativePeakWallOpened(
-                        wall,
-                        wallCollider,
-                        wholePart,
-                        terrainCollider,
-                        cameraLock,
-                        remasker
-                    ))
-                {
-                    RandomizerPlugin.Log?.LogInfo(
-                        "[RANDOMIZER] Opened Peak_04d left1 with its " +
-                        "native Breakable."
-                    );
-                    yield break;
-                }
-
-                yield return null;
-            }
-
-            RandomizerPlugin.Log?.LogWarning(
-                "[RANDOMIZER] Peak_04d left1 native Breakable did not " +
-                "settle (broken=" + (wall != null && wall.IsBroken) +
-                ", persistence=" +
-                (persistent != null && persistent.GetCurrentValue()) +
-                ", wall collider enabled=" +
-                (wallCollider is Behaviour wallBehaviour &&
-                 wallBehaviour.enabled) +
-                ", whole part active=" +
-                (wholePart != null && wholePart.activeSelf) +
-                ", terrain active=" +
-                (terrainCollider != null &&
-                 terrainCollider.activeInHierarchy) +
-                ", camera lock active=" +
-                (cameraLock != null && cameraLock.activeInHierarchy) +
-                ", remasker active=" +
-                (remasker != null && remasker.activeInHierarchy) + ")."
-            );
-        }
-
         private static bool HasNativeWallFsmShape(PlayMakerFSM wall)
         {
             FsmState init = wall.Fsm?.GetState(WallInitState);
@@ -1603,6 +1205,11 @@ namespace SilksongRandomizer.Patches
             [HarmonyPostfix]
             private static void Postfix(HeroController __instance)
             {
+                if (IsFarFieldsArrival(__instance))
+                    __instance.StartCoroutine(RevealGatedEntry(true));
+                if (IsSethArrival(__instance))
+                    __instance.StartCoroutine(RevealGatedEntry(false));
+
                 if (IsArboriumArrival(__instance))
                 {
                     __instance.StartCoroutine(OpenArboriumWall());
@@ -1613,14 +1220,22 @@ namespace SilksongRandomizer.Patches
                     __instance.StartCoroutine(OpenAqueductWall());
                 }
 
+                if (IsWormwaysArrival(__instance))
+                {
+                    __instance.StartCoroutine(RevealSideEntry(WormwaysScene, "left1"));
+                }
+
+                if (IsRoomBoundScene(__instance, "Shellwood_25") && __instance.GetEntryGateName() == "left1")
+                    __instance.StartCoroutine(RevealSideEntry("Shellwood_25", "left1"));
+
                 if (IsPeakArrival(__instance))
                 {
-                    __instance.StartCoroutine(OpenPeakWall());
+                    __instance.StartCoroutine(RevealPeakEntry());
                 }
 
                 if (IsShellwoodArrival(__instance))
                 {
-                    __instance.StartCoroutine(OpenShellwoodWall());
+                    __instance.StartCoroutine(RevealSideEntry(ShellwoodScene, "right1"));
                 }
             }
         }

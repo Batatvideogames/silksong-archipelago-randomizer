@@ -267,6 +267,13 @@ def set_silksong_rules(world) -> None:
     skips_tier = world.get_skips_tier()
     proficient_combat = world.get_proficient_combat_mode()
     proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
+    flea_brew_stall_tier = int(world.options.flea_brew_stall_logic.value)
+    flintslate_stall_tier = int(world.options.flintslate_stall_logic.value)
+    plasmium_phial_stall_tier = int(world.options.plasmium_phial_stall_logic.value)
+    voltvessels_stall_tier = int(world.options.voltvessels_stall_logic.value)
+    heal_stall_tier = int(world.options.heal_stall_logic.value)
+    hazard_respawn_tier = int(world.options.hazard_respawn_logic.value)
+    scuttlebrace_tier = int(world.options.scuttlebrace_logic.value)
     bell_shrine_sanity = world.get_category_mode("BellShrine") != "vanilla"
     scuttlebrace_logic_enabled = (
         world.is_scuttlebrace_logic_enabled()
@@ -379,6 +386,13 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_stall_tier=flea_brew_stall_tier,
+                flintslate_stall_tier=flintslate_stall_tier,
+                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                voltvessels_stall_tier=voltvessels_stall_tier,
+                heal_stall_tier=heal_stall_tier,
+                hazard_respawn_tier=hazard_respawn_tier,
+                scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
@@ -409,6 +423,13 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_stall_tier=flea_brew_stall_tier,
+                flintslate_stall_tier=flintslate_stall_tier,
+                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                voltvessels_stall_tier=voltvessels_stall_tier,
+                heal_stall_tier=heal_stall_tier,
+                hazard_respawn_tier=hazard_respawn_tier,
+                scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
@@ -437,6 +458,13 @@ def set_silksong_rules(world) -> None:
                     native_abstract_regions=True,
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
+                    flea_brew_stall_tier=flea_brew_stall_tier,
+                    flintslate_stall_tier=flintslate_stall_tier,
+                    plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                    voltvessels_stall_tier=voltvessels_stall_tier,
+                    heal_stall_tier=heal_stall_tier,
+                    hazard_respawn_tier=hazard_respawn_tier,
+                    scuttlebrace_tier=scuttlebrace_tier,
                     bell_shrine_sanity=bell_shrine_sanity,
                     silk_and_soul_points=get_silk_and_soul_points(world.options),
                 )
@@ -462,6 +490,13 @@ def set_silksong_rules(world) -> None:
                 native_abstract_regions=True,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_stall_tier=flea_brew_stall_tier,
+                flintslate_stall_tier=flintslate_stall_tier,
+                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                voltvessels_stall_tier=voltvessels_stall_tier,
+                heal_stall_tier=heal_stall_tier,
+                hazard_respawn_tier=hazard_respawn_tier,
+                scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
             )
@@ -600,6 +635,13 @@ def set_silksong_rules(world) -> None:
                     ),
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
+                    flea_brew_stall_tier=flea_brew_stall_tier,
+                    flintslate_stall_tier=flintslate_stall_tier,
+                    plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+                    voltvessels_stall_tier=voltvessels_stall_tier,
+                    heal_stall_tier=heal_stall_tier,
+                    hazard_respawn_tier=hazard_respawn_tier,
+                    scuttlebrace_tier=scuttlebrace_tier,
                     bell_shrine_sanity=bell_shrine_sanity,
                     silk_and_soul_points=get_silk_and_soul_points(world.options),
                 )
@@ -664,6 +706,13 @@ def set_silksong_rules(world) -> None:
         native_abstract_regions=True,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_stall_tier=flea_brew_stall_tier,
+        flintslate_stall_tier=flintslate_stall_tier,
+        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
+        voltvessels_stall_tier=voltvessels_stall_tier,
+        heal_stall_tier=heal_stall_tier,
+        hazard_respawn_tier=hazard_respawn_tier,
+        scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
         silk_and_soul_points=get_silk_and_soul_points(world.options),
     )

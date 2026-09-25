@@ -259,13 +259,13 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Beast", skip_tier=1),
     ),
     "macro:blasted-easy-flea-brew-stall": (
-        _part("Usable Flea Brew", skip_tier=1),
+        _part("Usable Flea Brew", "Technique: Flea Brew Stall 1"),
     ),
     "macro:blasted-flea-brew-stall": (
-        _part("Usable Flea Brew", skip_tier=3),
+        _part("Usable Flea Brew", "Technique: Flea Brew Stall 3"),
     ),
-    "macro:blasted-easy-heal-stall": (_part(skip_tier=1),),
-    "macro:blasted-heal-stall": (_part(skip_tier=3),),
+    "macro:blasted-easy-heal-stall": (_part("Technique: Heal Stall 1"),),
+    "macro:blasted-heal-stall": (_part("Technique: Heal Stall 3"),),
     "macro:any-non-hunter-crest": (
         _part("Crest: Reaper", skip_tier=1),
         _part("Crest: Shaman", skip_tier=1),
@@ -289,7 +289,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     # merely owning/equipping the tool is insufficient. It also needs the full
     # Swift Step upgrade, never only the first progressive stage.
     "macro:usable-scuttlebrace": (
-        _part("Usable Scuttlebrace", "Swift Step"),
+        _part("Usable Scuttlebrace", "Swift Step", "Technique: Scuttlebrace 1"),
     ),
     "macro:usable-curveclaw": tuple(
         _part("Progressive Curveclaw", crest)
@@ -1442,6 +1442,8 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
             fragments = max(0, (casts * 4 - 9) * 2)
             return (_part("Usable Sharpdart", item_counts=((SPOOL_FRAGMENT_COUNT_ITEM, fragments),) if fragments else ()),)
         tier = {"none": 0, "easy": 1, "medium": 2, "hard": 3}[difficulty]
+        if kind == "trails-end-maps":
+            return (_part("Trail's End Maps"),)
         if kind == "bellway-network":
             return (_part("Path: Bellways"),)
         if kind == "marrow-bellway":
@@ -1451,15 +1453,21 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if kind == "elegy-of-the-deep":
             return (_part("Elegy of the Deep", "Ancestral Art: Needolin"),)
         if kind == "wind-skip":
-            return (_part("Ability: Drifter's Cloak", skip_tier=tier),)
+            return (_part("Option: Proficient Movement"),)
         if kind == "needle-strike-stall":
             return tuple(_part("Ability: Needle Strike", crest.all_of[0], skip_tier=tier) for crest in _ATOM_ALTERNATIVES["macro:any-crest"])
+        if kind in {"flintslate-stall", "plasmium-phial-stall", "voltvessels-stall"}:
+            tool = {"flintslate-stall": "Flintslate", "plasmium-phial-stall": "Plasmium Phial", "voltvessels-stall": "Voltvessels"}[kind]
+            return (_part("Usable " + tool, f"Technique: {tool} Stall {max(1, tier)}"),)
         if kind == "flea-brew-stall":
-            return (_part("Usable Flea Brew", skip_tier=tier),)
+            return (_part("Usable Flea Brew", f"Technique: Flea Brew Stall {max(1, tier)}"),)
         if kind == "proficient-movement":
             return (_part("Option: Proficient Movement"),)
+        if kind in {"heal-stall", "hazard-respawn"}:
+            name = {"heal-stall": "Heal Stall", "hazard-respawn": "Hazard Respawn"}[kind]
+            return (_part(f"Technique: {name} {max(1, tier)}"),)
         if kind == "scuttlebrace":
-            return (_part("Usable Scuttlebrace", "Swift Step", skip_tier=tier),)
+            return (_part("Usable Scuttlebrace", "Swift Step", f"Technique: Scuttlebrace {max(1, tier)}"),)
         if kind in {"enemy-pogo", "spike-pogo-skip"}:
             return tuple(_part("Crest: " + crest, skip_tier=tier) for crest in ("Hunter", "Wanderer", "Beast", "Reaper", "Witch", "Architect", "Shaman"))
         if kind.endswith("-crest-pogo"):
@@ -1483,6 +1491,12 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if minimum < 1:
             raise ValueError(f"invalid count: {atom}")
         return (_part(item_counts=(({"fleas":"$fleas", "pale-oil":"Pale Oil", "bellshrines-activated":"$bellshrines", "craftmetal":"Craftmetal"}[kind], minimum),)),)
+    if atom == "count:threefold-melody-parts:2":
+        return tuple(_part(*pair) for pair in (
+            ("Conductor's Melody", "Architect's Melody"),
+            ("Conductor's Melody", "Vaultkeeper's Melody"),
+            ("Architect's Melody", "Vaultkeeper's Melody"),
+        ))
     if atom.startswith("count:mossberry:"):
         try:
             minimum = int(atom.rsplit(":", 1)[1])
@@ -1545,6 +1559,8 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                 f"{atom!r}"
             )
         return (_part(item_counts=(("Progressive Needle Upgrade", minimum),)),)
+    if atom.startswith("node:"):
+        return (_part(room_node_name(atom.removeprefix("node:"))),)
     if atom.startswith("event:"):
         return (_part(_event_requirement_name(atom)),)
     raise ValueError(f"unsupported room-graph atom: {atom!r}")

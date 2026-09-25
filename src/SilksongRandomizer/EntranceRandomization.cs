@@ -192,6 +192,7 @@ namespace SilksongRandomizer
             if (Time.unscaledTime < nextSync) return;
             nextSync = Time.unscaledTime + 5f;
             Archipelago.Instance?.SynchronizeExploredEntrances();
+            Archipelago.Instance?.SynchronizeUnlockedWarps();
         }
 
         private static Exit ApplyExit(TransitionPoint point, bool starting)

@@ -29,6 +29,7 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
         "Cogwork Core - Pristine Core",
         "Curvesickle",
         "Wish: Fatal Resolve",
+        "Wish: Hero's Call",
         "Wish: Pain, Anguish and Misery",
         "Wish: Survivor's Camp Supplies",
         "Boss: Bell Eater",
@@ -192,7 +193,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     },
     "Quest": {
         "Rosaries (60)": 3,
-        "Shell Shards (80)": 2,
+        "Shell Shards (80)": 3,
     },
     "RelicTurnIn": {"Shell Shards (80)": 2},
     "LoreTablet": {

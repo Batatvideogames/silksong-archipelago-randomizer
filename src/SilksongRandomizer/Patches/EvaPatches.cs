@@ -3,6 +3,7 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
 using System.Collections;
+using System.Linq;
 
 namespace SilksongRandomizer.Patches
 {
@@ -58,15 +59,40 @@ namespace SilksongRandomizer.Patches
             PlayerData.instance.HasBoundCrestUpgrader = true;
         }
 
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class KeepShrineAvailable
+        {
+            [HarmonyPrefix]
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (SaveState.Instance == null || __instance.gameObject.scene.name != "Weave_10" ||
+                    __instance.gameObject.name != "Crest Upgrade Shrine" || __instance.FsmName != "Dialogue") return;
+                FsmState state = __instance.FsmStates.FirstOrDefault(s => s.Name == "Break");
+                if (state?.Actions.Length != 5 ||
+                    !(state.Actions[0] is ActivateGameObject) ||
+                    !(state.Actions[1] is ActivateGameObject) ||
+                    !(state.Actions[2] is ActivateGameObject) ||
+                    !(state.Actions[3] is SetAnimatorBool) ||
+                    !(state.Actions[4] is ActivateGameObject)) return;
+                state.Actions = new[] { state.Actions[4] };
+            }
+        }
+
         [HarmonyPatch(typeof(PlayerDataVariableTest), "OnEnter")]
         private static class ReadSylphsongSource
         {
             [HarmonyPrefix]
             private static bool Prefix(PlayerDataVariableTest __instance)
             {
-                if (!IsEva(__instance) || !IsRandomized(SylphsongSource) ||
+                if (!IsEva(__instance) || SaveState.Instance == null ||
                     __instance.VariableName?.Value != "HasBoundCrestUpgrader") return true;
-                bool collected = SaveState.Instance.IsLocationChecked(SylphsongSource);
+                bool collected;
+                if (__instance.State?.Name == "Init" || __instance.State?.Name == "End Dialogue")
+                    collected = false;
+                else if (IsRandomized(SylphsongSource))
+                    collected = SaveState.Instance.IsLocationChecked(SylphsongSource);
+                else
+                    return true;
                 __instance.Fsm.Event(collected.Equals(__instance.ExpectedValue.GetValue())
                     ? __instance.IsExpectedEvent : __instance.IsNotExpectedEvent);
                 __instance.Finish();

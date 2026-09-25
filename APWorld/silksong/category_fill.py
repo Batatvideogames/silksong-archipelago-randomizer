@@ -291,7 +291,7 @@ def _build_shuffle_reachability_context(multiworld):
     )
 
 
-def _repair_shuffle_bootstrap(
+def _repair_shuffle_swaps(
     multiworld, shuffled_locations, silksong_players,
     candidates, protected_locations, reachability_context,
 ) -> bool:
@@ -360,6 +360,61 @@ def _repair_shuffle_bootstrap(
                 return False
         accepted = not any(failures)
         return accepted
+    finally:
+        if not accepted:
+            _assign_items(candidates, baseline)
+
+
+def _repair_shuffle_bootstrap(
+    multiworld, shuffled_locations, silksong_players,
+    candidates, protected_locations, reachability_context,
+) -> bool:
+    from Fill import FillError, fill_restrictive, sweep_from_pool
+
+    if _repair_shuffle_swaps(
+        multiworld, shuffled_locations, silksong_players,
+        candidates, protected_locations, reachability_context,
+    ):
+        return True
+
+    skill_locations = [location for location in candidates
+                       if _placement_category(location) == "Skill"
+                       and location not in protected_locations]
+    if len(skill_locations) < 2:
+        return False
+
+    pool_state, filled_locations = reachability_context
+    assumed_state = pool_state.copy()
+    for location in candidates:
+        if location not in skill_locations:
+            assumed_state.collect(location.item, True)
+    skill_items = [location.item for location in skill_locations]
+    maximum_state = sweep_from_pool(assumed_state, skill_items, locations=filled_locations)
+    if any(_shuffle_reachability_failures(
+        multiworld, shuffled_locations, silksong_players,
+        maximum_state=maximum_state,
+    )):
+        return False
+
+    baseline = [location.item for location in candidates]
+    accepted = False
+    try:
+        for location in skill_locations:
+            location.item.location = None
+            location.item = None
+        fill_restrictive(
+            multiworld, assumed_state, skill_locations[:], skill_items,
+            lock=True, one_item_per_player=False, name="Skill shuffle",
+        )
+        if skill_items or any(location.item is None for location in skill_locations):
+            return False
+        accepted = _repair_shuffle_swaps(
+            multiworld, shuffled_locations, silksong_players,
+            candidates, protected_locations, reachability_context,
+        )
+        return accepted
+    except FillError:
+        return False
     finally:
         if not accepted:
             _assign_items(candidates, baseline)

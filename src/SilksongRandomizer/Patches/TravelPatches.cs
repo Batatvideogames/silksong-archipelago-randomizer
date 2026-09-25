@@ -18,6 +18,44 @@ namespace SilksongRandomizer.Patches
 {
     internal static class TravelPatches
     {
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.BoolTestMulti), "OnEnter")]
+        private static class RepairedDivingBellDialoguePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(HutongGames.PlayMaker.Actions.BoolTestMulti __instance)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRoomBound ||
+                    string.IsNullOrEmpty(state.entranceLayoutJson) || state.entranceLayoutJson == "{}" ||
+                    __instance.Owner == null ||
+                    __instance.Owner.scene.name != "Room_Diving_Bell_Abyss_Fixed" ||
+                    Utils.GetHierarchyPath(__instance.Owner.transform) != "Travel Sequence Control/Gramaphone Interact" ||
+                    __instance.Fsm.Name != "Dialogue" || __instance.State.Name != "First Post?" ||
+                    !IsDivingBellConversationGate(__instance))
+                    return true;
+
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        internal static bool IsDivingBellConversationGate(HutongGames.PlayMaker.Actions.BoolTestMulti action)
+        {
+            if (action?.trueEvent?.Name != "CANCEL" ||
+                !string.IsNullOrEmpty(action.falseEvent?.Name) || action.everyFrame ||
+                action.boolVariables?.Length != 3 || action.boolStates?.Length != 3)
+                return false;
+
+            string first = action.boolVariables[0]?.Name;
+            return (first == "Talked Repair NPC" || first == "Talked Post Repair NPC") &&
+                action.boolVariables[1]?.Name == "Has SuperJump" &&
+                action.boolVariables[2]?.Name == "Has White Flower" &&
+                action.boolStates[0] != null && !action.boolStates[0].Value &&
+                action.boolStates[1] != null && action.boolStates[1].Value &&
+                action.boolStates[2] != null &&
+                action.boolStates[2].Value == (first == "Talked Post Repair NPC");
+        }
+
         private const string BellBeastObjectName = "Bone Beast NPC";
         private const string BellBeastFsmName = "Interaction";
         private const string BellBeastArrivalEndState = "Travel Arrive End";
