@@ -175,7 +175,7 @@ namespace SilksongRandomizer
             // Traps
             { "Cursed Crest Trap", "cursed_death0004"},
             { "Naked Trap", "Hornet_Cloakless_Frost_Death0000" },
-            { "Rosary Spill Trap", "rosary_cache0030_bowl_cache"},
+            { "Rosary Spill Trap", "rosary_cache__0030_bowl_cache"},
             { "Darkness Trap", "Hornet_death_pieces_0000s_0000_death_spider_core"},
 
             // Quest Items
