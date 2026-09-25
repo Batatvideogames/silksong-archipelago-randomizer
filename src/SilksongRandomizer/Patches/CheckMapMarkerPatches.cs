@@ -1501,7 +1501,11 @@ namespace SilksongRandomizer.Patches
                 return;
             }
             lastTooltipHitTestFrame = Time.frameCount;
-            DrawMapCrosshair(pointer);
+            Vector2 drawPointer = new Vector2(
+                Screen.width * 0.5f,
+                Screen.height * 0.5f
+            );
+            DrawMapCrosshair(drawPointer);
             if (!TryArmTooltip(map))
             {
                 return;
@@ -1626,8 +1630,8 @@ namespace SilksongRandomizer.Patches
             float boxHeight = lineHeight * lines.Count + 10f;
             Vector2 size = new Vector2(boxWidth, boxHeight);
             Vector2 guiPointer = new Vector2(
-                pointer.x,
-                Screen.height - pointer.y
+                drawPointer.x,
+                Screen.height - drawPointer.y
             );
             Rect rect = new Rect(
                 Mathf.Clamp(
@@ -1732,43 +1736,7 @@ namespace SilksongRandomizer.Patches
         )
         {
             pointer = Vector2.zero;
-            if (Cursor.visible)
-            {
-                pointer = Input.mousePosition;
-                return true;
-            }
 
-            // Controller input pans GameMap itself. InventoryCursor remains
-            // attached to an inventory selectable and is not a map-space
-            // pointer. The center of Silksong's map view bounds acts as the
-            // controller focus so panning a marker under it reveals the name
-            // even when the map panel is not centered on the full camera.
-            InventoryMapManager mapManager =
-                MapManagerField?.GetValue(map) as InventoryMapManager;
-            if (
-                mapManager != null &&
-                MarkerScrollAreaField?.GetValue(mapManager) is
-                    Bounds mapViewBounds &&
-                mapViewBounds.size.x > 0f &&
-                mapViewBounds.size.y > 0f
-            )
-            {
-                Vector3 screenPoint = mapCamera.WorldToScreenPoint(
-                    mapViewBounds.center
-                );
-                if (screenPoint.z > 0f &&
-                    IsFinite(screenPoint.x) &&
-                    IsFinite(screenPoint.y))
-                {
-                    pointer = new Vector2(
-                        screenPoint.x,
-                        screenPoint.y
-                    );
-                    return true;
-                }
-            }
-
-            // Fail soft if the view bounds have not been created yet.
             Rect viewport = mapCamera.pixelRect;
             if (viewport.width <= 0f || viewport.height <= 0f)
             {
