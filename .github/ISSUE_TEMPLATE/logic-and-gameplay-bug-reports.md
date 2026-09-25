@@ -1,6 +1,6 @@
 ---
 name: Logic and Gameplay Bug Reports
-about: Any logic or gameplay bug reports.
+about: Any non out-of-logic or gameplay bug reports.
 title: "[Bug] - Gameplay/Logic - Title"
 labels: bug
 assignees: ''
