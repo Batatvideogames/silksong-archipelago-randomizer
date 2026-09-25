@@ -586,7 +586,7 @@ class TestAlphabetMode(unittest.TestCase):
             "tool_randomization": "vanilla",
             "silk_skill_randomization": "vanilla",
             "crest_randomization": "shuffle",
-            "flea_randomization": "shuffle",
+            "flea_randomization": "vanilla",
             "crest_slot_randomization": "vanilla",
             "mask_shard_randomization": "vanilla",
             "spool_fragment_randomization": "anywhere",
@@ -852,6 +852,9 @@ class TestAlphabetMode(unittest.TestCase):
             worlds={
                 1: SimpleNamespace(
                     game=SilksongWorld.game,
+                    player=1,
+                    options=SimpleNamespace(accessibility="full"),
+                    get_category_mode=lambda _category: "vanilla",
                     is_alphabet_mode_enabled=lambda: True,
                 )
             },
@@ -896,6 +899,9 @@ class TestAlphabetMode(unittest.TestCase):
             worlds={
                 1: SimpleNamespace(
                     game=SilksongWorld.game,
+                    player=1,
+                    options=SimpleNamespace(accessibility="full"),
+                    get_category_mode=lambda _category: "vanilla",
                     is_alphabet_mode_enabled=lambda: False,
                 )
             },

@@ -6,7 +6,9 @@ from Options import (
     Accessibility,
     Choice,
     FreeText,
+    OptionGroup,
     PerGameCommonOptions,
+    ProgressionBalancing,
     Range,
     Toggle,
     Visibility,
@@ -128,12 +130,11 @@ class TwistedBudRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
-class FleaRandomization(CategoryRandomization):
+class FleaRandomization(GlobalRandomization):
     """Randomizes the 30 Fleas in the game, including Kratt, Vog and the Huge Flea.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Flea Randomization"
@@ -680,7 +681,7 @@ class FleaHuntCount(Range):
 
 
 class StartingLocation(Choice):
-    """Use the vanilla opening or experimental Bone Bottom start with normal cloak.
+    """Use the vanilla opening or experimental Bone Bottom start.
 
     With Ledge Grab randomization, Vanilla uses Bone Bottom instead.
     """
@@ -713,9 +714,8 @@ class StartingCrest(Choice):
 class EarlyDash(Toggle):
     """Place Dash early when Skills are randomized.
 
-    With Skill Shuffle, you must be able to reach at least one place that normally
-    gives a movement ability before finding any new abilities. If none are reachable,
-    turn this off or set Skill Randomization to Anywhere.
+    With Skill Shuffle, Dash can follow up to two other movement abilities needed
+    to reach it. Other items can come first.
     """
 
     display_name = "Early Dash"
@@ -1340,3 +1340,129 @@ class SilksongOptions(PerGameCommonOptions):
     cursed_crest_trap_weight: CursedCrestTrapWeight
     muckmaggot_status_trap_weight: MuckmaggotStatusTrapWeight
     naked_trap_weight: NakedTrapWeight
+
+
+silksong_option_groups = [
+    OptionGroup("General/Goal Options", [
+        ProgressionBalancing,
+        SilksongAccessibility,
+        Goal,
+        SpellingBeePhrase,
+        BellwayAccess,
+        FleaHuntCount,
+        SilkAndSoulPoints,
+        TrailsEndRequirement,
+    ], start_collapsed=False),
+    OptionGroup("Starting Options", [
+        StartingLocation,
+        StartingCrest,
+        StartWithMaps,
+        StartFullyMapped,
+        AutomaticCompass,
+        CheckMapMarkers,
+    ], start_collapsed=False),
+    OptionGroup("Proficiency/Skip Options", [
+        Skips,
+        ProficientCombat,
+        ProficientMovement,
+        FleaBrewStallLogic,
+        FlintslateStallLogic,
+        PlasmiumPhialStallLogic,
+        VoltvesselsStallLogic,
+        ScuttlebraceLogic,
+        HealStallLogic,
+        HazardRespawnLogic,
+    ], start_collapsed=True),
+    OptionGroup("Randomization Options", [
+        SplitDashAndSprint,
+        RandomizedBellMarkers,
+        RandomizedMelodyMarkers,
+        QuillRandomization,
+        CompassRandomization,
+        SkillRandomization,
+        ToolRandomization,
+        SilkSkillRandomization,
+        CrestRandomization,
+        EvaRandomization,
+        SoulRandomization,
+        OldHeartRandomization,
+        TwistedBudRandomization,
+        FleaRandomization,
+        CrestSlotRandomization,
+        MaskShardRandomization,
+        SpoolFragmentRandomization,
+        SilkHeartRandomization,
+        BellwayRandomization,
+        VentricaRandomization,
+        MapRandomization,
+        NeedleUpgradeRandomization,
+        PaleOilRandomization,
+        MelodyRandomization,
+        PinRandomization,
+        RelicRandomization,
+        CraftingKitRandomization,
+        MajorKeyRandomization,
+        SimpleKeyRandomization,
+        MemoryLocketRandomization,
+        CraftmetalRandomization,
+        MossberryRandomization,
+        PollipHeartRandomization,
+        SilkeaterRandomization,
+        ToolPouchRandomization,
+        LoreTabletRandomization,
+        FrayedRosaryStringRandomization,
+        RosaryStringRandomization,
+        RosaryNecklaceRandomization,
+        HeavyRosaryNecklaceRandomization,
+        PaleRosaryNecklaceRandomization,
+        RosaryCacheRandomization,
+        ShardBundleRandomization,
+        BeastShardRandomization,
+        PristineCoreRandomization,
+        ShellShardCacheRandomization,
+        BossSanity,
+        BellShrineSanity,
+        QuestSanity,
+        IndividualRelicTurnIns,
+        AlphabetMode,
+    ], start_collapsed=True),
+    OptionGroup("Costsanity", [
+        NormalShopPrices,
+        BellwayPrices,
+        MapPrices,
+        PinPrices,
+        UpgradePrices,
+        DonationPrices,
+        VogHintPrices,
+    ], start_collapsed=True),
+    OptionGroup("BETA Features", [
+        LedgegrabAbilityRando,
+        SwimAbilityRando,
+        EntranceRandomization,
+        EntranceRandomizationScope,
+    ], start_collapsed=True),
+    OptionGroup("Link Options", [
+        DeathLink,
+        DeathLinkCocoon,
+        SilkLink,
+        RosaryLink,
+        ShellShardLink,
+        KnockbackLink,
+    ], start_collapsed=True),
+    OptionGroup("Miscellaneous", [
+        EarlyDash,
+        VogAreaHints,
+        EnemyRosaryMultiplier,
+        EnemyShardMultiplier,
+        FasterDialogue,
+        FasterSilkheartAnimation,
+        TrapDisguises,
+        TrapPercentage,
+        StaggerTrapWeight,
+        RosarySpillTrapWeight,
+        DarknessTrapWeight,
+        CursedCrestTrapWeight,
+        MuckmaggotStatusTrapWeight,
+        NakedTrapWeight,
+    ], start_collapsed=True),
+]

@@ -148135,16 +148135,9 @@
             "act": "Act 1",
             "all_of": [
               "Act: 1",
-              "Path: The Marrow - Toll",
-              "Room Node: the-marrow/the-marrow-entrance#above-gauntlet",
-              "Room Node: the-marrow/the-marrow-map-shop#right-upper-path",
-              "Room Node: the-marrow/the-marrow-skull-wall#room",
-              "Room Node: the-marrow/the-marrow-lower-pogo#room"
+              "Room Event: event:mapper/559e7c1d-8a73-4246-956c-2b92014d6a6a"
             ],
-            "any_of": [
-              "Path: Greymoor - Halfway House",
-              "Path: Shellwood - Overgrown West"
-            ],
+            "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
             "path": "",
@@ -321665,9 +321658,6 @@
           }
         ]
       },
-      "Room Node: the-marrow/the-marrow-lower-pogo#room": {
-        "alternatives": []
-      },
       "Room Node: the-marrow/the-marrow-lower-pogo#upper-mid-right-area": {
         "alternatives": [
           {
@@ -324381,9 +324371,6 @@
             "required_locations": []
           }
         ]
-      },
-      "Room Node: the-marrow/the-marrow-skull-wall#room": {
-        "alternatives": []
       },
       "Room Node: the-marrow/the-marrow-skull-wall#upper-echelon": {
         "alternatives": [

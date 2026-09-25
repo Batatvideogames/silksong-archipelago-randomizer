@@ -214,16 +214,25 @@ NativeSourceInventoryKey = tuple[
     tuple[tuple[str, int], ...],
     bool,
 ]
-NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey]
+NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey, int | None]
 
 
-def _enable_native_source_memo(multiworld) -> None:
+def _enable_native_source_memo(multiworld, players: frozenset[int] | None = None) -> None:
+    from .rules import uses_crest_slot_locket_logic
+
+    slot_players = frozenset(
+        player for player in (players or ())
+        if multiworld.worlds[player].options.accessibility == "minimal"
+        and uses_crest_slot_locket_logic(multiworld.worlds[player])
+    )
     setattr(
         multiworld,
         "_silksong_native_source_memo",
         {
             "inventory_keys": {},
             "results": {},
+            "slot_players": slot_players,
+            **({"players": players} if players is not None else {}),
         },
     )
 
@@ -241,8 +250,11 @@ def _lookup_native_source_memo(
         "_silksong_native_source_memo",
         None,
     )
-    if memo is None:
+    if memo is None or ("players" in memo and rule.player not in memo["players"]):
         return None
+    if "players" in memo and max(len(memo["results"]), len(memo["inventory_keys"])) >= 16384:
+        _enable_native_source_memo(state.multiworld, memo["players"])
+        memo = state.multiworld._silksong_native_source_memo
 
     inventory_key: NativeSourceInventoryKey = (
         rule.player,
@@ -253,9 +265,38 @@ def _lookup_native_source_memo(
         inventory_key,
         inventory_key,
     )
-    key: NativeSourceMemoKey = (id(rule), canonical_inventory_key)
+    budget = None
+    if rule.player in memo["slot_players"]:
+        from .rules import get_crest_slot_memory_locket_count
+
+        budget = get_crest_slot_memory_locket_count(state.multiworld.worlds[rule.player])
+    key: NativeSourceMemoKey = (id(rule), canonical_inventory_key, budget)
     results = memo["results"]
-    return results, key, results.get(key)
+    cached = results.get(key)
+    if cached is None and "players" in memo:
+        bound_key = (id(rule), budget, state.allow_partial_entrances)
+        lower = memo.get("reachable_bounds", {}).get(bound_key)
+        if lower is not None and all(
+            state.prog_items[rule.player].get(name, 0) >= count for name, count in lower.items()
+        ):
+            return results, key, True
+        bound = memo.get("unreachable_bounds", {}).get(bound_key)
+        if bound is not None and all(
+            count <= bound.get(name, 0) for name, count in state.prog_items[rule.player].items()
+        ):
+            cached = False
+    return results, key, cached
+
+
+def _remember_native_source_result(state, memo_entry, result):
+    results, key, _ = memo_entry
+    results[key] = result
+    memo = state.multiworld._silksong_native_source_memo
+    if "players" in memo and memo["results"] is results:
+        inventory = memo.setdefault("inventory_counts", {}).setdefault(key[1], dict(key[1][1]))
+        bound_key = (key[0], key[2], key[1][2])
+        bounds = "reachable_bounds" if result else "unreachable_bounds"
+        memo.setdefault(bounds, {})[bound_key] = inventory
 
 
 @dataclasses.dataclass()
@@ -362,7 +403,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 and self.child(state)
             ):
                 if memo_entry is not None:
-                    results[key] = True
+                    _remember_native_source_result(state, memo_entry, True)
                 return True
 
             assumed_state = state.copy()
@@ -378,7 +419,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             else:
                 result = self.child(assumed_state)
             if memo_entry is not None:
-                results[key] = result
+                _remember_native_source_result(state, memo_entry, result)
             return result
 
         def item_dependencies(self) -> dict[str, set[int]]:

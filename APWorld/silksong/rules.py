@@ -89,6 +89,9 @@ def get_crest_slot_progression_item_count(world) -> int:
 
 
 def get_active_crest_slot_locations(world) -> tuple:
+    cached = getattr(world, "_active_crest_slot_locations", None)
+    if cached is not None:
+        return cached
     get_location = getattr(world.multiworld, "get_location", None)
     if not callable(get_location):
         return ()

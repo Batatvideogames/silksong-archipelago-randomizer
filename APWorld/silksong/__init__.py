@@ -90,6 +90,7 @@ from .native_regions import (
 from .options import (
     CATEGORY_OPTION_BY_LOCATION_CATEGORY,
     SilksongOptions,
+    silksong_option_groups,
     get_aggregate_minor_mode_key,
     get_category_mode_key,
     get_minor_family_modes,
@@ -176,6 +177,7 @@ TRACKER_OPTION_NAMES = tuple(
 
 class SilksongWebWorld(WebWorld):
     theme = "ocean"
+    option_groups = silksong_option_groups
     tutorials = [
         Tutorial(
             tutorial_name="Multiworld Setup Guide",
@@ -431,6 +433,9 @@ class SilksongWorld(World):
                     reward = get_vanilla_reward_name(name, data.category)
                     (unavailable_items if name in excluded else retained_items).add(reward)
                 unavailable_items.difference_update(retained_items)
+                unavailable_items.discard(
+                    STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()]
+                )
                 unavailable_items.difference_update(
                     name for name, count in self.options.start_inventory.value.items()
                     if count > 0
@@ -1236,11 +1241,17 @@ class SilksongWorld(World):
         elif found_key.startswith("Silksong:Entrances:"):
             reconnect_found(self, data_storage_value)
 
+    def get_pre_fill_items(self):
+        return [*super().get_pre_fill_items(), *getattr(self, "_entrance_construction_items", ())]
+
     def connect_entrances(self) -> None:
         from .entrance_randomization import connect_exits
         connect_exits(self)
 
     def create_regions(self) -> None:
+        self._active_crest_slot_locations = None
+        self._entrance_construction_items = ()
+        self._early_dash_shuffle_locations = ()
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
         logic_unknown = Region(
@@ -1518,10 +1529,17 @@ class SilksongWorld(World):
             spoiler.paths.pop(name, None)
 
     def set_rules(self) -> None:
+        self._active_crest_slot_locations = get_active_crest_slot_locations(self)
         set_silksong_rules(self)
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:
+        from .requirement_rules import _enable_native_source_memo
+
+        _enable_native_source_memo(multiworld, frozenset(
+            world.player for world in multiworld.worlds.values()
+            if world.game == cls.game
+        ))
         scope = getattr(
             multiworld,
             "_silksong_shuffle_item_rule_scope",
@@ -1539,6 +1557,11 @@ class SilksongWorld(World):
                     multiworld,
                     "_silksong_shuffle_item_rule_scope",
                 )
+        from .category_fill import reserve_early_dash
+
+        for world in multiworld.worlds.values():
+            if world.game == cls.game:
+                reserve_early_dash(world)
         alphabet_mode_enabled = any(
             getattr(world, "game", None) == cls.game
             and getattr(
@@ -1597,6 +1620,15 @@ class SilksongWorld(World):
         )
 
     def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
+        indices = [index for index, item in enumerate(progitempool) if item.player == self.player]
+        movement = {
+            "Ledge Grab", "Swift Step", "Progressive Swift Step", "Faydown Cloak",
+            "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
+        }
+        ordered = sorted((progitempool[index] for index in indices),
+                         key=lambda item: item.name not in movement)
+        for index, item in zip(indices, ordered):
+            progitempool[index] = item
         if not uses_crest_slot_locket_logic(self):
             return
         if self.options.accessibility == "minimal":
@@ -1613,6 +1645,7 @@ class SilksongWorld(World):
             budget = min(
                 len(get_active_crest_slot_locations(self)),
                 len(available_items),
+                self.multiworld.get_all_state().count(MEMORY_LOCKET_ITEM, self.player),
             )
             self.set_completion_rule(
                 Has("Victory") & Has(MEMORY_LOCKET_ITEM, budget)
@@ -1841,6 +1874,12 @@ class SilksongWorld(World):
             if (progression_count or require_all_slots) and reachable_count < required_count:
                 from Fill import FillError
 
+                if not require_all_slots:
+                    try:
+                        if multiworld.fulfills_accessibility():
+                            continue
+                    except FillError:
+                        pass
                 raise FillError(
                     f"{multiworld.player_name[world.player]}'s Crest Slot "
                     "checks require more Lockets. Only "
@@ -1863,6 +1902,15 @@ class SilksongWorld(World):
 
         from .requirement_rules import _enable_native_source_memo
 
+        from .category_fill import _early_dash_states
+
+        if hasattr(multiworld, "_silksong_native_source_memo"):
+            del multiworld._silksong_native_source_memo
+        for world in worlds:
+            if getattr(world, "_early_dash_shuffle_locations", ()):
+                assert any(state.has("Swift Step", world.player) for state, _ in _early_dash_states(world)), (
+                    "The reserved Early Dash opening was changed after pre-fill."
+                )
         _enable_native_source_memo(multiworld)
         for world in worlds:
             world.build_vog_hint_plan()

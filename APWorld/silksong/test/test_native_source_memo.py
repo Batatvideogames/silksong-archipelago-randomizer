@@ -6,6 +6,7 @@ from unittest import mock
 from BaseClasses import CollectionState
 
 from .. import SilksongWorld
+from ..room_graph_logic import native_region_name
 from ..requirement_rules import (
     NativeSourceRule,
     _enable_native_source_memo,
@@ -22,7 +23,7 @@ def explicit_native_source_result(
     if (
         rule.anchor_requirement_name is not None
         and not assumed_state.can_reach_region(
-            rule.anchor_requirement_name,
+            native_region_name(rule.anchor_requirement_name),
             rule.player,
         )
     ):
@@ -56,7 +57,7 @@ class TestNativeSourceMemo(SilksongTestBase):
 
         self.assertEqual(rule._evaluate(state), expected)
         self.assertEqual(rule._evaluate(state), expected)
-        self.assertFalse(
+        self.assertTrue(
             hasattr(self.multiworld, "_silksong_native_source_memo")
         )
 
@@ -70,7 +71,8 @@ class TestNativeSourceMemo(SilksongTestBase):
             "_silksong_native_source_memo",
             {
                 "inventory_keys": {inventory_key: inventory_key},
-                "results": {(id(rule), inventory_key): not expected},
+                "results": {(id(rule), inventory_key, None): not expected},
+                "slot_players": frozenset(),
             },
         )
         with (
@@ -79,7 +81,7 @@ class TestNativeSourceMemo(SilksongTestBase):
             SilksongWorld.stage_finalize_multiworld(self.multiworld)
 
         memo = getattr(self.multiworld, "_silksong_native_source_memo")
-        self.assertEqual(memo, {"inventory_keys": {}, "results": {}})
+        self.assertEqual(memo, {"inventory_keys": {}, "results": {}, "slot_players": frozenset()})
         self.assertEqual(rule._evaluate(state), expected)
         with mock.patch.object(
             CollectionState,
@@ -150,7 +152,7 @@ class TestNativeSourceMemo(SilksongTestBase):
         memo = getattr(self.multiworld, "_silksong_native_source_memo")
         canonical_inventories = memo["inventory_keys"]
         self.assertTrue(canonical_inventories)
-        for _, inventory_key in memo["results"]:
+        for _, inventory_key, _ in memo["results"]:
             self.assertIs(
                 inventory_key,
                 canonical_inventories[inventory_key],

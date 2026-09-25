@@ -1360,20 +1360,8 @@ def area(
     )
 
 
-_VOLATILE_FLINTBEETLE_AVAILABILITY_PATHS: tuple[str, ...] = (
-    'Path: Greymoor - Halfway House',
-    'Path: Shellwood - Overgrown West',
-)
-_VOLATILE_FLINTBEETLE_TARGET_NODES: tuple[str, ...] = (
-    'Room Node: the-marrow/the-marrow-entrance#above-gauntlet',
-    'Room Node: the-marrow/the-marrow-map-shop#right-upper-path',
-    'Room Node: the-marrow/the-marrow-skull-wall#room',
-    'Room Node: the-marrow/the-marrow-lower-pogo#room',
-)
-
-
 def _volatile_flintbeetle_act_one_requirement(
-    *additional_requirements: str,
+    *,
     crest: bool,
     path_name: str = '',
 ) -> LocationRequirement:
@@ -1381,9 +1369,7 @@ def _volatile_flintbeetle_act_one_requirement(
 
     return req(
         'Act: 1',
-        *additional_requirements,
-        *_VOLATILE_FLINTBEETLE_TARGET_NODES,
-        any_of=_VOLATILE_FLINTBEETLE_AVAILABILITY_PATHS,
+        room_event_name('event:mapper/559e7c1d-8a73-4246-956c-2b92014d6a6a'),
         crest=crest,
         act='Act 1',
         path_name=path_name,
@@ -2926,7 +2912,7 @@ EVENT_REQUIREMENTS.update({
         req('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', item_counts=(item_count(3, 'Progressive Needle Upgrade'),)),
     ),
     'Event: Volatile Flintbeetles Completed': (
-        _volatile_flintbeetle_act_one_requirement('Path: The Marrow - Toll', crest=True),
+        _volatile_flintbeetle_act_one_requirement(crest=True),
     ),
     "Event: Pinmaster's Oil Completed": ROOM_CHECK_REQUIREMENTS["Wish: Pinmaster's Oil"],
     'Event: Silver Bells Completed': ROOM_CHECK_REQUIREMENTS['Wish: Silver Bells'],
@@ -4590,7 +4576,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     (
         'Quest Completion: Rock Rollers',
         _volatile_flintbeetle_act_one_requirement(
-            'Path: The Marrow - Toll',
             crest=True,
             path_name='The Marrow - Toll',
         ),
@@ -5161,7 +5146,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     (
         'Memory Locket: Volatile Flintbeetles',
         _volatile_flintbeetle_act_one_requirement(
-            'Path: The Marrow - Toll',
             crest=True,
             path_name='The Marrow - Toll',
         ),
