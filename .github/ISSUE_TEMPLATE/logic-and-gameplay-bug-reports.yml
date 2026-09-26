@@ -10,10 +10,10 @@ body:
       label: Version
       description: What version of the randomizer are you using?
       options:
-        - v0.4.4
-        - v0.4.5-Hotfix2
-        - v0.4.6-Hotfix
         - v0.4.7
+        - v0.4.6-Hotfix
+        - v0.4.5-Hotfix2
+        - v0.4.4
     validations:
       required: true
 
