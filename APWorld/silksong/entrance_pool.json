@@ -1008,7 +1008,7 @@
     "group": "right"
   },
   {
-    "id": "blasted-steps/pinstress-room@l",
+    "id": "blasted-steps/windy-pinstress-room@l",
     "name": "Pinstress Room - Left",
     "scene": "Room_Pinstress",
     "gate": "left1",
@@ -1049,7 +1049,7 @@
     "scene": "Coral_34",
     "gate": "door1",
     "direction": "door",
-    "vanilla": "blasted-steps/pinstress-room@l",
+    "vanilla": "blasted-steps/windy-pinstress-room@l",
     "target_scene": "Room_Pinstress",
     "target_gate": "left1",
     "is_door": true,

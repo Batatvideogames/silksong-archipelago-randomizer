@@ -2183,12 +2183,6 @@ namespace SilksongRandomizer
                 new Dictionary<string, object>(
                     StringComparer.Ordinal
                 );
-            payload["skips"] = GetIntegerSlotData(
-                login,
-                "skips",
-                0,
-                3
-            );
             payload["scuttlebrace_logic"] = GetIntegerSlotData(login, "scuttlebrace_logic", 0, 3) > 0;
             JObject compressedPayload = login.SlotData.ContainsKey("logic_base")
                 ? BundledMapLogic.Restore(

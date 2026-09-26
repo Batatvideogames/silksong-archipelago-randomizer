@@ -267,13 +267,13 @@ def set_silksong_rules(world) -> None:
     allow_bellways_before_bell_beast = (
         world.allows_bellways_before_bell_beast()
     )
-    skips_tier = world.get_skips_tier()
+    skips_tier = 0
     proficient_combat = world.get_proficient_combat_mode()
     proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
-    flea_brew_stall_tier = int(world.options.flea_brew_stall_logic.value)
-    flintslate_stall_tier = int(world.options.flintslate_stall_logic.value)
-    plasmium_phial_stall_tier = int(world.options.plasmium_phial_stall_logic.value)
-    voltvessels_stall_tier = int(world.options.voltvessels_stall_logic.value)
+    red_tool_stall_tier = int(world.options.red_tool_stall_logic.value)
+    crest_pogo_tier = int(world.options.crest_pogo_logic.value)
+    needle_strike_tier = int(world.options.needle_strike_logic.value)
+    enemy_pogo_tier = int(world.options.enemy_pogo_logic.value)
     heal_stall_tier = int(world.options.heal_stall_logic.value)
     hazard_respawn_tier = int(world.options.hazard_respawn_logic.value)
     scuttlebrace_tier = int(world.options.scuttlebrace_logic.value)
@@ -389,10 +389,10 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
-                flea_brew_stall_tier=flea_brew_stall_tier,
-                flintslate_stall_tier=flintslate_stall_tier,
-                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                voltvessels_stall_tier=voltvessels_stall_tier,
+                red_tool_stall_tier=red_tool_stall_tier,
+                crest_pogo_tier=crest_pogo_tier,
+                needle_strike_tier=needle_strike_tier,
+                enemy_pogo_tier=enemy_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -426,10 +426,10 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
-                flea_brew_stall_tier=flea_brew_stall_tier,
-                flintslate_stall_tier=flintslate_stall_tier,
-                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                voltvessels_stall_tier=voltvessels_stall_tier,
+                red_tool_stall_tier=red_tool_stall_tier,
+                crest_pogo_tier=crest_pogo_tier,
+                needle_strike_tier=needle_strike_tier,
+                enemy_pogo_tier=enemy_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -461,10 +461,10 @@ def set_silksong_rules(world) -> None:
                     native_abstract_regions=True,
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
-                    flea_brew_stall_tier=flea_brew_stall_tier,
-                    flintslate_stall_tier=flintslate_stall_tier,
-                    plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                    voltvessels_stall_tier=voltvessels_stall_tier,
+                    red_tool_stall_tier=red_tool_stall_tier,
+                    crest_pogo_tier=crest_pogo_tier,
+                    needle_strike_tier=needle_strike_tier,
+                    enemy_pogo_tier=enemy_pogo_tier,
                     heal_stall_tier=heal_stall_tier,
                     hazard_respawn_tier=hazard_respawn_tier,
                     scuttlebrace_tier=scuttlebrace_tier,
@@ -493,10 +493,10 @@ def set_silksong_rules(world) -> None:
                 native_abstract_regions=True,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
-                flea_brew_stall_tier=flea_brew_stall_tier,
-                flintslate_stall_tier=flintslate_stall_tier,
-                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                voltvessels_stall_tier=voltvessels_stall_tier,
+                red_tool_stall_tier=red_tool_stall_tier,
+                crest_pogo_tier=crest_pogo_tier,
+                needle_strike_tier=needle_strike_tier,
+                enemy_pogo_tier=enemy_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -638,10 +638,10 @@ def set_silksong_rules(world) -> None:
                     ),
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
-                    flea_brew_stall_tier=flea_brew_stall_tier,
-                    flintslate_stall_tier=flintslate_stall_tier,
-                    plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                    voltvessels_stall_tier=voltvessels_stall_tier,
+                    red_tool_stall_tier=red_tool_stall_tier,
+                    crest_pogo_tier=crest_pogo_tier,
+                    needle_strike_tier=needle_strike_tier,
+                    enemy_pogo_tier=enemy_pogo_tier,
                     heal_stall_tier=heal_stall_tier,
                     hazard_respawn_tier=hazard_respawn_tier,
                     scuttlebrace_tier=scuttlebrace_tier,
@@ -709,10 +709,10 @@ def set_silksong_rules(world) -> None:
         native_abstract_regions=True,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
-        flea_brew_stall_tier=flea_brew_stall_tier,
-        flintslate_stall_tier=flintslate_stall_tier,
-        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-        voltvessels_stall_tier=voltvessels_stall_tier,
+        red_tool_stall_tier=red_tool_stall_tier,
+        crest_pogo_tier=crest_pogo_tier,
+        needle_strike_tier=needle_strike_tier,
+        enemy_pogo_tier=enemy_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,

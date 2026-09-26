@@ -75,10 +75,10 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     pollip_heart_count: int = 0
     proficient_combat: int = 0
     proficient_movement: bool = False
-    flea_brew_stall_tier: int = 0
-    flintslate_stall_tier: int = 0
-    plasmium_phial_stall_tier: int = 0
-    voltvessels_stall_tier: int = 0
+    red_tool_stall_tier: int = 0
+    crest_pogo_tier: int = 0
+    needle_strike_tier: int = 0
+    enemy_pogo_tier: int = 0
     heal_stall_tier: int = 0
     hazard_respawn_tier: int = 0
     scuttlebrace_tier: int = 0
@@ -100,10 +100,10 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.pollip_heart_count,
             self.proficient_combat,
             self.proficient_movement,
-            self.flea_brew_stall_tier,
-            self.flintslate_stall_tier,
-            self.plasmium_phial_stall_tier,
-            self.voltvessels_stall_tier,
+            self.red_tool_stall_tier,
+            self.crest_pogo_tier,
+            self.needle_strike_tier,
+            self.enemy_pogo_tier,
             self.heal_stall_tier,
             self.hazard_respawn_tier,
             self.scuttlebrace_tier,
@@ -127,10 +127,10 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         pollip_heart_count: int
         proficient_combat: int
         proficient_movement: bool
-        flea_brew_stall_tier: int
-        flintslate_stall_tier: int
-        plasmium_phial_stall_tier: int
-        voltvessels_stall_tier: int
+        red_tool_stall_tier: int
+        crest_pogo_tier: int
+        needle_strike_tier: int
+        enemy_pogo_tier: int
         heal_stall_tier: int
         hazard_respawn_tier: int
         scuttlebrace_tier: int
@@ -160,10 +160,10 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 pollip_heart_count=self.pollip_heart_count,
                 proficient_combat=self.proficient_combat,
                 proficient_movement=self.proficient_movement,
-                flea_brew_stall_tier=self.flea_brew_stall_tier,
-                flintslate_stall_tier=self.flintslate_stall_tier,
-                plasmium_phial_stall_tier=self.plasmium_phial_stall_tier,
-                voltvessels_stall_tier=self.voltvessels_stall_tier,
+                red_tool_stall_tier=self.red_tool_stall_tier,
+                crest_pogo_tier=self.crest_pogo_tier,
+                needle_strike_tier=self.needle_strike_tier,
+                enemy_pogo_tier=self.enemy_pogo_tier,
                 heal_stall_tier=self.heal_stall_tier,
                 hazard_respawn_tier=self.hazard_respawn_tier,
                 scuttlebrace_tier=self.scuttlebrace_tier,
@@ -323,10 +323,10 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     randomize_swim: bool = False
     proficient_combat: int = 0
     proficient_movement: bool = False
-    flea_brew_stall_tier: int = 0
-    flintslate_stall_tier: int = 0
-    plasmium_phial_stall_tier: int = 0
-    voltvessels_stall_tier: int = 0
+    red_tool_stall_tier: int = 0
+    crest_pogo_tier: int = 0
+    needle_strike_tier: int = 0
+    enemy_pogo_tier: int = 0
     heal_stall_tier: int = 0
     hazard_respawn_tier: int = 0
     scuttlebrace_tier: int = 0
@@ -354,10 +354,10 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             randomize_swim=self.randomize_swim,
             proficient_combat=self.proficient_combat,
             proficient_movement=self.proficient_movement,
-            flea_brew_stall_tier=self.flea_brew_stall_tier,
-            flintslate_stall_tier=self.flintslate_stall_tier,
-            plasmium_phial_stall_tier=self.plasmium_phial_stall_tier,
-            voltvessels_stall_tier=self.voltvessels_stall_tier,
+            red_tool_stall_tier=self.red_tool_stall_tier,
+            crest_pogo_tier=self.crest_pogo_tier,
+            needle_strike_tier=self.needle_strike_tier,
+            enemy_pogo_tier=self.enemy_pogo_tier,
             heal_stall_tier=self.heal_stall_tier,
             hazard_respawn_tier=self.hazard_respawn_tier,
             scuttlebrace_tier=self.scuttlebrace_tier,
@@ -406,7 +406,16 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                     _remember_native_source_result(state, memo_entry, True)
                 return True
 
-            assumed_state = state.copy()
+            assumed_state = CollectionState(
+                state.multiworld, state.allow_partial_entrances
+            )
+            assumed_state.prog_items[self.player] = state.prog_items[self.player].copy()
+            assumed_state.reachable_regions[self.player] = (
+                state.reachable_regions[self.player].copy()
+            )
+            assumed_state.blocked_connections[self.player] = (
+                state.blocked_connections[self.player].copy()
+            )
             assumed_state.collect(self.assumed_item, True)
             if (
                 self.anchor_requirement_name is not None
@@ -592,10 +601,10 @@ def _compile_named_requirement(
     native_abstract_regions: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -628,10 +637,10 @@ def _compile_named_requirement(
             pollip_heart_count=pollip_heart_count,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
-            flea_brew_stall_tier=flea_brew_stall_tier,
-            flintslate_stall_tier=flintslate_stall_tier,
-            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-            voltvessels_stall_tier=voltvessels_stall_tier,
+            red_tool_stall_tier=red_tool_stall_tier,
+            crest_pogo_tier=crest_pogo_tier,
+            needle_strike_tier=needle_strike_tier,
+            enemy_pogo_tier=enemy_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -676,10 +685,10 @@ def _compile_requirement(
     required_location_stack: tuple[str, ...] = (),
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -710,10 +719,10 @@ def _compile_requirement(
             native_abstract_regions=native_abstract_regions,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
-            flea_brew_stall_tier=flea_brew_stall_tier,
-            flintslate_stall_tier=flintslate_stall_tier,
-            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-            voltvessels_stall_tier=voltvessels_stall_tier,
+            red_tool_stall_tier=red_tool_stall_tier,
+            crest_pogo_tier=crest_pogo_tier,
+            needle_strike_tier=needle_strike_tier,
+            enemy_pogo_tier=enemy_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -755,10 +764,10 @@ def _compile_requirement(
                 required_location_stack=next_stack,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
-                flea_brew_stall_tier=flea_brew_stall_tier,
-                flintslate_stall_tier=flintslate_stall_tier,
-                plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-                voltvessels_stall_tier=voltvessels_stall_tier,
+                red_tool_stall_tier=red_tool_stall_tier,
+                crest_pogo_tier=crest_pogo_tier,
+                needle_strike_tier=needle_strike_tier,
+                enemy_pogo_tier=enemy_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -822,10 +831,10 @@ def build_requirements_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -845,10 +854,10 @@ def build_requirements_rule(
             randomize_swim=randomize_swim,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
-            flea_brew_stall_tier=flea_brew_stall_tier,
-            flintslate_stall_tier=flintslate_stall_tier,
-            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-            voltvessels_stall_tier=voltvessels_stall_tier,
+            red_tool_stall_tier=red_tool_stall_tier,
+            crest_pogo_tier=crest_pogo_tier,
+            needle_strike_tier=needle_strike_tier,
+            enemy_pogo_tier=enemy_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -878,10 +887,10 @@ def build_requirements_rule(
             anchor_requirement_name=anchor_requirement_name,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
-            flea_brew_stall_tier=flea_brew_stall_tier,
-            flintslate_stall_tier=flintslate_stall_tier,
-            plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-            voltvessels_stall_tier=voltvessels_stall_tier,
+            red_tool_stall_tier=red_tool_stall_tier,
+            crest_pogo_tier=crest_pogo_tier,
+            needle_strike_tier=needle_strike_tier,
+            enemy_pogo_tier=enemy_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -909,10 +918,10 @@ def build_location_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -940,10 +949,10 @@ def build_location_rule(
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
-        flea_brew_stall_tier=flea_brew_stall_tier,
-        flintslate_stall_tier=flintslate_stall_tier,
-        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-        voltvessels_stall_tier=voltvessels_stall_tier,
+        red_tool_stall_tier=red_tool_stall_tier,
+        crest_pogo_tier=crest_pogo_tier,
+        needle_strike_tier=needle_strike_tier,
+        enemy_pogo_tier=enemy_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -971,10 +980,10 @@ def build_goal_rule(
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -1002,10 +1011,10 @@ def build_goal_rule(
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
-        flea_brew_stall_tier=flea_brew_stall_tier,
-        flintslate_stall_tier=flintslate_stall_tier,
-        plasmium_phial_stall_tier=plasmium_phial_stall_tier,
-        voltvessels_stall_tier=voltvessels_stall_tier,
+        red_tool_stall_tier=red_tool_stall_tier,
+        crest_pogo_tier=crest_pogo_tier,
+        needle_strike_tier=needle_strike_tier,
+        enemy_pogo_tier=enemy_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -1031,10 +1040,10 @@ def build_native_source_rule(
     randomize_swim: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
-    flea_brew_stall_tier: int = 0,
-    flintslate_stall_tier: int = 0,
-    plasmium_phial_stall_tier: int = 0,
-    voltvessels_stall_tier: int = 0,
+    red_tool_stall_tier: int = 0,
+    crest_pogo_tier: int = 0,
+    needle_strike_tier: int = 0,
+    enemy_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -1059,10 +1068,10 @@ def build_native_source_rule(
         randomize_swim,
         proficient_combat,
         proficient_movement,
-        flea_brew_stall_tier,
-        flintslate_stall_tier,
-        plasmium_phial_stall_tier,
-        voltvessels_stall_tier,
+        red_tool_stall_tier,
+        crest_pogo_tier,
+        needle_strike_tier,
+        enemy_pogo_tier,
         heal_stall_tier,
         hazard_respawn_tier,
         scuttlebrace_tier,

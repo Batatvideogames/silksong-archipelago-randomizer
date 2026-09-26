@@ -1018,11 +1018,35 @@ def prefill_category_shuffles(
     for location in protected_locations:
         multiworld.local_early_items[location.player].pop("Swift Step", None)
 
+    local_contexts = {}
+    if (
+        not getattr(multiworld, "groups", {})
+        and all(location.item is None or location.item.player == location.player
+                for location in reachability_context[1])
+        and all(
+            callable(getattr(multiworld.worlds[player], "get_regions", None))
+            and all(exit.connected_region is None or exit.connected_region.player == player
+                    for region in multiworld.worlds[player].get_regions()
+                    for exit in region.exits)
+            for player in silksong_players
+        )
+    ):
+        for player in silksong_players:
+            local_contexts[player] = (
+                tuple(location for location in all_shuffled_locations if location.player == player),
+                (player,),
+                (reachability_context[0], tuple(location for location in reachability_context[1]
+                                               if location.player == player)),
+            )
+
     # Try a full permutation per lane. If it creates a progression cycle,
     # walk outward from the valid baseline through a handful of individually
     # validated swaps instead. Non-progression rewards can always permute
     # freely after progression positions are settled.
     for lane in lanes:
+        check_locations, check_players, check_context = local_contexts.get(
+            lane[1], (all_shuffled_locations, silksong_players, reachability_context)
+        )
         locations = [
             location
             for location in locations_by_lane[lane]
@@ -1056,9 +1080,9 @@ def prefill_category_shuffles(
             _assign_items(locations, randomized_items)
             accepted_full_shuffle = _shuffle_is_accessible(
                 multiworld,
-                all_shuffled_locations,
-                silksong_players,
-                reachability_context,
+                check_locations,
+                check_players,
+                check_context,
             )
         if not accepted_full_shuffle:
             _assign_items(locations, original_items)
@@ -1083,9 +1107,9 @@ def prefill_category_shuffles(
                 second.item.location = second
                 if not _shuffle_is_accessible(
                     multiworld,
-                    all_shuffled_locations,
-                    silksong_players,
-                    reachability_context,
+                    check_locations,
+                    check_players,
+                    check_context,
                 ):
                     first.item, second.item = second.item, first.item
                     first.item.location = first
@@ -1116,3 +1140,8 @@ def prefill_category_shuffles(
                         non_progression_items,
                     )
                     break
+
+    if local_contexts and not _shuffle_is_accessible(
+        multiworld, all_shuffled_locations, silksong_players, reachability_context,
+    ):
+        raise ValueError("Category shuffle failed its final multiworld accessibility check.")

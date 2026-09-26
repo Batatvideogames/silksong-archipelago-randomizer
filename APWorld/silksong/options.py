@@ -794,18 +794,6 @@ class IndividualRelicTurnIns(Toggle):
     default = 0
 
 
-class Skips(Choice):
-    """Choose the difficulty of movement tricks without their own setting.
-    Separate technique settings are independent of this option."""
-
-    display_name = "Skips"
-    option_none = 0
-    option_easy = 1
-    option_moderate = 2
-    option_difficult = 3
-    default = option_none
-
-
 class ProficientCombat(Choice):
     """Off: use the normal combat requirements.
 
@@ -860,36 +848,40 @@ class HazardRespawnLogic(TechniqueDifficulty):
     display_name = "Hazard Respawn Logic"
 
 
-class FleaBrewStallLogic(TechniqueDifficulty):
-    """Drink Flea Brew in midair to briefly delay your fall and extend a jump.
-    None disables this technique. Higher settings also allow easier uses.
+class RedToolStallLogic(TechniqueDifficulty):
+    """Use Flea Brew, Flintslate, Plasmium Phial or Voltvessels in midair
+    to briefly delay your fall and extend a jump.
+    None disables these techniques. Higher settings also allow easier uses.
     """
 
-    display_name = "Flea Brew Stall Logic"
+    display_name = "Red Tool Stall Logic"
 
 
-class FlintslateStallLogic(TechniqueDifficulty):
-    """Use Flintslate in midair to briefly delay your fall and extend a jump.
-    None disables this technique. Higher settings also allow easier uses.
+class CrestPogoLogic(TechniqueDifficulty):
+    """Use crest-specific pogo techniques to gain height or extend jumps.
+    Covers pogo skips for every crest.
+    None disables these techniques. Higher settings also allow easier uses.
     """
 
-    display_name = "Flintslate Stall Logic"
+    display_name = "Crest Pogo Skip Logic"
 
 
-class PlasmiumPhialStallLogic(TechniqueDifficulty):
-    """Use Plasmium Phial in midair to briefly delay your fall and extend a jump.
-    None disables this technique. Higher settings also allow easier uses.
+class NeedleStrikeLogic(TechniqueDifficulty):
+    """Use Needle Strike stalls and crest-specific charged attacks
+    to delay your fall, extend jumps or gain height.
+    None disables these techniques. Higher settings also allow easier uses.
     """
 
-    display_name = "Plasmium Phial Stall Logic"
+    display_name = "Needle Strike Logic"
 
 
-class VoltvesselsStallLogic(TechniqueDifficulty):
-    """Use Voltvessels in midair to briefly delay your fall and extend a jump.
-    None disables this technique. Higher settings also allow easier uses.
+class EnemyPogoLogic(TechniqueDifficulty):
+    """Use enemy pogo tricks to gain height or cross gaps beyond ordinary traversal.
+    Normal enemy pogos remain available with this option set to None.
+    Higher settings also allow easier tricks.
     """
 
-    display_name = "Voltvessels Stall Logic"
+    display_name = "Enemy Pogo Skip Logic"
 
 
 class StartWithMaps(Toggle):
@@ -1249,13 +1241,12 @@ class SilksongOptions(PerGameCommonOptions):
     ledgegrab_ability_rando: LedgegrabAbilityRando
     swim_ability_rando: SwimAbilityRando
     trails_end_requirement: TrailsEndRequirement
-    skips: Skips
+    enemy_pogo_logic: EnemyPogoLogic
     proficient_combat: ProficientCombat
     proficient_movement: ProficientMovement
-    flea_brew_stall_logic: FleaBrewStallLogic
-    flintslate_stall_logic: FlintslateStallLogic
-    plasmium_phial_stall_logic: PlasmiumPhialStallLogic
-    voltvessels_stall_logic: VoltvesselsStallLogic
+    red_tool_stall_logic: RedToolStallLogic
+    crest_pogo_logic: CrestPogoLogic
+    needle_strike_logic: NeedleStrikeLogic
     scuttlebrace_logic: ScuttlebraceLogic
     heal_stall_logic: HealStallLogic
     hazard_respawn_logic: HazardRespawnLogic
@@ -1362,13 +1353,12 @@ silksong_option_groups = [
         CheckMapMarkers,
     ], start_collapsed=False),
     OptionGroup("Proficiency/Skip Options", [
-        Skips,
-        ProficientCombat,
         ProficientMovement,
-        FleaBrewStallLogic,
-        FlintslateStallLogic,
-        PlasmiumPhialStallLogic,
-        VoltvesselsStallLogic,
+        ProficientCombat,
+        RedToolStallLogic,
+        EnemyPogoLogic,
+        CrestPogoLogic,
+        NeedleStrikeLogic,
         ScuttlebraceLogic,
         HealStallLogic,
         HazardRespawnLogic,

@@ -598,6 +598,8 @@ def _validate_fixed_start(world, exits):
             'No shuffled entrance is reachable from this start, so entrance rerolls cannot help. '
             'Change the starting abilities, starting location, or early-item settings.'
         )
+    if world.multiworld.players != 1:
+        return
     for item in items:
         state.collect(item, True)
     state.sweep_for_advancements(world.get_locations())
@@ -678,12 +680,13 @@ def _repair_entrance_layout(world, exits):
 
 
 def connect_exits(world):
+    passthrough = getattr(world.multiworld, 're_gen_passthrough', {}).get(world.game)
     if not enabled(world):
-        _validate_fixed_start(world, {})
+        if passthrough is None:
+            _validate_fixed_start(world, {})
         return
     all_exits = world._entrance_exits
-    passthrough = getattr(world.multiworld, 're_gen_passthrough', {}).get(world.game, {})
-    restored = passthrough.get('entrance_pairs')
+    restored = (passthrough or {}).get('entrance_pairs')
     deferred = getattr(world.multiworld, 'enforce_deferred_connections', 'off') != 'off'
     if restored is not None:
         pairs = validate_pairs(restored, scope(world), world.get_content_scope())

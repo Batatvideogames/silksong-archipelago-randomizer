@@ -396,7 +396,6 @@ class SilksongWorld(World):
                     self.get_category_mode('MajorKey'),
                     self.get_category_mode('Boss'),
                     self.get_act_one_donation_tool_pouch_requirements(),
-                    skips_tier=self.get_skips_tier(),
                     starting_crest_item=(
                         STARTING_CREST_ITEM_BY_KEY[
                             self.resolve_starting_crest()
@@ -446,13 +445,12 @@ class SilksongWorld(World):
                 unavailable_items=frozenset(unavailable_items),
                 split_dash_and_sprint=self.is_split_dash_and_sprint(),
                 allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
-                skips_tier=self.get_skips_tier(),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
-                flea_brew_stall_tier=int(self.options.flea_brew_stall_logic.value),
-                flintslate_stall_tier=int(self.options.flintslate_stall_logic.value),
-                plasmium_phial_stall_tier=int(self.options.plasmium_phial_stall_logic.value),
-                voltvessels_stall_tier=int(self.options.voltvessels_stall_logic.value),
+                red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
+                crest_pogo_tier=int(self.options.crest_pogo_logic.value),
+                needle_strike_tier=int(self.options.needle_strike_logic.value),
+                enemy_pogo_tier=int(self.options.enemy_pogo_logic.value),
                 heal_stall_tier=int(self.options.heal_stall_logic.value),
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
@@ -578,9 +576,6 @@ class SilksongWorld(World):
 
     def is_proficient_movement_enabled(self) -> bool:
         return bool(getattr(getattr(self.options, "proficient_movement", None), "value", 0))
-
-    def get_skips_tier(self) -> int:
-        return int(self.options.skips.value)
 
     def is_scuttlebrace_logic_enabled(self) -> bool:
         return bool(self.options.scuttlebrace_logic.value)
@@ -1115,7 +1110,6 @@ class SilksongWorld(World):
             act_one_donation_tool_pouch_requirements=(
                 self.get_act_one_donation_tool_pouch_requirements()
             ),
-            act_one_skips_tier=self.get_skips_tier(),
             randomize_ledge_grab=(
                 self.is_ledgegrab_ability_rando_enabled()
             ),
@@ -1993,15 +1987,14 @@ class SilksongWorld(World):
             },
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
-            "skips": self.get_skips_tier(),
             "proficient_combat": self.get_proficient_combat_mode(),
             "proficient_movement": self.is_proficient_movement_enabled(),
             "scuttlebrace_logic": int(self.options.scuttlebrace_logic.value),
             "heal_stall_logic": int(self.options.heal_stall_logic.value),
-            "flea_brew_stall_logic": int(self.options.flea_brew_stall_logic.value),
-            "flintslate_stall_logic": int(self.options.flintslate_stall_logic.value),
-            "plasmium_phial_stall_logic": int(self.options.plasmium_phial_stall_logic.value),
-            "voltvessels_stall_logic": int(self.options.voltvessels_stall_logic.value),
+            "red_tool_stall_logic": int(self.options.red_tool_stall_logic.value),
+            "crest_pogo_logic": int(self.options.crest_pogo_logic.value),
+            "needle_strike_logic": int(self.options.needle_strike_logic.value),
+            "enemy_pogo_logic": int(self.options.enemy_pogo_logic.value),
             "hazard_respawn_logic": int(self.options.hazard_respawn_logic.value),
             "start_with_maps": self.is_start_with_maps_enabled(),
             "start_fully_mapped":
@@ -2054,10 +2047,10 @@ class SilksongWorld(World):
                 ),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
-                flea_brew_stall_tier=int(self.options.flea_brew_stall_logic.value),
-                flintslate_stall_tier=int(self.options.flintslate_stall_logic.value),
-                plasmium_phial_stall_tier=int(self.options.plasmium_phial_stall_logic.value),
-                voltvessels_stall_tier=int(self.options.voltvessels_stall_logic.value),
+                red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
+                crest_pogo_tier=int(self.options.crest_pogo_logic.value),
+                needle_strike_tier=int(self.options.needle_strike_logic.value),
+                enemy_pogo_tier=int(self.options.enemy_pogo_logic.value),
                 heal_stall_tier=int(self.options.heal_stall_logic.value),
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),

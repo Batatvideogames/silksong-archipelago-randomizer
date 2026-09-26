@@ -214,19 +214,6 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
     )
 )
 
-_ACT_ONE_EASY_SKIP_LOCATION_NAMES = frozenset(
-    (
-        "Flea: Sinner's Road",
-        "Sinner's Road - Shard Bundle",
-        "Bilewater - Rosary Cache #1",
-        "Bilewater - Rosary Cache #2",
-        "Sinner's Road - Rosary Cache #5",
-        "Sinner's Road - Rosary Cache #6",
-        "Sinner's Road - Rosary Cache #7",
-        "Greymoor - Rosary Cache #2",
-        "Greymoor - Rosary Cache #3",
-    )
-)
 _POST_ACT_ONE_CREST_SLOT_LOCATION_NAMES_BY_CREST = {
     "Crest: Witch": frozenset(
         (
@@ -264,7 +251,6 @@ def get_act_one_excluded_location_names(
     major_key_mode: str = "vanilla",
     boss_mode: str = "anywhere",
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
-    skips_tier: int = 0,
     starting_crest_item: str | None = None,
 ) -> frozenset[str]:
     if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
@@ -273,8 +259,6 @@ def get_act_one_excluded_location_names(
         )
     if boss_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Boss Sanity mode: {boss_mode!r}")
-    if skips_tier not in range(4):
-        raise ValueError(f"Unknown skip tier: {skips_tier!r}")
 
     requirements = donation_tool_pouch_requirements or {}
     if any(requirement < 0 for requirement in requirements.values()):
@@ -286,8 +270,6 @@ def get_act_one_excluded_location_names(
             frozenset(),
         )
     )
-    if skips_tier < 1:
-        excluded |= _ACT_ONE_EASY_SKIP_LOCATION_NAMES
     if (
         requirements.get(_BONE_BOTTOM_REPAIRS_LOCATION_NAME, 0)
         > ACT_ONE_TOOL_POUCH_SUPPLY

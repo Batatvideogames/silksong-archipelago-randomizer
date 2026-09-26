@@ -1232,7 +1232,6 @@ def _trim_act_one_pool_entries(
     removed_option_items_by_category: Mapping[str, tuple[str, ...]],
     individual_relic_turn_ins: bool,
     donation_tool_pouch_requirements: Mapping[str, int] | None,
-    skips_tier: int,
 ) -> list[ItemPoolEntry]:
     major_key_mode = category_modes.get("MajorKey", "vanilla")
     boss_mode = category_modes.get("Boss", "anywhere")
@@ -1240,7 +1239,6 @@ def _trim_act_one_pool_entries(
         major_key_mode,
         boss_mode,
         donation_tool_pouch_requirements,
-        skips_tier,
         starting_crest_item,
     ) & frozenset(location_data_table)
     for location_name in sorted(excluded_location_names):
@@ -1531,7 +1529,6 @@ def build_item_pool_entries(
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
-    act_one_skips_tier: int = 0,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     alphabet_nonadvancement_demand_by_placement_category: (
@@ -1555,7 +1552,6 @@ def build_item_pool_entries(
             category_modes.get("MajorKey", "vanilla"),
             category_modes.get("Boss", "anywhere"),
             act_one_donation_tool_pouch_requirements,
-            act_one_skips_tier,
             starting_crest_item,
         )
         if act_one_only
@@ -1808,7 +1804,6 @@ def build_item_pool_entries(
             removed_option_items_by_category,
             individual_relic_turn_ins,
             act_one_donation_tool_pouch_requirements,
-            act_one_skips_tier,
         )
     elif act_two_only:
         entries = list(

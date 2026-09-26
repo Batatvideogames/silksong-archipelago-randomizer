@@ -25,7 +25,7 @@ namespace SilksongRandomizer.Patches
                    state.IsRoomBound &&
                    state.IsRandomized(ItemType.Tool) &&
                    state.receivedItems != null &&
-                   state.receivedItems.Contains(EggOfFlealiaItem) &&
+                   state.receivedItems.Contains(ItemSet.GetCanonicalItemName(EggOfFlealiaItem)) &&
                    playerData != null &&
                    playerData.blackThreadWorld &&
                    playerData.CaravanTroupeLocation ==

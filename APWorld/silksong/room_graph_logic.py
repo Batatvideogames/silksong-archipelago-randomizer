@@ -219,13 +219,13 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Crest: Witch"),
     ),
     "macro:crest-pogo": (
-        _part("Crest: Hunter", skip_tier=1),
-        _part("Crest: Reaper", skip_tier=1),
-        _part("Crest: Shaman", skip_tier=1),
-        _part("Crest: Architect", skip_tier=1),
-        _part("Crest: Wanderer", skip_tier=1),
-        _part("Crest: Beast", skip_tier=1),
-        _part("Crest: Witch", skip_tier=1),
+        _part("Crest: Hunter", "Technique: Crest Pogo 1"),
+        _part("Crest: Reaper", "Technique: Crest Pogo 1"),
+        _part("Crest: Shaman", "Technique: Crest Pogo 1"),
+        _part("Crest: Architect", "Technique: Crest Pogo 1"),
+        _part("Crest: Wanderer", "Technique: Crest Pogo 1"),
+        _part("Crest: Beast", "Technique: Crest Pogo 1"),
+        _part("Crest: Witch", "Technique: Crest Pogo 1"),
     ),
     "macro:architect-charge": (
         _part("Ability: Needle Strike", "Crest: Architect"),
@@ -249,11 +249,11 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part("Ability: Needle Strike", "Crest: Witch"),
     ),
     "macro:blasted-crest-pogo": (
-        _part("Crest: Hunter", skip_tier=1),
-        _part("Crest: Reaper", skip_tier=1),
-        _part("Crest: Shaman", skip_tier=1),
-        _part("Crest: Architect", skip_tier=1),
-        _part("Crest: Beast", skip_tier=1),
+        _part("Crest: Hunter", "Technique: Crest Pogo 1"),
+        _part("Crest: Reaper", "Technique: Crest Pogo 1"),
+        _part("Crest: Shaman", "Technique: Crest Pogo 1"),
+        _part("Crest: Architect", "Technique: Crest Pogo 1"),
+        _part("Crest: Beast", "Technique: Crest Pogo 1"),
     ),
     "macro:blasted-proficient-beast": (
         _part("Crest: Beast", skip_tier=1),
@@ -267,12 +267,12 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:blasted-easy-heal-stall": (_part("Technique: Heal Stall 1"),),
     "macro:blasted-heal-stall": (_part("Technique: Heal Stall 3"),),
     "macro:any-non-hunter-crest": (
-        _part("Crest: Reaper", skip_tier=1),
-        _part("Crest: Shaman", skip_tier=1),
-        _part("Crest: Architect", skip_tier=1),
-        _part("Crest: Wanderer", skip_tier=1),
-        _part("Crest: Beast", skip_tier=1),
-        _part("Crest: Witch", skip_tier=1),
+        _part("Crest: Reaper", "Technique: Crest Pogo 1"),
+        _part("Crest: Shaman", "Technique: Crest Pogo 1"),
+        _part("Crest: Architect", "Technique: Crest Pogo 1"),
+        _part("Crest: Wanderer", "Technique: Crest Pogo 1"),
+        _part("Crest: Beast", "Technique: Crest Pogo 1"),
+        _part("Crest: Witch", "Technique: Crest Pogo 1"),
     ),
     "macro:any-non-witch-crest": (
         _part("Crest: Hunter"),
@@ -655,7 +655,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         ),
     ),
     "event:high-halls/high-halls-arena/gauntlet": (
-        _part(room_node_name("high-halls/high-halls-arena#room")),
+        _part(room_node_name("high-halls/high-halls-arena#gauntlet-arena")),
     ),
     (
         "event:choral-chambers/high-halls-corridor/"
@@ -1353,7 +1353,7 @@ _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS = tuple(
         ),
         crest,
         movement,
-        skip_tier=1,
+        "Technique: Crest Pogo 1",
     )
     for crest in (
         "Crest: Hunter",
@@ -1455,7 +1455,7 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if kind == "wind-skip":
             return (_part("Option: Proficient Movement"),)
         if kind == "needle-strike-stall":
-            return tuple(_part("Ability: Needle Strike", crest.all_of[0], skip_tier=tier) for crest in _ATOM_ALTERNATIVES["macro:any-crest"])
+            return tuple(_part("Ability: Needle Strike", crest.all_of[0], f"Technique: Needle Strike {max(1, tier)}") for crest in _ATOM_ALTERNATIVES["macro:any-crest"])
         if kind in {"flintslate-stall", "plasmium-phial-stall", "voltvessels-stall"}:
             tool = {"flintslate-stall": "Flintslate", "plasmium-phial-stall": "Plasmium Phial", "voltvessels-stall": "Voltvessels"}[kind]
             return (_part("Usable " + tool, f"Technique: {tool} Stall {max(1, tier)}"),)
@@ -1468,12 +1468,15 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
             return (_part(f"Technique: {name} {max(1, tier)}"),)
         if kind == "scuttlebrace":
             return (_part("Usable Scuttlebrace", "Swift Step", f"Technique: Scuttlebrace {max(1, tier)}"),)
-        if kind in {"enemy-pogo", "spike-pogo-skip"}:
-            return tuple(_part("Crest: " + crest, skip_tier=tier) for crest in ("Hunter", "Wanderer", "Beast", "Reaper", "Witch", "Architect", "Shaman"))
+        if kind == "spike-pogo-skip":
+            return tuple(_merge(crest, _part(f"Technique: Crest Pogo {max(1, tier)}"))
+                         for crest in _ATOM_ALTERNATIVES["macro:spike-pogo"])
+        if kind == "enemy-pogo":
+            return (_part(f"Technique: Enemy Pogo {tier}"),) if tier else (_part(),)
         if kind.endswith("-crest-pogo"):
-            return (_part("Crest: " + kind.removesuffix("-crest-pogo").title(), skip_tier=tier),)
+            return (_part("Crest: " + kind.removesuffix("-crest-pogo").title(), f"Technique: Crest Pogo {max(1, tier)}"),)
         if kind.endswith("-crest-needle-strike"):
-            return (_part("Crest: " + kind.removesuffix("-crest-needle-strike").title(), "Ability: Needle Strike", skip_tier=tier),)
+            return (_part("Crest: " + kind.removesuffix("-crest-needle-strike").title(), "Ability: Needle Strike", f"Technique: Needle Strike {max(1, tier)}"),)
         raise ValueError(f"unsupported mapper atom: {atom}")
     if atom.startswith("received:"):
         name = atom[len("received:"):]
