@@ -259143,7 +259143,8 @@
             "act": "",
             "all_of": [
               "Room Node: hunter-s-march/hunters-march-shaft#l1-platform",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Ledge Grab"
             ],
             "any_of": [],
             "item_counts": [],
@@ -259157,7 +259158,8 @@
             "act": "",
             "all_of": [
               "Room Node: hunter-s-march/hunters-march-shaft#l1-platform",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Capability: Ledge Grab"
             ],
             "any_of": [],
             "item_counts": [],
@@ -259173,20 +259175,7 @@
               "Room Node: hunter-s-march/hunters-march-shaft#l1-platform",
               "Usable Scuttlebrace",
               "Swift Step",
-              "Technique: Scuttlebrace 1"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: hunter-s-march/hunters-march-shaft#l1-platform",
+              "Technique: Scuttlebrace 1",
               "Capability: Ledge Grab"
             ],
             "any_of": [],

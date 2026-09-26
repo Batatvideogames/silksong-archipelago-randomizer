@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "df69b84eafbedb950f8353d0ce80ca6fe1454f84eab245e6c080e5392d9b1f62",
     "catalogue_sha256": "44ce6e030e945cd8711b9101456291e3fe3b380c920356d987859c98bb37f4ea",
-    "bindings_sha256": "e841b32292de989e6585c520e681d1832cc5a6dd37d990b4fcf02c05fba1f71b"
+    "bindings_sha256": "14702aa94b32d9d64de4445db504f37752ee7cfe8263b1071dedd1f0b5ba6bab"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -62845,22 +62845,22 @@
         {
           "id": "hunter-s-march/hunters-march-shaft#l1-platform>the-top@v5",
           "requirement": {
-            "raw": "silk soar OR cling grip OR faydown cloak OR easy scuttlebrace OR ledge grab",
+            "raw": "Silk Soar OR ((Cling Grip OR Faydown Cloak OR Easy Scuttlebrace) AND Ledge Grab)",
             "mode": "expression",
             "dnf": [
               [
                 "item:silk-soar"
               ],
               [
-                "item:cling-grip"
+                "item:cling-grip",
+                "capability:ledge-grab"
               ],
               [
-                "item:faydown-cloak"
+                "item:faydown-cloak",
+                "capability:ledge-grab"
               ],
               [
-                "mapper:scuttlebrace:easy"
-              ],
-              [
+                "mapper:scuttlebrace:easy",
                 "capability:ledge-grab"
               ]
             ],

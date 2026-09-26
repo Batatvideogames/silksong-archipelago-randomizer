@@ -16,13 +16,13 @@ class TestEarlySilkHeart(TestCase):
         )
         return multiworld.local_early_items[1]
 
-    def test_anywhere_skills_and_hearts_request_one_early_heart(self) -> None:
+    def test_anywhere_skills_leave_opening_checks_for_movement(self) -> None:
         early_items = self.get_early_items(
             skill_randomization="anywhere",
             silk_heart_randomization="anywhere",
         )
 
-        self.assertEqual(early_items[PROGRESSIVE_SILK_HEART_ITEM], 1)
+        self.assertNotIn(PROGRESSIVE_SILK_HEART_ITEM, early_items)
 
     def test_shuffled_skills_and_anywhere_hearts_request_one(self) -> None:
         early_items = self.get_early_items(
@@ -49,7 +49,7 @@ class TestEarlySilkHeart(TestCase):
 
     def test_early_dash_and_heart_guarantees_are_additive(self) -> None:
         early_items = self.get_early_items(
-            skill_randomization="anywhere",
+            skill_randomization="shuffle",
             silk_heart_randomization="anywhere",
             early_dash="true",
         )

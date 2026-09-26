@@ -519,7 +519,7 @@ class SilksongWorld(World):
             randomize_swim=self.is_swim_ability_rando_enabled(),
         )
         if (
-            self.get_category_mode('Skill') != 'vanilla'
+            self.get_category_mode('Skill') == 'shuffle'
             and self.get_category_mode('SilkHeart') == 'anywhere'
         ):
             player_early_items = self.multiworld.local_early_items[
@@ -1657,17 +1657,29 @@ class SilksongWorld(World):
         for index, item in zip(indices, ordered):
             progitempool[index] = item
 
-    @staticmethod
-    def _build_crest_slotless_state(multiworld, excluded_slots):
+    @classmethod
+    def _build_crest_slot_budget_state(cls, multiworld, excluded_slots):
         state = CollectionState(multiworld)
-        state.sweep_for_advancements(
-            locations=(
-                location
-                for location in multiworld.get_filled_locations()
-                if location not in excluded_slots
+        remaining_slots = set(excluded_slots)
+        filled_locations = tuple(multiworld.get_filled_locations())
+        while True:
+            state.sweep_for_advancements(
+                locations=(
+                    location for location in filled_locations
+                    if location not in remaining_slots
+                )
             )
-        )
-        return state
+            funded_slots = {
+                location
+                for world in multiworld.worlds.values()
+                if world.game == cls.game
+                and state.count(MEMORY_LOCKET_ITEM, world.player)
+                >= get_crest_slot_memory_locket_count(world)
+                for location in get_active_crest_slot_locations(world)
+            } & remaining_slots
+            if not funded_slots:
+                return state
+            remaining_slots.difference_update(funded_slots)
 
     @classmethod
     def _repair_crest_slot_locket_budget(
@@ -1830,7 +1842,7 @@ class SilksongWorld(World):
 
         # First move only as much progression out of Crest Slots as needed
         # for the available independent Lockets plus the two-Locket buffer.
-        slotless_state = cls._build_crest_slotless_state(
+        slotless_state = cls._build_crest_slot_budget_state(
             multiworld,
             excluded_slots,
         )
@@ -1848,7 +1860,7 @@ class SilksongWorld(World):
             finalize_crest_slot_memory_locket_logic(world)
 
         # Move only the progression needed to keep two Lockets in reserve.
-        slotless_state = cls._build_crest_slotless_state(
+        slotless_state = cls._build_crest_slot_budget_state(
             multiworld,
             excluded_slots,
         )
