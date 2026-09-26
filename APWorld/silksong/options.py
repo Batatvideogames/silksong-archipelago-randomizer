@@ -1113,7 +1113,10 @@ class TrapDisguises(Toggle):
 
 
 class TrapPercentage(Range):
-    """Percent of all filler items in the random pool replaced by traps."""
+    """Percent of all filler items in the random pool replaced by traps.
+
+    If every trap weight is zero, no traps are added.
+    """
 
     display_name = "Trap Percentage"
     range_start = 0
@@ -1186,11 +1189,11 @@ class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
     keep the vanilla 17-point requirement. Mandatory wishes and story
     requirements remain unchanged. Nuu's wish does not count in logic.
-    Values above 22 are treated as 22.
+    Values above 23 are treated as 23.
     """
     display_name = "Silk and Soul Points"
     range_start = 0
-    range_end = 22
+    range_end = 23
     default = 17
 
     def __init__(self, value: int):

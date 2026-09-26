@@ -868,14 +868,8 @@ class SilksongWorld(World):
             in TRAP_ITEM_NAME_BY_WEIGHT_OPTION.items()
         }
         total_weight = sum(weights.values())
-        if total_traps > 0 and total_weight == 0:
-            raise OptionError(
-                "trap_percentage is above zero, but every trap weight is "
-                "zero. Give at least one enabled trap a positive weight."
-            )
-
         counts = {item_name: 0 for item_name in TRAP_ITEM_NAMES}
-        if total_traps > 0:
+        if total_traps > 0 and total_weight > 0:
             remainders: dict[int, list[str]] = {}
             assigned = 0
             for item_name, weight in weights.items():
