@@ -46,20 +46,52 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
-        [HarmonyPatch(typeof(InventoryItemSelectable), nameof(InventoryItemSelectable.Submit))]
+        private static bool TryCycleSelectedNeedle(InventoryItemManager manager)
+        {
+            if (manager.IsActionsBlocked || !(manager.CurrentSelected is InventoryItemNail needle))
+            {
+                return false;
+            }
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            if (state == null || playerData == null || !TryCycleNeedle(state, playerData))
+            {
+                return false;
+            }
+            RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Selected needle tier " +
+                state.selectedNeedleUpgradeLevel + " of " + GetUnlockedNeedleTier(state, playerData) + ".");
+            UpdateNeedleState.Invoke(needle, null);
+            UpdateNeedleDisplay.Invoke(needle, null);
+            return true;
+        }
+
+        [HarmonyPatch(typeof(InventoryItemManager), nameof(InventoryItemManager.SubmitButtonSelected))]
         private static class CycleNeedlePatch
         {
-            private static bool Prefix(InventoryItemSelectable __instance, ref bool __result)
+            private static bool Prefix(InventoryItemManager __instance, ref bool ___isSubmitHeld,
+                ref bool __result)
             {
-                SaveState state = SaveState.Instance;
-                PlayerData playerData = PlayerData.instance;
-                if (!(__instance is InventoryItemNail needle) || state == null ||
-                    playerData == null || !TryCycleNeedle(state, playerData))
+                if (!TryCycleSelectedNeedle(__instance))
                 {
                     return true;
                 }
-                UpdateNeedleState.Invoke(needle, null);
-                UpdateNeedleDisplay.Invoke(needle, null);
+                ___isSubmitHeld = true;
+                __result = true;
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(InventoryItemManager), nameof(InventoryItemManager.ExtraButtonSelected))]
+        private static class CycleNeedleExtraPatch
+        {
+            private static bool Prefix(InventoryItemManager __instance, ref bool ___isExtraHeld,
+                ref bool __result)
+            {
+                if (!TryCycleSelectedNeedle(__instance))
+                {
+                    return true;
+                }
+                ___isExtraHeld = true;
                 __result = true;
                 return false;
             }
@@ -79,12 +111,25 @@ namespace SilksongRandomizer.Patches
             {
                 FieldInfo field = AccessTools.Field(typeof(PlayerData), nameof(PlayerData.nailUpgrades));
                 MethodInfo selected = AccessTools.Method(typeof(NeedleUpgradePatches), nameof(GetSelectedNeedleTier));
-                foreach (CodeInstruction instruction in instructions)
+                MethodInfo getInt = AccessTools.Method(typeof(PlayerData), nameof(PlayerData.GetInt),
+                    new[] { typeof(string) });
+                List<CodeInstruction> code = new List<CodeInstruction>(instructions);
+                for (int i = 0; i < code.Count; i++)
                 {
+                    CodeInstruction instruction = code[i];
                     if (instruction.LoadsField(field))
                     {
                         instruction.opcode = OpCodes.Call;
                         instruction.operand = selected;
+                    }
+                    else if (instruction.opcode == OpCodes.Ldstr &&
+                             Equals(instruction.operand, nameof(PlayerData.nailUpgrades)) &&
+                             i + 1 < code.Count && code[i + 1].Calls(getInt))
+                    {
+                        instruction.opcode = OpCodes.Nop;
+                        instruction.operand = null;
+                        code[i + 1].opcode = OpCodes.Call;
+                        code[i + 1].operand = selected;
                     }
                     yield return instruction;
                 }
