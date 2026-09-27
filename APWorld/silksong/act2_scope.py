@@ -30,7 +30,6 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
         "Sprintmaster's Memento",
         "Guardian's Memento",
         "Hero's Memento",
-        'Grey Memento',
         'Surface Memento',
         'Craw Memento',
         "Hunter's Heart",
@@ -132,6 +131,7 @@ ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
 
 
 ACT_TWO_SILK_SOAR_LOCATION_NAMES: frozenset[str] = frozenset((
+    "Grey Memento",
     "Whispering Vaults - Mask Shard",
     "Whispering Vaults - Shard Bundle",
     *(f"Far Fields - Rosary Cache #{number}" for number in (18, 20, 21)),
@@ -191,7 +191,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
 ] = {
     "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1},
     "Everbloom": {"Everbloom": 1},
-    "Memento": {"Sprintmaster's Memento": 1, "Guardian's Memento": 1, "Hero's Memento": 1, 'Grey Memento': 1, 'Surface Memento': 1, 'Craw Memento': 1},
+    "Memento": {"Sprintmaster's Memento": 1, "Guardian's Memento": 1, "Hero's Memento": 1, 'Surface Memento': 1, 'Craw Memento': 1},
     "Map": {
         "Map: The Abyss": 1,
         "Map: Verdania": 1,
@@ -247,6 +247,7 @@ def trim_act_two_pool_entries(
     }
     if skill_mode != "anywhere":
         for category, item_counts in {
+            "Memento": {"Grey Memento": 1},
             "MaskShard": {"Mask Shard #9": 1},
             "MemoryLocket": {"Memory Locket": 1},
             "Resource:shard_bundle": {"Shard Bundle": 1},

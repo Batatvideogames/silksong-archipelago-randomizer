@@ -72,7 +72,7 @@ def _early_dash_chain(world, assume_categories=False):
     return None if assume_categories else _early_dash_chain(world, assume_categories=True)
 
 
-def _early_dash_states(world, opening=None):
+def _early_dash_states(world, opening=None, *, locations=None):
     from collections import deque
 
     player = world.player
@@ -80,7 +80,8 @@ def _early_dash_states(world, opening=None):
         "Ledge Grab", "Swift Step", "Progressive Swift Step", "Faydown Cloak",
         "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
     }
-    filled = world.multiworld.get_filled_locations()
+    filled = (world.multiworld.get_filled_locations() if locations is None
+              else [location for location in locations if location.item is not None])
     abilities = [location for location in filled
                  if location.item.player == player and location.item.name != "Swift Step"
                  and (location.item.name in movement or _placement_category(location.item) == "Skill")]
@@ -142,6 +143,30 @@ def _skill_placement_orders(state, locations, ordinary, player, extra=(), early_
                 trial.collect(location.item, True)
                 trial.advancements.add(location)
                 pending.append((trial, plan, (*other, location)))
+
+
+def _remove_unneeded_opening_items(items, can_finish):
+    needed = list(items)
+
+    def remove_groups(groups):
+        nonlocal needed
+        if not groups:
+            return
+        removed = {id(item) for group in groups for item in group}
+        reduced = [item for item in needed if id(item) not in removed]
+        if can_finish(reduced):
+            needed = reduced
+        elif len(groups) > 1:
+            middle = len(groups) // 2
+            remove_groups(groups[:middle])
+            remove_groups(groups[middle:])
+
+    by_name = defaultdict(list)
+    for item in needed:
+        by_name[item.name].append(item)
+    remove_groups(list(by_name.values()))
+    remove_groups([[item] for item in needed])
+    return needed
 
 
 def reserve_early_dash(world):
@@ -219,16 +244,10 @@ def reserve_early_dash(world):
             if not state.has("Swift Step", player):
                 continue
             sources = [*ordinary, *(location for location in chain if location in abilities)]
-            needed = list(ordinary_items)
-            names = list(dict.fromkeys(item.name for item in needed))
-            for name in names:
-                reduced = [item for item in needed if item.name != name]
-                if assumed([*reduced, *extra], sources).has("Swift Step", player):
-                    needed = reduced
-            for item in tuple(needed):
-                reduced = [other for other in needed if other is not item]
-                if assumed([*reduced, *extra], sources).has("Swift Step", player):
-                    needed = reduced
+            needed = _remove_unneeded_opening_items(
+                ordinary_items,
+                lambda reduced: assumed([*reduced, *extra], sources).has("Swift Step", player),
+            )
             if not reserve([*needed, *extra], sources):
                 continue
             reserved_ids = {id(location.item) for location in reserved}

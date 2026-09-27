@@ -715,8 +715,11 @@ def prepare_world(world, graph):
 def _replace_events(world, assignments):
     from .native_regions import choose_requirement_anchor, native_rule_options
     from .room_graph_logic import native_region_name
-    from .requirement_rules import build_requirements_rule
+    from .requirement_rules import _enable_native_source_memo, build_requirements_rule
 
+    memo = getattr(world.multiworld, "_silksong_native_source_memo", None)
+    if memo is not None:
+        _enable_native_source_memo(world.multiworld, memo.get("players"))
     events = compile_events(assignments, world._progression_wishes, world._progression_bosses)
     options = native_rule_options(world)
     names = world._silksong_native_abstract_names
@@ -746,6 +749,24 @@ def _replace_events(world, assignments):
     world._progression_assignments = assignments
 
 
+def _preparation_locations(world):
+    multiworld = world.multiworld
+    if (not multiworld.groups
+            and all(other.game == world.game for other in multiworld.worlds.values())
+            and all(location.item.player == location.player
+                    for location in multiworld.get_filled_locations())):
+        return world.get_locations()
+    return None
+
+
+def _preparation_state(world):
+    locations = _preparation_locations(world)
+    state = world.multiworld.get_all_state(perform_sweep=locations is None)
+    if locations is not None:
+        state.sweep_for_advancements(locations)
+    return state
+
+
 def finalize_world(world):
     from BaseClasses import CollectionState
 
@@ -754,8 +775,11 @@ def finalize_world(world):
     if getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game) is not None:
         return
     multiworld = world.multiworld
-    baseline = multiworld.get_all_state()
-    required = tuple(location for location in world.get_locations() if location.can_reach(baseline))
+    baseline = _preparation_state(world)
+    locations = _preparation_locations(world)
+    if locations is None:
+        locations = multiworld.get_locations()
+    required = tuple(location for location in locations if location.can_reach(baseline))
     from .room_graph_logic import native_region_name
     completion_names = tuple(completion_event(contract.identity) for contract in world._progression_wishes)
     completion_names += tuple(credit_event(contract.identity) for contract in world._progression_bosses)
@@ -769,9 +793,15 @@ def finalize_world(world):
         if candidate == accepted:
             return True
         _replace_events(world, candidate)
-        state = multiworld.get_all_state()
-        if all(location.can_reach(state) for location in required) and all(
-                region.can_reach(state) for region in required_events):
+        state = _preparation_state(world)
+        accessible = all(location.can_reach(state) for location in required) and all(
+            region.can_reach(state) for region in required_events)
+        if accessible and world.is_early_dash_enabled() and world._early_dash_shuffle_locations:
+            from .category_fill import _early_dash_states
+            accessible = any(opening.has("Swift Step", world.player)
+                             for opening, _ in _early_dash_states(
+                                 world, locations=_preparation_locations(world)))
+        if accessible:
             accepted = candidate
             return True
         _replace_events(world, accepted)

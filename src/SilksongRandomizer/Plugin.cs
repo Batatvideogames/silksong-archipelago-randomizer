@@ -26,7 +26,7 @@ namespace SilksongRandomizer
             Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.4.7";
+        public const string PluginVersion = "0.4.8";
 
         public static bool OverrideUnlock { get; set; } = true;
 
@@ -1124,6 +1124,7 @@ namespace SilksongRandomizer
                           (currentHero.CanAttack() ||
                            NakedTrapManager.CanProcessReceivedItems(
                                currentHero) ||
+                           LiteracyTrap.CanProcessReceivedItems(currentHero) ||
                            durableMemoryReceiptReady));
                 if (!gameplayReady)
                 {
@@ -1326,6 +1327,7 @@ namespace SilksongRandomizer
 
         private void OnGUI()
         {
+            LiteracyTrap.Draw();
             CheckMapMarkerManager.DrawTooltip();
 
             if (!showConnectionGui)

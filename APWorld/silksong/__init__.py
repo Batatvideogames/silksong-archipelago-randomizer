@@ -1210,13 +1210,22 @@ class SilksongWorld(World):
                 )
 
         pool_entries = tuple(pool_entries)
+        if (self.is_act_two_content_scope()
+                and any(entry.name == "Grey Memento" for entry in pool_entries)
+                and not any(entry.name == "Silk Soar" for entry in pool_entries)
+                and not any(item.name == "Silk Soar"
+                            for item in self.multiworld.precollected_items[self.player])):
+            raise OptionError(
+                "Memento Randomization in Act 2 needs room for Silk Soar. "
+                "Enable an additional category with filler items or start with Silk Soar."
+            )
 
         self.multiworld.itempool.extend(
             self.create_item(entry.name, entry.placement_category)
             for entry in pool_entries
         )
 
-    def pre_fill(self) -> None:
+    def _finalize_progression_shuffle(self) -> None:
         from .progression_shuffle import finalize_world
         finalize_world(self)
         state = self.multiworld.get_all_state()
@@ -1593,6 +1602,9 @@ class SilksongWorld(World):
         for world in multiworld.worlds.values():
             if world.game == cls.game:
                 reserve_early_dash(world)
+        for world in multiworld.worlds.values():
+            if world.game == cls.game:
+                world._finalize_progression_shuffle()
         alphabet_mode_enabled = any(
             getattr(world, "game", None) == cls.game
             and getattr(

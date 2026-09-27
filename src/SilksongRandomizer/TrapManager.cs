@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
+using TeamCherry.Localization;
 using UnityEngine;
 
 namespace SilksongRandomizer
@@ -508,6 +510,7 @@ namespace SilksongRandomizer
 
         internal static void Update()
         {
+            LiteracyTrap.Update();
             TryApplyPendingStagger();
             TryCompleteCursedCrestRuntimeRefresh();
             NakedTrapManager.Update();
@@ -639,6 +642,7 @@ namespace SilksongRandomizer
             cursedCrestSaveRemaining = 0f;
             cursedCrestSaveOwner = null;
             pendingStaggerCount = 0;
+            LiteracyTrap.Reset();
             RestoreDarkness();
             RestoreMuckmaggotStatus();
             pendingCursedCrest = false;
@@ -1139,4 +1143,260 @@ namespace SilksongRandomizer
             }
         }
     }
+
+    internal static class LiteracyTrap
+    {
+        private static readonly FieldInfo DialogueInstance = AccessTools.Field(typeof(DialogueBox), "_instance");
+        private static readonly FieldInfo DialogueRunning = AccessTools.Field(typeof(DialogueBox), "isDialogueRunning");
+        private static readonly string[] DialogueKeys =
+        {
+            "BELLHERMIT_MEET", "BELLHERMIT_SAVED_2", "BELLHERMIT_SAVED_3"
+        };
+        private static int pending;
+        private static HeroController owner;
+        private static SaveState saveOwner;
+        private static int controlVersion;
+        private static int sceneHandle;
+        private static List<string> pages;
+        private static int page;
+        private static float openedAt;
+        private static float pageOpenedAt;
+        private static float nextStart;
+        private static bool revealed;
+        private static bool recoveringFromHit;
+        private static GUIStyle textStyle;
+
+        internal static void Trigger()
+        {
+            if (pending < int.MaxValue) pending++;
+        }
+
+        private static bool HasConversation()
+        {
+            if (DialogueInstance == null || DialogueRunning == null) return true;
+            var box = DialogueInstance.GetValue(null) as DialogueBox;
+            return box == null || (bool)DialogueRunning.GetValue(box);
+        }
+
+        private static bool IsGameplayReady(HeroController hero)
+        {
+            GameManager manager = GameManager.SilentInstance;
+            PlayerData data = PlayerData.instance;
+            return hero != null && hero.cState != null && manager != null && data != null &&
+                manager.GameState == GlobalEnums.GameState.PLAYING && manager.IsGameplayScene() &&
+                !manager.IsMemoryScene() && !manager.isPaused && !manager.RespawningHero &&
+                !manager.IsLoadingSceneTransition && !manager.IsInSceneTransition &&
+                !TransitionPoint.IsTransitionBlocked && !BossSceneController.IsTransitioning &&
+                !data.HasStoredMemoryState && !data.isInventoryOpen && !data.atBench &&
+                !data.disablePause && !hero.cState.transitioning && !hero.cState.dead &&
+                !hero.cState.hazardDeath && !hero.cState.hazardRespawning &&
+                !RandomizerPlugin.IsConnectionGuiOpen && !GenericMessageCanvas.IsActive &&
+                InteractManager.BlockingInteractable == null && !HasConversation();
+        }
+
+        internal static bool CanProcessReceivedItems(HeroController hero)
+        {
+            return pages != null && hero == owner && HeroController.ControlVersion == controlVersion &&
+                hero.controlReqlinquished && saveOwner == SaveState.Instance && IsGameplayReady(hero);
+        }
+
+        internal static List<string> SplitPages(string text)
+        {
+            var result = new List<string>();
+            foreach (DialogueBox.DialogueLine line in DialogueBox.ParseTextForDialogueLines(text))
+            {
+                string remaining = line.Text.Trim();
+                while (remaining.Length > 0 && result.Count < 6)
+                {
+                    int length = Math.Min(280, remaining.Length);
+                    if (length < remaining.Length)
+                    {
+                        int space = remaining.LastIndexOf(' ', length - 1, length);
+                        if (space >= 140) length = space;
+                        if (char.IsHighSurrogate(remaining[length - 1])) length--;
+                    }
+                    result.Add(remaining.Substring(0, length).Trim());
+                    remaining = remaining.Substring(length).TrimStart();
+                }
+                if (result.Count == 6) break;
+            }
+            return result;
+        }
+
+        internal static void Update()
+        {
+            try
+            {
+                HeroController hero = HeroController.SilentInstance;
+                if (pages != null)
+                {
+                    if (owner == null || hero != owner || saveOwner != SaveState.Instance ||
+                        owner.gameObject.scene.handle != sceneHandle ||
+                        HeroController.ControlVersion != controlVersion ||
+                        (!owner.controlReqlinquished && !recoveringFromHit) ||
+                        !IsGameplayReady(owner) || Time.unscaledTime - openedAt >= 60f)
+                    {
+                        Close();
+                        return;
+                    }
+                    if (recoveringFromHit && owner.CanTakeControl())
+                    {
+                        owner.RelinquishControl();
+                        controlVersion = HeroController.ControlVersion;
+                        recoveringFromHit = false;
+                    }
+                    InputHandler input = GameManager.SilentInstance.inputHandler;
+                    if (Time.unscaledTime - pageOpenedAt >= 0.2f && input.WasSkipButtonPressed)
+                    {
+                        if (!revealed && (Time.unscaledTime - pageOpenedAt) * RevealSpeed < pages[page].Length)
+                            revealed = true;
+                        else if (++page >= pages.Count)
+                            Close();
+                        else
+                        {
+                            pageOpenedAt = Time.unscaledTime;
+                            revealed = false;
+                        }
+                    }
+                    return;
+                }
+                if (pending <= 0 || Time.unscaledTime < nextStart || !IsGameplayReady(hero) ||
+                    !hero.CanTakeControl() || !hero.cState.onGround || hero.cState.isSprinting ||
+                    hero.cState.isToolThrowing || hero.cState.swimming || hero.cState.superDashing ||
+                    hero.sprintFSM?.FsmVariables.FindFsmBool("Is Sprinting")?.Value == true)
+                    return;
+
+                string key = DialogueKeys[UnityEngine.Random.Range(0, DialogueKeys.Length)];
+                string text = Language.Get(key, "Belltown");
+                List<string> dialogue = SplitPages(text);
+                pending--;
+                if (dialogue.Count == 0 || text == key) return;
+                owner = hero;
+                saveOwner = SaveState.Instance;
+                sceneHandle = hero.gameObject.scene.handle;
+                pages = dialogue;
+                try { hero.RelinquishControl(); }
+                finally { controlVersion = HeroController.ControlVersion; }
+                recoveringFromHit = false;
+                page = 0;
+                openedAt = pageOpenedAt = Time.unscaledTime;
+                revealed = false;
+            }
+            catch (Exception ex)
+            {
+                pending = 0;
+                Close();
+                RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Literacy Trap ended: " + ex.Message);
+            }
+        }
+
+        private static float RevealSpeed => SaveState.Instance?.fasterDialogue == true ? 130f : 65f;
+
+        internal static void Close()
+        {
+            HeroController hero = owner;
+            bool hadPages = pages != null;
+            owner = null;
+            saveOwner = null;
+            pages = null;
+            recoveringFromHit = false;
+            if (!hadPages) return;
+            nextStart = Time.unscaledTime + 3f;
+            try
+            {
+                if (hero != null && hero == HeroController.SilentInstance &&
+                    HeroController.ControlVersion == controlVersion && hero.controlReqlinquished &&
+                    hero.cState != null && !hero.cState.dead && !hero.cState.hazardDeath &&
+                    !hero.cState.hazardRespawning && !hero.cState.transitioning &&
+                    hero.gameObject.scene.handle == sceneHandle &&
+                    GameManager.SilentInstance != null && !GameManager.SilentInstance.RespawningHero &&
+                    !GameManager.SilentInstance.IsInSceneTransition &&
+                    !GameManager.SilentInstance.IsLoadingSceneTransition && !BossSceneController.IsTransitioning)
+                    hero.RegainControl();
+            }
+            catch (Exception ex)
+            {
+                RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Literacy Trap control cleanup failed: " + ex.Message);
+            }
+        }
+
+        internal static void Reset()
+        {
+            pending = 0;
+            Close();
+        }
+
+        internal static void Draw()
+        {
+            if (pages == null || owner == null) return;
+            Matrix4x4 matrix = GUI.matrix;
+            Color color = GUI.color;
+            int depth = GUI.depth;
+            try
+            {
+                float scale = Mathf.Min(Screen.width / 1200f, Screen.height / 700f);
+                if (scale <= 0f) return;
+                GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
+                GUI.depth = -50;
+                if (textStyle == null)
+                    textStyle = new GUIStyle(GUI.skin.label) { wordWrap = true, richText = false, fontSize = 27 };
+                textStyle.normal.textColor = Color.white;
+                string text = pages[page];
+                float height = Mathf.Max(160f, textStyle.CalcHeight(new GUIContent(text), 930f) + 48f);
+                float x = (Screen.width / scale - 1020f) / 2f;
+                float y = Screen.height / scale * 0.14f;
+                GUI.color = new Color(0.75f, 0.75f, 0.75f, 0.95f);
+                GUI.DrawTexture(new Rect(x, y, 1020f, height), Texture2D.whiteTexture);
+                GUI.color = new Color(0.025f, 0.025f, 0.04f, 0.98f);
+                GUI.DrawTexture(new Rect(x + 2f, y + 2f, 1016f, height - 4f), Texture2D.whiteTexture);
+                GUI.color = Color.white;
+                int count = revealed ? text.Length : Math.Min(text.Length, (int)((Time.unscaledTime - pageOpenedAt) * RevealSpeed));
+                if (count > 0 && count < text.Length && char.IsHighSurrogate(text[count - 1])) count--;
+                GUI.Label(new Rect(x + 45f, y + 24f, 930f, height - 48f), text.Substring(0, count), textStyle);
+            }
+            catch (Exception ex)
+            {
+                Close();
+                RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Literacy Trap display closed: " + ex.Message);
+            }
+            finally
+            {
+                GUI.matrix = matrix;
+                GUI.color = color;
+                GUI.depth = depth;
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroController), nameof(HeroController.TakeDamage))]
+        private static class DamageRecovery
+        {
+            private static void Postfix(HeroController __instance)
+            {
+                if (pages == null || __instance != owner) return;
+                if (__instance.cState.dead || __instance.cState.hazardDeath ||
+                    __instance.cState.hazardRespawning || PlayerData.instance.health <= 0)
+                    Close();
+                else if (HeroController.ControlVersion == controlVersion && !__instance.controlReqlinquished)
+                    recoveringFromHit = true;
+            }
+        }
+
+        [HarmonyPatch(typeof(DialogueBox), nameof(DialogueBox.StartConversation),
+            new Type[] { typeof(string), typeof(NPCControlBase), typeof(bool),
+                typeof(DialogueBox.DisplayOptions), typeof(Action), typeof(Action) })]
+        private static class ConversationCleanup
+        {
+            private static void Prefix() => Close();
+        }
+
+        [HarmonyPatch(typeof(HeroController), nameof(HeroController.CanOpenInventory))]
+        private static class InventoryGuard
+        {
+            private static void Postfix(HeroController __instance, ref bool __result)
+            {
+                if (__instance == owner && pages != null) __result = false;
+            }
+        }
+    }
+
 }

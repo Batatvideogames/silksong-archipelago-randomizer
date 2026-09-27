@@ -415,6 +415,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Grey Memento', 'Memento'),
     ('Surface Memento', 'Memento'),
     ('Craw Memento', 'Memento'),
+    ('Literacy Trap', 'Trap'),
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
@@ -808,6 +809,7 @@ TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
     'cursed_crest_trap_weight': 'Cursed Crest Trap',
     'muckmaggot_status_trap_weight': 'Muckmaggot Status Trap',
     'naked_trap_weight': 'Naked Trap',
+    'literacy_trap_weight': 'Literacy Trap',
 }
 TRAP_ITEM_NAMES: tuple[str, ...] = tuple(
     TRAP_ITEM_NAME_BY_WEIGHT_OPTION.values()
@@ -843,6 +845,11 @@ class ItemPoolEntry:
     name: str
     source_category: str
     placement_category: str | None = None
+
+
+def _is_replaceable_filler(item_name: str) -> bool:
+    data = item_data_table[item_name]
+    return data.classification == ItemClassification.filler and data.category != 'Memento'
 
 
 def add_pool_only_useful_items(entries: list[ItemPoolEntry]) -> None:
@@ -892,8 +899,7 @@ def replace_filler_with_innate_ability_items(
     eligible_indices = [
         index
         for index, entry in enumerate(entries)
-        if item_data_table[entry.name].classification
-        == ItemClassification.filler
+        if _is_replaceable_filler(entry.name)
     ]
     if len(eligible_indices) < len(item_names):
         raise OptionError(
@@ -1298,8 +1304,7 @@ def _trim_act_one_pool_entries(
                     for index, entry in enumerate(entries)
                     if (
                         entry.source_category == source_category
-                        and item_data_table[entry.name].classification
-                        == ItemClassification.filler
+                        and _is_replaceable_filler(entry.name)
                     )
                 ),
                 None,
@@ -1376,7 +1381,7 @@ def _balance_act_two_skill_pool(
             (
                 index for index, entry in enumerate(entries)
                 if entry.placement_category is None
-                and item_data_table[entry.name].classification == ItemClassification.filler
+                and _is_replaceable_filler(entry.name)
             ),
             None,
         )
@@ -1409,11 +1414,10 @@ def get_dynamic_trap_capacity(
     cursed_ending: bool = False,
     minimum_memory_lockets: int = 0,
 ) -> int:
-    """Count every filler-classified entry in the configured random pool."""
+    """Count filler entries that can be replaced by traps."""
 
     return sum(
-        item_data_table[entry.name].classification
-        == ItemClassification.filler
+        _is_replaceable_filler(entry.name)
         for entry in build_item_pool_entries(
             starting_crest_item,
             None,
@@ -1461,8 +1465,7 @@ def _trim_verdania_pool_entries(
                     for index, entry in enumerate(entries)
                     if (
                         entry.source_category == source_category
-                        and item_data_table[entry.name].classification
-                        == ItemClassification.filler
+                        and _is_replaceable_filler(entry.name)
                     )
                 ),
                 None,
@@ -1847,8 +1850,7 @@ def build_item_pool_entries(
             for index, entry in enumerate(entries)
             if (
                 entry.placement_category is None
-                and item_data_table[entry.name].classification
-                == ItemClassification.filler
+                and _is_replaceable_filler(entry.name)
             )
         )
         filler_index = next(
@@ -1885,7 +1887,7 @@ def build_item_pool_entries(
         eligible_indices = [
             index for index, entry in enumerate(entries)
             if entry.placement_category is None
-            and item_data_table[entry.name].classification == ItemClassification.filler
+            and _is_replaceable_filler(entry.name)
             and not is_advancement(entry.name)
         ]
         nonadvancement_count = sum(
@@ -1941,10 +1943,7 @@ def build_item_pool_entries(
             }
             for entry in entries:
                 category = entry.placement_category
-                if (
-                    item_data_table[entry.name].classification
-                    == ItemClassification.filler
-                ):
+                if _is_replaceable_filler(entry.name):
                     eligible_filler_count_by_category[category] = (
                         eligible_filler_count_by_category.get(category, 0)
                         + 1
@@ -1971,10 +1970,7 @@ def build_item_pool_entries(
             }
         replace_filler_with_alphabet_items(
             entries,
-            lambda name: (
-                item_data_table[name].classification
-                == ItemClassification.filler
-            ),
+            _is_replaceable_filler,
             trap_randomizer,
             max_alphabet_replacements_by_category,
             alphabet_item_is_advancement,
@@ -2000,10 +1996,7 @@ def build_item_pool_entries(
     eligible_indices = [
         index
         for index, entry in enumerate(entries)
-        if (
-            item_data_table[entry.name].classification
-            == ItemClassification.filler
-        )
+        if _is_replaceable_filler(entry.name)
     ]
     if trap_randomizer is not None:
         # Shuffle the complete filler pool so each entry has the configured
@@ -2200,8 +2193,7 @@ def _get_adjusted_pool_counts(
     for item_name, _category in ITEM_TABLE_SOURCE:
         if (
             remaining_replacements == 0
-            or item_data_table[item_name].classification
-            != ItemClassification.filler
+            or not _is_replaceable_filler(item_name)
         ):
             continue
         replaced_count = min(counts[item_name], remaining_replacements)
@@ -2217,10 +2209,7 @@ def _get_adjusted_pool_counts(
     trap_capacity = sum(
         count
         for item_name, count in counts.items()
-        if (
-            item_data_table[item_name].classification
-            == ItemClassification.filler
-        )
+        if _is_replaceable_filler(item_name)
     )
     if total_traps > trap_capacity:
         raise ValueError(
@@ -2232,8 +2221,7 @@ def _get_adjusted_pool_counts(
     for item_name, _category in ITEM_TABLE_SOURCE:
         if (
             remaining_traps == 0
-            or item_data_table[item_name].classification
-            != ItemClassification.filler
+            or not _is_replaceable_filler(item_name)
         ):
             continue
         replaced_count = min(counts[item_name], remaining_traps)

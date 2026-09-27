@@ -124,7 +124,7 @@ class OldHeartRandomization(GlobalRandomization):
 
 
 class MementoRandomization(GlobalRandomization):
-    """Randomizes six Mementos for Act 3 goals. Hunter's Memento stays vanilla. Hearts follow Old Heart Randomization."""
+    """Randomizes Mementos available for your goal. Hunter's Memento stays vanilla. Hearts follow Old Heart Randomization."""
 
     display_name = "Memento Randomization"
     default = GlobalRandomization.option_vanilla
@@ -1140,7 +1140,7 @@ class TrapDisguises(Toggle):
 
 
 class TrapPercentage(Range):
-    """Percent of all filler items in the random pool replaced by traps.
+    """Percent of eligible filler items in the random pool replaced by traps.
 
     If every trap weight is zero, no traps are added.
     """
@@ -1210,6 +1210,16 @@ class NakedTrapWeight(TrapWeight):
     """
 
     display_name = "Naked Trap Weight"
+
+
+class LiteracyTrapWeight(TrapWeight):
+    """Relative frequency of Literacy Traps, zero disables them.
+
+    Bell Hermit interrupts with several pages of dialogue. Advance the text
+    to regain control while the action continues around you.
+    """
+
+    display_name = "Literacy Trap Weight"
 
 
 class SilkAndSoulPoints(Range):
@@ -1364,6 +1374,7 @@ class SilksongOptions(PerGameCommonOptions):
     cursed_crest_trap_weight: CursedCrestTrapWeight
     muckmaggot_status_trap_weight: MuckmaggotStatusTrapWeight
     naked_trap_weight: NakedTrapWeight
+    literacy_trap_weight: LiteracyTrapWeight
 
 
 silksong_option_groups = [
@@ -1490,5 +1501,6 @@ silksong_option_groups = [
         CursedCrestTrapWeight,
         MuckmaggotStatusTrapWeight,
         NakedTrapWeight,
+        LiteracyTrapWeight,
     ], start_collapsed=True),
 ]
