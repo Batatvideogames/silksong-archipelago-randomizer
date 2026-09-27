@@ -90,6 +90,13 @@ _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(
 _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
     (
         "Pollen Heart",
+        "Everbloom",
+        "Sprintmaster's Memento",
+        "Guardian's Memento",
+        "Hero's Memento",
+        'Grey Memento',
+        'Surface Memento',
+        'Craw Memento',
         "Hunter's Heart",
         "Encrusted Heart",
         "Twisted Bud",

@@ -29,6 +29,24 @@ namespace SilksongRandomizer
                 "queueAttackToolsChanged"
             );
 
+        public static void GrantMemento(string assetName)
+        {
+            PlayerData data = PlayerData.instance;
+            bool grey = data.CollectedMementoGrey;
+            bool sprintmaster = data.CollectedMementoSprintmaster;
+            try
+            {
+                if (assetName == "Grey Memento") data.CollectedMementoGrey = false;
+                if (assetName == "Sprintmaster Memento") data.CollectedMementoSprintmaster = false;
+                GrantCollectable(assetName);
+            }
+            finally
+            {
+                data.CollectedMementoGrey = grey;
+                data.CollectedMementoSprintmaster = sprintmaster;
+            }
+        }
+
         public static void GrantDash()
         {
             SaveState state = RequireSaveState();

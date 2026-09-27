@@ -249,6 +249,23 @@ namespace SilksongRandomizer
         {
             scale = 1f;
 
+            string collectableName = null;
+            switch (rawName)
+            {
+                case "Sprintmaster's Memento": collectableName = "Sprintmaster Memento"; break;
+                case "Guardian's Memento": collectableName = "Memento Seth"; break;
+                case "Hero's Memento": collectableName = "Memento Garmond"; break;
+                case "Grey Memento": collectableName = "Grey Memento"; break;
+                case "Surface Memento": collectableName = "Memento Surface"; break;
+                case "Craw Memento": collectableName = "Crowman Memento"; break;
+                case "Everbloom": collectableName = "White Flower"; break;
+            }
+            if (collectableName != null)
+            {
+                CollectableItem item = CollectableItemManager.GetItemByName(collectableName);
+                if (item != null) return item.GetIcon(CollectableItem.ReadSource.GetPopup);
+            }
+
             if (Mappings.TryGetValue(rawName, out string mappedSprite) ||
                 Mappings.TryGetValue(strippedName, out mappedSprite) ||
                 Mappings.TryGetValue(cleanName, out mappedSprite) ||

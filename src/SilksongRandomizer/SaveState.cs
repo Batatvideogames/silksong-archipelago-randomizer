@@ -346,6 +346,8 @@ namespace SilksongRandomizer
         public RandomizationMode evaRandomization = RandomizationMode.Vanilla;
         public RandomizationMode soulRandomization = RandomizationMode.Vanilla;
         public RandomizationMode oldHeartRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode everbloomRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode mementoRandomization = RandomizationMode.Vanilla;
         public RandomizationMode twistedBudRandomization = RandomizationMode.Vanilla;
         public RandomizationMode fleaRandomization = RandomizationMode.Anywhere;
         public RandomizationMode crestSlotRandomization = RandomizationMode.Anywhere;
@@ -950,6 +952,8 @@ namespace SilksongRandomizer
             evaRandomization = archipelago.EvaRandomization;
             soulRandomization = archipelago.SoulRandomization;
             oldHeartRandomization = archipelago.OldHeartRandomization;
+            everbloomRandomization = archipelago.EverbloomRandomization;
+            mementoRandomization = archipelago.MementoRandomization;
             twistedBudRandomization = archipelago.TwistedBudRandomization;
             fleaRandomization = archipelago.FleaRandomization;
             crestSlotRandomization = archipelago.CrestSlotRandomization;
@@ -1129,6 +1133,8 @@ namespace SilksongRandomizer
                 Tuple.Create("eva_randomization", evaRandomization, archipelago.EvaRandomization),
                 Tuple.Create("soul_randomization", soulRandomization, archipelago.SoulRandomization),
                 Tuple.Create("old_heart_randomization", oldHeartRandomization, archipelago.OldHeartRandomization),
+                Tuple.Create("everbloom_randomization", everbloomRandomization, archipelago.EverbloomRandomization),
+                Tuple.Create("memento_randomization", mementoRandomization, archipelago.MementoRandomization),
                 Tuple.Create("twisted_bud_randomization", twistedBudRandomization, archipelago.TwistedBudRandomization),
                 Tuple.Create("flea_randomization", fleaRandomization, archipelago.FleaRandomization),
                 Tuple.Create("crest_slot_randomization", crestSlotRandomization, archipelago.CrestSlotRandomization),
@@ -1701,6 +1707,10 @@ namespace SilksongRandomizer
                     return soulRandomization;
                 case ItemType.OldHeart:
                     return oldHeartRandomization;
+                case ItemType.Everbloom:
+                    return everbloomRandomization;
+                case ItemType.Memento:
+                    return mementoRandomization;
                 case ItemType.TwistedBud:
                     return twistedBudRandomization;
                 case ItemType.CrestSlot:

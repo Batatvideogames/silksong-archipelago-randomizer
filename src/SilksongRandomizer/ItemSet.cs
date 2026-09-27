@@ -905,6 +905,13 @@ namespace SilksongRandomizer
             new Item("Hunter's Heart", ItemType.OldHeart, () => ItemGrants.GrantCollectable("Hunter Heart")),
             new Item("Encrusted Heart", ItemType.OldHeart, () => ItemGrants.GrantCollectable("Coral Heart")),
             new Item("Twisted Bud", ItemType.TwistedBud, () => ItemGrants.GrantCollectable("Wood Witch Item")),
+            new Item("Everbloom", ItemType.Everbloom, () => ItemGrants.GrantCollectable("White Flower")),
+            new Item("Sprintmaster's Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Sprintmaster Memento")),
+            new Item("Guardian's Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Memento Seth")),
+            new Item("Hero's Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Memento Garmond")),
+            new Item("Grey Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Grey Memento")),
+            new Item("Surface Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Memento Surface")),
+            new Item("Craw Memento", ItemType.Memento, () => ItemGrants.GrantMemento("Crowman Memento")),
 
             new Item("Memory Locket", ItemType.MemoryLocket, () => { ItemGrants.GrantCollectable("Crest Socket Unlocker"); }, true),
             new Item("Craftmetal", ItemType.Craftmetal, () => { ItemGrants.GrantCollectable("Tool Metal"); }, true),

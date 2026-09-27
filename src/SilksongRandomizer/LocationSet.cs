@@ -986,6 +986,13 @@ namespace SilksongRandomizer
             new Location("Hunter's Heart", ItemType.OldHeart, null),
             new Location("Encrusted Heart", ItemType.OldHeart, null),
             new Location("Twisted Bud", ItemType.TwistedBud, null),
+            new Location("Everbloom", ItemType.Everbloom, null),
+            new Location("Sprintmaster's Memento", ItemType.Memento, null),
+            new Location("Guardian's Memento", ItemType.Memento, null),
+            new Location("Hero's Memento", ItemType.Memento, null),
+            new Location("Grey Memento", ItemType.Memento, null),
+            new Location("Surface Memento", ItemType.Memento, null),
+            new Location("Craw Memento", ItemType.Memento, null),
 
             new Location("Goal", ItemType.Event,
                 Patches.GoalState.IsConfiguredGoalComplete),

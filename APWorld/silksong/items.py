@@ -408,6 +408,13 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Encrusted Heart', 'OldHeart'),
     ('Twisted Bud', 'TwistedBud'),
     ('Diving Bell Key', 'MajorKey'),
+    ('Everbloom', 'Everbloom'),
+    ("Sprintmaster's Memento", 'Memento'),
+    ("Guardian's Memento", 'Memento'),
+    ("Hero's Memento", 'Memento'),
+    ('Grey Memento', 'Memento'),
+    ('Surface Memento', 'Memento'),
+    ('Craw Memento', 'Memento'),
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
@@ -599,6 +606,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
         'InnateAbility',
         'Soul',
         'OldHeart',
+        'Everbloom',
         'TwistedBud',
     }
 ) | (
@@ -935,6 +943,8 @@ RELIC_TURN_IN_FILLER_COUNTS: Dict[str, int] = {
 PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'Soul',
     'OldHeart',
+    'Everbloom',
+    'Memento',
     'TwistedBud',
     'Eva',
     'Skill',
@@ -2023,7 +2033,7 @@ def build_item_pool_entries(
                 remaining[key] -= 1
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
-                and entry.source_category != 'OldHeart'
+                and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
                 and not (act_one_only and (
                     'Cylinder' in entry.name

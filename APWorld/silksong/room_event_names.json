@@ -2031,9 +2031,11 @@
     ]
   },
   "event:mapper/2f7fc2d2-c957-4dfc-982b-1e4f40df8250": {
-    "name": "Sprintmaster Cave - Sprintmaster memento",
+    "name": "Sprintmaster's Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Sprintmaster's Memento"
+    ]
   },
   "event:mapper/58e5bf10-d8f8-4c7a-81fe-0d66bc909e17": {
     "name": "Chapel of the Beast - Door switch",
@@ -3046,9 +3048,11 @@
     "locations": []
   },
   "event:mapper/1be9e61f-408a-414b-b8b6-70b3cf7c126b": {
-    "name": "Greymoor Crow Court - Craw memento",
+    "name": "Craw Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Craw Memento"
+    ]
   },
   "event:mapper/b39d642d-8a47-4e88-a14d-90dba73dbf1f": {
     "name": "Greymoor Crow Court - Crow bell",
@@ -4053,9 +4057,11 @@
     "locations": []
   },
   "event:mapper/190e2efd-95c9-431d-b742-26294a5e2802": {
-    "name": "Lumble the Lucky - Hero's Memento",
+    "name": "Hero's Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Hero's Memento"
+    ]
   },
   "event:mapper/reviewed:lost-garmond-defeated": {
     "name": "Lost Garmond Defeated",
@@ -5605,9 +5611,11 @@
     ]
   },
   "event:mapper/e86cb31f-129c-4059-8d56-9e76a7b41ac4": {
-    "name": "Watcher at the Edge - Grey Memento",
+    "name": "Grey Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Grey Memento"
+    ]
   },
   "event:mapper/c15be458-ccaf-4207-baff-e2d813d20c4a": {
     "name": "Volt Filament",
@@ -5897,9 +5905,11 @@
     "locations": []
   },
   "event:mapper/1f9a8076-5778-446f-b514-7431162645df": {
-    "name": "Fleatopia - Gaurdians Memento",
+    "name": "Guardian's Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Guardian's Memento"
+    ]
   },
   "event:mapper/reviewed:passing-age-accepted": {
     "name": "Fleatopia - Passing Age Accepted",
@@ -6108,9 +6118,11 @@
     "locations": []
   },
   "event:mapper/2a61685e-c8f2-48fe-833e-0200c7b00f3c": {
-    "name": "The Surface - Surface Memento",
+    "name": "Surface Memento",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Surface Memento"
+    ]
   },
   "event:mapper/442d1493-58f8-428f-9a02-7e67a015e286": {
     "name": "The Abyss - Map Pickup",
@@ -6538,6 +6550,11 @@
   },
   "event:mapper/e3aa041c-9a5e-4339-a484-de44ae9fc762": {
     "name": "Songclave Wish Wall - pain anguish and misery wish promised",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:everbloom-ready": {
+    "name": "Everbloom and Red Memory Complete",
     "kind": "event",
     "locations": []
   }

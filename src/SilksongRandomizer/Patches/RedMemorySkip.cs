@@ -92,6 +92,42 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(SavedItemGetV2), nameof(SavedItemGetV2.OnEnter))]
+        private static class EverbloomReward
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(SavedItemGetV2 __instance)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Everbloom) ||
+                    !state.IsLocationEnabled("Everbloom") || !state.IsLocationInSeed("Everbloom") ||
+                    __instance.Fsm?.GameObject == null ||
+                    __instance.Fsm.GameObject.scene.name != MemoryScene ||
+                    __instance.Fsm.Name != "Wake Up" || __instance.State?.Name != "Set State" ||
+                    !__instance.Fsm.GameObject.name.StartsWith("door_wakeInRedMemory ", StringComparison.Ordinal) ||
+                    !(__instance.Item?.Value is CollectableItem flower) || flower.name != "White Flower" ||
+                    __instance.Amount == null || __instance.Amount.UsesVariable || __instance.Amount.Value != 1)
+                    return true;
+
+                CollectibleSourcePatches.GetProxyItem("Everbloom", ItemType.Everbloom, true).Get();
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerData), nameof(PlayerData.HasWhiteFlower), MethodType.Getter)]
+        private static class EverbloomStoryGate
+        {
+            [HarmonyPostfix]
+            private static void Postfix(PlayerData __instance, ref bool __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (state != null && state.IsRandomized(ItemType.Everbloom) &&
+                    state.IsLocationEnabled("Everbloom") && state.IsLocationInSeed("Everbloom"))
+                    __result &= __instance.CompletedRedMemory;
+            }
+        }
+
         [HarmonyPatch(typeof(AutoEquipCrestV3), nameof(AutoEquipCrestV3.OnEnter))]
         private static class PreserveRitualCrest
         {

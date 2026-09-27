@@ -174128,7 +174128,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Event: event:mapper/reviewed:everbloom-ritual"
+              "Room Event: event:mapper/reviewed:everbloom-ready"
             ],
             "any_of": [],
             "item_counts": [],
@@ -176863,6 +176863,31 @@
             ],
             "any_of": [],
             "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:everbloom-ready": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber",
+              "Room Event: event:mapper/reviewed:everbloom-ritual"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Everbloom"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -355539,6 +355564,24 @@
           }
         ]
       },
+      "Craw Memento": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: greymoor/greymoor-crow-court#the-court",
+              "Room Event: event:mapper/bbbfbd7e-87e1-44ce-9d77-34356f89f0b9"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Craw Summons": {
         "alternatives": [
           {
@@ -357417,6 +357460,24 @@
             "all_of": [
               "Room Node: sands-of-karak/coral-tower#main",
               "Room Event: event:mapper/reviewed:khann-memory-heart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Everbloom": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber",
+              "Room Event: event:mapper/reviewed:everbloom-ritual"
             ],
             "any_of": [],
             "item_counts": [],
@@ -361083,6 +361144,24 @@
           }
         ]
       },
+      "Grey Memento": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: sands-of-karak/watcher-at-the-edge#room",
+              "Room Event: event:mapper/07fd5367-62c5-40b4-b9f9-c83c12d4a99b"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Greymoor - Bellshrine": {
         "alternatives": [
           {
@@ -364012,6 +364091,10 @@
           }
         ]
       },
+      "Guardian's Memento": {
+        "alternatives": [],
+        "logic_unknown": true
+      },
       "Halfway Home - Memory Locket": {
         "alternatives": [
           {
@@ -364067,6 +364150,24 @@
             "all_of": [
               "Room Node: bellhart/bellhart-lower#hermit",
               "Event: Silk and Soul Offered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Hero's Memento": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: blasted-steps/lumble-the-lucky#room",
+              "Room Event: event:mapper/reviewed:lost-garmond-defeated"
             ],
             "any_of": [],
             "item_counts": [],
@@ -389559,6 +389660,10 @@
         ],
         "logic_unknown": true
       },
+      "Sprintmaster's Memento": {
+        "alternatives": [],
+        "logic_unknown": true
+      },
       "Sting Shard": {
         "alternatives": [
           {
@@ -389583,6 +389688,23 @@
             "act": "",
             "all_of": [
               "Room Node: the-marrow/the-marrow-jail#above-grindle-cell"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Surface Memento": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-cradle/the-surface#nameless-town"
             ],
             "any_of": [],
             "item_counts": [],

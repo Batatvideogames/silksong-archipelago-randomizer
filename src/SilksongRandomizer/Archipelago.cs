@@ -215,6 +215,8 @@ namespace SilksongRandomizer
         public RandomizationMode EvaRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode SoulRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode OldHeartRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode EverbloomRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode MementoRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode TwistedBudRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FleaRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestSlotRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -673,6 +675,8 @@ namespace SilksongRandomizer
                     successful, "eva_randomization");
                 SoulRandomization = GetRandomizationModeSlotData(successful, "soul_randomization");
                 OldHeartRandomization = GetRandomizationModeSlotData(successful, "old_heart_randomization");
+                EverbloomRandomization = GetRandomizationModeSlotData(successful, "everbloom_randomization");
+                MementoRandomization = GetRandomizationModeSlotData(successful, "memento_randomization");
                 TwistedBudRandomization = GetRandomizationModeSlotData(successful, "twisted_bud_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
                     successful, "flea_randomization");
@@ -3191,6 +3195,8 @@ namespace SilksongRandomizer
             EvaRandomization = RandomizationMode.Vanilla;
             SoulRandomization = RandomizationMode.Vanilla;
             OldHeartRandomization = RandomizationMode.Vanilla;
+            EverbloomRandomization = RandomizationMode.Vanilla;
+            MementoRandomization = RandomizationMode.Vanilla;
             TwistedBudRandomization = RandomizationMode.Vanilla;
             FleaRandomization = RandomizationMode.Anywhere;
             CrestSlotRandomization = RandomizationMode.Anywhere;

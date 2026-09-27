@@ -26,6 +26,13 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
     (
         "Bellhart Roof - Memory Locket",
         "Pollen Heart",
+        "Everbloom",
+        "Sprintmaster's Memento",
+        "Guardian's Memento",
+        "Hero's Memento",
+        'Grey Memento',
+        'Surface Memento',
+        'Craw Memento',
         "Hunter's Heart",
         "Encrusted Heart",
         "Cogwork Core - Pristine Core",
@@ -183,6 +190,8 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     Mapping[str, int],
 ] = {
     "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1},
+    "Everbloom": {"Everbloom": 1},
+    "Memento": {"Sprintmaster's Memento": 1, "Guardian's Memento": 1, "Hero's Memento": 1, 'Grey Memento': 1, 'Surface Memento': 1, 'Craw Memento': 1},
     "Map": {
         "Map: The Abyss": 1,
         "Map: Verdania": 1,

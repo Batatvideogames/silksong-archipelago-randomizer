@@ -100,6 +100,20 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
+                "Memento Garmond", "Black Thread States/Black Thread World/Garmond Scenes/Garmond Defeated Scene/Memento Pickup", 34.729999f, 60.261999f),
+            new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
+                "Memento Garmond", "Black Thread States/Black Thread World/Garmond Scenes/Garmond Black Threaded Scene/Zaza Beckon NPC/Memento Pickup", 53.749999f, 62.320001f),
+            new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
+                "Grey Memento", "Coral Warrior Item Spitter/Pit Pickup", 102.269997f, 3.930000f),
+            new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
+                "Grey Memento", "Collectable Item Pickup", 126.160004f, 6.430000f),
+            new DirectPickupEntry("Craw Memento", ItemType.Memento, "Room_CrowCourt_02",
+                "Crowman Memento", "Battle Scene/Collectable Item Pickup", 34.750000f, 20.299999f),
+            new DirectPickupEntry("Surface Memento", ItemType.Memento, "Abandoned_town",
+                "Memento Surface", "Collectable Item Pickup", 359.309998f, 6.250000f),
+            new DirectPickupEntry("Surface Memento", ItemType.Memento, "Abandoned_town",
+                "Memento Surface", "Memory Group/abandoned_town_memento_dropper/collectable item fall/Collectable Item Pickup", 357.199999f, 6.200000f),
             new DirectPickupEntry("Curvesickle", ItemType.Tool, "Bone_East_22",
                 "Curve Claws Upgraded", "Collectable Item Pickup", 46.03f, 4.81f),
             new DirectPickupEntry("Seeker Soul", ItemType.Soul, "Shadow_Bilehaven_Room",

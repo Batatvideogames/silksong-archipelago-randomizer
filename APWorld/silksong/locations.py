@@ -1040,6 +1040,13 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ("Hunter's Heart", 'OldHeart'),
     ('Encrusted Heart', 'OldHeart'),
     ('Twisted Bud', 'TwistedBud'),
+    ('Everbloom', 'Everbloom'),
+    ("Sprintmaster's Memento", 'Memento'),
+    ("Guardian's Memento", 'Memento'),
+    ("Hero's Memento", 'Memento'),
+    ('Grey Memento', 'Memento'),
+    ('Surface Memento', 'Memento'),
+    ('Craw Memento', 'Memento'),
 )
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
@@ -1081,6 +1088,8 @@ location_data_table: Dict[str, SilksongLocationData] = {
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Soul',
     'OldHeart',
+    'Everbloom',
+    'Memento',
     'TwistedBud',
     'Eva',
     'Skill',

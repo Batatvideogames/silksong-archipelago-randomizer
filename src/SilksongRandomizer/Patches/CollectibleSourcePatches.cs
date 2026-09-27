@@ -261,9 +261,76 @@ namespace SilksongRandomizer.Patches
             return proxy;
         }
 
+        [HarmonyPatch(typeof(CollectableItemBasic), "SetUniqueBool")]
+        private static class MementoSourceFlag
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItemBasic __instance)
+            {
+                string location = __instance.name == "Grey Memento" ? "Grey Memento" :
+                    __instance.name == "Sprintmaster Memento" ? "Sprintmaster's Memento" : null;
+                return location == null || !IsActive(SaveState.Instance, location, ItemType.Memento);
+            }
+        }
+
+        [HarmonyPatch(typeof(CollectableItem), nameof(CollectableItem.Get))]
+        private static class SprintmasterMementoReward
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItem __instance)
+            {
+                if (__instance.name != "Sprintmaster Memento" ||
+                    GameManager.UnsafeInstance?.GetSceneNameString() != "Sprintmaster_Cave" ||
+                    !IsActive(SaveState.Instance, "Sprintmaster's Memento", ItemType.Memento))
+                    return true;
+                GetProxyItem("Sprintmaster's Memento", ItemType.Memento, true).Get();
+                return false;
+            }
+        }
+
+        private static bool IsSethMementoAction(FsmStateAction action)
+        {
+            return action.Fsm?.GameObject != null &&
+                action.Fsm.GameObject.scene.name == "Aqueduct_05_festival" &&
+                action.Fsm.GameObject.name == "Seth Sit NPC Fleatopia" &&
+                action.Fsm.Name == "Dialogue" &&
+                IsActive(SaveState.Instance, "Guardian's Memento", ItemType.Memento);
+        }
+
+        [HarmonyPatch(typeof(SavedItemCanGetMore), nameof(SavedItemCanGetMore.IsTrue), MethodType.Getter)]
+        private static class SethMementoAvailability
+        {
+            [HarmonyPostfix]
+            private static void Postfix(SavedItemCanGetMore __instance, ref bool __result)
+            {
+                if (IsSethMementoAction(__instance) && __instance.State?.Name == "Convo Choice" &&
+                    (__instance.Item?.Value as SavedItem)?.name == "Memento Seth")
+                    __result = !SaveState.Instance.IsLocationChecked("Guardian's Memento");
+            }
+        }
+
+        [HarmonyPatch(typeof(CollectableItemCollect), "DoAction")]
+        private static class SethMementoReward
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItemCollect __instance, CollectableItem item)
+            {
+                if (!IsSethMementoAction(__instance) || __instance.State?.Name != "Award Memento?" ||
+                    item?.name != "Memento Seth")
+                    return true;
+                GetProxyItem("Guardian's Memento", ItemType.Memento, true).Get();
+                return false;
+            }
+        }
+
         private static void MarkPhysicalSourceCollected(
             string locationName)
         {
+            if (PlayerData.instance != null)
+            {
+                if (locationName == "Grey Memento") PlayerData.instance.CollectedMementoGrey = true;
+                if (locationName == "Sprintmaster's Memento") PlayerData.instance.CollectedMementoSprintmaster = true;
+            }
             // White Key's Act 3 fallback uses this separate source flag to
             // suppress its duplicate copy. It is not the Ward Key inventory
             // count, so setting it does not grant the randomized key item.

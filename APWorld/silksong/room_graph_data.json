@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "df69b84eafbedb950f8353d0ce80ca6fe1454f84eab245e6c080e5392d9b1f62",
     "catalogue_sha256": "44ce6e030e945cd8711b9101456291e3fe3b380c920356d987859c98bb37f4ea",
-    "bindings_sha256": "339f625611f96f57d20c965c11aca1993e05bad3417a8be3fa76d872be7760ef"
+    "bindings_sha256": "94f59023781272a8fd3e664e7938f75dd5d9f69182013e6275e0efbceda689b4"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -198,6 +198,7 @@
       "Conchcutter",
       "Conductor's Melody",
       "Craggler - Beast Shard",
+      "Craw Memento",
       "Craw Summons",
       "Crawbug Clearing (Creige) - Crafting Kit",
       "Crest Slot: Architect (Blue 1)",
@@ -273,6 +274,7 @@
       "Egg of Flealia",
       "Elegy of the Deep",
       "Encrusted Heart",
+      "Everbloom",
       "Exhaust Organ - Silkeater",
       "Far Fields (Above the Seamstress) - Mask Shard",
       "Far Fields (Act 3) - Memory Locket",
@@ -359,6 +361,7 @@
       "Grand Gate - Shell Shard Cache",
       "Grand Gate - Spool Fragment",
       "Great Taste of Pharloom - Pale Oil",
+      "Grey Memento",
       "Greymoor - Bellshrine",
       "Greymoor - Bellway",
       "Greymoor - Cage Record",
@@ -420,8 +423,10 @@
       "Greymoor - Spool Fragment",
       "Grindle (Blasted Steps) - Spool Fragment",
       "Grindle - Crafting Kit",
+      "Guardian's Memento",
       "Halfway Home - Memory Locket",
       "Hermit Soul",
+      "Hero's Memento",
       "High Halls - Frayed Rosary String",
       "High Halls - Map Purchase",
       "High Halls - Pale Rosary Necklace",
@@ -694,8 +699,10 @@
       "Spider Strings",
       "Spool Extender",
       "Sprintmaster - Beast Shard",
+      "Sprintmaster's Memento",
       "Sting Shard",
       "Straight Pin",
+      "Surface Memento",
       "Surgeon's Key",
       "Swift Step",
       "Sylphsong",
@@ -906,7 +913,10 @@
       "Wreath of Purity",
       "Yellow Vesticrest"
     ],
-    "quarantined_checks": {},
+    "quarantined_checks": {
+      "Sprintmaster's Memento": "The mapper has not verified the movement requirements for this challenge.",
+      "Guardian's Memento": "The mapper has not verified the movement requirements for this challenge."
+    },
     "event_aliases": {
       "Event: Mapper Rebirth Started": [
         "0579d689-67d7-443a-a85b-916aa61ccabe"
@@ -1061,7 +1071,7 @@
         "mode": "vanilla",
         "item_name": "Everbloom",
         "source_events": [
-          "reviewed:everbloom-ritual"
+          "reviewed:everbloom-ready"
         ]
       },
       "twisted-bud": {
@@ -4083,6 +4093,30 @@
           "raw_cells": {},
           "logic_status": "active",
           "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:everbloom-ready",
+          "label": "Everbloom Ready",
+          "kind": "event",
+          "node_id": "moss-grotto/ruined-chapel-interior#ritual-chamber",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:everbloom-ritual",
+                "received:Everbloom"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -4137,6 +4171,31 @@
                 "item:cling-grip",
                 "item:faydown-cloak",
                 "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "moss-grotto/ruined-chapel-interior::reviewed-check:836377",
+          "label": "Everbloom",
+          "node_id": "moss-grotto/ruined-chapel-interior#ritual-chamber",
+          "canonical_location": "Everbloom",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:everbloom-ritual"
               ]
             ],
             "annotations": [],
@@ -58827,6 +58886,34 @@
           "canonical_location": "Fastest in Pharloom - Mask Shard",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "far-fields/sprintmaster-cave::mapper-check:2f7fc2d2-c957-4dfc-982b-1e4f40df8250:836378",
+          "requirement": {
+            "raw": "complete race victory 4",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/56324a8a-170a-487c-9ddc-a52ab98df1c5"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "2f7fc2d2-c957-4dfc-982b-1e4f40df8250"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "sprintmaster memento",
+          "node_id": "far-fields/sprintmaster-cave#room",
+          "canonical_location": "Sprintmaster's Memento",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
       "omitted_check_rows": []
@@ -62845,7 +62932,7 @@
         {
           "id": "hunter-s-march/hunters-march-shaft#l1-platform>the-top@v5",
           "requirement": {
-            "raw": "Silk Soar OR ((Cling Grip OR Faydown Cloak OR Easy Scuttlebrace) AND Ledge Grab)",
+            "raw": "silk soar OR cling grip OR faydown cloak OR easy scuttlebrace OR ledge grab",
             "mode": "expression",
             "dnf": [
               [
@@ -82859,6 +82946,34 @@
         }
       ],
       "checks": [
+        {
+          "id": "greymoor/greymoor-crow-court::mapper-check:1be9e61f-408a-414b-b8b6-70b3cf7c126b:836383",
+          "requirement": {
+            "raw": "defeat Crow Father",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/bbbfbd7e-87e1-44ce-9d77-34356f89f0b9"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "1be9e61f-408a-414b-b8b6-70b3cf7c126b"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "craw memento",
+          "node_id": "greymoor/greymoor-crow-court#the-court",
+          "canonical_location": "Craw Memento",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
         {
           "id": "greymoor/greymoor-crow-court::mapper-check:9a8db656-e728-4465-aae2-f490c83e8be3:835952",
           "requirement": {
@@ -108987,6 +109102,34 @@
           "label": "Magnetite Dice",
           "node_id": "blasted-steps/lumble-the-lucky#room",
           "canonical_location": "Magnetite Dice",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "blasted-steps/lumble-the-lucky::mapper-check:190e2efd-95c9-431d-b742-26294a5e2802:836380",
+          "requirement": {
+            "raw": "defeat Lost Garmond Boss Fight",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:lost-garmond-defeated"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "190e2efd-95c9-431d-b742-26294a5e2802"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Hero's Memento",
+          "node_id": "blasted-steps/lumble-the-lucky#room",
+          "canonical_location": "Hero's Memento",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -177879,6 +178022,34 @@
           "canonical_location": "Boss: Watcher at the Edge",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "sands-of-karak/watcher-at-the-edge::mapper-check:e86cb31f-129c-4059-8d56-9e76a7b41ac4:836381",
+          "requirement": {
+            "raw": "Needolin AND Needle Upgrades 2",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/07fd5367-62c5-40b4-b9f9-c83c12d4a99b"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e86cb31f-129c-4059-8d56-9e76a7b41ac4"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Grey Memento",
+          "node_id": "sands-of-karak/watcher-at-the-edge#room",
+          "canonical_location": "Grey Memento",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
       "omitted_check_rows": []
@@ -192200,6 +192371,36 @@
           "currently_randomized": true
         },
         {
+          "id": "putrified-ducts/fleatopia::mapper-check:1f9a8076-5778-446f-b514-7431162645df:836379",
+          "requirement": {
+            "raw": "complete Flea Juggle Beat Seth Score\nAND complete Flea Dodge Beat Seth Score\nAND after Flea Bounce Beat Seth Score\n\n",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/84ab1749-3afa-4713-ada6-9e92a183cb3b",
+                "event:mapper/72aa38b8-7ca7-4642-8c2a-9d44dca06a61",
+                "event:mapper/0d8438fa-157f-4192-8b6a-3b6ac91bf8b3"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "1f9a8076-5778-446f-b514-7431162645df"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Gaurdians Memento",
+          "node_id": "putrified-ducts/fleatopia#fleatopia",
+          "canonical_location": "Guardian's Memento",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "putrified-ducts/fleatopia::reviewed-check:835764",
           "label": "Wish: Fleatopia Supplies",
           "node_id": "putrified-ducts/fleatopia#fleatopia",
@@ -199887,7 +200088,34 @@
           "node_id": "the-cradle/the-surface#nameless-town"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "id": "the-cradle/the-surface::mapper-check:2a61685e-c8f2-48fe-833e-0200c7b00f3c:836382",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "2a61685e-c8f2-48fe-833e-0200c7b00f3c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Surface Memento",
+          "node_id": "the-cradle/the-surface#nameless-town",
+          "canonical_location": "Surface Memento",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
       "omitted_check_rows": []
     },
     {

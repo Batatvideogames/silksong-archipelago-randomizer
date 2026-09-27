@@ -53,6 +53,8 @@ namespace SilksongRandomizer
         TwistedBud,
         Quill,
         Compass,
+        Everbloom,
+        Memento,
     }
 
     public class Item

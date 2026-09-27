@@ -52,6 +52,12 @@ namespace SilksongRandomizer
         // pickup census. Entries without a matching AP identity are omitted.
         private static readonly MapCheckPosition[] StaticPositions =
         {
+            new MapCheckPosition("Guardian's Memento", "Aqueduct_05", 105.786316f, 10.135673f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Everbloom", "Tut_03", 10.006f, 16.857f, 126f, 35f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Hero's Memento", "Coral_33", 34.729999f, 60.261999f, 58f, 74f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Grey Memento", "Coral_39", 126.160004f, 6.43f, 192f, 43f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Craw Memento", "Room_CrowCourt_02", 34.75f, 20.3f, 70f, 92f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Sprintmaster's Memento", "Sprintmaster_Cave", 88.93f, 14.12f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Hunter Evolution 1", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Hunter Evolution 2", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Yellow Vesticrest", "Weave_10", 79.11f, 10.93f, 100f, 45f, MapMarkerPositionConfidence.ExactUpstream),

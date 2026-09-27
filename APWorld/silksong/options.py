@@ -123,6 +123,20 @@ class OldHeartRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
+class MementoRandomization(GlobalRandomization):
+    """Randomizes six Mementos for Act 3 goals. Hunter's Memento stays vanilla. Hearts follow Old Heart Randomization."""
+
+    display_name = "Memento Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
+class EverbloomRandomization(GlobalRandomization):
+    """Randomizes Everbloom for Act 3 goals. The final Abyss route still requires the three-heart ritual and Red Memory to be completed."""
+
+    display_name = "Everbloom Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class TwistedBudRandomization(GlobalRandomization):
     """Randomizes Twisted Bud."""
 
@@ -490,12 +504,13 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
 
 
 class BossSanity(CategoryRandomization):
-    """Randomizes boss rewards and shuffles supported boss story credits.
-
-    vanilla: keeps boss rewards and story credits unchanged
-    anywhere: mixes rewards into the global pool and shuffles story credits
-    shuffle: mixes rewards among boss checks and shuffles story credits
-
+    """Adds boss completion checks and shuffles supported boss story credits.
+    Items earned from bosses and wishes follow their own randomization settings.
+    
+    vanilla: no boss completion checks or story credit shuffle
+    anywhere: fills boss completion checks from the global item pool
+    shuffle: shuffles items only among boss completion checks
+    
     Bosses in your goal's content pool can grant another boss's story credit.
     Fight difficulty and physical arena exits stay with the boss you face.
     Act transitions still require their original fights.
@@ -512,11 +527,12 @@ class BellShrineSanity(CategoryRandomization):
 
 
 class QuestSanity(CategoryRandomization):
-    """Randomizes wish rewards and shuffles supported board and NPC offers.
-
-    vanilla: keeps wish rewards and offers unchanged
-    anywhere: mixes rewards into the global pool and shuffles offers
-    shuffle: mixes rewards among wish checks and shuffles offers
+    """Adds wish completion checks and shuffles supported board and NPC offers.
+    Items earned from bosses and wishes follow their own randomization settings.
+    
+    vanilla: no wish completion checks or offer shuffle
+    anywhere: fills wish completion checks from the global item pool
+    shuffle: shuffles items only among wish completion checks.
     """
 
     display_name = "Wish Sanity"
@@ -532,6 +548,8 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Eva": "eva_randomization",
     "Soul": "soul_randomization",
     "OldHeart": "old_heart_randomization",
+    "Everbloom": "everbloom_randomization",
+    "Memento": "memento_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
@@ -1290,6 +1308,8 @@ class SilksongOptions(PerGameCommonOptions):
     eva_randomization: EvaRandomization
     soul_randomization: SoulRandomization
     old_heart_randomization: OldHeartRandomization
+    everbloom_randomization: EverbloomRandomization
+    memento_randomization: MementoRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
@@ -1389,6 +1409,8 @@ silksong_option_groups = [
         EvaRandomization,
         SoulRandomization,
         OldHeartRandomization,
+        EverbloomRandomization,
+        MementoRandomization,
         TwistedBudRandomization,
         FleaRandomization,
         CrestSlotRandomization,
