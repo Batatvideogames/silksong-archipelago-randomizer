@@ -656,6 +656,8 @@ def _compile_named_requirement(
         split_dash_and_sprint
     ).get(item_name, ())
     item_rules: list[Rule] = [Has(item_name)]
+    if item_name == 'Silk Soar':
+        item_rules.append(HasAny(*sorted(CREST_ITEMS)))
     for dependency_name in sorted(set(dependencies)):
         item_rules.append(
             Has(
@@ -840,8 +842,12 @@ def build_requirements_rule(
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
     silk_and_soul_points: int = 17,
+    extra_abstract_requirement_names: frozenset[str] = frozenset(),
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
+
+    if extra_abstract_requirement_names and not native_abstract_regions:
+        raise ValueError("Seed-specific events require native abstract regions.")
 
     abstract_requirement_names = frozenset(
         get_abstract_requirements(
@@ -865,6 +871,7 @@ def build_requirements_rule(
             silk_and_soul_points=silk_and_soul_points,
         )
     )
+    abstract_requirement_names |= extra_abstract_requirement_names
     return _or_rules(
         _compile_requirement(
             requirement,

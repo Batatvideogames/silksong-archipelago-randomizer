@@ -424,7 +424,7 @@ namespace SilksongRandomizer
             // Signis and Gron are authored at 22.56/8.91 and 38.36/19.64.
             // Their shared check sits at the midpoint of the pair.
             new MapCheckPosition("Boss: Forebrothers Signis & Gron", "Dock_09", 30.460000f, 14.275000f, 77f, 35f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Boss: Moorwing", "Greymoor_05", 50.650002f, 41.599998f, 110f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Moorwing", "Greymoor_05", 50f, 5.4f, 110f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Shrine Guardian Seth", "Shellwood_22", 104.800003f, 6.810000f, 182f, 28f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Disgraced Chef Lugoli", "Dust_Chef", 41.773548f, 49.950001f, 60f, 74f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Phantom", "Organ_01", 77.440002f, 104.239998f, 160f, 229f, MapMarkerPositionConfidence.ExactUpstream),
@@ -1081,6 +1081,50 @@ namespace SilksongRandomizer
             );
         }
 
+        private static MapCheckPosition GetShuffledWishPosition(MapCheckPosition position)
+        {
+            var state = SaveState.Instance?.progressionShuffle;
+            if (state == null || !state.HasWishAssignments) return null;
+            string canonical = LocationSet.GetCanonicalLocationName(position.LocationName);
+            string identity = canonical == "Savage Beastfly - Mask Shard" ? "Beastfly Hunt" :
+                canonical == "The Hidden Hunter - Mask Shard" ? "Ant Trapper" :
+                canonical == "Volatile Flintbeetles - Memory Locket" ? "Rock Rollers" : null;
+            if (identity == null)
+                foreach (QuestLocationDefinition quest in QuestLocationManifest.QuestLocations)
+                    if (string.Equals(canonical, LocationSet.GetCanonicalLocationName(quest.LocationName),
+                            StringComparison.OrdinalIgnoreCase))
+                    {
+                        identity = quest.AssetName;
+                        break;
+                    }
+            string board = identity == null ? null : state.WishTurnInBoard(identity);
+            string npc = identity == null ? null : state.WishTurnInNpc(identity);
+            if (npc == "the couriers in Bellhart")
+                return new MapCheckPosition(position.LocationName, "Belltown", 44.736f, 21.337f,
+                    109f, 75f, MapMarkerPositionConfidence.ExactUpstream);
+            string source = board == "Bone Bottom" ? "Wish: Bone Bottom Repairs" :
+                board == "Bellhart" ? "Wish: Restoration of Bellhart" :
+                board == "Songclave" ? "Wish: Building Up Songclave" :
+                npc == "the Gourmand's servant in Choral Chambers" ? "Wish: Great Taste of Pharloom" :
+                npc == "Pinmaster Plinney in Bellhart" ? "Pinmaster Plinney: Sharpened Needle" :
+                npc == "the Seamstress in Far Fields" ? "Drifter's Cloak" :
+                npc == "Greyroot in Shellwood" ? "Pollip Pouch" :
+                npc == "the Huntress in Putrified Ducts" ? "Longclaw" :
+                npc == "Yarnaby in Greymoor" ? "Crest: Witch" :
+                npc == "the Alchemist in Wormways" ? "Needle Phial" :
+                npc == "the Herald tablet in Fleatopia" ? "Wish: Passing of the Age" : null;
+            if (source == null) return null;
+            foreach (MapCheckPosition anchor in StaticPositions)
+            {
+                if (!string.Equals(LocationSet.GetCanonicalLocationName(anchor.LocationName),
+                        source, StringComparison.OrdinalIgnoreCase)) continue;
+                return new MapCheckPosition(position.LocationName, anchor.SceneName,
+                    anchor.PositionInScene.x, anchor.PositionInScene.y,
+                    anchor.SceneSize.x, anchor.SceneSize.y, anchor.Confidence);
+            }
+            return null;
+        }
+
         internal static MapCheckPosition ResolveCurrentWorldVariant(
             MapCheckPosition position
         )
@@ -1089,6 +1133,9 @@ namespace SilksongRandomizer
             {
                 return null;
             }
+
+            MapCheckPosition assignedBoard = GetShuffledWishPosition(position);
+            if (assignedBoard != null) return assignedBoard;
 
             if (
                 PlayerData.instance != null &&

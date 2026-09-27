@@ -59640,8 +59640,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area",
-                "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area"
               ],
               "any_of": [],
               "item_counts": [],
@@ -67094,8 +67093,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area",
-                "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area"
               ],
               "any_of": [],
               "item_counts": [],
@@ -123350,8 +123348,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area",
-                "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                "Room Node: the-marrow/the-marrow-jail-pathway#jail-area"
               ],
               "any_of": [],
               "item_counts": [],
@@ -150104,8 +150101,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#lower-section",
-              "Act: 2",
-              "Room Event: event:mapper/cd40450e-6bdd-4098-b74f-4d7badd9fafb"
+              "Combat: Moorwing"
             ],
             "any_of": [],
             "item_counts": [],
@@ -151518,7 +151514,28 @@
         ]
       },
       "Room Event: event:mapper/49c500d9-9874-463e-a362-66264dc37da4": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-diving-bell-room#room"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Diving Bell Key"
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Event: event:mapper/4a2c4a83-0969-4c63-a889-c2722db5882e": {
         "alternatives": [
@@ -163856,7 +163873,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163871,7 +163895,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163886,7 +163917,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163901,7 +163939,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163916,7 +163961,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163931,7 +163983,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -163946,7 +164005,14 @@
               "Combat: The Marrow Northeast Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Cling Grip"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -222179,7 +222245,14 @@
               "Room Event: event:mapper/reviewed:dark-below-accepted"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Diving Bell Key"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -289906,7 +289979,14 @@
               "Room Event: event:mapper/reviewed:dark-below-accepted"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Diving Bell Key"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -289917,10 +289997,19 @@
             "act": "",
             "all_of": [
               "Room Node: the-abyss/abyss-landing-zone#landing-zone",
-              "Room Event: event:mapper/owned/everbloom"
+              "Room Event: event:mapper/owned/everbloom",
+              "Act: 3",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Diving Bell Key"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -296835,8 +296924,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-marrow/the-marrow-jail-pathway#jail-area",
-              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              "Room Node: the-marrow/the-marrow-jail-pathway#jail-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -352598,7 +352686,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-section",
+              "Combat: Moorwing"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -352607,8 +352698,7 @@
             "require_silk_spear": false,
             "required_locations": []
           }
-        ],
-        "logic_unknown": true
+        ]
       },
       "Boss: Moss Mother": {
         "alternatives": [

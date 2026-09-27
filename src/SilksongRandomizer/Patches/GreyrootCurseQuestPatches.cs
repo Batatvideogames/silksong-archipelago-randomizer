@@ -443,6 +443,11 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
+                if (ProgressionShufflePatches.TryOpenPendingDoctorWish(__instance))
+                {
+                    return false;
+                }
+
                 if (ShouldOfferYarnabyCure(PlayerData.instance))
                 {
                     // The TRUE event and all vanilla quest handling remain

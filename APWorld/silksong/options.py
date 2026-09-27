@@ -355,6 +355,13 @@ class MajorKeyRandomization(CategoryRandomization):
     default = CategoryRandomization.option_vanilla
 
 
+class DivingBellKeyRandomization(Toggle):
+    """Adds a Diving Bell Key to the item pool. Repairing the Diving Bell requires
+    this key as well as accepting the shaman's The Dark Below quest."""
+
+    display_name = "Diving Bell Key Randomization"
+
+
 class SimpleKeyRandomization(Choice):
     """Randomize four destination-specific keys without fungible spending.
 
@@ -483,11 +490,15 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
 
 
 class BossSanity(CategoryRandomization):
-    """Randomizes the 34 drops from bosses in the game. This does not randomize the bosses themselves.
+    """Randomizes boss rewards and shuffles supported boss story credits.
 
-    vanilla: leaves them where they normally are
-    anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
+    vanilla: keeps boss rewards and story credits unchanged
+    anywhere: mixes rewards into the global pool and shuffles story credits
+    shuffle: mixes rewards among boss checks and shuffles story credits
+
+    Bosses in your goal's content pool can grant another boss's story credit.
+    Fight difficulty and physical arena exits stay with the boss you face.
+    Act transitions still require their original fights.
     """
 
     display_name = "Boss Sanity"
@@ -501,12 +512,14 @@ class BellShrineSanity(CategoryRandomization):
 
 
 class QuestSanity(CategoryRandomization):
-    """Vanilla keeps quest rewards unchanged. Shuffle randomizes rewards only among quest checks. Anywhere joins the global item pool.
+    """Randomizes wish rewards and shuffles supported board and NPC offers.
 
-    The quests themselves remain unchanged.
+    vanilla: keeps wish rewards and offers unchanged
+    anywhere: mixes rewards into the global pool and shuffles offers
+    shuffle: mixes rewards among wish checks and shuffles offers
     """
 
-    display_name = "Quest Sanity"
+    display_name = "Wish Sanity"
 
 
 CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
@@ -633,10 +646,6 @@ class SilksongAccessibility(Accessibility):
     **Full:** ensure everything can be reached and acquired.
 
     **Minimal:** ensure what is needed to reach your goal can be acquired.
-
-    LogicUnknown locations never hold advancement items and remain out of logic
-    until your goal is completed.
-    Their map marker shows that the route is still incomplete.
     """
 
     display_name = "Accessibility"
@@ -1298,6 +1307,7 @@ class SilksongOptions(PerGameCommonOptions):
     crafting_kit_randomization: CraftingKitRandomization
     major_key_randomization: MajorKeyRandomization
     simple_key_randomization: SimpleKeyRandomization
+    diving_bell_key_randomization: DivingBellKeyRandomization
     memory_locket_randomization: MemoryLocketRandomization
     craftmetal_randomization: CraftmetalRandomization
     mossberry_randomization: MossberryRandomization
@@ -1396,6 +1406,7 @@ silksong_option_groups = [
         CraftingKitRandomization,
         MajorKeyRandomization,
         SimpleKeyRandomization,
+        DivingBellKeyRandomization,
         MemoryLocketRandomization,
         CraftmetalRandomization,
         MossberryRandomization,

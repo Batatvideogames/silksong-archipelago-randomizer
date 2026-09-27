@@ -3301,11 +3301,9 @@
     ]
   },
   "event:mapper/e8815c05-21b3-420b-9145-9fe4dfd3f08e": {
-    "name": "Boss: Moorwing",
+    "name": "Greymoor Entry to Bellhart - Moorwing original encounter",
     "kind": "boss",
-    "locations": [
-      "Boss: Moorwing"
-    ]
+    "locations": []
   },
   "event:mapper/3c36052a-a5e4-4fb2-bf7a-51e95fb06e67": {
     "name": "Greymoor Entry to Bellhart - Tied airstream",
@@ -3503,9 +3501,11 @@
     "locations": []
   },
   "event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c": {
-    "name": "Greymoor Towers Patio - Boos: MoorWing",
+    "name": "Boss: Moorwing",
     "kind": "boss",
-    "locations": []
+    "locations": [
+      "Boss: Moorwing"
+    ]
   },
   "event:mapper/4ca36e70-22f0-4c8e-bd38-982ed1505247": {
     "name": "Greymoor Towers Patio - Get Kidnapped",

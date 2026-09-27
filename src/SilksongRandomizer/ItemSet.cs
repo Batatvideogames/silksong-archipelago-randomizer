@@ -920,6 +920,7 @@ namespace SilksongRandomizer
             new Item("Surgeon's Key", ItemType.MajorKey, ItemGrants.GrantSurgeonsKey),
             new Item("Architect's Key", ItemType.MajorKey, ItemGrants.GrantArchitectsKey),
             new Item("Craw Summons", ItemType.MajorKey, ItemGrants.GrantCrawSummons),
+            new Item("Diving Bell Key", ItemType.MajorKey, () => { }),
             new Item("Growstone", ItemType.Resource, () => { ItemGrants.GrantCollectable("Growstone"); }),
             new Item("Rosaries (8)", ItemType.Resource, () => { ItemGrants.GrantRosaries(8); }, true),
             new Item("Rosaries (30)", ItemType.Resource, () => { ItemGrants.GrantRosaries(30); }, true),

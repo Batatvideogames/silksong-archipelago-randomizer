@@ -57,6 +57,7 @@ namespace SilksongRandomizer
         public const string PriceModeExpensive = "expensive";
         public static Archipelago Instance { get; private set; }
         public string EntranceLayoutJson { get; private set; } = "{}";
+        public string ProgressionShuffleJson { get; private set; } = ProgressionShuffleState.EmptyAssignments;
         private ArchipelagoSession entranceSyncSession;
         private SaveState entranceSyncSave;
         private int entranceSyncCount = -1;
@@ -184,6 +185,7 @@ namespace SilksongRandomizer
             new Dictionary<string, int>(StringComparer.Ordinal)
         );
         public bool TrapDisguises { get; private set; }
+        public bool DivingBellKeyRandomization { get; private set; }
         public bool FasterDialogue { get; private set; }
         public bool FasterSilkheartAnimation { get; private set; }
         public bool AlphabetMode { get; private set; }
@@ -297,6 +299,7 @@ namespace SilksongRandomizer
         private volatile bool sessionReady;
         private int receivedItemsRefreshRequested;
         private int checkedLocationsRefreshRequested;
+        private int linkResetRequested;
 
         public Archipelago(string gameName = "Hollow Knight: Silksong")
         {
@@ -620,6 +623,7 @@ namespace SilksongRandomizer
                 );
                 PurchasePrices = GetPurchasePrices(successful);
                 TrapDisguises = GetBooleanSlotData(successful, "trap_disguises");
+                DivingBellKeyRandomization = GetBooleanSlotData(successful, "diving_bell_key_randomization");
                 FasterDialogue = GetBooleanSlotData(
                     successful,
                     "faster_dialogue"
@@ -732,6 +736,10 @@ namespace SilksongRandomizer
                     throw new FormatException("Unsupported entrance randomization mode.");
                 EntranceLayoutJson = entranceMode == "off" ? "{}" :
                     EntranceRandomization.NormalizeLayout(GetRequiredObjectSlotData(successful, "entrance_layout"));
+                ProgressionShuffleJson = ProgressionShuffleState.NormalizeConfiguration(
+                    successful.SlotData.ContainsKey("progression_shuffle")
+                        ? GetRequiredObjectSlotData(successful, "progression_shuffle").ToString()
+                        : ProgressionShuffleState.EmptyAssignments);
                 MapLogicPayloadJson =
                     GetMapLogicPayloadJson(successful);
                 if (SaveState.Instance != null && SaveState.Instance.IsRoomBound &&
@@ -936,6 +944,7 @@ namespace SilksongRandomizer
 
         public bool CompleteConnectionSync()
         {
+            ProcessPendingLinkReset();
             if (!IsConnected())
             {
                 LastError = "The Archipelago socket closed during login.";
@@ -1288,11 +1297,7 @@ namespace SilksongRandomizer
             Interlocked.Exchange(ref receivedItemsRefreshRequested, 0);
             Interlocked.Exchange(ref checkedLocationsRefreshRequested, 0);
 
-            DeathLinkManager.Reset();
-            SilkLinkManager.Reset();
-            KnockbackLinkManager.Reset();
-            CurrencyLinkManager.Reset();
-            Patches.VogHintManager.Reset();
+            Interlocked.Exchange(ref linkResetRequested, 1);
 
             if (wasSessionReady)
             {
@@ -1369,6 +1374,20 @@ namespace SilksongRandomizer
                     ex.GetBaseException().Message
                 );
             }
+        }
+
+        internal void ProcessPendingLinkReset()
+        {
+            if (Interlocked.Exchange(ref linkResetRequested, 0) == 0)
+            {
+                return;
+            }
+
+            DeathLinkManager.Reset();
+            SilkLinkManager.Reset();
+            KnockbackLinkManager.Reset();
+            CurrencyLinkManager.Reset();
+            Patches.VogHintManager.Reset();
         }
 
         private void TrackPendingDisconnect(Task disconnectTask)
@@ -2939,11 +2958,7 @@ namespace SilksongRandomizer
                 }
 
                 sessionReady = false;
-                DeathLinkManager.Reset();
-                SilkLinkManager.Reset();
-                KnockbackLinkManager.Reset();
-                CurrencyLinkManager.Reset();
-                Patches.VogHintManager.Reset();
+                Interlocked.Exchange(ref linkResetRequested, 1);
                 LastError = status;
                 RandomizerPlugin plugin = RandomizerPlugin.Instance;
                 plugin?.RequestDisconnectSave();
@@ -3149,6 +3164,7 @@ namespace SilksongRandomizer
                 new Dictionary<string, int>(StringComparer.Ordinal)
             );
             TrapDisguises = false;
+            DivingBellKeyRandomization = false;
             FasterDialogue = false;
             FasterSilkheartAnimation = false;
             AlphabetMode = false;

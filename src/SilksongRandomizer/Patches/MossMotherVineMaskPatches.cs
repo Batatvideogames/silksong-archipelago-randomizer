@@ -49,9 +49,6 @@ namespace SilksongRandomizer.Patches
                    state != null &&
                    gameManager != null &&
                    state.mossMotherBypassedByBoneBottomWarp &&
-                   !state.IsLocationChecked(
-                       MossMotherWarpSafety.LocationName
-                   ) &&
                    string.Equals(
                        gameManager.GetSceneNameString(),
                        SceneName,

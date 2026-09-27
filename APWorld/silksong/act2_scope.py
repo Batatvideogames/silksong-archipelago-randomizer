@@ -10,6 +10,8 @@ from __future__ import annotations
 from collections import Counter
 from typing import Iterable, Mapping
 
+from .eva import EVA_CREST_SLOTS, EVA_REWARDS
+
 from .lore_tablets import (
     LORE_TABLET_ACT_THREE_LOCATION_NAMES,
     LORE_TABLET_ITEM_BY_LOCATION,
@@ -136,9 +138,17 @@ ACT_TWO_SILK_SOAR_LOCATION_NAMES: frozenset[str] = frozenset((
 ))
 
 
+CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES = frozenset((
+    "Crest Slot: Witch (Red 1)",
+    "Crest Slot: Witch (Blue 1)",
+    "Crest Slot: Witch (Blue 2)",
+))
+
+
 def get_act_two_excluded_location_names(
     starting_crest_item: str,
     skill_mode: str = "anywhere",
+    cursed_ending: bool = False,
 ) -> frozenset[str]:
     """Exclude later-act sources in every Skill randomization mode."""
 
@@ -150,6 +160,17 @@ def get_act_two_excluded_location_names(
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
     if skill_mode != "anywhere":
         excluded |= ACT_TWO_SILK_SOAR_LOCATION_NAMES
+    if cursed_ending:
+        excluded |= {"Crest: Witch"}
+        if starting_crest_item != "Crest: Witch":
+            excluded |= CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES
+    if cursed_ending:
+        points = sum(
+            free + sum(f"Crest Slot: {crest.removeprefix('Crest: ')} ({slot})" not in excluded for slot in slots)
+            for crest, (free, slots) in EVA_CREST_SLOTS.items()
+            if crest not in excluded or crest == starting_crest_item
+        )
+        excluded |= {name for name, (_, _, required) in EVA_REWARDS.items() if required > points}
     return excluded
 
 
@@ -207,6 +228,7 @@ def trim_act_two_pool_entries(
     entries: Iterable,
     starting_crest_item: str,
     skill_mode: str = "anywhere",
+    cursed_ending: bool = False,
 ):
     remaining = list(entries)
     removals = {
@@ -233,6 +255,18 @@ def trim_act_two_pool_entries(
                 for item_name in ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES
             }
         )
+
+    if cursed_ending:
+        item = "Rosaries (60)" if starting_crest_item == "Crest: Witch" else "Crest: Witch"
+        removals.setdefault("Crest", Counter())[item] += 1
+        if starting_crest_item != "Crest: Witch":
+            removals.setdefault("CrestSlot", Counter()).update(
+                {name: 1 for name in CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES})
+
+    if cursed_ending:
+        excluded = get_act_two_excluded_location_names(starting_crest_item, skill_mode, True)
+        removals.setdefault("Eva", Counter()).update(
+            reward for name, (reward, _, _) in EVA_REWARDS.items() if name in excluded)
 
     for source_category, item_counts in removals.items():
         if not any(

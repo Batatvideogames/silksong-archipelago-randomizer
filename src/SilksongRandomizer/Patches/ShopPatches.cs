@@ -970,6 +970,53 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(ShopItemStats), nameof(ShopItemStats.SetItem))]
+        private static class ShopListIconRefreshPatch
+        {
+            private static void Postfix(
+                ShopItemStats __instance,
+                ShopItem item,
+                SpriteRenderer ___itemSprite,
+                float ___itemSpriteSize)
+            {
+                var refresh = __instance.GetComponent<ShopListIconRefresh>();
+                if (TryResolveShopPreviewLocation(item, out string locationName) && ___itemSprite != null)
+                {
+                    if (refresh == null) refresh = __instance.gameObject.AddComponent<ShopListIconRefresh>();
+                    refresh.Bind(locationName, ___itemSprite, ___itemSpriteSize);
+                }
+                else if (refresh != null) refresh.Bind(null, null, 1f);
+            }
+        }
+
+        private sealed class ShopListIconRefresh : MonoBehaviour
+        {
+            private string location;
+            private SpriteRenderer icon;
+            private float size;
+            private float nextUpdate;
+
+            internal void Bind(string locationName, SpriteRenderer renderer, float itemSize)
+            {
+                location = locationName;
+                icon = renderer;
+                size = itemSize;
+                nextUpdate = 0f;
+                Update();
+            }
+
+            private void Update()
+            {
+                if (location == null || icon == null || Time.unscaledTime < nextUpdate) return;
+                nextUpdate = Time.unscaledTime + 0.25f;
+                ItemPreview.Presentation preview = ItemPreview.Get(location, true);
+                if (preview?.Icon == null) return;
+                Vector3 scale = Vector3.one * preview.Scale * size;
+                if (icon.sprite != preview.Icon) icon.sprite = preview.Icon;
+                if (icon.transform.localScale != scale) icon.transform.localScale = scale;
+            }
+        }
+
         [HarmonyPatch(typeof(ShopItem), "get_ItemSprite")]
         internal static class ShopItem_ItemSprite_Patch
         {

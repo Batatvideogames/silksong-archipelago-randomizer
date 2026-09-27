@@ -1015,6 +1015,9 @@ namespace SilksongRandomizer
                     StringComparer.OrdinalIgnoreCase
                 );
 
+            if (state != null && !state.divingBellKeyRandomization)
+                SetMinimumCount(counts, "Diving Bell Key", 1);
+
             Archipelago archipelago = Archipelago.Instance;
             IReadOnlyDictionary<string, int> receivedCounts =
                 archipelago?.GetReceivedItemCounts();
@@ -1087,12 +1090,12 @@ namespace SilksongRandomizer
                     SetMinimumCount(
                         counts,
                         "Mossberry",
-                        GetPersistedMossberryCount(playerData, state)
+                        GetPersistedMossberryCount(playerData)
                     );
                     SetMinimumCount(
                         counts,
                         "Pollip Heart",
-                        GetPersistedPollipHeartCount(playerData, state)
+                        GetPersistedPollipHeartCount(playerData)
                     );
                     SetMinimumCount(
                         counts,
@@ -1127,8 +1130,7 @@ namespace SilksongRandomizer
         }
 
         private static int GetPersistedMossberryCount(
-            PlayerData playerData,
-            SaveState state
+            PlayerData playerData
         )
         {
             int count = GetPersistedCollectableCount(
@@ -1137,21 +1139,11 @@ namespace SilksongRandomizer
                 MaxMossberryCount
             );
 
-            // The Druid records only the three middle one-berry trades.
-            // The initial three-berry and final one-berry costs come from
-            // the completed reward checks, which are persisted by SaveState.
-            count += Math.Max(
-                0,
-                Math.Min(3, playerData.druidMossBerriesSold)
-            );
-            if (state.IsLocationChecked("Tool Unlock: Mosscreep Tool 1"))
-            {
-                count += 3;
-            }
-            if (state.IsLocationChecked("Tool Unlock: Mosscreep Tool 2"))
-            {
-                count += 1;
-            }
+            count += Math.Max(0, Math.Min(3, playerData.druidMossBerriesSold));
+            bool firstTrade = playerData.Tools?.GetData("Mosscreep Tool 1").IsUnlocked == true;
+            bool finalTrade = playerData.Tools?.GetData("Mosscreep Tool 2").IsUnlocked == true;
+            if (firstTrade || finalTrade) count += 3;
+            if (finalTrade) count += 1;
 
             return Math.Min(MaxMossberryCount, count);
         }
@@ -1175,32 +1167,13 @@ namespace SilksongRandomizer
                     0,
                     Math.Min(MaxPaleOilCount, playerData.nailUpgrades - 1)
                 )
-                : 0;
-            if (!vanillaNeedleUpgrades &&
-                state.IsLocationChecked(
-                    "Pinmaster Plinney: Sharpened Needle") &&
-                state.IsLocationChecked(
-                    "Pinmaster Plinney: Shining Needle"))
-            {
-                spentPaleOil = 1;
-                if (state.IsLocationChecked(
-                        "Pinmaster Plinney: Hivesteel Needle"))
-                {
-                    spentPaleOil = 2;
-                    if (state.IsLocationChecked(
-                            "Pinmaster Plinney: Pale Steel Needle"))
-                    {
-                        spentPaleOil = 3;
-                    }
-                }
-            }
+                : Math.Max(0, Math.Min(MaxPaleOilCount, state.plinneyPaleOilSpent));
 
             return Math.Min(MaxPaleOilCount, count + spentPaleOil);
         }
 
         private static int GetPersistedPollipHeartCount(
-            PlayerData playerData,
-            SaveState state
+            PlayerData playerData
         )
         {
             int count = GetPersistedCollectableCount(
@@ -1209,10 +1182,6 @@ namespace SilksongRandomizer
                 MaxPollipHeartCount
             );
 
-            // Shell Flowers consumes all six hearts before granting Pollip
-            // Pouch. Recover those consumed copies so offline/reloaded map
-            // logic does not collapse this repeatable AP item to the single
-            // entry retained by SaveState.receivedItems.
             bool questCompleted = false;
             if (playerData?.QuestCompletionData != null)
             {
@@ -1223,9 +1192,7 @@ namespace SilksongRandomizer
                 questCompleted = completion.IsCompleted ||
                                  completion.WasEverCompleted;
             }
-            if (questCompleted ||
-                (state != null && state.IsLocationChecked(
-                    "Tool Unlock: Poison Pouch")))
+            if (questCompleted)
             {
                 count += MaxPollipHeartCount;
             }
@@ -1381,10 +1348,6 @@ namespace SilksongRandomizer
             {
                 return true;
             }
-            if (state?.IsLocationChecked(source) == true)
-            {
-                return true;
-            }
             PlayerData playerData = PlayerData.instance;
             if (playerData == null)
             {
@@ -1392,7 +1355,9 @@ namespace SilksongRandomizer
             }
             switch (source)
             {
-                case "Boss: Widow": return playerData.spinnerDefeated;
+                case "Boss: Widow":
+                    return state?.progressionShuffle?.TryGetBossCredit(source, out bool defeated) == true
+                        ? defeated : playerData.spinnerDefeated;
                 case "Boss: Last Judge": return playerData.defeatedLastJudge;
                 case "Boss: Phantom": return playerData.defeatedPhantom;
                 case "Act: 2": return playerData.act2Started;
@@ -2141,6 +2106,11 @@ namespace SilksongRandomizer
             }
 
             string canonicalName = ItemSet.GetCanonicalItemName(name);
+            if (string.Equals(canonicalName, "Silk Soar", StringComparison.OrdinalIgnoreCase) &&
+                !CrestItemNames.Any(crest => CountItem(inventory, crest) > 0))
+            {
+                return false;
+            }
             bool dependencyBackedAlias =
                 string.Equals(
                     canonicalName,

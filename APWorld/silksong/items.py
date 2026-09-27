@@ -407,6 +407,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ("Hunter's Heart", 'OldHeart'),
     ('Encrusted Heart', 'OldHeart'),
     ('Twisted Bud', 'TwistedBud'),
+    ('Diving Bell Key', 'MajorKey'),
 )
 
 # Rename in place so every established numeric item ID remains unchanged.
@@ -789,6 +790,7 @@ CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     *NEEDLE_UPGRADE_POOL_COUNTS,
     *ALPHABET_ITEM_NAMES,
     *INNATE_ABILITY_ITEM_NAMES,
+    'Diving Bell Key',
 })
 
 TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
@@ -887,7 +889,7 @@ def replace_filler_with_innate_ability_items(
     ]
     if len(eligible_indices) < len(item_names):
         raise OptionError(
-            "Innate ability randomization needs "
+            "Optional item randomization needs "
             f"{len(item_names)} filler rewards in the configured random "
             f"pool but only {len(eligible_indices)} are available."
         )
@@ -1393,6 +1395,8 @@ def get_dynamic_trap_capacity(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
+    cursed_ending: bool = False,
     minimum_memory_lockets: int = 0,
 ) -> int:
     """Count every filler-classified entry in the configured random pool."""
@@ -1420,6 +1424,8 @@ def get_dynamic_trap_capacity(
             ),
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            randomize_diving_bell_key=randomize_diving_bell_key,
+            cursed_ending=cursed_ending,
             include_later_act_items=False,
             minimum_memory_lockets=minimum_memory_lockets,
         )
@@ -1531,6 +1537,8 @@ def build_item_pool_entries(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
+    cursed_ending: bool = False,
     alphabet_nonadvancement_demand_by_placement_category: (
         Mapping[str | None, int] | None
     ) = None,
@@ -1561,7 +1569,7 @@ def build_item_pool_entries(
         act_one_excluded_location_names
         if act_one_only
         else get_act_two_excluded_location_names(
-            starting_crest_item, category_modes.get("Skill", "anywhere"))
+            starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending)
         if act_two_only
         else VERDANIA_LOCATION_NAMES
         if exclude_verdania
@@ -1808,7 +1816,7 @@ def build_item_pool_entries(
     elif act_two_only:
         entries = list(
             trim_act_two_pool_entries(
-                entries, starting_crest_item, category_modes.get("Skill", "anywhere"))
+                entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending)
         )
     elif exclude_verdania:
         entries = _trim_verdania_pool_entries(entries, category_modes)
@@ -1893,6 +1901,7 @@ def build_item_pool_entries(
         (
             *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
             *((SWIM_ITEM,) if randomize_swim else ()),
+            *(("Diving Bell Key",) if randomize_diving_bell_key else ()),
         ),
         trap_randomizer,
     )
@@ -2016,6 +2025,10 @@ def build_item_pool_entries(
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
                 and entry.source_category != 'OldHeart'
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
+                and not (act_one_only and (
+                    'Cylinder' in entry.name
+                    or entry.name in {'Bellway: Grand Bellway', 'Ventrica: Grand Bellway'}
+                ))
                 and entry.source_category not in OBSERVATION_ITEM_CATEGORIES
                 and entry.source_category != RELIC_TURN_IN_LOCATION_CATEGORY
                 and not entry.source_category.startswith('Resource')
@@ -2073,6 +2086,8 @@ def get_configured_item_pool_size(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
+    cursed_ending: bool = False,
 ) -> int:
     return len(
         build_item_pool_entries(
@@ -2095,6 +2110,8 @@ def get_configured_item_pool_size(
             ),
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            randomize_diving_bell_key=randomize_diving_bell_key,
+            cursed_ending=cursed_ending,
         )
     )
 
@@ -2108,6 +2125,7 @@ def _get_adjusted_pool_counts(
     randomize_pale_oils: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
 ) -> Dict[str, int]:
     configured_traps = {
         trap_name: int((trap_counts or {}).get(trap_name, 0))
@@ -2164,6 +2182,7 @@ def _get_adjusted_pool_counts(
     innate_ability_items = (
         *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
         *((SWIM_ITEM,) if randomize_swim else ()),
+        *(("Diving Bell Key",) if randomize_diving_bell_key else ()),
     )
     for item_name in innate_ability_items:
         counts[item_name] = 1
@@ -2180,7 +2199,7 @@ def _get_adjusted_pool_counts(
         remaining_replacements -= replaced_count
     if remaining_replacements:
         raise OptionError(
-            "Innate ability randomization needs more filler rewards in the "
+            "Optional item randomization needs more filler rewards in the "
             "configured random pool."
         )
 
@@ -2225,6 +2244,7 @@ def iter_item_pool_names(
     randomize_minor_pickups: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
 ):
     pool_counts = _get_adjusted_pool_counts(
         trap_counts=trap_counts,
@@ -2235,6 +2255,7 @@ def iter_item_pool_names(
         randomize_pale_oils=randomize_pale_oils,
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
+        randomize_diving_bell_key=randomize_diving_bell_key,
     )
     removed_starting_crest = False
     for name, _category in ITEM_TABLE_SOURCE:
@@ -2281,6 +2302,7 @@ def get_item_pool_size(
     randomize_minor_pickups: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    randomize_diving_bell_key: bool = False,
 ) -> int:
     return sum(
         1
@@ -2294,6 +2316,7 @@ def get_item_pool_size(
             randomize_pale_oils=randomize_pale_oils,
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            randomize_diving_bell_key=randomize_diving_bell_key,
         )
     )
 

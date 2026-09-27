@@ -1,4 +1,4 @@
-﻿using GlobalEnums;
+using GlobalEnums;
 using GlobalSettings;
 using HarmonyLib;
 using HutongGames.PlayMaker;
@@ -850,6 +850,14 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(HeroController __instance, ref bool __result)
             {
                 SaveState state = SaveState.Instance;
+                if (state != null && string.Equals(
+                        PlayerData.instance?.CurrentCrestID,
+                        "Cloakless",
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    __result = false;
+                    return false;
+                }
                 if (state == null || !state.IsRandomized(ItemType.Skill))
                 {
                     return true;

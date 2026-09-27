@@ -958,7 +958,6 @@ PROGRESSION_SAFE_CENSUS_LOCATIONS: frozenset[str] = frozenset(
 ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
     (
         'Boss: Skull Tyrant (Bone Bottom)',
-        'Boss: Moorwing',
         # These delivery wishes explicitly require the pre-Act-3 world.
         'Wish: Bone Bottom Supplies',
         "Wish: Pilgrim's Rest Supplies",
@@ -4229,7 +4228,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Ancestral Art: Clawline',
     )),
     ('Boss Completion: defeatedVampireGnatBoss', area(
-        2,
+        1,
         'Greymoor - Bellshrine',
     )),
     ('Boss Completion: defeatedAntQueen', area(
@@ -6675,6 +6674,7 @@ def _has_named_requirement_with_values(
     )
     return (
         has_item(item_or_requirement_name)
+        and (canonical_name != 'Silk Soar' or any(has_item(crest) for crest in CREST_ITEMS))
         and all(
             has_item(dependency_name)
             for dependency_name in logic_item_dependencies.get(

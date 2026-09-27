@@ -209,24 +209,6 @@ namespace SilksongRandomizer
                 ShellShards.Enabled = shellShardLink;
             }
 
-            if (rosaryLink)
-            {
-                QueueStatus(
-                    "Rosary Link enabled (experimental): loose Rosaries " +
-                    "are shared; strings, bank storage and cocoons remain " +
-                    "local."
-                );
-            }
-
-            if (shellShardLink)
-            {
-                QueueStatus(
-                    "Shell Shard Link enabled (experimental): the base " +
-                    "400 Shards are shared; Tool Pouch overflow remains " +
-                    "individual."
-                );
-            }
-
             return true;
         }
 

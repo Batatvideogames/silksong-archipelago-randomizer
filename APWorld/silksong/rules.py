@@ -358,7 +358,16 @@ def set_silksong_rules(world) -> None:
             continue
 
         location = world.multiworld.get_location(location_name, world.player)
-        if location_name in getattr(
+        shuffled_requirements = getattr(world, "_progression_location_rules", {}).get(location_name)
+        if shuffled_requirements is not None:
+            from .native_regions import native_rule_options
+            location_rule = build_requirements_rule(
+                shuffled_requirements,
+                anchor_requirement_name=world._silksong_native_location_anchors.get(location_name),
+                extra_abstract_requirement_names=world._silksong_native_abstract_names,
+                **native_rule_options(world),
+            )
+        elif location_name in getattr(
             world,
             "_silksong_native_assumed_source_locations",
             (),
@@ -607,6 +616,14 @@ def set_silksong_rules(world) -> None:
                 event.source_location
             )
             event_rule = world._silksong_rule_builder_rules.get(source_name)
+            if event_rule is None and source_name in getattr(world, "_progression_location_rules", {}):
+                from .native_regions import native_rule_options
+                event_rule = build_requirements_rule(
+                    world._progression_location_rules[source_name],
+                    anchor_requirement_name=world._silksong_wish_logic_event_anchors.get(event.location_name),
+                    extra_abstract_requirement_names=world._silksong_native_abstract_names,
+                    **native_rule_options(world),
+                )
             if event_rule is None:
                 # Vanilla observation categories deliberately omit their AP
                 # reward location.  The native Wish still exists, so rebuild

@@ -32,8 +32,8 @@ namespace SilksongRandomizer
 
         internal static ManualLogSource Log;
 
-        private const float ConnectionWindowWidth = 460f;
-        private const float ConnectionWindowHeight = 350f;
+        private const float ConnectionWindowWidth = 560f;
+        private const float ConnectionWindowHeight = 440f;
         private const float HintsWindowWidth = 520f;
         private const float HintsWindowHeight = 430f;
         private static readonly float[] AutomaticReconnectDelays =
@@ -58,6 +58,7 @@ namespace SilksongRandomizer
         private bool previousCursorVisible;
         private bool isConnecting;
         private CursorLockMode previousCursorLockState;
+        private Vector2 connectionScrollPosition;
         private Rect connectionWindowRect = new Rect(0f, 0f, ConnectionWindowWidth, ConnectionWindowHeight);
         private string connectionHost = "localhost";
         private string connectionPort = "38281";
@@ -675,6 +676,7 @@ namespace SilksongRandomizer
 
         void Update()
         {
+            Archipelago.Instance?.ProcessPendingLinkReset();
             if (resetTransientEffectsRequested)
             {
                 resetTransientEffectsRequested = false;
@@ -943,6 +945,7 @@ namespace SilksongRandomizer
 
         public void ClearPendingGameplayQueues()
         {
+            ProgressionShufflePatches.ClearPendingInteractions();
             TrapManager.ResetTransientEffects();
             BeastlingCallAct3Safety.Reset();
             VogHintManager.Reset();
@@ -1154,6 +1157,8 @@ namespace SilksongRandomizer
                 if (newlyReceived)
                 {
                     AlphabetModeManager.OnReceivedItemCommitted(canonicalItemName);
+                    if (canonicalItemName == "Diving Bell Key")
+                        SilkSoarStoryPatches.RefreshDivingBellAccess();
                 }
 
                 if (newlyReceived &&
@@ -1329,39 +1334,40 @@ namespace SilksongRandomizer
             }
 
             UnlockCursorForConnectionGui();
-            DrawConnectionBackground();
-
-            float windowWidth = selectedWindowTab ==
-                ArchipelagoWindowTab.Hints
-                    ? HintsWindowWidth
-                    : ConnectionWindowWidth;
-            float windowHeight = selectedWindowTab ==
-                ArchipelagoWindowTab.Hints
-                    ? HintsWindowHeight
-                    : ConnectionWindowHeight;
-            connectionWindowRect.x = Mathf.Max(
-                0f,
-                (Screen.width - windowWidth) * 0.5f
-            );
-            connectionWindowRect.y = Mathf.Max(
-                0f,
-                (Screen.height - windowHeight) * 0.5f
-            );
-            connectionWindowRect.width = windowWidth;
-            connectionWindowRect.height = windowHeight;
-
+            Matrix4x4 previousMatrix = GUI.matrix;
+            bool previousEnabled = GUI.enabled;
+            bool previousWrap = GUI.skin.label.wordWrap;
             AlphabetModeManager.BeginTextBypass();
             try
             {
+                GUI.matrix = Matrix4x4.identity;
+                GUI.enabled = true;
+                GUI.skin.label.wordWrap = true;
+                DrawConnectionBackground();
+                float windowWidth = selectedWindowTab == ArchipelagoWindowTab.Hints
+                    ? HintsWindowWidth : ConnectionWindowWidth;
+                float windowHeight = selectedWindowTab == ArchipelagoWindowTab.Hints
+                    ? HintsWindowHeight : ConnectionWindowHeight;
+                float scale = Mathf.Min(
+                    Mathf.Max(1f, Screen.height / 1080f),
+                    Screen.width / (windowWidth + 32f),
+                    Screen.height / (windowHeight + 32f));
+                if (scale <= 0f) return;
+                GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
+                connectionWindowRect = new Rect(
+                    (Screen.width / scale - windowWidth) * 0.5f,
+                    (Screen.height / scale - windowHeight) * 0.5f,
+                    windowWidth, windowHeight);
                 GUILayout.Window(
-                    GetInstanceID(),
-                    connectionWindowRect,
-                    DrawConnectionWindow,
-                    AlphabetModeManager.FilterDirectText("Archipelago")
-                );
+                    GetInstanceID(), connectionWindowRect, DrawConnectionWindow,
+                    AlphabetModeManager.FilterDirectText("Archipelago"),
+                    GUILayout.Width(windowWidth), GUILayout.Height(windowHeight));
             }
             finally
             {
+                GUI.matrix = previousMatrix;
+                GUI.enabled = previousEnabled;
+                GUI.skin.label.wordWrap = previousWrap;
                 AlphabetModeManager.EndTextBypass();
             }
         }
@@ -1446,7 +1452,9 @@ namespace SilksongRandomizer
                 }
                 else
                 {
+                    connectionScrollPosition = GUILayout.BeginScrollView(connectionScrollPosition);
                     DrawConnectionTab();
+                    GUILayout.EndScrollView();
                 }
 
                 GUILayout.EndVertical();

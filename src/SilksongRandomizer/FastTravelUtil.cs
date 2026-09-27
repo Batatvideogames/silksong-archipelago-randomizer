@@ -46,8 +46,6 @@ namespace SilksongRandomizer
         private const string SlabReturnEntryGateName = "left2";
         private const string UnderworksReturnSceneName = "Under_01b";
         private const string UnderworksReturnEntryGateName = "left1";
-        private const string FirstAbyssEscapeQuestName =
-            "Black Thread Pt3 Escape";
 
         private enum WarpDestination
         {
@@ -143,17 +141,6 @@ namespace SilksongRandomizer
             {
                 reason =
                     "Finish the current scripted action before warping.";
-                return false;
-            }
-
-            FullQuestBase firstAbyssEscape = QuestManager.GetQuest(
-                FirstAbyssEscapeQuestName
-            );
-            if (firstAbyssEscape != null &&
-                firstAbyssEscape.IsAccepted &&
-                !firstAbyssEscape.IsCompleted)
-            {
-                reason = "Finish escaping the Abyss before warping.";
                 return false;
             }
 
@@ -476,7 +463,7 @@ namespace SilksongRandomizer
                     return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
                     return playerData != null &&
-                        playerData.spinnerDefeated;
+                        ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated);
                 case SongclaveHubKey:
                     return IsSongclaveHubAvailable(playerData);
                 default:
@@ -531,7 +518,7 @@ namespace SilksongRandomizer
             SaveState state = SaveState.Instance;
             return state != null &&
                 state.rodeFleaCaravanToGreymoor &&
-                (playerData == null || !playerData.spinnerDefeated);
+                (playerData == null || !ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated));
         }
 
         private static bool IsSongclaveHubAvailable(PlayerData playerData)

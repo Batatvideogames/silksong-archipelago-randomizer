@@ -129,7 +129,8 @@ def choose_location_anchor(
 
 
 def create_native_logic_region_map(world) -> Mapping[str, Region]:
-    requirements = get_native_abstract_requirements(world)
+    from .progression_shuffle import prepare_world
+    requirements = prepare_world(world, get_native_abstract_requirements(world))
     abstract_names = frozenset(requirements)
     regions = {
         name: Region(native_region_name(name), world.player, world.multiworld)
@@ -222,6 +223,7 @@ def connect_native_logic_regions(
             rule = build_requirements_rule(
                 tuple(grouped_requirements),
                 anchor_requirement_name=anchor,
+                extra_abstract_requirement_names=abstract_names,
                 **options,
             )
             world.create_entrance(

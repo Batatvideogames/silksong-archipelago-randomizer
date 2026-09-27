@@ -113,10 +113,6 @@ namespace SilksongRandomizer
                 enabled = true;
             }
 
-            QueueStatus(
-                "Silk Link enabled (experimental): the base nine Silk are " +
-                "shared; upgraded capacity remains individual."
-            );
             return true;
         }
 

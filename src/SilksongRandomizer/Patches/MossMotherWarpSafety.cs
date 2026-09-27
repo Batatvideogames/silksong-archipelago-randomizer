@@ -128,8 +128,7 @@ namespace SilksongRandomizer.Patches
             PlayerData playerData = PlayerData.instance;
             if (state == null ||
                 playerData == null ||
-                playerData.defeatedMossMother ||
-                state.IsLocationChecked(LocationName))
+                playerData.defeatedMossMother)
             {
                 return false;
             }
@@ -150,7 +149,7 @@ namespace SilksongRandomizer.Patches
         internal static void RecoverInterruptedBoneBottomWarp()
         {
             SaveState state = SaveState.Instance;
-            if (state == null || state.IsLocationChecked(LocationName))
+            if (state == null)
             {
                 return;
             }
@@ -169,12 +168,6 @@ namespace SilksongRandomizer.Patches
                 playerData == null ||
                 !state.mossMotherBypassedByBoneBottomWarp)
             {
-                return;
-            }
-
-            if (state.IsLocationChecked(LocationName))
-            {
-                state.mossMotherBypassedByBoneBottomWarp = false;
                 return;
             }
 

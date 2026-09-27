@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "df69b84eafbedb950f8353d0ce80ca6fe1454f84eab245e6c080e5392d9b1f62",
     "catalogue_sha256": "44ce6e030e945cd8711b9101456291e3fe3b380c920356d987859c98bb37f4ea",
-    "bindings_sha256": "14702aa94b32d9d64de4445db504f37752ee7cfe8263b1071dedd1f0b5ba6bab"
+    "bindings_sha256": "339f625611f96f57d20c965c11aca1993e05bad3417a8be3fa76d872be7760ef"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -20596,10 +20596,12 @@
             "mode": "expression",
             "dnf": [
               [
+                "received:Cling Grip",
                 "mapper:attack:left",
                 "combat:gauntlet:the-marrow-northeast"
               ],
               [
+                "received:Cling Grip",
                 "mapper:attack:right",
                 "combat:gauntlet:the-marrow-northeast"
               ]
@@ -22155,9 +22157,7 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -42191,7 +42191,8 @@
             "dnf": [
               [
                 "state:act-3",
-                "event:mapper/reviewed:dark-below-accepted"
+                "event:mapper/reviewed:dark-below-accepted",
+                "received:Diving Bell Key"
               ]
             ],
             "annotations": [],
@@ -42255,26 +42256,24 @@
           "id": "event:mapper/49c500d9-9874-463e-a362-66264dc37da4",
           "requirement": {
             "raw": "have diving bell key",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unmapped AP item: item:diving-bell-key"
+            "mode": "expression",
+            "dnf": [
+              [
+                "received:Diving Bell Key"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unmapped AP item: item:diving-bell-key"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "49c500d9-9874-463e-a362-66264dc37da4"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unmapped AP item: item:diving-bell-key"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "diving bell lock",
           "kind": "lock",
           "node_id": "deep-docks/deep-docks-diving-bell-room#room"
@@ -42339,7 +42338,8 @@
             "dnf": [
               [
                 "state:act-3",
-                "event:mapper/reviewed:dark-below-accepted"
+                "event:mapper/reviewed:dark-below-accepted",
+                "received:Diving Bell Key"
               ]
             ],
             "annotations": [],
@@ -90507,30 +90507,6 @@
           "canonical_location": "Flea Caravan - Spool Fragment",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
-        },
-        {
-          "id": "greymoor/greymoor-entry-to-bellhart::mapper-check:e8815c05-21b3-420b-9145-9fe4dfd3f08e:835732",
-          "requirement": {
-            "raw": "invalid",
-            "mode": "expression",
-            "dnf": [],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "randomizer should always force moorwing at other spot for consitent logic - hero, 9/26",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "e8815c05-21b3-420b-9145-9fe4dfd3f08e"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "Boss: Moorwing",
-          "node_id": "greymoor/greymoor-entry-to-bellhart#bottom-left-section",
-          "canonical_location": "Boss: Moorwing",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true
         }
       ],
       "omitted_check_rows": []
@@ -95303,8 +95279,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "mapper:act-2",
-                "event:mapper/cd40450e-6bdd-4098-b74f-4d7badd9fafb"
+                "combat:boss:moorwing"
               ]
             ],
             "annotations": [],
@@ -95723,6 +95698,34 @@
           "label": "Greymor - Shard Bundle #1",
           "node_id": "greymoor/greymoor-towers-patio#upper-area",
           "canonical_location": "Greymoor - Shard Bundle #1",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "greymoor/greymoor-towers-patio::mapper-check:4127289c-12aa-4bb2-84ca-ef581aa3941c:835732",
+          "requirement": {
+            "raw": "Act 2 AND complete THE the lost fleas wish granted",
+            "mode": "expression",
+            "dnf": [
+              [
+                "combat:boss:moorwing"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "maybe just change the wqish to moorwing spkipped ion the other room",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "4127289c-12aa-4bb2-84ca-ef581aa3941c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Boos: MoorWing",
+          "node_id": "greymoor/greymoor-towers-patio#lower-section",
+          "canonical_location": "Boss: Moorwing",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -201449,7 +201452,10 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/owned/everbloom"
+                "event:mapper/owned/everbloom",
+                "state:act-3",
+                "event:mapper/reviewed:dark-below-accepted",
+                "received:Diving Bell Key"
               ]
             ],
             "annotations": [],

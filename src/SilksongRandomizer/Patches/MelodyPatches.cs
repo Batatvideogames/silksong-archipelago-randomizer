@@ -841,10 +841,7 @@ namespace SilksongRandomizer.Patches
 
         private static bool IsBellEaterResolved(SaveState state)
         {
-            return state.bellEaterResolved ||
-                   state.IsLocationChecked(
-                       MelodyLocationManifest.BeastlingCall
-                   );
+            return state.bellEaterResolved;
         }
 
         private static bool ReplaceNamedPlayerDataWrite(

@@ -244,6 +244,21 @@ class SilksongWorld(World):
         option_types = SilksongOptions.type_hints
         for name in TRACKER_OPTION_NAMES:
             option_types[name].from_any(deepcopy(slot_data[name]))
+        from .progression_shuffle import Assignments, SUPPORTED_WISH_IDS, SUPPORTED_BOSS_IDS
+        assignment_data = slot_data.get("progression_shuffle")
+        if not isinstance(assignment_data, dict):
+            raise ValueError("Tracker slot data is missing progression assignments.")
+        wish_ids = frozenset(assignment_data.get("wishes", {}))
+        if not wish_ids.issubset(SUPPORTED_WISH_IDS):
+            raise ValueError("Unknown shuffled wish identity.")
+        wish_mode = option_types["quest_sanity"].from_any(slot_data["quest_sanity"])
+        boss_mode = option_types["boss_sanity"].from_any(slot_data["boss_sanity"])
+        if bool(wish_ids) != (wish_mode.value != wish_mode.option_vanilla):
+            raise ValueError("Wish Sanity setting does not match its assignments.")
+        boss_ids = frozenset(assignment_data.get("bosses", {}))
+        if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_vanilla):
+            raise ValueError("Boss Sanity setting does not match its assignments.")
+        Assignments.from_slot_data(assignment_data, wish_ids, boss_ids)
         SilksongWorld._tracker_silk_and_soul_points(slot_data)
         goal = slot_data["goal"]
         if goal in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
@@ -369,6 +384,7 @@ class SilksongWorld(World):
         excluded = get_act_two_excluded_location_names(
             STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()],
             self.get_category_mode('Skill'),
+            self.get_goal_key() == CURSED_ENDING_GOAL_KEY,
         )
         if self.get_category_mode('Soul') == 'vanilla':
             return excluded | {'Maiden Soul', 'Hermit Soul', 'Seeker Soul'}
@@ -517,6 +533,8 @@ class SilksongWorld(World):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
+            cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
         )
         if (
             self.get_category_mode('Skill') == 'shuffle'
@@ -859,6 +877,8 @@ class SilksongWorld(World):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
+            cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             minimum_memory_lockets=self._minimum_pool_lockets(),
         )
         total_traps = (trap_capacity * percentage + 50) // 100
@@ -1108,6 +1128,8 @@ class SilksongWorld(World):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
+            cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             alphabet_nonadvancement_demand_by_placement_category=(
                 nonadvancement_demand_by_lane
             ),
@@ -1195,6 +1217,8 @@ class SilksongWorld(World):
         )
 
     def pre_fill(self) -> None:
+        from .progression_shuffle import finalize_world
+        finalize_world(self)
         state = self.multiworld.get_all_state()
         if self.get_goal_key() == "act_3":
             available = (
@@ -1237,6 +1261,7 @@ class SilksongWorld(World):
         connect_exits(self)
 
     def create_regions(self) -> None:
+        from .progression_shuffle import world_location_requirements
         self._active_crest_slot_locations = None
         self._entrance_construction_items = ()
         self._early_dash_shuffle_locations = ()
@@ -1248,6 +1273,12 @@ class SilksongWorld(World):
             self.multiworld,
         )
         self.multiworld.regions += [menu, pharloom, logic_unknown]
+        if not self.options.diving_bell_key_randomization.value:
+            vanilla_key = SilksongLocation(self.player, "Vanilla Diving Bell Key", None, menu)
+            vanilla_key.show_in_spoiler = False
+            vanilla_key.place_locked_item(self.create_event("Diving Bell Key"))
+            menu.locations.append(vanilla_key)
+
         native_regions = create_native_logic_region_map(self)
         abstract_names = self._silksong_native_abstract_names
         self._silksong_native_location_anchors = {}
@@ -1355,8 +1386,8 @@ class SilksongWorld(World):
                 and name not in self.get_logic_unknown_locations()
             ):
                 anchor = choose_location_anchor(
-                    get_location_requirements(
-                        name,
+                    world_location_requirements(
+                        self, name,
                         pollip_heart_count=pollip_heart_count,
                     ),
                     abstract_names,
@@ -1415,7 +1446,7 @@ class SilksongWorld(World):
         excluded_location_names = self.get_goal_excluded_location_names()
         for event in WISH_LOGIC_EVENTS:
             if event.location_name.startswith('Eva Logic: ') and (
-                self.is_act_one_content_scope() or self.get_category_mode('CrestSlot') == 'vanilla'
+                self.get_category_mode('CrestSlot') == 'vanilla'
             ):
                 continue
             if (
@@ -1465,8 +1496,8 @@ class SilksongWorld(World):
                     # locations. Rebuild their exact declarative source under
                     # the same native anchor instead of treating them as free.
                     anchor = choose_location_anchor(
-                        get_location_requirements(
-                            source_name,
+                        world_location_requirements(
+                            self, source_name,
                             pollip_heart_count=pollip_heart_count,
                         ),
                         abstract_names,
@@ -1501,6 +1532,18 @@ class SilksongWorld(World):
             ] = anchor
 
     def write_spoiler(self, spoiler_handle) -> None:
+        assignments = getattr(self, "_progression_assignments", None)
+        if assignments is not None:
+            if assignments.wishes:
+                spoiler_handle.write("\nWish offers:\n")
+                for source, target in assignments.wishes:
+                    source_name = canonicalize_location_name("Quest Completion: " + source)
+                    target_name = canonicalize_location_name("Quest Completion: " + target)
+                    spoiler_handle.write(f"  {source_name} -> {target_name}\n")
+            if assignments.bosses:
+                spoiler_handle.write("\nBoss completion credits:\n")
+                for source, target in assignments.bosses:
+                    spoiler_handle.write(f"  {source} -> {target}\n")
         if self.get_goal_key() in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
             scope = self.get_content_scope().replace("_", " ").title()
             spoiler_handle.write(f"Content scope: {scope}\n")
@@ -2032,6 +2075,7 @@ class SilksongWorld(World):
             "shell_shard_link": self.is_shell_shard_link_enabled(),
             "knockback_link": bool(self.options.knockback_link.value),
             "trap_disguises": bool(self.options.trap_disguises.value),
+            "diving_bell_key_randomization": bool(self.options.diving_bell_key_randomization.value),
             "trap_counts": self.resolve_trap_counts(),
             "requirements": exported_requirements,
             "abstract_requirements": export_abstract_requirements(
@@ -2100,6 +2144,8 @@ class SilksongWorld(World):
                 in PRICE_CATEGORY_OPTION_NAMES.items()
             }
         )
+        from .progression_shuffle import export_world
+        export_world(self, slot_data)
         return slot_data
 
     def modify_multidata(self, multidata: dict) -> None:

@@ -176,7 +176,7 @@ namespace SilksongRandomizer.Patches
                 playerData.hasSuperJump = isEscapeGate
                     ? HasCollectedAbyssShrine(state, playerData)
                     : isBallowPostGate
-                        ? playerData.BallowMovedToDivingBell
+                        ? IsDivingBellRepaired(state, playerData)
                         : state.canSilkSoar;
             }
 
@@ -222,6 +222,8 @@ namespace SilksongRandomizer.Patches
                     NativeFlag,
                     StringComparison.Ordinal
                 );
+                if (isSuperJumpWrite)
+                    state.abyssShrineVisited = true;
                 if (isSuperJumpWrite &&
                     IsRandomizedSilkSoarSource(state))
                 {
@@ -309,6 +311,7 @@ namespace SilksongRandomizer.Patches
                     NativeSuperJump = playerData.hasSuperJump,
                     SynchronizeBallow = synchronizeBallow,
                 };
+                playerData.hasSuperJump = IsDivingBellRepaired(state, playerData);
                 if (isWhiteFlowerSelector)
                 {
                     PlayerDataTest test =
@@ -318,16 +321,11 @@ namespace SilksongRandomizer.Patches
                         test.TestGroups[0].Tests;
                     PlayerDataTest.Test original = tests[0];
                     PlayerDataTest.Test redirected = original;
-                    redirected.FieldName = BallowMovedFlag;
+                    redirected.FieldName = NativeFlag;
                     tests[0] = redirected;
                     __state.SelectorTests = tests;
                     __state.NativeSelectorTest = original;
                     __state.RestoreSelectorTest = true;
-                }
-                else
-                {
-                    playerData.hasSuperJump =
-                        playerData.BallowMovedToDivingBell;
                 }
             }
 
@@ -387,7 +385,7 @@ namespace SilksongRandomizer.Patches
                     NativeSuperJump = playerData.hasSuperJump,
                 };
                 playerData.hasSuperJump =
-                    playerData.BallowMovedToDivingBell;
+                    IsDivingBellRepaired(state, playerData);
             }
 
             [HarmonyFinalizer]
@@ -447,17 +445,13 @@ namespace SilksongRandomizer.Patches
                     PlayerData = playerData,
                     NativeSuperJump = playerData.hasSuperJump,
                 };
+                playerData.hasSuperJump = IsDivingBellRepaired(state, playerData);
                 if (isWhiteFlowerRead)
                 {
                     __state.DialogueBoolAction = __instance;
                     __state.NativeDialogueBoolName =
                         __instance.boolName.Value;
-                    __instance.boolName.Value = BallowMovedFlag;
-                }
-                else
-                {
-                    playerData.hasSuperJump =
-                        playerData.BallowMovedToDivingBell;
+                    __instance.boolName.Value = NativeFlag;
                 }
             }
 
@@ -516,7 +510,7 @@ namespace SilksongRandomizer.Patches
                         ),
                 };
                 playerData.hasSuperJump =
-                    playerData.BallowMovedToDivingBell;
+                    IsDivingBellRepaired(state, playerData);
             }
 
             [HarmonyFinalizer]
@@ -1368,15 +1362,33 @@ namespace SilksongRandomizer.Patches
         {
             return state != null && playerData != null &&
                    (state.IsRandomized(ItemType.Skill)
-                       ? state.IsLocationChecked(SilkSoarSourceLocationName)
+                       ? state.abyssShrineVisited
                        : playerData.hasSuperJump);
+        }
+
+        internal static bool HasDivingBellKey(SaveState state)
+        {
+            return state != null && (!state.divingBellKeyRandomization ||
+                state.receivedItems.Contains("Diving Bell Key"));
+        }
+
+        private static bool IsDivingBellRepaired(SaveState state, PlayerData playerData)
+        {
+            return playerData != null && playerData.BallowMovedToDivingBell && HasDivingBellKey(state);
+        }
+
+        internal static void RefreshDivingBellAccess()
+        {
+            TryEnableDivingBellForAcceptedQuest(SaveState.Instance, PlayerData.instance);
+            if (IsDivingBellReady(SaveState.Instance, PlayerData.instance))
+                SynchronizeRecoveredBallowObjects();
         }
 
         private static bool TryEnableDivingBellForAcceptedQuest(
             SaveState state,
             PlayerData playerData)
         {
-            if (state == null ||
+            if (!HasDivingBellKey(state) ||
                 playerData == null)
             {
                 return false;
@@ -1446,7 +1458,7 @@ namespace SilksongRandomizer.Patches
         {
             if (state == null ||
                 playerData == null ||
-                !playerData.BallowMovedToDivingBell)
+                !IsDivingBellRepaired(state, playerData))
             {
                 return false;
             }

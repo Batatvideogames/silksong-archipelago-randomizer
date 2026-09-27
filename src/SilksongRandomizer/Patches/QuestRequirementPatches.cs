@@ -463,11 +463,8 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            if (playerData.DefeatedSwampShaman ||
-                (state != null &&
-                 state.IsRandomized(ItemType.Boss) &&
-                 state.IsLocationInSeed(GroalLocation) &&
-                 state.IsLocationChecked(GroalLocation)))
+            bool groal = playerData.DefeatedSwampShaman;
+            if (ProgressionShufflePatches.StoryCredit(GroalLocation, groal))
             {
                 return true;
             }
@@ -619,6 +616,7 @@ namespace SilksongRandomizer.Patches
                 FullQuestBase __instance,
                 ref bool __result)
             {
+                if (ProgressionShufflePatches.IsAssignedOfferRead(__instance.name)) return;
                 __result = ApplyShakraFinalQuestRequirement(
                     __instance,
                     __result,

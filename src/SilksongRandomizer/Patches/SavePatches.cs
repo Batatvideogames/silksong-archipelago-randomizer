@@ -54,62 +54,13 @@ namespace SilksongRandomizer.Patches
 
         internal static bool Load(int slot, out string error)
         {
-            error = string.Empty;
-            if (!TryLoadState(slot, out SaveState loadedState, out error))
+            if (!TryLoadValidatedState(slot, out SaveState loadedState, out error))
             {
-                return false;
-            }
-
-            if (loadedState.schemaVersion != SaveState.CurrentSchemaVersion)
-            {
-                error = "This save uses randomizer metadata schema " +
-                        loadedState.schemaVersion + ", but this plugin requires schema " +
-                        SaveState.CurrentSchemaVersion + ". Start a new randomizer save.";
-                return false;
-            }
-
-            loadedState.InitializeAfterLoad();
-            if (!loadedState.IsRoomBound)
-            {
-                error = "This save has no room binding and cannot be matched safely to an " +
-                        "Archipelago seed. Start a new randomizer save.";
-                return false;
-            }
-
-            if (!loadedState.HasWorldVersionBinding)
-            {
-                error = GetWorldVersionBindingError(loadedState);
-                return false;
-            }
-
-            if (!loadedState.HasGoalBinding)
-            {
-                error = "This save has no goal binding and cannot determine its completion " +
-                        "condition safely. Start a new randomizer save.";
-                return false;
-            }
-
-            if (!loadedState.HasStartingCrestBinding)
-            {
-                error = "This save has no starting-crest binding and cannot determine " +
-                        "its initial crest safely. Start a new randomizer save.";
-                return false;
-            }
-
-            if (!loadedState.HasStartingLocationBinding)
-            {
-                error = "This save has no starting-location binding and cannot " +
-                        "determine its initial area safely. Start a new randomizer save.";
                 return false;
             }
 
             if (Archipelago.Instance != null && Archipelago.Instance.Connected)
             {
-                if (!Archipelago.Instance.ValidateLoadedSave(loadedState, out error))
-                {
-                    return false;
-                }
-
                 SaveState.Instance = loadedState;
                 RandomizerPlugin.Instance.ClearPendingGameplayQueues();
                 Archipelago.Instance.ResetReceivedItemQueueCursor();
@@ -152,11 +103,18 @@ namespace SilksongRandomizer.Patches
 
         internal static bool CanLoad(int slot, out string error)
         {
-            if (!TryLoadState(slot, out SaveState loadedState, out error))
-            {
-                return false;
-            }
+            return TryLoadValidatedState(slot, out _, out error);
+        }
 
+        private static bool TryLoadValidatedState(int slot, out SaveState loadedState, out string error)
+        {
+            return TryLoadState(slot, out loadedState, out error) &&
+                   ValidateLoadedState(loadedState, out error);
+        }
+
+        private static bool ValidateLoadedState(SaveState loadedState, out string error)
+        {
+            error = string.Empty;
             if (loadedState.schemaVersion != SaveState.CurrentSchemaVersion)
             {
                 error = "This save uses randomizer metadata schema " +
@@ -165,7 +123,10 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            loadedState.InitializeAfterLoad();
+            if (!TryInitializeLoadedState(loadedState, out error))
+            {
+                return false;
+            }
             if (!loadedState.IsRoomBound)
             {
                 error = "This save has no room binding and cannot be matched safely to an " +
@@ -207,6 +168,22 @@ namespace SilksongRandomizer.Patches
             }
 
             return true;
+        }
+
+        private static bool TryInitializeLoadedState(SaveState loadedState, out string error)
+        {
+            try
+            {
+                loadedState.InitializeAfterLoad();
+                error = string.Empty;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = "Randomizer metadata could not be initialized. The save was not loaded " +
+                        "and no progress was replaced. " + ex.Message;
+                return false;
+            }
         }
 
         internal static bool HasOfflineLoadableSave()

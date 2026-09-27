@@ -14,6 +14,8 @@ namespace SilksongRandomizer
     {
         public const int CurrentSchemaVersion = 26;
 
+        public ProgressionShuffleState progressionShuffle = new ProgressionShuffleState();
+
         public string entranceLayoutJson = "{}";
         public HashSet<string> exploredEntrances = new HashSet<string>();
 
@@ -206,6 +208,7 @@ namespace SilksongRandomizer
         [XmlIgnore]
         private Dictionary<string, int> purchasePriceLookup;
         public bool trapDisguises;
+        public bool divingBellKeyRandomization;
         public bool fasterDialogue;
         public bool alphabetMode;
         public bool deathLink;
@@ -398,6 +401,8 @@ namespace SilksongRandomizer
         public int silkHeartLevel = 0;
         public int needleUpgradeLevel = 0;
         public int selectedNeedleUpgradeLevel = -1;
+        public int plinneyPaleOilSpent;
+        public bool abyssShrineVisited;
 
         // AP tool ownership is virtual, so the native ToolItem.Unlock path
         // does not initialize liquid amount/reserve data. These markers make
@@ -574,6 +579,10 @@ namespace SilksongRandomizer
             }
 
             roomSeed = roomSeed ?? string.Empty;
+            progressionShuffle = progressionShuffle ?? new ProgressionShuffleState();
+            if (!string.IsNullOrEmpty(progressionShuffle.assignmentJson))
+                progressionShuffle.BindConfiguration(progressionShuffle.assignmentJson,
+                    roomSeed + ":" + team + ":" + slot);
             slotName = slotName ?? string.Empty;
             worldVersion = worldVersion ?? string.Empty;
             goal = goal ?? string.Empty;
@@ -879,6 +888,9 @@ namespace SilksongRandomizer
             fleaHuntGoalCount = archipelago.FleaHuntGoalCount;
             startingLocation = archipelago.StartingLocation ?? string.Empty;
             startingCrest = archipelago.StartingCrest ?? string.Empty;
+            progressionShuffle = progressionShuffle ?? new ProgressionShuffleState();
+            progressionShuffle.BindConfiguration(archipelago.ProgressionShuffleJson,
+                roomSeed + ":" + team + ":" + slot);
             entranceLayoutJson = archipelago.EntranceLayoutJson;
             splitDashAndSprint = archipelago.SplitDashAndSprint;
             ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
@@ -914,6 +926,7 @@ namespace SilksongRandomizer
             vogHintPrices = archipelago.VogHintPrices;
             SetPurchasePrices(archipelago.PurchasePrices);
             trapDisguises = archipelago.TrapDisguises;
+            divingBellKeyRandomization = archipelago.DivingBellKeyRandomization;
             fasterDialogue = archipelago.FasterDialogue;
             alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
@@ -1008,6 +1021,7 @@ namespace SilksongRandomizer
                        archipelago.StartingCrest,
                        StringComparison.Ordinal
                    ) &&
+                   (progressionShuffle ?? new ProgressionShuffleState()).MatchesConfiguration(archipelago.ProgressionShuffleJson) &&
                    string.Equals(entranceLayoutJson, archipelago.EntranceLayoutJson, StringComparison.Ordinal) &&
                    splitDashAndSprint == archipelago.SplitDashAndSprint &&
                    ledgegrabAbilityRando ==
@@ -1045,6 +1059,7 @@ namespace SilksongRandomizer
                    ) &&
                    PurchasePriceSettingsMatch(archipelago) &&
                    trapDisguises == archipelago.TrapDisguises &&
+                   divingBellKeyRandomization == archipelago.DivingBellKeyRandomization &&
                    fasterDialogue == archipelago.FasterDialogue &&
                    alphabetMode == archipelago.AlphabetMode &&
                    deathLink == archipelago.DeathLink &&
@@ -1494,6 +1509,8 @@ namespace SilksongRandomizer
                        "save created for this slot's settings.";
             }
 
+            if (roomIdentityMatches && divingBellKeyRandomization != archipelago.DivingBellKeyRandomization)
+                return GetBooleanSettingMismatchMessage("diving_bell_key_randomization", divingBellKeyRandomization, archipelago.DivingBellKeyRandomization);
             if (roomIdentityMatches && trapDisguises != archipelago.TrapDisguises)
             {
                 return GetBooleanSettingMismatchMessage("trap_disguises", trapDisguises, archipelago.TrapDisguises);

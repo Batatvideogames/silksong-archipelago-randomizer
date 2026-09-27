@@ -188,7 +188,7 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            return playerData.spinnerDefeated
+            return ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated)
                 ? !playerData.visitedBellhartSaved
                 : !playerData.visitedBellhartHaunted;
         }
@@ -332,7 +332,7 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            return playerData.spinnerDefeated
+            return ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated)
                 ? !playerData.visitedBellhartSaved
                 : !playerData.visitedBellhartHaunted;
         }

@@ -317,6 +317,8 @@ namespace SilksongRandomizer.Patches
                 string locationName = GetCurrentPlinneyLocation();
                 if (!string.IsNullOrEmpty(locationName))
                 {
+                    if (GetPurchasedPlinneyTier() > 0)
+                        SaveState.Instance.plinneyPaleOilSpent = Math.Min(3, SaveState.Instance.plinneyPaleOilSpent + 1);
                     SaveState.Instance.CheckLocation(locationName);
                 }
 

@@ -14,7 +14,10 @@ namespace SilksongRandomizer
             SourceName = name;
             Name = LocationSet.GetCanonicalLocationName(name);
             Type = type;
-            Check = check;
+            Check = type == ItemType.Boss
+                ? () => SaveState.Instance?.progressionShuffle?.TryGetBossDefeat(Name, out bool defeated) == true
+                    ? defeated : check()
+                : check;
         }
     }
 }

@@ -496,26 +496,6 @@ namespace SilksongRandomizer.Patches
             );
         }
 
-        private static bool HasSingleTransition(
-            FsmState state,
-            string eventName,
-            string targetState
-        )
-        {
-            return state?.Transitions != null &&
-                   state.Transitions.Count(transition =>
-                       string.Equals(
-                           transition.EventName,
-                           eventName,
-                           StringComparison.Ordinal
-                       ) &&
-                       string.Equals(
-                           transition.ToState,
-                           targetState,
-                           StringComparison.Ordinal
-                       )) == 1;
-        }
-
         private static bool TryFindPeakWall(out Breakable wall)
         {
             wall = null;
@@ -858,44 +838,6 @@ namespace SilksongRandomizer.Patches
                     .GetValue<Vector2>();
                 size = properties.Property("size")
                     .GetValue<Vector2>();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        private static bool TryReadPolygonColliderShape(
-            Component collider,
-            out bool isTrigger,
-            out int pathCount,
-            out int pointCount
-        )
-        {
-            isTrigger = false;
-            pathCount = 0;
-            pointCount = 0;
-            if (collider == null ||
-                !string.Equals(
-                    collider.GetType().FullName,
-                    "UnityEngine.PolygonCollider2D",
-                    StringComparison.Ordinal
-                ))
-            {
-                return false;
-            }
-
-            try
-            {
-                Traverse properties = Traverse.Create(collider);
-                isTrigger = properties.Property("isTrigger")
-                    .GetValue<bool>();
-                pathCount = properties.Property("pathCount")
-                    .GetValue<int>();
-                Vector2[] points = properties.Property("points")
-                    .GetValue<Vector2[]>();
-                pointCount = points?.Length ?? 0;
                 return true;
             }
             catch (Exception)
