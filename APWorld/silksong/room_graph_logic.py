@@ -313,6 +313,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "option:skips-difficult": (_part(skip_tier=3),),
     # Bell Beast's silk remains an explicit Silkspear-only gate.
     "capability:break-silk-blockade": (
+        _part("Event: Ordinary Silk Blockades Cleared"),
         _part(silk_spear=True),
         _part("Usable Rune Rage"),
         _part("Usable Sharpdart"),

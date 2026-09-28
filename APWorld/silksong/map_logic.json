@@ -789,12 +789,13 @@
               }
             ]
           },
-          "Room Node: bellhart/widow-boss-fight#arena": {
+          "Room Node: bellhart/widow-boss-fight#right-entrance": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#upper"
+                  "Room Node: bellhart/widow-boss-fight#arena",
+                  "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -8518,6 +8519,20 @@
           },
           "Room Node: bone-bottom/mosshome-upper#ground-right": {
             "alternatives": [
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Event: Ordinary Silk Blockades Cleared"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
               {
                 "act": "",
                 "all_of": [
@@ -45300,7 +45315,7 @@
         "bellhart/bellhart-right-entrance@ul": "Room Node: bellhart/bellhart-right-entrance#upper-level",
         "bellhart/upper-bellhart@f": "Room Node: bellhart/upper-bellhart#lower-exits",
         "bellhart/widow-boss-fight@c": "Room Node: bellhart/widow-boss-fight#upper",
-        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#arena",
+        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#right-entrance",
         "bilewater/bilewater-arena-shack@l": "Room Node: bilewater/bilewater-arena-shack#room",
         "bilewater/bilewater-bellway@l": "Room Node: bilewater/bilewater-bellway#room",
         "bilewater/bilewater-bullshit-bench@ur": "Room Node: bilewater/bilewater-bullshit-bench#upper",
@@ -46127,7 +46142,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: bellhart/widow-boss-fight#arena"
+                "Room Node: bellhart/widow-boss-fight#right-entrance"
               ],
               "any_of": [],
               "item_counts": [],
@@ -67973,12 +67988,13 @@
               }
             ]
           },
-          "Room Node: bellhart/widow-boss-fight#arena": {
+          "Room Node: bellhart/widow-boss-fight#right-entrance": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#upper"
+                  "Room Node: bellhart/widow-boss-fight#arena",
+                  "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -75208,6 +75224,20 @@
           },
           "Room Node: bone-bottom/mosshome-upper#ground-right": {
             "alternatives": [
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Event: Ordinary Silk Blockades Cleared"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
               {
                 "act": "",
                 "all_of": [
@@ -110344,7 +110374,7 @@
         "bellhart/bellhart-right-entrance@ul": "Room Node: bellhart/bellhart-right-entrance#upper-level",
         "bellhart/upper-bellhart@f": "Room Node: bellhart/upper-bellhart#lower-exits",
         "bellhart/widow-boss-fight@c": "Room Node: bellhart/widow-boss-fight#upper",
-        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#arena",
+        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#right-entrance",
         "bilewater/bilewater-arena-shack@l": "Room Node: bilewater/bilewater-arena-shack#room",
         "bilewater/bilewater-bellway@l": "Room Node: bilewater/bilewater-bellway#room",
         "bilewater/bilewater-bullshit-bench@ur": "Room Node: bilewater/bilewater-bullshit-bench#upper",
@@ -111089,7 +111119,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: bellhart/widow-boss-fight#arena"
+                "Room Node: bellhart/widow-boss-fight#right-entrance"
               ],
               "any_of": [],
               "item_counts": [],
@@ -137149,6 +137179,23 @@
             "act": "",
             "all_of": [
               "Room Event: event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Event: Ordinary Silk Blockades Cleared": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Event: event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a"
             ],
             "any_of": [],
             "item_counts": [],
@@ -164204,7 +164251,23 @@
             "act": "",
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:courier-songclave-accepted"
+              "Room Event: event:mapper/reviewed:courier-songclave-accepted",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:courier-songclave-accepted",
+              "Act: 3"
             ],
             "any_of": [],
             "item_counts": [],
@@ -172770,7 +172833,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/widow-boss-fight#arena"
+              "Room Node: bellhart/widow-boss-fight#right-entrance"
             ],
             "any_of": [],
             "item_counts": [],
@@ -173632,6 +173695,37 @@
           {
             "act": "",
             "all_of": [
+              "Room Node: bellhart/widow-boss-fight#upper"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#right-entrance",
+              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: bellhart/widow-boss-fight#right-entrance": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
               "Room Node: bellhart/bellhart-right-entrance#upper-level"
             ],
             "any_of": [],
@@ -173645,7 +173739,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/widow-boss-fight#upper"
+              "Room Node: bellhart/widow-boss-fight#arena",
+              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
             ],
             "any_of": [],
             "item_counts": [],
@@ -194305,6 +194400,20 @@
           {
             "act": "",
             "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Event: Ordinary Silk Blockades Cleared"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
               "Room Node: bone-bottom/mosshome-upper#ground-right"
             ],
             "any_of": [],
@@ -194826,6 +194935,20 @@
           {
             "act": "",
             "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Event: Ordinary Silk Blockades Cleared"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
               "Room Node: bone-bottom/mosshome-upper#center-platforms"
             ],
             "any_of": [],
@@ -194868,6 +194991,20 @@
       },
       "Room Node: bone-bottom/mosshome-upper#silkspear-passage": {
         "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Event: Ordinary Silk Blockades Cleared"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
           {
             "act": "",
             "all_of": [
@@ -194989,6 +195126,20 @@
       },
       "Room Node: bone-bottom/mosshome-upper#spire-platforms": {
         "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Event: Ordinary Silk Blockades Cleared"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
           {
             "act": "",
             "all_of": [
@@ -275436,6 +275587,38 @@
           }
         ]
       },
+      "Room Node: the-cradle/lace-2-fight#right-entrance": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-cradle/terminus-ventrica#lower-shaft",
+              "Act: 2"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Node: the-cradle/lace-2-fight#room": {
         "alternatives": [
           {
@@ -275474,8 +275657,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/terminus-ventrica#lower-shaft",
-              "Act: 2"
+              "Room Node: the-cradle/lace-2-fight#right-entrance",
+              "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
             ],
             "any_of": [],
             "item_counts": [],
@@ -275739,8 +275922,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
-              "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+              "Room Node: the-cradle/lace-2-fight#right-entrance"
             ],
             "any_of": [],
             "item_counts": [],
@@ -310083,6 +310265,20 @@
             "all_of": [
               "Room Node: bone-bottom/bone-bottom-town#ground-level",
               "Room Event: event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level",
+              "Room Event: event:mapper/visit-shellwood"
             ],
             "any_of": [],
             "item_counts": [],

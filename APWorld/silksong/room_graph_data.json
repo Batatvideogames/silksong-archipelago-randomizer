@@ -80291,6 +80291,12 @@
           "name": "Upper",
           "notes": "",
           "declared": true
+        },
+        {
+          "id": "bellhart/widow-boss-fight#right-entrance",
+          "name": "Right Entrance",
+          "notes": "",
+          "declared": true
         }
       ],
       "transitions": [
@@ -80316,7 +80322,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "bellhart/widow-boss-fight#arena",
+          "source_node_id": "bellhart/widow-boss-fight#right-entrance",
           "target": {
             "raw": "bellhart/bellhart-right-entrance@ul",
             "room_id": "bellhart/bellhart-right-entrance",
@@ -80500,6 +80506,54 @@
           "name": "Roof Hole",
           "source_node_id": "bellhart/widow-boss-fight#upper",
           "target_node_id": "bellhart/widow-boss-fight#arena"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
+          "alias": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
+          "name": "Boss Gate",
+          "source_node_id": "bellhart/widow-boss-fight#arena",
+          "target_node_id": "bellhart/widow-boss-fight#right-entrance",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
+          "alias": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
+          "name": "Boss Gate",
+          "source_node_id": "bellhart/widow-boss-fight#right-entrance",
+          "target_node_id": "bellhart/widow-boss-fight#arena",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "events": [
@@ -131395,7 +131449,12 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:courier-songclave-accepted"
+                "event:mapper/reviewed:courier-songclave-accepted",
+                "event:mapper/reviewed:songclave-caretaker-met"
+              ],
+              [
+                "event:mapper/reviewed:courier-songclave-accepted",
+                "state:act-3"
               ]
             ],
             "annotations": [],
@@ -200680,6 +200739,12 @@
           "name": "room",
           "notes": "",
           "declared": true
+        },
+        {
+          "id": "the-cradle/lace-2-fight#right-entrance",
+          "name": "Right Entrance",
+          "notes": "",
+          "declared": true
         }
       ],
       "transitions": [
@@ -200722,9 +200787,7 @@
             "raw": "Prereq Boss: Lace 2",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -200740,7 +200803,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "the-cradle/lace-2-fight#room",
+          "source_node_id": "the-cradle/lace-2-fight#right-entrance",
           "target": {
             "raw": "the-cradle/terminus-ventrica@ll",
             "room_id": "the-cradle/terminus-ventrica",
@@ -200781,7 +200844,56 @@
           }
         }
       ],
-      "connections": [],
+      "connections": [
+        {
+          "id": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
+          "alias": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
+          "name": "Boss Gate",
+          "source_node_id": "the-cradle/lace-2-fight#room",
+          "target_node_id": "the-cradle/lace-2-fight#right-entrance",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
+          "alias": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
+          "name": "Boss Gate",
+          "source_node_id": "the-cradle/lace-2-fight#right-entrance",
+          "target_node_id": "the-cradle/lace-2-fight#room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        }
+      ],
       "events": [
         {
           "id": "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad",

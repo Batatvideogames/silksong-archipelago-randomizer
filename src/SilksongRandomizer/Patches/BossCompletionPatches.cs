@@ -143,10 +143,6 @@ namespace SilksongRandomizer.Patches
                 if (state?.progressionShuffle?.RecordBossDefeated(locationName) == true)
                 {
                     GameManager.instance?.QueueSaveGame();
-                    string credit = state.progressionShuffle.AssignedBossCredit(locationName);
-                    RandomizerPlugin.Instance?.QueueUnlockPopup(
-                        "Story credit: " + credit.Substring("Boss: ".Length),
-                        global::Archipelago.MultiClient.Net.Enums.ItemFlags.Advancement);
                 }
                 if (state != null && state.IsRandomized(ItemType.Boss) &&
                     state.IsLocationEnabled(locationName) && state.IsLocationInSeed(locationName) &&

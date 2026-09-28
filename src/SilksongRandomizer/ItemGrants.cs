@@ -29,6 +29,11 @@ namespace SilksongRandomizer
                 "queueAttackToolsChanged"
             );
 
+        public static void GrantBossCredit(string boss)
+        {
+            RequireSaveState().progressionShuffle.ReceiveBossCredit(boss);
+        }
+
         public static void GrantMemento(string assetName)
         {
             PlayerData data = PlayerData.instance;

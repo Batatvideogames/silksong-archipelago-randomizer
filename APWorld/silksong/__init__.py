@@ -1577,10 +1577,6 @@ class SilksongWorld(World):
                     source_name = wish_offer_display_name(source)
                     target_name = wish_offer_display_name(target)
                     spoiler_handle.write(f"  {source_name} -> {target_name}\n")
-            if assignments.bosses:
-                spoiler_handle.write("\nBoss completion credits:\n")
-                for source, target in assignments.bosses:
-                    spoiler_handle.write(f"  {source} -> {target}\n")
         if self.get_goal_key() in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
             scope = self.get_content_scope().replace("_", " ").title()
             spoiler_handle.write(f"Content scope: {scope}\n")

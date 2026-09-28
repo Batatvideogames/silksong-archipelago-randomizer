@@ -648,6 +648,31 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(SetPlayerDataVariable), nameof(SetPlayerDataVariable.OnEnter))]
+        private static class BellBeastFirstReleasePatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(SetPlayerDataVariable __instance)
+            {
+                if (!IsActive ||
+                    __instance?.VariableName?.Value != "UnlockedFastTravel" ||
+                    __instance.Owner == null ||
+                    __instance.Owner.name != "Bone Beast NPC" ||
+                    __instance.Fsm?.Name != "Interaction" ||
+                    __instance.State?.Name != "Take Control Rumble" ||
+                    GetBaseSceneName(__instance.Owner) != "Bone_05")
+                {
+                    return;
+                }
+
+                PlayerData playerData = PlayerData.instance;
+                if (playerData != null && playerData.UnlockedFastTravel)
+                {
+                    playerData.FastTravelNPCLocation = FastTravelLocations.Bone;
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(EnumCompare), nameof(EnumCompare.OnEnter))]
         private static class BellBeastReadyPatch
         {

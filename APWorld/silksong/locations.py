@@ -1189,3 +1189,49 @@ location_name_groups['Relic Turn-ins'] = set(
 
 class SilksongLocation(Location):
     game = "Hollow Knight: Silksong"
+
+
+BOSS_CREDIT_LOCATIONS = frozenset({
+    "Boss: Bell Beast",
+    "Boss: Bell Eater",
+    "Boss: Broodmother",
+    "Boss: Cogwork Dancers",
+    "Boss: Crawfather",
+    "Boss: Crust King Khann",
+    "Boss: Disgraced Chef Lugoli",
+    "Boss: Father of the Flame",
+    "Boss: First Sinner",
+    "Boss: Forebrothers Signis & Gron",
+    "Boss: Fourth Chorus",
+    "Boss: Grand Mother Silk",
+    "Boss: Great Conchflies",
+    "Boss: Groal the Great",
+    "Boss: Gurr the Outcast",
+    "Boss: Lace (Cradle)",
+    "Boss: Last Judge",
+    "Boss: Lost Garmond",
+    "Boss: Moorwing",
+    "Boss: Moss Mother",
+    "Boss: Nyleth",
+    "Boss: Phantom",
+    "Boss: Pinstress",
+    "Boss: Plasmified Zango",
+    "Boss: Raging Conchfly",
+    "Boss: Second Sentinel",
+    "Boss: Shrine Guardian Seth",
+    "Boss: Sister Splinter",
+    "Boss: Skarrsinger Karmelita",
+    "Boss: Skull Tyrant (Bone Bottom)",
+    "Boss: Skull Tyrant (The Marrow)",
+    "Boss: The Unravelled",
+    "Boss: Tormented Trobbio",
+    "Boss: Trobbio",
+    "Boss: Voltvyrm",
+    "Boss: Watcher at the Edge",
+    "Boss: Widow",
+})
+
+BOSS_CREDIT_BY_LOCATION = {
+    name: "Boss Credit: " + name.removeprefix("Boss: ")
+    for name in sorted(BOSS_CREDIT_LOCATIONS)
+}

@@ -1164,7 +1164,9 @@ namespace SilksongRandomizer
         private static float nextStart;
         private static bool revealed;
         private static bool recoveringFromHit;
-        private static GUIStyle textStyle;
+        private const int PageCount = 8;
+        private static GameObject displayRoot;
+        private static TMProOld.TextMeshPro displayText;
 
         internal static void Trigger()
         {
@@ -1206,7 +1208,7 @@ namespace SilksongRandomizer
             foreach (DialogueBox.DialogueLine line in DialogueBox.ParseTextForDialogueLines(text))
             {
                 string remaining = line.Text.Trim();
-                while (remaining.Length > 0 && result.Count < 6)
+                while (remaining.Length > 0 && result.Count < PageCount)
                 {
                     int length = Math.Min(280, remaining.Length);
                     if (length < remaining.Length)
@@ -1218,7 +1220,7 @@ namespace SilksongRandomizer
                     result.Add(remaining.Substring(0, length).Trim());
                     remaining = remaining.Substring(length).TrimStart();
                 }
-                if (result.Count == 6) break;
+                if (result.Count == PageCount) break;
             }
             return result;
         }
@@ -1266,15 +1268,15 @@ namespace SilksongRandomizer
                     hero.sprintFSM?.FsmVariables.FindFsmBool("Is Sprinting")?.Value == true)
                     return;
 
-                string key = DialogueKeys[UnityEngine.Random.Range(0, DialogueKeys.Length)];
-                string text = Language.Get(key, "Belltown");
-                List<string> dialogue = SplitPages(text);
+                List<string> dialogue = BuildPages(UnityEngine.Random.Range(0, DialogueKeys.Length),
+                    key => Language.Get(key, "Belltown"));
                 pending--;
-                if (dialogue.Count == 0 || text == key) return;
+                if (dialogue.Count == 0) return;
                 owner = hero;
                 saveOwner = SaveState.Instance;
                 sceneHandle = hero.gameObject.scene.handle;
                 pages = dialogue;
+                CreateDisplay();
                 try { hero.RelinquishControl(); }
                 finally { controlVersion = HeroController.ControlVersion; }
                 recoveringFromHit = false;
@@ -1299,6 +1301,13 @@ namespace SilksongRandomizer
             owner = null;
             saveOwner = null;
             pages = null;
+            if (displayRoot != null)
+            {
+                displayRoot.SetActive(false);
+                UnityEngine.Object.Destroy(displayRoot);
+            }
+            displayRoot = null;
+            displayText = null;
             recoveringFromHit = false;
             if (!hadPages) return;
             nextStart = Time.unscaledTime + 3f;
@@ -1326,44 +1335,104 @@ namespace SilksongRandomizer
             Close();
         }
 
+        internal static List<string> BuildPages(int first, Func<string, string> read)
+        {
+            var result = new List<string>();
+            for (int i = 0; i < DialogueKeys.Length && result.Count < PageCount; i++)
+            {
+                string key = DialogueKeys[(first + i) % DialogueKeys.Length];
+                string text = read(key);
+                if (string.IsNullOrWhiteSpace(text) || text == key || text.StartsWith("!!")) continue;
+                foreach (string line in SplitPages(text))
+                {
+                    result.Add(line);
+                    if (result.Count == PageCount) break;
+                }
+            }
+            int available = result.Count;
+            for (int i = 0; available > 0 && result.Count < PageCount; i++)
+                result.Add(result[i % available]);
+            return result;
+        }
+
+        private static void CreateDisplay()
+        {
+            var box = DialogueInstance.GetValue(null) as DialogueBox;
+            var template = AccessTools.Field(typeof(DialogueBox), "textMesh").GetValue(box) as TMProOld.TextMeshPro;
+            var playerAppearance = AccessTools.Field(typeof(DialogueBox), "playerAppearance").GetValue(box) as GameObject;
+            var stop = AccessTools.Field(typeof(DialogueBox), "stopAnimator").GetValue(box) as Animator;
+            if (box == null || template == null) throw new InvalidOperationException("Dialogue visuals are unavailable.");
+            displayRoot = new GameObject("Literacy Trap Dialogue");
+            displayRoot.SetActive(false);
+            displayRoot.layer = box.gameObject.layer;
+            displayRoot.transform.SetParent(box.transform.parent, false);
+            displayRoot.transform.localPosition = (Vector3)AccessTools.Field(typeof(DialogueBox), "initialPos").GetValue(box);
+            displayRoot.transform.localRotation = box.transform.localRotation;
+            displayRoot.transform.localScale = box.transform.localScale;
+            var sourceSorting = box.GetComponent<UnityEngine.Rendering.SortingGroup>();
+            if (sourceSorting != null)
+            {
+                var sorting = displayRoot.AddComponent<UnityEngine.Rendering.SortingGroup>();
+                sorting.sortingLayerID = sourceSorting.sortingLayerID;
+                sorting.sortingOrder = sourceSorting.sortingOrder + 1;
+            }
+            foreach (var source in box.GetComponentsInChildren<SpriteRenderer>(true))
+            {
+                if ((playerAppearance != null && source.transform.IsChildOf(playerAppearance.transform)) ||
+                    (stop != null && source.transform.IsChildOf(stop.transform))) continue;
+                var visual = new GameObject(source.name);
+                visual.layer = source.gameObject.layer;
+                visual.transform.SetParent(displayRoot.transform, false);
+                visual.transform.localPosition = box.transform.InverseTransformPoint(source.transform.position);
+                visual.transform.localRotation = Quaternion.Inverse(box.transform.rotation) * source.transform.rotation;
+                Vector3 scale = source.transform.lossyScale;
+                Vector3 parentScale = box.transform.lossyScale;
+                visual.transform.localScale = new Vector3(scale.x / parentScale.x, scale.y / parentScale.y, scale.z / parentScale.z);
+                var sprite = visual.AddComponent<SpriteRenderer>();
+                sprite.sprite = source.sprite;
+                sprite.sharedMaterial = source.sharedMaterial;
+                sprite.color = new Color(source.color.r, source.color.g, source.color.b, 1f);
+                sprite.sortingLayerID = source.sortingLayerID;
+                sprite.sortingOrder = source.sortingOrder;
+                sprite.drawMode = source.drawMode;
+                sprite.size = source.size;
+                sprite.flipX = source.flipX;
+                sprite.flipY = source.flipY;
+            }
+            var textObject = UnityEngine.Object.Instantiate(template.gameObject, displayRoot.transform, false);
+            foreach (var behaviour in textObject.GetComponentsInChildren<MonoBehaviour>(true))
+                if (!(behaviour is TMProOld.TMP_Text) && !(behaviour is TMProOld.TextContainer))
+                    UnityEngine.Object.DestroyImmediate(behaviour);
+            displayText = textObject.GetComponent<TMProOld.TextMeshPro>();
+            displayText.color = Color.white;
+            displayText.richText = false;
+            displayText.text = string.Empty;
+            displayText.maxVisibleCharacters = 0;
+            displayText.pageToDisplay = 1;
+            displayText.enabled = true;
+            textObject.SetActive(true);
+            displayRoot.SetActive(true);
+        }
+
         internal static void Draw()
         {
             if (pages == null || owner == null) return;
-            Matrix4x4 matrix = GUI.matrix;
-            Color color = GUI.color;
-            int depth = GUI.depth;
             try
             {
-                float scale = Mathf.Min(Screen.width / 1200f, Screen.height / 700f);
-                if (scale <= 0f) return;
-                GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
-                GUI.depth = -50;
-                if (textStyle == null)
-                    textStyle = new GUIStyle(GUI.skin.label) { wordWrap = true, richText = false, fontSize = 27 };
-                textStyle.normal.textColor = Color.white;
+                if (displayRoot == null || displayText == null)
+                {
+                    Close();
+                    return;
+                }
                 string text = pages[page];
-                float height = Mathf.Max(160f, textStyle.CalcHeight(new GUIContent(text), 930f) + 48f);
-                float x = (Screen.width / scale - 1020f) / 2f;
-                float y = Screen.height / scale * 0.14f;
-                GUI.color = new Color(0.75f, 0.75f, 0.75f, 0.95f);
-                GUI.DrawTexture(new Rect(x, y, 1020f, height), Texture2D.whiteTexture);
-                GUI.color = new Color(0.025f, 0.025f, 0.04f, 0.98f);
-                GUI.DrawTexture(new Rect(x + 2f, y + 2f, 1016f, height - 4f), Texture2D.whiteTexture);
-                GUI.color = Color.white;
-                int count = revealed ? text.Length : Math.Min(text.Length, (int)((Time.unscaledTime - pageOpenedAt) * RevealSpeed));
-                if (count > 0 && count < text.Length && char.IsHighSurrogate(text[count - 1])) count--;
-                GUI.Label(new Rect(x + 45f, y + 24f, 930f, height - 48f), text.Substring(0, count), textStyle);
+                if (displayText.text != text) displayText.text = text;
+                displayText.maxVisibleCharacters = revealed ? int.MaxValue :
+                    (int)((Time.unscaledTime - pageOpenedAt) * RevealSpeed);
             }
             catch (Exception ex)
             {
                 Close();
                 RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Literacy Trap display closed: " + ex.Message);
-            }
-            finally
-            {
-                GUI.matrix = matrix;
-                GUI.color = color;
-                GUI.depth = depth;
             }
         }
 

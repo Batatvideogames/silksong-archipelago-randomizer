@@ -985,11 +985,19 @@ namespace SilksongRandomizer.Patches
         private static class WishTurnInDescriptionPatch
         {
             [HarmonyPostfix]
-            private static void Postfix(FullQuestBase __instance, ref string __result)
+            private static void Postfix(FullQuestBase __instance, BasicQuestBase.ReadSource readSource,
+                TeamCherry.Localization.LocalisedString ___wallDescription, ref string __result)
             {
                 var state = SaveState.Instance?.progressionShuffle;
                 string offer = state?.OfferForWish(__instance.name);
-                if (offer == null || offer == __instance.name || __instance.IsCompleted) return;
+                if (offer == null) return;
+                if (readSource == BasicQuestBase.ReadSource.QuestBoard &&
+                    (___wallDescription.IsEmpty || string.IsNullOrWhiteSpace(__result)))
+                {
+                    __result = __instance.GetDescription(BasicQuestBase.ReadSource.Inventory);
+                    return;
+                }
+                if (offer == __instance.name || __instance.IsCompleted) return;
                 string board = state.WishTurnInBoard(__instance.name);
                 if (board != null) __result += "\n\nTurn in at the " + board + " wish board.";
                 else if (state.WishTurnInNpc(__instance.name) is string npc)

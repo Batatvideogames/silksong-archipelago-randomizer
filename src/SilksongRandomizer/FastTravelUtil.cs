@@ -137,7 +137,7 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            if (!hero.CanInput())
+            if (!hero.CanInput() && !CanWarpWhileSwimming(hero, gameManager, playerData))
             {
                 reason =
                     "Finish the current scripted action before warping.";
@@ -146,6 +146,32 @@ namespace SilksongRandomizer
 
             reason = string.Empty;
             return true;
+        }
+
+        private static bool CanWarpWhileSwimming(
+            HeroController hero,
+            GameManager gameManager,
+            PlayerData playerData
+        )
+        {
+            if (!hero.cState.swimming || hero.IsPaused() ||
+                hero.IsInputBlocked() || hero.cState.dead ||
+                hero.cState.hazardDeath || hero.cState.hazardRespawning ||
+                hero.cState.transitioning || hero.cState.isInCutsceneMovement ||
+                gameManager.RespawningHero ||
+                hero.transitionState != HeroTransitionState.WAITING_TO_TRANSITION ||
+                playerData == null || playerData.disablePause ||
+                playerData.disableInventory ||
+                InteractManager.BlockingInteractable != null ||
+                GenericMessageCanvas.IsActive)
+            {
+                return false;
+            }
+
+            HeroWaterController water = hero.GetComponent<HeroWaterController>();
+            return water != null && water.isActiveAndEnabled && water.IsInWater &&
+                   water.CurrentState != HeroWaterController.States.Inactive &&
+                   water.CurrentState != HeroWaterController.States.Entered;
         }
 
         internal static string GetPreferredHubName()

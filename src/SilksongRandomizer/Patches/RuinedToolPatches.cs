@@ -287,7 +287,7 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
-        [HarmonyPatch(typeof(CollectableItemGetData), "OnEnter")]
+        [HarmonyPatch(typeof(CollectableItemGetData), "DoAction")]
         private static class OriginalRepairOwnershipGatePatch
         {
             [HarmonyPrefix]

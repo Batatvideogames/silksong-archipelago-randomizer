@@ -17,6 +17,7 @@ namespace SilksongRandomizer
             { "Sprintmaster's Memento", "sprintmaster_memento" },
             { "Grey Memento", "grey_warrior_memento" },
             { "Surface Memento", "surface_memento" },
+            { "Boss Credit", "Hornet_Inv_pane_icons_0003_journal_killed" },
             { "Boss", "Hornet_Inv_pane_icons_0003_journal_killed" },
             { "Story credit", "Hornet_Inv_pane_icons_0003_journal_killed" },
             { "Wish", "Hornet_Inv_pane_icons_0002_wish" },
@@ -347,6 +348,8 @@ namespace SilksongRandomizer
             string name = Normalize(itemName);
             if (name.StartsWith("Boss: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Boss: ".Length);
+            else if (name.StartsWith("Boss Credit: ", StringComparison.OrdinalIgnoreCase))
+                name = name.Substring("Boss Credit: ".Length);
             else if (name.StartsWith("Story credit: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Story credit: ".Length);
             else

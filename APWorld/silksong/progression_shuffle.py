@@ -6,8 +6,9 @@ from types import MappingProxyType
 from typing import Callable, Mapping
 
 from .requirements import LocationRequirement, req
+from .locations import BOSS_CREDIT_BY_LOCATION, BOSS_CREDIT_LOCATIONS
 
-SCHEMA = 1
+SCHEMA = 2
 Rules = tuple[LocationRequirement, ...]
 
 
@@ -50,10 +51,10 @@ class BossContract:
 @dataclass(frozen=True)
 class Assignments:
     wishes: tuple[tuple[str, str], ...] = ()
-    bosses: tuple[tuple[str, str], ...] = ()
+    bosses: tuple[str, ...] = ()
 
     def to_slot_data(self) -> dict[str, object]:
-        return {"schema": SCHEMA, "wishes": dict(self.wishes), "bosses": dict(self.bosses)}
+        return {"schema": SCHEMA, "wishes": dict(self.wishes), "bosses": list(self.bosses)}
 
     @classmethod
     def from_slot_data(
@@ -65,8 +66,16 @@ class Assignments:
             raise ValueError("Unsupported progression shuffle schema.")
         return cls(
             _validate_permutation(data["wishes"], wish_ids, "wish"),
-            _validate_permutation(data["bosses"], boss_ids, "boss"),
+            _validate_bosses(data["bosses"], boss_ids),
         )
+
+
+def _validate_bosses(data, expected):
+    if not isinstance(data, list) or any(type(name) is not str for name in data):
+        raise ValueError("Invalid boss credit identities.")
+    if len(data) != len(expected) or set(data) != expected:
+        raise ValueError("Boss credits must cover each eligible boss once.")
+    return tuple(sorted(data))
 
 
 def _validate_permutation(data: object, expected: frozenset[str], kind: str):
@@ -128,9 +137,9 @@ def compile_events(
                 replace(rule, all_of=(completion_event(identity), *rule.all_of))
                 for rule in rules
             ))
-    for source, target in assignments.bosses:
-        add(defeat_event(source), boss_index[source].encounter)
-        add(credit_event(target), (req(defeat_event(source), crest=False),))
+    for identity in assignments.bosses:
+        add(defeat_event(identity), boss_index[identity].encounter)
+        add(credit_event(identity), (req(BOSS_CREDIT_BY_LOCATION[identity], crest=False),))
     return MappingProxyType(result)
 
 
@@ -142,18 +151,18 @@ def choose_assignments(
 ) -> Assignments:
     current = Assignments(
         tuple((name, name) for name in sorted(wish_ids)),
-        tuple((name, name) for name in sorted(boss_ids)),
+        tuple(sorted(boss_ids)),
     )
     if not is_valid(current):
         raise ValueError("The starting progression layout is not valid for these settings.")
-    ordered = {"wishes": sorted(wish_ids), "bosses": sorted(boss_ids)}
+    ordered = {"wishes": sorted(wish_ids)}
     for _ in range(8):
         maps = {}
         for kind, sources in ordered.items():
             targets = list(sources)
             random.shuffle(targets)
             maps[kind] = tuple(zip(sources, targets))
-        candidate = Assignments(**maps)
+        candidate = Assignments(**maps, bosses=tuple(sorted(boss_ids)))
         if candidate != current and is_valid(candidate):
             return candidate
     for _ in range(2):
@@ -561,45 +570,7 @@ def wish_location_rules(wishes: tuple[WishContract, ...]) -> Mapping[str, Rules]
     return MappingProxyType(result)
 
 
-SUPPORTED_BOSS_IDS = frozenset({
-    "Boss: Bell Beast",
-    "Boss: Bell Eater",
-    "Boss: Broodmother",
-    "Boss: Cogwork Dancers",
-    "Boss: Crawfather",
-    "Boss: Crust King Khann",
-    "Boss: Disgraced Chef Lugoli",
-    "Boss: Father of the Flame",
-    "Boss: First Sinner",
-    "Boss: Forebrothers Signis & Gron",
-    "Boss: Fourth Chorus",
-    "Boss: Grand Mother Silk",
-    "Boss: Great Conchflies",
-    "Boss: Groal the Great",
-    "Boss: Gurr the Outcast",
-    "Boss: Lace (Cradle)",
-    "Boss: Last Judge",
-    "Boss: Lost Garmond",
-    "Boss: Moorwing",
-    "Boss: Moss Mother",
-    "Boss: Nyleth",
-    "Boss: Phantom",
-    "Boss: Pinstress",
-    "Boss: Plasmified Zango",
-    "Boss: Raging Conchfly",
-    "Boss: Second Sentinel",
-    "Boss: Shrine Guardian Seth",
-    "Boss: Sister Splinter",
-    "Boss: Skarrsinger Karmelita",
-    "Boss: Skull Tyrant (Bone Bottom)",
-    "Boss: Skull Tyrant (The Marrow)",
-    "Boss: The Unravelled",
-    "Boss: Tormented Trobbio",
-    "Boss: Trobbio",
-    "Boss: Voltvyrm",
-    "Boss: Watcher at the Edge",
-    "Boss: Widow",
-})
+SUPPORTED_BOSS_IDS = BOSS_CREDIT_LOCATIONS
 _EVENT_PREFIX = "Room Event: event:mapper/"
 _STORY_GATES = (
     ("Boss: Cogwork Dancers", ("282aae6f-3964-4935-93ea-5beaa6ef9fa4",), (
@@ -672,10 +643,16 @@ def story_rules(graph, eligible, boss_ids):
             all_of=(*rule.all_of, credit_event(boss)),
             required_locations=tuple(location for location in rule.required_locations if location != boss))
             if boss in rule.required_locations else rule for rule in graph[name])
+    if "Boss: Lace (Cradle)" in boss_ids:
+        from .wish_events import SILK_AND_SOUL_LACE_DEFEATED_ITEM
+        name = "Event: Silk and Soul Offered"
+        events[name] = _story_rules(graph[name], {SILK_AND_SOUL_LACE_DEFEATED_ITEM}, "Boss: Lace (Cradle)")
+    if "Boss: Bell Beast" in boss_ids:
+        events["Event: Ordinary Silk Blockades Cleared"] = (req(credit_event("Boss: Bell Beast"), crest=False),)
     return events, locations
 
 
-_EMPTY = {"schema": SCHEMA, "wishes": {}, "bosses": {}}
+_EMPTY = {"schema": SCHEMA, "wishes": {}, "bosses": []}
 
 
 def world_location_requirements(world, name, **options):
@@ -702,7 +679,7 @@ def prepare_world(world, graph):
         assignments = Assignments.from_slot_data(passthrough["progression_shuffle"], wish_ids, boss_ids)
     else:
         assignments = Assignments(tuple((name, name) for name in sorted(wish_ids)),
-                                  tuple((name, name) for name in sorted(boss_ids)))
+                                  tuple(sorted(boss_ids)))
     world._progression_wishes = wishes
     world._progression_bosses = bosses
     world._progression_assignments = assignments
@@ -807,7 +784,7 @@ def _optimistic_preparation_state(world, foreign_rewards, local_rewards):
 def finalize_world(world):
     from BaseClasses import CollectionState
 
-    if not world._progression_wishes and not world._progression_bosses:
+    if not world._progression_wishes:
         return
     if getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game) is not None:
         return

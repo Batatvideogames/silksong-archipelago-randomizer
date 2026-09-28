@@ -24,6 +24,7 @@ from .minor_families import (
     get_minor_family_shuffle_category_for_location,
 )
 from .locations import (
+    BOSS_CREDIT_BY_LOCATION,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
     MASK_SHARD_LOCATION_NAMES,
@@ -416,7 +417,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Surface Memento', 'Memento'),
     ('Craw Memento', 'Memento'),
     ('Literacy Trap', 'Trap'),
-)
+) + tuple((name, 'Boss') for name in BOSS_CREDIT_BY_LOCATION.values())
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -616,7 +617,10 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
 ) | frozenset({
     'Relic: Sacred Cylinder',
     'Progressive Crafting Kit',
-})
+}) | frozenset(BOSS_CREDIT_BY_LOCATION['Boss: ' + name] for name in (
+    'Bell Beast', 'Cogwork Dancers', 'Fourth Chorus', 'Groal the Great',
+    'Skull Tyrant (The Marrow)', 'Widow', 'Lace (Cradle)',
+))
 
 USEFUL_ITEMS: FrozenSet[str] = frozenset(
     name
@@ -638,6 +642,7 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
         "Relic",
         "Silkeater",
         "BellShrine",
+        "Boss",
     }
 ) | frozenset(POOL_ONLY_USEFUL_ITEM_NAMES)
 
@@ -713,6 +718,7 @@ item_name_groups: Dict[str, set[str]] = {
     },
     "Currency": {name for name, category in ITEM_TABLE_SOURCE if category == "Currency"},
     "Resources": {name for name, category in ITEM_TABLE_SOURCE if category == "Resource"},
+    "Boss Credits": set(BOSS_CREDIT_BY_LOCATION.values()),
     "Traps": {name for name, category in ITEM_TABLE_SOURCE if category == "Trap"},
     "Needle Upgrades": {'Progressive Needle Upgrade'},
     "Pale Oils": {'Pale Oil'},
@@ -755,7 +761,7 @@ ITEM_POOL_COUNTS: Dict[str, int] = {
     'Progressive Claw Mirror': 2,
     'Progressive Curveclaw': 2,
     'Progressive Silkheart': 3,
-    # Boss checks use ordinary currency rewards.
+    # Baseline rewards are replaced with eligible boss credits after goal trimming.
     'Rosaries (60)': 20,
     'Shell Shards (80)': 19,
     'Memory Locket': 20,
@@ -1835,6 +1841,16 @@ def build_item_pool_entries(
     elif exclude_verdania:
         entries = _trim_verdania_pool_entries(entries, category_modes)
 
+    if category_modes.get("Boss", "vanilla") != "vanilla":
+        credits = [item for location, item in BOSS_CREDIT_BY_LOCATION.items()
+                   if location not in goal_excluded_location_names]
+        indices = [index for index, entry in enumerate(entries) if entry.source_category == "Boss"]
+        if len(indices) < len(credits):
+            raise ValueError("The boss pool has fewer slots than eligible credits.")
+        for index, credit in zip(indices, credits):
+            entry = entries[index]
+            entries[index] = ItemPoolEntry(credit, entry.source_category, entry.placement_category)
+
     # Act 2 may keep the otherwise Verdania-only key as an optional bingo
     # collectible without restoring any Verdania locations or requirements.
     if (
@@ -2164,7 +2180,9 @@ def _get_adjusted_pool_counts(
         for name, category in ITEM_TABLE_SOURCE
     }
     counts.update(ITEM_POOL_COUNTS)
-    counts['Rosaries (60)'] -= len(POOL_ONLY_USEFUL_ITEM_NAMES)
+    counts['Rosaries (60)'] -= 20
+    counts['Shell Shards (80)'] -= len(BOSS_CREDIT_BY_LOCATION) - 20
+    counts['Shell Shards (80)'] -= len(POOL_ONLY_USEFUL_ITEM_NAMES)
     if quest_sanity:
         for item_name, count in QUEST_FILLER_COUNTS.items():
             counts[item_name] += count

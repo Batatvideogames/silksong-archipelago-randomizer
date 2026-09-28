@@ -1445,6 +1445,10 @@ ROOM_NODE_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.node_requirements.items()
 }
+ROOM_NODE_REQUIREMENTS["Room Node: wish-menus/bone-bottom-wish-wall#room"] += (
+    req("Room Node: bone-bottom/bone-bottom-town#ground-level",
+        "Room Event: event:mapper/visit-shellwood", crest=False),
+)
 ROOM_EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     name: tuple(
         _compiled_room_clause_requirement(clause)
@@ -2373,6 +2377,9 @@ LAST_JUDGE_ROOM_EVENT = room_event_name(
 
 
 EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
+    "Event: Ordinary Silk Blockades Cleared": (
+        req("Room Event: event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a", crest=False),
+    ),
     'Event: Bell Beast Defeated': (
         req(
             'Path: The Marrow - Bellshrine',

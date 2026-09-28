@@ -10,7 +10,7 @@ namespace SilksongRandomizer
     [Serializable]
     public sealed class ProgressionShuffleState
     {
-        public const string EmptyAssignments = "{\"schema\":1,\"wishes\":{},\"bosses\":{}}";
+        public const string EmptyAssignments = "{\"schema\":2,\"wishes\":{},\"bosses\":[]}";
         private static readonly HashSet<string> SupportedWishes = new HashSet<string>(StringComparer.Ordinal) {
             "Building Materials", "Building Materials (Bridge)", "Belltown House Start",
             "Belltown House Mid", "Songclave Donation 1", "Songclave Donation 2",
@@ -24,7 +24,7 @@ namespace SilksongRandomizer
             "Courier Delivery Mask Maker", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure"
         };
 
-        private static readonly HashSet<string> SupportedBosses = new HashSet<string>(StringComparer.Ordinal) {
+        internal static readonly HashSet<string> SupportedBosses = new HashSet<string>(StringComparer.Ordinal) {
             "Boss: Bell Beast",
             "Boss: Bell Eater",
             "Boss: Broodmother",
@@ -102,14 +102,13 @@ namespace SilksongRandomizer
         {
             Parse(json, out var wishMap, out var bossMap);
             if (wishMap.Keys.Any(id => !SupportedWishes.Contains(id)) ||
-                bossMap.Keys.Any(id => !SupportedBosses.Contains(id)))
+                bossMap.Any(id => !SupportedBosses.Contains(id)))
                 throw new InvalidOperationException("Unsupported progression shuffle identities.");
             return new JObject {
-                ["schema"] = 1,
+                ["schema"] = 2,
                 ["wishes"] = new JObject(wishMap.OrderBy(pair => pair.Key, StringComparer.Ordinal)
                     .Select(pair => new JProperty(pair.Key, pair.Value))),
-                ["bosses"] = new JObject(bossMap.OrderBy(pair => pair.Key, StringComparer.Ordinal)
-                    .Select(pair => new JProperty(pair.Key, pair.Value)))
+                ["bosses"] = new JArray(bossMap.OrderBy(name => name, StringComparer.Ordinal))
             }.ToString(Formatting.None);
         }
 
@@ -117,7 +116,7 @@ namespace SilksongRandomizer
         {
             string normalized = NormalizeConfiguration(json);
             Parse(normalized, out var wishMap, out var bossMap);
-            Bind(normalized, seed, wishMap.Keys, bossMap.Keys);
+            Bind(normalized, seed, wishMap.Keys, bossMap);
         }
 
         public bool MatchesConfiguration(string json) =>
@@ -126,6 +125,7 @@ namespace SilksongRandomizer
 
         public string assignmentJson = string.Empty;
         public string seedIdentity = string.Empty;
+        public HashSet<string> receivedBossCredits = new HashSet<string>(StringComparer.Ordinal);
         public HashSet<string> defeatedBosses = new HashSet<string>(StringComparer.Ordinal);
         public HashSet<string> unlockedWishOffers = new HashSet<string>(StringComparer.Ordinal);
         public HashSet<string> acceptedWishes = new HashSet<string>(StringComparer.Ordinal);
@@ -134,7 +134,7 @@ namespace SilksongRandomizer
 
         [NonSerialized] [XmlIgnore] private string cachedJson;
         [NonSerialized] [XmlIgnore] private Dictionary<string, string> wishes;
-        [NonSerialized] [XmlIgnore] private Dictionary<string, string> bosses;
+        [NonSerialized] [XmlIgnore] private HashSet<string> bosses;
 
         [XmlIgnore] public bool HasWishAssignments { get { EnsureParsed(); return wishes.Count != 0; } }
         [XmlIgnore] public bool HasBossAssignments { get { EnsureParsed(); return bosses.Count != 0; } }
@@ -145,11 +145,12 @@ namespace SilksongRandomizer
                 throw new ArgumentException("Progression assignments need a seed identity.");
             Parse(json, out var nextWishes, out var nextBosses);
             ValidateIds(nextWishes, wishIds, "wish");
-            ValidateIds(nextBosses, bossIds, "boss");
+            if (!nextBosses.SetEquals(bossIds))
+                throw new InvalidOperationException("Unexpected boss credit identities.");
             if (!string.IsNullOrEmpty(assignmentJson))
             {
                 EnsureParsed();
-                if (seedIdentity != seed || !Same(wishes, nextWishes) || !Same(bosses, nextBosses))
+                if (seedIdentity != seed || !Same(wishes, nextWishes) || !bosses.SetEquals(nextBosses))
                     throw new InvalidOperationException("Progression assignments do not match this save.");
             }
             else if (HasRecordedProgress())
@@ -255,45 +256,41 @@ namespace SilksongRandomizer
         {
             EnsureParsed();
             completed = defeatedBosses.Contains(identity);
-            return bosses.ContainsKey(identity);
+            return bosses.Contains(identity);
         }
 
         public bool TryGetBossCredit(string identity, out bool completed)
         {
             EnsureParsed();
             completed = HasBossCredit(identity);
-            return bosses.ContainsKey(identity);
-        }
-
-        public string AssignedBossCredit(string encounter)
-        {
-            EnsureParsed();
-            return bosses.TryGetValue(encounter, out string credit) ? credit : null;
+            return bosses.Contains(identity);
         }
 
         public bool RecordBossDefeated(string encounter)
         {
             EnsureParsed();
-            if (!bosses.ContainsKey(encounter)) return false;
+            if (!bosses.Contains(encounter)) return false;
             return defeatedBosses.Add(encounter);
         }
 
-        public bool HasBossCredit(string identity)
+        public bool HasBossCredit(string identity) => receivedBossCredits.Contains(identity);
+
+        public void ReceiveBossCredit(string identity)
         {
-            EnsureParsed();
-            foreach (var pair in bosses)
-                if (pair.Value == identity) return defeatedBosses.Contains(pair.Key);
-            return false;
+            if (!SupportedBosses.Contains(identity))
+                throw new InvalidOperationException("Unknown boss credit: " + identity);
+            receivedBossCredits.Add(identity);
         }
 
         private bool HasRecordedProgress() =>
-            defeatedBosses.Count != 0 || unlockedWishOffers.Count != 0 || acceptedWishes.Count != 0 ||
+            receivedBossCredits.Count != 0 || defeatedBosses.Count != 0 || unlockedWishOffers.Count != 0 || acceptedWishes.Count != 0 ||
             completedWishes.Count != 0 || appliedEffects.Count != 0;
 
-        private void ValidateRecordedProgress(Dictionary<string, string> wishMap, Dictionary<string, string> bossMap)
+        private void ValidateRecordedProgress(Dictionary<string, string> wishMap, HashSet<string> bossMap)
         {
-            if (!unlockedWishOffers.IsSubsetOf(wishMap.Keys) ||
-                !defeatedBosses.IsSubsetOf(bossMap.Keys) ||
+            if (!receivedBossCredits.IsSubsetOf(SupportedBosses) ||
+                !unlockedWishOffers.IsSubsetOf(wishMap.Keys) ||
+                !defeatedBosses.IsSubsetOf(bossMap) ||
                 !acceptedWishes.IsSubsetOf(wishMap.Values) ||
                 !completedWishes.IsSubsetOf(acceptedWishes))
                 throw new InvalidOperationException("Saved progression contains unknown or incomplete events.");
@@ -305,23 +302,27 @@ namespace SilksongRandomizer
             if (string.IsNullOrEmpty(assignmentJson))
             {
                 wishes = new Dictionary<string, string>(StringComparer.Ordinal);
-                bosses = new Dictionary<string, string>(StringComparer.Ordinal);
+                bosses = new HashSet<string>(StringComparer.Ordinal);
             }
             else Parse(assignmentJson, out wishes, out bosses);
             cachedJson = assignmentJson;
         }
 
         private static void Parse(string json, out Dictionary<string, string> wishes,
-            out Dictionary<string, string> bosses)
+            out HashSet<string> bosses)
         {
             JObject data = JObject.Parse(json, new JsonLoadSettings {
                 DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error
             });
             if (data.Properties().Count() != 3 || data["schema"]?.Type != JTokenType.Integer ||
-                (long)data["schema"] != 1 || data["wishes"] == null || data["bosses"] == null)
-                throw new InvalidOperationException("Unsupported progression assignment data.");
+                (long)data["schema"] != 2 || data["wishes"] == null || data["bosses"] == null)
+                throw new InvalidOperationException("This seed uses an older boss credit format. Generate a new seed with the matching APWorld.");
             wishes = ReadPermutation(data["wishes"]);
-            bosses = ReadPermutation(data["bosses"]);
+            if (!(data["bosses"] is JArray ids) || ids.Any(id => id.Type != JTokenType.String))
+                throw new InvalidOperationException("Boss credit identities must be a list.");
+            bosses = new HashSet<string>(ids.Select(id => (string)id), StringComparer.Ordinal);
+            if (bosses.Count != ids.Count || !bosses.IsSubsetOf(SupportedBosses))
+                throw new InvalidOperationException("Unknown or duplicate boss credit identity.");
         }
 
         private static Dictionary<string, string> ReadPermutation(JToken token)

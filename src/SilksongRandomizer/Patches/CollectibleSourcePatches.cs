@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Reflection.Emit;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
@@ -1601,9 +1602,32 @@ namespace SilksongRandomizer.Patches
             return TryGetActiveQuestLocation(quest, out location) ? location : null;
         }
 
+        private static FullQuestBase.IconTypes GetQuestPreviewIconType(FullQuestBase quest)
+        {
+            FullQuestBase.IconTypes type = quest.RewardIconType;
+            return ShouldUseGenericQuestPresentation(quest) || type == FullQuestBase.IconTypes.None
+                ? FullQuestBase.IconTypes.Image : type;
+        }
+
         [HarmonyPatch(typeof(QuestItemDescription), nameof(QuestItemDescription.SetDisplay))]
         private static class QuestPreviewRefreshPatch
         {
+            [HarmonyTranspiler]
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                var getter = AccessTools.PropertyGetter(typeof(FullQuestBase), nameof(FullQuestBase.RewardIconType));
+                var replacement = AccessTools.Method(typeof(CollectibleSourcePatches), nameof(GetQuestPreviewIconType));
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    if (instruction.Calls(getter))
+                    {
+                        instruction.opcode = OpCodes.Call;
+                        instruction.operand = replacement;
+                    }
+                    yield return instruction;
+                }
+            }
+
             private static void Postfix(QuestItemDescription __instance, BasicQuestBase quest, SpriteRenderer ___rewardIcon)
             {
                 var refresh = __instance.GetComponent<WishPreviewRefresh>();
@@ -1668,20 +1692,5 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        [HarmonyPatch(typeof(FullQuestBase), "get_RewardIconType")]
-        private static class QuestRewardIconTypePatch
-        {
-            [HarmonyPostfix]
-            private static void Postfix(
-                FullQuestBase __instance,
-                ref FullQuestBase.IconTypes __result
-            )
-            {
-                if (ShouldUseGenericQuestPresentation(__instance))
-                {
-                    __result = FullQuestBase.IconTypes.Image;
-                }
-            }
-        }
     }
 }

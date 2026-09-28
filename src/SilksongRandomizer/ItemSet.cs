@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using SilksongRandomizer.AlphabetMode;
 
 namespace SilksongRandomizer
@@ -508,7 +509,7 @@ namespace SilksongRandomizer
             return canonicalName;
         }
 
-        public Item[] items = AlphabetModeItems.Append(
+        public Item[] items = BossCreditItems().Concat(AlphabetModeItems.Append(
             LoreTabletManifest.AppendItems(new Item[]
         {
             // Skills
@@ -947,6 +948,11 @@ namespace SilksongRandomizer
             new Item("Bell: Greymoor", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Shellwood", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Bellhart", ItemType.BellShrine, ItemGrants.GrantBell),
-        }));
+        }))).ToArray();
+
+        private static System.Collections.Generic.IEnumerable<Item> BossCreditItems() =>
+            ProgressionShuffleState.SupportedBosses.OrderBy(name => name, StringComparer.Ordinal)
+                .Select(boss => new Item("Boss Credit: " + boss.Substring("Boss: ".Length),
+                    ItemType.Boss, () => ItemGrants.GrantBossCredit(boss)));
     }
 }
