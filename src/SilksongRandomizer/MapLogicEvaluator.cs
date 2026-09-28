@@ -2106,7 +2106,9 @@ namespace SilksongRandomizer
             }
 
             string canonicalName = ItemSet.GetCanonicalItemName(name);
-            if (string.Equals(canonicalName, "Silk Soar", StringComparison.OrdinalIgnoreCase) &&
+            if ((canonicalName == "Silk Soar" || canonicalName == "Clawline" ||
+                 canonicalName == "Faydown Cloak" || canonicalName == "Drifter's Cloak" ||
+                 canonicalName == "Needolin" || canonicalName == "Needle Strike") &&
                 !CrestItemNames.Any(crest => CountItem(inventory, crest) > 0))
             {
                 return false;

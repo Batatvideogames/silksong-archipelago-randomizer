@@ -72,6 +72,7 @@ from .locations import (
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
     SilksongLocation,
     canonicalize_location_name,
+    wish_offer_display_name,
     location_data_table,
     location_name_groups,
     location_table,
@@ -232,6 +233,28 @@ class SilksongWorld(World):
         return points
 
     @staticmethod
+    def _tracker_native_sources(slot_data):
+        if "native_source_mask" not in slot_data:
+            return None
+        encoded = slot_data["native_source_mask"]
+        offset = min(location_table.values())
+        width = max(location_table.values()) - offset + 1
+        if (not isinstance(encoded, str) or not encoded or len(encoded) > (width + 3) // 4
+                or any(char not in "0123456789abcdef" for char in encoded)):
+            raise ValueError("Invalid fixed item sources in slot data.")
+        mask = int(encoded, 16)
+        sources = frozenset(name for name, code in location_table.items()
+                            if mask & (1 << (code - offset)))
+        if mask.bit_count() != len(sources):
+            raise ValueError("Unknown fixed item source in slot data.")
+        return sources
+
+    def _native_source_mask(self):
+        offset = min(location_table.values())
+        return format(sum(1 << (location_table[name] - offset)
+                          for name in self._silksong_native_assumed_source_locations), "x")
+
+    @staticmethod
     def interpret_slot_data(slot_data):
         from .map_logic_data import load_base
         from .entrance_randomization import validate_pairs
@@ -259,6 +282,7 @@ class SilksongWorld(World):
         if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_vanilla):
             raise ValueError("Boss Sanity setting does not match its assignments.")
         Assignments.from_slot_data(assignment_data, wish_ids, boss_ids)
+        SilksongWorld._tracker_native_sources(slot_data)
         SilksongWorld._tracker_silk_and_soul_points(slot_data)
         goal = slot_data["goal"]
         if goal in {FLEA_HUNT_GOAL_KEY, SPELLING_BEE_GOAL_KEY}:
@@ -292,6 +316,8 @@ class SilksongWorld(World):
         if self._resolved_starting_crest is not None:
             return self._resolved_starting_crest
 
+        if self.options.starting_crest.current_key == 'naked' and self.get_category_mode('Crest') == 'vanilla':
+            raise OptionError("Naked start requires Crest Randomization set to shuffle or anywhere.")
         configured_crest = (
             'hunter'
             if self.get_category_mode('Crest') == 'vanilla'
@@ -509,7 +535,7 @@ class SilksongWorld(World):
         starting_crest = self.resolve_starting_crest()
         category_modes = self.get_category_modes()
         goal_key = self.get_goal_key()
-        get_configured_item_pool_size(
+        opening_pool = build_item_pool_entries(
             STARTING_CREST_ITEM_BY_KEY[starting_crest],
             self.resolve_trap_counts(),
             self.is_split_dash_and_sprint(),
@@ -560,6 +586,10 @@ class SilksongWorld(World):
                 player_early_items.get(early_item_name, 0)
                 + 1
             )
+
+        self.options.non_local_items.value.difference_update(
+            entry.name for entry in opening_pool if entry.placement_category is not None
+        )
 
     def is_split_dash_and_sprint(self) -> bool:
         return (
@@ -1027,7 +1057,7 @@ class SilksongWorld(World):
                 self.player,
             ).place_locked_item(effective_reward)
 
-        if category_modes['Crest'] != 'vanilla':
+        if category_modes['Crest'] != 'vanilla' and starting_crest_item is not None:
             self.multiworld.push_precollected(
                 self.create_item(starting_crest_item)
             )
@@ -1292,6 +1322,8 @@ class SilksongWorld(World):
         abstract_names = self._silksong_native_abstract_names
         self._silksong_native_location_anchors = {}
         self._silksong_native_assumed_source_locations = set()
+        passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
+        restored_sources = self._tracker_native_sources(passthrough) if passthrough else None
         menu.connect(pharloom)
         self.create_entrance(
             pharloom,
@@ -1408,13 +1440,9 @@ class SilksongWorld(World):
             )
             uses_native_source = (
                 reward_name in logic_item_references
-                and native_source_requires_assumption(
-                    self,
-                    name,
-                    reward_name,
-                    pollip_heart_count,
-                    anchor,
-                )
+                and (name in restored_sources if restored_sources is not None else
+                     native_source_requires_assumption(
+                         self, name, reward_name, pollip_heart_count, anchor))
             )
             if uses_native_source:
                 self._silksong_native_assumed_source_locations.add(name)
@@ -1546,8 +1574,8 @@ class SilksongWorld(World):
             if assignments.wishes:
                 spoiler_handle.write("\nWish offers:\n")
                 for source, target in assignments.wishes:
-                    source_name = canonicalize_location_name("Quest Completion: " + source)
-                    target_name = canonicalize_location_name("Quest Completion: " + target)
+                    source_name = wish_offer_display_name(source)
+                    target_name = wish_offer_display_name(target)
                     spoiler_handle.write(f"  {source_name} -> {target_name}\n")
             if assignments.bosses:
                 spoiler_handle.write("\nBoss completion credits:\n")
@@ -1577,7 +1605,7 @@ class SilksongWorld(World):
         from .requirement_rules import _enable_native_source_memo
 
         _enable_native_source_memo(multiworld, frozenset(
-            world.player for world in multiworld.worlds.values()
+            world.player for world in multiworld.get_game_worlds(cls.game)
             if world.game == cls.game
         ))
         scope = getattr(
@@ -1599,10 +1627,10 @@ class SilksongWorld(World):
                 )
         from .category_fill import reserve_early_dash
 
-        for world in multiworld.worlds.values():
+        for world in multiworld.get_game_worlds(cls.game):
             if world.game == cls.game:
                 reserve_early_dash(world)
-        for world in multiworld.worlds.values():
+        for world in multiworld.get_game_worlds(cls.game):
             if world.game == cls.game:
                 world._finalize_progression_shuffle()
         alphabet_mode_enabled = any(
@@ -1610,7 +1638,7 @@ class SilksongWorld(World):
             and getattr(
                 world, "is_alphabet_mode_enabled", lambda: False
             )()
-            for world in multiworld.worlds.values()
+            for world in multiworld.get_game_worlds(cls.game)
         )
         progression_items = tuple(
             item for item in multiworld.itempool if item.advancement
@@ -1669,7 +1697,7 @@ class SilksongWorld(World):
             "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
         }
         ordered = sorted((progitempool[index] for index in indices),
-                         key=lambda item: item.name not in movement)
+                         key=lambda item: (item.name.startswith("Flea:"), item.name not in movement))
         for index, item in zip(indices, ordered):
             progitempool[index] = item
         if not uses_crest_slot_locket_logic(self):
@@ -1720,7 +1748,7 @@ class SilksongWorld(World):
             )
             funded_slots = {
                 location
-                for world in multiworld.worlds.values()
+                for world in multiworld.get_game_worlds(cls.game)
                 if world.game == cls.game
                 and state.count(MEMORY_LOCKET_ITEM, world.player)
                 >= get_crest_slot_memory_locket_count(world)
@@ -1959,14 +1987,12 @@ class SilksongWorld(World):
 
         from .category_fill import _early_dash_states
 
-        if hasattr(multiworld, "_silksong_native_source_memo"):
-            del multiworld._silksong_native_source_memo
+        _enable_native_source_memo(multiworld)
         for world in worlds:
             if getattr(world, "_early_dash_shuffle_locations", ()):
                 assert any(state.has("Swift Step", world.player) for state, _ in _early_dash_states(world)), (
                     "The reserved Early Dash opening was changed after pre-fill."
                 )
-        _enable_native_source_memo(multiworld)
         for world in worlds:
             world.build_vog_hint_plan()
 
@@ -2019,6 +2045,7 @@ class SilksongWorld(World):
         slot_data = {
             **self.options.as_dict("accessibility", "start_inventory", "exclude_locations"),
             "world_version": WORLD_VERSION,
+            "native_source_mask": self._native_source_mask(),
             "silk_and_soul_points": get_silk_and_soul_points(self.options),
             "goal": goal_key,
             "content_scope": self.get_content_scope(),

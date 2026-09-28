@@ -11,6 +11,16 @@ namespace SilksongRandomizer
 
         public static readonly Dictionary<string, string> Mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
+            { "Diving Bell Key", "dock_key" },
+            { "Simple Key", "I_token_of_faith" },
+            { "Everbloom", "I_white_flower" },
+            { "Sprintmaster's Memento", "sprintmaster_memento" },
+            { "Grey Memento", "grey_warrior_memento" },
+            { "Surface Memento", "surface_memento" },
+            { "Boss", "Hornet_Inv_pane_icons_0003_journal_killed" },
+            { "Story credit", "Hornet_Inv_pane_icons_0003_journal_killed" },
+            { "Wish", "Hornet_Inv_pane_icons_0002_wish" },
+
             // Skills
             { "Needle Strike", "prompt_nail_art" },
             { "Silk Soar", "Inv_0029_spell_core_outer_icons_0000_1_super_jump" },
@@ -212,6 +222,9 @@ namespace SilksongRandomizer
             scale = 1f;
             if (string.IsNullOrWhiteSpace(itemName)) return fallback;
 
+            Sprite bossIcon = GetBossJournalIcon(itemName);
+            if (bossIcon != null) return AdjustScale(bossIcon, 1f, out scale);
+
             if (IconCache.TryGetValue(itemName, out var cached) && cached.Sprite != null)
             {
                 scale = cached.Scale;
@@ -250,7 +263,7 @@ namespace SilksongRandomizer
             scale = 1f;
 
             string collectableName = null;
-            switch (rawName)
+            switch (Normalize(rawName))
             {
                 case "Sprintmaster's Memento": collectableName = "Sprintmaster Memento"; break;
                 case "Guardian's Memento": collectableName = "Memento Seth"; break;
@@ -259,11 +272,17 @@ namespace SilksongRandomizer
                 case "Surface Memento": collectableName = "Memento Surface"; break;
                 case "Craw Memento": collectableName = "Crowman Memento"; break;
                 case "Everbloom": collectableName = "White Flower"; break;
+                case "Diving Bell Key": collectableName = "Dock Key"; break;
+                case "Simple Key": collectableName = "Simple Key"; break;
             }
             if (collectableName != null)
             {
                 CollectableItem item = CollectableItemManager.GetItemByName(collectableName);
-                if (item != null) return item.GetIcon(CollectableItem.ReadSource.GetPopup);
+                if (item != null)
+                {
+                    Sprite icon = item.GetIcon(CollectableItem.ReadSource.GetPopup);
+                    if (icon != null) return AdjustScale(icon, item.GetUIMsgIconScale(), out scale);
+                }
             }
 
             if (Mappings.TryGetValue(rawName, out string mappedSprite) ||
@@ -277,6 +296,67 @@ namespace SilksongRandomizer
 
             Sprite sprite = FindNamedSprite(cleanName) ?? FindNamedSprite(strippedName);
             return sprite != null ? AdjustScale(sprite, 1f, out scale) : null;
+        }
+
+        private static readonly Dictionary<string, string> BossJournalRecords =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "Bell Beast", "Bone Beast" },
+            { "Bell Eater", "Giant Centipede" },
+            { "Broodmother", "Slab Fly Broodmother" },
+            { "Clover Dancers", "Clover Dancer" },
+            { "Cogwork Dancers", "Clockwork Dancer" },
+            { "Crawfather", "Crawfather" },
+            { "Crust King Khann", "Coral King" },
+            { "Disgraced Chef Lugoli", "Roachkeeper Chef" },
+            { "Father of the Flame", "Wisp Pyre Effigy" },
+            { "First Sinner", "First Weaver" },
+            { "Forebrothers Signis & Gron", "Dock Guard Thrower" },
+            { "Fourth Chorus", "Song Golem" },
+            { "Grand Mother Silk", "Silk Boss" },
+            { "Great Conchflies", "Coral Conch Driller Giant" },
+            { "Groal the Great", "Swamp Shaman" },
+            { "Gurr the Outcast", "Bone Hunter Trapper" },
+            { "Lace (Cradle)", "Lace" },
+            { "Last Judge", "Last Judge" },
+            { "Lost Garmond", "Garmond" },
+            { "Moorwing", "Vampire Gnat" },
+            { "Moss Mother", "Mossbone Mother" },
+            { "Nyleth", "Flower Queen" },
+            { "Palestag", "Cloverstag White" },
+            { "Phantom", "Phantom" },
+            { "Pinstress", "Pinstress Boss" },
+            { "Plasmified Zango", "Blue Assistant" },
+            { "Raging Conchfly", "Coral Conch Driller Giant" },
+            { "Second Sentinel", "Song Knight" },
+            { "Shrine Guardian Seth", "Seth" },
+            { "Sister Splinter", "Splinter Queen" },
+            { "Skarrsinger Karmelita", "Hunter Queen" },
+            { "Skull Tyrant (Bone Bottom)", "Skull King" },
+            { "Skull Tyrant (The Marrow)", "Skull King" },
+            { "The Unravelled", "Conductor Boss" },
+            { "Tormented Trobbio", "Tormented Trobbio" },
+            { "Trobbio", "Trobbio" },
+            { "Voltvyrm", "Zap Core Enemy" },
+            { "Watcher at the Edge", "Coral Warrior Grey" },
+            { "Widow", "Spinner Boss" },
+        };
+
+        private static Sprite GetBossJournalIcon(string itemName)
+        {
+            string name = Normalize(itemName);
+            if (name.StartsWith("Boss: ", StringComparison.OrdinalIgnoreCase))
+                name = name.Substring("Boss: ".Length);
+            else if (name.StartsWith("Story credit: ", StringComparison.OrdinalIgnoreCase))
+                name = name.Substring("Story credit: ".Length);
+            else
+                return null;
+
+            if (!BossJournalRecords.TryGetValue(name, out string recordName))
+                return null;
+
+            EnemyJournalRecord record = EnemyJournalManager.GetRecord(recordName);
+            return record != null ? record.IconSprite : null;
         }
 
         private static string Normalize(string itemName)

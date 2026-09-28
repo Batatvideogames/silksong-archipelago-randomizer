@@ -153,7 +153,7 @@ CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES = frozenset((
 
 
 def get_act_two_excluded_location_names(
-    starting_crest_item: str,
+    starting_crest_item: str | None,
     skill_mode: str = "anywhere",
     cursed_ending: bool = False,
 ) -> frozenset[str]:
@@ -235,7 +235,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
 
 def trim_act_two_pool_entries(
     entries: Iterable,
-    starting_crest_item: str,
+    starting_crest_item: str | None,
     skill_mode: str = "anywhere",
     cursed_ending: bool = False,
 ):

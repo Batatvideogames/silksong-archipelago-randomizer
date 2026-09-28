@@ -806,6 +806,30 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
 }
 
 
+_WISH_OFFER_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
+    **_QUEST_DISPLAY_NAME_BY_ASSET,
+    'Ant Trapper': 'Wish: The Hidden Hunter',
+    'Beastfly Hunt': 'Wish: Savage Beastfly',
+    'Brolly Get': 'Wish: Flexile Spines',
+    'Broodmother Hunt': 'Wish: The Wailing Mother',
+    'Crow Feathers Pre': 'Wish: Crawbug Clearing',
+    'Doctor Curse Cure': 'Wish: Infestation Operation',
+    'Extractor Blue': "Wish: Alchemist's Assistant",
+    'Flea Games Pre': 'Wish: Ecstasy of the End',
+    'Huntress Quest': 'Wish: Broodfeast',
+    'Mossberry Collection Pre': 'Wish: Berry Picking',
+    'Pinstress Battle Pre': 'Wish: Fatal Resolve',
+    'Save the Fleas Pre': 'Wish: The Lost Fleas',
+    'Shakra Final Quest': "Wish: Trail's End",
+    'Shell Flowers': 'Wish: Rite of the Pollip',
+    'Wood Witch Curse': 'Wish: Rite of Rebirth',
+}
+
+
+def wish_offer_display_name(asset_name: str) -> str:
+    return _WISH_OFFER_DISPLAY_NAME_BY_ASSET[asset_name]
+
+
 def canonicalize_location_name(location_name: str) -> str:
     """Translate a native source name to its player-facing name."""
     if location_name in _DIRECT_LOCATION_RENAMES:
@@ -1148,6 +1172,7 @@ LOCATION_NAMES_BY_CATEGORY: Dict[str, tuple[str, ...]] = {
 location_name_groups: Dict[str, set[str]] = {
     category: set(names)
     for category, names in LOCATION_NAMES_BY_CATEGORY.items()
+    if category not in location_data_table
 }
 # The data package exposes this friendlier plural group label.
 location_name_groups['Quests'] = set(QUEST_LOCATION_NAMES)

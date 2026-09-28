@@ -7,6 +7,28 @@ namespace SilksongRandomizer.Patches
 {
     internal static class StartingCrestFix
     {
+        internal static bool IsNakedStart =>
+            SaveState.Instance?.startingCrest == "naked" &&
+            !CrestNames.HasReceivedAnyCrest(SaveState.Instance.receivedItems);
+
+        internal static void UpdateNakedStart()
+        {
+            if (!IsNakedStart || !IsCrestRuntimeReady()) return;
+            PlayerData data = PlayerData.instance;
+            GameManager game = GameManager.instance;
+            HeroController hero = HeroController.instance;
+            if (!game.IsGameplayScene() || game.IsInSceneTransition ||
+                data.HasStoredMemoryState || data.IsAnyCursed ||
+                hero.cState == null || hero.cState.dead || hero.cState.hazardDeath) return;
+            if (data.CurrentCrestID != "Cloakless")
+            {
+                ToolCrest crest = GlobalSettings.Gameplay.CloaklessCrest;
+                if (crest == null || !ToolPatches.SetRandomizerCrest(crest, false)) return;
+            }
+            data.IsCurrentCrestTemp = false;
+            data.PreviousCrestID = "Cloakless";
+        }
+
         internal static bool NeedsRepair(string currentCrestId)
         {
             return string.Equals(
@@ -38,6 +60,16 @@ namespace SilksongRandomizer.Patches
 
         internal static string GetRepairCrest(string startingCrest)
         {
+            if (startingCrest == "naked" && SaveState.Instance != null)
+            {
+                foreach (string item in SaveState.Instance.receivedItems)
+                {
+                    if (!item.StartsWith(CrestNames.CrestItemPrefix, StringComparison.Ordinal)) continue;
+                    string key = item.Substring(CrestNames.CrestItemPrefix.Length).ToLowerInvariant();
+                    string owned = CrestNames.GetInternalCrestName(key);
+                    if (owned != null && owned != "Cloakless") return owned;
+                }
+            }
             string internalName = CrestNames.GetInternalCrestName(startingCrest);
             return string.IsNullOrWhiteSpace(internalName) ? "Hunter" : internalName;
         }
@@ -61,6 +93,7 @@ namespace SilksongRandomizer.Patches
             while (NeedsRepair(PlayerData.instance.CurrentCrestID) &&
                    PlayerData.instance.IsCurrentCrestTemp &&
                    !NakedTrapManager.IsActive &&
+                   !IsNakedStart &&
                    !SlabCaptureWarpSafety.IsActiveSlabCaptureCrest(
                        PlayerData.instance))
             {
@@ -102,6 +135,7 @@ namespace SilksongRandomizer.Patches
                 yield return null;
             }
 
+            UpdateNakedStart();
             ToolPatches.EnsureReceivedBaseCrestsUnlocked();
             if (ReceivedItemReconciliation.ReconcilePermanentState())
             {
@@ -143,6 +177,8 @@ namespace SilksongRandomizer.Patches
             {
                 yield break;
             }
+
+            if (IsNakedStart) yield break;
 
             string currentCrestId = PlayerData.instance.CurrentCrestID;
             if (!NeedsRandomizerRepair(currentCrestId))

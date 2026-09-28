@@ -18,6 +18,7 @@ namespace SilksongRandomizer
             "architect",
             "witch",
             "shaman",
+            "naked",
         };
 
         internal static bool IsSupportedStartingCrestKey(string key)
@@ -29,6 +30,8 @@ namespace SilksongRandomizer
         {
             switch (key)
             {
+                case "naked":
+                    return "Cloakless";
                 case "hunter":
                     return "Hunter";
                 case "wanderer":

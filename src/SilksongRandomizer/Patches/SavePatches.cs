@@ -33,10 +33,6 @@ namespace SilksongRandomizer.Patches
             }
             BellhomePhaseManager.EnsureBellhomeUnlocked();
 
-            // Crests relock only when that category is randomized. The vanilla
-            // Hunter crest stays equipped until the AP-precollected starting
-            // crest is safe to apply. Cloakless removes Hornet's needle and
-            // softlocks the tutorial room.
             if (saveState.IsRandomized(ItemType.Crest))
             {
                 foreach (ToolCrest crest in Resources.FindObjectsOfTypeAll<ToolCrest>())

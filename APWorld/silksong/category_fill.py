@@ -74,6 +74,7 @@ def _early_dash_chain(world, assume_categories=False):
 
 def _early_dash_states(world, opening=None, *, locations=None):
     from collections import deque
+    from .requirement_rules import sweep_native_sources
 
     player = world.player
     movement = {
@@ -90,7 +91,10 @@ def _early_dash_states(world, opening=None, *, locations=None):
     visited = set()
     while pending:
         state, chain = pending.popleft()
-        state.sweep_for_advancements(ordinary)
+        if locations is None:
+            state.sweep_for_advancements(ordinary)
+        else:
+            sweep_native_sources(state, ordinary)
         yield state, chain
         if state.has("Swift Step", player) or len(chain) == 2:
             continue
@@ -252,7 +256,7 @@ def reserve_early_dash(world):
                 continue
             reserved_ids = {id(location.item) for location in reserved}
             multiworld.itempool[:] = [item for item in original_pool if id(item) not in reserved_ids]
-            players = [owner for owner, other in multiworld.worlds.items() if other.game == world.game]
+            players = [other.player for other in multiworld.get_game_worlds(world.game)]
             tagged = [location for location in multiworld.get_filled_locations()
                       if _placement_category(location) is not None]
             if _shuffle_is_accessible(multiworld, tagged, players):
@@ -777,6 +781,28 @@ def _validate_unrestricted_opening(multiworld):
     )
 
 
+def _restore_reserved_filler(multiworld):
+    for location in multiworld.get_filled_locations():
+        item = location.item
+        category = _placement_category(item)
+        if (location.address is None or category is None or not item.excludable
+                or (location.player == item.player and _placement_category(location) == category)):
+            continue
+        replacement_index = next((index for index, candidate in enumerate(multiworld.itempool)
+                                  if _placement_category(candidate) is None and candidate.excludable
+                                  and location.can_fill(multiworld.state, candidate, check_access=False)), None)
+        if replacement_index is None:
+            raise OptionError(
+                f"{location} took a reserved {category} shuffle item during pre-fill, "
+                "and no compatible filler remains to replace it."
+            )
+        replacement = multiworld.itempool[replacement_index]
+        location.item = None
+        item.location = None
+        location.place_locked_item(replacement)
+        multiworld.itempool[replacement_index] = item
+
+
 def prefill_category_shuffles(
     multiworld,
     game_name: str,
@@ -789,6 +815,7 @@ def prefill_category_shuffles(
     while retaining only reachable progression layouts.
     """
 
+    _restore_reserved_filler(multiworld)
     _validate_unrestricted_opening(multiworld)
     shuffled_items = [
         item

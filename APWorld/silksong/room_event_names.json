@@ -100,6 +100,11 @@
     "kind": "bench",
     "locations": []
   },
+  "event:mapper/f2776bae-525b-49a3-834d-54bf40d4c347": {
+    "name": "Ruined Chapel - Mister Mushroom Meeting Moss Grotto",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/reviewed:herald-visit-1": {
     "name": "Ruined Chapel - Herald Visit 1",
     "kind": "event",
@@ -117,6 +122,11 @@
   },
   "event:mapper/reviewed:craw-summons-ready": {
     "name": "Ruined Chapel Interior - Craw Summons Ready",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:everbloom-ready": {
+    "name": "Everbloom and Red Memory Complete",
     "kind": "event",
     "locations": []
   },
@@ -205,6 +215,11 @@
   "event:mapper/bfcd6eb8-0950-4eb2-aa56-b19687fe846d": {
     "name": "Bone Bottom Town - Reach bone bottom",
     "kind": "logic-point",
+    "locations": []
+  },
+  "event:mapper/53854fef-f387-40ce-b4c3-1cb8451d9116": {
+    "name": "Bone Bottom Town - Mister Mushroom Meeting Bone Bottom",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:bone-bottom-repairs-capacity": {
@@ -364,6 +379,11 @@
       "Wish: My Missing Courier"
     ]
   },
+  "event:mapper/674c7ac1-7d70-4b78-b519-4977586dfd28": {
+    "name": "The Big Fall - resting site bone bottom",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/19b2fc60-2933-4c45-b011-9d179a99cbb2": {
     "name": "Mosshome - Mossberry",
     "kind": "collectible",
@@ -475,6 +495,11 @@
     "locations": [
       "Bone Bottom - Rosary Cache #5"
     ]
+  },
+  "event:mapper/a96cc8c0-d5e5-4445-8e21-eff910fb1bbd": {
+    "name": "Mosshome Lower - Garmond and Zaza Act 3 Meeting Bone Bottom",
+    "kind": "event",
+    "locations": []
   },
   "event:mapper/1dd46f0a-358d-478f-9bd4-8df82d14aa46": {
     "name": "Bone Bottom - Spool Fragment",
@@ -731,6 +756,11 @@
   },
   "event:mapper/161c072b-cdcd-4419-a8d7-07827756985d": {
     "name": "The Marrow Jail - Pin minigame 3",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/8d5120f7-d87a-4543-b242-2c2935d8ff70": {
+    "name": "The Marrow Lava Docks - Garmond and Zaza Act 3 Meeting The Marrow",
     "kind": "event",
     "locations": []
   },
@@ -1224,6 +1254,11 @@
     "kind": "switch",
     "locations": []
   },
+  "event:mapper/c5fae5ae-14d3-4096-b1cb-ff3a8f80d56b": {
+    "name": "Deep Docks Upper Spire - Garmond and Zaza Act 3 Meeting Deep Docks",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/reviewed:garmond-act-three-encounter-deep-docks": {
     "name": "Garmond Act Three Encounter Deep Docks",
     "kind": "event",
@@ -1385,6 +1420,11 @@
   "event:mapper/49c500d9-9874-463e-a362-66264dc37da4": {
     "name": "Deep Docks Diving Bell Room - Diving bell lock",
     "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/e77090bd-36e6-4b82-ba15-160704f23880": {
+    "name": "Far Fields Entrance East - Garmond and Zaza Act 3 Meeting Far Fields West",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:garmond-act-three-encounter-far-fields": {
@@ -1766,6 +1806,16 @@
     "kind": "blockade",
     "locations": []
   },
+  "event:mapper/90794214-911f-4303-9beb-d85f2f59df28": {
+    "name": "Far Fields Skull Room West - Resting Site Far Fields",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/2556f3de-c939-45d2-b25c-8b04d58eefbf": {
+    "name": "Far Fields Skull Room West - Garmond and Zaza Act 3 Meeting Far Fields East",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/cd809d8d-e9cc-4d55-82ac-b7b003838951": {
     "name": "Far Fields - Rosary Cache #7",
     "kind": "collectible",
@@ -1783,6 +1833,11 @@
   "event:mapper/ad488f84-fc0c-4e3b-9d67-12cf15721e4a": {
     "name": "Far Fields Skull Room East - Hoker enemy",
     "kind": "enemy",
+    "locations": []
+  },
+  "event:mapper/c5fc9095-edd9-4228-a2dc-899833c115b8": {
+    "name": "Far Fields Skull Room East - Mister Mushroom Meeting Far Fields",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:herald-visit-3": {
@@ -2401,6 +2456,11 @@
       "Shellwood - Pollip Heart #2"
     ]
   },
+  "event:mapper/906d3bff-5700-4551-acf8-32b63d7611e8": {
+    "name": "Shellwood Flower Pogo Upper Hall - Seth Meeting Shellwood",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/395cf407-2776-4a46-b3db-abdc118bf21c": {
     "name": "Shellwood - Pollip Heart #5",
     "kind": "collectible",
@@ -2411,6 +2471,11 @@
   "event:mapper/de6a65d1-7fe6-42b4-b493-584013701de8": {
     "name": "Shellwood Hidden Bellhart Connection - Shellwood 15 Wall",
     "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/24e930a4-a9be-4227-8e8f-ba0338e80adb": {
+    "name": "Shellwood Left Side Long Pond Room - Garmond and Zaza Act 3 Meeting Shellwood",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/7b6698e5-f6ec-40bf-98a5-7dc685b200ed": {
@@ -2534,11 +2599,6 @@
   },
   "event:mapper/7f363cc4-8807-432b-b65f-c7cae6b273fc": {
     "name": "Shellwood Top Room - Resting Site: Shellwood",
-    "kind": "collectible",
-    "locations": []
-  },
-  "event:mapper/debcb88d-4899-4765-8b80-61b01020c0b5": {
-    "name": "Shellwood Top Room - Wish: A Vassal Lost Started",
     "kind": "event",
     "locations": []
   },
@@ -3103,6 +3163,11 @@
     "kind": "switch",
     "locations": []
   },
+  "event:mapper/00e2df00-1963-45e6-897a-81ec9871a981": {
+    "name": "Greymoor East Bellshrine Room - Seth Meeting Greymoor",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room": {
     "name": "Greymoor East Bellshrine Room - Shakra's shop",
     "kind": "event",
@@ -3167,6 +3232,11 @@
   "event:mapper/b16564aa-86a7-4d27-ada1-4f5bbae84bf6": {
     "name": "Greymoor Western Tower - Top trapdoor",
     "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f279fd42-b44a-4f75-b0c0-1f994b378d52": {
+    "name": "Greymoor Western Tower - Mister Mushroom Meeting Greymoor",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:herald-visit-4": {
@@ -3303,11 +3373,6 @@
     "locations": [
       "Flea Caravan - Spool Fragment"
     ]
-  },
-  "event:mapper/e8815c05-21b3-420b-9145-9fe4dfd3f08e": {
-    "name": "Greymoor Entry to Bellhart - Moorwing original encounter",
-    "kind": "boss",
-    "locations": []
   },
   "event:mapper/3c36052a-a5e4-4fb2-bf7a-51e95fb06e67": {
     "name": "Greymoor Entry to Bellhart - Tied airstream",
@@ -3513,6 +3578,11 @@
   },
   "event:mapper/4ca36e70-22f0-4c8e-bd38-982ed1505247": {
     "name": "Greymoor Towers Patio - Get Kidnapped",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/80d7efe3-7652-4145-8776-16b218d05810": {
+    "name": "Greymoor Towers Patio - Garmond and Zaza Act 3 Meeting Greymoor",
     "kind": "event",
     "locations": []
   },
@@ -3943,6 +4013,11 @@
     "kind": "switch",
     "locations": []
   },
+  "event:mapper/eef2f48b-55f9-406d-b2cb-8283f396b7f1": {
+    "name": "Blasted Steps Toll Bench Bottom - Garmond and Zaza Act 3 Meeting Blasted Steps",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/3f9f9d89-60e5-4a8b-a405-a167a161b4ae": {
     "name": "Blasted Steps - Frayed Rosary String",
     "kind": "collectible",
@@ -4105,6 +4180,11 @@
   "event:mapper/de579219-b38b-42e6-b4df-b02e702d3b39": {
     "name": "Grand Bridge - Grand Bridge Plate",
     "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/55403823-7ad8-4eec-a0c4-018fed91fb8d": {
+    "name": "Grand Bridge - Seth Meeting Grand Gate",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/c3d04669-5490-4d74-9c3a-6896c52c88c7": {
@@ -4288,6 +4368,11 @@
       "Sinner's Road - Shell Shard Cache #7"
     ]
   },
+  "event:mapper/7b7c6c0e-9ca1-49f1-9ec1-a578182f089a": {
+    "name": "Sinner's Road North Hall - Garmond and Zaza Act 3 Meeting Sinner's Road",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-north-hall#behind-left-wall": {
     "name": "Sinner's Road North Hall - Visit Sinners Road:Sinner S Road/Sinner S Road North Hall#Behind Left Wall",
     "kind": "event",
@@ -4315,6 +4400,11 @@
   },
   "event:mapper/reviewed:garmond-act-three-encounter-sinners-road": {
     "name": "Garmond Act Three Encounter Sinners Road",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:dust05-gate-opened": {
+    "name": "Sinner's Road North Hall - East Gate Opened",
     "kind": "event",
     "locations": []
   },
@@ -4448,6 +4538,16 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/05f8cbfd-7782-4b67-81be-366544e5b34b": {
+    "name": "Vaults & Bellway Cauldron Entrance - Underworks: Flip Switch #2",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/6b619583-566b-4b51-83b6-c46b22f46b54": {
+    "name": "Chapel of the Architect - Underworks: Break Wall (Up)",
+    "kind": "blockade",
+    "locations": []
+  },
   "event:mapper/b33d0392-d6f9-42d9-8c07-1cb80dbf6874": {
     "name": "Clawline",
     "kind": "collectible",
@@ -4455,14 +4555,64 @@
       "Clawline"
     ]
   },
+  "event:mapper/3d26aacd-b6c8-40c4-9078-f4b32e4b3718": {
+    "name": "Underworks Clawline Room - Clawline Ring",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/4abc52e9-4841-4c56-b8e6-688817e2f3ff": {
+    "name": "Underworks Clawline Room - Underworks: Gauntlet #3",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/c5d0fd1a-0170-482b-847d-106937db8af5": {
+    "name": "Underworks East Shaft - Underworks: Flip Switch #3",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/1733ac4b-c34e-4248-9585-fe16f874a928": {
+    "name": "Underworks Eastern Gauntlet - Underworks: Lever #1",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/1ac80740-7719-4efb-a1f8-81886861c492": {
+    "name": "Underworks Eastern Gauntlet - Underworks: Gauntlet #1",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/a8e116a7-2d62-4b70-82c2-f8bf99a44686": {
+    "name": "Underworks Exhaust Organ Transit - Underworks: Break Wall #1",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/1f7d006c-4175-42c1-9523-f7d2b1b67691": {
+    "name": "Underworks Exhaust Organ Transit - Underworks: Break Wall #2",
+    "kind": "blockade",
+    "locations": []
+  },
   "event:mapper/52bf0c01-4d32-46cd-a03b-311f215f1677": {
-    "name": "Underworks Exhaust Organ Transit - Underworks: Flip Switch #1 (Left)",
+    "name": "Underworks Exhaust Organ Transit - Underworks: Flip Switch #1",
     "kind": "switch",
     "locations": []
   },
   "event:mapper/reviewed:underworks-transit-ceiling-opened": {
     "name": "Underworks Exhaust Organ Transit - Underworks Transit Ceiling Opened",
     "kind": "event",
+    "locations": []
+  },
+  "event:mapper/5ea22d98-87de-4f0d-ba2c-a9963f90dc49": {
+    "name": "Underworks Lever Spike Corridor - Underworks: Flip Switch #4",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/9ab12b76-aa16-456b-b1b2-da9121431a86": {
+    "name": "Underworks Silk Spool - Underworks: Break Wall #3",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/14ece5f5-4ce4-4abf-8cf1-bb3e821fd832": {
+    "name": "Underworks Twelfth Architect - Underworks: Flip Switch #6",
+    "kind": "switch",
     "locations": []
   },
   "event:mapper/d56f2454-0d3f-4dd5-b05f-d6895d341ddc": {
@@ -4503,6 +4653,16 @@
   "event:mapper/64a48827-9b2f-478f-9bb6-1f921054ef1f": {
     "name": "Underworks Ventrica - Underworks: Ventrica",
     "kind": "travel",
+    "locations": []
+  },
+  "event:mapper/7954d0d0-4544-449f-ab7e-6dcfbd843718": {
+    "name": "Broken Elevator - Locked Door",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/7f216e4a-24b2-4053-8528-a008c394a594": {
+    "name": "Underworks Map Room - Underworks: Break Wall #4",
+    "kind": "blockade",
     "locations": []
   },
   "event:mapper/reviewed:underworks-western-gauntlet": {
@@ -5310,6 +5470,11 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/b7f5cc16-faaf-4068-9c58-509c27decb77": {
+    "name": "High Halls Big Shaft - Resting Site: High Halls",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/28aec7bf-ce0c-4cec-9a37-2c69aa8e678b": {
     "name": "High Halls Flooded Room - Left exit blockade",
     "kind": "blockade",
@@ -5534,12 +5699,7 @@
     "locations": []
   },
   "event:mapper/d3f813ea-2390-46b9-ba81-a529dcec533f": {
-    "name": "Coral Tower Entrance - Resting Site",
-    "kind": "collectible",
-    "locations": []
-  },
-  "event:mapper/56a2a1ed-7551-4887-9988-595f38c7b852": {
-    "name": "Coral Tower Entrance - Wish: A vassal lost started1",
+    "name": "Coral Tower Entrance - Resting Site: Sands of Karak",
     "kind": "event",
     "locations": []
   },
@@ -5678,6 +5838,11 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/2d04ae0c-d9a8-4ada-b104-dd5f494dd25f": {
+    "name": "Slab First Sinner Antechamber - Mister Mushroom Meeting The Slab",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/reviewed:herald-visit-5": {
     "name": "Slab First Sinner Antechamber - Herald Visit 5",
     "kind": "event",
@@ -5728,6 +5893,11 @@
     "locations": [
       "Faydown Cloak"
     ]
+  },
+  "event:mapper/e1527a0b-50cb-4261-a93d-c8782090ad4d": {
+    "name": "FayForn - Mister Mushroom Meeting Mount Fay",
+    "kind": "event",
+    "locations": []
   },
   "event:mapper/reviewed:herald-visit-6": {
     "name": "FayForn - Herald Visit 6",
@@ -5833,8 +6003,8 @@
       "Putrified Ducts - Craftmetal"
     ]
   },
-  "event:mapper/511530a5-36c8-479b-a6af-9a86ed584c06": {
-    "name": "Fleatopia - Wish: Passing Of The Age",
+  "event:mapper/d4425cb5-e042-4444-9ca7-5f94929f5e21": {
+    "name": "Fleatopia - Resting Site: Putrified Ducts",
     "kind": "event",
     "locations": []
   },
@@ -5910,6 +6080,11 @@
     "locations": [
       "Guardian's Memento"
     ]
+  },
+  "event:mapper/511530a5-36c8-479b-a6af-9a86ed584c06": {
+    "name": "Fleatopia - Passing Of The Age Wish Promised",
+    "kind": "event",
+    "locations": []
   },
   "event:mapper/reviewed:passing-age-accepted": {
     "name": "Fleatopia - Passing Age Accepted",
@@ -6110,6 +6285,16 @@
   "event:mapper/86b6d5ff-d098-4bd7-a00b-577e3add5854": {
     "name": "Path of Pain Bench - Path of Pain Bench",
     "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/023fc748-69fa-495c-b1ea-1523ff0922a2": {
+    "name": "Path Of Pain Silksong - Mister Mushroom Meeting The Cradle",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/debcf9b1-d294-440e-a51a-689f041ded1a": {
+    "name": "Path Of Pain Silksong - Passing of the Age Wish Granted",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:herald-visit-7": {
@@ -6469,7 +6654,7 @@
     "locations": []
   },
   "event:mapper/d9f8dcad-b9fa-4a1e-a5c5-5d7103d2b6f7": {
-    "name": "Bellhart Deliveries - survivors camp wish supplies",
+    "name": "Bellhart Deliveries - survivors camp supplies wish promised",
     "kind": "event",
     "locations": []
   },
@@ -6553,9 +6738,14 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:everbloom-ready": {
-    "name": "Everbloom and Red Memory Complete",
-    "kind": "event",
+  "event:mapper/b11a5f4c-563b-42cc-8248-aa3cc012ae69": {
+    "name": "Sinner's Road Styx Room - Styx Grew First Grub",
+    "kind": "logic-point",
+    "locations": []
+  },
+  "event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1": {
+    "name": "Fleatopia - Festival of the Flea",
+    "kind": "logic-point",
     "locations": []
   }
 }

@@ -68,7 +68,7 @@ namespace SilksongRandomizer.Patches
             bool owned = state == null || !state.IsRandomized(ItemType.Skill)
                 ? vanillaOwned
                 : state.canBrolly;
-            if (NakedTrapManager.SuppressesCloakAbilities)
+            if (NakedTrapManager.SuppressesCloakAbilities || StartingCrestFix.IsNakedStart)
             {
                 return false;
             }
@@ -81,7 +81,7 @@ namespace SilksongRandomizer.Patches
             bool owned = state == null || !state.IsRandomized(ItemType.Skill)
                 ? vanillaOwned
                 : state.canDoubleJump;
-            if (NakedTrapManager.SuppressesCloakAbilities)
+            if (NakedTrapManager.SuppressesCloakAbilities || StartingCrestFix.IsNakedStart)
             {
                 return false;
             }

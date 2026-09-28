@@ -172,7 +172,7 @@ def build_requirements(req, item_count, crests, tier_reduction=0):
     for key, profile in profiles().items():
         name = requirement_name(key)
         needle = max(0, profile['needle'] - tier_reduction)
-        damage = [req(crest=False, item_counts=(item_count(needle, 'Progressive Needle Upgrade'),)
+        damage = [req(crest=needle > 0, item_counts=(item_count(needle, 'Progressive Needle Upgrade'),)
                       if needle else ())]
         if profile['dps']:
             def add_damage(reduction, tier, kind, boosted=False):
@@ -202,7 +202,7 @@ def build_requirements(req, item_count, crests, tier_reduction=0):
             options = [movement_items[item.strip()] for item in group.split(' OR ')]
             alternatives = [(*left, option) for left in alternatives for option in options]
         result[name] = (
-            req('Option: Proficient Combat'),
-            *(req(name + ' Damage', *movement) for movement in alternatives),
+            req('Option: Proficient Combat', crest=False),
+            *(req(name + ' Damage', *movement, crest=False) for movement in alternatives),
         )
     return result

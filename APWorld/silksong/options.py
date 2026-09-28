@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import random
 
 from Options import (
     Accessibility,
@@ -722,12 +723,11 @@ class StartingLocation(Choice):
 class StartingCrest(Choice):
     """Choose Hornet's starting Crest when Crests are randomized.
 
-    random selects one of the seven Crests during generation.
+    naked starts without a Crest until you find one.
+    random selects one of the seven Crests and never selects naked.
     """
 
     display_name = "Starting Crest"
-    # YAML ``random`` is handled by Archipelago's Choice parser and resolves
-    # to one of these concrete values before the world is generated.
     option_hunter = 0
     option_wanderer = 1
     option_reaper = 2
@@ -735,7 +735,14 @@ class StartingCrest(Choice):
     option_architect = 4
     option_witch = 5
     option_shaman = 6
+    option_naked = 7
     default = "random"
+
+    @classmethod
+    def from_text(cls, text):
+        if text.lower() == "random":
+            return cls(random.choice([value for value in cls.name_lookup if value != cls.option_naked]))
+        return super().from_text(text)
 
 
 class EarlyDash(Toggle):

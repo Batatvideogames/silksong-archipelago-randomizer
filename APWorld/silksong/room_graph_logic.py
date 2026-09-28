@@ -915,6 +915,11 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 
 
 _GLOBAL_EVENT_NAME_BY_ATOM: Mapping[str, str] = {
+    "event:global/eva-12-points": "Event: Eva 12 Points",
+    "event:global/eva-20-points": "Event: Eva 20 Points",
+    "event:global/eva-27-points": "Event: Eva 27 Points",
+    "event:global/eva-32-points": "Event: Eva 32 Points",
+    "event:global/silk-and-soul-offered": "Event: Silk and Soul Offered",
     "event:global/bell-beast-defeated":
         "Event: Bell Beast Defeated",
     "event:global/cogwork-dancers-defeated":
@@ -1427,7 +1432,7 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
     if atom.startswith("mapper:"):
         _, kind, difficulty = atom.split(":")
         if kind == "attack" and difficulty in {"up", "down", "left", "right"}:
-            return _ATOM_ALTERNATIVES["macro:any-crest"]
+            return (_part(),)
         if kind.endswith("-crest-attack") and difficulty in {"up", "down", "left", "right"}:
             return (_part("Crest: " + kind.removesuffix("-crest-attack").title()),)
         if kind == "clawline":

@@ -216,6 +216,25 @@ namespace SilksongRandomizer.Patches
                     "Shellwood Twig Wall (1)/Terrain/CameraLockArea (14)"
                 }.Select(Find).ToArray();
             }
+            else if (scene == "Arborium_06")
+            {
+                covers = Array.Empty<GameObject>();
+                locks = new[] {
+                    "Coral Crust Wall Tall (1)/Damager/CameraLockArea (2)",
+                    "Coral Goomba Ambush/Crust Wall/Damager/CameraLockArea (1)",
+                    "Coral Crust Wall Tall/Terrain Collider/CameraLockArea (3)"
+                }.Select(Find).ToArray();
+            }
+            else if (scene == "Arborium_09")
+            {
+                covers = new[] {
+                    "Moss Vine Cluster/Mask",
+                    "Moss Vine Cluster (1)/Mask"
+                }.Select(Find).ToArray();
+                locks = new[] {
+                    "Moss Vine Cluster (1)/Hero Blocker/CameraLockArea (8)"
+                }.Select(Find).ToArray();
+            }
             else return false;
             return covers.All(cover => IsEntryVisual(cover, scene) &&
                        cover.GetComponentsInChildren<SpriteRenderer>(true).Length > 0) &&
@@ -1141,12 +1160,180 @@ namespace SilksongRandomizer.Patches
             return matches.Length == 1 ? matches[0] : null;
         }
 
+        private static IEnumerator PrepareFarFieldsBridge()
+        {
+            const string scene = "Bone_East_11";
+            const string path = "Bone East 11 Cross Over Group/Gate";
+            for (int frame = 0; frame < WallSearchFrames; frame++)
+            {
+                if (!IsRoomBoundScene(HeroController.SilentInstance, scene)) yield break;
+                Gate[] gates = Resources.FindObjectsOfTypeAll<Gate>().Where(gate =>
+                    gate != null && gate.gameObject.scene.name == scene &&
+                    Utils.GetHierarchyPath(gate.transform) == path).Take(2).ToArray();
+                if (gates.Length == 1)
+                {
+                    if (gates[0].GetComponent<FarFieldsWindGap>() == null)
+                        gates[0].gameObject.AddComponent<FarFieldsWindGap>();
+                    yield break;
+                }
+                yield return null;
+            }
+            RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve the Far Fields bridge.");
+        }
+
+        internal static void ClipBridgeTriangle(Vector2[] triangle, float[] worldX,
+            float edge, bool keepLeft, System.Collections.Generic.List<Vector2> vertices,
+            System.Collections.Generic.List<ushort> indices)
+        {
+            var polygon = new System.Collections.Generic.List<Vector2>(4);
+            for (int i = 0; i < 3; i++)
+            {
+                int previous = (i + 2) % 3;
+                bool inside = keepLeft ? worldX[i] <= edge : worldX[i] >= edge;
+                bool wasInside = keepLeft ? worldX[previous] <= edge : worldX[previous] >= edge;
+                if (inside != wasInside)
+                {
+                    float amount = (edge - worldX[previous]) / (worldX[i] - worldX[previous]);
+                    polygon.Add(triangle[previous] + (triangle[i] - triangle[previous]) * amount);
+                }
+                if (inside) polygon.Add(triangle[i]);
+            }
+            if (polygon.Count < 3) return;
+            int start = vertices.Count;
+            if (start + polygon.Count > ushort.MaxValue)
+                throw new InvalidOperationException("Bridge sprite geometry is too large.");
+            vertices.AddRange(polygon);
+            for (int i = 1; i + 1 < polygon.Count; i++)
+            {
+                indices.Add((ushort)start);
+                indices.Add((ushort)(start + i));
+                indices.Add((ushort)(start + i + 1));
+            }
+        }
+
+        private sealed class FarFieldsWindGap : MonoBehaviour
+        {
+            private readonly System.Collections.Generic.List<Sprite> sprites =
+                new System.Collections.Generic.List<Sprite>();
+
+            private void LateUpdate()
+            {
+                if (SaveState.Instance == null || !SaveState.Instance.IsRoomBound) return;
+                Animator animator = GetComponent<Animator>();
+                if (animator == null) { enabled = false; return; }
+                AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+                if (!state.IsName("Open") || state.normalizedTime < 1f) return;
+                enabled = false;
+                try
+                {
+                    Apply(animator);
+                }
+                catch (Exception exception)
+                {
+                    RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not preserve the Far Fields wind route: " + exception.Message);
+                }
+            }
+
+            private void Apply(Animator animator)
+            {
+                Transform bridge = transform.Find("extender bridges/ant bridge left");
+                Transform tallWind = transform.Find("Updraft Region (3)");
+                Transform shortWind = transform.Find("Updraft Region Short");
+                BoxCollider2D floor = bridge?.Find("terrain collider")?.GetComponent<BoxCollider2D>();
+                BoxCollider2D wind = tallWind?.Find("Enter Region")?.GetComponent<BoxCollider2D>();
+                if (floor == null || wind == null || shortWind == null || floor.isTrigger ||
+                    !wind.isTrigger || floor.usedByEffector || floor.attachedRigidbody != null ||
+                    Mathf.Abs(floor.transform.right.x - 1f) > 0.001f)
+                    throw new InvalidOperationException("Unexpected bridge or wind collision.");
+
+                Vector3 windCentre = wind.transform.TransformPoint(wind.offset);
+                float left = windCentre.x - 1f;
+                float right = windCentre.x + 1f;
+                Bounds bounds = floor.bounds;
+                if (left - bounds.min.x < 0.75f || bounds.max.x - right < 0.75f)
+                    throw new InvalidOperationException("The wind opening would leave too little bridge.");
+
+                var replacements = new System.Collections.Generic.Dictionary<SpriteRenderer, Sprite>();
+                foreach (SpriteRenderer renderer in bridge.GetComponentsInChildren<SpriteRenderer>(true))
+                {
+                    if (renderer.sprite == null || renderer.drawMode != SpriteDrawMode.Simple)
+                        throw new InvalidOperationException("Unexpected bridge sprite.");
+                    if (renderer.bounds.max.x <= left || renderer.bounds.min.x >= right) continue;
+                    Sprite source = renderer.sprite;
+                    Vector2[] original = source.vertices;
+                    ushort[] triangles = source.triangles;
+                    var vertices = new System.Collections.Generic.List<Vector2>();
+                    var indices = new System.Collections.Generic.List<ushort>();
+                    for (int i = 0; i < triangles.Length; i += 3)
+                    {
+                        Vector2[] triangle = { original[triangles[i]], original[triangles[i + 1]], original[triangles[i + 2]] };
+                        float[] worldX = triangle.Select(vertex => renderer.transform.TransformPoint(new Vector3(
+                            renderer.flipX ? -vertex.x : vertex.x,
+                            renderer.flipY ? -vertex.y : vertex.y, 0f)).x).ToArray();
+                        ClipBridgeTriangle(triangle, worldX, left, true, vertices, indices);
+                        ClipBridgeTriangle(triangle, worldX, right, false, vertices, indices);
+                    }
+                    Sprite replacement = null;
+                    if (indices.Count > 0)
+                    {
+                        replacement = Instantiate(source);
+                        sprites.Add(replacement);
+                        replacement.OverrideGeometry(vertices.Select(vertex =>
+                            vertex * source.pixelsPerUnit + source.pivot).ToArray(), indices.ToArray());
+                    }
+                    replacements.Add(renderer, replacement);
+                }
+                if (replacements.Count == 0)
+                    throw new InvalidOperationException("No bridge artwork covers the wind opening.");
+
+                float minimum = floor.offset.x - floor.size.x / 2f;
+                float maximum = floor.offset.x + floor.size.x / 2f;
+                float localLeft = floor.transform.InverseTransformPoint(new Vector3(left, bounds.center.y, bounds.center.z)).x;
+                float localRight = floor.transform.InverseTransformPoint(new Vector3(right, bounds.center.y, bounds.center.z)).x;
+                Vector2 size = floor.size;
+                Vector2 offset = floor.offset;
+                BoxCollider2D otherSide = floor.gameObject.AddComponent<BoxCollider2D>();
+                otherSide.sharedMaterial = floor.sharedMaterial;
+                otherSide.edgeRadius = floor.edgeRadius;
+                otherSide.size = new Vector2(maximum - localRight, size.y);
+                otherSide.offset = new Vector2((maximum + localRight) / 2f, offset.y);
+                floor.size = new Vector2(localLeft - minimum, size.y);
+                floor.offset = new Vector2((minimum + localLeft) / 2f, offset.y);
+                foreach (var replacement in replacements)
+                {
+                    if (replacement.Value == null) replacement.Key.enabled = false;
+                    else replacement.Key.sprite = replacement.Value;
+                }
+                animator.enabled = false;
+                shortWind.gameObject.SetActive(false);
+                tallWind.gameObject.SetActive(true);
+            }
+
+            private void OnDestroy()
+            {
+                foreach (Sprite sprite in sprites)
+                    if (sprite != null) Destroy(sprite);
+            }
+        }
+
         [HarmonyPatch(typeof(HeroController), "SendHeroInPosition")]
         private static class RouteArrivalPatch
         {
             [HarmonyPostfix]
             private static void Postfix(HeroController __instance)
             {
+                if (IsRoomBoundScene(__instance, "Arborium_06") ||
+                    IsRoomBoundScene(__instance, "Arborium_09"))
+                {
+                    string scene = GameManager.instance.GetSceneNameString();
+                    string gate = __instance.GetEntryGateName();
+                    if (gate == "right1" || gate == "right2" || gate == "left1" || gate == "bot1")
+                        __instance.StartCoroutine(RevealSideEntry(scene, gate));
+                }
+
+                if (IsRoomBoundScene(__instance, "Bone_East_11"))
+                    __instance.StartCoroutine(PrepareFarFieldsBridge());
+
                 if (IsFarFieldsArrival(__instance))
                     __instance.StartCoroutine(RevealGatedEntry(true));
                 if (IsSethArrival(__instance))

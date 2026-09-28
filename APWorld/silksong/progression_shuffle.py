@@ -715,16 +715,16 @@ def prepare_world(world, graph):
 def _replace_events(world, assignments):
     from .native_regions import choose_requirement_anchor, native_rule_options
     from .room_graph_logic import native_region_name
-    from .requirement_rules import _enable_native_source_memo, build_requirements_rule
+    from .requirement_rules import _invalidate_native_source_player, build_requirements_rule
 
-    memo = getattr(world.multiworld, "_silksong_native_source_memo", None)
-    if memo is not None:
-        _enable_native_source_memo(world.multiworld, memo.get("players"))
+    _invalidate_native_source_player(world.multiworld, world.player)
     events = compile_events(assignments, world._progression_wishes, world._progression_bosses)
     options = native_rule_options(world)
     names = world._silksong_native_abstract_names
     removed = set()
     for owner, alternatives in events.items():
+        if alternatives == world._progression_events.get(owner):
+            continue
         target = world.multiworld.get_region(native_region_name(owner), world.player)
         for entrance in tuple(target.entrances):
             entrance.parent_region.exits.remove(entrance)
@@ -759,11 +759,48 @@ def _preparation_locations(world):
     return None
 
 
-def _preparation_state(world):
+def _preparation_state(world, guaranteed=()):
     locations = _preparation_locations(world)
     state = world.multiworld.get_all_state(perform_sweep=locations is None)
     if locations is not None:
-        state.sweep_for_advancements(locations)
+        for location in guaranteed:
+            state.advancements.add(location)
+            state.collect(location.item, True, location)
+        from .requirement_rules import sweep_native_sources
+
+        sweep_native_sources(state, locations)
+    return state
+
+
+def _guaranteed_preparation_rewards(world):
+    from rule_builder.rules import False_
+    from .room_graph_logic import native_region_name
+    from .requirement_rules import _invalidate_native_source_player
+
+    if _preparation_locations(world) is None:
+        return ()
+    saved = []
+    blocked = False_().resolve(world)
+    try:
+        for name in world._progression_events:
+            region = world.multiworld.get_region(native_region_name(name), world.player)
+            for entrance in region.entrances:
+                saved.append((entrance, entrance.access_rule))
+                entrance.access_rule = blocked
+        _invalidate_native_source_player(world.multiworld, world.player)
+        state = _preparation_state(world)
+        return tuple(sorted(state.advancements, key=lambda location: location.name))
+    finally:
+        for entrance, rule in saved:
+            entrance.access_rule = rule
+        _invalidate_native_source_player(world.multiworld, world.player)
+
+
+def _optimistic_preparation_state(world, foreign_rewards, local_rewards):
+    state = world.multiworld.get_all_state(perform_sweep=False)
+    for item in foreign_rewards:
+        state.collect(item, True)
+    state.sweep_for_advancements(local_rewards)
     return state
 
 
@@ -775,7 +812,8 @@ def finalize_world(world):
     if getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game) is not None:
         return
     multiworld = world.multiworld
-    baseline = _preparation_state(world)
+    guaranteed = _guaranteed_preparation_rewards(world)
+    baseline = _preparation_state(world, guaranteed)
     locations = _preparation_locations(world)
     if locations is None:
         locations = multiworld.get_locations()
@@ -787,13 +825,24 @@ def finalize_world(world):
                             for name in completion_names
                             if multiworld.get_region(native_region_name(name), world.player).can_reach(baseline))
     accepted = world._progression_assignments
+    foreign_rewards = tuple(location.item for location in multiworld.get_filled_locations()
+                            if location.player != world.player and location.item.player == world.player)
+    local_rewards = tuple(location for location in world.get_locations()
+                          if location.item is not None and location.item.player == world.player)
+    check_local_first = not multiworld.groups and any(
+        other.game != world.game for other in multiworld.worlds.values())
 
     def valid(candidate):
         nonlocal accepted
         if candidate == accepted:
             return True
         _replace_events(world, candidate)
-        state = _preparation_state(world)
+        if check_local_first:
+            optimistic = _optimistic_preparation_state(world, foreign_rewards, local_rewards)
+            if not all(region.can_reach(optimistic) for region in required_events):
+                _replace_events(world, accepted)
+                return False
+        state = _preparation_state(world, guaranteed)
         accessible = all(location.can_reach(state) for location in required) and all(
             region.can_reach(state) for region in required_events)
         if accessible and world.is_early_dash_enabled() and world._early_dash_shuffle_locations:

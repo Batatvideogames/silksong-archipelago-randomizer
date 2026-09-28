@@ -686,6 +686,7 @@ namespace SilksongRandomizer
             ProcessDisconnectSaveRequest();
 
             TrapManager.Update();
+            StartingCrestFix.UpdateNakedStart();
             SlabCaptureWarpSafety.Update();
             MossMotherWarpSafety.Update();
             BellhomePhaseManager.Update();

@@ -815,7 +815,8 @@ TRAP_ITEM_NAMES: tuple[str, ...] = tuple(
     TRAP_ITEM_NAME_BY_WEIGHT_OPTION.values()
 )
 
-STARTING_CREST_ITEM_BY_KEY: Dict[str, str] = {
+STARTING_CREST_ITEM_BY_KEY: Dict[str, str | None] = {
+    'naked': None,
     'hunter': 'Crest: Hunter',
     'wanderer': 'Crest: Wanderer',
     'reaper': 'Crest: Reaper',
@@ -1244,7 +1245,7 @@ def get_act_one_start_with_map_items(
 def _trim_act_one_pool_entries(
     entries: list[ItemPoolEntry],
     category_modes: Mapping[str, str],
-    starting_crest_item: str,
+    starting_crest_item: str | None,
     split_dash_and_sprint: bool,
     automatic_compass: bool,
     removed_option_items_by_category: Mapping[str, tuple[str, ...]],
@@ -1396,7 +1397,7 @@ def _balance_act_two_skill_pool(
 def get_dynamic_trap_capacity(
     category_modes: Mapping[str, str],
     split_dash_and_sprint: bool = False,
-    starting_crest_item: str = 'Crest: Hunter',
+    starting_crest_item: str | None = 'Crest: Hunter',
     start_with_maps: bool = False,
     automatic_compass: bool = False,
     minor_shuffle_category_by_family: Mapping[str, str] | None = None,
@@ -1532,7 +1533,7 @@ def _replace_verdania_only_key_pool_entry(
 
 
 def build_item_pool_entries(
-    starting_crest_item: str,
+    starting_crest_item: str | None,
     trap_counts: Mapping[str, int] | None,
     split_dash_and_sprint: bool,
     category_modes: Mapping[str, str],
@@ -1621,7 +1622,7 @@ def build_item_pool_entries(
             continue
 
         item_names = list(get_category_item_names(category))
-        if category == 'Crest':
+        if category == 'Crest' and starting_crest_item is not None:
             try:
                 item_names.remove(starting_crest_item)
             except ValueError as exc:
@@ -2072,7 +2073,7 @@ def build_item_pool_entries(
 
 
 def get_configured_item_pool_size(
-    starting_crest_item: str,
+    starting_crest_item: str | None,
     trap_counts: Mapping[str, int] | None,
     split_dash_and_sprint: bool,
     category_modes: Mapping[str, str],

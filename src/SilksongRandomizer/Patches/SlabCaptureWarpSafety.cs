@@ -85,6 +85,7 @@ namespace SilksongRandomizer.Patches
 
         internal static void PrepareForSave()
         {
+            StartingCrestFix.UpdateNakedStart();
             RecordArrival();
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || !playerData.atBench)
@@ -249,6 +250,7 @@ namespace SilksongRandomizer.Patches
             PlayerData playerData)
         {
             return playerData != null &&
+                   !StartingCrestFix.IsNakedStart &&
                    string.Equals(
                        playerData.CurrentCrestID,
                        CloaklessCrestName,

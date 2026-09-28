@@ -25,6 +25,7 @@ from .items import get_vanilla_reward_name
 from .locations import canonicalize_location_name
 from .requirements import (
     CREST_ITEMS,
+    CLOAK_REQUIRED_SKILL_ITEMS,
     REQUIREMENTS,
     DEFAULT_FLEA_HUNT_GOAL_COUNT,
     MEMORY_LOCKET_ITEM,
@@ -217,6 +218,34 @@ NativeSourceInventoryKey = tuple[
 NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey, int | None]
 
 
+def sweep_native_sources(state, locations):
+    pending = [location for location in locations
+               if location not in state.advancements
+               and location.item is not None and location.item.advancement]
+    while pending:
+        reachable = []
+        for location in pending:
+            rule = location.access_rule
+            if isinstance(rule, NativeSourceRule.Resolved):
+                accessible = (
+                    location.parent_region.can_reach(state)
+                    and (rule.anchor_requirement_name is None or state.can_reach_region(
+                        native_region_name(rule.anchor_requirement_name), rule.player))
+                    and rule.child(state)
+                )
+            else:
+                accessible = location.can_reach(state)
+            if accessible:
+                reachable.append(location)
+        if not reachable:
+            break
+        for location in reachable:
+            state.advancements.add(location)
+            state.collect(location.item, True, location)
+        pending = [location for location in pending if location not in state.advancements]
+    state.sweep_for_advancements(locations)
+
+
 def _enable_native_source_memo(multiworld, players: frozenset[int] | None = None) -> None:
     from .rules import uses_crest_slot_locket_logic
 
@@ -237,6 +266,16 @@ def _enable_native_source_memo(multiworld, players: frozenset[int] | None = None
     )
 
 
+def _invalidate_native_source_player(multiworld, player: int) -> None:
+    memo = getattr(multiworld, "_silksong_native_source_memo", None)
+    if memo is None:
+        return
+    memo["results"] = {key: value for key, value in memo["results"].items() if key[1][0] != player}
+    for name in ("inventory_keys", "inventory_counts", "reachable_bounds", "unreachable_bounds"):
+        if name in memo:
+            memo[name] = {key: value for key, value in memo[name].items() if key[0] != player}
+
+
 def _lookup_native_source_memo(
     rule: Rule.Resolved,
     state: CollectionState,
@@ -253,8 +292,7 @@ def _lookup_native_source_memo(
     if memo is None or ("players" in memo and rule.player not in memo["players"]):
         return None
     if "players" in memo and max(len(memo["results"]), len(memo["inventory_keys"])) >= 16384:
-        _enable_native_source_memo(state.multiworld, memo["players"])
-        memo = state.multiworld._silksong_native_source_memo
+        memo.update(inventory_keys={}, results={}, inventory_counts={})
 
     inventory_key: NativeSourceInventoryKey = (
         rule.player,
@@ -274,7 +312,7 @@ def _lookup_native_source_memo(
     results = memo["results"]
     cached = results.get(key)
     if cached is None and "players" in memo:
-        bound_key = (id(rule), budget, state.allow_partial_entrances)
+        bound_key = (rule.player, id(rule), budget, state.allow_partial_entrances)
         lower = memo.get("reachable_bounds", {}).get(bound_key)
         if lower is not None and all(
             state.prog_items[rule.player].get(name, 0) >= count for name, count in lower.items()
@@ -294,7 +332,7 @@ def _remember_native_source_result(state, memo_entry, result):
     memo = state.multiworld._silksong_native_source_memo
     if "players" in memo and memo["results"] is results:
         inventory = memo.setdefault("inventory_counts", {}).setdefault(key[1], dict(key[1][1]))
-        bound_key = (key[0], key[2], key[1][2])
+        bound_key = (key[1][0], key[0], key[2], key[1][2])
         bounds = "reachable_bounds" if result else "unreachable_bounds"
         memo.setdefault(bounds, {})[bound_key] = inventory
 
@@ -656,7 +694,7 @@ def _compile_named_requirement(
         split_dash_and_sprint
     ).get(item_name, ())
     item_rules: list[Rule] = [Has(item_name)]
-    if item_name == 'Silk Soar':
+    if item_name in CLOAK_REQUIRED_SKILL_ITEMS:
         item_rules.append(HasAny(*sorted(CREST_ITEMS)))
     for dependency_name in sorted(set(dependencies)):
         item_rules.append(

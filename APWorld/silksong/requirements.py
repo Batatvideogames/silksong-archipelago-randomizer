@@ -286,6 +286,8 @@ SKILL_ITEMS: tuple[str, ...] = tuple(
     )
 )
 
+CLOAK_REQUIRED_SKILL_ITEMS = frozenset({'Silk Soar', 'Clawline', 'Faydown Cloak', "Drifter's Cloak", 'Needolin', 'Needle Strike'})
+
 SILK_HEART_ITEM = 'Progressive Silkheart'
 SWIFT_STEP_ITEM = 'Swift Step'
 PROGRESSIVE_SWIFT_STEP_ITEM = 'Progressive Swift Step'
@@ -3046,7 +3048,7 @@ def technique_requirement_overrides(
     enemy_pogo_tier: int,
 ) -> dict[str, tuple[LocationRequirement, ...]]:
     return {
-        f"Technique: {name} {tier}": (req(crest=False),) if selected >= tier else ()
+        f"Technique: {name} {tier}": (req(crest=name == "Crest Pogo"),) if selected >= tier else ()
         for name, selected in (
             ("Heal Stall", heal_stall_tier),
             ("Hazard Respawn", hazard_respawn_tier),
@@ -6674,7 +6676,7 @@ def _has_named_requirement_with_values(
     )
     return (
         has_item(item_or_requirement_name)
-        and (canonical_name != 'Silk Soar' or any(has_item(crest) for crest in CREST_ITEMS))
+        and (canonical_name not in CLOAK_REQUIRED_SKILL_ITEMS or any(has_item(crest) for crest in CREST_ITEMS))
         and all(
             has_item(dependency_name)
             for dependency_name in logic_item_dependencies.get(
