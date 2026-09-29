@@ -1192,24 +1192,33 @@
     "locations": []
   },
   "event:mapper/da9e7880-0ba4-4de6-bc4c-848990e6ef95": {
-    "name": "Deep Docks Entrance - door switch",
+    "name": "Deep Docks Entrance - Deep Docks Entrance Lever",
     "kind": "switch",
     "locations": []
   },
   "event:mapper/6b63cdb5-8232-4631-8155-f72b27eaa881": {
-    "name": "Deep Docks Entrance - gauntlet",
+    "name": "Deep Docks Entrance - Deep Docks Entrance Battle",
     "kind": "gauntlet",
     "locations": []
   },
-  "event:mapper/3eeaa455-ed8b-4c03-badd-85a1edf703e3": {
-    "name": "Deep Docks Bench Shaft - Bench",
-    "kind": "bench",
-    "locations": [],
-    "mapper_kind": "unknown"
+  "event:mapper/ed1d50c3-cac1-4f26-be53-29ad52703f26": {
+    "name": "Deep Docks Bench Shaft - bench rosary lock",
+    "kind": "lock",
+    "locations": []
   },
-  "event:mapper/reviewed:docks-map-lift": {
-    "name": "Deep Docks Map Shop - Docks Map Lift",
-    "kind": "event",
+  "event:mapper/3eeaa455-ed8b-4c03-badd-85a1edf703e3": {
+    "name": "Deep Docks Bench Shaft - Deep Docks Shaft Bench",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/8fc368b1-f249-46ee-b889-60206587c734": {
+    "name": "Deep Docks Map Shop - switch to upper lower platform",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/eb781a15-8f5e-405c-897f-72e691367f58": {
+    "name": "Deep Docks Map Shop - switch to lower lower platform",
+    "kind": "switch",
     "locations": []
   },
   "event:mapper/reviewed:shakra-shop-deep-docks-map-shop": {
@@ -1222,14 +1231,19 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#lower-area": {
-    "name": "Deep Docks Map Shop - Visited Deep Docks (lower area)",
+  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#floor": {
+    "name": "Deep Docks Map Shop - Visited Deep Docks",
     "kind": "event",
     "locations": []
   },
   "event:mapper/bf849fde-80d4-45c9-b02e-3317a225ae9f": {
     "name": "Deep Docks Bellway - Bellway rosary lock",
     "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/84982288-64ae-4e46-b9b6-1eebf3592294": {
+    "name": "Deep Docks Bellway - bellway breakable wall",
+    "kind": "blockade",
     "locations": []
   },
   "event:mapper/6ef2562b-add1-4c36-a7b2-11e14752d144": {
@@ -1239,20 +1253,48 @@
       "Deep Docks - Bellway"
     ]
   },
+  "event:mapper/5bdcd738-8f29-4e89-af2b-466e07d6e2a6": {
+    "name": "Deep Docks Bellway Flea Rescue - flea breakable floor",
+    "kind": "blockade",
+    "locations": []
+  },
   "event:mapper/9f6fb68d-beb3-4c03-ab85-da13d78510f1": {
-    "name": "Deep Docks Lace Intro - Gate switch",
+    "name": "Deep Docks Lace Intro - gate switch lace",
     "kind": "switch",
-    "locations": [],
-    "mapper_kind": "unknown"
+    "locations": []
   },
   "event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda": {
-    "name": "Deep Docks Lace Intro - Lace 1 boss fight",
+    "name": "Deep Docks Lace Intro - lace 1 boss fight",
     "kind": "boss",
-    "locations": [],
-    "mapper_kind": "unknown"
+    "locations": []
   },
   "event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac": {
     "name": "Deep Docks Bellshrine - Bellshrine switch",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/380c7758-c74d-4a45-b59f-5c05e527b92c": {
+    "name": "Deep Docks Bellshrine - bench",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/5547eafe-ea61-43c7-8628-60c6d09c2426": {
+    "name": "Deep Docks Spire Lower - Deep Docks Lower Spire Blast Rock",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/86b55d4f-78c1-40fd-ba08-0668ff4e09f6": {
+    "name": "Is this still Deep Docks West - Deep Docks Is This Still Deep Docks West Blast Rock",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/0d9051cc-cbea-4d87-92a1-8b35c2777b9c": {
+    "name": "Deep Docks Upper Spire - Deep Docks Upper Spire Gate Lever",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/2f1d048c-9d95-411f-8284-cb70d442563e": {
+    "name": "Deep Docks Upper Spire - Deep Docks Upper Spire Flea Lever",
     "kind": "switch",
     "locations": []
   },
@@ -1267,68 +1309,103 @@
     "locations": []
   },
   "event:mapper/bff9e511-8d91-40a4-8562-25f0dfb7c371": {
-    "name": "Deep Docks Forge - Gate switch",
+    "name": "Deep Docks Forge - gate switch forge",
     "kind": "switch",
     "locations": []
   },
-  "event:mapper/778c9db5-1fff-42f0-b2ef-f55e42ce6512": {
-    "name": "Deep Docks Forge - Gauntlet fight",
+  "event:mapper/d449f577-6716-4453-a161-4a019c34f1d7": {
+    "name": "Deep Docks Forge - Shard Bundle Wall",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/001d67a4-7c7a-498d-9c9f-e58a629d8e49": {
+    "name": "Deep Docks Forge - Forge Battle",
     "kind": "gauntlet",
     "locations": []
   },
-  "event:mapper/24ee69ec-dbf6-4612-b7a0-49c5bcbe70a9": {
-    "name": "Deep Docks Forge - Deep docks simple key lock",
-    "kind": "lock",
-    "locations": []
-  },
-  "event:mapper/f4207a0d-1c3c-4a23-8b17-48a0f8779e81": {
-    "name": "Deep Docks Forge - Bench",
+  "event:mapper/7f98b90b-0784-4b5f-a315-8d6b3f077023": {
+    "name": "Deep Docks Forge - Forge bench",
     "kind": "bench",
     "locations": []
   },
-  "event:mapper/9a17ad93-8792-41fc-ad7d-9045e62617e2": {
-    "name": "Deep Docks Chains West - Breakable floor supports",
-    "kind": "blockade",
-    "locations": [],
-    "mapper_kind": "unknown"
-  },
-  "event:mapper/4431485a-6f3f-46fc-9cd2-f595f370bdea": {
-    "name": "Deep Docks Chains Center - Ceiling switch",
-    "kind": "switch",
-    "locations": [],
-    "mapper_kind": "unknown"
-  },
-  "event:mapper/1c401d32-d6e6-4429-a557-99d4cd8d317e": {
-    "name": "Deep Docks Chains Center - Door switch",
-    "kind": "switch",
-    "locations": [],
-    "mapper_kind": "unknown"
-  },
-  "event:mapper/reviewed:chains-upper-wall": {
-    "name": "Deep Docks Chains Center - Chains Upper Wall",
+  "event:mapper/095b74aa-2341-4319-9ca6-b84639264967": {
+    "name": "Deep Docks Forge - Ballow Move to Control Room",
     "kind": "event",
     "locations": []
   },
-  "event:mapper/251f073f-647d-44fb-b7d8-aaae2ddd715f": {
-    "name": "Deep Docks Chains Upper East - Ring gate",
+  "event:mapper/4740dd59-a0b4-42f6-b3a9-6bc20e21dcfc": {
+    "name": "Deep Docks Spool East - the lever that makes all of my hard work worthless",
     "kind": "switch",
-    "locations": [],
-    "mapper_kind": "unknown"
+    "locations": []
   },
-  "event:mapper/5028605d-03ff-4b35-98b4-e1a4153b3ee9": {
-    "name": "Deep Docks Chains Upper East - Door switch",
+  "event:mapper/261237fc-4847-4bca-8f96-35e78fa62d8a": {
+    "name": "Deep Docks Church - church grate switch",
     "kind": "switch",
-    "locations": [],
-    "mapper_kind": "unknown"
+    "locations": []
+  },
+  "event:mapper/8fbd9f7b-c363-4485-bf9c-4b8d944a5b33": {
+    "name": "Deep Docks Church - Church Bench",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/e52bc22f-8c7b-463c-8f12-b95342be6f66": {
+    "name": "Deep Docks Chains West - spike hall breakable floor",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/4431485a-6f3f-46fc-9cd2-f595f370bdea": {
+    "name": "Deep Docks Chains Center - ceiling switch",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/f242a650-2208-4218-bfc6-8f715d5bd7f1": {
+    "name": "Deep Docks Chains Upper East - Deep Docks Side Chain Room Door",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/771aa000-2745-4d88-9ceb-e70b81c33fd7": {
+    "name": "Deep Docks Chains Upper East - Left Side Door Switch",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/6e4052f0-1ee6-44cd-b843-fb9cff76c4e6": {
+    "name": "Deep Docks Chains Upper East - Platforms Clawline Ring",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/d5d019bb-6e35-416f-a82a-8eecdfb0e43e": {
+    "name": "Deep Docks Chains Upper East - Craftmetal Breakable Wall",
+    "kind": "collectible",
+    "locations": []
   },
   "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-east#chain-platforms": {
     "name": "Deep Docks Chains Upper East - Visited Deep Docks",
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:deep-docks-mines-gauntlet-cleared": {
-    "name": "Deep Docks Chains Lower East - Deep Docks Mines Gauntlet Cleared",
-    "kind": "event",
+  "event:mapper/c4e3145c-d3d7-44a4-9720-3d9ce40f8106": {
+    "name": "Deep Docks Chains Lower East - Shortcut Blast Rock",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/c3b1532c-7b60-447d-b9da-b171bbd04ab1": {
+    "name": "Deep Docks Chains Lower East - Chains Gauntlet",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/6d6ec84a-9b68-447b-a592-30243e002b33": {
+    "name": "Deep Docks Chains Lower East - First Spool Blast Rock",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/e46aa7f3-a2ca-4fb1-a243-bb6cbcb0f798": {
+    "name": "Deep Docks Chains Lower East - Second Spool Blast Rock",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/ffc8615f-7425-44b4-9075-91fd084e1fe7": {
+    "name": "Deep Docks Chains Lower East - Third Spool Blast Rock",
+    "kind": "blockade",
     "locations": []
   },
   "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#upper-chains": {
@@ -1336,8 +1413,8 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#spool-fragment-area": {
-    "name": "Deep Docks Chains Lower East - Visited Deep Docks (spool fragment area)",
+  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#spool-fragment": {
+    "name": "Deep Docks Chains Lower East - Visited Deep Docks",
     "kind": "event",
     "locations": []
   },
@@ -1371,22 +1448,41 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#spool-rock-1": {
+    "name": "Deep Docks Chains Lower East - Visited Deep Docks (reviewed)",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#spool-rock-2": {
+    "name": "Deep Docks Chains Lower East - Visited Deep Docks (reviewed) (Spool Rock 2)",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-chains-lower-east#spool-rock-3": {
+    "name": "Deep Docks Chains Lower East - Visited Deep Docks (reviewed) (Spool Rock 3)",
+    "kind": "event",
+    "locations": []
+  },
   "event:mapper/e3836a7a-fb8a-4ee0-a080-f1e550b07168": {
     "name": "Boss: Forebrothers Signis & Gron",
     "kind": "boss",
     "locations": [
       "Boss: Forebrothers Signis & Gron"
-    ],
-    "mapper_kind": "unknown"
+    ]
   },
-  "event:mapper/a5a5cf87-b1f3-4196-aa3f-1984f300defe": {
-    "name": "Deep Docks Sauna - Bench",
-    "kind": "bench",
+  "event:mapper/09d23c69-cea9-4e0c-a49b-9be49e99be94": {
+    "name": "Deep Docks Lower East Shaft - Lower Left Entry Wall",
+    "kind": "blockade",
     "locations": []
   },
-  "event:mapper/fdb4fdb2-1a16-4b4f-8406-1eee0df50d5a": {
-    "name": "Deep Docks Sauna - Door pressure plate",
+  "event:mapper/5eabb994-4aa0-4d29-82d5-a0b7e73fd112": {
+    "name": "Deep Docks Sauna - Sauna Door Lock",
     "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/1a5d377c-6b89-4c70-a0e3-2d6f087c0cd8": {
+    "name": "Deep Docks Sauna - Sauna Bench",
+    "kind": "bench",
     "locations": []
   },
   "event:mapper/e15b0a5d-64ba-427d-a05a-6de4488b740e": {
@@ -1422,6 +1518,21 @@
   "event:mapper/49c500d9-9874-463e-a362-66264dc37da4": {
     "name": "Deep Docks Diving Bell Room - Diving bell lock",
     "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/e8d8f7a6-b18b-4e25-9b2a-db6f51820926": {
+    "name": "Deep Docks Diving Bell Room - diving bell key",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/bba25430-0885-40d0-9f99-283a852119d9": {
+    "name": "Deep Docks Diving Bell Room - Ballow in Diving Bell Control Room",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/f29e495c-62ec-48f7-a49d-3037aebe5c0d": {
+    "name": "Deep Docks Diving Bell Interior - Bell Bench",
+    "kind": "bench",
     "locations": []
   },
   "event:mapper/e77090bd-36e6-4b82-ba15-160704f23880": {
@@ -1759,6 +1870,11 @@
     "locations": [
       "Warding Bell"
     ]
+  },
+  "event:mapper/bbe35725-67a8-4b05-802c-adfc75b99136": {
+    "name": "Far Fields Deep Docks Backdoor - Far Fields Side Chain Room Door",
+    "kind": "blockade",
+    "locations": []
   },
   "event:mapper/4e368ab4-5270-4e60-846a-5bf26de02e3d": {
     "name": "Far Fields - Rosary String",
@@ -3246,6 +3362,18 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/43998c1e-3e70-4aee-a65f-5c70c1a5fed1": {
+    "name": "Pimpillo",
+    "kind": "collectible",
+    "locations": [
+      "Pimpillo"
+    ]
+  },
+  "event:mapper/792ab8e6-a10a-420c-ae93-07f273b8078b": {
+    "name": "Yarnaby Place - Vine wall",
+    "kind": "blockade",
+    "locations": []
+  },
   "event:mapper/3d93d520-2b49-47d5-b9ae-7c01e76fa8f3": {
     "name": "Greymoor - Bellway",
     "kind": "travel",
@@ -3753,23 +3881,6 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/43998c1e-3e70-4aee-a65f-5c70c1a5fed1": {
-    "name": "Pimpillo",
-    "kind": "collectible",
-    "locations": [
-      "Pimpillo"
-    ]
-  },
-  "event:mapper/38384797-1230-4f4a-9f95-4b23f5b888c0": {
-    "name": "Pimpillo Room - Bounce vine wall",
-    "kind": "blockade",
-    "locations": []
-  },
-  "event:mapper/792ab8e6-a10a-420c-ae93-07f273b8078b": {
-    "name": "Yarnaby Place - Vine wall",
-    "kind": "blockade",
-    "locations": []
-  },
   "event:mapper/b289af30-9c97-4eb4-bd24-1750bc91adfe": {
     "name": "Greymoor Yarnaby Room - Infestation Operation Wish Promised",
     "kind": "event",
@@ -3974,6 +4085,11 @@
     "locations": [
       "Wish: A Vassal Lost"
     ]
+  },
+  "event:mapper/637deeac-985a-4e28-9947-408199b88ddd": {
+    "name": "Blasted Steps Steel Soul - Growstone",
+    "kind": "collectible",
+    "locations": []
   },
   "event:mapper/a3f314bf-02a7-4dd1-b0d4-ac6d426132a6": {
     "name": "Flea: Blasted Steps",
@@ -4189,6 +4305,11 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/d18eba76-17d1-4b8b-91ef-3f1281224126": {
+    "name": "Grand Gate Maintenance Room - metal wall",
+    "kind": "blockade",
+    "locations": []
+  },
   "event:mapper/c3d04669-5490-4d74-9c3a-6896c52c88c7": {
     "name": "Grand Gate - Spool Fragment",
     "kind": "collectible",
@@ -4202,6 +4323,11 @@
     "locations": [
       "Grand Gate - Map Purchase"
     ]
+  },
+  "event:mapper/85d3c0ce-684b-4c4c-8bd2-fce9c88b69dd": {
+    "name": "Grand Gate Courtroom - metal bars",
+    "kind": "blockade",
+    "locations": []
   },
   "event:mapper/cd473caf-feb7-4054-9632-0ba752bd0c51": {
     "name": "Entrance to Nyleth - Breakable Vines - Exit Hall",
@@ -4375,6 +4501,11 @@
     "kind": "event",
     "locations": []
   },
+  "event:mapper/20310406-1538-4aea-a139-e815be5ae5dc": {
+    "name": "Sinner's Road North Hall - North Hall Door Switch",
+    "kind": "switch",
+    "locations": []
+  },
   "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-north-hall#behind-left-wall": {
     "name": "Sinner's Road North Hall - Visit Sinners Road:Sinner S Road/Sinner S Road North Hall#Behind Left Wall",
     "kind": "event",
@@ -4405,11 +4536,6 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:dust05-gate-opened": {
-    "name": "Sinner's Road North Hall - East Gate Opened",
-    "kind": "event",
-    "locations": []
-  },
   "event:mapper/d1d4f50b-0065-40c7-b156-8cead68243b5": {
     "name": "Barbed Bracelet",
     "kind": "collectible",
@@ -4425,6 +4551,11 @@
   "event:mapper/d85f3186-7b59-4d6d-8dfd-9c80db107acb": {
     "name": "Sinner's Road Styx Room - Styx Room Lower Breakable Wall",
     "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/b11a5f4c-563b-42cc-8248-aa3cc012ae69": {
+    "name": "Sinner's Road Styx Room - Styx Grew First Grub",
+    "kind": "logic-point",
     "locations": []
   },
   "event:mapper/2fcdf911-dee2-47e1-901f-5539e04f8711": {
@@ -4477,13 +4608,38 @@
       "Roachkeeper - Simple Key"
     ]
   },
-  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#lower": {
-    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Lower",
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#low-door": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Low Door",
     "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#upper": {
     "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Upper",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Bilewater Door",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#left-door": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Left Door",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#mid-right-door": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Mid Right Door",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Mid Cage",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-sinners-road:sinner-s-road/sinner-s-road-vertical-hall-east#low-mid-cage": {
+    "name": "Sinner's Road Vertical Hall East - Visit Sinners Road:Sinner S Road/Sinner S Road Vertical Hall East#Low Mid Cage",
     "kind": "event",
     "locations": []
   },
@@ -6046,6 +6202,11 @@
     "kind": "logic-point",
     "locations": []
   },
+  "event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1": {
+    "name": "Fleatopia - Festival of the Flea",
+    "kind": "logic-point",
+    "locations": []
+  },
   "event:mapper/66774f19-233f-4382-a524-1a3a0501b443": {
     "name": "Fleatopia - Flea Juggle High Score",
     "kind": "event",
@@ -6738,21 +6899,6 @@
   "event:mapper/e3aa041c-9a5e-4339-a484-de44ae9fc762": {
     "name": "Songclave Wish Wall - pain anguish and misery wish promised",
     "kind": "event",
-    "locations": []
-  },
-  "event:mapper/b11a5f4c-563b-42cc-8248-aa3cc012ae69": {
-    "name": "Sinner's Road Styx Room - Styx Grew First Grub",
-    "kind": "logic-point",
-    "locations": []
-  },
-  "event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1": {
-    "name": "Fleatopia - Festival of the Flea",
-    "kind": "logic-point",
-    "locations": []
-  },
-  "event:mapper/637deeac-985a-4e28-9947-408199b88ddd": {
-    "name": "Blasted Steps Steel Soul - Growstone",
-    "kind": "collectible",
     "locations": []
   }
 }

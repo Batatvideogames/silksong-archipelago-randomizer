@@ -792,6 +792,18 @@
     "group": "right"
   },
   {
+    "id": "blasted-steps/blasted-steps-horizontal-room-with-sand-pit@l",
+    "name": "Horizontal Room with Sand Pit - left1",
+    "scene": "Coral_11b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "blasted-steps/windy-pinstress-entrance@r",
+    "target_scene": "Coral_34",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "blasted-steps/blasted-steps-horizontal-room-with-two-sand-pits@l",
     "name": "Blasted Steps Horizontal Room with Two Sand Pits - Left",
     "scene": "Coral_43",
@@ -862,6 +874,30 @@
     "target_gate": "top1",
     "is_door": false,
     "group": "bot"
+  },
+  {
+    "id": "blasted-steps/blasted-steps-shakra-map-room@bl",
+    "name": "Blasted Steps Shakra Room - left3",
+    "scene": "Coral_12",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "blasted-steps/blasted-steps-wide-long-vertical@br",
+    "target_scene": "Coral_03",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "blasted-steps/blasted-steps-shakra-map-room@tl",
+    "name": "Blasted Steps Shakra Room - left2",
+    "scene": "Coral_12",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "blasted-steps/blasted-steps-wide-long-vertical@mr",
+    "target_scene": "Coral_03",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "blasted-steps/blasted-steps-thin-long-vertical@bl",
@@ -936,6 +972,18 @@
     "group": "left"
   },
   {
+    "id": "blasted-steps/blasted-steps-wide-long-vertical@br",
+    "name": "Blasted Steps Wide Long Vertical - right3",
+    "scene": "Coral_03",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "blasted-steps/blasted-steps-shakra-map-room@bl",
+    "target_scene": "Coral_12",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "blasted-steps/blasted-steps-wide-long-vertical@ml",
     "name": "Blasted Steps Wide Long Vertical - Middle Left",
     "scene": "Coral_03",
@@ -946,6 +994,18 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "blasted-steps/blasted-steps-wide-long-vertical@mr",
+    "name": "Blasted Steps Wide Long Vertical - right2",
+    "scene": "Coral_03",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "blasted-steps/blasted-steps-shakra-map-room@tl",
+    "target_scene": "Coral_12",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "blasted-steps/blasted-steps-wide-long-vertical@tl",
@@ -1008,18 +1068,6 @@
     "group": "right"
   },
   {
-    "id": "blasted-steps/windy-pinstress-room@l",
-    "name": "Pinstress Room - Left",
-    "scene": "Room_Pinstress",
-    "gate": "left1",
-    "direction": "left",
-    "vanilla": "blasted-steps/windy-pinstress-entrance@c",
-    "target_scene": "Coral_34",
-    "target_gate": "door1",
-    "is_door": false,
-    "group": "door_out"
-  },
-  {
     "id": "blasted-steps/pre-last-judge-room@l",
     "name": "Pre Last Judge Room - Left",
     "scene": "Coral_32",
@@ -1056,6 +1104,18 @@
     "group": "door_in"
   },
   {
+    "id": "blasted-steps/windy-pinstress-entrance@r",
+    "name": "Windy Pinstress Entrance - right1",
+    "scene": "Coral_34",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "blasted-steps/blasted-steps-horizontal-room-with-sand-pit@l",
+    "target_scene": "Coral_11b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "blasted-steps/windy-pinstress-entrance@t",
     "name": "Windy Pinstress Entrance - Top",
     "scene": "Coral_34",
@@ -1066,6 +1126,18 @@
     "target_gate": "bot1",
     "is_door": false,
     "group": "top"
+  },
+  {
+    "id": "blasted-steps/windy-pinstress-room@l",
+    "name": "Pinstress Room - Left",
+    "scene": "Room_Pinstress",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "blasted-steps/windy-pinstress-entrance@c",
+    "target_scene": "Coral_34",
+    "target_gate": "door1",
+    "is_door": false,
+    "group": "door_out"
   },
   {
     "id": "bone-bottom/bone-bottom-town@lr",
@@ -1478,6 +1550,18 @@
     "group": "top"
   },
   {
+    "id": "choral-chambers/songclave-tube@b",
+    "name": "Songclave Tube - bot1",
+    "scene": "Song_Enclave_Tube",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "choral-chambers/songclave@t",
+    "target_scene": "Song_Enclave",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
     "id": "choral-chambers/songclave@bl",
     "name": "Songclave - left2",
     "scene": "Song_Enclave",
@@ -1488,6 +1572,18 @@
     "target_gate": "right2",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "choral-chambers/songclave@t",
+    "name": "Songclave - top1",
+    "scene": "Song_Enclave",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "choral-chambers/songclave-tube@b",
+    "target_scene": "Song_Enclave_Tube",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
   },
   {
     "id": "choral-chambers/songclave@tl",
@@ -1766,6 +1862,198 @@
     "group": "top"
   },
   {
+    "id": "deep-docks/deep-docks-bellway@r",
+    "name": "Deep Docks Bellway - right1",
+    "scene": "Bellway_02",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-map-shop@ll",
+    "target_scene": "Bone_East_01",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-bench-shaft@l",
+    "name": "Deep Docks Bench Shaft - left1",
+    "scene": "Dock_01",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-entrance@r",
+    "target_scene": "Dock_08",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-bench-shaft@lr",
+    "name": "Deep Docks Bench Shaft - right2",
+    "scene": "Dock_01",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-map-shop@ul",
+    "target_scene": "Bone_East_01",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-center@ll",
+    "name": "Deep Docks Chains Center - left3",
+    "scene": "Dock_02b",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-chains-west@lr",
+    "target_scene": "Dock_02",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-center@ml",
+    "name": "Deep Docks Chains Center - left2",
+    "scene": "Dock_02b",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-chains-west@mr",
+    "target_scene": "Dock_02",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-center@ul",
+    "name": "Deep Docks Chains Center - left1",
+    "scene": "Dock_02b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-chains-west@ur",
+    "target_scene": "Dock_02",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-center@ur",
+    "name": "Deep Docks Chains Center - right1",
+    "scene": "Dock_02b",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-chains-east@l",
+    "target_scene": "Dock_03",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-east@f",
+    "name": "Deep Docks Chains Upper East - bot1",
+    "scene": "Dock_03",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "deep-docks/deep-docks-chains-lower-east@rc",
+    "target_scene": "Dock_03c",
+    "target_gate": "top2",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-east@l",
+    "name": "Deep Docks Chains Upper East - left1",
+    "scene": "Dock_03",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-chains-center@ur",
+    "target_scene": "Dock_02b",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-flea-rescue@f",
+    "name": "Deep Docks Chains Flea Rescue - bot1",
+    "scene": "Dock_03d",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "deep-docks/deep-docks-chains-lower-east@lc",
+    "target_scene": "Dock_03c",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-lower-east@lc",
+    "name": "Deep Docks Chains Lower East - top1",
+    "scene": "Dock_03c",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "deep-docks/deep-docks-chains-flea-rescue@f",
+    "target_scene": "Dock_03d",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-lower-east@rc",
+    "name": "Deep Docks Chains Lower East - top2",
+    "scene": "Dock_03c",
+    "gate": "top2",
+    "direction": "top",
+    "vanilla": "deep-docks/deep-docks-chains-east@f",
+    "target_scene": "Dock_03",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-west@ll",
+    "name": "Deep Docks Chains West - left2",
+    "scene": "Dock_02",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-forebrothers@r",
+    "target_scene": "Dock_09",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-west@lr",
+    "name": "Deep Docks Chains West - right3",
+    "scene": "Dock_02",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-chains-center@ll",
+    "target_scene": "Dock_02b",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-west@mr",
+    "name": "Deep Docks Chains West - right2",
+    "scene": "Dock_02",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-chains-center@ml",
+    "target_scene": "Dock_02b",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-chains-west@ur",
+    "name": "Deep Docks Chains West - right1",
+    "scene": "Dock_02",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-chains-center@ul",
+    "target_scene": "Dock_02b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "deep-docks/deep-docks-diving-bell-room@l",
     "name": "Deep Docks Diving Bell Room - left1",
     "scene": "Dock_12",
@@ -1774,6 +2062,186 @@
     "vanilla": "deep-docks/deep-docks-magma-slug-tunnels@r",
     "target_scene": "Dock_11",
     "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-entrance@ll",
+    "name": "Deep Docks Entrance - left1",
+    "scene": "Dock_08",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "the-marrow/the-marrow-lava-docks@lr",
+    "target_scene": "Bone_09",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-entrance@r",
+    "name": "Deep Docks Entrance - right1",
+    "scene": "Dock_08",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-bench-shaft@l",
+    "target_scene": "Dock_01",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-entrance@ul",
+    "name": "Deep Docks Entrance - left2",
+    "scene": "Dock_08",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "the-marrow/the-marrow-lava-docks@ur",
+    "target_scene": "Bone_09",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-forebrothers@l",
+    "name": "Deep Docks Forebrothers - left1",
+    "scene": "Dock_09",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-east-shaft@ur",
+    "target_scene": "Dock_15",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-forebrothers@r",
+    "name": "Deep Docks Forebrothers - right1",
+    "scene": "Dock_09",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-chains-west@ll",
+    "target_scene": "Dock_02",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-forge@l",
+    "name": "Deep Docks Forge - left1",
+    "scene": "Room_Forge",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-west-shaft@ur",
+    "target_scene": "Dock_04",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-lace-intro@l",
+    "name": "Deep Docks Lace Intro - left1",
+    "scene": "Bone_East_12",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-map-shop@lr",
+    "target_scene": "Bone_East_01",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-east-shaft@lr",
+    "name": "Deep Docks Lower East Shaft - right3",
+    "scene": "Dock_15",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-magma-slug-tunnels@l",
+    "target_scene": "Dock_11",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-east-shaft@mr",
+    "name": "Deep Docks Lower East Shaft - right2",
+    "scene": "Dock_15",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-silkeater-room@l",
+    "target_scene": "Dock_14",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-east-shaft@ul",
+    "name": "Deep Docks Lower East Shaft - left1",
+    "scene": "Dock_15",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-sauna@r",
+    "target_scene": "Dock_10",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-east-shaft@ur",
+    "name": "Deep Docks Lower East Shaft - right1",
+    "scene": "Dock_15",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-forebrothers@l",
+    "target_scene": "Dock_09",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-west-shaft@lr",
+    "name": "Deep Docks Lower West Shaft - right3",
+    "scene": "Dock_04",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-sauna@l",
+    "target_scene": "Dock_10",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-west-shaft@mr",
+    "name": "Deep Docks Lower West Shaft - right2",
+    "scene": "Dock_04",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-spool-east@l",
+    "target_scene": "Bone_East_13",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-lower-west-shaft@ur",
+    "name": "Deep Docks Lower West Shaft - right1",
+    "scene": "Dock_04",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-forge@l",
+    "target_scene": "Room_Forge",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-magma-slug-tunnels@l",
+    "name": "Deep Docks Magma Slug Tunnels - left1",
+    "scene": "Dock_11",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-east-shaft@lr",
+    "target_scene": "Dock_15",
+    "target_gate": "right3",
     "is_door": false,
     "group": "left"
   },
@@ -1788,6 +2256,222 @@
     "target_gate": "left1",
     "is_door": false,
     "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop-side-room@l",
+    "name": "Deep Docks Map Shop Side Room - left1",
+    "scene": "Dock_05",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-map-shop@mr",
+    "target_scene": "Bone_East_01",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop@ll",
+    "name": "Deep Docks Map Shop - left2",
+    "scene": "Bone_East_01",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-bellway@r",
+    "target_scene": "Bellway_02",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop@lr",
+    "name": "Deep Docks Map Shop - right3",
+    "scene": "Bone_East_01",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-lace-intro@l",
+    "target_scene": "Bone_East_12",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop@mr",
+    "name": "Deep Docks Map Shop - right2",
+    "scene": "Bone_East_01",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-map-shop-side-room@l",
+    "target_scene": "Dock_05",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop@ul",
+    "name": "Deep Docks Map Shop - left1",
+    "scene": "Bone_East_01",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-bench-shaft@lr",
+    "target_scene": "Dock_01",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-map-shop@ur",
+    "name": "Deep Docks Map Shop - right1",
+    "scene": "Bone_East_01",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-spire-lower@l",
+    "target_scene": "Bone_East_03",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-march-side-room@l",
+    "name": "\"Deep Docks\" March Side Room - left1",
+    "scene": "Bone_East_04c",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/is-this-still-deep-docks-east@ur",
+    "target_scene": "Bone_East_04",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-sauna@l",
+    "name": "Deep Docks Sauna - left1",
+    "scene": "Dock_10",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-west-shaft@lr",
+    "target_scene": "Dock_04",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-sauna@r",
+    "name": "Deep Docks Sauna - right1",
+    "scene": "Dock_10",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-lower-east-shaft@ul",
+    "target_scene": "Dock_15",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/deep-docks-silkeater-room@l",
+    "name": "Deep Docks Silkeater Room - left1",
+    "scene": "Dock_14",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-east-shaft@mr",
+    "target_scene": "Dock_15",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-spire-lower@l",
+    "name": "Deep Docks Spire Lower - left1",
+    "scene": "Bone_East_03",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-map-shop@ur",
+    "target_scene": "Bone_East_01",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-spool-east@l",
+    "name": "Deep Docks Spool East - left1",
+    "scene": "Bone_East_13",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-lower-west-shaft@mr",
+    "target_scene": "Dock_04",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "deep-docks/deep-docks-upper-spire@r",
+    "name": "Deep Docks Upper Spire - right1",
+    "scene": "Bone_East_05",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/is-this-still-deep-docks-west@l",
+    "target_scene": "Bone_East_04b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/is-this-still-deep-docks-east@c",
+    "name": "Is this still Deep Docks? East - top2",
+    "scene": "Bone_East_04",
+    "gate": "top2",
+    "direction": "top",
+    "vanilla": "hunter-s-march/hunters-march-deep-docks-passage@rf",
+    "target_scene": "Ant_05b",
+    "target_gate": "bot2",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "deep-docks/is-this-still-deep-docks-east@lr",
+    "name": "Is this still Deep Docks? East - right1",
+    "scene": "Bone_East_04",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-dock-loopback@l",
+    "target_scene": "Bone_East_15",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/is-this-still-deep-docks-east@ur",
+    "name": "Is this still Deep Docks? East - right2",
+    "scene": "Bone_East_04",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-march-side-room@l",
+    "target_scene": "Bone_East_04c",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "deep-docks/is-this-still-deep-docks-west@c",
+    "name": "Is this still Deep Docks West - top1",
+    "scene": "Bone_East_04b",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "hunter-s-march/hunters-march-deep-docks-passage@lf",
+    "target_scene": "Ant_05b",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "deep-docks/is-this-still-deep-docks-west@l",
+    "name": "Is this still Deep Docks West - left1",
+    "scene": "Bone_East_04b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/deep-docks-upper-spire@r",
+    "target_scene": "Bone_East_05",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "far-fields/current-karmelita@l",
@@ -1850,6 +2534,42 @@
     "group": "right"
   },
   {
+    "id": "far-fields/far-fields-deep-bench@f",
+    "name": "Far Fields Deep Fort Bench - bot1",
+    "scene": "Bone_East_27",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "far-fields/far-fields-deep-fort-passage@c",
+    "target_scene": "Bone_East_26",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "far-fields/far-fields-deep-bench@l",
+    "name": "Far Fields Deep Fort Bench - left1",
+    "scene": "Bone_East_27",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-deep-entrance@r",
+    "target_scene": "Bone_East_24",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-deep-bench@r",
+    "name": "Far Fields Deep Fort Bench - right1",
+    "scene": "Bone_East_27",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-deep-fort@l",
+    "target_scene": "Bone_East_25",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "far-fields/far-fields-deep-docks-backdoor@r",
     "name": "Far Fields Deep Docks Backdoor - right1",
     "scene": "Dock_03b",
@@ -1874,6 +2594,30 @@
     "group": "bot"
   },
   {
+    "id": "far-fields/far-fields-deep-entrance@r",
+    "name": "Far Fields Deep Entrance - right1",
+    "scene": "Bone_East_24",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-deep-bench@l",
+    "target_scene": "Bone_East_27",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "far-fields/far-fields-deep-fort-passage@c",
+    "name": "Far Fields Deep Fort Passage - top1",
+    "scene": "Bone_East_26",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "far-fields/far-fields-deep-bench@f",
+    "target_scene": "Bone_East_27",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
     "id": "far-fields/far-fields-deep-fort-passage@f",
     "name": "Far Fields Deep Fort Passage - bot1",
     "scene": "Bone_East_26",
@@ -1896,6 +2640,18 @@
     "target_gate": "left1",
     "is_door": true,
     "group": "door_in"
+  },
+  {
+    "id": "far-fields/far-fields-deep-fort@l",
+    "name": "Far Fields Deep Fort - left1",
+    "scene": "Bone_East_25",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-deep-bench@r",
+    "target_scene": "Bone_East_27",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "far-fields/far-fields-deep-lower-east@c",
@@ -1946,6 +2702,18 @@
     "group": "top"
   },
   {
+    "id": "far-fields/far-fields-deep-lower-west@l",
+    "name": "Far Fields Deep Lower West - left1",
+    "scene": "Bone_East_18",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/hunters-march-pilgrims-rest-deep-passage@r",
+    "target_scene": "Bone_East_18c",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "far-fields/far-fields-deep-lower-west@r",
     "name": "Far Fields Deep Lower West - right1",
     "scene": "Bone_East_18",
@@ -1953,6 +2721,30 @@
     "direction": "right",
     "vanilla": "far-fields/far-fields-deep-lower-east@l",
     "target_scene": "Bone_East_18b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "far-fields/far-fields-dock-loopback@l",
+    "name": "Far Fields Deep Docks Loopback - left1",
+    "scene": "Bone_East_15",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "deep-docks/is-this-still-deep-docks-east@lr",
+    "target_scene": "Bone_East_04",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-dock-loopback@r",
+    "name": "Far Fields Deep Docks Loopback - right1",
+    "scene": "Bone_East_15",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-fort-upper-passage@l",
+    "target_scene": "Bone_East_17",
     "target_gate": "left1",
     "is_door": false,
     "group": "right"
@@ -1968,6 +2760,18 @@
     "target_gate": "bot1",
     "is_door": false,
     "group": "top"
+  },
+  {
+    "id": "far-fields/far-fields-entrance-west@l",
+    "name": "Far Fields Entrance West - left1",
+    "scene": "Bone_East_02b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-entrance@r",
+    "target_scene": "Bone_East_02",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "far-fields/far-fields-entrance-west@lr",
@@ -1994,6 +2798,18 @@
     "group": "right"
   },
   {
+    "id": "far-fields/far-fields-entrance@r",
+    "name": "Far Fields Entrance East - right1",
+    "scene": "Bone_East_02",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-entrance-west@l",
+    "target_scene": "Bone_East_02b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "far-fields/far-fields-fort-lower-passage@f",
     "name": "Far Fields Fort Lower Passage - bot1",
     "scene": "Bone_East_16",
@@ -2004,6 +2820,18 @@
     "target_gate": "top3",
     "is_door": false,
     "group": "bot"
+  },
+  {
+    "id": "far-fields/far-fields-fort-upper-passage@l",
+    "name": "Far Fields Fort Upper Passage - left1",
+    "scene": "Bone_East_17",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-dock-loopback@r",
+    "target_scene": "Bone_East_15",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "far-fields/far-fields-fort-upper-passage@r",
@@ -2028,6 +2856,54 @@
     "target_gate": "right5",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-pilgrims-rest-church@f",
+    "name": "Far Fields Pilgrim's Rest Church - bot1",
+    "scene": "Bone_East_10_Church",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "far-fields/far-fields-pinstress-attic@c",
+    "target_scene": "Bone_East_09b",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "far-fields/far-fields-pilgrims-rest@ll",
+    "name": "Far Fields Pilgrim's Rest - left2",
+    "scene": "Bone_East_10",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-wind-shaft@r1",
+    "target_scene": "Bone_East_07",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-pilgrims-rest@ul",
+    "name": "Far Fields Pilgrim's Rest - left1",
+    "scene": "Bone_East_10",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "far-fields/far-fields-upper-shaft@lr",
+    "target_scene": "Bone_East_11",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-pinstress-attic@c",
+    "name": "Far Fields Pinstress Attic - top1",
+    "scene": "Bone_East_09b",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "far-fields/far-fields-pilgrims-rest-church@f",
+    "target_scene": "Bone_East_10_Church",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
   },
   {
     "id": "far-fields/far-fields-pinstress-attic@l",
@@ -2224,6 +3100,18 @@
     "group": "left"
   },
   {
+    "id": "far-fields/far-fields-upper-shaft@lr",
+    "name": "Far Fields Upper Shaft - right2",
+    "scene": "Bone_East_11",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-pilgrims-rest@ul",
+    "target_scene": "Bone_East_10",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "far-fields/far-fields-wind-shaft@l1",
     "name": "Far Fields Wind Shaft - left1",
     "scene": "Bone_East_07",
@@ -2270,6 +3158,18 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "far-fields/far-fields-wind-shaft@r1",
+    "name": "Far Fields Wind Shaft - right1",
+    "scene": "Bone_East_07",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-pilgrims-rest@ll",
+    "target_scene": "Bone_East_10",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "far-fields/far-fields-wind-shaft@r2",
@@ -2320,6 +3220,18 @@
     "group": "right"
   },
   {
+    "id": "far-fields/hunters-march-pilgrims-rest-deep-passage@r",
+    "name": "Far Fields Pilgrim's Rest Deep Passage - right1",
+    "scene": "Bone_East_18c",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "far-fields/far-fields-deep-lower-west@l",
+    "target_scene": "Bone_East_18",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "far-fields/sprintmaster-cave@l",
     "name": "Sprintmaster Cave - left1",
     "scene": "Sprintmaster_Cave",
@@ -2356,6 +3268,18 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "grand-gate/grand-elevator@r",
+    "name": "Grand Elevator - right1",
+    "scene": "Under_01",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/broken-elevator@l",
+    "target_scene": "Under_01b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "grand-gate/grand-elevator@tl",
@@ -2464,6 +3388,18 @@
     "target_gate": "bot1",
     "is_door": false,
     "group": "top"
+  },
+  {
+    "id": "greymoor/greymoor-chapel-entrance@r",
+    "name": "Greymoor Chapel of The Reaper Entrance - right1",
+    "scene": "Greymoor_20b",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "greymoor/greymoor-western-room@ch",
+    "target_scene": "Greymoor_07",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "greymoor/greymoor-craw-lake-entrance@ll",
@@ -3054,6 +3990,18 @@
     "group": "right"
   },
   {
+    "id": "greymoor/greymoor-western-room@ch",
+    "name": "Greymoor Western Room - left1",
+    "scene": "Greymoor_07",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "greymoor/greymoor-chapel-entrance@r",
+    "target_scene": "Greymoor_20b",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "greymoor/greymoor-western-room@d",
     "name": "Greymoor Western Room - down",
     "scene": "Greymoor_07",
@@ -3186,6 +4134,30 @@
     "group": "right"
   },
   {
+    "id": "high-halls/high-halls-arena@l",
+    "name": "High Halls Arena - left1",
+    "scene": "Hang_04",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "high-halls/high-halls-conductor@r",
+    "target_scene": "Hang_12",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "high-halls/high-halls-arena@r",
+    "name": "High Halls Arena - right1",
+    "scene": "Hang_04",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "high-halls/high-halls-vault@l",
+    "target_scene": "Hang_06",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "high-halls/high-halls-baby-room@r",
     "name": "High Halls Baby Room - right1",
     "scene": "Hang_16",
@@ -3266,6 +4238,18 @@
     "vanilla": "high-halls/high-halls-big-shaft@ml",
     "target_scene": "Hang_08",
     "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "high-halls/high-halls-conductor@r",
+    "name": "High Halls Conductor - right1",
+    "scene": "Hang_12",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "high-halls/high-halls-arena@l",
+    "target_scene": "Hang_04",
+    "target_gate": "left1",
     "is_door": false,
     "group": "right"
   },
@@ -3366,6 +4350,18 @@
     "group": "right"
   },
   {
+    "id": "high-halls/high-halls-vault@l",
+    "name": "High Halls Vault - left1",
+    "scene": "Hang_06",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "high-halls/high-halls-arena@r",
+    "target_scene": "Hang_04",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "high-halls/high-halls-vault@r",
     "name": "High Halls Vault - right1",
     "scene": "Hang_06",
@@ -3388,6 +4384,330 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "hunter-s-march/ant-merchant@r",
+    "name": "Hunter's March Skarr Shop - right1",
+    "scene": "Ant_Merchant",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-shaft@l1",
+    "target_scene": "Ant_14",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-chapel-passage@l",
+    "name": "Hunter's March Chapel Passage - left1",
+    "scene": "Ant_20",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-shaft@lr",
+    "target_scene": "Ant_14",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-deep-docks-passage@lf",
+    "name": "Hunter's March Deep Docks Passage - bot1",
+    "scene": "Ant_05b",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "deep-docks/is-this-still-deep-docks-west@c",
+    "target_scene": "Bone_East_04b",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-deep-docks-passage@r",
+    "name": "Hunter's March Deep Docks Passage - right1",
+    "scene": "Ant_05b",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-shaft@l4",
+    "target_scene": "Ant_14",
+    "target_gate": "left4",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-deep-docks-passage@rf",
+    "name": "Hunter's March Deep Docks Passage - bot2",
+    "scene": "Ant_05b",
+    "gate": "bot2",
+    "direction": "bot",
+    "vanilla": "deep-docks/is-this-still-deep-docks-east@c",
+    "target_scene": "Bone_East_04",
+    "target_gate": "top2",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-deep-entrance@l",
+    "name": "Hunter's March Deep Entrance - left1",
+    "scene": "Ant_09",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-statue@r",
+    "target_scene": "Ant_05c",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-early-pathway-east@l",
+    "name": "Hunter's March Early Pathway East - left1",
+    "scene": "Ant_04",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-map-shop@r",
+    "target_scene": "Ant_04_mid",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-early-pathway-east@r",
+    "name": "Hunter's March Early Pathway East - right1",
+    "scene": "Ant_04",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-shaft@l3",
+    "target_scene": "Ant_14",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-early-pathway-west@l",
+    "name": "Hunter's March Early Pathway West - left1",
+    "scene": "Ant_04_left",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-pogo-intro@r",
+    "target_scene": "Ant_03",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-early-pathway-west@r",
+    "name": "Hunter's March Early Pathway West - right1",
+    "scene": "Ant_04_left",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-map-shop@l",
+    "target_scene": "Ant_04_mid",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-entrance@l",
+    "name": "Hunter's March Entrance - left1",
+    "scene": "Ant_02",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "the-marrow/the-marrow-jail-pathway@mr",
+    "target_scene": "Bone_08",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-entrance@r",
+    "name": "Hunter's March Entrance - right1",
+    "scene": "Ant_02",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-pogo-intro@l",
+    "target_scene": "Ant_03",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-map-shop@l",
+    "name": "Hunter's March Map Shop - left1",
+    "scene": "Ant_04_mid",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-early-pathway-west@r",
+    "target_scene": "Ant_04_left",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-map-shop@r",
+    "name": "Hunter's March Map Shop - right1",
+    "scene": "Ant_04_mid",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-early-pathway-east@l",
+    "target_scene": "Ant_04",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-pogo-intro@l",
+    "name": "Hunter's March Pogo Intro - left2",
+    "scene": "Ant_03",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-entrance@r",
+    "target_scene": "Ant_02",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-pogo-intro@r",
+    "name": "Hunter's March Pogo Intro - right3",
+    "scene": "Ant_03",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-early-pathway-west@l",
+    "target_scene": "Ant_04_left",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@l1",
+    "name": "Hunter's March Shaft - left1",
+    "scene": "Ant_14",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/ant-merchant@r",
+    "target_scene": "Ant_Merchant",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@l2",
+    "name": "Hunter's March Shaft - left2",
+    "scene": "Ant_14",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-trapped-bench@r",
+    "target_scene": "Ant_17",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@l3",
+    "name": "Hunter's March Shaft - left3",
+    "scene": "Ant_14",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-early-pathway-east@r",
+    "target_scene": "Ant_04",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@l4",
+    "name": "Hunter's March Shaft - left4",
+    "scene": "Ant_14",
+    "gate": "left4",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-deep-docks-passage@r",
+    "target_scene": "Ant_05b",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@l5",
+    "name": "Hunter's March Shaft - left5",
+    "scene": "Ant_14",
+    "gate": "left5",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-treasure-vault@r",
+    "target_scene": "Ant_21",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@lr",
+    "name": "Hunter's March Shaft - right3",
+    "scene": "Ant_14",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-chapel-passage@l",
+    "target_scene": "Ant_20",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-shaft@ur",
+    "name": "Hunter's March Shaft - right2",
+    "scene": "Ant_14",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-statue@l",
+    "target_scene": "Ant_05c",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-statue@l",
+    "name": "Hunter's March Statue - left1",
+    "scene": "Ant_05c",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "hunter-s-march/hunters-march-shaft@ur",
+    "target_scene": "Ant_14",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-statue@r",
+    "name": "Hunter's March Statue - right1",
+    "scene": "Ant_05c",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-deep-entrance@l",
+    "target_scene": "Ant_09",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-trapped-bench@r",
+    "name": "Hunter's March Trapped Bench - right1",
+    "scene": "Ant_17",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-shaft@l2",
+    "target_scene": "Ant_14",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "hunter-s-march/hunters-march-treasure-vault@r",
+    "name": "Hunter's March Treasure Vault - right1",
+    "scene": "Ant_21",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-shaft@l5",
+    "target_scene": "Ant_14",
+    "target_gate": "left5",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "memorium/beeg-flea@b",
@@ -6248,6 +7568,18 @@
     "group": "left"
   },
   {
+    "id": "the-marrow/the-marrow-jail-pathway@mr",
+    "name": "The Marrow Jail Pathway - right3",
+    "scene": "Bone_08",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "hunter-s-march/hunters-march-entrance@l",
+    "target_scene": "Ant_02",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "the-marrow/the-marrow-jail-pathway@ul",
     "name": "The Marrow Jail Pathway - left2",
     "scene": "Bone_08",
@@ -6306,6 +7638,30 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left"
+  },
+  {
+    "id": "the-marrow/the-marrow-lava-docks@lr",
+    "name": "The Marrow Lava Docks - right1",
+    "scene": "Bone_09",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-entrance@ll",
+    "target_scene": "Dock_08",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "the-marrow/the-marrow-lava-docks@ur",
+    "name": "The Marrow Lava Docks - right2",
+    "scene": "Bone_09",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "deep-docks/deep-docks-entrance@ul",
+    "target_scene": "Dock_08",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
   },
   {
     "id": "the-marrow/the-marrow-lava-intro@l",
@@ -6656,6 +8012,126 @@
     "group": "bot"
   },
   {
+    "id": "underworks/broken-elevator@l",
+    "name": "Broken Elevator - left1",
+    "scene": "Under_01b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "grand-gate/grand-elevator@r",
+    "target_scene": "Under_01",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/confession-toll@b",
+    "name": "Confession Toll - bot1",
+    "scene": "Under_08",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "underworks/underworks-below-confession@t",
+    "target_scene": "Under_06",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "underworks/underworks-below-confession@r",
+    "name": "Underworks Below Confession - right1",
+    "scene": "Under_06",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-central-shaft@tl",
+    "target_scene": "Under_05",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-below-confession@t",
+    "name": "Underworks Below Confession - top1",
+    "scene": "Under_06",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "underworks/confession-toll@b",
+    "target_scene": "Under_08",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "underworks/underworks-below-vaultkeeper@t",
+    "name": "Underworks Below Vaultkeeper - top1",
+    "scene": "Library_12b",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "whispering-vaults/vaultkeeper-cauldron-entrance@b",
+    "target_scene": "Library_10",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "underworks/underworks-central-shaft@br",
+    "name": "Underworks Central Shaft - right3",
+    "scene": "Under_05",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "underworks/underworks-eastern-gauntlet@l",
+    "target_scene": "Under_10",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-central-shaft@r",
+    "name": "Underworks Central Shaft - right2",
+    "scene": "Under_05",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "underworks/underworks-rosary-room@l",
+    "target_scene": "Under_12",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-central-shaft@tl",
+    "name": "Underworks Central Shaft - left1",
+    "scene": "Under_05",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-below-confession@r",
+    "target_scene": "Under_06",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-central-shaft@tr",
+    "name": "Underworks Central Shaft - right1",
+    "scene": "Under_05",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-lever-spike-corridor@l",
+    "target_scene": "Under_11",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-central-shaft@wt",
+    "name": "Underworks Central Shaft - left3",
+    "scene": "Under_05",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "underworks/underworks-wisp-thicket-passage@r",
+    "target_scene": "Under_23",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "underworks/underworks-clawline-entrance@b",
     "name": "Underworks Clawline Entrance - bot1",
     "scene": "Under_19c",
@@ -6714,6 +8190,18 @@
     "target_gate": "left2",
     "is_door": false,
     "group": "right"
+  },
+  {
+    "id": "underworks/underworks-delvers-drill@l",
+    "name": "Underworks Delver's Drill - left1",
+    "scene": "Under_14",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-shaft@r1",
+    "target_scene": "Under_02",
+    "target_gate": "right4",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "underworks/underworks-east-shaft@bl",
@@ -6800,6 +8288,18 @@
     "group": "right"
   },
   {
+    "id": "underworks/underworks-eastern-gauntlet@l",
+    "name": "Underworks Eastern Gauntlet - left1",
+    "scene": "Under_10",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-central-shaft@br",
+    "target_scene": "Under_05",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "underworks/underworks-eastern-gauntlet@r",
     "name": "Underworks Eastern Gauntlet - right1",
     "scene": "Under_10",
@@ -6822,6 +8322,30 @@
     "target_gate": "left3",
     "is_door": true,
     "group": "door_in"
+  },
+  {
+    "id": "underworks/underworks-exhaust-organ-transit@ll",
+    "name": "Underworks Exhaust Organ Transit - left2",
+    "scene": "Library_12",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "underworks/vaults-bellay-cauldron-entrance@lr",
+    "target_scene": "Library_11",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-exhaust-organ-transit@ul",
+    "name": "Underworks Exhaust Organ Transit - left1",
+    "scene": "Library_12",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/vaults-bellay-cauldron-entrance@ur",
+    "target_scene": "Library_11",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "underworks/underworks-flea-room@r",
@@ -6860,6 +8384,18 @@
     "group": "top"
   },
   {
+    "id": "underworks/underworks-lever-spike-corridor@l",
+    "name": "Underworks Lever Spike Corridor - left1",
+    "scene": "Under_11",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-central-shaft@tr",
+    "target_scene": "Under_05",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "underworks/underworks-lever-spike-corridor@r",
     "name": "Underworks Lever Spike Corridor - right1",
     "scene": "Under_11",
@@ -6868,6 +8404,150 @@
     "vanilla": "underworks/underworks-east-shaft@tl",
     "target_scene": "Under_13",
     "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-map-room@r",
+    "name": "Underworks Map Room - right1",
+    "scene": "Under_16",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-shaft@l2",
+    "target_scene": "Under_02",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-outside-choral-chambers@l",
+    "name": "Underworks Outside Choral Chambers - left2",
+    "scene": "Under_07c",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "underworks/underworks-shaft@r4",
+    "target_scene": "Under_02",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-rosary-room@l",
+    "name": "Underworks Rosary Room - left1",
+    "scene": "Under_12",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-central-shaft@r",
+    "target_scene": "Under_05",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-saw-intro@l",
+    "name": "Underworks Saw Intro - left1",
+    "scene": "Under_03b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-shaft@r2",
+    "target_scene": "Under_02",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-saw-intro@r",
+    "name": "Underworks Saw Intro - right1",
+    "scene": "Under_03b",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-saw-shaft@l2",
+    "target_scene": "Under_03c",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-saw-shaft@l1",
+    "name": "Underworks Saw Shaft - left2",
+    "scene": "Under_03c",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "underworks/underworks-shard-room@r",
+    "target_scene": "Under_03",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-saw-shaft@l2",
+    "name": "Underworks Saw Shaft - left1",
+    "scene": "Under_03c",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "underworks/underworks-saw-intro@r",
+    "target_scene": "Under_03b",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-shaft@l2",
+    "name": "Underworks Shaft - left3",
+    "scene": "Under_02",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "underworks/underworks-map-room@r",
+    "target_scene": "Under_16",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/underworks-shaft@r1",
+    "name": "Underworks Shaft - right4",
+    "scene": "Under_02",
+    "gate": "right4",
+    "direction": "right",
+    "vanilla": "underworks/underworks-delvers-drill@l",
+    "target_scene": "Under_14",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-shaft@r2",
+    "name": "Underworks Shaft - right3",
+    "scene": "Under_02",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "underworks/underworks-saw-intro@l",
+    "target_scene": "Under_03b",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-shaft@r4",
+    "name": "Underworks Shaft - right1",
+    "scene": "Under_02",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-outside-choral-chambers@l",
+    "target_scene": "Under_07c",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-shard-room@r",
+    "name": "Underworks Shard Room - right1",
+    "scene": "Under_03",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-saw-shaft@l1",
+    "target_scene": "Under_03c",
+    "target_gate": "left2",
     "is_door": false,
     "group": "right"
   },
@@ -6928,6 +8608,54 @@
     "vanilla": "underworks/underworks-east-shaft@hl",
     "target_scene": "Under_13",
     "target_gate": "left4",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/underworks-wisp-thicket-passage@r",
+    "name": "Underworks Wisp Thicket Passage - right1",
+    "scene": "Under_23",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-central-shaft@wt",
+    "target_scene": "Under_05",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/vaults-bellay-cauldron-entrance@lr",
+    "name": "Vaults & Bellway Cauldron Entrance - right2",
+    "scene": "Library_11",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "underworks/underworks-exhaust-organ-transit@ll",
+    "target_scene": "Library_12",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "underworks/vaults-bellay-cauldron-entrance@tl",
+    "name": "Vaults & Bellway Cauldron Entrance - left1",
+    "scene": "Library_11",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/trobbio@br",
+    "target_scene": "Library_13",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "underworks/vaults-bellay-cauldron-entrance@ur",
+    "name": "Vaults & Bellway Cauldron Entrance - right1",
+    "scene": "Library_11",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "underworks/underworks-exhaust-organ-transit@ul",
+    "target_scene": "Library_12",
+    "target_gate": "left1",
     "is_door": false,
     "group": "right"
   },
@@ -7210,6 +8938,30 @@
     "group": "left"
   },
   {
+    "id": "whispering-vaults/trobbio-entrance@r",
+    "name": "Trobbio Entrance - right1",
+    "scene": "Library_13b",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@cl",
+    "target_scene": "Library_04",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/trobbio@br",
+    "name": "Trobbio - right2",
+    "scene": "Library_13",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "underworks/vaults-bellay-cauldron-entrance@tl",
+    "target_scene": "Library_11",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "whispering-vaults/trobbio@tr",
     "name": "Trobbio - right1",
     "scene": "Library_13",
@@ -7220,6 +8972,30 @@
     "target_gate": "left1",
     "is_door": false,
     "group": "right"
+  },
+  {
+    "id": "whispering-vaults/vaultkeeper-cauldron-entrance@b",
+    "name": "Vaultkeeper Cauldron Entrance - bot1",
+    "scene": "Library_10",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "underworks/underworks-below-vaultkeeper@t",
+    "target_scene": "Library_12b",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "whispering-vaults/vaultkeeper-cauldron-entrance@l",
+    "name": "Vaultkeeper Cauldron Entrance - left1",
+    "scene": "Library_10",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@br",
+    "target_scene": "Library_04",
+    "target_gate": "right5",
+    "is_door": false,
+    "group": "left"
   },
   {
     "id": "whispering-vaults/whispering-vaults-below-bench@bl",
@@ -7234,6 +9010,18 @@
     "group": "left"
   },
   {
+    "id": "whispering-vaults/whispering-vaults-below-bench@r",
+    "name": "Whispering Vaults Below Bench - right1",
+    "scene": "Library_06",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-palace@bl",
+    "target_scene": "Library_07",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "whispering-vaults/whispering-vaults-below-bench@tl",
     "name": "Whispering Vaults Below Bench - left1",
     "scene": "Library_06",
@@ -7242,6 +9030,42 @@
     "vanilla": "whispering-vaults/whispering-vaults-east-to-west@tr",
     "target_scene": "Library_05",
     "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-bench@l",
+    "name": "Whispering Vaults Bench - left1",
+    "scene": "Library_08",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@mhr",
+    "target_scene": "Library_04",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-bench@r",
+    "name": "Whispering Vaults Bench - right1",
+    "scene": "Library_08",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-palace@tl",
+    "target_scene": "Library_07",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-east-to-west@bl",
+    "name": "Whispering Vaults East To West - left2",
+    "scene": "Library_05",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@lr",
+    "target_scene": "Library_04",
+    "target_gate": "right4",
     "is_door": false,
     "group": "left"
   },
@@ -7258,6 +9082,18 @@
     "group": "right"
   },
   {
+    "id": "whispering-vaults/whispering-vaults-east-to-west@tl",
+    "name": "Whispering Vaults East To West - left1",
+    "scene": "Library_05",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@cr",
+    "target_scene": "Library_04",
+    "target_gate": "right3",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "whispering-vaults/whispering-vaults-east-to-west@tr",
     "name": "Whispering Vaults East To West - Top Right",
     "scene": "Library_05",
@@ -7270,6 +9106,18 @@
     "group": "right"
   },
   {
+    "id": "whispering-vaults/whispering-vaults-flea-shaft@br",
+    "name": "Whispering Vaults Flea Shaft - right2",
+    "scene": "Library_01",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@ll",
+    "target_scene": "Library_04",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
     "id": "whispering-vaults/whispering-vaults-flea-shaft@tl",
     "name": "Whispering Vaults Flea Shaft - left1",
     "scene": "Library_01",
@@ -7278,6 +9126,198 @@
     "vanilla": "whispering-vaults/songclave-steam-tunnel@br",
     "target_scene": "Library_02",
     "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-flea-shaft@tr",
+    "name": "Whispering Vaults Flea Shaft - right1",
+    "scene": "Library_01",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@tl",
+    "target_scene": "Library_04",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@bl",
+    "name": "Whispering Vaults Hell - left4",
+    "scene": "Library_04",
+    "gate": "left4",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-music-box@r",
+    "target_scene": "Library_16",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@br",
+    "name": "Whispering Vaults Hell - right5",
+    "scene": "Library_04",
+    "gate": "right5",
+    "direction": "right",
+    "vanilla": "whispering-vaults/vaultkeeper-cauldron-entrance@l",
+    "target_scene": "Library_10",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@cl",
+    "name": "Whispering Vaults Hell - left3",
+    "scene": "Library_04",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "whispering-vaults/trobbio-entrance@r",
+    "target_scene": "Library_13b",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@cr",
+    "name": "Whispering Vaults Hell - right3",
+    "scene": "Library_04",
+    "gate": "right3",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-east-to-west@tl",
+    "target_scene": "Library_05",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@hr",
+    "name": "Whispering Vaults Hell - right6",
+    "scene": "Library_04",
+    "gate": "right6",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-silkeater@l",
+    "target_scene": "Library_14",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@ll",
+    "name": "Whispering Vaults Hell - left2",
+    "scene": "Library_04",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-flea-shaft@br",
+    "target_scene": "Library_01",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@lr",
+    "name": "Whispering Vaults Hell - right4",
+    "scene": "Library_04",
+    "gate": "right4",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-east-to-west@bl",
+    "target_scene": "Library_05",
+    "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@mhr",
+    "name": "Whispering Vaults Hell - right2",
+    "scene": "Library_04",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-bench@l",
+    "target_scene": "Library_08",
+    "target_gate": "left1",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-hub-area@tl",
+    "name": "Whispering Vaults Hell - left1",
+    "scene": "Library_04",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-flea-shaft@tr",
+    "target_scene": "Library_01",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-jumps@b",
+    "name": "Whispering Vaults Jumps - bot1",
+    "scene": "Library_09",
+    "gate": "bot1",
+    "direction": "bot",
+    "vanilla": "whispering-vaults/whispering-vaults-palace@t",
+    "target_scene": "Library_07",
+    "target_gate": "top1",
+    "is_door": false,
+    "group": "bot"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-music-box@r",
+    "name": "Whispering Vaults Music Box - right1",
+    "scene": "Library_16",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@bl",
+    "target_scene": "Library_04",
+    "target_gate": "left4",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-palace@bl",
+    "name": "Whispering Vaults Totally Not White Palace - left2",
+    "scene": "Library_07",
+    "gate": "left2",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-below-bench@r",
+    "target_scene": "Library_06",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-palace@t",
+    "name": "Whispering Vaults Totally Not White Palace - top1",
+    "scene": "Library_07",
+    "gate": "top1",
+    "direction": "top",
+    "vanilla": "whispering-vaults/whispering-vaults-jumps@b",
+    "target_scene": "Library_09",
+    "target_gate": "bot1",
+    "is_door": false,
+    "group": "top"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-palace@tl",
+    "name": "Whispering Vaults Totally Not White Palace - left1",
+    "scene": "Library_07",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-bench@r",
+    "target_scene": "Library_08",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
+    "id": "whispering-vaults/whispering-vaults-silkeater@l",
+    "name": "Whispering Vaults Silkeater - left1",
+    "scene": "Library_14",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "whispering-vaults/whispering-vaults-hub-area@hr",
+    "target_scene": "Library_04",
+    "target_gate": "right6",
     "is_door": false,
     "group": "left"
   },

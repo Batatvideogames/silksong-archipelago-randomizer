@@ -900,6 +900,8 @@ namespace SilksongRandomizer
                 saveState.BindVogHintSettings(this);
             }
 
+            saveState.fasterSilkheartAnimation = FasterSilkheartAnimation;
+
             foreach (HintData hint in GetOfficialHintsForCurrentSlot())
             {
                 saveState.CacheHint(hint);

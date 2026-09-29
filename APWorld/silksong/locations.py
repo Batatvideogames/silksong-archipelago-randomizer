@@ -821,6 +821,7 @@ _WISH_OFFER_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
     'Pinstress Battle Pre': 'Wish: Fatal Resolve',
     'Save the Fleas Pre': 'Wish: The Lost Fleas',
     'Shakra Final Quest': "Wish: Trail's End",
+    'Steel Sentinel': 'Wish: A Vassal Lost',
     'Shell Flowers': 'Wish: Rite of the Pollip',
     'Wood Witch Curse': 'Wish: Rite of Rebirth',
 }
@@ -1193,46 +1194,7 @@ class SilksongLocation(Location):
     game = "Hollow Knight: Silksong"
 
 
-BOSS_CREDIT_LOCATIONS = frozenset({
-    "Boss: Bell Beast",
-    "Boss: Bell Eater",
-    "Boss: Broodmother",
-    "Boss: Cogwork Dancers",
-    "Boss: Crawfather",
-    "Boss: Crust King Khann",
-    "Boss: Disgraced Chef Lugoli",
-    "Boss: Father of the Flame",
-    "Boss: First Sinner",
-    "Boss: Forebrothers Signis & Gron",
-    "Boss: Fourth Chorus",
-    "Boss: Grand Mother Silk",
-    "Boss: Great Conchflies",
-    "Boss: Groal the Great",
-    "Boss: Gurr the Outcast",
-    "Boss: Lace (Cradle)",
-    "Boss: Last Judge",
-    "Boss: Lost Garmond",
-    "Boss: Moorwing",
-    "Boss: Moss Mother",
-    "Boss: Nyleth",
-    "Boss: Phantom",
-    "Boss: Pinstress",
-    "Boss: Plasmified Zango",
-    "Boss: Raging Conchfly",
-    "Boss: Second Sentinel",
-    "Boss: Shrine Guardian Seth",
-    "Boss: Sister Splinter",
-    "Boss: Skarrsinger Karmelita",
-    "Boss: Skull Tyrant (Bone Bottom)",
-    "Boss: Skull Tyrant (The Marrow)",
-    "Boss: The Unravelled",
-    "Boss: Tormented Trobbio",
-    "Boss: Trobbio",
-    "Boss: Voltvyrm",
-    "Boss: Watcher at the Edge",
-    "Boss: Widow",
-    "Boss: Summoned Saviour",
-})
+from .progression_catalogue import BOSS_IDS as BOSS_CREDIT_LOCATIONS
 
 BOSS_CREDIT_BY_LOCATION = {
     name: "Boss Credit: " + name.removeprefix("Boss: ")

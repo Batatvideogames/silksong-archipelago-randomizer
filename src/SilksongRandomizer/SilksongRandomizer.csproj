@@ -41,6 +41,10 @@
       <HintPath>$(SilksongManagedDir)\PlayMaker.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="TeamCherry.TK2D">
+      <HintPath>$(SilksongManagedDir)\TeamCherry.TK2D.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="TeamCherry.SharedUtils">
       <HintPath>$(SilksongManagedDir)\TeamCherry.SharedUtils.dll</HintPath>
       <Private>false</Private>
@@ -115,5 +119,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="../../APWorld/silksong/map_logic.json" LogicalName="SilksongRandomizer.MapLogic.json" />
+    <EmbeddedResource Include="../../APWorld/silksong/progression_catalogue.json" LogicalName="SilksongRandomizer.ProgressionCatalogue.json" />
   </ItemGroup>
 </Project>

@@ -1645,6 +1645,10 @@ COLORED_TOOL_LOADOUTS: Mapping[
     ),
     'Usable Plasmium Phial': (('Tool: Plasmium Phial', RED_TOOL_SLOT),),
     'Usable Silkspeed Anklets': (('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),),
+    'Usable Drill Crystal Pogo Loadout': (
+        ("Tool: Delver's Drill", RED_TOOL_SLOT),
+        ('Tool: Memory Crystal', BLUE_TOOL_SLOT),
+    ),
     USABLE_CINDRIL_LOADOUT_REQUIREMENT: (
         ('Tool: Flea Brew', RED_TOOL_SLOT),
         ('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),
@@ -1684,11 +1688,46 @@ COLORED_TOOL_ACTIVATION_ITEMS: Mapping[str, tuple[str, ...]] = (
     })
 )
 
+def _build_route_loadout_requirements(randomized_crest_slots_enabled: bool):
+    names = {name for table in (COMPILED_ROOM_GRAPH.node_requirements,
+                               COMPILED_ROOM_GRAPH.event_requirements,
+                               COMPILED_ROOM_GRAPH.check_requirements)
+             for clauses in table.values() for clause in clauses for name in clause.all_of
+             if name.startswith("Loadout: ")}
+    result = {}
+    for name in sorted(names):
+        parts = name.removeprefix("Loadout: ").split(" + ")
+        tools = {}
+        allowed_crests = set(CREST_ITEMS)
+        extras = set()
+        for part in parts:
+            if part in CREST_ITEMS:
+                allowed_crests.intersection_update((part,))
+            elif part in COLORED_TOOL_LOADOUTS:
+                tools.update(COLORED_TOOL_LOADOUTS[part])
+                extras.update(COLORED_TOOL_ACTIVATION_ITEMS.get(part, ()))
+            elif part in EQUIPPED_SILK_SKILL_REQUIREMENTS:
+                allowed_crests.intersection_update(NON_ARCHITECT_CREST_ITEMS)
+                extras.add(part.removeprefix("Usable "))
+            else:
+                raise ValueError(f"Unknown route equipment requirement: {part}")
+        alternatives = (_build_equipped_colored_tool_requirements(
+            *sorted(tools.items()),
+            randomized_crest_slots_enabled=randomized_crest_slots_enabled,
+            additional_required_items=tuple(sorted(extras)),
+        ) if tools else tuple(req(*sorted(extras), crest, crest=False)
+                              for crest in sorted(allowed_crests)))
+        result[name] = tuple(alternative for alternative in alternatives
+                             if set(alternative.all_of) & allowed_crests)
+    return result
+
+
 EQUIPPED_COLORED_TOOL_REQUIREMENTS: Mapping[
     str,
     tuple[LocationRequirement, ...],
 ] = MappingProxyType({
     **VOLT_SKILL_REQUIREMENTS,
+    **_build_route_loadout_requirements(True),
     **{requirement_name: _build_equipped_colored_tool_requirements(
         *loadout,
         additional_required_items=(
@@ -1703,6 +1742,7 @@ VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS: Mapping[
     tuple[LocationRequirement, ...],
 ] = MappingProxyType({
     **VANILLA_VOLT_SKILL_REQUIREMENTS,
+    **_build_route_loadout_requirements(False),
     **{requirement_name: _build_equipped_colored_tool_requirements(
         *loadout,
         randomized_crest_slots_enabled=False,
@@ -2924,8 +2964,9 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
     {
         PROFICIENT_COMBAT_REQUIREMENT: (),
         "Option: Proficient Movement": (),
+        "Option: Flea Brew Jump Logic": (),
         **{f"Technique: {technique} {tier}": ()
-           for technique in ("Heal Stall", "Hazard Respawn", "Scuttlebrace", "Crest Pogo", "Needle Strike", "Enemy Pogo", 'Flea Brew Stall', 'Flintslate Stall', 'Plasmium Phial Stall', 'Voltvessels Stall')
+           for technique in ("Heal Stall", "Hazard Respawn", "Scuttlebrace", "Crest Pogo", "Needle Strike", "Enemy Pogo", "Drill Crystal Pogo", 'Flea Brew Stall', 'Flintslate Stall', 'Plasmium Phial Stall', 'Voltvessels Stall')
            for tier in (1, 2, 3)},
         "Capability: Has Any Map": tuple(req("Map: " + area, crest=False) for area in (
             "Mosslands", "The Marrow", "Deep Docks", "Far Fields", "Wormways", "Hunter's March",
@@ -3063,6 +3104,7 @@ def technique_requirement_overrides(
     crest_pogo_tier: int,
     needle_strike_tier: int,
     enemy_pogo_tier: int,
+    drill_crystal_pogo_tier: int = 0,
 ) -> dict[str, tuple[LocationRequirement, ...]]:
     return {
         f"Technique: {name} {tier}": (req(crest=name == "Crest Pogo"),) if selected >= tier else ()
@@ -3073,6 +3115,7 @@ def technique_requirement_overrides(
             ("Crest Pogo", crest_pogo_tier),
             ("Needle Strike", needle_strike_tier),
             ("Enemy Pogo", enemy_pogo_tier),
+            ("Drill Crystal Pogo", drill_crystal_pogo_tier),
             ("Flea Brew Stall", red_tool_stall_tier),
             ("Flintslate Stall", red_tool_stall_tier),
             ("Plasmium Phial Stall", red_tool_stall_tier),
@@ -3092,10 +3135,12 @@ def get_abstract_requirements(
     randomize_swim: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -3130,6 +3175,7 @@ def get_abstract_requirements(
         and not randomize_swim
         and not proficient_combat
         and not proficient_movement
+        and not flea_brew_jump_logic
         and not heal_stall_tier
         and not hazard_respawn_tier
         and not scuttlebrace_tier
@@ -3137,6 +3183,7 @@ def get_abstract_requirements(
         and not crest_pogo_tier
         and not needle_strike_tier
         and not enemy_pogo_tier
+        and not drill_crystal_pogo_tier
         and not bell_shrine_sanity
         and not steel_soul
         and not any(name in ABSTRACT_REQUIREMENTS for name in DONATION_CAPACITY_EVENTS)
@@ -3154,12 +3201,14 @@ def get_abstract_requirements(
     adjusted_requirements['Event: Silk and Soul Offered'] = get_silk_and_soul_requirements(silk_and_soul_points)
     if proficient_movement:
         adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
+    if flea_brew_jump_logic:
+        adjusted_requirements["Option: Flea Brew Jump Logic"] = (req(crest=False),)
     if bell_shrine_sanity:
         adjusted_requirements["Option: Bellshrinesanity On"] = (req(crest=False),)
         adjusted_requirements["Option: Bellshrinesanity Off"] = ()
     adjusted_requirements.update(technique_requirement_overrides(
         heal_stall_tier, hazard_respawn_tier, scuttlebrace_tier,
-        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier,
+        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier,
     ))
     adjusted_requirements.update(combat_requirement_overrides(proficient_combat))
     if randomize_ledge_grab:
@@ -6120,10 +6169,12 @@ def _get_static_abstract_requirement_items(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6185,9 +6236,15 @@ def _get_static_abstract_requirement_items(
             for name, alternatives in requirement_items
         )
 
+    if flea_brew_jump_logic:
+        requirement_items = tuple(
+            (name, (req(crest=False),) if name == "Option: Flea Brew Jump Logic" else alternatives)
+            for name, alternatives in requirement_items
+        )
+
     technique_overrides = technique_requirement_overrides(
         heal_stall_tier, hazard_respawn_tier, scuttlebrace_tier,
-        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier,
+        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier,
     )
     requirement_items = tuple((name, technique_overrides.get(name, alternatives)) for name, alternatives in requirement_items)
 
@@ -6356,10 +6413,12 @@ def _compile_static_abstract_worklist_plan(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6378,10 +6437,12 @@ def _compile_static_abstract_worklist_plan(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -6407,10 +6468,12 @@ def _matches_static_abstract_requirements(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6431,10 +6494,12 @@ def _matches_static_abstract_requirements(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -6467,10 +6532,12 @@ def _compute_abstract_values(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6516,10 +6583,12 @@ def _compute_abstract_values(
             pollip_heart_count,
             proficient_combat,
             proficient_movement,
+            flea_brew_jump_logic,
             red_tool_stall_tier,
             crest_pogo_tier,
             needle_strike_tier,
             enemy_pogo_tier,
+            drill_crystal_pogo_tier,
             heal_stall_tier,
             hazard_respawn_tier,
             scuttlebrace_tier,
@@ -6583,10 +6652,12 @@ def _compute_abstract_values(
         randomize_swim=randomize_swim,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -6606,10 +6677,12 @@ def _compute_abstract_values(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -6628,10 +6701,12 @@ def _compute_abstract_values(
             pollip_heart_count,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_jump_logic=flea_brew_jump_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
             enemy_pogo_tier=enemy_pogo_tier,
+            drill_crystal_pogo_tier=drill_crystal_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -6852,10 +6927,12 @@ def _has_named_requirement(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6885,10 +6962,12 @@ def _has_named_requirement(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -6922,10 +7001,12 @@ def _satisfies_requirement(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -6956,10 +7037,12 @@ def _satisfies_requirement(
             pollip_heart_count,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_jump_logic=flea_brew_jump_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
             enemy_pogo_tier=enemy_pogo_tier,
+            drill_crystal_pogo_tier=drill_crystal_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
@@ -6997,10 +7080,12 @@ def make_requirements_rule(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -7029,10 +7114,12 @@ def make_requirements_rule(
                 pollip_heart_count,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_jump_logic=flea_brew_jump_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
                 enemy_pogo_tier=enemy_pogo_tier,
+                drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -7076,10 +7163,12 @@ def make_rule(
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -7109,10 +7198,12 @@ def make_rule(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -7363,10 +7454,12 @@ def make_goal_rule(
     randomize_swim: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -7395,10 +7488,12 @@ def make_goal_rule(
         pollip_heart_count,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
@@ -7589,10 +7684,12 @@ def export_abstract_requirements(
     randomize_swim: bool = False,
     proficient_combat: int = 0,
     proficient_movement: bool = False,
+    flea_brew_jump_logic: bool = False,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
     enemy_pogo_tier: int = 0,
+    drill_crystal_pogo_tier: int = 0,
     heal_stall_tier: int = 0,
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
@@ -7622,10 +7719,12 @@ def export_abstract_requirements(
             randomize_swim=randomize_swim,
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
+            flea_brew_jump_logic=flea_brew_jump_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
             enemy_pogo_tier=enemy_pogo_tier,
+            drill_crystal_pogo_tier=drill_crystal_pogo_tier,
             heal_stall_tier=heal_stall_tier,
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,

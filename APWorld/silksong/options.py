@@ -861,6 +861,17 @@ class ProficientMovement(Toggle):
     default = 0
 
 
+class FleaBrewJumpLogic(Toggle):
+    """Use Flea Brew's extra jump height to reach ledges and cross gaps.
+    Requires Flea Brew and a crest with a usable red tool slot.
+    Its speed boost for the Weavenest Cindril secret room remains in logic
+    with this option disabled.
+    """
+
+    display_name = "Flea Brew Jump Logic"
+    default = 0
+
+
 class TechniqueDifficulty(Choice):
     option_none = 0
     option_easy = 1
@@ -901,6 +912,15 @@ class RedToolStallLogic(TechniqueDifficulty):
     """
 
     display_name = "Red Tool Stall Logic"
+
+
+class DrillCrystalPogoLogic(TechniqueDifficulty):
+    """Take damage to create a Memory Crystal, then use Delver's Drill
+    to gain height from it. Both tools must fit on the same owned crest.
+    None disables this technique. Higher settings also allow easier uses.
+    """
+
+    display_name = "Drill Crystal Pogo Logic"
 
 
 class CrestPogoLogic(TechniqueDifficulty):
@@ -1245,7 +1265,7 @@ class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
     keep the vanilla 17-point requirement. Mandatory wishes and story
     requirements remain unchanged. Nuu's wish does not count in logic.
-    Values above 23 are treated as 23.
+    Values above 23 are treated as 23, or 22 in Steel Soul.
     """
     display_name = "Silk and Soul Points"
     range_start = 0
@@ -1259,7 +1279,8 @@ class SilkAndSoulPoints(Range):
 def get_silk_and_soul_points(options) -> int:
     if getattr(getattr(options, 'goal', None), 'current_key', None) != 'act_3':
         return 17
-    return max(0, min(SilkAndSoulPoints.range_end, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
+    maximum = 22 if getattr(getattr(options, 'game_mode', None), 'current_key', None) == 'steel_soul' else SilkAndSoulPoints.range_end
+    return max(0, min(maximum, getattr(getattr(options, 'silk_and_soul_points', None), 'value', 17)))
 
 
 class EntranceRandomization(Choice):
@@ -1304,7 +1325,9 @@ class SilksongOptions(PerGameCommonOptions):
     enemy_pogo_logic: EnemyPogoLogic
     proficient_combat: ProficientCombat
     proficient_movement: ProficientMovement
+    flea_brew_jump_logic: FleaBrewJumpLogic
     red_tool_stall_logic: RedToolStallLogic
+    drill_crystal_pogo_logic: DrillCrystalPogoLogic
     crest_pogo_logic: CrestPogoLogic
     needle_strike_logic: NeedleStrikeLogic
     scuttlebrace_logic: ScuttlebraceLogic
@@ -1420,7 +1443,9 @@ silksong_option_groups = [
     OptionGroup("Proficiency/Skip Options", [
         ProficientMovement,
         ProficientCombat,
+        FleaBrewJumpLogic,
         RedToolStallLogic,
+        DrillCrystalPogoLogic,
         EnemyPogoLogic,
         CrestPogoLogic,
         NeedleStrikeLogic,

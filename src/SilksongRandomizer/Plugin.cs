@@ -1018,6 +1018,23 @@ namespace SilksongRandomizer
             }
         }
 
+        private static bool IsReceivedItemGameplayReady(PlayerData playerData, HeroController hero)
+        {
+            GameManager gameManager = GameManager.SilentInstance;
+            return playerData != null && hero != null && hero.cState != null &&
+                   gameManager != null &&
+                   gameManager.GameState == GlobalEnums.GameState.PLAYING &&
+                   gameManager.IsGameplayScene() &&
+                   !gameManager.isPaused && !gameManager.RespawningHero &&
+                   !gameManager.IsLoadingSceneTransition && !gameManager.IsInSceneTransition &&
+                   !TransitionPoint.IsTransitionBlocked && !BossSceneController.IsTransitioning &&
+                   !playerData.isInventoryOpen &&
+                   !hero.cState.dead && !hero.cState.hazardDeath &&
+                   !hero.cState.hazardRespawning && !hero.cState.transitioning &&
+                   ((!hero.controlReqlinquished && hero.hero_state != GlobalEnums.ActorStates.no_input &&
+                     hero.CanInput()) || LiteracyTrap.CanProcessReceivedItems(hero));
+        }
+
         private bool ProcessQueuedReceivedItem()
         {
             SaveState saveState = SaveState.Instance;
@@ -1116,7 +1133,7 @@ namespace SilksongRandomizer
                         item
                     );
                 bool gameplayReady =
-                    currentPlayerData != null &&
+                    IsReceivedItemGameplayReady(currentPlayerData, currentHero) &&
                     (item.Type == ItemType.Crest
                         ? !currentPlayerData.HasStoredMemoryState &&
                           !SlabCaptureWarpSafety.IsActiveSlabCaptureCrest(

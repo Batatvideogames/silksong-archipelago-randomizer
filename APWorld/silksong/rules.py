@@ -270,10 +270,12 @@ def set_silksong_rules(world) -> None:
     skips_tier = 0
     proficient_combat = world.get_proficient_combat_mode()
     proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
+    flea_brew_jump_logic = bool(getattr(getattr(world.options, "flea_brew_jump_logic", None), "value", 0))
     red_tool_stall_tier = int(world.options.red_tool_stall_logic.value)
     crest_pogo_tier = int(world.options.crest_pogo_logic.value)
     needle_strike_tier = int(world.options.needle_strike_logic.value)
     enemy_pogo_tier = int(world.options.enemy_pogo_logic.value)
+    drill_crystal_pogo_tier = int(world.options.drill_crystal_pogo_logic.value)
     heal_stall_tier = int(world.options.heal_stall_logic.value)
     hazard_respawn_tier = int(world.options.hazard_respawn_logic.value)
     scuttlebrace_tier = int(world.options.scuttlebrace_logic.value)
@@ -398,10 +400,12 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_jump_logic=flea_brew_jump_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
                 enemy_pogo_tier=enemy_pogo_tier,
+                drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -435,10 +439,12 @@ def set_silksong_rules(world) -> None:
                 ),
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_jump_logic=flea_brew_jump_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
                 enemy_pogo_tier=enemy_pogo_tier,
+                drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -470,10 +476,12 @@ def set_silksong_rules(world) -> None:
                     native_abstract_regions=True,
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
+                    flea_brew_jump_logic=flea_brew_jump_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
                     crest_pogo_tier=crest_pogo_tier,
                     needle_strike_tier=needle_strike_tier,
                     enemy_pogo_tier=enemy_pogo_tier,
+                    drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                     heal_stall_tier=heal_stall_tier,
                     hazard_respawn_tier=hazard_respawn_tier,
                     scuttlebrace_tier=scuttlebrace_tier,
@@ -502,10 +510,12 @@ def set_silksong_rules(world) -> None:
                 native_abstract_regions=True,
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
+                flea_brew_jump_logic=flea_brew_jump_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
                 enemy_pogo_tier=enemy_pogo_tier,
+                drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                 heal_stall_tier=heal_stall_tier,
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
@@ -655,10 +665,12 @@ def set_silksong_rules(world) -> None:
                     ),
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
+                    flea_brew_jump_logic=flea_brew_jump_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
                     crest_pogo_tier=crest_pogo_tier,
                     needle_strike_tier=needle_strike_tier,
                     enemy_pogo_tier=enemy_pogo_tier,
+                    drill_crystal_pogo_tier=drill_crystal_pogo_tier,
                     heal_stall_tier=heal_stall_tier,
                     hazard_respawn_tier=hazard_respawn_tier,
                     scuttlebrace_tier=scuttlebrace_tier,
@@ -726,10 +738,12 @@ def set_silksong_rules(world) -> None:
         native_abstract_regions=True,
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
         enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
         heal_stall_tier=heal_stall_tier,
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,

@@ -1469,6 +1469,10 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if kind in {"flintslate-stall", "plasmium-phial-stall", "voltvessels-stall"}:
             tool = {"flintslate-stall": "Flintslate", "plasmium-phial-stall": "Plasmium Phial", "voltvessels-stall": "Voltvessels"}[kind]
             return (_part("Usable " + tool, f"Technique: {tool} Stall {max(1, tier)}"),)
+        if kind == "drill-crystal-pogo":
+            return (_part("Usable Drill Crystal Pogo Loadout", f"Technique: Drill Crystal Pogo {max(1, tier)}"),)
+        if kind == "flea-brew-jump":
+            return (_part("Usable Flea Brew", "Option: Flea Brew Jump Logic"),)
         if kind == "flea-brew-stall":
             return (_part("Usable Flea Brew", f"Technique: Flea Brew Stall {max(1, tier)}"),)
         if kind == "proficient-movement":
@@ -1597,6 +1601,12 @@ def _compile_spec(
             clause = _part(*prefix)
             for part in product_parts:
                 clause = _merge(clause, part)
+            if {"Usable Flea Brew", "Usable Silkspeed Anklets"}.issubset(clause.all_of):
+                clause = _merge(clause, _part("Usable Cindril Loadout"))
+            equipment = tuple(sorted(name for name in clause.all_of
+                                     if name.startswith(("Usable ", "Crest: "))))
+            if any(name.startswith("Usable ") for name in equipment) and len(equipment) > 1:
+                clause = _merge(clause, _part("Loadout: " + " + ".join(equipment)))
             compiled.append(clause)
     return tuple(dict.fromkeys(compiled))
 

@@ -7,98 +7,54 @@ using Newtonsoft.Json.Linq;
 
 namespace SilksongRandomizer
 {
+    internal static class ProgressionCatalogue
+    {
+        private static readonly JObject Data = Load();
+
+        private static JObject Load()
+        {
+            using (var stream = typeof(ProgressionCatalogue).Assembly.GetManifestResourceStream("SilksongRandomizer.ProgressionCatalogue.json"))
+            {
+                if (stream == null) throw new InvalidOperationException("Progression catalogue is missing.");
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    var data = JObject.Parse(reader.ReadToEnd());
+                    if ((int)data["schema"] != 1) throw new InvalidOperationException("Unsupported progression catalogue.");
+                    return data;
+                }
+            }
+        }
+
+        internal static HashSet<string> Set(string name) =>
+            new HashSet<string>(Data[name].Values<string>(), StringComparer.Ordinal);
+
+        internal static Dictionary<string, string> Map(string name, bool ignoreCase = false) =>
+            ((JObject)Data[name]).Properties().ToDictionary(property => property.Name,
+                property => (string)property.Value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+    }
+
     [Serializable]
     public sealed class ProgressionShuffleState
     {
         public const string EmptyAssignments = "{\"schema\":2,\"wishes\":{},\"bosses\":[]}";
-        private static readonly HashSet<string> SupportedWishes = new HashSet<string>(StringComparer.Ordinal) {
-            "Building Materials", "Building Materials (Bridge)", "Belltown House Start",
-            "Belltown House Mid", "Songclave Donation 1", "Songclave Donation 2",
-            "Building Materials (Statue)", "Fine Pins", "Song Pilgrim Cloaks", "Shiny Bell Goomba", "Rock Rollers", "Skull King",
-            "Beastfly Hunt", "Ant Trapper", "Broodmother Hunt",
-            "Save City Merchant", "Save City Merchant Bridge", "Save Sherma",
-            "Save Courier Short", "Save Courier Tall", "Garmond Black Threaded", "Tormented Trobbio", "Song Knight", "Shakra Final Quest",
-            "Save the Fleas Pre", "Mossberry Collection Pre", "Pinstress Battle Pre", "Flea Games Pre", "Crow Feathers Pre",
-            "Courier Delivery Bonebottom", "Courier Delivery Pilgrims Rest", "Courier Delivery Songclave",
-            "Courier Delivery Fleatopia", "Courier Delivery Fixer", "Courier Delivery Dustpens Slave",
-            "Courier Delivery Mask Maker", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Steel Sentinel", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure"
-        };
+        private static readonly HashSet<string> SupportedWishes = ProgressionCatalogue.Set("wishes");
 
-        internal static readonly HashSet<string> SupportedBosses = new HashSet<string>(StringComparer.Ordinal) {
-            "Boss: Bell Beast",
-            "Boss: Bell Eater",
-            "Boss: Broodmother",
-            "Boss: Cogwork Dancers",
-            "Boss: Crawfather",
-            "Boss: Crust King Khann",
-            "Boss: Disgraced Chef Lugoli",
-            "Boss: Father of the Flame",
-            "Boss: First Sinner",
-            "Boss: Forebrothers Signis & Gron",
-            "Boss: Fourth Chorus",
-            "Boss: Grand Mother Silk",
-            "Boss: Great Conchflies",
-            "Boss: Groal the Great",
-            "Boss: Gurr the Outcast",
-            "Boss: Lace (Cradle)",
-            "Boss: Last Judge",
-            "Boss: Lost Garmond",
-            "Boss: Moorwing",
-            "Boss: Moss Mother",
-            "Boss: Nyleth",
-            "Boss: Phantom",
-            "Boss: Pinstress",
-            "Boss: Plasmified Zango",
-            "Boss: Raging Conchfly",
-            "Boss: Second Sentinel",
-            "Boss: Shrine Guardian Seth",
-            "Boss: Sister Splinter",
-            "Boss: Skarrsinger Karmelita",
-            "Boss: Skull Tyrant (Bone Bottom)",
-            "Boss: Skull Tyrant (The Marrow)",
-            "Boss: The Unravelled",
-            "Boss: Tormented Trobbio",
-            "Boss: Trobbio",
-            "Boss: Voltvyrm",
-            "Boss: Watcher at the Edge",
-            "Boss: Widow",
-            "Boss: Summoned Saviour",
-        };
+        internal static readonly HashSet<string> SupportedBosses = ProgressionCatalogue.Set("bosses");
 
-        internal static string WishIdentity(string stage)
-        {
-            switch (stage)
-            {
-                case "Steel Sentinel Pt2": return "Steel Sentinel";
-                case "Huntress Quest Runt": return "Huntress Quest";
-                case "Save the Fleas": return "Save the Fleas Pre";
-                case "Mossberry Collection 1": return "Mossberry Collection Pre";
-                case "Pinstress Battle": return "Pinstress Battle Pre";
-                case "Flea Games": return "Flea Games Pre";
-                case "Crow Feathers": return "Crow Feathers Pre";
-                default: return stage;
-            }
-        }
+        private static readonly Dictionary<string, string> WishStages = ProgressionCatalogue.Map("wish_stage_aliases");
+        private static readonly HashSet<string> WishNotices = ProgressionCatalogue.Set("wish_notices");
+        private static readonly HashSet<string> NpcWishes = ProgressionCatalogue.Set("npc_wishes");
+        private static readonly HashSet<string> FixedWishFinishes = ProgressionCatalogue.Set("fixed_wish_finishes");
 
-        internal static bool IsWishNotice(string wish) =>
-            wish == "Save the Fleas Pre" || wish == "Mossberry Collection Pre" ||
-            wish == "Pinstress Battle Pre" || wish == "Flea Games Pre" || wish == "Crow Feathers Pre";
+        internal static string WishIdentity(string stage) =>
+            stage != null && WishStages.TryGetValue(stage, out string identity) ? identity : stage;
 
-        internal static bool IsNpcWish(string wish) => wish == "Steel Sentinel" || wish == "Steel Sentinel Pt2" || wish == "Great Gourmand" ||
-            wish == "Wood Witch Curse" || wish == "Doctor Curse Cure" ||
-            wish == "Huntress Quest" || wish == "Huntress Quest Runt" ||
-            wish == "Extractor Blue" || wish == "Extractor Blue Worms" ||
-            wish == "A Pinsmiths Tools" || wish == "Brolly Get" || wish == "Mr Mushroom" || wish == "Shell Flowers" ||
-            wish == "Courier Delivery Bonebottom" || wish == "Courier Delivery Pilgrims Rest" ||
-            wish == "Courier Delivery Songclave" || wish == "Courier Delivery Fleatopia" ||
-            wish == "Courier Delivery Fixer" || wish == "Courier Delivery Dustpens Slave" ||
-            wish == "Courier Delivery Mask Maker";
+        internal static bool IsWishNotice(string wish) => WishNotices.Contains(wish);
+
+        internal static bool IsNpcWish(string wish) => NpcWishes.Contains(wish);
 
         internal static bool HasNativeWishFinish(string wish) =>
-            wish == "Save City Merchant" || wish == "Save City Merchant Bridge" ||
-            wish == "Save Sherma" || wish == "Save Courier Short" || wish == "Save Courier Tall" ||
-            wish == "Garmond Black Threaded" || wish == "Tormented Trobbio" || wish == "Song Knight" || wish == "Shakra Final Quest" ||
-            IsWishNotice(WishIdentity(wish)) || IsNpcWish(wish);
+            FixedWishFinishes.Contains(wish) || IsWishNotice(WishIdentity(wish)) || IsNpcWish(wish);
 
         public static string NormalizeConfiguration(string json)
         {

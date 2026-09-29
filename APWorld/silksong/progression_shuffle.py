@@ -7,6 +7,10 @@ from typing import Callable, Mapping
 
 from .requirements import LocationRequirement, req
 from .locations import BOSS_CREDIT_BY_LOCATION, BOSS_CREDIT_LOCATIONS
+from .progression_catalogue import (
+    STORY_GATES as _STORY_GATES, DONATIONS as _DONATIONS,
+    COLLECTIONS as _COLLECTIONS, NPC_DELIVERIES as _NPC_DELIVERIES, WISH_IDS as SUPPORTED_WISH_IDS,
+)
 
 SCHEMA = 2
 Rules = tuple[LocationRequirement, ...]
@@ -218,30 +222,6 @@ def connect_event_regions(world, menu, events: Mapping[str, Rules], **options):
     return MappingProxyType(regions)
 
 
-_DONATIONS = (
-    ("Building Materials", "Wish: Bone Bottom Repairs",
-     "Room Event: event:mapper/reviewed:bone-bottom-repairs-completed",
-     ("Room Event: event:mapper/reviewed:bone-bottom-shards-farmable",
-      "Room Event: event:mapper/reviewed:bone-bottom-repairs-capacity")),
-    ("Building Materials (Bridge)", "Wish: A Lifesaving Bridge",
-     "Room Event: event:mapper/reviewed:bone-bottom-bridge-completed",
-     ("Room Event: event:mapper/reviewed:bone-bottom-shards-farmable",
-      "Room Event: event:mapper/reviewed:bone-bottom-bridge-capacity")),
-    ("Building Materials (Statue)", "Wish: An Icon of Hope",
-     "Room Event: event:mapper/reviewed:bone-bottom-statue-completed",
-     ("Room Event: event:mapper/reviewed:bone-bottom-shards-farmable",
-      "Room Event: event:mapper/reviewed:bone-bottom-statue-capacity")),
-    ("Belltown House Start", "Wish: Restoration of Bellhart",
-     "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c", ()),
-    ("Belltown House Mid", "Wish: Bellhart's Glory",
-     "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8", ()),
-    ("Songclave Donation 1", "Wish: Building Up Songclave",
-     "Room Event: event:mapper/reviewed:songclave-first-donation-completed", ()),
-    ("Songclave Donation 2", "Wish: Strengthening Songclave",
-     "Room Event: event:mapper/reviewed:songclave-second-donation-completed", ()),
-)
-
-
 def donation_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[str]):
     result = []
     for identity, location, completed, task_terms in _DONATIONS:
@@ -256,31 +236,6 @@ def donation_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset
         result.append(WishContract(identity, offers, (req(*task_terms, crest=False),),
                                    completion_aliases=(completed,), locations=(location,)))
     return tuple(result)
-
-
-_COLLECTIONS = (
-    ("Fine Pins", "Wish: Fine Pins", "fine-pins"),
-    ("Song Pilgrim Cloaks", "Wish: Cloaks of the Choir", "choir-cloaks"),
-)
-_NPC_DELIVERIES = (
-    ("Courier Delivery Bonebottom", "Wish: Bone Bottom Supplies", "bonebottom"),
-    ("Courier Delivery Pilgrims Rest", "Wish: Pilgrim's Rest Supplies", "pilgrims-rest"),
-    ("Courier Delivery Songclave", "Wish: Songclave Supplies", "songclave"),
-    ("Courier Delivery Fleatopia", "Wish: Fleatopia Supplies", "fleatopia"),
-    ("Courier Delivery Fixer", "Wish: Survivor's Camp Supplies", "fixer"),
-    ("Courier Delivery Dustpens Slave", "Wish: Queen's Egg", "queens-egg"),
-    ("Courier Delivery Mask Maker", "Wish: Liquid Lacquer", "liquid-lacquer"),
-)
-
-
-SUPPORTED_WISH_IDS = (frozenset(identity for identity, *_ in _DONATIONS) |
-    frozenset(identity for identity, *_ in _NPC_DELIVERIES) | frozenset({
-    "Fine Pins", "Song Pilgrim Cloaks", "Shiny Bell Goomba", "Rock Rollers", "Skull King",
-    "Beastfly Hunt", "Ant Trapper", "Broodmother Hunt",
-    "Save City Merchant", "Save City Merchant Bridge", "Save Sherma",
-    "Save Courier Short", "Save Courier Tall", "Garmond Black Threaded", "Tormented Trobbio", "Song Knight", "Shakra Final Quest",
-    "Save the Fleas Pre", "Mossberry Collection Pre", "Pinstress Battle Pre", "Flea Games Pre", "Crow Feathers Pre", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Steel Sentinel", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure",
-}))
 
 
 def board_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[str]):
@@ -443,9 +398,6 @@ def board_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[st
     return tuple(wishes) + npc_contracts(graph, eligible_locations)
 
 
-
-
-
 def npc_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[str]):
     prefix = "Room Event: event:mapper/reviewed:"
     wishes = []
@@ -582,43 +534,6 @@ def wish_location_rules(wishes: tuple[WishContract, ...]) -> Mapping[str, Rules]
 
 SUPPORTED_BOSS_IDS = BOSS_CREDIT_LOCATIONS
 _EVENT_PREFIX = "Room Event: event:mapper/"
-_STORY_GATES = (
-    ("Boss: Summoned Saviour", ("aa48b17e-dd99-40c9-8d5f-dfaa642a64a4",), (
-        "da476bc2-0b8d-4b9c-b040-2e0f75c197b8",
-    ), ()),
-    ("Boss: Cogwork Dancers", ("282aae6f-3964-4935-93ea-5beaa6ef9fa4",), (
-        "b271d4ca-faa9-4104-b801-dec2e1914ba5", "75b9d46a-1a7f-4f87-9ac9-4651468dcb1d",
-        "7f55d1a9-b427-462d-a1f8-40653ea100f8",
-    ), ("Magnetite Dice", "Wish: Bellhart's Glory")),
-    ("Boss: Bell Beast", ("95f1f75b-e452-4709-9fbc-ad8785ac520a", "Event: Bell Beast Defeated"), (
-        "Room Node: wish-menus/bone-bottom-wish-wall#room", "reviewed:courier-bonebottom-accepted",
-        "85191ff4-7a5c-4364-ab2c-0f4821b21a7e", "Event: Other Courier Delivery Completed",
-    ), ("Pin Purchase: Bellway Pins",)),
-    ("Boss: Fourth Chorus", ("e6e6d899-9def-42c2-ab77-53db34ced41d",), (
-        "reviewed:savage-beastfly-accepted",
-    ), ()),
-    ("Boss: Skull Tyrant (The Marrow)", ("2dcc1602-65fc-4e3a-8308-51145948eec4",), (
-        "f09ff4af-eadc-4167-ac83-aa27cf52e966",
-    ), ("Boss: Skull Tyrant (Bone Bottom)",)),
-    ("Boss: Widow", ("f00c4d34-3d84-4746-b034-961203e08150", "Event: Widow Defeated"), (
-        "Room Node: wish-menus/bellhart-wish-wall#room",
-        "Room Node: bellhart/bellhart-relic-shop#room", "Room Node: bellhart/bellhart-pinsmith#room",
-        "381b6434-4c93-41ff-ad14-61d7bcf173f8", "51824349-6447-4014-a1f1-eb98e51edca7",
-        "47e3b04b-3045-499b-8ed5-17c759d4aa5d", "014f9eaa-443a-4ba0-88df-061b2e12f71b",
-        "d85ceaa1-6ce6-483f-8f82-cb6b72ad15ff", "reviewed:missing-brother-accepted",
-        "reviewed:bellhart-greeter-met", "reviewed:silver-bells-accepted",
-        "reviewed:savage-beastfly-accepted", "reviewed:shakra-shop-belltown",
-        "reviewed:courier-service-ready", "reviewed:crawbug-clearing-accepted",
-        "432aada0-750e-4d30-a37f-bc522aa000b6", "d847827f-61c9-4864-a5c1-e793e8f5e5b6",
-        "9bc588fb-af09-44b2-b174-6d3412d5bd5c", "7f55d1a9-b427-462d-a1f8-40653ea100f8",
-        "Event: Rite of Rebirth Completed",
-    ), ("Multibinder", "Frey (Bellhart) - Spool Fragment", "Bellhart Shop - Memory Locket",
-        "Wish: Restoration of Bellhart", "Wish: Bellhart's Glory", "Bellhart - Map Purchase",
-        "Loddie - Tool Pouch")),
-    ("Boss: Groal the Great", ("c072b5f9-82a5-469b-8bf6-b91bb53e5180",), (
-        "c376d00f-e0b5-40e2-8235-4adf83525a32",
-    ), ()),
-)
 
 
 def _event_name(name):
@@ -753,9 +668,17 @@ def _preparation_locations(world):
     return None
 
 
-def _preparation_state(world, guaranteed=()):
+def _preparation_state(world, guaranteed=(), base_state=None):
     locations = _preparation_locations(world)
-    state = world.multiworld.get_all_state(perform_sweep=locations is None)
+    if base_state is None:
+        state = world.multiworld.get_all_state(perform_sweep=locations is None)
+    else:
+        state = base_state.copy()
+        reachable = state.reachable_regions[world.player]
+        state.blocked_connections[world.player] = {
+            entrance for region in reachable for entrance in region.exits
+            if entrance.connected_region not in reachable
+        }
     if locations is not None:
         for location in guaranteed:
             state.advancements.add(location)
@@ -766,13 +689,13 @@ def _preparation_state(world, guaranteed=()):
     return state
 
 
-def _guaranteed_preparation_rewards(world):
+def _guaranteed_preparation_state(world):
     from rule_builder.rules import False_
     from .room_graph_logic import native_region_name
     from .requirement_rules import _invalidate_native_source_player
 
     if _preparation_locations(world) is None:
-        return ()
+        return None
     saved = []
     blocked = False_().resolve(world)
     try:
@@ -783,7 +706,7 @@ def _guaranteed_preparation_rewards(world):
                 entrance.access_rule = blocked
         _invalidate_native_source_player(world.multiworld, world.player)
         state = _preparation_state(world)
-        return tuple(sorted(state.advancements, key=lambda location: location.name))
+        return state
     finally:
         for entrance, rule in saved:
             entrance.access_rule = rule
@@ -806,8 +729,8 @@ def finalize_world(world):
     if getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game) is not None:
         return
     multiworld = world.multiworld
-    guaranteed = _guaranteed_preparation_rewards(world)
-    baseline = _preparation_state(world, guaranteed)
+    guaranteed = _guaranteed_preparation_state(world)
+    baseline = _preparation_state(world, base_state=guaranteed)
     locations = _preparation_locations(world)
     if locations is None:
         locations = multiworld.get_locations()
@@ -836,7 +759,7 @@ def finalize_world(world):
             if not all(region.can_reach(optimistic) for region in required_events):
                 _replace_events(world, accepted)
                 return False
-        state = _preparation_state(world, guaranteed)
+        state = _preparation_state(world, base_state=guaranteed)
         accessible = all(location.can_reach(state) for location in required) and all(
             region.can_reach(state) for region in required_events)
         if accessible and world.is_early_dash_enabled() and world._early_dash_shuffle_locations:

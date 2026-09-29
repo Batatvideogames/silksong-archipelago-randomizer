@@ -212,6 +212,7 @@ namespace SilksongRandomizer
         public bool trapDisguises;
         public bool divingBellKeyRandomization;
         public bool fasterDialogue;
+        public bool fasterSilkheartAnimation;
         public bool alphabetMode;
         public bool deathLink;
         public string deathLinkCocoon =
@@ -935,6 +936,7 @@ namespace SilksongRandomizer
             trapDisguises = archipelago.TrapDisguises;
             divingBellKeyRandomization = archipelago.DivingBellKeyRandomization;
             fasterDialogue = archipelago.FasterDialogue;
+            fasterSilkheartAnimation = archipelago.FasterSilkheartAnimation;
             alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
             deathLinkCocoon = archipelago.DeathLinkCocoon;
@@ -1542,7 +1544,6 @@ namespace SilksongRandomizer
                     archipelago.FasterDialogue
                 );
             }
-
 
             if (roomIdentityMatches &&
                 alphabetMode != archipelago.AlphabetMode)

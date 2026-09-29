@@ -37,6 +37,17 @@ def difference(base, value):
     return changes
 
 
+def _merge_changes(result, changes):
+    for key, value in changes.items():
+        if value is None:
+            result.pop(key, None)
+        elif isinstance(value, dict):
+            result[key] = _merge_changes(result.get(key, {}), value)
+        else:
+            result[key] = copy.deepcopy(value)
+    return result
+
+
 def merge(base, changes):
     result = copy.deepcopy(base)
     for key, value in changes.items():
@@ -53,7 +64,7 @@ def prepare_base(data, slot_data):
     result = copy.deepcopy(data["logic"])
     if slot_data.get("entrance_randomization", "off") == "coupled":
         profile = data["entrance_profiles"][slot_data.get("entrance_randomization_scope", "full")]
-        result = merge(result, profile["changes"])
+        result = _merge_changes(result, profile["changes"])
         pairs = slot_data["entrance_pairs"]
         for source in profile["sources"]:
             destination = profile["destinations"][pairs.get(source["id"], source["vanilla"])]
@@ -94,7 +105,7 @@ def restore(slot_data):
     changes = slot_data.get("logic_overrides")
     if not isinstance(changes, dict) or changes.keys() - base.keys():
         raise ValueError("Invalid map logic overrides.")
-    result = merge(base, changes)
+    result = _merge_changes(base, changes)
     order = result.pop("logic_event_order")
     result["logic_events"] = [result["logic_events"][name] for name in order]
     return result

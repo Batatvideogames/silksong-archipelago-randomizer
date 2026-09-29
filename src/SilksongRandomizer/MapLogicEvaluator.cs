@@ -1356,7 +1356,7 @@ namespace SilksongRandomizer
             switch (source)
             {
                 case "Boss: Widow":
-                    return state?.progressionShuffle?.TryGetBossCredit(source, out bool defeated) == true
+                    return state?.progressionShuffle?.TryGetBossDefeat(source, out bool defeated) == true
                         ? defeated : playerData.spinnerDefeated;
                 case "Boss: Last Judge": return playerData.defeatedLastJudge;
                 case "Boss: Phantom": return playerData.defeatedPhantom;
@@ -1857,6 +1857,7 @@ namespace SilksongRandomizer
                     itemName => CountItem(inventory, itemName) > 0
                 );
 
+            var activeLocations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             bool changed = true;
             HashSet<LogicEvent> collectedEvents =
                 new HashSet<LogicEvent>();
@@ -1877,9 +1878,7 @@ namespace SilksongRandomizer
                             payload.Requirements,
                             payload.Dependencies,
                             payload.SkipsTier,
-                            new HashSet<string>(
-                                StringComparer.OrdinalIgnoreCase
-                            )
+                            activeLocations
                         ))
                     {
                         continue;
@@ -1903,9 +1902,7 @@ namespace SilksongRandomizer
                             payload.Requirements,
                             payload.Dependencies,
                             payload.SkipsTier,
-                            new HashSet<string>(
-                                StringComparer.OrdinalIgnoreCase
-                            )
+                            activeLocations
                         )))
                     {
                         continue;
@@ -1941,20 +1938,20 @@ namespace SilksongRandomizer
             {
                 return goalCompleted;
             }
-            return GetAlternatives(group).Any(
-                alternative => SatisfiesRequirement(
-                    alternative,
-                    goalCompleted,
-                    abstractValues,
-                    inventory,
-                    hasCrest,
-                    hasSilkSpear,
-                    locationRequirements,
-                    dependencies,
-                    skipsTier,
-                    activeLocations
-                )
-            );
+            if (group.Alternatives != null)
+            {
+                foreach (LogicRequirement alternative in group.Alternatives)
+                {
+                    if (alternative != null && SatisfiesRequirement(
+                        alternative, goalCompleted, abstractValues, inventory,
+                        hasCrest, hasSilkSpear, locationRequirements,
+                        dependencies, skipsTier, activeLocations))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private static IEnumerable<LogicRequirement> GetAlternatives(
@@ -1987,55 +1984,52 @@ namespace SilksongRandomizer
             {
                 return false;
             }
-            if ((requirement.AllOf ?? new List<string>()).Any(
-                    name => !HasNamedRequirement(
-                        name,
-                        abstractValues,
-                        inventory,
-                        dependencies
-                    )
-                ))
+            if (requirement.AllOf != null)
             {
-                return false;
+                foreach (string name in requirement.AllOf)
+                {
+                    if (!HasNamedRequirement(name, abstractValues, inventory, dependencies))
+                        return false;
+                }
             }
-            if (requirement.AnyOf != null &&
-                requirement.AnyOf.Count > 0 &&
-                !requirement.AnyOf.Any(
-                    name => HasNamedRequirement(
-                        name,
-                        abstractValues,
-                        inventory,
-                        dependencies
-                    )
-                ))
+            if (requirement.AnyOf != null && requirement.AnyOf.Count > 0)
             {
-                return false;
+                bool found = false;
+                foreach (string name in requirement.AnyOf)
+                {
+                    if (HasNamedRequirement(name, abstractValues, inventory, dependencies))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    return false;
             }
-            if ((requirement.RequiredLocations ?? new List<string>()).Any(
-                    name => !SatisfiesRequiredLocation(
-                        name,
-                        goalCompleted,
-                        abstractValues,
-                        inventory,
-                        hasCrest,
-                        hasSilkSpear,
-                        locationRequirements,
-                        dependencies,
-                        skipsTier,
-                        activeLocations
-                    )
-                ))
+            if (requirement.RequiredLocations != null)
             {
-                return false;
+                foreach (string name in requirement.RequiredLocations)
+                {
+                    if (!SatisfiesRequiredLocation(
+                        name, goalCompleted, abstractValues, inventory,
+                        hasCrest, hasSilkSpear, locationRequirements,
+                        dependencies, skipsTier, activeLocations))
+                        return false;
+                }
             }
-            if ((requirement.ItemCounts ?? new List<LogicItemCount>())
-                .Any(itemCount =>
-                    (itemCount?.Items ?? new List<string>())
-                        .Sum(name => CountItem(inventory, name)) <
-                    Math.Max(0, itemCount?.Minimum ?? 0)
-                ))
+            if (requirement.ItemCounts != null)
             {
-                return false;
+                foreach (LogicItemCount itemCount in requirement.ItemCounts)
+                {
+                    int count = 0;
+                    if (itemCount?.Items != null)
+                    {
+                        foreach (string name in itemCount.Items)
+                            count = checked(count + CountItem(inventory, name));
+                    }
+                    if (count < Math.Max(0, itemCount?.Minimum ?? 0))
+                        return false;
+                }
             }
             return true;
         }

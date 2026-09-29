@@ -493,10 +493,12 @@ class SilksongWorld(World):
                 allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
+                flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
                 crest_pogo_tier=int(self.options.crest_pogo_logic.value),
                 needle_strike_tier=int(self.options.needle_strike_logic.value),
                 enemy_pogo_tier=int(self.options.enemy_pogo_logic.value),
+                drill_crystal_pogo_tier=int(self.options.drill_crystal_pogo_logic.value),
                 heal_stall_tier=int(self.options.heal_stall_logic.value),
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
@@ -532,6 +534,8 @@ class SilksongWorld(World):
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
             self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
+        if self.get_goal_key() == "act_3":
+            self.options.silk_and_soul_points.value = get_silk_and_soul_points(self.options)
         from .game_modes import choose_resting_sites, validate_resting_sites
         self._steel_soul_sites = validate_resting_sites(
             passthrough.get("steel_soul_sites", []) if passthrough is not None
@@ -640,6 +644,9 @@ class SilksongWorld(World):
 
     def is_proficient_movement_enabled(self) -> bool:
         return bool(getattr(getattr(self.options, "proficient_movement", None), "value", 0))
+
+    def is_flea_brew_jump_logic_enabled(self) -> bool:
+        return bool(getattr(getattr(self.options, "flea_brew_jump_logic", None), "value", 0))
 
     def is_scuttlebrace_logic_enabled(self) -> bool:
         return bool(self.options.scuttlebrace_logic.value)
@@ -1588,6 +1595,11 @@ class SilksongWorld(World):
                 event.location_name
             ] = anchor
 
+    def extend_hint_information(self, hint_data) -> None:
+        from .entrance_randomization import extend_hints
+
+        extend_hints(self, hint_data)
+
     def write_spoiler(self, spoiler_handle) -> None:
         assignments = getattr(self, "_progression_assignments", None)
         if assignments is not None:
@@ -1630,6 +1642,21 @@ class SilksongWorld(World):
             None,
         )
         try:
+            point_items = Counter((item.player, item.name) for item in multiworld.get_items())
+            for world in multiworld.get_game_worlds(cls.game):
+                if world.get_goal_key() != "act_3":
+                    continue
+                available_halves = (
+                    2 * point_items[world.player, SILK_AND_SOUL_WISH_POINT_ITEM]
+                    + point_items[world.player, SILK_AND_SOUL_WISH_HALF_POINT_ITEM]
+                )
+                required = get_silk_and_soul_points(world.options)
+                if 2 * required > available_halves:
+                    raise OptionError(
+                        f"Player {world.player}: Silk and Soul requires {required} points, "
+                        f"but this configuration contains at most {available_halves / 2:g}. "
+                        "Lower Silk and Soul Points."
+                    )
             prefill_category_shuffles(multiworld, cls.game)
         finally:
             restore_global_shuffle_item_rules(scope)
@@ -2003,7 +2030,7 @@ class SilksongWorld(World):
 
         from .category_fill import _early_dash_states
 
-        _enable_native_source_memo(multiworld)
+        _enable_native_source_memo(multiworld, frozenset(world.player for world in worlds))
         for world in worlds:
             if getattr(world, "_early_dash_shuffle_locations", ()):
                 assert any(state.has("Swift Step", world.player) for state, _ in _early_dash_states(world)), (
@@ -2095,12 +2122,14 @@ class SilksongWorld(World):
                 self.is_individual_relic_turn_ins_enabled(),
             "proficient_combat": self.get_proficient_combat_mode(),
             "proficient_movement": self.is_proficient_movement_enabled(),
+            "flea_brew_jump_logic": self.is_flea_brew_jump_logic_enabled(),
             "scuttlebrace_logic": int(self.options.scuttlebrace_logic.value),
             "heal_stall_logic": int(self.options.heal_stall_logic.value),
             "red_tool_stall_logic": int(self.options.red_tool_stall_logic.value),
             "crest_pogo_logic": int(self.options.crest_pogo_logic.value),
             "needle_strike_logic": int(self.options.needle_strike_logic.value),
             "enemy_pogo_logic": int(self.options.enemy_pogo_logic.value),
+            "drill_crystal_pogo_logic": int(self.options.drill_crystal_pogo_logic.value),
             "hazard_respawn_logic": int(self.options.hazard_respawn_logic.value),
             "start_with_maps": self.is_start_with_maps_enabled(),
             "start_fully_mapped":
@@ -2154,10 +2183,12 @@ class SilksongWorld(World):
                 ),
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
+                flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
                 crest_pogo_tier=int(self.options.crest_pogo_logic.value),
                 needle_strike_tier=int(self.options.needle_strike_logic.value),
                 enemy_pogo_tier=int(self.options.enemy_pogo_logic.value),
+                drill_crystal_pogo_tier=int(self.options.drill_crystal_pogo_logic.value),
                 heal_stall_tier=int(self.options.heal_stall_logic.value),
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),

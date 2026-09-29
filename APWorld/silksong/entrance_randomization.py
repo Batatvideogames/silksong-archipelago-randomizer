@@ -33,6 +33,8 @@ ACT_THREE_ROOMS = frozenset({
     'deep-docks/deep-docks-magma-slug-tunnels',
     'deep-docks/deep-docks-diving-bell-room',
     'far-fields/far-fields-deep-entrance',
+    'far-fields/far-fields-deep-bench',
+    'far-fields/hunters-march-pilgrims-rest-deep-passage',
     'far-fields/far-fields-deep-lower-west',
     'far-fields/far-fields-deep-lower-east',
     'far-fields/far-fields-deep-fort-passage',
@@ -753,8 +755,14 @@ def connect_exits(world):
     world._entrance_deferred = deferred
     world.multiworld.state.stale[world.player] = True
     if not deferred:
-        for source, target in pairs.items():
-            world.multiworld.spoiler.set_entrance(POOL[source]['name'], POOL[target]['name'], 'entrance', world.player)
+        for source, target in sorted(pairs.items()):
+            if pairs.get(target) == source:
+                if source > target:
+                    continue
+                direction = 'both'
+            else:
+                direction = 'entrance'
+            world.multiworld.spoiler.set_entrance(POOL[source]['name'], POOL[target]['name'], direction, world.player)
 
 
 def reconnect_found(world, value):
@@ -820,3 +828,34 @@ def slot_entrances(world):
             for source, data in POOL.items() if source in pairs
         },
     }
+
+
+def _hint_path(path, names):
+    route = []
+    visited = set()
+    while path is not None:
+        if id(path) in visited:
+            return None
+        visited.add(id(path))
+        name, path = path
+        if name in names:
+            route.append(names[name])
+    route.reverse()
+    if not route:
+        return None
+    return "Via " + ("... -> " if len(route) > 2 else "") + " -> ".join(route[-2:])
+
+
+def extend_hints(world, hint_data):
+    if not getattr(world, '_entrance_pairs', None) or getattr(world, '_entrance_deferred', False):
+        return
+    state = world.multiworld.get_all_state()
+    names = {entrance.name: POOL[source]['name']
+             for source, entrance in world._entrance_exits.items()}
+    hints = hint_data.setdefault(world.player, {})
+    for location in world.get_locations():
+        if location.address is None or not location.parent_region.can_reach(state):
+            continue
+        path = _hint_path(state.path.get(location.parent_region), names)
+        if path:
+            hints[location.address] = path

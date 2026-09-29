@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SilksongRandomizer.Patches
 {
-    internal class SilkHeartPatches
+    internal partial class SilkHeartPatches
     {
         private const string HeartFsmName = "Heart Container Control";
         private const string HeartObjectName = "Heart Piece Instant";
@@ -132,6 +132,7 @@ namespace SilksongRandomizer.Patches
                     if (IsActive(bossSource.LocationName) &&
                         PatchBossHeartSource(__instance, bossSource))
                     {
+                        PatchContactPickup(__instance.Fsm, bossSource);
                         RandomizerPlugin.Log?.LogInfo(
                             "[RANDOMIZER] Silk Heart memory skipped and " +
                             "redirected to the AP check: " +
