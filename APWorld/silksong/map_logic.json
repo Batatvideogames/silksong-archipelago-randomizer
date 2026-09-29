@@ -193468,7 +193468,8 @@
               "Room Node: the-slab/slab-arena#arena",
               "Room Event: event:mapper/reviewed:wailing-mother-accepted",
               "Combat: Broodmother",
-              "Combat: Broodmother Gauntlet"
+              "Combat: Broodmother Gauntlet",
+              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
             ],
             "any_of": [],
             "item_counts": [],
@@ -193726,7 +193727,8 @@
             "act": "",
             "all_of": [
               "Room Node: the-marrow/the-marrow-flea-caravan#flea-floor",
-              "Room Event: event:mapper/reviewed:courier-fixer-accepted"
+              "Room Event: event:mapper/reviewed:courier-fixer-accepted",
+              "Act: 3"
             ],
             "any_of": [],
             "item_counts": [],
@@ -323417,7 +323419,8 @@
             "act": "",
             "all_of": [
               "Room Node: the-slab/slab-arena#arena",
-              "Room Event: event:mapper/c09a7403-e792-4754-9e9e-beb8779bbb5f"
+              "Room Event: event:mapper/c09a7403-e792-4754-9e9e-beb8779bbb5f",
+              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
             ],
             "any_of": [],
             "item_counts": [],

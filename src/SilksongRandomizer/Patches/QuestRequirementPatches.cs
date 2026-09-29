@@ -8,6 +8,30 @@ namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        [HarmonyPatch(typeof(BoolTest), nameof(BoolTest.OnEnter))]
+        private static class BroodmotherLayoutPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(BoolTest __instance)
+            {
+                if (SaveState.Instance == null || PlayerData.instance == null ||
+                    PlayerData.instance.HasSlabKeyB ||
+                    __instance.boolVariable?.Name != "Broodmother Hunt Accepted" ||
+                    __instance.isTrue?.Name != "BROODMOTHER" ||
+                    __instance.State?.Name != "Idle" ||
+                    __instance.Fsm?.Name != "Control" ||
+                    __instance.Fsm.GameObject == null ||
+                    __instance.Fsm.GameObject.scene.name != "Slab_16" ||
+                    Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform) != "Event Control")
+                {
+                    return true;
+                }
+
+                __instance.Finish();
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
         private static class FlickWishWallConversationPatch
         {
