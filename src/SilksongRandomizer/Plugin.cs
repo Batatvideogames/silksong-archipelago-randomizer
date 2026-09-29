@@ -148,6 +148,7 @@ namespace SilksongRandomizer
         public Sprite MapCheckOutlineIcon { get; private set; }
         public Sprite LogicUnknownIcon { get; private set; }
         public Sprite LogicUnknownOutlineIcon { get; private set; }
+        private static Font arialFont;
 
         private void Awake()
         {
@@ -1334,6 +1335,19 @@ namespace SilksongRandomizer
             if (!showConnectionGui)
             {
                 return;
+            }
+
+            arialFont ??= Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault(
+                font => font != null && font.name.IndexOf("Arial", StringComparison.OrdinalIgnoreCase) >= 0
+            );
+
+            if (arialFont != null)
+            {
+                GUI.skin.font = arialFont;
+            } 
+            else
+            {
+                Log?.LogError("[RANDOMIZER] Could not find embedded arial font in game assets.");
             }
 
             UnlockCursorForConnectionGui();
