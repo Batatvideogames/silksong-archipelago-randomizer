@@ -405477,42 +405477,6 @@
           }
         ]
       },
-      "Shellwood - Shell Shard Cache #7": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/cling-grip-side-room#upper-level",
-              "Cling Grip"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
-      "Shellwood - Shell Shard Cache #8": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/cling-grip-side-room#upper-level",
-              "Cling Grip"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "Shellwood - Shellgrave Inscription": {
         "alternatives": [
           {

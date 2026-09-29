@@ -329,8 +329,6 @@ namespace SilksongRandomizer
             new Entry("Shellwood - Shell Shard Cache #4", "Shellwood_01", "Shell Shard Fossil Tiny Bumpy", SourceKind.BreakableHolder, 106.610001f, 23.27f, 132.0f, 98.0f),
             new Entry("Shellwood - Shell Shard Cache #5", "Shellwood_01", "Shell Shard Fossil Tiny Front", SourceKind.BreakableHolder, 108.260002f, 23.35f, 132.0f, 98.0f),
             new Entry("Shellwood - Shell Shard Cache #6", "Shellwood_01", "Shell Shard Fossil Tiny Bumpy (1)", SourceKind.BreakableHolder, 111.610001f, 26.209999f, 132.0f, 98.0f),
-            new Entry("Shellwood - Shell Shard Cache #7", "Shellwood_11", "Shell Shard Fossil Tiny Bumpy (2)", SourceKind.BreakableHolder, 77.459999f, 68.029999f, 102.0f, 78.0f),
-            new Entry("Shellwood - Shell Shard Cache #8", "Shellwood_11", "Shell Shard Fossil Mid", SourceKind.BreakableHolder, 77.589996f, 72.089996f, 102.0f, 78.0f),
             new Entry("Shellwood - Shell Shard Cache #12", "Shellwood_25", "Shell Shard Fossil Tiny Egg (1)", SourceKind.BreakableHolder, 31.459999f, 11.654746f, 290.0f, 40.0f),
             new Entry("Sinner's Road - Shell Shard Cache #1", "Dust_03", "Shell Shard Fossil Tiny Front", SourceKind.BreakableHolder, 96.778656f, 28.950001f, 145.0f, 40.0f),
             new Entry("Sinner's Road - Shell Shard Cache #2", "Dust_03", "Shell Shard Fossil Tiny Bumpy", SourceKind.BreakableHolder, 102.440002f, 30.940001f, 145.0f, 40.0f),

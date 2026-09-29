@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "bd0f0e4ce69fac758e0cb6647abccf806ba679b759a4f6b6cce4bbaa4c42b5c5",
     "catalogue_sha256": "d211e6af12094b105f7bdae6ec5435cd9e9c68fccf0a49aafdedaafedaaa855b",
-    "bindings_sha256": "5802bce4f64e422d5d6c0be42c27659a2d76eed78a00f4fc00bd47ca2457d0c1"
+    "bindings_sha256": "ad3cf1db3eda71b173dac6c06936ce2d36a67f137215ad2638ae12afadfba7e7"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -663,8 +663,6 @@
       "Shellwood - Shell Shard Cache #4",
       "Shellwood - Shell Shard Cache #5",
       "Shellwood - Shell Shard Cache #6",
-      "Shellwood - Shell Shard Cache #7",
-      "Shellwood - Shell Shard Cache #8",
       "Shellwood - Shellgrave Inscription",
       "Shellwood - Weaver Harp Inscription",
       "Silk Soar",
@@ -70335,68 +70333,7 @@
         }
       ],
       "events": [],
-      "checks": [
-        {
-          "id": "shellwood/cling-grip-side-room::reviewed-check:836119",
-          "label": "Shellwood - Shell Shard Cache #7",
-          "node_id": "shellwood/cling-grip-side-room#upper-level",
-          "canonical_location": "Shellwood - Shell Shard Cache #7",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true,
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:cling-grip",
-                "mapper:attack:left"
-              ],
-              [
-                "item:cling-grip",
-                "mapper:attack:right"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
-          "id": "shellwood/cling-grip-side-room::reviewed-check:836120",
-          "label": "Shellwood - Shell Shard Cache #8",
-          "node_id": "shellwood/cling-grip-side-room#upper-level",
-          "canonical_location": "Shellwood - Shell Shard Cache #8",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true,
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:cling-grip",
-                "mapper:attack:left"
-              ],
-              [
-                "item:cling-grip",
-                "mapper:attack:right"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        }
-      ],
+      "checks": [],
       "omitted_check_rows": [
         {
           "mapper_id": "c792cced-796c-4edd-8f72-40ba51a97738",

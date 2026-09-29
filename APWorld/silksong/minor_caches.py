@@ -402,6 +402,8 @@ MINOR_CACHE_LOCATION_NAMES: tuple[str, ...] = tuple(
 )
 
 RETIRED_MINOR_CACHE_LOCATION_NAMES: frozenset[str] = frozenset((
+    "Shellwood - Shell Shard Cache #7",
+    "Shellwood - Shell Shard Cache #8",
     "Hunter's March - Rosary Chest",
     "Far Fields - Rosary Chest #2",
 ))
