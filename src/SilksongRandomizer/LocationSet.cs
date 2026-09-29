@@ -842,6 +842,7 @@ namespace SilksongRandomizer
             new Location("Tool Unlock: Extractor", ItemType.Tool, null),
             new Location("Tool Unlock: Lifeblood Syringe", ItemType.Tool, null),
             new Location("Tool Unlock: Dead Mans Purse", ItemType.Tool, null),
+            new Location("Tool Unlock: Shell Satchel", ItemType.Tool, null),
             new Location("Tool Unlock: Scuttlebrace", ItemType.Tool, null),
             new Location("Tool Unlock: Thief Charm", ItemType.Tool, null),
             new Location("Tool Unlock: Compass", ItemType.Compass, null),
@@ -993,6 +994,7 @@ namespace SilksongRandomizer
             new Location("Grey Memento", ItemType.Memento, null),
             new Location("Surface Memento", ItemType.Memento, null),
             new Location("Craw Memento", ItemType.Memento, null),
+            new Location("Boss: Summoned Saviour", ItemType.Boss, null),
 
             new Location("Goal", ItemType.Event,
                 Patches.GoalState.IsConfiguredGoalComplete),

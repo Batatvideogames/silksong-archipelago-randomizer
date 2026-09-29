@@ -84,6 +84,8 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     hazard_respawn_tier: int = 0
     scuttlebrace_tier: int = 0
     bell_shrine_sanity: bool = False
+    steel_soul: bool = False
+    steel_soul_sites: tuple[str, ...] = ()
     silk_and_soul_points: int = 17
 
     def _instantiate(self, world: World) -> Rule.Resolved:
@@ -109,6 +111,8 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.hazard_respawn_tier,
             self.scuttlebrace_tier,
             self.bell_shrine_sanity,
+            self.steel_soul,
+            self.steel_soul_sites,
             self.silk_and_soul_points,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
@@ -136,6 +140,8 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         hazard_respawn_tier: int
         scuttlebrace_tier: int
         bell_shrine_sanity: bool
+        steel_soul: bool
+        steel_soul_sites: tuple[str, ...]
         silk_and_soul_points: int
 
         def _evaluate(self, state: CollectionState) -> bool:
@@ -169,6 +175,8 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 hazard_respawn_tier=self.hazard_respawn_tier,
                 scuttlebrace_tier=self.scuttlebrace_tier,
                 bell_shrine_sanity=self.bell_shrine_sanity,
+                steel_soul=self.steel_soul,
+                steel_soul_sites=self.steel_soul_sites,
                 silk_and_soul_points=self.silk_and_soul_points,
             )
 
@@ -369,6 +377,8 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     hazard_respawn_tier: int = 0
     scuttlebrace_tier: int = 0
     bell_shrine_sanity: bool = False
+    steel_soul: bool = False
+    steel_soul_sites: tuple[str, ...] = ()
     silk_and_soul_points: int = 17
 
     def _instantiate(self, world: World) -> Rule.Resolved:
@@ -400,6 +410,8 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             hazard_respawn_tier=self.hazard_respawn_tier,
             scuttlebrace_tier=self.scuttlebrace_tier,
             bell_shrine_sanity=self.bell_shrine_sanity,
+            steel_soul=self.steel_soul,
+            steel_soul_sites=self.steel_soul_sites,
             silk_and_soul_points=self.silk_and_soul_points,
         )
         return self.Resolved(
@@ -647,6 +659,8 @@ def _compile_named_requirement(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> Rule:
     if (
@@ -683,6 +697,8 @@ def _compile_named_requirement(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
 
@@ -733,6 +749,8 @@ def _compile_requirement(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> Rule:
     if requirement.minimum_skip_tier > skips_tier:
@@ -767,6 +785,8 @@ def _compile_requirement(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
 
@@ -812,6 +832,8 @@ def _compile_requirement(
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
+                steel_soul=steel_soul,
+                steel_soul_sites=steel_soul_sites,
                 silk_and_soul_points=silk_and_soul_points,
             )
             for alternative in alternatives
@@ -879,6 +901,8 @@ def build_requirements_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
     extra_abstract_requirement_names: frozenset[str] = frozenset(),
 ) -> Rule:
@@ -906,6 +930,8 @@ def build_requirements_rule(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
     )
@@ -940,6 +966,8 @@ def build_requirements_rule(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
         for requirement in requirements
@@ -971,6 +999,8 @@ def build_location_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
@@ -1002,6 +1032,8 @@ def build_location_rule(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
 
@@ -1033,6 +1065,8 @@ def build_goal_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> Rule:
     return build_requirements_rule(
@@ -1064,6 +1098,8 @@ def build_goal_rule(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
 
@@ -1093,6 +1129,8 @@ def build_native_source_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
@@ -1121,5 +1159,7 @@ def build_native_source_rule(
         hazard_respawn_tier,
         scuttlebrace_tier,
         bell_shrine_sanity,
+        steel_soul,
+        steel_soul_sites,
         silk_and_soul_points,
     )

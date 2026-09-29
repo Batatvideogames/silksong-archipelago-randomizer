@@ -1071,6 +1071,8 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Grey Memento', 'Memento'),
     ('Surface Memento', 'Memento'),
     ('Craw Memento', 'Memento'),
+    ('Shell Satchel', 'Tool'),
+    ('Boss: Summoned Saviour', 'Boss'),
 )
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
@@ -1229,9 +1231,10 @@ BOSS_CREDIT_LOCATIONS = frozenset({
     "Boss: Voltvyrm",
     "Boss: Watcher at the Edge",
     "Boss: Widow",
+    "Boss: Summoned Saviour",
 })
 
 BOSS_CREDIT_BY_LOCATION = {
     name: "Boss Credit: " + name.removeprefix("Boss: ")
-    for name in sorted(BOSS_CREDIT_LOCATIONS)
+    for name in (*sorted(BOSS_CREDIT_LOCATIONS - {"Boss: Summoned Saviour"}), "Boss: Summoned Saviour")
 }

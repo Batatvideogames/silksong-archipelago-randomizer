@@ -2927,6 +2927,16 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
         **{f"Technique: {technique} {tier}": ()
            for technique in ("Heal Stall", "Hazard Respawn", "Scuttlebrace", "Crest Pogo", "Needle Strike", "Enemy Pogo", 'Flea Brew Stall', 'Flintslate Stall', 'Plasmium Phial Stall', 'Voltvessels Stall')
            for tier in (1, 2, 3)},
+        "Capability: Has Any Map": tuple(req("Map: " + area, crest=False) for area in (
+            "Mosslands", "The Marrow", "Deep Docks", "Far Fields", "Wormways", "Hunter's March",
+            "Greymoor", "Bellhart", "Shellwood", "Blasted Steps", "Sinner's Road", "Mount Fay",
+            "Sands of Karak", "Bilewater", "Weavenest Atla", "Grand Gate", "Underworks",
+            "Choral Chambers", "Whispering Vaults", "Whiteward", "Cogwork Core", "Memorium",
+            "High Halls", "The Slab", "Putrified Ducts", "The Cradle", "The Abyss", "Verdania",
+        )),
+        "Event: Selected Steel Soul Resting Sites Visited": (),
+        "Option: Steel Soul On": (),
+        "Option: Steel Soul Off": (req(crest=False),),
         "Option: Bellshrinesanity On": (),
         "Option: Bellshrinesanity Off": (req(crest=False),),
         **INNATE_CAPABILITY_REQUIREMENTS,
@@ -3090,6 +3100,8 @@ def get_abstract_requirements(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
@@ -3126,11 +3138,17 @@ def get_abstract_requirements(
         and not needle_strike_tier
         and not enemy_pogo_tier
         and not bell_shrine_sanity
+        and not steel_soul
         and not any(name in ABSTRACT_REQUIREMENTS for name in DONATION_CAPACITY_EVENTS)
     ):
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    if steel_soul:
+        adjusted_requirements["Option: Steel Soul On"] = (req(crest=False),)
+        adjusted_requirements["Option: Steel Soul Off"] = ()
+        from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
+        adjusted_requirements[RESTING_SITES_VISITED] = resting_site_requirements(steel_soul_sites)
     if room_node_overrides:
         adjusted_requirements.update(room_node_overrides)
     adjusted_requirements['Event: Silk and Soul Offered'] = get_silk_and_soul_requirements(silk_and_soul_points)
@@ -4614,19 +4632,8 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Quest Completion: Songclave Donation 2', req(
         'Event: Strengthening Songclave Completed',
     )),
-    # A Vassal Lost is Steel Soul-only and chooses three resting sites from a
-    # six-area pool. AP does not receive the game mode or per-save selection,
-    # so this rule requires access to all six areas.
-    ('Quest Completion: Steel Sentinel Pt2', area(
-        2,
-        'Mosslands - Bonegrave',
-        'Path: Blasted Steps - Toll',
-        'Path: Mosslands - Moss Grotto',
-        "Path: Far Fields - Pilgrim's Rest",
-        'Path: Putrified Ducts - Fleatopia',
-        'Path: Outlying Citadel - High Halls Ventrica',
-        'Path: Shellwood - Overgrown West',
-        'Path: Sands of Karak - Sands of Karak',
+    ('Quest Completion: Steel Sentinel Pt2', req(
+        'Room Event: event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8', crest=False,
     )),
 
     # Shakra carries missed stock forward. Valid routes prove access to a
@@ -6121,6 +6128,8 @@ def _get_static_abstract_requirement_items(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> tuple[tuple[str, tuple[LocationRequirement, ...]], ...]:
     starting_location = normalize_starting_location_key(starting_location)
@@ -6152,6 +6161,15 @@ def _get_static_abstract_requirement_items(
     if silk_and_soul_points != 17:
         requirement_items = tuple(
             (name, get_silk_and_soul_requirements(silk_and_soul_points) if name == 'Event: Silk and Soul Offered' else alternatives)
+            for name, alternatives in requirement_items
+        )
+
+    if steel_soul:
+        from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
+        requirement_items = tuple((name, resting_site_requirements(steel_soul_sites) if name == RESTING_SITES_VISITED else rules)
+                                  for name, rules in requirement_items)
+        requirement_items = tuple(
+            (name, (req(crest=False),) if name == "Option: Steel Soul On" else () if name == "Option: Steel Soul Off" else alternatives)
             for name, alternatives in requirement_items
         )
 
@@ -6346,6 +6364,8 @@ def _compile_static_abstract_worklist_plan(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> _AbstractWorklistPlan:
     requirements_signature = _get_static_abstract_requirement_items(
@@ -6366,6 +6386,8 @@ def _compile_static_abstract_worklist_plan(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
     return _compile_abstract_worklist_plan(requirements_signature)
@@ -6393,6 +6415,8 @@ def _matches_static_abstract_requirements(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> bool:
     """Return whether this is the unchanged runtime graph."""
@@ -6415,6 +6439,8 @@ def _matches_static_abstract_requirements(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
     return (
@@ -6449,6 +6475,8 @@ def _compute_abstract_values(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> tuple[
     dict[str, bool],
@@ -6496,6 +6524,8 @@ def _compute_abstract_values(
             hazard_respawn_tier,
             scuttlebrace_tier,
             bell_shrine_sanity,
+            steel_soul,
+            steel_soul_sites,
             silk_and_soul_points,
             inventory_signature,
             ABSTRACT_REQUIREMENTS.revision,
@@ -6561,6 +6591,8 @@ def _compute_abstract_values(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
     if _matches_static_abstract_requirements(
@@ -6582,6 +6614,8 @@ def _compute_abstract_values(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     ):
         worklist_plan = _compile_static_abstract_worklist_plan(
@@ -6602,6 +6636,8 @@ def _compute_abstract_values(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
     else:
@@ -6824,6 +6860,8 @@ def _has_named_requirement(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
@@ -6855,6 +6893,8 @@ def _has_named_requirement(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
     return _has_named_requirement_with_values(
@@ -6890,6 +6930,8 @@ def _satisfies_requirement(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
@@ -6922,6 +6964,8 @@ def _satisfies_requirement(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
         )
     )
@@ -6961,6 +7005,8 @@ def make_requirements_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ):
     def access_rule(state: CollectionState) -> bool:
@@ -6991,6 +7037,8 @@ def make_requirements_rule(
                 hazard_respawn_tier=hazard_respawn_tier,
                 scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
+                steel_soul=steel_soul,
+                steel_soul_sites=steel_soul_sites,
                 silk_and_soul_points=silk_and_soul_points,
             )
         )
@@ -7036,6 +7084,8 @@ def make_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ):
     if is_logic_unknown_location(location_name):
@@ -7067,6 +7117,8 @@ def make_rule(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
 
@@ -7319,6 +7371,8 @@ def make_goal_rule(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
 ):
     return make_requirements_rule(
@@ -7349,6 +7403,8 @@ def make_goal_rule(
         hazard_respawn_tier=hazard_respawn_tier,
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
     )
 
@@ -7541,6 +7597,8 @@ def export_abstract_requirements(
     hazard_respawn_tier: int = 0,
     scuttlebrace_tier: int = 0,
     bell_shrine_sanity: bool = False,
+    steel_soul: bool = False,
+    steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
@@ -7572,6 +7630,8 @@ def export_abstract_requirements(
             hazard_respawn_tier=hazard_respawn_tier,
             scuttlebrace_tier=scuttlebrace_tier,
             bell_shrine_sanity=bell_shrine_sanity,
+            steel_soul=steel_soul,
+            steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
             donation_tool_pouch_requirements=donation_tool_pouch_requirements,
             room_node_overrides=room_node_overrides,

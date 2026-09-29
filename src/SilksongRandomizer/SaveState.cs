@@ -155,6 +155,8 @@ namespace SilksongRandomizer
         public int fleaHuntGoalCount =
             Archipelago.DefaultFleaHuntGoalCount;
         public string startingLocation = string.Empty;
+        public string gameMode = SteelSoulSettings.Classic;
+        public string[] steelSoulSites = Array.Empty<string>();
         public bool startingLocationApplied;
         public string startingCrest = string.Empty;
         public bool splitDashAndSprint;
@@ -609,6 +611,7 @@ namespace SilksongRandomizer
             }
             startingCrest = startingCrest ?? string.Empty;
             startingLocation = startingLocation ?? string.Empty;
+            SteelSoulSettings.Validate(gameMode, steelSoulSites);
             preferredF4Hub = FastTravelUtil.NormalizePreferredHubKey(
                 preferredF4Hub
             );
@@ -890,6 +893,8 @@ namespace SilksongRandomizer
             fleaHuntGoalCount = archipelago.FleaHuntGoalCount;
             startingLocation = archipelago.StartingLocation ?? string.Empty;
             startingCrest = archipelago.StartingCrest ?? string.Empty;
+            gameMode = archipelago.GameMode;
+            steelSoulSites = (string[])archipelago.SteelSoulSites.Clone();
             progressionShuffle = progressionShuffle ?? new ProgressionShuffleState();
             progressionShuffle.BindConfiguration(archipelago.ProgressionShuffleJson,
                 roomSeed + ":" + team + ":" + slot);
@@ -1078,6 +1083,8 @@ namespace SilksongRandomizer
                     shellShardLink == archipelago.ShellShardLink &&
                     individualRelicTurnIns ==
                         archipelago.IndividualRelicTurnIns &&
+                   gameMode == archipelago.GameMode &&
+                   steelSoulSites.SequenceEqual(archipelago.SteelSoulSites) &&
                    RandomizationModesMatch(archipelago);
         }
 
@@ -1250,6 +1257,10 @@ namespace SilksongRandomizer
                        "'. Generate a new seed with the current APWorld and " +
                        "start a new randomizer save.";
             }
+
+            if (roomIdentityMatches && (gameMode != archipelago.GameMode ||
+                !steelSoulSites.SequenceEqual(archipelago.SteelSoulSites)))
+                return "This save uses different game mode or resting site settings than the connected slot.";
 
             if (roomIdentityMatches &&
                 !string.Equals(goal, archipelago.Goal, StringComparison.Ordinal))
@@ -1531,6 +1542,7 @@ namespace SilksongRandomizer
                     archipelago.FasterDialogue
                 );
             }
+
 
             if (roomIdentityMatches &&
                 alphabetMode != archipelago.AlphabetMode)

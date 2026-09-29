@@ -21,7 +21,7 @@ namespace SilksongRandomizer
             "Save the Fleas Pre", "Mossberry Collection Pre", "Pinstress Battle Pre", "Flea Games Pre", "Crow Feathers Pre",
             "Courier Delivery Bonebottom", "Courier Delivery Pilgrims Rest", "Courier Delivery Songclave",
             "Courier Delivery Fleatopia", "Courier Delivery Fixer", "Courier Delivery Dustpens Slave",
-            "Courier Delivery Mask Maker", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure"
+            "Courier Delivery Mask Maker", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Steel Sentinel", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure"
         };
 
         internal static readonly HashSet<string> SupportedBosses = new HashSet<string>(StringComparer.Ordinal) {
@@ -62,12 +62,14 @@ namespace SilksongRandomizer
             "Boss: Voltvyrm",
             "Boss: Watcher at the Edge",
             "Boss: Widow",
+            "Boss: Summoned Saviour",
         };
 
         internal static string WishIdentity(string stage)
         {
             switch (stage)
             {
+                case "Steel Sentinel Pt2": return "Steel Sentinel";
                 case "Huntress Quest Runt": return "Huntress Quest";
                 case "Save the Fleas": return "Save the Fleas Pre";
                 case "Mossberry Collection 1": return "Mossberry Collection Pre";
@@ -82,7 +84,7 @@ namespace SilksongRandomizer
             wish == "Save the Fleas Pre" || wish == "Mossberry Collection Pre" ||
             wish == "Pinstress Battle Pre" || wish == "Flea Games Pre" || wish == "Crow Feathers Pre";
 
-        internal static bool IsNpcWish(string wish) => wish == "Great Gourmand" ||
+        internal static bool IsNpcWish(string wish) => wish == "Steel Sentinel" || wish == "Steel Sentinel Pt2" || wish == "Great Gourmand" ||
             wish == "Wood Witch Curse" || wish == "Doctor Curse Cure" ||
             wish == "Huntress Quest" || wish == "Huntress Quest Runt" ||
             wish == "Extractor Blue" || wish == "Extractor Blue Worms" ||
@@ -229,6 +231,7 @@ namespace SilksongRandomizer
         {
             if (HasNativeWishFinish(wish)) return null;
             string source = OfferForWish(wish);
+            if (source == "Steel Sentinel") return "Zi in Blasted Steps";
             if (source == "Great Gourmand") return "the Gourmand's servant in Choral Chambers";
             if (source == "A Pinsmiths Tools") return "Pinmaster Plinney in Bellhart";
             if (source == "Brolly Get") return "the Seamstress in Far Fields";

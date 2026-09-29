@@ -417,6 +417,8 @@ class SilksongWorld(World):
         return excluded
 
     def get_goal_excluded_location_names(self) -> frozenset[str]:
+        from .game_modes import excluded_locations
+        mode_exclusions = excluded_locations(self.is_steel_soul(), self.is_act_one_content_scope())
         goal_key = self.get_content_scope()
         verdania_location_names = (
             frozenset()
@@ -446,11 +448,13 @@ class SilksongWorld(World):
                 )
                 | verdania_location_names
                 | act_three_only_location_names
+                | mode_exclusions
             )
         return (
             self.get_act_two_excluded_location_names()
             | verdania_location_names
             | act_three_only_location_names
+            | mode_exclusions
         )
 
     def get_act_one_donation_tool_pouch_requirements(self) -> dict[str, int]:
@@ -497,6 +501,8 @@ class SilksongWorld(World):
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                steel_soul=self.is_steel_soul(),
+                steel_soul_sites=self._steel_soul_sites,
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
                 randomized_crest_slots_enabled=self.get_category_mode('CrestSlot') != 'vanilla',
                 starting_location=self.get_starting_location_key(),
@@ -526,6 +532,12 @@ class SilksongWorld(World):
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
             self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
+        from .game_modes import choose_resting_sites, validate_resting_sites
+        self._steel_soul_sites = validate_resting_sites(
+            passthrough.get("steel_soul_sites", []) if passthrough is not None
+            else choose_resting_sites(self.random) if self.is_steel_soul() else (),
+            self.is_steel_soul(),
+        )
         if (self.is_ledgegrab_ability_rando_enabled()
                 and self.options.starting_location.current_key == 'vanilla'):
             self.options.starting_location.value = self.options.starting_location.option_bone_bottom
@@ -561,6 +573,7 @@ class SilksongWorld(World):
             randomize_swim=self.is_swim_ability_rando_enabled(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
+            steel_soul=self.is_steel_soul(),
         )
         if (
             self.get_category_mode('Skill') == 'shuffle'
@@ -590,6 +603,9 @@ class SilksongWorld(World):
         self.options.non_local_items.value.difference_update(
             entry.name for entry in opening_pool if entry.placement_category is not None
         )
+
+    def is_steel_soul(self) -> bool:
+        return self.options.game_mode.current_key == "steel_soul"
 
     def is_split_dash_and_sprint(self) -> bool:
         return (
@@ -909,6 +925,7 @@ class SilksongWorld(World):
             randomize_swim=self.is_swim_ability_rando_enabled(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
+            steel_soul=self.is_steel_soul(),
             minimum_memory_lockets=self._minimum_pool_lockets(),
         )
         total_traps = (trap_capacity * percentage + 50) // 100
@@ -1160,6 +1177,7 @@ class SilksongWorld(World):
             randomize_swim=self.is_swim_ability_rando_enabled(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
+            steel_soul=self.is_steel_soul(),
             alphabet_nonadvancement_demand_by_placement_category=(
                 nonadvancement_demand_by_lane
             ),
@@ -1349,6 +1367,7 @@ class SilksongWorld(World):
             for locations in SHUFFLE_FIXED_LOCATION_REWARDS.values()
             for location_name in locations
         }
+        source_rule_dependencies = {}
         for name, data in location_data_table.items():
             if (
                 name in self.get_goal_excluded_location_names()
@@ -1442,7 +1461,8 @@ class SilksongWorld(World):
                 reward_name in logic_item_references
                 and (name in restored_sources if restored_sources is not None else
                      native_source_requires_assumption(
-                         self, name, reward_name, pollip_heart_count, anchor))
+                         self, name, reward_name, pollip_heart_count, anchor,
+                         source_rule_dependencies))
             )
             if uses_native_source:
                 self._silksong_native_assumed_source_locations.add(name)
@@ -2041,6 +2061,8 @@ class SilksongWorld(World):
         slot_data = {
             **self.options.as_dict("accessibility", "start_inventory", "exclude_locations"),
             "world_version": WORLD_VERSION,
+            "game_mode": self.options.game_mode.current_key,
+            "steel_soul_sites": list(self._steel_soul_sites),
             "native_source_mask": self._native_source_mask(),
             "silk_and_soul_points": get_silk_and_soul_points(self.options),
             "goal": goal_key,
@@ -2140,6 +2162,8 @@ class SilksongWorld(World):
                 hazard_respawn_tier=int(self.options.hazard_respawn_logic.value),
                 scuttlebrace_tier=int(self.options.scuttlebrace_logic.value),
                 bell_shrine_sanity=self.get_category_mode("BellShrine") != "vanilla",
+                steel_soul=self.is_steel_soul(),
+                steel_soul_sites=self._steel_soul_sites,
                 silk_and_soul_points=get_silk_and_soul_points(self.options),
                 donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(self.get_purchase_prices()),
                 room_node_overrides=entrance_node_overrides(self, connected=True),

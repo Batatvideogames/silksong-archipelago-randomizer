@@ -50,6 +50,7 @@ namespace SilksongRandomizer.Patches
         {
             return state != null &&
                    state.IsRoomBound &&
+                   state.gameMode != SteelSoulSettings.SteelSoul &&
                    tool != null &&
                    string.Equals(
                        tool.name,

@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "cb7989533ed5ffb0e07f0420785a072844eec5fb2a0c2082f5e7b900fe57e84e",
     "catalogue_sha256": "c58fa3dbfdf89e6ed130bdf3154c32db6765d6b75959c94285a03631480f9fc9",
-    "bindings_sha256": "c65cddf12eb2a64f75d262672151879284d85537144cee16726c036678550c06"
+    "bindings_sha256": "5122ea0f7000ffa91ccf9e37e50219e8d370e4cc8c830dcf757b8334d99b93a2"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -145,6 +145,7 @@
       "Boss: Skarrsinger Karmelita",
       "Boss: Skull Tyrant (Bone Bottom)",
       "Boss: Skull Tyrant (The Marrow)",
+      "Boss: Summoned Saviour",
       "Boss: The Unravelled",
       "Boss: Tormented Trobbio",
       "Boss: Trobbio",
@@ -639,6 +640,7 @@
       "Seeker Soul",
       "Shard Pendant",
       "Sharpdart",
+      "Shell Satchel",
       "Shellwood - Bellshrine",
       "Shellwood - Bellway",
       "Shellwood - Frayed Rosary String",
@@ -6760,26 +6762,25 @@
           "id": "bone-bottom/bonegrave@ll",
           "requirement": {
             "raw": "complete THE a vassal lost wish promised\nAND visit resting sites 3",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: count:visit-resting-sites:3"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+                "macro:steel-soul-resting-sites"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: count:visit-resting-sites:3"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "44ceeaa5-1b04-4cbc-8cb2-808c3b15102e"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: count:visit-resting-sites:3"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "LL",
           "name": "lower left",
           "source_node_id": "bone-bottom/bonegrave#graveyard",
@@ -7622,26 +7623,24 @@
           "id": "bone-bottom/bonegrave-passage@r",
           "requirement": {
             "raw": "steel soul on",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Steel Soul content is not supported"
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:steel-soul-on"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "Steel Soul content is not supported"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "0b8f0a98-dd7a-497a-9209-4e4e68c75168"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "Steel Soul content is not supported"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "R",
           "name": "right",
           "source_node_id": "bone-bottom/bonegrave-passage#room",
@@ -7660,32 +7659,63 @@
           "id": "event:mapper/aa48b17e-dd99-40c9-8d5f-dfaa642a64a4",
           "requirement": {
             "raw": "complete THE a vassal lost wish promised\nAND visit resting sites 3",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: count:visit-resting-sites:3"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+                "macro:steel-soul-resting-sites",
+                "combat:boss:summoned-saviour"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: count:visit-resting-sites:3"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "aa48b17e-dd99-40c9-8d5f-dfaa642a64a4"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: count:visit-resting-sites:3"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "summoned savior boss fight",
           "kind": "boss",
           "node_id": "bone-bottom/bonegrave-passage#room"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "id": "bone-bottom/bonegrave-passage::mapper-check:aa48b17e-dd99-40c9-8d5f-dfaa642a64a4:836385",
+          "requirement": {
+            "raw": "complete THE a vassal lost wish promised\nAND visit resting sites 3",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+                "macro:steel-soul-resting-sites",
+                "combat:boss:summoned-saviour"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "aa48b17e-dd99-40c9-8d5f-dfaa642a64a4"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "summoned savior boss fight",
+          "node_id": "bone-bottom/bonegrave-passage#room",
+          "canonical_location": "Boss: Summoned Saviour",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
       "omitted_check_rows": []
     },
     {
@@ -30166,7 +30196,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "capability:free"
+                "state:steel-soul-off"
               ]
             ],
             "annotations": [],
@@ -30184,6 +30214,34 @@
           "label": "dead bugs purse",
           "node_id": "wormways/wormways-upper-east#pilgrim-grave",
           "canonical_location": "Dead Bug's Purse",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "wormways/wormways-upper-east::mapper-check:307427de-666b-489e-b720-f94144ecc06e:836384",
+          "requirement": {
+            "raw": "steel soul on",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:steel-soul-on"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "307427de-666b-489e-b720-f94144ecc06e"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "shell satchel",
+          "node_id": "wormways/wormways-upper-east#pilgrim-grave",
+          "canonical_location": "Shell Satchel",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -30793,13 +30851,7 @@
           "unresolved_reasons": []
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "307427de-666b-489e-b720-f94144ecc06e",
-          "label": "shell satchel",
-          "kind": "collectible"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "wormways/wormways-laboratory",
@@ -78137,31 +78189,37 @@
             "mode": "expression",
             "dnf": [
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:courier-bonebottom-delivered"
               ],
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:courier-pilgrims-rest-delivered"
               ],
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:courier-songclave-delivered"
               ],
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:courier-fleatopia-delivered"
               ],
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:courier-fixer-delivered"
               ],
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
                 "event:mapper/reviewed:great-taste-completed"
@@ -78187,10 +78245,131 @@
             "mode": "expression",
             "dnf": [
               [
+                "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:courier-queens-egg-delivered",
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-songclave-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:great-taste-completed"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:courier-songclave-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:great-taste-completed"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-songclave-delivered",
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-songclave-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-songclave-delivered",
+                "event:mapper/reviewed:great-taste-completed"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:great-taste-completed"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-fixer-delivered",
+                "event:mapper/reviewed:great-taste-completed"
               ]
             ],
             "annotations": [],
@@ -80510,7 +80689,7 @@
         {
           "id": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
           "alias": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
-          "name": "Boss Gate",
+          "name": "Arena to Right Entrance",
           "source_node_id": "bellhart/widow-boss-fight#arena",
           "target_node_id": "bellhart/widow-boss-fight#right-entrance",
           "requirement": {
@@ -80534,7 +80713,7 @@
         {
           "id": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
           "alias": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
-          "name": "Boss Gate",
+          "name": "Right Entrance to Arena",
           "source_node_id": "bellhart/widow-boss-fight#right-entrance",
           "target_node_id": "bellhart/widow-boss-fight#arena",
           "requirement": {
@@ -105947,26 +106126,25 @@
           "id": "blasted-steps/blasted-steps-steel-soul#silkeater-area>steel-soul-area@ss",
           "requirement": {
             "raw": "Steel Soul On\nAND break wall right",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Steel Soul content is not supported"
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:steel-soul-on",
+                "mapper:attack:right"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "Steel Soul content is not supported"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "8dca14f0-714e-452c-9f8b-86a0bd056448"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "Steel Soul content is not supported"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "SS",
           "name": "Steel Soul Passage",
           "source_node_id": "blasted-steps/blasted-steps-steel-soul#silkeater-area",
@@ -105976,26 +106154,25 @@
           "id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area>silkeater-area@ss",
           "requirement": {
             "raw": "Steel Soul On\nAND break wall left",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Steel Soul content is not supported"
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:steel-soul-on",
+                "mapper:attack:left"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "Steel Soul content is not supported"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "3cafc396-3e6d-4913-aa87-0514b6985ce7"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "Steel Soul content is not supported"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "SS",
           "name": "Steel Soul Passage",
           "source_node_id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area",
@@ -106009,7 +106186,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "state:steel-soul-off"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -106031,26 +106210,25 @@
           "id": "event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
           "requirement": {
             "raw": "Steel Soul On\nAND Maps 1",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Steel Soul content is not supported"
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:steel-soul-on",
+                "macro:any-map"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "Steel Soul content is not supported"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "must have a map requirement per the wiki",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "512aa8e5-5da8-4afd-b906-c6f270dab172"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "Steel Soul content is not supported"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "A Vassal Lost Wish Promised",
           "kind": "event",
           "node_id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area"
@@ -106080,6 +106258,32 @@
           "label": "A Vassal Lost Wish Granted",
           "kind": "event",
           "node_id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area"
+        },
+        {
+          "id": "event:mapper/637deeac-985a-4e28-9947-408199b88ddd",
+          "requirement": {
+            "raw": "complete A Vassal Lost Wish Granted",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "637deeac-985a-4e28-9947-408199b88ddd"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Growstone",
+          "kind": "collectible",
+          "node_id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area"
         }
       ],
       "checks": [
@@ -106089,7 +106293,9 @@
             "raw": "Nothing",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "state:steel-soul-off"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -106110,43 +106316,35 @@
           "currently_randomized": true
         },
         {
-          "id": "blasted-steps/blasted-steps-steel-soul::mapper-check:512aa8e5-5da8-4afd-b906-c6f270dab172:835786",
+          "id": "blasted-steps/blasted-steps-steel-soul::mapper-check:da476bc2-0b8d-4b9c-b040-2e0f75c197b8:835786",
           "requirement": {
-            "raw": "Steel Soul On\nAND Maps 1",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "Steel Soul content is not supported"
+            "raw": "defeat THE Summoned Savior Boss Fight",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/aa48b17e-dd99-40c9-8d5f-dfaa642a64a4"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "Steel Soul content is not supported"
-            ]
+            "unresolved_reasons": []
           },
-          "notes": "must have a map requirement per the wiki",
+          "notes": "",
           "source_line": 0,
           "raw_cells": {
-            "mapper_id": "512aa8e5-5da8-4afd-b906-c6f270dab172"
+            "mapper_id": "da476bc2-0b8d-4b9c-b040-2e0f75c197b8"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "Steel Soul content is not supported"
-          ],
-          "label": "A Vassal Lost Wish Promised",
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "A Vassal Lost Wish Granted",
           "node_id": "blasted-steps/blasted-steps-steel-soul#steel-soul-area",
           "canonical_location": "Wish: A Vassal Lost",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "637deeac-985a-4e28-9947-408199b88ddd",
-          "label": "Growstone",
-          "kind": "collectible"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "blasted-steps/blasted-steps-thin-long-vertical",
@@ -118533,7 +118731,9 @@
             "raw": "",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "state:steel-soul-off"
+              ]
             ],
             "annotations": [],
             "minimum_skip_tier": 0,
@@ -200848,7 +201048,7 @@
         {
           "id": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
           "alias": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
-          "name": "Boss Gate",
+          "name": "room to Right Entrance",
           "source_node_id": "the-cradle/lace-2-fight#room",
           "target_node_id": "the-cradle/lace-2-fight#right-entrance",
           "requirement": {
@@ -200872,7 +201072,7 @@
         {
           "id": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
           "alias": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
-          "name": "Boss Gate",
+          "name": "Right Entrance to room",
           "source_node_id": "the-cradle/lace-2-fight#right-entrance",
           "target_node_id": "the-cradle/lace-2-fight#room",
           "requirement": {

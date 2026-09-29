@@ -33,6 +33,7 @@ def native_rule_options(world) -> dict[str, object]:
         "hazard_respawn_tier": int(world.options.hazard_respawn_logic.value),
         "scuttlebrace_tier": int(world.options.scuttlebrace_logic.value),
         "bell_shrine_sanity": world.get_category_mode("BellShrine") != "vanilla",
+        "steel_soul": world.is_steel_soul(),
         "silk_and_soul_points": get_silk_and_soul_points(world.options),
         "randomized_crest_slots_enabled": (
             world.get_category_mode("CrestSlot") != "vanilla"
@@ -53,7 +54,7 @@ def native_rule_options(world) -> dict[str, object]:
 def get_native_abstract_requirements(world):
     from .entrance_randomization import node_overrides
 
-    return get_abstract_requirements(
+    requirements = dict(get_abstract_requirements(
         world.allows_bellways_before_bell_beast(),
         world.get_category_mode("CrestSlot") != "vanilla",
         world.get_starting_location_key(),
@@ -77,10 +78,15 @@ def get_native_abstract_requirements(world):
         hazard_respawn_tier=int(world.options.hazard_respawn_logic.value),
         scuttlebrace_tier=int(world.options.scuttlebrace_logic.value),
         bell_shrine_sanity=world.get_category_mode("BellShrine") != "vanilla",
+        steel_soul=world.is_steel_soul(),
+        steel_soul_sites=world._steel_soul_sites,
         silk_and_soul_points=get_silk_and_soul_points(world.options),
         donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
         room_node_overrides=node_overrides(world),
-    )
+    ))
+    from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
+    requirements[RESTING_SITES_VISITED] = resting_site_requirements(world._steel_soul_sites)
+    return requirements
 
 
 def choose_requirement_anchor(
@@ -148,6 +154,7 @@ def native_source_requires_assumption(
     reward_name: str,
     pollip_heart_count: int,
     anchor_requirement_name: str | None,
+    rule_dependencies: dict[int, tuple[frozenset[str], frozenset[str], bool]] | None = None,
 ) -> bool:
     if reward_name == "Memory Locket" or reward_name.startswith(("Bellway: ", "Ventrica: ")):
         return False
@@ -185,15 +192,22 @@ def native_source_requires_assumption(
         for entrance in region.entrances:
             access_rule = entrance.access_rule
             if access_rule is not type(entrance).access_rule:
-                if (
-                    not isinstance(access_rule, Rule.Resolved)
-                    or access_rule.player != world.player
-                    or reward_name in access_rule.item_dependencies()
-                    or access_rule.location_dependencies()
-                    or access_rule.entrance_dependencies()
-                ):
+                if not isinstance(access_rule, Rule.Resolved) or access_rule.player != world.player:
                     return True
-                pending.update(access_rule.region_dependencies())
+                key = id(access_rule)
+                dependencies = rule_dependencies.get(key) if rule_dependencies is not None else None
+                if dependencies is None:
+                    dependencies = (
+                        frozenset(access_rule.item_dependencies()),
+                        frozenset(access_rule.region_dependencies()),
+                        bool(access_rule.location_dependencies() or access_rule.entrance_dependencies()),
+                    )
+                    if rule_dependencies is not None:
+                        rule_dependencies[key] = dependencies
+                items, regions, external = dependencies
+                if reward_name in items or external:
+                    return True
+                pending.update(regions)
             parent_region = entrance.parent_region
             if (
                 parent_region is None

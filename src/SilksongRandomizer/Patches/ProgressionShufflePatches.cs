@@ -627,8 +627,9 @@ namespace SilksongRandomizer.Patches
                     item.Quest != null && state.AssignedWish(item.Quest.name) != null)) return;
                 int completed = ___quests.Count(item => item.Quest != null && item.Quest.IsCompleted);
                 var items = (__result ?? new List<ISimpleShopItem>()).Where(item =>
-                    !(item is SimpleQuestsShopOwner.ShopItemInfo entry) || entry.CustomDelivery != null ||
-                    entry.Quest == null || state.AssignedWish(entry.Quest.name) == null).ToList();
+                    !(item is NpcWishShopItem) &&
+                    (!(item is SimpleQuestsShopOwner.ShopItemInfo entry) || entry.CustomDelivery != null ||
+                     entry.Quest == null || state.AssignedWish(entry.Quest.name) == null)).ToList();
                 foreach (var item in ___quests)
                 {
                     bool prerequisites = item.AppearCondition.IsFulfilled &&
@@ -774,19 +775,60 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static bool HandleSteelQuestState(QuestPlaymakerActions.QuestFsmAction action)
+        {
+            var save = SaveState.Instance;
+            if (save?.gameMode != SteelSoulSettings.SteelSoul ||
+                !(action.Quest.Value is FullQuestBase quest)) return false;
+            var progress = save.progressionShuffle;
+            if (quest.name == "Steel Sentinel Pt2" &&
+                IsNpcAction(action, "Bone_Steel_Servant", "Steel Servant Scene", "Control", "Init") &&
+                progress.TryGetBossDefeat("Boss: Summoned Saviour", out bool defeated))
+            {
+                if (defeated) action.Fsm.Event("COMPLETED");
+                action.Finish();
+                return true;
+            }
+            if (quest.name != "Steel Sentinel Pt2" ||
+                !IsNpcAction(action, "Coral_37", "Room_States/Steel/Steel Sentinel", "Control", "State?")) return false;
+            bool hasCredit = progress.TryGetBossCredit("Boss: Summoned Saviour", out bool credit);
+            var firstStage = QuestManager.GetQuest("Steel Sentinel");
+            if (hasCredit && credit && firstStage.IsAccepted && SteelSoulSettings.AllSitesVisited(save, PlayerData.instance) &&
+                !quest.IsAccepted && !quest.IsCompleted) quest.BeginQuest(null, showPrompt: false);
+            if (quest.IsAccepted && !quest.IsCompleted && (!hasCredit || credit)) return false;
+            string target = progress.AssignedWish("Steel Sentinel");
+            if (target != null && (PlayerData.instance.HasAnyMap || progress.IsWishOfferUnlocked("Steel Sentinel")))
+            {
+                if (progress.RecordWishOfferUnlocked("Steel Sentinel")) GameManager.instance?.QueueSaveGame();
+                if (NeedsNpcWishInteraction(QuestManager.GetQuest(target)))
+                {
+                    action.Fsm.SetState("Offer");
+                    action.Finish();
+                    return true;
+                }
+            }
+            if (hasCredit && !credit)
+            {
+                action.Finish();
+                return true;
+            }
+            return false;
+        }
+
         [HarmonyPatch(typeof(QuestYesNoV2), "DoOpen")]
         private static class HeraldWishPromptPatch
         {
             [HarmonyPrefix]
             private static bool Prefix(QuestYesNoV2 __instance)
             {
-                if (!IsNpcAction(__instance, "Aqueduct_05", "Mr_Mush_Tablet_St/Mr Mushroom Tablet", "Inspection", "Begin Quest?"))
+                bool steel = IsNpcAction(__instance, "Coral_37", "Room_States/Steel/Steel Sentinel", "Control", "Take Quest?");
+                if (!steel && !IsNpcAction(__instance, "Aqueduct_05", "Mr_Mush_Tablet_St/Mr Mushroom Tablet", "Inspection", "Begin Quest?"))
                     return true;
-                string target = SaveState.Instance?.progressionShuffle?.AssignedWish("Mr Mushroom");
+                string target = SaveState.Instance?.progressionShuffle?.AssignedWish(steel ? "Steel Sentinel" : "Mr Mushroom");
                 if (target == null) return true;
                 OpenNpcWish(QuestManager.GetQuest(target), () => {
                     typeof(YesNoAction).GetField("succeeded", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, true);
-                    __instance.Fsm.SetState("Dialogue End No");
+                    __instance.Fsm.SetState(steel ? "End Dlg" : "Dialogue End No");
                     __instance.Finish();
                 });
                 return false;
@@ -800,6 +842,7 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(QuestPlaymakerActions.QuestFsmAction __instance)
             {
                 if (!(__instance is QuestPlaymakerActions.CheckQuestState) && !(__instance is QuestPlaymakerActions.CheckQuestStateV2)) return true;
+                if (HandleSteelQuestState(__instance)) return false;
                 var progressState = SaveState.Instance?.progressionShuffle;
                 if (IsHuntressAction(__instance, "Quest Status?") &&
                     __instance.Quest.Value is FullQuestBase huntress &&
@@ -1065,7 +1108,7 @@ namespace SilksongRandomizer.Patches
             private static void Postfix(FullQuestBase __instance, bool __result, bool forceEnd)
             {
                 var state = SaveState.Instance?.progressionShuffle;
-                if (state == null || !__result || ProgressionShuffleState.IsWishNotice(__instance.name) || (forceEnd && boardTurnInDepth == 0 &&
+                if (state == null || !__result || __instance.name == "Steel Sentinel" || ProgressionShuffleState.IsWishNotice(__instance.name) || (forceEnd && boardTurnInDepth == 0 &&
                     !ProgressionShuffleState.HasNativeWishFinish(__instance.name)) ||
                     (!__instance.IsAccepted && __instance.name != "Song Knight") || !__instance.IsCompleted) return;
                 state.RecordWishAccepted(ProgressionShuffleState.WishIdentity(__instance.name));

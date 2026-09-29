@@ -29,6 +29,7 @@ namespace SilksongRandomizer.Patches
             {
                 Archipelago.Instance.ResetReceivedItemQueueCursor();
                 saveState.BindToRoom(Archipelago.Instance);
+                SteelSoulSettings.ApplyNewGame(saveState, PlayerData.instance);
                 Archipelago.Instance.Resynchronize();
             }
             BellhomePhaseManager.EnsureBellhomeUnlocked();
@@ -95,6 +96,12 @@ namespace SilksongRandomizer.Patches
             BellhomePhaseManager.EnsureBellhomeUnlocked();
             Debug.Log("[Randomizer Save] SaveState loaded: " + GetDataPath(slot));
             return true;
+        }
+
+        internal static bool CanLoadPlayerData(int slot, PlayerData playerData, out string error)
+        {
+            return TryLoadValidatedState(slot, out SaveState state, out error) &&
+                   SteelSoulSettings.ValidatePlayerData(state, playerData, out error);
         }
 
         internal static bool CanLoad(int slot, out string error)
@@ -413,11 +420,12 @@ namespace SilksongRandomizer.Patches
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.StartNewGame), new Type[] { typeof(bool), typeof(bool) })]
     internal static class StartNewGamePatch
     {
-        private static bool Prefix(out bool __state)
+        private static bool Prefix(ref bool __0, out bool __state)
         {
             __state = Archipelago.Instance != null && Archipelago.Instance.Connected;
             if (__state)
             {
+                __0 = Archipelago.Instance.GameMode == SteelSoulSettings.SteelSoul;
                 return true;
             }
 
@@ -478,17 +486,17 @@ namespace SilksongRandomizer.Patches
     [HarmonyPatch(typeof(GameManager), "SetLoadedGameData", new Type[] { typeof(SaveGameData), typeof(int) })]
     internal static class LoadGamePatch
     {
-        private static bool Prefix(int saveSlot, out bool __state)
+        private static bool Prefix(SaveGameData saveGameData, int saveSlot, out bool __state)
         {
             __state = false;
-            if (SavePatches.CanLoad(saveSlot, out string error))
+            if (SavePatches.CanLoadPlayerData(saveSlot, saveGameData?.playerData, out string error))
             {
                 __state = true;
                 return true;
             }
 
             RandomizerPlugin.Instance.ReportBlockingError(error);
-            return false;
+            throw new InvalidDataException(error);
         }
 
         private static void Postfix(SaveGameData saveGameData, int saveSlot, bool __state)

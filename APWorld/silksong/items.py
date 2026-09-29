@@ -619,7 +619,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
     'Progressive Crafting Kit',
 }) | frozenset(BOSS_CREDIT_BY_LOCATION['Boss: ' + name] for name in (
     'Bell Beast', 'Cogwork Dancers', 'Fourth Chorus', 'Groal the Great',
-    'Skull Tyrant (The Marrow)', 'Widow', 'Lace (Cradle)',
+    'Skull Tyrant (The Marrow)', 'Widow', 'Lace (Cradle)', 'Summoned Saviour',
 ))
 
 USEFUL_ITEMS: FrozenSet[str] = frozenset(
@@ -1419,6 +1419,7 @@ def get_dynamic_trap_capacity(
     randomize_swim: bool = False,
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
+    steel_soul: bool = False,
     minimum_memory_lockets: int = 0,
 ) -> int:
     """Count filler entries that can be replaced by traps."""
@@ -1447,6 +1448,7 @@ def get_dynamic_trap_capacity(
             randomize_swim=randomize_swim,
             randomize_diving_bell_key=randomize_diving_bell_key,
             cursed_ending=cursed_ending,
+            steel_soul=steel_soul,
             include_later_act_items=False,
             minimum_memory_lockets=minimum_memory_lockets,
         )
@@ -1559,6 +1561,7 @@ def build_item_pool_entries(
     randomize_swim: bool = False,
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
+    steel_soul: bool = False,
     alphabet_nonadvancement_demand_by_placement_category: (
         Mapping[str | None, int] | None
     ) = None,
@@ -1841,6 +1844,36 @@ def build_item_pool_entries(
     elif exclude_verdania:
         entries = _trim_verdania_pool_entries(entries, category_modes)
 
+    from .game_modes import excluded_locations
+    mode_exclusions = excluded_locations(steel_soul, act_one_only)
+    for location in sorted(mode_exclusions - goal_excluded_location_names):
+        if location in {"Shell Satchel", "Boss: Summoned Saviour"}:
+            continue
+        category = location_data_table[location].category
+        if category_modes.get(category, "anywhere") == "vanilla":
+            continue
+        reward = None if category in OBSERVATION_ITEM_CATEGORIES else get_vanilla_reward_name(location, category)
+        index = next((index for index, entry in enumerate(entries)
+                      if entry.source_category == category
+                      and (entry.name == reward if reward else _is_replaceable_filler(entry.name))), None)
+        if index is None:
+            raise ValueError(f"Missing {category} pool entry for mode-excluded location {location!r}.")
+        entries.pop(index)
+    if steel_soul:
+        additions = [("Shell Satchel", "Tool")] if "Dead Bug's Purse" not in goal_excluded_location_names else []
+        if not act_one_only:
+            additions += [("Rosaries (60)", "Boss")]
+        for item, category in additions:
+            mode = category_modes.get(category, "anywhere")
+            if mode != "vanilla":
+                entries.append(ItemPoolEntry(item, category, category if mode == "shuffle" else None))
+    goal_excluded_location_names |= mode_exclusions
+    if steel_soul and category_modes.get("Quest", "anywhere") != "vanilla" and "Wish: A Vassal Lost" not in goal_excluded_location_names:
+        index = next(index for index, entry in enumerate(entries)
+                     if entry.source_category == "Quest" and _is_replaceable_filler(entry.name))
+        entry = entries[index]
+        entries[index] = ItemPoolEntry("Growstone", entry.source_category, entry.placement_category)
+
     if category_modes.get("Boss", "vanilla") != "vanilla":
         credits = [item for location, item in BOSS_CREDIT_BY_LOCATION.items()
                    if location not in goal_excluded_location_names]
@@ -1923,7 +1956,8 @@ def build_item_pool_entries(
             entry = entries[index]
             entries[index] = ItemPoolEntry('Memory Locket', entry.source_category, None)
 
-    add_pool_only_useful_items(entries)
+    if not steel_soul:
+        add_pool_only_useful_items(entries)
 
     replace_filler_with_innate_ability_items(
         entries,
@@ -2108,6 +2142,7 @@ def get_configured_item_pool_size(
     randomize_swim: bool = False,
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
+    steel_soul: bool = False,
 ) -> int:
     return len(
         build_item_pool_entries(
@@ -2132,6 +2167,7 @@ def get_configured_item_pool_size(
             randomize_swim=randomize_swim,
             randomize_diving_bell_key=randomize_diving_bell_key,
             cursed_ending=cursed_ending,
+            steel_soul=steel_soul,
         )
     )
 

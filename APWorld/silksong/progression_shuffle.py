@@ -279,7 +279,7 @@ SUPPORTED_WISH_IDS = (frozenset(identity for identity, *_ in _DONATIONS) |
     "Beastfly Hunt", "Ant Trapper", "Broodmother Hunt",
     "Save City Merchant", "Save City Merchant Bridge", "Save Sherma",
     "Save Courier Short", "Save Courier Tall", "Garmond Black Threaded", "Tormented Trobbio", "Song Knight", "Shakra Final Quest",
-    "Save the Fleas Pre", "Mossberry Collection Pre", "Pinstress Battle Pre", "Flea Games Pre", "Crow Feathers Pre", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure",
+    "Save the Fleas Pre", "Mossberry Collection Pre", "Pinstress Battle Pre", "Flea Games Pre", "Crow Feathers Pre", "Great Gourmand", "A Pinsmiths Tools", "Brolly Get", "Mr Mushroom", "Steel Sentinel", "Shell Flowers", "Extractor Blue", "Extractor Blue Worms", "Huntress Quest", "Wood Witch Curse", "Doctor Curse Cure",
 }))
 
 
@@ -557,6 +557,16 @@ def npc_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[str]
         wishes.append(WishContract(identity, graph[accepted], task,
             completion_aliases=(completed, *(event_prefix + name for name in completed_ids)),
             acceptance_aliases=aliases))
+    if "Wish: A Vassal Lost" in eligible_locations:
+        accepted = "Room Event: event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172"
+        completed = "Room Event: event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8"
+        from .game_modes import RESTING_SITES_VISITED
+        if not graph.get(accepted) or not graph.get(completed):
+            raise ValueError("A Vassal Lost requirements need review.")
+        task = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, RESTING_SITES_VISITED))))
+                     for rule in graph[completed])
+        wishes.append(WishContract("Steel Sentinel", graph[accepted], task,
+            completion_aliases=(completed,), acceptance_aliases=(accepted,), locations=("Wish: A Vassal Lost",)))
     return tuple(wishes)
 
 
@@ -573,6 +583,9 @@ def wish_location_rules(wishes: tuple[WishContract, ...]) -> Mapping[str, Rules]
 SUPPORTED_BOSS_IDS = BOSS_CREDIT_LOCATIONS
 _EVENT_PREFIX = "Room Event: event:mapper/"
 _STORY_GATES = (
+    ("Boss: Summoned Saviour", ("aa48b17e-dd99-40c9-8d5f-dfaa642a64a4",), (
+        "da476bc2-0b8d-4b9c-b040-2e0f75c197b8",
+    ), ()),
     ("Boss: Cogwork Dancers", ("282aae6f-3964-4935-93ea-5beaa6ef9fa4",), (
         "b271d4ca-faa9-4104-b801-dec2e1914ba5", "75b9d46a-1a7f-4f87-9ac9-4651468dcb1d",
         "7f55d1a9-b427-462d-a1f8-40653ea100f8",
@@ -636,6 +649,10 @@ def story_rules(graph, eligible, boss_ids):
         for name in location_names:
             if name in eligible:
                 locations[name] = _story_rules(locations.get(name, get_location_requirements(name)), dependencies, boss)
+    if "Boss: Summoned Saviour" in boss_ids:
+        from .game_modes import RESTING_SITES_VISITED
+        name = _EVENT_PREFIX + "da476bc2-0b8d-4b9c-b040-2e0f75c197b8"
+        events[name] = tuple(replace(rule, all_of=(*rule.all_of, RESTING_SITES_VISITED)) for rule in events[name])
     if "Boss: Groal the Great" in boss_ids:
         name = "Event: Trail's End Completed"
         boss = "Boss: Groal the Great"
@@ -843,6 +860,8 @@ def finalize_world(world):
 def export_world(world, slot_data):
     from .requirements import _export_requirement_group, export_wish_logic_events
 
+    from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
+    slot_data["abstract_requirements"][RESTING_SITES_VISITED] = _export_requirement_group(resting_site_requirements(world._steel_soul_sites))
     slot_data["progression_shuffle"] = world._progression_assignments.to_slot_data()
     for name, requirements in {**world._progression_story_events, **world._progression_events}.items():
         slot_data["abstract_requirements"][name] = _export_requirement_group(requirements)

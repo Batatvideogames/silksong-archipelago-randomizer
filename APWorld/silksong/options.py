@@ -22,6 +22,15 @@ from .minor_families import (
 )
 
 
+class GameMode(Choice):
+    """Choose Classic or Steel Soul. Steel Soul changes some checks and ends the save on death."""
+
+    display_name = "Game Mode"
+    option_classic = 0
+    option_steel_soul = 1
+    default = option_classic
+
+
 class GlobalRandomization(Choice):
     """Keep a category vanilla or mix it into the global pool."""
 
@@ -505,19 +514,20 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
 
 
 class BossSanity(CategoryRandomization):
-    """Adds boss completion checks and shuffles supported boss story credits.
-    Items earned from bosses and wishes follow their own randomization settings.
-    
-    vanilla: no boss completion checks or story credit shuffle
-    anywhere: fills boss completion checks from the global item pool
-    shuffle: shuffles items only among boss completion checks
-    
-    Bosses in your goal's content pool can grant another boss's story credit.
-    Fight difficulty and physical arena exits stay with the boss you face.
+    """Adds boss checks and replaces their filler with boss credit items.
+    Receiving a credit grants that boss's story unlocks.
+    Items dropped by bosses follow their own randomization settings.
+
+    vanilla: keeps the usual boss progression without extra checks
+    anywhere: boss credits can appear anywhere in the multiworld
+    shuffle: boss credits stay at your own boss checks
+
+    Fight difficulty and arena exits stay with the boss you face.
     Act transitions still require their original fights.
     """
 
     display_name = "Boss Sanity"
+    default = CategoryRandomization.option_vanilla
 
 
 class BellShrineSanity(CategoryRandomization):
@@ -529,6 +539,7 @@ class BellShrineSanity(CategoryRandomization):
 
 class QuestSanity(CategoryRandomization):
     """Adds wish completion checks and shuffles supported board and NPC offers.
+    Also randomizes Growstone in Steel Soul.
     Items earned from bosses and wishes follow their own randomization settings.
     
     vanilla: no wish completion checks or offer shuffle
@@ -537,6 +548,7 @@ class QuestSanity(CategoryRandomization):
     """
 
     display_name = "Wish Sanity"
+    default = CategoryRandomization.option_vanilla
 
 
 CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
@@ -1275,6 +1287,7 @@ class EntranceRandomizationScope(Choice):
 @dataclass
 class SilksongOptions(PerGameCommonOptions):
     accessibility: SilksongAccessibility
+    game_mode: GameMode
     goal: Goal
     spelling_bee_phrase: SpellingBeePhrase
     flea_hunt_count: FleaHuntCount
@@ -1388,6 +1401,7 @@ silksong_option_groups = [
     OptionGroup("General/Goal Options", [
         ProgressionBalancing,
         SilksongAccessibility,
+        GameMode,
         Goal,
         SpellingBeePhrase,
         BellwayAccess,

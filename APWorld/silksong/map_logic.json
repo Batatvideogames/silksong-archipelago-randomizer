@@ -125825,6 +125825,374 @@
           }
         ]
       },
+      "Capability: Has Any Map": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Map: Mosslands"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: The Marrow"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Deep Docks"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Far Fields"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Wormways"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Hunter's March"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Greymoor"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Bellhart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Shellwood"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Blasted Steps"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Sinner's Road"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Mount Fay"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Sands of Karak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Bilewater"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Weavenest Atla"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Grand Gate"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Underworks"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Choral Chambers"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Whispering Vaults"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Whiteward"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Cogwork Core"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Memorium"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: High Halls"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: The Slab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Putrified Ducts"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: The Cradle"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: The Abyss"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Map: Verdania"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Capability: Ledge Grab": {
         "alternatives": [
           {
@@ -137437,6 +137805,9 @@
           }
         ]
       },
+      "Event: Selected Steel Soul Resting Sites Visited": {
+        "alternatives": []
+      },
       "Event: Shrine Guardian Seth Defeated": {
         "alternatives": [
           {
@@ -138938,6 +139309,24 @@
         "alternatives": []
       },
       "Option: Proficient Movement": {
+        "alternatives": []
+      },
+      "Option: Steel Soul Off": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Option: Steel Soul On": {
         "alternatives": []
       },
       "Path: Abyss - Escape": {
@@ -148173,7 +148562,23 @@
         ]
       },
       "Room Event: event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: blasted-steps/blasted-steps-steel-soul#steel-soul-area",
+              "Option: Steel Soul On",
+              "Capability: Has Any Map"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Event: event:mapper/51460205-ccaf-4681-9d97-de898b7f660d": {
         "alternatives": [
@@ -149212,6 +149617,24 @@
             "all_of": [
               "Room Node: weavenest-atla/weavenest-atla-grotto#boss-room",
               "Combat: Moss Mother (Weavenest Atla)"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Event: event:mapper/637deeac-985a-4e28-9947-408199b88ddd": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: blasted-steps/blasted-steps-steel-soul#steel-soul-area",
+              "Room Event: event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8"
             ],
             "any_of": [],
             "item_counts": [],
@@ -152492,7 +152915,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: blasted-steps/blasted-steps-steel-soul#silkeater-area"
+              "Room Node: blasted-steps/blasted-steps-steel-soul#silkeater-area",
+              "Option: Steel Soul Off"
             ],
             "any_of": [],
             "item_counts": [],
@@ -155303,7 +155727,24 @@
         ]
       },
       "Room Event: event:mapper/aa48b17e-dd99-40c9-8d5f-dfaa642a64a4": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bonegrave-passage#room",
+              "Room Event: event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+              "Event: Selected Steel Soul Resting Sites Visited",
+              "Combat: Summoned Saviour"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Event: event:mapper/aaa5b6fd-8789-470e-8c34-46fa8674a4ce": {
         "alternatives": [
@@ -163965,10 +164406,296 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
             ],
             "any_of": [],
             "item_counts": [],
@@ -164079,6 +164806,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
@@ -164095,6 +164823,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
@@ -164111,6 +164840,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:courier-songclave-delivered"
@@ -164127,6 +164857,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
@@ -164143,6 +164874,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:courier-fixer-delivered"
@@ -164159,6 +164891,7 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
               "Room Event: event:mapper/reviewed:great-taste-completed"
@@ -168383,7 +169116,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-styx-room#right"
+              "Room Node: sinner-s-road/sinner-s-road-styx-room#right",
+              "Option: Steel Soul Off"
             ],
             "any_of": [],
             "item_counts": [],
@@ -185250,11 +185984,40 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: blasted-steps/blasted-steps-steel-soul#steel-soul-area",
+              "Option: Steel Soul On"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
       "Room Node: blasted-steps/blasted-steps-steel-soul#steel-soul-area": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: blasted-steps/blasted-steps-steel-soul#silkeater-area",
+              "Option: Steel Soul On"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Node: blasted-steps/blasted-steps-thin-long-vertical#bottom-third-lower-half": {
         "alternatives": [
@@ -192074,6 +192837,20 @@
           {
             "act": "",
             "all_of": [
+              "Room Node: bone-bottom/bonegrave-passage#room",
+              "Option: Steel Soul On"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
               "Room Node: bone-bottom/chapel-of-the-wanderer#door-platform"
             ],
             "any_of": [],
@@ -192628,7 +193405,23 @@
         ]
       },
       "Room Node: bone-bottom/bonegrave-passage#room": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bonegrave#graveyard",
+              "Room Event: event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+              "Event: Selected Steel Soul Resting Sites Visited"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Node: bone-bottom/chapel-of-the-wanderer#crest-room": {
         "alternatives": [
@@ -332291,7 +333084,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: blasted-steps/blasted-steps-steel-soul#silkeater-area"
+              "Room Node: blasted-steps/blasted-steps-steel-soul#silkeater-area",
+              "Option: Steel Soul Off"
             ],
             "any_of": [],
             "item_counts": [],
@@ -333268,6 +334062,26 @@
             "all_of": [
               "Room Node: the-marrow/the-marrow-skull-tyrant-arena#tyrants-throne",
               "Combat: Skull Tyrant (The Marrow)"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Boss: Summoned Saviour": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bonegrave-passage#room",
+              "Room Event: event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172",
+              "Event: Selected Steel Soul Resting Sites Visited",
+              "Combat: Summoned Saviour"
             ],
             "any_of": [],
             "item_counts": [],
@@ -335593,7 +336407,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: wormways/wormways-upper-east#pilgrim-grave"
+              "Room Node: wormways/wormways-upper-east#pilgrim-grave",
+              "Option: Steel Soul Off"
             ],
             "any_of": [],
             "item_counts": [],
@@ -364267,6 +365082,24 @@
           }
         ]
       },
+      "Shell Satchel": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: wormways/wormways-upper-east#pilgrim-grave",
+              "Option: Steel Soul On"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Shellwood - Bellshrine": {
         "alternatives": [
           {
@@ -369922,7 +370755,10 @@
         "alternatives": [
           {
             "act": "",
-            "all_of": [],
+            "all_of": [
+              "Room Node: blasted-steps/blasted-steps-steel-soul#steel-soul-area",
+              "Room Event: event:mapper/aa48b17e-dd99-40c9-8d5f-dfaa642a64a4"
+            ],
             "any_of": [],
             "item_counts": [],
             "minimum_skip_tier": 0,
@@ -369931,8 +370767,7 @@
             "require_silk_spear": false,
             "required_locations": []
           }
-        ],
-        "logic_unknown": true
+        ]
       },
       "Wish: Advanced Alchemy": {
         "alternatives": [

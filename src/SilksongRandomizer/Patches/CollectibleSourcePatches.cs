@@ -1568,7 +1568,7 @@ namespace SilksongRandomizer.Patches
                 // each reward so a game update cannot suppress an unrelated one.
                 //
                 // Unique vanilla rewards which are not randomized elsewhere
-                // (Plasmium Gland, Tool Pouch and Growstone)
+                // (Plasmium Gland and Tool Pouch)
                 // remain untouched. Pale Oil, Memory Locket and Spool
                 // Fragment quest rewards have their own physical AP source
                 // paths and are not handled by this QuestSanity proxy.

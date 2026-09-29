@@ -309,9 +309,11 @@
     "locations": []
   },
   "event:mapper/aa48b17e-dd99-40c9-8d5f-dfaa642a64a4": {
-    "name": "Bonegrave Passage - Summoned savior boss fight",
+    "name": "Boss: Summoned Saviour",
     "kind": "boss",
-    "locations": []
+    "locations": [
+      "Boss: Summoned Saviour"
+    ]
   },
   "event:mapper/52d3e32c-1258-4b5f-a1c7-b8968931bd72": {
     "name": "Crest: Wanderer",
@@ -3962,16 +3964,16 @@
     ]
   },
   "event:mapper/512aa8e5-5da8-4afd-b906-c6f270dab172": {
+    "name": "Blasted Steps Steel Soul - A Vassal Lost Wish Promised",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8": {
     "name": "Wish: A Vassal Lost",
     "kind": "event",
     "locations": [
       "Wish: A Vassal Lost"
     ]
-  },
-  "event:mapper/da476bc2-0b8d-4b9c-b040-2e0f75c197b8": {
-    "name": "Blasted Steps Steel Soul - A Vassal Lost Wish Granted",
-    "kind": "event",
-    "locations": []
   },
   "event:mapper/a3f314bf-02a7-4dd1-b0d4-ac6d426132a6": {
     "name": "Flea: Blasted Steps",
@@ -6746,6 +6748,11 @@
   "event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1": {
     "name": "Fleatopia - Festival of the Flea",
     "kind": "logic-point",
+    "locations": []
+  },
+  "event:mapper/637deeac-985a-4e28-9947-408199b88ddd": {
+    "name": "Blasted Steps Steel Soul - Growstone",
+    "kind": "collectible",
     "locations": []
   }
 }

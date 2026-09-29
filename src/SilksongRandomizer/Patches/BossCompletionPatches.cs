@@ -41,6 +41,7 @@ namespace SilksongRandomizer.Patches
             ["Library_13|Grand Stage Scene/Boss Scene TormentedTrobbio/Tormented Trobbio"] = "Boss: Tormented Trobbio",
             ["Coral_Judge_Arena|Boss Scene/Last Judge"] = "Boss: Last Judge",
             ["Clover_19|Boss Scene/Cloverstag White Boss"] = "Boss: Palestag",
+            ["Bone_Steel_Servant|Steel Servant Scene/Battle Scene/Wave 1/Abyss Mass"] = "Boss: Summoned Saviour",
             ["Crawl_10|Blue Assistant"] = "Boss: Plasmified Zango",
         };
 

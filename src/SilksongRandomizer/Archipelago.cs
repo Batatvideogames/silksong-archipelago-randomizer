@@ -136,6 +136,8 @@ namespace SilksongRandomizer
         public string StartingLocation { get; private set; } =
             StartingLocationVanilla;
         public string StartingCrest { get; private set; } = string.Empty;
+        public string GameMode { get; private set; } = SteelSoulSettings.Classic;
+        public string[] SteelSoulSites { get; private set; } = Array.Empty<string>();
         public bool SplitDashAndSprint { get; private set; }
         public bool LedgegrabAbilityRando { get; private set; }
         public bool SwimAbilityRando { get; private set; }
@@ -541,6 +543,10 @@ namespace SilksongRandomizer
                 );
                 StartingLocation = startingLocation;
                 StartingCrest = startingCrest;
+                GameMode = successful.SlotData.ContainsKey("game_mode")
+                    ? GetRequiredStringSlotData(successful, "game_mode") : SteelSoulSettings.Classic;
+                SteelSoulSites = GetOptionalArraySlotData(successful, "steel_soul_sites").ToObject<string[]>();
+                SteelSoulSettings.Validate(GameMode, SteelSoulSites);
                 SplitDashAndSprint = GetBooleanSlotData(
                     successful,
                     "split_dash_and_sprint"

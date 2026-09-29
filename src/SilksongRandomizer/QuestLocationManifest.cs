@@ -70,8 +70,6 @@ namespace SilksongRandomizer
             new QuestLocationDefinition("Pinstress Battle"),
         };
 
-        // Generic currency rewards from the quest
-        // bundle. These are the only vanilla rewards Quest Sanity replaces.
         private static readonly Dictionary<string, string>
             ReplaceableVanillaRewards =
                 new Dictionary<string, string>(
@@ -106,6 +104,7 @@ namespace SilksongRandomizer
                         "Courier Delivery Songclave",
                         "Money Reward"
                     },
+                    { "Steel Sentinel Pt2", "Growstone" },
                     { "Fine Pins", "Rosary_Set_Large" },
                     { "Pilgrim Rags", "Rosary_Set_Medium" },
                     { "Shiny Bell Goomba", "Rosary_Set_Medium" },

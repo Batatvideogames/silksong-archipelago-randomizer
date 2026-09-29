@@ -341,6 +341,7 @@ namespace SilksongRandomizer
             { "Voltvyrm", "Zap Core Enemy" },
             { "Watcher at the Edge", "Coral Warrior Grey" },
             { "Widow", "Spinner Boss" },
+            { "Summoned Saviour", "Abyss Mass" },
         };
 
         private static Sprite GetBossJournalIcon(string itemName)

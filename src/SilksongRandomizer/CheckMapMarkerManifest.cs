@@ -90,6 +90,8 @@ namespace SilksongRandomizer
             new MapCheckPosition("Skill Unlock: Needolin", "Belltown_Shrine", 54.09f, 21.1f, 95f, 38f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Spell Unlock: Silk Spear", "Mosstown_02", 86.94f, 52.31f, 160f, 65f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Spell Unlock: Thread Sphere", "Greymoor_22", 39.82f, 36.49f, 110f, 50f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Tool Unlock: Shell Satchel", "Crawl_01", 54.5f, 85.1f, 150f, 130f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Summoned Saviour", "Bone_Steel_Servant", 25.81f, 9.13f, 130f, 40f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Dead Mans Purse", "Crawl_01", 54.5f, 85.1f, 150f, 130f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Wisp Lantern", "Belltown_08", 54.55f, 11.31f, 115f, 47f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Harpoon", "Belltown_Room_shellwood", 37.023f, 7.07f, 55f, 26f, MapMarkerPositionConfidence.ExactUpstream),
