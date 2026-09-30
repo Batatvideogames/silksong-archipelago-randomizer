@@ -69,7 +69,7 @@ namespace SilksongRandomizer
             { "Rosary Cannon", "_0004_T_rosary_cannon_loaded" },
             { "Straight Pin", "T_straight_pin" },
             { "Longpin", "T_claw_javelin" },
-            { "Sawtooth Circlet", "T_cogwork_saw" },
+            { "Sawtooth Circlet", "T_brolly_spike" },
             { "Throwing Ring", "T_shakra_ring" },
             { "Delver's Drill", "T_Spine_head" },
             { "Pimpillo", "T_pimpilo" },
