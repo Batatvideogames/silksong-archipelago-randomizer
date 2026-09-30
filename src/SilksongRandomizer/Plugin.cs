@@ -1264,7 +1264,8 @@ namespace SilksongRandomizer
             if (playerData == null ||
                 playerData.HasStoredMemoryState ||
                 hero == null ||
-                !hero.CanAttack())
+                !(hero.CanAttack() || (StartingCrestFix.IsNakedStart &&
+                    IsReceivedItemGameplayReady(playerData, hero))))
             {
                 return;
             }

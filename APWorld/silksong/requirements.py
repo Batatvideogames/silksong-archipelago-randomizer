@@ -3023,7 +3023,8 @@ if MAPPER_GRAPH_ENABLED:
 
 BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
     req(
-        'Path: Mosslands - Bone Bottom',
+        'Room Node: bone-bottom/bone-bottom-bellway#room'
+        if MAPPER_GRAPH_ENABLED else 'Path: Mosslands - Bone Bottom',
         crest=False,
     ),
 )

@@ -13,6 +13,39 @@ namespace SilksongRandomizer.Patches
     {
         internal const string QuillItemName = "Item: Quill";
 
+        internal static bool IsMapInHiddenMode() =>
+            !(StartingCrestFix.IsNakedStart && PlayerData.instance != null &&
+              !PlayerData.instance.HasStoredMemoryState) && CollectableItemManager.IsInHiddenMode();
+
+        [HarmonyPatch]
+        private static class NakedStartMapVisibilityPatch
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                foreach (string name in new[] { "SetupMap", "EnableUnlockedAreas", "SetupMapMarkers",
+                    "UpdateGameMap", "CalculateMapScrollBounds" })
+                    yield return AccessTools.Method(typeof(GameMap), name);
+                yield return AccessTools.PropertyGetter(typeof(InventoryWideMap), "PositionOffset");
+                yield return AccessTools.PropertyGetter(typeof(InventoryItemWideMapZone), "IsUnlocked");
+                yield return AccessTools.Method(typeof(QuestMapMarker), "IsActive");
+            }
+
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                MethodInfo hidden = AccessTools.Method(typeof(CollectableItemManager), nameof(CollectableItemManager.IsInHiddenMode));
+                MethodInfo replacement = AccessTools.Method(typeof(QuillPatches), nameof(IsMapInHiddenMode));
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    if (instruction.Calls(hidden))
+                    {
+                        instruction.opcode = OpCodes.Call;
+                        instruction.operand = replacement;
+                    }
+                    yield return instruction;
+                }
+            }
+        }
+
         internal static void GrantQuill()
         {
             SaveState state = SaveState.Instance;
@@ -149,7 +182,7 @@ namespace SilksongRandomizer.Patches
                 ref int ___lastMappedCount
             )
             {
-                if (CollectableItemManager.IsInHiddenMode())
+                if (IsMapInHiddenMode())
                 {
                     hiddenModeMap = __instance;
                     return;
@@ -168,7 +201,7 @@ namespace SilksongRandomizer.Patches
             {
                 SaveState state = SaveState.Instance;
                 if (pinsOnly ||
-                    CollectableItemManager.IsInHiddenMode() ||
+                    IsMapInHiddenMode() ||
                     state == null ||
                     !state.startFullyMapped ||
                     (ReferenceEquals(state, refreshedState) &&

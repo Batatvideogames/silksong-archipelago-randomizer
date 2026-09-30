@@ -385,6 +385,13 @@ namespace SilksongRandomizer.Patches
                 // Only services 3 and 4 have Rosary costs in the shipped FSM.
                 // The first two remain free/item-gated in every mode.
                 int serviceNumber = purchasedTier + 1;
+                if (serviceNumber == 2 && state?.progressionShuffle?.AssignedWish("A Pinsmiths Tools") != null &&
+                    __instance.StoreValue != null)
+                {
+                    __instance.StoreValue.Value = 0;
+                    __instance.Finish();
+                    return false;
+                }
                 if ((serviceNumber != 3 && serviceNumber != 4) ||
                     !TryGetPrice(
                         UpgradePrefix + serviceNumber,
