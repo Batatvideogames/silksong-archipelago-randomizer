@@ -385,6 +385,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Bell: Greymoor', 'BellShrine'),
     ('Bell: Shellwood', 'BellShrine'),
     ('Bell: Bellhart', 'BellShrine'),
+    ('Shader Trap', 'Trap'),
 )
 
 ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
@@ -816,6 +817,7 @@ TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
     'muckmaggot_status_trap_weight': 'Muckmaggot Status Trap',
     'naked_trap_weight': 'Naked Trap',
     'literacy_trap_weight': 'Literacy Trap',
+    'shader_trap_weight': 'Shader Trap',
 }
 TRAP_ITEM_NAMES: tuple[str, ...] = tuple(
     TRAP_ITEM_NAME_BY_WEIGHT_OPTION.values()

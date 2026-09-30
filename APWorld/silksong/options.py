@@ -1260,6 +1260,15 @@ class LiteracyTrapWeight(TrapWeight):
 
     display_name = "Literacy Trap Weight"
 
+class ShaderTrapWeight(TrapWeight):
+    """Relative frequency of Shader Traps, zero disables them.
+
+    Applies a shader to the game camera with the potential shaders:
+    Oil Painting, Grayscale
+    """
+
+    display_name = "Shader Trap Weight"
+
 
 class SilkAndSoulPoints(Range):
     """Wish points required for Silk and Soul for the Act 3 goal. Other goals
@@ -1418,6 +1427,7 @@ class SilksongOptions(PerGameCommonOptions):
     muckmaggot_status_trap_weight: MuckmaggotStatusTrapWeight
     naked_trap_weight: NakedTrapWeight
     literacy_trap_weight: LiteracyTrapWeight
+    shader_trap_weight: ShaderTrapWeight
 
 
 silksong_option_groups = [
@@ -1548,5 +1558,6 @@ silksong_option_groups = [
         MuckmaggotStatusTrapWeight,
         NakedTrapWeight,
         LiteracyTrapWeight,
+        ShaderTrapWeight,
     ], start_collapsed=True),
 ]

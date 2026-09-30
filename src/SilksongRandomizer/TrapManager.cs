@@ -6,6 +6,7 @@ using System.Reflection;
 using HarmonyLib;
 using TeamCherry.Localization;
 using UnityEngine;
+using System.IO;
 
 namespace SilksongRandomizer
 {
@@ -19,6 +20,7 @@ namespace SilksongRandomizer
         internal const int RosarySpillAmount = 60;
         internal const float DarknessDurationSeconds = 20f;
         internal const float CursedCrestDurationSeconds = 90f;
+        internal const float ShaderTrapDurationSeconds = 120f;
 
         // Level 2 is the game's full native darkness vignette. Level 0 is
         // ordinary lighting and level 1 is the lighter darkness variant.
@@ -74,6 +76,19 @@ namespace SilksongRandomizer
         private static bool muckmaggotApplied;
         private static bool muckmaggotWriteInProgress;
 
+        private static bool shaderTrapActive;
+        private static float shaderTrapDeadline;
+        private static Camera shaderTrapCamera;
+        private static ShaderTrapEffect shaderTrapEffect;
+        private static Material shaderTrapMaterial;
+        private static Shader[] shaderTrapShaders;
+        private const string ShaderTrapBundleResourceWindows = "SilksongRandomizer.ShaderTrapShaders.Windows";
+        private const string ShaderTrapBundleResourceLinux = "SilksongRandomizer.ShaderTrapShaders.Linux";
+        private const string ShaderTrapBundleResourceMac = "SilksongRandomizer.ShaderTrapShaders.Mac";
+        private static string ShaderTrapBundleResourceName =>
+            Application.platform == RuntimePlatform.WindowsPlayer ? ShaderTrapBundleResourceWindows
+            : Application.platform == RuntimePlatform.LinuxPlayer ? ShaderTrapBundleResourceLinux
+            : Application.platform == RuntimePlatform.OSXPlayer ? ShaderTrapBundleResourceMac : null;
         internal static bool IsCursedCrestActive { get; private set; }
         private static bool HasCursedCrestState =>
             IsCursedCrestActive ||
@@ -324,6 +339,44 @@ namespace SilksongRandomizer
             ApplyCursedCrest(false);
         }
 
+        internal static void TriggerShaderTrap()
+        {
+            try
+            {
+                if (shaderTrapShaders == null)
+                {
+                    shaderTrapShaders = LoadTrapShaders();
+                }
+
+                if (shaderTrapShaders.Length == 0)
+                {
+                    Warn("Shader Trap has no shaders available.");
+                    return;
+                }
+
+                float proposedDeadline =
+                    Time.unscaledTime + ShaderTrapDurationSeconds;
+                shaderTrapDeadline = Math.Max(shaderTrapDeadline, proposedDeadline);
+                shaderTrapActive = true;
+                Shader shader = shaderTrapShaders[
+                    UnityEngine.Random.Range(0, shaderTrapShaders.Length)
+                ];
+                if (shaderTrapMaterial == null)
+                {
+                    shaderTrapMaterial = new Material(shader);
+                }
+                else
+                {
+                    shaderTrapMaterial.shader = shader;
+                }
+                ApplyShaderTrapEffect();
+            }
+            catch (Exception ex)
+            {
+                Warn("Shader Trap is waiting for the camera to become ready", ex);
+            }
+        }
+
         private static void ApplyCursedCrest(bool resumingAfterSave)
         {
             try
@@ -527,6 +580,18 @@ namespace SilksongRandomizer
                 }
             }
 
+            if (shaderTrapActive)
+            {
+                if(Time.unscaledTime >= shaderTrapDeadline)
+                {
+                    RestoreShaderTrap();
+                }
+                else
+                {
+                    ApplyShaderTrapEffect();
+                }
+            }
+
             if (muckmaggotActive)
             {
                 HeroController hero = HeroController.instance;
@@ -644,6 +709,7 @@ namespace SilksongRandomizer
             pendingStaggerCount = 0;
             LiteracyTrap.Reset();
             RestoreDarkness();
+            RestoreShaderTrap();
             RestoreMuckmaggotStatus();
             pendingCursedCrest = false;
             if (HasCursedCrestState)
@@ -729,6 +795,104 @@ namespace SilksongRandomizer
                 darknessApplied = false;
                 darknessDeadline = 0f;
                 darknessRestoreLevel = 0;
+            }
+        }
+
+        private static void ApplyShaderTrapEffect()
+        {
+            try
+            {
+                Camera mainCamera = Camera.main;
+                if (mainCamera == null)
+                {
+                    return;
+                }
+
+                if (shaderTrapEffect == null || shaderTrapCamera != mainCamera)
+                {
+                    RemoveShaderTrapEffect();
+                    shaderTrapCamera = mainCamera;
+                    shaderTrapEffect = mainCamera.gameObject.AddComponent<ShaderTrapEffect>();
+                }
+                
+                shaderTrapEffect.SetMaterial(shaderTrapMaterial);
+            }
+            catch (Exception ex)
+            {
+                Warn("Shader Trap could not attach to the camera", ex);
+            }
+        }
+
+        private static void RestoreShaderTrap()
+        {
+            try
+            {
+                RemoveShaderTrapEffect();
+            }
+            catch (Exception ex)
+            {
+                Warn("Shader Trap could not attach to the camera", ex);
+            }
+            finally
+            {
+                shaderTrapActive = false;
+                shaderTrapDeadline = 0f;
+                shaderTrapMaterial = null;
+            }
+        }
+
+        private static void RemoveShaderTrapEffect()
+        {
+            if (shaderTrapEffect != null)
+            {
+                UnityEngine.Object.Destroy(shaderTrapEffect);
+                shaderTrapEffect = null;
+            }
+            shaderTrapCamera = null;
+        }
+
+        private static Shader[] LoadTrapShaders()
+        {
+            using (Stream stream = typeof(TrapManager).Assembly.GetManifestResourceStream(ShaderTrapBundleResourceName))
+            using (MemoryStream buffer = new MemoryStream())
+            {
+                if (stream == null)
+                {
+                    return new Shader[0];
+                }
+                stream.CopyTo(buffer);
+                AssetBundle bundle = AssetBundle.LoadFromMemory(buffer.ToArray());
+                if (bundle == null)
+                {
+                    return new Shader[0];
+                }
+                Shader[] shaders = bundle.LoadAllAssets<Shader>();
+                bundle.Unload(false);
+                return shaders;
+            }
+        }
+
+        private sealed class ShaderTrapEffect : MonoBehaviour
+        {
+            private Material effectMaterial;
+
+            internal void SetMaterial(Material material)
+            {
+                effectMaterial = material;
+            }
+
+            private void OnRenderImage(
+                RenderTexture source,
+                RenderTexture destination
+            )
+            {
+                if (effectMaterial == null)
+                {
+                    Graphics.Blit(source, destination);
+                    return;
+                }
+
+                Graphics.Blit(source, destination, effectMaterial);
             }
         }
 

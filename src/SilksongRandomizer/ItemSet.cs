@@ -554,6 +554,7 @@ namespace SilksongRandomizer
             new Item("Muckmaggot Status Trap", ItemType.Trap, TrapManager.TriggerMuckmaggotStatus, true),
             new Item("Naked Trap", ItemType.Trap, NakedTrapManager.Trigger, true),
             new Item("Literacy Trap", ItemType.Trap, LiteracyTrap.Trigger, true),
+            new Item("Shader Trap", ItemType.Trap, TrapManager.TriggerShaderTrap, true),
 
             // Shakra maps
             new Item("Map: Mosslands", ItemType.Map, () => { ItemGrants.GrantMap(pd => pd.HasMossGrottoMap = true); }),
