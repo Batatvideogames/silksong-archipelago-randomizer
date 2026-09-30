@@ -214,13 +214,16 @@ namespace SilksongRandomizer.Patches
             private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 int splinterReads = 0;
+                string previousPlayerDataField = null;
                 foreach (CodeInstruction instruction in instructions)
                 {
                     if (instruction.opcode == OpCodes.Ldfld && instruction.operand is FieldInfo field &&
                         field.DeclaringType == typeof(PlayerData))
                     {
-                        string reader = field.Name == "defeatedCogworkDancers" ? nameof(CogworkCredit) :
+                        string reader = field.Name == "defeatedCogworkDancers" &&
+                            previousPlayerDataField != "dicePilgrimState" ? nameof(CogworkCredit) :
                             field.Name == "defeatedZapCoreEnemy" ? nameof(VoltvyrmCredit) : null;
+                        previousPlayerDataField = field.Name;
                         if (reader != null)
                         {
                             instruction.opcode = OpCodes.Call;

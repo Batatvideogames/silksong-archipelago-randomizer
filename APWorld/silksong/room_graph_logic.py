@@ -2003,6 +2003,14 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
                 check.id
             )
 
+    if "Boss: Moorwing" in check_requirements:
+        reward_name = "Moorwing - Beast Shard"
+        _append_requirements(check_requirements, reward_name, check_requirements["Boss: Moorwing"])
+        check_source_ids[reward_name] = [
+            "native-reward:" + source_id
+            for source_id in check_source_ids["Boss: Moorwing"]
+        ]
+
     for location_name, node_id in location_nodes.items():
         if node_id not in semantically_reachable_nodes:
             continue

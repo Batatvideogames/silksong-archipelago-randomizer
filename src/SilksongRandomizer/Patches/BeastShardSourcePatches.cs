@@ -11,7 +11,7 @@ namespace SilksongRandomizer.Patches
     internal static class BeastShardSourcePatches
     {
         [ThreadStatic]
-        private static int cragglerCorpseEmissionDepth;
+        private static int corpseEmissionDepth;
 
         private static readonly FieldInfo SprintRaceEndEventField =
             AccessTools.Field(
@@ -25,7 +25,7 @@ namespace SilksongRandomizer.Patches
                 "raceEndCompleteEvent"
             );
 
-        private static readonly FieldInfo CragglerInstantiatedCorpsesField =
+        private static readonly FieldInfo InstantiatedCorpsesField =
             AccessTools.Field(
                 typeof(EnemyDeathEffects),
                 "instantiatedCorpses"
@@ -466,6 +466,11 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
+            if (SceneManager.GetActiveScene().name == "Greymoor_05" ||
+                SceneManager.GetActiveScene().name == "Greymoor_08")
+                TryRecoverCompletedFlagSource(BeastShardSourceManifest.MoorwingLocation,
+                    playerData.defeatedVampireGnatBoss);
+
             TryRecoverCompletedFlagSource(
                 BeastShardSourceManifest.SprintmasterLocation,
                 playerData.SprintMasterExtraRaceWon
@@ -558,7 +563,7 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPatch(typeof(EnemyDeathEffects), "EmitCorpse")]
-        private static class CragglerCorpseEmissionPatch
+        private static class RewardCorpseEmissionPatch
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
@@ -566,16 +571,13 @@ namespace SilksongRandomizer.Patches
                 EnemyDeathEffects __instance,
                 out bool __state)
             {
-                __state =
-                    IsActive(BeastShardSourceManifest.CragglerLocation) &&
-                    BeastShardSourceManifest.IsExpectedCraggler(
-                        __instance
-                    );
+                __state = BeastShardSourceManifest.TryGetCorpseLocation(
+                    __instance, out string locationName) && IsActive(locationName);
                 if (__state)
                 {
-                    cragglerCorpseEmissionDepth++;
-                    TryReplaceCragglerCorpsePickup(
-                        FindPreinstantiatedCragglerCorpsePickup(
+                    corpseEmissionDepth++;
+                    TryReplaceRewardCorpsePickup(
+                        FindPreinstantiatedRewardCorpsePickup(
                             __instance
                         )
                     );
@@ -593,10 +595,10 @@ namespace SilksongRandomizer.Patches
                 }
 
                 CollectableItemPickup pickup =
-                    BeastShardSourceManifest.FindCragglerCorpsePickup(
+                    BeastShardSourceManifest.FindRewardCorpsePickup(
                         __result
                     );
-                TryReplaceCragglerCorpsePickup(pickup);
+                TryReplaceRewardCorpsePickup(pickup);
             }
 
             [HarmonyFinalizer]
@@ -606,9 +608,9 @@ namespace SilksongRandomizer.Patches
             {
                 if (__state)
                 {
-                    cragglerCorpseEmissionDepth = Math.Max(
+                    corpseEmissionDepth = Math.Max(
                         0,
-                        cragglerCorpseEmissionDepth - 1
+                        corpseEmissionDepth - 1
                     );
                 }
                 return __exception;
@@ -616,61 +618,57 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPatch(typeof(CollectableItemPickup), "Awake")]
-        private static class CragglerCorpsePickupAwakePatch
+        private static class RewardCorpsePickupAwakePatch
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
             private static void Prefix(
                 CollectableItemPickup __instance)
             {
-                if (cragglerCorpseEmissionDepth <= 0)
+                if (corpseEmissionDepth <= 0)
                 {
                     return;
                 }
 
-                TryReplaceCragglerCorpsePickup(__instance);
+                TryReplaceRewardCorpsePickup(__instance);
             }
         }
 
-        private static void TryReplaceCragglerCorpsePickup(
+        private static void TryReplaceRewardCorpsePickup(
             CollectableItemPickup pickup)
         {
             SavedItem nativeItem = pickup == null ? null : pickup.Item;
-            if (!IsActive(BeastShardSourceManifest.CragglerLocation) ||
-                !BeastShardSourceManifest.
-                    IsExpectedCragglerCorpsePickup(
-                        pickup,
-                        nativeItem
-                    ))
+            if (!BeastShardSourceManifest.TryGetCorpsePickupLocation(
+                    pickup, nativeItem, out string locationName) || !IsActive(locationName))
             {
                 return;
             }
 
             pickup.SetItem(
-                GetProxy(BeastShardSourceManifest.CragglerLocation),
+                GetProxy(locationName),
                 keepPersistence: true
             );
         }
 
         private static CollectableItemPickup
-            FindPreinstantiatedCragglerCorpsePickup(
+            FindPreinstantiatedRewardCorpsePickup(
                 EnemyDeathEffects deathEffects)
         {
             if (deathEffects == null ||
-                CragglerInstantiatedCorpsesField == null)
+                InstantiatedCorpsesField == null)
             {
                 return null;
             }
 
             GameObject[] corpses =
-                CragglerInstantiatedCorpsesField.GetValue(deathEffects)
+                InstantiatedCorpsesField.GetValue(deathEffects)
                 as GameObject[];
             if (corpses == null || corpses.Length == 0)
             {
                 return null;
             }
 
-            return BeastShardSourceManifest.FindCragglerCorpsePickup(
+            return BeastShardSourceManifest.FindRewardCorpsePickup(
                 corpses[0]
             );
         }

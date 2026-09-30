@@ -7,6 +7,7 @@ namespace SilksongRandomizer
     internal static class BeastShardSourceManifest
     {
         internal const string NativeItemName = "Great Shard";
+        internal const string MoorwingLocation = "Beast Shard: Moorwing";
         internal const string CragglerLocation = "Beast Shard: Craggler";
         internal const string SprintmasterLocation =
             "Beast Shard: Sprintmaster";
@@ -18,6 +19,7 @@ namespace SilksongRandomizer
             "Beast Shard: Pilgrim's Rest",
             "Beast Shard: Memorium",
             SprintmasterLocation,
+            MoorwingLocation,
         };
 
         internal static IEnumerable<Location> AppendTo(
@@ -278,6 +280,53 @@ namespace SilksongRandomizer
                        "Corpse Roof Crab",
                        StringComparison.Ordinal
                    );
+        }
+
+        internal static bool TryGetCorpseLocation(EnemyDeathEffects deathEffects, out string locationName)
+        {
+            locationName = null;
+            if (IsExpectedCraggler(deathEffects))
+            {
+                locationName = CragglerLocation;
+                return true;
+            }
+            if (deathEffects == null ||
+                deathEffects.setPlayerDataBool != "defeatedVampireGnatBoss") return false;
+            string scene = deathEffects.gameObject.scene.name;
+            string path = Utils.GetHierarchyPath(deathEffects.transform);
+            if (!((scene == "Greymoor_05_boss" && path == "Vampire Gnat Boss Scene/Vampire Gnat") ||
+                  (scene == "Greymoor_08_boss" && path == "Vampire Gnat Scene/Vampire Gnat"))) return false;
+            GameObject corpse = deathEffects.CorpsePrefab;
+            if (corpse == null || NormalizeCloneName(corpse.name) != "Vampire Gnat Corpse") return false;
+            CollectableItemPickup pickup = FindRewardCorpsePickup(corpse);
+            if (pickup == null || pickup.Item == null || pickup.Item.name != NativeItemName) return false;
+            locationName = MoorwingLocation;
+            return true;
+        }
+
+        internal static CollectableItemPickup FindRewardCorpsePickup(GameObject corpseRoot)
+        {
+            if (corpseRoot != null && NormalizeCloneName(corpseRoot.name) == "Vampire Gnat Corpse")
+                return corpseRoot.transform.Find("Collectable Item Pickup Instant")?.GetComponent<CollectableItemPickup>();
+            return FindCragglerCorpsePickup(corpseRoot);
+        }
+
+        internal static bool TryGetCorpsePickupLocation(CollectableItemPickup pickup, SavedItem item, out string locationName)
+        {
+            locationName = null;
+            if (IsExpectedCragglerCorpsePickup(pickup, item))
+            {
+                locationName = CragglerLocation;
+                return true;
+            }
+            if (pickup == null || item == null || item.name != NativeItemName ||
+                pickup.name != "Collectable Item Pickup Instant" || pickup.transform.parent == null ||
+                NormalizeCloneName(pickup.transform.parent.name) != "Vampire Gnat Corpse") return false;
+            string scene = pickup.gameObject.scene.name;
+            if (scene != "Greymoor_05" && scene != "Greymoor_08" &&
+                scene != "Greymoor_05_boss" && scene != "Greymoor_08_boss") return false;
+            locationName = MoorwingLocation;
+            return true;
         }
 
         internal static bool IsExpectedSprintmasterTrackTwo(

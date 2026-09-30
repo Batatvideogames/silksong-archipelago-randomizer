@@ -1022,7 +1022,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Tool Pouch: Fleatopia', 'ToolPouch'),
     # Scripted Beast Shard rewards use boss and race reward hooks rather than
     # the generic pickup path. Only supported native sources are registered
-    # here. Skull Tyrant and Moorwing remain excluded.
+    # here. Skull Tyrant remains excluded.
     ('Beast Shard: Marrowmaw', 'Resource'),
     ('Beast Shard: Craggler', 'Resource'),
     ("Beast Shard: Pilgrim's Rest", 'Resource'),
@@ -1074,6 +1074,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Craw Memento', 'Memento'),
     ('Shell Satchel', 'Tool'),
     ('Boss: Summoned Saviour', 'Boss'),
+    ('Beast Shard: Moorwing', 'Resource'),
 )
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(

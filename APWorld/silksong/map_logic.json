@@ -383420,6 +383420,24 @@
           }
         ]
       },
+      "Moorwing - Beast Shard": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-section",
+              "Combat: Moorwing"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Moss Grotto - Frayed Rosary String": {
         "alternatives": [
           {

@@ -102,6 +102,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Tool Unlock: Bell Bind", "Dock_03b", 154.09f, 107.277481f, 168f, 120f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Sprintmaster", "Bone_East_Weavehome", 124.243004f, 90.5460052f, 205f, 120f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Marrowmaw", "Tut_01", 101.233429f, 17.286209f, 120f, 120f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Beast Shard: Moorwing", "Greymoor_05", 50f, 5.4f, 110f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Craggler", "Crawl_04", 83.519997f, 14.89f, 165f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Pilgrim's Rest", "Bone_East_10_Church", 139.320007f, 10.97f, 200f, 30f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Memorium", "Arborium_02", 111.046463f, 8.935061f, 132f, 29f, MapMarkerPositionConfidence.ExactUpstream),

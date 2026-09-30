@@ -16,6 +16,7 @@ from .locations import canonicalize_location_name
 SCRIPTED_BEAST_SHARD_REWARD_BY_LOCATION: dict[str, str] = {
     "Marrowmaw - Beast Shard": "Beast Shard",
     "Craggler - Beast Shard": "Beast Shard",
+    "Moorwing - Beast Shard": "Beast Shard",
     "Pilgrim's Rest - Beast Shard": "Beast Shard",
     "Memorium - Beast Shard": "Beast Shard",
     "Sprintmaster - Beast Shard": "Beast Shard",

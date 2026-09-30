@@ -728,6 +728,34 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
+        private static void RecoverLumbleReward()
+        {
+            SaveState state = SaveState.Instance;
+            PlayerData playerData = PlayerData.instance;
+            const string location = "Tool Unlock: Magnetite Dice";
+            if (state == null || playerData == null ||
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Coral_33" ||
+                !state.IsRandomized(ItemType.Tool) || !state.IsLocationEnabled(location) ||
+                !state.IsLocationInSeed(location) || state.IsLocationChecked(location) ||
+                (!playerData.dicePilgrimDefeated && playerData.dicePilgrimBank >= 0)) return;
+            state.CheckLocation(location);
+            RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Recovered Lumble's completed dice reward.");
+        }
+
+        [HarmonyPatch(typeof(GameManager), nameof(GameManager.FinishedEnteringScene))]
+        private static class LumbleSceneRewardRecoveryPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix() => RecoverLumbleReward();
+        }
+
+        [HarmonyPatch(typeof(Archipelago), nameof(Archipelago.SynchronizeSaveState))]
+        private static class LumbleConnectionRewardRecoveryPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix() => RecoverLumbleReward();
+        }
+
         [HarmonyPatch(typeof(ToolItem), "Unlock", new[] { typeof(Action), typeof(ToolItem.PopupFlags) })]
         internal static class ToolItem_Unlock_Patch
         {
