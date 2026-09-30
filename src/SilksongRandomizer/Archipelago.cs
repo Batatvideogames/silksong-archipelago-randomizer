@@ -171,6 +171,9 @@ namespace SilksongRandomizer
             PriceModeVanilla;
         public string BellwayPrices { get; private set; } =
             PriceModeVanilla;
+        public string VentricaPrices { get; private set; } = PriceModeVanilla;
+        public string BenchPrices { get; private set; } = PriceModeVanilla;
+        public string MiscellaneousPrices { get; private set; } = PriceModeVanilla;
         public string MapPrices { get; private set; } = PriceModeVanilla;
         public string PinPrices { get; private set; } = PriceModeVanilla;
         public string UpgradePrices { get; private set; } =
@@ -609,6 +612,9 @@ namespace SilksongRandomizer
                     successful,
                     "bellway_prices"
                 );
+                VentricaPrices = GetPurchasePriceMode(successful, "ventrica_prices");
+                BenchPrices = GetPurchasePriceMode(successful, "bench_prices");
+                MiscellaneousPrices = GetPurchasePriceMode(successful, "miscellaneous_prices");
                 MapPrices = GetPurchasePriceMode(
                     successful,
                     "map_prices"
@@ -2826,6 +2832,10 @@ namespace SilksongRandomizer
             return !string.IsNullOrWhiteSpace(value) &&
                    (
                        value.StartsWith("shop:", StringComparison.Ordinal) ||
+                       value.StartsWith("ventrica:", StringComparison.Ordinal) ||
+                       value.StartsWith("bench:", StringComparison.Ordinal) ||
+                       value.StartsWith("map-machine:", StringComparison.Ordinal) ||
+                       value.StartsWith("misc:", StringComparison.Ordinal) ||
                        value.StartsWith(
                            "bellway:",
                            StringComparison.Ordinal
@@ -3167,6 +3177,9 @@ namespace SilksongRandomizer
             EnemyShardMultiplier = RosaryMultiplierVanilla;
             NormalShopPrices = PriceModeVanilla;
             BellwayPrices = PriceModeVanilla;
+            VentricaPrices = PriceModeVanilla;
+            BenchPrices = PriceModeVanilla;
+            MiscellaneousPrices = PriceModeVanilla;
             MapPrices = PriceModeVanilla;
             PinPrices = PriceModeVanilla;
             UpgradePrices = PriceModeVanilla;

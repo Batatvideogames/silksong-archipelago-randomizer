@@ -141,11 +141,94 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                CostReference reference =
-                    ScriptableObject.CreateInstance<CostReference>();
-                reference.name = "AP " + key;
+                var owner = __instance.GetComponent<TollCostReferences>();
+                if (owner == null)
+                    owner = __instance.gameObject.AddComponent<TollCostReferences>();
+                costVariable.Value = owner.Create(key, price);
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class AdditionalTollCostPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (__instance == null || __instance.gameObject == null)
+                    return;
+
+                string name = __instance.gameObject.name;
+                string fsm = __instance.FsmName;
+                string prefix;
+                if (name == "tube_toll_machine" && fsm == "Unlock Behaviour")
+                    prefix = "ventrica:";
+                else if (name.StartsWith("Map Machine", StringComparison.Ordinal) && fsm == "Unlock Behaviour")
+                    prefix = "map-machine:";
+                else if ((name == "bell_toll_machine" && fsm == "Unlock Behaviour") ||
+                    (name.StartsWith("Understore Toll Bench", StringComparison.Ordinal) && fsm == "Behaviour (special)"))
+                    prefix = "bench:";
+                else if (name == "toll door interactible" && fsm == "Unlock Behaviour")
+                    prefix = "misc:";
+                else
+                    return;
+
+                string scene = GameManager.GetBaseSceneName(__instance.gameObject.scene.name).ToLowerInvariant();
+                string key = prefix + scene + ":" + name;
+                if (!TryGetPrice(key, out int price))
+                    return;
+
+                FsmObject cost = __instance.FsmVariables?.GetFsmObject("Cost Reference");
+                if (cost == null || IntReferenceValueField == null)
+                    return;
+
+                var owner = __instance.GetComponent<TollCostReferences>();
+                if (owner == null)
+                    owner = __instance.gameObject.AddComponent<TollCostReferences>();
+                cost.Value = owner.Create(key, price);
+            }
+        }
+
+        private sealed class TollCostReferences : MonoBehaviour
+        {
+            private readonly Dictionary<string, CostReference> references =
+                new Dictionary<string, CostReference>(StringComparer.Ordinal);
+
+            internal CostReference Create(string key, int price)
+            {
+                if (!references.TryGetValue(key, out CostReference reference) || reference == null)
+                {
+                    reference = ScriptableObject.CreateInstance<CostReference>();
+                    reference.name = "AP " + key;
+                    references[key] = reference;
+                }
                 IntReferenceValueField.SetValue(reference, price);
-                costVariable.Value = reference;
+                return reference;
+            }
+
+            private void OnDestroy()
+            {
+                foreach (CostReference reference in references.Values)
+                    if (reference != null) UnityEngine.Object.Destroy(reference);
+                references.Clear();
+            }
+        }
+
+        [HarmonyPatch(typeof(GetCostFromReference), nameof(GetCostFromReference.OnEnter))]
+        private static class PinGalleryCostPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(GetCostFromReference __instance)
+            {
+                if (__instance.Owner == null || __instance.Owner.name != "Lady Bug Large" ||
+                    __instance.Fsm?.Name != "Convo" || __instance.State?.Name != "Yes No" ||
+                    __instance.StoreValue == null ||
+                    !TryGetPrice("misc:pin-gallery", out int price))
+                    return true;
+
+                __instance.StoreValue.Value = price;
+                __instance.Finish();
+                return false;
             }
         }
 

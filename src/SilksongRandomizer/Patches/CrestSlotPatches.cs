@@ -233,7 +233,8 @@ namespace SilksongRandomizer.Patches
                     !TryGetRandomizedApSlot(
                         selectable,
                         out InventoryToolCrestSlot slot,
-                        out CrestSlotNames slotNames))
+                        out CrestSlotNames slotNames) ||
+                    (object)slot.EquippedItem != null)
                 {
                     return true;
                 }
@@ -308,7 +309,8 @@ namespace SilksongRandomizer.Patches
                 if (!TryGetRandomizedApSlot(
                         selectable,
                         out InventoryToolCrestSlot slot,
-                        out CrestSlotNames slotNames))
+                        out CrestSlotNames slotNames) ||
+                    (object)slot.EquippedItem != null)
                 {
                     RestoreHintLayouts(
                         ___descriptionText,
@@ -640,8 +642,9 @@ namespace SilksongRandomizer.Patches
                 __state = new DisplayPatchState();
                 if (TryGetRandomizedApSlot(
                         selectable,
-                        out InventoryToolCrestSlot _,
-                        out CrestSlotNames _))
+                        out InventoryToolCrestSlot slot,
+                        out CrestSlotNames _) &&
+                    (object)slot.EquippedItem == null)
                 {
                     BeginAlphabetBypass(__state);
                 }

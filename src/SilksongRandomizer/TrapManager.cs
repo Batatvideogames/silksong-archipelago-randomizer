@@ -7,6 +7,7 @@ using HarmonyLib;
 using TeamCherry.Localization;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 namespace SilksongRandomizer
 {
@@ -837,6 +838,8 @@ namespace SilksongRandomizer
             {
                 shaderTrapActive = false;
                 shaderTrapDeadline = 0f;
+                if (shaderTrapMaterial != null)
+                    UnityEngine.Object.Destroy(shaderTrapMaterial);
                 shaderTrapMaterial = null;
             }
         }
@@ -845,6 +848,8 @@ namespace SilksongRandomizer
         {
             if (shaderTrapEffect != null)
             {
+                shaderTrapEffect.SetMaterial(null);
+                shaderTrapEffect.enabled = false;
                 UnityEngine.Object.Destroy(shaderTrapEffect);
                 shaderTrapEffect = null;
             }
@@ -853,7 +858,9 @@ namespace SilksongRandomizer
 
         private static Shader[] LoadTrapShaders()
         {
-            using (Stream stream = typeof(TrapManager).Assembly.GetManifestResourceStream(ShaderTrapBundleResourceName))
+            string resourceName = ShaderTrapBundleResourceName;
+            if (resourceName == null) return Array.Empty<Shader>();
+            using (Stream stream = typeof(TrapManager).Assembly.GetManifestResourceStream(resourceName))
             using (MemoryStream buffer = new MemoryStream())
             {
                 if (stream == null)
@@ -866,9 +873,15 @@ namespace SilksongRandomizer
                 {
                     return new Shader[0];
                 }
-                Shader[] shaders = bundle.LoadAllAssets<Shader>();
-                bundle.Unload(false);
-                return shaders;
+                try
+                {
+                    return bundle.LoadAllAssets<Shader>()
+                        .Where(shader => shader != null && shader.isSupported).ToArray();
+                }
+                finally
+                {
+                    bundle.Unload(false);
+                }
             }
         }
 

@@ -199,6 +199,9 @@ namespace SilksongRandomizer
             Archipelago.RosaryMultiplierVanilla;
         public string normalShopPrices = Archipelago.PriceModeVanilla;
         public string bellwayPrices = Archipelago.PriceModeVanilla;
+        public string ventricaPrices = Archipelago.PriceModeVanilla;
+        public string benchPrices = Archipelago.PriceModeVanilla;
+        public string miscellaneousPrices = Archipelago.PriceModeVanilla;
         public string mapPrices = Archipelago.PriceModeVanilla;
         public string pinPrices = Archipelago.PriceModeVanilla;
         public string upgradePrices = Archipelago.PriceModeVanilla;
@@ -646,6 +649,9 @@ namespace SilksongRandomizer
                 normalShopPrices
             );
             bellwayPrices = NormalizePurchasePriceMode(bellwayPrices);
+            ventricaPrices = NormalizePurchasePriceMode(ventricaPrices);
+            benchPrices = NormalizePurchasePriceMode(benchPrices);
+            miscellaneousPrices = NormalizePurchasePriceMode(miscellaneousPrices);
             mapPrices = NormalizePurchasePriceMode(mapPrices);
             pinPrices = NormalizePurchasePriceMode(pinPrices);
             upgradePrices = NormalizePurchasePriceMode(upgradePrices);
@@ -834,6 +840,21 @@ namespace SilksongRandomizer
                     StringComparison.Ordinal
                 ) ||
                 !string.Equals(
+                    ventricaPrices,
+                    archipelago.VentricaPrices,
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    benchPrices,
+                    archipelago.BenchPrices,
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
+                    miscellaneousPrices,
+                    archipelago.MiscellaneousPrices,
+                    StringComparison.Ordinal
+                ) ||
+                !string.Equals(
                     mapPrices,
                     archipelago.MapPrices,
                     StringComparison.Ordinal
@@ -927,6 +948,9 @@ namespace SilksongRandomizer
                 archipelago.EnemyShardMultiplier;
             normalShopPrices = archipelago.NormalShopPrices;
             bellwayPrices = archipelago.BellwayPrices;
+            ventricaPrices = archipelago.VentricaPrices;
+            benchPrices = archipelago.BenchPrices;
+            miscellaneousPrices = archipelago.MiscellaneousPrices;
             mapPrices = archipelago.MapPrices;
             pinPrices = archipelago.PinPrices;
             upgradePrices = archipelago.UpgradePrices;
@@ -1209,6 +1233,9 @@ namespace SilksongRandomizer
             {
                 Tuple.Create("normal_shop_prices", normalShopPrices, archipelago.NormalShopPrices),
                 Tuple.Create("bellway_prices", bellwayPrices, archipelago.BellwayPrices),
+                Tuple.Create("ventrica_prices", ventricaPrices, archipelago.VentricaPrices),
+                Tuple.Create("bench_prices", benchPrices, archipelago.BenchPrices),
+                Tuple.Create("miscellaneous_prices", miscellaneousPrices, archipelago.MiscellaneousPrices),
                 Tuple.Create("map_prices", mapPrices, archipelago.MapPrices),
                 Tuple.Create("pin_prices", pinPrices, archipelago.PinPrices),
                 Tuple.Create("upgrade_prices", upgradePrices, archipelago.UpgradePrices),

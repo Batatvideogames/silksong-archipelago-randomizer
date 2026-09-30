@@ -1065,8 +1065,26 @@ class BellwayPrices(PurchasePriceRandomization):
     display_name = "Bellway Prices"
 
 
+class VentricaPrices(PurchasePriceRandomization):
+    """Randomize prices charged by Ventrica toll machines."""
+
+    display_name = "Ventrica Prices"
+
+
+class BenchPrices(PurchasePriceRandomization):
+    """Randomize bench unlock tolls and Underworks bench fees."""
+
+    display_name = "Bench Prices"
+
+
+class MiscellaneousPrices(PurchasePriceRandomization):
+    """Randomize Pilgrim's Rest admission and pin gallery entry fees."""
+
+    display_name = "Miscellaneous Prices"
+
+
 class MapPrices(PurchasePriceRandomization):
-    """Randomize prices for Shakra's area maps."""
+    """Randomize prices for Shakra's area maps and Citadel map machines."""
 
     display_name = "Map Prices"
 
@@ -1354,6 +1372,9 @@ class SilksongOptions(PerGameCommonOptions):
     enemy_shard_multiplier: EnemyShardMultiplier
     normal_shop_prices: NormalShopPrices
     bellway_prices: BellwayPrices
+    ventrica_prices: VentricaPrices
+    bench_prices: BenchPrices
+    miscellaneous_prices: MiscellaneousPrices
     map_prices: MapPrices
     pin_prices: PinPrices
     upgrade_prices: UpgradePrices
@@ -1522,6 +1543,9 @@ silksong_option_groups = [
     OptionGroup("Costsanity", [
         NormalShopPrices,
         BellwayPrices,
+        VentricaPrices,
+        BenchPrices,
+        MiscellaneousPrices,
         MapPrices,
         PinPrices,
         UpgradePrices,

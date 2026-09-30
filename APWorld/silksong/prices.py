@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass
 from random import Random
@@ -15,6 +15,9 @@ PINS = "pins"
 UPGRADES = "upgrades"
 DONATIONS = "donations"
 VOG_HINTS = "vog_hints"
+VENTRICAS = "ventricas"
+BENCHES = "benches"
+MISCELLANEOUS = "miscellaneous"
 
 SHELL_SHARD_BASE_CAPACITY = 400
 SHELL_SHARD_CAPACITY_PER_TOOL_POUCH = 100
@@ -28,6 +31,9 @@ PRICE_CATEGORY_OPTION_NAMES: dict[str, str] = {
     UPGRADES: "upgrade_prices",
     DONATIONS: "donation_prices",
     VOG_HINTS: "vog_hint_prices",
+    VENTRICAS: "ventrica_prices",
+    BENCHES: "bench_prices",
+    MISCELLANEOUS: "miscellaneous_prices",
 }
 
 PRICE_MODE_KEYS = frozenset(
@@ -205,12 +211,66 @@ VOG_HINT_PRICE_SOURCES: tuple[PriceSource, ...] = (
 )
 
 
+VENTRICA_PRICE_SOURCES: tuple[PriceSource, ...] = (
+    PriceSource('ventrica:arborium_tube:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:bellway_city:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:hang_06b:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:song_01b:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:song_enclave_tube:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:tube_hub:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+    PriceSource('ventrica:under_22:tube_toll_machine', VENTRICAS, ROSARIES, 80),
+)
+
+
+BENCH_PRICE_SOURCES: tuple[PriceSource, ...] = (
+    PriceSource('bench:bellway_03:bell_toll_machine', BENCHES, ROSARIES, 30),
+    PriceSource('bench:bellway_08:bell_toll_machine', BENCHES, ROSARIES, 40),
+    PriceSource('bench:bellway_aqueduct:bell_toll_machine', BENCHES, ROSARIES, 60),
+    PriceSource('bench:bellway_peak:bell_toll_machine', BENCHES, ROSARIES, 60),
+    PriceSource('bench:bellway_shadow:bell_toll_machine', BENCHES, ROSARIES, 60),
+    PriceSource('bench:bone_01c:bell_toll_machine', BENCHES, ROSARIES, 30),
+    PriceSource('bench:bone_east_15:bell_toll_machine', BENCHES, ROSARIES, 30),
+    PriceSource('bench:coral_02:bell_toll_machine', BENCHES, ROSARIES, 60),
+    PriceSource('bench:dock_01:bell_toll_machine', BENCHES, ROSARIES, 30),
+    PriceSource('bench:dust_10:bell_toll_machine', BENCHES, ROSARIES, 40),
+    PriceSource('bench:shellwood_01b:bell_toll_machine', BENCHES, ROSARIES, 40),
+    PriceSource('bench:shellwood_08c:bell_toll_machine', BENCHES, ROSARIES, 40),
+    PriceSource('bench:under_01b:Understore Toll Bench (1)', BENCHES, ROSARIES, 15),
+    PriceSource('bench:under_01b:Understore Toll Bench', BENCHES, ROSARIES, 15),
+    PriceSource('bench:under_08:Understore Toll Bench (2)', BENCHES, ROSARIES, 15),
+    PriceSource('bench:under_08:Understore Toll Bench', BENCHES, ROSARIES, 15),
+    PriceSource('bench:under_08:Understore Toll Bench (1)', BENCHES, ROSARIES, 15),
+)
+
+
+MAP_MACHINE_PRICE_SOURCES: tuple[PriceSource, ...] = (
+    PriceSource('map-machine:arborium_11:Map Machine', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:bellway_city:Map Machine', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:cradle_02:Map Machine (1)', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:hang_06b:Map Machine', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:library_04:Map Machine (1)', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:song_01b:Map Machine (2)', MAPS, ROSARIES, 70),
+    PriceSource('map-machine:song_19_entrance:Map Machine (1)', MAPS, ROSARIES, 40),
+    PriceSource('map-machine:ward_01:Map Machine (1)', MAPS, ROSARIES, 70),
+)
+
+
+MISCELLANEOUS_PRICE_SOURCES: tuple[PriceSource, ...] = (
+    PriceSource('misc:bone_east_10:toll door interactible', MISCELLANEOUS, ROSARIES, 30),
+    PriceSource('misc:pin-gallery', MISCELLANEOUS, ROSARIES, 25),
+)
+
+
 PRICE_SOURCES: tuple[PriceSource, ...] = (
     SHOP_PRICE_SOURCES
     + BELLWAY_PRICE_SOURCES
     + UPGRADE_PRICE_SOURCES
     + DONATION_PRICE_SOURCES
     + VOG_HINT_PRICE_SOURCES
+    + VENTRICA_PRICE_SOURCES
+    + BENCH_PRICE_SOURCES
+    + MAP_MACHINE_PRICE_SOURCES
+    + MISCELLANEOUS_PRICE_SOURCES
 )
 
 PRICE_SOURCE_BY_KEY: dict[str, PriceSource] = {
