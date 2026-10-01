@@ -8,113 +8,11 @@ using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
-    internal sealed class ArchipelagoInventoryItem : CollectableItemBasic
-    {
-        private const float InventoryIconScale = 1.5f;
-        private static Sprite inventoryIcon;
-
-        public override int CollectedAmount => 1;
-        public override bool DisplayAmount => false;
-        protected override int IsSeenIndex => -1;
-        public override bool CanConsume => false;
-
-        public override string GetDisplayName(
-            CollectableItem.ReadSource readSource
-        )
-        {
-            return AlphabetModeManager.FilterDirectText("Archipelago");
-        }
-
-        public override string GetDescription(
-            CollectableItem.ReadSource readSource
-        )
-        {
-            SaveState state = SaveState.Instance;
-            StringBuilder builder = new StringBuilder();
-            builder.Append("Fleas: ");
-            builder.Append(state?.GetFleaHuntProgressCount() ?? 0);
-            builder.Append('/');
-            builder.Append(Archipelago.MaximumFleaHuntGoalCount);
-            builder.Append("\n\nRecently received:");
-
-            IReadOnlyList<string> recent =
-                Archipelago.Instance?.GetRecentReceivedItemNames(10) ??
-                Array.Empty<string>();
-            if (recent.Count == 0)
-            {
-                builder.Append("\nNone yet");
-            }
-            else
-            {
-                foreach (string itemName in recent)
-                {
-                    builder.Append('\n');
-                    builder.Append(itemName);
-                }
-            }
-
-            return AlphabetModeManager.FilterDirectText(builder.ToString());
-        }
-
-        public override Sprite GetIcon(
-            CollectableItem.ReadSource readSource
-        )
-        {
-            RandomizerPlugin plugin = RandomizerPlugin.Instance;
-            Sprite source = plugin?.MapCheckIcon ?? plugin?.ArchipelagoIcon;
-            if (source == null)
-            {
-                return null;
-            }
-            if (inventoryIcon != null)
-            {
-                return inventoryIcon;
-            }
-
-            Vector2 pivot = new Vector2(
-                source.pivot.x / source.rect.width,
-                source.pivot.y / source.rect.height
-            );
-            inventoryIcon = Sprite.Create(
-                source.texture,
-                source.rect,
-                pivot,
-                source.pixelsPerUnit / InventoryIconScale
-            );
-            inventoryIcon.name = "Archipelago Inventory Icon";
-            inventoryIcon.hideFlags = HideFlags.HideAndDontSave;
-            return inventoryIcon;
-        }
-
-        protected override IEnumerable<CollectableItem.UseResponse>
-            GetUseResponses()
-        {
-            return Array.Empty<CollectableItem.UseResponse>();
-        }
-
-        public override bool IsConsumable()
-        {
-            return false;
-        }
-
-        public override bool CanGetMore()
-        {
-            return false;
-        }
-
-        public override bool ShouldStopCollectNoMsg()
-        {
-            return true;
-        }
-    }
-
     internal static class InventoryInfoPatches
     {
         private const string NativeSimpleKeyName = "Simple Key";
         private const string NativeQuillName = "Quill";
         private const string MapItemPrefix = "Map: ";
-        private const string ArchipelagoItemName =
-            "Archipelago Inventory";
 
         private static readonly string[] SimpleKeyItemNames =
         {
@@ -132,7 +30,6 @@ namespace SilksongRandomizer.Patches
             "Rosary Bank",
         };
 
-        private static ArchipelagoInventoryItem archipelagoItem;
 
         private static bool TryGetSimpleKeyState(out SaveState state)
         {
@@ -274,22 +171,6 @@ namespace SilksongRandomizer.Patches
             builder.Append("</color>");
         }
 
-        private static ArchipelagoInventoryItem GetArchipelagoItem()
-        {
-            if (archipelagoItem != null)
-            {
-                return archipelagoItem;
-            }
-
-            archipelagoItem =
-                ScriptableObject.CreateInstance<
-                    ArchipelagoInventoryItem
-                >();
-            archipelagoItem.name = ArchipelagoItemName;
-            archipelagoItem.hideFlags = HideFlags.HideAndDontSave;
-            return archipelagoItem;
-        }
-
         [HarmonyPatch(
             typeof(InventoryItemCollectableManager),
             "GetItems"
@@ -330,14 +211,6 @@ namespace SilksongRandomizer.Patches
                         items.Add(simpleKey);
                         changed = true;
                     }
-                }
-
-                ArchipelagoInventoryItem infoItem =
-                    GetArchipelagoItem();
-                if (!items.Contains(infoItem))
-                {
-                    items.Add(infoItem);
-                    changed = true;
                 }
 
                 if (changed)

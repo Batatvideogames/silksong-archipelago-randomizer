@@ -151,6 +151,7 @@ namespace SilksongRandomizer
         public int slot = -1;
         public string worldVersion = string.Empty;
         public string goal = string.Empty;
+        public string contentScope = string.Empty;
         public string spellingBeePhrase = string.Empty;
         public int fleaHuntGoalCount =
             Archipelago.DefaultFleaHuntGoalCount;
@@ -387,6 +388,8 @@ namespace SilksongRandomizer
         public RandomizationMode questSanityMode = RandomizationMode.Anywhere;
         public bool goalCompleted;
         public int receivedItemIndex;
+        public int deathCount;
+        public int deathLinkDeathCount;
         public List<string> receivedItemHistory = new List<string>();
 
         public bool canDoubleJump = false;
@@ -910,6 +913,7 @@ namespace SilksongRandomizer
             slot = archipelago.Slot;
             worldVersion = archipelago.WorldVersion ?? string.Empty;
             goal = archipelago.Goal ?? string.Empty;
+            contentScope = archipelago.ContentScope ?? string.Empty;
             spellingBeePhrase =
                 archipelago.SpellingBeePhrase ?? string.Empty;
             fleaHuntGoalCount = archipelago.FleaHuntGoalCount;
@@ -1708,6 +1712,14 @@ namespace SilksongRandomizer
                 default:
                     return "off";
             }
+        }
+
+        internal void RecordDeath(bool viaDeathLink)
+        {
+            if (!IsRoomBound) return;
+            if (viaDeathLink) deathLinkDeathCount = (int)Math.Min(int.MaxValue, (long)Math.Max(0, deathLinkDeathCount) + 1);
+            else deathCount = (int)Math.Min(int.MaxValue, (long)Math.Max(0, deathCount) + 1);
+            RandomizerPlugin.Instance?.RequestDisconnectSave();
         }
 
         public Item GetItem(string itemName)

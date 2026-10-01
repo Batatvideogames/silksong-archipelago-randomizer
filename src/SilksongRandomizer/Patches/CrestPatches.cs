@@ -26,6 +26,15 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(InventoryPaneList), nameof(InventoryPaneList.SetNextOpen))]
+        private static class PreservePaneDuringRandomizerUnlock
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(string paneName) =>
+                !ToolPatches.canCrestBeUnlockedByRandomizer ||
+                !string.Equals(paneName, "Tools", StringComparison.Ordinal);
+        }
+
         [HarmonyPatch(typeof(ToolCrest), "Unlock", new Type[0])]
         internal static class ToolCrest_Unlock_Patch
         {

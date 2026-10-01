@@ -236,6 +236,33 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static bool TryGetBenchQuillState(string fsmName, string stateName,
+            string boolName, out bool owned)
+        {
+            owned = false;
+            SaveState state = SaveState.Instance;
+            if (state?.IsRoomBound != true || !state.IsRandomized(ItemType.Quill) ||
+                fsmName != "Bench Control" || boolName != "hasQuill" ||
+                (stateName != "Update Map Non Silent?" && stateName != "Update Map Silently" &&
+                 stateName != "Update Map Anim")) return false;
+            owned = CanUseQuill();
+            return true;
+        }
+
+        [HarmonyPatch(typeof(PlayerDataBoolTest), nameof(PlayerDataBoolTest.OnEnter))]
+        private static class BenchQuillOwnershipPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(PlayerDataBoolTest __instance)
+            {
+                if (!TryGetBenchQuillState(__instance?.Fsm?.Name, __instance?.State?.Name,
+                    __instance?.boolName?.Value, out bool owned)) return true;
+                __instance.Fsm.Event(owned ? __instance.isTrue : __instance.isFalse);
+                __instance.Finish();
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(PlayerData), "get_CanUpdateMap")]
         private static class PlayerData_CanUpdateMap_Patch
         {

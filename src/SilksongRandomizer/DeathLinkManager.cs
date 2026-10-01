@@ -1,4 +1,4 @@
-using Archipelago.MultiClient.Net;
+﻿using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using GlobalEnums;
 using HarmonyLib;
@@ -298,7 +298,7 @@ namespace SilksongRandomizer
                 isEnabled = enabled;
             }
 
-            if (!isEnabled)
+            if (!isEnabled && SaveState.Instance?.IsRoomBound != true)
             {
                 DetachHero();
                 return;
@@ -307,6 +307,7 @@ namespace SilksongRandomizer
             SynchronizeHeroSubscription();
             RecoverTimedOutRemoteDeath();
             ResetLocalDeathLatchAfterRespawn();
+            if (!isEnabled) return;
 
             if (!TryGetSafeRemoteDeathTarget(
                     out HeroController hero,
@@ -404,7 +405,7 @@ namespace SilksongRandomizer
             }
         }
 
-        internal static void Reset()
+        internal static void Reset(bool disconnecting = false)
         {
             DeathLinkService oldService;
             lock (StateLock)
@@ -428,7 +429,10 @@ namespace SilksongRandomizer
                 oldService.OnDeathLinkReceived -= OnDeathLinkReceived;
                 try
                 {
-                    oldService.DisableDeathLink();
+                    if (!disconnecting)
+                    {
+                        oldService.DisableDeathLink();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -524,7 +528,8 @@ namespace SilksongRandomizer
         {
             NativeDeathCapture capture = currentDeathCapture;
             currentDeathCapture = null;
-            if (capture != null && capture.IsNonLethal)
+            string sceneName = GetCurrentSceneName();
+            if (capture != null && capture.IsNonLethal && !IsDeathLinkMemoryFightScene(sceneName))
             {
                 return;
             }
@@ -535,6 +540,7 @@ namespace SilksongRandomizer
             }
 
             localDeathReported = true;
+            SaveState.Instance?.RecordDeath(IsRemoteDeathApplicationInFlight);
 
             if (suppressNextLocalDeath)
             {
@@ -571,8 +577,6 @@ namespace SilksongRandomizer
 
                 return;
             }
-
-            string sceneName = GetCurrentSceneName();
 
             DeathLinkService currentService;
             string currentSource;

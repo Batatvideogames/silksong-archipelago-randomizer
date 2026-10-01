@@ -3,6 +3,7 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SilksongRandomizer.Patches
 {
@@ -563,6 +564,30 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static bool SoulSnarePrerequisitesMet(QuestCompleteTotalGroup group) =>
+            ProgressionShufflePatches.ReadQuestAvailability(() => group.IsFulfilled);
+
+        internal static KeyValuePair<string, bool>[] SoulSnareStoryRequirements(QuestCompleteTotalGroup group)
+        {
+            var test = AccessTools.Field(typeof(QuestCompleteTotalGroup), "additionalTest")
+                .GetValue(group) as PlayerDataTest;
+            if (test?.TestGroups == null || PlayerData.instance == null)
+                return Array.Empty<KeyValuePair<string, bool>>();
+            var snapshot = BeginSoulSnareFaydownCheck(group);
+            try
+            {
+                return ProgressionShufflePatches.ReadQuestAvailability(() => test.TestGroups.Length == 1
+                    ? test.TestGroups[0].Tests.Select(part => new KeyValuePair<string, bool>(
+                        part.FieldName, part.IsFulfilled(PlayerData.instance))).ToArray()
+                    : new[] { new KeyValuePair<string, bool>("", test.IsFulfilled) });
+            }
+            finally { RestoreAbility(snapshot); }
+        }
+
+        internal static int SoulSnarePointTarget(SaveState state) =>
+            state?.goal == Archipelago.ActThreeGoal
+                ? Math.Max(0, Math.Min(25, state.silkAndSoulPoints)) : 17;
+
         [HarmonyPatch(typeof(QuestCompleteTotalGroup), "get_IsFulfilled")]
         private static class SoulSnarePointsPatch
         {
@@ -573,9 +598,7 @@ namespace SilksongRandomizer.Patches
                 __state = ___target;
                 if (SaveState.Instance != null && __instance.name == SoulSnareQuest)
                 {
-                    ___target = SaveState.Instance.goal == "act_3"
-                        ? Math.Max(0, Math.Min(25, SaveState.Instance.silkAndSoulPoints))
-                        : 17;
+                    ___target = SoulSnarePointTarget(SaveState.Instance);
                 }
             }
 

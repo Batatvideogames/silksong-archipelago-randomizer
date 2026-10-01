@@ -138,7 +138,7 @@ namespace SilksongRandomizer
         {
             if ((flags & ItemFlags.Advancement) != 0) return "It is very important!";
             if ((flags & ItemFlags.NeverExclude) != 0) return "Seems useful.";
-            return (flags & ItemFlags.Trap) != 0 ? "Seems fun..." : "Seems not important.";
+            return (flags & ItemFlags.Trap) != 0 ? "Seems fun!" : "Seems not important.";
         }
 
         private static Disguise ChooseDisguise(string location)

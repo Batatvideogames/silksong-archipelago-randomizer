@@ -145,6 +145,7 @@ namespace SilksongRandomizer
         public Sprite ProgressionIcon { get; private set; }
         public Sprite TrapIcon { get; private set; }
         public Sprite MapCheckIcon { get; private set; }
+        public Sprite InventoryIcon { get; private set; }
         public Sprite MapCheckOutlineIcon { get; private set; }
         public Sprite LogicUnknownIcon { get; private set; }
         public Sprite LogicUnknownOutlineIcon { get; private set; }
@@ -363,6 +364,12 @@ namespace SilksongRandomizer
                 "mapcheck",
                 ArchipelagoIcon
             );
+            InventoryIcon = LoadCheckClassificationIcon(
+                "InventoryIcon.png",
+                "inventoryicon",
+                MapCheckIcon ?? ArchipelagoIcon,
+                FilterMode.Bilinear
+            );
             LogicUnknownIcon = LoadCheckClassificationIcon(
                 "LogicUnknown.png",
                 "logicunknown",
@@ -377,7 +384,8 @@ namespace SilksongRandomizer
         private Sprite LoadCheckClassificationIcon(
             string fileName,
             string spriteName,
-            Sprite fallback)
+            Sprite fallback,
+            FilterMode filterMode = FilterMode.Point)
         {
             string relativePath = Path.Combine("CheckIcons", fileName);
             string path = GetPluginAssetPath(relativePath);
@@ -408,7 +416,7 @@ namespace SilksongRandomizer
                     return fallback;
                 }
 
-                texture.filterMode = FilterMode.Point;
+                texture.filterMode = filterMode;
                 var createdSprite = Sprite.Create(
                     texture,
                     new Rect(0f, 0f, texture.width, texture.height),
@@ -774,9 +782,9 @@ namespace SilksongRandomizer
             ProcessDisconnectSaveRequest(true);
             TrapManager.ResetTransientEffects();
             BeastlingCallAct3Safety.Reset();
-            DeathLinkManager.Reset();
+            DeathLinkManager.Reset(disconnecting: true);
             SilkLinkManager.Reset();
-            KnockbackLinkManager.Reset();
+            KnockbackLinkManager.Reset(disconnecting: true);
             CurrencyLinkManager.Reset();
             FleaRescueAudio.ResetPending();
             VogHintManager.Reset();

@@ -56,14 +56,14 @@ namespace SilksongRandomizer
             }
         }
 
-        internal static void Reset()
+        internal static void Reset(bool disconnecting = false)
         {
             lock (Sync)
             {
                 generation++;
                 if (session != null && handler != null)
                     session.Socket.PacketReceived -= handler;
-                if (session != null && session.Socket.Connected)
+                if (!disconnecting && session != null && session.Socket.Connected)
                 {
                     try
                     {

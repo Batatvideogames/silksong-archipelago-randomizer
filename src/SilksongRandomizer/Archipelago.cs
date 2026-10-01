@@ -129,6 +129,7 @@ namespace SilksongRandomizer
         public int Slot { get; private set; } = -1;
         public string WorldVersion { get; private set; } = string.Empty;
         public string Goal { get; private set; } = string.Empty;
+        public string ContentScope { get; private set; } = string.Empty;
         public string SpellingBeePhrase { get; private set; } =
             string.Empty;
         public int FleaHuntGoalCount { get; private set; } =
@@ -518,6 +519,7 @@ namespace SilksongRandomizer
                 }
 
                 Goal = goal;
+                ContentScope = GetContentScope(successful, goal);
                 SpellingBeePhrase =
                     GetSpellingBeePhrase(successful, goal);
                 if (string.Equals(
@@ -829,6 +831,15 @@ namespace SilksongRandomizer
             }
         }
 
+        internal string GetReceivedItemSender(SaveState state, int player)
+        {
+            var current = session;
+            if (state == null || !state.IsRoomBound || !Connected || current == null ||
+                state.roomSeed != RoomSeed || state.team != Team || state.slot != Slot)
+                return player == 0 ? "Server" : "Player " + player;
+            return current.Players.GetPlayerAlias(player) ?? ("Player " + player);
+        }
+
         public IReadOnlyDictionary<string, int> GetReceivedItemCounts()
         {
             Dictionary<string, int> counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -906,6 +917,7 @@ namespace SilksongRandomizer
                 saveState.BindVogHintSettings(this);
             }
 
+            if (!string.IsNullOrEmpty(ContentScope)) saveState.contentScope = ContentScope;
             saveState.fasterSilkheartAnimation = FasterSilkheartAnimation;
 
             foreach (HintData hint in GetOfficialHintsForCurrentSlot())
@@ -1401,9 +1413,9 @@ namespace SilksongRandomizer
                 return;
             }
 
-            DeathLinkManager.Reset();
+            DeathLinkManager.Reset(disconnecting: true);
             SilkLinkManager.Reset();
-            KnockbackLinkManager.Reset();
+            KnockbackLinkManager.Reset(disconnecting: true);
             CurrencyLinkManager.Reset();
             Patches.VogHintManager.Reset();
         }
@@ -2132,6 +2144,18 @@ namespace SilksongRandomizer
         private static string GetGoal(LoginSuccessful login)
         {
             return GetRequiredStringSlotData(login, "goal");
+        }
+
+        private static string GetContentScope(LoginSuccessful login, string goal)
+        {
+            if (login?.SlotData != null && login.SlotData.TryGetValue("content_scope", out object value))
+            {
+                if (value is string scope && (scope == ActOneGoal || scope == ActTwoGoal || scope == ActThreeGoal))
+                    return scope;
+                throw new FormatException("APWorld content_scope must be act_1, act_2 or act_3.");
+            }
+            if (goal == ActOneGoal || goal == ActTwoGoal || goal == ActThreeGoal) return goal;
+            return goal == CursedEndingGoal ? ActTwoGoal : string.Empty;
         }
 
         private static string GetSpellingBeePhrase(
@@ -3148,6 +3172,7 @@ namespace SilksongRandomizer
             Slot = -1;
             WorldVersion = string.Empty;
             Goal = string.Empty;
+            ContentScope = string.Empty;
             SpellingBeePhrase = string.Empty;
             FleaHuntGoalCount = DefaultFleaHuntGoalCount;
             StartingLocation = StartingLocationVanilla;

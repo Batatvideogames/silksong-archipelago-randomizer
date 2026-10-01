@@ -80,6 +80,13 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static T ReadQuestAvailability<T>(Func<T> read)
+        {
+            questAvailabilityDepth++;
+            try { return read(); }
+            finally { questAvailabilityDepth--; }
+        }
+
         [HarmonyPatch]
         private static class QuestAppearanceScopePatch
         {

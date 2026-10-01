@@ -121,6 +121,8 @@ namespace SilksongRandomizer
             cachedJson = json;
         }
 
+        internal IEnumerable<string> BossCreditIds { get { EnsureParsed(); return bosses; } }
+
         internal IEnumerable<string> WishOfferIds { get { EnsureParsed(); return wishes.Keys; } }
 
         internal bool IsWishOfferUnlocked(string offer) => unlockedWishOffers.Contains(offer);
