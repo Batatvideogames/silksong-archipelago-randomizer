@@ -6900,5 +6900,20 @@
     "name": "Songclave Wish Wall - pain anguish and misery wish promised",
     "kind": "event",
     "locations": []
+  },
+  "event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc": {
+    "name": "Upper Bellhart - Lower Left Bell Blockade",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb": {
+    "name": "Widow Boss Fight - Trapdoor Lever",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-shellwood:shellwood/shellwood-left-side-long-pond-room#left-lake": {
+    "name": "Shellwood Left Side Long Pond Room - Shellwood Visit",
+    "kind": "event",
+    "locations": []
   }
 }

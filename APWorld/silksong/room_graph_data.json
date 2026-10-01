@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 514,
-    "aggregate_sha256": "bd0f0e4ce69fac758e0cb6647abccf806ba679b759a4f6b6cce4bbaa4c42b5c5",
-    "catalogue_sha256": "d211e6af12094b105f7bdae6ec5435cd9e9c68fccf0a49aafdedaafedaaa855b",
-    "bindings_sha256": "b39a1022e523b4a3d3f59f8305d450d5bc2e8c6b3a4b1fcee014435ad954993c"
+    "aggregate_sha256": "76f7b80a419a4bd7da5254e6cb6002919acb2f8d8a3394124349f7fd6915386a",
+    "catalogue_sha256": "20cea175e48d744fa8a586275237a490077820665ed4033ae4bfcbe1bbaa1385",
+    "bindings_sha256": "66437d0a947e0c03c61143a13565ca1a2550de3c04090ef3b2e188af7be0a6f7"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -1000,7 +1000,8 @@
         "reviewed:visit-shellwood:shellwood/shellwood-right-side-big-room#right-platforms",
         "reviewed:visit-shellwood:shellwood/shellwood-right-side-big-room#ground-level-right",
         "reviewed:visit-shellwood:shellwood/shellwood-lower-left-tall-room#top",
-        "reviewed:visit-shellwood:shellwood/shellwood-lower-left-tall-room#bottom"
+        "reviewed:visit-shellwood:shellwood/shellwood-lower-left-tall-room#bottom",
+        "reviewed:visit-shellwood:shellwood/shellwood-left-side-long-pond-room#left-lake"
       ],
       "Room Event: event:mapper/visit-greymoor": [
         "reviewed:visit-greymoor:greymoor/greymoor-halfway-home-exterior#lower-left-section",
@@ -4243,7 +4244,7 @@
       "area_id": "bone-bottom",
       "name": "Bone Bottom Town",
       "source_file": "bone-bottom/bone-bottom-town.json",
-      "source_sha256": "01833d492ed093dbc7a57772479df0b9151fe9bb9050b2494feb1d9d81c71085",
+      "source_sha256": "052c84d581c27a1f9a5b442bc4d930c9956489363b83f5f9f46ed12a95119ddb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -4693,11 +4694,14 @@
         {
           "id": "bone-bottom/bone-bottom-town@ww",
           "requirement": {
-            "raw": "defeat THE bell beast boss fight",
+            "raw": "defeat THE bell beast boss fight\nOR visit shellwood",
             "mode": "expression",
             "dnf": [
               [
                 "event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a"
+              ],
+              [
+                "event:mapper/visit-shellwood"
               ]
             ],
             "annotations": [],
@@ -4705,7 +4709,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "\"IT'S NOT BELL BEAST DEFEAT OR WIDOW DEFEAT FOR BONE BOTTOM WISH WALL IT'S BELL BEAST DEFEATED OR SHELLWOOD VISITED???\" - Moriko, in utter denial\n",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "a7f1df96-0c75-448c-987b-5136b6fad945"
@@ -41298,7 +41302,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains Center",
       "source_file": "deep-docks/deep-docks-chains-center.json",
-      "source_sha256": "b2b8768a3a90ffe6ed66f8e14d9d0414a07a5d585e92bc449758156d63d6d862",
+      "source_sha256": "07fdab847c25669090696ea502ada6a1906243a7bf7f73e84ccc093a8a93feef",
       "geometry_act_independent": true,
       "notes": "the floor/lower half of this area is closed off initially\n\nthe switch to lower the middle chain section makes some of this logic difficult to reason about - but if you can reach the middle switch platform, there is no reason you can't reach all the stuff that unlocking the chains provides - might need to revise this for switch randomization",
       "nodes": [
@@ -41876,7 +41880,7 @@
         {
           "id": "deep-docks/deep-docks-chains-center#middle-side-room>middle-switch-platform@ms",
           "requirement": {
-            "raw": "(Silk Soar OR (Cling Grip AND Faydown Cloak) OR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement)))",
+            "raw": "Silk Soar \nOR (Cling Grip AND Faydown Cloak) \nOR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement))",
             "mode": "expression",
             "dnf": [
               [
@@ -41964,7 +41968,7 @@
         {
           "id": "deep-docks/deep-docks-chains-center#lower-chain-platforms>middle-switch-platform@mp",
           "requirement": {
-            "raw": "((Silk Soar OR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement))))",
+            "raw": "Silk Soar \nOR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement))",
             "mode": "expression",
             "dnf": [
               [
@@ -42023,7 +42027,7 @@
         {
           "id": "deep-docks/deep-docks-chains-center#middle-side-room>lower-chain-platforms@s1",
           "requirement": {
-            "raw": "((Silk Soar OR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement))))",
+            "raw": "Silk Soar \nOR (Activate Ceiling Switch AND (Ledge Grab OR Cling Grip OR Scuttlebrace OR Faydown Cloak OR Clawline OR Sharpdart OR Dash OR Proficient Movement))",
             "mode": "expression",
             "dnf": [
               [
@@ -73365,13 +73369,25 @@
       "area_id": "shellwood",
       "name": "Shellwood Hidden Bellhart Connection",
       "source_file": "shellwood/shellwood-hidden-bellhart-connection.json",
-      "source_sha256": "7fff9cf337d6784fbf09b86e36cdc3affe69681db663605b063e8336ef4ae140",
+      "source_sha256": "7da5a87535ccd3048c32d60a0b2f6b2f47e8c6e856e6afd7b67b2ac63962ed14",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
         {
-          "id": "shellwood/shellwood-hidden-bellhart-connection#room",
-          "name": "room",
+          "id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+          "name": "Left Exit Area",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+          "name": "Right Exit Area",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
+          "name": "Pollip Spot",
           "notes": "",
           "declared": true
         }
@@ -73379,6 +73395,114 @@
       "transitions": [
         {
           "id": "shellwood/shellwood-hidden-bellhart-connection@l",
+          "requirement": {
+            "raw": "Clear Shellwood 15 Wall",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/de6a65d1-7fe6-42b4-b493-584013701de8"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "6e83ab46-beab-4da4-a3de-b02bbdc5d4f7"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "L",
+          "name": "left1",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+          "target": {
+            "raw": "shellwood/shellwood-sister-splinter-bench@mr",
+            "room_id": "shellwood/shellwood-sister-splinter-bench",
+            "alias": "mr",
+            "port_id": "shellwood/shellwood-sister-splinter-bench@mr",
+            "label": null
+          }
+        },
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection@r",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "09b9c4bb-d941-44f3-8a6a-957f89ca4284"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "R",
+          "name": "right1",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+          "target": {
+            "raw": "bellhart/upper-bellhart@ll",
+            "room_id": "bellhart/upper-bellhart",
+            "alias": "ll",
+            "port_id": "bellhart/upper-bellhart@ll",
+            "label": null
+          }
+        }
+      ],
+      "connections": [
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area>right-exit-area@rc",
+          "requirement": {
+            "raw": "Faydown Cloak OR Drifters Cloak OR Dash OR Clawline OR Sharpdart OR easy Beast Crest pogo",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:sharpdart"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "1e911be4-744a-444f-ac69-27dc2498cad5"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "RC",
+          "name": "Room Crossing",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+          "target_node_id": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area"
+        },
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area>left-exit-area@rc",
           "requirement": {
             "raw": "Faydown Cloak OR ( Drifters Cloak AND Ledge Grab ) OR ( Dash AND Ledge Grab )  OR Clawline OR Sharpdart OR easy Beast Crest pogo",
             "mode": "expression",
@@ -73412,44 +73536,23 @@
           "notes": "",
           "source_line": 0,
           "raw_cells": {
-            "mapper_id": "6e83ab46-beab-4da4-a3de-b02bbdc5d4f7"
+            "mapper_id": "0e5ed726-0af1-426c-97cc-908334b8695c"
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "L",
-          "name": "left1",
-          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#room",
-          "target": {
-            "raw": "shellwood/shellwood-sister-splinter-bench@mr",
-            "room_id": "shellwood/shellwood-sister-splinter-bench",
-            "alias": "mr",
-            "port_id": "shellwood/shellwood-sister-splinter-bench@mr",
-            "label": null
-          }
+          "alias": "RC",
+          "name": "Room Crossing",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+          "target_node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area"
         },
         {
-          "id": "shellwood/shellwood-hidden-bellhart-connection@r",
+          "id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area>pollip-spot@pa",
           "requirement": {
-            "raw": "Faydown Cloak OR Drifters Cloak OR Dash OR Clawline OR Sharpdart OR easy Beast Crest pogo",
+            "raw": "Break Wall Left",
             "mode": "expression",
             "dnf": [
               [
-                "item:faydown-cloak"
-              ],
-              [
-                "item:drifters-cloak"
-              ],
-              [
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "item:clawline"
-              ],
-              [
-                "item:sharpdart"
-              ],
-              [
-                "mapper:beast-crest-pogo:easy"
+                "mapper:attack:left"
               ]
             ],
             "annotations": [],
@@ -73460,23 +73563,43 @@
           "notes": "",
           "source_line": 0,
           "raw_cells": {
-            "mapper_id": "09b9c4bb-d941-44f3-8a6a-957f89ca4284"
+            "mapper_id": "11e61cff-c6bc-48be-9f4c-be74f2d8e6b0"
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "R",
-          "name": "right1",
-          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#room",
-          "target": {
-            "raw": "bellhart/upper-bellhart@ll",
-            "room_id": "bellhart/upper-bellhart",
-            "alias": "ll",
-            "port_id": "bellhart/upper-bellhart@ll",
-            "label": null
-          }
+          "alias": "PA",
+          "name": "Pollip Access",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+          "target_node_id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot"
+        },
+        {
+          "id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot>left-exit-area@pa",
+          "requirement": {
+            "raw": "Break Wall Right",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "7589ecab-25d5-4dc2-b26e-88f4d0cd06ad"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "PA",
+          "name": "Pollip Access",
+          "source_node_id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
+          "target_node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area"
         }
       ],
-      "connections": [],
       "events": [
         {
           "id": "event:mapper/395cf407-2776-4a46-b3db-abdc118bf21c",
@@ -73517,15 +73640,17 @@
           "unresolved_reasons": [],
           "label": "Pollip Heart #2",
           "kind": "collectible",
-          "node_id": "shellwood/shellwood-hidden-bellhart-connection#room"
+          "node_id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot"
         },
         {
           "id": "event:mapper/de6a65d1-7fe6-42b4-b493-584013701de8",
           "requirement": {
-            "raw": "None",
+            "raw": "Break Wall Left",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "mapper:attack:left"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -73541,7 +73666,7 @@
           "unresolved_reasons": [],
           "label": "Shellwood 15 Wall",
           "kind": "blockade",
-          "node_id": "shellwood/shellwood-hidden-bellhart-connection#room"
+          "node_id": "shellwood/shellwood-hidden-bellhart-connection#left-exit-area"
         }
       ],
       "checks": [
@@ -73583,7 +73708,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Pollip Heart #2",
-          "node_id": "shellwood/shellwood-hidden-bellhart-connection#room",
+          "node_id": "shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
           "canonical_location": "Shellwood - Pollip Heart #5",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -73879,6 +74004,27 @@
           "label": "Garmond and Zaza Act 3 Meeting Shellwood",
           "kind": "event",
           "node_id": "shellwood/shellwood-left-side-long-pond-room#left-lake"
+        },
+        {
+          "id": "event:mapper/reviewed:visit-shellwood:shellwood/shellwood-left-side-long-pond-room#left-lake",
+          "label": "Visit Shellwood:Shellwood/Shellwood Left Side Long Pond Room#Left Lake",
+          "kind": "event",
+          "node_id": "shellwood/shellwood-left-side-long-pond-room#left-lake",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [],
@@ -76163,7 +76309,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Sister Splinter Bench",
       "source_file": "shellwood/shellwood-sister-splinter-bench.json",
-      "source_sha256": "60d3633157ae6035d25a780f3839f921ca84ba7293e2da344c79a29e1bacdaea",
+      "source_sha256": "936ab4998ecc47fa41f9f057fcf869d6517c8eb5ba826012f4e50dde6407c381",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -76237,37 +76383,6 @@
           }
         },
         {
-          "id": "shellwood/shellwood-sister-splinter-bench@lr",
-          "requirement": {
-            "raw": "None",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "410e02a6-e65a-432c-bf9a-90572609df92"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "alias": "LR",
-          "name": "right2",
-          "source_node_id": "shellwood/shellwood-sister-splinter-bench#bench-toll",
-          "target": {
-            "raw": "shellwood/shellwood-right-side-big-room@ul",
-            "room_id": "shellwood/shellwood-right-side-big-room",
-            "alias": "ul",
-            "port_id": "shellwood/shellwood-right-side-big-room@ul",
-            "label": null
-          }
-        },
-        {
           "id": "shellwood/shellwood-sister-splinter-bench@mr",
           "requirement": {
             "raw": "activate Shellwood 15 Wall IN Shellwood Hidden Bellhart Connection",
@@ -76297,6 +76412,37 @@
             "room_id": "shellwood/shellwood-hidden-bellhart-connection",
             "alias": "l",
             "port_id": "shellwood/shellwood-hidden-bellhart-connection@l",
+            "label": null
+          }
+        },
+        {
+          "id": "shellwood/shellwood-sister-splinter-bench@ll",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "b6ff7a02-4c05-4029-b255-f5250d986ffb"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "LL",
+          "name": "left2",
+          "source_node_id": "shellwood/shellwood-sister-splinter-bench#bench-toll",
+          "target": {
+            "raw": "shellwood/shellwood-big-room-left@ur",
+            "room_id": "shellwood/shellwood-big-room-left",
+            "alias": "ur",
+            "port_id": "shellwood/shellwood-big-room-left@ur",
             "label": null
           }
         },
@@ -76332,7 +76478,7 @@
           }
         },
         {
-          "id": "shellwood/shellwood-sister-splinter-bench@ll",
+          "id": "shellwood/shellwood-sister-splinter-bench@lr",
           "requirement": {
             "raw": "None",
             "mode": "expression",
@@ -76347,18 +76493,18 @@
           "notes": "",
           "source_line": 0,
           "raw_cells": {
-            "mapper_id": "b6ff7a02-4c05-4029-b255-f5250d986ffb"
+            "mapper_id": "410e02a6-e65a-432c-bf9a-90572609df92"
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "LL",
-          "name": "left2",
+          "alias": "LR",
+          "name": "right2",
           "source_node_id": "shellwood/shellwood-sister-splinter-bench#above-arena",
           "target": {
-            "raw": "shellwood/shellwood-big-room-left@ur",
-            "room_id": "shellwood/shellwood-big-room-left",
-            "alias": "ur",
-            "port_id": "shellwood/shellwood-big-room-left@ur",
+            "raw": "shellwood/shellwood-right-side-big-room@ul",
+            "room_id": "shellwood/shellwood-right-side-big-room",
+            "alias": "ul",
+            "port_id": "shellwood/shellwood-right-side-big-room@ul",
             "label": null
           }
         }
@@ -77661,7 +77807,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Upper Bellhart Entrance",
       "source_file": "shellwood/shellwood-upper-bellhart-entrance.json",
-      "source_sha256": "c360226232341d20e798cc5752aa17ce840a588889d093b3a02332a93238a932",
+      "source_sha256": "4c408ff3e3f2f5d79cab6b1ca71ad0951040473dd976cdb29fbb165501d33f88",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -77686,6 +77832,12 @@
         {
           "id": "shellwood/shellwood-upper-bellhart-entrance#upper-area",
           "name": "Upper Area",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "shellwood/shellwood-upper-bellhart-entrance#right-exit-area",
+          "name": "Right Exit Area",
           "notes": "",
           "declared": true
         }
@@ -77786,7 +77938,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "shellwood/shellwood-upper-bellhart-entrance#bell-ledge",
+          "source_node_id": "shellwood/shellwood-upper-bellhart-entrance#right-exit-area",
           "target": {
             "raw": "bellhart/upper-bellhart@ul",
             "room_id": "bellhart/upper-bellhart",
@@ -78082,6 +78234,60 @@
           "name": "Platforms",
           "source_node_id": "shellwood/shellwood-upper-bellhart-entrance#right-pond",
           "target_node_id": "shellwood/shellwood-upper-bellhart-entrance#upper-area"
+        },
+        {
+          "id": "shellwood/shellwood-upper-bellhart-entrance#bell-ledge>right-exit-area@bb",
+          "requirement": {
+            "raw": "Break Wall Right",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "aed9cf88-496e-45da-9fa6-b35e7ac81676"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BB",
+          "name": "Break Bell Walls",
+          "source_node_id": "shellwood/shellwood-upper-bellhart-entrance#bell-ledge",
+          "target_node_id": "shellwood/shellwood-upper-bellhart-entrance#right-exit-area"
+        },
+        {
+          "id": "shellwood/shellwood-upper-bellhart-entrance#right-exit-area>bell-ledge@bb",
+          "requirement": {
+            "raw": "Break Wall Left",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "460371b7-7653-459c-8c1b-abb9a73b5847"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BB",
+          "name": "Break Bell Walls",
+          "source_node_id": "shellwood/shellwood-upper-bellhart-entrance#right-exit-area",
+          "target_node_id": "shellwood/shellwood-upper-bellhart-entrance#bell-ledge"
         }
       ],
       "events": [
@@ -81153,7 +81359,7 @@
       "area_id": "bellhart",
       "name": "Bellhart Right Entrance",
       "source_file": "bellhart/bellhart-right-entrance.json",
-      "source_sha256": "7122b6b7bd57a20a3c34ea2fbb24e5e2776db346f570450981108808e0fa6d16",
+      "source_sha256": "9660df32fa08d40ec6dac465b6eacd3459162bef7f8ec8dfc1dd96163889206f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -81342,7 +81548,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Bellhart elevator ",
+          "label": "Bellhart Elevator",
           "kind": "switch",
           "node_id": "bellhart/bellhart-right-entrance#upper-level"
         }
@@ -83845,7 +84051,7 @@
       "area_id": "bellhart",
       "name": "Upper Bellhart",
       "source_file": "bellhart/upper-bellhart.json",
-      "source_sha256": "5fa66e193ff8b4480c140f19e547d031b4f3e26bc7ca32ee70d18ec0927c36f9",
+      "source_sha256": "a3cbad1eef180c4adb13e5a32002ed48fc2750337bf8a36a4bd9a1127a9ae93b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -83878,71 +84084,15 @@
           "name": "Upper Big room",
           "notes": "",
           "declared": true
+        },
+        {
+          "id": "bellhart/upper-bellhart#unsafe-lower-left-landing",
+          "name": "Unsafe Lower Left Landing",
+          "notes": "[Unsafe] The lower left blockade makes entering from the other side drop you into the void.",
+          "declared": true
         }
       ],
       "transitions": [
-        {
-          "id": "bellhart/upper-bellhart@ll",
-          "requirement": {
-            "raw": "None",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "6f77ec97-b8af-424b-91d0-d46ea6d557ee"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "alias": "LL",
-          "name": "left2",
-          "source_node_id": "bellhart/upper-bellhart#lower-exits",
-          "target": {
-            "raw": "shellwood/shellwood-hidden-bellhart-connection@r",
-            "room_id": "shellwood/shellwood-hidden-bellhart-connection",
-            "alias": "r",
-            "port_id": "shellwood/shellwood-hidden-bellhart-connection@r",
-            "label": null
-          }
-        },
-        {
-          "id": "bellhart/upper-bellhart@f",
-          "requirement": {
-            "raw": "None",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "d8d68936-6f60-45d9-8c89-ae1edef74aed"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "alias": "F",
-          "name": "bot1",
-          "source_node_id": "bellhart/upper-bellhart#lower-exits",
-          "target": {
-            "raw": "bellhart/widow-boss-fight@c",
-            "room_id": "bellhart/widow-boss-fight",
-            "alias": "c",
-            "port_id": "bellhart/widow-boss-fight@c",
-            "label": null
-          }
-        },
         {
           "id": "bellhart/upper-bellhart@ul",
           "requirement": {
@@ -83971,6 +84121,70 @@
             "room_id": "shellwood/shellwood-upper-bellhart-entrance",
             "alias": "r",
             "port_id": "shellwood/shellwood-upper-bellhart-entrance@r",
+            "label": null
+          }
+        },
+        {
+          "id": "bellhart/upper-bellhart@ll",
+          "requirement": {
+            "raw": "clear Lower Left Bell Blockade",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "[UNSAFE ARRIVAL]\nthe blockade does NOT block the inverse exit in shellwood, but does prevent getting into the room safely",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "6f77ec97-b8af-424b-91d0-d46ea6d557ee"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "LL",
+          "name": "left2",
+          "source_node_id": "bellhart/upper-bellhart#unsafe-lower-left-landing",
+          "target": {
+            "raw": "shellwood/shellwood-hidden-bellhart-connection@r",
+            "room_id": "shellwood/shellwood-hidden-bellhart-connection",
+            "alias": "r",
+            "port_id": "shellwood/shellwood-hidden-bellhart-connection@r",
+            "label": null
+          }
+        },
+        {
+          "id": "bellhart/upper-bellhart@f",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "d8d68936-6f60-45d9-8c89-ae1edef74aed"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "F",
+          "name": "bot1",
+          "source_node_id": "bellhart/upper-bellhart#lower-exits",
+          "target": {
+            "raw": "bellhart/widow-boss-fight@c",
+            "room_id": "bellhart/widow-boss-fight",
+            "alias": "c",
+            "port_id": "bellhart/widow-boss-fight@c",
             "label": null
           }
         }
@@ -84278,6 +84492,60 @@
           "name": "Upper Shafts",
           "source_node_id": "bellhart/upper-bellhart#upper-big-room",
           "target_node_id": "bellhart/upper-bellhart#central-passage"
+        },
+        {
+          "id": "bellhart/upper-bellhart#lower-exits>unsafe-lower-left-landing@blb",
+          "requirement": {
+            "raw": "clear Lower Left Bell Blockade",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "caf84f3a-5758-42d8-8c2e-211e234d07cb"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BLB",
+          "name": "Break Lower Blockade",
+          "source_node_id": "bellhart/upper-bellhart#lower-exits",
+          "target_node_id": "bellhart/upper-bellhart#unsafe-lower-left-landing"
+        },
+        {
+          "id": "bellhart/upper-bellhart#unsafe-lower-left-landing>lower-exits@blb",
+          "requirement": {
+            "raw": "clear Lower Left Bell Blockade",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "3cfad572-3129-4111-b2fd-4e01b065dfac"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BLB",
+          "name": "Break Lower Blockade",
+          "source_node_id": "bellhart/upper-bellhart#unsafe-lower-left-landing",
+          "target_node_id": "bellhart/upper-bellhart#lower-exits"
         }
       ],
       "events": [
@@ -84461,6 +84729,32 @@
           "label": "Flea: Bellhart",
           "kind": "collectible",
           "node_id": "bellhart/upper-bellhart#upper-big-room"
+        },
+        {
+          "id": "event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc",
+          "requirement": {
+            "raw": "Break Wall Left",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "can also be broken from the right while falling into the void - hero, 9/30",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "5eac000e-5b1d-4d27-8826-1327f33246bc"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Lower Left Bell Blockade",
+          "kind": "blockade",
+          "node_id": "bellhart/upper-bellhart#lower-exits"
         }
       ],
       "checks": [
@@ -84611,16 +84905,10 @@
       "area_id": "bellhart",
       "name": "Widow Boss Fight",
       "source_file": "bellhart/widow-boss-fight.json",
-      "source_sha256": "b0719014da1b124bc5e74b691987e06a54386065fbd33b8dba4b1a031c0f14e1",
+      "source_sha256": "99fc749275ae2834fb5ce66e765c1c6d2ef27ff65f36842cbd389cd502fa6faf",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
-        {
-          "id": "bellhart/widow-boss-fight#arena",
-          "name": "Arena",
-          "notes": "",
-          "declared": true
-        },
         {
           "id": "bellhart/widow-boss-fight#upper",
           "name": "Upper",
@@ -84628,8 +84916,26 @@
           "declared": true
         },
         {
-          "id": "bellhart/widow-boss-fight#right-entrance",
-          "name": "Right Entrance",
+          "id": "bellhart/widow-boss-fight#arena-right",
+          "name": "Arena Right",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena",
+          "name": "Arena",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena-left",
+          "name": "Arena Left",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "bellhart/widow-boss-fight#trapdoor-switch-ledge",
+          "name": "Trapdoor Switch Ledge",
           "notes": "",
           "declared": true
         }
@@ -84657,7 +84963,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "bellhart/widow-boss-fight#right-entrance",
+          "source_node_id": "bellhart/widow-boss-fight#arena-right",
           "target": {
             "raw": "bellhart/bellhart-right-entrance@ul",
             "room_id": "bellhart/bellhart-right-entrance",
@@ -84716,70 +85022,6 @@
         }
       ],
       "connections": [
-        {
-          "id": "bellhart/widow-boss-fight#arena>upper@td",
-          "requirement": {
-            "raw": "prereq Bellshrine Lever AND ( Cling Grip OR Silk soar OR ( Dash AND Scuttlebrace ) )",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                "item:cling-grip"
-              ],
-              [
-                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                "item:silk-soar"
-              ],
-              [
-                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                "macro:progressive-swift-step-full",
-                "mapper:scuttlebrace:none"
-              ]
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "Permanently open",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "bc6024ba-0523-43ac-85b3-d68f182ae6f6"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "alias": "TD",
-          "name": "Trapdoor",
-          "source_node_id": "bellhart/widow-boss-fight#arena",
-          "target_node_id": "bellhart/widow-boss-fight#upper"
-        },
-        {
-          "id": "bellhart/widow-boss-fight#upper>arena@td",
-          "requirement": {
-            "raw": "prereq Bellshrine Lever",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
-              ]
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "Permanently open",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "d9552006-8be6-4773-bc82-40d0142e7a3f"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "alias": "TD",
-          "name": "Trapdoor",
-          "source_node_id": "bellhart/widow-boss-fight#upper",
-          "target_node_id": "bellhart/widow-boss-fight#arena"
-        },
         {
           "id": "bellhart/widow-boss-fight#arena>upper@rh",
           "requirement": {
@@ -84843,52 +85085,237 @@
           "target_node_id": "bellhart/widow-boss-fight#arena"
         },
         {
-          "id": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
-          "alias": "bellhart/widow-boss-fight#arena>right-entrance@reviewed-boss-gate",
-          "name": "Arena to Right Entrance",
-          "source_node_id": "bellhart/widow-boss-fight#arena",
-          "target_node_id": "bellhart/widow-boss-fight#right-entrance",
+          "id": "bellhart/widow-boss-fight#arena>arena-right@ar",
           "requirement": {
-            "raw": "",
+            "raw": "Activate Bellshrine Lever",
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
               ]
             ],
             "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
-          "raw_cells": {},
+          "raw_cells": {
+            "mapper_id": "4acb019e-0b11-4f46-860c-76120d364d37"
+          },
           "logic_status": "active",
-          "unresolved_reasons": []
+          "unresolved_reasons": [],
+          "alias": "AR",
+          "name": "Exit Arena Right",
+          "source_node_id": "bellhart/widow-boss-fight#arena",
+          "target_node_id": "bellhart/widow-boss-fight#arena-right"
         },
         {
-          "id": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
-          "alias": "bellhart/widow-boss-fight#right-entrance>arena@reviewed-boss-gate",
-          "name": "Right Entrance to Arena",
-          "source_node_id": "bellhart/widow-boss-fight#right-entrance",
-          "target_node_id": "bellhart/widow-boss-fight#arena",
+          "id": "bellhart/widow-boss-fight#arena-right>arena@ar",
           "requirement": {
-            "raw": "",
+            "raw": "Activate Bellshrine Lever",
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
               ]
             ],
             "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
-          "raw_cells": {},
+          "raw_cells": {
+            "mapper_id": "a67ebb43-5387-44ca-add4-88662d0a13b8"
+          },
           "logic_status": "active",
-          "unresolved_reasons": []
+          "unresolved_reasons": [],
+          "alias": "AR",
+          "name": "Exit Arena Right",
+          "source_node_id": "bellhart/widow-boss-fight#arena-right",
+          "target_node_id": "bellhart/widow-boss-fight#arena"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena-left>arena@al",
+          "requirement": {
+            "raw": "Activate Bellshrine Lever",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "39a53297-ccef-4cc3-a448-bbf9bbe59193"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "AL",
+          "name": "Exit Arena Left",
+          "source_node_id": "bellhart/widow-boss-fight#arena-left",
+          "target_node_id": "bellhart/widow-boss-fight#arena"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena>arena-left@al",
+          "requirement": {
+            "raw": "Activate Bellshrine Lever",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "8fa0ead7-f523-422f-90c2-47aa87f04615"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "AL",
+          "name": "Exit Arena Left",
+          "source_node_id": "bellhart/widow-boss-fight#arena",
+          "target_node_id": "bellhart/widow-boss-fight#arena-left"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#trapdoor-switch-ledge>upper@td",
+          "requirement": {
+            "raw": "activate Trapdoor Lever AND ( \nLedge Grab \nOR Cling Grip \nOR Silk Soar \nOR Scuttlebrace\n)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                "capability:ledge-grab"
+              ],
+              [
+                "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                "item:cling-grip"
+              ],
+              [
+                "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                "item:silk-soar"
+              ],
+              [
+                "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                "mapper:scuttlebrace:none"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "bc6024ba-0523-43ac-85b3-d68f182ae6f6"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TD",
+          "name": "Trapdoor",
+          "source_node_id": "bellhart/widow-boss-fight#trapdoor-switch-ledge",
+          "target_node_id": "bellhart/widow-boss-fight#upper"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#upper>trapdoor-switch-ledge@td",
+          "requirement": {
+            "raw": "activate Trapdoor Lever",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "d9552006-8be6-4773-bc82-40d0142e7a3f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "TD",
+          "name": "Trapdoor",
+          "source_node_id": "bellhart/widow-boss-fight#upper",
+          "target_node_id": "bellhart/widow-boss-fight#trapdoor-switch-ledge"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#arena-left>trapdoor-switch-ledge@alc",
+          "requirement": {
+            "raw": "Cling Grip OR Silk Soar OR Scuttlebrace",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "31a1bbea-8f26-4f34-a2bf-da3528573df6"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "ALC",
+          "name": "Arena Left Climb",
+          "source_node_id": "bellhart/widow-boss-fight#arena-left",
+          "target_node_id": "bellhart/widow-boss-fight#trapdoor-switch-ledge"
+        },
+        {
+          "id": "bellhart/widow-boss-fight#trapdoor-switch-ledge>arena-left@alc",
+          "requirement": {
+            "raw": "None (Falling)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "04c11163-475c-4277-af45-9dcbbe59db8b"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "ALC",
+          "name": "Arena Left Climb",
+          "source_node_id": "bellhart/widow-boss-fight#trapdoor-switch-ledge",
+          "target_node_id": "bellhart/widow-boss-fight#arena-left"
         }
       ],
       "events": [
@@ -85021,6 +85448,32 @@
           "label": "Bench",
           "kind": "bench",
           "node_id": "bellhart/widow-boss-fight#arena"
+        },
+        {
+          "id": "event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+          "requirement": {
+            "raw": "Flip Switch Down",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:down"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "f20ba956-b41a-4402-ba0f-01be54accbeb"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Trapdoor Lever",
+          "kind": "switch",
+          "node_id": "bellhart/widow-boss-fight#trapdoor-switch-ledge"
         }
       ],
       "checks": [
@@ -176573,7 +177026,7 @@
       "area_id": "memorium",
       "name": "Memorium Karak",
       "source_file": "memorium/memorium-karak.json",
-      "source_sha256": "6508f8d3f964c3041bff7bbbf9296fd4f2e57e298aa638da45ca32052a5ad960",
+      "source_sha256": "c69a2e68a11b1978c4e067824b364d342e6fa78452b874eeb9ae83ad80a77886",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -176704,24 +177157,33 @@
           "id": "memorium/memorium-karak#right-side>middle@rm",
           "requirement": {
             "raw": "easy enemy pogo OR ledge grab OR faydown cloak OR silk soar",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:enemy-pogo:easy"
+              ],
+              [
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Room is blind unless dark stuff is removed",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "99d188bf-d2c9-4544-87c1-9cefa4ed6e27"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "rm",
           "name": "blind gameplay",
           "source_node_id": "memorium/memorium-karak#right-side",
@@ -176776,24 +177238,40 @@
           "id": "memorium/memorium-karak#left-side>middle@ml",
           "requirement": {
             "raw": "run OR drifter's cloak OR faydown cloak OR easy architect pogo OR (clawline AND silkhearts 1) OR easy beast pogo",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:progressive-swift-step-first"
+              ],
+              [
+                "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:clawline",
+                "count:progressive-silkheart:1"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Room is blind unless dark stuff is removed",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "52a9a998-6eb8-4441-b380-497b764d8dfc"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "Ml",
           "name": "Middle <-> Left",
           "source_node_id": "memorium/memorium-karak#left-side",
@@ -177023,7 +177501,7 @@
       "area_id": "memorium",
       "name": "Memorium Mossy",
       "source_file": "memorium/memorium-mossy.json",
-      "source_sha256": "bd5d05f8a12b4b3c43ade0e351f0614bf9d15f471e69e4c7427745100a4e04c1",
+      "source_sha256": "e26dd0f62c915785f1483f0ce3f354c66b881378e2add12213e7aac6260d1a96",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -177171,24 +177649,64 @@
           "id": "memorium/memorium-mossy#bottom>fragment@fb",
           "requirement": {
             "raw": "silk soar OR cling grip OR (faydown cloak AND ledge grab AND easy shaman pogo) OR(easy scuttlebrace AND (faydown cloak OR ledge grab OR easy shaman pogo OR easy architect pogo OR easy wanderer pogo OR easy reaper pogo OR medium hunter pogo OR easy beast pogo))",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:faydown-cloak",
+                "capability:ledge-grab",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "capability:ledge-grab"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:wanderer-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:hunter-crest-pogo:medium"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "Room is blind unless dark stuff is removed",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "befeecdd-7cb0-4ab2-8d2e-61b3a567d833"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "fb",
           "name": "fragment/bottom",
           "source_node_id": "memorium/memorium-mossy#bottom",
@@ -196532,7 +197050,7 @@
       "area_id": "mount-fay",
       "name": "Mount Fay Right Side Middle Room",
       "source_file": "mount-fay/mount-fay-right-side-middle-room.json",
-      "source_sha256": "73932b10acf999d782ae7d756305ba6e64af92615537da2980ca2bec20d1ee50",
+      "source_sha256": "33f6d6d45f5cb419e549bed0af2ef435cf64e98ec1ea6701df4ac7f8df86891e",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -197114,7 +197632,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "wiki says you need to read the note if you start from the wish wall - may need to change if inaccurate",
+          "notes": "confirmed that you need to read the note if you start from the wish wall",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "af69c662-4686-439f-9dab-0f4a3be8fe93"
@@ -205897,19 +206415,19 @@
       "area_id": "the-cradle",
       "name": "Lace 2 Fight",
       "source_file": "the-cradle/lace-2-fight.json",
-      "source_sha256": "5ab7a829a210d27c591ba947860fd3fcf0819eee366444a0e6db3b28a825841c",
+      "source_sha256": "1569c66f4a601611f2fb760c8a99899c02f372a9d7e02c8251da80a7043d1261",
       "geometry_act_independent": true,
       "notes": "No map image for this",
       "nodes": [
         {
-          "id": "the-cradle/lace-2-fight#room",
-          "name": "room",
+          "id": "the-cradle/lace-2-fight#arena",
+          "name": "Arena",
           "notes": "",
           "declared": true
         },
         {
-          "id": "the-cradle/lace-2-fight#right-entrance",
-          "name": "Right Entrance",
+          "id": "the-cradle/lace-2-fight#behind-right-gate",
+          "name": "Behind Right Gate",
           "notes": "",
           "declared": true
         }
@@ -205939,7 +206457,7 @@
           "unresolved_reasons": [],
           "alias": "D",
           "name": "door_cinematicEnd",
-          "source_node_id": "the-cradle/lace-2-fight#room",
+          "source_node_id": "the-cradle/lace-2-fight#arena",
           "target": {
             "raw": "cogwork-core/cog-dancers@e",
             "room_id": "cogwork-core/cog-dancers",
@@ -205951,7 +206469,7 @@
         {
           "id": "the-cradle/lace-2-fight@r",
           "requirement": {
-            "raw": "Prereq Boss: Lace 2",
+            "raw": "None",
             "mode": "expression",
             "dnf": [
               []
@@ -205970,7 +206488,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "the-cradle/lace-2-fight#right-entrance",
+          "source_node_id": "the-cradle/lace-2-fight#behind-right-gate",
           "target": {
             "raw": "the-cradle/terminus-ventrica@ll",
             "room_id": "the-cradle/terminus-ventrica",
@@ -205978,72 +206496,40 @@
             "port_id": "the-cradle/terminus-ventrica@ll",
             "label": null
           }
-        },
+        }
+      ],
+      "connections": [
         {
-          "id": "the-cradle/lace-2-fight@dr",
+          "id": "the-cradle/lace-2-fight#arena>behind-right-gate@db",
           "requirement": {
-            "raw": "None",
+            "raw": "prereq Boss: Lace 2",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "The silk heart room, think its been disabled in mod",
+          "notes": "",
           "source_line": 0,
           "raw_cells": {
-            "mapper_id": "7d8b2616-bdfe-4fe8-a0b0-725732c7a7f7"
+            "mapper_id": "1a036e53-588b-4978-9c74-6142e4f0bd5f"
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "alias": "DR",
-          "name": "door_cutsceneEndLaceTower",
-          "source_node_id": "the-cradle/lace-2-fight#room",
-          "target": {
-            "raw": "the-cradle/lace-2-fight@dr",
-            "room_id": "the-cradle/lace-2-fight",
-            "alias": "dr",
-            "port_id": "the-cradle/lace-2-fight@dr",
-            "label": null
-          }
-        }
-      ],
-      "connections": [
-        {
-          "id": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
-          "alias": "the-cradle/lace-2-fight#room>right-entrance@reviewed-boss-gate",
-          "name": "room to Right Entrance",
-          "source_node_id": "the-cradle/lace-2-fight#room",
-          "target_node_id": "the-cradle/lace-2-fight#right-entrance",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
+          "alias": "DB",
+          "name": "Door Bridge",
+          "source_node_id": "the-cradle/lace-2-fight#arena",
+          "target_node_id": "the-cradle/lace-2-fight#behind-right-gate"
         },
         {
-          "id": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
-          "alias": "the-cradle/lace-2-fight#right-entrance>room@reviewed-boss-gate",
-          "name": "Right Entrance to room",
-          "source_node_id": "the-cradle/lace-2-fight#right-entrance",
-          "target_node_id": "the-cradle/lace-2-fight#room",
+          "id": "the-cradle/lace-2-fight#behind-right-gate>arena@db",
           "requirement": {
-            "raw": "",
+            "raw": "prereq Boss: Lace 2",
             "mode": "expression",
             "dnf": [
               [
@@ -206051,14 +206537,21 @@
               ]
             ],
             "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
-          "raw_cells": {},
+          "raw_cells": {
+            "mapper_id": "710eb01e-e11c-44be-8629-b815a15e9015"
+          },
           "logic_status": "active",
-          "unresolved_reasons": []
+          "unresolved_reasons": [],
+          "alias": "DB",
+          "name": "Door Bridge",
+          "source_node_id": "the-cradle/lace-2-fight#behind-right-gate",
+          "target_node_id": "the-cradle/lace-2-fight#arena"
         }
       ],
       "events": [
@@ -206086,7 +206579,7 @@
           "unresolved_reasons": [],
           "label": "Boss: Lace 2",
           "kind": "boss",
-          "node_id": "the-cradle/lace-2-fight#room"
+          "node_id": "the-cradle/lace-2-fight#arena"
         },
         {
           "id": "event:mapper/ff7782ad-87f8-4e10-a0bf-9f8c31a6a772",
@@ -206112,7 +206605,7 @@
           "unresolved_reasons": [],
           "label": "Silk Heart: Lace 2",
           "kind": "collectible",
-          "node_id": "the-cradle/lace-2-fight#room"
+          "node_id": "the-cradle/lace-2-fight#arena"
         }
       ],
       "checks": [
@@ -206139,7 +206632,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Boss: Lace 2",
-          "node_id": "the-cradle/lace-2-fight#room",
+          "node_id": "the-cradle/lace-2-fight#arena",
           "canonical_location": "Boss: Lace (Cradle)",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -206167,7 +206660,7 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Silk Heart: Lace 2",
-          "node_id": "the-cradle/lace-2-fight#room",
+          "node_id": "the-cradle/lace-2-fight#arena",
           "canonical_location": "Lace (Cradle) - Silk Heart",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
@@ -213480,7 +213973,7 @@
       "area_id": "wish-menus",
       "name": "Bellhart Wish Wall",
       "source_file": "wish-menus/bellhart-wish-wall.json",
-      "source_sha256": "de0baf7c364322d35a06aa05ea1e3ab883a28453cbd31e82389594c1110b8598",
+      "source_sha256": "f54c31b87a72c3b85f5e077f3cb6147874aa02baaf49e1076bbbfcaf2ec2d707",
       "geometry_act_independent": true,
       "notes": "Access to the Wish Wall (and this virtual room) is gated by defeating Widow. All wishes below therefore have that as a prerequisite.",
       "nodes": [
@@ -213942,7 +214435,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "Spreadsheet flags are vague, so rolling with the wiki requirements for a bit\n\n\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Belltown House Start \n- BelltownHouseState == 1 \n- citadelHalfwayComplete == true\n\n\"player anecdote coal\" wiki says that requirements are:\n- restore bellhart\n- cogwork dancers or clawline or songclave",
+          "notes": "Spreadsheet flags are vague, so rolling with the wiki requirements for a bit\n\n\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Belltown House Start \n- BelltownHouseState == 1 \n- citadelHalfwayComplete == true\n\n- per Moriko, \"First donation completed, house half/built after time passes, then Dancers defeated OR Clawline owned OR Songclave visited\"\n\n\"player anecdote coal\" wiki says that requirements are:\n- restore bellhart\n- cogwork dancers or clawline or songclave",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "75b9d46a-1a7f-4f87-9ac9-4651468dcb1d"
@@ -214063,7 +214556,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "spreadsheet has single quest ready flag, so using wiki as source\n\nthey have 9 locations where they spawn, will map them later - hero, 9/26 ",
+          "notes": "spreadsheet has single quest ready flag, so using wiki as source\n\n\"Three act 3 Garmond encounters OR Everbloom, followed by time passing\" - requirements per Moriko\n\nall act 3 locations mapped - hero, 9/28",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "e53e8f20-3bd0-42c4-9c99-f590480d132f"
@@ -214078,24 +214571,24 @@
           "id": "event:mapper/613f6a36-375b-449c-a358-f39fe83ca702",
           "requirement": {
             "raw": "act 3",
-            "mode": "expression",
-            "dnf": [
-              [
-                "state:act-3"
-              ]
-            ],
+            "mode": "unresolved",
+            "dnf": [],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": []
+            "unresolved_reasons": [
+              "mapper TODO requires review"
+            ]
           },
-          "notes": "actual flag is quest completed: Black Thread Pt1 Shamans?",
+          "notes": "actual flag is quest completed: Black Thread Pt1 Shamans?\n\n\"Complete the initial shaman meeting, then destroy 12 Void Messes. The prereq is not the 3 heart ritual\" - requirements per Moriko\n\nstill need to map shaman meeting points - hero, 9/30\n",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "613f6a36-375b-449c-a358-f39fe83ca702"
           },
-          "logic_status": "active",
-          "unresolved_reasons": [],
+          "logic_status": "unresolved",
+          "unresolved_reasons": [
+            "mapper TODO requires review"
+          ],
           "label": "dark hearts wish promised",
           "kind": "event",
           "node_id": "wish-menus/bellhart-wish-wall#room"
@@ -214719,7 +215212,7 @@
       "area_id": "wish-menus",
       "name": "Songclave Wish Wall",
       "source_file": "wish-menus/songclave-wish-wall.json",
-      "source_sha256": "8e528940c073efcac26fcd3c3978a7d4a02921abf11e1cc77eb8368616743d6a",
+      "source_sha256": "e608e6b4e88515a5ade6dc5dbff492d35a6e1c27cb098796797ccd68ff218879",
       "geometry_act_independent": true,
       "notes": "Access to the Wish Wall (and this virtual room) is gated by activating the Songclave Bellshrine and meeting the Caretaker. All wishes below therefore have that as a prerequisite.",
       "nodes": [
@@ -214830,7 +215323,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"First donation completed, sonclave level ≥2 and four completed Songclave wishes\n\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "68ecdd2e-814e-4cd1-b690-5d5857598e9d"
@@ -214935,7 +215428,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "granted in memorium shopkeeper hides; reward is more shop inventory\n\n\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Save City Merchant\n- cityMerchantCanLeaveForBridge == true\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete the wandering merchant wish\n- complete 5 total songclave wishes (including the above)\n- speak to jubilana\n- faydown cloak",
+          "notes": "granted in memorium shopkeeper hides; reward is more shop inventory\n\n\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Save City Merchant\n- cityMerchantCanLeaveForBridge == true\n\n\"Wandering Merchant completed, Songclave level 3, Jubiliana spoken to there and Faydown Cloak\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete the wandering merchant wish\n- complete 5 total songclave wishes (including the above)\n- speak to jubilana\n- faydown cloak",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "3ec80e9b-7dba-40a2-a03e-27af65163fa8"
@@ -215065,7 +215558,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "unsure if limited to act 2\n\n\"datamining gem\" spreadsheet says that requirements are:\n- slab_cloak_battle_completed == true \n- enclaveLevel > 2\n\n\"player anecdote coal\" wiki says that requirements are:\n- Visit slab arena room\n- complete building up songclave wish\n- complete 5 total songclave wishes (including the above)",
+          "notes": "unsure if limited to act 2\n\n\"datamining gem\" spreadsheet says that requirements are:\n- slab_cloak_battle_completed == true \n- enclaveLevel > 2\n\n\"Slab gauntlet completed and Songclave level 3\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- Visit slab arena room\n- complete building up songclave wish\n- complete 5 total songclave wishes (including the above)",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c09a7403-e792-4754-9e9e-beb8779bbb5f"
@@ -215145,7 +215638,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"Two encounters + Conductors Melody + Congclave level ≥ 2, or one encounter + Everbloom\" - requirements per Moriko\n\n\"This datamining session sucked\" - Additional note by Moriko. Still unsure what it means. Perhaps related to Bilewater?\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d885d4f4-5024-4d4b-bfa9-fe9400739e54"

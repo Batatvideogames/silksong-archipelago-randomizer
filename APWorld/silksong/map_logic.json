@@ -620,91 +620,6 @@
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Faydown Cloak"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Drifter's Cloak"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Swift Step"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Clawline"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Usable Sharpdart"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Crest: Beast",
-                  "Technique: Crest Pogo 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
                   "Room Node: bellhart/upper-bellhart#lower-big-room",
                   "Capability: Ledge Grab"
                 ],
@@ -786,16 +701,30 @@
                 "require_any_crest": false,
                 "require_silk_spear": false,
                 "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/upper-bellhart#unsafe-lower-left-landing",
+                  "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
               }
             ]
           },
-          "Room Node: bellhart/widow-boss-fight#right-entrance": {
+          "Room Node: bellhart/widow-boss-fight#arena-right": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
                   "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -809,38 +738,6 @@
           },
           "Room Node: bellhart/widow-boss-fight#upper": {
             "alternatives": [
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                  "Cling Grip"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                  "Swift Step",
-                  "Usable Scuttlebrace",
-                  "Technique: Scuttlebrace 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
               {
                 "act": "",
                 "all_of": [
@@ -878,6 +775,68 @@
                   "Cling Grip",
                   "Faydown Cloak",
                   "Usable Sharpdart"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Capability: Ledge Grab"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Cling Grip"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Silk Soar"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -11038,7 +10997,7 @@
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: the-cradle/lace-2-fight#room",
+                  "Room Node: the-cradle/lace-2-fight#arena",
                   "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
                 ],
                 "any_of": [],
@@ -53947,7 +53906,7 @@
         "bellhart/bellhart-right-entrance@ul": "Room Node: bellhart/bellhart-right-entrance#upper-level",
         "bellhart/upper-bellhart@f": "Room Node: bellhart/upper-bellhart#lower-exits",
         "bellhart/widow-boss-fight@c": "Room Node: bellhart/widow-boss-fight#upper",
-        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#right-entrance",
+        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#arena-right",
         "bilewater/bilewater-arena-shack@l": "Room Node: bilewater/bilewater-arena-shack#room",
         "bilewater/bilewater-bellway@l": "Room Node: bilewater/bilewater-bellway#room",
         "bilewater/bilewater-bullshit-bench@ur": "Room Node: bilewater/bilewater-bullshit-bench#upper",
@@ -54484,8 +54443,8 @@
         "shellwood/shellwood-right-side-big-room@ul": "Room Node: shellwood/shellwood-right-side-big-room#central-platforms",
         "shellwood/shellwood-shakra@l": "Room Node: shellwood/shellwood-shakra#room",
         "shellwood/shellwood-shakra@r": "Room Node: shellwood/shellwood-shakra#room",
-        "shellwood/shellwood-sister-splinter-bench@ll": "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena",
-        "shellwood/shellwood-sister-splinter-bench@lr": "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll",
+        "shellwood/shellwood-sister-splinter-bench@ll": "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll",
+        "shellwood/shellwood-sister-splinter-bench@lr": "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena",
         "shellwood/shellwood-sister-splinter-bench@ul": "Room Node: shellwood/shellwood-sister-splinter-bench#upper-main",
         "shellwood/shellwood-sister-splinter-bench@ur": "Room Node: shellwood/shellwood-sister-splinter-bench#elevator-platform",
         "shellwood/shellwood-top-room@f": "Room Node: shellwood/shellwood-top-room#right-side",
@@ -54944,7 +54903,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: bellhart/widow-boss-fight#right-entrance"
+                "Room Node: bellhart/widow-boss-fight#arena-right"
               ],
               "any_of": [],
               "item_counts": [],
@@ -68817,7 +68776,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
+                "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
               ],
               "any_of": [],
               "item_counts": [],
@@ -68836,7 +68795,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
+                "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
               ],
               "any_of": [],
               "item_counts": [],
@@ -80051,91 +80010,6 @@
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Faydown Cloak"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Drifter's Cloak"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Swift Step"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Clawline"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Usable Sharpdart"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-                  "Crest: Beast",
-                  "Technique: Crest Pogo 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
                   "Room Node: bellhart/upper-bellhart#lower-big-room",
                   "Capability: Ledge Grab"
                 ],
@@ -80217,16 +80091,30 @@
                 "require_any_crest": false,
                 "require_silk_spear": false,
                 "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/upper-bellhart#unsafe-lower-left-landing",
+                  "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
               }
             ]
           },
-          "Room Node: bellhart/widow-boss-fight#right-entrance": {
+          "Room Node: bellhart/widow-boss-fight#arena-right": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
                   "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -80240,38 +80128,6 @@
           },
           "Room Node: bellhart/widow-boss-fight#upper": {
             "alternatives": [
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                  "Cling Grip"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: bellhart/widow-boss-fight#arena",
-                  "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-                  "Swift Step",
-                  "Usable Scuttlebrace",
-                  "Technique: Scuttlebrace 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
               {
                 "act": "",
                 "all_of": [
@@ -80309,6 +80165,68 @@
                   "Cling Grip",
                   "Faydown Cloak",
                   "Usable Sharpdart"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Capability: Ledge Grab"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Cling Grip"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Silk Soar"
+                ],
+                "any_of": [],
+                "item_counts": [],
+                "minimum_skip_tier": 0,
+                "path": "",
+                "require_any_crest": false,
+                "require_silk_spear": false,
+                "required_locations": []
+              },
+              {
+                "act": "",
+                "all_of": [
+                  "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+                  "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -89242,7 +89160,7 @@
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: the-cradle/lace-2-fight#room",
+                  "Room Node: the-cradle/lace-2-fight#arena",
                   "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
                 ],
                 "any_of": [],
@@ -130620,7 +130538,7 @@
         "bellhart/bellhart-right-entrance@ul": "Room Node: bellhart/bellhart-right-entrance#upper-level",
         "bellhart/upper-bellhart@f": "Room Node: bellhart/upper-bellhart#lower-exits",
         "bellhart/widow-boss-fight@c": "Room Node: bellhart/widow-boss-fight#upper",
-        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#right-entrance",
+        "bellhart/widow-boss-fight@r": "Room Node: bellhart/widow-boss-fight#arena-right",
         "bilewater/bilewater-arena-shack@l": "Room Node: bilewater/bilewater-arena-shack#room",
         "bilewater/bilewater-bellway@l": "Room Node: bilewater/bilewater-bellway#room",
         "bilewater/bilewater-bullshit-bench@ur": "Room Node: bilewater/bilewater-bullshit-bench#upper",
@@ -131118,8 +131036,8 @@
         "shellwood/shellwood-right-side-big-room@ul": "Room Node: shellwood/shellwood-right-side-big-room#central-platforms",
         "shellwood/shellwood-shakra@l": "Room Node: shellwood/shellwood-shakra#room",
         "shellwood/shellwood-shakra@r": "Room Node: shellwood/shellwood-shakra#room",
-        "shellwood/shellwood-sister-splinter-bench@ll": "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena",
-        "shellwood/shellwood-sister-splinter-bench@lr": "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll",
+        "shellwood/shellwood-sister-splinter-bench@ll": "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll",
+        "shellwood/shellwood-sister-splinter-bench@lr": "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena",
         "shellwood/shellwood-sister-splinter-bench@ul": "Room Node: shellwood/shellwood-sister-splinter-bench#upper-main",
         "shellwood/shellwood-sister-splinter-bench@ur": "Room Node: shellwood/shellwood-sister-splinter-bench#elevator-platform",
         "shellwood/shellwood-top-room@f": "Room Node: shellwood/shellwood-top-room#right-side",
@@ -131517,7 +131435,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: bellhart/widow-boss-fight#right-entrance"
+                "Room Node: bellhart/widow-boss-fight#arena-right"
               ],
               "any_of": [],
               "item_counts": [],
@@ -144262,7 +144180,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
+                "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
               ],
               "any_of": [],
               "item_counts": [],
@@ -144281,7 +144199,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
+                "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
               ],
               "any_of": [],
               "item_counts": [],
@@ -172528,7 +172446,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Node: the-cradle/lace-2-fight#arena",
               "Combat: Lace (The Cradle)"
             ],
             "any_of": [],
@@ -175865,7 +175783,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Faydown Cloak"
             ],
             "any_of": [],
@@ -175879,7 +175797,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Drifter's Cloak"
             ],
             "any_of": [],
@@ -175893,7 +175811,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Swift Step"
             ],
             "any_of": [],
@@ -175907,7 +175825,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Clawline"
             ],
             "any_of": [],
@@ -175921,7 +175839,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Usable Sharpdart"
             ],
             "any_of": [],
@@ -175935,7 +175853,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Crest: Beast",
               "Technique: Crest Pogo 1"
             ],
@@ -178448,6 +178366,23 @@
           }
         ]
       },
+      "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/upper-bellhart#lower-exits"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Event: event:mapper/5f0154a5-b85b-4b7d-b18f-8108ca7de17f": {
         "alternatives": [
           {
@@ -178560,22 +178495,7 @@
         ]
       },
       "Room Event: event:mapper/613f6a36-375b-449c-a358-f39fe83ca702": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: wish-menus/bellhart-wish-wall#room",
-              "Act: 3"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
+        "alternatives": []
       },
       "Room Event: event:mapper/61ba8ef0-8610-4b13-8ca4-854de0780bd5": {
         "alternatives": [
@@ -189909,7 +189829,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room"
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -191511,6 +191431,23 @@
           }
         ]
       },
+      "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Event: event:mapper/f242a650-2208-4218-bfc6-8f715d5bd7f1": {
         "alternatives": [
           {
@@ -192522,7 +192459,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Node: the-cradle/lace-2-fight#arena",
               "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
             ],
             "any_of": [],
@@ -200566,6 +200503,23 @@
           }
         ]
       },
+      "Room Event: event:mapper/reviewed:visit-shellwood:shellwood/shellwood-left-side-long-pond-room#left-lake": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Event: event:mapper/reviewed:visit-shellwood:shellwood/shellwood-lower-left-tall-room#bottom": {
         "alternatives": [
           {
@@ -201802,6 +201756,19 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Event: event:mapper/reviewed:visit-shellwood:shellwood/shellwood-left-side-long-pond-room#left-lake"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
@@ -203030,7 +202997,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/widow-boss-fight#right-entrance"
+              "Room Node: bellhart/widow-boss-fight#arena-right"
             ],
             "any_of": [],
             "item_counts": [],
@@ -203520,91 +203487,6 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Faydown Cloak"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Drifter's Cloak"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Swift Step"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Clawline"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Usable Sharpdart"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
               "Room Node: bellhart/upper-bellhart#lower-big-room",
               "Capability: Ledge Grab"
             ],
@@ -203678,6 +203560,20 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/upper-bellhart#silver-bell-cubby"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/upper-bellhart#unsafe-lower-left-landing",
+              "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
             ],
             "any_of": [],
             "item_counts": [],
@@ -203840,12 +203736,43 @@
           }
         ]
       },
+      "Room Node: bellhart/upper-bellhart#unsafe-lower-left-landing": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/upper-bellhart#lower-exits",
+              "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Node: bellhart/upper-bellhart#upper-big-room": {
         "alternatives": [
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-upper-bellhart-entrance#bell-ledge"
+              "Room Node: shellwood/shellwood-upper-bellhart-entrance#right-exit-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -203905,8 +203832,22 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/widow-boss-fight#right-entrance",
-              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              "Room Node: bellhart/widow-boss-fight#arena-right",
+              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#arena-left",
+              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
             ],
             "any_of": [],
             "item_counts": [],
@@ -203918,7 +203859,38 @@
           }
         ]
       },
-      "Room Node: bellhart/widow-boss-fight#right-entrance": {
+      "Room Node: bellhart/widow-boss-fight#arena-left": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#arena",
+              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: bellhart/widow-boss-fight#arena-right": {
         "alternatives": [
           {
             "act": "",
@@ -203937,7 +203909,69 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/widow-boss-fight#arena",
-              "Room Event: event:mapper/f00c4d34-3d84-4746-b034-961203e08150"
+              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#upper",
+              "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#arena-left",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#arena-left",
+              "Silk Soar"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#arena-left",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -203955,38 +203989,6 @@
             "act": "",
             "all_of": [
               "Room Node: bellhart/upper-bellhart#lower-exits"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: bellhart/widow-boss-fight#arena",
-              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-              "Cling Grip"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: bellhart/widow-boss-fight#arena",
-              "Room Event: event:mapper/6e1875ff-f785-42ff-a5ca-fe38d06d96ba",
-              "Swift Step",
-              "Usable Scuttlebrace",
-              "Technique: Scuttlebrace 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -204033,6 +204035,68 @@
               "Cling Grip",
               "Faydown Cloak",
               "Usable Sharpdart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+              "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+              "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+              "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+              "Silk Soar"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/widow-boss-fight#trapdoor-switch-ledge",
+              "Room Event: event:mapper/f20ba956-b41a-4402-ba0f-01be54accbeb",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -232002,7 +232066,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Node: the-cradle/lace-2-fight#arena",
               "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
             ],
             "any_of": [],
@@ -281441,6 +281505,169 @@
           {
             "act": "",
             "all_of": [
+              "Room Node: memorium/memorium-karak#right-side",
+              "Technique: Enemy Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#right-side",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#right-side",
+              "Faydown Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#right-side",
+              "Silk Soar"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Swift Step"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Progressive Swift Step"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Drifter's Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Faydown Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-karak#left-side",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
               "Room Node: memorium/memorium-water-room#center",
               "Silk Soar"
             ],
@@ -281599,6 +281826,199 @@
               "Swift Step",
               "Cling Grip",
               "Drifter's Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Silk Soar"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Faydown Cloak",
+              "Capability: Ledge Grab",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Architect + Usable Scuttlebrace"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Wanderer + Usable Scuttlebrace"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Reaper + Usable Scuttlebrace"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 2",
+              "Loadout: Crest: Hunter + Usable Scuttlebrace"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: memorium/memorium-mossy#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
             ],
             "any_of": [],
             "item_counts": [],
@@ -302737,7 +303157,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
+              "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
             ],
             "any_of": [],
             "item_counts": [],
@@ -303924,8 +304344,108 @@
           }
         ]
       },
-      "Room Node: shellwood/shellwood-hidden-bellhart-connection#room": {
+      "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area": {
         "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Faydown Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Drifter's Cloak",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Swift Step",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Usable Sharpdart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
           {
             "act": "",
             "all_of": [
@@ -303939,11 +304459,118 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          }
+        ]
+      },
+      "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: shellwood/shellwood-hidden-bellhart-connection#right-exit-area": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Faydown Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           },
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/upper-bellhart#lower-exits"
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Drifter's Cloak"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Swift Step"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Clawline"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Usable Sharpdart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/upper-bellhart#unsafe-lower-left-landing",
+              "Room Event: event:mapper/5eac000e-5b1d-4d27-8826-1327f33246bc"
             ],
             "any_of": [],
             "item_counts": [],
@@ -304450,7 +305077,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-sister-splinter-bench#bench-toll"
+              "Room Node: shellwood/shellwood-sister-splinter-bench#above-arena"
             ],
             "any_of": [],
             "item_counts": [],
@@ -304926,7 +305553,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-big-room-left#ceiling-area"
+              "Room Node: shellwood/shellwood-right-side-big-room#central-platforms"
             ],
             "any_of": [],
             "item_counts": [],
@@ -305001,7 +305628,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-right-side-big-room#central-platforms"
+              "Room Node: shellwood/shellwood-big-room-left#ceiling-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -305238,81 +305865,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Faydown Cloak"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Drifter's Cloak",
-              "Capability: Ledge Grab"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Swift Step",
-              "Capability: Ledge Grab"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Clawline"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Usable Sharpdart"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#left-exit-area",
+              "Room Event: event:mapper/de6a65d1-7fe6-42b4-b493-584013701de8"
             ],
             "any_of": [],
             "item_counts": [],
@@ -306157,7 +306711,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/upper-bellhart#upper-big-room"
+              "Room Node: shellwood/shellwood-upper-bellhart-entrance#right-exit-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -306362,6 +306916,36 @@
               "Progressive Swift Step",
               "Faydown Cloak",
               "Usable Sharpdart"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: shellwood/shellwood-upper-bellhart-entrance#right-exit-area": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: shellwood/shellwood-upper-bellhart-entrance#bell-ledge"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/upper-bellhart#upper-big-room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -314853,39 +315437,7 @@
           }
         ]
       },
-      "Room Node: the-cradle/lace-2-fight#right-entrance": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
-              "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: the-cradle/terminus-ventrica#lower-shaft",
-              "Act: 2"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
-      "Room Node: the-cradle/lace-2-fight#room": {
+      "Room Node: the-cradle/lace-2-fight#arena": {
         "alternatives": [
           {
             "act": "",
@@ -314923,8 +315475,40 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#right-entrance",
+              "Room Node: the-cradle/lace-2-fight#behind-right-gate",
               "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Room Node: the-cradle/lace-2-fight#behind-right-gate": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-cradle/lace-2-fight#arena",
+              "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-cradle/terminus-ventrica#lower-shaft",
+              "Act: 2"
             ],
             "any_of": [],
             "item_counts": [],
@@ -315188,7 +315772,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#right-entrance"
+              "Room Node: the-cradle/lace-2-fight#behind-right-gate"
             ],
             "any_of": [],
             "item_counts": [],
@@ -349603,6 +350187,20 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level",
+              "Room Event: event:mapper/visit-shellwood"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
@@ -368894,7 +369492,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: the-cradle/lace-2-fight#room",
+                "Room Node: the-cradle/lace-2-fight#arena",
                 "Combat: Lace (The Cradle)"
               ],
               "any_of": [],
@@ -372700,7 +373298,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Node: the-cradle/lace-2-fight#arena",
               "Combat: Lace (The Cradle)"
             ],
             "any_of": [],
@@ -382398,7 +382996,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-cradle/lace-2-fight#room",
+              "Room Node: the-cradle/lace-2-fight#arena",
               "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
             ],
             "any_of": [],
@@ -405068,7 +405666,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Faydown Cloak"
             ],
             "any_of": [],
@@ -405082,7 +405680,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Drifter's Cloak"
             ],
             "any_of": [],
@@ -405096,7 +405694,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Swift Step"
             ],
             "any_of": [],
@@ -405110,7 +405708,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Clawline"
             ],
             "any_of": [],
@@ -405124,7 +405722,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Usable Sharpdart"
             ],
             "any_of": [],
@@ -405138,7 +405736,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: shellwood/shellwood-hidden-bellhart-connection#room",
+              "Room Node: shellwood/shellwood-hidden-bellhart-connection#pollip-spot",
               "Crest: Beast",
               "Technique: Crest Pogo 1"
             ],
