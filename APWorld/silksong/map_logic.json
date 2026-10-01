@@ -325636,7 +325636,117 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-bellway#room"
+              "Room Node: the-slab/slab-bellway#room",
+              "Cling Grip"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Silk Soar"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Capability: Ledge Grab"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Faydown Cloak",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Faydown Cloak",
+              "Technique: Heal Stall 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Faydown Cloak",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Faydown Cloak",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],

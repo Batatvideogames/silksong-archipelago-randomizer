@@ -86,7 +86,7 @@ namespace SilksongRandomizer
             AccessTools.Field(typeof(InventoryPaneInput), "allowRepeat").SetValue(input, true);
             OnInputUp += PreviousSheet;
             OnInputDown += NextSheet;
-            for (int i = 0; i < ArchipelagoInventoryModel.SoulRowsPerColumn * 3 + 10; i++) labels.Add(CreateText(template, "Heading"));
+            for (int i = 0; i < ArchipelagoInventoryModel.SoulRowsPerColumn * 3 + 15; i++) labels.Add(CreateText(template, "Heading"));
             for (int i = 0; i < ArchipelagoInventoryModel.BossesPerPage; i++)
                 rows.Add(new RowView {
                     Title = CreateText(template, "Item Name"),
@@ -484,8 +484,19 @@ namespace SilksongRandomizer
 
         private void RenderSoul(ArchipelagoInventorySheet sheet)
         {
-            Label(SheetName(sheet), -7.6f, -2.3f, 23.8f, .8f, 5.5f);
-            Label(sheet.RightHeading, -7.6f, -3.25f, 23.8f, .6f, 3.8f, .8f);
+            Label(SheetName(sheet), -7.6f, -2.3f, 7.6f, .8f, 5.5f);
+            string[] progress = sheet.RightHeading.Split('|');
+            Label(progress[0].Trim(), -7.6f, -3.15f, 7.6f, .4f, 3.6f, .8f);
+            if (progress.Length > 1)
+                Label(progress[1].Trim(), -7.6f, -3.62f, 7.6f, .4f, 3f, .8f);
+            for (int i = 0; i < sheet.SoulItems.Count; i++)
+            {
+                var row = sheet.SoulItems[i];
+                float x = 2.1f + i * 4f;
+                Icon(row, x, -2.65f, 1.05f);
+                Label(row.Title, x - 1.95f, -3.3f, 3.9f, .55f, 3.2f,
+                    row.Dim ? .7f : 1f, TextAlignmentOptions.Top);
+            }
             int split = (sheet.Right.Count + 1) / 2;
             for (int column = 0; column < 3; column++)
             {

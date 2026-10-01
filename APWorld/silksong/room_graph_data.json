@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "76f7b80a419a4bd7da5254e6cb6002919acb2f8d8a3394124349f7fd6915386a",
     "catalogue_sha256": "20cea175e48d744fa8a586275237a490077820665ed4033ae4bfcbe1bbaa1385",
-    "bindings_sha256": "66437d0a947e0c03c61143a13565ca1a2550de3c04090ef3b2e188af7be0a6f7"
+    "bindings_sha256": "6847f54f26f962ca7bd8e8319ca675339e9884c8a9984935191cfffb1baf46b8"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -189030,7 +189030,36 @@
             "raw": "none",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "item:cling-grip"
+              ],
+              [
+                "item:silk-soar"
+              ],
+              [
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:proficient-movement:none",
+                "capability:ledge-grab"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:flea-brew-jump:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:heal-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:shaman-crest-pogo:easy"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,

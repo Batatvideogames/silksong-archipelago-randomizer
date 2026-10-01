@@ -38,6 +38,7 @@ namespace SilksongRandomizer
         internal string DeathSummary;
         internal bool IconGrid;
         internal bool SoulChecklist;
+        internal readonly List<ArchipelagoInventoryRow> SoulItems = new List<ArchipelagoInventoryRow>();
         internal bool BellProgress;
         internal readonly List<ArchipelagoInventoryRow> Caravan = new List<ArchipelagoInventoryRow>();
         internal readonly List<ArchipelagoInventoryRow> Fleas = new List<ArchipelagoInventoryRow>();
@@ -151,7 +152,7 @@ namespace SilksongRandomizer
                         .OrderByDescending(q => q.Required).ThenBy(q => q.Title));
                 }
                 if (soul == null) AddSheets(pages, "soul", "Silk and Soul", SoulProgress(state, soul), rows);
-                else AddSoulSheets(pages, SoulProgress(state, soul), rows);
+                else AddSoulSheets(pages, SoulProgress(state, soul), rows, state);
             }
 
             if (state.progressionShuffle?.HasBossAssignments == true)
@@ -219,6 +220,29 @@ namespace SilksongRandomizer
                 native = (long)Math.Max(0, data.Amount) + Math.Max(0, data.AmountWhileHidden);
             }
             return (int)Math.Min(target, Math.Max(received, native));
+        }
+
+        private static List<ArchipelagoInventoryRow> SoulItems(SaveState state)
+        {
+            var pd = PlayerData.instance;
+            bool delivered = pd?.soulSnareReady == true;
+            if (pd?.QuestCompletionData != null)
+            {
+                var completion = pd.QuestCompletionData.GetData("Soul Snare");
+                delivered |= completion.IsCompleted || completion.WasEverCompleted;
+            }
+            bool snare = delivered || (state.IsRandomized(ItemType.Tool)
+                ? state.receivedItems?.Contains(ItemSet.GetCanonicalItemName("Tool: Snare Setter")) == true
+                : ToolItemManager.GetToolByName("Silk Snare")?.IsUnlocked == true);
+            var result = new List<ArchipelagoInventoryRow> {
+                new ArchipelagoInventoryRow("Snare Trapper", icon: "Snare Setter", dim: !snare)
+            };
+            string[] names = { "Maiden Soul", "Hermit Soul", "Seeker Soul" };
+            string[] assets = { "Snare Soul Churchkeeper", "Snare Soul Bell Hermit", "Snare Soul Swamp Bug" };
+            for (int i = 0; i < names.Length; i++)
+                result.Add(new ArchipelagoInventoryRow(names[i], icon: names[i],
+                    dim: QuestItemProgress(state, names[i], assets[i], 1, delivered) == 0));
+            return result;
         }
 
         private static bool OwnsBossCredit(SaveState state, string id) =>
@@ -302,8 +326,9 @@ namespace SilksongRandomizer
         }
 
         private static void AddSoulSheets(List<ArchipelagoInventorySheet> pages, string progress,
-            IReadOnlyList<ArchipelagoInventoryRow> rows)
+            IReadOnlyList<ArchipelagoInventoryRow> rows, SaveState state)
         {
+            var soulItems = SoulItems(state);
             var required = rows.Where(row => row.Required).ToArray();
             var wishes = rows.Where(row => !row.Required).ToArray();
             int count = Math.Max(1, Math.Max((required.Length + SoulRowsPerColumn - 1) / SoulRowsPerColumn,
@@ -313,6 +338,7 @@ namespace SilksongRandomizer
                 var sheet = new ArchipelagoInventorySheet {
                     Key = "soul:" + i, LeftHeading = "Silk and Soul", RightHeading = progress, SoulChecklist = true
                 };
+                sheet.SoulItems.AddRange(soulItems);
                 sheet.Left.AddRange(required.Skip(i * SoulRowsPerColumn).Take(SoulRowsPerColumn));
                 sheet.Right.AddRange(wishes.Skip(i * SoulRowsPerColumn * 2).Take(SoulRowsPerColumn * 2));
                 pages.Add(sheet);

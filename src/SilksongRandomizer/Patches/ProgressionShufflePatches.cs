@@ -488,10 +488,8 @@ namespace SilksongRandomizer.Patches
             else if (!NeedsNpcWishInteraction(quest))
                 QuestYesNoBox.Open(finished, finished, false, quest, beginQuest: false);
             else
-                DialogueYesNoBox.Open(() => CompleteNpcWish(quest, finished), finished, false,
-                    "Turn in " + quest.DisplayName + "?", quest.Targets.Select(target => target.Counter).ToList(),
-                    quest.Targets.Select(target => target.Count).ToList(), displayHudPopup: false,
-                    consumeCurrency: false, null);
+                QuestYesNoBox.Open(() => CompleteNpcWish(quest, finished), finished, false,
+                    quest, beginQuest: false);
         }
 
         [HarmonyPatch(typeof(SimpleQuestsShopOwner), "GetItems")]
