@@ -119,6 +119,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="../../APWorld/silksong/map_logic.json" LogicalName="SilksongRandomizer.MapLogic.json" />
+    <EmbeddedResource Include="Assets/LiteracyTrap.txt" LogicalName="SilksongRandomizer.LiteracyTrap.txt" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Windows" LogicalName="SilksongRandomizer.ShaderTrapShaders.Windows" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Linux" LogicalName="SilksongRandomizer.ShaderTrapShaders.Linux" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Mac" LogicalName="SilksongRandomizer.ShaderTrapShaders.Mac" />

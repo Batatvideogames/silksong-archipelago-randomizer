@@ -1468,8 +1468,8 @@ class LiteracyTrapWeight(TrapWeight):
     """
     Relative frequency of Literacy Traps, zero disables them.
 
-    Bell Hermit interrupts with several pages of dialogue. Advance the text
-    to regain control while the action continues around you.
+    Interrupts with a randomly selected passage of pre-written text.
+    Advance each dialogue box to regain control while the action continues around you.
     """
 
     display_name = "Literacy Trap Weight"

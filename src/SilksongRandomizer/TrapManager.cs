@@ -1325,10 +1325,7 @@ namespace SilksongRandomizer
     {
         private static readonly FieldInfo DialogueInstance = AccessTools.Field(typeof(DialogueBox), "_instance");
         private static readonly FieldInfo DialogueRunning = AccessTools.Field(typeof(DialogueBox), "isDialogueRunning");
-        private static readonly string[] DialogueKeys =
-        {
-            "BELLHERMIT_MEET", "BELLHERMIT_SAVED_2", "BELLHERMIT_SAVED_3"
-        };
+        private static readonly List<string[]> Dialogues = LoadDialogues();
         private static int pending;
         private static HeroController owner;
         private static SaveState saveOwner;
@@ -1341,7 +1338,6 @@ namespace SilksongRandomizer
         private static float nextStart;
         private static bool revealed;
         private static bool recoveringFromHit;
-        private const int PageCount = 8;
         private static GameObject displayRoot;
         private static TMProOld.TextMeshPro displayText;
 
@@ -1379,26 +1375,25 @@ namespace SilksongRandomizer
                 hero.controlReqlinquished && saveOwner == SaveState.Instance && IsGameplayReady(hero);
         }
 
-        internal static List<string> SplitPages(string text)
+        internal static List<string[]> ParseDialogues(string text)
         {
-            var result = new List<string>();
-            foreach (DialogueBox.DialogueLine line in DialogueBox.ParseTextForDialogueLines(text))
+            var result = new List<string[]>();
+            var passage = new List<string>();
+            using (var reader = new StringReader(text ?? string.Empty))
             {
-                string remaining = line.Text.Trim();
-                while (remaining.Length > 0 && result.Count < PageCount)
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    int length = Math.Min(280, remaining.Length);
-                    if (length < remaining.Length)
+                    if (!string.IsNullOrWhiteSpace(line))
+                        passage.Add(line);
+                    else if (passage.Count > 0)
                     {
-                        int space = remaining.LastIndexOf(' ', length - 1, length);
-                        if (space >= 140) length = space;
-                        if (char.IsHighSurrogate(remaining[length - 1])) length--;
+                        result.Add(passage.ToArray());
+                        passage.Clear();
                     }
-                    result.Add(remaining.Substring(0, length).Trim());
-                    remaining = remaining.Substring(length).TrimStart();
                 }
-                if (result.Count == PageCount) break;
             }
+            if (passage.Count > 0) result.Add(passage.ToArray());
             return result;
         }
 
@@ -1445,10 +1440,9 @@ namespace SilksongRandomizer
                     hero.sprintFSM?.FsmVariables.FindFsmBool("Is Sprinting")?.Value == true)
                     return;
 
-                List<string> dialogue = BuildPages(UnityEngine.Random.Range(0, DialogueKeys.Length),
-                    key => Language.Get(key, "Belltown"));
                 pending--;
-                if (dialogue.Count == 0) return;
+                if (Dialogues.Count == 0) return;
+                var dialogue = new List<string>(Dialogues[UnityEngine.Random.Range(0, Dialogues.Count)]);
                 owner = hero;
                 saveOwner = SaveState.Instance;
                 sceneHandle = hero.gameObject.scene.handle;
@@ -1512,24 +1506,15 @@ namespace SilksongRandomizer
             Close();
         }
 
-        internal static List<string> BuildPages(int first, Func<string, string> read)
+        private static List<string[]> LoadDialogues()
         {
-            var result = new List<string>();
-            for (int i = 0; i < DialogueKeys.Length && result.Count < PageCount; i++)
+            using (Stream stream = typeof(LiteracyTrap).Assembly.GetManifestResourceStream(
+                "SilksongRandomizer.LiteracyTrap.txt"))
             {
-                string key = DialogueKeys[(first + i) % DialogueKeys.Length];
-                string text = read(key);
-                if (string.IsNullOrWhiteSpace(text) || text == key || text.StartsWith("!!")) continue;
-                foreach (string line in SplitPages(text))
-                {
-                    result.Add(line);
-                    if (result.Count == PageCount) break;
-                }
+                if (stream == null) return new List<string[]>();
+                using (var reader = new StreamReader(stream))
+                    return ParseDialogues(reader.ReadToEnd());
             }
-            int available = result.Count;
-            for (int i = 0; available > 0 && result.Count < PageCount; i++)
-                result.Add(result[i % available]);
-            return result;
         }
 
         private static void CreateDisplay()

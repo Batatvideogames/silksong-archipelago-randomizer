@@ -56,7 +56,7 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(InventoryPane __instance, ref string __result)
             {
                 if (!(__instance is ArchipelagoInventoryPage)) return true;
-                __result = "Archipelago";
+                __result = "<size=80%>Archipelago</size>";
                 return false;
             }
         }
