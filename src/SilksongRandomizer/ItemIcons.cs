@@ -187,6 +187,7 @@ namespace SilksongRandomizer
             { "Crest Slot", "UI_tool_slot_attack0000" }, // Need to color these slots but for now a generic icon... attack0000 is Red, explore0000 is Yellow, defend0000 is Blue.
 
             // Traps
+            { "Literacy Trap", "Hornet_icon_0002_R_bone_record" },
             { "Cursed Crest Trap", "cursed_death0004"},
             { "Naked Trap", "Hornet_Cloakless_Frost_Death0000" },
             { "Rosary Spill Trap", "rosary_cache__0030_bowl_cache"},

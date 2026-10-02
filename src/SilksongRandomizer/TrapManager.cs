@@ -1566,14 +1566,15 @@ namespace SilksongRandomizer
                 if (!(behaviour is TMProOld.TMP_Text) && !(behaviour is TMProOld.TextContainer))
                     UnityEngine.Object.DestroyImmediate(behaviour);
             displayText = textObject.GetComponent<TMProOld.TextMeshPro>();
+            textObject.SetActive(true);
+            displayRoot.SetActive(true);
             displayText.color = Color.white;
             displayText.richText = false;
             displayText.text = string.Empty;
             displayText.maxVisibleCharacters = 0;
             displayText.pageToDisplay = 1;
             displayText.enabled = true;
-            textObject.SetActive(true);
-            displayRoot.SetActive(true);
+            displayText.renderer.enabled = true;
         }
 
         internal static void Draw()
