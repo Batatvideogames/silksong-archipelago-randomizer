@@ -11,6 +11,7 @@ from Options import (
     PerGameCommonOptions,
     ProgressionBalancing,
     Range,
+    StartInventoryPool,
     Toggle,
     Visibility,
 )
@@ -1543,6 +1544,7 @@ class SilksongOptions(PerGameCommonOptions):
     entrance_randomization: EntranceRandomization
     entrance_randomization_scope: EntranceRandomizationScope
     starting_crest: StartingCrest
+    start_inventory_from_pool: StartInventoryPool
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint
     silk_and_soul_points: SilkAndSoulPoints

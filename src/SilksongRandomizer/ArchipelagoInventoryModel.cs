@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -147,8 +147,10 @@ namespace SilksongRandomizer
                     rows.AddRange(overview.Story);
                     rows.AddRange(soul.Quests.Where(q => state.gameMode != SteelSoulSettings.SteelSoul ||
                             q.Quest.name != "Courier Delivery Dustpens Slave")
-                        .Select(q => new ArchipelagoInventoryRow(ReadWishName(q.Quest),
-                            icon: null, dim: !q.Quest.IsCompleted) { Required = q.IsRequired, Points = q.Value })
+                        .Select(q => new ArchipelagoInventoryRow(q.Quest.name == "A Pinsmiths Tools"
+                                ? "Pinmaster's Oil / Needle 2" : ReadWishName(q.Quest),
+                            icon: null, dim: !QuestRequirementPatches.SoulSnareWishFulfilled(q.Quest))
+                            { Required = q.IsRequired, Points = q.Value })
                         .OrderByDescending(q => q.Required).ThenBy(q => q.Title));
                 }
                 if (soul == null) AddSheets(pages, "soul", "Silk and Soul", SoulProgress(state, soul), rows);

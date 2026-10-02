@@ -2943,6 +2943,10 @@ EVENT_REQUIREMENTS.update({
         _volatile_flintbeetle_act_one_requirement(crest=True),
     ),
     "Event: Pinmaster's Oil Completed": ROOM_CHECK_REQUIREMENTS["Wish: Pinmaster's Oil"],
+    "Event: Pinmaster's Oil Point Earned": (
+        req("Event: Pinmaster's Oil Completed", crest=False),
+        req(item_counts=(item_count(2, PROGRESSIVE_NEEDLE_UPGRADE_ITEM),), crest=False),
+    ),
     'Event: Silver Bells Completed': ROOM_CHECK_REQUIREMENTS['Wish: Silver Bells'],
     'Event: The Terrible Tyrant Completed': (
         req(room_node_name('bone-bottom/bone-bottom-town#ground-level'),

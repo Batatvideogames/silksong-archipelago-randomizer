@@ -5,7 +5,7 @@ from .eva import EVA_POINT_SOURCES
 
 from copy import deepcopy
 import random
-from collections import Counter
+from collections import Counter, deque
 
 from BaseClasses import (
     CollectionState,
@@ -261,6 +261,8 @@ class SilksongWorld(World):
 
         if slot_data.get("logic_base") != load_base()[0]:
             raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
+        slot_data = dict(slot_data)
+        slot_data.setdefault("start_inventory_from_pool", {})
         missing = set(TRACKER_OPTION_NAMES) - slot_data.keys()
         if missing:
             raise ValueError(f"Tracker slot data is missing options: {', '.join(sorted(missing))}.")
@@ -482,8 +484,8 @@ class SilksongWorld(World):
                     STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()]
                 )
                 unavailable_items.difference_update(
-                    name for name, count in self.options.start_inventory.value.items()
-                    if count > 0
+                    name for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool)
+                    for name, count in inventory.value.items() if count > 0
                 )
             if self.is_act_two_content_scope() and self.get_category_mode('Skill') != 'anywhere':
                 unavailable_items.add('Silk Soar')
@@ -526,6 +528,8 @@ class SilksongWorld(World):
         self._crest_slot_memory_locket_count = None
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
         if passthrough is not None:
+            passthrough = dict(passthrough)
+            passthrough.setdefault("start_inventory_from_pool", {})
             option_types = SilksongOptions.type_hints
             for name in TRACKER_OPTION_NAMES:
                 setattr(self.options, name, option_types[name].from_any(deepcopy(passthrough[name])))
@@ -982,8 +986,10 @@ class SilksongWorld(World):
         if (
             name in ALPHABET_ITEM_NAMES
             and getattr(self, "options", None) is not None
-            and self.get_goal_key() == SPELLING_BEE_GOAL_KEY
-            and name not in self.get_spelling_bee_required_item_names()
+            and (
+                self.get_goal_key() != SPELLING_BEE_GOAL_KEY
+                or name not in self.get_spelling_bee_required_item_names()
+            )
         ):
             classification = ItemClassification.useful
         if (
@@ -1034,6 +1040,25 @@ class SilksongWorld(World):
             self.player,
             placement_category,
         )
+
+    def create_filler(self) -> Item:
+        lanes = getattr(self, "_start_inventory_pool_filler_lanes", None)
+        return self.create_item(self.get_filler_item_name(), lanes.popleft() if lanes else None)
+
+    def _prepare_start_inventory_pool(self) -> None:
+        remaining = Counter(self.options.start_inventory_from_pool.value)
+        lanes = deque()
+        for item in self.multiworld.itempool:
+            if item.player == self.player and remaining[item.name] > 0:
+                remaining[item.name] -= 1
+                lanes.append(getattr(item, "silksong_placement_category", None))
+        missing = {name: count for name, count in remaining.items() if count > 0}
+        if missing:
+            raise OptionError(
+                f"Start Inventory from Pool requests unavailable copies: {missing}. "
+                "Choose items in the randomized pool; vanilla, out-of-scope and already-starting items cannot be removed."
+            )
+        self._start_inventory_pool_filler_lanes = lanes
 
     def get_filler_item_name(self) -> str:
         return OPTIONAL_START_REPLACEMENT_ITEM
@@ -1729,6 +1754,8 @@ class SilksongWorld(World):
 
     @classmethod
     def stage_generate_basic(cls, multiworld) -> None:
+        for world in multiworld.get_game_worlds(cls.game):
+            world._prepare_start_inventory_pool()
         multiworld._silksong_shuffle_item_rule_scope = (
             enforce_global_shuffle_item_rules(multiworld)
         )
@@ -2086,7 +2113,7 @@ class SilksongWorld(World):
         for name in self.get_logic_unknown_locations() - LOGIC_UNKNOWN_LOCATIONS:
             exported_requirements[name] = {'alternatives': [], 'logic_unknown': True}
         slot_data = {
-            **self.options.as_dict("accessibility", "start_inventory", "exclude_locations"),
+            **self.options.as_dict("accessibility", "start_inventory", "start_inventory_from_pool", "exclude_locations"),
             "world_version": WORLD_VERSION,
             "game_mode": self.options.game_mode.current_key,
             "steel_soul_sites": list(self._steel_soul_sites),

@@ -141,6 +141,8 @@ def replace_filler_with_alphabet_items(
         advancement_indices = []
         selected_count_by_category: dict[str | None, int] = {}
         for index in eligible_indices:
+            if len(advancement_indices) >= len(advancement_item_names):
+                break
             category = entries[index].placement_category
             selected_count = selected_count_by_category.get(category, 0)
             if selected_count >= max_replacements_by_placement_category.get(

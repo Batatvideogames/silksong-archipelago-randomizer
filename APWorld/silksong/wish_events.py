@@ -212,7 +212,7 @@ SILK_AND_SOUL_FULL_POINT_EVENTS: tuple[WishLogicEvent, ...] = tuple(
         "Event: Rite of the Pollip Completed",
     ),
     _region_event('Volatile Flintbeetles point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Volatile Flintbeetles Completed'),
-    _region_event("Pinmaster's Oil point", SILK_AND_SOUL_WISH_POINT_ITEM, "Event: Pinmaster's Oil Completed"),
+    _region_event("Pinmaster's Oil point", SILK_AND_SOUL_WISH_POINT_ITEM, "Event: Pinmaster's Oil Point Earned"),
     _region_event('Silver Bells point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Silver Bells Completed'),
     _region_event('The Terrible Tyrant point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: The Terrible Tyrant Completed'),
     _region_event('Wailing Mother point', SILK_AND_SOUL_WISH_POINT_ITEM, 'Event: Wailing Mother Completed'),

@@ -1,4 +1,4 @@
-using Archipelago.MultiClient.Net.Enums;
+﻿using Archipelago.MultiClient.Net.Enums;
 using SilksongRandomizer.Patches;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,8 @@ namespace SilksongRandomizer
         {
             internal readonly string Item;
             internal readonly string Key;
-            internal Disguise(string item, string key) { Item = item; Key = key; }
+            internal readonly string Name;
+            internal Disguise(string item, string key, string name = null) { Item = item; Key = key; Name = name; }
         }
 
         private static readonly Disguise[] Disguises =
@@ -39,6 +40,28 @@ namespace SilksongRandomizer
             new Disguise("Needolin", "SKILL_NEEDOLIN"),
             new Disguise("Silk Soar", "SKILL_ASCENT"),
             new Disguise("Swift Step", "SKILL_SPRINT"),
+        };
+
+        private static readonly Disguise[] NamedDisguises =
+        {
+            new Disguise("Twisted Bud", null, "Twisted Chud"),
+            new Disguise("Progressive Needle Upgrade", null, "Progressive Nail Upgrade"),
+            new Disguise("Everbloom", null, "Delicate Flower"),
+            new Disguise("Faydown Cloak", null, "Faedown Cloak"),
+            new Disguise("Cling Grip", null, "Mantis Claw"),
+            new Disguise("White Key", null, "Elegant Key"),
+            new Disguise("Pale Oil", null, "Pale Ore"),
+            new Disguise("Compass", null, "Wayward Compass"),
+            new Disguise("Elegy of the Deep", null, "Grubberfly's Elegy"),
+            new Disguise("Arcane Egg", null, "Arcana Egg"),
+            new Disguise("Cling Grip", null, "Double Jump"),
+            new Disguise("Twisted Bud", null, "Twisted Dud"),
+            new Disguise("Clawline", null, "Clowline"),
+            new Disguise("Flintslate", null, "Flint and Steel"),
+            new Disguise("Craftmetal", null, "Craftmeal"),
+            new Disguise("Mossberry", null, "Mossbarry"),
+            new Disguise("Key of Heretic", null, "Key of Hectic"),
+            new Disguise("Craw Summons", null, "Crow Summons"),
         };
 
         private static readonly Dictionary<string, SaveState.HintData> Previews =
@@ -105,11 +128,11 @@ namespace SilksongRandomizer
         {
             bool trap = DisguisesEnabled && (hint.flags & ItemFlags.Trap) != 0;
             bool native = string.Equals(hint.game, "Hollow Knight: Silksong", StringComparison.Ordinal);
-            Disguise disguise = trap ? ChooseDisguise(location) :
-                native ? Disguises.FirstOrDefault(x => x.Item == ItemSet.GetCanonicalItemName(hint.item)) : null;
-            string itemName = disguise == null ? hint.item : Language.Get("INV_NAME_" + disguise.Key, "UI");
-            string description = disguise == null ? null : Language.Get("INV_DESC_" + disguise.Key, "UI");
-            if (trap && typo) itemName = MakeTypo(itemName, StableSeed(location, "typo"));
+            Disguise disguise = trap ? ChooseDisguise(location, typo) :
+                native ? Disguises.FirstOrDefault(x => x.Key != null && x.Item == ItemSet.GetCanonicalItemName(hint.item)) : null;
+            string itemName = disguise?.Name ?? (disguise == null ? hint.item : Language.Get("INV_NAME_" + disguise.Key, "UI"));
+            string description = disguise?.Key == null ? null : Language.Get("INV_DESC_" + disguise.Key, "UI");
+            if (trap && typo && disguise.Name == null) itemName = MakeTypo(itemName, StableSeed(location, "typo"));
             string displayName = string.IsNullOrWhiteSpace(hint.user) ? itemName : hint.user + "'s " + itemName;
             var plugin = RandomizerPlugin.Instance;
             Sprite fallback = plugin?.GetItemClassificationIcon(trap ? ItemFlags.Advancement : hint.flags);
@@ -130,8 +153,8 @@ namespace SilksongRandomizer
         internal static string CrestName(string location, string item, ItemFlags flags)
         {
             if (!DisguisesEnabled || (flags & ItemFlags.Trap) == 0) return item;
-            Disguise disguise = ChooseDisguise(location);
-            return MakeTypo(Language.Get("INV_NAME_" + disguise.Key, "UI"), StableSeed(location, "typo"));
+            Disguise disguise = ChooseDisguise(location, true);
+            return disguise.Name ?? MakeTypo(Language.Get("INV_NAME_" + disguise.Key, "UI"), StableSeed(location, "typo"));
         }
 
         private static string Classification(ItemFlags flags)
@@ -141,9 +164,11 @@ namespace SilksongRandomizer
             return (flags & ItemFlags.Trap) != 0 ? "Seems fun!" : "Seems not important.";
         }
 
-        private static Disguise ChooseDisguise(string location)
+        private static Disguise ChooseDisguise(string location, bool showsName)
         {
-            return Disguises[StableSeed(location, "item") % Disguises.Length];
+            int index = StableSeed(location, "item") %
+                (Disguises.Length + (showsName ? NamedDisguises.Length : 0));
+            return index < Disguises.Length ? Disguises[index] : NamedDisguises[index - Disguises.Length];
         }
 
         private static int StableSeed(string location, string purpose)

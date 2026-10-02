@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
@@ -582,6 +582,27 @@ namespace SilksongRandomizer.Patches
                     : new[] { new KeyValuePair<string, bool>("", test.IsFulfilled) });
             }
             finally { RestoreAbility(snapshot); }
+        }
+
+        internal static bool SoulSnareWishFulfilled(FullQuestBase quest)
+        {
+            if (quest.IsCompleted) return true;
+            SaveState state = SaveState.Instance;
+            return state != null && quest.name == "A Pinsmiths Tools" &&
+                Math.Max(state.needleUpgradeLevel, PlayerData.instance?.nailUpgrades ?? 0) >= 2;
+        }
+
+        [HarmonyPatch(typeof(QuestCompleteTotalGroup), "get_CurrentValueCount")]
+        private static class SoulSnareNeedlePointPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(QuestCompleteTotalGroup __instance, ref float __result)
+            {
+                if (SaveState.Instance == null || __instance.name != SoulSnareQuest) return;
+                foreach (var entry in __instance.Quests)
+                    if (!entry.Quest.IsCompleted && SoulSnareWishFulfilled(entry.Quest))
+                        __result += entry.Value;
+            }
         }
 
         internal static int SoulSnarePointTarget(SaveState state) =>

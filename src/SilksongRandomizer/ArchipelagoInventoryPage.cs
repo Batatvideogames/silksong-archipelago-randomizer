@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,6 +28,7 @@ namespace SilksongRandomizer
         private InventoryPaneList owner;
         private InventoryPaneInput input;
         private Sprite tabIcon;
+        private SpriteRenderer soulDivider;
         private Material textMaterial;
         private Material badgeMaterial;
         private Material badgeOutlineMaterial;
@@ -94,6 +95,12 @@ namespace SilksongRandomizer
                     Icon = CreateIcon(template)
                 });
             for (int i = 0; i < 90; i++) icons.Add(CreateIcon(template));
+            soulDivider = CreateIcon(template).Renderer;
+            soulDivider.gameObject.name = "Soul Checklist Divider";
+            soulDivider.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0f, 0f, 1f, 1f), new Vector2(.5f, .5f), 1f);
+            soulDivider.transform.localPosition = new Vector3(4.3f, -4.22f, -3.4f);
+            soulDivider.transform.localScale = new Vector3(23.8f, .015f, 1f);
+            soulDivider.color = new Color(.4f, .4f, .4f, 1f);
             var fade = gameObject.AddComponent<NestedFadeGroup>();
             fade.AddMissingBridgeComponents();
             fade.AlphaSelf = 0f;
@@ -269,6 +276,7 @@ namespace SilksongRandomizer
             OnInputUp -= PreviousSheet;
             OnInputDown -= NextSheet;
             if (tabIcon != null) Destroy(tabIcon);
+            if (soulDivider != null) Destroy(soulDivider.sprite);
             if (badgeMaterial != null) Destroy(badgeMaterial);
             if (badgeOutlineMaterial != null) Destroy(badgeOutlineMaterial);
         }
@@ -329,6 +337,7 @@ namespace SilksongRandomizer
         private void Clear()
         {
             labelIndex = rowIndex = iconIndex = 0;
+            soulDivider.enabled = false;
             foreach (var label in labels) label.text = "";
             foreach (var row in rows) { row.Title.text = ""; row.Detail.text = ""; ClearIcon(row.Icon); }
             foreach (var icon in icons) ClearIcon(icon);
@@ -484,6 +493,7 @@ namespace SilksongRandomizer
 
         private void RenderSoul(ArchipelagoInventorySheet sheet)
         {
+            soulDivider.enabled = true;
             Label(SheetName(sheet), -7.6f, -2.3f, 7.6f, .8f, 5.5f);
             string[] progress = sheet.RightHeading.Split('|');
             Label(progress[0].Trim(), -7.6f, -3.15f, 7.6f, .4f, 3.6f, .8f);
@@ -501,7 +511,7 @@ namespace SilksongRandomizer
             for (int column = 0; column < 3; column++)
             {
                 float x = -7.6f + column * 8.1f;
-                Label(column == 0 ? "Required" : "Wish points", x, -4.1f, 7.6f, .55f, 4f);
+                Label(column == 0 ? "Required" : "Wish points", x, -4.48f, 7.6f, .55f, 4f);
                 var entries = column == 0 ? sheet.Left : column == 1
                     ? sheet.Right.Take(split).ToList() : sheet.Right.Skip(split).ToList();
                 for (int i = 0; i < entries.Count; i++)
@@ -509,7 +519,7 @@ namespace SilksongRandomizer
                     var row = entries[i];
                     string points = row.Points > 0 ? "  (" + row.Points.ToString("0.#", CultureInfo.InvariantCulture) + ")" : "";
                     Label(row.Title + points,
-                        x, -4.8f - i * .5f, 7.6f, .45f, 3.5f, row.Dim ? .7f : 1f);
+                        x, -5.1f - i * .48f, 7.6f, .45f, 3.5f, row.Dim ? .7f : 1f);
                 }
             }
         }
