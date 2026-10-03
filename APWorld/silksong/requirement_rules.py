@@ -130,6 +130,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         )
 
     class Resolved(Rule.Resolved):
+        force_recalculate = True
         requirement_name: str
         split_dash_and_sprint: bool
         allow_bellways_before_bell_beast: bool
@@ -241,6 +242,14 @@ NativeSourceInventoryKey = tuple[
     bool,
 ]
 NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey, int | None]
+
+
+def sweep_native_pool(base_state, itempool=(), locations=None):
+    state = base_state.copy()
+    for item in itempool:
+        state.collect(item, True)
+    sweep_native_sources(state, locations if locations is not None else state.multiworld.get_filled_locations())
+    return state
 
 
 def sweep_native_sources(state, locations):
@@ -363,6 +372,11 @@ def _remember_native_source_result(state, memo_entry, result):
         memo.setdefault(bounds, {})[bound_key] = inventory
 
 
+@lru_cache(maxsize=1)
+def _native_source_item_references():
+    return get_logic_item_references()
+
+
 @dataclasses.dataclass()
 class NativeSourceRule(Rule, game=GAME_NAME):
     """Preserve the vanilla-source self-reward assumption.
@@ -453,6 +467,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
         )
 
     class Resolved(Rule.Resolved):
+        force_recalculate = True
         location_name: str
         reward_name: str
         anchor_requirement_name: str | None
@@ -510,19 +525,23 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             return result
 
         def item_dependencies(self) -> dict[str, set[int]]:
-            return {
-                item_name: {id(self)}
-                for item_name in get_logic_item_references()
-            }
+            dependencies = {name: {id(self)} for name in _native_source_item_references()}
+            for name, rules in self.child.item_dependencies().items():
+                dependencies.setdefault(name, set()).update(rules)
+            return dependencies
 
         def region_dependencies(self) -> dict[str, set[int]]:
-            region_names = set(self.child.region_dependencies())
+            dependencies = self.child.region_dependencies()
             if self.anchor_requirement_name is not None:
-                region_names.add(native_region_name(self.anchor_requirement_name))
-            return {
-                region_name: {id(self)}
-                for region_name in region_names
-            }
+                name = native_region_name(self.anchor_requirement_name)
+                dependencies.setdefault(name, set()).add(id(self))
+            return dependencies
+
+        def location_dependencies(self) -> dict[str, set[int]]:
+            return self.child.location_dependencies()
+
+        def entrance_dependencies(self) -> dict[str, set[int]]:
+            return self.child.entrance_dependencies()
 
         def explain_json(
             self,

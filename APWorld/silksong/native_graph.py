@@ -116,10 +116,9 @@ def _simplify(graph, mutable=frozenset()):
 def compact_requirements(world, original, additional_roots=()):
     from .requirement_rules import build_requirements_rule
     from .native_regions import native_rule_options
-    from .silk_economy import enabled
     from .entrance_randomization import enabled as entrances_enabled
 
-    if not enabled(world) or entrances_enabled(world):
+    if entrances_enabled(world):
         return original
     names = world._silksong_native_abstract_names
     options = native_rule_options(world)

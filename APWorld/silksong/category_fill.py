@@ -111,6 +111,8 @@ def _early_dash_states(world, opening=None, *, locations=None):
 
 
 def _skill_placement_orders(state, locations, ordinary, player, extra=(), early_dash=False, opening_movement=0):
+    from .requirement_rules import sweep_native_sources
+
     items = [location.item for location in locations]
     pending = [(state, (), ())]
     visited = set()
@@ -122,7 +124,7 @@ def _skill_placement_orders(state, locations, ordinary, player, extra=(), early_
             continue
         visited.add(key)
         has_dash = not early_dash or state.has("Swift Step", player)
-        state.sweep_for_advancements([*ordinary, *extra] if has_dash else ordinary)
+        sweep_native_sources(state, [*ordinary, *extra] if has_dash else ordinary)
         if len(plan) == len(locations):
             yield dict(plan)
             continue
@@ -521,7 +523,7 @@ def _shuffle_reachability_failures(
     reachability_context=None,
     maximum_state=None,
 ) -> tuple[list[str], list[int]]:
-    from Fill import sweep_from_pool
+    from .requirement_rules import sweep_native_pool as sweep_from_pool
 
     if maximum_state is None:
         if reachability_context is None:
@@ -562,7 +564,7 @@ def _shuffle_reachability_failures(
 
 
 def _build_shuffle_reachability_context(multiworld):
-    from Fill import sweep_from_pool
+    from .requirement_rules import sweep_native_pool as sweep_from_pool
 
     return (
         sweep_from_pool(
@@ -578,7 +580,7 @@ def _repair_shuffle_swaps(
     multiworld, shuffled_locations, silksong_players,
     candidates, protected_locations, reachability_context,
 ) -> bool:
-    from Fill import sweep_from_pool
+    from .requirement_rules import sweep_native_pool as sweep_from_pool
 
     priority = {"Skill": 0, "Bellway": 1, "Ventrica": 2, "Melody": 3, "Spell": 4, "BellShrine": 5}
     candidates = sorted(

@@ -588,6 +588,8 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
 
 class BossSanity(CategoryRandomization):
     """
+    EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
+
     Adds boss checks and replaces their filler with boss credit items.
     Receiving a credit grants that boss's story unlocks.
     Items dropped by bosses follow their own randomization settings.
@@ -648,6 +650,8 @@ class BellShrineSanity(CategoryRandomization):
 
 class QuestSanity(CategoryRandomization):
     """
+    EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
+
     Adds wish completion checks and shuffles supported board and NPC offers.
     Also randomizes Growstone in Steel Soul.
     Items earned from bosses and wishes follow their own randomization settings.

@@ -677,9 +677,10 @@ def _replace_events(world, assignments):
 def _preparation_locations(world):
     multiworld = world.multiworld
     if (not multiworld.groups
-            and all(other.game == world.game for other in multiworld.worlds.values())
             and all(location.item.player == location.player
-                    for location in multiworld.get_filled_locations())):
+                    for location in multiworld.get_filled_locations())
+            and all(exit.connected_region is None or exit.connected_region.player == world.player
+                    for region in world.get_regions() for exit in region.exits)):
         return world.get_locations()
     return None
 
@@ -690,6 +691,7 @@ def _preparation_state(world, guaranteed=(), base_state=None):
         state = world.multiworld.get_all_state(perform_sweep=locations is None)
     else:
         state = base_state.copy()
+        state.rule_builder_cache[world.player].clear()
         reachable = state.reachable_regions[world.player]
         state.blocked_connections[world.player] = {
             entrance for region in reachable for entrance in region.exits
@@ -748,6 +750,8 @@ def finalize_world(world):
     guaranteed = _guaranteed_preparation_state(world)
     baseline = _preparation_state(world, base_state=guaranteed)
     locations = _preparation_locations(world)
+    check_local_first = locations is None and not multiworld.groups and any(
+        other.game != world.game for other in multiworld.worlds.values())
     if locations is None:
         locations = multiworld.get_locations()
     required = tuple(location for location in locations if location.can_reach(baseline))
@@ -762,8 +766,6 @@ def finalize_world(world):
                             if location.player != world.player and location.item.player == world.player)
     local_rewards = tuple(location for location in world.get_locations()
                           if location.item is not None and location.item.player == world.player)
-    check_local_first = not multiworld.groups and any(
-        other.game != world.game for other in multiworld.worlds.values())
 
     def valid(candidate):
         nonlocal accepted

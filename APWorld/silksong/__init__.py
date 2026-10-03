@@ -17,7 +17,8 @@ from BaseClasses import (
 
 from Options import OptionError
 from rule_builder.rules import Has
-from worlds.AutoWorld import WebWorld, World
+from worlds.AutoWorld import WebWorld
+from rule_builder.cached_world import CachedRuleBuilderWorld
 
 from .act1_scope import (
     ACT_ONE_GOAL_KEY,
@@ -191,7 +192,7 @@ class SilksongWebWorld(WebWorld):
     ]
 
 
-class SilksongWorld(World):
+class SilksongWorld(CachedRuleBuilderWorld):
     """Hollow Knight: Silksong item randomizer support for the uploaded BepInEx client."""
 
     game = "Hollow Knight: Silksong"
@@ -221,6 +222,13 @@ class SilksongWorld(World):
 
         del _requirement_rules, _silk_supply
         return super().rule_from_dict(data)
+
+    def register_rule_dependencies(self, resolved_rule):
+        from .requirement_rules import NativeSourceRule
+
+        if isinstance(resolved_rule, NativeSourceRule.Resolved):
+            resolved_rule = resolved_rule.child
+        super().register_rule_dependencies(resolved_rule)
 
     def _enable_silk_supply(self, supply):
         self._silk_supply = supply
@@ -1544,6 +1552,7 @@ class SilksongWorld(World):
             )
             uses_native_source = (
                 reward_name in logic_item_references
+                and name not in self._progression_location_rules
                 and (name in restored_sources if restored_sources is not None else
                      native_source_requires_assumption(
                          self, name, reward_name, pollip_heart_count, anchor,
