@@ -383,7 +383,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Rosaries (155)', 'Resource'),
     ('Shell Shards (35)', 'Resource'),
     ('Bell: The Marrow', 'BellShrine'),
-    ('Bell: Deep Docks', 'BellShrine'),
+    ('Bell: Far Fields', 'BellShrine'),
     ('Bell: Greymoor', 'BellShrine'),
     ('Bell: Shellwood', 'BellShrine'),
     ('Bell: Bellhart', 'BellShrine'),
@@ -696,6 +696,7 @@ item_name_groups: Dict[str, set[str]] = {
         for name, category in ITEM_TABLE_SOURCE
         if category == "SilkHeart" and name not in VANILLA_ONLY_ITEM_NAMES
     },
+    "Bells": {name for name, category in ITEM_TABLE_SOURCE if category == "BellShrine"},
     "Bellway": {name for name, category in ITEM_TABLE_SOURCE if category == "Bellway"},
     "Ventrica": {name for name, category in ITEM_TABLE_SOURCE if category == "Ventrica"},
     "Maps": {name for name, category in ITEM_TABLE_SOURCE if category == "Map"},
@@ -1176,7 +1177,7 @@ def get_vanilla_reward_name(
         try:
             return {
                 'The Marrow - Bellshrine': 'Bell: The Marrow',
-                'Deep Docks - Bellshrine': 'Bell: Deep Docks',
+                'Far Fields - Bellshrine': 'Bell: Far Fields',
                 'Greymoor - Bellshrine': 'Bell: Greymoor',
                 'Shellwood - Bellshrine': 'Bell: Shellwood',
                 'Bellhart - Bellshrine': 'Bell: Bellhart',

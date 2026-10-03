@@ -945,7 +945,7 @@ namespace SilksongRandomizer
             new Item("Rosaries (155)", ItemType.Resource, () => { ItemGrants.GrantRosaries(155); }, true),
             new Item("Shell Shards (35)", ItemType.Resource, () => { ItemGrants.GrantShellShards(35); }, true),
             new Item("Bell: The Marrow", ItemType.BellShrine, ItemGrants.GrantBell),
-            new Item("Bell: Deep Docks", ItemType.BellShrine, ItemGrants.GrantBell),
+            new Item("Bell: Far Fields", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Greymoor", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Shellwood", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Bellhart", ItemType.BellShrine, ItemGrants.GrantBell),

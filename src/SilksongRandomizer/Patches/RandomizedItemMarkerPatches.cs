@@ -80,7 +80,7 @@ namespace SilksongRandomizer.Patches
                 ItemType.BellShrine),
             new Definition(
                 "Quest_Pin_Bellshrine_Wilds",
-                "Bell: Deep Docks",
+                "Bell: Far Fields",
                 ItemType.BellShrine),
             new Definition(
                 "Quest_Pin_Bellshrine_Greymoor",

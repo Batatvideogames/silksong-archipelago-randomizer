@@ -722,7 +722,7 @@ THREEFOLD_MELODY_ITEMS: tuple[str, ...] = (
 
 JUDGE_BELL_ITEMS: tuple[str, ...] = (
     'Bell: The Marrow',
-    'Bell: Deep Docks',
+    'Bell: Far Fields',
     'Bell: Greymoor',
     'Bell: Shellwood',
     'Bell: Bellhart',
@@ -1162,7 +1162,7 @@ PATH_ORDER: tuple[str, ...] = (
     'Deep Docks - Toll', # Can't go west (blocked by lever)
     'Deep Docks - Forge',
     'Deep Docks - Lower',
-    'Deep Docks - Bellshrine',
+    'Far Fields - Bellshrine',
     'Deep Docks - Abyss Exit', # Act 3
     'Deep Docks - Sauna',
     'Deep Docks - Diving Bell',
@@ -1882,7 +1882,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Path: Deep Docks - Forge': (
         req('Path: Deep Docks - Toll'),
         req('Path: Deep Docks - Abyss Exit'),
-        # Path from Deep Docks - Bellshrine is blocked (one way lever)
+        # Path from Far Fields - Bellshrine is blocked (one way lever)
     ),
     'Path: Deep Docks - Lower': (
         # The direct entrance is the Simple Key door immediately south of
@@ -1891,7 +1891,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Deep Docks - Forge', SIMPLE_KEY_DEEP_DOCKS),
         req('Path: Far Fields - Bellway', 'Ancestral Art: Clawline'),
     ),
-    'Path: Deep Docks - Bellshrine': (
+    'Path: Far Fields - Bellshrine': (
         req('Path: Deep Docks - Forge', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
         # Path from the East is blocked by one way door that unlocks from the West
     ),
@@ -1908,7 +1908,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Path: Far Fields - Gated Toll': (
         req('Path: Deep Docks - Toll'), # One way
         req('Path: Far Fields - Bellway', "Ability: Drifter's Cloak"),
-        req('Path: Deep Docks - Bellshrine', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Far Fields - Bellshrine', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
         # Can't be reached from Far Fields - Pilgrim's Rest (one way lever)
     ),
     'Path: Far Fields - Bellway': (
@@ -1920,10 +1920,10 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         # The ordinary first visit reaches Pilgrim's Rest and then the Bellway
         # before Seamstress awards Drifter's Cloak.
         req(
-            'Path: Deep Docks - Bellshrine',
+            'Path: Far Fields - Bellshrine',
             'Ancestral Art: Swift Step',
         ),
-        req('Path: Deep Docks - Bellshrine', 'Ancestral Art: Cling Grip', "Ability: Drifter's Cloak", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Far Fields - Bellshrine', 'Ancestral Art: Cling Grip', "Ability: Drifter's Cloak", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
         req('Path: Far Fields - Seamstress', "Ability: Drifter's Cloak"),
         # Can't reach from Far Fields - Bellway (one way explosive)
         # Route from Greymoor - Bellshrine is blocked (one direction only)
@@ -1933,7 +1933,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Far Fields - Karmelita'),
     ),
     'Path: Far Fields - Seamstress': (
-        req('Path: Deep Docks - Bellshrine', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
+        req('Path: Far Fields - Bellshrine', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),
         req('Path: Weavenest - Cindril', 'Ancestral Art: Needolin'),
         req('Path: Far Fields - Bellway', 'Ancestral Art: Swift Step'),
     ),
@@ -3700,7 +3700,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
     ('Tool Unlock: Flintstone', area(1, 'Deep Docks - Lower', any_of=("Ability: Drifter's Cloak", 'Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'))),
 
-    ('Save Flea: Deep Docks Bellway (Eepy)', area(1, 'Deep Docks - Bellshrine')),
+    ('Save Flea: Deep Docks Bellway (Eepy)', area(1, 'Far Fields - Bellshrine')),
     ('Save Flea: Deep Docks Weaver Burial Spire (Squeesh)', area(1, 'Deep Docks - Toll', 'Ancestral Art: Swift Step')),
     ('Save Flea: Deep Docks Mines (Le Bomba)', area(
         1,
@@ -4303,7 +4303,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
     ('Bell Shrine Completion: bellShrineWilds', area(
         1,
-        'Deep Docks - Bellshrine',
+        'Far Fields - Bellshrine',
         'Ancestral Art: Swift Step',
     )),
     ('Bell Shrine Completion: bellShrineGreymoor', area(
@@ -4732,7 +4732,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Map Purchase: The Marrow', area(1, 'The Marrow - Toll')),
     ('Map Purchase: The Marrow', req('Event: Bell Beast Defeated')),
     ('Map Purchase: Deep Docks', area(1, 'Deep Docks - Toll')),
-    ('Map Purchase: Deep Docks', area(1, 'Deep Docks - Bellshrine')),
+    ('Map Purchase: Deep Docks', area(1, 'Far Fields - Bellshrine')),
     ('Map Purchase: Deep Docks', req('Event: Widow Defeated')),
     ('Map Purchase: Far Fields', area(1, 'Far Fields - Bellway')),
     ('Map Purchase: Far Fields', req('Event: Widow Defeated')),

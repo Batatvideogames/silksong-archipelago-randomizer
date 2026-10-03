@@ -715,7 +715,7 @@ _DIRECT_LOCATION_RENAMES.update({
     'Pin Purchase: Bellway': 'Pin Purchase: Bellway Pins',
     'Pin Purchase: Vendor': 'Pin Purchase: Vendor Pins',
     'Bell Shrine Completion: bellShrineBoneForest': 'Bellshrine: The Marrow',
-    'Bell Shrine Completion: bellShrineWilds': 'Bellshrine: Deep Docks',
+    'Bell Shrine Completion: bellShrineWilds': 'Bellshrine: Far Fields',
     'Bell Shrine Completion: bellShrineGreymoor': 'Bellshrine: Greymoor',
     'Bell Shrine Completion: bellShrineShellwood': 'Bellshrine: Shellwood',
     'Bell Shrine Completion: bellShrineBellhart': 'Bellshrine: Bellhart',

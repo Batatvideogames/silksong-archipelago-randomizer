@@ -238,7 +238,7 @@
       "Deep Docks (Central) - Spool Fragment",
       "Deep Docks (Southeast) - Spool Fragment",
       "Deep Docks - Beast Shard",
-      "Deep Docks - Bellshrine",
+      "Far Fields - Bellshrine",
       "Deep Docks - Bellway",
       "Deep Docks - Craftmetal",
       "Deep Docks - Forge Note",
@@ -36533,7 +36533,7 @@
               ],
               [
                 "state:bellshrinesanity-on",
-                "received:Bell: Deep Docks"
+                "received:Bell: Far Fields"
               ]
             ],
             "annotations": [],
@@ -36638,7 +36638,7 @@
           "unresolved_reasons": [],
           "label": "bell deep docks",
           "node_id": "deep-docks/deep-docks-bellshrine#room",
-          "canonical_location": "Deep Docks - Bellshrine",
+          "canonical_location": "Far Fields - Bellshrine",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -46996,7 +46996,7 @@
               ],
               [
                 "state:bellshrinesanity-on",
-                "received:Bell: Deep Docks"
+                "received:Bell: Far Fields"
               ]
             ],
             "annotations": [],
@@ -114812,7 +114812,7 @@
             "dnf": [
               [
                 "received:Bell: The Marrow",
-                "received:Bell: Deep Docks",
+                "received:Bell: Far Fields",
                 "received:Bell: Greymoor",
                 "received:Bell: Shellwood",
                 "received:Bell: Bellhart"

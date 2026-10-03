@@ -62,7 +62,7 @@ namespace SilksongRandomizer.Patches
                 "Bellshrine_05",
                 "Bellshrine Sequence",
                 "bellShrineWilds",
-                "Deep Docks - Bellshrine"),
+                "Far Fields - Bellshrine"),
             new Entry(
                 "Bellshrine_02",
                 "Bellshrine Sequence",
@@ -85,7 +85,7 @@ namespace SilksongRandomizer.Patches
         private static readonly JudgeBell[] JudgeBells =
         {
             new JudgeBell("bellShrineBoneForest", "Bell: The Marrow"),
-            new JudgeBell("bellShrineWilds", "Bell: Deep Docks"),
+            new JudgeBell("bellShrineWilds", "Bell: Far Fields"),
             new JudgeBell("bellShrineGreymoor", "Bell: Greymoor"),
             new JudgeBell("bellShrineShellwood", "Bell: Shellwood"),
             new JudgeBell("bellShrineBellhart", "Bell: Bellhart"),

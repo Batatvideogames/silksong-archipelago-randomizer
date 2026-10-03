@@ -160670,7 +160670,7 @@
             "act": "",
             "all_of": [
               "Bell: The Marrow",
-              "Bell: Deep Docks",
+              "Bell: Far Fields",
               "Bell: Greymoor",
               "Bell: Shellwood",
               "Bell: Bellhart"
@@ -169190,7 +169190,7 @@
           }
         ]
       },
-      "Path: Deep Docks - Bellshrine": {
+      "Path: Far Fields - Bellshrine": {
         "alternatives": [
           {
             "act": "",
@@ -169453,7 +169453,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Deep Docks - Bellshrine",
+              "Path: Far Fields - Bellshrine",
               "Cling Grip"
             ],
             "any_of": [
@@ -169494,7 +169494,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Deep Docks - Bellshrine",
+              "Path: Far Fields - Bellshrine",
               "Swift Step"
             ],
             "any_of": [],
@@ -169508,7 +169508,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Deep Docks - Bellshrine",
+              "Path: Far Fields - Bellshrine",
               "Cling Grip",
               "Drifter's Cloak"
             ],
@@ -169560,7 +169560,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Deep Docks - Bellshrine"
+              "Path: Far Fields - Bellshrine"
             ],
             "any_of": [
               "Swift Step",
@@ -189756,7 +189756,7 @@
               {
                 "items": [
                   "Bell: The Marrow",
-                  "Bell: Deep Docks",
+                  "Bell: Far Fields",
                   "Bell: Greymoor",
                   "Bell: Shellwood",
                   "Bell: Bellhart"
@@ -196802,7 +196802,7 @@
               },
               {
                 "items": [
-                  "Bell: Deep Docks"
+                  "Bell: Far Fields"
                 ],
                 "minimum": 1
               },
@@ -236553,7 +236553,7 @@
             "item_counts": [
               {
                 "items": [
-                  "Bell: Deep Docks"
+                  "Bell: Far Fields"
                 ],
                 "minimum": 1
               }
@@ -252603,7 +252603,7 @@
             "item_counts": [
               {
                 "items": [
-                  "Bell: Deep Docks"
+                  "Bell: Far Fields"
                 ],
                 "minimum": 1
               }
@@ -376163,7 +376163,7 @@
           }
         ]
       },
-      "Deep Docks - Bellshrine": {
+      "Far Fields - Bellshrine": {
         "alternatives": [
           {
             "act": "",

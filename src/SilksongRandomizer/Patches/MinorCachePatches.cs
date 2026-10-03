@@ -11,6 +11,13 @@ using SetFsmBool = HutongGames.PlayMaker.Actions.SetFsmBool;
 
 namespace SilksongRandomizer.Patches
 {
+    /// <summary>
+    /// Turns listed breakable currency caches into ordinary AP checks.
+    /// Ordinary caches use the same pickup proxy
+    /// used by the direct minor-pickup manifest. Hanging rosary strings retain
+    /// their native hit choreography because their source transform is a
+    /// ceiling anchor rather than an accessible pickup position.
+    /// </summary>
     internal static class MinorCachePatches
     {
         private const float MatchTolerance = 0.75f;
@@ -324,6 +331,11 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
+            // These fossils can be broken but their source transforms are not
+            // safe pickup positions due to water, spikes, ceilings or other
+            // unstandable terrain. Their native break choreography awards the
+            // check when the broken state is reached instead of spawning a
+            // proximity pickup.
             return DirectBreakCheckLocations.Contains(entry.LocationName);
         }
 
@@ -1232,6 +1244,9 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(RosaryCache __instance)
             {
+                // A RosaryCacheString's root is its ceiling anchor. Replacing
+                // it with a proximity pickup strands that pickup in mid-air.
+                // Its payout is redirected when FlingRosaries runs instead.
                 if (__instance is RosaryCacheString)
                 {
                     return true;

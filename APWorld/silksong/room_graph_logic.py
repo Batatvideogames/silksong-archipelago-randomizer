@@ -1301,7 +1301,7 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
     "Map Purchase: Wormways": "wormways/wormways-upper-east#upper-area",
     "Pin Purchase: Vendor Pins": "wormways/wormways-upper-east#upper-area",
     "Bellway: Deep Docks": "deep-docks/deep-docks-bellway#room",
-    "Bellshrine: Deep Docks": "deep-docks/deep-docks-bellshrine#room",
+    "Bellshrine: Far Fields": "deep-docks/deep-docks-bellshrine#room",
     "Shellwood - Shellgrave Inscription": "shellwood/shellgrave#room",
     "Shellwood - Weaver Harp Inscription": (
         "shellwood/shellwood-10#ground-level"
