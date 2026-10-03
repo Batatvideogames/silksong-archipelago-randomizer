@@ -253,6 +253,32 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(EnemyDeathEffects), "RecordKillForJournal")]
+        private static class ScriptedEnemyDeath
+        {
+            private static void Prefix(EnemyDeathEffects __instance)
+            {
+                if (string.IsNullOrEmpty(SaveState.Instance?.enemySoulsJson) || SaveState.Instance.enemySoulsJson == "[]") return;
+                HealthManager health = __instance.GetComponent<HealthManager>();
+                if (health == null || !health.hasSpecialDeath || !health.WillAwardJournalKill ||
+                    !TryGetSpecies(__instance, out string species) || !EnemySoulState.HasScriptedDeath(species)) return;
+                if (ClaimKill(SaveState.Instance, species))
+                {
+                    Rewards.Remove(health);
+                    Rewards.Add(health, new Reward { Replaced = true });
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(HealthManager), nameof(HealthManager.Die), new[] {
+            typeof(float?), typeof(AttackTypes), typeof(NailElements), typeof(GameObject),
+            typeof(bool), typeof(float), typeof(bool), typeof(bool) })]
+        private static class ScriptedDeathCurrency
+        {
+            private static void Prefix(HealthManager __instance) => Rewards.Remove(__instance);
+            private static void Finalizer(HealthManager __instance) => Rewards.Remove(__instance);
+        }
+
         internal static bool IsReplaced(object closure)
         {
             if (closure == null) return false;
@@ -291,7 +317,7 @@ namespace SilksongRandomizer.Patches
             float speedMin, float speedMax, float angleMin, float angleMax,
             int small, int medium, int large, int smooth, bool geoFlash, int shards, bool shardFlash, object closure)
         {
-            if (!IsReplaced(closure)) NativeCurrency.Invoke(health,
+            if (!IsReplaced(closure) && !(Rewards.TryGetValue(health, out Reward reward) && reward.Replaced)) NativeCurrency.Invoke(health,
                 new object[] { spawnPoint, speedMin, speedMax, angleMin, angleMax, small, medium, large, smooth, geoFlash, shards, shardFlash });
         }
     }

@@ -147,6 +147,9 @@ namespace SilksongRandomizer
             internal readonly List<LogicEvent> LogicEvents;
             internal readonly string[] CheckedSources;
             internal readonly int SkipsTier;
+            internal readonly string[] AbstractNames;
+            internal readonly LogicRequirement[] EvaluationRules;
+            internal readonly Dictionary<string, int[]> AbstractDependents, ItemDependents;
 
             internal ParsedPayload(LogicPayload payload)
             {
@@ -182,6 +185,57 @@ namespace SilksongRandomizer
                         AbstractRequirements
                     );
                 }
+                AbstractNames = AbstractRequirements.Keys.ToArray();
+                EvaluationRules = AbstractNames.Select(name => AbstractRequirements[name])
+                    .Concat(LogicEvents.Select(entry => entry.Requirement)).ToArray();
+                var abstracts = new Dictionary<string, HashSet<int>>(StringComparer.Ordinal);
+                var items = new Dictionary<string, HashSet<int>>(StringComparer.OrdinalIgnoreCase);
+                for (int index = 0; index < EvaluationRules.Length; index++)
+                {
+                    var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                    void Add(Dictionary<string, HashSet<int>> target, string name)
+                    {
+                        if (string.IsNullOrWhiteSpace(name)) return;
+                        if (!target.TryGetValue(name, out var users)) target[name] = users = new HashSet<int>();
+                        users.Add(index);
+                    }
+                    void Item(string name) => Add(items, ItemSet.GetCanonicalItemName(name));
+                    void Named(string name)
+                    {
+                        if (string.IsNullOrWhiteSpace(name)) return;
+                        if (AbstractRequirements.ContainsKey(name)) { Add(abstracts, name); return; }
+                        string canonical = ItemSet.GetCanonicalItemName(name);
+                        Item(canonical);
+                        if (Dependencies.TryGetValue(canonical, out var required))
+                            foreach (string dependency in required) Item(dependency);
+                        if (canonical == "Silk Soar" || canonical == "Clawline" || canonical == "Faydown Cloak" ||
+                            canonical == "Drifter's Cloak" || canonical == "Needolin" || canonical == "Needle Strike")
+                            foreach (string crest in CrestItemNames) Item(crest);
+                    }
+                    void Visit(LogicRequirement rule)
+                    {
+                        if (rule == null) return;
+                        if (rule.RequireAnyCrest || rule.RequireSilkSpear)
+                            foreach (string crest in CrestItemNames) Item(crest);
+                        if (rule.RequireSilkSpear) Item("Silkspear");
+                        if (rule.AllOf != null) foreach (string name in rule.AllOf) Named(name);
+                        if (rule.AnyOf != null) foreach (string name in rule.AnyOf) Named(name);
+                        if (rule.ItemCounts != null)
+                            foreach (var count in rule.ItemCounts)
+                                if (count?.Items != null) foreach (string name in count.Items) Item(name);
+                        if (rule.RequiredLocations != null)
+                            foreach (string name in rule.RequiredLocations)
+                            {
+                                string canonical = LocationSet.GetCanonicalLocationName(name);
+                                if (!string.IsNullOrWhiteSpace(canonical) && visited.Add(canonical) &&
+                                    Requirements.TryGetValue(canonical, out var required)) Visit(required);
+                            }
+                        if (rule.Alternatives != null) foreach (var alternative in rule.Alternatives) Visit(alternative);
+                    }
+                    Visit(EvaluationRules[index]);
+                }
+                AbstractDependents = abstracts.ToDictionary(entry => entry.Key, entry => entry.Value.ToArray(), StringComparer.Ordinal);
+                ItemDependents = items.ToDictionary(entry => entry.Key, entry => entry.Value.ToArray(), StringComparer.OrdinalIgnoreCase);
             }
         }
 
@@ -269,6 +323,7 @@ namespace SilksongRandomizer
         private static Dictionary<string, int> cachedResolvedInventory;
         private static Dictionary<string, bool> cachedAbstractValues;
         private static bool cachedAbstractGoalCompleted;
+        private static bool[] cachedAbstractCompleted;
         private static bool loggedPayloadFailure;
 
         private const string UnderworksCrashNode = "Room Node: grand-gate/grand-elevator#crash-site";
@@ -1378,6 +1433,18 @@ namespace SilksongRandomizer
             }
         }
 
+        private static IEnumerable<string> GetWarpNodes(SaveState state)
+        {
+            if (state?.IsRoomBound != true) yield break;
+            foreach (string hub in FastTravelUtil.GetTrackerHubKeys())
+                switch (hub)
+                {
+                    case "bone_bottom": yield return "Room Node: bone-bottom/bone-bottom-bellway#room"; break;
+                    case "bellhart": yield return "Room Node: bellhart/belltown#upper-area"; break;
+                    case "songclave": yield return "Room Node: choral-chambers/bellshrine-enclave#room"; break;
+                }
+        }
+
         private static string GetCheckedLogicSourcesKey(
             ParsedPayload payload,
             SaveState state
@@ -1386,7 +1453,7 @@ namespace SilksongRandomizer
             return string.Join(
                 "\n",
                 payload.CheckedSources.Where(source =>
-                    IsCheckedLogicSource(state, source))
+                    IsCheckedLogicSource(state, source)).Concat(GetWarpNodes(state))
             );
         }
 
@@ -1401,36 +1468,44 @@ namespace SilksongRandomizer
                 payload,
                 state
             );
-            if (ReferenceEquals(payload, cachedAbstractPayload) &&
+            bool sameContext = ReferenceEquals(payload, cachedAbstractPayload) &&
                 goalCompleted == cachedAbstractGoalCompleted &&
-                string.Equals(
-                    checkedSources,
-                    cachedAbstractCheckedSources,
-                    StringComparison.Ordinal
-                ) &&
-                HaveEqualInventory(inventory, cachedAbstractInventory))
+                string.Equals(checkedSources, cachedAbstractCheckedSources, StringComparison.Ordinal);
+            if (sameContext && HaveEqualInventory(inventory, cachedAbstractInventory))
             {
-                foreach (KeyValuePair<string, int> entry in
-                    cachedResolvedInventory ??
-                    new Dictionary<string, int>())
-                {
+                foreach (var entry in cachedResolvedInventory)
                     SetMinimumCount(inventory, entry.Key, entry.Value);
-                }
                 return cachedAbstractValues;
             }
 
-            Dictionary<string, int> inventorySnapshot =
-                new Dictionary<string, int>(
-                    inventory,
-                    StringComparer.OrdinalIgnoreCase
-                );
-            Dictionary<string, bool> abstractValues =
-                ResolveAbstractRequirements(
-                    payload,
-                    inventory,
-                    goalCompleted,
-                    state
-                );
+            var inventorySnapshot = new Dictionary<string, int>(inventory, StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, bool> abstractValues;
+            bool[] completed;
+            if (sameContext && cachedAbstractCompleted != null &&
+                cachedAbstractInventory.All(entry => CountItem(inventory, entry.Key) >= entry.Value))
+            {
+                var changedItems = inventory.Where(entry =>
+                    entry.Value > CountItem(cachedAbstractInventory, entry.Key)).Select(entry => entry.Key).ToArray();
+                foreach (var entry in cachedResolvedInventory)
+                {
+                    int granted = entry.Value - CountItem(cachedAbstractInventory, entry.Key);
+                    if (granted > 0) AddCount(inventory, entry.Key, granted);
+                }
+                abstractValues = new Dictionary<string, bool>(cachedAbstractValues, StringComparer.Ordinal);
+                completed = (bool[])cachedAbstractCompleted.Clone();
+                var pending = new HashSet<int>();
+                foreach (string name in changedItems)
+                    if (payload.ItemDependents.TryGetValue(ItemSet.GetCanonicalItemName(name), out var dependents))
+                        foreach (int index in dependents)
+                            if (!completed[index]) pending.Add(index);
+                ResolvePendingRequirements(payload, inventory, inventorySnapshot, goalCompleted, state,
+                    abstractValues, completed, pending);
+            }
+            else
+            {
+                abstractValues = ResolveFreshRequirements(payload, inventory, goalCompleted, state, out completed);
+            }
+            cachedAbstractCompleted = completed;
 
             cachedAbstractPayload = payload;
             cachedAbstractCheckedSources = checkedSources;
@@ -1861,6 +1936,13 @@ namespace SilksongRandomizer
                 SaveState state
             )
         {
+            return ResolveFreshRequirements(payload, inventory, goalCompleted, state, out _);
+        }
+
+        private static Dictionary<string, bool> ResolveFreshRequirements(
+            ParsedPayload payload, Dictionary<string, int> inventory, bool goalCompleted,
+            SaveState state, out bool[] completed)
+        {
             Dictionary<string, bool> values =
                 payload.AbstractRequirements.Keys.ToDictionary(
                     name => name,
@@ -1871,72 +1953,66 @@ namespace SilksongRandomizer
                             payload.AbstractRequirements[name].CheckedSource),
                     StringComparer.Ordinal
                 );
-            bool hasCrest = CrestItemNames.Any(
-                itemName => CountItem(inventory, itemName) > 0
-            );
-            bool hasSilkSpear =
-                CountItem(inventory, "Silkspear") > 0 &&
-                NonArchitectCrestItemNames.Any(
-                    itemName => CountItem(inventory, itemName) > 0
-                );
+            foreach (string node in GetWarpNodes(state))
+                if (values.ContainsKey(node)) values[node] = true;
+            completed = new bool[payload.EvaluationRules.Length];
+            ResolvePendingRequirements(payload, inventory, inventory, goalCompleted, state,
+                values, completed, Enumerable.Range(0, payload.EvaluationRules.Length));
+            return values;
+        }
 
+        private static void ResolvePendingRequirements(
+            ParsedPayload payload, Dictionary<string, int> inventory,
+            Dictionary<string, int> startingInventory, bool goalCompleted, SaveState state,
+            Dictionary<string, bool> values, bool[] completed, IEnumerable<int> initialPending)
+        {
+            bool hasCrest = CrestItemNames.Any(name => CountItem(startingInventory, name) > 0);
+            bool hasSilkSpear = CountItem(startingInventory, "Silkspear") > 0 &&
+                NonArchitectCrestItemNames.Any(name => CountItem(startingInventory, name) > 0);
             var activeLocations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            bool changed = true;
-            HashSet<LogicEvent> collectedEvents =
-                new HashSet<LogicEvent>();
-            while (changed)
+            var pending = new Queue<int>(initialPending);
+            var queued = new bool[payload.EvaluationRules.Length];
+            foreach (int index in pending) queued[index] = true;
+            void Notify(Dictionary<string, int[]> dependents, string name)
             {
-                changed = false;
-                foreach (KeyValuePair<string, LogicRequirement> entry in
-                    payload.AbstractRequirements)
-                {
-                    if (values[entry.Key] ||
-                        !SatisfiesGroup(
-                            entry.Value,
-                            goalCompleted,
-                            values,
-                            inventory,
-                            hasCrest,
-                            hasSilkSpear,
-                            payload.Requirements,
-                            payload.Dependencies,
-                            payload.SkipsTier,
-                            activeLocations
-                        ))
+                if (!dependents.TryGetValue(name, out var users)) return;
+                foreach (int index in users)
+                    if (!completed[index] && !queued[index])
                     {
-                        continue;
+                        queued[index] = true;
+                        pending.Enqueue(index);
                     }
-                    values[entry.Key] = true;
-                    changed = true;
+            }
+            while (pending.Count > 0)
+            {
+                int index = pending.Dequeue();
+                queued[index] = false;
+                if (completed[index]) continue;
+                bool isEvent = index >= payload.AbstractNames.Length;
+                LogicEvent logicEvent = isEvent ? payload.LogicEvents[index - payload.AbstractNames.Length] : null;
+                if (!isEvent && values[payload.AbstractNames[index]])
+                {
+                    completed[index] = true;
+                    continue;
                 }
-
-                foreach (LogicEvent logicEvent in payload.LogicEvents)
+                if (isEvent && !string.IsNullOrWhiteSpace(logicEvent.CheckedSource)
+                    ? !IsCheckedLogicSource(state, logicEvent.CheckedSource)
+                    : !SatisfiesGroup(payload.EvaluationRules[index], goalCompleted, values, inventory,
+                        hasCrest, hasSilkSpear, payload.Requirements, payload.Dependencies, payload.SkipsTier, activeLocations))
+                    continue;
+                completed[index] = true;
+                if (isEvent)
                 {
-                    if (collectedEvents.Contains(logicEvent) ||
-                        (!string.IsNullOrWhiteSpace(logicEvent.CheckedSource)
-                            ? !IsCheckedLogicSource(state, logicEvent.CheckedSource)
-                            : !SatisfiesGroup(
-                            logicEvent.Requirement,
-                            goalCompleted,
-                            values,
-                            inventory,
-                            hasCrest,
-                            hasSilkSpear,
-                            payload.Requirements,
-                            payload.Dependencies,
-                            payload.SkipsTier,
-                            activeLocations
-                        )))
-                    {
-                        continue;
-                    }
-
-                    collectedEvents.Add(logicEvent);
                     AddCount(inventory, logicEvent.Item, 1);
-                    changed = true;
+                    Notify(payload.ItemDependents, ItemSet.GetCanonicalItemName(logicEvent.Item));
+                }
+                else
+                {
+                    string name = payload.AbstractNames[index];
+                    values[name] = true;
+                    Notify(payload.AbstractDependents, name);
                 }
             }
-            return values;
         }
 
         private static bool SatisfiesGroup(

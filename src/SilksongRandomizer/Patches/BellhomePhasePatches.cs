@@ -1,8 +1,10 @@
 using HarmonyLib;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using SilksongRandomizer.AlphabetMode;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -34,6 +36,7 @@ namespace SilksongRandomizer.Patches
         private static SaveState promptState;
         private static bool promptOpen;
         private static bool phaseChangeInProgress;
+        private static int inputReleaseFrame = -1;
         private static GameObject bellhomeExteriorRoot;
         private static GameObject bellhomeExteriorNone;
         private static GameObject bellhomeExteriorHalf;
@@ -243,7 +246,7 @@ namespace SilksongRandomizer.Patches
             {
                 return false;
             }
-            if (promptOpen || phaseChangeInProgress)
+            if (BlocksBenchInput(action))
             {
                 return true;
             }
@@ -344,8 +347,12 @@ namespace SilksongRandomizer.Patches
                    );
         }
 
+        internal static bool BlocksBenchInput(FsmStateAction action) =>
+            (promptOpen || phaseChangeInProgress || Time.frameCount <= inputReleaseFrame) &&
+            IsBellhomeBenchNeedolinListener(action);
+
         private static bool IsBellhomeBenchNeedolinListener(
-            ListenForDreamNail action)
+            FsmStateAction action)
         {
             return action != null &&
                    action.Owner != null &&
@@ -414,6 +421,7 @@ namespace SilksongRandomizer.Patches
             {
                 promptHero.RemoveInputBlocker(PromptInputBlocker);
             }
+            inputReleaseFrame = Time.frameCount + 1;
             promptHero = null;
             promptState = null;
         }
@@ -460,10 +468,16 @@ namespace SilksongRandomizer.Patches
                 playerData == null ||
                 gameManager == null ||
                 !ReferenceEquals(state, promptState) ||
+                promptHero == null || promptHero != HeroController.instance ||
                 !playerData.atBench ||
                 !IsBellhomeSceneLoaded() ||
                 !HasBellhomeEntryGate())
             {
+                RandomizerPlugin.Log?.LogWarning(
+                    $"[RANDOMIZER] Bellhome reload rejected: roomBound={state?.IsRoomBound}, " +
+                    $"sameSave={ReferenceEquals(state, promptState)}, sameHero={promptHero != null && promptHero == HeroController.instance}, " +
+                    $"atBench={playerData?.atBench}, scene={gameManager?.sceneName}, entryGate={HasBellhomeEntryGate()}."
+                );
                 phaseChangeInProgress = false;
                 RandomizerPlugin.Instance?.ReportBlockingError(
                     "Bellhome's phase switch could not validate its safe " +
@@ -594,6 +608,22 @@ namespace SilksongRandomizer.Patches
             return !BellhomePhaseManager
                 .TryInterceptBellhomeNeedolin(__instance);
         }
+    }
+
+    [HarmonyPatch]
+    internal static class BellhomePromptBenchInputPatch
+    {
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(ListenForJump), "CheckInput");
+            foreach (Type type in new[] { typeof(ListenForUp), typeof(ListenForDown), typeof(ListenForLeft), typeof(ListenForRight) })
+                yield return AccessTools.Method(type, "CheckForInput");
+            yield return AccessTools.Method(typeof(ListenForAttack), "OnUpdate");
+            yield return AccessTools.Method(typeof(ListenForQuickMap), "OnUpdate");
+        }
+
+        private static bool Prefix(FsmStateAction __instance) =>
+            !BellhomePhaseManager.BlocksBenchInput(__instance);
     }
 
     [HarmonyPatch(typeof(ItemReceptacle), "Start")]

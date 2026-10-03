@@ -2030,7 +2030,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         # Path from Sinner's Road - Styx blocked (one way wall)
     ),
     'Path: Greymoor - Wisp Thicket': (
-        req('Room Node: whisp-thicket/wisp-thicket-bench#bottom', crest=False),
+        req('Room Node: wisp-thicket/wisp-thicket-bench#bottom', crest=False),
     ),
     'Path: Blasted Steps - Toll': (
         req('Path: Blasted Steps - Bellway', 'Ancestral Art: Cling Grip', any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline')),

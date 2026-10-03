@@ -435,10 +435,11 @@ namespace SilksongRandomizer
         internal static IEnumerable<string> GetTrackerHubKeys()
         {
             PlayerData playerData = PlayerData.instance;
-            if (playerData == null || TryResolveStoryDestination(out _)) yield break;
-            foreach (string key in GetAvailableMainHubKeys(playerData))
-                if (key == BoneBottomHubKey || key == BellhartHubKey || key == SongclaveHubKey)
-                    yield return key;
+            if (playerData == null || WidowSequenceSafety.CanRecoverToWidowShrine() ||
+                (playerData.blackThreadWorld && playerData.act3_wokeUp && playerData.act3_enclaveWakeSceneCompleted))
+                yield break;
+            foreach (string key in new[] { BoneBottomHubKey, BellhartHubKey, SongclaveHubKey })
+                if (IsMainHubAvailable(key, playerData)) yield return key;
         }
 
         private static List<string> GetAvailableMainHubKeys(

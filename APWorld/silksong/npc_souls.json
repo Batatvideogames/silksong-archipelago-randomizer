@@ -757,7 +757,7 @@
       },
       {
         "scene": "tut_04",
-        "path": "States/Intro Scene/Snail Shamans Set"
+        "path": "@Snail Shamans Set"
       }
     ],
     "checks": [
@@ -784,7 +784,24 @@
       "Event: Grand Mother Silk Snared"
     ],
     "item_id": 839023,
-    "act": 2
+    "act": 2,
+    "states": [
+      {
+        "scene": "tut_04",
+        "path": "@Snail Shamans Set",
+        "fsm": "Dialogue",
+        "states": [
+          "Init",
+          "Wait For Enter",
+          "Take Control",
+          "Crest Convo",
+          "Melody Active Init",
+          "Melody Active Init Alt",
+          "Memory Bench Sit",
+          "Play Ritual"
+        ]
+      }
+    ]
   },
   {
     "name": "Sherma",
@@ -1128,12 +1145,22 @@
       {
         "scene": "tut_03",
         "path": "Churchkeeper Basement"
+      },
+      {
+        "scene": "tut_04",
+        "path": "@Snail Shamans Set"
       }
     ],
     "checks": [
-      "Maiden Soul"
+      "Maiden Soul",
+      "Elegy of the Deep",
+      "Crest: Shaman",
+      "Everbloom"
     ],
-    "events": [],
+    "events": [
+      "Room Event: event:mapper/reviewed:dark-below-accepted",
+      "Room Event: event:mapper/reviewed:everbloom-ritual"
+    ],
     "item_id": 839033,
     "act": 1,
     "interactions": [
@@ -1151,6 +1178,21 @@
           "Idle",
           "Wait for Hero Grounded"
         ]
+      },
+      {
+        "scene": "tut_04",
+        "path": "@Snail Shamans Set",
+        "fsm": "Dialogue",
+        "states": [
+          "Init",
+          "Wait For Enter",
+          "Take Control",
+          "Crest Convo",
+          "Melody Active Init",
+          "Melody Active Init Alt",
+          "Memory Bench Sit",
+          "Play Ritual"
+        ]
       }
     ]
   },
@@ -1160,14 +1202,41 @@
       {
         "scene": "belltown_basement_03",
         "path": "Group/Bell Hermit"
+      },
+      {
+        "scene": "tut_04",
+        "path": "@Snail Shamans Set"
       }
     ],
     "checks": [
-      "Hermit Soul"
+      "Hermit Soul",
+      "Elegy of the Deep",
+      "Crest: Shaman",
+      "Everbloom"
     ],
-    "events": [],
+    "events": [
+      "Room Event: event:mapper/reviewed:dark-below-accepted",
+      "Room Event: event:mapper/reviewed:everbloom-ritual"
+    ],
     "item_id": 839034,
-    "act": 1
+    "act": 1,
+    "states": [
+      {
+        "scene": "tut_04",
+        "path": "@Snail Shamans Set",
+        "fsm": "Dialogue",
+        "states": [
+          "Init",
+          "Wait For Enter",
+          "Take Control",
+          "Crest Convo",
+          "Melody Active Init",
+          "Melody Active Init Alt",
+          "Memory Bench Sit",
+          "Play Ritual"
+        ]
+      }
+    ]
   },
   {
     "name": "Crull",

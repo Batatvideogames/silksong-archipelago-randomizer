@@ -21,6 +21,7 @@ class _SupplyState:
         self.active = bytearray(len(program.conditions))
         self.pending = set(range(len(program.conditions)))
         self.queue = []
+        self.entries = set()
         self.refresh = True
         self.regeneration = 0
         self.capacity = 9
@@ -106,6 +107,8 @@ class SilkSupply:
         self.capacity_rules = [resolve((capacity(amount),)) for amount in range(10, MAX_SILK + 1)]
         self.capacity_items = {name for rule in self.capacity_rules for name in rule.item_dependencies()}
         self._compile_dependencies()
+        for rule in (*self.conditions, *self.capacity_rules):
+            world.register_rule_dependencies(rule)
 
     def _compile_dependencies(self):
         dependencies = [(frozenset(rule.item_dependencies()), frozenset(rule.region_dependencies()))
@@ -169,11 +172,12 @@ class SilkSupply:
 
     def reached(self, state, region):
         affected = self.region_conditions.get(region.name)
-        if not affected:
-            return
         cached = self._cached(state)
         if cached is not None:
-            cached.pending.update(p for p in affected if not cached.active[p])
+            cached.pending.update(p for p in affected or () if not cached.active[p])
+            index = self.nodes.get(region.name)
+            if index is not None and cached.levels[index] < 0:
+                cached.entries.add(index)
 
     def evaluate(self, state, node, amount):
         if state.stale[self.player]:
@@ -181,13 +185,15 @@ class SilkSupply:
         cached = self._cached(state)
         if cached is None:
             cached = _SupplyState(self)
+            cached.entries.update(self.nodes[r.name] for r in state.reachable_regions[self.player]
+                                  if r.name in self.nodes)
             if not hasattr(state, '_silksong_silk_supply'):
                 state._silksong_silk_supply = {}
             state._silksong_silk_supply[self.player] = cached
         levels, active, pending, queue = cached.levels, cached.active, cached.pending, cached.queue
         if levels[node] >= amount:
             return True
-        if not pending and not cached.refresh and not queue:
+        if not pending and not cached.refresh and not queue and not cached.entries:
             return False
 
         def offer(index, value):
@@ -225,6 +231,9 @@ class SilkSupply:
                 else:
                     source, target, cost, _ = argument
                     offer(target, levels[source] - cost)
+        for index in cached.entries:
+            offer(index, 0)
+        cached.entries.clear()
         while queue:
             negative, source = heappop(queue)
             value = -negative

@@ -3031,7 +3031,7 @@
     "scene": "Bone_East_14b",
     "gate": "right1",
     "direction": "right",
-    "vanilla": "far-fields/weavenest-cindril-entrance@l",
+    "vanilla": "far-fields/weavenest-cindril@l",
     "target_scene": "Bone_East_Weavehome",
     "target_gate": "left1",
     "is_door": false,
@@ -3244,7 +3244,7 @@
     "group": "door_out"
   },
   {
-    "id": "far-fields/weavenest-cindril-entrance@l",
+    "id": "far-fields/weavenest-cindril@l",
     "name": "Weavenest Cindril Entrance - left1",
     "scene": "Bone_East_Weavehome",
     "gate": "left1",
@@ -3254,8 +3254,8 @@
     "target_gate": "right1",
     "is_door": false,
     "group": "left",
-    "arrival_requires": "far-fields/weavenest-cindril-entrance@l",
-    "return_requires": "far-fields/weavenest-cindril-entrance@l"
+    "arrival_requires": "far-fields/weavenest-cindril@l",
+    "return_requires": "far-fields/weavenest-cindril@l"
   },
   {
     "id": "grand-gate/entrance-to-nyleth@l",

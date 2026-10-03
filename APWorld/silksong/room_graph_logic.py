@@ -1086,7 +1086,7 @@ _ALL_NODE_SEEDS: Mapping[str, tuple[CompiledRoomClause, ...]] = {
 _TRANSITION_EXTRA_REQUIREMENTS: Mapping[
     str, tuple[CompiledRoomClause, ...]
 ] = {
-    "whisp-thicket/wisp-thicket-cave@t": (
+    "wisp-thicket/wisp-thicket-cave@t": (
         _part("Event: Act 2 Started"),
     ),
     "bilewater/exhaust-organ-interior@ue": (

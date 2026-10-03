@@ -13,6 +13,9 @@ namespace SilksongRandomizer
         internal static readonly JArray Catalogue = Load();
         internal static readonly string[] Names = Catalogue.Select(row => (string)row["name"]).ToArray();
         private static readonly Dictionary<string, string> Records = Catalogue.ToDictionary(row => (string)row["record"], row => (string)row["name"], StringComparer.Ordinal);
+        private static readonly HashSet<string> ScriptedDeaths = new HashSet<string>(
+            Catalogue.Where(row => (bool?)row["scripted_death"] == true).Select(row => (string)row["name"]), StringComparer.Ordinal);
+        internal static bool HasScriptedDeath(string species) => ScriptedDeaths.Contains(species);
         private static string cachedJson;
         private static HashSet<string> cachedNames = new HashSet<string>(StringComparer.Ordinal);
 

@@ -17,6 +17,12 @@ OPPOSITE_GROUP = {'left': 'right', 'right': 'left', 'top': 'bot', 'bot': 'top',
 
 POOL = {entry['id']: entry for entry in json.loads(pkgutil.get_data(__package__, 'entrance_pool.json'))}
 
+WARP_DESTINATIONS = {
+    'bone_bottom': ('Bone Bottom', 'bone-bottom/bone-bottom-bellway#room'),
+    'bellhart': ('Bellhart', 'bellhart/belltown#upper-area'),
+    'songclave': ('Songclave', 'choral-chambers/bellshrine-enclave#room'),
+}
+
 
 ACT_ONE_AREAS = frozenset({
     'moss-grotto', 'bone-bottom', 'the-marrow', 'weavenest-atla', 'wormways',
@@ -794,15 +800,10 @@ def reconnect_warps(world, value):
     if (getattr(world.multiworld, 'enforce_deferred_connections', 'off') == 'off'
             or not isinstance(value, dict)):
         return
-    destinations = {
-        'bone_bottom': ('Bone Bottom', 'bone-bottom/bone-bottom-bellway#room'),
-        'bellhart': ('Bellhart', 'bellhart/belltown#upper-area'),
-        'songclave': ('Songclave', 'choral-chambers/bellshrine-enclave#room'),
-    }
     entrances = getattr(world, '_unlocked_warp_entrances', {})
     menu = world.multiworld.get_region('Menu', world.player)
     from rule_builder.rules import True_
-    for key, (label, node) in destinations.items():
+    for key, (label, node) in WARP_DESTINATIONS.items():
         entrance = entrances.get(key)
         if value.get(key) is True:
             destination = world.multiworld.get_region(room_node_name(node), world.player)

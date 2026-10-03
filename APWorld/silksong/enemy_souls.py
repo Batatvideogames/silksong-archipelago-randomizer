@@ -84,8 +84,14 @@ def pogo_graph(names):
                       and room.id not in BY_NAME[name].get('black_thread_only_rooms', ()))
         def update(row):
             spec = row.requirement
-            dnf = tuple((*branch, *souls) if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else branch
-                        for branch in spec.dnf)
+            dnf = []
+            for branch in spec.dnf:
+                needed = souls if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
+                if ('Skullwing' in names and room.id in BY_NAME['Skullwing']['rooms']
+                        and 'item:clawline' in branch):
+                    needed = (*needed, 'received:' + item_name('Skullwing'))
+                dnf.append(tuple(dict.fromkeys((*branch, *needed))))
+            dnf = tuple(dnf)
             return replace(row, requirement=replace(spec, dnf=dnf))
         rooms.append(replace(room, connections=tuple(map(update, room.connections)),
                              transitions=tuple(map(update, room.transitions)),

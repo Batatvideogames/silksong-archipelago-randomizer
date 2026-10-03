@@ -787,5 +787,31 @@
       "whispering-vaults/whispering-vaults-jumps@b",
       "whispering-vaults/whispering-vaults-jumps@l"
     ]
+  },
+  {
+    "name": "Skullwing",
+    "room": "the-abyss/abyss-escape",
+    "act": 3,
+    "nodes": [
+      "the-abyss/abyss-escape#start",
+      "the-abyss/abyss-escape#end"
+    ],
+    "exits": [
+      "the-abyss/abyss-escape@c",
+      "the-abyss/abyss-escape@f"
+    ]
+  },
+  {
+    "name": "Skullwing",
+    "room": "weavenest-atla/weavenest-atla-mask-shard",
+    "act": 2,
+    "nodes": [
+      "weavenest-atla/weavenest-atla-mask-shard#left-exit-area",
+      "weavenest-atla/weavenest-atla-mask-shard#starting-line",
+      "weavenest-atla/weavenest-atla-mask-shard#mask-shard-spot"
+    ],
+    "exits": [
+      "weavenest-atla/weavenest-atla-mask-shard@l"
+    ]
   }
 ]

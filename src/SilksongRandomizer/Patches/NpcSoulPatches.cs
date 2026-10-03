@@ -32,8 +32,17 @@ namespace SilksongRandomizer.Patches
             if (string.IsNullOrEmpty(SaveState.Instance?.npcSoulsJson) || SaveState.Instance.npcSoulsJson == "[]") return;
             foreach (GameObject root in scene.GetRootGameObjects())
                 foreach (Transform transform in root.GetComponentsInChildren<Transform>(true))
-                    if (NpcSoulState.Actors.ContainsKey(scene.name + "|" + Utils.GetHierarchyPath(transform)))
+                    if (NpcSoulState.TryGetActor(scene.name, Utils.GetHierarchyPath(transform), out _))
                         Actors.Add(transform.gameObject);
+            if (string.Equals(scene.name, "Tut_04", StringComparison.OrdinalIgnoreCase))
+            {
+                string[] shamans = { "Caretaker", "Chapel Maid", "Bell Hermit" };
+                var missing = new List<string>();
+                foreach (string npc in shamans)
+                    if (NpcSoulState.IsMissing(SaveState.Instance, npc)) missing.Add(npc);
+                RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Shaman scene NPC Souls: " +
+                    (missing.Count == 0 ? "all available" : "missing " + string.Join(", ", missing)));
+            }
         }
 
         internal static void Update()

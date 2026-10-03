@@ -116,7 +116,7 @@
         "act": 1,
         "nodes": [
           "blasted-steps/blasted-steps-map-edge#lace-bridge",
-          "blasted-steps/blasted-steps-map-edge#before-map-edge",
+          "blasted-steps/blasted-steps-map-edge#before-map-edge-lower",
           "blasted-steps/blasted-steps-map-edge#map-edge"
         ]
       },
@@ -169,7 +169,7 @@
       {
         "act": 2,
         "nodes": [
-          "whisp-thicket/wisp-thicket-cave#room"
+          "wisp-thicket/wisp-thicket-cave#room"
         ]
       },
       {
@@ -196,7 +196,7 @@
       "sands-of-karak/sands-of-karak-entrance",
       "the-cradle/cradle-path-of-pain-first-room",
       "underworks/underworks-exhaust-organ-transit",
-      "whisp-thicket/wisp-thicket-cave",
+      "wisp-thicket/wisp-thicket-cave",
       "whispering-vaults/whispering-vaults-jumps"
     ],
     "battles": [],
@@ -227,7 +227,7 @@
       {
         "act": 2,
         "nodes": [
-          "whisp-thicket/wisp-thicket-cave#room"
+          "wisp-thicket/wisp-thicket-cave#room"
         ]
       },
       {
@@ -249,7 +249,7 @@
       "the-cradle/cradle-path-of-pain-first-room",
       "underworks/underworks-exhaust-organ-transit",
       "weavenest-atla/weavenest-atla-mask-shard",
-      "whisp-thicket/wisp-thicket-cave",
+      "wisp-thicket/wisp-thicket-cave",
       "whispering-vaults/whispering-vaults-jumps"
     ],
     "battles": [],
@@ -5479,6 +5479,38 @@
         "path": "Event Control/Plinney Rescue Scene/Battle Scene"
       }
     ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Skullwing",
+    "record": "Bone Goomba Bounce Fly",
+    "item_id": 840160,
+    "location_id": 841160,
+    "scripted_death": true,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "weavenest-atla/weavenest-atla-mask-shard#left-exit-area",
+          "weavenest-atla/weavenest-atla-mask-shard#starting-line",
+          "weavenest-atla/weavenest-atla-mask-shard#mask-shard-spot"
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "the-abyss/abyss-escape#start",
+          "the-abyss/abyss-escape#end"
+        ]
+      }
+    ],
+    "rooms": [
+      "weavenest-atla/weavenest-atla-mask-shard",
+      "the-abyss/abyss-escape"
+    ],
+    "black_thread_only_rooms": [],
+    "battles": [],
     "states": [],
     "entrances": []
   }

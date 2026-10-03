@@ -113,6 +113,33 @@ def _simplify(graph, mutable=frozenset()):
             return graph, aliases
 
 
+def _external_roots(world):
+    if getattr(world, "_silk_node_rules", None):
+        prefixes = ('Silk (', 'Silk route: ', 'Silk capacity: ',
+                    'Silk regeneration: ', 'Silk refill: ', 'Silk restock (')
+        return {name for name in world._silksong_native_abstract_names
+                if not name.startswith(prefixes)}
+    from .requirements import REQUIREMENTS, GOAL_EVENT_BY_KEY, get_pinmaster_oil_requirements
+    from .progression_shuffle import world_location_requirements
+    from .wish_events import WISH_LOGIC_EVENTS
+    from .enemy_souls import enabled_enemies, check_requirements
+    from .entrance_randomization import WARP_DESTINATIONS
+    from .room_graph_logic import room_node_name
+
+    roots = set(world._progression_events)
+    roots.update(GOAL_EVENT_BY_KEY.values())
+    roots.update(event.source_region for event in WISH_LOGIC_EVENTS if event.source_region)
+    roots.update(room_node_name(node) for _, node in WARP_DESTINATIONS.values())
+    groups = [*REQUIREMENTS.values(), *world._progression_events.values(),
+              *world._progression_location_rules.values(), get_pinmaster_oil_requirements(True)]
+    groups.extend(world_location_requirements(world, name) for name in REQUIREMENTS)
+    groups.extend(check_requirements(name) for name in enabled_enemies(world))
+    for rules in groups:
+        for rule in rules:
+            roots.update((*rule.all_of, *rule.any_of))
+    return roots
+
+
 def compact_requirements(world, original, additional_roots=()):
     from .requirement_rules import build_requirements_rule
     from .native_regions import native_rule_options
@@ -166,9 +193,7 @@ def compact_requirements(world, original, additional_roots=()):
                         any_of=tuple(sorted(any_of)))
                 for all_of, any_of, predicate in graph[name]
             ), key=repr))
-    internal_prefixes = ('Silk (', 'Silk route: ', 'Silk capacity: ',
-                         'Silk regeneration: ', 'Silk refill: ', 'Silk restock (')
-    roots = {name for name in original if not name.startswith(internal_prefixes)}
+    roots = _external_roots(world) & result.keys()
     roots.update(additional_roots)
     retained_rules = (*world._progression_location_rules.values(),
                       *(original[name] for name in mutable))

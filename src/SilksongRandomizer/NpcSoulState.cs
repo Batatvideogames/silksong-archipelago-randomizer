@@ -42,8 +42,15 @@ namespace SilksongRandomizer
 
         internal static bool MissingAny(SaveState state, IEnumerable<string> npcs) => npcs.Any(npc => IsMissing(state, npc));
 
+        private static bool Find(Dictionary<string, string[]> index, string scene, string path, string suffix, out string[] npcs) =>
+            index.TryGetValue(scene + "|" + path + suffix, out npcs) ||
+            index.TryGetValue(scene + "|@" + path.Substring(path.LastIndexOf('/') + 1) + suffix, out npcs);
+
+        internal static bool TryGetActor(string scene, string path, out string[] npcs) =>
+            Find(Actors, scene, path, string.Empty, out npcs);
+
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state) =>
-            !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] npcs) || !MissingAny(state, npcs);
+            !Find(States, scene, path, "|" + fsm + "|" + name, out string[] npcs) || !MissingAny(state, npcs);
 
         internal static bool CanInteract(Transform transform)
         {
@@ -53,7 +60,7 @@ namespace SilksongRandomizer
             {
                 string key = current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current);
                 if (Interactions.TryGetValue(key, out string[] npcs) && MissingAny(SaveState.Instance, npcs)) return false;
-                if (Actors.TryGetValue(key, out npcs) && MissingAny(SaveState.Instance, npcs)) return false;
+                if (TryGetActor(current.gameObject.scene.name, Utils.GetHierarchyPath(current), out npcs) && MissingAny(SaveState.Instance, npcs)) return false;
             }
             return true;
         }
@@ -88,7 +95,7 @@ namespace SilksongRandomizer
             npcs = null;
             if (string.IsNullOrEmpty(SaveState.Instance?.npcSoulsJson) || SaveState.Instance.npcSoulsJson == "[]") return false;
             for (Transform current = transform; current != null; current = current.parent)
-                if (Actors.TryGetValue(current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current), out npcs))
+                if (TryGetActor(current.gameObject.scene.name, Utils.GetHierarchyPath(current), out npcs))
                 {
                     actor = current.gameObject;
                     return true;
