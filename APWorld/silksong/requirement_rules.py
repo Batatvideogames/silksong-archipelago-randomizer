@@ -25,6 +25,7 @@ from .items import get_vanilla_reward_name
 from .locations import canonicalize_location_name
 from .requirements import (
     CREST_ITEMS,
+    ABSTRACT_REQUIREMENTS,
     CLOAK_REQUIRED_SKILL_ITEMS,
     REQUIREMENTS,
     DEFAULT_FLEA_HUNT_GOAL_COUNT,
@@ -77,6 +78,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     proficient_combat: int = 0
     proficient_movement: bool = False
     flea_brew_jump_logic: bool = False
+    sharpdart_logic: bool = True
     red_tool_stall_tier: int = 0
     crest_pogo_tier: int = 0
     needle_strike_tier: int = 0
@@ -110,6 +112,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.proficient_combat,
             self.proficient_movement,
             self.flea_brew_jump_logic,
+            self.sharpdart_logic,
             self.red_tool_stall_tier,
             self.crest_pogo_tier,
             self.needle_strike_tier,
@@ -141,6 +144,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         proficient_combat: int
         proficient_movement: bool
         flea_brew_jump_logic: bool
+        sharpdart_logic: bool
         red_tool_stall_tier: int
         crest_pogo_tier: int
         needle_strike_tier: int
@@ -178,6 +182,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 proficient_combat=self.proficient_combat,
                 proficient_movement=self.proficient_movement,
                 flea_brew_jump_logic=self.flea_brew_jump_logic,
+                sharpdart_logic=self.sharpdart_logic,
                 red_tool_stall_tier=self.red_tool_stall_tier,
                 crest_pogo_tier=self.crest_pogo_tier,
                 needle_strike_tier=self.needle_strike_tier,
@@ -383,6 +388,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     proficient_combat: int = 0
     proficient_movement: bool = False
     flea_brew_jump_logic: bool = False
+    sharpdart_logic: bool = True
     red_tool_stall_tier: int = 0
     crest_pogo_tier: int = 0
     needle_strike_tier: int = 0
@@ -422,6 +428,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             proficient_combat=self.proficient_combat,
             proficient_movement=self.proficient_movement,
             flea_brew_jump_logic=self.flea_brew_jump_logic,
+            sharpdart_logic=self.sharpdart_logic,
             red_tool_stall_tier=self.red_tool_stall_tier,
             crest_pogo_tier=self.crest_pogo_tier,
             needle_strike_tier=self.needle_strike_tier,
@@ -673,6 +680,7 @@ def _compile_named_requirement(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -713,6 +721,7 @@ def _compile_named_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
@@ -767,6 +776,7 @@ def _compile_requirement(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -805,6 +815,7 @@ def _compile_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
@@ -854,6 +865,7 @@ def _compile_requirement(
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 flea_brew_jump_logic=flea_brew_jump_logic,
+                sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
@@ -906,6 +918,16 @@ def _compile_requirement(
     return _and_rules(rules)
 
 
+@lru_cache(maxsize=32)
+def _abstract_names(revision, *args, **kwargs):
+    return frozenset(get_abstract_requirements(*args, **kwargs))
+
+
+@lru_cache(maxsize=32)
+def _combined_names(base, extra):
+    return base | extra
+
+
 @lru_cache(maxsize=8192)
 def build_requirements_rule(
     requirements: tuple[LocationRequirement, ...],
@@ -925,6 +947,7 @@ def build_requirements_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -944,33 +967,33 @@ def build_requirements_rule(
     if extra_abstract_requirement_names and not native_abstract_regions:
         raise ValueError("Seed-specific events require native abstract regions.")
 
-    abstract_requirement_names = frozenset(
-        get_abstract_requirements(
-            allow_bellways_before_bell_beast,
-            randomized_crest_slots_enabled,
-            starting_location,
-            trails_end_requirement,
-            pollip_heart_count,
-            randomize_ledge_grab=randomize_ledge_grab,
-            randomize_swim=randomize_swim,
-            proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
-            flea_brew_jump_logic=flea_brew_jump_logic,
-            red_tool_stall_tier=red_tool_stall_tier,
-            crest_pogo_tier=crest_pogo_tier,
-            needle_strike_tier=needle_strike_tier,
-            enemy_pogo_tier=enemy_pogo_tier,
-            drill_crystal_pogo_tier=drill_crystal_pogo_tier,
-            heal_stall_tier=heal_stall_tier,
-            hazard_respawn_tier=hazard_respawn_tier,
-            scuttlebrace_tier=scuttlebrace_tier,
-            bell_shrine_sanity=bell_shrine_sanity,
-            steel_soul=steel_soul,
-            steel_soul_sites=steel_soul_sites,
-            silk_and_soul_points=silk_and_soul_points,
-        )
+    abstract_requirement_names = _abstract_names(
+        ABSTRACT_REQUIREMENTS.revision,
+        allow_bellways_before_bell_beast,
+        randomized_crest_slots_enabled,
+        starting_location,
+        trails_end_requirement,
+        pollip_heart_count,
+        randomize_ledge_grab=randomize_ledge_grab,
+        randomize_swim=randomize_swim,
+        proficient_combat=proficient_combat,
+        proficient_movement=proficient_movement,
+        flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
+        red_tool_stall_tier=red_tool_stall_tier,
+        crest_pogo_tier=crest_pogo_tier,
+        needle_strike_tier=needle_strike_tier,
+        enemy_pogo_tier=enemy_pogo_tier,
+        drill_crystal_pogo_tier=drill_crystal_pogo_tier,
+        heal_stall_tier=heal_stall_tier,
+        hazard_respawn_tier=hazard_respawn_tier,
+        scuttlebrace_tier=scuttlebrace_tier,
+        bell_shrine_sanity=bell_shrine_sanity,
+        steel_soul=steel_soul,
+        steel_soul_sites=steel_soul_sites,
+        silk_and_soul_points=silk_and_soul_points,
     )
-    abstract_requirement_names |= extra_abstract_requirement_names
+    abstract_requirement_names = _combined_names(abstract_requirement_names, extra_abstract_requirement_names)
     return _or_rules(
         _compile_requirement(
             requirement,
@@ -994,6 +1017,7 @@ def build_requirements_rule(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
@@ -1029,6 +1053,7 @@ def build_location_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -1064,6 +1089,7 @@ def build_location_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -1099,6 +1125,7 @@ def build_goal_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -1134,6 +1161,7 @@ def build_goal_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -1167,6 +1195,7 @@ def build_native_source_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -1199,6 +1228,7 @@ def build_native_source_rule(
         proficient_combat,
         proficient_movement,
         flea_brew_jump_logic,
+        sharpdart_logic,
         red_tool_stall_tier,
         crest_pogo_tier,
         needle_strike_tier,

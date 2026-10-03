@@ -3171,6 +3171,7 @@ def get_abstract_requirements(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -3211,6 +3212,7 @@ def get_abstract_requirements(
         and not proficient_combat
         and not proficient_movement
         and not flea_brew_jump_logic
+        and sharpdart_logic
         and not heal_stall_tier
         and not hazard_respawn_tier
         and not scuttlebrace_tier
@@ -3314,6 +3316,8 @@ def get_abstract_requirements(
                     replace(clause, item_counts=(*clause.item_counts, item_count(count, 'Progressive Tool Pouch')))
                     for clause in adjusted_requirements[name]
                 )
+    if not sharpdart_logic:
+        adjusted_requirements[USABLE_SHARPDART_REQUIREMENT] = ()
     return adjusted_requirements
 
 
@@ -6205,6 +6209,7 @@ def _get_static_abstract_requirement_items(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -6274,6 +6279,12 @@ def _get_static_abstract_requirement_items(
     if flea_brew_jump_logic:
         requirement_items = tuple(
             (name, (req(crest=False),) if name == "Option: Flea Brew Jump Logic" else alternatives)
+            for name, alternatives in requirement_items
+        )
+
+    if not sharpdart_logic:
+        requirement_items = tuple(
+            (name, () if name == USABLE_SHARPDART_REQUIREMENT else alternatives)
             for name, alternatives in requirement_items
         )
 
@@ -6449,6 +6460,7 @@ def _compile_static_abstract_worklist_plan(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -6473,6 +6485,7 @@ def _compile_static_abstract_worklist_plan(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -6504,6 +6517,7 @@ def _matches_static_abstract_requirements(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -6530,6 +6544,7 @@ def _matches_static_abstract_requirements(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -6568,6 +6583,7 @@ def _compute_abstract_values(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -6619,6 +6635,7 @@ def _compute_abstract_values(
             proficient_combat,
             proficient_movement,
             flea_brew_jump_logic,
+            sharpdart_logic,
             red_tool_stall_tier,
             crest_pogo_tier,
             needle_strike_tier,
@@ -6688,6 +6705,7 @@ def _compute_abstract_values(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -6713,6 +6731,7 @@ def _compute_abstract_values(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -6737,6 +6756,7 @@ def _compute_abstract_values(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
@@ -6963,6 +6983,7 @@ def _has_named_requirement(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -6998,6 +7019,7 @@ def _has_named_requirement(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -7037,6 +7059,7 @@ def _satisfies_requirement(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -7073,6 +7096,7 @@ def _satisfies_requirement(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,
@@ -7116,6 +7140,7 @@ def make_requirements_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -7150,6 +7175,7 @@ def make_requirements_rule(
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 flea_brew_jump_logic=flea_brew_jump_logic,
+                sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
@@ -7199,6 +7225,7 @@ def make_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -7234,6 +7261,7 @@ def make_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -7490,6 +7518,7 @@ def make_goal_rule(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -7524,6 +7553,7 @@ def make_goal_rule(
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
@@ -7720,6 +7750,7 @@ def export_abstract_requirements(
     proficient_combat: int = 0,
     proficient_movement: bool = False,
     flea_brew_jump_logic: bool = False,
+    sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
     crest_pogo_tier: int = 0,
     needle_strike_tier: int = 0,
@@ -7755,6 +7786,7 @@ def export_abstract_requirements(
             proficient_combat=proficient_combat,
             proficient_movement=proficient_movement,
             flea_brew_jump_logic=flea_brew_jump_logic,
+            sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
             crest_pogo_tier=crest_pogo_tier,
             needle_strike_tier=needle_strike_tier,

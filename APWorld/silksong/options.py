@@ -604,6 +604,39 @@ class BossSanity(CategoryRandomization):
     default = CategoryRandomization.option_vanilla
 
 
+class BossSouls(Toggle):
+    """
+    Randomize Boss Souls into the item pool.
+    Bosses do not spawn and their respective arenas are not available until their "soul" has been collected. Bosses that have a gauntlet attached to them are the sole requirement for the gauntlet's spawn.
+    Example: Groal's Soul makes his boss fight available and the Bilehaven gauntlet available as well.
+    """
+
+    display_name = "Boss Souls (Beta)"
+    visibility = Visibility.none
+    default = 0
+
+
+class EnemySouls(Toggle):
+    """
+    Randomize Enemy Souls into the item pool.
+    Enemies do not spawn and their respective gauntlets are not available until their "soul" has been collected. Bosses and boss gauntlets are affected by the boss souls option. Killing an enemy for the first time grants a check.
+    """
+    display_name = "Enemy Souls (Beta)"
+    visibility = Visibility.none
+    default = 0
+
+
+class NpcSouls(Toggle):
+    """
+    Randomize NPC Souls into the item pool.
+    NPCs do not spawn until their respective soul has been collected.
+    """
+
+    display_name = "NPC Souls (Beta)"
+    visibility = Visibility.none
+    default = 0
+
+
 class BellShrineSanity(CategoryRandomization):
     """
     Randomizes the 5 Judge Bell Shrines.
@@ -986,6 +1019,17 @@ class TechniqueDifficulty(Choice):
     option_moderate = 2
     option_difficult = 3
     default = option_none
+
+
+class SharpdartLogic(Toggle):
+    """
+    Use Sharpdart to cross gaps and extend jumps.
+
+    When disabled, traversal never requires Sharpdart.
+    """
+
+    display_name = "Sharpdart Logic"
+    default = 0
 
 
 class ScuttlebraceLogic(TechniqueDifficulty):
@@ -1559,6 +1603,7 @@ class SilksongOptions(PerGameCommonOptions):
     drill_crystal_pogo_logic: DrillCrystalPogoLogic
     crest_pogo_logic: CrestPogoLogic
     needle_strike_logic: NeedleStrikeLogic
+    sharpdart_logic: SharpdartLogic
     scuttlebrace_logic: ScuttlebraceLogic
     heal_stall_logic: HealStallLogic
     hazard_respawn_logic: HazardRespawnLogic
@@ -1630,6 +1675,9 @@ class SilksongOptions(PerGameCommonOptions):
     pristine_core_randomization: PristineCoreRandomization
     rosary_cache_randomization: RosaryCacheRandomization
     shell_shard_cache_randomization: ShellShardCacheRandomization
+    boss_souls: BossSouls
+    npc_souls: NpcSouls
+    enemy_souls: EnemySouls
     boss_sanity: BossSanity
     bell_shrine_sanity: BellShrineSanity
     quest_sanity: QuestSanity
@@ -1682,6 +1730,7 @@ silksong_option_groups = [
         EnemyPogoLogic,
         CrestPogoLogic,
         NeedleStrikeLogic,
+        SharpdartLogic,
         ScuttlebraceLogic,
         HealStallLogic,
         HazardRespawnLogic,

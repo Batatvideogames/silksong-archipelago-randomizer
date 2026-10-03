@@ -271,6 +271,7 @@ def set_silksong_rules(world) -> None:
     proficient_combat = world.get_proficient_combat_mode()
     proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
     flea_brew_jump_logic = bool(getattr(getattr(world.options, "flea_brew_jump_logic", None), "value", 0))
+    sharpdart_logic = bool(getattr(getattr(world.options, "sharpdart_logic", None), "value", 0))
     red_tool_stall_tier = int(world.options.red_tool_stall_logic.value)
     crest_pogo_tier = int(world.options.crest_pogo_logic.value)
     needle_strike_tier = int(world.options.needle_strike_logic.value)
@@ -401,6 +402,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 flea_brew_jump_logic=flea_brew_jump_logic,
+                sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
@@ -440,6 +442,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 flea_brew_jump_logic=flea_brew_jump_logic,
+                sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
@@ -477,6 +480,7 @@ def set_silksong_rules(world) -> None:
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
                     flea_brew_jump_logic=flea_brew_jump_logic,
+                    sharpdart_logic=sharpdart_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
                     crest_pogo_tier=crest_pogo_tier,
                     needle_strike_tier=needle_strike_tier,
@@ -511,6 +515,7 @@ def set_silksong_rules(world) -> None:
                 proficient_combat=proficient_combat,
                 proficient_movement=proficient_movement,
                 flea_brew_jump_logic=flea_brew_jump_logic,
+                sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
                 crest_pogo_tier=crest_pogo_tier,
                 needle_strike_tier=needle_strike_tier,
@@ -572,6 +577,10 @@ def set_silksong_rules(world) -> None:
                 CrestSlotMemoryLocketRule() if count is None
                 else Has(MEMORY_LOCKET_ITEM, count)
             )
+        from .npc_souls import location_gate
+        npc_gate = location_gate(world, location_name)
+        if npc_gate is not None:
+            location_rule = location_rule & npc_gate
         world._silksong_rule_builder_rules[location_name] = location_rule
         world.set_rule(location, location_rule)
 
@@ -666,6 +675,7 @@ def set_silksong_rules(world) -> None:
                     proficient_combat=proficient_combat,
                     proficient_movement=proficient_movement,
                     flea_brew_jump_logic=flea_brew_jump_logic,
+                    sharpdart_logic=sharpdart_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
                     crest_pogo_tier=crest_pogo_tier,
                     needle_strike_tier=needle_strike_tier,
@@ -739,6 +749,7 @@ def set_silksong_rules(world) -> None:
         proficient_combat=proficient_combat,
         proficient_movement=proficient_movement,
         flea_brew_jump_logic=flea_brew_jump_logic,
+        sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
         crest_pogo_tier=crest_pogo_tier,
         needle_strike_tier=needle_strike_tier,
