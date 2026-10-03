@@ -1419,6 +1419,7 @@ def _compiled_room_clause_requirement(
 ) -> LocationRequirement:
     return req(
         *clause.all_of,
+        *((f"Silk Cost: {clause.silk_cost}",) if clause.silk_cost else ()),
         crest=False,
         silk_spear=clause.require_silk_spear,
         skip_tier=clause.minimum_skip_tier,
@@ -1473,6 +1474,35 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
 }
+
+
+ABYSS_ESCAPED_EVENT = 'Event: Abyss Escaped'
+if MAPPER_GRAPH_ENABLED:
+    _escape_start = room_node_name('the-abyss/abyss-escape#start')
+    _escape_end = room_node_name('the-abyss/abyss-escape#end')
+    _escape_route = tuple(
+        source for source in ROOM_NODE_REQUIREMENTS[_escape_end]
+        if _escape_start in source.all_of
+    )
+    if not _escape_route:
+        raise ValueError('The directed Abyss escape route is missing.')
+    ROOM_EVENT_REQUIREMENTS[ABYSS_ESCAPED_EVENT] = tuple(
+        replace(source, all_of=(*source.all_of,
+            'Act: 3',
+            room_node_name('the-abyss/weavenest-absolom#the-void'),
+            room_node_name('deep-docks/deep-docks-church#top'),
+            room_event_name('event:mapper/reviewed:dark-below-accepted')))
+        for source in _escape_route
+    )
+    _ritual = room_event_name('event:mapper/reviewed:everbloom-ritual')
+    ROOM_EVENT_REQUIREMENTS[_ritual] = tuple(
+        replace(source, all_of=(*source.all_of, ABYSS_ESCAPED_EVENT))
+        for source in ROOM_EVENT_REQUIREMENTS[_ritual]
+    )
+    ROOM_CHECK_REQUIREMENTS['Elegy of the Deep'] = tuple(
+        replace(source, all_of=(*source.all_of, ABYSS_ESCAPED_EVENT))
+        for source in ROOM_CHECK_REQUIREMENTS['Elegy of the Deep']
+    )
 
 
 BUGS_OF_PHARLOOM_REWARD_LOCATIONS = frozenset((
