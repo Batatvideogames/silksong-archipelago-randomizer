@@ -150801,7 +150801,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -150816,7 +150842,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -150987,7 +151039,33 @@
               "Combat: Bilehaven (Groal the Great) Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151171,7 +151249,33 @@
               "Combat: Black-Threaded Skarrgard Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151277,7 +151381,33 @@
               "Clawline"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151291,7 +151421,33 @@
               "Faydown Cloak"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151305,7 +151461,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151410,7 +151592,33 @@
               "Combat: Broodmother Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151659,7 +151867,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151674,7 +151908,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -151689,7 +151949,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152031,7 +152317,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152046,7 +152358,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152151,7 +152489,33 @@
               "Combat: Coral Tower (All 4) Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152381,7 +152745,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152499,7 +152889,33 @@
               "Combat: Crawfather Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152606,7 +153022,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152621,7 +153063,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -152941,7 +153409,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153099,7 +153593,33 @@
               "Faydown Cloak"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153206,7 +153726,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153221,7 +153767,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153394,7 +153966,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153611,7 +154209,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153718,7 +154342,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153733,7 +154383,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -153913,7 +154589,33 @@
               "Combat: Greymoor Tower Gauntlet (Act 3) Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154035,7 +154737,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154050,7 +154778,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154070,7 +154824,7 @@
                 "items": [
                   "Progressive Needle Upgrade"
                 ],
-                "minimum": 2
+                "minimum": 4
               }
             ],
             "minimum_skip_tier": 0,
@@ -154090,7 +154844,7 @@
                 "items": [
                   "Progressive Needle Upgrade"
                 ],
-                "minimum": 1
+                "minimum": 3
               }
             ],
             "minimum_skip_tier": 0,
@@ -154105,7 +154859,14 @@
               "Volt Mid DPS Skills"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 2
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154119,6 +154880,78 @@
             ],
             "any_of": [],
             "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 2
+              },
+              {
+                "items": [
+                  "Progressive Crafting Kit"
+                ],
+                "minimum": 3
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "High DPS Skills/Tools"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 2
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Volt High DPS Skills"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "High DPS Tools"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 1
+              },
               {
                 "items": [
                   "Progressive Crafting Kit"
@@ -154156,7 +154989,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154326,7 +155185,33 @@
               "Combat: High Halls Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154356,7 +155241,33 @@
               "Combat: High Halls Gauntlet #2 Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154536,7 +155447,33 @@
               "Combat: Hunter's March Center #2 Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -154906,7 +155843,33 @@
               "Combat: Karmelita Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155136,7 +156099,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155150,7 +156139,33 @@
               "Faydown Cloak"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155316,7 +156331,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155437,7 +156478,33 @@
               "Cling Grip"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155453,7 +156520,33 @@
               "Cling Grip"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155637,7 +156730,33 @@
               "Combat: Lost Verdania Center Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155931,7 +157050,33 @@
               "Cling Grip"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155946,7 +157091,33 @@
               "Cling Grip"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -155961,7 +157132,33 @@
               "Cling Grip"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156146,7 +157343,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156393,7 +157616,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156408,7 +157657,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156513,7 +157788,33 @@
               "Combat: Plasmified Zango Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156633,7 +157934,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156648,7 +157975,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156841,7 +158194,33 @@
               "Clawline"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156855,7 +158234,33 @@
               "Swift Step"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156869,7 +158274,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156976,7 +158407,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -156991,7 +158448,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157111,7 +158594,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157126,7 +158635,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157276,7 +158811,33 @@
               "Combat: Shellwood West Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157383,7 +158944,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157398,7 +158985,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157696,7 +159309,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -157711,7 +159350,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158038,7 +159703,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158391,7 +160082,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158406,7 +160123,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158524,7 +160267,33 @@
               "Combat: The Unravelled Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158630,7 +160399,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -158802,7 +160597,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -159079,7 +160900,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -159094,7 +160941,33 @@
               "Combat Sprint"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 8
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -159265,7 +161138,33 @@
               "Combat: Whispering Vaults Entrance #2 Gauntlet Damage"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard #1",
+                  "Mask Shard #2",
+                  "Mask Shard #3",
+                  "Mask Shard #4",
+                  "Mask Shard #5",
+                  "Mask Shard #6",
+                  "Mask Shard #7",
+                  "Mask Shard #8",
+                  "Mask Shard #9",
+                  "Mask Shard #10",
+                  "Mask Shard #11",
+                  "Mask Shard #12",
+                  "Mask Shard #13",
+                  "Mask Shard #14",
+                  "Mask Shard #15",
+                  "Mask Shard #16",
+                  "Mask Shard #17",
+                  "Mask Shard #18",
+                  "Mask Shard #19",
+                  "Mask Shard #20"
+                ],
+                "minimum": 4
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -159618,6 +161517,193 @@
             "act": "",
             "all_of": [
               "Usable Longpin"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Event: Abyss Escaped": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Hunter",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Reaper",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Shaman",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Architect",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Wanderer",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Witch",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-abyss/abyss-escape#start",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Cling Grip",
+              "Faydown Cloak",
+              "Clawline",
+              "Act: 3",
+              "Room Node: the-abyss/weavenest-absolom#the-void",
+              "Room Node: deep-docks/deep-docks-church#top",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
             ],
             "any_of": [],
             "item_counts": [],
@@ -161083,6 +163169,41 @@
                   "Pale Oil"
                 ],
                 "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Event: Pinmaster's Oil Point Earned": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Event: Pinmaster's Oil Completed"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Needle Upgrade"
+                ],
+                "minimum": 2
               }
             ],
             "minimum_skip_tier": 0,
@@ -169190,27 +171311,6 @@
           }
         ]
       },
-      "Path: Far Fields - Bellshrine": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Path: Deep Docks - Forge"
-            ],
-            "any_of": [
-              "Swift Step",
-              "Faydown Cloak",
-              "Clawline"
-            ],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": true,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "Path: Deep Docks - Diving Bell": {
         "alternatives": [
           {
@@ -169368,6 +171468,27 @@
               "Path: Bellway - Deep Docks"
             ],
             "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": true,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Path: Far Fields - Bellshrine": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Path: Deep Docks - Forge"
+            ],
+            "any_of": [
+              "Swift Step",
+              "Faydown Cloak",
+              "Clawline"
+            ],
             "item_counts": [],
             "minimum_skip_tier": 0,
             "path": "",
@@ -194513,7 +196634,8 @@
             "all_of": [
               "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber",
               "Act: 3",
-              "Silk Soar"
+              "Silk Soar",
+              "Event: Abyss Escaped"
             ],
             "any_of": [],
             "item_counts": [
@@ -369719,7 +371841,7 @@
             {
               "act": "",
               "all_of": [
-                "Event: Pinmaster's Oil Completed"
+                "Event: Pinmaster's Oil Point Earned"
               ],
               "any_of": [],
               "item_counts": [],
@@ -376163,24 +378285,6 @@
           }
         ]
       },
-      "Far Fields - Bellshrine": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: deep-docks/deep-docks-bellshrine#room",
-              "Room Event: event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "Deep Docks - Bellway": {
         "alternatives": [
           {
@@ -376872,7 +378976,8 @@
             "all_of": [
               "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber",
               "Act: 3",
-              "Needolin"
+              "Needolin",
+              "Event: Abyss Escaped"
             ],
             "any_of": [],
             "item_counts": [
@@ -377015,6 +379120,24 @@
               "Room Node: far-fields/far-fields-skull-arena#mask-alcove",
               "Combat: Skull Cavern Gauntlet",
               "Act: 2"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Far Fields - Bellshrine": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-bellshrine#room",
+              "Room Event: event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
             ],
             "any_of": [],
             "item_counts": [],

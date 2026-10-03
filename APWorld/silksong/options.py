@@ -977,7 +977,7 @@ class ProficientCombat(Choice):
     Choose the preferred combat requirements settings.
 
     Off: use the normal combat requirements.
-    Goated: lower Needle, DPS and Crafting Kit requirements by one tier.
+    Goated: lower Needle, DPS and Crafting Kit requirements by one tier and Mask Shard requirements by four fragments.
     Hell: bypass combat requirements including combat movement.
     """
 

@@ -904,6 +904,8 @@ namespace SilksongRandomizer
             {
                 return string.Empty;
             }
+            if (items.Count == 20 && items.All(name => name.StartsWith("Mask Shard #", StringComparison.Ordinal)))
+                return "Mask Shard Fragments x" + Math.Max(0, itemCount.Minimum);
             string names = items.Count == 1
                 ? items[0]
                 : "(" + string.Join(" or ", items) + ")";
@@ -1469,6 +1471,7 @@ namespace SilksongRandomizer
         )
         {
             bool needsNativeWorldState =
+                !state.IsRandomized(ItemType.MaskShard) ||
                 !state.IsRandomized(ItemType.SilkHeart) ||
                 !state.IsRandomized(ItemType.Map) ||
                 !state.IsRandomized(ItemType.Flea) ||
@@ -1484,6 +1487,15 @@ namespace SilksongRandomizer
             if (playerData == null)
             {
                 return;
+            }
+
+            if (!state.IsRandomized(ItemType.MaskShard))
+            {
+                int shards = Math.Max(0, Math.Min(20,
+                    (playerData.maxHealthBase - 5) * 4 + playerData.heartPieces));
+                // Vanilla only keeps the total. These IDs count together in combat logic.
+                for (int i = 1; i <= 20; i++)
+                    counts["Mask Shard #" + i] = i <= shards ? 1 : 0;
             }
 
             if (!state.IsRandomized(ItemType.SilkHeart))

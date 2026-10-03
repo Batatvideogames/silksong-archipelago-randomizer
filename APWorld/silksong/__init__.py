@@ -1019,6 +1019,8 @@ class SilksongWorld(World):
     ) -> Item:
         data = item_data_table[name]
         classification = data.classification
+        if data.category == 'MaskShard' and self.options.proficient_combat.value == 2:
+            classification = ItemClassification.useful
         if name == 'Sylphsong':
             from .silk_economy import enabled as silk_enabled
             if silk_enabled(self):

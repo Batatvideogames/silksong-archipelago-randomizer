@@ -3120,7 +3120,7 @@ def combat_requirement_overrides(proficient_combat: int):
             for name, alternatives in build_combat_requirements(
                 req, item_count, CREST_ITEMS, tier_reduction=1
             ).items()
-            if name.endswith(' Damage')
+            if name.endswith(' Damage') or name.startswith('Combat: ')
         }
         overrides['Event: Hunt Combat Ready'] = (
             req(PROFICIENT_COMBAT_REQUIREMENT),
