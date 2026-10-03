@@ -1076,8 +1076,9 @@ namespace SilksongRandomizer.Patches
         internal static class InventoryPane_IsAvailable_Patch
         {
             [HarmonyPrefix]
-            private static bool Prefix(ref bool __result)
+            private static bool Prefix(InventoryPane __instance, ref bool __result)
             {
+                if (__instance == null || __instance.name != "Tools") return true;
                 SaveState state = SaveState.Instance;
                 if (state == null ||
                     (

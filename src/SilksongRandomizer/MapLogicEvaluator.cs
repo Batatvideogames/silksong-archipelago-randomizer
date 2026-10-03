@@ -722,7 +722,7 @@ namespace SilksongRandomizer
                 {
                     continue;
                 }
-                string text = string.Join(" + ", items);
+                string text = string.Join(" + ", items.Select(DisplayAccessName));
                 if (lines.Any(line =>
                         string.Equals(
                             line.Text,
@@ -744,6 +744,17 @@ namespace SilksongRandomizer
         }
 
         // Checks over the requirements and splits them into references for rooms and items.
+        private static string DisplayAccessName(string name)
+        {
+            if (name != null && name.StartsWith("Silk (", StringComparison.Ordinal))
+            {
+                int end = name.IndexOf("): ", StringComparison.Ordinal);
+                if (end > 6 && int.TryParse(name.Substring(6, end - 6), out int amount))
+                    return amount + " silk available";
+            }
+            return name;
+        }
+
         private static void SplitAccess(
             LogicRequirement requirement,
             List<string> roomRefs,

@@ -203,7 +203,8 @@ class SilksongWorld(World):
     options: SilksongOptions
 
     item_name_to_id = item_table
-    location_name_to_id = location_table
+    from .enemy_souls import CATALOGUE as _enemy_catalogue
+    location_name_to_id = {**location_table, **{'First Kill: ' + row['name']: row['location_id'] for row in _enemy_catalogue}}
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
@@ -216,13 +217,32 @@ class SilksongWorld(World):
 
     @classmethod
     def rule_from_dict(cls, data):
-        # Custom RuleBuilder classes register when their module is imported.
-        # Do that here as well as during generation so a fresh tracker or
-        # diagnostic process can deserialize an exported rule immediately.
-        from . import requirement_rules as _requirement_rules
+        from . import requirement_rules as _requirement_rules, silk_supply as _silk_supply
 
-        del _requirement_rules
+        del _requirement_rules, _silk_supply
         return super().rule_from_dict(data)
+
+    def _enable_silk_supply(self, supply):
+        self._silk_supply = supply
+        self.collect = self._collect_with_silk_supply
+        self.remove = self._remove_with_silk_supply
+        self.reached_region = self._reached_region_with_silk_supply
+
+    def _collect_with_silk_supply(self, state: CollectionState, item: Item) -> bool:
+        changed = super().collect(state, item)
+        if changed:
+            self._silk_supply.collect(state, item.name)
+        return changed
+
+    def _remove_with_silk_supply(self, state: CollectionState, item: Item) -> bool:
+        changed = super().remove(state, item)
+        if changed and hasattr(state, '_silksong_silk_supply'):
+            state._silksong_silk_supply.pop(self.player, None)
+        return changed
+
+    def _reached_region_with_silk_supply(self, state: CollectionState, region: Region) -> None:
+        super().reached_region(state, region)
+        self._silk_supply.reached(state, region)
 
     @staticmethod
     def _tracker_silk_and_soul_points(slot_data):
@@ -263,6 +283,18 @@ class SilksongWorld(World):
             raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
         slot_data = dict(slot_data)
         slot_data.setdefault("start_inventory_from_pool", {})
+        slot_data.setdefault("npc_souls", False)
+        from .npc_souls import validate_slot_data as validate_npc_souls
+        validate_npc_souls(slot_data)
+        slot_data.setdefault("enemy_souls", False)
+        from .enemy_souls import validate_slot_data as validate_enemy_souls
+        validate_enemy_souls(slot_data)
+        silk_logic = slot_data.setdefault('enemy_soul_silk_logic', 0)
+        if type(silk_logic) is not int or silk_logic not in (0, 1) or (silk_logic and not slot_data['enemy_souls']):
+            raise ValueError('Invalid Enemy Souls silk logic version.')
+        slot_data.setdefault("boss_souls", False)
+        from .boss_souls import validate_slot_data
+        validate_slot_data(slot_data)
         missing = set(TRACKER_OPTION_NAMES) - slot_data.keys()
         if missing:
             raise ValueError(f"Tracker slot data is missing options: {', '.join(sorted(missing))}.")
@@ -496,6 +528,7 @@ class SilksongWorld(World):
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
+                sharpdart_logic=self.is_sharpdart_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
                 crest_pogo_tier=int(self.options.crest_pogo_logic.value),
                 needle_strike_tier=int(self.options.needle_strike_logic.value),
@@ -651,6 +684,9 @@ class SilksongWorld(World):
 
     def is_flea_brew_jump_logic_enabled(self) -> bool:
         return bool(getattr(getattr(self.options, "flea_brew_jump_logic", None), "value", 0))
+
+    def is_sharpdart_logic_enabled(self) -> bool:
+        return bool(self.options.sharpdart_logic.value)
 
     def is_scuttlebrace_logic_enabled(self) -> bool:
         return bool(self.options.scuttlebrace_logic.value)
@@ -983,6 +1019,10 @@ class SilksongWorld(World):
     ) -> Item:
         data = item_data_table[name]
         classification = data.classification
+        if name == 'Sylphsong':
+            from .silk_economy import enabled as silk_enabled
+            if silk_enabled(self):
+                classification = ItemClassification.progression
         if (
             name in ALPHABET_ITEM_NAMES
             and getattr(self, "options", None) is not None
@@ -1219,6 +1259,13 @@ class SilksongWorld(World):
             minimum_memory_lockets=self._minimum_pool_lockets(),
         ))
 
+        from .boss_souls import add_souls_to_pool
+        add_souls_to_pool(self, pool_entries)
+        from .npc_souls import add_souls_to_pool as add_npc_souls
+        add_npc_souls(self, pool_entries)
+        from .enemy_souls import add_souls_to_pool as add_enemy_souls
+        add_enemy_souls(self, pool_entries)
+
         location_lane_counts = Counter(
             getattr(
                 location,
@@ -1346,6 +1393,8 @@ class SilksongWorld(World):
         return [*super().get_pre_fill_items(), *getattr(self, "_entrance_construction_items", ())]
 
     def connect_entrances(self) -> None:
+        from .boss_souls import prepare_start
+        prepare_start(self)
         from .entrance_randomization import connect_exits
         connect_exits(self)
 
@@ -1362,6 +1411,8 @@ class SilksongWorld(World):
             self.multiworld,
         )
         self.multiworld.regions += [menu, pharloom, logic_unknown]
+        from .enemy_souls import create_locations as create_enemy_locations
+        create_enemy_locations(self, pharloom)
         if not self.options.diving_bell_key_randomization.value:
             vanilla_key = SilksongLocation(self.player, "Vanilla Diving Bell Key", None, menu)
             vanilla_key.show_in_spoiler = False
@@ -1652,6 +1703,8 @@ class SilksongWorld(World):
     def set_rules(self) -> None:
         self._active_crest_slot_locations = get_active_crest_slot_locations(self)
         set_silksong_rules(self)
+        from .enemy_souls import set_rules as set_enemy_rules
+        set_enemy_rules(self)
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:
@@ -2150,6 +2203,7 @@ class SilksongWorld(World):
             "proficient_combat": self.get_proficient_combat_mode(),
             "proficient_movement": self.is_proficient_movement_enabled(),
             "flea_brew_jump_logic": self.is_flea_brew_jump_logic_enabled(),
+            "sharpdart_logic": self.is_sharpdart_logic_enabled(),
             "scuttlebrace_logic": int(self.options.scuttlebrace_logic.value),
             "heal_stall_logic": int(self.options.heal_stall_logic.value),
             "red_tool_stall_logic": int(self.options.red_tool_stall_logic.value),
@@ -2211,6 +2265,7 @@ class SilksongWorld(World):
                 proficient_combat=self.get_proficient_combat_mode(),
                 proficient_movement=self.is_proficient_movement_enabled(),
                 flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
+                sharpdart_logic=self.is_sharpdart_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
                 crest_pogo_tier=int(self.options.crest_pogo_logic.value),
                 needle_strike_tier=int(self.options.needle_strike_logic.value),
@@ -2263,6 +2318,14 @@ class SilksongWorld(World):
         )
         from .progression_shuffle import export_world
         export_world(self, slot_data)
+        from .boss_souls import export_world as export_boss_souls
+        export_boss_souls(self, slot_data)
+        from .npc_souls import export_world as export_npc_souls
+        export_npc_souls(self, slot_data)
+        from .enemy_souls import export_world as export_enemy_souls
+        export_enemy_souls(self, slot_data)
+        from .silk_economy import export_world as export_silk_economy
+        export_silk_economy(self, slot_data)
         return slot_data
 
     def modify_multidata(self, multidata: dict) -> None:
@@ -2273,4 +2336,3 @@ class SilksongWorld(World):
         }
         from .map_logic_data import encode
         slot_data.update(encode(logic_payload, slot_data))
-

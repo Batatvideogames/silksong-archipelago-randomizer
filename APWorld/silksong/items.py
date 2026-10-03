@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .npc_souls import CATALOGUE as NPC_SOUL_CATALOGUE
+
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST, SYLPHSONG
 
 from dataclasses import dataclass
@@ -418,7 +420,16 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Surface Memento', 'Memento'),
     ('Craw Memento', 'Memento'),
     ('Literacy Trap', 'Trap'),
-) + tuple((name, 'Boss') for name in BOSS_CREDIT_BY_LOCATION.values())
+) + tuple((name, 'Boss') for name in BOSS_CREDIT_BY_LOCATION.values()) + (
+    ('Soul of Groal the Great', 'BossSoul'),
+    ('Soul of Moss Mother', 'BossSoul'),
+    ('Soul of Broodmother', 'BossSoul'),
+    ('Soul of Crawfather', 'BossSoul'),
+    ('Soul of Disgraced Chef Lugoli', 'BossSoul'),
+    ('Soul of Raging Conchfly', 'BossSoul'),
+    ('Soul of Skull Tyrant', 'BossSoul'),
+    *(("NPC Soul: " + row['name'], 'NpcSoul') for row in NPC_SOUL_CATALOGUE),
+)
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -652,8 +663,16 @@ item_table: Dict[str, int] = {
     for index, (name, _category) in enumerate(ITEM_TABLE_SOURCE)
 }
 
+from .enemy_souls import CATALOGUE as ENEMY_SOUL_CATALOGUE, item_name as enemy_soul_name
+from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE
+item_table.update({"NPC Soul: " + row["name"]: row["item_id"] for row in NPC_SOUL_CATALOGUE})
+item_table.update({enemy_soul_name(row['name']): row['item_id'] for row in ENEMY_SOUL_CATALOGUE})
+item_table.update({row["item"]: row["item_id"] for row in BOSS_SOUL_CATALOGUE})
+
 VICTORY_ITEM_NAME = "Victory"
 ITEM_CATEGORY_BY_NAME: Dict[str, str] = dict(ITEM_TABLE_SOURCE)
+ITEM_CATEGORY_BY_NAME.update({enemy_soul_name(row["name"]): "EnemySoul" for row in ENEMY_SOUL_CATALOGUE})
+ITEM_CATEGORY_BY_NAME.update({row["item"]: "BossSoul" for row in BOSS_SOUL_CATALOGUE})
 
 VANILLA_ONLY_ITEM_NAMES: FrozenSet[str] = frozenset({
     'Key of Indolent',
@@ -720,6 +739,9 @@ item_name_groups: Dict[str, set[str]] = {
     "Currency": {name for name, category in ITEM_TABLE_SOURCE if category == "Currency"},
     "Resources": {name for name, category in ITEM_TABLE_SOURCE if category == "Resource"},
     "Boss Credits": set(BOSS_CREDIT_BY_LOCATION.values()),
+    "Enemy Souls": {enemy_soul_name(row["name"]) for row in ENEMY_SOUL_CATALOGUE},
+    "NPC Souls": {"NPC Soul: " + row["name"] for row in NPC_SOUL_CATALOGUE if not row.get("legacy")},
+    "Boss Souls": {row["item"] for row in BOSS_SOUL_CATALOGUE},
     "Traps": {name for name, category in ITEM_TABLE_SOURCE if category == "Trap"},
     "Needle Upgrades": {'Progressive Needle Upgrade'},
     "Pale Oils": {'Pale Oil'},
@@ -740,6 +762,8 @@ item_name_groups: Dict[str, set[str]] = {
 def _classification_for(name: str) -> ItemClassification:
     if ITEM_CATEGORY_BY_NAME[name] == "Trap":
         return ItemClassification.trap
+    if ITEM_CATEGORY_BY_NAME[name] in {"BossSoul", "NpcSoul", "EnemySoul"}:
+        return ItemClassification.progression
     if name in PROGRESSION_ITEMS:
         return ItemClassification.progression
     if name in USEFUL_ITEMS:
@@ -751,6 +775,8 @@ item_data_table: Dict[str, SilksongItemData] = {
     name: SilksongItemData(item_table[name], category, _classification_for(name))
     for name, category in ITEM_TABLE_SOURCE
 }
+item_data_table.update({enemy_soul_name(row["name"]): SilksongItemData(row["item_id"], "EnemySoul", ItemClassification.progression) for row in ENEMY_SOUL_CATALOGUE})
+item_data_table.update({row["item"]: SilksongItemData(row["item_id"], "BossSoul", ItemClassification.progression) for row in BOSS_SOUL_CATALOGUE})
 
 # Archipelago permits several copies to share one item ID/name. The client
 # applies these by received-item index, so progressive upgrades and currency
@@ -2206,7 +2232,7 @@ def _get_adjusted_pool_counts(
             else (
                 0
                 if (
-                    category == 'Resource'
+                    category in {'Resource', 'BossSoul', 'NpcSoul'}
                     or name in TRAP_ITEM_NAMES
                     or name in CONDITIONAL_POOL_ITEM_NAMES
                     or name in VANILLA_ONLY_ITEM_NAMES

@@ -3,6 +3,7 @@ from __future__ import annotations
 from .options import get_silk_and_soul_points
 
 from collections.abc import Mapping
+from functools import lru_cache
 
 from BaseClasses import Region
 from rule_builder.rules import Rule
@@ -26,6 +27,7 @@ def native_rule_options(world) -> dict[str, object]:
         "proficient_combat": world.get_proficient_combat_mode(),
         "proficient_movement": bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         "flea_brew_jump_logic": bool(getattr(getattr(world.options, "flea_brew_jump_logic", None), "value", 0)),
+        "sharpdart_logic": bool(getattr(getattr(world.options, "sharpdart_logic", None), "value", 0)),
         "red_tool_stall_tier": int(world.options.red_tool_stall_logic.value),
         "crest_pogo_tier": int(world.options.crest_pogo_logic.value),
         "needle_strike_tier": int(world.options.needle_strike_logic.value),
@@ -55,6 +57,7 @@ def native_rule_options(world) -> dict[str, object]:
 
 def get_native_abstract_requirements(world):
     from .entrance_randomization import node_overrides
+    from .enemy_souls import node_overrides as enemy_nodes
 
     requirements = dict(get_abstract_requirements(
         world.allows_bellways_before_bell_beast(),
@@ -73,6 +76,7 @@ def get_native_abstract_requirements(world):
         proficient_combat=world.get_proficient_combat_mode(),
         proficient_movement=bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0)),
         flea_brew_jump_logic=bool(getattr(getattr(world.options, "flea_brew_jump_logic", None), "value", 0)),
+        sharpdart_logic=bool(getattr(getattr(world.options, "sharpdart_logic", None), "value", 0)),
         red_tool_stall_tier=int(world.options.red_tool_stall_logic.value),
         crest_pogo_tier=int(world.options.crest_pogo_logic.value),
         needle_strike_tier=int(world.options.needle_strike_logic.value),
@@ -86,7 +90,7 @@ def get_native_abstract_requirements(world):
         steel_soul_sites=world._steel_soul_sites,
         silk_and_soul_points=get_silk_and_soul_points(world.options),
         donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
-        room_node_overrides=node_overrides(world),
+        room_node_overrides=enemy_nodes(world, node_overrides(world)),
     ))
     from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
     requirements[RESTING_SITES_VISITED] = resting_site_requirements(world._steel_soul_sites)
@@ -138,18 +142,61 @@ def choose_location_anchor(
     )
 
 
+@lru_cache(maxsize=16)
+def _intern_abstract_names(names):
+    return names
+
+
 def create_native_logic_region_map(world) -> Mapping[str, Region]:
     from .progression_shuffle import prepare_world
     requirements = prepare_world(world, get_native_abstract_requirements(world))
-    abstract_names = frozenset(requirements)
+    abstract_names = _intern_abstract_names(frozenset(requirements))
+    world._silksong_native_abstract_names = abstract_names
+    from .silk_supply import compile_regions
+    compiled_requirements = compile_regions(world, requirements)
+    world._silksong_native_compiled_requirements = compiled_requirements
+    region_names = abstract_names if compiled_requirements is requirements else compiled_requirements
     regions = {
         name: Region(native_region_name(name), world.player, world.multiworld)
-        for name in abstract_names
+        for name in region_names
     }
     world.multiworld.regions.extend(regions.values())
     world._silksong_native_abstract_requirements = requirements
-    world._silksong_native_abstract_names = abstract_names
     return regions
+
+
+def _native_source_dependencies(world, name):
+    from .native_graph import compact_requirements
+
+    graph = getattr(world, '_silksong_source_graph', None)
+    if graph is None:
+        graph = compact_requirements(world, world._silksong_native_abstract_requirements)
+        world._silksong_source_graph = graph
+        world._silksong_source_dependencies = {}
+    cache = world._silksong_source_dependencies
+    if name not in cache:
+        if name not in graph:
+            return None
+        names = world._silksong_native_abstract_names
+        grouped = {}
+        for requirement in graph[name]:
+            anchor = choose_requirement_anchor(requirement, names, name)
+            grouped.setdefault(anchor, []).append(requirement)
+        items, regions = set(), set()
+        external = False
+        for anchor, rules in grouped.items():
+            rule = build_requirements_rule(
+                tuple(rules), anchor_requirement_name=anchor,
+                extra_abstract_requirement_names=names, **native_rule_options(world),
+            ).resolve(world)
+            if rule.always_false:
+                continue
+            items.update(rule.item_dependencies())
+            regions.update(rule.region_dependencies())
+            regions.add(native_region_name(anchor) if anchor is not None else 'Menu')
+            external |= bool(rule.location_dependencies() or rule.entrance_dependencies())
+        cache[name] = frozenset(items), frozenset(regions), external
+    return cache[name]
 
 
 def native_source_requires_assumption(
@@ -178,10 +225,26 @@ def native_source_requires_assumption(
     pending = set(child.region_dependencies())
     if anchor_requirement_name is not None:
         pending.add(native_region_name(anchor_requirement_name))
+    source_names = {}
+    if getattr(world, '_silk_supply', None) is not None:
+        source_names = getattr(world, '_silksong_source_names', None)
+        if source_names is None:
+            source_names = {native_region_name(name): name for name in world._silksong_native_abstract_names}
+            world._silksong_source_names = source_names
     visited: set[str] = set()
     while pending:
         region_name = pending.pop()
         if region_name in visited:
+            continue
+        if region_name in source_names:
+            dependencies = _native_source_dependencies(world, source_names[region_name])
+            if dependencies is None:
+                return True
+            items, regions, external = dependencies
+            if reward_name in items or external:
+                return True
+            visited.add(region_name)
+            pending.update(regions)
             continue
         try:
             region = world.multiworld.get_region(
@@ -227,7 +290,7 @@ def connect_native_logic_regions(
     menu: Region,
     regions: Mapping[str, Region],
 ) -> None:
-    requirements = world._silksong_native_abstract_requirements
+    requirements = world._silksong_native_compiled_requirements
     abstract_names = world._silksong_native_abstract_names
     options = native_rule_options(world)
 
@@ -250,3 +313,9 @@ def connect_native_logic_regions(
                 rule,
                 f"Silksong Logic: {target.name} [{index}]",
             )
+
+    supply = getattr(world, '_silk_supply', None)
+    if supply is not None:
+        from .silk_supply import SilkSupplyRule
+        for name in sorted(supply.boundaries):
+            world.create_entrance(menu, regions[name], SilkSupplyRule(name), f'Silksong Silk: {name}')

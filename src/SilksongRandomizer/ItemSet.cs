@@ -509,7 +509,7 @@ namespace SilksongRandomizer
             return canonicalName;
         }
 
-        public Item[] items = BossCreditItems().Concat(AlphabetModeItems.Append(
+        public Item[] items = BossSoulItems().Concat(NpcSoulItems()).Concat(EnemySoulItems()).Concat(BossCreditItems()).Concat(AlphabetModeItems.Append(
             LoreTabletManifest.AppendItems(new Item[]
         {
             // Skills
@@ -950,6 +950,16 @@ namespace SilksongRandomizer
             new Item("Bell: Shellwood", ItemType.BellShrine, ItemGrants.GrantBell),
             new Item("Bell: Bellhart", ItemType.BellShrine, ItemGrants.GrantBell),
         }))).ToArray();
+
+        private static System.Collections.Generic.IEnumerable<Item> EnemySoulItems() =>
+            EnemySoulState.Names.Select(name => new Item(EnemySoulState.ItemName(name), ItemType.EnemySoul, () => { }));
+
+        private static System.Collections.Generic.IEnumerable<Item> NpcSoulItems() =>
+            NpcSoulState.Catalogue.Select(row => (string)row["name"]).Select(npc => new Item(NpcSoulState.ItemName(npc), ItemType.NpcSoul, () => { }));
+
+        private static System.Collections.Generic.IEnumerable<Item> BossSoulItems() =>
+            BossSoulState.SupportedBosses.Select(BossSoulState.ItemName).Distinct().Select(name =>
+                new Item(name, ItemType.BossSoul, () => { }));
 
         private static System.Collections.Generic.IEnumerable<Item> BossCreditItems() =>
             ProgressionShuffleState.SupportedBosses.OrderBy(name => name, StringComparer.Ordinal)

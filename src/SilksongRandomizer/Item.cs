@@ -55,6 +55,9 @@ namespace SilksongRandomizer
         Compass,
         Everbloom,
         Memento,
+        BossSoul,
+        NpcSoul,
+        EnemySoul,
     }
 
     public class Item

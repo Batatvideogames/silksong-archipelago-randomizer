@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
@@ -223,6 +224,18 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static bool IsResourceCheck(CollectableItemPickup pickup)
+        {
+            SaveState state = SaveState.Instance;
+            if (pickup == null || state?.IsRoomBound != true) return false;
+            SavedItem item = pickup.Item;
+            if (!(item is ArchipelagoLocationItem)) TryReplaceSourceItem(pickup, ref item);
+            return item is ArchipelagoLocationItem proxy && proxy.Type == ItemType.Resource &&
+                   state.IsRandomized(proxy.Type) &&
+                   state.IsLocationEnabled(proxy.LocationName) &&
+                   state.IsLocationInSeed(proxy.LocationName);
+        }
+
         private static void TryReplaceSourceItem(
             CollectableItemPickup pickup,
             ref SavedItem item)
@@ -344,6 +357,74 @@ namespace SilksongRandomizer.Patches
                 // so the earlier setup hooks are only an optimization. Swap
                 // the reward again immediately before native TryGet runs.
                 TryReplaceSourceItem(__instance, ref ___item);
+            }
+        }
+
+        private const float PickupSpeed = 1.5f;
+        [ThreadStatic] private static int pickupDepth;
+        private static readonly AccessTools.FieldRef<WaitForSeconds, float> WaitSeconds =
+            AccessTools.FieldRefAccess<WaitForSeconds, float>("m_Seconds");
+        private static readonly ConditionalWeakTable<tk2dSpriteAnimationClip, tk2dSpriteAnimationClip>
+            FasterClips = new ConditionalWeakTable<tk2dSpriteAnimationClip, tk2dSpriteAnimationClip>();
+
+        internal static IEnumerator SpeedUp(IEnumerator routine)
+        {
+            try
+            {
+                while (true)
+                {
+                    bool moved;
+                    pickupDepth++;
+                    try { moved = routine.MoveNext(); }
+                    finally { pickupDepth--; }
+                    if (!moved) yield break;
+
+                    object step = routine.Current;
+                    if (step is WaitForSeconds wait)
+                    {
+                        float seconds = WaitSeconds(wait);
+                        if (Math.Abs(seconds - 0.75f) < 0.001f ||
+                            Math.Abs(seconds - 0.5f) < 0.001f)
+                        {
+                            step = new WaitForSeconds(seconds / PickupSpeed);
+                        }
+                    }
+                    yield return step;
+                }
+            }
+            finally { (routine as IDisposable)?.Dispose(); }
+        }
+
+        [HarmonyPatch(typeof(CollectableItemPickup), "Pickup")]
+        private static class PickupPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(CollectableItemPickup __instance, ref IEnumerator __result)
+            {
+                if (__result != null && MinorPickupPatches.IsResourceCheck(__instance))
+                    __result = SpeedUp(__result);
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroAnimationController), nameof(HeroAnimationController.GetClip))]
+        private static class PickupClipPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(string clipName, ref tk2dSpriteAnimationClip __result)
+            {
+                if (pickupDepth == 0 || __result == null || __result.fps <= 0f) return;
+                switch (clipName)
+                {
+                    case "Collect Normal 1":
+                    case "Collect Normal 2":
+                    case "Collect Normal 3":
+                    case "Collect Stand 1":
+                    case "Collect Stand 2":
+                    case "Collect Stand 3":
+                        __result = FasterClips.GetValue(__result, clip =>
+                            new tk2dSpriteAnimationClip(clip) { fps = clip.fps * PickupSpeed });
+                        break;
+                }
             }
         }
     }

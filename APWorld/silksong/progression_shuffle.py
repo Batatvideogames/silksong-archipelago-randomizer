@@ -590,20 +590,29 @@ _EMPTY = {"schema": SCHEMA, "wishes": {}, "bosses": []}
 def world_location_requirements(world, name, **options):
     from .requirements import get_location_requirements
     override = getattr(world, "_progression_location_rules", {}).get(name)
-    return override if override is not None else get_location_requirements(name, **options)
+    from .boss_souls import gate_location
+    from .npc_souls import gate_location as npc_gate
+    from .enemy_souls import gate_location as enemy_gate
+    from .silk_economy import gate_location as silk_gate
+    return silk_gate(world, enemy_gate(world, name, npc_gate(world, name, gate_location(world, name, override if override is not None else get_location_requirements(name, **options)))))
 
 
 def prepare_world(world, graph):
     from .locations import location_data_table
     from .requirements import get_location_requirements
 
+    from .boss_souls import gate_graph, gate_location, location_overrides
+    from .npc_souls import gate_graph as npc_graph, location_overrides as npc_locations
+    from .enemy_souls import gate_graph as enemy_graph
+    graph = enemy_graph(world, npc_graph(world, gate_graph(world, graph)))
     eligible = frozenset(location_data_table) - world.get_goal_excluded_location_names()
     boss_ids = SUPPORTED_BOSS_IDS & eligible if world.get_category_mode("Boss") != "vanilla" else frozenset()
     story_events, story_locations = story_rules(graph, eligible, boss_ids)
-    bosses = tuple(BossContract(name, story_locations.get(name, get_location_requirements(name)))
+    bosses = tuple(BossContract(name, gate_location(world, name, story_locations.get(name, get_location_requirements(name))))
                    for name in sorted(boss_ids))
     graph = {**graph, **story_events}
-    wishes = board_contracts(graph, eligible) if world.is_quest_sanity_enabled() else ()
+    from .npc_souls import gate_wishes
+    wishes = gate_wishes(world, board_contracts(graph, eligible)) if world.is_quest_sanity_enabled() else ()
     passthrough = getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game)
     wish_ids = frozenset(contract.identity for contract in wishes)
     boss_ids = frozenset(contract.identity for contract in bosses)
@@ -615,10 +624,14 @@ def prepare_world(world, graph):
     world._progression_wishes = wishes
     world._progression_bosses = bosses
     world._progression_assignments = assignments
-    world._progression_location_rules = {**story_locations, **wish_location_rules(wishes)}
+    world._progression_location_rules = npc_locations(world, location_overrides(world, {**story_locations, **wish_location_rules(wishes)}))
+    from .enemy_souls import location_overrides as enemy_locations
+    world._progression_location_rules = enemy_locations(world, world._progression_location_rules)
     world._progression_story_events = story_events
     world._progression_events = compile_events(assignments, wishes, bosses)
-    return {**graph, **world._progression_events}
+    from .silk_economy import prepare_world as silk_graph, location_overrides as silk_locations
+    world._progression_location_rules = silk_locations(world, world._progression_location_rules)
+    return silk_graph(world, {**graph, **world._progression_events})
 
 
 def _replace_events(world, assignments):
@@ -628,9 +641,10 @@ def _replace_events(world, assignments):
 
     _invalidate_native_source_player(world.multiworld, world.player)
     events = compile_events(assignments, world._progression_wishes, world._progression_bosses)
+    from .silk_economy import gate_location as silk_gate
+    events = {name: silk_gate(world, rules) for name, rules in events.items()}
     options = native_rule_options(world)
     names = world._silksong_native_abstract_names
-    removed = set()
     for owner, alternatives in events.items():
         if alternatives == world._progression_events.get(owner):
             continue
@@ -638,7 +652,13 @@ def _replace_events(world, assignments):
         for entrance in tuple(target.entrances):
             entrance.parent_region.exits.remove(entrance)
             target.entrances.remove(entrance)
-            removed.add(entrance)
+            for name in entrance.access_rule.region_dependencies():
+                region = world.multiworld.get_region(name, world.player)
+                connections = world.multiworld.indirect_connections.get(region)
+                if connections is not None:
+                    connections.discard(entrance)
+                    if not connections:
+                        del world.multiworld.indirect_connections[region]
         grouped = {}
         for requirement in alternatives:
             anchor = choose_requirement_anchor(requirement, names, owner)
@@ -649,10 +669,6 @@ def _replace_events(world, assignments):
                 tuple(rules), anchor_requirement_name=anchor,
                 extra_abstract_requirement_names=names, **options,
             ), f"Silksong Logic: {target.name} [{index}]")
-    for region, entrances in tuple(world.multiworld.indirect_connections.items()):
-        entrances.difference_update(removed)
-        if not entrances:
-            del world.multiworld.indirect_connections[region]
     world._silksong_native_abstract_requirements.update(events)
     world._progression_events = events
     world._progression_assignments = assignments

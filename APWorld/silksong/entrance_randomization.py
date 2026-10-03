@@ -112,10 +112,10 @@ def endpoint_name(data, ports):
     return room_node_name(ports[data['id']].source_node_id)
 
 
-def exit_clauses(data, ports, include_source=True):
+def exit_clauses(data, ports, include_source=True, silk_costs=False):
     if not data.get('arrival_requires'):
-        return compile_transition_requirements(ports[data['id']], include_source=include_source)
-    clauses = (compile_transition_requirements(ports[data['return_requires']], include_source=False)
+        return compile_transition_requirements(ports[data['id']], include_source=include_source, silk_costs=silk_costs)
+    clauses = (compile_transition_requirements(ports[data['return_requires']], include_source=False, silk_costs=silk_costs)
                if data.get('return_requires') else (CompiledRoomClause(),))
     if include_source:
         return tuple(replace(clause, all_of=(endpoint_name(data, ports), *clause.all_of)) for clause in clauses)
@@ -164,31 +164,32 @@ def _validate_pool(ports):
 
 
 @lru_cache(maxsize=8)
-def _node_overrides(pairs, scope_name='full', content_scope='act_3'):
+def _node_overrides(pairs, scope_name='full', content_scope='act_3', enemy_species=(), silk=False):
     from .requirements import _compiled_room_clause_requirement
 
-    graph = load_room_graph()
+    from .enemy_souls import pogo_graph
+    graph = pogo_graph(enemy_species) if enemy_species else load_room_graph()
     ports = graph.transition_by_id
     _validate_pool(ports)
     selected = scoped_pool(scope_name, content_scope)
     removed = {member: None for data in selected.values() for member in members(data)}
-    compiled = compile_room_graph(graph, transition_targets=removed)
+    compiled = compile_room_graph(graph, transition_targets=removed, silk_costs=silk)
     affected = {room_node_name(ports[member].source_node_id) for member in removed}
     clauses = {name: list(compiled.node_requirements[name]) for name in affected}
     for data in selected.values():
         if data.get('arrival_requires'):
             landing = endpoint_name(data, ports)
-            clauses[landing] = list(compile_transition_requirements(ports[data['id']]))
+            clauses[landing] = list(compile_transition_requirements(ports[data['id']], silk_costs=silk))
             interior = room_node_name(ports[data['id']].source_node_id)
             clauses[interior].extend(
                 replace(clause, all_of=(landing, *clause.all_of))
-                for clause in compile_transition_requirements(ports[data['arrival_requires']], include_source=False)
+                for clause in compile_transition_requirements(ports[data['arrival_requires']], include_source=False, silk_costs=silk)
             )
     if pairs:
         destinations = dict(pairs)
         for source, data in selected.items():
             target = POOL[destinations.get(source, data['vanilla'])]
-            requirements = exit_clauses(data, ports)
+            requirements = exit_clauses(data, ports, silk_costs=silk)
             _append_requirements(clauses, endpoint_name(target, ports), requirements)
     return {
         name: tuple(dict.fromkeys(_compiled_room_clause_requirement(clause) for clause in alternatives))
@@ -202,7 +203,9 @@ def node_overrides(world, connected=False):
     pairs = getattr(world, '_entrance_pairs', None) if connected else None
     if connected and pairs is None:
         raise OptionError('Entrance layout has not been generated.')
-    return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world), world.get_content_scope())
+    from .enemy_souls import enabled_enemies
+    from .silk_economy import enabled as silk_enabled
+    return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world), world.get_content_scope(), enabled_enemies(world), silk_enabled(world))
 
 
 def create_exits(world, regions):
@@ -212,18 +215,24 @@ def create_exits(world, regions):
     from .requirement_rules import build_requirements_rule
     from .requirements import _compiled_room_clause_requirement
 
-    ports = load_room_graph().transition_by_id
+    from .enemy_souls import enabled_enemies, pogo_graph
+    from .silk_economy import enabled as silk_enabled
+    ports = pogo_graph(enabled_enemies(world)).transition_by_id
     options = native_rule_options(world)
     world._entrance_exits = {}
     for source, data in scoped_pool(scope(world), world.get_content_scope()).items():
-        clauses = exit_clauses(data, ports, include_source=False)
+        clauses = exit_clauses(data, ports, include_source=False, silk_costs=silk_enabled(world))
         requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
+        from .silk_economy import gate_location as silk_gate, attach_exit
+        node = endpoint_name(data, ports)
+        exit_rules = silk_gate(world, tuple(replace(rule, all_of=(node, *rule.all_of)) for rule in requirements)) if silk_enabled(world) else requirements
         entrance = world.create_entrance(
             regions[endpoint_name(data, ports)],
             regions[endpoint_name(POOL[data['vanilla']], ports)],
-            build_requirements_rule(requirements, **options),
+            build_requirements_rule(exit_rules, extra_abstract_requirement_names=world._silksong_native_abstract_names, **options),
             f"Room exit: {data['name']}", force_creation=True,
         )
+        attach_exit(world, entrance, requirements)
         entrance.randomization_type = EntranceType.TWO_WAY
         entrance.randomization_group = (area(source), data['group']) if scope(world) == 'within_areas' else data['group']
         world._entrance_exits[source] = entrance
@@ -245,7 +254,8 @@ def _early_sweep_locations(world):
 def _early_item_assignment(world):
     state = CollectionState(world.multiworld)
     state.sweep_for_advancements(locations=(
-        location for location in _early_sweep_locations(world) if location.address is None
+        location for location in _early_sweep_locations(world)
+        if location.address is None or location in getattr(world, '_soul_opening_locations', ())
     ))
     pending = dict(world.multiworld.local_early_items[world.player])
     if world.get_category_mode('Skill') == 'shuffle' and world.is_early_dash_enabled():

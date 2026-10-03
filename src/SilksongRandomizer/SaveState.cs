@@ -217,6 +217,9 @@ namespace SilksongRandomizer
         public bool divingBellKeyRandomization;
         public bool fasterDialogue;
         public bool fasterSilkheartAnimation;
+        public string bossSoulsJson = "[]";
+        public string npcSoulsJson = "[]";
+        public string enemySoulsJson = "[]";
         public bool alphabetMode;
         public bool deathLink;
         public string deathLinkCocoon =
@@ -590,6 +593,9 @@ namespace SilksongRandomizer
             }
 
             roomSeed = roomSeed ?? string.Empty;
+            bossSoulsJson = BossSoulState.NormalizeConfiguration(bossSoulsJson);
+            npcSoulsJson = NpcSoulState.NormalizeConfiguration(npcSoulsJson);
+            enemySoulsJson = EnemySoulState.NormalizeConfiguration(enemySoulsJson);
             progressionShuffle = progressionShuffle ?? new ProgressionShuffleState();
             if (!string.IsNullOrEmpty(progressionShuffle.assignmentJson))
                 progressionShuffle.BindConfiguration(progressionShuffle.assignmentJson,
@@ -965,6 +971,9 @@ namespace SilksongRandomizer
             divingBellKeyRandomization = archipelago.DivingBellKeyRandomization;
             fasterDialogue = archipelago.FasterDialogue;
             fasterSilkheartAnimation = archipelago.FasterSilkheartAnimation;
+            bossSoulsJson = archipelago.BossSoulsJson;
+            npcSoulsJson = archipelago.NpcSoulsJson;
+            enemySoulsJson = archipelago.EnemySoulsJson;
             alphabetMode = archipelago.AlphabetMode;
             deathLink = archipelago.DeathLink;
             deathLinkCocoon = archipelago.DeathLinkCocoon;
@@ -1100,6 +1109,9 @@ namespace SilksongRandomizer
                    trapDisguises == archipelago.TrapDisguises &&
                    divingBellKeyRandomization == archipelago.DivingBellKeyRandomization &&
                    fasterDialogue == archipelago.FasterDialogue &&
+                   BossSoulState.NormalizeConfiguration(bossSoulsJson) == archipelago.BossSoulsJson &&
+                   NpcSoulState.NormalizeConfiguration(npcSoulsJson) == archipelago.NpcSoulsJson &&
+                   EnemySoulState.NormalizeConfiguration(enemySoulsJson) == archipelago.EnemySoulsJson &&
                    alphabetMode == archipelago.AlphabetMode &&
                    deathLink == archipelago.DeathLink &&
                    string.Equals(
@@ -1559,6 +1571,12 @@ namespace SilksongRandomizer
                        "save created for this slot's settings.";
             }
 
+            if (roomIdentityMatches && NpcSoulState.NormalizeConfiguration(npcSoulsJson) != archipelago.NpcSoulsJson)
+                return "This save uses different NPC Souls settings.";
+            if (roomIdentityMatches && EnemySoulState.NormalizeConfiguration(enemySoulsJson) != archipelago.EnemySoulsJson)
+                return "This save uses different Enemy Souls settings.";
+            if (roomIdentityMatches && BossSoulState.NormalizeConfiguration(bossSoulsJson) != archipelago.BossSoulsJson)
+                return "This save uses different Boss Souls settings.";
             if (roomIdentityMatches && divingBellKeyRandomization != archipelago.DivingBellKeyRandomization)
                 return GetBooleanSettingMismatchMessage("diving_bell_key_randomization", divingBellKeyRandomization, archipelago.DivingBellKeyRandomization);
             if (roomIdentityMatches && trapDisguises != archipelago.TrapDisguises)

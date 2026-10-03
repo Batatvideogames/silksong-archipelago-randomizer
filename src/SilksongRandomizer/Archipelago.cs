@@ -194,6 +194,9 @@ namespace SilksongRandomizer
         public bool DivingBellKeyRandomization { get; private set; }
         public bool FasterDialogue { get; private set; }
         public bool FasterSilkheartAnimation { get; private set; }
+        public string BossSoulsJson { get; private set; } = "[]";
+        public string NpcSoulsJson { get; private set; } = "[]";
+        public string EnemySoulsJson { get; private set; } = "[]";
         public bool AlphabetMode { get; private set; }
         public IReadOnlyDictionary<string, ItemFlags>
             CrestSlotItemFlags { get; private set; } =
@@ -646,6 +649,29 @@ namespace SilksongRandomizer
                 );
                 FasterSilkheartAnimation =
                     GetFasterSilkheartAnimation(successful);
+                if (successful.SlotData.ContainsKey("boss_souls") &&
+                    GetBooleanSlotData(successful, "boss_souls") &&
+                    !successful.SlotData.ContainsKey("boss_soul_bosses"))
+                    throw new FormatException("Boss Souls configuration is missing. Use the matching APWorld.");
+                BossSoulsJson = BossSoulState.NormalizeConfiguration(
+                    successful.SlotData.TryGetValue("boss_soul_bosses", out object soulData)
+                        ? Newtonsoft.Json.JsonConvert.SerializeObject(soulData) : "[]");
+                bool npcSoulsEnabled = successful.SlotData.ContainsKey("npc_souls") && GetBooleanSlotData(successful, "npc_souls");
+                if (npcSoulsEnabled && !successful.SlotData.ContainsKey("npc_soul_npcs"))
+                    throw new FormatException("NPC Souls configuration is missing. Use the matching APWorld.");
+                NpcSoulsJson = NpcSoulState.NormalizeConfiguration(
+                    successful.SlotData.TryGetValue("npc_soul_npcs", out object npcSoulData)
+                        ? Newtonsoft.Json.JsonConvert.SerializeObject(npcSoulData) : "[]");
+                if (!npcSoulsEnabled && NpcSoulsJson != "[]")
+                    throw new FormatException("NPC Souls setting does not match its enabled NPCs.");
+                bool enemySoulsEnabled = successful.SlotData.ContainsKey("enemy_souls") && GetBooleanSlotData(successful, "enemy_souls");
+                if (enemySoulsEnabled && !successful.SlotData.ContainsKey("enemy_soul_species"))
+                    throw new FormatException("Enemy Souls configuration is missing. Use the matching APWorld.");
+                EnemySoulsJson = EnemySoulState.NormalizeConfiguration(
+                    successful.SlotData.TryGetValue("enemy_soul_species", out object enemySoulData)
+                        ? Newtonsoft.Json.JsonConvert.SerializeObject(enemySoulData) : "[]");
+                if (!enemySoulsEnabled && EnemySoulsJson != "[]")
+                    throw new FormatException("Enemy Souls setting does not match its enabled species.");
                 AlphabetMode = GetBooleanSlotData(
                     successful,
                     "alphabet_mode"
@@ -3217,6 +3243,9 @@ namespace SilksongRandomizer
             DivingBellKeyRandomization = false;
             FasterDialogue = false;
             FasterSilkheartAnimation = false;
+            BossSoulsJson = "[]";
+            NpcSoulsJson = "[]";
+            EnemySoulsJson = "[]";
             AlphabetMode = false;
             CrestSlotItemFlags =
                 new ReadOnlyDictionary<string, ItemFlags>(

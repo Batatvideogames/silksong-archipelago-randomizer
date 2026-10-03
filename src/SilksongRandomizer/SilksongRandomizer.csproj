@@ -41,6 +41,14 @@
       <HintPath>$(SilksongManagedDir)\PlayMaker.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>$(SilksongManagedDir)\Unity.Addressables.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>$(SilksongManagedDir)\Unity.ResourceManager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="TeamCherry.TK2D">
       <HintPath>$(SilksongManagedDir)\TeamCherry.TK2D.dll</HintPath>
       <Private>false</Private>
@@ -118,11 +126,16 @@
   </Target>
 
   <ItemGroup>
+    <EmbeddedResource Include="../../APWorld/silksong/npc_souls.json" LogicalName="SilksongRandomizer.NpcSouls.json" />
+    <EmbeddedResource Include="../../APWorld/silksong/enemy_souls.json" LogicalName="SilksongRandomizer.EnemySouls.json" />
     <EmbeddedResource Include="../../APWorld/silksong/map_logic.json" LogicalName="SilksongRandomizer.MapLogic.json" />
     <EmbeddedResource Include="Assets/LiteracyTrap.txt" LogicalName="SilksongRandomizer.LiteracyTrap.txt" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Windows" LogicalName="SilksongRandomizer.ShaderTrapShaders.Windows" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Linux" LogicalName="SilksongRandomizer.ShaderTrapShaders.Linux" />
     <EmbeddedResource Include="Assets/Shaders/ShaderTrapShaders.Mac" LogicalName="SilksongRandomizer.ShaderTrapShaders.Mac" />
     <EmbeddedResource Include="../../APWorld/silksong/progression_catalogue.json" LogicalName="SilksongRandomizer.ProgressionCatalogue.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../APWorld/silksong/boss_souls.json" LogicalName="SilksongRandomizer.BossSouls.json" />
   </ItemGroup>
 </Project>

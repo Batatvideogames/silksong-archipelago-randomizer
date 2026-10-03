@@ -706,6 +706,9 @@ namespace SilksongRandomizer
             EntranceRandomization.Update();
             FleaRescueAudio.Update();
             FleaPatches.Update();
+            BossSoulPatches.Update();
+            NpcSoulPatches.Update();
+            EnemySoulPatches.Update();
             VogHintManager.Update();
             WandererChapelPatches.Update();
             MinorCachePatches.UpdateInactiveCurrencyChestFallbacks();

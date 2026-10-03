@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import copy
+import base64
+import gzip
+import io
 import hashlib
 import json
 import pkgutil
@@ -94,7 +97,11 @@ def prepare_base(data, slot_data):
 def encode(payload, slot_data):
     identity, data = load_base()
     base = prepare_base(data, slot_data)
-    return {"logic_base": identity, "logic_overrides": difference(base, normalize(payload))}
+    changes = difference(base, normalize(payload))
+    if slot_data.get('enemy_soul_silk_logic') == 1:
+        raw = json.dumps(changes, separators=(',', ':')).encode()
+        changes = {'encoding': 'gzip+base64', 'data': base64.b64encode(gzip.compress(raw, mtime=0)).decode('ascii')}
+    return {"logic_base": identity, "logic_overrides": changes}
 
 
 def restore(slot_data):
@@ -103,6 +110,17 @@ def restore(slot_data):
         raise ValueError("Map logic does not match this APWorld. Use the matching APWorld and mod.")
     base = prepare_base(data, slot_data)
     changes = slot_data.get("logic_overrides")
+    if isinstance(changes, dict) and 'encoding' in changes:
+        if set(changes) != {'encoding', 'data'} or changes['encoding'] != 'gzip+base64':
+            raise ValueError('Invalid compressed map logic.')
+        try:
+            with gzip.GzipFile(fileobj=io.BytesIO(base64.b64decode(changes['data'], validate=True))) as stream:
+                raw = stream.read(64 * 1024 * 1024 + 1)
+            if len(raw) > 64 * 1024 * 1024:
+                raise ValueError('Map logic exceeds the size limit.')
+            changes = json.loads(raw)
+        except (TypeError, OSError, EOFError, ValueError) as ex:
+            raise ValueError('Invalid compressed map logic.') from ex
     if not isinstance(changes, dict) or changes.keys() - base.keys():
         raise ValueError("Invalid map logic overrides.")
     result = _merge_changes(base, changes)
