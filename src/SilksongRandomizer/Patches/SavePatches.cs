@@ -68,6 +68,7 @@ namespace SilksongRandomizer.Patches
                 SaveState.Instance = loadedState;
                 RandomizerPlugin.Instance.ClearPendingGameplayQueues();
             }
+            MossMotherWarpSafety.ReconcileSavedDefeat();
             ShakraStockPersistencePatches.ReconcileShakraStock(
                 loadedState,
                 PlayerData.instance

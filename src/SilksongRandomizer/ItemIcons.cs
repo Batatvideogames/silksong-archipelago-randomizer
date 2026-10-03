@@ -227,8 +227,9 @@ namespace SilksongRandomizer
             scale = 1f;
             if (string.IsNullOrWhiteSpace(itemName)) return fallback;
 
-            Sprite bossIcon = GetBossJournalIcon(itemName);
-            if (bossIcon != null) return AdjustScale(bossIcon, 1f, out scale);
+            Sprite soulIcon = NpcSoulIcons.GetIcon(Normalize(itemName)) ??
+                EnemySoulState.GetIcon(Normalize(itemName)) ?? GetBossJournalIcon(itemName);
+            if (soulIcon != null) return AdjustScale(soulIcon, 1f, out scale);
 
             if (IconCache.TryGetValue(itemName, out var cached) && cached.Sprite != null)
             {
@@ -323,6 +324,12 @@ namespace SilksongRandomizer
             { "Groal the Great", "Swamp Shaman" },
             { "Gurr the Outcast", "Bone Hunter Trapper" },
             { "Lace (Cradle)", "Lace" },
+            { "Lace (Deep Docks)", "Lace" },
+            { "Lost Lace", "Lost Lace" },
+            { "Garmond and Zaza", "Garmond_Zaza" },
+            { "Savage Beastfly (Chapel of the Beast)", "Bone Flyer Giant" },
+            { "Savage Beastfly (Far Fields)", "Bone Flyer Giant" },
+            { "Shakra", "Shakra" },
             { "Last Judge", "Last Judge" },
             { "Lost Garmond", "Garmond" },
             { "Moorwing", "Vampire Gnat" },
@@ -337,6 +344,7 @@ namespace SilksongRandomizer
             { "Shrine Guardian Seth", "Seth" },
             { "Sister Splinter", "Splinter Queen" },
             { "Skarrsinger Karmelita", "Hunter Queen" },
+            { "Skull Tyrant", "Skull King" },
             { "Skull Tyrant (Bone Bottom)", "Skull King" },
             { "Skull Tyrant (The Marrow)", "Skull King" },
             { "The Unravelled", "Conductor Boss" },
@@ -355,6 +363,8 @@ namespace SilksongRandomizer
                 name = name.Substring("Boss: ".Length);
             else if (name.StartsWith("Boss Credit: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Boss Credit: ".Length);
+            else if (name.StartsWith("Soul of ", StringComparison.OrdinalIgnoreCase))
+                name = name.Substring("Soul of ".Length);
             else if (name.StartsWith("Story credit: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Story credit: ".Length);
             else

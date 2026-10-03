@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using SilksongRandomizer.Patches;
 using SilksongRandomizer.AlphabetMode;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace SilksongRandomizer
         internal string DeathSummary;
         internal bool IconGrid;
         internal bool SoulChecklist;
+        internal bool SoulCollection;
         internal readonly List<ArchipelagoInventoryRow> SoulItems = new List<ArchipelagoInventoryRow>();
         internal bool BellProgress;
         internal readonly List<ArchipelagoInventoryRow> Caravan = new List<ArchipelagoInventoryRow>();
@@ -204,7 +206,37 @@ namespace SilksongRandomizer
                     icon: "Pollip Heart", dim: hearts < 6));
             }
             pages.Add(music);
+            AddSoulCollection(pages, state, "npc-souls", "NPC Souls", state.npcSoulsJson, NpcSoulState.ItemName, "NPC Soul: ");
+            AddSoulCollection(pages, state, "boss-souls", "Boss Souls", state.bossSoulsJson, BossSoulState.ItemName, "Soul of ");
+            AddSoulCollection(pages, state, "enemy-souls", "Enemy Souls", state.enemySoulsJson, EnemySoulState.ItemName, "Enemy Soul: ", true);
             return pages;
+        }
+
+        private static void AddSoulCollection(List<ArchipelagoInventorySheet> pages, SaveState state,
+            string key, string heading, string configuration, Func<string, string> itemName, string prefix, bool trackKills = false)
+        {
+            if (string.IsNullOrEmpty(configuration) || configuration == "[]") return;
+            var entries = JArray.Parse(configuration).Values<string>().Select(itemName)
+                .Distinct(StringComparer.Ordinal).OrderBy(name => name, StringComparer.Ordinal)
+                .Select(name => {
+                    string title = name.Substring(prefix.Length);
+                    bool owned = state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(name)) == true;
+                    bool killed = trackKills && state.checkedLocations?.Contains(EnemySoulState.LocationName(title)) == true;
+                    return new ArchipelagoInventoryRow(title, owned ? "Soul received" : "Soul missing", name, !owned) {
+                        LocationCompleted = trackKills ? killed : (bool?)null,
+                        CompletionText = trackKills ? (killed ? "Killed" : "Not killed") : null
+                    };
+                }).ToList();
+            string progress = entries.Count(row => !row.Dim) + " / " + entries.Count + " unlocked";
+            for (int offset = 0; offset < entries.Count; offset += BossesPerPage)
+            {
+                var sheet = new ArchipelagoInventorySheet {
+                    Key = key + ":" + offset, LeftHeading = heading, RightHeading = progress, SoulCollection = true, IconGrid = true
+                };
+                sheet.Left.AddRange(entries.Skip(offset).Take(BossesPerPage / 2));
+                sheet.Right.AddRange(entries.Skip(offset + BossesPerPage / 2).Take(BossesPerPage / 2));
+                pages.Add(sheet);
+            }
         }
 
         private static int QuestItemProgress(SaveState state, string itemName, string assetName,

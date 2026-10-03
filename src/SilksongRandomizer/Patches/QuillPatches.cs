@@ -174,35 +174,65 @@ namespace SilksongRandomizer.Patches
             private static SaveState refreshedState;
             private static GameMap refreshedMap;
             private static GameMap hiddenModeMap;
+            private static SaveState displayedState;
+            private static GameMap displayedMap;
+            private static bool displayedQuill;
 
             [HarmonyPrefix]
             private static void Prefix(
                 GameMap __instance,
                 bool pinsOnly,
-                ref int ___lastMappedCount
+                ref int ___lastMappedCount,
+                out int __state
             )
             {
+                __state = ___lastMappedCount;
                 if (IsMapInHiddenMode())
                 {
                     hiddenModeMap = __instance;
                     return;
                 }
-                else if (!pinsOnly &&
-                         ReferenceEquals(__instance, hiddenModeMap))
+                if (pinsOnly)
+                {
+                    return;
+                }
+                if (ReferenceEquals(__instance, hiddenModeMap))
                 {
                     hiddenModeMap = null;
                     refreshedMap = null;
                     ___lastMappedCount = int.MinValue;
                 }
+                SaveState state = SaveState.Instance;
+                if (state != null &&
+                    (!ReferenceEquals(state, displayedState) ||
+                     !ReferenceEquals(__instance, displayedMap) ||
+                     displayedQuill != CanUseQuill()))
+                {
+                    ___lastMappedCount = int.MinValue;
+                }
             }
 
             [HarmonyPostfix]
-            private static void Postfix(GameMap __instance, bool pinsOnly)
+            private static void Postfix(GameMap __instance, bool pinsOnly,
+                ref int ___lastMappedCount, int __state)
             {
                 SaveState state = SaveState.Instance;
-                if (pinsOnly ||
-                    IsMapInHiddenMode() ||
-                    state == null ||
+                if (pinsOnly)
+                {
+                    if (state != null)
+                    {
+                        ___lastMappedCount = __state;
+                    }
+                    return;
+                }
+                if (IsMapInHiddenMode())
+                {
+                    return;
+                }
+                displayedState = state;
+                displayedMap = __instance;
+                displayedQuill = CanUseQuill();
+                if (state == null ||
                     !state.startFullyMapped ||
                     (ReferenceEquals(state, refreshedState) &&
                      ReferenceEquals(__instance, refreshedMap)))

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import pkgutil
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 from itertools import product
 from types import MappingProxyType
@@ -32,6 +32,7 @@ class CompiledRoomClause:
     item_counts: tuple[tuple[str, int], ...] = ()
     require_silk_spear: bool = False
     minimum_skip_tier: int = 0
+    silk_cost: int = 0
 
 
 @dataclass(frozen=True)
@@ -1412,6 +1413,7 @@ def _merge(left: CompiledRoomClause, right: CompiledRoomClause) -> CompiledRoomC
         merged_counts[item_name] = max(merged_counts.get(item_name, 0), minimum)
     return CompiledRoomClause(
         all_of=tuple(dict.fromkeys((*left.all_of, *right.all_of))),
+        silk_cost=left.silk_cost + right.silk_cost,
         item_counts=tuple(merged_counts.items()),
         require_silk_spear=left.require_silk_spear or right.require_silk_spear,
         minimum_skip_tier=max(
@@ -1586,6 +1588,7 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
 def _compile_spec(
     requirement: RequirementSpec,
     *prefix: str,
+    silk_costs: bool = False,
 ) -> tuple[CompiledRoomClause, ...]:
     if requirement.mode is RequirementMode.UNRESOLVED:
         return ()
@@ -1607,6 +1610,9 @@ def _compile_spec(
                                      if name.startswith(("Usable ", "Crest: "))))
             if any(name.startswith("Usable ") for name in equipment) and len(equipment) > 1:
                 clause = _merge(clause, _part("Loadout: " + " + ".join(equipment)))
+            if silk_costs:
+                from .silk_economy import atom_cost
+                clause = replace(clause, silk_cost=atom_cost(source_clause, clause))
             compiled.append(clause)
     return tuple(dict.fromkeys(compiled))
 
@@ -1641,6 +1647,8 @@ def _clause_subsumes(
     if not set(weaker.all_of).issubset(stronger.all_of):
         return False
     if weaker.require_silk_spear and not stronger.require_silk_spear:
+        return False
+    if weaker.silk_cost > stronger.silk_cost:
         return False
     if weaker.minimum_skip_tier > stronger.minimum_skip_tier:
         return False
@@ -1755,12 +1763,12 @@ def _semantic_reachability(node_requirements, event_requirements) -> frozenset[s
     )
 
 
-def compile_transition_requirements(transition, *, include_source=True):
+def compile_transition_requirements(transition, *, include_source=True, silk_costs=False):
     prefix = (room_node_name(transition.source_node_id),) if include_source else ()
-    return _compile_spec(transition.requirement, *prefix)
+    return _compile_spec(transition.requirement, *prefix, silk_costs=silk_costs)
 
 
-def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transition_targets=None) -> CompiledRoomGraph:
+def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transition_targets=None, silk_costs=False) -> CompiledRoomGraph:
     graph = load_room_graph() if graph is None else graph
     mapper = graph.assumptions.get("mapper_schema") == 3
     if legacy_rules is None:
@@ -1823,7 +1831,7 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
             if target_node_id not in authoritative_node_ids:
                 continue
             structural_edges.append((transition.source_node_id, target_node_id))
-            requirements = compile_transition_requirements(transition)
+            requirements = compile_transition_requirements(transition, silk_costs=silk_costs)
             extra_requirements = transition_extras.get(
                 transition.id,
                 (_part(),),
@@ -1852,6 +1860,7 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
                 connection_requirements = _compile_spec(
                     connection.requirement,
                     room_node_name(connection.source_node_id),
+                    silk_costs=silk_costs,
                 )
             else:
                 connection_requirements = tuple(
@@ -1893,6 +1902,7 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
                 requirements = _compile_spec(
                     event.requirement,
                     room_node_name(event.node_id),
+                    silk_costs=silk_costs,
                 )
             _append_requirements(
                 event_requirements,
@@ -1975,6 +1985,7 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
                 for requirement in _compile_spec(
                     check.requirement,
                     *(() if independent_source else (room_node_name(check.node_id),)),
+                    silk_costs=silk_costs,
                 )
                 if _has_only_declared_room_references(
                     requirement,

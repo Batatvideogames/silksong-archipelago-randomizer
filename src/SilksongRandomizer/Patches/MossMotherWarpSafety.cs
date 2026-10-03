@@ -1,6 +1,8 @@
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using System;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace SilksongRandomizer.Patches
 {
@@ -14,6 +16,57 @@ namespace SilksongRandomizer.Patches
     internal static class MossMotherWarpSafety
     {
         internal const string LocationName = "Boss: Moss Mother";
+
+        private const string OpeningScene = "Tut_03";
+        private const string OpeningArena = "Battle Scene";
+
+        private static bool IsSoulRandomized(SaveState state) =>
+            !string.IsNullOrEmpty(state?.bossSoulsJson) && state.bossSoulsJson != "[]" &&
+            JArray.Parse(state.bossSoulsJson).Values<string>().Contains(LocationName);
+
+        internal static bool BlocksIntroDefeat(string scene, string owner, string fsm,
+            string stateName, string flag, bool value, SaveState state) =>
+            value && flag == "defeatedMossMother" && fsm == "Control" &&
+            stateName == "Set End" && owner == "Churchkeeper Intro Scene" &&
+            string.Equals(scene, "Bonetown", StringComparison.OrdinalIgnoreCase) &&
+            IsSoulRandomized(state);
+
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.SetPlayerDataBool), "OnEnter")]
+        private static class IntroDefeatPatch
+        {
+            private static bool Prefix(HutongGames.PlayMaker.Actions.SetPlayerDataBool __instance)
+            {
+                if (__instance.boolName?.Value != "defeatedMossMother" || __instance.value?.Value != true)
+                    return true;
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || !BlocksIntroDefeat(fsm.GameObject.scene.name,
+                    Utils.GetHierarchyPath(fsm.GameObject.transform), fsm.Name, __instance.State?.Name,
+                    __instance.boolName.Value, __instance.value.Value, SaveState.Instance)) return true;
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        internal static bool RepairSavedDefeat(SaveState state, PlayerData data, bool? arenaCompleted)
+        {
+            if (data == null || !data.defeatedMossMother || !data.churchKeeperIntro ||
+                arenaCompleted != false || !IsSoulRandomized(state) ||
+                state.progressionShuffle?.TryGetBossDefeat(LocationName, out bool defeated) != true || defeated)
+                return false;
+            data.defeatedMossMother = false;
+            state.mossMotherBypassedByBoneBottomWarp = true;
+            return true;
+        }
+
+        internal static void ReconcileSavedDefeat()
+        {
+            SceneData sceneData = SceneData.instance;
+            bool? completed = sceneData != null && sceneData.PersistentBools.TryGetValue(
+                OpeningScene, OpeningArena, out PersistentItemData<bool> arena)
+                ? arena.Value : (bool?)null;
+            if (RepairSavedDefeat(SaveState.Instance, PlayerData.instance, completed))
+                RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Restored the unfinished opening Moss Mother encounter after the tutorial marked it defeated.");
+        }
 
         [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
         private static class ChapelMaidArrivalPatch

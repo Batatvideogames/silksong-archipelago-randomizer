@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
@@ -38,6 +39,7 @@ namespace SilksongRandomizer
             LogicData data = Data.Value;
             if (!string.Equals(identity, data.Identity, StringComparison.Ordinal))
                 throw new FormatException("Map logic does not match this mod. Install the mod supplied with this APWorld.");
+            changes = Expand(changes);
             if (changes == null || changes.Properties().Any(p => ((JObject)data.Payload["logic"]).Property(p.Name) == null))
                 throw new FormatException("Invalid map logic overrides.");
             JObject result = Prepare(data.Payload, scuttlebrace, entranceScope, entrancePairs);
@@ -55,6 +57,29 @@ namespace SilksongRandomizer
             result.Remove("logic_event_order");
             result["logic_events"] = activeEvents;
             return result;
+        }
+
+        private static JObject Expand(JObject changes)
+        {
+            if (changes?["encoding"] == null)
+                return changes;
+            if (changes.Count != 2 || changes.Value<string>("encoding") != "gzip+base64" ||
+                changes["data"]?.Type != JTokenType.String)
+                throw new FormatException("Invalid compressed map logic.");
+            using (var input = new MemoryStream(Convert.FromBase64String(changes.Value<string>("data"))))
+            using (var gzip = new GZipStream(input, CompressionMode.Decompress))
+            using (var output = new MemoryStream())
+            {
+                byte[] buffer = new byte[8192];
+                int count;
+                while ((count = gzip.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    if (output.Length + count > 64 * 1024 * 1024)
+                        throw new FormatException("Map logic exceeds the size limit.");
+                    output.Write(buffer, 0, count);
+                }
+                return JObject.Parse(System.Text.Encoding.UTF8.GetString(output.ToArray()));
+            }
         }
 
         private static JObject Prepare(JObject data, bool scuttlebrace, string scope, JObject pairs)

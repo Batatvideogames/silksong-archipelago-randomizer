@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -235,7 +235,7 @@ namespace SilksongRandomizer
                 size * .76f, row.Dim ? .45f : .7f);
             if (row.CompletionText != null)
             {
-                view.Detail.color = new Color(1f, 1f, 1f, view.Detail.color.a);
+                view.Detail.color = Color.white;
                 view.Detail.richText = true;
                 view.Detail.text = "<color=#" + (row.Dim ? "737373" : "FFFFFF") + ">" +
                     ArchipelagoInventoryModel.Plain(row.Detail) + "</color>  |  <color=#" +
@@ -526,7 +526,9 @@ namespace SilksongRandomizer
 
         private void RenderBosses(ArchipelagoInventorySheet sheet)
         {
-            Label(SheetName(sheet), -7.6f, -2.3f, 23.8f, .8f, 5.5f);
+            Label(SheetName(sheet), -7.6f, -2.3f, sheet.SoulCollection ? 16.8f : 23.8f, .8f, 5.5f);
+            if (sheet.SoulCollection)
+                Label(sheet.RightHeading, 9.4f, -2.5f, 6.8f, .55f, 3.7f, .85f, TextAlignmentOptions.TopRight);
             var bosses = sheet.Left.Concat(sheet.Right).ToList();
             for (int i = 0; i < bosses.Count; i++)
                 Row(bosses[i], -7.6f + i % 4 * 6f, -4.35f - i / 4 * 1.6f, 5.6f, 3.5f, 1f, .8f);
