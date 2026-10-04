@@ -13,6 +13,10 @@ namespace SilksongRandomizer.Patches
         private static readonly Dictionary<GameObject, (SaveState state, string[] npcs)> Hidden =
             new Dictionary<GameObject, (SaveState, string[])>();
 
+        private static readonly Dictionary<InteractableBase, SaveState> WaitingPrompts =
+            new Dictionary<InteractableBase, SaveState>();
+        private static readonly MethodInfo ShowInteraction = AccessTools.Method(typeof(InteractableBase), "ShowInteraction");
+
         private static bool Hold(Transform transform)
         {
             if (!NpcSoulState.FindActor(transform, out GameObject actor, out string[] npcs) ||
@@ -30,10 +34,16 @@ namespace SilksongRandomizer.Patches
         private static void Scan(Scene scene)
         {
             if (string.IsNullOrEmpty(SaveState.Instance?.npcSoulsJson) || SaveState.Instance.npcSoulsJson == "[]") return;
+            int count = Actors.Count;
             foreach (GameObject root in scene.GetRootGameObjects())
                 foreach (Transform transform in root.GetComponentsInChildren<Transform>(true))
                     if (NpcSoulState.TryGetActor(scene.name, Utils.GetHierarchyPath(transform), out _))
                         Actors.Add(transform.gameObject);
+            if (string.Equals(scene.name, "Song_09b", StringComparison.OrdinalIgnoreCase))
+                RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Gourmand scene NPC Souls: Mergwin " +
+                    (NpcSoulState.IsMissing(SaveState.Instance, "Mergwin") ? "missing" : "available") +
+                    ", Great Gourmand " + (NpcSoulState.IsMissing(SaveState.Instance, "Great Gourmand") ? "missing" : "available") +
+                    "; matched actors: " + (Actors.Count - count));
             if (string.Equals(scene.name, "Tut_04", StringComparison.OrdinalIgnoreCase))
             {
                 string[] shamans = { "Caretaker", "Chapel Maid", "Bell Hermit" };
@@ -62,11 +72,33 @@ namespace SilksongRandomizer.Patches
             for (int i = Actors.Count - 1; i >= 0; i--)
                 if (Actors[i] == null) Actors.RemoveAt(i);
                 else if (Actors[i].activeInHierarchy) Hold(Actors[i].transform);
+            if (WaitingPrompts.Count != 0)
+            {
+                var ready = new List<InteractableBase>();
+                foreach (var pair in WaitingPrompts)
+                    if (pair.Key == null || pair.Value != SaveState.Instance ||
+                        NpcSoulState.CanInteract(pair.Key.transform)) ready.Add(pair.Key);
+                foreach (InteractableBase npc in ready)
+                {
+                    SaveState state = WaitingPrompts[npc];
+                    WaitingPrompts.Remove(npc);
+                    if (npc != null && state == SaveState.Instance && npc.isActiveAndEnabled)
+                        ShowInteraction.Invoke(npc, null);
+                }
+            }
             if (Hidden.Count == 0) return;
             var release = new List<GameObject>();
+            List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
                     !NpcSoulState.MissingAny(pair.Value.state, pair.Value.npcs)) release.Add(pair.Key);
+                else if (pair.Key.activeSelf)
+                {
+                    if (retry == null) retry = new List<GameObject>();
+                    retry.Add(pair.Key);
+                }
+            if (retry != null)
+                foreach (GameObject actor in retry) actor.SetActive(false);
             foreach (GameObject actor in release)
             {
                 var saved = Hidden[actor];
@@ -87,6 +119,17 @@ namespace SilksongRandomizer.Patches
                     !NpcSoulState.IsMissing(SaveState.Instance, "Sherma")) return true;
                 HeroController.instance?.RegainControl();
                 fsm.SetState("Dialogue End");
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(InteractableBase), "ShowInteraction")]
+        private static class ShowPrompt
+        {
+            private static bool Prefix(InteractableBase __instance)
+            {
+                if (!(__instance is NPCControlBase) || NpcSoulState.CanInteract(__instance.transform)) return true;
+                WaitingPrompts[__instance] = SaveState.Instance;
                 return false;
             }
         }

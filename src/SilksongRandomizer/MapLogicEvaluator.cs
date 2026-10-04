@@ -1620,7 +1620,7 @@ namespace SilksongRandomizer
             );
             SetIfTrue(
                 counts,
-                "Bell: Far Fields",
+                "Bell: Deep Docks",
                 playerData.bellShrineWilds
             );
             SetIfTrue(

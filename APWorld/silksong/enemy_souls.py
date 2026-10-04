@@ -203,15 +203,25 @@ def _pogo_check_changes(names, silk):
     return {name: tuple(changes) for name, changes in result.items()}
 
 
+@lru_cache(maxsize=8)
+def _location_souls(names):
+    from .locations import canonicalize_location_name
+    result = {}
+    for species in names:
+        for name in BY_NAME[species].get('locations', ()):
+            result.setdefault(canonicalize_location_name(name), []).append(item_name(species))
+    return {name: tuple(dict.fromkeys(souls)) for name, souls in result.items()}
+
+
 def gate_location(world, name, rules):
     names = enabled_enemies(world)
     if not names:
         return rules
     for removed, added in _pogo_check_changes(names, silk_enabled(world)).get(name, ()):
         rules = _apply_pogo_changes(name, rules, removed, added)
-    for species in names:
-        if name in BY_NAME[species].get('locations', ()):
-            rules = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, item_name(species))))) for rule in rules)
+    souls = _location_souls(names).get(name, ())
+    if souls:
+        rules = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls)))) for rule in rules)
     if name == 'Marrowmaw - Beast Shard' and 'Marrowmaw' in names:
         rules = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, item_name('Marrowmaw'))))) for rule in rules)
     return tuple(_combat_gate(rule, names) for rule in rules)

@@ -700,6 +700,12 @@
     "location_id": 841024,
     "routes": [
       {
+        "act": 1,
+        "nodes": [
+          "moss-grotto/moss-grotto-center#beast-alcove"
+        ]
+      },
+      {
         "act": 2,
         "nodes": [
           "memorium/memorium-bench#post-wall",

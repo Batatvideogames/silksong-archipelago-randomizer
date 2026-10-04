@@ -383,7 +383,7 @@ CURRENT_ITEM_SOURCE_ROWS: tuple[tuple[str, str], ...] = (
     ('Rosaries (155)', 'Resource'),
     ('Shell Shards (35)', 'Resource'),
     ('Bell: The Marrow', 'BellShrine'),
-    ('Bell: Far Fields', 'BellShrine'),
+    ('Bell: Deep Docks', 'BellShrine'),
     ('Bell: Greymoor', 'BellShrine'),
     ('Bell: Shellwood', 'BellShrine'),
     ('Bell: Bellhart', 'BellShrine'),
@@ -1177,7 +1177,7 @@ def get_vanilla_reward_name(
         try:
             return {
                 'The Marrow - Bellshrine': 'Bell: The Marrow',
-                'Far Fields - Bellshrine': 'Bell: Far Fields',
+                'Deep Docks - Bellshrine': 'Bell: Deep Docks',
                 'Greymoor - Bellshrine': 'Bell: Greymoor',
                 'Shellwood - Bellshrine': 'Bell: Shellwood',
                 'Bellhart - Bellshrine': 'Bell: Bellhart',

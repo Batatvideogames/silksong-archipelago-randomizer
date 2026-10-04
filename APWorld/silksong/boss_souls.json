@@ -436,7 +436,35 @@
       }
     ],
     "battles": [],
-    "states": []
+    "states": [
+      {
+        "scene": "bone_east_08",
+        "path": "Boss Scene",
+        "fsm": "Control",
+        "states": [
+          "Init",
+          "Wake",
+          "Remeet 1"
+        ]
+      },
+      {
+        "scene": "bone_east_08",
+        "path": "Boss Scene",
+        "fsm": "Camera Control",
+        "states": [
+          "Get",
+          "Restart"
+        ]
+      },
+      {
+        "scene": "bone_east_08_boss_golem_rest",
+        "path": "Boss Scene/Golem_rest",
+        "fsm": "Wake",
+        "states": [
+          "Head Wake"
+        ]
+      }
+    ]
   },
   {
     "boss": "Boss: Grand Mother Silk",

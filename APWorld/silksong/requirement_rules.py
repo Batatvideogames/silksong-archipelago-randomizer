@@ -238,7 +238,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
 
 NativeSourceInventoryKey = tuple[
     int,
-    tuple[tuple[str, int], ...],
+    frozenset[tuple[str, int]],
     bool,
 ]
 NativeSourceMemoKey = tuple[int, NativeSourceInventoryKey, int | None]
@@ -329,9 +329,18 @@ def _lookup_native_source_memo(
     if "players" in memo and max(len(memo["results"]), len(memo["inventory_keys"])) >= 16384:
         memo.update(inventory_keys={}, results={}, inventory_counts={})
 
+    snapshots = getattr(state, "_silksong_native_inventory_keys", None)
+    if snapshots is None:
+        snapshots = state._silksong_native_inventory_keys = {}
+    inventory = state.prog_items[rule.player]
+    snapshot = snapshots.get(rule.player)
+    if snapshot is None or inventory != snapshot[0]:
+        snapshot = (dict(inventory), frozenset(inventory.items()))
+        snapshots[rule.player] = snapshot
+
     inventory_key: NativeSourceInventoryKey = (
         rule.player,
-        tuple(sorted(state.prog_items[rule.player].items())),
+        snapshot[1],
         state.allow_partial_entrances,
     )
     canonical_inventory_key = memo["inventory_keys"].setdefault(
@@ -509,6 +518,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             assumed_state.blocked_connections[self.player] = (
                 state.blocked_connections[self.player].copy()
             )
+            assumed_state.rule_builder_cache[self.player] = state.rule_builder_cache[self.player].copy()
             assumed_state.collect(self.assumed_item, True)
             if (
                 self.anchor_requirement_name is not None

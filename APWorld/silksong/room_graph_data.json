@@ -5,7 +5,7 @@
     "document_count": 514,
     "aggregate_sha256": "028c8b0111d85101604cda14778cb096829fe83eb79cfa2afecc001ae9f84310",
     "catalogue_sha256": "e2e8999fdc8fe7af110181b88e8706b22530ba03ea14c02f054147afc75b548d",
-    "bindings_sha256": "7beae3d1cb3930e9b369ff6f8bd8297f1968b87b7fec4954efc8b51e13b1f096"
+    "bindings_sha256": "e8c1568990eebb0d4f042ece3acd855aeeaa266f80aa5b5142102f428fbf63d2"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -238,6 +238,7 @@
       "Deep Docks (Central) - Spool Fragment",
       "Deep Docks (Southeast) - Spool Fragment",
       "Deep Docks - Beast Shard",
+      "Deep Docks - Bellshrine",
       "Deep Docks - Bellway",
       "Deep Docks - Craftmetal",
       "Deep Docks - Forge Note",
@@ -279,7 +280,6 @@
       "Far Fields (Above the Seamstress) - Mask Shard",
       "Far Fields (Act 3) - Memory Locket",
       "Far Fields (Skull Cave) - Mask Shard",
-      "Far Fields - Bellshrine",
       "Far Fields - Bellway",
       "Far Fields - Map Purchase",
       "Far Fields - Pale Rosary Necklace",
@@ -36530,11 +36530,13 @@
               [
                 "state:bellshrinesanity-off",
                 "event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
+              ],
+              [
+                "state:bellshrinesanity-on",
+                "received:Bell: Deep Docks"
               ]
             ],
-            "annotations": [
-              "unmapped AP item: item:bell-deep-docks"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -36636,7 +36638,7 @@
           "unresolved_reasons": [],
           "label": "bell deep docks",
           "node_id": "deep-docks/deep-docks-bellshrine#room",
-          "canonical_location": "Far Fields - Bellshrine",
+          "canonical_location": "Deep Docks - Bellshrine",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -46991,11 +46993,13 @@
               [
                 "state:bellshrinesanity-off",
                 "event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
+              ],
+              [
+                "state:bellshrinesanity-on",
+                "received:Bell: Deep Docks"
               ]
             ],
-            "annotations": [
-              "unmapped AP item: item:bell-deep-docks"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -115386,7 +115390,7 @@
             "dnf": [
               [
                 "received:Bell: The Marrow",
-                "received:Bell: Far Fields",
+                "received:Bell: Deep Docks",
                 "received:Bell: Greymoor",
                 "received:Bell: Shellwood",
                 "received:Bell: Bellhart"

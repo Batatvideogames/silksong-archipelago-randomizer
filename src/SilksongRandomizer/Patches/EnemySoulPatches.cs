@@ -83,9 +83,17 @@ namespace SilksongRandomizer.Patches
                 SkippedBossEnemies.Remove(actor);
             if (Hidden.Count == 0) return;
             var release = new List<GameObject>();
+            List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
                     (!MissingAny(pair.Value.state, pair.Value.species) && !WasSkipped(pair.Key))) release.Add(pair.Key);
+                else if (pair.Key.activeSelf)
+                {
+                    if (retry == null) retry = new List<GameObject>();
+                    retry.Add(pair.Key);
+                }
+            if (retry != null)
+                foreach (GameObject actor in retry) actor.SetActive(false);
             foreach (GameObject actor in release)
             {
                 var saved = Hidden[actor];

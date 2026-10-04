@@ -17,7 +17,7 @@ from BaseClasses import (
 
 from Options import OptionError
 from rule_builder.rules import Has
-from worlds.AutoWorld import WebWorld
+from worlds.AutoWorld import WebWorld, World
 from rule_builder.cached_world import CachedRuleBuilderWorld
 
 from .act1_scope import (
@@ -225,10 +225,18 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def register_rule_dependencies(self, resolved_rule):
         from .requirement_rules import NativeSourceRule
+        from .silk_supply import SilkSupplyRule
 
+        if isinstance(resolved_rule, SilkSupplyRule.Resolved):
+            return
         if isinstance(resolved_rule, NativeSourceRule.Resolved):
             resolved_rule = resolved_rule.child
         super().register_rule_dependencies(resolved_rule)
+
+    def collect(self, state: CollectionState, item: Item) -> bool:
+        if state.rule_builder_cache[self.player]:
+            return super().collect(state, item)
+        return World.collect(self, state, item)
 
     def _enable_silk_supply(self, supply):
         self._silk_supply = supply

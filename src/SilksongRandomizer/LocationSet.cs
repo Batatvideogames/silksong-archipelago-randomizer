@@ -201,7 +201,7 @@ namespace SilksongRandomizer
                 },
                 {
                     "Bell Shrine Completion: bellShrineWilds",
-                    "Bellshrine: Far Fields"
+                    "Bellshrine: Deep Docks"
                 },
                 {
                     "Bell Shrine Completion: bellShrineGreymoor",

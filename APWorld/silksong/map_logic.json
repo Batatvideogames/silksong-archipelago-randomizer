@@ -163719,7 +163719,7 @@
             "act": "",
             "all_of": [
               "Bell: The Marrow",
-              "Bell: Far Fields",
+              "Bell: Deep Docks",
               "Bell: Greymoor",
               "Bell: Shellwood",
               "Bell: Bellhart"
@@ -172274,6 +172274,27 @@
           }
         ]
       },
+      "Path: Deep Docks - Bellshrine": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Path: Deep Docks - Forge"
+            ],
+            "any_of": [
+              "Swift Step",
+              "Faydown Cloak",
+              "Clawline"
+            ],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": true,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Path: Deep Docks - Diving Bell": {
         "alternatives": [
           {
@@ -172440,27 +172461,6 @@
           }
         ]
       },
-      "Path: Far Fields - Bellshrine": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Path: Deep Docks - Forge"
-            ],
-            "any_of": [
-              "Swift Step",
-              "Faydown Cloak",
-              "Clawline"
-            ],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": true,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "Path: Far Fields - Bellway": {
         "alternatives": [
           {
@@ -172537,7 +172537,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Far Fields - Bellshrine",
+              "Path: Deep Docks - Bellshrine",
               "Cling Grip"
             ],
             "any_of": [
@@ -172578,7 +172578,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Far Fields - Bellshrine",
+              "Path: Deep Docks - Bellshrine",
               "Swift Step"
             ],
             "any_of": [],
@@ -172592,7 +172592,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Far Fields - Bellshrine",
+              "Path: Deep Docks - Bellshrine",
               "Cling Grip",
               "Drifter's Cloak"
             ],
@@ -172644,7 +172644,7 @@
           {
             "act": "",
             "all_of": [
-              "Path: Far Fields - Bellshrine"
+              "Path: Deep Docks - Bellshrine"
             ],
             "any_of": [
               "Swift Step",
@@ -192871,7 +192871,7 @@
               {
                 "items": [
                   "Bell: The Marrow",
-                  "Bell: Far Fields",
+                  "Bell: Deep Docks",
                   "Bell: Greymoor",
                   "Bell: Shellwood",
                   "Bell: Bellhart"
@@ -199918,7 +199918,7 @@
               },
               {
                 "items": [
-                  "Bell: Far Fields"
+                  "Bell: Deep Docks"
                 ],
                 "minimum": 1
               },
@@ -239748,6 +239748,27 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: far-fields/far-fields-entrance#deep-docks-platform",
+              "Option: Bellshrinesanity On"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Bell: Deep Docks"
+                ],
+                "minimum": 1
+              }
+            ],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
@@ -255802,6 +255823,27 @@
             ],
             "any_of": [],
             "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-bellshrine#room",
+              "Option: Bellshrinesanity On"
+            ],
+            "any_of": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Bell: Deep Docks"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -379989,6 +380031,24 @@
           }
         ]
       },
+      "Deep Docks - Bellshrine": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-bellshrine#room",
+              "Room Event: event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Deep Docks - Bellway": {
         "alternatives": [
           {
@@ -380824,24 +380884,6 @@
               "Room Node: far-fields/far-fields-skull-arena#mask-alcove",
               "Combat: Skull Cavern Gauntlet",
               "Act: 2"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
-      "Far Fields - Bellshrine": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: deep-docks/deep-docks-bellshrine#room",
-              "Room Event: event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac"
             ],
             "any_of": [],
             "item_counts": [],
