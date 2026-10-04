@@ -173,7 +173,7 @@ LOGIC_PAYLOAD_FIELDS = (
 LOGIC_UNKNOWN_REGION_NAME = "LogicUnknown"
 TRACKER_OPTION_NAMES = tuple(
     name for name in SilksongOptions.__annotations__
-    if name not in {"vog_area_hints", "trap_percentage", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
+    if name not in {"starting_crest", "vog_area_hints", "trap_percentage", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
 ) + ("start_inventory", "exclude_locations")
 
 
@@ -348,6 +348,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             raise ValueError("Invalid content scope in slot data.")
         if slot_data["starting_crest"] not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError("Invalid starting crest in slot data.")
+        if (slot_data["starting_crest"] == "naked") != bool(option_types["force_naked"].from_any(slot_data["force_naked"])):
+            raise ValueError("Force Naked does not match the starting crest in slot data.")
         if slot_data["entrance_randomization"] == "coupled":
             validate_pairs(
                 slot_data.get("entrance_pairs"), slot_data["entrance_randomization_scope"],
@@ -366,12 +368,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if self._resolved_starting_crest is not None:
             return self._resolved_starting_crest
 
-        if self.options.starting_crest.current_key == 'naked' and self.get_category_mode('Crest') == 'vanilla':
+        if self.options.force_naked and self.get_category_mode('Crest') == 'vanilla':
             raise OptionError("Naked start requires Crest Randomization set to shuffle or anywhere.")
         configured_crest = (
-            'hunter'
-            if self.get_category_mode('Crest') == 'vanilla'
-            else self.options.starting_crest.current_key
+            'naked' if self.options.force_naked else (
+                'hunter' if self.get_category_mode('Crest') == 'vanilla'
+                else self.options.starting_crest.current_key
+            )
         )
         if configured_crest not in STARTING_CREST_ITEM_BY_KEY:
             raise ValueError(
@@ -584,6 +587,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 setattr(self.options, name, option_types[name].from_any(deepcopy(passthrough[name])))
             self._resolved_content_scope = passthrough["content_scope"]
             self._resolved_starting_crest = passthrough["starting_crest"]
+            self.options.starting_crest = option_types["starting_crest"].from_any(
+                "hunter" if self.options.force_naked else self._resolved_starting_crest
+            )
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
             self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
@@ -1845,39 +1851,42 @@ class SilksongWorld(CachedRuleBuilderWorld):
                          key=lambda item: (item.name.startswith("Flea:"), item.name not in movement))
         for index, item in zip(indices, ordered):
             progitempool[index] = item
-        if not uses_crest_slot_locket_logic(self):
-            return
-        if self.options.accessibility == "minimal":
-            from rule_builder.rules import Has
+        if uses_crest_slot_locket_logic(self):
+            if self.options.accessibility == "minimal":
+                from rule_builder.rules import Has
 
-            available_items = {
-                id(item): item
-                for item in (
-                    *self.multiworld.get_items(),
-                    *self.multiworld.precollected_items[self.player],
+                available_items = {
+                    id(item): item
+                    for item in (
+                        *self.multiworld.get_items(),
+                        *self.multiworld.precollected_items[self.player],
+                    )
+                    if item.player == self.player and item.name == MEMORY_LOCKET_ITEM
+                }
+                budget = min(
+                    len(get_active_crest_slot_locations(self)),
+                    len(available_items),
+                    self.multiworld.get_all_state().count(MEMORY_LOCKET_ITEM, self.player),
                 )
-                if item.player == self.player and item.name == MEMORY_LOCKET_ITEM
-            }
-            budget = min(
-                len(get_active_crest_slot_locations(self)),
-                len(available_items),
-                self.multiworld.get_all_state().count(MEMORY_LOCKET_ITEM, self.player),
+                self.set_completion_rule(
+                    Has("Victory") & Has(MEMORY_LOCKET_ITEM, budget)
+                )
+                self._crest_slot_fill_completion_guard = True
+            indices = [
+                index for index, item in enumerate(progitempool)
+                if item.player == self.player
+            ]
+            # Restrictive fill places from the end. Place Lockets before movement.
+            ordered = sorted(
+                (progitempool[index] for index in indices),
+                key=lambda item: item.name == MEMORY_LOCKET_ITEM,
             )
-            self.set_completion_rule(
-                Has("Victory") & Has(MEMORY_LOCKET_ITEM, budget)
-            )
-            self._crest_slot_fill_completion_guard = True
-        indices = [
-            index for index, item in enumerate(progitempool)
-            if item.player == self.player
-        ]
-        # Restrictive fill places from the end. Place Lockets before movement.
-        ordered = sorted(
-            (progitempool[index] for index in indices),
-            key=lambda item: item.name == MEMORY_LOCKET_ITEM,
-        )
-        for index, item in zip(indices, ordered):
-            progitempool[index] = item
+            for index, item in zip(indices, ordered):
+                progitempool[index] = item
+
+        from .category_fill import fill_solo_progression
+
+        fill_solo_progression(self, progitempool, fill_locations)
 
     @classmethod
     def _build_crest_slot_budget_state(cls, multiworld, excluded_slots):
@@ -2200,6 +2209,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "flea_hunt_count": flea_hunt_count,
             "starting_location": self.get_starting_location_key(),
             "starting_crest": self.resolve_starting_crest(),
+            "force_naked": bool(self.options.force_naked.value),
             "early_dash": self.is_early_dash_enabled(),
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
             "silk_heart_logic": bool(self.options.silk_heart_logic.value),

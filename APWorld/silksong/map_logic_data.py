@@ -96,7 +96,10 @@ def prepare_base(data, slot_data):
 
 def encode(payload, slot_data):
     identity, data = load_base()
-    base = prepare_base(data, slot_data)
+    base = (data["logic"]
+            if slot_data.get("entrance_randomization", "off") != "coupled"
+            and slot_data.get("scuttlebrace_logic", False)
+            else prepare_base(data, slot_data))
     changes = difference(base, normalize(payload))
     if slot_data.get('enemy_soul_silk_logic') == 1:
         raw = json.dumps(changes, separators=(',', ':')).encode()

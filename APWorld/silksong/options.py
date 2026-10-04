@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import random
 
 from Options import (
     Accessibility,
@@ -63,20 +62,6 @@ class SkillRandomization(CategoryRandomization):
     """
 
     display_name = "Skill Randomization"
-
-
-class SilkHeartLogic(Toggle):
-    """
-    Places logical routes for abilities that require silk behind the
-    acquisition of at least one Silk Heart. These include Needolin,
-    Clawline and Silk Soar.
-
-    Turning this option off may cause more frequent soft locks as you
-    may get stuck in a location where you can't get more silk.
-    """
-
-    display_name = "Silk Heart Logic"
-    default = 0
 
 
 class ToolRandomization(CategoryRandomization):
@@ -252,6 +237,20 @@ class SilkHeartRandomization(GlobalRandomization):
     """
 
     display_name = "Silk Heart Randomization"
+
+
+class SilkHeartLogic(Toggle):
+    """
+    Places logical routes for abilities that require silk behind the
+    acquisition of at least one Silk Heart. These include Needolin,
+    Clawline and Silk Soar.
+
+    Turning this option off may cause more frequent soft locks as you
+    may get stuck in a location where you can't get more silk.
+    """
+
+    display_name = "Silk Heart Logic"
+    default = 1
 
 
 class BellwayRandomization(CategoryRandomization):
@@ -870,8 +869,7 @@ class StartingCrest(Choice):
     """
     Choose Hornet's starting Crest when Crests are randomized.
 
-    naked starts without a Crest until you find one.
-    random selects one of the seven Crests and never selects naked.
+    random selects one of the seven Crests.
     """
 
     display_name = "Starting Crest"
@@ -882,14 +880,18 @@ class StartingCrest(Choice):
     option_architect = 4
     option_witch = 5
     option_shaman = 6
-    option_naked = 7
     default = "random"
 
-    @classmethod
-    def from_text(cls, text):
-        if text.lower() == "random":
-            return cls(random.choice([value for value in cls.name_lookup if value != cls.option_naked]))
-        return super().from_text(text)
+
+class ForceNaked(Toggle):
+    """
+    Start cloakless without a Crest until you find one. Overrides Starting Crest.
+    Experimental. Requires Crest Randomization set to shuffle or anywhere.
+    """
+
+    display_name = "Force Naked"
+    visibility = Visibility.none
+    default = 0
 
 
 class EarlyDash(Toggle):
@@ -1606,6 +1608,7 @@ class SilksongOptions(PerGameCommonOptions):
     entrance_randomization: EntranceRandomization
     entrance_randomization_scope: EntranceRandomizationScope
     starting_crest: StartingCrest
+    force_naked: ForceNaked
     start_inventory_from_pool: StartInventoryPool
     early_dash: EarlyDash
     split_dash_and_sprint: SplitDashAndSprint
@@ -1650,7 +1653,6 @@ class SilksongOptions(PerGameCommonOptions):
     quill_randomization: QuillRandomization
     compass_randomization: CompassRandomization
     skill_randomization: SkillRandomization
-    silk_heart_logic: SilkHeartLogic
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
     crest_randomization: CrestRandomization
@@ -1665,6 +1667,7 @@ class SilksongOptions(PerGameCommonOptions):
     mask_shard_randomization: MaskShardRandomization
     spool_fragment_randomization: SpoolFragmentRandomization
     silk_heart_randomization: SilkHeartRandomization
+    silk_heart_logic: SilkHeartLogic
     bellway_randomization: BellwayRandomization
     ventrica_randomization: VentricaRandomization
     map_randomization: MapRandomization
@@ -1735,6 +1738,7 @@ silksong_option_groups = [
     OptionGroup("Starting Options", [
         StartingLocation,
         StartingCrest,
+        ForceNaked,
         StartWithMaps,
         StartFullyMapped,
         AutomaticCompass,
@@ -1761,7 +1765,6 @@ silksong_option_groups = [
         QuillRandomization,
         CompassRandomization,
         SkillRandomization,
-        SilkHeartLogic,
         ToolRandomization,
         SilkSkillRandomization,
         CrestRandomization,
@@ -1776,6 +1779,7 @@ silksong_option_groups = [
         MaskShardRandomization,
         SpoolFragmentRandomization,
         SilkHeartRandomization,
+        SilkHeartLogic,
         BellwayRandomization,
         VentricaRandomization,
         MapRandomization,

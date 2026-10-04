@@ -7873,12 +7873,13 @@ def _all_requirement_groups() -> tuple[tuple[LocationRequirement, ...], ...]:
 def _get_abstract_dependency_closure(
     requirements: Iterable[LocationRequirement],
 ) -> frozenset[str]:
+    abstract_names = frozenset(ABSTRACT_REQUIREMENTS)
     pending = [
         name
         for requirement in requirements
         for name in _iter_abstract_references_for_worklist(
             requirement,
-            frozenset(ABSTRACT_REQUIREMENTS),
+            abstract_names,
         )
     ]
     dependencies: set[str] = set()
@@ -7892,7 +7893,7 @@ def _get_abstract_dependency_closure(
             for requirement in ABSTRACT_REQUIREMENTS[name]
             for reference in _iter_abstract_references_for_worklist(
                 requirement,
-                frozenset(ABSTRACT_REQUIREMENTS),
+                abstract_names,
             )
         )
     return frozenset(dependencies)

@@ -292,7 +292,10 @@ def sweep_native_sources(state, locations):
             if accessible:
                 reachable.append(location)
         if not reachable:
-            reachable = [location for location in pending if location.can_reach(state)]
+            for location in pending:
+                if location.can_reach(state):
+                    reachable.append(location)
+                    break
             if not reachable:
                 break
         for location in reachable:
