@@ -1442,7 +1442,7 @@ class TrapDisguises(Toggle):
     """
 
     display_name = "Trap Disguises"
-    default = 0
+    default = 1
 
 
 class TrapPercentage(Range):

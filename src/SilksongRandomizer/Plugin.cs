@@ -60,7 +60,7 @@ namespace SilksongRandomizer
         private CursorLockMode previousCursorLockState;
         private Vector2 connectionScrollPosition;
         private Rect connectionWindowRect = new Rect(0f, 0f, ConnectionWindowWidth, ConnectionWindowHeight);
-        private string connectionHost = "localhost";
+        private string connectionHost = "archipelago.gg";
         private string connectionPort = "38281";
         private string connectionSlot = string.Empty;
         private string connectionPassword = string.Empty;
@@ -180,7 +180,7 @@ namespace SilksongRandomizer
             savedConnectionHost = Config.Bind(
                 "Archipelago Connection",
                 "Host",
-                "localhost",
+                "archipelago.gg",
                 "Host used by the last successful Archipelago connection."
             );
             savedConnectionPort = Config.Bind(
@@ -202,7 +202,7 @@ namespace SilksongRandomizer
                 "Hide the host, port and slot in the F3 connection menu."
             );
 
-            connectionHost = savedConnectionHost.Value ?? "localhost";
+            connectionHost = savedConnectionHost.Value ?? "archipelago.gg";
             connectionPort = savedConnectionPort.Value ?? "38281";
             connectionSlot = savedConnectionSlot.Value ?? string.Empty;
         }
