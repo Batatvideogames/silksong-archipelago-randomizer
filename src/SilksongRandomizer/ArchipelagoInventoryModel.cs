@@ -431,7 +431,7 @@ namespace SilksongRandomizer
 
         private static List<ArchipelagoInventoryRow> Bells(SaveState state)
         {
-            string[] areas = { "The Marrow", "Far Fields", "Greymoor", "Shellwood", "Bellhart" };
+            string[] areas = { "The Marrow", "Deep Docks", "Greymoor", "Shellwood", "Bellhart" };
             string[] flags = { "bellShrineBoneForest", "bellShrineWilds", "bellShrineGreymoor",
                 "bellShrineShellwood", "bellShrineBellhart" };
             bool randomized = state.IsRandomized(ItemType.BellShrine);
