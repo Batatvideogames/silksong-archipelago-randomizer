@@ -633,7 +633,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             steel_soul=self.is_steel_soul(),
         )
         if (
-            self.get_category_mode('Skill') == 'shuffle'
+            (self.options.silk_heart_logic or self.options.enemy_souls)
+            and self.get_category_mode('Skill') == 'shuffle'
             and self.get_category_mode('SilkHeart') == 'anywhere'
         ):
             player_early_items = self.multiworld.local_early_items[
@@ -1356,13 +1357,15 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         pool_entries = tuple(pool_entries)
         if (self.is_act_two_content_scope()
-                and any(entry.name == "Grey Memento" for entry in pool_entries)
+                and (any(entry.name == "Grey Memento" for entry in pool_entries)
+                     or (self.get_category_mode('Skill') == 'anywhere'
+                         and self.options.accessibility == 'full'))
                 and not any(entry.name == "Silk Soar" for entry in pool_entries)
                 and not any(item.name == "Silk Soar"
                             for item in self.multiworld.precollected_items[self.player])):
             raise OptionError(
-                "Memento Randomization in Act 2 needs room for Silk Soar. "
-                "Enable an additional category with filler items or start with Silk Soar."
+                "The selected Act 2 settings need room for Silk Soar. "
+                "Enable a category with filler items in Anywhere mode or start with Silk Soar."
             )
 
         self.multiworld.itempool.extend(
@@ -1438,7 +1441,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             menu.locations.append(vanilla_key)
 
         native_regions = create_native_logic_region_map(self)
-        abstract_names = self._silksong_native_abstract_names
+        abstract_names = self._silksong_native_region_names
         self._silksong_native_location_anchors = {}
         self._silksong_native_assumed_source_locations = set()
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
@@ -2199,6 +2202,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "starting_crest": self.resolve_starting_crest(),
             "early_dash": self.is_early_dash_enabled(),
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
+            "silk_heart_logic": bool(self.options.silk_heart_logic.value),
             "ledgegrab_ability_rando": (
                 self.is_ledgegrab_ability_rando_enabled()
             ),
@@ -2301,7 +2305,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 room_node_overrides=entrance_node_overrides(self, connected=True),
             ),
             "logic_item_dependencies": export_logic_item_dependencies(
-                self.is_split_dash_and_sprint()
+                self.is_split_dash_and_sprint(),
+                silk_heart_logic=bool(self.options.silk_heart_logic.value)
             ),
             "logic_events": export_wish_logic_events(
                 exported_requirements,

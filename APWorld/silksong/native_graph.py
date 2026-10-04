@@ -134,9 +134,17 @@ def _external_roots(world):
               *world._progression_location_rules.values(), get_pinmaster_oil_requirements(True)]
     groups.extend(world_location_requirements(world, name) for name in REQUIREMENTS)
     groups.extend(check_requirements(name) for name in enabled_enemies(world))
-    for rules in groups:
-        for rule in rules:
-            roots.update((*rule.all_of, *rule.any_of))
+    from .requirement_rules import build_requirements_rule
+    from .native_regions import native_rule_options
+    from .room_graph_logic import native_region_name
+    names = world._silksong_native_abstract_names
+    options = native_rule_options(world)
+    by_region = {native_region_name(name): name for name in names}
+    for rules in dict.fromkeys(groups):
+        resolved = build_requirements_rule(
+            rules, extra_abstract_requirement_names=names, **options,
+        ).resolve(world)
+        roots.update(by_region[n] for n in resolved.region_dependencies() if n in by_region)
     return roots
 
 
@@ -173,6 +181,27 @@ def compact_requirements(world, original, additional_roots=()):
         graph[owner] = retained
     mutable = frozenset(world._progression_events)
     graph, aliases = _simplify(graph, mutable)
+    if not getattr(world, '_silk_node_rules', None):
+        from .entrance_randomization import WARP_DESTINATIONS
+        from .room_graph_logic import room_node_name
+        possible = set(mutable) | set(additional_roots)
+        possible.update(aliases.get(room_node_name(node), room_node_name(node))
+                        for _, node in WARP_DESTINATIONS.values())
+        pending = set(graph) - possible
+        while pending:
+            reached = {
+                name for name in pending
+                if any(all(n not in graph or n in possible for n in all_of)
+                       and (not any_of or any(n not in graph or n in possible for n in any_of))
+                       for all_of, any_of, _ in graph[name])
+            }
+            if not reached:
+                break
+            possible.update(reached)
+            pending.difference_update(reached)
+        world._silksong_unreachable_abstract_names = frozenset(
+            name for name, target in aliases.items() if target not in possible)
+    blocked = getattr(world, '_silksong_unreachable_abstract_names', frozenset())
     predicates = tuple(predicates)
 
     def anchor_order(name):
@@ -184,6 +213,8 @@ def compact_requirements(world, original, additional_roots=()):
 
     result = {}
     for name, target in aliases.items():
+        if name in blocked:
+            continue
         if name != target:
             result[name] = (req(target, crest=False),)
         else:
@@ -194,7 +225,7 @@ def compact_requirements(world, original, additional_roots=()):
                 for all_of, any_of, predicate in graph[name]
             ), key=repr))
     roots = _external_roots(world) & result.keys()
-    roots.update(additional_roots)
+    roots.update(name for name in additional_roots if name in result)
     retained_rules = (*world._progression_location_rules.values(),
                       *(original[name] for name in mutable))
     for rules in retained_rules:

@@ -413,6 +413,7 @@ def set_silksong_rules(world) -> None:
                 scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
+                silk_heart_logic=bool(world.options.silk_heart_logic.value),
             )
         else:
             location_rule = build_location_rule(
@@ -453,6 +454,7 @@ def set_silksong_rules(world) -> None:
                 scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
+                silk_heart_logic=bool(world.options.silk_heart_logic.value),
             )
             if location_name == CRAWFATHER_LOCATION:
                 location_rule = build_requirements_rule(
@@ -491,6 +493,7 @@ def set_silksong_rules(world) -> None:
                     scuttlebrace_tier=scuttlebrace_tier,
                     bell_shrine_sanity=bell_shrine_sanity,
                     silk_and_soul_points=get_silk_and_soul_points(world.options),
+                    silk_heart_logic=bool(world.options.silk_heart_logic.value),
                 )
         if location_name == PINMASTER_OIL_QUEST_LOCATION:
             location_rule = build_requirements_rule(
@@ -526,6 +529,7 @@ def set_silksong_rules(world) -> None:
                 scuttlebrace_tier=scuttlebrace_tier,
                 bell_shrine_sanity=bell_shrine_sanity,
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
+                silk_heart_logic=bool(world.options.silk_heart_logic.value),
             )
 
         required_tool_pouch_count = (
@@ -686,6 +690,7 @@ def set_silksong_rules(world) -> None:
                     scuttlebrace_tier=scuttlebrace_tier,
                     bell_shrine_sanity=bell_shrine_sanity,
                     silk_and_soul_points=get_silk_and_soul_points(world.options),
+                    silk_heart_logic=bool(world.options.silk_heart_logic.value),
                 )
                 required_tool_pouch_count = (
                     shell_shard_donation_pouch_requirements.get(
@@ -760,6 +765,7 @@ def set_silksong_rules(world) -> None:
         scuttlebrace_tier=scuttlebrace_tier,
         bell_shrine_sanity=bell_shrine_sanity,
         silk_and_soul_points=get_silk_and_soul_points(world.options),
+        silk_heart_logic=bool(world.options.silk_heart_logic.value),
     )
     world._silksong_rule_builder_rules["Goal"] = goal_rule
     world.set_rule(

@@ -21,6 +21,7 @@ from .room_graph_logic import ROOM_NODE_PREFIX, native_region_name
 def native_rule_options(world) -> dict[str, object]:
     return {
         "split_dash_and_sprint": world.is_split_dash_and_sprint(),
+        "silk_heart_logic": bool(world.options.silk_heart_logic.value),
         "allow_bellways_before_bell_beast": (
             world.allows_bellways_before_bell_beast()
         ),
@@ -155,6 +156,7 @@ def create_native_logic_region_map(world) -> Mapping[str, Region]:
     from .silk_supply import compile_regions
     compiled_requirements = compile_regions(world, requirements)
     world._silksong_native_compiled_requirements = compiled_requirements
+    world._silksong_native_region_names = frozenset(compiled_requirements)
     region_names = abstract_names if compiled_requirements is requirements else compiled_requirements
     regions = {
         name: Region(native_region_name(name), world.player, world.multiworld)
@@ -292,13 +294,14 @@ def connect_native_logic_regions(
 ) -> None:
     requirements = world._silksong_native_compiled_requirements
     abstract_names = world._silksong_native_abstract_names
+    anchor_names = world._silksong_native_region_names
     options = native_rule_options(world)
 
     for owner, alternatives in requirements.items():
         target = regions[owner]
         grouped: dict[str | None, list[LocationRequirement]] = {}
         for requirement in alternatives:
-            anchor = choose_requirement_anchor(requirement, abstract_names, owner)
+            anchor = choose_requirement_anchor(requirement, anchor_names, owner)
             grouped.setdefault(anchor, []).append(requirement)
         for index, (anchor, grouped_requirements) in enumerate(grouped.items(), 1):
             rule = build_requirements_rule(

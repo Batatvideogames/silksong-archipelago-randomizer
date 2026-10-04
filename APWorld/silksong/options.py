@@ -65,6 +65,20 @@ class SkillRandomization(CategoryRandomization):
     display_name = "Skill Randomization"
 
 
+class SilkHeartLogic(Toggle):
+    """
+    Places logical routes for abilities that require silk behind the
+    acquisition of at least one Silk Heart. These include Needolin,
+    Clawline and Silk Soar.
+
+    Turning this option off may cause more frequent soft locks as you
+    may get stuck in a location where you can't get more silk.
+    """
+
+    display_name = "Silk Heart Logic"
+    default = 0
+
+
 class ToolRandomization(CategoryRandomization):
     """
     Randomizes tools other than Compass in the game.
@@ -1636,6 +1650,7 @@ class SilksongOptions(PerGameCommonOptions):
     quill_randomization: QuillRandomization
     compass_randomization: CompassRandomization
     skill_randomization: SkillRandomization
+    silk_heart_logic: SilkHeartLogic
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
     crest_randomization: CrestRandomization
@@ -1746,6 +1761,7 @@ silksong_option_groups = [
         QuillRandomization,
         CompassRandomization,
         SkillRandomization,
+        SilkHeartLogic,
         ToolRandomization,
         SilkSkillRandomization,
         CrestRandomization,

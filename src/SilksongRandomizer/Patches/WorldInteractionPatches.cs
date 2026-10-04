@@ -401,6 +401,21 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(LiftControl), "SetInitialPos")]
+        private static class HalfwayHomeLiftPositionPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(LiftControl __instance, ref int ___currentStop)
+            {
+                if (IsActive && __instance != null &&
+                    GetBaseSceneName(__instance.gameObject) == "Greymoor_03" &&
+                    __instance.name == "Hornet_cage_rect_lift_greymoor")
+                {
+                    ___currentStop = 0;
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(LiftControl), "Start")]
         private static class LiftControlPatch
         {

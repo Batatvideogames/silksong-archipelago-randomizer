@@ -12,8 +12,14 @@ from rule_builder.rules import (
     CanReachRegion,
     False_,
     Has,
+    HasAll,
+    HasAllCounts,
     HasAny,
+    HasAnyCount,
     HasFromList,
+    HasFromListUnique,
+    HasGroup,
+    HasGroupUnique,
     Or,
     Rule,
     True_,
@@ -55,6 +61,16 @@ GAME_NAME = "Hollow Knight: Silksong"
 
 
 @dataclasses.dataclass()
+class NativeRegionRule(Rule, game=GAME_NAME):
+    name: str
+
+    def _instantiate(self, world):
+        if self.name in getattr(world, '_silksong_unreachable_abstract_names', ()):
+            return False_().resolve(world)
+        return CanReachRegion(native_region_name(self.name)).resolve(world)
+
+
+@dataclasses.dataclass()
 class AbstractRequirementRule(Rule, game=GAME_NAME):
     """Evaluate one named node in Silksong's cyclic route graph.
 
@@ -91,6 +107,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     steel_soul: bool = False
     steel_soul_sites: tuple[str, ...] = ()
     silk_and_soul_points: int = 17
+    silk_heart_logic: bool = False
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -125,6 +142,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.steel_soul,
             self.steel_soul_sites,
             self.silk_and_soul_points,
+            self.silk_heart_logic,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -158,6 +176,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         steel_soul: bool
         steel_soul_sites: tuple[str, ...]
         silk_and_soul_points: int
+        silk_heart_logic: bool
 
         def _evaluate(self, state: CollectionState) -> bool:
             return _has_named_requirement(
@@ -196,6 +215,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 steel_soul=self.steel_soul,
                 steel_soul_sites=self.steel_soul_sites,
                 silk_and_soul_points=self.silk_and_soul_points,
+                silk_heart_logic=self.silk_heart_logic,
             )
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -361,11 +381,13 @@ def _lookup_native_source_memo(
         if lower is not None and all(
             state.prog_items[rule.player].get(name, 0) >= count for name, count in lower.items()
         ):
+            results[key] = True
             return results, key, True
         bound = memo.get("unreachable_bounds", {}).get(bound_key)
         if bound is not None and all(
             count <= bound.get(name, 0) for name, count in state.prog_items[rule.player].items()
         ):
+            results[key] = False
             cached = False
     return results, key, cached
 
@@ -384,6 +406,23 @@ def _remember_native_source_result(state, memo_entry, result):
 @lru_cache(maxsize=1)
 def _native_source_item_references():
     return get_logic_item_references()
+
+
+def _native_item_requirement(rule):
+    if type(rule) in {
+        Has.Resolved, HasAll.Resolved, HasAny.Resolved, HasAllCounts.Resolved,
+        HasAnyCount.Resolved, HasFromList.Resolved, HasFromListUnique.Resolved,
+        HasGroup.Resolved, HasGroupUnique.Resolved, False_.Resolved,
+    }:
+        return rule
+    if type(rule) is And.Resolved:
+        children = tuple(child for entry in rule.children
+                         if (child := _native_item_requirement(entry)) is not None)
+        return And.Resolved(children, player=rule.player) if children else None
+    if type(rule) is Or.Resolved:
+        children = tuple(_native_item_requirement(entry) for entry in rule.children)
+        return None if any(child is None for child in children) else Or.Resolved(children, player=rule.player)
+    return None
 
 
 @dataclasses.dataclass()
@@ -424,6 +463,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     steel_soul: bool = False
     steel_soul_sites: tuple[str, ...] = ()
     silk_and_soul_points: int = 17
+    silk_heart_logic: bool = False
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -464,6 +504,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             steel_soul=self.steel_soul,
             steel_soul_sites=self.steel_soul_sites,
             silk_and_soul_points=self.silk_and_soul_points,
+            silk_heart_logic=self.silk_heart_logic,
         )
         return self.Resolved(
             self.location_name,
@@ -482,6 +523,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
         anchor_requirement_name: str | None
         child: Rule.Resolved
         assumed_item: Item
+        _item_rule: Rule.Resolved | None = dataclasses.field(init=False, repr=False)
 
         def __post_init__(self) -> None:
             object.__setattr__(
@@ -490,6 +532,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 self.force_recalculate or self.child.force_recalculate,
             )
             super().__post_init__()
+            object.__setattr__(self, "_item_rule", _native_item_requirement(self.child))
 
         def _evaluate(self, state: CollectionState) -> bool:
             memo_entry = _lookup_native_source_memo(self, state)
@@ -520,7 +563,9 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             )
             assumed_state.rule_builder_cache[self.player] = state.rule_builder_cache[self.player].copy()
             assumed_state.collect(self.assumed_item, True)
-            if (
+            if self._item_rule is not None and not self._item_rule(assumed_state):
+                result = False
+            elif (
                 self.anchor_requirement_name is not None
                 and not assumed_state.can_reach_region(
                     native_region_name(self.anchor_requirement_name),
@@ -722,6 +767,7 @@ def _compile_named_requirement(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> Rule:
     if (
         not scuttlebrace_logic_enabled
@@ -730,7 +776,7 @@ def _compile_named_requirement(
         return False_()
     if requirement_name in abstract_requirement_names:
         if native_abstract_regions:
-            return CanReachRegion(native_region_name(requirement_name))
+            return NativeRegionRule(requirement_name)
         return AbstractRequirementRule(
             requirement_name=requirement_name,
             split_dash_and_sprint=split_dash_and_sprint,
@@ -763,6 +809,7 @@ def _compile_named_requirement(
             steel_soul=steel_soul,
             steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
+            silk_heart_logic=silk_heart_logic,
         )
 
     item_name = clean_item_display_name(requirement_name)
@@ -770,7 +817,8 @@ def _compile_named_requirement(
         return Has(PROGRESSIVE_SWIFT_STEP_ITEM, 2)
 
     dependencies = get_logic_item_dependencies(
-        split_dash_and_sprint
+        split_dash_and_sprint,
+        silk_heart_logic=silk_heart_logic,
     ).get(item_name, ())
     item_rules: list[Rule] = [Has(item_name)]
     if item_name in CLOAK_REQUIRED_SKILL_ITEMS:
@@ -818,6 +866,7 @@ def _compile_requirement(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> Rule:
     if requirement.minimum_skip_tier > skips_tier:
         return False_()
@@ -857,6 +906,7 @@ def _compile_requirement(
             steel_soul=steel_soul,
             steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
+            silk_heart_logic=silk_heart_logic,
         )
 
     def compile_required_location(location_name: str) -> Rule:
@@ -907,6 +957,7 @@ def _compile_requirement(
                 steel_soul=steel_soul,
                 steel_soul_sites=steel_soul_sites,
                 silk_and_soul_points=silk_and_soul_points,
+                silk_heart_logic=silk_heart_logic,
             )
             for alternative in alternatives
         )
@@ -990,6 +1041,7 @@ def build_requirements_rule(
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
     extra_abstract_requirement_names: frozenset[str] = frozenset(),
+    silk_heart_logic: bool = False,
 ) -> Rule:
     """Compile declarative Silksong requirements into a RuleBuilder tree."""
 
@@ -1059,6 +1111,7 @@ def build_requirements_rule(
             steel_soul=steel_soul,
             steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
+            silk_heart_logic=silk_heart_logic,
         )
         for requirement in requirements
     )
@@ -1095,6 +1148,7 @@ def build_location_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -1131,6 +1185,7 @@ def build_location_rule(
         steel_soul=steel_soul,
         steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )
 
 
@@ -1167,6 +1222,7 @@ def build_goal_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> Rule:
     return build_requirements_rule(
         get_goal_requirements(
@@ -1203,6 +1259,7 @@ def build_goal_rule(
         steel_soul=steel_soul,
         steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )
 
 
@@ -1237,6 +1294,7 @@ def build_native_source_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> Rule:
     if is_logic_unknown_location(location_name):
         return True_()
@@ -1270,4 +1328,5 @@ def build_native_source_rule(
         steel_soul,
         steel_soul_sites,
         silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )

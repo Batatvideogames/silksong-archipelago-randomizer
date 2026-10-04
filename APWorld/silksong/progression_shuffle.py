@@ -661,7 +661,7 @@ def _replace_events(world, assignments):
                         del world.multiworld.indirect_connections[region]
         grouped = {}
         for requirement in alternatives:
-            anchor = choose_requirement_anchor(requirement, names, owner)
+            anchor = choose_requirement_anchor(requirement, world._silksong_native_region_names, owner)
             grouped.setdefault(anchor, []).append(requirement)
         for index, (anchor, rules) in enumerate(grouped.items(), 1):
             parent = world.multiworld.get_region(native_region_name(anchor) if anchor else "Menu", world.player)

@@ -548,6 +548,7 @@ SILK_HEART_TRAVERSAL_ITEMS: frozenset[str] = frozenset(
     (
         'Clawline',
         'Silk Soar',
+        'Needolin',
     )
 )
 LOGIC_ITEM_DEPENDENCIES: Mapping[str, tuple[str, ...]] = {
@@ -650,10 +651,11 @@ def _store_abstract_values_cache(
 
 def get_logic_item_dependencies(
     split_dash_and_sprint: bool = False,
+    silk_heart_logic: bool = False,
 ) -> Mapping[str, tuple[str, ...]]:
     """Return dependencies that apply to the selected movement model."""
 
-    dependencies = dict(LOGIC_ITEM_DEPENDENCIES)
+    dependencies = dict(LOGIC_ITEM_DEPENDENCIES) if silk_heart_logic else {}
     if split_dash_and_sprint:
         # Duplicate entries encode a two-copy progressive
         # requirement in exported slot data. The AP reachability evaluator
@@ -6596,6 +6598,7 @@ def _compute_abstract_values(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> tuple[
     dict[str, bool],
     bool,
@@ -6612,7 +6615,8 @@ def _compute_abstract_values(
     then revisit only owners which reference a newly reachable abstract value.
     """
     logic_item_dependencies = get_logic_item_dependencies(
-        split_dash_and_sprint
+        split_dash_and_sprint,
+        silk_heart_logic=silk_heart_logic,
     )
     item_counts: dict[str, int] = {}
 
@@ -6623,6 +6627,7 @@ def _compute_abstract_values(
         cache_key = (
             player,
             split_dash_and_sprint,
+            silk_heart_logic,
             allow_bellways_before_bell_beast,
             skips_tier,
             randomized_crest_slots_enabled,
@@ -6996,12 +7001,14 @@ def _has_named_requirement(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> bool:
     # Each item or graph requirement uses the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
     del seen
     logic_item_dependencies = get_logic_item_dependencies(
-        split_dash_and_sprint
+        split_dash_and_sprint,
+        silk_heart_logic=silk_heart_logic,
     )
     abstract_values, _, _, has_item, _ = _compute_abstract_values(
         state,
@@ -7032,6 +7039,7 @@ def _has_named_requirement(
         steel_soul=steel_soul,
         steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )
     return _has_named_requirement_with_values(
         item_or_requirement_name,
@@ -7072,12 +7080,14 @@ def _satisfies_requirement(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ) -> bool:
     # Evaluate one location requirement using the fixed-point values.
     # ``seen`` is unused because cycle handling happens in the graph solver.
     del seen
     logic_item_dependencies = get_logic_item_dependencies(
-        split_dash_and_sprint
+        split_dash_and_sprint,
+        silk_heart_logic=silk_heart_logic,
     )
     abstract_values, has_crest, has_spear, has_item, count_item = (
         _compute_abstract_values(
@@ -7109,6 +7119,7 @@ def _satisfies_requirement(
             steel_soul=steel_soul,
             steel_soul_sites=steel_soul_sites,
             silk_and_soul_points=silk_and_soul_points,
+            silk_heart_logic=silk_heart_logic,
         )
     )
     return _satisfies_requirement_with_values(
@@ -7153,10 +7164,12 @@ def make_requirements_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ):
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
-            split_dash_and_sprint
+            split_dash_and_sprint,
+            silk_heart_logic=silk_heart_logic,
         )
         abstract_values, has_crest, has_spear, has_item, count_item = (
             _compute_abstract_values(
@@ -7188,6 +7201,7 @@ def make_requirements_rule(
                 steel_soul=steel_soul,
                 steel_soul_sites=steel_soul_sites,
                 silk_and_soul_points=silk_and_soul_points,
+                silk_heart_logic=silk_heart_logic,
             )
         )
         return any(
@@ -7238,6 +7252,7 @@ def make_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ):
     if is_logic_unknown_location(location_name):
         return lambda _state: True
@@ -7274,6 +7289,7 @@ def make_rule(
         steel_soul=steel_soul,
         steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )
 
 
@@ -7531,6 +7547,7 @@ def make_goal_rule(
     steel_soul: bool = False,
     steel_soul_sites: tuple[str, ...] = (),
     silk_and_soul_points: int = 17,
+    silk_heart_logic: bool = False,
 ):
     return make_requirements_rule(
         get_goal_requirements(
@@ -7566,6 +7583,7 @@ def make_goal_rule(
         steel_soul=steel_soul,
         steel_soul_sites=steel_soul_sites,
         silk_and_soul_points=silk_and_soul_points,
+        silk_heart_logic=silk_heart_logic,
     )
 
 
@@ -7827,13 +7845,15 @@ def export_abstract_requirements(
 
 def export_logic_item_dependencies(
     split_dash_and_sprint: bool = False,
+    silk_heart_logic: bool = False,
 ) -> Mapping[str, list[str]]:
     """Expose implicit item dependencies to diagnostics and external logic tools."""
 
     return {
         item_name: list(dependencies)
         for item_name, dependencies in get_logic_item_dependencies(
-            split_dash_and_sprint
+            split_dash_and_sprint,
+            silk_heart_logic=silk_heart_logic,
         ).items()
     }
 
@@ -8031,7 +8051,7 @@ def get_logic_item_references() -> frozenset[str]:
         for name in _iter_named_references(all_requirements)
         if name not in ABSTRACT_REQUIREMENTS
     }
-    all_logic_item_dependencies = get_logic_item_dependencies(True)
+    all_logic_item_dependencies = get_logic_item_dependencies(True, silk_heart_logic=True)
     references.update(
         dependency_name
         for item_name in tuple(references)
@@ -8069,7 +8089,7 @@ def _requirements_validation_signature(
         LOGIC_UNKNOWN_LOCATIONS,
         ALLOWED_DEAD_PATHS,
         tuple(sorted(ITEM_POOL_COUNTS.items())),
-        tuple(sorted(get_logic_item_dependencies(True).items())),
+        tuple(sorted(get_logic_item_dependencies(True, silk_heart_logic=True).items())),
         CREST_ITEMS,
         OPTION_DEPENDENT_PROGRESSION_ITEM_NAMES,
         get_trails_end_requirements(TRAILS_END_REQUIREMENT_OWNED_MAPS),

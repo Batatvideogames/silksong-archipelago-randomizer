@@ -1551,7 +1551,9 @@
       {
         "act": 2,
         "nodes": [
-          "underworks/underworks-crushing-path#room"
+          "underworks/underworks-crushing-path#bottom",
+          "underworks/underworks-crushing-path#top-right",
+          "underworks/underworks-crushing-path#top-left"
         ]
       },
       {
@@ -1565,7 +1567,11 @@
       {
         "act": 2,
         "nodes": [
-          "underworks/underworks-wisp-thicket-passage#room"
+          "underworks/underworks-wisp-thicket-passage#flea",
+          "underworks/underworks-wisp-thicket-passage#lower-flea-corridor",
+          "underworks/underworks-wisp-thicket-passage#rosary-string",
+          "underworks/underworks-wisp-thicket-passage#wisp-thicket-entrance",
+          "underworks/underworks-wisp-thicket-passage#underworks-entrance"
         ]
       },
       {
@@ -2783,7 +2789,8 @@
       {
         "act": 2,
         "nodes": [
-          "underworks/underworks-map-room#room"
+          "underworks/underworks-map-room#map",
+          "underworks/underworks-map-room#bone-scroll"
         ]
       },
       {
@@ -4360,7 +4367,9 @@
       {
         "act": 2,
         "nodes": [
-          "underworks/underworks-crushing-path#room"
+          "underworks/underworks-crushing-path#bottom",
+          "underworks/underworks-crushing-path#top-right",
+          "underworks/underworks-crushing-path#top-left"
         ]
       },
       {
