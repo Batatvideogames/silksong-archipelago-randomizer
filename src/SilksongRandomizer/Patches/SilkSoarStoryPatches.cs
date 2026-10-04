@@ -2,6 +2,8 @@ using System;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using UnityEngine;
+using CollectableItemCollectAction =
+    HutongGames.PlayMaker.Actions.CollectableItemCollect;
 using ConvertBoolToStringAction =
     HutongGames.PlayMaker.Actions.ConvertBoolToString;
 using GetPlayerDataVariableAction =
@@ -193,6 +195,23 @@ namespace SilksongRandomizer.Patches
                 }
 
                 return __exception;
+            }
+        }
+
+        [HarmonyPatch(typeof(CollectableItemCollectAction), "DoAction")]
+        private static class BallowKeyRewardPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItemCollectAction __instance, CollectableItem item)
+            {
+                if (SaveState.Instance?.divingBellKeyRandomization != true ||
+                    __instance?.Fsm?.Name != DialogueFsmName ||
+                    __instance.State?.Name != "Give Key" ||
+                    item?.name != "Dock Key")
+                    return true;
+
+                return !HasExactPath(__instance.Owner, DockSceneName, BallowStandardPath) &&
+                       !HasExactPath(__instance.Owner, DockSceneName, BallowUpgradedPath);
             }
         }
 
