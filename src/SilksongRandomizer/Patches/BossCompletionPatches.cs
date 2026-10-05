@@ -47,7 +47,7 @@ namespace SilksongRandomizer.Patches
 
         private static readonly Dictionary<string, (string State, string Action, string Location)> DeathStates =
             new Dictionary<string, (string, string, string)>(StringComparer.Ordinal) {
-            ["Bone_05_boss|Boss Scene|Battle End"] = ("End", "SetPlayerDataBool", "Boss: Bell Beast"),
+            ["Bone_05_boss|Boss Scene/Bone Beast|Control"] = ("Death Broadcast", "SendEventToRegister", "Boss: Bell Beast"),
             ["Bone_East_08_boss_golem|Boss Scene/song_golem|Control"] = ("Death Start", "RecordJournalKill", "Boss: Fourth Chorus"),
             ["Belltown_Shrine|Black Thread States Thread Only Variant/Normal World/Boss Scene/Spinner Boss|Control"] = ("Final Bind Burst", "RecordJournalKillV2", "Boss: Widow"),
             ["Dock_09|Boss Scene|Control"] = ("End Pause", "RecordJournalKill", "Boss: Forebrothers Signis & Gron"),

@@ -243,7 +243,7 @@ namespace SilksongRandomizer.Patches
                         storyField.DeclaringType == typeof(PlayerData) &&
                         (storyField.Name == "spinnerDefeated" || storyField.Name == "defeatedCoralDrillers" ||
                          storyField.Name == "skullKingDefeated" || storyField.Name == "DefeatedSwampShaman" ||
-                         storyField.Name == "defeatedFlowerQueen" ||
+                         storyField.Name == "defeatedFlowerQueen" || storyField.Name == "defeatedWispPyreEffigy" ||
                          (storyField.Name == "defeatedSplinterQueen" && ++splinterReads == 1)))
                     {
                         yield return new CodeInstruction(OpCodes.Ldstr, storyField.Name);
@@ -602,6 +602,26 @@ namespace SilksongRandomizer.Patches
             ("Shell Flowers", "Room_Witch", "Wood Witch", "Choice", "Flower Quest Yes No 2", "End Dialogue"),
             ("Doctor Curse Cure", "Belltown_Room_Doctor", "Doctor Fly Scene/Doctor Fly", "Quest Active?", "Take Quest?", "End Watch Target"),
         };
+
+        [HarmonyPatch(typeof(IntSwitch), nameof(IntSwitch.OnEnter))]
+        private static class PendingPlinneyWishPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(IntSwitch __instance)
+            {
+                if (!IsNpcAction(__instance, "Belltown_Room_Pinsmith", "Plinney Inside", "Dialogue", "Upgrade State") ||
+                    __instance.intVariable?.Name != "PD Upgrades") return true;
+                var state = SaveState.Instance?.progressionShuffle;
+                string target = state?.AssignedWish("A Pinsmiths Tools");
+                if (target == null || (__instance.intVariable.Value < 1 &&
+                    !state.IsWishOfferUnlocked("A Pinsmiths Tools"))) return true;
+                if (!NeedsNpcWishInteraction(QuestManager.GetQuest(target))) return true;
+                if (state.RecordWishOfferUnlocked("A Pinsmiths Tools")) GameManager.instance?.QueueSaveGame();
+                __instance.Fsm.SetState("Offer Quest");
+                __instance.Finish();
+                return false;
+            }
+        }
 
         [HarmonyPatch(typeof(QuestYesNo), "DoOpen")]
         private static class NpcWishPromptPatch

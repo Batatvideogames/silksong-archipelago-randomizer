@@ -108,6 +108,11 @@ namespace SilksongRandomizer
                 "Grey Memento", "Coral Warrior Item Spitter/Pit Pickup", 102.269997f, 3.930000f),
             new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
                 "Grey Memento", "Collectable Item Pickup", 126.160004f, 6.430000f),
+            // Missed the corpse drop kms
+            new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
+                "Grey Memento", "Coral Warrior Grey/Corpse Coral Warrior Grey(Clone)/Collectable Item Pickup", float.NaN, float.NaN),
+            new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
+                "Grey Memento", "Corpse Coral Warrior Grey(Clone)/Collectable Item Pickup", float.NaN, float.NaN),
             new DirectPickupEntry("Craw Memento", ItemType.Memento, "Room_CrowCourt_02",
                 "Crowman Memento", "Battle Scene/Collectable Item Pickup", 34.750000f, 20.299999f),
             new DirectPickupEntry("Surface Memento", ItemType.Memento, "Abandoned_town",

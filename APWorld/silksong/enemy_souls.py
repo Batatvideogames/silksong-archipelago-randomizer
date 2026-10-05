@@ -101,10 +101,9 @@ def pogo_graph(names):
 
 @lru_cache(maxsize=8)
 def _pogo_changes(names, silk=False):
-    from .room_graph import load_room_graph
     from .room_graph_logic import compile_room_graph
-    from .requirements import _compiled_room_clause_requirement
-    before = compile_room_graph(load_room_graph())
+    from .requirements import _compiled_room_clause_requirement, _SOURCE_COMPILED_ROOM_GRAPH
+    before = _SOURCE_COMPILED_ROOM_GRAPH
     after = compile_room_graph(pogo_graph(names), silk_costs=silk)
     result = {}
     for field in ('node_requirements', 'event_requirements', 'check_requirements'):

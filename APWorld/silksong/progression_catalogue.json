@@ -196,6 +196,7 @@
     "bone_11|Pilgrim 03 (4)|defeatedBellBeast": "Boss: Bell Beast",
     "bone_11|Pilgrim 03 (2)|defeatedBellBeast": "Boss: Bell Beast",
     "bone_12|Black Thread States/Normal World/Jail Scene 2|spinnerDefeated": "Boss: Widow",
+    "bone_12|Black Thread States/Normal World/Pin Gallery States|IsPinGallerySetup": "Boss: Widow",
     "bonetown|Black Thread States/Normal World/Citadel Song Pilgrim Corpses|spinnerDefeated": "Boss: Widow",
     "bonetown|Black Thread States/Normal World/bonebottom_quest_board|defeatedBellBeast": "Boss: Bell Beast",
     "dock_02|Bone Circler Vicious (2)|defeatedDockForemen": "Boss: Forebrothers Signis & Gron",
@@ -211,7 +212,17 @@
     "shellwood_15|Audio Widow distant harp|spinnerDefeated": "Boss: Widow",
     "song_24|Black Thread States/Normal World/Enemy Control|defeatedCogworkDancers": "Boss: Cogwork Dancers",
     "tut_01|Citadel Song Pilgrim Corpses|spinnerDefeated": "Boss: Widow",
-    "tut_03|Black Thread States/Black Thread World/Snails Act 3 Whispers|spinnerDefeated": "Boss: Widow"
+    "tut_03|Black Thread States/Black Thread World/Snails Act 3 Whispers|spinnerDefeated": "Boss: Widow",
+    "wisp_02|Wisp Farmers/Farmer Wisp (2)|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_02|Wisp Farmers/Farmer Wisp|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_02|Wisp Farmers/Farmer Wisp (1)|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_02|Wisp Farmers/Farmer Wisp Immolater Variant (2)|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_02|Wisp Farmers/Farmer Wisp Immolater Variant (3)|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_02|Wisp Farmers/Farmer Wisp Immolater Variant|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_07|Wisp Farmers (1)/Farmer Wisp|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_07|Wisp Farmers (1)/Farmer Wisp (1)|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_07|Wisp Farmers (1)/Farmer Wisp Immolater Variant|defeatedWispPyreEffigy": "Boss: Father of the Flame",
+    "wisp_07|Wisp Farmers (1)/Farmer Wisp Immolater Variant (1)|defeatedWispPyreEffigy": "Boss: Father of the Flame"
   },
   "boss_story_actions": {
     "ant_04_mid|Black Thread States Thread Only Variant/Normal World/Battle Scene/Mapper NPC|Dialogue|Shellwood State?|spinnerDefeated": "Boss: Widow",

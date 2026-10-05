@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import defaultdict, deque
+from collections import OrderedDict, defaultdict, deque
 from dataclasses import dataclass, replace
 from heapq import heappop, heappush
 
@@ -22,6 +22,7 @@ class _SupplyState:
         self.pending = set(range(len(program.conditions)))
         self.queue = []
         self.entries = set()
+        self.entry_nodes = set()
         self.refresh = True
         self.regeneration = 0
         self.capacity = 9
@@ -50,6 +51,7 @@ class SilkSupply:
         self.refill_conditions = {}
         self.refills = set()
         self._dependencies = {}
+        self._solutions = OrderedDict()
         options = native_rule_options(world)
 
         def resolve(rules):
@@ -106,6 +108,10 @@ class SilkSupply:
                 self.actions[predicate].append(('route', edge))
         self.capacity_rules = [resolve((capacity(amount),)) for amount in range(10, MAX_SILK + 1)]
         self.capacity_items = {name for rule in self.capacity_rules for name in rule.item_dependencies()}
+        self.region_updates = {
+            name: (self.region_conditions.get(name, ()), self.nodes.get(name))
+            for name in self.region_conditions.keys() | self.nodes.keys()
+        }
         self._compile_dependencies()
         for rule in (*self.conditions, *self.capacity_rules):
             world.register_rule_dependencies(rule)
@@ -156,9 +162,11 @@ class SilkSupply:
         return self._dependencies[node]
 
     def _cached(self, state):
-        caches = getattr(state, '_silksong_silk_supply', None)
-        cached = caches.get(self.player) if caches is not None else None
-        return cached if cached is not None and cached.program is self else None
+        try:
+            cached = state._silksong_silk_supply[self.player]
+        except (AttributeError, KeyError):
+            return None
+        return cached if cached.program is self else None
 
     def collect(self, state, name):
         affected = self.item_conditions.get(name, ())
@@ -171,13 +179,17 @@ class SilkSupply:
             cached.refresh |= refresh
 
     def reached(self, state, region):
-        affected = self.region_conditions.get(region.name)
+        update = self.region_updates.get(region.name)
+        if update is None:
+            return
         cached = self._cached(state)
-        if cached is not None:
-            cached.pending.update(p for p in affected or () if not cached.active[p])
-            index = self.nodes.get(region.name)
-            if index is not None and cached.levels[index] < 0:
-                cached.entries.add(index)
+        if cached is None:
+            return
+        affected, index = update
+        if affected:
+            cached.pending.update(p for p in affected if not cached.active[p])
+        if index is not None and cached.levels[index] < 0:
+            cached.entries.add(index)
 
     def evaluate(self, state, node, amount):
         if state.stale[self.player]:
@@ -198,10 +210,11 @@ class SilkSupply:
 
         def offer(index, value):
             if value >= 0:
-                value = max(value, cached.regeneration)
+                if value < cached.regeneration:
+                    value = cached.regeneration
                 refill = self.refill_conditions.get(index)
-                if refill is not None and active[refill]:
-                    value = max(value, cached.capacity)
+                if refill is not None and active[refill] and value < cached.capacity:
+                    value = cached.capacity
                 if value > levels[index]:
                     levels[index] = value
                     heappush(queue, (-value, index))
@@ -233,7 +246,15 @@ class SilkSupply:
                     offer(target, levels[source] - cost)
         for index in cached.entries:
             offer(index, 0)
+        cached.entry_nodes.update(cached.entries)
         cached.entries.clear()
+        key = (bytes(active), cached.regeneration, cached.capacity, frozenset(cached.entry_nodes))
+        solution = self._solutions.get(key)
+        if solution is not None:
+            self._solutions.move_to_end(key)
+            levels[:] = solution
+            queue.clear()
+            return levels[node] >= amount
         while queue:
             negative, source = heappop(queue)
             value = -negative
@@ -242,6 +263,9 @@ class SilkSupply:
             for _, target, cost, predicate in self.routes[source]:
                 if active[predicate]:
                     offer(target, value - cost)
+        self._solutions[key] = tuple(levels)
+        if len(self._solutions) > 512:
+            self._solutions.popitem(last=False)
         return levels[node] >= amount
 
 
@@ -261,7 +285,19 @@ class SilkSupplyRule(Rule, game='Hollow Knight: Silksong'):
         force_recalculate = True
 
         def _evaluate(self, state):
+            if not state.stale[self.player]:
+                try:
+                    cached = state._silksong_silk_supply[self.player]
+                except (AttributeError, KeyError):
+                    return self.program.evaluate(state, self.node, self.amount)
+                if cached.program is self.program:
+                    if cached.levels[self.node] >= self.amount:
+                        return True
+                    if not cached.pending and not cached.refresh and not cached.queue and not cached.entries:
+                        return False
             return self.program.evaluate(state, self.node, self.amount)
+
+        __call__ = _evaluate
 
         def item_dependencies(self):
             return {name: {id(self)} for name in self.program.dependencies(self.node)[0]}

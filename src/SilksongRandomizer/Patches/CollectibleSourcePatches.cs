@@ -7,6 +7,7 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using SilksongRandomizer.AlphabetMode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SilksongRandomizer.Patches
 {
@@ -569,7 +570,7 @@ namespace SilksongRandomizer.Patches
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
-            private static void Prefix(CollectableItemPickup __instance)
+            internal static void Prefix(CollectableItemPickup __instance)
             {
                 SavedItem nativeItem = __instance == null
                     ? null
@@ -648,6 +649,45 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(HeroController), "SendHeroInPosition")]
+        private static class WhiteKeyFloorPickupPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix()
+            {
+                SaveState state = SaveState.Instance;
+                if (state?.IsRoomBound != true || PlayerData.instance == null ||
+                    GameManager.instance?.GetSceneNameString() != "Song_Enclave") return;
+                Scene scene = SceneManager.GetSceneByName("Song_Enclave");
+                if (!scene.IsValid() || !scene.isLoaded) return;
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    if (root.name != "Black Thread States") continue;
+                    Transform source = root.transform.Find("Normal World/Enclave States/Ward Key Scene");
+                    if (source == null) return;
+                    CollectableItemPickup pickup = source.Find("Collectable Item Pickup")?.GetComponent<CollectableItemPickup>();
+                    PlayerDataTestResponse gate = source.GetComponent<PlayerDataTestResponse>();
+                    if (pickup == null || gate == null) return;
+                    DirectPickupAwakePatch.Prefix(pickup);
+                    bool available;
+                    if (pickup.Item is ArchipelagoSourceItem item)
+                    {
+                        if (item.LocationName != "White Key") return;
+                        available = !state.IsLocationChecked("White Key");
+                    }
+                    else
+                    {
+                        if (pickup.Item?.name != "Ward Key") return;
+                        available = !PlayerData.instance.collectedWardKey;
+                    }
+                    gate.enabled = false;
+                    source.SetParent(null, true);
+                    source.gameObject.SetActive(available);
+                    return;
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(ShopItem), "get_IsAvailable")]
         private static class WhiteKeyFallbackAvailabilityPatch
         {
@@ -663,21 +703,36 @@ namespace SilksongRandomizer.Patches
                         __instance.name,
                         "City Merchant Ward Key",
                         StringComparison.Ordinal) ||
-                    !IsActive(
-                        state,
-                        "White Key",
-                        ItemType.MajorKey))
+                    state?.IsRoomBound != true)
                 {
                     return true;
                 }
 
-                // extraAppearConditions checks collectedWardKey == false. AP
-                // receipt sets
-                // that ownership/fallback flag, but it must not hide this
-                // still-unchecked shared source from Jubilana's inventory.
-                // NPC and story availability still determine whether this
-                // ShopItem asset is loaded into a shop at all.
-                __result = !state.IsLocationChecked("White Key");
+                __result = false;
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(QuestPlaymakerActions.QuestFsmAction), nameof(QuestPlaymakerActions.QuestFsmAction.OnEnter))]
+        private static class TacksWishOfferPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(QuestPlaymakerActions.QuestFsmAction __instance)
+            {
+                if (!(__instance is QuestPlaymakerActions.CheckQuestStateV2 check) ||
+                    !IsActive(SaveState.Instance, "Tool Unlock: Tack", ItemType.Tool) ||
+                    __instance.Fsm?.GameObject == null ||
+                    __instance.Fsm.GameObject.scene.name != "Dust_Shack" ||
+                    __instance.Fsm.Name != "Dialogue" || __instance.State?.Name != "State?" ||
+                    Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform) !=
+                        "Black Thread States Thread Only Variant/Normal World/_NPCs/Dust Traders" ||
+                    (__instance.Quest?.Value as FullQuestBase)?.name != "Doctor Curse Cure" ||
+                    check.IncompleteEvent?.Name != "PINS" ||
+                    (CollectableItemManager.GetItemByName("Extractor Machine Pins")?.CollectedAmount ?? 0) < 1)
+                    return true;
+                FullQuestBase quest = QuestManager.GetQuest("Roach Killing");
+                if (quest == null || quest.IsAccepted || quest.IsCompleted) return true;
+                __instance.Finish();
                 return false;
             }
         }
