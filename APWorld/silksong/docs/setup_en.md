@@ -28,7 +28,9 @@ There are multiple installation methods due to different issues with each of the
 
 2.) Launch Cogfly and go to settings and make sure your path to your Silksong installation are valid.
 
-3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
+3.) Go to profiles, select import from code, and enter the following profile code. 
+
+The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
 
 > [!WARNING]
 > If you get an error when importing a code into Cogfly, especially the error below, refer to [here](https://github.com/Batatvideogames/silksong-archipelago-randomizer#cogfly---getting-a-server-returned-http-response-code-502-error):
@@ -44,7 +46,9 @@ There are multiple installation methods due to different issues with each of the
 
 2.) Select Hollow Knight: Silksong in the Game Selection Menu and select your Silksong storefront.
 
-3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
+3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. 
+
+The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
