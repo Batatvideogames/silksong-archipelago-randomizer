@@ -28,7 +28,7 @@ There are multiple installation methods due to different issues with each of the
 
 2.) Launch Cogfly and go to settings and make sure your path to your Silksong installation are valid.
 
-3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Recent Items Display, Mod Menu and all other dependencies.
+3.) Go to profiles, select import from code, and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
 
 > [!WARNING]
 > If you get an error when importing a code into Cogfly, especially the error below, refer to [here](https://github.com/Batatvideogames/silksong-archipelago-randomizer#cogfly---getting-a-server-returned-http-response-code-502-error):
@@ -37,18 +37,18 @@ There are multiple installation methods due to different issues with each of the
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a0dfd5-7d5b-682a-324c-6e2f385ad7df` (Same as R2Modman)
+**Cogfly Import Code:** `01a109ba-4c4f-b4f0-8695-8b4d42cb8159` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
 
 2.) Select Hollow Knight: Silksong in the Game Selection Menu and select your Silksong storefront.
 
-3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Rando, Crest Wheel Mod, Recent Items Display, Mod Menu and all other dependencies.
+3.) In profile selection, select 'Import / Update', select 'From code', and enter the following profile code. The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a0dfd5-7d5b-682a-324c-6e2f385ad7df` (Same as Cogfly)
+**R2Modman Import Code:** `01a109ba-4c4f-b4f0-8695-8b4d42cb8159` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -129,6 +129,8 @@ Long answer, it can cause softlocks and other issues, it can be used but at your
 This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
 
 Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers (these work for both):
+
+**v0.5.0** Import Code: `01a109ba-4c4f-b4f0-8695-8b4d42cb8159`
 
 **v0.4.7** Import Code: `01a0dfd5-7d5b-682a-324c-6e2f385ad7df`
 
