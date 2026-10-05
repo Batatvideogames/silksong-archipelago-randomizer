@@ -198,6 +198,8 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            bool ownsIndolent = HasReceived(state, "Key of Indolent");
+            bool ownsHeretic = HasReceived(state, "Key of Heretic");
             bool ownsApostate = HasReceived(state, "Key of Apostate");
             bool ownsWhiteKey = HasReceived(state, "White Key");
             bool ownsSurgeonsKey = HasReceived(state, "Surgeon's Key");
@@ -263,6 +265,23 @@ namespace SilksongRandomizer
             }
 
             bool playerDataChanged = false;
+            // All three Slab keys are permanent PlayerData flags and are
+            // restored the same way. Only Apostate was reconciled before, so a
+            // desynchronized Indolent or Heretic key stayed unrecoverable.
+            if (ShouldRestorePermanentKey(
+                    ownsIndolent,
+                    playerData.HasSlabKeyA))
+            {
+                playerData.HasSlabKeyA = true;
+                playerDataChanged = true;
+            }
+            if (ShouldRestorePermanentKey(
+                    ownsHeretic,
+                    playerData.HasSlabKeyB))
+            {
+                playerData.HasSlabKeyB = true;
+                playerDataChanged = true;
+            }
             if (ShouldRestorePermanentKey(
                     ownsApostate,
                     playerData.HasSlabKeyC))
@@ -303,6 +322,47 @@ namespace SilksongRandomizer
                 CollectableItemManager.IncrementVersion();
             }
             return true;
+        }
+
+        // Receipt is tracked by item name in SaveState.receivedItems, which is
+        // persisted to the .randomizersave file. Native ownership lives in the
+        // game's own save. Those are two separate writes, so a crash between
+        // them, or a rolled-back game save, can leave an item recorded as
+        // received while the native state was never applied. The receive queue
+        // then treats every further copy as a duplicate and consumes it with no
+        // effect, which is why re-sending the item from the server does
+        // nothing.
+        //
+        // A duplicate packet is a deliberate recovery signal: re-run the
+        // idempotent reconciliation for that item's category so the missing
+        // native state is restored. Only categories whose reconcilers set
+        // absent flags (and never stack a second copy) are repaired here;
+        // re-invoking Item.Receive would double-grant currency, traps and
+        // progressive upgrades.
+        internal static bool IsRepairableType(Item item)
+        {
+            return item != null &&
+                   (item.Type == ItemType.MajorKey ||
+                    item.Type == ItemType.Melody);
+        }
+
+        internal static bool TryRepairDuplicateReceipt(Item item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            switch (item.Type)
+            {
+                case ItemType.MajorKey:
+                    return TryReconcileReceivedMajorKeys();
+                case ItemType.Melody:
+                    Patches.MelodyPatches.ReconcileReceivedOwnership();
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         internal static bool ShouldRestorePermanentKey(

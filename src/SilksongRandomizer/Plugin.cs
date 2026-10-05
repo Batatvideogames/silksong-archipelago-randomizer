@@ -1130,6 +1130,47 @@ namespace SilksongRandomizer
                     canonicalItemName
                 );
 
+            // A duplicate packet for a unique item is consumed with no effect,
+            // so re-sending it is the only tool a player has when the recorded
+            // receipt and the native save disagree. Treat it as a repair
+            // request instead of discarding it. A replayed receipt is the
+            // server stream being re-read on connect, not a new packet, so it
+            // is left alone; the load-time reconcilers already cover it.
+            if (alreadyReceived &&
+                !replayedReceipt &&
+                ReceivedItemReconciliation.IsRepairableType(item))
+            {
+                // The reconcilers read PlayerData and the native collectables.
+                // Outside gameplay they would no-op and the packet would be
+                // consumed, spending the player's only recovery attempt, so
+                // hold the packet until the save is live. This mirrors the
+                // gameplayReady gate used for a first receipt below.
+                if (PlayerData.instance == null)
+                {
+                    nextItemRetryTime = Time.unscaledTime + 1f;
+                    return false;
+                }
+
+                try
+                {
+                    if (ReceivedItemReconciliation.TryRepairDuplicateReceipt(
+                            item))
+                    {
+                        Log.LogInfo(
+                            "[RANDOMIZER] Reconciled native state for re-sent " +
+                            "item " + canonicalItemName + "."
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.LogWarning(
+                        "[RANDOMIZER] Could not reconcile native state for " +
+                        "re-sent item " + canonicalItemName + ": " + ex
+                    );
+                }
+            }
+
             if (!alreadyReceived &&
                 (item.Receive != null ||
                  requiresPostCommitMaskSync ||
