@@ -194,6 +194,32 @@ namespace SilksongRandomizer.Patches
             return null;
         }
 
+        [HarmonyPatch(typeof(BattleScene), nameof(BattleScene.BattleCompleted))]
+        private static class ClappersCoreRecoveryPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(BattleScene __instance, bool ___completed)
+            {
+                if (!___completed || SaveState.Instance?.IsRoomBound != true ||
+                    __instance.gameObject.scene.name != "Cog_07" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "Battle Scene Test/Battle Scene") return;
+                Transform source = __instance.transform.Find("Wave 2 - Item/Item Placer/Collectable Item Pickup");
+                CollectableItemPickup pickup = source?.GetComponent<CollectableItemPickup>();
+                if (pickup == null || pickup.GetComponent<PersistentBoolItem>() == null) return;
+                SavedItem item = pickup.Item;
+                TryReplaceSourceItem(pickup, ref item);
+                if (item is ArchipelagoLocationItem proxy)
+                {
+                    if (proxy.LocationName != "Cogwork Core - Pristine Core" || !proxy.CanGetMore()) return;
+                }
+                else if (item?.name != "Pristine Core") return;
+                pickup.SetItem(item, keepPersistence: true);
+                source.SetParent(null, true);
+                source.position = new Vector3(28.23f, 77.69f, 0.003f);
+                source.gameObject.SetActive(true);
+            }
+        }
+
         [HarmonyPatch(typeof(PersistentBoolItem), "TryGetValue")]
         private static class CagePersistenceLoadPatch
         {
