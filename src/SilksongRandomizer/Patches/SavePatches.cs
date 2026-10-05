@@ -30,6 +30,7 @@ namespace SilksongRandomizer.Patches
                 Archipelago.Instance.ResetReceivedItemQueueCursor();
                 saveState.BindToRoom(Archipelago.Instance);
                 SteelSoulSettings.ApplyNewGame(saveState, PlayerData.instance);
+                PlayerData.instance.IsSilkSpoolBroken = false;
                 Archipelago.Instance.Resynchronize();
             }
             BellhomePhaseManager.EnsureBellhomeUnlocked();

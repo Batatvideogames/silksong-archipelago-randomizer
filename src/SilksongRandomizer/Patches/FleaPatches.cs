@@ -23,15 +23,13 @@ namespace SilksongRandomizer.Patches
         private const float GoalCheckIntervalSeconds = 0.25f;
         private static float nextGoalCheckTime;
 
-        internal const string KrattItemName = "Flea: Greymoor - Kratt";
-        internal const string VogItemName =
-            "Flea: Putrified Ducts - Vog";
-        internal const string HugeFleaItemName =
-            "Flea: Memorium - Huge Flea";
+        internal const string KrattItemName = "Flea (Kratt)";
+        internal const string VogItemName = "Flea (Vog)";
+        internal const string HugeFleaItemName = "Flea (Big Flea)";
 
-        internal const string KrattLocationName = KrattItemName;
-        internal const string VogLocationName = VogItemName;
-        internal const string HugeFleaLocationName = HugeFleaItemName;
+        internal const string KrattLocationName = "Flea: Greymoor - Kratt";
+        internal const string VogLocationName = "Flea: Putrified Ducts - Vog";
+        internal const string HugeFleaLocationName = "Flea: Memorium - Huge Flea";
 
         private const string KrattReturnedFlag =
             "CaravanLechReturnedToCaravan";

@@ -923,7 +923,8 @@ namespace SilksongRandomizer.Patches
                 string offer = state?.OfferForWish(__instance.name);
                 if (offer == null) return;
                 if (readSource == BasicQuestBase.ReadSource.QuestBoard &&
-                    (___wallDescription.IsEmpty || string.IsNullOrWhiteSpace(__result)))
+                    (ProgressionShuffleState.IsNpcWish(ProgressionShuffleState.WishIdentity(__instance.name)) ||
+                     !___wallDescription.Exists || string.IsNullOrWhiteSpace(__result)))
                 {
                     __result = __instance.GetDescription(BasicQuestBase.ReadSource.Inventory);
                     return;

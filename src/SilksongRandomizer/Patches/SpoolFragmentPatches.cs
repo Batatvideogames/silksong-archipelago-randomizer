@@ -19,22 +19,7 @@ namespace SilksongRandomizer.Patches
 
         internal static int CountSpoolFragments()
         {
-            SaveState state = SaveState.Instance;
-            if (state == null)
-            {
-                return 0;
-            }
-
-            int spoolFragments = 0;
-            for (int i = 1; i <= TotalSpoolFragments; i++)
-            {
-                if (state.receivedItems.Contains("Spool Fragment #" + i))
-                {
-                    spoolFragments++;
-                }
-            }
-
-            return spoolFragments;
+            return Math.Min(TotalSpoolFragments, SaveState.Instance?.GetReceivedItemCount("Spool Fragment") ?? 0);
         }
 
         /// <summary>
@@ -122,6 +107,20 @@ namespace SilksongRandomizer.Patches
                 // code reads CurrentSilkMaxBasic so it calculates and owns the
                 // complete frame geometry exactly as it does in vanilla.
                 SynchronizeReceivedSpoolProgress(PlayerData.instance);
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroController), nameof(HeroController.CocoonBroken),
+            new Type[] { typeof(bool), typeof(bool) })]
+        private static class RecoveredSpoolPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(PlayerData ___playerData)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || ___playerData == null ||
+                    !___playerData.IsSilkSpoolBroken) return;
+                ___playerData.IsSilkSpoolBroken = false;
+                EventRegister.SendEvent(EventRegisterEvents.SpoolUnbroken);
             }
         }
 

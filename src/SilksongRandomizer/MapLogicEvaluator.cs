@@ -959,8 +959,6 @@ namespace SilksongRandomizer
             {
                 return string.Empty;
             }
-            if (items.Count == 20 && items.All(name => name.StartsWith("Mask Shard #", StringComparison.Ordinal)))
-                return "Mask Shard Fragments x" + Math.Max(0, itemCount.Minimum);
             string names = items.Count == 1
                 ? items[0]
                 : "(" + string.Join(" or ", items) + ")";
@@ -1127,6 +1125,9 @@ namespace SilksongRandomizer
                     "Progressive Silkheart",
                     state.silkHeartLevel
                 );
+                SetMinimumCount(counts, "Flea", Math.Min(27, state.GetReceivedItemCount("Flea")));
+                SetMinimumCount(counts, "Mask Shard", Math.Min(20, state.GetReceivedItemCount("Mask Shard")));
+                SetMinimumCount(counts, "Spool Fragment", Math.Min(18, state.GetReceivedItemCount("Spool Fragment")));
                 GameManager gameManager = GameManager.UnsafeInstance;
                 PlayerData playerData = gameManager == null
                     ? null
@@ -1547,6 +1548,7 @@ namespace SilksongRandomizer
         {
             bool needsNativeWorldState =
                 !state.IsRandomized(ItemType.MaskShard) ||
+                !state.IsRandomized(ItemType.SpoolFragment) ||
                 !state.IsRandomized(ItemType.SilkHeart) ||
                 !state.IsRandomized(ItemType.Map) ||
                 !state.IsRandomized(ItemType.Flea) ||
@@ -1568,10 +1570,12 @@ namespace SilksongRandomizer
             {
                 int shards = Math.Max(0, Math.Min(20,
                     (playerData.maxHealthBase - 5) * 4 + playerData.heartPieces));
-                // Vanilla only keeps the total. These IDs count together in combat logic.
-                for (int i = 1; i <= 20; i++)
-                    counts["Mask Shard #" + i] = i <= shards ? 1 : 0;
+                counts["Mask Shard"] = shards;
             }
+
+            if (!state.IsRandomized(ItemType.SpoolFragment))
+                counts["Spool Fragment"] = Math.Max(0, Math.Min(18,
+                    (playerData.silkMax - 9) * 2 + playerData.silkSpoolParts));
 
             if (!state.IsRandomized(ItemType.SilkHeart))
             {
@@ -1682,154 +1686,20 @@ namespace SilksongRandomizer
             PlayerData playerData
         )
         {
+            SetMinimumCount(counts, "Flea", Math.Max(0, Math.Min(27, playerData.SavedFleasCount)));
             SetIfTrue(
                 counts,
-                "Flea: The Marrow",
-                playerData.SavedFlea_Bone_06
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Deep Docks - Bellway",
-                playerData.SavedFlea_Dock_16
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Deep Docks - Weaver Burial Spire",
-                playerData.SavedFlea_Bone_East_05
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Far Fields - Captured",
-                playerData.SavedFlea_Bone_East_17b
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Hunter's March",
-                playerData.SavedFlea_Ant_03
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Greymoor - Craw Lake",
-                playerData.SavedFlea_Greymoor_15b
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Greymoor - Tower",
-                playerData.SavedFlea_Greymoor_06
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Shellwood",
-                playerData.SavedFlea_Shellwood_03
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Pilgrim's Rest",
-                playerData.SavedFlea_Bone_East_10_Church
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Blasted Steps",
-                playerData.SavedFlea_Coral_35
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Sinner's Road",
-                playerData.SavedFlea_Dust_12
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Exhaust Organ",
-                playerData.SavedFlea_Dust_09
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Bellhart",
-                playerData.SavedFlea_Belltown_04
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Wormways",
-                playerData.SavedFlea_Crawl_06
-            );
-            SetIfTrue(
-                counts,
-                "Flea: The Slab - Cell",
-                playerData.SavedFlea_Slab_Cell
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Bilewater - Thieves",
-                playerData.SavedFlea_Shadow_28
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Deep Docks - Mines",
-                playerData.SavedFlea_Dock_03d
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Underworks - Wisp Thicket Passage",
-                playerData.SavedFlea_Under_23
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Bilehaven",
-                playerData.SavedFlea_Shadow_10
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Choral Chambers - Spa",
-                playerData.SavedFlea_Song_14
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Sands of Karak",
-                playerData.SavedFlea_Coral_24
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Mount Fay",
-                playerData.SavedFlea_Peak_05c
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Songclave",
-                playerData.SavedFlea_Library_09
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Choral Chambers - Walled Room",
-                playerData.SavedFlea_Song_11
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Whispering Vaults",
-                playerData.SavedFlea_Library_01
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Underworks",
-                playerData.SavedFlea_Under_21
-            );
-            SetIfTrue(
-                counts,
-                "Flea: The Slab - Bellway",
-                playerData.SavedFlea_Slab_06
-            );
-            SetIfTrue(
-                counts,
-                "Flea: Greymoor - Kratt",
+                "Flea (Kratt)",
                 playerData.CaravanLechSaved
             );
             SetIfTrue(
                 counts,
-                "Flea: Putrified Ducts - Vog",
+                "Flea (Vog)",
                 playerData.MetTroupeHunterWild
             );
             SetIfTrue(
                 counts,
-                "Flea: Memorium - Huge Flea",
+                "Flea (Big Flea)",
                 playerData.tamedGiantFlea
             );
         }

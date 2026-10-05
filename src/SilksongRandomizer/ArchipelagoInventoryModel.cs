@@ -301,13 +301,12 @@ namespace SilksongRandomizer
             {
                 var fleaNames = new HashSet<string>(state.items.items.Where(item => item.Type == ItemType.Flea)
                     .Select(item => item.Name), StringComparer.OrdinalIgnoreCase);
-                var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 foreach (string receipt in (state.receivedItemHistory ?? new List<string>())
                     .Take(Math.Max(0, state.receivedItemIndex)))
                 {
                     string name = ItemSet.GetCanonicalItemName(receipt);
                     if (string.IsNullOrEmpty(name) || !fleaNames.Contains(name) ||
-                        state.receivedItems?.Contains(name) != true || !seen.Add(name)) continue;
+                        state.receivedItems?.Contains(name) != true) continue;
                     if (named.Remove(name)) fleas.Add(new ArchipelagoInventoryRow("", icon: name));
                     else if (!names.Contains(name) && ordinary > 0)
                     {

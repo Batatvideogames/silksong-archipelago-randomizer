@@ -83,8 +83,11 @@ namespace SilksongRandomizer
             owner.ClosingInventory += EndInventory;
             input = gameObject.AddComponent<InventoryPaneInput>();
             input.enabled = false;
+            AccessTools.Field(typeof(InventoryPaneInput), "allowHorizontalSelection").SetValue(input, true);
             AccessTools.Field(typeof(InventoryPaneInput), "allowVerticalSelection").SetValue(input, true);
             AccessTools.Field(typeof(InventoryPaneInput), "allowRepeat").SetValue(input, true);
+            OnInputLeft += PreviousTab;
+            OnInputRight += NextTab;
             OnInputUp += PreviousSheet;
             OnInputDown += NextSheet;
             for (int i = 0; i < ArchipelagoInventoryModel.SoulRowsPerColumn * 3 + 15; i++) labels.Add(CreateText(template, "Heading"));
@@ -273,12 +276,24 @@ namespace SilksongRandomizer
         private void OnDestroy()
         {
             if (owner != null) owner.ClosingInventory -= EndInventory;
+            OnInputLeft -= PreviousTab;
+            OnInputRight -= NextTab;
             OnInputUp -= PreviousSheet;
             OnInputDown -= NextSheet;
             if (tabIcon != null) Destroy(tabIcon);
             if (soulDivider != null) Destroy(soulDivider.sprite);
             if (badgeMaterial != null) Destroy(badgeMaterial);
             if (badgeOutlineMaterial != null) Destroy(badgeOutlineMaterial);
+        }
+
+        private void PreviousTab() => SwitchTab("MOVE PANE L");
+        private void NextTab() => SwitchTab("MOVE PANE R");
+
+        private void SwitchTab(string moveEvent)
+        {
+            if (!IsPaneActive || owner == null || !owner.CanSwitchPanes || owner.InSubMenu) return;
+            input.CancelRepeat();
+            FSMUtility.SendEventToGameObject(owner.gameObject, moveEvent);
         }
 
         private void PreviousSheet() => Browse(-1);

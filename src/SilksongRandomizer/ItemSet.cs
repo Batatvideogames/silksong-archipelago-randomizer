@@ -482,6 +482,21 @@ namespace SilksongRandomizer
 
         private static string ResolveCanonicalItemName(string itemName)
         {
+            string name = GetSourceDisplayName(itemName);
+            if (name.StartsWith("Mask Shard #", StringComparison.Ordinal)) return "Mask Shard";
+            if (name.StartsWith("Spool Fragment #", StringComparison.Ordinal)) return "Spool Fragment";
+            switch (name)
+            {
+                case "Flea: Greymoor - Kratt": return "Flea (Kratt)";
+                case "Flea: Putrified Ducts - Vog": return "Flea (Vog)";
+                case "Flea: Memorium - Huge Flea": return "Flea (Big Flea)";
+            }
+            return name.StartsWith("Flea: ", StringComparison.Ordinal) ? "Flea" : name;
+        }
+
+        internal static string GetSourceDisplayName(string itemName)
+        {
+            if (string.IsNullOrWhiteSpace(itemName)) return itemName;
             string canonicalName = NativeItemNameAliases.TryGetValue(
                 itemName,
                 out string renamedItem
@@ -696,36 +711,10 @@ namespace SilksongRandomizer
             new Item("Crest: Hunter", ItemType.Crest, Patches.EvaPatches.GrantHunter),
 
             // Fleas
-            new Item("Flea: The Marrow", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Bone_06 = true; }),
-            new Item("Flea: Deep Docks (Bellway)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Dock_16 = true; }),
-            new Item("Flea: Deep Docks (Weaver Burial Spire)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Bone_East_05 = true; }),
-            new Item("Flea: Far Fields (Captured)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Bone_East_17b = true; }),
-            new Item("Flea: Hunter's March", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Ant_03 = true; }),
-            new Item("Flea: Greymoor (Craw Lake)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Greymoor_15b = true; }),
-            new Item("Flea: Greymoor (Tower)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Greymoor_06 = true; }),
-            new Item("Flea: Shellwood", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Shellwood_03 = true; }),
-            new Item("Flea: Pilgrim's Rest", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Bone_East_10_Church = true; }),
-            new Item("Flea: Blasted Steps", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Coral_35 = true; }),
-            new Item("Flea: Sinner's Road", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Dust_12 = true; }),
-            new Item("Flea: Exhaust Organ", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Dust_09 = true; }),
-            new Item("Flea: Bellhart", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Belltown_04 = true; }),
-            new Item("Flea: Wormways", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Crawl_06 = true; }),
-            new Item("Flea: The Slab (Cell)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Slab_Cell = true; }),
-            new Item("Flea: Bilewater (Thieves)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Shadow_28 = true; }),
-            new Item("Flea: Deep Docks (Mines)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Dock_03d = true; }),
-            new Item("Flea: Wisp Thicket", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Under_23 = true; }),
-            new Item("Flea: Bilehaven", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Shadow_10 = true; }),
-            new Item("Flea: Choral Chambers (Spa)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Song_14 = true; }),
-            new Item("Flea: Sands of Karak", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Coral_24 = true; }),
-            new Item("Flea: Mount Fay", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Peak_05c = true; }),
-            new Item("Flea: Songclave", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Library_09 = true; }),
-            new Item("Flea: Choral Chambers (Walled Room)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Song_11 = true; }),
-            new Item("Flea: Whispering Vaults", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Library_01 = true; }),
-            new Item("Flea: Underworks", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Under_21 = true; }),
-            new Item("Flea: The Slab (Bellway)", ItemType.Flea, () => { SaveState.Instance.SavedFlea_Slab_06 = true; }),
-            new Item("Flea: Greymoor (Kratt)", ItemType.Flea, ItemGrants.GrantKrattFlea),
-            new Item("Flea: Putrified Ducts (Vog)", ItemType.Flea, ItemGrants.GrantVogFlea),
-            new Item("Flea: Memorium (Huge Flea)", ItemType.Flea, ItemGrants.GrantHugeFlea),
+            new Item("Flea", ItemType.Flea, null, true),
+            new Item("Flea (Kratt)", ItemType.Flea, ItemGrants.GrantKrattFlea),
+            new Item("Flea (Vog)", ItemType.Flea, ItemGrants.GrantVogFlea),
+            new Item("Flea (Big Flea)", ItemType.Flea, ItemGrants.GrantHugeFlea),
 
             // Crest Slots
             new Item("Crest Slot: Hunter (Red 1)", ItemType.CrestSlot, null),
@@ -750,46 +739,10 @@ namespace SilksongRandomizer
             new Item("Crest Slot: Shaman (Blue 2)", ItemType.CrestSlot, null),
 
             // Mask shards
-            new Item("Mask Shard #1", ItemType.MaskShard, null),
-            new Item("Mask Shard #2", ItemType.MaskShard, null),
-            new Item("Mask Shard #3", ItemType.MaskShard, null),
-            new Item("Mask Shard #4", ItemType.MaskShard, null),
-            new Item("Mask Shard #5", ItemType.MaskShard, null),
-            new Item("Mask Shard #6", ItemType.MaskShard, null),
-            new Item("Mask Shard #7", ItemType.MaskShard, null),
-            new Item("Mask Shard #8", ItemType.MaskShard, null),
-            new Item("Mask Shard #9", ItemType.MaskShard, null),
-            new Item("Mask Shard #10", ItemType.MaskShard, null),
-            new Item("Mask Shard #11", ItemType.MaskShard, null),
-            new Item("Mask Shard #12", ItemType.MaskShard, null),
-            new Item("Mask Shard #13", ItemType.MaskShard, null),
-            new Item("Mask Shard #14", ItemType.MaskShard, null),
-            new Item("Mask Shard #15", ItemType.MaskShard, null),
-            new Item("Mask Shard #16", ItemType.MaskShard, null),
-            new Item("Mask Shard #17", ItemType.MaskShard, null),
-            new Item("Mask Shard #18", ItemType.MaskShard, null),
-            new Item("Mask Shard #19", ItemType.MaskShard, null),
-            new Item("Mask Shard #20", ItemType.MaskShard, null),
+            new Item("Mask Shard", ItemType.MaskShard, null, true),
 
             // Thread spools
-            new Item("Spool Fragment #1", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #2", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #3", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #4", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #5", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #6", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #7", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #8", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #9", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #10", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #11", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #12", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #13", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #14", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #15", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #16", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #17", ItemType.SpoolFragment, null),
-            new Item("Spool Fragment #18", ItemType.SpoolFragment, null),
+            new Item("Spool Fragment", ItemType.SpoolFragment, null, true),
 
             // Silk hearts
             new Item("Progressive Silkheart", ItemType.SilkHeart, ItemGrants.GrantProgressiveSilkheart, true),

@@ -10,7 +10,7 @@ from BaseClasses import Location
 from .display_names import (
     FLEA_DISPLAY_NAMES,
     ORDINARY_FLEA_DISPLAY_NAMES,
-    clean_item_display_name,
+    clean_location_display_name,
 )
 from .location_display_names import (
     location_first_name,
@@ -491,7 +491,7 @@ CURRENT_CORE_SOURCE_NAMES: tuple[str, ...] = (
 )
 
 _CORE_CANONICAL_LOCATION_NAMES: tuple[str, ...] = tuple(
-    clean_item_display_name(name)
+    clean_location_display_name(name)
     for name in CURRENT_CORE_SOURCE_NAMES
 )
 
@@ -837,7 +837,7 @@ def canonicalize_location_name(location_name: str) -> str:
         return _location_first_display_name(
             _DIRECT_LOCATION_RENAMES[location_name]
         )
-    current_item_name = clean_item_display_name(location_name)
+    current_item_name = clean_location_display_name(location_name)
     if current_item_name != location_name:
         return _location_first_display_name(current_item_name)
     for old_prefix, current_prefix in (

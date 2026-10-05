@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from .locations import MASK_SHARD_LOCATION_NAMES
-
-MASK_SHARD_ITEMS = tuple(f'Mask Shard #{i + 1}' for i in range(len(MASK_SHARD_LOCATION_NAMES)))
+MASK_SHARD_ITEMS = ('Mask Shard',)
 
 SKILLS_BY_TIER = {
     'low': ('Rune Rage',),

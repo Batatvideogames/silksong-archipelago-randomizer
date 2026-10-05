@@ -597,7 +597,7 @@ namespace SilksongRandomizer
                 {
                     renamedLocation =
                         ConvertPairedLocationName(currentName) ??
-                        ItemSet.GetCanonicalItemName(currentName);
+                        ItemSet.GetSourceDisplayName(currentName);
                 }
 
                 if (CanonicalLocationItemNameCollisions.TryGetValue(
@@ -608,7 +608,7 @@ namespace SilksongRandomizer
                 }
 
                 string canonicalName =
-                    ItemSet.GetCanonicalItemName(renamedLocation);
+                    ItemSet.GetSourceDisplayName(renamedLocation);
                 if (string.Equals(
                         currentName,
                         canonicalName,
@@ -685,7 +685,7 @@ namespace SilksongRandomizer
                         prefixes.Item1,
                         StringComparison.OrdinalIgnoreCase))
                 {
-                    return ItemSet.GetCanonicalItemName(
+                    return ItemSet.GetSourceDisplayName(
                         prefixes.Item2 +
                         locationName.Substring(prefixes.Item1.Length)
                     );
@@ -704,7 +704,7 @@ namespace SilksongRandomizer
                     locationName.Substring(
                         slotSeparator + " Slot Unlock: ".Length
                     );
-                return ItemSet.GetCanonicalItemName(sourceItemName);
+                return ItemSet.GetSourceDisplayName(sourceItemName);
             }
 
             foreach (Tuple<string, string> prefixes in DirectItemPrefixes)
@@ -732,7 +732,7 @@ namespace SilksongRandomizer
                     return locationName;
                 }
 
-                return PinPurchasePrefix + ItemSet.GetCanonicalItemName(
+                return PinPurchasePrefix + ItemSet.GetSourceDisplayName(
                     "Pin: " + pinName
                 );
             }
@@ -742,7 +742,7 @@ namespace SilksongRandomizer
                     RelicPickupPrefix,
                     StringComparison.OrdinalIgnoreCase))
             {
-                return ItemSet.GetCanonicalItemName(
+                return ItemSet.GetSourceDisplayName(
                     "Relic: " +
                     locationName.Substring(RelicPickupPrefix.Length)
                 );

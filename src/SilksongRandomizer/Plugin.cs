@@ -1217,7 +1217,7 @@ namespace SilksongRandomizer
                 }
 
                 // Spool Fragment items have no native Receive
-                // action. Their capacity is derived from receivedItems, so
+                // action. Their capacity is derived from receipt history, so
                 // redraw only after CommitReceivedItemAtIndex has made the
                 // new fragment visible to CurrentSilkMaxBasic.
                 if (newlyReceived &&

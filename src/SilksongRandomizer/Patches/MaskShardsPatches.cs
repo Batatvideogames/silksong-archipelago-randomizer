@@ -29,22 +29,7 @@ namespace SilksongRandomizer.Patches
 
         internal static int CountMaskShards()
         {
-            SaveState state = SaveState.Instance;
-            if (state == null)
-            {
-                return 0;
-            }
-
-            int maskShards = 0;
-            for (int i = 1; i <= TotalMaskShards; i++)
-            {
-                if (state.receivedItems.Contains("Mask Shard #" + i))
-                {
-                    maskShards++;
-                }
-            }
-
-            return maskShards;
+            return Math.Min(TotalMaskShards, SaveState.Instance?.GetReceivedItemCount("Mask Shard") ?? 0);
         }
 
         internal static int GetReceivedMaxHealth()

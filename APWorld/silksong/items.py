@@ -663,6 +663,8 @@ item_table: Dict[str, int] = {
     for index, (name, _category) in enumerate(ITEM_TABLE_SOURCE)
 }
 
+ITEM_TABLE_SOURCE = tuple(dict.fromkeys(ITEM_TABLE_SOURCE))
+
 from .enemy_souls import CATALOGUE as ENEMY_SOUL_CATALOGUE, item_name as enemy_soul_name
 from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE
 item_table.update({"NPC Soul: " + row["name"]: row["item_id"] for row in NPC_SOUL_CATALOGUE})
@@ -783,6 +785,9 @@ item_data_table.update({row["item"]: SilksongItemData(row["item_id"], "BossSoul"
 # applies these by received-item index, so progressive upgrades and currency
 # remain repeatable without inventing numbered aliases.
 ITEM_POOL_COUNTS: Dict[str, int] = {
+    'Flea': 27,
+    'Mask Shard': 20,
+    'Spool Fragment': 18,
     EVOLVED_HUNTER: 2,
     'Progressive Crafting Kit': 4,
     "Progressive Druid's Eyes": 2,
@@ -1023,6 +1028,9 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
 )
 
 REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
+    'Flea': {'Flea': 27, 'Flea (Kratt)': 1, 'Flea (Vog)': 1, 'Flea (Big Flea)': 1},
+    'MaskShard': {'Mask Shard': 20},
+    'SpoolFragment': {'Spool Fragment': 18},
     'SilkHeart': {'Progressive Silkheart': 3},
     'MemoryLocket': {'Memory Locket': 20},
     'Craftmetal': {'Craftmetal': 8},
@@ -1156,6 +1164,8 @@ def get_vanilla_reward_name(
             raise ValueError(
                 f"No native Key reward mapping for {location_name!r}."
             ) from exc
+    if category == 'Flea':
+        return clean_item_display_name(source_location_name)
     if category in REPEATED_CATEGORY_ITEM_COUNTS:
         return next(iter(REPEATED_CATEGORY_ITEM_COUNTS[category]))
     if category == 'MajorKey':
@@ -1206,28 +1216,6 @@ def get_vanilla_reward_name(
         return 'Progressive Curveclaw'
     if category == 'Upgrade':
         return 'Progressive Crafting Kit'
-    if category == 'MaskShard':
-        try:
-            return (
-                f'Mask Shard #'
-                    f'{MASK_SHARD_LOCATION_NAMES.index(location_name) + 1}'
-            )
-        except ValueError as exc:
-            raise ValueError(
-                f"No native MaskShard reward mapping for "
-                f"{location_name!r}."
-            ) from exc
-    if category == 'SpoolFragment':
-        try:
-            return (
-                f'Spool Fragment #'
-                    f'{SPOOL_FRAGMENT_LOCATION_NAMES.index(location_name) + 1}'
-            )
-        except ValueError as exc:
-            raise ValueError(
-                f"No native SpoolFragment reward mapping for "
-                f"{location_name!r}."
-            ) from exc
     if get_base_randomization_category(category) == 'Resource':
         try:
             return MINOR_REWARD_BY_LOCATION[location_name]

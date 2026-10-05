@@ -1315,7 +1315,7 @@ class TestRoomGraphCountRequirements(TestCase):
                     )
                 )
 
-    def test_six_spool_fragments_use_all_fragment_items(self) -> None:
+    def test_six_spool_fragments_count_repeated_items(self) -> None:
         requirement = _compiled_room_clause_requirement(
             CompiledRoomClause(
                 item_counts=((SPOOL_FRAGMENT_COUNT_ITEM, 6),)
@@ -1343,11 +1343,11 @@ class TestRoomGraphCountRequirements(TestCase):
         )
         five_fragment_state = CollectionState(multiworld)
         five_fragment_state.prog_items[1].update(
-            SPOOL_FRAGMENT_ITEM_NAMES[:5]
+            {'Spool Fragment': 5}
         )
         six_fragment_state = CollectionState(multiworld)
         six_fragment_state.prog_items[1].update(
-            SPOOL_FRAGMENT_ITEM_NAMES[:6]
+            {'Spool Fragment': 6}
         )
 
         self.assertFalse(rule(five_fragment_state))

@@ -68,7 +68,7 @@ FLEA_DISPLAY_NAMES: tuple[str, ...] = tuple(
 )
 
 
-def clean_item_display_name(name: str) -> str:
+def clean_location_display_name(name: str) -> str:
     flea_name = FLEA_DISPLAY_NAME_BY_SOURCE_NAME.get(name)
     if flea_name is not None:
         return flea_name
@@ -76,3 +76,22 @@ def clean_item_display_name(name: str) -> str:
         if name.startswith(prefix):
             return name[len(prefix):]
     return name
+
+
+def clean_item_display_name(name: str) -> str:
+    name = clean_location_display_name(name)
+    for prefix in ("Mask Shard", "Spool Fragment"):
+        if name.startswith(prefix + " #") and name[len(prefix) + 2:].isdigit():
+            return prefix
+    if name in FLEA_DISPLAY_NAMES:
+        return {
+            "Flea: Greymoor - Kratt": "Flea (Kratt)",
+            "Flea: Putrified Ducts - Vog": "Flea (Vog)",
+            "Flea: Memorium - Huge Flea": "Flea (Big Flea)",
+        }.get(name, "Flea")
+    return name
+
+
+FLEA_ITEM_NAMES: tuple[str, ...] = tuple(dict.fromkeys(
+    clean_item_display_name(name) for name in FLEA_DISPLAY_NAMES
+))

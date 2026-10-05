@@ -425,33 +425,6 @@ namespace SilksongRandomizer
         public bool fleaBrewInitialFillApplied;
         public bool plasmiumPhialInitialFillApplied;
 
-        public bool SavedFlea_Bone_06;
-        public bool SavedFlea_Dock_16;
-        public bool SavedFlea_Bone_East_05;
-        public bool SavedFlea_Bone_East_17b;
-        public bool SavedFlea_Ant_03;
-        public bool SavedFlea_Greymoor_15b;
-        public bool SavedFlea_Greymoor_06;
-        public bool SavedFlea_Shellwood_03;
-        public bool SavedFlea_Bone_East_10_Church;
-        public bool SavedFlea_Coral_35;
-        public bool SavedFlea_Dust_12;
-        public bool SavedFlea_Dust_09;
-        public bool SavedFlea_Belltown_04;
-        public bool SavedFlea_Crawl_06;
-        public bool SavedFlea_Slab_Cell;
-        public bool SavedFlea_Shadow_28;
-        public bool SavedFlea_Dock_03d;
-        public bool SavedFlea_Under_23;
-        public bool SavedFlea_Shadow_10;
-        public bool SavedFlea_Song_14;
-        public bool SavedFlea_Coral_24;
-        public bool SavedFlea_Peak_05c;
-        public bool SavedFlea_Library_09;
-        public bool SavedFlea_Song_11;
-        public bool SavedFlea_Library_01;
-        public bool SavedFlea_Under_21;
-        public bool SavedFlea_Slab_06;
 
         public bool UnlockedDocksStation;
         public bool UnlockedBoneforestEastStation;
@@ -2266,19 +2239,23 @@ namespace SilksongRandomizer
             return true;
         }
 
+        internal int GetReceivedItemCount(string itemName)
+        {
+            int count = 0;
+            if (receivedItemHistory == null) return count;
+            int limit = Math.Min(receivedItemIndex, receivedItemHistory.Count);
+            for (int i = 0; i < limit; i++)
+                if (receivedItemHistory[i] == itemName) count++;
+            return count;
+        }
+
         public int GetReceivedFleaCount()
         {
-            if (items == null || items.items == null ||
-                receivedItems == null)
-            {
-                return 0;
-            }
-
-            return items.items.Count(
-                item =>
-                    item.Type == ItemType.Flea &&
-                    receivedItems.Contains(item.Name)
-            );
+            int count = Math.Min(27, GetReceivedItemCount("Flea"));
+            if (receivedItems?.Contains(Patches.FleaPatches.KrattItemName) == true) count++;
+            if (receivedItems?.Contains(Patches.FleaPatches.VogItemName) == true) count++;
+            if (receivedItems?.Contains(Patches.FleaPatches.HugeFleaItemName) == true) count++;
+            return count;
         }
 
         public int GetFleaHuntProgressCount()

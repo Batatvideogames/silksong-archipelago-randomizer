@@ -14,7 +14,7 @@ from weakref import WeakKeyDictionary
 from BaseClasses import CollectionState
 
 from .display_names import (
-    FLEA_DISPLAY_NAMES,
+    FLEA_ITEM_NAMES,
     clean_item_display_name,
 )
 from .minor_pickups import (
@@ -113,10 +113,7 @@ BROODFEAST_SKEWERED_TOOL_ITEMS: tuple[str, ...] = (
     'Tool: Sting Shard',
     'Tool: Longpin',
 )
-SPOOL_FRAGMENT_ITEM_NAMES = tuple(
-    f'Spool Fragment #{index}'
-    for index in range(1, len(SPOOL_FRAGMENT_LOCATION_NAMES) + 1)
-)
+SPOOL_FRAGMENT_ITEM_NAMES = ('Spool Fragment',)
 RED_TOOL_SLOT = 'Red'
 BLUE_TOOL_SLOT = 'Blue'
 YELLOW_TOOL_SLOT = 'Yellow'
@@ -666,7 +663,7 @@ def get_logic_item_dependencies(
         )
     return dependencies
 
-FLEA_ITEMS: tuple[str, ...] = FLEA_DISPLAY_NAMES
+FLEA_ITEMS: tuple[str, ...] = FLEA_ITEM_NAMES
 
 SHAKRA_MAP_ITEMS: tuple[str, ...] = (
     'Map: Mosslands',
@@ -2366,7 +2363,7 @@ FINAL_GOAL_EVENT = 'Event: Lost Lace Defeated'
 FLEA_HUNT_GOAL_KEY = 'flea_hunt'
 DEFAULT_FLEA_HUNT_GOAL_COUNT = 30
 MIN_FLEA_HUNT_GOAL_COUNT = 1
-MAX_FLEA_HUNT_GOAL_COUNT = len(FLEA_ITEMS)
+MAX_FLEA_HUNT_GOAL_COUNT = 30
 GOAL_EVENT_BY_KEY: Mapping[str, str] = {
     'act_1': ACT_ONE_GOAL_EVENT,
     'act_2': ACT_TWO_GOAL_EVENT,
@@ -4062,7 +4059,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
     ('Tool Unlock: Flea Charm', req(
         'Path: Putrified Ducts - Fleatopia',
-        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+        item_counts=(item_count(MAX_FLEA_HUNT_GOAL_COUNT, *FLEA_ITEMS),),
     )),
 
     # Mount Fay
@@ -4164,7 +4161,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         3,
         'Putrified Ducts - Fleatopia',
         'Tool: Egg of Flealia',
-        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+        item_counts=(item_count(MAX_FLEA_HUNT_GOAL_COUNT, *FLEA_ITEMS),),
     )),
 
     # SHAKRA PINS
@@ -4530,7 +4527,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Event: Widow Defeated',
         'Path: Putrified Ducts - Fleatopia',
         'Tool: Egg of Flealia',
-        item_counts=(item_count(len(FLEA_ITEMS), *FLEA_ITEMS),),
+        item_counts=(item_count(MAX_FLEA_HUNT_GOAL_COUNT, *FLEA_ITEMS),),
     )),
     # Belltown House Start is Restoration of Bellhart. The
     # greeter's first conversation plus leaving Bellhart are repeatable local

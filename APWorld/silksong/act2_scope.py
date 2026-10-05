@@ -207,11 +207,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "MemoryLocket": {"Memory Locket": 1},
     "MajorKey": {"Craw Summons": 1},
     "Resource:pale_rosary_necklace": {"Pale Rosary Necklace": 1},
-    "MaskShard": {
-        "Mask Shard #18": 1,
-        "Mask Shard #19": 1,
-        "Mask Shard #20": 1,
-    },
+    "MaskShard": {"Mask Shard": 3},
     "Silkeater": {"Silkeater": 1},
     "NeedleUpgrade": {"Progressive Needle Upgrade": 1},
     "PaleOil": {"Pale Oil": 1},
@@ -248,7 +244,7 @@ def trim_act_two_pool_entries(
     if skill_mode != "anywhere":
         for category, item_counts in {
             "Memento": {"Grey Memento": 1},
-            "MaskShard": {"Mask Shard #9": 1},
+            "MaskShard": {"Mask Shard": 1},
             "MemoryLocket": {"Memory Locket": 1},
             "Resource:shard_bundle": {"Shard Bundle": 1},
             "Resource:rosary_cache": {"Rosaries (10)": 3},
