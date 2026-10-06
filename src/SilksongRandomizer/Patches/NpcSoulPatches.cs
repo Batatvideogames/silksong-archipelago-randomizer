@@ -21,9 +21,34 @@ namespace SilksongRandomizer.Patches
         {
             if (!NpcSoulState.FindActor(transform, out GameObject actor, out string[] npcs) ||
                 !NpcSoulState.MissingAny(SaveState.Instance, npcs)) return false;
+            ResetSceneObjects(actor);
             Hidden[actor] = (SaveState.Instance, npcs);
             actor.SetActive(false);
             return true;
+        }
+
+        private static void ResetSceneObjects(GameObject actor)
+        {
+            string path = Utils.GetHierarchyPath(actor.transform);
+            if (string.Equals(actor.scene.name, "Song_09b", StringComparison.OrdinalIgnoreCase) &&
+                path == "Gourmand/Great Gourmand Scene/Gourmand Servant")
+            {
+                actor.transform.parent.parent.Find("Eaten Scene")?.gameObject.SetActive(false);
+                actor.transform.parent.Find("Appear Camlock")?.gameObject.SetActive(false);
+            }
+            else if (string.Equals(actor.scene.name, "Dust_11", StringComparison.OrdinalIgnoreCase) &&
+                path == "Steel Soul States/Regular/NPC Control/Grub Farmer NPC")
+            {
+                Transform farm = actor.transform.parent;
+                for (int i = 1; i <= 3; i++)
+                {
+                    farm.Find("Large Cocoon " + i)?.gameObject.SetActive(false);
+                    farm.Find("Little Cocoon " + i)?.gameObject.SetActive(false);
+                }
+                farm.Find("silk_farm_lvl2")?.gameObject.SetActive(false);
+                farm.Find("silk_farm_lvl3")?.gameObject.SetActive(false);
+                farm.Find("Act 3 Thread Cores")?.gameObject.SetActive(false);
+            }
         }
 
         private static readonly List<GameObject> Actors = new List<GameObject>();

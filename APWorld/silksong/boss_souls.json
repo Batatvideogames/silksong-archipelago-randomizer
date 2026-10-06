@@ -851,6 +851,14 @@
           "Start Tension",
           "Battle Start"
         ]
+      },
+      {
+        "scene": "shellwood_18",
+        "path": "Boss Scene Parent/Boss Scene/Approaches",
+        "fsm": "Control",
+        "states": [
+          "Check"
+        ]
       }
     ]
   },
@@ -1153,6 +1161,14 @@
           "Idle",
           "Start",
           "Early Start Range"
+        ]
+      },
+      {
+        "scene": "ant_20",
+        "path": "Bone Flyer Rage Control",
+        "fsm": "Control",
+        "states": [
+          "Away"
         ]
       }
     ]

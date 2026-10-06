@@ -9,6 +9,42 @@ namespace SilksongRandomizer.Patches
 {
     internal static class EncounterAvailabilityPatches
     {
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class BossEncounterAvailabilityPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                string scene = __instance.gameObject.scene.name;
+                if (scene == "Coral_11" && __instance.FsmName == "Control" &&
+                    Utils.GetHierarchyPath(__instance.transform) ==
+                    "Black Thread States Thread Only Variant/Normal World/Boss Scene")
+                    KeepGreatConchflies(__instance.Fsm.GetState("State"));
+                else if (scene == "Bone_15" && __instance.FsmName == "Behaviour" &&
+                    Utils.GetHierarchyPath(__instance.transform) == "Boss Scene/Skull King")
+                    KeepMarrowSkullTyrant(__instance.Fsm.GetState("State Check"));
+            }
+        }
+
+        private static void KeepGreatConchflies(FsmState state)
+        {
+            if (state == null || SaveState.Instance?.progressionShuffle?.TryGetBossDefeat(
+                "Boss: Great Conchflies", out _) != true) return;
+            state.Actions = state.Actions.Where(action =>
+                !(action is PlayerDataBoolTrueAndFalse solo && solo.trueBool.Value == "coralDrillerSoloReady" &&
+                  solo.falseBool.Value == "defeatedCoralDrillerSolo")).ToArray();
+        }
+
+        private static void KeepMarrowSkullTyrant(FsmState state)
+        {
+            if (state == null || SaveState.Instance?.progressionShuffle?.TryGetBossDefeat(
+                "Boss: Skull Tyrant (The Marrow)", out _) != true) return;
+            state.Actions = state.Actions.Where(action =>
+                !(action is PlayerDataBoolTest invasion &&
+                  (invasion.boolName.Value == "skullKingInvaded" || invasion.boolName.Value == "skullKingWillInvade")))
+                .ToArray();
+        }
+
         [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
         private static class SkullTyrantInvasionPatch
         {

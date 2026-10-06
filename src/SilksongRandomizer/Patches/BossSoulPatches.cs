@@ -43,6 +43,9 @@ namespace SilksongRandomizer.Patches
                 GameObject actor = current.gameObject;
                 if (!Actors.TryGetValue(actor.scene.name + "|" + Utils.GetHierarchyPath(current), out string boss) ||
                     !BossSoulState.IsMissing(SaveState.Instance, boss)) continue;
+                if (string.Equals(actor.scene.name, "Cradle_03", StringComparison.OrdinalIgnoreCase) &&
+                    Utils.GetHierarchyPath(current) == "Boss Scene/Silk Boss")
+                    current.parent.Find("Silk_Hair")?.gameObject.SetActive(false);
                 Hidden[actor] = (SaveState.Instance, boss);
                 actor.SetActive(false);
                 return true;

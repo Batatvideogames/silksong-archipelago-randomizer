@@ -216,7 +216,27 @@
       }
     ],
     "checks": [
-      "Throwing Ring"
+      "Throwing Ring",
+      "Mosslands - Map Purchase",
+      "The Marrow - Map Purchase",
+      "Deep Docks - Map Purchase",
+      "Far Fields - Map Purchase",
+      "Wormways - Map Purchase",
+      "Hunter's March - Map Purchase",
+      "Greymoor - Map Purchase",
+      "Bellhart - Map Purchase",
+      "Shellwood - Map Purchase",
+      "Sands of Karak - Map Purchase",
+      "Sinner's Road - Map Purchase",
+      "Mount Fay - Map Purchase",
+      "Blasted Steps - Map Purchase",
+      "Bilewater - Map Purchase",
+      "Pin Purchase: Bench Pins",
+      "Pin Purchase: Ventrica Pins",
+      "Pin Purchase: Bellway Pins",
+      "Pin Purchase: Vendor Pins",
+      "Item: Quill",
+      "Compass"
     ],
     "events": [
       "Room Event: event:mapper/reviewed:shakra-shop-the-marrow-map-shop",

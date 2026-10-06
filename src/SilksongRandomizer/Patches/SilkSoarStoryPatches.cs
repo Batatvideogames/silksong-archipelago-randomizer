@@ -1572,6 +1572,21 @@ namespace SilksongRandomizer.Patches
                    (quest.IsAccepted || quest.IsCompleted);
         }
 
+        [HarmonyPatch(typeof(QuestPlaymakerActions.BeginQuestV2), "OnEnter")]
+        private static class BrokenBellQuestStart
+        {
+            private static bool Prefix(QuestPlaymakerActions.BeginQuestV2 __instance)
+            {
+                if (SaveState.Instance == null || __instance.Fsm?.Name != "Quest End" ||
+                    __instance.State?.Name != "Advance Quest" ||
+                    !HasExactPath(__instance.Owner, AbyssDivingBellSceneName,
+                        "Diving Bell States/Diving Bell Broken/door1") ||
+                    IsDivingBellReady(SaveState.Instance, PlayerData.instance)) return true;
+                __instance.Finish();
+                return false;
+            }
+        }
+
         private static void TryBeginDivingBellAbyssQuest()
         {
             FullQuestBase quest = QuestManager.GetQuest(

@@ -1446,9 +1446,11 @@ namespace SilksongRandomizer.Patches
                         focusBounds.center.z
                     );
                     focusBounds.Encapsulate(focusPosition);
+                    markerBounds.Encapsulate(new Bounds(focusPosition, scrollArea.size));
                 }
 
                 ZoomedBoundsField.SetValue(map, focusBounds);
+                MapMarkerBoundsField.SetValue(map, markerBounds);
             }
             catch (Exception ex)
             {

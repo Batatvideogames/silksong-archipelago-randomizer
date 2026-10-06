@@ -9,6 +9,41 @@ namespace SilksongRandomizer.Patches
 {
     internal static class ReverseRouteSafetyPatches
     {
+        [HarmonyPatch(typeof(TempGate), "SetStartingState")]
+        private static class SaunaReturnButton
+        {
+            private static void Prefix(TempGate __instance, ref PersistentBoolItem ___readPersistent,
+                out PersistentBoolItem __state)
+            {
+                __state = null;
+                SaveState save = SaveState.Instance;
+                if (save?.IsRoomBound != true || __instance.gameObject.scene.name != "Dock_04" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "dock_steam_door") return;
+                if (HeroController.instance?.GetEntryGateName() == "right3")
+                    save.saunaReturnButtonUnlocked = true;
+                if (!save.saunaReturnButtonUnlocked) return;
+                __state = ___readPersistent;
+                ___readPersistent = null;
+            }
+
+            private static void Postfix(ref PersistentBoolItem ___readPersistent, PersistentBoolItem __state)
+            {
+                if (__state != null) ___readPersistent = __state;
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroController), nameof(HeroController.EnterScene))]
+        private static class BrokenBellReturnEntry
+        {
+            private static void Prefix(TransitionPoint enterGate)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || enterGate == null ||
+                    enterGate.gameObject.scene.name != "Room_Diving_Bell_Abyss" ||
+                    enterGate.name != "left1") return;
+                enterGate.entryOffset = new Vector2(3f, enterGate.entryOffset.y);
+            }
+        }
+
         private const string AqueductScene = "Aqueduct_01";
         private const string AqueductWallPath =
             "Breakable Wall Aqueduct Start";
