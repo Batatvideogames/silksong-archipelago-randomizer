@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using UnityEngine;
@@ -120,6 +121,88 @@ namespace SilksongRandomizer.Patches
                 typeof(TestGameObjectActivator),
                 "deactivateGameObject"
             );
+
+        private sealed class AbyssEscapeMarkerPosition
+        {
+            internal readonly Vector2 Original;
+            internal readonly SpriteRenderer Renderer;
+            internal readonly int SortingLayer;
+            internal readonly int SortingOrder;
+
+            internal AbyssEscapeMarkerPosition(QuestMapMarker marker)
+            {
+                Original = Traverse.Create(marker).Field("initialPos").GetValue<Vector2>();
+                Renderer = marker.GetComponent<SpriteRenderer>();
+                if (Renderer == null) return;
+                SortingLayer = Renderer.sortingLayerID;
+                SortingOrder = Renderer.sortingOrder;
+            }
+        }
+
+        private static readonly ConditionalWeakTable<QuestMapMarker, AbyssEscapeMarkerPosition>
+            EscapeMarkerPositions = new ConditionalWeakTable<QuestMapMarker, AbyssEscapeMarkerPosition>();
+
+        [HarmonyPatch(typeof(QuestMapMarker), "IsActive")]
+        private static class AbyssEscapeMapMarkerPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(QuestMapMarker __instance, BasicQuestBase ___quest)
+            {
+                if (__instance == null || __instance.name != "Quest_Pin_BlackThread_Pt3" ||
+                    ___quest == null || ___quest.name != "Black Thread Pt3 Escape")
+                    return;
+
+                SaveState state = SaveState.Instance;
+                PlayerData playerData = PlayerData.instance;
+                if (!EscapeMarkerPositions.TryGetValue(__instance, out AbyssEscapeMarkerPosition saved))
+                {
+                    if (state == null || playerData == null)
+                        return;
+                    saved = EscapeMarkerPositions.GetValue(__instance, marker => new AbyssEscapeMarkerPosition(marker));
+                }
+
+                Vector2 position = saved.Original;
+                Vector3 worldPosition = Vector3.zero;
+                bool atShrine = state != null && playerData != null &&
+                    !HasCollectedAbyssShrine(state, playerData) &&
+                    TryGetAbyssShrineMarkerPosition(__instance, out worldPosition);
+                if (atShrine)
+                    position = __instance.transform.parent.InverseTransformPoint(worldPosition);
+
+                if (saved.Renderer != null)
+                {
+                    GameMap map = __instance.GetComponentInParent<GameMap>(true);
+                    SpriteRenderer pin = atShrine && map != null
+                        ? map.transform.Find("Map Markers")?.GetComponentInChildren<SpriteRenderer>(true)
+                        : null;
+                    saved.Renderer.sortingLayerID = pin != null ? pin.sortingLayerID : saved.SortingLayer;
+                    saved.Renderer.sortingOrder = pin != null ? Math.Max(19, pin.sortingOrder) : saved.SortingOrder;
+                }
+
+                __instance.SetPosition(position);
+                Vector3 localPosition = __instance.transform.localPosition;
+                __instance.transform.localPosition = new Vector3(position.x, position.y, localPosition.z);
+            }
+        }
+
+        private static bool TryGetAbyssShrineMarkerPosition(QuestMapMarker marker, out Vector3 worldPosition)
+        {
+            worldPosition = Vector3.zero;
+            GameMap map = marker.GetComponentInParent<GameMap>(true);
+            if (map != null)
+                return CheckMapMarkerManager.TryGetProjectedWorldPosition(
+                    map, SilkSoarSourceLocationName, out worldPosition);
+
+            InventoryWideMap wideMap = marker.GetComponentInParent<InventoryWideMap>(true);
+            GameManager manager = GameManager.UnsafeInstance;
+            map = manager != null ? manager.gameMap : null;
+            return wideMap != null && map != null &&
+                CheckMapMarkerManager.TryGetProjectedLocalBoundsPosition(
+                    map, SilkSoarSourceLocationName, out GlobalEnums.MapZone mapZone,
+                    out Vector2 localBoundsPosition) &&
+                RandomizedItemMarkerManager.TryGetWideMapWorldPosition(
+                    wideMap, mapZone, localBoundsPosition, out worldPosition);
+        }
 
         private sealed class SilkSoarSnapshot
         {

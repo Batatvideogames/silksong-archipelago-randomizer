@@ -438,7 +438,7 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        private static bool TryGetWideMapWorldPosition(
+        internal static bool TryGetWideMapWorldPosition(
             InventoryWideMap wideMap,
             GlobalEnums.MapZone mapZone,
             Vector2 localBoundsPosition,
