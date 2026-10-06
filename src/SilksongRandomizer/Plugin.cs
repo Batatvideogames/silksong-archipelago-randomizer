@@ -1049,7 +1049,7 @@ namespace SilksongRandomizer
         private bool ProcessQueuedReceivedItem()
         {
             SaveState saveState = SaveState.Instance;
-            if (saveState == null)
+            if (saveState == null || DeferReceivedItemsDuringSavePatch.IsSaving)
             {
                 return false;
             }

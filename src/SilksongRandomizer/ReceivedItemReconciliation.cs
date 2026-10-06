@@ -198,6 +198,8 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            bool ownsIndolent = HasReceived(state, "Key of Indolent");
+            bool ownsHeretic = HasReceived(state, "Key of Heretic");
             bool ownsApostate = HasReceived(state, "Key of Apostate");
             bool ownsWhiteKey = HasReceived(state, "White Key");
             bool ownsSurgeonsKey = HasReceived(state, "Surgeon's Key");
@@ -263,6 +265,16 @@ namespace SilksongRandomizer
             }
 
             bool playerDataChanged = false;
+            if (ShouldRestorePermanentKey(ownsIndolent, playerData.HasSlabKeyA))
+            {
+                playerData.HasSlabKeyA = true;
+                playerDataChanged = true;
+            }
+            if (ShouldRestorePermanentKey(ownsHeretic, playerData.HasSlabKeyB))
+            {
+                playerData.HasSlabKeyB = true;
+                playerDataChanged = true;
+            }
             if (ShouldRestorePermanentKey(
                     ownsApostate,
                     playerData.HasSlabKeyC))

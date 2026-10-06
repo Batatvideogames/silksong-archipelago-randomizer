@@ -1,8 +1,10 @@
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Xml.Serialization;
 using TeamCherry.GameCore;
 using UnityEngine;
@@ -221,7 +223,7 @@ namespace SilksongRandomizer.Patches
                    "start a new randomizer save.";
         }
 
-        internal static bool Save(int slot)
+        internal static bool Save(int slot, SaveState state)
         {
             string path = GetDataPath(slot);
             string tempPath = path + DataTemporaryExtension;
@@ -231,7 +233,7 @@ namespace SilksongRandomizer.Patches
             {
                 try
                 {
-                    if (SaveState.Instance == null)
+                    if (state == null)
                     {
                         throw new InvalidOperationException("No active randomizer state exists.");
                     }
@@ -247,7 +249,7 @@ namespace SilksongRandomizer.Patches
                     ))
                     using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
                     {
-                        serializer.Serialize(writer, SaveState.Instance);
+                        serializer.Serialize(writer, state);
                         writer.Flush();
                         stream.Flush(true);
                     }
@@ -482,6 +484,74 @@ namespace SilksongRandomizer.Patches
     }
 
     [HarmonyPatch]
+    internal static class DeferReceivedItemsDuringSavePatch
+    {
+        private static int pendingSaves;
+        internal static bool IsSaving => Volatile.Read(ref pendingSaves) > 0;
+
+        internal sealed class PendingSave
+        {
+            private int completed;
+
+            internal PendingSave()
+            {
+                Interlocked.Increment(ref pendingSaves);
+            }
+
+            internal void Complete()
+            {
+                if (Interlocked.Exchange(ref completed, 1) == 0)
+                    Interlocked.Decrement(ref pendingSaves);
+            }
+        }
+
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(
+                typeof(GameManager), "SaveGame",
+                new[]
+                {
+                    typeof(int), typeof(Action<bool>), typeof(bool),
+                    typeof(AutoSaveName)
+                });
+            yield return AccessTools.Method(
+                typeof(GameManager), nameof(GameManager.SaveGameData),
+                new[]
+                {
+                    typeof(int), typeof(SaveGameData), typeof(bool),
+                    typeof(Action<bool>)
+                });
+        }
+
+        [HarmonyPriority(Priority.First)]
+        private static void Prefix(ref Action<bool> ogCallback, out PendingSave __state)
+        {
+            __state = null;
+            if (SaveState.Instance == null) return;
+
+            PendingSave pending = new PendingSave();
+            __state = pending;
+            Action<bool> originalCallback = ogCallback;
+            ogCallback = successful =>
+            {
+                pending.Complete();
+                originalCallback?.Invoke(successful);
+            };
+        }
+
+        private static void Postfix(bool __runOriginal, PendingSave __state)
+        {
+            if (!__runOriginal) __state?.Complete();
+        }
+
+        [HarmonyPriority(Priority.Last)]
+        private static void Finalizer(Exception __exception, PendingSave __state)
+        {
+            if (__exception != null) __state?.Complete();
+        }
+    }
+
+    [HarmonyPatch]
     internal static class WriteSaveSlotPatch
     {
         private static MethodBase TargetMethod()
@@ -491,10 +561,11 @@ namespace SilksongRandomizer.Patches
 
         private static void Prefix(int slotIndex, ref Action<bool> callback)
         {
+            SaveState state = SaveState.Instance;
             Action<bool> originalCallback = callback;
             callback = successful =>
             {
-                bool randomizerSaved = successful && SavePatches.Save(slotIndex);
+                bool randomizerSaved = successful && SavePatches.Save(slotIndex, state);
                 originalCallback?.Invoke(successful && randomizerSaved);
             };
         }
