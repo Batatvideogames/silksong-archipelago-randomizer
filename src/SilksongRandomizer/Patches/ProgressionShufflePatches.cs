@@ -290,26 +290,6 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
-        private static class PreserveSkullTyrantInvasionPatch
-        {
-            [HarmonyPostfix]
-            private static void Postfix(GameManager __instance)
-            {
-                var state = SaveState.Instance?.progressionShuffle;
-                PlayerData playerData = PlayerData.instance;
-                if (state?.TryGetBossDefeat("Boss: Skull Tyrant (Bone Bottom)", out bool defeated) != true ||
-                    defeated || playerData == null || playerData.skullKingKilled || playerData.blackThreadWorld ||
-                    QuestManager.GetQuest("Soul Snare")?.IsAccepted != true ||
-                    !StoryCredit("Boss: Skull Tyrant (The Marrow)", playerData.skullKingDefeated) ||
-                    !(playerData.visitedCitadel || playerData.visitedCoral || playerData.visitedDustpens)) return;
-                MapZone zone = __instance.GetCurrentMapZoneEnum();
-                if (zone != MapZone.BONETOWN && zone != MapZone.PATH_OF_BONE && zone != MapZone.MOSS_CAVE &&
-                    UnityEngine.Random.Range(1, 100) <= 30)
-                    playerData.skullKingWillInvade = true;
-            }
-        }
-
         [ThreadStatic] private static bool updatingStory;
 
         [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
@@ -699,11 +679,6 @@ namespace SilksongRandomizer.Patches
             }
             if (quest.name != "Steel Sentinel Pt2" ||
                 !IsNpcAction(action, "Coral_37", "Room_States/Steel/Steel Sentinel", "Control", "State?")) return false;
-            bool hasCredit = progress.TryGetBossCredit("Boss: Summoned Saviour", out bool credit);
-            var firstStage = QuestManager.GetQuest("Steel Sentinel");
-            if (hasCredit && credit && firstStage.IsAccepted && SteelSoulSettings.AllSitesVisited(save, PlayerData.instance) &&
-                !quest.IsAccepted && !quest.IsCompleted) quest.BeginQuest(null, showPrompt: false);
-            if (quest.IsAccepted && !quest.IsCompleted && (!hasCredit || credit)) return false;
             string target = progress.AssignedWish("Steel Sentinel");
             if (target != null && (PlayerData.instance.HasAnyMap || progress.IsWishOfferUnlocked("Steel Sentinel")))
             {
@@ -715,6 +690,11 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
             }
+            bool hasCredit = progress.TryGetBossCredit("Boss: Summoned Saviour", out bool credit);
+            var firstStage = QuestManager.GetQuest("Steel Sentinel");
+            if (hasCredit && credit && firstStage.IsAccepted && SteelSoulSettings.AllSitesVisited(save, PlayerData.instance) &&
+                !quest.IsAccepted && !quest.IsCompleted) quest.BeginQuest(null, showPrompt: false);
+            if (quest.IsAccepted && !quest.IsCompleted && (!hasCredit || credit)) return false;
             if (hasCredit && !credit)
             {
                 action.Finish();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GlobalEnums;
 using HarmonyLib;
+using System.Collections;
 
 namespace SilksongRandomizer.Patches
 {
@@ -96,6 +97,72 @@ namespace SilksongRandomizer.Patches
                 {
                     __instance.AllowSkip();
                 }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(OpeningSequence), "Start")]
+    internal static class NewRandomizerIntroSkipPatch
+    {
+        private static bool skipNextOpeningSequence;
+
+        internal static void ArmForNewRandomizerSave()
+        {
+            skipNextOpeningSequence = true;
+        }
+
+        internal static bool TryConsumeSkipRequest()
+        {
+            if (!skipNextOpeningSequence)
+            {
+                return false;
+            }
+
+            skipNextOpeningSequence = false;
+            return true;
+        }
+
+        private static void Postfix(
+            OpeningSequence __instance,
+            ChainSequence ___chainSequence,
+            ref IEnumerator __result
+        )
+        {
+            if (!TryConsumeSkipRequest() ||
+                __instance == null ||
+                ___chainSequence == null ||
+                __result == null)
+            {
+                return;
+            }
+
+            __result = RunAndSkipOpening(
+                __instance,
+                ___chainSequence,
+                __result
+            );
+        }
+
+        private static IEnumerator RunAndSkipOpening(
+            OpeningSequence openingSequence,
+            ChainSequence chainSequence,
+            IEnumerator nativeRoutine
+        )
+        {
+            // Keep the opening coroutine running so scene loading and camera cleanup finish.
+            while (nativeRoutine.MoveNext())
+            {
+                if (chainSequence.IsPlaying &&
+                    chainSequence.CanSkipCurrent)
+                {
+                    IEnumerator skipRoutine = openingSequence.Skip();
+                    while (skipRoutine.MoveNext())
+                    {
+                        yield return skipRoutine.Current;
+                    }
+                }
+
+                yield return nativeRoutine.Current;
             }
         }
     }

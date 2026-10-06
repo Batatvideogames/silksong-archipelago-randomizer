@@ -524,7 +524,7 @@ namespace SilksongRandomizer
             return canonicalName;
         }
 
-        public Item[] items = BossSoulItems().Concat(NpcSoulItems()).Concat(EnemySoulItems()).Concat(BossCreditItems()).Concat(AlphabetModeItems.Append(
+        public Item[] items = JournalRandomization.Items().Concat(BossSoulItems()).Concat(NpcSoulItems()).Concat(EnemySoulItems()).Concat(BossCreditItems()).Concat(AlphabetModeItems.Append(
             LoreTabletManifest.AppendItems(new Item[]
         {
             // Skills

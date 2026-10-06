@@ -405,7 +405,8 @@
     ],
     "checks": [
       "Bugs of Pharloom - Tool Pouch",
-      "Wish: Bugs of Pharloom"
+      "Wish: Bugs of Pharloom",
+      "Nuu - Hunter's Journal"
     ],
     "events": [
       "Room Event: event:mapper/fa19fa7a-af1f-40f1-9497-d4b12b97bb63",

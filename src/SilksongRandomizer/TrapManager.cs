@@ -63,6 +63,7 @@ namespace SilksongRandomizer
         private static string previousCrestInternalName = string.Empty;
         private static string previousPreviousCrestInternalName = string.Empty;
         private static bool previousCrestWasTemporary;
+        private static PlayerData cursedCrestOwner;
         private static bool cursedCrestEquipmentRefreshPending;
         private static bool cursedCrestSilkRefreshPending;
         private static bool cursedCrestSpoolRefreshPending;
@@ -450,6 +451,7 @@ namespace SilksongRandomizer
                 previousPreviousCrestInternalName =
                     playerData.PreviousCrestID ?? string.Empty;
                 previousCrestWasTemporary = playerData.IsCurrentCrestTemp;
+                cursedCrestOwner = playerData;
 
                 SetCrest(cursedCrest, true);
                 if (!string.Equals(
@@ -628,6 +630,13 @@ namespace SilksongRandomizer
             }
 
             PlayerData playerData = PlayerData.instance;
+            if (playerData != null &&
+                !ReferenceEquals(playerData, cursedCrestOwner))
+            {
+                RequestCursedCrestRuntimeRefresh();
+                ClearCursedCrestState();
+                return;
+            }
             if (playerData != null && playerData.atBench)
             {
                 if (TryRestoreCursedCrest())
@@ -653,6 +662,11 @@ namespace SilksongRandomizer
                 return;
             }
 
+            if (playerData != null)
+            {
+                playerData.IsCurrentCrestTemp = true;
+            }
+
             if (Time.unscaledTime >= cursedCrestDeadline && CanExpireCursedCrest())
             {
                 TryRestoreCursedCrest();
@@ -665,7 +679,8 @@ namespace SilksongRandomizer
             bool regenerateSilk =
                 HasCursedCrestState && PlayerData.instance?.atBench == true;
             float remaining = IsCursedCrestActive && !regenerateSilk &&
-                PlayerData.instance?.IsCurrentCrestTemp == true &&
+                cursedCrestOwner != null &&
+                ReferenceEquals(PlayerData.instance, cursedCrestOwner) &&
                 PlayerData.instance.CurrentCrestID == cursedCrestInternalName
                     ? Math.Max(0f, cursedCrestDeadline - Time.unscaledTime)
                     : 0f;
@@ -1024,10 +1039,10 @@ namespace SilksongRandomizer
                     return false;
                 }
 
-                if (playerData.IsAnyCursed &&
-                    !playerData.IsCurrentCrestTemp)
+                if (!ReferenceEquals(playerData, cursedCrestOwner))
                 {
-                    RelinquishCursedCrestForNativeCurse();
+                    RequestCursedCrestRuntimeRefresh();
+                    ClearCursedCrestState();
                     return true;
                 }
 
@@ -1120,6 +1135,10 @@ namespace SilksongRandomizer
             if (playerData == null)
             {
                 return false;
+            }
+            if (!ReferenceEquals(playerData, cursedCrestOwner))
+            {
+                return true;
             }
             if (!string.Equals(
                     playerData.CurrentCrestID,
@@ -1265,6 +1284,7 @@ namespace SilksongRandomizer
             previousCrestInternalName = string.Empty;
             previousPreviousCrestInternalName = string.Empty;
             previousCrestWasTemporary = false;
+            cursedCrestOwner = null;
         }
 
         private static void ClearMuckmaggotState()
@@ -1463,7 +1483,7 @@ namespace SilksongRandomizer
             }
         }
 
-        private static float RevealSpeed => SaveState.Instance?.fasterDialogue == true ? 130f : 65f;
+        private const float RevealSpeed = 65f;
 
         internal static void Close()
         {

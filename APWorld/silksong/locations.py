@@ -1077,6 +1077,9 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     ('Beast Shard: Moorwing', 'Resource'),
 )
 
+from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Journal") for name in JOURNAL_ITEMS)
+
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(location_name), category)
     for location_name, category in _LOCATION_TABLE_SOURCE_UNNORMALIZED
@@ -1154,6 +1157,7 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
 )
 
 OBSERVATION_LOCATION_CATEGORIES: tuple[str, ...] = (
+    'Journal',
     'Boss',
     'Quest',
 )

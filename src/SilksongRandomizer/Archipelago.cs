@@ -252,6 +252,7 @@ namespace SilksongRandomizer
         public RandomizationMode MajorKeyRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode ToolPouchRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode BossSanity { get; private set; } = RandomizationMode.Anywhere;
+        public RandomizationMode JournalRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode BellShrineSanity { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode QuestSanity { get; private set; } = RandomizationMode.Anywhere;
         public string LastError { get; private set; } = string.Empty;
@@ -768,6 +769,7 @@ namespace SilksongRandomizer
                     successful, "tool_pouch_randomization");
                 BossSanity = GetRandomizationModeSlotData(
                     successful, "boss_sanity");
+                JournalRandomization = GetRandomizationModeSlotData(successful, "journal_randomization");
                 BellShrineSanity = GetRandomizationModeSlotData(
                     successful, "bell_shrine_sanity");
                 QuestSanity = GetRandomizationModeSlotData(
@@ -3293,6 +3295,7 @@ namespace SilksongRandomizer
             PollipHeartRandomization = RandomizationMode.Vanilla;
             ToolPouchRandomization = RandomizationMode.Vanilla;
             BossSanity = RandomizationMode.Anywhere;
+            JournalRandomization = RandomizationMode.Vanilla;
             BellShrineSanity = RandomizationMode.Anywhere;
             QuestSanity = RandomizationMode.Anywhere;
             goalStatusPending = false;

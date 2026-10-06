@@ -48,7 +48,11 @@ namespace SilksongRandomizer
             "Map: Putrified Ducts",
             "Map: The Cradle",
             "Map: The Abyss",
+            "Map: Verdania",
         };
+
+        private IEnumerable<string> StartingMapItemNames => StartWithMapsItemNames.Where(
+            name => name != "Map: Verdania" || goal == Archipelago.ActThreeGoal);
 
         private static readonly HashSet<string> StartWithMapsItemNameSet =
             new HashSet<string>(
@@ -387,6 +391,7 @@ namespace SilksongRandomizer
         public RandomizationMode majorKeyRandomization = RandomizationMode.Vanilla;
         public RandomizationMode toolPouchRandomization = RandomizationMode.Vanilla;
         public RandomizationMode bossSanity = RandomizationMode.Anywhere;
+        public RandomizationMode journalRandomization = RandomizationMode.Vanilla;
         public RandomizationMode bellShrineSanity = RandomizationMode.Anywhere;
         public RandomizationMode questSanityMode = RandomizationMode.Anywhere;
         public bool goalCompleted;
@@ -997,6 +1002,7 @@ namespace SilksongRandomizer
             majorKeyRandomization = archipelago.MajorKeyRandomization;
             toolPouchRandomization = archipelago.ToolPouchRandomization;
             bossSanity = archipelago.BossSanity;
+            journalRandomization = archipelago.JournalRandomization;
             bellShrineSanity = archipelago.BellShrineSanity;
             questSanityMode = archipelago.QuestSanity;
             SetRoomLocationNames(archipelago.GetRoomLocationNames());
@@ -1183,6 +1189,7 @@ namespace SilksongRandomizer
                 Tuple.Create("major_key_randomization", majorKeyRandomization, archipelago.MajorKeyRandomization),
                 Tuple.Create("tool_pouch_randomization", toolPouchRandomization, archipelago.ToolPouchRandomization),
                 Tuple.Create("boss_sanity", bossSanity, archipelago.BossSanity),
+                Tuple.Create("journal_randomization", journalRandomization, archipelago.JournalRandomization),
                 Tuple.Create("bell_shrine_sanity", bellShrineSanity, archipelago.BellShrineSanity),
                 Tuple.Create("quest_sanity", questSanityMode, archipelago.QuestSanity),
             };
@@ -1800,6 +1807,8 @@ namespace SilksongRandomizer
                     return toolPouchRandomization;
                 case ItemType.Boss:
                     return bossSanity;
+                case ItemType.Journal:
+                    return journalRandomization;
                 case ItemType.BellShrine:
                     return bellShrineSanity;
                 case ItemType.Quest:
@@ -1825,11 +1834,7 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            // start_with_maps converts every map source into a real AP check
-            // even when map_randomization itself is vanilla: 27 map rewards
-            // are precollected/replaced with filler and Verdania stays at its
-            // source as an AP-delivered map. Runtime interception and popup
-            // suppression must therefore remain active for the whole lane.
+            // Starting maps leave filler at their checks, even with vanilla map settings.
             if (type == ItemType.Map && startWithMaps)
             {
                 return true;
@@ -1860,7 +1865,7 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            return StartWithMapsItemNames.Any(
+            return StartingMapItemNames.Any(
                 itemName => !receivedItems.Contains(itemName)
             );
         }
@@ -1880,7 +1885,7 @@ namespace SilksongRandomizer
             }
 
             bool changed = false;
-            foreach (string itemName in StartWithMapsItemNames)
+            foreach (string itemName in StartingMapItemNames)
             {
                 changed |= receivedItems.Add(itemName);
             }
@@ -1894,9 +1899,9 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            return StartWithMapsItemNameSet.Contains(
-                ItemSet.GetCanonicalItemName(itemName)
-            );
+            string canonical = ItemSet.GetCanonicalItemName(itemName);
+            return StartWithMapsItemNameSet.Contains(canonical) &&
+                (canonical != "Map: Verdania" || goal == Archipelago.ActThreeGoal);
         }
 
         public bool IsLocationEnabled(string locationName)

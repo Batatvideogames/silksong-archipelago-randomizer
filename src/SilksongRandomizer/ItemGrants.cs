@@ -806,9 +806,10 @@ namespace SilksongRandomizer
             playerData.HasAqueductMap = true;
             playerData.HasCradleMap = true;
             playerData.HasAbyssMap = true;
+            if (SaveState.Instance?.goal == Archipelago.ActThreeGoal)
+                playerData.HasCloverMap = true;
 
             // All guaranteed starting maps are one native map update.
-            // Lost Verdania remains at its ordinary source.
             playerData.mapUpdateQueued = true;
             playerData.HasSeenMapUpdated = false;
         }

@@ -6006,6 +6006,8 @@ REQUIREMENT_ROWS: tuple[tuple[str, LocationRequirement], ...] = tuple(
 
 
 REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = _compile_requirements(REQUIREMENT_ROWS)
+from .boss_journal import base_requirements as journal_requirements
+REQUIREMENTS.update(journal_requirements(REQUIREMENTS, req))
 
 # Locations stay in the pool but cannot hold required progression until their
 # omitted vanilla key, quest, mode or movement condition is represented.

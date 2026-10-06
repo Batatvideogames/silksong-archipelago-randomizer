@@ -631,6 +631,8 @@ def prepare_world(world, graph):
     world._progression_events = compile_events(assignments, wishes, bosses)
     from .silk_economy import prepare_world as silk_graph, location_overrides as silk_locations
     world._progression_location_rules = silk_locations(world, world._progression_location_rules)
+    from .boss_journal import location_overrides as journal_locations
+    world._progression_location_rules = journal_locations(world, world._progression_location_rules)
     return silk_graph(world, {**graph, **world._progression_events})
 
 

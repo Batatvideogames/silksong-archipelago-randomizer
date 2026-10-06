@@ -66,7 +66,7 @@ def add_souls_to_pool(world, entries):
     indices = [index for index, entry in enumerate(entries)
                if entry.placement_category is None
                and item_data_table[entry.name].classification == ItemClassification.filler
-               and entry.source_category not in {"Memento", "MemoryLocket"}]
+               and entry.source_category not in {"Memento", "MemoryLocket", "Journal"}]
     souls = tuple(dict.fromkeys(item_name(boss) for boss in bosses))
     if len(indices) < len(souls):
         raise OptionError(f"Boss Souls needs {len(souls)} anywhere filler slots; only {len(indices)} are available. "
@@ -95,7 +95,8 @@ def prepare_start(world):
     locations = [location for location in world.get_locations()
                  if location.item is None and location.can_reach(state)]
     required = [name for name in required if not state.has(name, world.player)]
-    if not required or len(locations) != 1:
+    early_count = sum(early.values()) + sum(world.multiworld.early_items[world.player].values())
+    if not required or len(locations) > early_count + len(required):
         return
     pool = world.multiworld.itempool
     planned = []

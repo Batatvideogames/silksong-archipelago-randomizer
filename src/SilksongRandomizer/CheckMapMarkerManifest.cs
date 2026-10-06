@@ -442,6 +442,10 @@ namespace SilksongRandomizer
             // off-map pre-spawn transform.
             new MapCheckPosition("Boss: Groal the Great", "Shadow_18", 60.770000f, 16.100000f, 117f, 45f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Watcher at the Edge", "Coral_39", 126.110001f, 8.440000f, 192f, 43f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Lace (Deep Docks)", "Bone_East_12", 97.39f, 7.55f, 180f, 32f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Savage Beastfly (Chapel of the Beast)", "Ant_19", 45.01f, 36.89f, 173f, 106f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Savage Beastfly (Far Fields)", "Bone_East_08", 83.877693f, 17.483248f, 150f, 50f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Boss: Lost Lace", "Abyss_Cocoon", 38f, 7.07f, 65f, 1024f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Lace (Cradle)", "Song_Tower_01", 59.193787f, 100.517998f, 130f, 140f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silk Heart: The Unravelled", "Ward_02", 50.759998f, 14.000000f, 150f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silk Heart: Lace (Cradle)", "Song_Tower_01", 54.610001f, 106.970001f, 130f, 140f, MapMarkerPositionConfidence.ExactUpstream),
@@ -823,6 +827,9 @@ namespace SilksongRandomizer
 
         internal static IEnumerable<MapCheckPosition> GetPositions()
         {
+            foreach (MapCheckPosition position in JournalRandomization.MapPositions(StaticPositions))
+                yield return position;
+
             foreach (MapCheckPosition position in StaticPositions)
             {
                 yield return position;

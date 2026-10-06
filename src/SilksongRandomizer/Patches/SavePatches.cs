@@ -390,35 +390,6 @@ namespace SilksongRandomizer.Patches
         }
     }
 
-    [HarmonyPatch(
-        typeof(GameManager),
-        nameof(GameManager.CreateSaveGameData),
-        new Type[] { typeof(int) }
-    )]
-    internal static class RestoreTemporaryTrapBeforeSavePatch
-    {
-        private static void Prefix()
-        {
-            SlabCaptureWarpSafety.PrepareForSave();
-            TrapManager.PrepareForSave();
-            BellhomePhaseManager.EnsureBellhomeUnlocked();
-        }
-
-        private static readonly MethodInfo ClonePlayerData =
-            AccessTools.Method(typeof(object), "MemberwiseClone");
-
-        private static void Postfix(SaveGameData __result)
-        {
-            if (TrapManager.HasCursedCrestSaveSnapshot ||
-                NakedTrapManager.HasState)
-            {
-                __result.playerData =
-                    (PlayerData)ClonePlayerData.Invoke(__result.playerData, null);
-            }
-            TrapManager.ResumeAfterSave();
-        }
-    }
-
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.StartNewGame), new Type[] { typeof(bool), typeof(bool) })]
     internal static class StartNewGamePatch
     {

@@ -431,6 +431,9 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     *(("NPC Soul: " + row['name'], 'NpcSoul') for row in NPC_SOUL_CATALOGUE),
 )
 
+from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
+ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
+
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
     'Skill: Double Jump': 'Ability: Faydown Cloak',
@@ -742,6 +745,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Currency": {name for name, category in ITEM_TABLE_SOURCE if category == "Currency"},
     "Resources": {name for name, category in ITEM_TABLE_SOURCE if category == "Resource"},
     "Boss Credits": set(BOSS_CREDIT_BY_LOCATION.values()),
+    "Journal Entries": set(JOURNAL_ITEMS.values()) - {JOURNAL},
     "Enemy Souls": {enemy_soul_name(row["name"]) for row in ENEMY_SOUL_CATALOGUE},
     "NPC Souls": {"NPC Soul: " + row["name"] for row in NPC_SOUL_CATALOGUE if not row.get("legacy")},
     "Boss Souls": {row["item"] for row in BOSS_SOUL_CATALOGUE},
@@ -767,6 +771,10 @@ def _classification_for(name: str) -> ItemClassification:
         return ItemClassification.trap
     if ITEM_CATEGORY_BY_NAME[name] in {"BossSoul", "NpcSoul", "EnemySoul"}:
         return ItemClassification.progression
+    if name == JOURNAL:
+        return ItemClassification.progression
+    if ITEM_CATEGORY_BY_NAME[name] == "Journal":
+        return ItemClassification.filler
     if name in PROGRESSION_ITEMS:
         return ItemClassification.progression
     if name in USEFUL_ITEMS:
@@ -839,6 +847,7 @@ CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     *ALPHABET_ITEM_NAMES,
     *INNATE_ABILITY_ITEM_NAMES,
     'Diving Bell Key',
+    *JOURNAL_ITEMS.values(),
 })
 
 TRAP_ITEM_NAME_BY_WEIGHT_OPTION: Dict[str, str] = {
@@ -870,12 +879,12 @@ STARTING_CREST_REPLACEMENT_ITEM = 'Rosaries (60)'
 START_WITH_MAP_ITEMS: tuple[str, ...] = tuple(
     name
     for name, category in ITEM_TABLE_SOURCE
-    if category == 'Map' and name != 'Map: Verdania'
+    if category == 'Map'
 )
 ACT_TWO_START_WITH_MAP_ITEMS: tuple[str, ...] = tuple(
     name
     for name in START_WITH_MAP_ITEMS
-    if name != 'Map: The Abyss'
+    if name not in {'Map: The Abyss', 'Map: Verdania'}
 )
 AUTOMATIC_COMPASS_ITEM = 'Compass'
 OPTIONAL_START_REPLACEMENT_ITEM = 'Rosaries (60)'
@@ -890,7 +899,7 @@ class ItemPoolEntry:
 
 def _is_replaceable_filler(item_name: str) -> bool:
     data = item_data_table[item_name]
-    return data.classification == ItemClassification.filler and data.category != 'Memento'
+    return data.classification == ItemClassification.filler and data.category not in {'Memento', 'Journal'}
 
 
 def add_pool_only_useful_items(entries: list[ItemPoolEntry]) -> None:
@@ -1622,7 +1631,11 @@ def build_item_pool_entries(
         if act_one_only
         else ACT_TWO_START_WITH_MAP_ITEMS
         if act_two_only
-        else START_WITH_MAP_ITEMS
+        else tuple(
+            name
+            for name in START_WITH_MAP_ITEMS
+            if name != "Map: Verdania" or not exclude_verdania
+        )
     )
     removed_option_items_by_category: Dict[str, tuple[str, ...]] = {
         'Map': start_with_map_items if start_with_maps else (),
@@ -1900,6 +1913,12 @@ def build_item_pool_entries(
         for index, credit in zip(indices, credits):
             entry = entries[index]
             entries[index] = ItemPoolEntry(credit, entry.source_category, entry.placement_category)
+
+    if category_modes.get("Journal", "vanilla") != "vanilla":
+        from .boss_journal import excluded_locations
+        journal_excluded = excluded_locations(goal_excluded_location_names, 1 if act_one_only else 2 if act_two_only else 3)
+        entries.extend(ItemPoolEntry(item, "Journal", "Journal" if category_modes["Journal"] == "shuffle" else None)
+                       for location, item in JOURNAL_ITEMS.items() if location not in journal_excluded)
 
     # Act 2 may keep the otherwise Verdania-only key as an optional bingo
     # collectible without restoring any Verdania locations or requirements.

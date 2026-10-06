@@ -86,7 +86,7 @@ def add_souls_to_pool(world, entries):
         return
     indices = [i for i, e in enumerate(entries) if e.placement_category is None
                and item_data_table[e.name].classification == ItemClassification.filler
-               and e.source_category not in {'Memento', 'MemoryLocket'}]
+               and e.source_category not in {'Memento', 'MemoryLocket', 'Journal'}]
     if len(indices) < len(npcs):
         raise OptionError(f'NPC Souls needs {len(npcs)} anywhere filler slots; only {len(indices)} remain. '
                           'Enable more anywhere cache or resource checks.')

@@ -1026,6 +1026,6 @@ namespace SilksongRandomizer
             new Location("Elegy of the Deep", ItemType.Melody, null),
             new Location("Beastling Call", ItemType.Melody, null),
         })))))))))))
-            .ToArray();
+            .Concat(JournalRandomization.Locations()).ToArray();
     }
 }

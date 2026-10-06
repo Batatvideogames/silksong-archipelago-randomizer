@@ -11,6 +11,9 @@ namespace SilksongRandomizer
 
         public static readonly Dictionary<string, string> Mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
+            { "Hunter's Journal", "QI_Journal" },
+            { "Journal Entry", "Hornet_Inv_pane_icons_0003_journal_killed" },
+            { "Journal Completion", "Hornet_Inv_pane_icons_0003_journal_killed" },
             { "Diving Bell Key", "dock_key" },
             { "Simple Key", "I_token_of_faith" },
             { "Everbloom", "I_white_flower" },
@@ -227,7 +230,7 @@ namespace SilksongRandomizer
             scale = 1f;
             if (string.IsNullOrWhiteSpace(itemName)) return fallback;
 
-            Sprite soulIcon = NpcSoulIcons.GetIcon(Normalize(itemName)) ??
+            Sprite soulIcon = JournalRandomization.GetIcon(Normalize(itemName)) ?? NpcSoulIcons.GetIcon(Normalize(itemName)) ??
                 EnemySoulState.GetIcon(Normalize(itemName)) ?? GetBossJournalIcon(itemName);
             if (soulIcon != null) return AdjustScale(soulIcon, 1f, out scale);
 

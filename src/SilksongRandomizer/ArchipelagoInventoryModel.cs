@@ -269,7 +269,7 @@ namespace SilksongRandomizer
                 ? state.receivedItems?.Contains(ItemSet.GetCanonicalItemName("Tool: Snare Setter")) == true
                 : ToolItemManager.GetToolByName("Silk Snare")?.IsUnlocked == true);
             var result = new List<ArchipelagoInventoryRow> {
-                new ArchipelagoInventoryRow("Snare Trapper", icon: "Snare Setter", dim: !snare)
+                new ArchipelagoInventoryRow("Snare Setter", icon: "Snare Setter", dim: !snare)
             };
             string[] names = { "Maiden Soul", "Hermit Soul", "Seeker Soul" };
             string[] assets = { "Snare Soul Churchkeeper", "Snare Soul Bell Hermit", "Snare Soul Swamp Bug" };

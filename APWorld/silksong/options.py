@@ -599,6 +599,19 @@ class ShellShardCacheRandomization(MinorCacheRandomization):
     display_name = "Shell Shard Cache Randomization"
 
 
+class JournalRandomization(GlobalRandomization):
+    """
+    Randomizes the Hunter's Journal and boss journal entries.
+    Entries that need multiple kills have separate completion checks and items.
+
+    vanilla: keeps the usual journal
+    anywhere: mixes journal items into the multiworld
+    """
+
+    display_name = "Journal Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class BossSanity(CategoryRandomization):
     """
     EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
@@ -715,6 +728,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "ToolPouch": "tool_pouch_randomization",
     "LoreTablet": "lore_tablet_randomization",
     "Boss": "boss_sanity",
+    "Journal": "journal_randomization",
     "BellShrine": "bell_shrine_sanity",
     "Quest": "quest_sanity",
 }
@@ -1143,7 +1157,7 @@ class EnemyPogoLogic(TechniqueDifficulty):
 
 class StartWithMaps(Toggle):
     """
-    Start with every eligible map except Lost Verdania.
+    Start with every eligible map.
     """
 
     display_name = "Start With Maps"
@@ -1152,7 +1166,8 @@ class StartWithMaps(Toggle):
 
 class StartFullyMapped(Toggle):
     """
-    Start with the full world map drawn and all starting maps owned.
+    Start with the full world map drawn, regardless of map ownership.
+    This does not grant map items. Use Start With Maps to receive them.
     """
 
     display_name = "Start Fully Mapped"
@@ -1701,6 +1716,7 @@ class SilksongOptions(PerGameCommonOptions):
     npc_souls: NpcSouls
     enemy_souls: EnemySouls
     boss_sanity: BossSanity
+    journal_randomization: JournalRandomization
     bell_shrine_sanity: BellShrineSanity
     quest_sanity: QuestSanity
     individual_relic_turn_ins: IndividualRelicTurnIns
@@ -1809,6 +1825,7 @@ silksong_option_groups = [
         BeastShardRandomization,
         PristineCoreRandomization,
         ShellShardCacheRandomization,
+        JournalRandomization,
         BossSanity,
         BellShrineSanity,
         QuestSanity,

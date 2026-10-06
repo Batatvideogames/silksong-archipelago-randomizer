@@ -454,7 +454,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return (
             ACT_TWO_START_WITH_MAP_ITEMS
             if self.is_act_two_content_scope()
-            else START_WITH_MAP_ITEMS
+            else tuple(
+                name
+                for name in START_WITH_MAP_ITEMS
+                if name != "Map: Verdania" or self.get_goal_key() == ACT_THREE_GOAL_KEY
+            )
         )
 
     def get_act_two_excluded_location_names(self) -> frozenset[str]:
@@ -470,6 +474,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return excluded
 
     def get_goal_excluded_location_names(self) -> frozenset[str]:
+        from .boss_journal import excluded_locations
+        excluded = self._get_base_goal_excluded_location_names()
+        return excluded | excluded_locations(excluded, int(self.get_content_scope().removeprefix("act_")))
+
+    def _get_base_goal_excluded_location_names(self) -> frozenset[str]:
         from .game_modes import excluded_locations
         mode_exclusions = excluded_locations(self.is_steel_soul(), self.is_act_one_content_scope())
         goal_key = self.get_content_scope()
@@ -571,7 +580,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         unknown = LOGIC_UNKNOWN_LOCATIONS | self._mapper_option_quarantines
         if self.is_act_one_content_scope() or self.is_act_two_content_scope():
             unknown |= BUGS_OF_PHARLOOM_REWARD_LOCATIONS
-        return unknown
+        from .boss_journal import unknown_locations
+        return unknown | unknown_locations(unknown, self.get_goal_excluded_location_names(),
+                                           int(self.get_content_scope().removeprefix("act_")))
 
     def generate_early(self) -> None:
         from .requirement_rules import build_requirements_rule
@@ -740,9 +751,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
 
     def is_start_with_maps_enabled(self) -> bool:
-        return self.is_start_fully_mapped_enabled() or bool(
-            self.options.start_with_maps.value
-        )
+        return bool(self.options.start_with_maps.value)
 
     def is_start_fully_mapped_enabled(self) -> bool:
         return bool(self.options.start_fully_mapped.value)
@@ -1552,6 +1561,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             anchor = None
             if (
                 name != "Goal"
+                and data.category != "Journal"
                 and name != CRAWFATHER_LOCATION
                 and name not in self.get_logic_unknown_locations()
             ):
