@@ -289,7 +289,7 @@ class MapRandomization(CategoryRandomization):
     display_name = "Map Randomization"
 
 
-class MelodyRandomization(CategoryRandomization):
+class MelodyRandomization(GlobalRandomization):
     """
     Randomizes the 5 Melodies in the game: 
     the three required to finish Act 2, 
@@ -297,7 +297,6 @@ class MelodyRandomization(CategoryRandomization):
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Melody Randomization"
