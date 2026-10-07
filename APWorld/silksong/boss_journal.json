@@ -20,7 +20,7 @@
       {
         "boss": "Boss: Moss Mother",
         "events": [
-          "Room Event: event:mapper/aef7ef52-4c0e-42b7-b2fd-cb6f75fb144e",
+          "Room Event: event:mapper/c1c40522-825e-4744-a8c8-a6ea83f47f32",
           "Room Event: event:mapper/62c0e376-c2a5-4c12-bb6e-cc265721ee5f"
         ],
         "act": 1
@@ -28,7 +28,7 @@
     ],
     "kills_required": 3,
     "completion_events": [
-      "Room Event: event:mapper/aef7ef52-4c0e-42b7-b2fd-cb6f75fb144e",
+      "Room Event: event:mapper/c1c40522-825e-4744-a8c8-a6ea83f47f32",
       "Room Event: event:mapper/62c0e376-c2a5-4c12-bb6e-cc265721ee5f"
     ]
   },
@@ -81,7 +81,7 @@
       {
         "boss": "Boss: Skull Tyrant (The Marrow)",
         "events": [
-          "Room Event: event:mapper/2dcc1602-65fc-4e3a-8308-51145948eec4"
+          "Room Event: event:mapper/2dba90b5-6ec3-4ec9-8016-60c859aecbd7"
         ],
         "act": 1
       },

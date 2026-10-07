@@ -822,6 +822,7 @@ namespace SilksongRandomizer.Patches
                 if (target == null) return true;
                 if (state.RecordWishOfferUnlocked(offer.Quest)) GameManager.instance?.QueueSaveGame();
                 FullQuestBase quest = QuestManager.GetQuest(target);
+                if (offer.Quest == "Doctor Curse Cure") BeginDoctorWishDialogue(__instance);
                 if (NeedsNpcWishInteraction(quest))
                 {
                     __instance.Fsm.SetState(offer.Prompt);
@@ -836,6 +837,15 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static void BeginDoctorWishDialogue(FsmStateAction action)
+        {
+            PlayMakerNPC npc = action.Fsm.Variables.FindFsmGameObject("NPC Controller")?.Value
+                ?.GetComponent<PlayMakerNPC>();
+            if (npc == null || npc.IsRunningDialogue) return;
+            npc.SetAutoStarting();
+            npc.StartDialogueImmediately();
+        }
+
         internal static bool TryOpenPendingDoctorWish(PlayerDataVariableTest action)
         {
             if (!(IsNpcAction(action, "Belltown_Room_Doctor", "Doctor Fly Scene/Doctor Fly", "Dialogue", "Cursed? 2") ||
@@ -844,6 +854,7 @@ namespace SilksongRandomizer.Patches
             string target = state?.AssignedWish("Doctor Curse Cure");
             if (target == null || !state.IsWishOfferUnlocked("Doctor Curse Cure") ||
                 !NeedsNpcWishInteraction(QuestManager.GetQuest(target))) return false;
+            BeginDoctorWishDialogue(action);
             action.Fsm.SetState("Take Quest?");
             action.Finish();
             return true;

@@ -88,7 +88,7 @@
       "Moss Grotto - Mossberry #1"
     ]
   },
-  "event:mapper/aef7ef52-4c0e-42b7-b2fd-cb6f75fb144e": {
+  "event:mapper/c1c40522-825e-4744-a8c8-a6ea83f47f32": {
     "name": "Boss: Moss Mother",
     "kind": "boss",
     "locations": [
@@ -711,14 +711,14 @@
     "kind": "bench",
     "locations": []
   },
-  "event:mapper/f96e1038-b569-444c-a91e-80eeebd22a2e": {
+  "event:mapper/fcacceb1-8b08-435b-a080-59894c1189d8": {
     "name": "The Marrow Skull Wall - volatile flintbeetle 2",
     "kind": "miniboss",
     "locations": []
   },
   "event:mapper/cde75c91-f3fa-4b0d-a9ca-75a3df7eebb3": {
     "name": "The Marrow Skull Wall - Shell Fossil Mimic",
-    "kind": "enemy",
+    "kind": "miniboss",
     "locations": []
   },
   "event:mapper/reviewed:flintbeetle-two-collected": {
@@ -766,7 +766,7 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/2dcc1602-65fc-4e3a-8308-51145948eec4": {
+  "event:mapper/2dba90b5-6ec3-4ec9-8016-60c859aecbd7": {
     "name": "Boss: Skull Tyrant (The Marrow)",
     "kind": "boss",
     "locations": [

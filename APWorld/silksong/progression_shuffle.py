@@ -687,8 +687,9 @@ def _preparation_locations(world):
     return None
 
 
-def _preparation_state(world, guaranteed=(), base_state=None):
-    locations = _preparation_locations(world)
+def _preparation_state(world, guaranteed=(), base_state=None, *, locations=None):
+    if locations is None:
+        locations = _preparation_locations(world)
     if base_state is None:
         state = world.multiworld.get_all_state(perform_sweep=locations is None)
     else:
@@ -801,8 +802,9 @@ def finalize_world(world):
         return
     multiworld = world.multiworld
     guaranteed = _guaranteed_preparation_state(world)
-    baseline = _preparation_state(world, base_state=guaranteed)
-    locations = _preparation_locations(world)
+    preparation_locations = _preparation_locations(world)
+    baseline = _preparation_state(world, base_state=guaranteed, locations=preparation_locations)
+    locations = preparation_locations
     check_local_first = locations is None and not multiworld.groups and any(
         other.game != world.game for other in multiworld.worlds.values())
     if locations is None:
@@ -833,7 +835,7 @@ def finalize_world(world):
             if not all(region.can_reach(optimistic) for region in required_events):
                 _replace_events(world, accepted)
                 return False
-        state = _preparation_state(world, base_state=guaranteed)
+        state = _preparation_state(world, base_state=guaranteed, locations=preparation_locations)
         accessible = all(location.can_reach(state) for location in required) and all(
             region.can_reach(state) for region in required_events)
         if accessible and early_dash is not None:

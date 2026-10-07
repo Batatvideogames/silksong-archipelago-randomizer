@@ -198,7 +198,12 @@ def _native_source_dependencies(world, name):
             regions.add(native_region_name(anchor) if anchor is not None else 'Menu')
             external |= bool(rule.location_dependencies() or rule.entrance_dependencies())
         cache[name] = frozenset(items), frozenset(regions), external
-    return cache[name]
+    items, regions, external = cache[name]
+    supply = getattr(world, '_silk_supply', None)
+    if supply is not None:
+        exit_items, exit_regions = supply.exit_dependencies(name)
+        items, regions = items | exit_items, regions | exit_regions
+    return items, regions, external
 
 
 def native_source_requires_assumption(

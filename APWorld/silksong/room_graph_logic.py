@@ -1436,8 +1436,27 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         return (_part(combat_requirement_name(atom.removeprefix("combat:"))),)
     if atom == "mapper:act-2":
         return (_part("Act: 2"),)
+    if atom.startswith("mapper:enemy-type-pogo:"):
+        _, _, enemy, difficulty = atom.split(":")
+        if not enemy or difficulty not in {"none", "easy", "medium", "hard"}:
+            raise ValueError(f"unsupported enemy pogo: {atom}")
+        tier = {"none": 0, "easy": 1, "medium": 2, "hard": 3}[difficulty]
+        return (_part(f"Technique: Enemy Pogo {tier}"),) if tier else (_part(),)
+    if atom.startswith("mapper:clawline:") and len(atom.split(":")) == 4:
+        _, _, direction, casts = atom.split(":")
+        if direction not in {"up", "down", "left", "right"}:
+            raise ValueError(f"unsupported Clawline direction: {direction}")
+        return _atom_alternatives("mapper:clawline:" + casts)
     if atom.startswith("mapper:"):
         _, kind, difficulty = atom.split(":")
+        if kind.endswith("-direction") and difficulty in {"up", "down", "left", "right"}:
+            capability = kind.removesuffix("-direction")
+            base = {"ledge-grab": "capability:ledge-grab", "cling-grip": "item:cling-grip",
+                    "sprint": "macro:progressive-swift-step-first", "dash": "macro:progressive-swift-step-full",
+                    "look": "capability:free", "move": "capability:free"}.get(capability)
+            if base is None:
+                raise ValueError(f"unsupported directional capability: {atom}")
+            return _atom_alternatives(base)
         if kind == "attack" and difficulty in {"up", "down", "left", "right"}:
             return (_part(),)
         if kind.endswith("-crest-attack") and difficulty in {"up", "down", "left", "right"}:

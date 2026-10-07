@@ -46,10 +46,13 @@ def validate_slot_data(data):
         raise ValueError('Enemy Souls configuration is missing.')
 
 
-def check_requirements(name):
+def check_requirements(name, enabled=None):
     from .requirements import req
+    enabled = frozenset(BY_NAME if enabled is None else enabled)
     return tuple(req(item_name(name), *(('Act: ' + str(route['act']),) if route['act'] > 1 else ()),
-                     *route.get('events', ()), *('Room Node: ' + node for node in route['nodes']))
+                     *route.get('events', ()),
+                     *(item_name(soul) for soul in route.get('souls', ()) if soul in enabled),
+                     *('Room Node: ' + node for node in route['nodes']))
                  for route in BY_NAME[name]['routes'])
 
 
@@ -69,7 +72,7 @@ def set_rules(world):
     from .requirement_rules import build_requirements_rule
     for name in enabled_enemies(world):
         location = world.multiworld.get_location(location_name(name), world.player)
-        world.set_rule(location, build_requirements_rule(check_requirements(name),
+        world.set_rule(location, build_requirements_rule(check_requirements(name, enabled_enemies(world)),
             extra_abstract_requirement_names=world._silksong_native_abstract_names, **native_rule_options(world)))
 
 
@@ -87,8 +90,11 @@ def pogo_graph(names):
             dnf = []
             for branch in spec.dnf:
                 needed = souls if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
+                records = {atom.split(':')[2] for atom in branch if atom.startswith('mapper:enemy-type-pogo:')}
+                if records:
+                    needed += tuple('received:' + item_name(name) for name in names if BY_NAME[name]['record'] in records)
                 if ('Skullwing' in names and room.id in BY_NAME['Skullwing']['rooms']
-                        and 'item:clawline' in branch):
+                        and any(atom == 'item:clawline' or atom.startswith('mapper:clawline:') for atom in branch)):
                     needed = (*needed, 'received:' + item_name('Skullwing'))
                 dnf.append(tuple(dict.fromkeys((*branch, *needed))))
             dnf = tuple(dnf)
@@ -247,7 +253,7 @@ def export_world(world, slot_data):
     if not names:
         return
     for name in names:
-        slot_data['requirements'][location_name(name)] = _export_requirement_group(check_requirements(name))
+        slot_data['requirements'][location_name(name)] = _export_requirement_group(check_requirements(name, names))
     from .entrance_randomization import node_overrides as entrance_nodes
     connected_nodes = entrance_nodes(world, connected=True) or {}
     for name, rules in world._silksong_native_abstract_requirements.items():

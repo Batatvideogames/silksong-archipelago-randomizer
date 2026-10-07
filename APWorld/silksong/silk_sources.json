@@ -391,7 +391,9 @@
     "room": "hunter-s-march/hunters-march-early-pathway-west",
     "act": 1,
     "nodes": [
-      "hunter-s-march/hunters-march-early-pathway-west#upper-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
       "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
       "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
       "hunter-s-march/hunters-march-early-pathway-west#lower-floor"

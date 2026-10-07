@@ -250,6 +250,8 @@ def attach_exit(world, entrance, rules):
     from .native_regions import native_rule_options
     from .requirement_rules import build_requirements_rule
 
+    supply = getattr(world, '_silk_supply', None)
+
     class SilkEntrance(Entrance):
         @property
         def connected_region(self):
@@ -258,12 +260,17 @@ def attach_exit(world, entrance, rules):
         @connected_region.setter
         def connected_region(self, region):
             self._silk_destination = region
+            if supply is not None:
+                supply.connect_exit(self.name, region)
+                return
             for edge in self._silk_edges:
                 edge.parent_region.exits.remove(edge)
                 if edge.connected_region is not None:
                     edge.connected_region.entrances.remove(edge)
                 for name in edge.access_rule.region_dependencies():
-                    world.multiworld.indirect_connections[world.get_region(name)].discard(edge)
+                    connections = world.multiworld.indirect_connections.get(world.get_region(name))
+                    if connections is not None:
+                        connections.discard(edge)
             self._silk_edges.clear()
             if region is None:
                 return
@@ -284,13 +291,14 @@ def attach_exit(world, entrance, rules):
     entrance._silk_destination = destination
     entrance._silk_edges = []
     entrance._silk_patterns = []
-    for rule in rules:
-        cost = rule_cost(rule)
-        resolved = build_requirements_rule((clean(rule),),
-            extra_abstract_requirement_names=world._silksong_native_abstract_names,
-            **native_rule_options(world))
-        for amount in range(1, MAX_SILK - cost + 1):
-            entrance._silk_patterns.append((amount, cost, resolved))
+    if supply is None:
+        for rule in rules:
+            cost = rule_cost(rule)
+            resolved = build_requirements_rule((clean(rule),),
+                extra_abstract_requirement_names=world._silksong_native_abstract_names,
+                **native_rule_options(world))
+            for amount in range(1, MAX_SILK - cost + 1):
+                entrance._silk_patterns.append((amount, cost, resolved))
     entrance.__dict__.pop('connected_region', None)
     entrance.__class__ = SilkEntrance
     entrance.connected_region = destination

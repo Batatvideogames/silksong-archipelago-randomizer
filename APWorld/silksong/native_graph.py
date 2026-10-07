@@ -148,12 +148,12 @@ def _external_roots(world):
     return roots
 
 
-def compact_requirements(world, original, additional_roots=()):
+def compact_requirements(world, original, additional_roots=(), *, silk_supply=False):
     from .requirement_rules import build_requirements_rule
     from .native_regions import native_rule_options
     from .entrance_randomization import enabled as entrances_enabled
 
-    if entrances_enabled(world):
+    if entrances_enabled(world) and not getattr(world, "_silk_node_rules", None):
         return original
     names = world._silksong_native_abstract_names
     options = native_rule_options(world)
@@ -179,7 +179,15 @@ def compact_requirements(world, original, additional_roots=()):
             predicate_id = predicates.setdefault(predicate, len(predicates))
             retained.add((frozenset(rule.all_of), frozenset(rule.any_of), predicate_id))
         graph[owner] = retained
-    mutable = frozenset(world._progression_events)
+    boundaries = set()
+    if entrances_enabled(world) and not silk_supply:
+        from .entrance_randomization import node_overrides, WARP_DESTINATIONS
+        from .silk_economy import at, MAX_SILK
+        boundaries.update(node_overrides(world))
+        boundaries.update("Room Node: " + node for _, node in WARP_DESTINATIONS.values())
+        boundaries.update(at(node, amount) for node in tuple(boundaries)
+                          for amount in range(1, MAX_SILK + 1))
+    mutable = frozenset(world._progression_events) | boundaries
     graph, aliases = _simplify(graph, mutable)
     if not getattr(world, '_silk_node_rules', None):
         from .entrance_randomization import WARP_DESTINATIONS
@@ -225,7 +233,7 @@ def compact_requirements(world, original, additional_roots=()):
                 for all_of, any_of, predicate in graph[name]
             ), key=repr))
     roots = _external_roots(world) & result.keys()
-    roots.update(name for name in additional_roots if name in result)
+    roots.update(name for name in (*additional_roots, *boundaries) if name in result)
     retained_rules = (*world._progression_location_rules.values(),
                       *(original[name] for name in mutable))
     for rules in retained_rules:

@@ -1433,6 +1433,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         prepare_start(self)
         from .entrance_randomization import connect_exits
         connect_exits(self)
+        if self.options.enemy_souls and self.options.entrance_randomization:
+            self.explicit_indirect_conditions = False
 
     def create_regions(self) -> None:
         from .progression_shuffle import world_location_requirements

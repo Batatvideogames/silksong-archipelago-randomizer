@@ -214,27 +214,33 @@ def node_overrides(world, connected=False):
     return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world), world.get_content_scope(), enabled_enemies(world), silk_enabled(world))
 
 
+def exit_requirements(world):
+    if not enabled(world):
+        return
+    from .requirements import _compiled_room_clause_requirement
+    from .enemy_souls import enabled_enemies, pogo_graph
+    from .silk_economy import enabled as silk_enabled
+
+    ports = pogo_graph(enabled_enemies(world)).transition_by_id
+    for source, data in scoped_pool(scope(world), world.get_content_scope()).items():
+        clauses = exit_clauses(data, ports, include_source=False, silk_costs=silk_enabled(world))
+        requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
+        yield source, data, endpoint_name(data, ports), endpoint_name(POOL[data['vanilla']], ports), requirements
+
+
 def create_exits(world, regions):
     if not enabled(world):
         return
     from .native_regions import native_rule_options
     from .requirement_rules import build_requirements_rule
-    from .requirements import _compiled_room_clause_requirement
+    from .silk_economy import enabled as silk_enabled, gate_location as silk_gate, attach_exit
 
-    from .enemy_souls import enabled_enemies, pogo_graph
-    from .silk_economy import enabled as silk_enabled
-    ports = pogo_graph(enabled_enemies(world)).transition_by_id
     options = native_rule_options(world)
     world._entrance_exits = {}
-    for source, data in scoped_pool(scope(world), world.get_content_scope()).items():
-        clauses = exit_clauses(data, ports, include_source=False, silk_costs=silk_enabled(world))
-        requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
-        from .silk_economy import gate_location as silk_gate, attach_exit
-        node = endpoint_name(data, ports)
+    for source, data, node, destination, requirements in exit_requirements(world):
         exit_rules = silk_gate(world, tuple(replace(rule, all_of=(node, *rule.all_of)) for rule in requirements)) if silk_enabled(world) else requirements
         entrance = world.create_entrance(
-            regions[endpoint_name(data, ports)],
-            regions[endpoint_name(POOL[data['vanilla']], ports)],
+            regions[node], regions[destination],
             build_requirements_rule(exit_rules, extra_abstract_requirement_names=world._silksong_native_abstract_names, **options),
             f"Room exit: {data['name']}", force_creation=True,
         )

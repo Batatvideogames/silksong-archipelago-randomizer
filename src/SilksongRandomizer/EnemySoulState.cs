@@ -16,6 +16,12 @@ namespace SilksongRandomizer
         private static readonly HashSet<string> ScriptedDeaths = new HashSet<string>(
             Catalogue.Where(row => (bool?)row["scripted_death"] == true).Select(row => (string)row["name"]), StringComparer.Ordinal);
         internal static bool HasScriptedDeath(string species) => ScriptedDeaths.Contains(species);
+        private static readonly HashSet<string> JournalStates = new HashSet<string>(
+            Catalogue.SelectMany(row => (row["journal_states"] ?? new JArray()).SelectMany(gate =>
+                gate["states"].Values<string>().Select(state => (string)row["name"] + "|" + (string)gate["fsm"] + "|" + state))),
+            StringComparer.Ordinal);
+        internal static bool IsJournalDeath(string species, string fsm, string state) =>
+            JournalStates.Contains(species + "|" + fsm + "|" + state);
         private static string cachedJson;
         private static HashSet<string> cachedNames = new HashSet<string>(StringComparer.Ordinal);
 

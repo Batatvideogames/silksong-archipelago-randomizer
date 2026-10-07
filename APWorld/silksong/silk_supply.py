@@ -17,6 +17,7 @@ class _UnsupportedCondition(Exception):
 class _SupplyState:
     def __init__(self, program):
         self.program = program
+        self.revision = program.revision
         self.levels = [-1] * len(program.node_names)
         self.active = bytearray(len(program.conditions))
         self.pending = set(range(len(program.conditions)))
@@ -52,6 +53,11 @@ class SilkSupply:
         self.refills = set()
         self._dependencies = {}
         self._solutions = OrderedDict()
+        self.revision = 0
+        self.exit_patterns = {}
+        self.exit_edges = {}
+        self.exit_incoming = defaultdict(list)
+        self.exit_queries = set()
         options = native_rule_options(world)
 
         def resolve(rules):
@@ -106,6 +112,7 @@ class SilkSupply:
                 self.routes[edge[0]].append(edge)
                 self.incoming[index].append(edge)
                 self.actions[predicate].append(('route', edge))
+        self._compile_exits(world, condition)
         self.capacity_rules = [resolve((capacity(amount),)) for amount in range(10, MAX_SILK + 1)]
         self.capacity_items = {name for rule in self.capacity_rules for name in rule.item_dependencies()}
         self.region_updates = {
@@ -116,7 +123,69 @@ class SilkSupply:
         for rule in (*self.conditions, *self.capacity_rules):
             world.register_rule_dependencies(rule)
 
+    def _compile_exits(self, world, condition):
+        from .entrance_randomization import exit_requirements
+
+        for _, data, node, _, rules in exit_requirements(world):
+            grouped = defaultdict(list)
+            for rule in rules:
+                cost = rule_cost(rule)
+                if cost <= MAX_SILK:
+                    grouped[cost].append(clean(rule))
+                    if cost:
+                        self.exit_queries.add(at(node, cost))
+            patterns = []
+            for cost, alternatives in grouped.items():
+                predicate = condition(alternatives)
+                if predicate is not None:
+                    patterns.append((self.nodes[node], cost, predicate))
+            self.exit_patterns[f"Room exit: {data['name']}"] = tuple(patterns)
+
+    def connect_exit(self, name, region):
+        destinations = []
+        if region is not None:
+            destinations = ([region] if region.name in self.nodes else
+                            [edge.connected_region for edge in region.exits if edge.connected_region is not None])
+        edges = tuple((source, self.nodes[target.name], cost, predicate)
+                      for source, cost, predicate in self.exit_patterns[name]
+                      for target in destinations if target.name in self.nodes)
+        previous = self.exit_edges.get(name, ())
+        if previous == edges:
+            return
+        for edge in previous:
+            self.routes[edge[0]].remove(edge)
+            self.actions[edge[3]].remove(('route', edge))
+            self.exit_incoming[edge[1]].remove(edge)
+        for edge in edges:
+            self.routes[edge[0]].append(edge)
+            self.actions[edge[3]].append(('route', edge))
+            self.exit_incoming[edge[1]].append(edge)
+        self.exit_edges[name] = edges
+        self.revision += 1
+        self._solutions.clear()
+
+    def exit_dependencies(self, name):
+        query = self.queries.get(name)
+        items, regions = set(), set()
+        if query is not None:
+            node, amount = query
+            for source, _, cost, predicate in self.exit_incoming[node]:
+                if amount + cost > MAX_SILK:
+                    continue
+                rule = self.conditions[predicate]
+                items.update(rule.item_dependencies())
+                regions.update(rule.region_dependencies())
+                regions.add(at(self.node_names[source], amount + cost))
+                if amount == 0:
+                    regions.add(self.node_names[source])
+        return items, regions
+
     def _compile_dependencies(self):
+        if self.exit_patterns:
+            items = frozenset(self.capacity_items | {'Progressive Silkheart'} | set(self.item_conditions))
+            regions = frozenset(self.region_conditions)
+            self._dependencies = {index: (items, regions) for index in range(len(self.node_names))}
+            return
         dependencies = [(frozenset(rule.item_dependencies()), frozenset(rule.region_dependencies()))
                         for rule in self.conditions]
         atoms = sorted({('item', name) for items, regions in dependencies for name in items}
@@ -166,7 +235,7 @@ class SilkSupply:
             cached = state._silksong_silk_supply[self.player]
         except (AttributeError, KeyError):
             return None
-        return cached if cached.program is self else None
+        return cached if cached.program is self and cached.revision == self.revision else None
 
     def collect(self, state, name):
         affected = self.item_conditions.get(name, ())
@@ -290,7 +359,7 @@ class SilkSupplyRule(Rule, game='Hollow Knight: Silksong'):
                     cached = state._silksong_silk_supply[self.player]
                 except (AttributeError, KeyError):
                     return self.program.evaluate(state, self.node, self.amount)
-                if cached.program is self.program:
+                if cached.program is self.program and cached.revision == self.program.revision:
                     if cached.levels[self.node] >= self.amount:
                         return True
                     if not cached.pending and not cached.refresh and not cached.queue and not cached.entries:
@@ -318,19 +387,18 @@ class SilkSupplyRule(Rule, game='Hollow Knight: Silksong'):
 
 
 def compile_regions(world, original):
-    from .entrance_randomization import enabled as entrances_enabled
     from .native_graph import compact_requirements
     from .silk_economy import enabled
 
-    if not enabled(world) or entrances_enabled(world):
+    if not enabled(world):
         return compact_requirements(world, original)
     try:
         supply = SilkSupply(world, original)
     except _UnsupportedCondition:
         return compact_requirements(world, original)
     graph = {name: rules for name, rules in original.items() if name not in supply.queries}
-    result = compact_requirements(world, graph, additional_roots=supply.refills)
-    roots = set(supply.nodes)
+    result = compact_requirements(world, graph, additional_roots=supply.refills, silk_supply=True)
+    roots = set(supply.nodes) | supply.exit_queries
     for rules in (*result.values(), *world._progression_location_rules.values(),
                   *(original[name] for name in world._progression_events)):
         for rule in rules:

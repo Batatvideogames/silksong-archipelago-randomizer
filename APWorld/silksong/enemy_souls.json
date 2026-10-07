@@ -2515,7 +2515,9 @@
       {
         "act": 1,
         "nodes": [
-          "hunter-s-march/hunters-march-early-pathway-west#upper-platforms",
+          "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
@@ -2695,7 +2697,9 @@
       {
         "act": 1,
         "nodes": [
-          "hunter-s-march/hunters-march-early-pathway-west#upper-platforms",
+          "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
+      "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
@@ -5101,7 +5105,12 @@
       "moss-grotto/ruined-chapel",
       "weavenest-atla/weavenest-atla-grotto"
     ],
-    "battles": [],
+    "battles": [
+      {
+        "scene": "weave_03",
+        "path": "Boss Scene"
+      }
+    ],
     "states": [],
     "entrances": []
   },
@@ -5713,5 +5722,1970 @@
     "battles": [],
     "states": [],
     "entrances": []
+  },
+  {
+    "name": "Memoria",
+    "record": "Arborium Keeper",
+    "item_id": 840167,
+    "location_id": 841167,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "memorium/memorium-start-shaft#base",
+          "memorium/memorium-start-shaft#almost-bottom",
+          "memorium/memorium-start-shaft#almost-middle",
+          "memorium/memorium-start-shaft#lore-platform",
+          "memorium/memorium-start-shaft#above-evil-wall",
+          "memorium/memorium-start-shaft#ventrica-ledge",
+          "memorium/memorium-start-shaft#volt-ledge",
+          "memorium/memorium-start-shaft#tippidy-top"
+        ]
+      }
+    ],
+    "rooms": [
+      "memorium/memorium-start-shaft",
+      "memorium/memorium-voltnest",
+      "memorium/seed-shooty-memorium"
+    ],
+    "battles": [
+      {
+        "scene": "arborium_07",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "memorium/memorium-start-shaft"
+    ]
+  },
+  {
+    "name": "Winged Furm",
+    "record": "Bell Fly",
+    "item_id": 840168,
+    "location_id": 841168,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "bellhart/upper-bellhart#lower-exits",
+          "bellhart/upper-bellhart#lower-big-room",
+          "bellhart/upper-bellhart#silver-bell-cubby",
+          "bellhart/upper-bellhart#central-passage",
+          "bellhart/upper-bellhart#upper-big-room",
+          "bellhart/upper-bellhart#unsafe-lower-left-landing"
+        ]
+      }
+    ],
+    "rooms": [
+      "bellhart/bellhart-lower",
+      "bellhart/upper-bellhart"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Furm",
+    "record": "Bell Goomba",
+    "item_id": 840169,
+    "location_id": 841169,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "bellhart/upper-bellhart#lower-exits",
+          "bellhart/upper-bellhart#lower-big-room",
+          "bellhart/upper-bellhart#silver-bell-cubby",
+          "bellhart/upper-bellhart#central-passage",
+          "bellhart/upper-bellhart#upper-big-room",
+          "bellhart/upper-bellhart#unsafe-lower-left-landing"
+        ]
+      }
+    ],
+    "rooms": [
+      "bellhart/bellhart-lower",
+      "bellhart/upper-bellhart",
+      "greymoor/yarnaby-place"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Skarrgard",
+    "record": "Bone Hunter Throw",
+    "item_id": 840170,
+    "location_id": 841170,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "hunter-s-march/hunters-march-entrance#before-door",
+          "hunter-s-march/hunters-march-entrance#after-door",
+          "hunter-s-march/hunters-march-entrance#checks-alcove"
+        ]
+      }
+    ],
+    "rooms": [
+      "far-fields/far-fields-deep-fort",
+      "greymoor/halfway-home-cellar",
+      "hunter-s-march/hunters-march-entrance",
+      "hunter-s-march/hunters-march-treasure-vault"
+    ],
+    "battles": [
+      {
+        "scene": "ant_02",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "ant_08",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "ant_21",
+        "path": "Battle Scene Control/Battle Scene Init"
+      },
+      {
+        "scene": "bone_east_25",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Grom",
+    "record": "Bone Worm",
+    "item_id": 840171,
+    "location_id": 841171,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-flea-rescue#entrance",
+          "wormways/wormways-flea-rescue#main-area"
+        ]
+      }
+    ],
+    "rooms": [
+      "wormways/wormways-flea-rescue",
+      "wormways/wormways-lower-east",
+      "wormways/wormways-lower-west",
+      "wormways/wormways-middle",
+      "wormways/wormways-upper-east",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Plasmid",
+    "record": "Bone Worm BlueBlood",
+    "item_id": 840172,
+    "location_id": 841172,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "wormways/wormways-upper-west#main-area-upper",
+          "wormways/wormways-upper-west#plasmium-alcove",
+          "wormways/wormways-upper-west#weavenest-landing",
+          "wormways/wormways-upper-west#main-tunnel-lower",
+          "wormways/wormways-upper-west#right-exit-area"
+        ]
+      }
+    ],
+    "rooms": [
+      "wormways/wormways-lower-east",
+      "wormways/wormways-lower-west",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "wormways/wormways-lower-east",
+      "wormways/wormways-lower-west",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ]
+  },
+  {
+    "name": "Plasmidas",
+    "record": "Bone Worm BlueTurret",
+    "item_id": 840173,
+    "location_id": 841173,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "wormways/wormways-upper-west#main-area-upper",
+          "wormways/wormways-upper-west#plasmium-alcove",
+          "wormways/wormways-upper-west#weavenest-landing",
+          "wormways/wormways-upper-west#main-tunnel-lower",
+          "wormways/wormways-upper-west#right-exit-area"
+        ]
+      }
+    ],
+    "rooms": [
+      "wormways/wormways-middle",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "wormways/wormways-middle",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ]
+  },
+  {
+    "name": "Drapelord",
+    "record": "Citadel Bat Large",
+    "item_id": 840174,
+    "location_id": 841174,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "whispering-vaults/whispering-vaults-jumps#flea-chase",
+          "whispering-vaults/whispering-vaults-jumps#flea",
+          "whispering-vaults/whispering-vaults-jumps#annoying-ass-jump-left",
+          "whispering-vaults/whispering-vaults-jumps#annoying-ass-jump-right",
+          "whispering-vaults/whispering-vaults-jumps#jump-2-right",
+          "whispering-vaults/whispering-vaults-jumps#jump-2-left",
+          "whispering-vaults/whispering-vaults-jumps#rosary-necklace",
+          "whispering-vaults/whispering-vaults-jumps#room-with-stuff",
+          "whispering-vaults/whispering-vaults-jumps#bottom-right-entrance"
+        ]
+      }
+    ],
+    "rooms": [
+      "memorium/shopkeeper-hides",
+      "whispering-vaults/whispering-vaults-jumps"
+    ],
+    "battles": [
+      {
+        "scene": "arborium_11",
+        "path": "Merchant Quest Parent/Quest Active/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "whispering-vaults/whispering-vaults-jumps"
+    ]
+  },
+  {
+    "name": "Craw",
+    "record": "Crow",
+    "item_id": 840175,
+    "location_id": 841175,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "greymoor/greymoor-east-bellshrine-room#lower-section-left",
+          "greymoor/greymoor-east-bellshrine-room#lower-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-left",
+          "greymoor/greymoor-east-bellshrine-room#bridge-left-section",
+          "greymoor/greymoor-east-bellshrine-room#bridge-right-section",
+          "greymoor/greymoor-east-bellshrine-room#upper-crow-nest",
+          "greymoor/greymoor-east-bellshrine-room#lone-crow-platform",
+          "greymoor/greymoor-east-bellshrine-room#top-left",
+          "greymoor/greymoor-east-bellshrine-room#top-right",
+          "greymoor/greymoor-east-bellshrine-room#hidden-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-craw-lake",
+      "greymoor/greymoor-craw-lake-entrance",
+      "greymoor/greymoor-crow-nest",
+      "greymoor/greymoor-east-bellshrine-room",
+      "greymoor/greymoor-halfway-home-exterior",
+      "greymoor/greymoor-silver-shells-room",
+      "greymoor/greymoor-weaver-shrine",
+      "greymoor/greymoor-west-bellshrine-room"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Tallcraw",
+    "record": "Crowman",
+    "item_id": 840176,
+    "location_id": 841176,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-east-bellshrine-room#lower-section-left",
+          "greymoor/greymoor-east-bellshrine-room#lower-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-left",
+          "greymoor/greymoor-east-bellshrine-room#bridge-left-section",
+          "greymoor/greymoor-east-bellshrine-room#bridge-right-section",
+          "greymoor/greymoor-east-bellshrine-room#upper-crow-nest",
+          "greymoor/greymoor-east-bellshrine-room#lone-crow-platform",
+          "greymoor/greymoor-east-bellshrine-room#top-left",
+          "greymoor/greymoor-east-bellshrine-room#top-right",
+          "greymoor/greymoor-east-bellshrine-room#hidden-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-craw-lake",
+      "greymoor/greymoor-crow-nest",
+      "greymoor/greymoor-east-bellshrine-room"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Squatcraw",
+    "record": "Crowman Dagger",
+    "item_id": 840177,
+    "location_id": 841177,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-east-bellshrine-room#lower-section-left",
+          "greymoor/greymoor-east-bellshrine-room#lower-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-right",
+          "greymoor/greymoor-east-bellshrine-room#middle-section-left",
+          "greymoor/greymoor-east-bellshrine-room#bridge-left-section",
+          "greymoor/greymoor-east-bellshrine-room#bridge-right-section",
+          "greymoor/greymoor-east-bellshrine-room#upper-crow-nest",
+          "greymoor/greymoor-east-bellshrine-room#lone-crow-platform",
+          "greymoor/greymoor-east-bellshrine-room#top-left",
+          "greymoor/greymoor-east-bellshrine-room#top-right",
+          "greymoor/greymoor-east-bellshrine-room#hidden-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-craw-lake",
+      "greymoor/greymoor-crow-nest",
+      "greymoor/greymoor-east-bellshrine-room"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Gromling",
+    "record": "Crypt Worm",
+    "item_id": 840178,
+    "location_id": 841178,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-upper-east#spike-abyss",
+          "wormways/wormways-upper-east#upper-exit-tunnel",
+          "wormways/wormways-upper-east#shakra-camp",
+          "wormways/wormways-upper-east#pilgrim-grave",
+          "wormways/wormways-upper-east#central-elevator",
+          "wormways/wormways-upper-east#abyss-crossing"
+        ]
+      }
+    ],
+    "rooms": [
+      "wormways/wormways-lower-east",
+      "wormways/wormways-lower-west",
+      "wormways/wormways-upper-east",
+      "wormways/wormways-upper-west",
+      "wormways/wormways-weavenest"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Mnemonid",
+    "record": "Crystal Drifter",
+    "item_id": 840179,
+    "location_id": 841179,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
+          "mount-fay/mount-fay-ice-lake-platforming-room#right-ledge"
+        ]
+      }
+    ],
+    "rooms": [
+      "mount-fay/brightvein",
+      "mount-fay/mount-fay-frozen-flea",
+      "mount-fay/mount-fay-ice-lake-platforming-room",
+      "mount-fay/mount-fay-magnetite-outcropping",
+      "mount-fay/mount-fay-shakra"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true,
+    "journal_states": [
+      {
+        "fsm": "Control",
+        "states": [
+          "Journal Entry?",
+          "Journal Entry? 2"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Mnemonord",
+    "record": "Crystal Drifter Giant",
+    "item_id": 840180,
+    "location_id": 841180,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/brightvein#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "mount-fay/brightvein"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Slubberlug",
+    "record": "Dustroach Pollywog",
+    "item_id": 840181,
+    "location_id": 841181,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-slubberlug-river#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-slubberlug-river"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Dreg Catcher",
+    "record": "Farmer Catcher",
+    "item_id": 840182,
+    "location_id": 841182,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "greymoor/yarnaby-place#lower-section",
+          "greymoor/yarnaby-place#upper-shaft"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-chapel-of-the-reaper",
+      "greymoor/greymoor-eastern-tower",
+      "greymoor/greymoor-halfway-home-exterior",
+      "greymoor/greymoor-towers-patio",
+      "greymoor/greymoor-western-room",
+      "greymoor/yarnaby-place"
+    ],
+    "battles": [
+      {
+        "scene": "greymoor_04",
+        "path": "Black Thread States Thread Only Variant/Black Thread World/Black Thread Battle Scene"
+      },
+      {
+        "scene": "greymoor_04",
+        "path": "Black Thread States Thread Only Variant/Normal World/Battle Scene"
+      },
+      {
+        "scene": "greymoor_20c",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Gloomsac",
+    "record": "Gloomfly",
+    "item_id": 840183,
+    "location_id": 841183,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "the-abyss/abyss-hallway-to-upper-big-room#left-exit",
+          "the-abyss/abyss-hallway-to-upper-big-room#right-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "the-abyss/abyss-escape-hallway",
+      "the-abyss/abyss-hallway-to-upper-big-room",
+      "the-abyss/abyss-lower-big-room",
+      "the-abyss/abyss-upper-big-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [
+      {
+        "scene": "abyss_02",
+        "path": "Gloomfly Cocoon S (3)"
+      },
+      {
+        "scene": "abyss_02",
+        "path": "Gloomfly Cocoon S (5)"
+      },
+      {
+        "scene": "abyss_02",
+        "path": "Gloomfly Cocoon L"
+      },
+      {
+        "scene": "abyss_02b",
+        "path": "Gloomfly Cocoon S (3)"
+      },
+      {
+        "scene": "abyss_05",
+        "path": "Gloomfly Cocoon S (4)"
+      },
+      {
+        "scene": "abyss_05",
+        "path": "Gloomfly Cocoon L"
+      },
+      {
+        "scene": "abyss_13",
+        "path": "Gloomfly Cocoon L"
+      }
+    ],
+    "scripted_death": true
+  },
+  {
+    "name": "Driftlin",
+    "record": "Peaks Drifter",
+    "item_id": 840184,
+    "location_id": 841184,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-lower-slope#bottom",
+          "mount-fay/mount-fay-lower-slope#ceiling-area",
+          "mount-fay/mount-fay-lower-slope#right-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "mount-fay/mask-maker-passage",
+      "mount-fay/mount-fay-entrance",
+      "mount-fay/mount-fay-lower-slope",
+      "mount-fay/mount-fay-mask-shard",
+      "mount-fay/mount-fay-right-side-middle-room",
+      "mount-fay/mount-fay-upper-slope"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Choir Pouncer",
+    "record": "Pilgrim 01 Song",
+    "item_id": 840185,
+    "location_id": 841185,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-above-ventrica#top",
+          "choral-chambers/choral-chambers-above-ventrica#bottom"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/choral-chambers-above-ventrica",
+      "choral-chambers/choral-chambers-below-spa",
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-dining-room",
+      "choral-chambers/choral-chambers-east-to-west",
+      "choral-chambers/choral-chambers-eastern-shaft",
+      "choral-chambers/choral-chambers-flea-shaft",
+      "choral-chambers/choral-chambers-outside-spa",
+      "choral-chambers/choral-chambers-over-dining",
+      "choral-chambers/choral-chambers-western-shaft",
+      "choral-chambers/corridor-to-high-halls",
+      "choral-chambers/grand-bellway-shaft",
+      "whispering-vaults/songclave-steam-tunnel"
+    ],
+    "battles": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene"
+      },
+      {
+        "scene": "song_04",
+        "path": "Black Thread States/Normal World/Scene States/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Choir Hornhead",
+    "record": "Pilgrim 02 Song",
+    "item_id": 840186,
+    "location_id": 841186,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-flea-shaft#base-bottom",
+          "choral-chambers/choral-chambers-flea-shaft#base-upper",
+          "choral-chambers/choral-chambers-flea-shaft#top-section-1",
+          "choral-chambers/choral-chambers-flea-shaft#top-section-2",
+          "choral-chambers/choral-chambers-flea-shaft#top-section-3-left",
+          "choral-chambers/choral-chambers-flea-shaft#top-section-3-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/choral-chambers-below-spa",
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-east-to-west",
+      "choral-chambers/choral-chambers-eastern-shaft",
+      "choral-chambers/choral-chambers-flea-shaft",
+      "choral-chambers/choral-chambers-over-dining",
+      "whispering-vaults/songclave-steam-tunnel"
+    ],
+    "battles": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Underscrub",
+    "record": "Pilgrim 03 Understore",
+    "item_id": 840187,
+    "location_id": 841187,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "underworks/underworks-crushing-path#bottom",
+          "underworks/underworks-crushing-path#top-right",
+          "underworks/underworks-crushing-path#top-left"
+        ]
+      }
+    ],
+    "rooms": [
+      "underworks/underworks-clawline-room",
+      "underworks/underworks-crushing-path",
+      "underworks/underworks-east-shaft",
+      "underworks/underworks-eastern-gauntlet",
+      "underworks/underworks-lava-flow-corridor",
+      "underworks/underworks-lever-spike-corridor",
+      "underworks/underworks-outside-choral-chambers",
+      "underworks/underworks-saw-intro"
+    ],
+    "battles": [
+      {
+        "scene": "under_10",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "under_18",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Pilgrim Bellbearer",
+    "record": "Pilgrim Bell Thrower",
+    "item_id": 840188,
+    "location_id": 841188,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "blasted-steps/blasted-steps-toll-bench-bottom#bottom-right",
+          "blasted-steps/blasted-steps-toll-bench-bottom#middle",
+          "blasted-steps/blasted-steps-toll-bench-bottom#bottom-left",
+          "blasted-steps/blasted-steps-toll-bench-bottom#top-left",
+          "blasted-steps/blasted-steps-toll-bench-bottom#top-right",
+          "blasted-steps/blasted-steps-toll-bench-bottom#top-right-pit-right",
+          "blasted-steps/blasted-steps-toll-bench-bottom#top-right-pit-left"
+        ]
+      }
+    ],
+    "rooms": [
+      "blasted-steps/blasted-steps-toll-bench-bottom",
+      "bone-bottom/bonegrave",
+      "greymoor/greymoor-lower-halfway-home-path",
+      "shellwood/shellgrave"
+    ],
+    "battles": [
+      {
+        "scene": "shellgrave",
+        "path": "Event Control/Plinney Rescue Scene/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Winged Pilgrim Bellbearer",
+    "record": "Pilgrim Bellthrower Fly",
+    "item_id": 840189,
+    "location_id": 841189,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-shaft#entrance-tunnel",
+          "wormways/wormways-shaft#middle-platform-area",
+          "wormways/wormways-shaft#upper-platform-area",
+          "wormways/wormways-shaft#mask-grotto",
+          "wormways/wormways-shaft#rosary-duct",
+          "wormways/wormways-shaft#behind-door"
+        ]
+      }
+    ],
+    "rooms": [
+      "blasted-steps/blasted-steps-shakra-map-room",
+      "greymoor/greymoor-lower-halfway-home-path",
+      "shellwood/shellwood-far-left-tall-room",
+      "wormways/wormways-shaft"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "greymoor/greymoor-lower-halfway-home-path"
+    ]
+  },
+  {
+    "name": "Overgrown Pilgrim",
+    "record": "Pilgrim Moss Spitter",
+    "item_id": 840190,
+    "location_id": 841190,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-flea-rescue#entrance",
+          "wormways/wormways-flea-rescue#main-area"
+        ]
+      }
+    ],
+    "rooms": [
+      "bone-bottom/bonegrave",
+      "bone-bottom/mosshome-middle",
+      "bone-bottom/mosshome-upper",
+      "wormways/wormways-flea-rescue"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "bone-bottom/mosshome-upper"
+    ]
+  },
+  {
+    "name": "Undersweep",
+    "record": "Pilgrim Staff Understore",
+    "item_id": 840191,
+    "location_id": 841191,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "underworks/underworks-crushing-path#bottom",
+          "underworks/underworks-crushing-path#top-right",
+          "underworks/underworks-crushing-path#top-left"
+        ]
+      }
+    ],
+    "rooms": [
+      "underworks/underworks-central-shaft",
+      "underworks/underworks-clawline-room",
+      "underworks/underworks-crushing-path",
+      "underworks/underworks-eastern-gauntlet",
+      "underworks/underworks-lava-flow-corridor",
+      "underworks/underworks-western-gauntlet"
+    ],
+    "battles": [
+      {
+        "scene": "under_10",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "under_18",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Rhinogrund",
+    "record": "Rhino",
+    "item_id": 840192,
+    "location_id": 841192,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "memorium/memorium-rhino-room#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "far-fields/far-fields-entrance-west",
+      "far-fields/far-fields-pilgrims-rest-church",
+      "far-fields/far-fields-pilgrims-rest-shop",
+      "memorium/memorium-rhino-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "locations": [
+      "Beast Shard: Pilgrim's Rest",
+      "Beast Shard: Memorium"
+    ],
+    "black_thread_only_rooms": [
+      "far-fields/far-fields-entrance-west"
+    ]
+  },
+  {
+    "name": "Roachkeeper",
+    "record": "Roachkeeper",
+    "item_id": 840193,
+    "location_id": 841193,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "sinner-s-road/sinner-s-road-north-hall#behind-left-wall",
+          "sinner-s-road/sinner-s-road-north-hall#left-area",
+          "sinner-s-road/sinner-s-road-north-hall#middle-area",
+          "sinner-s-road/sinner-s-road-north-hall#right-door-platform",
+          "sinner-s-road/sinner-s-road-north-hall#hatch",
+          "sinner-s-road/sinner-s-road-north-hall#chest-plat"
+        ]
+      }
+    ],
+    "rooms": [
+      "sinner-s-road/sinner-s-road-north-hall",
+      "sinner-s-road/sinner-s-road-vertical-hall-east"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "locations": [
+      "Simple Key: Roachkeeper"
+    ]
+  },
+  {
+    "name": "Craggler",
+    "record": "Roof Crab",
+    "item_id": 840194,
+    "location_id": 841194,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-craggler-hallway#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "wormways/wormways-craggler-hallway"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "locations": [
+      "Beast Shard: Craggler"
+    ]
+  },
+  {
+    "name": "Snitchfly",
+    "record": "Rosary Thief",
+    "item_id": 840195,
+    "location_id": 841195,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "the-slab/slab-poodle#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-flea-rescue",
+      "blasted-steps/blasted-steps-grindle",
+      "bone-bottom/bone-bottom-town",
+      "choral-chambers/grand-bellway-side-room",
+      "far-fields/far-fields-pilgrims-rest",
+      "far-fields/far-fields-pilgrims-rest-shop",
+      "the-slab/slab-poodle"
+    ],
+    "battles": [
+      {
+        "scene": "shadow_28",
+        "path": "Rosary Thief Control/Flea Rescue Scene/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "bone-bottom/bone-bottom-town",
+      "far-fields/far-fields-pilgrims-rest-shop"
+    ]
+  },
+  {
+    "name": "Vaultkeeper",
+    "record": "Scholar",
+    "item_id": 840196,
+    "location_id": 841196,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whispering-vaults/whispering-vaults-below-bench#bottom",
+          "whispering-vaults/whispering-vaults-below-bench#top",
+          "whispering-vaults/whispering-vaults-below-bench#rosary",
+          "whispering-vaults/whispering-vaults-below-bench#right-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "whispering-vaults/songclave-steam-tunnel",
+      "whispering-vaults/whispering-vaults-below-bench",
+      "whispering-vaults/whispering-vaults-hub-area",
+      "whispering-vaults/whispering-vaults-silkeater"
+    ],
+    "battles": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene"
+      },
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene Acolyte"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Scrollreader",
+    "record": "Scrollkeeper",
+    "item_id": 840197,
+    "location_id": 841197,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whispering-vaults/whispering-vaults-below-bench#bottom",
+          "whispering-vaults/whispering-vaults-below-bench#top",
+          "whispering-vaults/whispering-vaults-below-bench#rosary",
+          "whispering-vaults/whispering-vaults-below-bench#right-exit"
+        ]
+      }
+    ],
+    "rooms": [
+      "whispering-vaults/whispering-vaults-below-bench",
+      "whispering-vaults/whispering-vaults-flea-shaft",
+      "whispering-vaults/whispering-vaults-hub-area"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Wood Wasp",
+    "record": "Shellwood Wasp",
+    "item_id": 840198,
+    "location_id": 841198,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-big-room-left#ceiling-area",
+          "shellwood/shellwood-big-room-left#ground-left",
+          "shellwood/shellwood-big-room-left#platforms",
+          "shellwood/shellwood-big-room-left#ground-centre",
+          "shellwood/shellwood-big-room-left#ground-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "shellwood/shellwood-big-room-left",
+      "shellwood/shellwood-right-side-big-room",
+      "shellwood/shellwood-top-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Minister",
+    "record": "Song Administrator",
+    "item_id": 840199,
+    "location_id": 841199,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "high-halls/high-halls-shaft-bottom#top",
+          "high-halls/high-halls-shaft-bottom#top-right",
+          "high-halls/high-halls-shaft-bottom#middle-left",
+          "high-halls/high-halls-shaft-bottom#bottom-left",
+          "high-halls/high-halls-shaft-bottom#bottom-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "high-halls/high-halls-arena",
+      "high-halls/high-halls-big-shaft",
+      "high-halls/high-halls-big-slide",
+      "high-halls/high-halls-shaft-bottom",
+      "high-halls/high-halls-shaft-top"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04",
+        "path": "Black Thread States/Black Thread World/Battle Scene Act3"
+      },
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "high-halls/high-halls-arena"
+    ]
+  },
+  {
+    "name": "Cogwork Clapper",
+    "record": "Song Automaton Ball",
+    "item_id": 840200,
+    "location_id": 841200,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#entrance",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#right-room",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#silk-spool-jump-left",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#silk-spool-jump-right",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#bottom-room",
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#arena"
+        ]
+      }
+    ],
+    "rooms": [
+      "cogwork-core/cogwork-core-east-silk-spool-gauntlet"
+    ],
+    "battles": [
+      {
+        "scene": "cog_07",
+        "path": "Battle Scene Test/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "locations": [
+      "Cogwork Core - Pristine Core"
+    ]
+  },
+  {
+    "name": "Cogwork Crawler",
+    "record": "Song Automaton Goomba",
+    "item_id": 840201,
+    "location_id": 841201,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "cogwork-core/cogwork-core-north-main#lower-entrance",
+          "cogwork-core/cogwork-core-north-main#upper-entrance",
+          "cogwork-core/cogwork-core-north-main#lever-door"
+        ]
+      }
+    ],
+    "rooms": [
+      "cogwork-core/cogwork-core-north-main",
+      "cogwork-core/cogwork-core-south-main"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Mortician",
+    "record": "Song Creeper",
+    "item_id": 840202,
+    "location_id": 841202,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whiteward/whiteward-descent-connection#bottom-left",
+          "whiteward/whiteward-descent-connection#spikes",
+          "whiteward/whiteward-descent-connection#bottom-middle",
+          "whiteward/whiteward-descent-connection#ascent",
+          "whiteward/whiteward-descent-connection#middle-left",
+          "whiteward/whiteward-descent-connection#middle-right",
+          "whiteward/whiteward-descent-connection#top",
+          "whiteward/whiteward-descent-connection#bottom-right-upper",
+          "whiteward/whiteward-descent-connection#bottom-right-lower"
+        ]
+      }
+    ],
+    "rooms": [
+      "whiteward/whiteward-descent-connection",
+      "whiteward/whiteward-sherma-gauntlet"
+    ],
+    "battles": [
+      {
+        "scene": "ward_09",
+        "path": "Sherma Rescue Scene/Activation Folder/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Envoy",
+    "record": "Song Pilgrim 01",
+    "item_id": 840203,
+    "location_id": 841203,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-above-ventrica#top",
+          "choral-chambers/choral-chambers-above-ventrica#bottom"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/choral-chambers-above-ventrica",
+      "choral-chambers/choral-chambers-below-spa",
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-east-to-west",
+      "choral-chambers/choral-chambers-eastern-shaft",
+      "choral-chambers/choral-chambers-merchant-room",
+      "choral-chambers/corridor-to-high-halls",
+      "choral-chambers/grand-bellway-shaft"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "song_07",
+        "path": "City Merchant Scene/Scene/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Choristor",
+    "record": "Song Pilgrim 03",
+    "item_id": 840204,
+    "location_id": 841204,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "the-slab/slab-bridge#left",
+          "the-slab/slab-bridge#right"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/choral-chambers-above-spa",
+      "choral-chambers/choral-chambers-above-ventrica",
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-eastern-shaft",
+      "choral-chambers/choral-chambers-merchant-room",
+      "choral-chambers/choral-chambers-outside-spa",
+      "choral-chambers/corridor-to-high-halls",
+      "choral-chambers/grand-bellway-shaft",
+      "choral-chambers/grand-bellway-side-room",
+      "the-slab/slab-bridge",
+      "whispering-vaults/songclave-steam-tunnel",
+      "whispering-vaults/whispering-vaults-jumps"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene"
+      },
+      {
+        "scene": "song_04",
+        "path": "Black Thread States/Normal World/Scene States/Battle Scene"
+      },
+      {
+        "scene": "song_07",
+        "path": "City Merchant Scene/Scene/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "choral-chambers/choral-chambers-below-ventrica"
+    ]
+  },
+  {
+    "name": "Maestro",
+    "record": "Song Pilgrim Maestro",
+    "item_id": 840205,
+    "location_id": 841205,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "high-halls/high-halls-big-slide#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "high-halls/high-halls-big-slide",
+      "high-halls/high-halls-small-slide"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Reed",
+    "record": "Song Reed",
+    "item_id": 840206,
+    "location_id": 841206,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "the-slab/slab-bridge#left",
+          "the-slab/slab-bridge#right"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/choral-chambers-above-ventrica",
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-east-to-west",
+      "choral-chambers/choral-chambers-eastern-shaft",
+      "choral-chambers/choral-chambers-grindle",
+      "choral-chambers/choral-chambers-maintenance-tunnel",
+      "choral-chambers/choral-chambers-outside-spa",
+      "choral-chambers/corridor-to-high-halls",
+      "choral-chambers/grand-bellway-shaft",
+      "choral-chambers/rotating-tunnel",
+      "the-slab/slab-bridge",
+      "whispering-vaults/songclave-steam-tunnel",
+      "whispering-vaults/whispering-vaults-jumps"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene"
+      },
+      {
+        "scene": "song_04",
+        "path": "Black Thread States/Normal World/Scene States/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "choral-chambers/choral-chambers-below-ventrica",
+      "choral-chambers/choral-chambers-east-to-west"
+    ]
+  },
+  {
+    "name": "Grand Reed",
+    "record": "Song Reed Grand",
+    "item_id": 840207,
+    "location_id": 841207,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/high-halls-corridor#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "choral-chambers/high-halls-corridor",
+      "choral-chambers/memorium-entrance-tunnel"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Imoba",
+    "record": "Spike Lazy Flyer",
+    "item_id": 840208,
+    "location_id": 841208,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "the-cradle/path-of-pain-silksong#top",
+          "the-cradle/path-of-pain-silksong#herald-platform",
+          "the-cradle/path-of-pain-silksong#bottom"
+        ]
+      }
+    ],
+    "rooms": [
+      "the-cradle/path-of-pain-silksong"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Hoker",
+    "record": "Spine Floater",
+    "item_id": 840209,
+    "location_id": 841209,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "far-fields/far-fields-skull-room-west#lower-left-exit-area",
+          "far-fields/far-fields-skull-room-west#upper-left-exit-area",
+          "far-fields/far-fields-skull-room-west#main-floor",
+          "far-fields/far-fields-skull-room-west#relic-alcove",
+          "far-fields/far-fields-skull-room-west#rosary-alcove",
+          "far-fields/far-fields-skull-room-west#bone-bridge"
+        ]
+      }
+    ],
+    "rooms": [
+      "far-fields/far-fields-skull-room-east",
+      "far-fields/far-fields-skull-room-west"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Splinterbark",
+    "record": "Stick Insect Flyer",
+    "item_id": 840210,
+    "location_id": 841210,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-top-room#left-side",
+          "shellwood/shellwood-top-room#central",
+          "shellwood/shellwood-top-room#right-side",
+          "shellwood/shellwood-top-room#upper-area",
+          "shellwood/shellwood-top-room#pollip-room"
+        ]
+      }
+    ],
+    "rooms": [
+      "shellwood/shellwood-top-room",
+      "shellwood/sister-splinter"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Skrill",
+    "record": "Surface Scuttler",
+    "item_id": 840211,
+    "location_id": 841211,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "the-cradle/the-surface#hole",
+          "the-cradle/the-surface#door",
+          "the-cradle/the-surface#nameless-town"
+        ]
+      }
+    ],
+    "rooms": [
+      "the-cradle/the-surface"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Barnak",
+    "record": "Swamp Barnacle",
+    "item_id": 840212,
+    "location_id": 841212,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "putrified-ducts/putrified-ducts-entrance#entrance",
+          "putrified-ducts/putrified-ducts-entrance#left-platform",
+          "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+          "putrified-ducts/putrified-ducts-entrance#exit",
+          "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge"
+        ]
+      }
+    ],
+    "rooms": [
+      "putrified-ducts/putrified-ducts-connection-to-bilewater",
+      "putrified-ducts/putrified-ducts-entrance",
+      "putrified-ducts/putrified-ducts-lower-bridge-room",
+      "putrified-ducts/putrified-ducts-map-room",
+      "putrified-ducts/putrified-ducts-path-to-vog",
+      "putrified-ducts/putrified-ducts-rosary-room",
+      "putrified-ducts/putrified-ducts-tall-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Swamp Squit",
+    "record": "Swamp Mosquito",
+    "item_id": 840213,
+    "location_id": 841213,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-sinner-s-entrance#left-quarter",
+          "bilewater/bilewater-sinner-s-entrance#left-rosary-platform",
+          "bilewater/bilewater-sinner-s-entrance#middle-quarter",
+          "bilewater/bilewater-sinner-s-entrance#right-quarter"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-east-column",
+      "bilewater/bilewater-groal-arena",
+      "bilewater/bilewater-organ-entrance",
+      "bilewater/bilewater-sinner-s-entrance",
+      "bilewater/bilewater-slubberlug-river",
+      "bilewater/bilewater-spike-ball-ceiling-trap-room",
+      "bilewater/bilewater-upper-trap-gauntlet-hall",
+      "bilewater/bilewater-vertical-sac-pogo-room",
+      "bilewater/bilewater-west-hall",
+      "bilewater/bilewater-west-secret-rooms"
+    ],
+    "battles": [
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Cogwork Underfly",
+    "record": "Understore Automaton",
+    "item_id": 840214,
+    "location_id": 841214,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "underworks/underworks-east-shaft#lower-central-shaft",
+          "underworks/underworks-east-shaft#bottom-left-entrance",
+          "underworks/underworks-east-shaft#bottom-right-entrance",
+          "underworks/underworks-east-shaft#bottom",
+          "underworks/underworks-east-shaft#lower-left-entrance",
+          "underworks/underworks-east-shaft#high-left-entrance",
+          "underworks/underworks-east-shaft#top-left-entrance",
+          "underworks/underworks-east-shaft#mid-right-entrance",
+          "underworks/underworks-east-shaft#top-right-entrance",
+          "underworks/underworks-east-shaft#upper-central-shaft",
+          "underworks/underworks-east-shaft#bridge"
+        ]
+      }
+    ],
+    "rooms": [
+      "underworks/underworks-clawline-entrance",
+      "underworks/underworks-clawline-room",
+      "underworks/underworks-craftmetal-corridor",
+      "underworks/underworks-east-shaft",
+      "underworks/underworks-lava-flow-corridor"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Servitor Ignim",
+    "record": "Weaver Servitor",
+    "item_id": 840215,
+    "location_id": 841215,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-weavenest-murglin#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-weavenest-murglin",
+      "far-fields/weavenest-cindril",
+      "weavenest-atla/weavenest-atla-entrance",
+      "weavenest-atla/weavenest-atla-grotto",
+      "weavenest-atla/weavenest-atla-hallway",
+      "weavenest-atla/weavenest-atla-lore",
+      "weavenest-atla/weavenest-atla-teleporter"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Servitor Boran",
+    "record": "Weaver Servitor Large",
+    "item_id": 840216,
+    "location_id": 841216,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-shakra#shakra",
+          "mount-fay/mount-fay-shakra#lower-middle-hallway",
+          "mount-fay/mount-fay-shakra#lower-left-ledge",
+          "mount-fay/mount-fay-shakra#middle-left-ledge",
+          "mount-fay/mount-fay-shakra#upper-left-ledge",
+          "mount-fay/mount-fay-shakra#upper-hallway",
+          "mount-fay/mount-fay-shakra#upper-middle-hallway"
+        ]
+      }
+    ],
+    "rooms": [
+      "mount-fay/mount-fay-large-servitor-hallway",
+      "mount-fay/mount-fay-shakra"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Conchfly",
+    "record": "Coral Conch Driller",
+    "item_id": 840217,
+    "location_id": 841217,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#left",
+          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#right",
+          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#bottom",
+          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge"
+        ]
+      }
+    ],
+    "rooms": [
+      "sands-of-karak/sands-of-karak-elevator-to-blasted-steps",
+      "sands-of-karak/sands-of-karak-upper-left-long-room"
+    ],
+    "battles": [
+      {
+        "scene": "coral_27",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Lampbearer",
+    "record": "Lightbearer",
+    "item_id": 840218,
+    "location_id": 841218,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whispering-vaults/whispering-vaults-hub-area#ground",
+          "whispering-vaults/whispering-vaults-hub-area#lowest-hallway"
+        ]
+      }
+    ],
+    "rooms": [
+      "whispering-vaults/whispering-vaults-hub-area"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Elder Pilgrim",
+    "record": "Pilgrim 05",
+    "item_id": 840219,
+    "location_id": 841219,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "the-marrow/the-marrow-skull-wall-side-room#lower-level",
+          "the-marrow/the-marrow-skull-wall-side-room#upper-level"
+        ],
+        "events": [
+          "Room Event: event:mapper/b610a9f9-d97d-460a-b967-dbf3e0994c43"
+        ],
+        "souls": [
+          "Pilgrim Groveller",
+          "Pilgrim Pouncer",
+          "Winged Pilgrim"
+        ]
+      }
+    ],
+    "rooms": [
+      "blasted-steps/lumble-the-lucky",
+      "bone-bottom/bonegrave",
+      "greymoor/greymoor-entry-to-bellhart",
+      "shellwood/shellwood-right-side-big-room",
+      "the-marrow/the-marrow-skull-wall-side-room"
+    ],
+    "battles": [
+      {
+        "scene": "bone_18",
+        "path": "Black Thread States/Black Thread World/Battle Scene"
+      },
+      {
+        "scene": "bone_18",
+        "path": "Quest Scene/Final Encounter/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "blasted-steps/lumble-the-lucky",
+      "greymoor/greymoor-entry-to-bellhart",
+      "shellwood/shellwood-right-side-big-room"
+    ]
+  },
+  {
+    "name": "Covetous Pilgrim",
+    "record": "Rosary Pilgrim",
+    "item_id": 840220,
+    "location_id": 841220,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-shakra-room#room"
+        ],
+        "events": [
+          "Room Event: event:mapper/c072b5f9-82a5-469b-8bf6-b91bb53e5180"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-shakra-room",
+      "bone-bottom/bonegrave",
+      "shellwood/shellgrave"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Choir Clapper",
+    "record": "Song Heavy Sentry",
+    "item_id": 840221,
+    "location_id": 841221,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "high-halls/high-halls-arena#left-of-gauntlet",
+          "high-halls/high-halls-arena#gauntlet-arena",
+          "high-halls/high-halls-arena#right-of-gauntlet"
+        ],
+        "events": [
+          "Room Event: event:mapper/reviewed:high-halls-act-3-gauntlet"
+        ],
+        "souls": [
+          "Minister"
+        ]
+      }
+    ],
+    "rooms": [
+      "high-halls/high-halls-arena"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04",
+        "path": "Black Thread States/Black Thread World/Battle Scene Act3"
+      },
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "black_thread_only_rooms": [
+      "high-halls/high-halls-arena"
+    ]
+  },
+  {
+    "name": "Surgeon",
+    "record": "Song Pilgrim 02",
+    "item_id": 840222,
+    "location_id": 841222,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "whiteward/whiteward-sherma-gauntlet#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "whiteward/whiteward-descent",
+      "whiteward/whiteward-descent-connection",
+      "whiteward/whiteward-sherma-gauntlet"
+    ],
+    "battles": [
+      {
+        "scene": "ward_09",
+        "path": "Sherma Rescue Scene/Activation Folder/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Vaultborn",
+    "record": "Song Scholar Acolyte",
+    "item_id": 840223,
+    "location_id": 841223,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whispering-vaults/whispering-vaults-below-bench#bottom",
+          "whispering-vaults/whispering-vaults-below-bench#top",
+          "whispering-vaults/whispering-vaults-below-bench#rosary",
+          "whispering-vaults/whispering-vaults-below-bench#right-exit"
+        ],
+        "events": [
+          "Room Event: event:mapper/3ff0dc18-39a3-4e67-b7dc-3d80677aebb8"
+        ]
+      }
+    ],
+    "rooms": [
+      "whispering-vaults/songclave-steam-tunnel",
+      "whispering-vaults/whispering-vaults-below-bench",
+      "whispering-vaults/whispering-vaults-flea-shaft",
+      "whispering-vaults/whispering-vaults-hub-area",
+      "whispering-vaults/whispering-vaults-vaultborn-lever"
+    ],
+    "battles": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene Acolyte"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Stilkin",
+    "record": "Swamp Muckman",
+    "item_id": 840224,
+    "location_id": 841224,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-lower-east-hall#right-hall",
+          "bilewater/bilewater-lower-east-hall#left-platform",
+          "bilewater/bilewater-lower-east-hall#left-lower",
+          "bilewater/bilewater-lower-east-hall#under-upper",
+          "bilewater/bilewater-lower-east-hall#upper"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-groal-arena",
+      "bilewater/bilewater-lower-east-hall",
+      "bilewater/bilewater-lower-east-hall-secret",
+      "bilewater/bilewater-lower-trap-gauntlet-hall",
+      "bilewater/bilewater-upper-trap-gauntlet-hall",
+      "bilewater/bilewater-west-hall"
+    ],
+    "battles": [
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true,
+    "journal_states": [
+      {
+        "fsm": "Control",
+        "states": [
+          "Die"
+        ]
+      }
+    ],
+    "actors": [
+      {
+        "scene": "shadow_03",
+        "path": "Swamp Muckman (1)"
+      },
+      {
+        "scene": "shadow_03",
+        "path": "Swamp Muckman (2)"
+      },
+      {
+        "scene": "shadow_03",
+        "path": "Swamp Muckman"
+      },
+      {
+        "scene": "shadow_04b",
+        "path": "Swamp Muckman Intro Control/First Meeting/Swamp Muckman"
+      },
+      {
+        "scene": "shadow_04b",
+        "path": "Swamp Muckman Intro Control/Return/Swamp Muckman"
+      },
+      {
+        "scene": "shadow_10",
+        "path": "Swamp Muckman Control/Muckman Pool/Swamp Muckman (3)"
+      },
+      {
+        "scene": "shadow_10",
+        "path": "Swamp Muckman Control/Muckman Pool/Swamp Muckman"
+      },
+      {
+        "scene": "shadow_10",
+        "path": "Swamp Muckman Control/Muckman Pool/Swamp Muckman Lurer"
+      },
+      {
+        "scene": "shadow_10",
+        "path": "Swamp Muckman Control/Muckman Pool/Swamp Muckman (1)"
+      },
+      {
+        "scene": "shadow_12",
+        "path": "Swamp Muckman All Control/Swamp Muckman (4)"
+      },
+      {
+        "scene": "shadow_12",
+        "path": "Swamp Muckman All Control/Swamp Muckman (5) -replaced by tall guys"
+      },
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene/Wave 4/Swamp Muckman (2)"
+      },
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene/Wave 1 - also activate bell camlock/Swamp Muckman (1)"
+      },
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene/Boss Summon Crew/Swamp Muckman B"
+      },
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene/Wave 1 - also activate bell camlock/Swamp Muckman (2)"
+      },
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene/Boss Summon Crew/Swamp Muckman A"
+      },
+      {
+        "scene": "shadow_21",
+        "path": "Scene Control/Muckmen Control/Muckmen Scene/Swamp Muckman"
+      }
+    ]
   }
 ]

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
+using HutongGames.PlayMaker;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace SilksongRandomizer.Patches
         private static readonly Dictionary<GameObject, (SaveState state, BattleWave wave)> SkippedBossEnemies = new Dictionary<GameObject, (SaveState, BattleWave)>();
         private static readonly Dictionary<string, string[]> Battles = BuildRequirements("battles");
         private static readonly Dictionary<string, string[]> Entrances = BuildRequirements("entrances");
+        private static readonly Dictionary<string, string[]> Actors = BuildRequirements("actors");
         private static readonly Dictionary<string, string[]> States = BuildRequirements("states");
 
         private static Dictionary<string, string[]> BuildRequirements(string field)
@@ -53,7 +55,52 @@ namespace SilksongRandomizer.Patches
         {
             species = null;
             EnemyDeathEffects death = component.GetComponent<EnemyDeathEffects>();
-            return death != null && EnemySoulState.TryGetSpecies(Journal(death), out species);
+            if (death == null) return false;
+            EnemyJournalRecord record = Journal(death);
+            if (record != null) return EnemySoulState.TryGetSpecies(record, out species);
+            string key = component.gameObject.scene.name + "|" + Utils.GetHierarchyPath(component.transform);
+            if (Actors.TryGetValue(key, out string[] actors))
+            {
+                species = actors[0];
+                return true;
+            }
+            if (component.GetComponent<HealthManager>() == null) return false;
+            foreach (PlayMakerFSM fsm in component.GetComponents<PlayMakerFSM>())
+                foreach (FsmState state in fsm.FsmStates ?? Array.Empty<FsmState>())
+                    foreach (FsmStateAction action in state.Actions ?? Array.Empty<FsmStateAction>())
+                        if (EnemySoulState.TryGetSpecies(JournalRecord(action), out string candidate) &&
+                            EnemySoulState.IsJournalDeath(candidate, fsm.FsmName, state.Name))
+                        {
+                            species = candidate;
+                            return true;
+                        }
+            return false;
+        }
+
+        private static EnemyJournalRecord JournalRecord(FsmStateAction action) =>
+            (action is RecordJournalKill kill ? kill.Record?.Value :
+                action is RecordJournalKillV2 killV2 ? killV2.Record?.Value : null) as EnemyJournalRecord;
+
+        [HarmonyPatch]
+        private static class JournalActionDeath
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(RecordJournalKill), nameof(RecordJournalKill.OnEnter));
+                yield return AccessTools.Method(typeof(RecordJournalKillV2), nameof(RecordJournalKillV2.OnEnter));
+            }
+
+            private static void Prefix(FsmStateAction __instance)
+            {
+                if (!EnemySoulState.TryGetSpecies(JournalRecord(__instance), out string species) ||
+                    !EnemySoulState.IsJournalDeath(species, __instance.Fsm.Name, __instance.State.Name)) return;
+                HealthManager health = __instance.Fsm.GameObject.GetComponent<HealthManager>();
+                if (health != null && health.WillAwardJournalKill && ClaimKill(SaveState.Instance, species))
+                {
+                    Rewards.Remove(health);
+                    Rewards.Add(health, new Reward { Replaced = true });
+                }
+            }
         }
 
         private static bool Hold(Transform transform)
@@ -121,13 +168,13 @@ namespace SilksongRandomizer.Patches
             string key = battle.gameObject.scene.name + "|" + Utils.GetHierarchyPath(battle.transform);
             if (Battles.TryGetValue(key, out string[] expected) && MissingAny(state, expected)) return false;
             foreach (EnemyDeathEffects death in battle.GetComponentsInChildren<EnemyDeathEffects>(true))
-                if (EnemySoulState.TryGetSpecies(Journal(death), out string species) &&
+                if (TryGetSpecies(death, out string species) &&
                     EnemySoulState.IsMissing(state, species)) return false;
             if (battle.waves != null)
                 foreach (BattleWave wave in battle.waves)
                     if (wave != null)
                         foreach (EnemyDeathEffects death in wave.GetComponentsInChildren<EnemyDeathEffects>(true))
-                            if (EnemySoulState.TryGetSpecies(Journal(death), out string species) &&
+                            if (TryGetSpecies(death, out string species) &&
                                 EnemySoulState.IsMissing(state, species)) return false;
             return true;
         }
