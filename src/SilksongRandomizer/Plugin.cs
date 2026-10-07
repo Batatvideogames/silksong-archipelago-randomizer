@@ -704,6 +704,7 @@ namespace SilksongRandomizer
             KnockbackLinkManager.Update();
             CurrencyLinkManager.Update();
             EntranceRandomization.Update();
+            Archipelago.Instance?.SynchronizeCurrentRoom();
             FleaRescueAudio.Update();
             FleaPatches.Update();
             BossSoulPatches.Update();

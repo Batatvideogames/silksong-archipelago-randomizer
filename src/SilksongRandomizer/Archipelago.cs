@@ -65,6 +65,47 @@ namespace SilksongRandomizer
         private SaveState warpSyncSave;
         private string warpSyncValue;
 
+        private ArchipelagoSession roomSyncSession;
+        private SaveState roomSyncSave;
+        private string roomSyncValue;
+        private float nextRoomSync;
+
+        internal void SynchronizeCurrentRoom()
+        {
+            if (UnityEngine.Time.unscaledTime < nextRoomSync) return;
+            nextRoomSync = UnityEngine.Time.unscaledTime + 1f;
+            var state = SaveState.Instance;
+            var manager = GameManager.SilentInstance;
+            if (state == null || !state.IsRoomBound || manager == null ||
+                HeroController.instance == null || !manager.IsGameplayScene() ||
+                !manager.HasFinishedEnteringScene || manager.IsLoadingSceneTransition ||
+                manager.IsInSceneTransition) return;
+            string scene = manager.GetSceneNameString();
+            if (string.IsNullOrWhiteSpace(scene)) return;
+            lock (connectionLock)
+            {
+                var activeSession = session;
+                if (!Connected || state.roomSeed != RoomSeed || state.team != Team ||
+                    state.slot != Slot) return;
+                if (ReferenceEquals(activeSession, roomSyncSession) &&
+                    ReferenceEquals(state, roomSyncSave) && scene == roomSyncValue) return;
+                try
+                {
+                    activeSession.Socket.SendPacket(new SetPacket {
+                        Key = $"Silksong:CurrentRoom:{Team}:{Slot}", DefaultValue = "", WantReply = false,
+                        Operations = new[] { new OperationSpecification { OperationType = OperationType.Replace, Value = scene } }
+                    });
+                    roomSyncSession = activeSession;
+                    roomSyncSave = state;
+                    roomSyncValue = scene;
+                }
+                catch (Exception ex)
+                {
+                    RandomizerPlugin.Log?.LogWarning("Current room will retry: " + ex.Message);
+                }
+            }
+        }
+
         internal void SynchronizeUnlockedWarps()
         {
             var state = SaveState.Instance;
