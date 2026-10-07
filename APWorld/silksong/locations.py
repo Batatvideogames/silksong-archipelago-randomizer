@@ -17,6 +17,7 @@ from .location_display_names import (
 )
 from .minor_pickups import MINOR_PICKUP_LOCATION_NAMES
 from .lore_tablets import (
+    ADDITIONAL_LORE_TABLET_SOURCES,
     LORE_TABLET_CATEGORY,
     LORE_TABLET_LOCATION_NAMES,
 )
@@ -1048,6 +1049,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (location_name, LORE_TABLET_CATEGORY)
     for location_name in LORE_TABLET_LOCATION_NAMES
+    if location_name not in {source.location_name for source in ADDITIONAL_LORE_TABLET_SOURCES}
 ) + (
     ('Boss: Grand Mother Silk', 'Boss'),
     ('Boss: Bell Eater', 'Boss'),
@@ -1079,6 +1081,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Journal") for name in JOURNAL_ITEMS)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES)
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(location_name), category)

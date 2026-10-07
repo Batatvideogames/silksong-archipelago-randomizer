@@ -393639,6 +393639,23 @@
           }
         ]
       },
+      "Grand Gate - Nyleth Shrine Inscription": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: grand-gate/nyleth-shrine#room"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Grand Gate - Shell Shard Cache": {
         "alternatives": [
           {

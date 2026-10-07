@@ -32,8 +32,11 @@ namespace SilksongRandomizer.Patches
             return result;
         }
 
-        private static readonly Dictionary<GameObject, (SaveState state, string boss)> Hidden =
-            new Dictionary<GameObject, (SaveState, string)>();
+        private static readonly Dictionary<GameObject, (SaveState state, string boss, bool travel)> Hidden =
+            new Dictionary<GameObject, (SaveState, string, bool)>();
+
+        internal static bool NeedsTravelSoul(SaveState state) => state != null &&
+            !state.AllowsBellwaysBeforeBellBeast && BossSoulState.IsMissing(state, "Boss: Bell Beast");
 
         private static bool Hold(Transform transform)
         {
@@ -41,12 +44,20 @@ namespace SilksongRandomizer.Patches
             for (Transform current = transform; current != null; current = current.parent)
             {
                 GameObject actor = current.gameObject;
-                if (!Actors.TryGetValue(actor.scene.name + "|" + Utils.GetHierarchyPath(current), out string boss) ||
+                bool travel = actor.name == "Bone Beast NPC" &&
+                    actor.GetComponents<PlayMakerFSM>().Any(fsm => fsm.FsmName == "Interaction");
+                string boss;
+                if (travel)
+                {
+                    if (!NeedsTravelSoul(SaveState.Instance)) continue;
+                    boss = "Boss: Bell Beast";
+                }
+                else if (!Actors.TryGetValue(actor.scene.name + "|" + Utils.GetHierarchyPath(current), out boss) ||
                     !BossSoulState.IsMissing(SaveState.Instance, boss)) continue;
                 if (string.Equals(actor.scene.name, "Cradle_03", StringComparison.OrdinalIgnoreCase) &&
                     Utils.GetHierarchyPath(current) == "Boss Scene/Silk Boss")
                     current.parent.Find("Silk_Hair")?.gameObject.SetActive(false);
-                Hidden[actor] = (SaveState.Instance, boss);
+                Hidden[actor] = (SaveState.Instance, boss, travel);
                 actor.SetActive(false);
                 return true;
             }
@@ -60,7 +71,8 @@ namespace SilksongRandomizer.Patches
             List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
-                    !BossSoulState.IsMissing(pair.Value.state, pair.Value.boss)) release.Add(pair.Key);
+                    (pair.Value.travel ? !NeedsTravelSoul(pair.Value.state) :
+                        !BossSoulState.IsMissing(pair.Value.state, pair.Value.boss))) release.Add(pair.Key);
                 else if (pair.Key.activeSelf)
                 {
                     if (retry == null) retry = new List<GameObject>();

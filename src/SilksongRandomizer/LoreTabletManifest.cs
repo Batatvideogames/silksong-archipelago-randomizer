@@ -626,6 +626,11 @@ namespace SilksongRandomizer
                     "TUBE_HUB_NOTICE"
                 )
             ),
+            new Entry(
+                "Grand Gate - Nyleth Shrine Inscription",
+                "Shellwood_11b", 59.065552f, 149.047134f, 120f, 170f,
+                Source("shellwood_11b", "Inspect Region", "Inspect", "SHELLWOOD_SHRINE_SIGN")
+            ),
         };
 
         internal static Entry FindExactSource(

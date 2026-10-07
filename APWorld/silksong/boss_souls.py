@@ -44,6 +44,11 @@ def gate_location(world, name, rules):
     return gate(world, rules, name) if name in BOSS_EVENTS else rules
 
 
+def requires_bell_beast_for_travel(world):
+    return (world.get_bellway_access_key() == "bell_beast_required"
+            and "Boss: Bell Beast" in enabled_bosses(world))
+
+
 def gate_graph(world, graph):
     bosses = enabled_bosses(world)
     if not bosses:
@@ -55,6 +60,8 @@ def gate_graph(world, graph):
             if name not in result:
                 raise OptionError(f"Boss Souls needs {name} in the room graph.")
             result[name] = gate(world, result[name], boss)
+    if requires_bell_beast_for_travel(world):
+        result["Path: Bellways"] = gate(world, result["Path: Bellways"], "Boss: Bell Beast")
     return result
 
 
@@ -124,6 +131,9 @@ def export_world(world, slot_data):
     bosses = enabled_bosses(world)
     slot_data["boss_soul_bosses"] = list(bosses)
     slot_data["boss_souls"] = bool(world.options.boss_souls.value)
+    if requires_bell_beast_for_travel(world):
+        slot_data["abstract_requirements"]["Path: Bellways"] = _export_requirement_group(
+            world._silksong_native_abstract_requirements["Path: Bellways"])
     for boss in bosses:
         for rule in slot_data["requirements"].get(boss, {}).get("alternatives", ()):
             if item_name(boss) not in rule["all_of"]:

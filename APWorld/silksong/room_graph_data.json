@@ -359,6 +359,7 @@
       "Grand Bellway - Bellway",
       "Grand Bellway - Ventrica",
       "Grand Gate - Map Purchase",
+      "Grand Gate - Nyleth Shrine Inscription",
       "Grand Gate - Shell Shard Cache",
       "Grand Gate - Spool Fragment",
       "Great Taste of Pharloom - Pale Oil",
@@ -119236,14 +119237,34 @@
       ],
       "connections": [],
       "events": [],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "b24242db-841c-4732-8d95-011b0b660112",
+          "id": "grand-gate/nyleth-shrine::b24242db-841c-4732-8d95-011b0b660112",
           "label": "Lore",
-          "kind": "lore"
+          "node_id": "grand-gate/nyleth-shrine#room",
+          "canonical_location": "Grand Gate - Nyleth Shrine Inscription",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "b24242db-841c-4732-8d95-011b0b660112"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
-      ]
+      ],
+      "omitted_check_rows": []
     },
     {
       "id": "grand-gate/nyleth-fight",

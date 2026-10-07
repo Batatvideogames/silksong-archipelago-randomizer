@@ -40,6 +40,7 @@ from .locations import (
     location_data_table,
 )
 from .lore_tablets import (
+    ADDITIONAL_LORE_TABLET_SOURCES,
     LORE_TABLET_CATEGORY,
     LORE_TABLET_ITEM_BY_LOCATION,
     LORE_TABLET_ITEM_NAMES,
@@ -396,6 +397,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (item_name, LORE_TABLET_CATEGORY)
     for item_name in LORE_TABLET_ITEM_NAMES
+    if item_name not in {source.item_name for source in ADDITIONAL_LORE_TABLET_SOURCES}
 ) + ALPHABET_ITEM_ROWS + (
     ('Ledge Grab', 'InnateAbility'),
     ('Swim', 'InnateAbility'),
@@ -433,6 +435,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
 ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
+ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES)
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {

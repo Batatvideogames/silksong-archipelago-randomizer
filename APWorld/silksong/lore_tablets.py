@@ -451,6 +451,16 @@ LORE_TABLET_SOURCES: tuple[LoreTabletSource, ...] = (
 )
 
 
+ADDITIONAL_LORE_TABLET_SOURCES = (
+    LoreTabletSource(
+        "Grand Gate - Nyleth Shrine Inscription",
+        "Shellwood_11b", 59.065552, 149.047134, 120.0, 170.0,
+        2, "Grand Gate - Grand Gate",
+        (_identity("shellwood_11b", "Inspect Region", "Inspect", "SHELLWOOD_SHRINE_SIGN"),),
+    ),
+)
+LORE_TABLET_SOURCES += ADDITIONAL_LORE_TABLET_SOURCES
+
 LORE_TABLET_LOCATION_NAMES: tuple[str, ...] = tuple(
     source.location_name for source in LORE_TABLET_SOURCES
 )
@@ -469,6 +479,7 @@ LORE_TABLET_ACT_THREE_LOCATION_NAMES: frozenset[str] = frozenset(
 
 LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "Bellhart - Outer Sign",
+    "Grand Gate - Nyleth Shrine Inscription",
     "The Marrow - Entrance Inscription",
     "The Marrow - Pilgrim Diary",
     "Deep Docks - Forge Note",

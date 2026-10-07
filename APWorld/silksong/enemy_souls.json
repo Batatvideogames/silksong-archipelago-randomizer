@@ -5528,5 +5528,190 @@
     "battles": [],
     "states": [],
     "entrances": []
+  },
+  {
+    "name": "Pond Skipper",
+    "record": "Pond Skater",
+    "item_id": 840161,
+    "location_id": 841161,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "memorium/memorium-water-room#center",
+          "memorium/memorium-water-room#right-side"
+        ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-right-side-big-room#ground-level-left",
+          "shellwood/shellwood-right-side-big-room#central-platforms",
+          "shellwood/shellwood-right-side-big-room#right-platforms",
+          "shellwood/shellwood-right-side-big-room#ground-level-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "memorium/memorium-water-room",
+      "shellwood/shellwood-big-room-left",
+      "shellwood/shellwood-diddy-basement-main",
+      "shellwood/shellwood-left-side-long-pond-room",
+      "shellwood/shellwood-right-side-big-room",
+      "shellwood/shellwood-top-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Pondcatcher",
+    "record": "Pilgrim Fisher",
+    "item_id": 840162,
+    "location_id": 841162,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-big-room-left#ceiling-area",
+          "shellwood/shellwood-big-room-left#ground-left",
+          "shellwood/shellwood-big-room-left#platforms",
+          "shellwood/shellwood-big-room-left#ground-centre",
+          "shellwood/shellwood-big-room-left#ground-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "shellwood/shellwood-big-room-left",
+      "shellwood/shellwood-left-side-long-pond-room",
+      "shellwood/shellwood-right-side-big-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Deep Diver",
+    "record": "Dock Charger",
+    "item_id": 840163,
+    "location_id": 841163,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "deep-docks/deep-docks-chains-east#upper-left-hallway",
+          "deep-docks/deep-docks-chains-east#chain-platforms",
+          "deep-docks/deep-docks-chains-east#lower-left-chest-room",
+          "deep-docks/deep-docks-chains-east#behind-ring-gate",
+          "deep-docks/deep-docks-chains-east#lower-chain-platforms",
+          "deep-docks/deep-docks-chains-east#door-switch"
+        ]
+      }
+    ],
+    "rooms": [
+      "deep-docks/deep-docks-chains-center",
+      "deep-docks/deep-docks-chains-east",
+      "deep-docks/deep-docks-chains-lower-east"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Flintflame Flyer",
+    "record": "Dock Bomber",
+    "item_id": 840164,
+    "location_id": 841164,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "deep-docks/deep-docks-chains-west#main-area",
+          "deep-docks/deep-docks-chains-west#middle-crossing-left",
+          "deep-docks/deep-docks-chains-west#lower-left-exit",
+          "deep-docks/deep-docks-chains-west#lower-right-exit",
+          "deep-docks/deep-docks-chains-west#shard-bundle",
+          "deep-docks/deep-docks-chains-west#middle-crossing-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "deep-docks/deep-docks-chains-east",
+      "deep-docks/deep-docks-chains-flea-rescue",
+      "deep-docks/deep-docks-chains-lower-east",
+      "deep-docks/deep-docks-chains-west"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Flintstone Flyer",
+    "record": "Dock Flyer",
+    "item_id": 840165,
+    "location_id": 841165,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "deep-docks/deep-docks-spool-east#the-floor-is-lava",
+          "deep-docks/deep-docks-spool-east#spool-fragment-area"
+        ]
+      }
+    ],
+    "rooms": [
+      "deep-docks/deep-docks-chains-east",
+      "deep-docks/deep-docks-chains-flea-rescue",
+      "deep-docks/deep-docks-chains-lower-east",
+      "deep-docks/deep-docks-chains-west",
+      "deep-docks/deep-docks-church",
+      "deep-docks/deep-docks-entrance",
+      "deep-docks/deep-docks-forebrothers",
+      "deep-docks/deep-docks-forge",
+      "deep-docks/deep-docks-lower-west-shaft",
+      "deep-docks/deep-docks-map-shop",
+      "deep-docks/deep-docks-spool-east",
+      "the-marrow/the-marrow-lava-docks"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Smelt Shoveller",
+    "record": "Dock Worker",
+    "item_id": 840166,
+    "location_id": 841166,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "deep-docks/deep-docks-spire-lower#top-left-entrance-path",
+          "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+          "deep-docks/deep-docks-spire-lower#rosary",
+          "deep-docks/deep-docks-spire-lower#floor"
+        ]
+      }
+    ],
+    "rooms": [
+      "deep-docks/deep-docks-chains-center",
+      "deep-docks/deep-docks-chains-east",
+      "deep-docks/deep-docks-chains-lower-east",
+      "deep-docks/deep-docks-chains-west",
+      "deep-docks/deep-docks-church",
+      "deep-docks/deep-docks-entrance",
+      "deep-docks/deep-docks-forebrothers",
+      "deep-docks/deep-docks-forge",
+      "deep-docks/deep-docks-lower-west-shaft",
+      "deep-docks/deep-docks-map-shop",
+      "deep-docks/deep-docks-map-shop-side-room",
+      "deep-docks/deep-docks-spire-lower",
+      "deep-docks/deep-docks-upper-spire",
+      "the-marrow/the-marrow-lava-docks"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
   }
 ]
