@@ -55,47 +55,40 @@ namespace SilksongRandomizer.Patches
         private static LoreTabletManifest.Entry inactiveEntry;
         private static int sourceSceneHandle = -1;
 
-        [HarmonyPostfix]
-        private static void Postfix(
-            BasicNPC __instance,
-            LocalisedString[] ___talkText
-        )
+        private static LoreTabletManifest.Entry RandomizedEntry(BasicNPC npc, LocalisedString[] talkText)
         {
             SaveState state = SaveState.Instance;
-            if (__instance == null ||
-                state == null ||
-                !state.IsRoomBound ||
-                !state.IsRandomized(ItemType.LoreTablet) ||
-                ___talkText == null ||
-                ___talkText.Length == 0)
-            {
-                return;
-            }
+            if (npc == null || state == null || !state.IsRoomBound ||
+                !state.IsRandomized(ItemType.LoreTablet) || talkText == null || talkText.Length == 0)
+                return null;
 
-            LocalisedString firstText = ___talkText[0];
-            LoreTabletManifest.Entry entry = null;
-            DetachedEntries.TryGetValue(
-                __instance.GetInstanceID(),
-                out entry
-            );
+            DetachedEntries.TryGetValue(npc.GetInstanceID(), out LoreTabletManifest.Entry entry);
             if (entry == null)
-            {
-                entry = LoreTabletManifest.FindExactSource(
-                    __instance.gameObject.scene.name,
-                    Utils.GetHierarchyPath(__instance.transform),
-                    firstText.Sheet,
-                    firstText.Key
-                );
-            }
-            if (entry == null ||
-                !state.IsLocationEnabled(entry.LocationName) ||
-                !state.IsLocationInSeed(entry.LocationName) ||
-                state.IsLocationChecked(entry.LocationName))
-            {
-                return;
-            }
+                entry = LoreTabletManifest.FindExactSource(npc.gameObject.scene.name,
+                    Utils.GetHierarchyPath(npc.transform), talkText[0].Sheet, talkText[0].Key);
+            return entry != null && state.IsLocationEnabled(entry.LocationName) &&
+                state.IsLocationInSeed(entry.LocationName) ? entry : null;
+        }
 
-            state.CheckLocation(entry.LocationName);
+        [HarmonyPatch(typeof(BasicNPC), "OnStartDialogue")]
+        private static class SkipLoreDialoguePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(BasicNPC __instance, LocalisedString[] ___talkText, ref int ___endTalkState)
+            {
+                if (RandomizedEntry(__instance, ___talkText) == null) return true;
+                ___endTalkState = ___talkText.Length;
+                __instance.EndDialogue();
+                return false;
+            }
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(BasicNPC __instance, LocalisedString[] ___talkText)
+        {
+            LoreTabletManifest.Entry entry = RandomizedEntry(__instance, ___talkText);
+            if (entry != null && !SaveState.Instance.IsLocationChecked(entry.LocationName))
+                SaveState.Instance.CheckLocation(entry.LocationName);
         }
 
         internal static bool ShouldUseInactiveSourceFallback(

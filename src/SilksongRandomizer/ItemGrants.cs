@@ -32,6 +32,7 @@ namespace SilksongRandomizer
         public static void GrantBossCredit(string boss)
         {
             RequireSaveState().progressionShuffle.ReceiveBossCredit(boss);
+            if (boss == "Boss: Widow") QuestManager.IncrementVersion();
         }
 
         public static void GrantMemento(string assetName)

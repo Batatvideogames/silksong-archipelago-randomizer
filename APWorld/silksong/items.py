@@ -436,8 +436,9 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
 ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
-ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES)
+ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[:1])
 ITEM_TABLE_SOURCE += (("Boss Credit: Lace (Deep Docks)", "Boss"),)
+ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -1395,6 +1396,7 @@ def _trim_act_one_pool_entries(
 def _balance_act_two_skill_pool(
     entries: list[ItemPoolEntry],
     category_modes: Mapping[str, str],
+    silk_soar_begone: bool = False,
 ) -> None:
     """Keep the pool balanced when Silk Soar's physical source is omitted."""
 
@@ -1407,7 +1409,7 @@ def _balance_act_two_skill_pool(
     ]
     if len(soar_indices) != 1:
         raise ValueError("Act 2 Skill pool must contain exactly one Silk Soar before balancing.")
-    if mode == 'anywhere':
+    if mode == 'anywhere' and not silk_soar_begone:
         filler_index = next(
             (
                 index for index, entry in enumerate(entries)
@@ -1419,7 +1421,7 @@ def _balance_act_two_skill_pool(
         if filler_index is not None:
             entries.pop(filler_index)
             return
-    elif mode != 'shuffle':
+    elif mode not in {'shuffle', 'anywhere'}:
         raise ValueError(f"Unknown Skill randomization mode: {mode!r}")
     entries.pop(soar_indices[0])
 
@@ -1446,6 +1448,7 @@ def get_dynamic_trap_capacity(
     steel_soul: bool = False,
     minimum_memory_lockets: int = 0,
     required_goal_items: tuple[str, ...] = (),
+    silk_soar_begone: bool = False,
 ) -> int:
     """Count filler entries that can be replaced by traps."""
 
@@ -1477,6 +1480,7 @@ def get_dynamic_trap_capacity(
             include_later_act_items=False,
             minimum_memory_lockets=minimum_memory_lockets,
             required_goal_items=required_goal_items,
+            silk_soar_begone=silk_soar_begone,
         )
     )
 
@@ -1595,6 +1599,7 @@ def build_item_pool_entries(
     include_later_act_items: bool = True,
     minimum_memory_lockets: int = 0,
     required_goal_items: tuple[str, ...] = (),
+    silk_soar_begone: bool = False,
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1619,7 +1624,7 @@ def build_item_pool_entries(
         act_one_excluded_location_names
         if act_one_only
         else get_act_two_excluded_location_names(
-            starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending)
+            starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
         if act_two_only
         else VERDANIA_LOCATION_NAMES
         if exclude_verdania
@@ -1869,7 +1874,7 @@ def build_item_pool_entries(
     elif act_two_only:
         entries = list(
             trim_act_two_pool_entries(
-                entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending)
+                entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
         )
     elif exclude_verdania:
         entries = _trim_verdania_pool_entries(entries, category_modes)
@@ -1948,7 +1953,9 @@ def build_item_pool_entries(
         entries.pop(filler_index)
 
     if act_two_only:
-        _balance_act_two_skill_pool(entries, category_modes)
+        _balance_act_two_skill_pool(entries, category_modes, silk_soar_begone)
+    elif silk_soar_begone and not act_one_only:
+        entries = [entry for entry in entries if entry.name != SILK_SOAR_ITEM]
 
     missing_lockets = max(
         0, minimum_memory_lockets - sum(entry.name == 'Memory Locket' for entry in entries)
@@ -2105,6 +2112,7 @@ def build_item_pool_entries(
                 required_retained.remove(entry.name)
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
+                and not (silk_soar_begone and entry.name == SILK_SOAR_ITEM)
                 and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
                 and not (act_one_only and (

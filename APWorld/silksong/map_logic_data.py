@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import base64
 import gzip
 import io
@@ -40,6 +39,14 @@ def difference(base, value):
     return changes
 
 
+def _copy_json(value):
+    if isinstance(value, dict):
+        return {key: _copy_json(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_copy_json(item) for item in value]
+    return value
+
+
 def _merge_changes(result, changes):
     for key, value in changes.items():
         if value is None:
@@ -47,24 +54,24 @@ def _merge_changes(result, changes):
         elif isinstance(value, dict):
             result[key] = _merge_changes(result.get(key, {}), value)
         else:
-            result[key] = copy.deepcopy(value)
+            result[key] = _copy_json(value)
     return result
 
 
 def merge(base, changes):
-    result = copy.deepcopy(base)
+    result = _copy_json(base)
     for key, value in changes.items():
         if value is None:
             result.pop(key, None)
         elif isinstance(value, dict):
             result[key] = merge(result.get(key, {}), value)
         else:
-            result[key] = copy.deepcopy(value)
+            result[key] = _copy_json(value)
     return result
 
 
 def prepare_base(data, slot_data):
-    result = copy.deepcopy(data["logic"])
+    result = _copy_json(data["logic"])
     if slot_data.get("entrance_randomization", "off") == "coupled":
         profile = data["entrance_profiles"][slot_data.get("entrance_randomization_scope", "full")]
         result = _merge_changes(result, profile["changes"])
@@ -74,7 +81,7 @@ def prepare_base(data, slot_data):
             alternatives = result["abstract_requirements"].setdefault(destination, {"alternatives": []})["alternatives"]
             for requirement in source["requirements"]:
                 if requirement not in alternatives:
-                    alternatives.append(copy.deepcopy(requirement))
+                    alternatives.append(_copy_json(requirement))
     if not slot_data.get("scuttlebrace_logic", False):
         result["abstract_requirements"].pop("Usable Scuttlebrace", None)
         groups = list(result["requirements"].values()) + list(result["abstract_requirements"].values())

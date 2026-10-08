@@ -292,6 +292,62 @@ def native_source_requires_assumption(
     return False
 
 
+@lru_cache(maxsize=8)
+def _screen_transition_names(enemy_names, silk, removed):
+    from .enemy_souls import pogo_graph, _combat_gate
+    from .entrance_randomization import POOL, members
+    from .requirements import _compiled_room_clause_requirement
+    from .room_graph_logic import compile_transition_requirements, room_node_name
+    from .silk_economy import gate
+
+    graph = pogo_graph(enemy_names)
+    ports = graph.transition_by_id
+    pool = {member: row for row in POOL.values() for member in members(row)}
+    result = {}
+    for room in graph.authoritative_rooms:
+        for port in room.transitions:
+            target = ports.get(port.target.port_id)
+            if port.id in removed or not port.is_compilable or target is None:
+                continue
+            source = room_node_name(port.source_node_id)
+            destination = room_node_name(target.source_node_id)
+            label = (pool[port.id]['name'] if port.id in pool else
+                     f'{room.name} - {port.name} ({port.alias})')
+            name = 'Room exit: ' + label
+            groups = result.setdefault((destination, source), {})
+            rules = groups.setdefault(name, set())
+            for clause in compile_transition_requirements(port, silk_costs=silk):
+                rule = _combat_gate(_compiled_room_clause_requirement(clause), enemy_names)
+                rules.add(gate(rule) if silk else rule)
+    return result
+
+
+def _native_entrance_groups(world, requirements, anchor_names):
+    from .enemy_souls import enabled_enemies
+    from .entrance_randomization import enabled, scoped_pool, scope, members
+    from .silk_economy import enabled as silk_enabled
+
+    removed = frozenset(member for row in scoped_pool(scope(world), world.get_content_scope()).values()
+                        for member in members(row)) if enabled(world) else frozenset()
+    exits = _screen_transition_names(enabled_enemies(world), silk_enabled(world), removed)
+    for owner, alternatives in requirements.items():
+        grouped = {}
+        for requirement in alternatives:
+            anchor = choose_requirement_anchor(requirement, anchor_names, owner)
+            grouped.setdefault(anchor, []).append(requirement)
+        for index, (anchor, rules) in enumerate(grouped.items(), 1):
+            candidates = exits.get((owner, anchor), {})
+            named = {}
+            for rule in rules:
+                matches = [name for name, originals in candidates.items() if rule in originals]
+                if not matches and len(candidates) == 1:
+                    matches = list(candidates)
+                for name in matches or [None]:
+                    named.setdefault(name, []).append(rule)
+            for name, named_rules in named.items():
+                yield owner, anchor, name or f'Silksong Logic: {native_region_name(owner)} [{index}]', named_rules
+
+
 def connect_native_logic_regions(
     world,
     menu: Region,
@@ -302,25 +358,19 @@ def connect_native_logic_regions(
     anchor_names = world._silksong_native_region_names
     options = native_rule_options(world)
 
-    for owner, alternatives in requirements.items():
-        target = regions[owner]
-        grouped: dict[str | None, list[LocationRequirement]] = {}
-        for requirement in alternatives:
-            anchor = choose_requirement_anchor(requirement, anchor_names, owner)
-            grouped.setdefault(anchor, []).append(requirement)
-        for index, (anchor, grouped_requirements) in enumerate(grouped.items(), 1):
-            rule = build_requirements_rule(
-                tuple(grouped_requirements),
-                anchor_requirement_name=anchor,
-                extra_abstract_requirement_names=abstract_names,
-                **options,
-            )
-            world.create_entrance(
-                regions[anchor] if anchor is not None else menu,
-                target,
-                rule,
-                f"Silksong Logic: {target.name} [{index}]",
-            )
+    for owner, anchor, name, grouped_requirements in _native_entrance_groups(world, requirements, anchor_names):
+        rule = build_requirements_rule(
+            tuple(grouped_requirements),
+            anchor_requirement_name=anchor,
+            extra_abstract_requirement_names=abstract_names,
+            **options,
+        )
+        world.create_entrance(
+            regions[anchor] if anchor is not None else menu,
+            regions[owner],
+            rule,
+            name,
+        )
 
     supply = getattr(world, '_silk_supply', None)
     if supply is not None:

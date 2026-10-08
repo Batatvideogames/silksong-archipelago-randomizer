@@ -530,7 +530,8 @@ namespace SilksongRandomizer
                 for (int i = 0; i < entries.Count; i++)
                 {
                     var row = entries[i];
-                    string points = row.Points > 0 ? "  (" + row.Points.ToString("0.#", CultureInfo.InvariantCulture) + ")" : "";
+                    string points = row.Points > 0 ? "  (" + row.Points.ToString("0.#", CultureInfo.InvariantCulture) +
+                        (row.Points == 1 ? " point)" : " points)") : "";
                     Label(row.Title + points,
                         x, -5.1f - i * .48f, 7.6f, .45f, 3.5f, row.Dim ? .45f : 1f);
                 }

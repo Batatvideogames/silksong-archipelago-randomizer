@@ -5,7 +5,7 @@
     "document_count": 515,
     "aggregate_sha256": "c6eb103776fcab728ac7d4f0d0c4c3b556229eff7b65a912f71e0446cf0de5e4",
     "catalogue_sha256": "b726962ccfb4576c9c7cf0848ce432352f1eefb367746a3659d3894503959d9a",
-    "bindings_sha256": "1baad90ce38b0efd4515c3622d9b2a094e765eedcc0319c5e60f43811cad67ab"
+    "bindings_sha256": "354529ba367a0a00b72245372f08e2bc6559b6cf3724dc114c1604a4b20baa16"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -43,6 +43,7 @@
       "Bell Beast - Silk Heart",
       "Bellhart - Bellshrine",
       "Bellhart - Bellway",
+      "Bellhart - East Sign",
       "Bellhart - Map Purchase",
       "Bellhart - Outer Sign",
       "Bellhart - Rosary Cache #1",
@@ -100814,14 +100815,35 @@
           "node_id": "bellhart/bellhart-right-entrance#upper-level"
         }
       ],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "08d868a8-9d76-4c5d-8560-bda20e330592",
+          "id": "bellhart/bellhart-right-entrance::mapper-check:08d868a8-9d76-4c5d-8560-bda20e330592:836434",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "08d868a8-9d76-4c5d-8560-bda20e330592"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Lore: Bellhart #1",
-          "kind": "lore"
+          "node_id": "bellhart/bellhart-right-entrance#lower-level",
+          "canonical_location": "Bellhart - East Sign",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
-      ]
+      ],
+      "omitted_check_rows": []
     },
     {
       "id": "bellhart/belltown",

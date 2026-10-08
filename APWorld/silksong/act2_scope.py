@@ -156,6 +156,7 @@ def get_act_two_excluded_location_names(
     starting_crest_item: str | None,
     skill_mode: str = "anywhere",
     cursed_ending: bool = False,
+    silk_soar_begone: bool = False,
 ) -> frozenset[str]:
     """Exclude later-act sources in every Skill randomization mode."""
 
@@ -165,7 +166,7 @@ def get_act_two_excluded_location_names(
 
     if skill_mode not in {"vanilla", "shuffle", "anywhere"}:
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
-    if skill_mode != "anywhere":
+    if skill_mode != "anywhere" or silk_soar_begone:
         excluded |= ACT_TWO_SILK_SOAR_LOCATION_NAMES
     if cursed_ending:
         excluded |= {"Crest: Witch"}
@@ -234,6 +235,7 @@ def trim_act_two_pool_entries(
     starting_crest_item: str | None,
     skill_mode: str = "anywhere",
     cursed_ending: bool = False,
+    silk_soar_begone: bool = False,
 ):
     remaining = list(entries)
     removals = {
@@ -241,7 +243,7 @@ def trim_act_two_pool_entries(
         for category, item_counts in
         ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY.items()
     }
-    if skill_mode != "anywhere":
+    if skill_mode != "anywhere" or silk_soar_begone:
         for category, item_counts in {
             "Memento": {"Grey Memento": 1},
             "MaskShard": {"Mask Shard": 1},
@@ -270,7 +272,7 @@ def trim_act_two_pool_entries(
                 {name: 1 for name in CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES})
 
     if cursed_ending:
-        excluded = get_act_two_excluded_location_names(starting_crest_item, skill_mode, True)
+        excluded = get_act_two_excluded_location_names(starting_crest_item, skill_mode, True, silk_soar_begone)
         removals.setdefault("Eva", Counter()).update(
             reward for name, (reward, _, _) in EVA_REWARDS.items() if name in excluded)
 

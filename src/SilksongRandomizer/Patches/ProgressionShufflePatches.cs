@@ -313,11 +313,16 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPatch(typeof(FullQuestBase), "get_IsCompleted")]
-        private static class PreserveSentinelOfferPatch
+        private static class StoryQuestCompletionPatch
         {
             [HarmonyPostfix]
             private static void Postfix(FullQuestBase __instance, ref bool __result)
             {
+                if (__instance.name == "The Threadspun Town")
+                {
+                    __result = StoryCredit("Boss: Widow", __result);
+                    return;
+                }
                 if (!updatingStory || !__result || __instance.name != "Song Knight") return;
                 string target = SaveState.Instance?.progressionShuffle?.AssignedWish("Song Knight");
                 if (target != null && target != "Song Knight" && QuestManager.GetQuest(target)?.IsCompleted == false)
@@ -608,11 +613,27 @@ namespace SilksongRandomizer.Patches
                 if (!pending && NativeNoticeAccepted(direct.Quest)) return false;
                 if (action.Fsm.Variables.FindFsmBool("Do Start Quest") is FsmBool startQuest)
                     startQuest.Value = false;
-                action.Fsm.SetState(pending ? direct.Prompt : direct.Exit);
-                action.Finish();
-                return true;
+                return TransitionDirectWish(action, pending ? direct.Prompt : direct.Exit);
             }
             return false;
+        }
+
+        private static bool TransitionDirectWish(FsmStateAction action, string destination)
+        {
+            FsmState target = action.Fsm.GetState(destination);
+            if (target == null) return false;
+            FsmEvent route = FsmEvent.GetFsmEvent("AP WISH " + destination);
+            FsmTransition transition = action.State.Transitions.FirstOrDefault(entry => entry.FsmEvent == route);
+            if (transition == null)
+            {
+                transition = new FsmTransition { FsmEvent = route };
+                action.State.Transitions = action.State.Transitions.Append(transition).ToArray();
+            }
+            transition.ToState = destination;
+            transition.ToFsmState = target;
+            action.Fsm.Event(route);
+            action.Finish();
+            return true;
         }
 
         private static bool TryDirectWishPrompt(QuestYesNo action)

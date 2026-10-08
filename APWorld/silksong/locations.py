@@ -1081,8 +1081,9 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Journal") for name in JOURNAL_ITEMS)
-_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[:1])
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Boss: Lace (Deep Docks)", "Boss"),)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
 
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(location_name), category)

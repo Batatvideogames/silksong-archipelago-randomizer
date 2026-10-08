@@ -7,6 +7,9 @@ from functools import lru_cache
 
 CATALOGUE = tuple(json.loads(pkgutil.get_data(__package__, 'enemy_souls.json')))
 BY_NAME = {row['name']: row for row in CATALOGUE}
+SCOPE_CATEGORIES = frozenset(category for row in CATALOGUE
+                             for items in row.get('scope_items', {}).values()
+                             for category in items.values())
 
 from .silk_economy import enabled as silk_enabled
 from .boss_souls import CATALOGUE as BOSS_CATALOGUE
@@ -32,9 +35,16 @@ def enabled_enemies(world):
         validate_slot_data(passthrough)
         return tuple(passthrough.get('enemy_soul_species', ()))
     act = int(world.get_content_scope().removeprefix('act_'))
+    anywhere = frozenset(category for category in SCOPE_CATEGORIES
+                         if world.get_category_mode(category) == 'anywhere')
+    return _scoped_enemies(act, anywhere)
+
+
+@lru_cache(maxsize=16)
+def _scoped_enemies(act, anywhere):
     return tuple(row['name'] for row in CATALOGUE
                  if any(route['act'] <= act for route in row['routes'])
-                 and all(world.get_category_mode(category) == 'anywhere'
+                 and all(category in anywhere
                          for category in row.get('scope_items', {}).get(str(act), {}).values()))
 
 

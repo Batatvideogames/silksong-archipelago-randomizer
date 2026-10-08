@@ -631,6 +631,11 @@ namespace SilksongRandomizer
                 "Shellwood_11b", 59.065552f, 149.047134f, 120f, 170f,
                 Source("shellwood_11b", "Inspect Region", "Inspect", "SHELLWOOD_SHRINE_SIGN")
             ),
+            new Entry(
+                "Bellhart - East Sign",
+                "Belltown_06", 14.92f, 8.37f, 80f, 83f,
+                Source("belltown_06", "Inspect Region", "Inspect", "BELLTOWN_OUTER_SIGN")
+            ),
         };
 
         internal static Entry FindExactSource(

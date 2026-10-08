@@ -368,7 +368,7 @@ namespace SilksongRandomizer
                 case "Belltown House Mid": return "Bellhart's Glory";
                 case "Shakra Final Quest": return "Trail's End";
                 case "Save Sherma": return "Balm for the Wounded";
-                case "A Pinsmiths Tools": return "Pinmaster's Oil / Needle 2";
+                case "A Pinsmiths Tools": return "Pinmaster's Oil / 2 needle upgrades";
                 default: return ReadWishName(quest);
             }
         }

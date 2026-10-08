@@ -107,7 +107,7 @@ The resulting folder structure should look something like:
 ## Frequently Asked Questions (FAQ)
 
 ### I Got to Act 3 and Missed Some Checks in Act 2?
-Some items become unavailable once you enter act 3, go to the always open Bellhome in Bellhart. 
+Some items become unavailable once you enter Act 3. Go to your Bellhome in Bellhart. 
 Once you reach act 3 once, sit on the bed, press dash + needolin to get a pop-up asking to revert the world back to Act 2 and vice versa.
 
 ### What Are the Map Markers Showing?

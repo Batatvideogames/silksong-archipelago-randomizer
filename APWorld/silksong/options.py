@@ -108,6 +108,15 @@ class SilkSkillRandomization(CategoryRandomization):
     display_name = "Silk Skill Randomization"
 
 
+class SilkSoarBegone(Toggle):
+    """
+    Removes Silk Soar from runs without Act 3 areas. When Act 3 areas are included,
+    Silk Soar stays at its vanilla shrine, even with skill randomization enabled.
+    """
+
+    display_name = "Silk Soar Begone"
+
+
 class CrestRandomization(CategoryRandomization):
     """
     Randomizes the 7 Crests in the game.
@@ -1670,6 +1679,7 @@ class SilksongOptions(PerGameCommonOptions):
     skill_randomization: SkillRandomization
     tool_randomization: ToolRandomization
     silk_skill_randomization: SilkSkillRandomization
+    silk_soar_begone: SilkSoarBegone
     crest_randomization: CrestRandomization
     eva_randomization: EvaRandomization
     soul_randomization: SoulRandomization
@@ -1783,6 +1793,7 @@ silksong_option_groups = [
         SkillRandomization,
         ToolRandomization,
         SilkSkillRandomization,
+        SilkSoarBegone,
         CrestRandomization,
         EvaRandomization,
         SoulRandomization,

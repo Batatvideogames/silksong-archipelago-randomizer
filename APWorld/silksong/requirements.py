@@ -6425,8 +6425,8 @@ def _compile_abstract_worklist_plan(
         name for name, _alternatives in requirements_signature
     )
     known_requirements = frozenset(requirement_names)
-    dependent_sets: dict[str, set[str]] = {
-        name: set() for name in requirement_names
+    dependents: dict[str, list[str]] = {
+        name: [] for name in requirement_names
     }
     for owner_name, alternatives in requirements_signature:
         dependencies = {
@@ -6438,18 +6438,14 @@ def _compile_abstract_worklist_plan(
             )
         }
         for dependency_name in dependencies:
-            dependent_sets[dependency_name].add(owner_name)
+            dependents[dependency_name].append(owner_name)
 
     return _AbstractWorklistPlan(
         requirement_names=requirement_names,
         dependents_by_requirement={
-            name: tuple(
-                owner_name
-                for owner_name in requirement_names
-                if owner_name in dependent_sets[name]
-            )
-            for name in requirement_names
-            if dependent_sets[name]
+            name: tuple(owners)
+            for name, owners in dependents.items()
+            if owners
         },
     )
 

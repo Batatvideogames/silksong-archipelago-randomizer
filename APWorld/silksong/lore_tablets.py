@@ -458,6 +458,12 @@ ADDITIONAL_LORE_TABLET_SOURCES = (
         2, "Grand Gate - Grand Gate",
         (_identity("shellwood_11b", "Inspect Region", "Inspect", "SHELLWOOD_SHRINE_SIGN"),),
     ),
+    LoreTabletSource(
+        "Bellhart - East Sign",
+        "Belltown_06", 14.92, 8.37, 80.0, 83.0,
+        1, "Bellhart - Bellhart",
+        (_identity("belltown_06", "Inspect Region", "Inspect", "BELLTOWN_OUTER_SIGN"),),
+    ),
 )
 LORE_TABLET_SOURCES += ADDITIONAL_LORE_TABLET_SOURCES
 
@@ -479,6 +485,7 @@ LORE_TABLET_ACT_THREE_LOCATION_NAMES: frozenset[str] = frozenset(
 
 LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "Bellhart - Outer Sign",
+    "Bellhart - East Sign",
     "Grand Gate - Nyleth Shrine Inscription",
     "The Marrow - Entrance Inscription",
     "The Marrow - Pilgrim Diary",

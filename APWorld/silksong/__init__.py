@@ -235,9 +235,21 @@ class SilksongWorld(CachedRuleBuilderWorld):
         super().register_rule_dependencies(resolved_rule)
 
     def collect(self, state: CollectionState, item: Item) -> bool:
-        if state.rule_builder_cache[self.player]:
-            return super().collect(state, item)
-        return World.collect(self, state, item)
+        changed = World.collect(self, state, item)
+        results = state.rule_builder_cache[self.player]
+        if changed and results:
+            for name in (item.name, self.item_mapping.get(item.name, "")):
+                for rule_id in self.rule_item_dependencies.get(name, ()):
+                    if results.get(rule_id) is False:
+                        del results[rule_id]
+        return changed
+
+    def reached_region(self, state: CollectionState, region: Region) -> None:
+        dependencies = self.rule_region_dependencies.get(region.name)
+        if dependencies:
+            results = state.rule_builder_cache[self.player]
+            for rule_id in dependencies:
+                results.pop(rule_id, None)
 
     def _enable_silk_supply(self, supply):
         self._silk_supply = supply
@@ -246,7 +258,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self.reached_region = self._reached_region_with_silk_supply
 
     def _collect_with_silk_supply(self, state: CollectionState, item: Item) -> bool:
-        changed = super().collect(state, item)
+        changed = SilksongWorld.collect(self, state, item)
         if changed:
             self._silk_supply.collect(state, item.name)
         return changed
@@ -258,7 +270,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return changed
 
     def _reached_region_with_silk_supply(self, state: CollectionState, region: Region) -> None:
-        super().reached_region(state, region)
+        SilksongWorld.reached_region(self, state, region)
         self._silk_supply.reached(state, region)
 
     @staticmethod
@@ -469,6 +481,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()],
             self.get_category_mode('Skill'),
             self.get_goal_key() == CURSED_ENDING_GOAL_KEY,
+            bool(self.options.silk_soar_begone),
         )
         if self.get_category_mode('Soul') == 'vanilla':
             return excluded | {'Maiden Soul', 'Hermit Soul', 'Seeker Soul'}
@@ -528,6 +541,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
 
     def get_logic_unknown_locations(self) -> frozenset[str]:
+        cached = getattr(self, "_resolved_logic_unknown_locations", None)
+        if cached is not None:
+            return cached
         if not MAPPER_GRAPH_ENABLED:
             return LOGIC_UNKNOWN_LOCATIONS
         if not hasattr(self, '_mapper_option_quarantines'):
@@ -548,7 +564,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     name for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool)
                     for name, count in inventory.value.items() if count > 0
                 )
-            if self.is_act_two_content_scope() and self.get_category_mode('Skill') != 'anywhere':
+            if self.is_act_two_content_scope() and (
+                    self.get_category_mode('Skill') != 'anywhere' or self.options.silk_soar_begone):
                 unavailable_items.add('Silk Soar')
             self._mapper_option_quarantines = get_mapper_option_quarantines(
                 unavailable_items=frozenset(unavailable_items),
@@ -582,13 +599,15 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if self.is_act_one_content_scope() or self.is_act_two_content_scope():
             unknown |= BUGS_OF_PHARLOOM_REWARD_LOCATIONS
         from .boss_journal import unknown_locations
-        return unknown | unknown_locations(unknown, self.get_goal_excluded_location_names(),
-                                           int(self.get_content_scope().removeprefix("act_")))
+        self._resolved_logic_unknown_locations = unknown | unknown_locations(
+            unknown, self.get_goal_excluded_location_names(), int(self.get_content_scope().removeprefix("act_")))
+        return self._resolved_logic_unknown_locations
 
     def generate_early(self) -> None:
         from .requirement_rules import build_requirements_rule
 
         build_requirements_rule.cache_clear()
+        self._resolved_logic_unknown_locations = None
         self._crest_slot_memory_locket_count = None
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
         if passthrough is not None:
@@ -619,6 +638,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
+        if self.options.silk_soar_begone and any(
+            inventory.value.get("Silk Soar", 0) > 0
+            for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool)
+        ):
+            raise OptionError("Silk Soar Begone cannot be combined with starting Silk Soar.")
         starting_crest = self.resolve_starting_crest()
         category_modes = self.get_category_modes()
         goal_key = self.get_goal_key()
@@ -649,6 +673,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
+            silk_soar_begone=bool(self.options.silk_soar_begone),
         )
         if (
             (self.options.silk_heart_logic or self.options.enemy_souls)
@@ -1006,6 +1031,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
+            silk_soar_begone=bool(self.options.silk_soar_begone),
             minimum_memory_lockets=self._minimum_pool_lockets(),
             required_goal_items=enemy_soul_required_pool_items(self),
         )
@@ -1182,6 +1208,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.player,
             ).place_locked_item(effective_reward)
 
+        if (self.options.silk_soar_begone and self.get_content_scope() == ACT_THREE_GOAL_KEY
+                and category_modes['Skill'] != 'vanilla'):
+            place_fixed_reward('Silk Soar', 'Silk Soar')
+
         if category_modes['Crest'] != 'vanilla' and starting_crest_item is not None:
             place_fixed_reward('Crest: Hunter', starting_crest_item)
 
@@ -1284,6 +1314,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
+            silk_soar_begone=bool(self.options.silk_soar_begone),
             alphabet_nonadvancement_demand_by_placement_category=(
                 nonadvancement_demand_by_lane
             ),
@@ -1372,7 +1403,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 )
 
         pool_entries = tuple(pool_entries)
-        if (self.is_act_two_content_scope()
+        if (self.is_act_two_content_scope() and not self.options.silk_soar_begone
                 and (any(entry.name == "Grey Memento" for entry in pool_entries)
                      or (self.get_category_mode('Skill') == 'anywhere'
                          and self.options.accessibility == 'full'))
@@ -2233,6 +2264,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_swim_ability_rando_enabled()
             ),
             "alphabet_mode": self.is_alphabet_mode_enabled(),
+            "silk_soar_begone": bool(self.options.silk_soar_begone),
             "crest_slot_memory_locket_count": (
                 get_crest_slot_memory_locket_count(self)
                 if uses_crest_slot_locket_logic(self)

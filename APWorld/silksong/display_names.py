@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Mapping
 
 
@@ -68,6 +69,7 @@ FLEA_DISPLAY_NAMES: tuple[str, ...] = tuple(
 )
 
 
+@lru_cache(maxsize=8192)
 def clean_location_display_name(name: str) -> str:
     flea_name = FLEA_DISPLAY_NAME_BY_SOURCE_NAME.get(name)
     if flea_name is not None:
@@ -78,6 +80,7 @@ def clean_location_display_name(name: str) -> str:
     return name
 
 
+@lru_cache(maxsize=8192)
 def clean_item_display_name(name: str) -> str:
     name = clean_location_display_name(name)
     for prefix in ("Mask Shard", "Spool Fragment"):
