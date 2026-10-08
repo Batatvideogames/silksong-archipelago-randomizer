@@ -157,9 +157,10 @@ class SilkSupply:
             world.register_rule_dependencies(rule)
 
     def _compile_exits(self, world, condition):
-        from .entrance_randomization import exit_requirements
+        from .scene_exits import shuffled_exits
 
-        for _, data, node, _, rules in exit_requirements(world):
+        for exit in shuffled_exits(world):
+            node, rules = exit.source, exit.transport_requirements
             grouped = defaultdict(list)
             for rule in rules:
                 cost = rule_cost(rule)
@@ -172,7 +173,7 @@ class SilkSupply:
                 predicate = condition(alternatives)
                 if predicate is not None:
                     patterns.append((self.nodes[node], cost, predicate))
-            self.exit_patterns[f"Room exit: {data['name']}"] = tuple(patterns)
+            self.exit_patterns[exit.name] = tuple(patterns)
 
     def connect_exit(self, name, region):
         destinations = []
@@ -433,8 +434,10 @@ def compile_regions(world, original):
         return compact_requirements(world, original)
     graph = {name: rules for name, rules in original.items() if name not in supply.queries}
     result = compact_requirements(world, graph, additional_roots=supply.refills, silk_supply=True)
+    from .scene_exits import fixed_exits
     roots = set(supply.nodes) | supply.exit_queries
-    for rules in (*result.values(), *world._progression_location_rules.values(),
+    for rules in (*result.values(), *(exit.requirements for exit in fixed_exits(world)),
+                  *world._progression_location_rules.values(),
                   *(original[name] for name in world._progression_events)):
         for rule in rules:
             roots.update(name for name in (*rule.all_of, *rule.any_of) if name.startswith('Silk ('))

@@ -1782,11 +1782,32 @@ def _semantic_reachability(node_requirements, event_requirements) -> frozenset[s
     )
 
 
+@dataclass(frozen=True)
+class CompiledTransition:
+    id: str
+    source: str
+    requirements: tuple[CompiledRoomClause, ...]
+    exit_requirements: tuple[CompiledRoomClause, ...]
+
+
+@lru_cache(maxsize=8192)
+def _compile_transition(transition_id, source_node_id, requirement, silk_costs):
+    source = room_node_name(source_node_id)
+    prefix = ((room_event_name("event:mapper/reviewed:bellhart-full-house-conversation"),)
+              if transition_id == "bellhart/belltown@hd" else ())
+    rules = _compile_spec(requirement, *prefix, silk_costs=silk_costs)
+    return CompiledTransition(transition_id, source,
+                              tuple(dict.fromkeys(_merge(_part(source), rule) for rule in rules)), rules)
+
+
+def compile_transition(transition, *, silk_costs=False):
+    return _compile_transition(transition.id, transition.source_node_id,
+                               transition.requirement, silk_costs)
+
+
 def compile_transition_requirements(transition, *, include_source=True, silk_costs=False):
-    prefix = (room_node_name(transition.source_node_id),) if include_source else ()
-    if transition.id == "bellhart/belltown@hd":
-        prefix += (room_event_name("event:mapper/reviewed:bellhart-full-house-conversation"),)
-    return _compile_spec(transition.requirement, *prefix, silk_costs=silk_costs)
+    compiled = compile_transition(transition, silk_costs=silk_costs)
+    return compiled.requirements if include_source else compiled.exit_requirements
 
 
 def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transition_targets=None, silk_costs=False) -> CompiledRoomGraph:

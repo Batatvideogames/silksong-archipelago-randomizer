@@ -5,7 +5,7 @@ import pkgutil
 from functools import lru_cache
 from dataclasses import replace
 
-from BaseClasses import CollectionState, EntranceType, Region
+from BaseClasses import CollectionState, Region
 from Options import OptionError
 from entrance_rando import EntranceRandomizationError, disconnect_entrance_for_randomization, randomize_entrances
 
@@ -212,42 +212,6 @@ def node_overrides(world, connected=False):
     from .enemy_souls import enabled_enemies
     from .silk_economy import enabled as silk_enabled
     return _node_overrides(tuple(sorted(pairs.items())) if pairs else (), scope(world), world.get_content_scope(), enabled_enemies(world), silk_enabled(world))
-
-
-def exit_requirements(world):
-    if not enabled(world):
-        return
-    from .requirements import _compiled_room_clause_requirement
-    from .enemy_souls import enabled_enemies, pogo_graph
-    from .silk_economy import enabled as silk_enabled
-
-    ports = pogo_graph(enabled_enemies(world)).transition_by_id
-    for source, data in scoped_pool(scope(world), world.get_content_scope()).items():
-        clauses = exit_clauses(data, ports, include_source=False, silk_costs=silk_enabled(world))
-        requirements = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
-        yield source, data, endpoint_name(data, ports), endpoint_name(POOL[data['vanilla']], ports), requirements
-
-
-def create_exits(world, regions):
-    if not enabled(world):
-        return
-    from .native_regions import native_rule_options
-    from .requirement_rules import build_requirements_rule
-    from .silk_economy import enabled as silk_enabled, gate_location as silk_gate, attach_exit
-
-    options = native_rule_options(world)
-    world._entrance_exits = {}
-    for source, data, node, destination, requirements in exit_requirements(world):
-        exit_rules = silk_gate(world, tuple(replace(rule, all_of=(node, *rule.all_of)) for rule in requirements)) if silk_enabled(world) else requirements
-        entrance = world.create_entrance(
-            regions[node], regions[destination],
-            build_requirements_rule(exit_rules, extra_abstract_requirement_names=world._silksong_native_abstract_names, **options),
-            f"Room exit: {data['name']}", force_creation=True,
-        )
-        attach_exit(world, entrance, requirements)
-        entrance.randomization_type = EntranceType.TWO_WAY
-        entrance.randomization_group = (area(source), data['group']) if scope(world) == 'within_areas' else data['group']
-        world._entrance_exits[source] = entrance
 
 
 def _disconnect(entrance):

@@ -4,6 +4,7 @@ from unittest import TestCase
 from BaseClasses import CollectionState, ItemClassification
 from rule_builder.rules import Rule
 from test.general import setup_multiworld
+from worlds.AutoWorld import call_all
 
 from .. import SilksongWorld
 from ..items import (
@@ -23,7 +24,6 @@ from ..options import (
     SwimAbilityRando,
 )
 from ..requirements import (
-    ABSTRACT_REQUIREMENTS,
     LEDGE_GRAB_CAPABILITY_REQUIREMENT,
     SWIM_CAPABILITY_REQUIREMENT,
     get_abstract_requirements,
@@ -69,13 +69,9 @@ class TestInnateAbilityPool(TestCase):
     def test_options_default_off_without_changing_default_graph(self) -> None:
         self.assertEqual(LedgegrabAbilityRando.default, 0)
         self.assertEqual(SwimAbilityRando.default, 0)
-        self.assertIs(get_abstract_requirements(), ABSTRACT_REQUIREMENTS)
-        self.assertIs(
-            get_abstract_requirements(
-                randomize_ledge_grab=False,
-                randomize_swim=False,
-            ),
-            ABSTRACT_REQUIREMENTS,
+        self.assertEqual(
+            get_abstract_requirements(),
+            get_abstract_requirements(randomize_ledge_grab=False, randomize_swim=False),
         )
 
         arguments = self.pool_arguments()
@@ -105,7 +101,7 @@ class TestInnateAbilityPool(TestCase):
                 changed_owners = {
                     capability_name
                     for capability_name in baseline
-                    if adjusted[capability_name] is not baseline[capability_name]
+                    if adjusted[capability_name] != baseline[capability_name]
                 }
                 expected_owners = {
                     capability_name
@@ -207,7 +203,7 @@ class TestInnateAbilityWorlds(TestCase):
         for ledge_grab, swim, _expected_items in ABILITY_CASES:
             multiworld = setup_multiworld(
                 SilksongWorld,
-                steps=("generate_early", "create_regions", "create_items"),
+                steps=(),
                 seed=12345,
                 options={
                     "goal": "act_3",
@@ -215,12 +211,15 @@ class TestInnateAbilityWorlds(TestCase):
                     "swim_ability_rando": swim,
                 },
             )
+            multiworld.generation_is_fake = True
+            for step in ("generate_early", "create_regions", "create_items"):
+                call_all(multiworld, step)
             cls.worlds[(ledge_grab, swim)] = multiworld.worlds[1]
 
     @staticmethod
     def capability_entrance(world, capability_name: str):
         return world.multiworld.get_entrance(
-            f"Silksong Logic: {capability_name} [1]",
+            f"Menu -> {capability_name}",
             world.player,
         )
 
@@ -270,9 +269,8 @@ class TestInnateAbilityWorlds(TestCase):
                     enabled = item_name in expected_items
 
                     if not enabled:
-                        self.assertIs(
-                            entrance.access_rule,
-                            type(entrance).access_rule,
+                        self.assertTrue(
+                            entrance.access_rule(CollectionState(world.multiworld))
                         )
                         continue
 

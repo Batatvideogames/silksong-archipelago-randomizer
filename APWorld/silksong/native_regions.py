@@ -153,6 +153,7 @@ def create_native_logic_region_map(world) -> Mapping[str, Region]:
     requirements = prepare_world(world, get_native_abstract_requirements(world))
     abstract_names = _intern_abstract_names(frozenset(requirements))
     world._silksong_native_abstract_names = abstract_names
+    world._silksong_native_abstract_requirements = requirements
     from .silk_supply import compile_regions
     compiled_requirements = compile_regions(world, requirements)
     world._silksong_native_compiled_requirements = compiled_requirements
@@ -163,7 +164,6 @@ def create_native_logic_region_map(world) -> Mapping[str, Region]:
         for name in region_names
     }
     world.multiworld.regions.extend(regions.values())
-    world._silksong_native_abstract_requirements = requirements
     return regions
 
 
@@ -292,60 +292,19 @@ def native_source_requires_assumption(
     return False
 
 
-@lru_cache(maxsize=8)
-def _screen_transition_names(enemy_names, silk, removed):
-    from .enemy_souls import pogo_graph, _combat_gate
-    from .entrance_randomization import POOL, members
-    from .requirements import _compiled_room_clause_requirement
-    from .room_graph_logic import compile_transition_requirements, room_node_name
-    from .silk_economy import gate
-
-    graph = pogo_graph(enemy_names)
-    ports = graph.transition_by_id
-    pool = {member: row for row in POOL.values() for member in members(row)}
-    result = {}
-    for room in graph.authoritative_rooms:
-        for port in room.transitions:
-            target = ports.get(port.target.port_id)
-            if port.id in removed or not port.is_compilable or target is None:
-                continue
-            source = room_node_name(port.source_node_id)
-            destination = room_node_name(target.source_node_id)
-            label = (pool[port.id]['name'] if port.id in pool else
-                     f'{room.name} - {port.name} ({port.alias})')
-            name = 'Room exit: ' + label
-            groups = result.setdefault((destination, source), {})
-            rules = groups.setdefault(name, set())
-            for clause in compile_transition_requirements(port, silk_costs=silk):
-                rule = _combat_gate(_compiled_room_clause_requirement(clause), enemy_names)
-                rules.add(gate(rule) if silk else rule)
-    return result
-
-
 def _native_entrance_groups(world, requirements, anchor_names):
-    from .enemy_souls import enabled_enemies
-    from .entrance_randomization import enabled, scoped_pool, scope, members
-    from .silk_economy import enabled as silk_enabled
+    from .scene_exits import fixed_exits
 
-    removed = frozenset(member for row in scoped_pool(scope(world), world.get_content_scope()).values()
-                        for member in members(row)) if enabled(world) else frozenset()
-    exits = _screen_transition_names(enabled_enemies(world), silk_enabled(world), removed)
+    scene_connections = {(exit.destination, exit.source) for exit in fixed_exits(world)}
     for owner, alternatives in requirements.items():
         grouped = {}
         for requirement in alternatives:
             anchor = choose_requirement_anchor(requirement, anchor_names, owner)
-            grouped.setdefault(anchor, []).append(requirement)
-        for index, (anchor, rules) in enumerate(grouped.items(), 1):
-            candidates = exits.get((owner, anchor), {})
-            named = {}
-            for rule in rules:
-                matches = [name for name, originals in candidates.items() if rule in originals]
-                if not matches and len(candidates) == 1:
-                    matches = list(candidates)
-                for name in matches or [None]:
-                    named.setdefault(name, []).append(rule)
-            for name, named_rules in named.items():
-                yield owner, anchor, name or f'Silksong Logic: {native_region_name(owner)} [{index}]', named_rules
+            if (owner, anchor) not in scene_connections:
+                grouped.setdefault(anchor, []).append(requirement)
+        for anchor, rules in grouped.items():
+            source = native_region_name(anchor) if anchor is not None else 'Menu'
+            yield owner, anchor, f'{source} -> {native_region_name(owner)}', rules
 
 
 def connect_native_logic_regions(
@@ -365,15 +324,39 @@ def connect_native_logic_regions(
             extra_abstract_requirement_names=abstract_names,
             **options,
         )
-        world.create_entrance(
+        entrance = world.create_entrance(
             regions[anchor] if anchor is not None else menu,
             regions[owner],
             rule,
             name,
         )
+        if entrance is not None:
+            entrance.display_name = f'{region_label(anchor or "Menu")} -> {region_label(owner)}'
 
     supply = getattr(world, '_silk_supply', None)
     if supply is not None:
         from .silk_supply import SilkSupplyRule
         for name in sorted(supply.boundaries):
             world.create_entrance(menu, regions[name], SilkSupplyRule(name), f'Silksong Silk: {name}')
+
+
+@lru_cache(maxsize=1)
+def _room_node_labels():
+    from .room_graph import load_room_graph
+    return {ROOM_NODE_PREFIX + node.id: f'{room.name} ({node.name})'
+            for room in load_room_graph().authoritative_rooms for node in room.nodes}
+
+
+def region_label(name):
+    return _room_node_labels().get(name, native_region_name(name))
+
+
+def explain_path(entrance, state):
+    label = getattr(entrance, 'display_name', None)
+    if label is None:
+        return []
+    result = [{'type': 'color', 'color': 'blue', 'text': label}]
+    if hasattr(entrance.access_rule, 'explain_json'):
+        result.append({'type': 'text', 'text': ':\n    '})
+        result.extend(entrance.access_rule.explain_json(state))
+    return result

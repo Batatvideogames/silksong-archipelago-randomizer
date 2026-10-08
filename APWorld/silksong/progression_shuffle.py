@@ -155,34 +155,67 @@ def choose_assignments(
     wish_ids: frozenset[str],
     boss_ids: frozenset[str],
     is_valid: Callable[[Assignments], bool],
+    planned: Mapping[str, str] | None = None,
 ) -> Assignments:
-    current = Assignments(
-        tuple((name, name) for name in sorted(wish_ids)),
-        tuple(sorted(boss_ids)),
-    )
+    planned = dict(planned or {})
+    if (not planned.keys() <= wish_ids or not set(planned.values()) <= wish_ids
+            or len(set(planned.values())) != len(planned)):
+        raise ValueError("Wish plando must use eligible offers and each wish at most once.")
+    mapping = {name: name for name in sorted(wish_ids)}
+    for source, target in planned.items():
+        previous = next(name for name, wish in mapping.items() if wish == target)
+        mapping[previous], mapping[source] = mapping[source], target
+    current = Assignments(tuple(sorted(mapping.items())), tuple(sorted(boss_ids)))
     if not is_valid(current):
-        raise ValueError("The starting progression layout is not valid for these settings.")
-    ordered = {"wishes": sorted(wish_ids)}
+        if not planned:
+            raise ValueError("The starting progression layout is not valid for these settings.")
+        current = None
+    sources = sorted(wish_ids - planned.keys())
+    remaining = sorted(wish_ids - set(planned.values()))
     for _ in range(8):
-        maps = {}
-        for kind, sources in ordered.items():
-            targets = list(sources)
-            random.shuffle(targets)
-            maps[kind] = tuple(zip(sources, targets))
-        candidate = Assignments(**maps, bosses=tuple(sorted(boss_ids)))
+        targets = list(remaining)
+        random.shuffle(targets)
+        candidate = Assignments(tuple(sorted((*planned.items(), *zip(sources, targets)))), tuple(sorted(boss_ids)))
         if candidate != current and is_valid(candidate):
             return candidate
+    if current is None:
+        from Options import OptionError
+        raise OptionError("Wish plando could not produce a valid progression layout. Choose an earlier offer or change the assignments.")
     for _ in range(2):
-        for kind, sources in ordered.items():
-            shuffled = list(sources)
-            random.shuffle(shuffled)
-            for first, second in zip(shuffled, shuffled[1:]):
-                mapping = dict(getattr(current, kind))
-                mapping[first], mapping[second] = mapping[second], mapping[first]
-                candidate = replace(current, **{kind: tuple(sorted(mapping.items()))})
-                if is_valid(candidate):
-                    current = candidate
+        shuffled = list(sources)
+        random.shuffle(shuffled)
+        for first, second in zip(shuffled, shuffled[1:]):
+            mapping = dict(current.wishes)
+            mapping[first], mapping[second] = mapping[second], mapping[first]
+            candidate = replace(current, wishes=tuple(sorted(mapping.items())))
+            if is_valid(candidate):
+                current = candidate
     return current
+
+
+def planned_wishes(world, eligible):
+    from Options import OptionError
+    from .locations import wish_offer_display_name
+
+    option = getattr(world.options, 'wish_plando', None)
+    requested = option.value if option is not None else {}
+    names = {wish_offer_display_name(name).removeprefix('Wish: ').casefold(): name for name in eligible}
+    result = {}
+    for offer, wish in requested.items():
+        if not isinstance(offer, str) or not isinstance(wish, str):
+            raise OptionError('Wish plando needs wish names on both sides of each assignment.')
+        resolved = []
+        for label in (offer, wish):
+            identity = names.get(label.removeprefix('Wish: ').casefold())
+            if identity is None:
+                choices = ', '.join(sorted(wish_offer_display_name(name) for name in eligible))
+                raise OptionError(f'Wish plando: {label!r} is not an available offer or wish with these settings. Available wishes: {choices or "none; enable Wish-Sanity"}.')
+            resolved.append(identity)
+        source, target = resolved
+        if source in result or target in result.values():
+            raise OptionError('Wish plando must use each offer and each wish at most once.')
+        result[source] = target
+    return result
 
 
 def build_event_rules(events: Mapping[str, Rules], **options):
@@ -551,6 +584,13 @@ def _story_rules(rules, dependencies, boss):
         for rule in rules)
 
 
+def story_route_rules(owner, rules, bosses):
+    for boss, dependencies, event_names, _ in _STORY_GATES:
+        if boss in bosses and owner in {_event_name(name) for name in event_names}:
+            rules = _story_rules(rules, frozenset(_event_name(name) for name in dependencies), boss)
+    return rules
+
+
 def story_rules(graph, eligible, boss_ids):
     from .requirements import get_location_requirements
 
@@ -629,6 +669,7 @@ def prepare_world(world, graph):
     if passthrough is not None:
         assignments = Assignments.from_slot_data(passthrough["progression_shuffle"], wish_ids, boss_ids)
     else:
+        planned_wishes(world, wish_ids)
         assignments = Assignments(tuple((name, name) for name in sorted(wish_ids)),
                                   tuple(sorted(boss_ids)))
     world._progression_wishes = wishes
@@ -647,7 +688,7 @@ def prepare_world(world, graph):
 
 
 def _replace_events(world, assignments):
-    from .native_regions import choose_requirement_anchor, native_rule_options
+    from .native_regions import choose_requirement_anchor, native_rule_options, region_label
     from .room_graph_logic import native_region_name
     from .requirement_rules import _invalidate_native_source_player, build_requirements_rule
 
@@ -675,12 +716,14 @@ def _replace_events(world, assignments):
         for requirement in alternatives:
             anchor = choose_requirement_anchor(requirement, world._silksong_native_region_names, owner)
             grouped.setdefault(anchor, []).append(requirement)
-        for index, (anchor, rules) in enumerate(grouped.items(), 1):
+        for anchor, rules in grouped.items():
             parent = world.multiworld.get_region(native_region_name(anchor) if anchor else "Menu", world.player)
-            world.create_entrance(parent, target, build_requirements_rule(
+            entrance = world.create_entrance(parent, target, build_requirements_rule(
                 tuple(rules), anchor_requirement_name=anchor,
                 extra_abstract_requirement_names=names, **options,
-            ), f"Silksong Logic: {target.name} [{index}]")
+            ), f"{parent.name} -> {target.name}")
+            if entrance is not None:
+                entrance.display_name = f'{region_label(anchor or "Menu")} -> {region_label(owner)}'
     world._silksong_native_abstract_requirements.update(events)
     world._progression_events = events
     world._progression_assignments = assignments
@@ -858,7 +901,8 @@ def finalize_world(world):
 
     selected = choose_assignments(world.random,
         frozenset(contract.identity for contract in world._progression_wishes),
-        frozenset(contract.identity for contract in world._progression_bosses), valid)
+        frozenset(contract.identity for contract in world._progression_bosses), valid,
+        planned_wishes(world, frozenset(contract.identity for contract in world._progression_wishes)))
     assert selected == accepted
     multiworld.state = CollectionState(multiworld)
 

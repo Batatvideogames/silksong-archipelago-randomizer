@@ -187,6 +187,8 @@ def compact_requirements(world, original, additional_roots=(), *, silk_supply=Fa
         boundaries.update("Room Node: " + node for _, node in WARP_DESTINATIONS.values())
         boundaries.update(at(node, amount) for node in tuple(boundaries)
                           for amount in range(1, MAX_SILK + 1))
+    from .scene_exits import fixed_exits
+    boundaries.update(node for exit in fixed_exits(world) for node in (exit.source, exit.destination) if node in original)
     mutable = frozenset(world._progression_events) | boundaries
     graph, aliases = _simplify(graph, mutable)
     if not getattr(world, '_silk_node_rules', None):

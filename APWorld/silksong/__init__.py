@@ -174,7 +174,7 @@ LOGIC_PAYLOAD_FIELDS = (
 LOGIC_UNKNOWN_REGION_NAME = "LogicUnknown"
 TRACKER_OPTION_NAMES = tuple(
     name for name in SilksongOptions.__annotations__
-    if name not in {"starting_crest", "vog_area_hints", "trap_percentage", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
+    if name not in {"starting_crest", "vog_area_hints", "trap_percentage", "wish_plando", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
 ) + ("start_inventory", "exclude_locations")
 
 
@@ -1468,6 +1468,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if self.options.enemy_souls and self.options.entrance_randomization:
             self.explicit_indirect_conditions = False
 
+    def explain_path(self, entrance, state):
+        from .native_regions import explain_path
+        return explain_path(entrance, state)
+
     def create_regions(self) -> None:
         from .progression_shuffle import world_location_requirements
         self._active_crest_slot_locations = None
@@ -1503,7 +1507,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "Silksong Logic: LogicUnknown",
         )
         connect_native_logic_regions(self, menu, native_regions)
-        from .entrance_randomization import create_exits
+        from .scene_exits import create_exits
         create_exits(self, native_regions)
         randomize_needle_upgrades = (
             self.is_needle_upgrade_randomization_enabled()

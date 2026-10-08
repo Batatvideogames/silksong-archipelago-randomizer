@@ -7,6 +7,7 @@ from Options import (
     Choice,
     FreeText,
     OptionGroup,
+    OptionDict,
     PerGameCommonOptions,
     ProgressionBalancing,
     Range,
@@ -698,6 +699,18 @@ class QuestSanity(CategoryRandomization):
 
     display_name = "Wish-Sanity"
     default = CategoryRandomization.option_vanilla
+
+
+class WishPlando(OptionDict):
+    """
+    Fix which wish an offer gives. Requires Wish-Sanity.
+    Use wish names, with the original offer on the left and the wanted wish on the right.
+    Example: {"Wish: Berry Picking": "Wish: Final Audience"}
+    The remaining offers are shuffled. Assignments that block progression are rejected.
+    """
+
+    display_name = "Wish Offer Plando"
+    default = {}
 
 
 CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
@@ -1729,6 +1742,7 @@ class SilksongOptions(PerGameCommonOptions):
     journal_randomization: JournalRandomization
     bell_shrine_sanity: BellShrineSanity
     wish_sanity: QuestSanity
+    wish_plando: WishPlando
     individual_relic_turn_ins: IndividualRelicTurnIns
     death_link: DeathLink
     death_link_cocoon: DeathLinkCocoon
@@ -1840,6 +1854,7 @@ silksong_option_groups = [
         BossSanity,
         BellShrineSanity,
         QuestSanity,
+        WishPlando,
         IndividualRelicTurnIns,
         AlphabetMode,
     ], start_collapsed=True),
