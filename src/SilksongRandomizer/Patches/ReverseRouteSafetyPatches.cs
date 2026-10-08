@@ -214,9 +214,11 @@ namespace SilksongRandomizer.Patches
                     candidate => Utils.GetHierarchyPath(candidate) == path).Take(2).ToArray();
                 return matches.Length == 1 ? matches[0].gameObject : null;
             }
-            if (scene == WormwaysScene)
+            if (scene == WormwaysScene || scene == "Bone_16")
             {
-                GameObject[] walls = { Find("Breakable Wall"), Find(WormwaysWallPath) };
+                GameObject[] walls = scene == "Bone_16"
+                    ? new[] { Find("Breakable Wall (1)"), Find("Breakable Wall (2)") }
+                    : new[] { Find("Breakable Wall"), Find(WormwaysWallPath) };
                 if (walls.Any(wall => wall == null)) return false;
                 PlayMakerFSM[] fsms = walls.Select(wall => wall.GetComponents<PlayMakerFSM>()
                     .FirstOrDefault(fsm => fsm.FsmName == ArboriumWallFsm)).ToArray();
@@ -1365,6 +1367,9 @@ namespace SilksongRandomizer.Patches
                     if (gate == "right1" || gate == "right2" || gate == "left1" || gate == "bot1")
                         __instance.StartCoroutine(RevealSideEntry(scene, gate));
                 }
+
+                if (IsRoomBoundScene(__instance, "Bone_16") && __instance.GetEntryGateName() == "top1")
+                    __instance.StartCoroutine(RevealSideEntry("Bone_16", "top1"));
 
                 if (IsRoomBoundScene(__instance, "Bone_East_11"))
                     __instance.StartCoroutine(PrepareFarFieldsBridge());

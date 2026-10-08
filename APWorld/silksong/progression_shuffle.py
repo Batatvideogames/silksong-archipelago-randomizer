@@ -13,7 +13,9 @@ from .progression_catalogue import (
 )
 
 SCHEMA = 2
+DIRECT_NOTICE_OFFERS = frozenset({"Mossberry Collection Pre", "Save the Fleas Pre"})
 Rules = tuple[LocationRequirement, ...]
+NATIVE_WISH_FOLLOWUPS = frozenset({"Wood Witch Curse", "Doctor Curse Cure", "Extractor Blue Worms"})
 
 
 def offer_event(identity: str) -> str:
@@ -122,9 +124,10 @@ def compile_events(
         result[name] = rules
 
     for source, target in assignments.wishes:
-        add(offer_event(source), wish_index[source].offer)
+        direct = wish_index[source].native_acceptance if source in DIRECT_NOTICE_OFFERS else ()
+        add(offer_event(source), (*wish_index[source].offer, *direct))
         accepted = offer_event(source)
-        if wish_index[target].native_acceptance:
+        if wish_index[target].native_acceptance and target not in DIRECT_NOTICE_OFFERS:
             accepted = f"Wish Accepted: {target}"
             add(accepted, (req(offer_event(source), crest=False), *wish_index[target].native_acceptance))
         for alias in wish_index[target].acceptance_aliases:
@@ -519,7 +522,7 @@ def npc_contracts(graph: Mapping[str, Rules], eligible_locations: frozenset[str]
                      for rule in graph[completed])
         wishes.append(WishContract("Steel Sentinel", graph[accepted], task,
             completion_aliases=(completed,), acceptance_aliases=(accepted,), locations=("Wish: A Vassal Lost",)))
-    return tuple(wishes)
+    return tuple(wish for wish in wishes if wish.identity not in NATIVE_WISH_FOLLOWUPS)
 
 
 def wish_location_rules(wishes: tuple[WishContract, ...]) -> Mapping[str, Rules]:
@@ -579,6 +582,13 @@ def story_rules(graph, eligible, boss_ids):
         from .wish_events import SILK_AND_SOUL_LACE_DEFEATED_ITEM
         name = "Event: Silk and Soul Offered"
         events[name] = _story_rules(graph[name], {SILK_AND_SOUL_LACE_DEFEATED_ITEM}, "Boss: Lace (Cradle)")
+    if "Boss: Great Conchflies" in boss_ids:
+        credit = credit_event("Boss: Great Conchflies")
+        name = _EVENT_PREFIX + "44adf080-8baa-4759-99b4-65c923940cc5"
+        events[name] = tuple(replace(rule, all_of=(*rule.all_of, credit)) for rule in graph[name])
+        if "Boss: Raging Conchfly" in eligible:
+            locations["Boss: Raging Conchfly"] = tuple(replace(rule, all_of=(*rule.all_of, credit))
+                for rule in get_location_requirements("Boss: Raging Conchfly"))
     if "Boss: Bell Beast" in boss_ids:
         events["Event: Ordinary Silk Blockades Cleared"] = (req(credit_event("Boss: Bell Beast"), crest=False),)
     return events, locations
@@ -612,7 +622,7 @@ def prepare_world(world, graph):
                    for name in sorted(boss_ids))
     graph = {**graph, **story_events}
     from .npc_souls import gate_wishes
-    wishes = gate_wishes(world, board_contracts(graph, eligible)) if world.is_quest_sanity_enabled() else ()
+    wishes = gate_wishes(world, board_contracts(graph, eligible)) if world.is_wish_sanity_enabled() else ()
     passthrough = getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game)
     wish_ids = frozenset(contract.identity for contract in wishes)
     boss_ids = frozenset(contract.identity for contract in bosses)

@@ -32,7 +32,16 @@ def enabled_enemies(world):
         validate_slot_data(passthrough)
         return tuple(passthrough.get('enemy_soul_species', ()))
     act = int(world.get_content_scope().removeprefix('act_'))
-    return tuple(row['name'] for row in CATALOGUE if any(route['act'] <= act for route in row['routes']))
+    return tuple(row['name'] for row in CATALOGUE
+                 if any(route['act'] <= act for route in row['routes'])
+                 and all(world.get_category_mode(category) == 'anywhere'
+                         for category in row.get('scope_items', {}).get(str(act), {}).values()))
+
+
+def required_pool_items(world):
+    scope = world.get_content_scope().removeprefix('act_')
+    return tuple(dict.fromkeys(item for name in enabled_enemies(world)
+                               for item in BY_NAME[name].get('scope_items', {}).get(scope, {})))
 
 
 def validate_slot_data(data):

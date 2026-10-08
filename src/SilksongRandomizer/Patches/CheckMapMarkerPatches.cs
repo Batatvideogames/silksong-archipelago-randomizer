@@ -249,7 +249,7 @@ namespace SilksongRandomizer.Patches
                     activeLocationNames.All(locationName =>
                         reachabilityByLocation != null &&
                         reachabilityByLocation.TryGetValue(
-                            locationName,
+                            JournalRandomization.MarkerLogicName(locationName, marker.Scene.Name),
                             out MapCheckReachability reachability
                         ) &&
                         reachability ==
@@ -982,7 +982,8 @@ namespace SilksongRandomizer.Patches
             {
                 if (state.IsLocationEnabled(locationName) &&
                     state.IsLocationInSeed(locationName) &&
-                    !state.IsLocationChecked(locationName))
+                    !state.IsLocationChecked(locationName) &&
+                    JournalRandomization.IsMarkerAvailable(state, locationName, marker.Scene.Name))
                 {
                     yield return locationName;
                 }
@@ -1568,7 +1569,7 @@ namespace SilksongRandomizer.Patches
             {
                 bool haveReachability =
                     ReachabilityByLocation.TryGetValue(
-                        locationName,
+                        JournalRandomization.MarkerLogicName(locationName, closest.Scene.Name),
                         out MapCheckReachability reachability
                     );
                 Color nameColor =
@@ -1590,7 +1591,7 @@ namespace SilksongRandomizer.Patches
                 foreach (LogicTooltipLine extra in
                     MapLogicEvaluator.Explain(
                         state,
-                        locationName,
+                        JournalRandomization.MarkerLogicName(locationName, closest.Scene.Name),
                         haveReachability
                             ? reachability
                             : MapCheckReachability.Unknown

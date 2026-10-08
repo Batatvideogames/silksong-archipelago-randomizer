@@ -167318,7 +167318,8 @@
             "act": "",
             "all_of": [
               "Event: Silk and Soul Completed",
-              "Path: The Cradle - Terminus",
+              "Room Node: the-cradle/act2-gms-arena#arena",
+              "Combat: Grand Mother Silk",
               "Needolin"
             ],
             "any_of": [],
@@ -167781,6 +167782,7 @@
               "Path: Putrified Ducts - Fleatopia",
               "Path: Choral Chambers - Songclave",
               "Event: Bellhart Full House Conversation",
+              "Event: Trail's End Completed",
               "Faydown Cloak",
               "Silk and Soul: Lace Defeated"
             ],
@@ -167812,6 +167814,7 @@
               "Path: Putrified Ducts - Fleatopia",
               "Path: Choral Chambers - Songclave",
               "Event: Bellhart Full House Conversation",
+              "Event: Trail's End Completed",
               "Faydown Cloak",
               "Silk and Soul: Lace Defeated"
             ],
@@ -167849,6 +167852,7 @@
               "Path: Putrified Ducts - Fleatopia",
               "Path: Choral Chambers - Songclave",
               "Event: Bellhart Full House Conversation",
+              "Event: Trail's End Completed",
               "Faydown Cloak",
               "Silk and Soul: Lace Defeated"
             ],
@@ -167886,6 +167890,7 @@
               "Path: Putrified Ducts - Fleatopia",
               "Path: Choral Chambers - Songclave",
               "Event: Bellhart Full House Conversation",
+              "Event: Trail's End Completed",
               "Faydown Cloak",
               "Silk and Soul: Lace Defeated"
             ],
@@ -209676,7 +209681,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: bellhart/belltown#upper-area"
+              "Room Node: bellhart/belltown#upper-area",
+              "Room Event: event:mapper/reviewed:bellhart-full-house-conversation"
             ],
             "any_of": [],
             "item_counts": [],
@@ -387885,6 +387891,23 @@
           }
         ]
       },
+      "Boss: Lace (Deep Docks)": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Event: event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Boss: Last Judge": {
         "alternatives": [
           {
@@ -397451,8 +397474,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: blasted-steps/great-conchflies#great-conchflies",
-              "Combat: Great Conchflies"
+              "Room Event: event:mapper/44adf080-8baa-4759-99b4-65c923940cc5",
+              "Room Event: event:mapper/fbf3657a-2635-4a32-9fb0-ed48e114846c"
             ],
             "any_of": [],
             "item_counts": [],

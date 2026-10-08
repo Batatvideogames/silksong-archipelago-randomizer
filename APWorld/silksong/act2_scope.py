@@ -252,7 +252,7 @@ def trim_act_two_pool_entries(
         }.items():
             removals.setdefault(category, Counter()).update(item_counts)
     if starting_crest_item == "Crest: Shaman":
-        removals.setdefault("Crest", Counter())["Rosaries (60)"] += 1
+        removals.setdefault("Crest", Counter())["Crest: Hunter"] += 1
     else:
         removals.setdefault("Crest", Counter())["Crest: Shaman"] += 1
         removals.setdefault("CrestSlot", Counter()).update(
@@ -263,7 +263,7 @@ def trim_act_two_pool_entries(
         )
 
     if cursed_ending:
-        item = "Rosaries (60)" if starting_crest_item == "Crest: Witch" else "Crest: Witch"
+        item = "Crest: Hunter" if starting_crest_item == "Crest: Witch" else "Crest: Witch"
         removals.setdefault("Crest", Counter())[item] += 1
         if starting_crest_item != "Crest: Witch":
             removals.setdefault("CrestSlot", Counter()).update(

@@ -583,6 +583,58 @@ namespace SilksongRandomizer.Patches
             ("Doctor Curse Cure", "Belltown_Room_Doctor", "Doctor Fly Scene/Doctor Fly", "Quest Active?", "Take Quest?", "End Watch Target"),
         };
 
+        private static readonly (string Quest, string Scene, string Path, string Fsm, string Prompt, string Exit)[] DirectWishOffers = {
+            ("Mossberry Collection Pre", "Mosstown_02c", "moss_hut_set/NPC Scene/Moss Creep NPC", "Conversation Control", "Offer Quest", "End"),
+            ("Save the Fleas Pre", "Bone_10", "Black Thread States Thread Only Variant/Normal World/Caravan/Caravan State Regular/Caravan Troupe Leader Bone NPC", "Dialogue", "Offer Quest", "Dialogue End"),
+        };
+
+        private static bool NativeNoticeAccepted(string identity)
+        {
+            FullQuestBase notice = QuestManager.GetQuest(identity);
+            return (notice != null && (notice.IsAccepted || notice.IsCompleted)) ||
+                SaveState.Instance?.progressionShuffle?.acceptedWishes.Contains(identity) == true;
+        }
+
+        private static bool TryDirectWishState(QuestPlaymakerActions.QuestFsmAction action)
+        {
+            var direct = DirectWishOffers.FirstOrDefault(entry =>
+                IsNpcAction(action, entry.Scene, entry.Path, entry.Fsm, action.State?.Name) &&
+                action.Quest.Value is FullQuestBase native && ProgressionShuffleState.WishIdentity(native.name) == entry.Quest);
+            if (direct.Quest != null && SaveState.Instance?.progressionShuffle?.AssignedWish(direct.Quest) is string directTarget)
+            {
+                if (SaveState.Instance.progressionShuffle.RecordWishOfferUnlocked(direct.Quest))
+                    GameManager.instance?.QueueSaveGame();
+                bool pending = NeedsNpcWishInteraction(QuestManager.GetQuest(directTarget));
+                if (!pending && NativeNoticeAccepted(direct.Quest)) return false;
+                if (action.Fsm.Variables.FindFsmBool("Do Start Quest") is FsmBool startQuest)
+                    startQuest.Value = false;
+                action.Fsm.SetState(pending ? direct.Prompt : direct.Exit);
+                action.Finish();
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryDirectWishPrompt(QuestYesNo action)
+        {
+            var direct = DirectWishOffers.FirstOrDefault(entry =>
+                IsNpcAction(action, entry.Scene, entry.Path, entry.Fsm, entry.Prompt));
+            string target = direct.Quest == null ? null : SaveState.Instance?.progressionShuffle?.AssignedWish(direct.Quest);
+            if (target == null) return false;
+            FullQuestBase quest = QuestManager.GetQuest(target);
+            if (!NeedsNpcWishInteraction(quest) && NativeNoticeAccepted(direct.Quest)) return false;
+            if (SaveState.Instance.progressionShuffle.RecordWishOfferUnlocked(direct.Quest))
+                GameManager.instance?.QueueSaveGame();
+            OpenNpcWish(quest, () => {
+                if (action.Fsm.Variables.FindFsmBool("Do Start Quest") is FsmBool startQuest)
+                    startQuest.Value = false;
+                typeof(YesNoAction).GetField("succeeded", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(action, true);
+                action.Fsm.SetState(direct.Exit);
+                action.Finish();
+            });
+            return true;
+        }
+
         [HarmonyPatch(typeof(IntSwitch), nameof(IntSwitch.OnEnter))]
         private static class PendingPlinneyWishPatch
         {
@@ -611,6 +663,7 @@ namespace SilksongRandomizer.Patches
             {
                 FullQuestBase quest;
                 string exit;
+                if (TryDirectWishPrompt(__instance)) return false;
                 if (IsCourierAction(__instance, "Begin Quest?"))
                 {
                     var owner = __instance.Fsm.GameObject.GetComponent<SimpleQuestsShopOwner>();
@@ -731,6 +784,7 @@ namespace SilksongRandomizer.Patches
             {
                 if (!(__instance is QuestPlaymakerActions.CheckQuestState) && !(__instance is QuestPlaymakerActions.CheckQuestStateV2)) return true;
                 if (HandleSteelQuestState(__instance)) return false;
+                if (TryDirectWishState(__instance)) return false;
                 var progressState = SaveState.Instance?.progressionShuffle;
                 if (IsHuntressAction(__instance, "Quest Status?") &&
                     __instance.Quest.Value is FullQuestBase huntress &&
@@ -923,6 +977,21 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static string WishTurnInInstructions(ProgressionShuffleState state, string wish)
+        {
+            string board = state.WishTurnInBoard(wish);
+            if (board != null) return "Turn in at the " + board + " wish board.";
+            string npc = state.WishTurnInNpc(wish);
+            if (npc != null) return "Turn in to " + npc + ".";
+            switch (ProgressionShuffleState.WishIdentity(wish))
+            {
+                case "Shell Flowers":
+                case "Wood Witch Curse": return "Perform this rite with Greyroot in Shellwood.";
+                case "Doctor Curse Cure": return "Speak to Yarnaby in Greymoor to be cured.";
+                default: return null;
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), nameof(FullQuestBase.GetDescription))]
         private static class WishTurnInDescriptionPatch
         {
@@ -941,10 +1010,8 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
                 if (offer == __instance.name || __instance.IsCompleted) return;
-                string board = state.WishTurnInBoard(__instance.name);
-                if (board != null) __result += "\n\nTurn in at the " + board + " wish board.";
-                else if (state.WishTurnInNpc(__instance.name) is string npc)
-                    __result += "\n\nTurn in to " + npc + ".";
+                string instructions = WishTurnInInstructions(state, __instance.name);
+                if (instructions != null) __result += "\n\n" + instructions;
             }
         }
 

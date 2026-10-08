@@ -86,6 +86,7 @@ namespace SilksongRandomizer
                 cachedNames = new HashSet<string>(JArray.Parse(state.npcSoulsJson).Values<string>(), StringComparer.Ordinal);
                 cachedJson = state.npcSoulsJson;
             }
+            if (npc == "Seth" && BossSoulState.ProgressiveSeth(state)) return state.GetReceivedItemCount(BossSoulState.SethSoul) < 2;
             return cachedNames.Contains(npc) && state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(ItemName(npc))) != true;
         }
 

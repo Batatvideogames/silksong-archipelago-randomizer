@@ -422,9 +422,7 @@ namespace SilksongRandomizer
                 for (int i = 0; i < Math.Min(4, sheet.Story.Count); i++)
                 {
                     var story = sheet.Story[i];
-                    string name = story.Title.Replace("Caravan reaches Fleatopia", "Caravan at Fleatopia")
-                        .Replace("Lace (Cradle) story requirement", "Lace (Cradle)")
-                        .Replace("Speak to Bellhart's greeter at home", "Bellhart greeter");
+                    string name = story.Title.Replace("Caravan reaches Fleatopia", "Caravan at Fleatopia");
                     Label(name, 4.8f + i % 2 * 5.8f, -5.55f - i / 2 * .5f,
                         5.6f, .45f, 3.2f, story.Dim ? .45f : 1f);
                 }
@@ -526,7 +524,7 @@ namespace SilksongRandomizer
             for (int column = 0; column < 3; column++)
             {
                 float x = -7.6f + column * 8.1f;
-                Label(column == 0 ? "Required" : "Wish points", x, -4.48f, 7.6f, .55f, 4f);
+                Label(column == 0 ? "Required: " + sheet.RequiredProgress : "Wish points", x, -4.48f, 7.6f, .55f, 4f);
                 var entries = column == 0 ? sheet.Left : column == 1
                     ? sheet.Right.Take(split).ToList() : sheet.Right.Skip(split).ToList();
                 for (int i = 0; i < entries.Count; i++)
@@ -534,7 +532,7 @@ namespace SilksongRandomizer
                     var row = entries[i];
                     string points = row.Points > 0 ? "  (" + row.Points.ToString("0.#", CultureInfo.InvariantCulture) + ")" : "";
                     Label(row.Title + points,
-                        x, -5.1f - i * .48f, 7.6f, .45f, 3.5f, row.Dim ? .7f : 1f);
+                        x, -5.1f - i * .48f, 7.6f, .45f, 3.5f, row.Dim ? .45f : 1f);
                 }
             }
         }

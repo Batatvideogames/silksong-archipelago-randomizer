@@ -497,6 +497,7 @@ def _shuffle_is_accessible(
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
     reachability_context=None,
+    *, check_capacity=True,
 ) -> bool:
     unreachable_locations, unbeaten_players = (
         _shuffle_reachability_failures(
@@ -504,6 +505,7 @@ def _shuffle_is_accessible(
             shuffled_locations,
             silksong_players,
             reachability_context,
+            check_capacity=check_capacity,
         )
     )
     return not unreachable_locations and not unbeaten_players
@@ -523,12 +525,60 @@ def _minimal_accessibility_players(multiworld) -> frozenset[int]:
     return frozenset(players)
 
 
+def _flea_pool_is_placeable(multiworld, player):
+    from .display_names import FLEA_ITEM_NAMES
+    from .requirement_rules import sweep_native_sources
+
+    if multiworld.groups:
+        return True
+    fleas = [item for item in multiworld.itempool
+             if item.player == player and item.name in FLEA_ITEM_NAMES]
+    if not fleas:
+        return True
+    world = multiworld.worlds[player]
+    flea_ids = {id(item) for item in fleas}
+    state = CollectionState(multiworld)
+    for item in multiworld.itempool:
+        if item.advancement and id(item) not in flea_ids:
+            state.collect(item, True)
+    filled = multiworld.get_filled_locations()
+    targets = multiworld.get_unfilled_locations()
+    supplied = 0
+    while True:
+        sweep_native_sources(state, filled)
+        if supplied == len(fleas) or (
+                world.options.accessibility == "minimal" and multiworld.has_beaten_game(state, player)):
+            return True
+        reachable = [location for location in targets if location.can_reach(state)]
+        matches = {}
+
+        def match(index, seen):
+            for location in reachable:
+                if location in seen or not location.can_fill(state, fleas[index], check_access=False):
+                    continue
+                seen.add(location)
+                if location not in matches or match(matches[location], seen):
+                    matches[location] = index
+                    return True
+            return False
+
+        for index in range(len(fleas)):
+            match(index, set())
+        available = len(matches)
+        if available <= supplied:
+            return False
+        for _ in range(available - supplied):
+            state.collect(world.create_item("Flea"), True)
+        supplied = available
+
+
 def _shuffle_reachability_failures(
     multiworld,
     shuffled_locations: Iterable,
     silksong_players: Iterable[int],
     reachability_context=None,
     maximum_state=None,
+    check_capacity=True,
 ) -> tuple[list[str], list[int]]:
     from .requirement_rules import sweep_native_pool as sweep_from_pool
 
@@ -567,6 +617,9 @@ def _shuffle_reachability_failures(
         for player in silksong_players
         if not multiworld.has_beaten_game(maximum_state, player)
     )
+    if check_capacity and not unreachable_locations and not unbeaten_players:
+        unbeaten_players = [player for player in silksong_players
+                            if not _flea_pool_is_placeable(multiworld, player)]
     return unreachable_locations, unbeaten_players
 
 
@@ -603,7 +656,7 @@ def _repair_shuffle_swaps(
         all_items_state.collect(location.item, True)
     if not _shuffle_is_accessible(
         multiworld, shuffled_locations, silksong_players,
-        (all_items_state, filled_locations),
+        (all_items_state, filled_locations), check_capacity=False,
     ):
         return False
 
@@ -767,36 +820,47 @@ def fill_solo_progression(world, progression, locations):
 
     multiworld = world.multiworld
     if (multiworld.players != 1 or multiworld.groups
-            or world.options.silk_skill_randomization != "shuffle"
             or not progression
             or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
         return
     managed = getattr(world, "_silksong_spell_shuffle_locations", ())
     spells = [location for location in managed if location.item.name == "Silkspear"]
-    if not spells:
-        return
-    spear_source = spells[0]
-    targets = [location for location in managed if location is not spear_source]
+    spear_source = spells[0] if spells else None
+    targets = [location for location in managed if location is not spear_source] if spear_source else []
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]
     failure = None
     accepted = False
-    original_spear = spear_source.item
+    original_spear = spear_source.item if spear_source else None
+    skills = getattr(world, "_silksong_skill_shuffle_locations", ())
 
     def attempts():
-        yield None
+        yield (), ()
         opening = sweep_from_pool(multiworld.state)
         multiworld.random.shuffle(targets)
         targets.sort(key=lambda location: not location.can_reach(opening))
-        yield from targets
+        for target in targets:
+            yield (spear_source, target), (target.item, original_spear)
+        for _ in range(4):
+            multiworld.random.shuffle(progression)
+            multiworld.random.shuffle(available)
+            yield (), ()
+        grip = next((location for location in skills if location.item.name == "Cling Grip"), None)
+        dash = next((location for location in skills if location.name == "Swift Step"), None)
+        if grip is not None and dash is not None and grip is not dash:
+            yield (dash, grip), (grip.item, dash.item)
+        if skills:
+            for _ in range(4):
+                items = [location.item for location in skills]
+                multiworld.random.shuffle(items)
+                yield skills, items
 
-    for target in attempts():
-        if target is not None:
-            other = target.item
-            if not (_can_fill_without_access(multiworld, spear_source, other)
-                    and _can_fill_without_access(multiworld, target, original_spear)):
+    for changed, items in attempts():
+        previous = [location.item for location in changed]
+        if changed:
+            if not _items_obey_fill_rules(multiworld, changed, items):
                 continue
-            _assign_items([spear_source, target], [other, original_spear])
+            _assign_items(changed, items)
             _invalidate_native_source_player(multiworld, world.player)
         try:
             pool = list(progression)
@@ -824,8 +888,8 @@ def fill_solo_progression(world, progression, locations):
                     if location.item is not None:
                         location.item.location = None
                         location.item = None
-                if target is not None:
-                    _assign_items([spear_source, target], [original_spear, other])
+                if changed:
+                    _assign_items(changed, previous)
                     _invalidate_native_source_player(multiworld, world.player)
     if failure is not None:
         raise failure
@@ -1267,6 +1331,9 @@ def prefill_category_shuffles(
                     break
 
     for player in silksong_players:
+        multiworld.worlds[player]._silksong_skill_shuffle_locations = tuple(
+            locations_by_lane.get(("Skill", player), ())
+        )
         multiworld.worlds[player]._silksong_spell_shuffle_locations = tuple(
             locations_by_lane.get(("Spell", player), ())
         )

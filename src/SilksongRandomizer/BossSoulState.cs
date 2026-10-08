@@ -9,6 +9,13 @@ namespace SilksongRandomizer
 {
     internal static class BossSoulState
     {
+        internal const string SethSoul = "Progressive Seth Soul";
+        internal const string SethBoss = "Boss: Shrine Guardian Seth";
+
+        internal static bool ProgressiveSeth(SaveState state) => state != null &&
+            JArray.Parse(string.IsNullOrEmpty(state.bossSoulsJson) ? "[]" : state.bossSoulsJson).Values<string>().Contains(SethBoss) &&
+            JArray.Parse(string.IsNullOrEmpty(state.npcSoulsJson) ? "[]" : state.npcSoulsJson).Values<string>().Contains("Seth");
+
         internal const string Groal = "Boss: Groal the Great";
         internal static readonly JArray Catalogue = Load();
         internal static readonly string[] SupportedBosses = Catalogue.Select(row => (string)row["boss"]).ToArray();
@@ -38,6 +45,7 @@ namespace SilksongRandomizer
         {
             if (state == null || string.IsNullOrEmpty(state.bossSoulsJson) || state.bossSoulsJson == "[]")
                 return false;
+            if (boss == SethBoss && ProgressiveSeth(state)) return state.GetReceivedItemCount(SethSoul) < 1;
             return JArray.Parse(state.bossSoulsJson).Values<string>().Contains(boss) &&
                 state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(ItemName(boss))) != true;
         }

@@ -23,6 +23,54 @@ namespace SilksongRandomizer
                 .Select(prefix => new KeyValuePair<string, string>(prefix + (string)row["name"], (string)row["record"])))
             .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
 
+        internal sealed class MarkerSource
+        {
+            internal string Location;
+            internal string Scene;
+            internal string Boss;
+            internal string[] Events;
+            internal FieldInfo DefeatedFlag;
+            internal string Persistent;
+        }
+
+        internal static readonly Dictionary<string, MarkerSource> MarkerSources = BuildMarkerSources();
+
+        private static Dictionary<string, MarkerSource> BuildMarkerSources()
+        {
+            var result = new Dictionary<string, MarkerSource>(StringComparer.OrdinalIgnoreCase);
+            foreach (var row in Catalogue)
+                foreach (var source in row["sources"].Where(source => source["scene"] != null))
+                    foreach (string prefix in new[] { "Journal: ", "Journal Completion: " })
+                    {
+                        if (prefix == "Journal Completion: " && ((int)row["kills_required"] <= 1 ||
+                            row["completion_boss"] != null && (string)row["completion_boss"] != (string)source["boss"])) continue;
+                        string location = prefix + (string)row["name"];
+                        string scene = (string)source["scene"];
+                        result.Add(location + "@" + scene, new MarkerSource {
+                            Location = location, Scene = scene, Boss = (string)source["boss"],
+                            Events = source["events"].Values<string>().ToArray(),
+                            DefeatedFlag = typeof(PlayerData).GetField((string)source["defeated_flag"] ?? string.Empty),
+                            Persistent = (string)source["persistent"]
+                        });
+                    }
+            return result;
+        }
+
+        internal static string MarkerLogicName(string location, string scene)
+        {
+            string key = location + "@" + scene;
+            return MarkerSources.ContainsKey(key) ? key : location;
+        }
+
+        internal static bool IsMarkerAvailable(SaveState state, string location, string scene)
+        {
+            if (!MarkerSources.TryGetValue(MarkerLogicName(location, scene), out var source)) return true;
+            if (source.Persistent != null)
+                return SceneData.instance == null || !SceneData.instance.PersistentBools.GetValueOrDefault(source.Scene, source.Persistent);
+            if (state?.progressionShuffle?.TryGetBossDefeat(source.Boss, out bool defeated) == true) return !defeated;
+            return source.DefeatedFlag == null || !(bool)source.DefeatedFlag.GetValue(PlayerData.instance);
+        }
+
         private static JArray Load()
         {
             using (var reader = new StreamReader(typeof(JournalRandomization).Assembly.GetManifestResourceStream(
@@ -95,7 +143,8 @@ namespace SilksongRandomizer
             {
                 foreach (var row in Catalogue)
                 {
-                    if (!row["sources"].Any(source => (string)source["boss"] == anchor.LocationName)) continue;
+                    if (!row["sources"].Any(source => (string)source["boss"] == anchor.LocationName &&
+                        (source["scene"] == null || (string)source["scene"] == anchor.SceneName))) continue;
                     yield return CopyPosition("Journal: " + (string)row["name"], anchor);
                     if ((int)row["kills_required"] > 1 &&
                         (row["completion_boss"] == null || (string)row["completion_boss"] == anchor.LocationName))

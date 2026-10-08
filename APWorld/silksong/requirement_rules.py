@@ -565,6 +565,8 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 state.blocked_connections[self.player].copy()
             )
             assumed_state.rule_builder_cache[self.player] = state.rule_builder_cache[self.player].copy()
+            from .silk_supply import copy_silk_supply
+            copy_silk_supply(state, assumed_state, self.player)
             assumed_state.collect(self.assumed_item, True)
             if self._item_rule is not None and not self._item_rule(assumed_state):
                 result = False

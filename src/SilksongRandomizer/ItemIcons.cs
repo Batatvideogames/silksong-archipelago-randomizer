@@ -362,7 +362,8 @@ namespace SilksongRandomizer
         private static Sprite GetBossJournalIcon(string itemName)
         {
             string name = Normalize(itemName);
-            if (name.StartsWith("Boss: ", StringComparison.OrdinalIgnoreCase))
+            if (name == BossSoulState.SethSoul) name = "Shrine Guardian Seth";
+            else if (name.StartsWith("Boss: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Boss: ".Length);
             else if (name.StartsWith("Boss Credit: ", StringComparison.OrdinalIgnoreCase))
                 name = name.Substring("Boss Credit: ".Length);

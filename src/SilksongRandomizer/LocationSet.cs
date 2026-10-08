@@ -995,6 +995,7 @@ namespace SilksongRandomizer
             new Location("Surface Memento", ItemType.Memento, null),
             new Location("Craw Memento", ItemType.Memento, null),
             new Location("Boss: Summoned Saviour", ItemType.Boss, null),
+            new Location("Boss: Lace (Deep Docks)", ItemType.Boss, null),
 
             new Location("Goal", ItemType.Event,
                 Patches.GoalState.IsConfiguredGoalComplete),

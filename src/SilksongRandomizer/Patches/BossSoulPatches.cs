@@ -3,9 +3,11 @@ using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using HarmonyLib;
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 
 namespace SilksongRandomizer.Patches
 {
@@ -64,8 +66,47 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
+        private static readonly List<GameObject> SceneActors = new List<GameObject>();
+        private static SaveState boundState;
+        private static string boundBosses, boundEnemies;
+        private static bool initialized;
+
+        private static void Scan(Scene scene)
+        {
+            SaveState state = SaveState.Instance;
+            if (state == null) return;
+            bool bosses = !string.IsNullOrEmpty(state.bossSoulsJson) && state.bossSoulsJson != "[]";
+            bool enemies = !string.IsNullOrEmpty(state.enemySoulsJson) && state.enemySoulsJson != "[]";
+            if (!bosses && !enemies) return;
+            foreach (GameObject root in scene.GetRootGameObjects())
+                foreach (Transform actor in root.GetComponentsInChildren<Transform>(true))
+                {
+                    string key = scene.name + "|" + Utils.GetHierarchyPath(actor);
+                    if ((bosses && Actors.ContainsKey(key)) || (enemies && EnemySoulPatches.IsSceneActor(key)))
+                        SceneActors.Add(actor.gameObject);
+                }
+        }
+
         internal static void Update()
         {
+            if (!initialized)
+            {
+                initialized = true;
+                SceneManager.sceneLoaded += (scene, mode) => Scan(scene);
+            }
+            SaveState state = SaveState.Instance;
+            if (boundState != state || boundBosses != state?.bossSoulsJson || boundEnemies != state?.enemySoulsJson)
+            {
+                boundState = state;
+                boundBosses = state?.bossSoulsJson;
+                boundEnemies = state?.enemySoulsJson;
+                SceneActors.Clear();
+                for (int i = 0; i < SceneManager.sceneCount; i++) Scan(SceneManager.GetSceneAt(i));
+            }
+            for (int i = SceneActors.Count - 1; i >= 0; i--)
+                if (SceneActors[i] == null) SceneActors.RemoveAt(i);
+                else if (SceneActors[i].activeInHierarchy && !Hold(SceneActors[i].transform))
+                    EnemySoulPatches.Hold(SceneActors[i].transform);
             if (Hidden.Count == 0) return;
             var release = new List<GameObject>();
             List<GameObject> retry = null;
@@ -130,6 +171,30 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(PlayMakerFSM __instance) => !Hold(__instance.transform);
         }
 
+        internal static bool CanInteract(Transform transform)
+        {
+            for (Transform current = transform; current != null; current = current.parent)
+                if (Actors.TryGetValue(current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current), out string boss) &&
+                    BossSoulState.IsMissing(SaveState.Instance, boss)) return false;
+            return true;
+        }
+
+        [HarmonyPatch(typeof(SendEventToRegister), nameof(SendEventToRegister.OnEnter))]
+        private static class KitchenGong
+        {
+            private static bool Prefix(SendEventToRegister __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || fsm.GameObject.scene.name != "Dust_Chef" ||
+                    fsm.Name != "Tink Hit Force" || __instance.State.Name != "Hit" ||
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) !=
+                        "Battle Parent/Kitchen Pipe Gong/kitchen_string_offset/kitchen_string/kitchen_gong" ||
+                    !BossSoulState.IsMissing(SaveState.Instance, "Boss: Disgraced Chef Lugoli")) return true;
+                __instance.Finish();
+                return false;
+            }
+        }
+
         internal static bool CanStartBattle(string scene, string path, SaveState state) =>
             !Battles.TryGetValue(scene + "|" + path, out string boss) || !BossSoulState.IsMissing(state, boss);
 
@@ -167,16 +232,18 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
         private static class StartSequence
         {
-            private static void Prefix(FsmState __instance)
+            private static bool Prefix(FsmState __instance)
             {
+                if (EnemySoulPatches.CancelGateClose(__instance)) return false;
                 SaveState save = SaveState.Instance;
                 bool Configured(string json) => !string.IsNullOrEmpty(json) && json != "[]";
                 if (save == null || (!Configured(save.bossSoulsJson) &&
-                    !Configured(save.enemySoulsJson) && !Configured(save.npcSoulsJson))) return;
+                    !Configured(save.enemySoulsJson) && !Configured(save.npcSoulsJson))) return true;
                 Fsm fsm = __instance.Fsm;
                 if (fsm?.GameObject == null || CanEnterState(fsm.GameObject.scene.name,
-                    Utils.GetHierarchyPath(fsm.GameObject.transform), fsm.Name, __instance.Name, SaveState.Instance)) return;
+                    Utils.GetHierarchyPath(fsm.GameObject.transform), fsm.Name, __instance.Name, SaveState.Instance)) return true;
                 __instance.Actions = new FsmStateAction[] { new AwaitSoul(__instance, __instance.Actions) };
+                return true;
             }
         }
 

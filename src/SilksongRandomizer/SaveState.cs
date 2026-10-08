@@ -1192,7 +1192,7 @@ namespace SilksongRandomizer
                 Tuple.Create("boss_sanity", bossSanity, archipelago.BossSanity),
                 Tuple.Create("journal_randomization", journalRandomization, archipelago.JournalRandomization),
                 Tuple.Create("bell_shrine_sanity", bellShrineSanity, archipelago.BellShrineSanity),
-                Tuple.Create("quest_sanity", questSanityMode, archipelago.QuestSanity),
+                Tuple.Create("wish_sanity", questSanityMode, archipelago.QuestSanity),
             };
 
             foreach (Tuple<string, RandomizationMode, RandomizationMode> mode in modes)

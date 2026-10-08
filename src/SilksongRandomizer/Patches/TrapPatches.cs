@@ -65,7 +65,6 @@ namespace SilksongRandomizer.Patches
 
             SlabCaptureWarpSafety.PrepareForSave();
             TrapManager.PrepareForSave();
-            BellhomePhaseManager.EnsureBellhomeUnlocked();
         }
 
         private static void Finalizer(bool __state)

@@ -2775,6 +2775,7 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             'Path: Putrified Ducts - Fleatopia',
             'Path: Choral Chambers - Songclave',
             'Event: Bellhart Full House Conversation',
+            "Event: Trail's End Completed",
             'Ability: Faydown Cloak',
             SILK_AND_SOUL_LACE_DEFEATED_ITEM,
             crest=False,
@@ -2817,7 +2818,9 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Grand Mother Silk Snared': (
         req(
             'Event: Silk and Soul Completed',
-            'Path: The Cradle - Terminus',
+            room_node_name('the-cradle/act2-gms-arena#arena')
+            if MAPPER_GRAPH_ENABLED else 'Path: The Cradle - Terminus',
+            'Combat: Grand Mother Silk',
             'Ancestral Art: Needolin',
             crest=False,
         ),
@@ -6006,6 +6009,8 @@ REQUIREMENT_ROWS: tuple[tuple[str, LocationRequirement], ...] = tuple(
 
 
 REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = _compile_requirements(REQUIREMENT_ROWS)
+REQUIREMENTS["Boss: Lace (Deep Docks)"] = (req(
+    "Room Event: event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda", crest=False),)
 from .boss_journal import base_requirements as journal_requirements
 REQUIREMENTS.update(journal_requirements(REQUIREMENTS, req))
 

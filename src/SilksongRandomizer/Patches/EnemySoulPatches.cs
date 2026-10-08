@@ -103,7 +103,7 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        private static bool Hold(Transform transform)
+        internal static bool Hold(Transform transform)
         {
             if (SaveState.Instance == null || string.IsNullOrEmpty(SaveState.Instance.enemySoulsJson) || SaveState.Instance.enemySoulsJson == "[]") return false;
             for (Transform current = transform; current != null; current = current.parent)
@@ -115,6 +115,7 @@ namespace SilksongRandomizer.Patches
                 }
                 string key = current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current);
                 string[] required = Entrances.TryGetValue(key, out string[] entrance) ? entrance :
+                    Actors.TryGetValue(key, out string[] actors) ? actors :
                     TryGetSpecies(current, out string species) ? new[] { species } : Array.Empty<string>();
                 if (!MissingAny(SaveState.Instance, required)) continue;
                 Hidden[current.gameObject] = (SaveState.Instance, required);
@@ -122,6 +123,25 @@ namespace SilksongRandomizer.Patches
                 return true;
             }
             return false;
+        }
+
+        internal static bool IsSceneActor(string key) => Actors.ContainsKey(key) || Entrances.ContainsKey(key);
+
+        internal static bool CancelGateClose(FsmState state)
+        {
+            Fsm fsm = state.Fsm;
+            if (fsm?.GameObject == null || fsm.GameObject.scene.name != "Under_10" ||
+                fsm.Name != "BG Control" || state.Name != "Lock Levers") return false;
+            string path = Utils.GetHierarchyPath(fsm.GameObject.transform);
+            if (CanEnterState(fsm.GameObject.scene.name, path, fsm.Name, state.Name, SaveState.Instance)) return false;
+            fsm.SetState("Idle");
+            return true;
+        }
+
+        [HarmonyPatch(typeof(BattleScene), nameof(BattleScene.LockInBattle))]
+        private static class LockBattle
+        {
+            private static bool Prefix(BattleScene __instance) => CanStartBattle(__instance);
         }
 
         internal static void Update()
@@ -145,7 +165,14 @@ namespace SilksongRandomizer.Patches
             {
                 var saved = Hidden[actor];
                 Hidden.Remove(actor);
-                if (actor != null && saved.state == SaveState.Instance) actor.SetActive(true);
+                if (actor != null && saved.state == SaveState.Instance)
+                {
+                    if (string.Equals(actor.scene.name, "Bone_12", StringComparison.OrdinalIgnoreCase) &&
+                        Utils.GetHierarchyPath(actor.transform) == "Black Thread States/Normal World/Jail Scene 1/Pilgrim Dummy" &&
+                        actor.transform.parent.GetComponents<PlayMakerFSM>().Any(fsm =>
+                            fsm.FsmName == "Control Pilgrim" && fsm.ActiveStateName == "State 3")) continue;
+                    actor.SetActive(true);
+                }
             }
         }
 

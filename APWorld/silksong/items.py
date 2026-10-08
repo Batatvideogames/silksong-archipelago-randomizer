@@ -422,7 +422,8 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Surface Memento', 'Memento'),
     ('Craw Memento', 'Memento'),
     ('Literacy Trap', 'Trap'),
-) + tuple((name, 'Boss') for name in BOSS_CREDIT_BY_LOCATION.values()) + (
+) + tuple((name, 'Boss') for location, name in BOSS_CREDIT_BY_LOCATION.items()
+          if location != 'Boss: Lace (Deep Docks)') + (
     ('Soul of Groal the Great', 'BossSoul'),
     ('Soul of Moss Mother', 'BossSoul'),
     ('Soul of Broodmother', 'BossSoul'),
@@ -436,6 +437,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
 ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES)
+ITEM_TABLE_SOURCE += (("Boss Credit: Lace (Deep Docks)", "Boss"),)
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -636,7 +638,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
     'Relic: Sacred Cylinder',
     'Progressive Crafting Kit',
 }) | frozenset(BOSS_CREDIT_BY_LOCATION['Boss: ' + name] for name in (
-    'Bell Beast', 'Cogwork Dancers', 'Fourth Chorus', 'Groal the Great',
+    'Bell Beast', 'Cogwork Dancers', 'Fourth Chorus', 'Great Conchflies', 'Groal the Great',
     'Skull Tyrant (The Marrow)', 'Widow', 'Lace (Cradle)', 'Summoned Saviour',
 ))
 
@@ -672,15 +674,19 @@ item_table: Dict[str, int] = {
 ITEM_TABLE_SOURCE = tuple(dict.fromkeys(ITEM_TABLE_SOURCE))
 
 from .enemy_souls import CATALOGUE as ENEMY_SOUL_CATALOGUE, item_name as enemy_soul_name
-from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE
+from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE, SETH_SOUL
 item_table.update({"NPC Soul: " + row["name"]: row["item_id"] for row in NPC_SOUL_CATALOGUE})
 item_table.update({enemy_soul_name(row['name']): row['item_id'] for row in ENEMY_SOUL_CATALOGUE})
 item_table.update({row["item"]: row["item_id"] for row in BOSS_SOUL_CATALOGUE})
+
+item_table[SETH_SOUL] = 842038
 
 VICTORY_ITEM_NAME = "Victory"
 ITEM_CATEGORY_BY_NAME: Dict[str, str] = dict(ITEM_TABLE_SOURCE)
 ITEM_CATEGORY_BY_NAME.update({enemy_soul_name(row["name"]): "EnemySoul" for row in ENEMY_SOUL_CATALOGUE})
 ITEM_CATEGORY_BY_NAME.update({row["item"]: "BossSoul" for row in BOSS_SOUL_CATALOGUE})
+
+ITEM_CATEGORY_BY_NAME[SETH_SOUL] = "BossSoul"
 
 VANILLA_ONLY_ITEM_NAMES: FrozenSet[str] = frozenset({
     'Key of Indolent',
@@ -751,7 +757,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Journal Entries": set(JOURNAL_ITEMS.values()) - {JOURNAL},
     "Enemy Souls": {enemy_soul_name(row["name"]) for row in ENEMY_SOUL_CATALOGUE},
     "NPC Souls": {"NPC Soul: " + row["name"] for row in NPC_SOUL_CATALOGUE if not row.get("legacy")},
-    "Boss Souls": {row["item"] for row in BOSS_SOUL_CATALOGUE},
+    "Boss Souls": {row["item"] for row in BOSS_SOUL_CATALOGUE} | {SETH_SOUL},
     "Traps": {name for name, category in ITEM_TABLE_SOURCE if category == "Trap"},
     "Needle Upgrades": {'Progressive Needle Upgrade'},
     "Pale Oils": {'Pale Oil'},
@@ -791,6 +797,8 @@ item_data_table: Dict[str, SilksongItemData] = {
 }
 item_data_table.update({enemy_soul_name(row["name"]): SilksongItemData(row["item_id"], "EnemySoul", ItemClassification.progression) for row in ENEMY_SOUL_CATALOGUE})
 item_data_table.update({row["item"]: SilksongItemData(row["item_id"], "BossSoul", ItemClassification.progression) for row in BOSS_SOUL_CATALOGUE})
+
+item_data_table[SETH_SOUL] = SilksongItemData(item_table[SETH_SOUL], "BossSoul", ItemClassification.progression)
 
 # Archipelago permits several copies to share one item ID/name. The client
 # applies these by received-item index, so progressive upgrades and currency
@@ -878,7 +886,6 @@ STARTING_CREST_ITEM_BY_KEY: Dict[str, str | None] = {
     'shaman': 'Crest: Shaman',
 }
 STARTING_CREST_KEYS: tuple[str, ...] = tuple(STARTING_CREST_ITEM_BY_KEY)
-STARTING_CREST_REPLACEMENT_ITEM = 'Rosaries (60)'
 START_WITH_MAP_ITEMS: tuple[str, ...] = tuple(
     name
     for name, category in ITEM_TABLE_SOURCE
@@ -986,7 +993,7 @@ OBSERVATION_FILLER_COUNTS_BY_CATEGORY: Dict[str, Dict[str, int]] = {
     # Observation checks use ordinary filler rather than boss rewards.
     'Boss': {
         'Rosaries (60)': 20,
-        'Shell Shards (80)': 19,
+        'Shell Shards (80)': 20,
     },
     'Quest': dict(QUEST_FILLER_COUNTS),
 }
@@ -1351,7 +1358,7 @@ def _trim_act_one_pool_entries(
                 category,
             )
             if reward_name == starting_crest_item and category == "Crest":
-                reward_name = STARTING_CREST_REPLACEMENT_ITEM
+                reward_name = "Crest: Hunter"
             elif (
                 reward_name == REGULAR_SWIFT_STEP_ITEM
                 and split_dash_and_sprint
@@ -1383,18 +1390,6 @@ def _trim_act_one_pool_entries(
         entries.pop(entry_index)
 
     return entries
-
-
-def get_sprint_filler_source(
-    category_modes: Mapping[str, str],
-) -> str | None:
-    """Prefer the starting-crest filler for split Swift Step balancing."""
-
-    return (
-        'Crest'
-        if category_modes.get('Crest', 'anywhere') == 'anywhere'
-        else None
-    )
 
 
 def _balance_act_two_skill_pool(
@@ -1450,6 +1445,7 @@ def get_dynamic_trap_capacity(
     cursed_ending: bool = False,
     steel_soul: bool = False,
     minimum_memory_lockets: int = 0,
+    required_goal_items: tuple[str, ...] = (),
 ) -> int:
     """Count filler entries that can be replaced by traps."""
 
@@ -1480,6 +1476,7 @@ def get_dynamic_trap_capacity(
             steel_soul=steel_soul,
             include_later_act_items=False,
             minimum_memory_lockets=minimum_memory_lockets,
+            required_goal_items=required_goal_items,
         )
     )
 
@@ -1597,6 +1594,7 @@ def build_item_pool_entries(
     alphabet_item_is_advancement: Callable[[str], bool] | None = None,
     include_later_act_items: bool = True,
     minimum_memory_lockets: int = 0,
+    required_goal_items: tuple[str, ...] = (),
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1672,7 +1670,6 @@ def build_item_pool_entries(
                     f"Starting crest is not present in the Crest pool: "
                     f"{starting_crest_item!r}"
                 ) from exc
-            item_names.append(STARTING_CREST_REPLACEMENT_ITEM)
         elif category == 'Skill' and split_dash_and_sprint:
             try:
                 item_names.remove(REGULAR_SWIFT_STEP_ITEM)
@@ -1933,7 +1930,6 @@ def build_item_pool_entries(
         _replace_verdania_only_key_pool_entry(entries, category_modes)
 
     if split_dash_and_sprint:
-        preferred_filler_source = get_sprint_filler_source(category_modes)
         unrestricted_filler_indices = tuple(
             index
             for index, entry in enumerate(entries)
@@ -1942,19 +1938,7 @@ def build_item_pool_entries(
                 and _is_replaceable_filler(entry.name)
             )
         )
-        filler_index = next(
-            (
-                index
-                for index in unrestricted_filler_indices
-                if entries[index].source_category
-                == preferred_filler_source
-            ),
-            (
-                unrestricted_filler_indices[0]
-                if unrestricted_filler_indices
-                else None
-            ),
-        )
+        filler_index = unrestricted_filler_indices[0] if unrestricted_filler_indices else None
         if filler_index is None:
             raise OptionError(
                 "split_dash_and_sprint needs one unrestricted filler item "
@@ -1969,7 +1953,9 @@ def build_item_pool_entries(
     missing_lockets = max(
         0, minimum_memory_lockets - sum(entry.name == 'Memory Locket' for entry in entries)
     )
-    if missing_lockets:
+    missing_goal_items = [name for name in required_goal_items if not any(entry.name == name for entry in entries)]
+    needed_items = ['Memory Locket'] * missing_lockets + missing_goal_items
+    if needed_items:
         is_advancement = alphabet_item_is_advancement or (
             lambda name: bool(item_data_table[name].classification & ItemClassification.progression)
         )
@@ -1985,15 +1971,15 @@ def build_item_pool_entries(
         )
         reserved = (alphabet_nonadvancement_demand_by_placement_category or {}).get(None, 0)
         capacity = min(len(eligible_indices), max(0, nonadvancement_count - reserved))
-        if missing_lockets > capacity:
+        if len(needed_items) > capacity:
             raise OptionError(
-                f"Crest slot randomization needs {missing_lockets} more Memory "
-                "Lockets, but there is not enough unrestricted filler. "
-                "Set more categories to anywhere or reduce crest slots."
+                f"The enabled checks need {len(needed_items)} more items "
+                "in the pool, but there is not enough unrestricted filler. "
+                "Set more categories to anywhere or disable some checks."
             )
-        for index in eligible_indices[:missing_lockets]:
+        for index, name in zip(eligible_indices, needed_items):
             entry = entries[index]
-            entries[index] = ItemPoolEntry('Memory Locket', entry.source_category, None)
+            entries[index] = ItemPoolEntry(name, entry.source_category, None)
 
     if not steel_soul:
         add_pool_only_useful_items(entries)
@@ -2109,11 +2095,14 @@ def build_item_pool_entries(
     if include_later_act_items and (act_one_only or act_two_only):
         from collections import Counter
         remaining = Counter((entry.name, entry.source_category) for entry in entries)
+        required_retained = set(missing_goal_items)
         retained = []
         for entry in entries_before_goal_trim:
             key = (entry.name, entry.source_category)
             if remaining[key]:
                 remaining[key] -= 1
+            elif entry.name in required_retained:
+                required_retained.remove(entry.name)
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
                 and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
@@ -2214,7 +2203,7 @@ def get_configured_item_pool_size(
 def _get_adjusted_pool_counts(
     trap_counts: Mapping[str, int] | None = None,
     split_dash_and_sprint: bool = False,
-    quest_sanity: bool = True,
+    wish_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
     randomize_minor_pickups: bool = False,
     randomize_pale_oils: bool = False,
@@ -2258,7 +2247,7 @@ def _get_adjusted_pool_counts(
     counts['Rosaries (60)'] -= 20
     counts['Shell Shards (80)'] -= len(BOSS_CREDIT_BY_LOCATION) - 20
     counts['Shell Shards (80)'] -= len(POOL_ONLY_USEFUL_ITEM_NAMES)
-    if quest_sanity:
+    if wish_sanity:
         for item_name, count in QUEST_FILLER_COUNTS.items():
             counts[item_name] += count
     counts[REGULAR_SWIFT_STEP_ITEM] = int(
@@ -2271,9 +2260,8 @@ def _get_adjusted_pool_counts(
         counts[item_name] = count if randomize_needle_upgrades else 0
     for item_name, count in PALE_OIL_POOL_COUNTS.items():
         counts[item_name] = count if randomize_pale_oils else 0
-    if quest_sanity and randomize_needle_upgrades:
+    if wish_sanity and randomize_needle_upgrades:
         counts['Rosaries (60)'] -= 1
-    # Split Swift Step's extra copy consumes the starting-crest replacement.
     counts['Rosaries (60)'] -= int(split_dash_and_sprint)
 
     innate_ability_items = (
@@ -2330,7 +2318,7 @@ def iter_item_pool_names(
     starting_crest_item: str | None = None,
     trap_counts: Mapping[str, int] | None = None,
     split_dash_and_sprint: bool = False,
-    quest_sanity: bool = True,
+    wish_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
     randomize_pale_oils: bool = False,
     randomize_minor_pickups: bool = False,
@@ -2341,7 +2329,7 @@ def iter_item_pool_names(
     pool_counts = _get_adjusted_pool_counts(
         trap_counts=trap_counts,
         split_dash_and_sprint=split_dash_and_sprint,
-        quest_sanity=quest_sanity,
+        wish_sanity=wish_sanity,
         randomize_needle_upgrades=randomize_needle_upgrades,
         randomize_minor_pickups=randomize_minor_pickups,
         randomize_pale_oils=randomize_pale_oils,
@@ -2382,13 +2370,12 @@ def iter_item_pool_names(
                 f"Starting crest is not present in the item pool: "
                 f"{starting_crest_item!r}"
             )
-        yield STARTING_CREST_REPLACEMENT_ITEM
 
 
 def get_item_pool_size(
     trap_counts: Mapping[str, int] | None = None,
     split_dash_and_sprint: bool = False,
-    quest_sanity: bool = True,
+    wish_sanity: bool = True,
     randomize_needle_upgrades: bool = False,
     randomize_pale_oils: bool = False,
     randomize_minor_pickups: bool = False,
@@ -2402,7 +2389,7 @@ def get_item_pool_size(
             starting_crest_item=None,
             trap_counts=trap_counts,
             split_dash_and_sprint=split_dash_and_sprint,
-            quest_sanity=quest_sanity,
+            wish_sanity=wish_sanity,
             randomize_needle_upgrades=randomize_needle_upgrades,
             randomize_minor_pickups=randomize_minor_pickups,
             randomize_pale_oils=randomize_pale_oils,

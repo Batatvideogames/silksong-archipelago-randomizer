@@ -15,6 +15,11 @@ def item_name(npc):
     return 'NPC Soul: ' + npc
 
 
+def soul_requirement(world, npc):
+    from .boss_souls import SETH_SOUL, progressive_seth
+    return (SETH_SOUL, 2) if npc == "Seth" and progressive_seth(world) else (item_name(npc), 1)
+
+
 def enabled_npcs(world):
     if not world.options.npc_souls:
         return ()
@@ -44,7 +49,8 @@ def location_gate(world, name):
     for npc in enabled_npcs(world):
         if name not in BY_NAME[npc]['checks']:
             continue
-        rule = Has(item_name(npc))
+        soul, count = soul_requirement(world, npc)
+        rule = Has(soul, count)
         if name in BY_NAME[npc].get('act_3_fallbacks', ()):
             rule = rule | CanReachRegion(native_region_name('Act: 3'))
         result = rule if result is None else result & rule
@@ -57,9 +63,13 @@ def gate(world, name, rules, field):
         return rules
     result = []
     for rule in rules:
-        souls = tuple(item_name(npc) for npc in npcs if not (
+        from .requirements import item_count
+        souls = tuple(soul_requirement(world, npc) for npc in npcs if not (
             'Act: 3' in rule.all_of and name in BY_NAME[npc].get('act_3_fallbacks', ())))
-        result.append(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls)))))
+        result.append(replace(rule,
+            all_of=tuple(dict.fromkeys((*rule.all_of, *(soul for soul, count in souls if count == 1)))),
+            item_counts=tuple(dict.fromkeys((*rule.item_counts,
+                *(item_count(count, soul) for soul, count in souls if count > 1))))))
     return tuple(result)
 
 
@@ -91,7 +101,7 @@ def add_souls_to_pool(world, entries):
         raise OptionError(f'NPC Souls needs {len(npcs)} anywhere filler slots; only {len(indices)} remain. '
                           'Enable more anywhere cache or resource checks.')
     for npc, i in zip(npcs, world.random.sample(indices, len(npcs))):
-        entries[i] = ItemPoolEntry(item_name(npc), 'NpcSoul')
+        entries[i] = ItemPoolEntry(soul_requirement(world, npc)[0], 'NpcSoul')
 
 
 def export_world(world, slot_data):

@@ -31,6 +31,7 @@ namespace SilksongRandomizer.Patches
             ["Coral_39|Coral Warrior Grey"] = "Boss: Watcher at the Edge",
             ["Shellwood_22|Boss Scene/Seth"] = "Boss: Shrine Guardian Seth",
             ["Song_Tower_01|Boss Scene/Lace Boss2 New"] = "Boss: Lace (Cradle)",
+            ["Bone_East_12|Boss Scene/Lace Boss1"] = "Boss: Lace (Deep Docks)",
             ["Hang_17b|Boss Scene - To Additive Load/Song Knight"] = "Boss: Second Sentinel",
             ["Bone_East_18b|Boss Scene/Bone Hunter Trapper"] = "Boss: Gurr the Outcast",
             ["Bone_15|Boss Scene/Skull King"] = "Boss: Skull Tyrant (The Marrow)",

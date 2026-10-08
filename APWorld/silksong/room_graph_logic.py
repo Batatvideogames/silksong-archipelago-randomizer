@@ -1784,6 +1784,8 @@ def _semantic_reachability(node_requirements, event_requirements) -> frozenset[s
 
 def compile_transition_requirements(transition, *, include_source=True, silk_costs=False):
     prefix = (room_node_name(transition.source_node_id),) if include_source else ()
+    if transition.id == "bellhart/belltown@hd":
+        prefix += (room_event_name("event:mapper/reviewed:bellhart-full-house-conversation"),)
     return _compile_spec(transition.requirement, *prefix, silk_costs=silk_costs)
 
 

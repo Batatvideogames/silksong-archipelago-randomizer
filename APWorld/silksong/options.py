@@ -678,6 +678,7 @@ class QuestSanity(CategoryRandomization):
     EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
 
     Adds wish completion checks and shuffles supported board and NPC offers.
+    Linked NPC follow-ups stay with their original NPCs.
     Also randomizes Growstone in Steel Soul.
     Items earned from bosses and wishes follow their own randomization settings.
     
@@ -686,7 +687,7 @@ class QuestSanity(CategoryRandomization):
     shuffle: shuffles items only among wish completion checks.
     """
 
-    display_name = "Wish Sanity"
+    display_name = "Wish-Sanity"
     default = CategoryRandomization.option_vanilla
 
 
@@ -729,7 +730,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Boss": "boss_sanity",
     "Journal": "journal_randomization",
     "BellShrine": "bell_shrine_sanity",
-    "Quest": "quest_sanity",
+    "Quest": "wish_sanity",
 }
 
 CATEGORY_MODE_KEY_BY_VALUE: dict[int, str] = {
@@ -1717,7 +1718,7 @@ class SilksongOptions(PerGameCommonOptions):
     boss_sanity: BossSanity
     journal_randomization: JournalRandomization
     bell_shrine_sanity: BellShrineSanity
-    quest_sanity: QuestSanity
+    wish_sanity: QuestSanity
     individual_relic_turn_ins: IndividualRelicTurnIns
     death_link: DeathLink
     death_link_cocoon: DeathLinkCocoon

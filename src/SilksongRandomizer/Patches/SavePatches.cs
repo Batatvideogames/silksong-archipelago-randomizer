@@ -35,7 +35,6 @@ namespace SilksongRandomizer.Patches
                 PlayerData.instance.IsSilkSpoolBroken = false;
                 Archipelago.Instance.Resynchronize();
             }
-            BellhomePhaseManager.EnsureBellhomeUnlocked();
 
             if (saveState.IsRandomized(ItemType.Crest))
             {
@@ -97,7 +96,6 @@ namespace SilksongRandomizer.Patches
                 )
             );
             StartingLocationManager.ScheduleIfNeeded();
-            BellhomePhaseManager.EnsureBellhomeUnlocked();
             Debug.Log("[Randomizer Save] SaveState loaded: " + GetDataPath(slot));
             return true;
         }

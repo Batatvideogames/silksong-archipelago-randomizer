@@ -30,6 +30,7 @@ from .act2_scope import (
     CURSED_ENDING_GOAL_KEY,
     get_act_two_excluded_location_names,
 )
+from .enemy_souls import required_pool_items as enemy_soul_required_pool_items
 from .alphabet_mode import (
     ALPHABET_ITEM_NAMES,
     SPELLING_BEE_GOAL_KEY,
@@ -324,7 +325,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         wish_ids = frozenset(assignment_data.get("wishes", {}))
         if not wish_ids.issubset(SUPPORTED_WISH_IDS):
             raise ValueError("Unknown shuffled wish identity.")
-        wish_mode = option_types["quest_sanity"].from_any(slot_data["quest_sanity"])
+        wish_mode = option_types["wish_sanity"].from_any(slot_data["wish_sanity"])
         boss_mode = option_types["boss_sanity"].from_any(slot_data["boss_sanity"])
         if bool(wish_ids) != (wish_mode.value != wish_mode.option_vanilla):
             raise ValueError("Wish Sanity setting does not match its assignments.")
@@ -897,7 +898,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._vog_hint_plan = build_vog_hint_plan(self)
         return copy_vog_hint_plan(self._vog_hint_plan)
 
-    def is_quest_sanity_enabled(self) -> bool:
+    def is_wish_sanity_enabled(self) -> bool:
         return self.get_category_mode('Quest') != 'vanilla'
 
     def get_category_mode(self, category: str) -> str:
@@ -1006,6 +1007,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
             minimum_memory_lockets=self._minimum_pool_lockets(),
+            required_goal_items=enemy_soul_required_pool_items(self),
         )
         total_traps = (trap_capacity * percentage + 50) // 100
         weights = {
@@ -1181,9 +1183,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ).place_locked_item(effective_reward)
 
         if category_modes['Crest'] != 'vanilla' and starting_crest_item is not None:
-            self.multiworld.push_precollected(
-                self.create_item(starting_crest_item)
-            )
+            place_fixed_reward('Crest: Hunter', starting_crest_item)
 
         for category in PAIRED_LOCATION_CATEGORIES:
             for location_name in LOCATION_NAMES_BY_CATEGORY[category]:
@@ -1291,6 +1291,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 lambda item_name: self.create_item(item_name).advancement
             ),
             minimum_memory_lockets=self._minimum_pool_lockets(),
+            required_goal_items=enemy_soul_required_pool_items(self),
         ))
 
         from .boss_souls import add_souls_to_pool

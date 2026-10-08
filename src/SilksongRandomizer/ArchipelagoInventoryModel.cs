@@ -39,6 +39,7 @@ namespace SilksongRandomizer
         internal string DeathSummary;
         internal bool IconGrid;
         internal bool SoulChecklist;
+        internal string RequiredProgress;
         internal bool SoulCollection;
         internal readonly List<ArchipelagoInventoryRow> SoulItems = new List<ArchipelagoInventoryRow>();
         internal bool BellProgress;
@@ -147,13 +148,7 @@ namespace SilksongRandomizer
                             pair.Value ? "Fulfilled  |  Required" : "Incomplete  |  Required",
                             pair.Key == "hasDoubleJump" ? "Faydown Cloak" : null, !pair.Value) { Required = true }));
                     rows.AddRange(overview.Story);
-                    rows.AddRange(soul.Quests.Where(q => state.gameMode != SteelSoulSettings.SteelSoul ||
-                            q.Quest.name != "Courier Delivery Dustpens Slave")
-                        .Select(q => new ArchipelagoInventoryRow(q.Quest.name == "A Pinsmiths Tools"
-                                ? "Pinmaster's Oil / Needle 2" : ReadWishName(q.Quest),
-                            icon: null, dim: !QuestRequirementPatches.SoulSnareWishFulfilled(q.Quest))
-                            { Required = q.IsRequired, Points = q.Value })
-                        .OrderByDescending(q => q.Required).ThenBy(q => q.Title));
+                    rows.AddRange(SoulWishRows(soul, state));
                 }
                 if (soul == null) AddSheets(pages, "soul", "Silk and Soul", SoulProgress(state, soul), rows);
                 else AddSoulSheets(pages, SoulProgress(state, soul), rows, state);
@@ -221,6 +216,13 @@ namespace SilksongRandomizer
                 .Select(name => {
                     string title = name.Substring(prefix.Length);
                     bool owned = state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(name)) == true;
+                    if ((name == NpcSoulState.ItemName("Seth") || name == BossSoulState.ItemName(BossSoulState.SethBoss)) &&
+                        BossSoulState.ProgressiveSeth(state))
+                    {
+                        owned = name == NpcSoulState.ItemName("Seth")
+                            ? !NpcSoulState.IsMissing(state, "Seth") : !BossSoulState.IsMissing(state, BossSoulState.SethBoss);
+                        name = BossSoulState.SethSoul;
+                    }
                     bool killed = trackKills && state.checkedLocations?.Contains(EnemySoulState.LocationName(title)) == true;
                     return new ArchipelagoInventoryRow(title, owned ? "Soul received" : "Soul missing", name, !owned) {
                         LocationCompleted = trackKills ? killed : (bool?)null,
@@ -344,6 +346,33 @@ namespace SilksongRandomizer
                 .Count(name => !string.IsNullOrWhiteSpace(name) && traps.Contains(ItemSet.GetCanonicalItemName(name)));
         }
 
+        internal static List<ArchipelagoInventoryRow> SoulWishRows(QuestCompleteTotalGroup soul, SaveState state) =>
+            soul.Quests.Where(q => state.gameMode != SteelSoulSettings.SteelSoul ||
+                    q.Quest.name != "Courier Delivery Dustpens Slave")
+                .Select(q => new ArchipelagoInventoryRow(SoulWishName(q.Quest),
+                    dim: !QuestRequirementPatches.SoulSnareWishFulfilled(q.Quest))
+                    { Required = q.IsRequired, Points = q.Value })
+                .OrderByDescending(q => q.Required).ThenBy(q => q.Title).ToList();
+
+        private static string SoulWishName(FullQuestBase quest)
+        {
+            switch (quest.name)
+            {
+                case "Brolly Get": return "Flexile Spines";
+                case "Building Materials": return "Bone Bottom Repairs";
+                case "Building Materials (Bridge)": return "A Lifesaving Bridge";
+                case "Crow Feathers": return "Crawbug Clearing";
+                case "Songclave Donation 1": return "Building Up Songclave";
+                case "Songclave Donation 2": return "Strengthening Songclave";
+                case "Belltown House Start": return "Restoration of Bellhart";
+                case "Belltown House Mid": return "Bellhart's Glory";
+                case "Shakra Final Quest": return "Trail's End";
+                case "Save Sherma": return "Balm for the Wounded";
+                case "A Pinsmiths Tools": return "Pinmaster's Oil / Needle 2";
+                default: return ReadWishName(quest);
+            }
+        }
+
         internal static string ReadWishName(FullQuestBase quest)
         {
             AlphabetModeManager.BeginTextBypass();
@@ -369,7 +398,8 @@ namespace SilksongRandomizer
             for (int i = 0; i < count; i++)
             {
                 var sheet = new ArchipelagoInventorySheet {
-                    Key = "soul:" + i, LeftHeading = "Silk and Soul", RightHeading = progress, SoulChecklist = true
+                    Key = "soul:" + i, LeftHeading = "Silk and Soul", RightHeading = progress, SoulChecklist = true,
+                    RequiredProgress = required.Count(row => !row.Dim) + " / " + required.Length
                 };
                 sheet.SoulItems.AddRange(soulItems);
                 sheet.Left.AddRange(required.Skip(i * SoulRowsPerColumn).Take(SoulRowsPerColumn));
@@ -477,8 +507,8 @@ namespace SilksongRandomizer
             {
                 case "CaravanTroupeLocation": return "Caravan reaches Fleatopia";
                 case "hasDoubleJump": return "Faydown Cloak";
-                case "defeatedLaceTower": return "Lace (Cradle) story requirement";
-                case "BelltownGreeterHouseFullDlg": return "Speak to Bellhart's greeter at home";
+                case "defeatedLaceTower": return "Lace (Cradle)";
+                case "BelltownGreeterHouseFullDlg": return "Bellhome Key";
                 default: return "Additional story requirements";
             }
         }

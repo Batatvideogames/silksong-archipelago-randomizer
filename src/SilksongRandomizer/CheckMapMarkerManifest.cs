@@ -55,6 +55,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Guardian's Memento", "Aqueduct_05", 105.786316f, 10.135673f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Everbloom", "Tut_03", 10.006f, 16.857f, 126f, 35f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Hero's Memento", "Coral_33", 34.729999f, 60.261999f, 58f, 74f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Surface Memento", "Cradle_03_Destroyed", 45.84f, 173.817474f, 80f, 190f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Grey Memento", "Coral_39", 126.160004f, 6.43f, 192f, 43f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Craw Memento", "Room_CrowCourt_02", 34.75f, 20.3f, 70f, 92f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Sprintmaster's Memento", "Sprintmaster_Cave", 88.93f, 14.12f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),

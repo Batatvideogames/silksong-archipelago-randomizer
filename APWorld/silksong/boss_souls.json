@@ -1047,6 +1047,14 @@
       {
         "scene": "belltown_shrine",
         "path": "Black Thread States Thread Only Variant/Normal World/Boss Scene/Challenge Region"
+      },
+      {
+        "scene": "belltown_shrine",
+        "path": "Black Thread States Thread Only Variant/Normal World/Boss Scene/Intro Spinner"
+      },
+      {
+        "scene": "belltown_shrine",
+        "path": "Black Thread States Thread Only Variant/Normal World/Boss Scene/Speak Region"
       }
     ],
     "battles": [],
@@ -1056,7 +1064,9 @@
         "path": "Black Thread States Thread Only Variant/Normal World/Boss Scene",
         "fsm": "Control",
         "states": [
-          "Battle Start"
+          "Battle Start",
+          "Unencountered",
+          "Encountered"
         ]
       }
     ]
@@ -1066,7 +1076,9 @@
     "item": "Soul of Lace (Deep Docks)",
     "item_id": 842100,
     "act": 1,
-    "events": [],
+    "events": [
+      "Room Event: event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda"
+    ],
     "combat": [
       "Combat: Lace (Deep Docks)"
     ],
@@ -1077,7 +1089,16 @@
       }
     ],
     "battles": [],
-    "states": []
+    "states": [
+      {
+        "scene": "bone_east_12",
+        "path": "Boss Scene/Lace Boss1",
+        "fsm": "Control",
+        "states": [
+          "Scene Start"
+        ]
+      }
+    ]
   },
   {
     "boss": "Boss: Lost Lace",

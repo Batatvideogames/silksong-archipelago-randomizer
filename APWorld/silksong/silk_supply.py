@@ -5,6 +5,7 @@ from dataclasses import dataclass, replace
 from heapq import heappop, heappush
 
 from rule_builder.rules import Rule
+from worlds.AutoWorld import LogicMixin
 
 from .requirements import req
 from .silk_economy import MAX_SILK, at, capacity, clean, rule_cost, source_node
@@ -27,6 +28,38 @@ class _SupplyState:
         self.refresh = True
         self.regeneration = 0
         self.capacity = 9
+
+
+    def copy(self):
+        result = _SupplyState.__new__(_SupplyState)
+        result.program = self.program
+        result.revision = self.revision
+        result.levels = self.levels.copy()
+        result.active = self.active.copy()
+        result.pending = self.pending.copy()
+        result.queue = self.queue.copy()
+        result.entries = self.entries.copy()
+        result.entry_nodes = self.entry_nodes.copy()
+        result.refresh = self.refresh
+        result.regeneration = self.regeneration
+        result.capacity = self.capacity
+        return result
+
+
+def copy_silk_supply(state, target, player):
+    cached = getattr(state, '_silksong_silk_supply', {}).get(player)
+    if cached is None or cached.revision != cached.program.revision:
+        return
+    if not hasattr(target, '_silksong_silk_supply'):
+        target._silksong_silk_supply = {}
+    target._silksong_silk_supply[player] = cached.copy()
+
+
+class SilkSupplyState(LogicMixin):
+    def copy_mixin(self, new_state):
+        for player in getattr(self, '_silksong_silk_supply', ()):
+            copy_silk_supply(self, new_state, player)
+        return new_state
 
 
 class SilkSupply:
@@ -390,6 +423,8 @@ def compile_regions(world, original):
     from .native_graph import compact_requirements
     from .silk_economy import enabled
 
+    if getattr(world.multiworld, "generation_is_fake", False):
+        return original
     if not enabled(world):
         return compact_requirements(world, original)
     try:

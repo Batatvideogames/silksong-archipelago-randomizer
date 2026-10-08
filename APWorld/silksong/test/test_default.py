@@ -419,7 +419,7 @@ class TestDefaultWorld(SilksongTestBase):
                     str(entrance.access_rule.explain_json(state)),
                 )
 
-    def test_courier_deliveries_are_not_quest_sanity(self) -> None:
+    def test_courier_deliveries_are_not_wish_sanity(self) -> None:
         reserved_ids = {
             'Wish: Bone Bottom Supplies': 835761,
             "Wish: Queen's Egg": 835762,
@@ -489,7 +489,7 @@ class TestDefaultWorld(SilksongTestBase):
 class TestQuestSanityShuffle(SilksongTestBase):
     options = {
         'goal': 'act_3',
-        'quest_sanity': 'shuffle',
+        'wish_sanity': 'shuffle',
     }
 
     def test_courier_deliveries_stay_out_of_shuffle(self) -> None:
@@ -510,7 +510,7 @@ class TestQuestSanityShuffle(SilksongTestBase):
 class TestActOneQuestSanityAnywhere(SilksongTestBase):
     options = {
         'goal': 'act_1',
-        'quest_sanity': 'anywhere',
+        'wish_sanity': 'anywhere',
     }
 
     def test_courier_deliveries_stay_out_of_act_one(self) -> None:
@@ -627,7 +627,7 @@ class TestActOneMultibinderAnywhere(SilksongTestBase):
 class TestActOneEasySkipGreymoor(SilksongTestBase):
     options = {
         'goal': 'act_1',
-        'quest_sanity': 'anywhere',
+        'wish_sanity': 'anywhere',
         'skips': 'easy',
     }
 

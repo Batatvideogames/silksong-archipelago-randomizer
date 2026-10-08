@@ -22,7 +22,8 @@ def excluded_locations(excluded, act):
     entries = {name for name, row in BY_LOCATION.items() if not sources(row, excluded, act)}
     notes = {name for name, row in COMPLETIONS.items()
              if "Journal: " + row["name"] in entries or row.get("completion_act", 1) > act
-             or row.get("completion_boss") in excluded}
+             or row.get("completion_boss") in excluded
+             or "completion_events" in row and len(sources(row, excluded, act)) != len(row["sources"])}
     return frozenset(entries | notes)
 
 
@@ -44,7 +45,7 @@ def base_requirements(requirements, req):
     for name, row in COMPLETIONS.items():
         result[name] = requirements[row["completion_boss"]] if "completion_boss" in row else (req(*row["completion_events"], crest=False),)
     moss = BY_LOCATION["Journal: Moss Mother"]
-    result["Journal: Moss Mother"] = tuple(req(event, crest=False) for event in moss["sources"][0]["events"])
+    result["Journal: Moss Mother"] = tuple(req(event, crest=False) for source in moss["sources"] for event in source["events"])
     return result
 
 

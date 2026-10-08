@@ -38,7 +38,8 @@
     "Boss: Voltvyrm",
     "Boss: Watcher at the Edge",
     "Boss: Widow",
-    "Boss: Summoned Saviour"
+    "Boss: Summoned Saviour",
+    "Boss: Lace (Deep Docks)"
   ],
   "wishes": [
     "Building Materials",
@@ -171,7 +172,8 @@
     "skullKingDefeated": "Boss: Skull Tyrant (The Marrow)",
     "skullKingKilled": "Boss: Skull Tyrant (Bone Bottom)",
     "spinnerDefeated": "Boss: Widow",
-    "wardBossDefeated": "Boss: The Unravelled"
+    "wardBossDefeated": "Boss: The Unravelled",
+    "defeatedLace1": "Boss: Lace (Deep Docks)"
   },
   "boss_story_components": {
     "belltown|hanging_bell_house 2|spinnerDefeated": "Boss: Widow",

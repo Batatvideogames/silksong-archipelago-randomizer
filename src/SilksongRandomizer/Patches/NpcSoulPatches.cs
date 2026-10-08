@@ -36,6 +36,11 @@ namespace SilksongRandomizer.Patches
                 actor.transform.parent.parent.Find("Eaten Scene")?.gameObject.SetActive(false);
                 actor.transform.parent.Find("Appear Camlock")?.gameObject.SetActive(false);
             }
+            else if (string.Equals(actor.scene.name, "Halfway_01", StringComparison.OrdinalIgnoreCase) &&
+                path == "_NPCs/Hunter Fan Control/Nuu")
+            {
+                actor.transform.parent.Find("Nuu_Scrolls/Inspect Region")?.gameObject.SetActive(true);
+            }
             else if (string.Equals(actor.scene.name, "Dust_11", StringComparison.OrdinalIgnoreCase) &&
                 path == "Steel Soul States/Regular/NPC Control/Grub Farmer NPC")
             {
@@ -49,6 +54,16 @@ namespace SilksongRandomizer.Patches
                 farm.Find("silk_farm_lvl3")?.gameObject.SetActive(false);
                 farm.Find("Act 3 Thread Cores")?.gameObject.SetActive(false);
             }
+        }
+
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class NuuScroll
+        {
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance) =>
+                __instance.boolName != "nuuIsHome" ||
+                !string.Equals(__instance.gameObject.scene.name, "Halfway_01", StringComparison.OrdinalIgnoreCase) ||
+                Utils.GetHierarchyPath(__instance.transform) != "_NPCs/Hunter Fan Control/Nuu_Scrolls/Inspect Region" ||
+                !NpcSoulState.IsMissing(SaveState.Instance, "Nuu");
         }
 
         private static readonly List<GameObject> Actors = new List<GameObject>();
@@ -102,7 +117,7 @@ namespace SilksongRandomizer.Patches
                 var ready = new List<InteractableBase>();
                 foreach (var pair in WaitingPrompts)
                     if (pair.Key == null || pair.Value != SaveState.Instance ||
-                        NpcSoulState.CanInteract(pair.Key.transform)) ready.Add(pair.Key);
+                        (NpcSoulState.CanInteract(pair.Key.transform) && BossSoulPatches.CanInteract(pair.Key.transform))) ready.Add(pair.Key);
                 foreach (InteractableBase npc in ready)
                 {
                     SaveState state = WaitingPrompts[npc];
@@ -128,7 +143,13 @@ namespace SilksongRandomizer.Patches
             {
                 var saved = Hidden[actor];
                 Hidden.Remove(actor);
-                if (actor != null && saved.state == SaveState.Instance) actor.SetActive(true);
+                if (actor != null && saved.state == SaveState.Instance)
+                {
+                    actor.SetActive(true);
+                    if (string.Equals(actor.scene.name, "Halfway_01", StringComparison.OrdinalIgnoreCase) &&
+                        Utils.GetHierarchyPath(actor.transform) == "_NPCs/Hunter Fan Control/Nuu" && PlayerData.instance?.nuuIsHome == true)
+                        actor.transform.parent.Find("Nuu_Scrolls/Inspect Region")?.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -153,7 +174,7 @@ namespace SilksongRandomizer.Patches
         {
             private static bool Prefix(InteractableBase __instance)
             {
-                if (!(__instance is NPCControlBase) || NpcSoulState.CanInteract(__instance.transform)) return true;
+                if (!(__instance is NPCControlBase) || (NpcSoulState.CanInteract(__instance.transform) && BossSoulPatches.CanInteract(__instance.transform))) return true;
                 WaitingPrompts[__instance] = SaveState.Instance;
                 return false;
             }
@@ -164,7 +185,7 @@ namespace SilksongRandomizer.Patches
         {
             private static void Postfix(InteractableBase __instance, ref bool __result)
             {
-                if (__instance is NPCControlBase && !NpcSoulState.CanInteract(__instance.transform)) __result = true;
+                if (__instance is NPCControlBase && !(NpcSoulState.CanInteract(__instance.transform) && BossSoulPatches.CanInteract(__instance.transform))) __result = true;
             }
         }
 
@@ -176,7 +197,7 @@ namespace SilksongRandomizer.Patches
                 yield return AccessTools.Method(typeof(NPCControlBase), nameof(NPCControlBase.StartDialogueMove));
                 yield return AccessTools.Method(typeof(NPCControlBase), nameof(NPCControlBase.StartDialogueImmediately));
             }
-            private static bool Prefix(NPCControlBase __instance) => NpcSoulState.CanInteract(__instance.transform);
+            private static bool Prefix(NPCControlBase __instance) => (NpcSoulState.CanInteract(__instance.transform) && BossSoulPatches.CanInteract(__instance.transform));
         }
 
         [HarmonyPatch(typeof(NPCControlBase), "OnEnable")]

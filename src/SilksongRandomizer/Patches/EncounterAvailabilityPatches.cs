@@ -9,6 +9,63 @@ namespace SilksongRandomizer.Patches
 {
     internal static class EncounterAvailabilityPatches
     {
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class DocksLaceDeparturePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance) =>
+                !KeepDocksLace(__instance.gameObject.scene.name,
+                    Utils.GetHierarchyPath(__instance.transform), __instance.boolName);
+        }
+
+        internal static bool KeepDocksLace(string scene, string path, string flag) =>
+            SaveState.Instance != null && scene == "Bone_East_12" && path == "Boss Scene" &&
+            (flag == "laceLeftDocks" || flag == "visitedCitadel" || flag == "encounteredLace1Grotto");
+
+        [HarmonyPatch(typeof(PlayerDataBoolTest), nameof(PlayerDataBoolTest.OnEnter))]
+        private static class DocksLaceIntroPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(PlayerDataBoolTest __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject != null && fsm.GameObject.scene.name == "Bone_East_12" &&
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) == "Boss Scene/Lace Boss1" &&
+                    fsm.Name == "Control" && __instance.State.Name == "Grotto Refight Setup")
+                    KeepDocksIntro(__instance.State);
+            }
+        }
+
+        private static void KeepDocksIntro(FsmState state)
+        {
+            if (SaveState.Instance == null || state == null) return;
+            foreach (var action in state.Actions.OfType<PlayerDataBoolTest>())
+                if (action.boolName.Value == "encounteredLace1Grotto") action.isTrue = action.isFalse;
+        }
+
+        internal static bool CanStartRagingConchfly(string scene, string path) =>
+            scene != "Coral_27" || path != "Battle Scene" ||
+            ProgressionShufflePatches.StoryCredit("Boss: Great Conchflies", true);
+
+        [HarmonyPatch(typeof(BattleScene), "Awake")]
+        private static class RagingConchflyAvailabilityPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(BattleScene __instance)
+            {
+                if (!CanStartRagingConchfly(__instance.gameObject.scene.name,
+                    Utils.GetHierarchyPath(__instance.transform))) __instance.gameObject.SetActive(false);
+            }
+        }
+
+        [HarmonyPatch(typeof(BattleScene), nameof(BattleScene.StartBattle))]
+        private static class RagingConchflyStartPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(BattleScene __instance) =>
+                CanStartRagingConchfly(__instance.gameObject.scene.name, Utils.GetHierarchyPath(__instance.transform));
+        }
+
         [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
         private static class BossEncounterAvailabilityPatch
         {

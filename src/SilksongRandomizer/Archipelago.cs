@@ -815,7 +815,7 @@ namespace SilksongRandomizer
                     successful, "bell_shrine_sanity");
                 QuestSanity = GetRandomizationModeSlotData(
                     successful,
-                    "quest_sanity"
+                    "wish_sanity"
                 );
                 string entranceMode = successful.SlotData.ContainsKey("entrance_randomization")
                     ? GetRequiredStringSlotData(successful, "entrance_randomization") : "off";

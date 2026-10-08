@@ -9,6 +9,8 @@ from Options import OptionError
 
 BOSS = "Boss: Groal the Great"
 SOUL = "Soul of Groal the Great"
+SETH_SOUL = "Progressive Seth Soul"
+SETH_BOSS = "Boss: Shrine Guardian Seth"
 EVENT = "Room Event: event:mapper/c072b5f9-82a5-469b-8bf6-b91bb53e5180"
 
 CATALOGUE = tuple(json.loads(pkgutil.get_data(__package__, "boss_souls.json")))
@@ -19,6 +21,15 @@ BOSS_EVENTS = {row["boss"]: row["events"][0] if row["events"] else None for row 
 def item_name(boss):
     name = "Skull Tyrant" if boss.startswith("Boss: Skull Tyrant (") else boss.removeprefix("Boss: ")
     return "Soul of " + name
+
+
+def progressive_seth(world):
+    from .npc_souls import enabled_npcs
+    return SETH_BOSS in enabled_bosses(world) and "Seth" in enabled_npcs(world)
+
+
+def pool_item_name(world, boss):
+    return SETH_SOUL if boss == SETH_BOSS and progressive_seth(world) else item_name(boss)
 
 
 def enabled_bosses(world):
@@ -36,7 +47,7 @@ def enabled_bosses(world):
 def gate(world, rules, boss=BOSS):
     if boss not in enabled_bosses(world):
         return rules
-    soul = item_name(boss)
+    soul = pool_item_name(world, boss)
     return tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, soul)))) for rule in rules)
 
 
@@ -74,7 +85,7 @@ def add_souls_to_pool(world, entries):
                if entry.placement_category is None
                and item_data_table[entry.name].classification == ItemClassification.filler
                and entry.source_category not in {"Memento", "MemoryLocket", "Journal"}]
-    souls = tuple(dict.fromkeys(item_name(boss) for boss in bosses))
+    souls = tuple(dict.fromkeys(pool_item_name(world, boss) for boss in bosses))
     if len(indices) < len(souls):
         raise OptionError(f"Boss Souls needs {len(souls)} anywhere filler slots; only {len(indices)} are available. "
                           "Enable another anywhere category.")
@@ -136,8 +147,8 @@ def export_world(world, slot_data):
             world._silksong_native_abstract_requirements["Path: Bellways"])
     for boss in bosses:
         for rule in slot_data["requirements"].get(boss, {}).get("alternatives", ()):
-            if item_name(boss) not in rule["all_of"]:
-                rule["all_of"].append(item_name(boss))
+            if pool_item_name(world, boss) not in rule["all_of"]:
+                rule["all_of"].append(pool_item_name(world, boss))
         row = BY_BOSS[boss]
         for name in (*row["events"], *row["combat"]):
             slot_data["abstract_requirements"][name] = _export_requirement_group(

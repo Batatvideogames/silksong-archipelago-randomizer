@@ -417,9 +417,12 @@ namespace SilksongRandomizer
             IEnumerable<string> locationNames
         )
         {
+            var requestedLocations = (locationNames ?? Enumerable.Empty<string>())
+                .Select(LocationSet.GetCanonicalLocationName).ToArray();
             string[] canonicalLocationNames =
-                (locationNames ?? Enumerable.Empty<string>())
-                    .Select(LocationSet.GetCanonicalLocationName)
+                requestedLocations.Concat(JournalRandomization.MarkerSources
+                    .Where(marker => requestedLocations.Contains(marker.Value.Location))
+                    .Select(marker => marker.Key))
                     .Where(name => !string.IsNullOrWhiteSpace(name))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToArray();
@@ -583,6 +586,13 @@ namespace SilksongRandomizer
                     ))
                 {
                     return lines;
+                }
+                if (JournalRandomization.MarkerSources.TryGetValue(canonicalLocationName, out var markerSource))
+                {
+                    group = markerSource.Location.StartsWith("Journal: ", StringComparison.Ordinal)
+                        ? new LogicRequirement { LogicUnknown = group.LogicUnknown,
+                            Alternatives = new List<LogicRequirement> { new LogicRequirement { AllOf = markerSource.Events.ToList() } } }
+                        : payload.Requirements[markerSource.Location];
                 }
                 if (group.LogicUnknown)
                 {
@@ -1002,6 +1012,17 @@ namespace SilksongRandomizer
                 {
                     return null;
                 }
+                foreach (var marker in JournalRandomization.MarkerSources)
+                {
+                    if (!payload.Requirements.TryGetValue(marker.Value.Location, out var original)) continue;
+                    payload.Requirements[marker.Key] = new LogicRequirement {
+                        LogicUnknown = original.LogicUnknown,
+                        Alternatives = new List<LogicRequirement> { new LogicRequirement {
+                            AllOf = marker.Value.Events.ToList(),
+                            RequiredLocations = new List<string> { marker.Value.Location }
+                        } }
+                    };
+                }
                 cachedPayload = new ParsedPayload(payload);
                 loggedPayloadFailure = false;
             }
@@ -1125,6 +1146,7 @@ namespace SilksongRandomizer
                     "Progressive Silkheart",
                     state.silkHeartLevel
                 );
+                SetMinimumCount(counts, BossSoulState.SethSoul, Math.Min(2, state.GetReceivedItemCount(BossSoulState.SethSoul)));
                 SetMinimumCount(counts, "Flea", Math.Min(27, state.GetReceivedItemCount("Flea")));
                 SetMinimumCount(counts, "Mask Shard", Math.Min(20, state.GetReceivedItemCount("Mask Shard")));
                 SetMinimumCount(counts, "Spool Fragment", Math.Min(18, state.GetReceivedItemCount("Spool Fragment")));
@@ -1441,7 +1463,7 @@ namespace SilksongRandomizer
                 switch (hub)
                 {
                     case "bone_bottom": yield return "Room Node: bone-bottom/bone-bottom-bellway#room"; break;
-                    case "bellhart": yield return "Room Node: bellhart/belltown#upper-area"; break;
+                    case "bellhart": yield return "Room Node: bellhart/belltown#lower-area"; break;
                     case "songclave": yield return "Room Node: choral-chambers/bellshrine-enclave#room"; break;
                 }
         }

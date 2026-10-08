@@ -19,7 +19,7 @@ POOL = {entry['id']: entry for entry in json.loads(pkgutil.get_data(__package__,
 
 WARP_DESTINATIONS = {
     'bone_bottom': ('Bone Bottom', 'bone-bottom/bone-bottom-bellway#room'),
-    'bellhart': ('Bellhart', 'bellhart/belltown#upper-area'),
+    'bellhart': ('Bellhart', 'bellhart/belltown#lower-area'),
     'songclave': ('Songclave', 'choral-chambers/bellshrine-enclave#room'),
 }
 

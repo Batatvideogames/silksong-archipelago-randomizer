@@ -20,10 +20,20 @@
       {
         "boss": "Boss: Moss Mother",
         "events": [
-          "Room Event: event:mapper/c1c40522-825e-4744-a8c8-a6ea83f47f32",
+          "Room Event: event:mapper/c1c40522-825e-4744-a8c8-a6ea83f47f32"
+        ],
+        "act": 1,
+        "scene": "Tut_03",
+        "persistent": "Battle Scene"
+      },
+      {
+        "boss": "Boss: Moss Mother",
+        "events": [
           "Room Event: event:mapper/62c0e376-c2a5-4c12-bb6e-cc265721ee5f"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Weave_03",
+        "persistent": "Boss Scene"
       }
     ],
     "kills_required": 3,
@@ -83,14 +93,18 @@
         "events": [
           "Room Event: event:mapper/2dba90b5-6ec3-4ec9-8016-60c859aecbd7"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Bone_15",
+        "defeated_flag": "skullKingDefeated"
       },
       {
         "boss": "Boss: Skull Tyrant (Bone Bottom)",
         "events": [
           "Room Event: event:mapper/f09ff4af-eadc-4167-ac83-aa27cf52e966"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Bonetown",
+        "defeated_flag": "skullKingKilled"
       }
     ],
     "kills_required": 1
@@ -104,18 +118,25 @@
         "events": [
           "Room Event: event:mapper/44adf080-8baa-4759-99b4-65c923940cc5"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Coral_27",
+        "defeated_flag": "defeatedCoralDrillerSolo"
       },
       {
         "boss": "Boss: Great Conchflies",
         "events": [
           "Room Event: event:mapper/fbf3657a-2635-4a32-9fb0-ed48e114846c"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Coral_11",
+        "defeated_flag": "defeatedCoralDrillers"
       }
     ],
     "kills_required": 2,
-    "completion_boss": "Boss: Great Conchflies"
+    "completion_events": [
+      "Room Event: event:mapper/44adf080-8baa-4759-99b4-65c923940cc5",
+      "Room Event: event:mapper/fbf3657a-2635-4a32-9fb0-ed48e114846c"
+    ]
   },
   {
     "name": "Bell Beast",
@@ -264,14 +285,18 @@
         "events": [
           "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Song_Tower_01",
+        "defeated_flag": "defeatedLaceTower"
       },
       {
         "boss": "Boss: Lace (Deep Docks)",
         "events": [
           "Room Event: event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Bone_East_12",
+        "defeated_flag": "defeatedLace1"
       }
     ],
     "kills_required": 2,
@@ -559,14 +584,18 @@
         "events": [
           "Room Event: event:mapper/2d005e67-8f66-4a7d-ad7e-55bf8e697953"
         ],
-        "act": 1
+        "act": 1,
+        "scene": "Ant_19",
+        "defeated_flag": "defeatedBoneFlyerGiant"
       },
       {
         "boss": "Boss: Savage Beastfly (Far Fields)",
         "events": [
           "Room Event: event:mapper/reviewed:savage-beastfly-remains"
         ],
-        "act": 2
+        "act": 2,
+        "scene": "Bone_East_08",
+        "defeated_flag": "defeatedBoneFlyerGiantGolemScene"
       }
     ],
     "kills_required": 2,

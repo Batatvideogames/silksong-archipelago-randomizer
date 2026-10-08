@@ -31,7 +31,7 @@ namespace SilksongRandomizer
         private const string BellwayEntryGateName =
             "door_fastTravelExit";
         private const string BellhartSceneName = "Belltown";
-        private const string BellhartEntryGateName = "door5";
+        private const string BellhartEntryGateName = "door1";
         private const string SongclaveBellSceneName =
             "Bellshrine_Enclave";
         private const string SongclaveBellEntryGateName = "left1";
@@ -137,7 +137,7 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            if (!hero.CanInput() && !CanWarpWhileSwimming(hero, gameManager, playerData))
+            if (!hero.CanInput() && !CanWarpDuringMovement(hero, gameManager, playerData))
             {
                 reason =
                     "Finish the current scripted action before warping.";
@@ -148,13 +148,13 @@ namespace SilksongRandomizer
             return true;
         }
 
-        private static bool CanWarpWhileSwimming(
+        private static bool CanWarpDuringMovement(
             HeroController hero,
             GameManager gameManager,
             PlayerData playerData
         )
         {
-            if (!hero.cState.swimming || hero.IsPaused() ||
+            if (hero.IsPaused() ||
                 hero.IsInputBlocked() || hero.cState.dead ||
                 hero.cState.hazardDeath || hero.cState.hazardRespawning ||
                 hero.cState.transitioning || hero.cState.isInCutsceneMovement ||
@@ -168,6 +168,9 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            if (hero.umbrellaFSM?.FsmVariables?.FindFsmBool("Is Active")?.Value == true &&
+                hero.umbrellaFSM.FsmVariables.FindFsmBool("Has Control")?.Value == true) return true;
+            if (!hero.cState.swimming) return false;
             HeroWaterController water = hero.GetComponent<HeroWaterController>();
             return water != null && water.isActiveAndEnabled && water.IsInWater &&
                    water.CurrentState != HeroWaterController.States.Inactive &&
@@ -489,8 +492,7 @@ namespace SilksongRandomizer
                 case GreymoorHubKey:
                     return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
-                    return playerData != null &&
-                        ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated);
+                    return IsBellhartHubAvailable(playerData);
                 case SongclaveHubKey:
                     return IsSongclaveHubAvailable(playerData);
                 default:
@@ -540,12 +542,18 @@ namespace SilksongRandomizer
             return !bellwayUsable && !choralRouteOpen;
         }
 
+        private static bool IsBellhartHubAvailable(PlayerData playerData)
+        {
+            return playerData != null &&
+                (playerData.visitedBellhartHaunted || playerData.visitedBellhartSaved);
+        }
+
         private static bool IsGreymoorHubAvailable(PlayerData playerData)
         {
             SaveState state = SaveState.Instance;
             return state != null &&
                 state.rodeFleaCaravanToGreymoor &&
-                (playerData == null || !ProgressionShufflePatches.StoryCredit("Boss: Widow", playerData.spinnerDefeated));
+                !IsBellhartHubAvailable(playerData);
         }
 
         private static bool IsSongclaveHubAvailable(PlayerData playerData)

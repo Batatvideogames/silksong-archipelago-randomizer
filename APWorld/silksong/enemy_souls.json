@@ -632,18 +632,7 @@
       {
         "act": 2,
         "nodes": [
-          "far-fields/far-fields-deep-entrance#left-exit-area",
-          "far-fields/far-fields-deep-entrance#bottom-exit-area",
-          "far-fields/far-fields-deep-entrance#right-exit-area",
-          "far-fields/far-fields-deep-entrance#lower-left-alcove",
-          "far-fields/far-fields-deep-entrance#middle-left-platform",
-          "far-fields/far-fields-deep-entrance#plains",
-          "far-fields/far-fields-deep-entrance#lower-right-area",
-          "far-fields/far-fields-deep-entrance#lower-right-alcove",
-          "far-fields/far-fields-deep-entrance#upper-right-alcove",
-          "far-fields/far-fields-deep-entrance#left-of-right-exit-gate",
-          "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
-          "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
+          "far-fields/far-fields-deep-entrance#plains"
         ]
       }
     ],
@@ -653,7 +642,12 @@
     ],
     "battles": [],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "scope_items": {
+      "2": {
+        "Silk Soar": "Skill"
+      }
+    }
   },
   {
     "name": "Mawling",
@@ -2516,8 +2510,8 @@
         "act": 1,
         "nodes": [
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
-      "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
-      "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
+          "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
+          "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
@@ -2678,7 +2672,12 @@
       "far-fields/far-fields-fort-upper-passage",
       "hunter-s-march/hunters-march-deep-docks-passage",
       "the-marrow/the-marrow-jail-pathway"
-    ]
+    ],
+    "scope_items": {
+      "2": {
+        "Silk Soar": "Skill"
+      }
+    }
   },
   {
     "name": "Skarrlid",
@@ -2698,8 +2697,8 @@
         "act": 1,
         "nodes": [
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
-      "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
-      "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
+          "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
+          "hunter-s-march/hunters-march-early-pathway-west#trapped-platform",
           "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
@@ -2950,7 +2949,12 @@
         ]
       }
     ],
-    "entrances": []
+    "entrances": [
+      {
+        "scene": "greymoor_20c",
+        "path": "Battle Scene/greymoor_flip_bridge (1)/controls/lever_top"
+      }
+    ]
   },
   {
     "name": "Silk Snipper",
@@ -3017,7 +3021,12 @@
         ]
       }
     ],
-    "entrances": []
+    "entrances": [
+      {
+        "scene": "greymoor_20c",
+        "path": "Battle Scene/greymoor_flip_bridge (1)/controls/lever_top"
+      }
+    ]
   },
   {
     "name": "Phacia",
@@ -3440,6 +3449,14 @@
           "Roar Antic",
           "Battle Start"
         ]
+      },
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
       }
     ],
     "entrances": []
@@ -3568,6 +3585,14 @@
           "Roar Antic",
           "Battle Start"
         ]
+      },
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
       }
     ],
     "entrances": []
@@ -3667,7 +3692,16 @@
         "path": "GameObject/Battle Scene Control/Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": [],
     "black_thread_only_rooms": [
       "choral-chambers/choral-chambers-below-spa"
@@ -4445,6 +4479,14 @@
           "Transition to Silent",
           "StartBattle"
         ]
+      },
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
+        ]
       }
     ],
     "entrances": []
@@ -4499,6 +4541,14 @@
           "Idle",
           "Transition to Silent",
           "StartBattle"
+        ]
+      },
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
         ]
       }
     ],
@@ -4602,6 +4652,14 @@
           "Idle",
           "Transition to Silent",
           "StartBattle"
+        ]
+      },
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
         ]
       }
     ],
@@ -5226,6 +5284,14 @@
           "Transition to Silent",
           "StartBattle"
         ]
+      },
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
+        ]
       }
     ],
     "entrances": []
@@ -5503,8 +5569,23 @@
         "path": "Event Control/Plinney Rescue Scene/Battle Scene"
       }
     ],
-    "states": [],
-    "entrances": []
+    "states": [
+      {
+        "scene": "bone_12",
+        "path": "Black Thread States/Normal World/Jail Scene 1",
+        "fsm": "Control Pilgrim",
+        "states": [
+          "State 2"
+        ]
+      }
+    ],
+    "entrances": [],
+    "actors": [
+      {
+        "scene": "bone_12",
+        "path": "Black Thread States/Normal World/Jail Scene 1/Pilgrim Dummy"
+      }
+    ]
   },
   {
     "name": "Skullwing",
@@ -5583,11 +5664,7 @@
       {
         "act": 1,
         "nodes": [
-          "shellwood/shellwood-big-room-left#ceiling-area",
-          "shellwood/shellwood-big-room-left#ground-left",
-          "shellwood/shellwood-big-room-left#platforms",
-          "shellwood/shellwood-big-room-left#ground-centre",
-          "shellwood/shellwood-big-room-left#ground-right"
+          "shellwood/shellwood-big-room-left#ground-left"
         ]
       }
     ],
@@ -5609,12 +5686,13 @@
       {
         "act": 1,
         "nodes": [
-          "deep-docks/deep-docks-chains-east#upper-left-hallway",
-          "deep-docks/deep-docks-chains-east#chain-platforms",
-          "deep-docks/deep-docks-chains-east#lower-left-chest-room",
-          "deep-docks/deep-docks-chains-east#behind-ring-gate",
-          "deep-docks/deep-docks-chains-east#lower-chain-platforms",
-          "deep-docks/deep-docks-chains-east#door-switch"
+          "deep-docks/deep-docks-chains-east#upper-left-hallway"
+        ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "deep-docks/deep-docks-chains-center#upper-left-hallway"
         ]
       }
     ],
@@ -5625,7 +5703,12 @@
     ],
     "battles": [],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "scope_items": {
+      "1": {
+        "Simple Key (Deep Docks)": "Key"
+      }
+    }
   },
   {
     "name": "Flintflame Flyer",
@@ -5636,12 +5719,7 @@
       {
         "act": 1,
         "nodes": [
-          "deep-docks/deep-docks-chains-west#main-area",
-          "deep-docks/deep-docks-chains-west#middle-crossing-left",
-          "deep-docks/deep-docks-chains-west#lower-left-exit",
-          "deep-docks/deep-docks-chains-west#lower-right-exit",
-          "deep-docks/deep-docks-chains-west#shard-bundle",
-          "deep-docks/deep-docks-chains-west#middle-crossing-right"
+          "deep-docks/deep-docks-chains-west#main-area"
         ]
       }
     ],
@@ -5653,7 +5731,12 @@
     ],
     "battles": [],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "scope_items": {
+      "1": {
+        "Simple Key (Deep Docks)": "Key"
+      }
+    }
   },
   {
     "name": "Flintstone Flyer",
@@ -6185,7 +6268,12 @@
     "battles": [],
     "states": [],
     "entrances": [],
-    "scripted_death": true
+    "scripted_death": true,
+    "scope_items": {
+      "2": {
+        "Silk Soar": "Skill"
+      }
+    }
   },
   {
     "name": "Slubberlug",
@@ -6245,7 +6333,12 @@
       }
     ],
     "states": [],
-    "entrances": []
+    "entrances": [
+      {
+        "scene": "greymoor_20c",
+        "path": "Battle Scene/greymoor_flip_bridge (1)/controls/lever_top"
+      }
+    ]
   },
   {
     "name": "Gloomsac",
@@ -6368,7 +6461,16 @@
         "path": "Black Thread States/Normal World/Scene States/Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": []
   },
   {
@@ -6404,7 +6506,16 @@
         "path": "GameObject/Battle Scene Control/Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": []
   },
   {
@@ -6442,7 +6553,16 @@
         "path": "Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
+        ]
+      }
+    ],
     "entrances": []
   },
   {
@@ -6570,7 +6690,16 @@
         "path": "Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "under_10",
+        "path": "Battle Scene/Gates/Pipe_Vent_Hatch_BG",
+        "fsm": "BG Control",
+        "states": [
+          "Lock Levers"
+        ]
+      }
+    ],
     "entrances": []
   },
   {
@@ -6722,7 +6851,16 @@
         "path": "GameObject/Battle Scene Control/Battle Scene Acolyte"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": []
   },
   {
@@ -6764,6 +6902,18 @@
           "shellwood/shellwood-big-room-left#platforms",
           "shellwood/shellwood-big-room-left#ground-centre",
           "shellwood/shellwood-big-room-left#ground-right"
+        ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-right-side-big-room#ground-level-left",
+          "shellwood/shellwood-right-side-big-room#central-platforms",
+          "shellwood/shellwood-right-side-big-room#right-platforms",
+          "shellwood/shellwood-right-side-big-room#ground-level-right"
+        ],
+        "events": [
+          "Room Event: event:mapper/73f29fa5-ad19-466b-a0c5-55396e3644c6"
         ]
       }
     ],
@@ -6826,13 +6976,7 @@
       {
         "act": 2,
         "nodes": [
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#entrance",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#right-room",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#silk-spool-jump-left",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#silk-spool-jump-right",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#bottom-room",
-          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#arena"
+          "cogwork-core/cogwork-core-east-silk-spool-gauntlet#left-room"
         ]
       }
     ],
@@ -6991,7 +7135,16 @@
         "path": "City Merchant Scene/Scene/Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": [],
     "black_thread_only_rooms": [
       "choral-chambers/choral-chambers-below-ventrica"
@@ -7066,7 +7219,16 @@
         "path": "Black Thread States/Normal World/Scene States/Battle Scene"
       }
     ],
-    "states": [],
+    "states": [
+      {
+        "scene": "library_02",
+        "path": "GameObject/Battle Scene Control/Battle Scene/Door Closer",
+        "fsm": "Control",
+        "states": [
+          "State 1"
+        ]
+      }
+    ],
     "entrances": [],
     "black_thread_only_rooms": [
       "choral-chambers/choral-chambers-below-ventrica",
@@ -7359,10 +7521,7 @@
       {
         "act": 1,
         "nodes": [
-          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#left",
-          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#right",
-          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#bottom",
-          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge"
+          "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#right"
         ]
       }
     ],
@@ -7378,7 +7537,12 @@
     ],
     "states": [],
     "entrances": [],
-    "scripted_death": true
+    "scripted_death": true,
+    "scope_items": {
+      "1": {
+        "Clawline": "Skill"
+      }
+    }
   },
   {
     "name": "Lampbearer",

@@ -21,13 +21,6 @@ namespace SilksongRandomizer.Patches
         private const string BellhomeBenchObjectName = "RestBench";
         private const string BellhomeBenchFsmName = "Bench Control";
         private const string BellhomeBenchRestingStateName = "Resting";
-        private const string BellhomeDoorLockObjectName = "Door Lock";
-        private const string BellhomeExteriorRootName =
-            "Hornet House States";
-        private const string BellhomeExteriorNoneName = "None";
-        private const string BellhomeExteriorHalfName = "Half";
-        private const string BellhomeExteriorFullName = "Full";
-
         private static readonly FieldInfo DialogueYesNoBoxInstanceField =
             AccessTools.Field(typeof(DialogueYesNoBox), "_instance");
 
@@ -37,11 +30,6 @@ namespace SilksongRandomizer.Patches
         private static bool promptOpen;
         private static bool phaseChangeInProgress;
         private static int inputReleaseFrame = -1;
-        private static GameObject bellhomeExteriorRoot;
-        private static GameObject bellhomeExteriorNone;
-        private static GameObject bellhomeExteriorHalf;
-        private static GameObject bellhomeExteriorFull;
-
         internal static void Update()
         {
             if (promptOpen &&
@@ -56,7 +44,6 @@ namespace SilksongRandomizer.Patches
                 DialogueYesNoBox.ForceClose();
             }
 
-            EnsureBellhomeUnlocked();
 
             SaveState state = SaveState.Instance;
             PlayerData playerData = PlayerData.instance;
@@ -72,171 +59,6 @@ namespace SilksongRandomizer.Patches
             {
                 state.bellhomePhaseToggleUnlocked = true;
             }
-        }
-
-        internal static void EnsureBellhomeUnlocked()
-        {
-            SaveState state = SaveState.Instance;
-            PlayerData playerData = PlayerData.instance;
-            if (state == null ||
-                !state.IsRoomBound ||
-                playerData == null)
-            {
-                return;
-            }
-
-            // Bellhome's construction/furnishing state is independent. Only
-            // remove the key lock so its vanilla door remains usable forever.
-            playerData.BelltownHouseUnlocked = true;
-            EnsureBellhomeExteriorPresent();
-        }
-
-        private static bool EnsureBellhomeExteriorPresent()
-        {
-            GameManager gameManager = GameManager.SilentInstance;
-            if (gameManager == null ||
-                !string.Equals(
-                    GameManager.GetBaseSceneName(
-                        gameManager.sceneName ?? string.Empty
-                    ),
-                    BellhartSceneName,
-                    StringComparison.OrdinalIgnoreCase
-                ))
-            {
-                ClearBellhomeExteriorCache();
-                return false;
-            }
-
-            if (bellhomeExteriorRoot == null)
-            {
-                ResolveBellhomeExterior(
-                    GameObject.Find(BellhomeExteriorRootName)
-                );
-            }
-
-            return ApplyBellhomeExteriorPresentation();
-        }
-
-        internal static bool TryOverrideBellhomeExteriorActivator(
-            TestGameObjectActivator activator)
-        {
-            SaveState state = SaveState.Instance;
-            if (state == null ||
-                !state.IsRoomBound ||
-                activator == null ||
-                activator.gameObject == null ||
-                !string.Equals(
-                    activator.gameObject.name,
-                    BellhomeExteriorRootName,
-                    StringComparison.Ordinal
-                ) ||
-                !string.Equals(
-                    GameManager.GetBaseSceneName(
-                        activator.gameObject.scene.name
-                    ),
-                    BellhartSceneName,
-                    StringComparison.OrdinalIgnoreCase
-                ))
-            {
-                return false;
-            }
-
-            ResolveBellhomeExterior(activator.gameObject);
-            return ApplyBellhomeExteriorPresentation();
-        }
-
-        private static bool ApplyBellhomeExteriorPresentation()
-        {
-            if (bellhomeExteriorRoot == null ||
-                bellhomeExteriorNone == null ||
-                bellhomeExteriorHalf == null ||
-                bellhomeExteriorFull == null)
-            {
-                return false;
-            }
-
-            // The save-owned construction enum drives two Bellhart wishes.
-            // The saved construction phase remains unchanged while the
-            // completed physical house exposes the independently unlocked door.
-            if (!bellhomeExteriorFull.activeSelf)
-            {
-                bellhomeExteriorFull.SetActive(true);
-            }
-            if (bellhomeExteriorNone.activeSelf)
-            {
-                bellhomeExteriorNone.SetActive(false);
-            }
-            if (bellhomeExteriorHalf.activeSelf)
-            {
-                bellhomeExteriorHalf.SetActive(false);
-            }
-
-            return true;
-        }
-
-        private static void ResolveBellhomeExterior(GameObject root)
-        {
-            if (root == bellhomeExteriorRoot &&
-                bellhomeExteriorNone != null &&
-                bellhomeExteriorHalf != null &&
-                bellhomeExteriorFull != null)
-            {
-                return;
-            }
-
-            ClearBellhomeExteriorCache();
-
-            if (root == null ||
-                !string.Equals(
-                    GameManager.GetBaseSceneName(root.scene.name),
-                    BellhartSceneName,
-                    StringComparison.OrdinalIgnoreCase
-                ))
-            {
-                return;
-            }
-
-            bellhomeExteriorRoot = root;
-            foreach (Transform child in root.transform)
-            {
-                if (child == null || child.gameObject == null)
-                {
-                    continue;
-                }
-
-                if (string.Equals(
-                    child.name,
-                    BellhomeExteriorNoneName,
-                    StringComparison.Ordinal
-                ))
-                {
-                    bellhomeExteriorNone = child.gameObject;
-                }
-                else if (string.Equals(
-                    child.name,
-                    BellhomeExteriorHalfName,
-                    StringComparison.Ordinal
-                ))
-                {
-                    bellhomeExteriorHalf = child.gameObject;
-                }
-                else if (string.Equals(
-                    child.name,
-                    BellhomeExteriorFullName,
-                    StringComparison.Ordinal
-                ))
-                {
-                    bellhomeExteriorFull = child.gameObject;
-                }
-            }
-        }
-
-        private static void ClearBellhomeExteriorCache()
-        {
-            bellhomeExteriorRoot = null;
-            bellhomeExteriorNone = null;
-            bellhomeExteriorHalf = null;
-            bellhomeExteriorFull = null;
         }
 
         internal static bool TryInterceptBellhomeNeedolin(
@@ -326,25 +148,6 @@ namespace SilksongRandomizer.Patches
             }
 
             return true;
-        }
-
-        internal static bool IsBellhomeDoorLock(
-            ItemReceptacle receptacle)
-        {
-            return receptacle != null &&
-                   receptacle.gameObject != null &&
-                   string.Equals(
-                       GameManager.GetBaseSceneName(
-                           receptacle.gameObject.scene.name
-                       ),
-                       BellhartSceneName,
-                       StringComparison.OrdinalIgnoreCase
-                   ) &&
-                   string.Equals(
-                       receptacle.gameObject.name,
-                       BellhomeDoorLockObjectName,
-                       StringComparison.Ordinal
-                   );
         }
 
         internal static bool BlocksBenchInput(FsmStateAction action) =>
@@ -496,7 +299,6 @@ namespace SilksongRandomizer.Patches
             playerData.blackThreadWorld = targetBlackThreadWorld;
             // StartAct3's destructive conversion is neither queued nor replayed.
             playerData.act3_wokeUp = true;
-            EnsureBellhomeUnlocked();
 
             bool saveFinished = false;
             bool saveSucceeded = false;
@@ -624,27 +426,5 @@ namespace SilksongRandomizer.Patches
 
         private static bool Prefix(FsmStateAction __instance) =>
             !BellhomePhaseManager.BlocksBenchInput(__instance);
-    }
-
-    [HarmonyPatch(typeof(ItemReceptacle), "Start")]
-    internal static class BellhomeDoorAlwaysUnlockedPatch
-    {
-        private static void Prefix(ItemReceptacle __instance)
-        {
-            if (BellhomePhaseManager.IsBellhomeDoorLock(__instance))
-            {
-                BellhomePhaseManager.EnsureBellhomeUnlocked();
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
-    internal static class BellhomeExteriorAlwaysPresentPatch
-    {
-        private static bool Prefix(TestGameObjectActivator __instance)
-        {
-            return !BellhomePhaseManager
-                .TryOverrideBellhomeExteriorActivator(__instance);
-        }
     }
 }

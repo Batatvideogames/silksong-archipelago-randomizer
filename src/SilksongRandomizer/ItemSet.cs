@@ -912,7 +912,8 @@ namespace SilksongRandomizer
 
         private static System.Collections.Generic.IEnumerable<Item> BossSoulItems() =>
             BossSoulState.SupportedBosses.Select(BossSoulState.ItemName).Distinct().Select(name =>
-                new Item(name, ItemType.BossSoul, () => { }));
+                new Item(name, ItemType.BossSoul, () => { }))
+                .Append(new Item(BossSoulState.SethSoul, ItemType.BossSoul, () => { }, repeatable: true));
 
         private static System.Collections.Generic.IEnumerable<Item> BossCreditItems() =>
             ProgressionShuffleState.SupportedBosses.OrderBy(name => name, StringComparer.Ordinal)

@@ -621,7 +621,7 @@ class TestAlphabetMode(unittest.TestCase):
             "shell_shard_cache_randomization": "vanilla",
             "boss_sanity": "vanilla",
             "bell_shrine_sanity": "vanilla",
-            "quest_sanity": "shuffle",
+            "wish_sanity": "shuffle",
             "alphabet_mode": True,
             "trap_percentage": 37,
             "stagger_trap_weight": 48,
