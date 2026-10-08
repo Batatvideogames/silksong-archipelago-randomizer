@@ -27,6 +27,7 @@ from .minor_families import (
 )
 from .locations import (
     BOSS_CREDIT_BY_LOCATION,
+    HUNTER_CREST_SLOT_LOCATION_NAMES,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
     MASK_SHARD_LOCATION_NAMES,
@@ -2103,6 +2104,7 @@ def build_item_pool_entries(
         from collections import Counter
         remaining = Counter((entry.name, entry.source_category) for entry in entries)
         required_retained = set(missing_goal_items)
+        excluded_hunter_slots = HUNTER_CREST_SLOT_LOCATION_NAMES & goal_excluded_location_names
         retained = []
         for entry in entries_before_goal_trim:
             key = (entry.name, entry.source_category)
@@ -2112,6 +2114,7 @@ def build_item_pool_entries(
                 required_retained.remove(entry.name)
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
+                and entry.name not in excluded_hunter_slots
                 and not (silk_soar_begone and entry.name == SILK_SOAR_ITEM)
                 and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})

@@ -8,8 +8,8 @@ from .room_graph_logic import compile_transition, room_node_name, _append_requir
 @dataclass(frozen=True)
 class SceneExit:
     transition_ids: tuple[str, ...]
+    id: str
     name: str
-    label: str
     source: str
     destination: str
     requirements: tuple
@@ -24,8 +24,9 @@ class SceneExit:
 def exit_names():
     from .entrance_randomization import POOL, members
 
-    names = {port.id: port.id for room in load_room_graph().authoritative_rooms for port in room.transitions}
-    names.update((member, data['id']) for data in POOL.values() for member in members(data))
+    names = {port.id: f'{room.name} - {port.name} ({port.alias})'
+             for room in load_room_graph().authoritative_rooms for port in room.transitions}
+    names.update((member, data['name']) for data in POOL.values() for member in members(data))
     return names
 
 
@@ -69,8 +70,7 @@ def _scene_exits(enemy_names, silk, scope_name, content_scope, bosses):
                     raise ValueError('Scene exit aliases have different routes: ' + name)
                 exits[name] = replace(previous, transition_ids=(*previous.transition_ids, port.id))
             else:
-                label = POOL[name]['name'] if name in POOL else f'{room.name} - {port.name} ({port.alias})'
-                exits[name] = SceneExit((port.id,), name, label, compiled.source, destination, rules)
+                exits[name] = SceneExit((port.id,), port.id, name, compiled.source, destination, rules)
     for source, data in selected.items():
         node = endpoint_name(data, ports)
         destination = endpoint_name(POOL[data['vanilla']], ports)
@@ -78,7 +78,7 @@ def _scene_exits(enemy_names, silk, scope_name, content_scope, bosses):
         transport = tuple(_compiled_room_clause_requirement(clause) for clause in clauses)
         rules = (tuple(gate(replace(rule, all_of=(node, *rule.all_of))) for rule in transport)
                  if silk else transport)
-        exits[source] = SceneExit(members(data), source, data['name'], node, destination, rules, transport)
+        exits[data['name']] = SceneExit(members(data), source, data['name'], node, destination, rules, transport)
     return tuple(exits.values())
 
 
@@ -124,12 +124,12 @@ def create_exits(world, regions):
                                     **options),
             exit.name, force_creation=True,
         )
-        entrance.display_name = exit.label
+        entrance.display_name = exit.name
         for transition_id in exit.transition_ids:
             world.scene_exits[transition_id] = entrance
         if exit.shuffled:
             attach_exit(world, entrance, exit.transport_requirements)
             entrance.randomization_type = EntranceType.TWO_WAY
-            group = POOL[exit.name]['group']
-            entrance.randomization_group = (area(exit.name), group) if scope(world) == 'within_areas' else group
-            world._entrance_exits[exit.name] = entrance
+            group = POOL[exit.id]['group']
+            entrance.randomization_group = (area(exit.id), group) if scope(world) == 'within_areas' else group
+            world._entrance_exits[exit.id] = entrance

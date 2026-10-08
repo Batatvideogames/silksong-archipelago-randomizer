@@ -526,6 +526,12 @@ _CREST_SLOT_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Crest Slot: Shaman (Blue 2)',
 )
 
+HUNTER_CREST_SLOT_LOCATION_NAMES = frozenset(
+    name for name in _CREST_SLOT_CANONICAL_LOCATION_NAMES
+    if name.startswith("Crest Slot: Hunter (")
+)
+
+
 _RELIC_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Relic: Weaver Effigy (Keelal, Shellwood)',
     'Relic: Psalm Cylinder (East Whispering Vaults)',

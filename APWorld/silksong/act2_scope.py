@@ -11,6 +11,7 @@ from collections import Counter
 from typing import Iterable, Mapping
 
 from .eva import EVA_CREST_SLOTS, EVA_REWARDS
+from .locations import HUNTER_CREST_SLOT_LOCATION_NAMES
 
 from .lore_tablets import (
     LORE_TABLET_ACT_THREE_LOCATION_NAMES,
@@ -172,6 +173,8 @@ def get_act_two_excluded_location_names(
         excluded |= {"Crest: Witch"}
         if starting_crest_item != "Crest: Witch":
             excluded |= CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES
+    if starting_crest_item in excluded:
+        excluded |= HUNTER_CREST_SLOT_LOCATION_NAMES
     if cursed_ending:
         points = sum(
             free + sum(f"Crest Slot: {crest.removeprefix('Crest: ')} ({slot})" not in excluded for slot in slots)
@@ -271,8 +274,11 @@ def trim_act_two_pool_entries(
             removals.setdefault("CrestSlot", Counter()).update(
                 {name: 1 for name in CURSED_ENDING_WITCH_SLOT_LOCATION_NAMES})
 
+    excluded = get_act_two_excluded_location_names(
+        starting_crest_item, skill_mode, cursed_ending, silk_soar_begone)
+    removals.setdefault("CrestSlot", Counter()).update(
+        {name: 1 for name in HUNTER_CREST_SLOT_LOCATION_NAMES & excluded})
     if cursed_ending:
-        excluded = get_act_two_excluded_location_names(starting_crest_item, skill_mode, True, silk_soar_begone)
         removals.setdefault("Eva", Counter()).update(
             reward for name, (reward, _, _) in EVA_REWARDS.items() if name in excluded)
 

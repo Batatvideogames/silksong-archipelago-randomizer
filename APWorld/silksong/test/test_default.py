@@ -95,15 +95,20 @@ class TestDefaultWorld(SilksongTestBase):
         for first, second in zip(entrances, entrances[1:]):
             self.assertIs(first.connected_region, second.parent_region)
 
-    def test_world_leaves_universal_tracker_hooks_unoverridden(self) -> None:
-        for hook_name in (
-            "get_logical_path",
-            "explain_path",
-            "explain_spot",
-            "explain_rule",
-        ):
+    def test_tracker_labels_preserve_rules_and_unlabelled_path_steps(self) -> None:
+        for hook_name in ("get_logical_path", "explain_spot", "explain_rule"):
             with self.subTest(hook_name=hook_name):
                 self.assertFalse(hasattr(self.world, hook_name))
+        state = self.multiworld.get_all_state()
+        entrances = tuple(self.world.get_entrances())
+        labelled = [entrance for entrance in entrances if getattr(entrance, "display_name", None)]
+        self.assertTrue(labelled)
+        for entrance in labelled:
+            with self.subTest(entrance=entrance.name):
+                explanation = self.world.explain_path(entrance, state)
+                self.assertEqual(explanation[0]["text"], entrance.display_name)
+                self.assertEqual(explanation[2:], entrance.access_rule.explain_json(state))
+        self.assertEqual(self.world.explain_path(SimpleNamespace(), state), [])
 
     def test_native_path_rules_support_rule_builder_explanations(self) -> None:
         state = self.multiworld.get_all_state(False)
@@ -396,7 +401,7 @@ class TestDefaultWorld(SilksongTestBase):
             entrance
             for region in self.multiworld.get_regions(self.player)
             for entrance in region.exits
-            if entrance.name.startswith("Silksong Logic: ")
+            if getattr(entrance, "display_name", None) is not None
         ]
         always_true_entrances = [
             entrance
