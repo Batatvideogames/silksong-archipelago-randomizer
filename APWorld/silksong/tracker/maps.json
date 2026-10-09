@@ -1,0 +1,1590 @@
+[
+ {
+  "name": "Moss Grotto Center",
+  "img": "01-geometry/5b1e77b8-90a2-46d7-bcd0-1cf9bd137bb1.webp"
+ },
+ {
+  "name": "Moss Grotto West",
+  "img": "01-geometry/861ca4d5-694e-43a9-ab1b-387eeedcfdd9.webp"
+ },
+ {
+  "name": "Moss Grotto East",
+  "img": "01-geometry/d798627d-6015-4ed2-a722-a26bfc7d73c0.webp"
+ },
+ {
+  "name": "Ruined Chapel",
+  "img": "01-geometry/b2e1104c-2f78-443b-885e-23a863a45512.webp"
+ },
+ {
+  "name": "Ruined Chapel Crest Chamber",
+  "img": "01-geometry/53a8560e-f53a-4a92-85c9-ae562af8205d.webp"
+ },
+ {
+  "name": "Bone Bottom Town",
+  "img": "01-geometry/441268cc-4ca9-4e88-ab10-0bc1c3a3f041.webp"
+ },
+ {
+  "name": "Bonegrave",
+  "img": "01-geometry/9471221e-4a82-41e4-a7a9-43e4d1cc966e.webp"
+ },
+ {
+  "name": "Chapel of the Wanderer",
+  "img": "01-geometry/54b9e0cd-dcf3-46ff-824b-07aac66e6491.webp"
+ },
+ {
+  "name": "The Big Fall",
+  "img": "01-geometry/05d7eef4-14d0-4cd1-b662-11bd54a708cd.webp"
+ },
+ {
+  "name": "Mosshome Side Room",
+  "img": "01-geometry/b6b04eb2-b81b-458d-9c1e-0736d8d55ca4.webp"
+ },
+ {
+  "name": "Mosshome Druid",
+  "img": "01-geometry/11e7436e-89dd-4fbf-9e8b-cf0544108920.webp"
+ },
+ {
+  "name": "Mosshome Upper",
+  "img": "01-geometry/29fda3a8-6d55-4eef-ae30-066477c044b7.webp"
+ },
+ {
+  "name": "Mosshome Middle",
+  "img": "01-geometry/715e31bd-7262-408e-8a15-987482b848cd.webp"
+ },
+ {
+  "name": "Mosshome Lower",
+  "img": "01-geometry/44cf6090-3a7d-463a-b816-fde425075806.webp"
+ },
+ {
+  "name": "Mosshome Basement",
+  "img": "01-geometry/83661762-5254-469f-8cf0-e7deeb3c32e8.webp"
+ },
+ {
+  "name": "Mosshome Basement Passage",
+  "img": "01-geometry/50fdfe17-d943-4843-a100-1d3618fb893f.webp"
+ },
+ {
+  "name": "The Marrow Entrance",
+  "img": "01-geometry/7ba6aecc-92bb-4e29-aa4e-1d3ac9ea56e3.webp"
+ },
+ {
+  "name": "The Marrow Bell Bench",
+  "img": "01-geometry/c0f2b891-ad34-4fc7-96f9-08bf31c898fe.webp"
+ },
+ {
+  "name": "The Marrow Lava Intro",
+  "img": "01-geometry/0e76e7b9-1599-45e5-9f8a-ab24f772d85f.webp"
+ },
+ {
+  "name": "The Marrow Lava Track",
+  "img": "01-geometry/544ec07f-d3bc-494d-8bbb-01908a8ae80c.webp"
+ },
+ {
+  "name": "The Marrow Flea Caravan",
+  "img": "01-geometry/23964278-68ba-40ef-be99-6edadfd1ec39.webp"
+ },
+ {
+  "name": "The Marrow Shaft",
+  "img": "01-geometry/f8245304-bfb7-445d-8812-6c6a8e80ed50.webp"
+ },
+ {
+  "name": "The Marrow Shaft Side Room",
+  "img": "01-geometry/90480aab-cd78-48d4-b58c-8717e8f3525f.webp"
+ },
+ {
+  "name": "The Marrow Map Shop",
+  "img": "01-geometry/6f93732b-ce09-49e6-9dbc-a2f9660f03e6.webp"
+ },
+ {
+  "name": "The Marrow Bellway",
+  "img": "01-geometry/ca6e3da2-cac3-4edc-8c6b-fc4bdfb40fff.webp"
+ },
+ {
+  "name": "The Marrow Skull Wall",
+  "img": "01-geometry/f0416b27-92ed-45a9-88f4-ed93a25a8330.webp"
+ },
+ {
+  "name": "The Marrow Skull Wall Side Room",
+  "img": "01-geometry/0f1a149a-a346-4ae7-bf66-1829d59e2306.webp"
+ },
+ {
+  "name": "The Marrow Mr Burns House",
+  "img": "01-geometry/6d4642d1-c6fc-4dd0-90f4-2980f82af45a.webp"
+ },
+ {
+  "name": "The Marrow Lower Pogo",
+  "img": "01-geometry/41a128d7-7467-4941-8f17-efb501c56eec.webp"
+ },
+ {
+  "name": "The Marrow Upper Pogo",
+  "img": "01-geometry/dfb2d44a-4290-474f-bec7-9adadff66d43.webp"
+ },
+ {
+  "name": "The Marrow Jail Pathway",
+  "img": "01-geometry/42e5411c-f75d-431c-97c4-7eeb59a823f9.webp"
+ },
+ {
+  "name": "The Marrow Jail",
+  "img": "01-geometry/cadf5519-e56f-41b1-b975-41290bbb917b.webp"
+ },
+ {
+  "name": "The Marrow Lava Docks",
+  "img": "01-geometry/f89aea04-7c9c-4baf-8186-04a975f84e49.webp"
+ },
+ {
+  "name": "The Marrow Skull Tyrant Arena",
+  "img": "01-geometry/60100b69-fab0-4050-ae2a-be8d303bf53c.webp"
+ },
+ {
+  "name": "Weavenest Atla Entrance",
+  "img": "01-geometry/94930fc0-5110-4b3a-b338-872b972cd5f2.webp"
+ },
+ {
+  "name": "Weavenest Atla Teleporter",
+  "img": "01-geometry/24ec090b-ca1d-4685-9698-e7752bee2c6b.webp"
+ },
+ {
+  "name": "Weavenest Atla Power Room",
+  "img": "01-geometry/219009c0-8be5-4109-8904-8883352735eb.webp"
+ },
+ {
+  "name": "Weavenest Atla Bench",
+  "img": "01-geometry/dbe5bb99-a509-4aa9-a5b2-d8e6474122e2.webp"
+ },
+ {
+  "name": "Weavenest Atla Grotto",
+  "img": "01-geometry/4f4c74cb-ca0a-405d-a42f-499aa53e5f17.webp"
+ },
+ {
+  "name": "Weavenest Atla Hallway",
+  "img": "01-geometry/8c709a8e-b89f-4f74-b0c8-a8df0538e6c0.webp"
+ },
+ {
+  "name": "Weavenest Atla Lore",
+  "img": "01-geometry/3157c85e-b908-4afb-92e4-ba8a66567fc3.webp"
+ },
+ {
+  "name": "Weavenest Atla Mask Shard",
+  "img": "01-geometry/c77eea4b-f879-4cbd-9ccb-9dff3a00b485.webp"
+ },
+ {
+  "name": "Weavenest Atla Snare",
+  "img": "01-geometry/60077403-44dd-472e-ace0-980a91b5a9bd.webp"
+ },
+ {
+  "name": "Weavenest Atla Spool",
+  "img": "01-geometry/f2b333bc-9ea6-42f3-8790-8bd687a09722.webp"
+ },
+ {
+  "name": "Wormways Craggler Hallway",
+  "img": "01-geometry/9fd864b5-7137-465d-8f48-a0a7dc781822.webp"
+ },
+ {
+  "name": "Wormways Shaft",
+  "img": "01-geometry/ea088d71-c8bc-445f-93d9-15c68be6f6e4.webp"
+ },
+ {
+  "name": "Wormways Middle",
+  "img": "01-geometry/f76a1fba-b148-44d8-aef9-3a6875404410.webp"
+ },
+ {
+  "name": "Wormways Upper West",
+  "img": "01-geometry/ac148b05-994a-4a2b-9ed3-cf5b16bdf7d2.webp"
+ },
+ {
+  "name": "Wormways Upper East",
+  "img": "01-geometry/6e9792bd-7871-4d51-87a7-833b9e17495e.webp"
+ },
+ {
+  "name": "Wormways Laboratory",
+  "img": "01-geometry/38fd39f0-099e-401b-80d5-9e848aab16dc.webp"
+ },
+ {
+  "name": "Wormways Lower East",
+  "img": "01-geometry/2e839e9b-befa-4680-be21-ce71bedd212c.webp"
+ },
+ {
+  "name": "Wormways Lower West",
+  "img": "01-geometry/d2a00bba-bcf6-4785-b810-3c976c497f2b.webp"
+ },
+ {
+  "name": "Wormways Weavenest",
+  "img": "01-geometry/77b705d4-9230-4bf2-8253-23fb8fc52303.webp"
+ },
+ {
+  "name": "Wormways Zango Arena",
+  "img": "01-geometry/0445b3fb-78f4-421c-8927-6c17026483d2.webp"
+ },
+ {
+  "name": "Deep Docks Entrance",
+  "img": "01-geometry/dc59da63-9273-4a77-92af-81b48f22f14f.webp"
+ },
+ {
+  "name": "Deep Docks Bench Shaft",
+  "img": "01-geometry/719d052f-be6e-49fd-b17d-1b7285f02dd3.webp"
+ },
+ {
+  "name": "Deep Docks Map Shop",
+  "img": "01-geometry/d40a939d-596e-4351-8b1f-ebc9abd828e2.webp"
+ },
+ {
+  "name": "Deep Docks Bellway",
+  "img": "01-geometry/d4fe4cf6-90b8-4691-9e3e-729d33b68dd2.webp"
+ },
+ {
+  "name": "Deep Docks Bellway Flea Rescue",
+  "img": "01-geometry/b50f518d-548a-4e87-ac4a-3d0f984a95a3.webp"
+ },
+ {
+  "name": "Deep Docks Lace Intro",
+  "img": "01-geometry/b7303d3f-4042-4ab1-bba6-ed5264d39efc.webp"
+ },
+ {
+  "name": "Deep Docks Spire Lower",
+  "img": "01-geometry/a577765e-bb88-4343-8508-7d73505b1cb9.webp"
+ },
+ {
+  "name": "Is this still Deep Docks? East",
+  "img": "01-geometry/54a56b4c-5abd-4efc-85f4-73d3a169e611.webp"
+ },
+ {
+  "name": "Is this still Deep Docks West",
+  "img": "01-geometry/31f97267-8cb8-40bb-8d5c-8f72374c31b8.webp"
+ },
+ {
+  "name": "\"Deep Docks\" March Side Room",
+  "img": "01-geometry/daf75e37-946c-48ef-8a9e-381d7afd96c8.webp"
+ },
+ {
+  "name": "Deep Docks Upper Spire",
+  "img": "01-geometry/b0d0341c-e517-41c0-889b-10bf46f002c1.webp"
+ },
+ {
+  "name": "Deep Docks Forge",
+  "img": "01-geometry/48174f7a-f233-4ae8-bab0-477c3bea291e.webp"
+ },
+ {
+  "name": "Deep Docks Lower West Shaft",
+  "img": "01-geometry/a639f597-ac29-4e12-8f6d-ff98649907f0.webp"
+ },
+ {
+  "name": "Deep Docks Spool East",
+  "img": "01-geometry/79064b0a-ba6c-4892-8f23-10a7d84d8b89.webp"
+ },
+ {
+  "name": "Deep Docks Chains West",
+  "img": "01-geometry/cedfe7af-d0e6-4699-b053-56b9963a1b62.webp"
+ },
+ {
+  "name": "Deep Docks Chains Flea Rescue",
+  "img": "01-geometry/a0df57a1-155f-4274-bc4b-9b0248c65cf1.webp"
+ },
+ {
+  "name": "Deep Docks Chains Center",
+  "img": "01-geometry/66c2c6ab-b91a-4663-a6a8-32ccdf239461.webp"
+ },
+ {
+  "name": "Deep Docks Chains Upper East",
+  "img": "01-geometry/ed7ce3aa-050f-4579-8076-057084832039.webp"
+ },
+ {
+  "name": "Deep Docks Chains Lower East",
+  "img": "01-geometry/a2bb29a5-40e9-4151-b603-52ab10fc9337.webp"
+ },
+ {
+  "name": "Deep Docks Forebrothers",
+  "img": "01-geometry/6b89a223-fd52-402f-900c-f718b01c4f98.webp"
+ },
+ {
+  "name": "Deep Docks Lower East Shaft",
+  "img": "01-geometry/1023581a-c725-45a6-bc72-36c406563ec0.webp"
+ },
+ {
+  "name": "Deep Docks Sauna",
+  "img": "01-geometry/70214191-adfd-4f11-bcd2-ec8667a629c4.webp"
+ },
+ {
+  "name": "Deep Docks Silkeater Room",
+  "img": "01-geometry/11b72e39-f203-4874-842f-f86b5e12b7c7.webp"
+ },
+ {
+  "name": "Deep Docks Magma Slug Tunnels",
+  "img": "01-geometry/3d0f9bbb-1334-493c-9b6f-3a18466b7fdc.webp"
+ },
+ {
+  "name": "Deep Docks Diving Bell Room",
+  "img": "01-geometry/ec358239-2966-4355-9b03-68f9f7b985e5.webp"
+ },
+ {
+  "name": "Far Fields Entrance East",
+  "img": "01-geometry/16ba5610-106d-4a42-b3df-8ae3f69c59cc.webp"
+ },
+ {
+  "name": "Far Fields Entrance West",
+  "img": "01-geometry/cdccc660-7c1a-4513-a5b3-8c1f98621e3b.webp"
+ },
+ {
+  "name": "Far Fields Fort Lower Passage",
+  "img": "01-geometry/d4f60d7c-fa7d-489b-9eaa-8b59b7094b3b.webp"
+ },
+ {
+  "name": "Far Fields Fort Upper Passage",
+  "img": "01-geometry/8538dff3-251f-4519-ad1d-fa58de7de3c6.webp"
+ },
+ {
+  "name": "Far Fields Wind Shaft",
+  "img": "01-geometry/4211c327-e8f4-49ff-9895-cc8bc1b979d8.webp"
+ },
+ {
+  "name": "Far Fields Upper Shaft",
+  "img": "01-geometry/1beec42e-c859-4c8f-9fc8-4bf7aa64c37e.webp"
+ },
+ {
+  "name": "Far Fields Pilgrim's Rest",
+  "img": "01-geometry/a992764f-3378-4303-a120-d0ba90969a68.webp"
+ },
+ {
+  "name": "Far Fields Pilgrim's Rest Church",
+  "img": "01-geometry/4716eb35-8a42-4ba3-91df-05e4876577b1.webp"
+ },
+ {
+  "name": "Far Fields Chorus",
+  "img": "01-geometry/89af460f-f126-4f58-ac81-00d61d72442a.webp"
+ },
+ {
+  "name": "Far Fields Pinstress Attic",
+  "img": "01-geometry/d3c55fee-2ad1-4456-848a-321b85079c7c.webp"
+ },
+ {
+  "name": "Far Fields Pinstress Room",
+  "img": "01-geometry/ccc8af18-a103-48e2-91cb-70d8966927f0.webp"
+ },
+ {
+  "name": "Far Fields Pinstress Hut Interior",
+  "img": "01-geometry/604afcb4-4b4f-4322-ac02-3c4492927f2b.webp"
+ },
+ {
+  "name": "Far Fields Pinstress Mask Shard",
+  "img": "01-geometry/e61a65c9-3352-4f93-804c-93d1e5f879bc.webp"
+ },
+ {
+  "name": "Far Fields Target Practice",
+  "img": "01-geometry/5e5d7a8a-f4ba-453c-9e4d-5a8e2e70a7ea.webp"
+ },
+ {
+  "name": "Far Fields Map Shop",
+  "img": "01-geometry/88c5cebc-088a-4058-85a3-b8920c26530a.webp"
+ },
+ {
+  "name": "Far Fields Bellway",
+  "img": "01-geometry/2901bb3e-432b-4325-a071-cf24dcf7e9f9.webp"
+ },
+ {
+  "name": "Far Fields Deep Docks Loopback",
+  "img": "01-geometry/a1997d2e-2ed5-4278-bb17-ba9d209482f2.webp"
+ },
+ {
+  "name": "Far Fields Deep Docks Backdoor",
+  "img": "01-geometry/cc5aa691-e3e1-4d2e-8138-b99e3ac6f09a.webp"
+ },
+ {
+  "name": "Far Fields Skull Room West",
+  "img": "01-geometry/42a630e5-6594-475b-b343-ee1e6df9b20b.webp"
+ },
+ {
+  "name": "Far Fields Skull Room East",
+  "img": "01-geometry/2794386f-24ce-4422-a4bf-7938ab1ffeb9.webp"
+ },
+ {
+  "name": "Far Fields Skull Arena",
+  "img": "01-geometry/4be34479-044f-4973-a7cb-f475718640b8.webp"
+ },
+ {
+  "name": "Weavenest Cindril",
+  "img": "01-geometry/153c050d-86d9-42bf-ae15-f0b203eeed83.webp"
+ },
+ {
+  "name": "Far Fields Deep Entrance",
+  "img": "01-geometry/51af5440-91c2-465f-b33b-d593eb5e4784.webp"
+ },
+ {
+  "name": "Far Fields Deep Lower East",
+  "img": "01-geometry/a88f7ed8-01c4-4efc-854f-a21bed65bf10.webp"
+ },
+ {
+  "name": "Far Fields Pilgrim's Rest Deep Passage",
+  "img": "01-geometry/8148e13e-ebc1-4032-803b-e7f4c3413d4c.webp"
+ },
+ {
+  "name": "Far Fields Deep Lower West",
+  "img": "01-geometry/f3f59737-6f72-4c16-b9fc-c1571fc0cdac.webp"
+ },
+ {
+  "name": "Far Fields Deep Fort Passage",
+  "img": "01-geometry/b65957e1-33db-47a2-be1d-fad978b7a1bd.webp"
+ },
+ {
+  "name": "Far Fields Deep Fort Bench",
+  "img": "01-geometry/ee40462b-624c-4356-b47d-f0e160e77b14.webp"
+ },
+ {
+  "name": "Far Fields Deep Fort",
+  "img": "01-geometry/71b504cd-1758-4cae-98c4-a50517d85c5c.webp"
+ },
+ {
+  "name": "Current Karmelita",
+  "img": "01-geometry/12930568-b5cd-4b7a-a912-37122b18f2d1.webp"
+ },
+ {
+  "name": "Sprintmaster Cave",
+  "img": "01-geometry/cd6baea4-a19b-4b65-80e6-e1d1df0709e8.webp"
+ },
+ {
+  "name": "Hunter's March Chapel Passage",
+  "img": "01-geometry/14a1473d-3821-4f84-b42f-b4cefe748f16.webp"
+ },
+ {
+  "name": "Hunter's March Entrance",
+  "img": "01-geometry/3bee132e-439b-44f2-af71-946de3f7796e.webp"
+ },
+ {
+  "name": "Hunter's March Pogo Intro",
+  "img": "01-geometry/36015f2a-927b-4694-9dbc-5d28738284ab.webp"
+ },
+ {
+  "name": "Hunter's March Early Pathway West",
+  "img": "01-geometry/81bce77e-7405-46fc-a2c4-a07f47a0280d.webp"
+ },
+ {
+  "name": "Hunter's March Map Shop",
+  "img": "01-geometry/4b91a059-0e52-4dfe-a86f-b2814be89fe7.webp"
+ },
+ {
+  "name": "Hunter's March Early Pathway East",
+  "img": "01-geometry/3e1332be-3ef8-496a-ad6f-9a412301e999.webp"
+ },
+ {
+  "name": "Hunter's March Shaft",
+  "img": "01-geometry/e6436f1d-0834-4a30-a852-8afcb1a9bfbe.webp"
+ },
+ {
+  "name": "Hunter's March Trapped Bench",
+  "img": "01-geometry/d61d79e6-b463-482e-9b42-045dc48538ad.webp"
+ },
+ {
+  "name": "Hunter's March Skarr Shop",
+  "img": "01-geometry/2d4e2550-1b7e-4911-a64c-cf92b305bbb6.webp"
+ },
+ {
+  "name": "Hunter's March Treasure Vault",
+  "img": "01-geometry/93481d37-47e7-4c82-a01d-73520276574b.webp"
+ },
+ {
+  "name": "Hunter's March Statue",
+  "img": "01-geometry/36f3b558-ddf4-41f0-8a0f-03c8beeafa62.webp"
+ },
+ {
+  "name": "Hunter's March Deep Docks Passage",
+  "img": "01-geometry/7a54e35e-d955-4718-9fcf-9f52411fbfb2.webp"
+ },
+ {
+  "name": "Hunter's March Deep Entrance",
+  "img": "01-geometry/7c01b1e4-d1ac-4259-a711-dc5db7047786.webp"
+ },
+ {
+  "name": "Cling Grip Room",
+  "img": "01-geometry/92018175-ae34-4e54-b0f7-7e3cfd29a63c.webp"
+ },
+ {
+  "name": "Cling Grip Side Room",
+  "img": "01-geometry/17fd42dd-3371-45f1-89d7-e7aaa49bfd4e.webp"
+ },
+ {
+  "name": "Greyroot",
+  "img": "01-geometry/59ded786-5b51-4e66-a579-d37a8afb1dd0.webp"
+ },
+ {
+  "name": "Shellgrave",
+  "img": "01-geometry/f2d3ecc8-f94e-40f3-9ded-81824ca713e1.webp"
+ },
+ {
+  "name": "Shellwood Bellshrine",
+  "img": "01-geometry/7b793905-d776-403b-9239-1ea02117ab58.webp"
+ },
+ {
+  "name": "Shellwood Bellway\n",
+  "img": "01-geometry/e61fd69c-914a-46ab-a378-a56a2d24619d.webp"
+ },
+ {
+  "name": "Shellwood Big Room Left",
+  "img": "01-geometry/56cb9c20-4986-4bf8-81ff-d2acd1a93f40.webp"
+ },
+ {
+  "name": "Shellwood Connection To Blasted steps",
+  "img": "01-geometry/34414be5-9966-487d-83aa-7d741778f4ab.webp"
+ },
+ {
+  "name": "shellwood Far Left Tall Room",
+  "img": "01-geometry/f88c8ba8-212b-46ae-b707-c336893b25d9.webp"
+ },
+ {
+  "name": "Shellwood Flower Pogo Upper Hall",
+  "img": "01-geometry/f4bb7e8b-d1b1-4b5c-a2de-f19db4d96b28.webp"
+ },
+ {
+  "name": "Shellwood Greyroot Entrance",
+  "img": "01-geometry/a3a0718f-0620-4694-95cc-b11cae5a9983.webp"
+ },
+ {
+  "name": "Shellwood Left Side Long Pond Room",
+  "img": "01-geometry/5ee7abfd-ba6e-41fb-a279-6103cc5159b4.webp"
+ },
+ {
+  "name": "Shellwood Lower Left Tall Room",
+  "img": "01-geometry/695b91f7-3624-462f-a601-c818507adb5a.webp"
+ },
+ {
+  "name": "Shellwood Lower Toll bench",
+  "img": "01-geometry/333f6a96-06c4-4e5e-b5c2-a40daaddf0d7.webp"
+ },
+ {
+  "name": "Shellwood Mask Shard Room",
+  "img": "01-geometry/b480f45f-0e63-470e-bc22-4196bfd01c80.webp"
+ },
+ {
+  "name": "Shellwood Right Side Big room",
+  "img": "01-geometry/c98abdf6-97b2-4df6-bf68-29adc7000af6.webp"
+ },
+ {
+  "name": "shellwood Shakra",
+  "img": "01-geometry/2e266fd3-0988-4c6f-a2be-2928e91ce2a5.webp"
+ },
+ {
+  "name": "Shellwood Sister Splinter Bench",
+  "img": "01-geometry/dfe4942f-4d9f-4f45-bb7f-bb91567f42e3.webp"
+ },
+ {
+  "name": "Shellwood Top Room",
+  "img": "01-geometry/92e4b411-0464-4b85-bac3-4d9d8ae40eaa.webp"
+ },
+ {
+  "name": "Shellwood Upper Bellhart Entrance",
+  "img": "01-geometry/dce03446-e686-47e0-868d-131d55dab71a.webp"
+ },
+ {
+  "name": "Sister Splinter",
+  "img": "01-geometry/8455afba-3401-4254-9374-cf37d2216105.webp"
+ },
+ {
+  "name": "Bellhart Bellway",
+  "img": "01-geometry/4fbdfd88-9f6c-4880-974d-577c3b164c4f.webp"
+ },
+ {
+  "name": "Bellhart Hallway to Shellwood",
+  "img": "01-geometry/feeee28e-ebda-4001-a38f-409db8808abc.webp"
+ },
+ {
+  "name": "Bellhart Lower",
+  "img": "01-geometry/40119e28-1d30-4452-b289-12c8b505fd0d.webp"
+ },
+ {
+  "name": "Bellhart Right Entrance",
+  "img": "01-geometry/0db8aa29-48fa-4f92-b96b-ded98d1a270d.webp"
+ },
+ {
+  "name": "Belltown",
+  "img": "01-geometry/62edac7e-ec3f-4f05-a99c-f82d49b270e4.webp"
+ },
+ {
+  "name": "Upper Bellhart",
+  "img": "01-geometry/bb148972-9611-4247-804e-614a1d73f8bd.webp"
+ },
+ {
+  "name": "Widow Boss Fight",
+  "img": "01-geometry/032134c2-92d0-4c7f-a531-e71b4b48676c.webp"
+ },
+ {
+  "name": "Greymoor Bellshrine",
+  "img": "01-geometry/ee5316ed-a1c3-4985-aa2e-7dd5ae725729.webp"
+ },
+ {
+  "name": "Greymoor Craw Lake",
+  "img": "01-geometry/18314a1d-436b-455f-9991-fe014f8e6a4c.webp"
+ },
+ {
+  "name": "Greymoor Crow Nest",
+  "img": "01-geometry/a5474092-51d2-46a4-85aa-1a54d431ec21.webp"
+ },
+ {
+  "name": "Greymoor East Bellshrine Room",
+  "img": "01-geometry/c14ade81-d5e6-403d-84a5-2adadd5e43e1.webp"
+ },
+ {
+  "name": "Greymoor Eastern Tower",
+  "img": "01-geometry/b021cdb0-30ff-4ea1-91b3-bf344942d07a.webp"
+ },
+ {
+  "name": "Greymoor Lower Halfway Home Path",
+  "img": "01-geometry/bf133942-a6cd-467e-a3b7-66c29cb7a7ea.webp"
+ },
+ {
+  "name": "Greymoor Weaver Shrine",
+  "img": "01-geometry/46f96f64-794d-468d-8034-8de1b7500b1a.webp"
+ },
+ {
+  "name": "Greymoor Western Tower",
+  "img": "01-geometry/25fb324b-120f-440d-87bf-40a28ff70416.webp"
+ },
+ {
+  "name": "Yarnaby Place",
+  "img": "01-geometry/bde9412b-ed93-4b95-81a2-8875630bfa80.webp"
+ },
+ {
+  "name": "Greymoor Bellway",
+  "img": "01-geometry/36ef448c-df08-4572-b5ec-0cca8f8c63e3.webp"
+ },
+ {
+  "name": "Greymoor Bone Scroll Room",
+  "img": "01-geometry/3ae434b5-9d96-4c35-8fd8-d131f06d64d3.webp"
+ },
+ {
+  "name": "Greymoor Chapel of The Reaper Entrance",
+  "img": "01-geometry/9b660520-a037-46d4-9584-39fe81145bd8.webp"
+ },
+ {
+  "name": "Greymoor Craw Lake Entrance",
+  "img": "01-geometry/86683720-fa58-4885-a746-fd3e8cd52866.webp"
+ },
+ {
+  "name": "Greymoor Entry to Bellhart",
+  "img": "01-geometry/70d050ca-12cf-43d9-a0e5-0b5d6d824e45.webp"
+ },
+ {
+  "name": "Greymoor Halfway Home",
+  "img": "01-geometry/31b75b41-1c96-4daf-afe7-c0d26132ab71.webp"
+ },
+ {
+  "name": "Greymoor Halfway Home Exterior",
+  "img": "01-geometry/8eea16fa-bd7c-4b73-9bd1-cf6c70018efc.webp"
+ },
+ {
+  "name": "Greymoor Middle Passage",
+  "img": "01-geometry/50e60fb2-ea2c-4924-a18c-65d75b34790b.webp"
+ },
+ {
+  "name": "Greymoor Rat Tunnel",
+  "img": "01-geometry/b59078c1-75e1-4a8e-bee3-6959fdc39117.webp"
+ },
+ {
+  "name": "Greymoor Silver Shells room",
+  "img": "01-geometry/c355d518-9dc5-4ad4-a755-94eb3a080efe.webp"
+ },
+ {
+  "name": "Greymoor Towers Patio",
+  "img": "01-geometry/33c7a174-48ab-4f34-ad28-40c50cdd32ae.webp"
+ },
+ {
+  "name": "Greymoor Upper Halfway Home Path",
+  "img": "01-geometry/9e464f57-c0a0-4970-8420-05326f5cfba8.webp"
+ },
+ {
+  "name": "Greymoor Upper Towers Path",
+  "img": "01-geometry/902d22ce-5f25-486a-a254-ad7e5e420eb4.webp"
+ },
+ {
+  "name": "Greymoor West Bellshrine Room ",
+  "img": "01-geometry/aa005fde-640b-47bb-b03e-ae7556ed768e.webp"
+ },
+ {
+  "name": "Greymoor Western Room",
+  "img": "01-geometry/9a877d30-750e-4ee5-8b97-a978f5e1ff02.webp"
+ },
+ {
+  "name": "Blasted Steps Bellway",
+  "img": "01-geometry/b850f4e5-5de2-474e-9875-1607bdc4a171.webp"
+ },
+ {
+  "name": "Blasted Steps Grindle",
+  "img": "01-geometry/8232dd00-51e3-4c17-be1f-45f765439bec.webp"
+ },
+ {
+  "name": "Blasted Steps Horizontal Room with Two Sand Pits",
+  "img": "01-geometry/5f474404-3468-4af9-bd7a-abff829f322a.webp"
+ },
+ {
+  "name": "Blasted Steps Map Edge",
+  "img": "01-geometry/764c5c88-5276-4c8a-9786-fd456af98360.webp"
+ },
+ {
+  "name": "Blasted Steps Mask Shard",
+  "img": "01-geometry/696c6354-f068-4c60-b33b-c7afccc32668.webp"
+ },
+ {
+  "name": "Blasted Steps Shakra Room",
+  "img": "01-geometry/06036063-0f5d-4ebd-8071-d70ded9a20a3.webp"
+ },
+ {
+  "name": "Blasted Steps Thin Long Vertical",
+  "img": "01-geometry/0a04a658-2399-4f4c-89d9-4557fb1039d7.webp"
+ },
+ {
+  "name": "Blasted Steps Toll Bench Bottom",
+  "img": "01-geometry/aba8ff31-6cc1-4b23-8948-95b2f428aadd.webp"
+ },
+ {
+  "name": "Blasted Steps Wide Long Vertical",
+  "img": "01-geometry/a8ca0996-f760-443b-93e5-76bfe531f94a.webp"
+ },
+ {
+  "name": "Great Conchflies",
+  "img": "01-geometry/838362f6-ce41-4ef0-bae6-ab7fb2a0eb1b.webp"
+ },
+ {
+  "name": "Horizontal Room with Sand Pit",
+  "img": "01-geometry/d6164b19-38a6-4e1d-8d4a-cbcd132319fa.webp"
+ },
+ {
+  "name": "Last Judge Arena",
+  "img": "01-geometry/3b5cdb27-4c4e-4c37-9f96-250eaa2f78d0.webp"
+ },
+ {
+  "name": "Lumble the Lucky",
+  "img": "01-geometry/523cd404-f410-42f7-9346-130e1e7d9eeb.webp"
+ },
+ {
+  "name": "Windy Pinstress Room",
+  "img": "01-geometry/946271d1-d81c-4ce9-af86-4a2767941c97.webp"
+ },
+ {
+  "name": "Pre Last Judge Room",
+  "img": "01-geometry/2fdb65f2-c8dd-4c81-9c51-8d44422930f0.webp"
+ },
+ {
+  "name": "Windy Pinstress Entrance",
+  "img": "01-geometry/d9f2fc5d-69c2-4d29-9bdd-1c77632b69e3.webp"
+ },
+ {
+  "name": "Grand Gate Courtroom",
+  "img": "01-geometry/205b19ef-859b-41a8-b288-2bbc789e5423.webp"
+ },
+ {
+  "name": "Grand Elevator",
+  "img": "01-geometry/7375a001-b243-45a8-a047-8167aa5ba637.webp"
+ },
+ {
+  "name": "Entrance to Nyleth",
+  "img": "01-geometry/78e0cbf3-c06d-461a-9394-2d1ec0a689ff.webp"
+ },
+ {
+  "name": "Shrine Guardian Seth",
+  "img": "01-geometry/15dd7027-4faa-4c7f-80db-9e33da3bef3a.webp"
+ },
+ {
+  "name": "Nyleth Shrine",
+  "img": "01-geometry/27f90db3-eb94-4ef5-be4e-580b13062b2f.webp"
+ },
+ {
+  "name": "Sinner's Road Bench",
+  "img": "01-geometry/6e297976-41e3-4350-ade1-b3beeac4a184.webp"
+ },
+ {
+  "name": "Sinner's Road Chef's Kitchen",
+  "img": "01-geometry/10ce58ca-cf64-4de8-927f-159659cae28f.webp"
+ },
+ {
+  "name": "Sinner's Road Entrance",
+  "img": "01-geometry/fb40fff0-e4a7-4c52-9c64-95016b7e44a3.webp"
+ },
+ {
+  "name": "Sinner's Road Flea Rescue",
+  "img": "01-geometry/df817510-da31-4ce4-b749-5e6d17f91b2a.webp"
+ },
+ {
+  "name": "Sinner's Road Hanging Cages",
+  "img": "01-geometry/1576eb44-6cff-4525-95af-c8bd033d01cb.webp"
+ },
+ {
+  "name": "Sinner's Road Muckroach Cages",
+  "img": "01-geometry/82899b06-fcfa-45ad-b81e-9ee40b10f00a.webp"
+ },
+ {
+  "name": "Sinner's Road North Hall",
+  "img": "01-geometry/7ef623f1-3755-402f-9197-f70cd95cd451.webp"
+ },
+ {
+  "name": "Sinner's Road Spike Basement",
+  "img": "01-geometry/8e42a2d9-4f82-4d50-a5fb-3f5f38db5d06.webp"
+ },
+ {
+  "name": "Sinner's Road Styx Room",
+  "img": "01-geometry/de3c00ef-0d95-42c2-8ff8-29aef85bc1aa.webp"
+ },
+ {
+  "name": "Sinner's Road Vertical Hall East",
+  "img": "01-geometry/08b6629d-b15b-4cb3-b667-6d2fdc3b8a55.webp"
+ },
+ {
+  "name": "Sinner's Road Vertical Hall West",
+  "img": "01-geometry/0d7960ea-441a-4971-a16f-1e5fa4852133.webp"
+ },
+ {
+  "name": "Vaults & Bellway Cauldron Entrance",
+  "img": "01-geometry/0851a174-cea4-44bb-8608-4a491042e6d6.webp"
+ },
+ {
+  "name": "Chapel of the Architect",
+  "img": "01-geometry/4344b962-3cb4-4bd8-9843-088ed849ac1c.webp"
+ },
+ {
+  "name": "Underworks Below Vaultkeeper",
+  "img": "01-geometry/85be8340-46a4-4758-b6bd-8a75249311dc.webp"
+ },
+ {
+  "name": "Underworks Clawline Entrance",
+  "img": "01-geometry/5c5108c9-3384-4b90-8f5b-d013eccd8559.webp"
+ },
+ {
+  "name": "Underworks Clawline Room",
+  "img": "01-geometry/1425bf66-8966-4840-88fa-c5a64f6dba95.webp"
+ },
+ {
+  "name": "Underworks Craftmetal Corridor",
+  "img": "01-geometry/24de5596-0d92-4c8a-85e1-5ce31b375e4d.webp"
+ },
+ {
+  "name": "Underworks East Shaft",
+  "img": "01-geometry/6a23b234-d7aa-4968-a58a-e6edc58b7a62.webp"
+ },
+ {
+  "name": "Underworks Eastern Gauntlet",
+  "img": "01-geometry/c470f2fc-7801-4a61-a9a4-cb4f8d6574fd.webp"
+ },
+ {
+  "name": "Underworks Exhaust Organ Transit",
+  "img": "01-geometry/7655e543-ac2b-4b37-b391-b1e0b5d2efbb.webp"
+ },
+ {
+  "name": "Underworks Flea Room",
+  "img": "01-geometry/8b2fa996-d0e3-459a-a4f5-38a8da715eb2.webp"
+ },
+ {
+  "name": "Underworks Lava Flow Corridor",
+  "img": "01-geometry/ab585ec1-7052-469a-95ad-4f35be09e680.webp"
+ },
+ {
+  "name": "Underworks Lever Spike Corridor",
+  "img": "01-geometry/184bb958-69b3-4bff-bf73-dcc7af6ece7b.webp"
+ },
+ {
+  "name": "Underworks Rosary Room",
+  "img": "01-geometry/2ac6d1c9-0886-4c21-8eab-f071926902ce.webp"
+ },
+ {
+  "name": "Underworks Silk Spool",
+  "img": "01-geometry/631516fa-63b8-4137-9adb-ead265f5f24a.webp"
+ },
+ {
+  "name": "Underworks Twelfth Architect",
+  "img": "01-geometry/c9e666cd-9f03-4a30-8086-2345d6146874.webp"
+ },
+ {
+  "name": "Underworks Ventrica",
+  "img": "01-geometry/14d786f1-cd3e-43e0-87b6-5a086bc80e46.webp"
+ },
+ {
+  "name": "Broken Elevator",
+  "img": "01-geometry/2fa1668d-4beb-4b52-8ad4-b41f1c7b8fa1.webp"
+ },
+ {
+  "name": "Confession Toll",
+  "img": "01-geometry/b0206180-8fb3-4e19-8f81-a68b322b8307.webp"
+ },
+ {
+  "name": "Underworks Below Confession",
+  "img": "01-geometry/e24fbed4-19c7-4d78-b0ce-6ecb43f249be.webp"
+ },
+ {
+  "name": "Underworks Map Room",
+  "img": "01-geometry/2614ab6d-01de-44bc-bfb2-c622197e4c32.webp"
+ },
+ {
+  "name": "Underworks Outside Choral Chambers",
+  "img": "01-geometry/a0c1d39a-cf5d-4cf0-b04c-412f222b5deb.webp"
+ },
+ {
+  "name": "Underworks Shaft",
+  "img": "01-geometry/d2f694df-0716-4293-a3ca-99bddc00cb8e.webp"
+ },
+ {
+  "name": "Underworks Central Shaft",
+  "img": "01-geometry/ba0b89c9-5508-4349-bbfb-2255c199d52e.webp"
+ },
+ {
+  "name": "Underworks Delver's Drill",
+  "img": "01-geometry/5cec439a-ac65-4d73-8769-0d37e3e80442.webp"
+ },
+ {
+  "name": "Underworks Saw Intro",
+  "img": "01-geometry/fb94774a-79f4-4e3c-ac2f-1254be20430a.webp"
+ },
+ {
+  "name": "Underworks Saw Shaft",
+  "img": "01-geometry/b499f7a2-49ed-4749-8a17-9d52411897fa.webp"
+ },
+ {
+  "name": "Underworks Shard Room",
+  "img": "01-geometry/b43b39ac-35c0-4311-9812-cd6ef24b24c9.webp"
+ },
+ {
+  "name": "Underworks Wisp Thicket Passage",
+  "img": "01-geometry/866ffb82-cff1-430a-bb33-3de4e3e76f9f.webp"
+ },
+ {
+  "name": "High Halls Entrance",
+  "img": "01-geometry/bfc874ce-e4ae-488b-a178-82d33b589b5b.webp"
+ },
+ {
+  "name": "Songclave",
+  "img": "01-geometry/22203700-80e1-499d-a188-8d64a8091a81.webp"
+ },
+ {
+  "name": "Choral Chambers Spa",
+  "img": "01-geometry/eff09b58-aab8-4093-bdb5-9d87e6f98653.webp"
+ },
+ {
+  "name": "Choral Chambers Outside Spa",
+  "img": "01-geometry/0a492c2a-2045-4021-a279-e8b881841c11.webp"
+ },
+ {
+  "name": "High Halls Corridor",
+  "img": "01-geometry/1a3cd976-c5ad-4df4-a5d8-ad9246428216.webp"
+ },
+ {
+  "name": "Choral Chambers Over Dininig",
+  "img": "01-geometry/6d8fb266-f747-40eb-8434-242f5cc6d31f.webp"
+ },
+ {
+  "name": "Choral Chambers Eastern Shaft",
+  "img": "01-geometry/db6ca02e-3867-460f-a106-29dd19064c28.webp"
+ },
+ {
+  "name": "Choral Chambers Merchant Room",
+  "img": "01-geometry/f55b0d82-7bea-47a1-babc-2a1993c65cff.webp"
+ },
+ {
+  "name": "Songclave Tube",
+  "img": "01-geometry/a3436584-9f7a-4f2a-8e51-e9b15942dc9e.webp"
+ },
+ {
+  "name": "Memorium Entrance Tunnel",
+  "img": "01-geometry/aae4b7ae-f565-4955-b510-cfe2f08bfa1b.webp"
+ },
+ {
+  "name": "Grand Bellway",
+  "img": "01-geometry/57316a91-fdbb-43f7-b244-5906cd7dce63.webp"
+ },
+ {
+  "name": "Cog Dancers",
+  "img": "01-geometry/03fecc52-6713-4999-b9eb-5b0c2610a67e.webp"
+ },
+ {
+  "name": "Cogwork Core Architect's Melody",
+  "img": "01-geometry/e50fa1df-a2de-4978-8885-1b9088f86362.webp"
+ },
+ {
+  "name": "Cogwork Core Architect's Melody (Act 3)",
+  "img": "01-geometry/d25ad294-9eee-4b47-9cc0-17a7f56248fa.webp"
+ },
+ {
+  "name": "Cogwork Core Bench & Map",
+  "img": "01-geometry/214220b9-8ee1-4650-8d08-8245a6d8993b.webp"
+ },
+ {
+  "name": "Cogwork Core Breakable Walls",
+  "img": "01-geometry/5d243fea-c6c9-47aa-8e0a-5fbc685316c4.webp"
+ },
+ {
+  "name": "Cogwork Core East Choral Entrance",
+  "img": "01-geometry/65d49423-8b8a-43a5-87cb-e530f9213213.webp"
+ },
+ {
+  "name": "Cogwork Core East Silk Spool & Gauntlet",
+  "img": "01-geometry/cbf31989-81d0-4643-9d0b-07a5ea65dad1.webp"
+ },
+ {
+  "name": "Cogwork Core Main Connection",
+  "img": "01-geometry/d57d0573-04e1-4e71-ae8b-e8c586db173c.webp"
+ },
+ {
+  "name": "Cogwork Core North Main",
+  "img": "01-geometry/d82962c2-5f32-44ee-be9c-8e1c472e0a13.webp"
+ },
+ {
+  "name": "Cogwork Core Second Sentinel",
+  "img": "01-geometry/8e1543e1-dc3a-4695-ad33-3efcf4f36518.webp"
+ },
+ {
+  "name": "Cogwork Core South Main",
+  "img": "01-geometry/6e78bad2-f580-4b34-829b-b59358806cbb.webp"
+ },
+ {
+  "name": "Cogwork Core West Gauntlet",
+  "img": "01-geometry/0023bd8c-8516-4e5f-aed6-3931d34dde19.webp"
+ },
+ {
+  "name": "Vaultkeeper Cauldron Entrance",
+  "img": "01-geometry/8444106d-8adf-49c6-b356-ad2400709a30.webp"
+ },
+ {
+  "name": "Whispering Vaults Below Bench",
+  "img": "01-geometry/323505ec-a7dc-436f-89a1-3368d82c6cd9.webp"
+ },
+ {
+  "name": "Whispering Vaults Bench",
+  "img": "01-geometry/2f828f35-e9e5-4a32-8985-bbad35ecf224.webp"
+ },
+ {
+  "name": "Whispering Vaults East To West",
+  "img": "01-geometry/9e77f521-cc1c-403b-983b-89a08c3d3c8d.webp"
+ },
+ {
+  "name": "Whispering Vaults Flea Shaft",
+  "img": "01-geometry/0f5966b9-bdc1-4f7b-8036-90c914ec387f.webp"
+ },
+ {
+  "name": "Whispering Vaults Hell",
+  "img": "01-geometry/bc73a28d-ecf5-4e22-8f31-354a9f11538c.webp"
+ },
+ {
+  "name": "Whispering Vaults Jumps",
+  "img": "01-geometry/2f173cf3-5b9b-4fb2-9854-0adf623b76c1.webp"
+ },
+ {
+  "name": "Whispering Vaults Totally Not White Palace",
+  "img": "01-geometry/0e287a4b-75c3-450d-b1a3-9394616b9046.webp"
+ },
+ {
+  "name": "Whispering Vaults Silkeater",
+  "img": "01-geometry/3df82375-1070-42df-ae54-9216c964974f.webp"
+ },
+ {
+  "name": "Grand Bellway Library",
+  "img": "01-geometry/cc80ef22-3b5a-4e2f-8acc-762f15b9e556.webp"
+ },
+ {
+  "name": "Songclave Steam Tunnel",
+  "img": "01-geometry/fa7a7480-9a65-4f63-b5dd-60c8b7a2aedc.webp"
+ },
+ {
+  "name": "Trobbio",
+  "img": "01-geometry/a93a27dc-dd85-4b9f-b322-7955d1922b67.webp"
+ },
+ {
+  "name": "Trobbio Entrance",
+  "img": "01-geometry/097777d8-1214-410f-b778-53eb5e900b37.webp"
+ },
+ {
+  "name": "Whispering Vaults Music Box",
+  "img": "01-geometry/6ce5acee-62b0-444d-872f-87a52da7abc9.webp"
+ },
+ {
+  "name": "Whiteward Entrance",
+  "img": "01-geometry/0eb82c90-2aca-449c-8d2f-3bfe5ffbc633.webp"
+ },
+ {
+  "name": "Whiteward Descent Connection",
+  "img": "01-geometry/4e888a21-a803-4e64-bfa5-1f4e495e2196.webp"
+ },
+ {
+  "name": "Whiteward Descent",
+  "img": "01-geometry/52233db0-f712-461f-bb8b-dca305331714.webp"
+ },
+ {
+  "name": "Whiteward Junk Dump",
+  "img": "01-geometry/6c667509-1f59-418e-8888-a97904e8a873.webp"
+ },
+ {
+  "name": "Whiteward Long Horizontal",
+  "img": "01-geometry/c405f716-eb4f-489c-be2c-b70de1c5b397.webp"
+ },
+ {
+  "name": "Whiteward Unravelled Arena Room",
+  "img": "01-geometry/c4122b5c-ccd0-4a86-88b4-7de0cf4dde45.webp"
+ },
+ {
+  "name": "Whiteward Tunnel Room",
+  "img": "01-geometry/254b728b-3fd1-4cbe-a586-bd9f6c29023f.webp"
+ },
+ {
+  "name": "High Halls Small Slide",
+  "img": "01-geometry/bb387c38-447d-4079-84d4-074092d95679.webp"
+ },
+ {
+  "name": "High Halls Shaft Top",
+  "img": "01-geometry/608cc2ce-e00d-4a79-91c4-ac2e963c9755.webp"
+ },
+ {
+  "name": "High Halls Shaft Bottom",
+  "img": "01-geometry/f8a1f36c-d7d1-42b9-9d85-2d4c3294fa17.webp"
+ },
+ {
+  "name": "High Halls Big Slide",
+  "img": "01-geometry/5a253816-b61d-455f-aae9-84405e22a334.webp"
+ },
+ {
+  "name": "High Halls Big Shaft",
+  "img": "01-geometry/69346cc0-51c8-4a52-abb6-074d66d45a05.webp"
+ },
+ {
+  "name": "High Halls Flooded Room",
+  "img": "01-geometry/163bd943-fbcf-4c36-a890-a03ef45e5935.webp"
+ },
+ {
+  "name": "High Halls Cogfly Room",
+  "img": "01-geometry/015f1bb2-672f-4c05-ad83-94a43342d8c5.webp"
+ },
+ {
+  "name": "High Halls Baby Room",
+  "img": "01-geometry/89fe1df3-f19a-4fbc-ba48-7978713abc52.webp"
+ },
+ {
+  "name": "High Halls Vault",
+  "img": "01-geometry/10419f8e-1c44-4505-b67f-2ea8edc1a9fc.webp"
+ },
+ {
+  "name": "High Halls Ventrica",
+  "img": "01-geometry/a73b3cc9-f1b6-467e-a55a-240da7033f18.webp"
+ },
+ {
+  "name": "High Halls Arena",
+  "img": "01-geometry/c6409264-61a6-4040-ba80-a8bf79d6d85b.webp"
+ },
+ {
+  "name": "High Halls Sentinel Graveyard",
+  "img": "01-geometry/738907f7-5c16-415f-8b41-698f78a1cc2c.webp"
+ },
+ {
+  "name": "Bilewater Arena Shack",
+  "img": "01-geometry/d67cb58b-4bf7-4b0c-b37c-3ef8c6a570c5.webp"
+ },
+ {
+  "name": "Bilewater Bellway",
+  "img": "01-geometry/cb80bc26-78a9-482c-b95b-11bc91fe9157.webp"
+ },
+ {
+  "name": "Bilewater Bullshit Bench",
+  "img": "01-geometry/67c4c84d-798c-443b-8da7-42ae3f37de2b.webp"
+ },
+ {
+  "name": "Bilewater East Column",
+  "img": "01-geometry/f75f6e4b-0511-40b4-886b-c68e51cc25bf.webp"
+ },
+ {
+  "name": "Bilewater Groal Arena",
+  "img": "01-geometry/009ea94e-0688-4c46-8348-8b6c744e662e.webp"
+ },
+ {
+  "name": "Bilewater Hanging Corpse Room",
+  "img": "01-geometry/7ab4bc58-b7b5-40c3-92f2-ee6351ce8bdb.webp"
+ },
+ {
+  "name": "Bilewater Lower Bloatroach Tower",
+  "img": "01-geometry/5ce62cf1-4bfa-4e93-babf-1ebec11305df.webp"
+ },
+ {
+  "name": "Bilewater Lower East Hall",
+  "img": "01-geometry/4ddb456c-6ffc-4d0b-958b-247609f193db.webp"
+ },
+ {
+  "name": "Bilewater Lower East Hall Secret",
+  "img": "01-geometry/4c232677-5256-48b8-a485-36a3f9ddc63c.webp"
+ },
+ {
+  "name": "Bilewater Lower Trap Gauntlet Hall",
+  "img": "01-geometry/2fd461cf-e5fc-4158-bb6a-4aec971f8e22.webp"
+ },
+ {
+  "name": "Bilewater Mothleaf Hall",
+  "img": "01-geometry/6eb0189e-e760-4ce1-8f8b-09ca82683fc5.webp"
+ },
+ {
+  "name": "Bilewater Northeast Tiny Room",
+  "img": "01-geometry/eea2275c-b3e9-4fa9-bb4e-d527c43c55e3.webp"
+ },
+ {
+  "name": "Bilewater Organ Entrance",
+  "img": "01-geometry/5fb4e6dc-4fb1-4f24-97f3-c3bc53945591.webp"
+ },
+ {
+  "name": "Bilewater Shakra Room",
+  "img": "01-geometry/89f04b05-0933-48b4-a10f-e94fc49827de.webp"
+ },
+ {
+  "name": "Bilewater Sinner's Entrance",
+  "img": "01-geometry/b6dc4bd1-c350-44a7-8368-b575a2ed8df8.webp"
+ },
+ {
+  "name": "Bilewater Slubberlug River",
+  "img": "01-geometry/93f74414-5ff4-4f8f-9007-301994e08202.webp"
+ },
+ {
+  "name": "Bilewater Spike Ball Ceiling Trap Room",
+  "img": "01-geometry/5d64603a-ccbe-422c-b62d-13942e0e8889.webp"
+ },
+ {
+  "name": "Bilewater Upper Bloatroach Tower",
+  "img": "01-geometry/f734bb3a-06a6-4278-9709-7a198968e6a7.webp"
+ },
+ {
+  "name": "Bilewater Upper East Column",
+  "img": "01-geometry/689f5406-d415-440e-a463-c756960c937a.webp"
+ },
+ {
+  "name": "Bilewater Upper West Column",
+  "img": "01-geometry/d5681224-7aa7-4869-baf1-3ad248b6e616.webp"
+ },
+ {
+  "name": "Bilewater Vertical Sac Pogo Room",
+  "img": "01-geometry/4651fca9-31ab-49fb-acb7-b75dfcb217a7.webp"
+ },
+ {
+  "name": "Bilewater Weavenest Murglin",
+  "img": "01-geometry/59bd01fa-5d9e-4f2e-a880-7be4b78b0166.webp"
+ },
+ {
+  "name": "Bilewater West Hall",
+  "img": "01-geometry/c6c3493b-afa5-45bf-be09-f5ac9b9f23da.webp"
+ },
+ {
+  "name": "Bilewater West Secret Rooms",
+  "img": "01-geometry/a05de982-e438-4c71-a604-1ab6b88339f1.webp"
+ },
+ {
+  "name": "Exhaust Organ Exterior",
+  "img": "01-geometry/c5555aed-7feb-475e-b31f-65347ca185e6.webp"
+ },
+ {
+  "name": "Exhaust Organ Interior",
+  "img": "01-geometry/78f4fdba-9b72-4a9f-acb7-5b2b33652783.webp"
+ },
+ {
+  "name": "BEEG flea",
+  "img": "01-geometry/a4da652f-9607-445b-a0db-e7c30ad40e0c.webp"
+ },
+ {
+  "name": "Memorium bench",
+  "img": "01-geometry/c837412d-1e99-49f8-8833-c3677803abcd.webp"
+ },
+ {
+  "name": "Memorium Karak",
+  "img": "01-geometry/54bdac08-cbc7-495b-8e48-b3fca4bab8b5.webp"
+ },
+ {
+  "name": "Memorium Mossy",
+  "img": "01-geometry/a936eaee-431a-4cca-9908-09fbc92892be.webp"
+ },
+ {
+  "name": "Memorium puzzle",
+  "img": "01-geometry/e6a36e12-4434-450d-a154-b295dc80ad1d.webp"
+ },
+ {
+  "name": "Memorium Rhino Room",
+  "img": "01-geometry/b2d40eec-c234-4791-b34d-fc058c68e621.webp"
+ },
+ {
+  "name": "Memorium Start Shaft",
+  "img": "01-geometry/9587b67c-f0b0-4848-b7a4-5142e9e0f9c8.webp"
+ },
+ {
+  "name": "Memorium Ventrica",
+  "img": "01-geometry/9c1b7f40-e4fe-4232-a2af-06b056f09ea6.webp"
+ },
+ {
+  "name": "Memorium Voltnest",
+  "img": "01-geometry/b44f3921-2e11-4f1f-8cde-9daf6cd728aa.webp"
+ },
+ {
+  "name": "Memorium water room",
+  "img": "01-geometry/d7eb652c-1764-41c0-9dda-98574eeb8896.webp"
+ },
+ {
+  "name": "Seed Shooty Memorium",
+  "img": "01-geometry/2ec3db9b-1276-40f5-a23f-43aaefb2f507.webp"
+ },
+ {
+  "name": "Shopkeeper Hides",
+  "img": "01-geometry/2aac6be4-84d6-4b96-a011-232f7f73ed18.webp"
+ },
+ {
+  "name": "Coral Tower",
+  "img": "01-geometry/1c5e9155-a421-4831-ad3b-e1279f9fe927.webp"
+ },
+ {
+  "name": "Coral Tower Entrance",
+  "img": "01-geometry/fcfea10f-3d5f-4da9-b12d-3c6fa26f8e01.webp"
+ },
+ {
+  "name": "Sands of Karak Bellshrine",
+  "img": "01-geometry/a5cfb1f7-5c90-48a1-9d7c-72caf7a501b1.webp"
+ },
+ {
+  "name": "Sands of Karak Entrance",
+  "img": "01-geometry/3c74440a-2605-4038-b7cd-9377bbe1c570.webp"
+ },
+ {
+  "name": "Sands of Karak Lower Left Long Room",
+  "img": "01-geometry/fd6b9a48-863e-4a6a-b92c-cfaa7d195b21.webp"
+ },
+ {
+  "name": "Sands of Karak Lower Right Long Room",
+  "img": "01-geometry/68bf558a-5d45-411a-9c69-bc12f1789505.webp"
+ },
+ {
+  "name": "Sands of Karak Right Side Tall room",
+  "img": "01-geometry/fd94c69b-0b93-4e9e-bf6e-c12e48c55d6e.webp"
+ },
+ {
+  "name": "Sands of Karak Tall Centre Room",
+  "img": "01-geometry/fb066c88-5baa-4cd5-8234-70637518a90d.webp"
+ },
+ {
+  "name": "Sands of Karak Upper Left Long Room",
+  "img": "01-geometry/824f73f3-e920-4757-834d-058b58ab8c78.webp"
+ },
+ {
+  "name": "Sands of Karak Upper Right Long Room",
+  "img": "01-geometry/c7c5dd8c-d5f8-4bb3-9962-1073409b7b26.webp"
+ },
+ {
+  "name": "Sands of Shakra",
+  "img": "01-geometry/0300ddb1-2c3f-40a9-b4db-f9203974fc42.webp"
+ },
+ {
+  "name": "Watcher at the Edge",
+  "img": "01-geometry/1258db2a-f923-4735-8c35-68d346b10992.webp"
+ },
+ {
+  "name": "Voltnest",
+  "img": "01-geometry/15f51dc2-e60f-4fb3-bb64-cae69fae43a6.webp"
+ },
+ {
+  "name": "Slab Chilly Top",
+  "img": "01-geometry/84bc3519-edf7-4e3e-8041-e844fe75d272.webp"
+ },
+ {
+  "name": "Slab Entrance",
+  "img": "01-geometry/c1271c3d-bbf6-436e-abc1-101b46e04e3e.webp"
+ },
+ {
+  "name": "Slab Infleatween Top",
+  "img": "01-geometry/89a3eac6-f430-44d9-b3e8-b604ca4daba5.webp"
+ },
+ {
+  "name": "Slab Prelude",
+  "img": "01-geometry/35e00f7b-7f92-4e1c-ad2c-bb5f268a446b.webp"
+ },
+ {
+  "name": "Slab Quiet Cell",
+  "img": "01-geometry/2ebc0ead-3032-47d7-bc0a-32cb0b0355cc.webp"
+ },
+ {
+  "name": "Slab Secret Side Room",
+  "img": "01-geometry/20e25bf2-26a7-4d88-b4ac-9ed8f9b857be.webp"
+ },
+ {
+  "name": "Mount Fay Entrance",
+  "img": "01-geometry/eb6aaa0c-e6fb-442d-93b4-1240a8a48a9b.webp"
+ },
+ {
+  "name": "Brightvein",
+  "img": "01-geometry/befa2061-6747-4c50-8660-561a8e427c5a.webp"
+ },
+ {
+  "name": "Brightvein Entrance",
+  "img": "01-geometry/bc985e92-5d06-4e3a-bc49-380ce5b5500d.webp"
+ },
+ {
+  "name": "FayForn",
+  "img": "01-geometry/fab46c75-e952-4da6-8d3b-9af16e829dca.webp"
+ },
+ {
+  "name": "Mask Maker",
+  "img": "01-geometry/610a16dd-987d-4d50-9057-79ad38c24c6b.webp"
+ },
+ {
+  "name": "Mask Maker Passage",
+  "img": "01-geometry/3a587e03-be79-461a-9841-f8a8bd251026.webp"
+ },
+ {
+  "name": "Mount Fay Bench Toll",
+  "img": "01-geometry/d86e0311-f2fd-43a9-8d5d-411b8b9fdf76.webp"
+ },
+ {
+  "name": "Mount Fay Frozen Flea",
+  "img": "01-geometry/df467765-f041-4fd1-b4ce-4f6ce44d6179.webp"
+ },
+ {
+  "name": "Mount Fay Ice Lake Platforming Room",
+  "img": "01-geometry/d1407df4-a034-4da4-b55f-b517786e59e3.webp"
+ },
+ {
+  "name": "Mount Fay Large Servitor Hallway",
+  "img": "01-geometry/a3deb0b6-fa7c-450e-99c1-a47513c46c8f.webp"
+ },
+ {
+  "name": "Mount Fay Lore Room",
+  "img": "01-geometry/6aacaa92-a5ab-4803-bcff-5d6a469ce64e.webp"
+ },
+ {
+  "name": "Mount Fay Lower Slope",
+  "img": "01-geometry/24c2b211-ad66-448e-817a-dd559c6eda91.webp"
+ },
+ {
+  "name": "Mount Fay Magnetite Outcropping",
+  "img": "01-geometry/eeb9ec89-7080-417e-9764-28d1c6bda4a5.webp"
+ },
+ {
+  "name": "Mount Fay Mask Shard",
+  "img": "01-geometry/8caec539-1af2-4cd6-9fd4-e92022fdecbb.webp"
+ },
+ {
+  "name": "Mount Fay Peak Bench",
+  "img": "01-geometry/a29cab54-a538-40dc-a3de-32716a37b9c6.webp"
+ },
+ {
+  "name": "Mount Fay Right Side Middle Room",
+  "img": "01-geometry/fe5da999-8cc9-4c4e-b966-4f951ff09cd4.webp"
+ },
+ {
+  "name": "Mount Fay Shakra",
+  "img": "01-geometry/5824406c-fd6e-47a4-a795-3e1b85169107.webp"
+ },
+ {
+  "name": "Mount Fay Upper Slope",
+  "img": "01-geometry/ff1f7cbc-23d6-4cf2-ba17-ecc08a6712e9.webp"
+ },
+ {
+  "name": "Fleatopia",
+  "img": "01-geometry/0a17580d-f70f-4d97-a439-1701aca67723.webp"
+ },
+ {
+  "name": "Huntress",
+  "img": "01-geometry/4f58cf78-e891-4789-a610-2e2ead12f321.webp"
+ },
+ {
+  "name": "Putrified Ducts Bellway",
+  "img": "01-geometry/3710c659-596b-4b53-be90-dd3fe5705d74.webp"
+ },
+ {
+  "name": "Putrified Ducts Connection To Bilewater",
+  "img": "01-geometry/8ab7a881-ca03-4fc2-a0d9-76d7f26421de.webp"
+ },
+ {
+  "name": "Putrified Ducts Entrance",
+  "img": "01-geometry/13600b7c-34a1-4708-a9a6-496a00646342.webp"
+ },
+ {
+  "name": "Putrified Ducts Lower Bridge Room",
+  "img": "01-geometry/2fa4ed90-986a-434d-be45-c78194822888.webp"
+ },
+ {
+  "name": "Putrified Ducts Map Room",
+  "img": "01-geometry/d5e6fb26-add8-4dd5-9ffd-367195ddd7e5.webp"
+ },
+ {
+  "name": "Putrified Ducts Path To Vog",
+  "img": "01-geometry/771b9bdb-6bbc-4298-97f7-571e1ba2659b.webp"
+ },
+ {
+  "name": "Putrified Ducts Rosary Room",
+  "img": "01-geometry/81b5a742-344d-4216-b8e7-7d9ade2ad13f.webp"
+ },
+ {
+  "name": "Putrified Ducts Tall Room",
+  "img": "01-geometry/c96cf740-a8a6-463f-9220-bb593e121e47.webp"
+ },
+ {
+  "name": "ACT3 Connection To GMS",
+  "img": "01-geometry/472cafdb-18f7-4efc-967a-1dcb75ac3216.webp"
+ },
+ {
+  "name": "ACT3 GMS Arena",
+  "img": "01-geometry/ae052636-de56-44dd-a4d2-6033e62b19c2.webp"
+ },
+ {
+  "name": "ACT3 Lace2 Arena",
+  "img": "01-geometry/2a69b6e3-d53a-4824-b990-76b434052004.webp"
+ },
+ {
+  "name": "ACT2 GMS Arena",
+  "img": "01-geometry/2e0f996f-5606-4d8b-95fe-e4a7dfb7c454.webp"
+ },
+ {
+  "name": "Act2 Cradle Connector Hallway",
+  "img": "01-geometry/a841731d-70f2-46eb-bfb5-4f608be16a2c.webp"
+ },
+ {
+  "name": "Act2 Cradle Left Shaft",
+  "img": "01-geometry/12fe7814-32c9-473a-8e5e-0cb33b05d8a9.webp"
+ },
+ {
+  "name": "Terminus Ventrica",
+  "img": "01-geometry/01be65c9-b456-4203-b870-3e026f9d53ae.webp"
+ },
+ {
+  "name": "Cradle Path Of Pain First Room",
+  "img": "01-geometry/1a06351f-a821-4c08-9f24-49edd7eda43b.webp"
+ },
+ {
+  "name": "Path Of Pain Silksong",
+  "img": "01-geometry/16f507bb-1d29-448c-b920-5e1500494724.webp"
+ },
+ {
+  "name": "Abyss Bottom Left Lore Room",
+  "img": "01-geometry/ce8e217b-4e99-4f9c-a0d6-3c0123977b13.webp"
+ },
+ {
+  "name": "Abyss Collapsing Hallway",
+  "img": "01-geometry/1b528c7e-5f4c-412b-9883-a729920f99ff.webp"
+ },
+ {
+  "name": "Abyss Escape",
+  "img": "01-geometry/fc42071a-7c4f-45b2-8119-d8068b07c444.webp"
+ },
+ {
+  "name": "Abyss Escape Hallway",
+  "img": "01-geometry/120d81e8-e6d8-44a5-abe0-ffbc1f1f70c0.webp"
+ },
+ {
+  "name": "Abyss Final Bench",
+  "img": "01-geometry/6f4af52c-a3a5-4960-8f26-6729746f42fa.webp"
+ },
+ {
+  "name": "Abyss Hallway To Upper Big Room",
+  "img": "01-geometry/ca1fe766-3687-40f9-8ee1-f7b54dc2696d.webp"
+ },
+ {
+  "name": "Abyss Landing Zone",
+  "img": "01-geometry/526c2bb4-1a05-4f2a-a2ad-8b50beae8fd5.webp"
+ },
+ {
+  "name": "Abyss Lower Big Room",
+  "img": "01-geometry/aa3091f2-7558-414b-9657-5a6fe11ace87.webp"
+ },
+ {
+  "name": "Abyss Tall Room",
+  "img": "01-geometry/217b76f3-c884-414e-b692-0380cdd1f854.webp"
+ },
+ {
+  "name": "Abyss Upper Big Room",
+  "img": "01-geometry/6ac3dd65-6f75-4dc5-be3d-6c8f8da0494a.webp"
+ },
+ {
+  "name": "Arcane Egg Room",
+  "img": "01-geometry/a2e4f248-383d-4655-88f7-cfd0151f343c.webp"
+ },
+ {
+  "name": "Weavenest Absolom",
+  "img": "01-geometry/3afd9f81-4057-412b-998a-74f5bd59dcbd.webp"
+ }
+]
