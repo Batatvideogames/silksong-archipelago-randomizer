@@ -6,6 +6,7 @@ from .eva import EVA_POINT_SOURCES
 from copy import deepcopy
 import random
 from collections import Counter, deque
+from typing import ClassVar, Union, Any
 
 from BaseClasses import (
     CollectionState,
@@ -19,6 +20,7 @@ from Options import OptionError
 from rule_builder.rules import Has
 from worlds.AutoWorld import WebWorld, World
 from rule_builder.cached_world import CachedRuleBuilderWorld
+from settings import FilePath, Group
 
 from .act1_scope import (
     ACT_ONE_GOAL_KEY,
@@ -162,6 +164,7 @@ from .verdania_scope import (
     ACT_THREE_GOAL_KEY,
     VERDANIA_LOCATION_NAMES,
 )
+from .tracker.mapping import ut_page_index
 
 __version__ = WORLD_VERSION
 
@@ -176,6 +179,13 @@ TRACKER_OPTION_NAMES = tuple(
     name for name in SilksongOptions.__annotations__
     if name not in {"starting_crest", "vog_area_hints", "trap_percentage", "wish_plando", *TRAP_ITEM_NAME_BY_WEIGHT_OPTION}
 ) + ("start_inventory", "exclude_locations")
+
+class SilksongSettings(Group):
+    class UTPackPath(FilePath):
+        required = False
+        ut_dialog_name = "Select Data Pack"
+
+    ut_pack_path: Union[str,UTPackPath] = UTPackPath()
 
 
 class SilksongWebWorld(WebWorld):
@@ -203,12 +213,22 @@ class SilksongWorld(CachedRuleBuilderWorld):
     web = SilksongWebWorld()
     options_dataclass = SilksongOptions
     options: SilksongOptions
+    settings: ClassVar[SilksongSettings]
 
     item_name_to_id = item_table
     from .enemy_souls import CATALOGUE as _enemy_catalogue
     location_name_to_id = {**location_table, **{'First Kill: ' + row['name']: row['location_id'] for row in _enemy_catalogue}}
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
+
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "external_pack_key": "ut_pack_path",
+        "map_page_folder": "tracker",
+        "map_page_maps":"maps.json",
+        "map_page_locations":"locations.json",
+        "map_page_index": ut_page_index,
+        "map_page_setting_key": "Silksong:CurrentRoom:{team}:{player}"
+    }
 
     required_client_version = (0, 6, 0)
     _resolved_content_scope: str | None = None
@@ -276,26 +296,28 @@ class SilksongWorld(CachedRuleBuilderWorld):
     @staticmethod
     def _tracker_silk_and_soul_points(slot_data):
         from .options import SilkAndSoulPoints
+        from worlds.tracker import TrackerException
         points = slot_data.get("silk_and_soul_points", SilkAndSoulPoints.default)
         if type(points) is not int or not SilkAndSoulPoints.range_start <= points <= SilkAndSoulPoints.range_end:
-            raise ValueError("Invalid Silk and Soul point total in slot data.")
+            raise TrackerException(message="Invalid Silk and Soul point total in slot data.")
         return points
 
     @staticmethod
     def _tracker_native_sources(slot_data):
         if "native_source_mask" not in slot_data:
             return None
+        from worlds.tracker import TrackerException
         encoded = slot_data["native_source_mask"]
         offset = min(location_table.values())
         width = max(location_table.values()) - offset + 1
         if (not isinstance(encoded, str) or not encoded or len(encoded) > (width + 3) // 4
                 or any(char not in "0123456789abcdef" for char in encoded)):
-            raise ValueError("Invalid fixed item sources in slot data.")
+            raise TrackerException(message="Invalid fixed item sources in slot data.")
         mask = int(encoded, 16)
         sources = frozenset(name for name, code in location_table.items()
                             if mask & (1 << (code - offset)))
         if mask.bit_count() != len(sources):
-            raise ValueError("Unknown fixed item source in slot data.")
+            raise TrackerException(message="Unknown fixed item source in slot data.")
         return sources
 
     def _native_source_mask(self):
@@ -308,8 +330,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .map_logic_data import load_base
         from .entrance_randomization import validate_pairs
 
+        from worlds.tracker import TrackerException
+
         if slot_data.get("logic_base") != load_base()[0]:
-            raise ValueError("Tracker map logic does not match this seed. Use the matching APWorld.")
+            raise TrackerException(message="Tracker map logic does not match this seed. Use the matching APWorld.")
         slot_data = dict(slot_data)
         slot_data.setdefault("start_inventory_from_pool", {})
         slot_data.setdefault("npc_souls", False)
@@ -320,30 +344,31 @@ class SilksongWorld(CachedRuleBuilderWorld):
         validate_enemy_souls(slot_data)
         silk_logic = slot_data.setdefault('enemy_soul_silk_logic', 0)
         if type(silk_logic) is not int or silk_logic not in (0, 1) or (silk_logic and not slot_data['enemy_souls']):
-            raise ValueError('Invalid Enemy Souls silk logic version.')
+            raise TrackerException(message='Invalid Enemy Souls silk logic version.')
         slot_data.setdefault("boss_souls", False)
         from .boss_souls import validate_slot_data
         validate_slot_data(slot_data)
         missing = set(TRACKER_OPTION_NAMES) - slot_data.keys()
         if missing:
-            raise ValueError(f"Tracker slot data is missing options: {', '.join(sorted(missing))}.")
+            raise TrackerException(message=f"Tracker slot data is missing options: {', '.join(sorted(missing))}.")
         option_types = SilksongOptions.type_hints
         for name in TRACKER_OPTION_NAMES:
-            option_types[name].from_any(deepcopy(slot_data[name]))
+            if name in slot_data:
+                option_types[name].from_any(deepcopy(slot_data[name]))
         from .progression_shuffle import Assignments, SUPPORTED_WISH_IDS, SUPPORTED_BOSS_IDS
         assignment_data = slot_data.get("progression_shuffle")
         if not isinstance(assignment_data, dict):
-            raise ValueError("Tracker slot data is missing progression assignments.")
+            raise TrackerException(message="Tracker slot data is missing progression assignments.")
         wish_ids = frozenset(assignment_data.get("wishes", {}))
         if not wish_ids.issubset(SUPPORTED_WISH_IDS):
-            raise ValueError("Unknown shuffled wish identity.")
+            raise TrackerException(message="Unknown shuffled wish identity.")
         wish_mode = option_types["wish_sanity"].from_any(slot_data["wish_sanity"])
         boss_mode = option_types["boss_sanity"].from_any(slot_data["boss_sanity"])
         if bool(wish_ids) != (wish_mode.value != wish_mode.option_vanilla):
-            raise ValueError("Wish Sanity setting does not match its assignments.")
+            raise TrackerException(message="Wish Sanity setting does not match its assignments.")
         boss_ids = frozenset(assignment_data.get("bosses", {}))
         if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_vanilla):
-            raise ValueError("Boss Sanity setting does not match its assignments.")
+            raise TrackerException(message="Boss Sanity setting does not match its assignments.")
         Assignments.from_slot_data(assignment_data, wish_ids, boss_ids)
         SilksongWorld._tracker_native_sources(slot_data)
         SilksongWorld._tracker_silk_and_soul_points(slot_data)
@@ -358,11 +383,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         else:
             valid_scopes = {ACT_TWO_GOAL_KEY if goal == CURSED_ENDING_GOAL_KEY else goal}
         if slot_data.get("content_scope") not in valid_scopes:
-            raise ValueError("Invalid content scope in slot data.")
+            raise TrackerException(message="Invalid content scope in slot data.")
         if slot_data["starting_crest"] not in STARTING_CREST_ITEM_BY_KEY:
-            raise ValueError("Invalid starting crest in slot data.")
+            raise TrackerException(message="Invalid starting crest in slot data.")
         if (slot_data["starting_crest"] == "naked") != bool(option_types["force_naked"].from_any(slot_data["force_naked"])):
-            raise ValueError("Force Naked does not match the starting crest in slot data.")
+            raise TrackerException(message="Force Naked does not match the starting crest in slot data.")
         if slot_data["entrance_randomization"] == "coupled":
             validate_pairs(
                 slot_data.get("entrance_pairs"), slot_data["entrance_randomization_scope"],
@@ -370,11 +395,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
             )
         count = slot_data.get("crest_slot_memory_locket_count")
         if type(count) is not int or not 0 <= count <= len(CREST_SLOT_LOCATION_NAMES):
-            raise ValueError("Invalid Crest Slot Locket requirement in slot data.")
+            raise TrackerException(message="Invalid Crest Slot Locket requirement in slot data.")
         for name in ("purchase_prices", "trap_counts"):
             values = slot_data.get(name)
             if not isinstance(values, dict) or any(type(value) is not int or value < 0 for value in values.values()):
-                raise ValueError(f"Invalid {name} in slot data.")
+                raise TrackerException(message=f"Invalid {name} in slot data.")
         return slot_data
 
     def resolve_starting_crest(self) -> str:
@@ -390,7 +415,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             )
         )
         if configured_crest not in STARTING_CREST_ITEM_BY_KEY:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown Silksong starting crest option: "
                 f"{configured_crest!r}"
             )
@@ -401,7 +426,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_starting_location_key(self) -> str:
         key = self.options.starting_location.current_key
         if key not in {"vanilla", "bone_bottom"}:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown Silksong starting location: {key!r}"
             )
         return key
@@ -758,7 +783,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             <= count
             <= MAX_FLEA_HUNT_GOAL_COUNT
         ):
-            raise ValueError(
+            raise OptionError(
                 "flea_hunt_count must be between "
                 f"{MIN_FLEA_HUNT_GOAL_COUNT} and "
                 f"{MAX_FLEA_HUNT_GOAL_COUNT} but received {count!r}."
@@ -791,7 +816,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "bell_beast_required",
             "randomized_stations",
         }:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown Bellway access mode: {key!r}"
             )
         return key
@@ -807,7 +832,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_check_map_markers_key(self) -> str:
         key = self.options.check_map_markers.current_key
         if key not in {"off", "mapped_rooms", "owned_maps", "all"}:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown check map marker mode: {key!r}"
             )
         return key
@@ -845,7 +870,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_enemy_rosary_multiplier_key(self) -> str:
         key = self.options.enemy_rosary_multiplier.current_key
         if key not in {"x1", "x1_5", "x2", "x3", "x5", "x10"}:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown enemy Rosary multiplier: {key!r}"
             )
         return key
@@ -853,7 +878,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_enemy_shard_multiplier_key(self) -> str:
         key = self.options.enemy_shard_multiplier.current_key
         if key not in {"x1", "x1_5", "x2", "x3", "x5", "x10"}:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown enemy Shell Shard multiplier: {key!r}"
             )
         return key
@@ -863,7 +888,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         for category, option_name in PRICE_CATEGORY_OPTION_NAMES.items():
             key = getattr(self.options, option_name).current_key
             if key not in PRICE_MODE_KEYS:
-                raise ValueError(
+                raise OptionError(
                     f"Unknown {option_name} mode: {key!r}"
                 )
             modes[category] = key
@@ -896,7 +921,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_death_link_cocoon_key(self) -> str:
         key = self.options.death_link_cocoon.current_key
         if key not in {"vanilla", "cocoonless", "cocoon"}:
-            raise ValueError(
+            raise OptionError(
                 f"Unknown Death Link cocoon mode: {key!r}"
             )
         return key
@@ -942,7 +967,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         try:
             family_key = MINOR_FAMILY_BY_LOCATION[location_name]
         except KeyError as exc:
-            raise ValueError(
+            raise OptionError(
                 f"No minor pickup family for {location_name!r}."
             ) from exc
         return self.get_minor_family_modes()[family_key]
