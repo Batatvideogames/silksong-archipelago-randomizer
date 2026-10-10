@@ -397,6 +397,11 @@ COMPILED_ROOM_GRAPH = replace(
 )
 
 _quest_item_clauses = {
+    'Loddie - Heavy Rosary Necklace': (CompiledRoomClause(all_of=(
+        room_node_name('the-marrow/the-marrow-jail#ground-floor'),
+        room_event_name('event:mapper/bb722371-5624-4a76-b335-a989e6677a1b'),
+        'Event: Widow Defeated',
+    )),),
     'Maiden Soul': (CompiledRoomClause(all_of=(
         room_node_name('bone-bottom/bone-bottom-town#ground-level'),
         'Event: Silk and Soul Offered',
@@ -416,6 +421,7 @@ _quest_item_clauses = {
     )),),
 }
 _quest_item_nodes = {
+    'Loddie - Heavy Rosary Necklace': 'the-marrow/the-marrow-jail#ground-floor',
     'Maiden Soul': 'bone-bottom/bone-bottom-town#ground-level',
     'Hermit Soul': 'bellhart/bellhart-lower#hermit',
     'Seeker Soul': 'bilewater/bilewater-arena-shack#room',
@@ -1473,6 +1479,13 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     )
     for name, clauses in COMPILED_ROOM_GRAPH.check_requirements.items()
 }
+
+
+ROOM_CHECK_REQUIREMENTS['Volt Filament'] = tuple(
+    replace(source, all_of=(*source.all_of,
+        room_event_name('event:mapper/c245a3a8-e4da-44e6-96bf-329e94ea8298')))
+    for source in ROOM_CHECK_REQUIREMENTS['Volt Filament']
+)
 
 
 ABYSS_ESCAPED_EVENT = 'Event: Abyss Escaped'
@@ -4499,12 +4512,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
 
     # WISHES
-    # QuestSanity checks use their modeled routes. Three Wishes may hold
-    # progression. The rest remain junk-only or LogicUnknown while cargo,
-    # counters or mode-specific state are not represented.
-    # Pinmaster's Oil needs the first Needle upgrade and any one Pale Oil.
-    # The Wish check is disabled when Needle upgrades themselves are shuffled,
-    # so these are the three vanilla source routes rather than AP item counts.
+    # The story needs these even when there's no item to send.
     ('Quest Completion: A Pinsmiths Tools', area(
         2,
         'Bellhart - Bellhart',
@@ -4823,8 +4831,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Ancestral Art: Cling Grip',
     )),
 
-    # Learned-song sources. Their rewards can be kept vanilla, shuffled only
-    # among songs or mixed into the unrestricted pool.
+    # Learned-song sources.
     ("Architect's Melody", area(
         2,
         'Outlying Citadel - Cogwork Core',

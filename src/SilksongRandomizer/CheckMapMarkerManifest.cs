@@ -97,6 +97,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Tool Unlock: Wisp Lantern", "Belltown_08", 54.55f, 11.31f, 115f, 47f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Harpoon", "Belltown_Room_shellwood", 37.023f, 7.07f, 55f, 26f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Straight Pin", "Bone_12", 41.13f, 27.81f, 58f, 43f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition(MinorPickupManifest.LoddieNecklace, "Bone_12", 23.02f, 4.70f, 58f, 43f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Pouch: Loddie", "Bone_12", 23.02f, 4.70f, 58f, 43f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Bone Necklace", "Bone_17", 12.701f, 6.477f, 35f, 25f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Flintstone", "Dock_02b", 26.57f, 103.541954f, 94f, 120f, MapMarkerPositionConfidence.ExactUpstream),

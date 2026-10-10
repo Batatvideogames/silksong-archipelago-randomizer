@@ -26,7 +26,7 @@ namespace SilksongRandomizer.Patches
 
         internal const string KrattItemName = "Flea (Kratt)";
         internal const string VogItemName = "Flea (Vog)";
-        internal const string HugeFleaItemName = "Flea (Big Flea)";
+        internal const string HugeFleaItemName = "Flea (Huge Flea)";
 
         internal const string KrattLocationName = "Flea: Greymoor - Kratt";
         internal const string VogLocationName = "Flea: Putrified Ducts - Vog";

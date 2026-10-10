@@ -13,6 +13,22 @@ namespace SilksongRandomizer.Patches
 {
     internal static class BossSoulPatches
     {
+        [HarmonyPatch(typeof(CrankPlat), "Awake")]
+        private static class CradleCrank
+        {
+            private static void Postfix(CrankPlat __instance, Transform ___crank, bool ___isComplete)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || ___isComplete || ___crank == null ||
+                    __instance.gameObject.scene.name != "Cradle_03" ||
+                    !BossSoulState.IsMissing(SaveState.Instance, "Boss: Grand Mother Silk")) return;
+                Transform hub = __instance.transform.Find("art/nut");
+                if (hub == null) return;
+                Vector3 position = ___crank.position;
+                position.z = Mathf.Min(position.z, hub.position.z - 0.01f);
+                ___crank.position = position;
+            }
+        }
+
         internal static readonly Dictionary<string, string> Battles = Index("battles");
         private static readonly Dictionary<string, string> Actors = Index("actors");
         private static readonly Dictionary<string, string> States = StateIndex();
@@ -174,8 +190,13 @@ namespace SilksongRandomizer.Patches
         internal static bool CanInteract(Transform transform)
         {
             for (Transform current = transform; current != null; current = current.parent)
-                if (Actors.TryGetValue(current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current), out string boss) &&
+            {
+                string scene = current.gameObject.scene.name;
+                string path = Utils.GetHierarchyPath(current);
+                if (!CanUseReceptacle(scene, path, SaveState.Instance)) return false;
+                if (Actors.TryGetValue(scene + "|" + path, out string boss) &&
                     BossSoulState.IsMissing(SaveState.Instance, boss)) return false;
+            }
             return true;
         }
 
@@ -206,6 +227,10 @@ namespace SilksongRandomizer.Patches
                 !BossSoulState.IsMissing(state, boss)) && EnemySoulPatches.CanEnterState(scene, path, fsm, stateName, state) &&
                 NpcSoulState.CanEnterState(scene, path, fsm, stateName, state);
         }
+
+        internal static bool CanUseReceptacle(string scene, string path, SaveState state) =>
+            scene != "Ward_02" || path != "Boss Scene Parent/ward_slide_hatch/lock_machine" ||
+            CanEnterState("ward_02_boss", "Boss Scene", "Control", "Idle", state);
 
         [HarmonyPatch(typeof(BattleScene), nameof(BattleScene.StartBattle))]
         private static class StartBattle

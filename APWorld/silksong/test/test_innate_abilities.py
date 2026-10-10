@@ -16,7 +16,7 @@ from ..items import (
 )
 from ..minor_families import (
     MINOR_FAMILY_KEYS,
-    get_minor_family_shuffle_category,
+    get_minor_family_category,
 )
 from ..options import (
     CATEGORY_OPTION_BY_LOCATION_CATEGORY,
@@ -55,7 +55,7 @@ class TestInnateAbilityPool(TestCase):
             for category in CATEGORY_OPTION_BY_LOCATION_CATEGORY
         }
         minor_categories = {
-            family_key: get_minor_family_shuffle_category(family_key)
+            family_key: get_minor_family_category(family_key)
             for family_key in MINOR_FAMILY_KEYS
         }
         return {
@@ -63,7 +63,6 @@ class TestInnateAbilityPool(TestCase):
             "trap_counts": {},
             "split_dash_and_sprint": False,
             "category_modes": category_modes,
-            "minor_shuffle_category_by_family": minor_categories,
         }
 
     def test_options_default_off_without_changing_default_graph(self) -> None:
@@ -128,9 +127,6 @@ class TestInnateAbilityPool(TestCase):
         baseline = build_item_pool_entries(**arguments)
         baseline_capacity = get_dynamic_trap_capacity(
             arguments["category_modes"],
-            minor_shuffle_category_by_family=(
-                arguments["minor_shuffle_category_by_family"]
-            ),
         )
 
         for ledge_grab, swim, expected_items in ABILITY_CASES:
@@ -176,11 +172,6 @@ class TestInnateAbilityPool(TestCase):
                 self.assertEqual(
                     get_dynamic_trap_capacity(
                         arguments["category_modes"],
-                        minor_shuffle_category_by_family=(
-                            arguments[
-                                "minor_shuffle_category_by_family"
-                            ]
-                        ),
                         randomize_ledge_grab=ledge_grab,
                         randomize_swim=swim,
                     ),

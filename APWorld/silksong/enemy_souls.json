@@ -4909,6 +4909,16 @@
     "entrances": [],
     "black_thread_only_rooms": [
       "deep-docks/deep-docks-spire-lower"
+    ],
+    "actors": [
+      {
+        "scene": "bone_01",
+        "path": "Battle Scene/ActiveBeforeBattle/Fake Flyers/Bone Flyer"
+      },
+      {
+        "scene": "bone_01",
+        "path": "Battle Scene/ActiveBeforeBattle/Fake Flyers/Bone Flyer (1)"
+      }
     ]
   },
   {
@@ -5083,7 +5093,12 @@
     ],
     "entrances": [],
     "events": [
-      "Room Event: event:mapper/reviewed:roach-guts-collected"
+      "Room Event: event:mapper/reviewed:roach-guts-collected",
+      "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+      "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+    ],
+    "locations": [
+      "Wish: Queen's Egg"
     ]
   },
   {
@@ -6817,6 +6832,9 @@
     "black_thread_only_rooms": [
       "bone-bottom/bone-bottom-town",
       "far-fields/far-fields-pilgrims-rest-shop"
+    ],
+    "locations": [
+      "Flea: Bilewater - Thieves"
     ]
   },
   {
@@ -7384,7 +7402,13 @@
     "battles": [],
     "states": [],
     "entrances": [],
-    "scripted_death": true
+    "scripted_death": true,
+    "locations": [
+      "Putrified Ducts - Map Pickup"
+    ],
+    "connections": [
+      "putrified-ducts/putrified-ducts-path-to-vog#main>top@va"
+    ]
   },
   {
     "name": "Swamp Squit",

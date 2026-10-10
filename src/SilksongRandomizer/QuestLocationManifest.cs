@@ -31,7 +31,6 @@ namespace SilksongRandomizer
 
         internal static readonly QuestLocationDefinition[] QuestLocations =
         {
-            new QuestLocationDefinition("A Pinsmiths Tools"),
             // Restoration of Bellhart and Bellhart's Glory are two distinct
             // donations with separate QuestCompletionData records.
             new QuestLocationDefinition("Belltown House Start"),
@@ -49,16 +48,12 @@ namespace SilksongRandomizer
             new QuestLocationDefinition("Extractor Blue Worms"),
             new QuestLocationDefinition("Fine Pins"),
             new QuestLocationDefinition("Garmond Black Threaded"),
-            new QuestLocationDefinition("Great Gourmand"),
-            new QuestLocationDefinition("Journal"),
             new QuestLocationDefinition("Mr Mushroom"),
             new QuestLocationDefinition("Pilgrim Rags"),
-            new QuestLocationDefinition("Rock Rollers"),
             new QuestLocationDefinition("Save City Merchant"),
             new QuestLocationDefinition("Save City Merchant Bridge"),
             new QuestLocationDefinition("Save Courier Short"),
             new QuestLocationDefinition("Save Courier Tall"),
-            new QuestLocationDefinition("Save Sherma"),
             new QuestLocationDefinition("Shiny Bell Goomba"),
             new QuestLocationDefinition("Skull King"),
             new QuestLocationDefinition("Song Pilgrim Cloaks"),
@@ -67,7 +62,6 @@ namespace SilksongRandomizer
             new QuestLocationDefinition("Steel Sentinel Pt2"),
             new QuestLocationDefinition("Song Knight"),
             new QuestLocationDefinition("Tormented Trobbio"),
-            new QuestLocationDefinition("Pinstress Battle"),
         };
 
         private static readonly Dictionary<string, string>
@@ -120,7 +114,7 @@ namespace SilksongRandomizer
                 string assetName = quest.AssetName;
                 locations.Add(new Location(
                     quest.LocationName,
-                    ItemType.Quest,
+                    GetRewardType(assetName),
                     () => IsQuestCompleted(assetName)
                 ));
             }
@@ -189,10 +183,25 @@ namespace SilksongRandomizer
             return false;
         }
 
+        internal static ItemType GetRewardType(string assetName)
+        {
+            switch (assetName)
+            {
+                case "Fine Pins":
+                case "Pilgrim Rags":
+                case "Shiny Bell Goomba":
+                case "Skull King":
+                case "Song Pilgrim Cloaks":
+                    return ItemType.Resource;
+                default:
+                    return ItemType.Quest;
+            }
+        }
+
         internal static bool IsQuestCompleted(string assetName)
         {
             SaveState state = SaveState.Instance;
-            if (state == null || !state.IsRandomized(ItemType.Quest) ||
+            if (state == null || !state.IsRandomized(GetRewardType(assetName)) ||
                 string.IsNullOrWhiteSpace(assetName))
             {
                 return false;

@@ -489,7 +489,7 @@ namespace SilksongRandomizer
             {
                 case "Flea: Greymoor - Kratt": return "Flea (Kratt)";
                 case "Flea: Putrified Ducts - Vog": return "Flea (Vog)";
-                case "Flea: Memorium - Huge Flea": return "Flea (Big Flea)";
+                case "Flea: Memorium - Huge Flea": return "Flea (Huge Flea)";
             }
             return name.StartsWith("Flea: ", StringComparison.Ordinal) ? "Flea" : name;
         }
@@ -714,7 +714,7 @@ namespace SilksongRandomizer
             new Item("Flea", ItemType.Flea, null, true),
             new Item("Flea (Kratt)", ItemType.Flea, ItemGrants.GrantKrattFlea),
             new Item("Flea (Vog)", ItemType.Flea, ItemGrants.GrantVogFlea),
-            new Item("Flea (Big Flea)", ItemType.Flea, ItemGrants.GrantHugeFlea),
+            new Item("Flea (Huge Flea)", ItemType.Flea, ItemGrants.GrantHugeFlea),
 
             // Crest Slots
             new Item("Crest Slot: Hunter (Red 1)", ItemType.CrestSlot, null),

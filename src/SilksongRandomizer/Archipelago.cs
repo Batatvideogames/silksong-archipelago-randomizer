@@ -2648,7 +2648,7 @@ namespace SilksongRandomizer
             LoginSuccessful login
         )
         {
-            const string key = "check_map_markers";
+            const string key = "location_map_markers";
             string value = GetRequiredStringSlotData(login, key);
             switch (value)
             {

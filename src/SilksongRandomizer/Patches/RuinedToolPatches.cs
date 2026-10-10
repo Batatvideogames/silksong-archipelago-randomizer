@@ -291,12 +291,20 @@ namespace SilksongRandomizer.Patches
         private static class OriginalRepairOwnershipGatePatch
         {
             [HarmonyPrefix]
-            private static void Prefix(CollectableItemGetData __instance)
+            private static bool Prefix(CollectableItemGetData __instance)
             {
-                if (MatchesOriginalRepairOwnershipGate(__instance))
+                if (!MatchesOriginalRepairOwnershipGate(__instance)) return true;
+                SaveState state = SaveState.Instance;
+                const string location = "Tool Unlock: WebShot Weaver";
+                if (state != null && state.IsRandomized(ItemType.Tool) &&
+                    state.IsLocationInSeed(location) && state.IsLocationChecked(location))
                 {
-                    TryReconcileReceivedOwnership();
+                    __instance.Fsm.Event(__instance.NotCollected);
+                    __instance.Finish();
+                    return false;
                 }
+                TryReconcileReceivedOwnership();
+                return true;
             }
         }
 

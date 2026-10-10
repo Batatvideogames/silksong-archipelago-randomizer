@@ -253,6 +253,11 @@ namespace SilksongRandomizer.Patches
                     "Shellwood Twig Wall (1)/Terrain/CameraLockArea (14)"
                 }.Select(Find).ToArray();
             }
+            else if (scene == "Ward_02b")
+            {
+                covers = new[] { Find("Remasker New") };
+                locks = new[] { Find("ward_junk_pile_break 1/junk_wall_break_pile/CameraLockArea Junk1") };
+            }
             else if (scene == "Arborium_06")
             {
                 covers = Array.Empty<GameObject>();
@@ -1367,6 +1372,9 @@ namespace SilksongRandomizer.Patches
                     if (gate == "right1" || gate == "right2" || gate == "left1" || gate == "bot1")
                         __instance.StartCoroutine(RevealSideEntry(scene, gate));
                 }
+
+                if (IsRoomBoundScene(__instance, "Ward_02b") && __instance.GetEntryGateName() == "right1")
+                    __instance.StartCoroutine(RevealSideEntry("Ward_02b", "right1"));
 
                 if (IsRoomBoundScene(__instance, "Bone_16") && __instance.GetEntryGateName() == "top1")
                     __instance.StartCoroutine(RevealSideEntry("Bone_16", "top1"));

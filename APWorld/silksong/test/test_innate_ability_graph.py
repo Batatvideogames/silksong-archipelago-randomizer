@@ -1,405 +1,132 @@
 from unittest import TestCase
 
+from BaseClasses import CollectionState
+from test.general import setup_multiworld
+
+from .. import SilksongWorld
+from ..requirement_rules import build_requirements_rule
 from ..requirements import (
-    INNATE_CAPABILITY_REQUIREMENTS,
-    LEDGE_GRAB_CAPABILITY_REQUIREMENT,
-    PATH_REQUIREMENTS,
-    RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS,
-    SWIM_CAPABILITY_REQUIREMENT,
-    _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES,
-    get_abstract_requirements,
-    req,
+    INNATE_CAPABILITY_REQUIREMENTS, RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS,
+    LEDGE_GRAB_CAPABILITY_REQUIREMENT, SWIM_CAPABILITY_REQUIREMENT,
+    PATH_REQUIREMENTS, _compiled_room_clause_requirement, get_abstract_requirements,
 )
-from ..room_graph import LogicStatus, RequirementMode, load_room_graph
-from ..room_graph_logic import (
-    CompiledRoomClause,
-    _EXTERNAL_BOUNDARY_SEEDS,
-    room_node_name,
-)
-
-
-def clause(
-    *all_of: str,
-    skip_tier: int = 0,
-) -> CompiledRoomClause:
-    return CompiledRoomClause(
-        all_of=all_of,
-        minimum_skip_tier=skip_tier,
-    )
+from ..room_graph import LogicStatus, load_room_graph
+from ..room_graph_logic import _compile_spec, compile_room_graph
 
 
 class TestInnateAbilityGraphRows(TestCase):
     @classmethod
-    def setUpClass(cls) -> None:
+    def setUpClass(cls):
         cls.graph = load_room_graph()
+        cls.multiworld = setup_multiworld(SilksongWorld, steps=(), seed=12345)
+        cls.world = cls.multiworld.worlds[1]
 
-    def assert_active_dnf(
-        self,
-        row,
-        expected: tuple[tuple[str, ...], ...],
-    ) -> None:
+    def permits(self, row, items=(), **options):
         self.assertEqual(row.status, LogicStatus.ACTIVE)
-        self.assertEqual(row.requirement.mode, RequirementMode.EXPRESSION)
-        self.assertEqual(row.requirement.dnf, expected)
+        rule = build_requirements_rule(tuple(
+            _compiled_room_clause_requirement(clause)
+            for clause in _compile_spec(row.requirement)
+        ), randomized_crest_slots_enabled=False, **options).resolve(self.world)
+        state = CollectionState(self.multiworld)
+        for name in ("Crest: Hunter", *items):
+            state.collect(self.world.create_item(name), True)
+        return rule(state)
 
-    def test_craw_entrance_lower_right_dnf(self) -> None:
-        row = self.graph.transition_by_id[
-            "greymoor/greymoor-craw-lake-entrance@lr"
-        ]
-        self.assert_active_dnf(
-            row,
-            (
-                ("capability:swim",),
-                ("option:skips-moderate",),
-                ("item:flea-brew", "option:skips-easy"),
-                ("macro:progressive-swift-step-first",),
-                ("item:clawline",),
-                ("item:sharpdart",),
-                ("item:drifters-cloak",),
-                ("item:faydown-cloak",),
-            ),
-        )
+    def test_station_climb_uses_innate_or_received_ledge_grab(self):
+        row = self.graph.connection_by_id[
+            "greymoor/greymoor-bellway#bellway-zone>upper-entrance@pg1"]
+        self.assertTrue(self.permits(row))
+        self.assertFalse(self.permits(row, randomize_ledge_grab=True))
+        for item in ("Ledge Grab", "Cling Grip", "Faydown Cloak"):
+            with self.subTest(item=item):
+                self.assertTrue(self.permits(row, (item,), randomize_ledge_grab=True))
+        self.assertFalse(self.permits(row, ("Drifter's Cloak",), randomize_ledge_grab=True))
 
-    def test_west_bellshrine_top_left_dnf(self) -> None:
-        row = self.graph.transition_by_id[
-            "greymoor/greymoor-west-bellshrine-room@tl"
-        ]
-        self.assert_active_dnf(
-            row,
-            (
-                ("capability:ledge-grab",),
-                ("item:cling-grip",),
-                ("item:faydown-cloak",),
-                ("macro:usable-scuttlebrace", "option:skips-moderate"),
-                (
-                    "macro:progressive-swift-step-first",
-                    "item:clawline",
-                ),
-                ("item:sharpdart",),
-                ("item:silk-soar",),
-            ),
-        )
+    def test_craw_entrance_swim_is_innate_unless_randomized(self):
+        row = self.graph.transition_by_id["greymoor/greymoor-craw-lake-entrance@lr"]
+        self.assertTrue(self.permits(row))
+        self.assertFalse(self.permits(row, randomize_swim=True))
+        self.assertTrue(self.permits(row, ("Swim",), randomize_swim=True))
 
-    def test_bellhart_ledge_routes_are_never_free(self) -> None:
-        row_ids = (
-            "bellhart/belltown-basement@c",
-            "bellhart/belltown#ground-level>upper-level@pl",
-            "bellhart/belltown-basement-03#hermit>top-exit@pl",
-            (
-                "bellhart/belltown-basement-03"
-                "#lower-passage-2>passage-below-rosary@wp"
-            ),
-            (
-                "bellhart/belltown-basement-03"
-                "#passage-below-rosary>lower-passage-2@wp"
-            ),
-            "bellhart/belltown-04#lower-exits>lower-big-room@ts",
-            "bellhart/belltown-04#lower-big-room>lower-exits@ts",
-        )
-        rows = {
-            **self.graph.transition_by_id,
-            **self.graph.connection_by_id,
-        }
-        for row_id in row_ids:
-            with self.subTest(row_id=row_id):
-                row = rows[row_id]
-                self.assertEqual(row.status, LogicStatus.ACTIVE)
-                self.assertNotIn((), row.requirement.dnf)
-                self.assertTrue(any(
-                    "capability:ledge-grab" in clause
-                    for clause in row.requirement.dnf
-                ))
+    def test_west_bellshrine_sharpdart_keeps_its_dash_conjunction(self):
+        row = self.graph.transition_by_id["greymoor/greymoor-west-bellshrine-room@tl"]
+        clauses = row.requirement.dnf
+        self.assertIn(("capability:ledge-grab",), clauses)
+        sharpdart = [clause for clause in clauses if "item:sharpdart" in clause]
+        self.assertTrue(sharpdart)
+        self.assertTrue(all("macro:progressive-swift-step-first" in clause for clause in sharpdart))
+        self.assertIn(("mapper:enemy-pogo:none",), clauses)
+        self.assertNotIn((), clauses)
 
-    def test_upper_halfway_tall_platform_dnf_both_directions(
-        self,
-    ) -> None:
+    def test_bellhart_climb_and_return_keep_separate_requirements(self):
+        climb = self.graph.connection_by_id["bellhart/bellhart-lower#hermit>top-exit@pl"]
+        fall = self.graph.connection_by_id["bellhart/bellhart-lower#top-exit>hermit@pl"]
+        self.assertFalse(self.permits(climb, randomize_ledge_grab=True))
+        self.assertTrue(self.permits(climb, ("Ledge Grab",), randomize_ledge_grab=True))
+        self.assertTrue(self.permits(fall, randomize_ledge_grab=True))
+
+    def test_halfway_path_keeps_directional_requirements(self):
         forward = self.graph.connection_by_id[
-            "greymoor/greymoor-upper-halfway-home-path"
-            "#left-section>right-section@tp"
-        ]
+            "greymoor/greymoor-upper-halfway-home-path#left-section>right-section@tp"]
         reverse = self.graph.connection_by_id[
-            "greymoor/greymoor-upper-halfway-home-path"
-            "#right-section>left-section@tp"
-        ]
-        self.assert_active_dnf(
-            forward,
-            (
-                ("capability:swim",),
-                ("item:faydown-cloak",),
-                ("macro:usable-scuttlebrace", "option:skips-moderate"),
-                ("option:skips-moderate",),
-                ("option:skips-easy", "capability:ledge-grab"),
-                ("option:skips-easy", "item:cling-grip"),
-                (
-                    "item:flea-brew",
-                    "option:skips-easy",
-                    "capability:ledge-grab",
-                ),
-                (
-                    "item:flea-brew",
-                    "option:skips-easy",
-                    "item:cling-grip",
-                ),
-                ("item:clawline",),
-                ("macro:progressive-swift-step-first",),
-                ("item:sharpdart",),
-                ("item:beast-crest", "option:skips-easy"),
-                ("item:hunter-crest", "option:skips-easy"),
-                ("item:reaper-crest", "option:skips-easy"),
-                ("item:witch-crest", "option:skips-easy"),
-                ("item:architect-crest", "option:skips-easy"),
-                ("item:shaman-crest", "option:skips-easy"),
-            ),
-        )
-        self.assert_active_dnf(
-            reverse,
-            (
-                ("capability:swim",),
-                ("item:faydown-cloak",),
-                ("macro:usable-scuttlebrace", "option:skips-moderate"),
-                ("option:skips-moderate",),
-                ("option:skips-easy", "item:cling-grip"),
-                ("option:skips-easy", "capability:ledge-grab"),
-                (
-                    "item:cling-grip",
-                    "macro:progressive-swift-step-first",
-                ),
-                ("item:cling-grip", "item:clawline"),
-                ("item:cling-grip", "item:sharpdart"),
-                ("item:silk-soar", "item:clawline"),
-                ("item:silk-soar", "macro:progressive-swift-step-full"),
-                ("item:silk-soar", "item:sharpdart"),
-            ),
-        )
+            "greymoor/greymoor-upper-halfway-home-path#right-section>left-section@tp"]
+        for row in (forward, reverse):
+            self.assertTrue(self.permits(row))
+            self.assertFalse(self.permits(row, randomize_swim=True))
+            self.assertTrue(self.permits(row, ("Swim",), randomize_swim=True))
+            self.assertTrue(self.permits(row, ("Faydown Cloak",), randomize_swim=True))
+        options = dict(randomize_swim=True, flea_brew_jump_logic=True)
+        self.assertTrue(self.permits(forward, ("Flea Brew",), **options))
+        self.assertFalse(self.permits(reverse, ("Flea Brew",), **options))
 
-    def test_throwing_ring_conjunction_and_dnf(self) -> None:
-        row = self.graph.check_by_id[
-            "bilewater/bilewater-waterfall::check/throwing-ring"
-        ]
-        self.assert_active_dnf(
-            row,
-            (
-                (
-                    "item:faydown-cloak",
-                    "capability:swim",
-                    "item:cling-grip",
-                    "capability:ledge-grab",
-                ),
-                (
-                    "item:faydown-cloak",
-                    "capability:swim",
-                    "item:cling-grip",
-                    "macro:progressive-swift-step-full",
-                ),
-                (
-                    "item:faydown-cloak",
-                    "capability:swim",
-                    "item:cling-grip",
-                    "item:clawline",
-                ),
-                (
-                    "item:faydown-cloak",
-                    "capability:swim",
-                    "item:cling-grip",
-                    "item:sharpdart",
-                ),
-            ),
-        )
+    def test_throwing_ring_traversal_still_requires_swim_and_climbing(self):
+        row = self.graph.connection_by_id[
+            "bilewater/bilewater-waterfall#left-exit>trails-end@cr"]
+        self.assertTrue(row.requirement.dnf)
+        for clause in row.requirement.dnf:
+            self.assertTrue({"item:faydown-cloak", "capability:swim", "item:cling-grip"} <= set(clause))
+        checks = [check for check in self.graph.check_by_id.values()
+                  if check.canonical_location == "Throwing Ring"]
+        self.assertEqual(len(checks), 1)
+        self.assertEqual(checks[0].node_id, row.target_node_id)
+        self.assertTrue(all(any(atom.startswith("event:") for atom in clause)
+                            for clause in checks[0].requirement.dnf))
 
-    def test_upper_craw_nest_checks_preserve_drifter_conjunctions(
-        self,
-    ) -> None:
-        expected = (
-            ("item:silk-soar",),
-            ("item:clawline",),
-            ("item:drifters-cloak", "item:faydown-cloak"),
-            ("item:drifters-cloak", "capability:ledge-grab"),
-            ("item:drifters-cloak", "item:sharpdart"),
-            (
-                "item:drifters-cloak",
-                "macro:progressive-swift-step-first",
-            ),
-            (
-                "item:drifters-cloak",
-                "item:flea-brew",
-                "option:skips-easy",
-            ),
-            (
-                "macro:progressive-swift-step-first",
-                "item:sharpdart",
-            ),
-            (
-                "macro:progressive-swift-step-first",
-                "item:faydown-cloak",
-                "item:flea-brew",
-                "option:skips-easy",
-            ),
-            (
-                "macro:progressive-swift-step-full",
-                "item:faydown-cloak",
-            ),
-        )
-        for row_id in (
-            "greymoor/greymoor-craw-lake"
-            "::check/greymoor-rosary-cache-19",
-            "greymoor/greymoor-craw-lake::check/threefold-pin",
-        ):
-            with self.subTest(row_id=row_id):
-                self.assert_active_dnf(
-                    self.graph.check_by_id[row_id],
-                    expected,
-                )
+    def test_craw_nest_checks_use_the_mapped_platform(self):
+        check = next(check for check in self.graph.check_by_id.values()
+                     if check.canonical_location == "Threefold Pin")
+        self.assertEqual(check.node_id, "greymoor/greymoor-craw-lake#right-top-craw-nest")
+        crossing = self.graph.connection_by_id[
+            "greymoor/greymoor-craw-lake#left-top-craw-nest>right-top-craw-nest@g5"]
+        clauses = crossing.requirement.dnf
+        self.assertIn(("item:drifters-cloak",), clauses)
+        self.assertIn(("item:clawline",), clauses)
+        self.assertNotIn((), clauses)
+        self.assertTrue(all("macro:progressive-swift-step-first" in clause
+                            for clause in clauses if "item:sharpdart" in clause))
 
-    def test_greymoor_external_boundaries(self) -> None:
-        entrance_node = "sinner-s-road/sinner-s-road-entrance#room"
-        self.assertNotIn(entrance_node, _EXTERNAL_BOUNDARY_SEEDS)
-        self.assertEqual(
-            PATH_REQUIREMENTS["Path: Sinner's Road - Broken Toll"],
-            (
-                req(room_node_name(entrance_node), crest=False),
-                req(
-                    "Path: Bilewater - Exhaust Organ",
-                    "Ancestral Art: Cling Grip",
-                    "Ancestral Art: Swift Step",
-                    "Ancestral Art: Needolin",
-                ),
-            ),
-        )
-        self.assertNotIn(
-            "Sinner's Road - Map Purchase",
-            _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES,
-        )
+    def test_mapper_compiler_rejects_legacy_boundary_fallbacks(self):
+        self.assertEqual(self.graph.assumptions["mapper_schema"], 3)
+        with self.assertRaisesRegex(ValueError, "cannot use legacy traversal rules"):
+            compile_room_graph(self.graph, legacy_rules=True)
 
-    def test_abyss_escape_keeps_universal_final_gauntlet(self) -> None:
-        common = (
-            "Path: Abyss - Void Tendrils",
-            "Ancestral Art: Silk Soar",
-            "Ability: Drifter's Cloak",
-            "Ancestral Art: Cling Grip",
-            "Ability: Faydown Cloak",
-        )
-        self.assertEqual(
-            PATH_REQUIREMENTS["Path: Abyss - Escape"],
-            (
-                req(*common, skip_tier=1),
-                req(*common, "Ancestral Art: Clawline"),
-            ),
-        )
-        self.assertEqual(
-            _EXTERNAL_BOUNDARY_SEEDS[
-                "greymoor/greymoor-lower-halfway-home-path#room"
-            ],
-            (
-                clause("Path: Greymoor - Halfway House", "Swift Step"),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Progressive Swift Step",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Ancestral Art: Clawline",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Ability: Faydown Cloak",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Ability: Drifter's Cloak",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Usable Sharpdart",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Crest: Beast",
-                    skip_tier=1,
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Usable Flea Brew",
-                    skip_tier=1,
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Capability: Swim",
-                ),
-            ),
-        )
-        self.assertEqual(
-            _EXTERNAL_BOUNDARY_SEEDS[
-                "greymoor/greymoor-bone-scroll-room#room"
-            ],
-            (
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Capability: Swim",
-                ),
-                clause(
-                    "Path: Greymoor - Halfway House",
-                    "Ancestral Art: Clawline",
-                    "Capability: Ledge Grab",
-                ),
-            ),
-        )
+    def test_abyss_escape_requires_clawline_or_proficient_movement(self):
+        routes = PATH_REQUIREMENTS["Path: Abyss - Escape"]
+        common = {"Path: Abyss - Void Tendrils", "Ancestral Art: Silk Soar",
+                  "Ability: Drifter's Cloak", "Ancestral Art: Cling Grip", "Ability: Faydown Cloak"}
+        self.assertTrue(routes)
+        for route in routes:
+            self.assertTrue(common <= set(route.all_of))
+            self.assertTrue({"Ancestral Art: Clawline", "Option: Proficient Movement"} & set(route.all_of))
 
-    def test_options_change_only_capability_owners(self) -> None:
+    def test_options_change_only_capability_owners(self):
         baseline = get_abstract_requirements()
-        representative_consumers = (
-            room_node_name(
-                "greymoor/greymoor-craw-lake#lower-left-section"
-            ),
-            room_node_name(
-                "greymoor/greymoor-upper-halfway-home-path#right-section"
-            ),
-            room_node_name(
-                "greymoor/greymoor-upper-halfway-home-path#left-section"
-            ),
-            room_node_name("sinner-s-road/sinner-s-road-entrance#room"),
-            room_node_name(
-                "greymoor/greymoor-lower-halfway-home-path#room"
-            ),
-            room_node_name("greymoor/greymoor-bone-scroll-room#room"),
-            "Path: Abyss - Escape",
-        )
-        for randomize_ledge_grab, randomize_swim in (
-            (False, False),
-            (True, False),
-            (False, True),
-            (True, True),
-        ):
-            with self.subTest(
-                randomize_ledge_grab=randomize_ledge_grab,
-                randomize_swim=randomize_swim,
-            ):
-                adjusted = get_abstract_requirements(
-                    randomize_ledge_grab=randomize_ledge_grab,
-                    randomize_swim=randomize_swim,
-                )
-                for consumer in representative_consumers:
-                    self.assertEqual(adjusted[consumer], baseline[consumer])
-                self.assertEqual(
-                    adjusted[LEDGE_GRAB_CAPABILITY_REQUIREMENT],
-                    (
-                        RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
-                            LEDGE_GRAB_CAPABILITY_REQUIREMENT
-                        ]
-                        if randomize_ledge_grab
-                        else INNATE_CAPABILITY_REQUIREMENTS[
-                            LEDGE_GRAB_CAPABILITY_REQUIREMENT
-                        ]
-                    ),
-                )
-                self.assertEqual(
-                    adjusted[SWIM_CAPABILITY_REQUIREMENT],
-                    (
-                        RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
-                            SWIM_CAPABILITY_REQUIREMENT
-                        ]
-                        if randomize_swim
-                        else INNATE_CAPABILITY_REQUIREMENTS[
-                            SWIM_CAPABILITY_REQUIREMENT
-                        ]
-                    ),
-                )
+        for ledge, swim in ((False, False), (True, False), (False, True), (True, True)):
+            adjusted = get_abstract_requirements(randomize_ledge_grab=ledge, randomize_swim=swim)
+            self.assertEqual(set(adjusted), set(baseline))
+            allowed = {LEDGE_GRAB_CAPABILITY_REQUIREMENT, SWIM_CAPABILITY_REQUIREMENT}
+            self.assertTrue({name for name in baseline if baseline[name] != adjusted[name]} <= allowed)
+            for name, randomized in ((LEDGE_GRAB_CAPABILITY_REQUIREMENT, ledge),
+                                     (SWIM_CAPABILITY_REQUIREMENT, swim)):
+                table = RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS if randomized else INNATE_CAPABILITY_REQUIREMENTS
+                self.assertEqual(adjusted[name], table[name])

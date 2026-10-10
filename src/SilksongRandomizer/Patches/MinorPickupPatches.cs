@@ -9,6 +9,26 @@ namespace SilksongRandomizer.Patches
 {
     internal static class MinorPickupPatches
     {
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.CollectableItemCollect), "DoAction")]
+        private static class LoddieNecklaceReward
+        {
+            private static bool Prefix(HutongGames.PlayMaker.Actions.CollectableItemCollect __instance,
+                CollectableItem item)
+            {
+                SaveState state = SaveState.Instance;
+                if (__instance.Fsm?.GameObject?.scene.name != "Bone_12" ||
+                    __instance.Fsm.GameObject.name != "Lady Bug Large" ||
+                    __instance.Fsm.Name != "Convo" || __instance.State?.Name != "Reward 2" ||
+                    item?.name != "Rosary_Set_Large" || state == null ||
+                    !state.IsRandomized(ItemType.Resource) ||
+                    !state.IsLocationEnabled(MinorPickupManifest.LoddieNecklace) ||
+                    !state.IsLocationInSeed(MinorPickupManifest.LoddieNecklace))
+                    return true;
+                GetProxyItem(MinorPickupManifest.LoddieNecklace).Get();
+                return false;
+            }
+        }
+
         private const float MatchTolerance = 0.75f;
         private static readonly Dictionary<string, ArchipelagoLocationItem>
             ProxyByLocation =

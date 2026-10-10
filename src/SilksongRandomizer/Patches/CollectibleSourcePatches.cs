@@ -607,6 +607,15 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(CollectableItemPickup), "DoPickupAction")]
+        private static class DirectPickupCollectionPatch
+        {
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static void Prefix(CollectableItemPickup __instance) =>
+                DirectPickupAwakePatch.Prefix(__instance);
+        }
+
         [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
         private static class ApostateSourceOwnershipGatePatch
         {
@@ -1374,7 +1383,7 @@ namespace SilksongRandomizer.Patches
                 IsActive(
                     SaveState.Instance,
                     locationName,
-                    ItemType.Quest))
+                    QuestLocationManifest.GetRewardType(quest.name)))
             {
                 return true;
             }
@@ -1618,15 +1627,7 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                // Quest Sanity replaces twelve generic currency rewards.
-                // The FullQuestBase asset and its SavedItem jointly identify
-                // each reward so a game update cannot suppress an unrelated one.
-                //
-                // Unique vanilla rewards which are not randomized elsewhere
-                // (Plasmium Gland and Tool Pouch)
-                // remain untouched. Pale Oil, Memory Locket and Spool
-                // Fragment quest rewards have their own physical AP source
-                // paths and are not handled by this QuestSanity proxy.
+                // Don't replace the wrong reward just because the wish matches.
                 string nativeRewardAssetName =
                     __result == null ? null : __result.name;
                 if (TryGetActiveQuestLocation(
@@ -1644,7 +1645,7 @@ namespace SilksongRandomizer.Patches
                 {
                     __result = GetProxyItem(
                         questLocation,
-                        ItemType.Quest,
+                        QuestLocationManifest.GetRewardType(__instance.name),
                         showGenericPresentation: true
                     );
                 }

@@ -181,11 +181,13 @@ def choose_assignments(
     if current is None:
         from Options import OptionError
         raise OptionError("Wish plando could not produce a valid progression layout. Choose an earlier offer or change the assignments.")
-    for _ in range(2):
+    for pass_index in range(2):
         shuffled = list(sources)
         random.shuffle(shuffled)
         for first, second in zip(shuffled, shuffled[1:]):
             mapping = dict(current.wishes)
+            if pass_index and mapping[first] != first and mapping[second] != second:
+                continue
             mapping[first], mapping[second] = mapping[second], mapping[first]
             candidate = replace(current, wishes=tuple(sorted(mapping.items())))
             if is_valid(candidate):
@@ -209,7 +211,7 @@ def planned_wishes(world, eligible):
             identity = names.get(label.removeprefix('Wish: ').casefold())
             if identity is None:
                 choices = ', '.join(sorted(wish_offer_display_name(name) for name in eligible))
-                raise OptionError(f'Wish plando: {label!r} is not an available offer or wish with these settings. Available wishes: {choices or "none; enable Wish-Sanity"}.')
+                raise OptionError(f'Wish plando: {label!r} is not an available offer or wish with these settings. Available wishes: {choices or "none; enable Shuffle Wish Offers"}.')
             resolved.append(identity)
         source, target = resolved
         if source in result or target in result.values():
@@ -662,7 +664,7 @@ def prepare_world(world, graph):
                    for name in sorted(boss_ids))
     graph = {**graph, **story_events}
     from .npc_souls import gate_wishes
-    wishes = gate_wishes(world, board_contracts(graph, eligible)) if world.is_wish_sanity_enabled() else ()
+    wishes = gate_wishes(world, board_contracts(graph, eligible)) if world.options.shuffle_wish_offers else ()
     passthrough = getattr(world.multiworld, "re_gen_passthrough", {}).get(world.game)
     wish_ids = frozenset(contract.identity for contract in wishes)
     boss_ids = frozenset(contract.identity for contract in bosses)
@@ -765,13 +767,11 @@ def _preparation_state(world, guaranteed=(), base_state=None, *, locations=None)
     return state
 
 
-def _guaranteed_preparation_state(world):
+def _without_progression_events(world, evaluate):
     from rule_builder.rules import False_
     from .room_graph_logic import native_region_name
     from .requirement_rules import _invalidate_native_source_player
 
-    if _preparation_locations(world) is None:
-        return None
     saved = []
     blocked = False_().resolve(world)
     try:
@@ -781,12 +781,17 @@ def _guaranteed_preparation_state(world):
                 saved.append((entrance, entrance.access_rule))
                 entrance.access_rule = blocked
         _invalidate_native_source_player(world.multiworld, world.player)
-        state = _preparation_state(world)
-        return state
+        return evaluate()
     finally:
         for entrance, rule in saved:
             entrance.access_rule = rule
         _invalidate_native_source_player(world.multiworld, world.player)
+
+
+def _guaranteed_preparation_state(world):
+    if _preparation_locations(world) is None:
+        return None
+    return _without_progression_events(world, lambda: _preparation_state(world))
 
 
 def _optimistic_preparation_state(world, foreign_rewards, local_rewards):
@@ -795,55 +800,6 @@ def _optimistic_preparation_state(world, foreign_rewards, local_rewards):
         state.collect(item, True)
     state.sweep_for_advancements(local_rewards)
     return state
-
-
-def _early_dash_validator(world):
-    from .category_fill import _early_dash_states
-    from .room_graph_logic import native_region_name
-    from .requirement_rules import _invalidate_native_source_player
-
-    locations = _preparation_locations(world)
-    can_cache = locations is not None and not getattr(world, "_silk_supply", None)
-    event_regions = {
-        world.multiworld.get_region(native_region_name(name), world.player): name
-        for name in world._progression_events
-    } if can_cache else {}
-    witness = None
-
-    def search():
-        return any(opening.has("Swift Step", world.player)
-                   for opening, _ in _early_dash_states(world, locations=locations))
-
-    def validate():
-        nonlocal witness
-        if not can_cache:
-            return search()
-        if witness is not None and all(
-                world._progression_events.get(name) == rules for name, rules in witness.items()):
-            return True
-        _invalidate_native_source_player(world.multiworld, world.player)
-        reached = world.reached_region
-        had_override = "reached_region" in world.__dict__
-        used = set()
-
-        def record(state, region):
-            reached(state, region)
-            name = event_regions.get(region)
-            if name is not None:
-                used.add(name)
-
-        world.reached_region = record
-        try:
-            found = search()
-        finally:
-            if had_override:
-                world.reached_region = reached
-            else:
-                del world.reached_region
-        witness = {name: world._progression_events[name] for name in used} if found else None
-        return found
-
-    return validate
 
 
 def finalize_world(world):
@@ -875,8 +831,10 @@ def finalize_world(world):
     local_rewards = tuple(location for location in world.get_locations()
                           if location.item is not None and location.item.player == world.player)
 
-    early_dash = (_early_dash_validator(world)
-                  if world.is_early_dash_enabled() and world._early_dash_shuffle_locations else None)
+    from .category_fill import _flea_pool_is_placeable
+
+    capacity_independent = _without_progression_events(
+        world, lambda: _flea_pool_is_placeable(multiworld, world.player))
 
     def valid(candidate):
         nonlocal accepted
@@ -891,8 +849,8 @@ def finalize_world(world):
         state = _preparation_state(world, base_state=guaranteed, locations=preparation_locations)
         accessible = all(location.can_reach(state) for location in required) and all(
             region.can_reach(state) for region in required_events)
-        if accessible and early_dash is not None:
-            accessible = early_dash()
+        if accessible and not capacity_independent:
+            accessible = _flea_pool_is_placeable(multiworld, world.player)
         if accessible:
             accepted = candidate
             return True

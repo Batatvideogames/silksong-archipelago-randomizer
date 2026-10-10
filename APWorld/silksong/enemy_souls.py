@@ -99,6 +99,10 @@ def set_rules(world):
 def pogo_graph(names):
     from .room_graph import load_room_graph
     graph = load_room_graph()
+    connections = {}
+    for name in names:
+        for connection in BY_NAME[name].get('connections', ()):
+            connections.setdefault(connection, []).append('received:' + item_name(name))
     rooms = []
     for room in graph.rooms:
         souls = tuple('received:' + item_name(name) for name in names
@@ -109,6 +113,7 @@ def pogo_graph(names):
             dnf = []
             for branch in spec.dnf:
                 needed = souls if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
+                needed += tuple(connections.get(row.id, ()))
                 records = {atom.split(':')[2] for atom in branch if atom.startswith('mapper:enemy-type-pogo:')}
                 if records:
                     needed += tuple('received:' + item_name(name) for name in names if BY_NAME[name]['record'] in records)

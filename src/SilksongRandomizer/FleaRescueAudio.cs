@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SilksongRandomizer
@@ -17,12 +18,39 @@ namespace SilksongRandomizer
         private const float NativeFleaRescueVolume = 1f;
         private const int MaxPlayAttempts = 3;
 
-        private static AudioClip fleaHowlClip;
+        private static readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
+        private static readonly HashSet<string> failedClips = new HashSet<string>();
+        private static AudioClip fleaHowlClip => clips.TryGetValue(VanillaFleaRescueClipAddress, out var clip) ? clip : null;
         private static bool clipResolutionFailed;
         private static int pendingPlays;
         private static int failedPlayAttempts;
         private static float nextPlayTime;
         private static float nextResolveAttemptTime;
+
+        internal static bool TryPlayInventoryFlea(string name, AudioSource source, float pitch = 1f)
+        {
+            if (source == null || !HasStableGameplayContext()) return false;
+            string address;
+            switch (name)
+            {
+                case "Flea": address = VanillaFleaRescueClipAddress; break;
+                case Patches.FleaPatches.KrattItemName:
+                    address = "Assets/Audio/HornetVoices/Pilgrims/Male Pilgrims Matt F/Male Pilgrims/B/Kratt-Game-Notice-006_shortened.wav";
+                    break;
+                case Patches.FleaPatches.VogItemName:
+                    address = "Assets/Audio/HornetVoices/Vog/Vog_talk_01.wav";
+                    break;
+                case Patches.FleaPatches.HugeFleaItemName:
+                    address = "Assets/Audio/Voices/Fleas/Giant Flea/Giant Flea bark 01.wav";
+                    break;
+                default: return false;
+            }
+            if (!TryResolveClip(address)) return false;
+            source.pitch = pitch;
+            source.clip = clips[address];
+            source.Play();
+            return true;
+        }
 
         internal static void QueueForReceivedFlea()
         {
@@ -138,39 +166,39 @@ namespace SilksongRandomizer
             );
         }
 
-        private static bool TryResolveClip()
+        private static bool TryResolveClip(string address = VanillaFleaRescueClipAddress)
         {
-            if (fleaHowlClip != null)
+            if (clips.TryGetValue(address, out var cached) && cached != null)
             {
                 return true;
             }
 
-            return TryResolveFromGameBundle();
+            return TryResolveFromGameBundle(address);
         }
 
-        private static bool TryResolveFromGameBundle()
+        private static bool TryResolveFromGameBundle(string address)
         {
             try
             {
-                return TryResolveFromGameBundleCore();
+                return TryResolveFromGameBundleCore(address);
             }
             catch (Exception ex)
             {
                 FailLoad(
-                    "The native Flea rescue sound lookup failed: " + ex.Message
+                    "The native Flea sound lookup failed: " + ex.Message, address
                 );
                 return false;
             }
         }
 
-        private static bool TryResolveFromGameBundleCore()
+        private static bool TryResolveFromGameBundleCore(string address)
         {
-            if (fleaHowlClip != null)
+            if (clips.TryGetValue(address, out var cached) && cached != null)
             {
                 return true;
             }
 
-            if (clipResolutionFailed)
+            if (failedClips.Contains(address))
             {
                 return false;
             }
@@ -180,10 +208,10 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            AudioClip alreadyLoadedClip = FindAlreadyLoadedExpectedClip();
+            AudioClip alreadyLoadedClip = FindAlreadyLoadedExpectedClip(address);
             if (alreadyLoadedClip != null)
             {
-                fleaHowlClip = alreadyLoadedClip;
+                clips[address] = alreadyLoadedClip;
                 RandomizerPlugin.Log?.LogInfo(
                     "[RANDOMIZER] Reused the already-loaded vanilla Flea " +
                     "rescue sound."
@@ -191,10 +219,10 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            AudioClip borrowedClip = FindClipInAlreadyLoadedBundle();
+            AudioClip borrowedClip = FindClipInAlreadyLoadedBundle(address);
             if (borrowedClip != null)
             {
-                fleaHowlClip = borrowedClip;
+                clips[address] = borrowedClip;
                 RandomizerPlugin.Log?.LogInfo(
                     "[RANDOMIZER] Loaded the Flea rescue sound from a " +
                     "game-owned SFX bundle."
@@ -219,7 +247,7 @@ namespace SilksongRandomizer
                         ? "Could not find the Flea Caravan SFX bundle under " +
                           aaRoot + "."
                         : "Found multiple Flea Caravan SFX bundles under " +
-                          aaRoot + "; refusing to choose one arbitrarily."
+                          aaRoot + "; refusing to choose one arbitrarily.", address
                 );
                 return false;
             }
@@ -243,13 +271,13 @@ namespace SilksongRandomizer
                     // Addressables may have completed ownership between the
                     // checks above and this call. Its visible copy can be
                     // borrowed but a bundle owned by the game is never unloaded.
-                    snapshotClip = FindAlreadyLoadedExpectedClip() ??
-                        FindClipInAlreadyLoadedBundle();
+                    snapshotClip = FindAlreadyLoadedExpectedClip(address) ??
+                        FindClipInAlreadyLoadedBundle(address);
                     ownershipRace = snapshotClip == null;
                 }
                 else
                 {
-                    snapshotClip = LoadExactClip(ownedBundle);
+                    snapshotClip = LoadExactClip(ownedBundle, address);
                 }
             }
             finally
@@ -272,16 +300,16 @@ namespace SilksongRandomizer
                 return false;
             }
 
-            if (!IsExpectedClip(snapshotClip))
+            if (!IsExpectedClip(snapshotClip, address))
             {
                 FailLoad(
                     "The Flea Caravan SFX bundle did not provide " +
-                    VanillaFleaRescueClipAddress + "."
+                    address + ".", address
                 );
                 return false;
             }
 
-            fleaHowlClip = snapshotClip;
+            clips[address] = snapshotClip;
             nextResolveAttemptTime = 0f;
             RandomizerPlugin.Log?.LogInfo(
                 "[RANDOMIZER] Loaded the exact vanilla Flea rescue sound " +
@@ -290,12 +318,12 @@ namespace SilksongRandomizer
             return true;
         }
 
-        private static AudioClip FindAlreadyLoadedExpectedClip()
+        private static AudioClip FindAlreadyLoadedExpectedClip(string address)
         {
             foreach (AudioClip clip in
                      Resources.FindObjectsOfTypeAll<AudioClip>())
             {
-                if (IsExpectedClip(clip))
+                if (IsExpectedClip(clip, address))
                 {
                     return clip;
                 }
@@ -304,13 +332,13 @@ namespace SilksongRandomizer
             return null;
         }
 
-        private static AudioClip FindClipInAlreadyLoadedBundle()
+        private static AudioClip FindClipInAlreadyLoadedBundle(string address)
         {
             foreach (AssetBundle bundle in
                      AssetBundle.GetAllLoadedAssetBundles())
             {
-                AudioClip clip = LoadExactClip(bundle);
-                if (IsExpectedClip(clip))
+                AudioClip clip = LoadExactClip(bundle, address);
+                if (IsExpectedClip(clip, address))
                 {
                     return clip;
                 }
@@ -319,7 +347,7 @@ namespace SilksongRandomizer
             return null;
         }
 
-        private static AudioClip LoadExactClip(AssetBundle bundle)
+        private static AudioClip LoadExactClip(AssetBundle bundle, string address)
         {
             if (bundle == null)
             {
@@ -334,7 +362,7 @@ namespace SilksongRandomizer
                 {
                     if (string.Equals(
                             assetName,
-                            VanillaFleaRescueClipAddress,
+                            address,
                             StringComparison.OrdinalIgnoreCase))
                     {
                         exactAssetPath = assetName;
@@ -351,20 +379,24 @@ namespace SilksongRandomizer
             return bundle.LoadAsset<AudioClip>(exactAssetPath);
         }
 
-        private static bool IsExpectedClip(AudioClip clip)
+        private static bool IsExpectedClip(AudioClip clip, string address)
         {
             return clip != null &&
                    string.Equals(
                        clip.name,
-                       VanillaFleaRescueClipName,
+                       Path.GetFileNameWithoutExtension(address),
                        StringComparison.Ordinal
                    );
         }
 
-        private static void FailLoad(string reason)
+        private static void FailLoad(string reason, string address)
         {
-            clipResolutionFailed = true;
-            pendingPlays = 0;
+            failedClips.Add(address);
+            if (address == VanillaFleaRescueClipAddress)
+            {
+                clipResolutionFailed = true;
+                pendingPlays = 0;
+            }
             RandomizerPlugin.Log?.LogWarning(
                 "[RANDOMIZER] Could not load the vanilla Flea rescue sound: " + reason
             );

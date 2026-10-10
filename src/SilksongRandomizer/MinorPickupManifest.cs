@@ -6,6 +6,7 @@ namespace SilksongRandomizer
 {
     internal static class MinorPickupManifest
     {
+        internal const string LoddieNecklace = "Loddie - Heavy Rosary Necklace";
         internal sealed class Entry
         {
             internal readonly string LocationName;

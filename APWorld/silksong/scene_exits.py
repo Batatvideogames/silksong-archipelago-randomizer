@@ -117,6 +117,10 @@ def create_exits(world, regions):
     world._entrance_exits = {}
     options = native_rule_options(world)
     for exit in scene_exits(world):
+        if exit.source not in regions or exit.destination not in regions:
+            missing = {exit.source, exit.destination} - regions.keys()
+            assert missing <= world._silksong_unreachable_abstract_names
+            continue
         entrance = world.create_entrance(
             regions[exit.source], regions[exit.destination],
             build_requirements_rule(exit.requirements, anchor_requirement_name=exit.source,

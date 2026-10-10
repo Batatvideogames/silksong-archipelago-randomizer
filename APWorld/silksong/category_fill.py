@@ -7,307 +7,10 @@ from BaseClasses import CollectionState, LocationProgressType
 from Options import OptionError
 
 from .items import get_vanilla_reward_name
-from .locations import (
-    OBSERVATION_LOCATION_CATEGORIES,
-    PAIRED_LOCATION_CATEGORIES,
-)
-from .minor_families import get_base_randomization_category
 
 
 def _placement_category(value) -> str | None:
     return getattr(value, "silksong_placement_category", None)
-
-
-def _early_dash_chain(world, assume_categories=False):
-    from collections import deque
-
-    player = world.player
-    multiworld = world.multiworld
-    items = [item for item in multiworld.itempool
-             if item.player == player and _placement_category(item) == "Skill"]
-    dash = next((item for item in items if item.name == "Swift Step"), None)
-    if dash is None:
-        return None
-    locations = [location for location in world.get_locations()
-                 if location.item is None and _placement_category(location) == "Skill"]
-    opening = CollectionState(multiworld)
-    opening.sweep_for_advancements(world.get_locations())
-    immediate = [location for location in locations if location.can_fill(opening, dash)]
-    if immediate:
-        return [(immediate[0], dash)]
-    for item in multiworld.itempool:
-        if item.player == player and (
-                _placement_category(item) != "Skill" if assume_categories
-                else _placement_category(item) is None):
-            opening.collect(item, True)
-    pending = deque([(opening, ())])
-    visited = set()
-    while pending:
-        state, chain = pending.popleft()
-        state.sweep_for_advancements(world.get_locations())
-        used_locations = {location for location, _ in chain}
-        used_items = {id(item) for _, item in chain}
-        available = [location for location in locations
-                     if location not in used_locations and location.can_reach(state)]
-        for location in available:
-            if location.can_fill(state, dash, check_access=False):
-                return [*chain, (location, dash)]
-        if len(chain) == 2:
-            continue
-        for item in items:
-            if item is dash or id(item) in used_items:
-                continue
-            for location in available:
-                if not location.can_fill(state, item, check_access=False):
-                    continue
-                next_chain = (*chain, (location, item))
-                key = (frozenset(id(value) for _, value in next_chain),
-                       frozenset(place.name for place, _ in next_chain))
-                if key in visited:
-                    continue
-                visited.add(key)
-                trial = state.copy()
-                trial.collect(item, True)
-                pending.append((trial, next_chain))
-    return None if assume_categories else _early_dash_chain(world, assume_categories=True)
-
-
-def _early_dash_states(world, opening=None, *, locations=None):
-    from collections import deque
-    from .requirement_rules import sweep_native_sources
-
-    player = world.player
-    movement = {
-        "Ledge Grab", "Swift Step", "Progressive Swift Step", "Faydown Cloak",
-        "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
-    }
-    filled = (world.multiworld.get_filled_locations() if locations is None
-              else [location for location in locations if location.item is not None])
-    abilities = [location for location in filled
-                 if location.item.player == player and location.item.name != "Swift Step"
-                 and (location.item.name in movement or _placement_category(location.item) == "Skill")]
-    ordinary = [location for location in filled if location not in abilities]
-    pending = deque([opening or (CollectionState(world.multiworld), ())])
-    visited = set()
-    while pending:
-        state, chain = pending.popleft()
-        if locations is None:
-            state.sweep_for_advancements(ordinary)
-        else:
-            sweep_native_sources(state, ordinary)
-        yield state, chain
-        if state.has("Swift Step", player) or len(chain) == 2:
-            continue
-        for location in abilities:
-            if location in chain or not location.can_reach(state):
-                continue
-            key = frozenset((*chain, location))
-            if key in visited:
-                continue
-            visited.add(key)
-            trial = state.copy()
-            trial.collect(location.item, True)
-            pending.append((trial, (*chain, location)))
-
-
-def _skill_placement_orders(state, locations, ordinary, player, extra=(), early_dash=False, opening_movement=0):
-    from .requirement_rules import sweep_native_sources
-
-    items = [location.item for location in locations]
-    pending = [(state, (), (), None)]
-    visited = set()
-    saturated = {}
-    while pending:
-        state, plan, other, reward = pending.pop()
-        key = (frozenset(location for location, _ in plan),
-               frozenset(id(item) for _, item in plan), frozenset(other))
-        if key in visited:
-            continue
-        visited.add(key)
-        if reward is not None:
-            state = state.copy()
-            state.collect(reward[0], True)
-            if reward[1] is not None:
-                state.advancements.add(reward[1])
-        has_dash = not early_dash or state.has("Swift Step", player)
-        inventory_key = (*key[1:], has_dash)
-        cached = saturated.get(inventory_key)
-        if cached is None:
-            sweep_native_sources(state, [*ordinary, *extra] if has_dash else ordinary)
-            saturated[inventory_key] = state
-        else:
-            state = cached
-        if len(plan) == len(locations):
-            yield dict(plan)
-            continue
-        used_locations = {location for location, _ in plan}
-        used_items = {id(item) for _, item in plan}
-        available = [location for location in locations
-                     if location not in used_locations and location.can_reach(state)]
-        for location in reversed(available):
-            for item in reversed(items):
-                if id(item) in used_items or not location.can_fill(state, item, check_access=False):
-                    continue
-                if not has_dash and len(plan) + len(other) + opening_movement >= 2 and item.name != "Swift Step":
-                    continue
-                pending.append((state, (*plan, (location, item)), other, (item, None)))
-        if not has_dash and len(plan) + len(other) + opening_movement < 2:
-            for location in extra:
-                if location in other or not location.can_reach(state):
-                    continue
-                pending.append((state, plan, (*other, location), (location.item, location)))
-
-
-def _remove_unneeded_opening_items(items, can_finish):
-    needed = list(items)
-
-    def remove_groups(groups):
-        nonlocal needed
-        if not groups:
-            return
-        removed = {id(item) for group in groups for item in group}
-        reduced = [item for item in needed if id(item) not in removed]
-        if can_finish(reduced):
-            needed = reduced
-        elif len(groups) > 1:
-            middle = len(groups) // 2
-            remove_groups(groups[:middle])
-            remove_groups(groups[middle:])
-
-    by_name = defaultdict(list)
-    for item in needed:
-        by_name[item.name].append(item)
-    remove_groups(list(by_name.values()))
-    remove_groups([[item] for item in needed])
-    return needed
-
-
-def reserve_early_dash(world):
-    from itertools import combinations
-
-    managed = getattr(world, "_early_dash_shuffle_locations", ())
-    if not managed:
-        return
-    multiworld = world.multiworld
-    player = world.player
-    if any(state.has("Swift Step", player) for state, _ in _early_dash_states(world)):
-        return
-    movement = {"Ledge Grab", "Progressive Swift Step", "Faydown Cloak", "Cling Grip",
-                "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim"}
-    pool = [item for item in multiworld.itempool if item.player == player
-            and item.advancement and _placement_category(item) is None]
-    ordinary_items = [item for item in pool if item.name not in movement]
-    movement_items = [item for item in pool if item.name in movement]
-    filled = multiworld.get_filled_locations()
-    abilities = [location for location in filled if location.item.player == player
-                 and location.item.name != "Swift Step"
-                 and (location.item.name in movement or _placement_category(location.item) == "Skill")]
-    ordinary = [location for location in filled if location not in abilities]
-    targets = [location for location in multiworld.get_unfilled_locations()
-               if not location.locked and _placement_category(location) is None]
-    multiworld.random.shuffle(targets)
-    targets.sort(key=lambda location: location.player != player)
-    baseline = [location.item for location in managed]
-    original_pool = list(multiworld.itempool)
-    accepted = False
-    reserved = []
-
-    def assumed(items, sources):
-        state = CollectionState(multiworld)
-        for item in items:
-            state.collect(item, True)
-        state.sweep_for_advancements([*sources, *reserved])
-        return state
-
-    def reserve(items, sources):
-        if not items:
-            return any(state.has("Swift Step", player) for state, _ in _early_dash_states(world))
-        choices = []
-        seen = set()
-        for index, item in enumerate(items):
-            if item.name in seen:
-                continue
-            seen.add(item.name)
-            rest = items[:index] + items[index + 1:]
-            state = assumed(rest, sources)
-            available = [location for location in targets if location.item is None
-                         and location.can_fill(state, item)]
-            if available:
-                choices.append((len(available), item, rest, available))
-        choices.sort(key=lambda choice: choice[0])
-        for _, item, rest, available in choices:
-            for location in available:
-                location.item = item
-                item.location = location
-                reserved.append(location)
-                if reserve(rest, sources):
-                    return True
-                reserved.pop()
-                location.item = None
-                item.location = None
-        return False
-
-    def try_opening(extra):
-        abilities = [location for location in filled if location.item.player == player
-                     and location.item.name != "Swift Step"
-                     and (location.item.name in movement or _placement_category(location.item) == "Skill")]
-        ordinary = [location for location in filled if location not in abilities]
-        initial = assumed([*ordinary_items, *extra], ())
-        for state, chain in _early_dash_states(world, (initial, tuple(range(len(extra))))):
-            if not state.has("Swift Step", player):
-                continue
-            sources = [*ordinary, *(location for location in chain if location in abilities)]
-            needed = _remove_unneeded_opening_items(
-                ordinary_items,
-                lambda reduced: assumed([*reduced, *extra], sources).has("Swift Step", player),
-            )
-            if not reserve([*needed, *extra], sources):
-                continue
-            reserved_ids = {id(location.item) for location in reserved}
-            multiworld.itempool[:] = [item for item in original_pool if id(item) not in reserved_ids]
-            players = [other.player for other in multiworld.get_game_worlds(world.game)]
-            tagged = [location for location in multiworld.get_filled_locations()
-                      if _placement_category(location) is not None]
-            if _shuffle_is_accessible(multiworld, tagged, players):
-                for location in reserved:
-                    location.locked = True
-                return True
-            for location in reserved:
-                location.item.location = None
-                location.item = None
-            reserved.clear()
-            multiworld.itempool[:] = original_pool
-        return False
-
-    try:
-        for count in range(3):
-            for extra in combinations(movement_items, count):
-                if try_opening(extra):
-                    accepted = True
-                    return
-        extra_sources = [location for location in abilities if location not in managed]
-        fixed = [location for location in ordinary if location not in managed]
-        for count in range(3):
-            for extra in combinations(movement_items, count):
-                initial = assumed([*ordinary_items, *extra], ())
-                for assignments in _skill_placement_orders(
-                    initial, list(managed), fixed, player, extra_sources,
-                    early_dash=True, opening_movement=count,
-                ):
-                    _assign_items(managed, [assignments[location] for location in managed])
-                    if try_opening(extra):
-                        accepted = True
-                        return
-                    _assign_items(managed, baseline)
-        raise OptionError("Early Dash with Skill Shuffle could not reserve an opening within two other "
-                          "movement abilities. Disable Early Dash or use Skills Anywhere.")
-    finally:
-        if not accepted:
-            for location in reserved:
-                location.item.location = None
-                location.item = None
-            multiworld.itempool[:] = original_pool
-            _assign_items(managed, baseline)
 
 
 def _assign_items(locations: list, items: list) -> None:
@@ -431,11 +134,10 @@ def _build_native_baseline(
     assigned: dict[object, object] = {}
     deferred = []
 
-    native_category = get_base_randomization_category(category)
     for location in locations:
         reward_name = get_vanilla_reward_name(
             location.name,
-            native_category,
+            category,
         )
         item = _pop_matching(
             remaining,
@@ -449,8 +151,6 @@ def _build_native_baseline(
         else:
             assigned[location] = item
 
-    # The selected starting Crest is precollected and replaced with one
-    # currency item. That produces exactly one deferred pair.
     for location in deferred:
         assigned[location] = remaining.pop(0)
 
@@ -460,36 +160,6 @@ def _build_native_baseline(
             f"{len(remaining)} items were left over."
         )
     return [assigned[location] for location in locations]
-
-
-def _place_bootstrap_item(
-    locations: list,
-    items: list,
-    player: int,
-    location_name: str,
-    item_name: str,
-) -> None:
-    location_index = next(
-        (
-            index
-            for index, location in enumerate(locations)
-            if location.player == player and location.name == location_name
-        ),
-        None,
-    )
-    item_index = next(
-        (
-            index for index, item in enumerate(items)
-            if item.player == player and item.name == item_name
-        ),
-        None,
-    )
-    if location_index is None or item_index is None:
-        return
-    items[location_index], items[item_index] = (
-        items[item_index],
-        items[location_index],
-    )
 
 
 def _shuffle_is_accessible(
@@ -525,7 +195,7 @@ def _minimal_accessibility_players(multiworld) -> frozenset[int]:
     return frozenset(players)
 
 
-def _flea_pool_is_placeable(multiworld, player):
+def _flea_pool_is_placeable(multiworld, player, candidates=(), *, assume_wishes=False):
     from .display_names import FLEA_ITEM_NAMES
     from .requirement_rules import sweep_native_sources
 
@@ -538,33 +208,50 @@ def _flea_pool_is_placeable(multiworld, player):
     world = multiworld.worlds[player]
     flea_ids = {id(item) for item in fleas}
     state = CollectionState(multiworld)
+    if assume_wishes:
+        _assume_wish_offers(state)
     for item in multiworld.itempool:
         if item.advancement and id(item) not in flea_ids:
             state.collect(item, True)
     filled = multiworld.get_filled_locations()
     targets = multiworld.get_unfilled_locations()
     supplied = 0
+    pending = defaultdict(list)
+    for location in candidates:
+        pending[location.player, _placement_category(location)].append(location)
     while True:
         sweep_native_sources(state, filled)
+        opened = [lane for lane, locations in pending.items()
+                  if any(location.can_reach(state) for location in locations)]
+        if opened:
+            for lane in opened:
+                for location in pending.pop(lane):
+                    state.collect(location.item, True)
+            continue
         if supplied == len(fleas) or (
                 world.options.accessibility == "minimal" and multiworld.has_beaten_game(state, player)):
             return True
         reachable = [location for location in targets if location.can_reach(state)]
-        matches = {}
+        choices = [tuple(location for location in reachable
+                         if location.can_fill(state, flea, check_access=False)) for flea in fleas]
+        if all(choice == choices[0] for choice in choices):
+            available = min(len(choices[0]), len(fleas))
+        else:
+            matches = {}
 
-        def match(index, seen):
-            for location in reachable:
-                if location in seen or not location.can_fill(state, fleas[index], check_access=False):
-                    continue
-                seen.add(location)
-                if location not in matches or match(matches[location], seen):
-                    matches[location] = index
-                    return True
-            return False
+            def match(index, seen):
+                for location in choices[index]:
+                    if location in seen:
+                        continue
+                    seen.add(location)
+                    if location not in matches or match(matches[location], seen):
+                        matches[location] = index
+                        return True
+                return False
 
-        for index in range(len(fleas)):
-            match(index, set())
-        available = len(matches)
+            for index in range(len(fleas)):
+                match(index, set())
+            available = len(matches)
         if available <= supplied:
             return False
         for _ in range(available - supplied):
@@ -638,15 +325,13 @@ def _build_shuffle_reachability_context(multiworld):
 
 def _repair_shuffle_swaps(
     multiworld, shuffled_locations, silksong_players,
-    candidates, protected_locations, reachability_context,
+    candidates, reachability_context,
 ) -> bool:
     from .requirement_rules import sweep_native_pool as sweep_from_pool
 
-    priority = {"Skill": 0, "Bellway": 1, "Ventrica": 2, "Melody": 3, "Spell": 4, "BellShrine": 5}
     candidates = sorted(
-        (location for location in candidates if location not in protected_locations),
-        key=lambda location: (priority.get(_placement_category(location), 6),
-                              location.player, _placement_category(location), location.name),
+        candidates,
+        key=lambda location: (location.player, location.name),
     )
     if len(candidates) < 2:
         return False
@@ -710,67 +395,135 @@ def _repair_shuffle_swaps(
             _assign_items(candidates, baseline)
 
 
-def _repair_skill_order(
-    multiworld, shuffled_locations, silksong_players,
-    candidates, protected_locations, reachability_context,
-):
-    baseline = [location.item for location in candidates]
-    failures = tuple(map(set, _shuffle_reachability_failures(
-        multiworld, shuffled_locations, silksong_players, reachability_context,
-    )))
+def _assume_wish_offers(state):
+    from .room_graph_logic import native_region_name
+
+    for world in state.multiworld.worlds.values():
+        for wish in getattr(world, "_progression_wishes", ()):
+            region = state.multiworld.get_region(native_region_name("Wish Offer: " + wish.identity), world.player)
+            state.reachable_regions[world.player].add(region)
+            state.blocked_connections[world.player].update(region.exits)
+        state.rule_builder_cache[world.player].clear()
+        state.stale[world.player] = True
+
+
+def _validate_category_order(multiworld, shuffled, players, candidates, context):
+    from .requirement_rules import sweep_native_sources
+
+    state = context[0].copy()
+    pending = defaultdict(list)
+    for location in candidates:
+        pending[location.player, _placement_category(location)].append(location)
+    memo = getattr(multiworld, "_silksong_native_source_memo", None)
+    multiworld._silksong_native_source_memo = None
+    try:
+        _assume_wish_offers(state)
+        while True:
+            sweep_native_sources(state, context[1])
+            opened = [lane for lane, locations in pending.items()
+                      if any(location.can_reach(state) for location in locations)]
+            if not opened:
+                break
+            for lane in opened:
+                for location in pending.pop(lane):
+                    state.collect(location.item, True)
+        unreachable, unbeaten = _shuffle_reachability_failures(
+            multiworld, shuffled, players, maximum_state=state, check_capacity=False,
+        )
+        capacity_blocked = [player for player in players
+                            if not _flea_pool_is_placeable(
+                                multiworld, player, candidates, assume_wishes=True)]
+        if capacity_blocked and not unreachable and not unbeaten:
+            raise OptionError(
+                "Flea randomization has too few reachable locations to open progression, even "
+                "assuming every other Anywhere item, all wish offers and any reachable category reward. "
+                "Set more early check categories to Anywhere, change the starting crest "
+                "or provide starting movement."
+            )
+        if unreachable or unbeaten:
+            blocked = ", ".join(f"P{player} {category}" for player, category in sorted(pending))
+            raise OptionError(
+                "Simple Key Shuffle cannot open progression with these starting settings, even "
+                "assuming every Anywhere item and all wish offers. "
+                + (f"Blocked categories: {blocked}. " if blocked else "")
+                + "Choose another starting crest, set Simple Keys to Anywhere "
+                "or provide a starting movement item."
+            )
+    finally:
+        multiworld._silksong_native_source_memo = memo
+
+
+def _repair_shuffle_forward(multiworld, shuffled, players, candidates, context):
+    from .requirement_rules import sweep_native_pool
+
+    locations = list(candidates)
+    baseline = [location.item for location in locations]
+    pending = list(baseline)
+    fixed = [location for location in context[1] if location not in locations]
     accepted = False
     try:
-        for player in silksong_players:
-            if player not in failures[1]:
-                continue
-            locations = [location for location in candidates
-                         if location.player == player and _placement_category(location) == "Skill"
-                         and location not in protected_locations]
-            if not locations:
-                continue
-            original = [location.item for location in locations]
-            ordinary = [location for location in reachability_context[1] if location not in locations]
-            for assignments in _skill_placement_orders(
-                reachability_context[0].copy(), locations, ordinary, player,
-            ):
-                _assign_items(locations, [assignments[location] for location in locations])
-                remaining = tuple(map(set, _shuffle_reachability_failures(
-                    multiworld, shuffled_locations, silksong_players, reachability_context,
-                )))
-                if player not in remaining[1] and all(a <= b for a, b in zip(remaining, failures)):
-                    failures = remaining
-                    break
-                _assign_items(locations, original)
-        accepted = not any(failures)
+        for location in locations:
+            location.item.location = None
+            location.item = None
+        state = sweep_native_pool(context[0], locations=fixed)
+        while pending:
+            empty = [location for location in locations if location.item is None]
+            reached = [location for location in empty if location.can_reach(state)]
+            if not reached:
+                return False
+            if len(reached) == len(empty):
+                for category, player in sorted({(_placement_category(item), item.player) for item in pending}):
+                    lane = [location for location in empty
+                            if location.player == player and _placement_category(location) == category]
+                    items = [item for item in pending
+                             if item.player == player and _placement_category(item) == category]
+                    _assign_items(lane, _match_items_to_locations(multiworld, category, lane, items))
+                break
+            best = None
+            for item in pending:
+                target = next((location for location in reached
+                               if _can_fill_without_access(multiworld, location, item)), None)
+                if target is None:
+                    continue
+                trial = state.copy()
+                trial.collect(item, True)
+                trial = sweep_native_pool(trial, locations=fixed)
+                score = sum(location.can_reach(trial) for location in empty)
+                score += sum(len(trial.reachable_regions[player]) for player in players)
+                if best is None or score > best[0]:
+                    best = score, target, item, trial
+            if best is None:
+                return False
+            _, target, item, state = best
+            target.item = item
+            item.location = target
+            pending.remove(item)
+        accepted = _shuffle_is_accessible(multiworld, shuffled, players, context)
         return accepted
     finally:
         if not accepted:
-            _assign_items(candidates, baseline)
+            _assign_items(locations, baseline)
 
 
 def _repair_shuffle_bootstrap(
     multiworld, shuffled_locations, silksong_players,
-    candidates, protected_locations, reachability_context,
+    candidates, reachability_context,
 ) -> bool:
     from Fill import FillError, fill_restrictive, sweep_from_pool
 
-    if _repair_skill_order(
-        multiworld, shuffled_locations, silksong_players,
-        candidates, protected_locations, reachability_context,
-    ):
-        return True
-
-    managed_skills = {location for player in silksong_players
-                      for location in getattr(multiworld.worlds[player], "_early_dash_shuffle_locations", ())}
-    protected_locations = protected_locations.difference(managed_skills)
-
+    _validate_category_order(multiworld, shuffled_locations, silksong_players, candidates, reachability_context)
     if _repair_shuffle_swaps(
         multiworld, shuffled_locations, silksong_players,
-        candidates, protected_locations, reachability_context,
+        candidates, reachability_context,
     ):
         return True
 
-    locations = [location for location in candidates if location not in protected_locations]
+    if _repair_shuffle_forward(
+        multiworld, shuffled_locations, silksong_players, candidates, reachability_context,
+    ):
+        return True
+
+    locations = list(candidates)
     baseline = [location.item for location in locations]
     maximum_state = sweep_from_pool(
         reachability_context[0], baseline, locations=reachability_context[1],
@@ -780,8 +533,6 @@ def _repair_shuffle_bootstrap(
     )):
         return False
     progression = [item for item in baseline if item.advancement]
-    priority = {"Crest": 0, "Key": 0, "Skill": 1, "Spell": 2, "Tool": 3}
-    progression.sort(key=lambda item: priority.get(_placement_category(item), 4))
     non_progression = [item for item in baseline if not item.advancement]
     accepted = False
     try:
@@ -814,6 +565,69 @@ def _repair_shuffle_bootstrap(
             _assign_items(locations, baseline)
 
 
+def _opening_shuffle_swaps(multiworld, candidates, assumed=()):
+    from itertools import combinations
+    from .requirement_rules import sweep_native_pool, _invalidate_native_source_player
+
+    locations = list(candidates)
+    targets = multiworld.get_unfilled_locations()
+    opening = sweep_native_pool(CollectionState(multiworld), assumed)
+    original_count = sum(location.can_reach(opening) for location in targets)
+    lanes = defaultdict(list)
+    for location in locations:
+        lanes[location.player, _placement_category(location)].append(location)
+    for lane in lanes.values():
+        for first, second in combinations(lane, 2):
+            previous = [first.item, second.item]
+            if not any(item.advancement for item in previous):
+                continue
+            if not _items_obey_fill_rules(multiworld, [first, second], previous[::-1]):
+                continue
+            try:
+                _assign_items([first, second], previous[::-1])
+                _invalidate_native_source_player(multiworld, first.player)
+                trial = sweep_native_pool(CollectionState(multiworld), assumed)
+                expands = sum(location.can_reach(trial) for location in targets) > original_count
+            finally:
+                _assign_items([first, second], previous)
+                _invalidate_native_source_player(multiworld, first.player)
+            if expands:
+                yield (first, second), previous[::-1]
+
+
+def _reserve_solo_opening(world, pool, locations, *, minimum_gain=2):
+    from .requirement_rules import sweep_native_pool
+
+    reserved = False
+    for step in range(8):
+        state = sweep_native_pool(CollectionState(world.multiworld))
+        empty = [location for location in locations if location.item is None]
+        reached = [location for location in empty if location.can_reach(state)]
+        if step == 0 and len(reached) > 5:
+            return False
+        best = None
+        seen = set()
+        for item in pool:
+            if item.name in seen:
+                continue
+            seen.add(item.name)
+            target = next((location for location in reached if location.can_fill(state, item)), None)
+            if target is None:
+                continue
+            trial = sweep_native_pool(state, [item])
+            score = sum(location.can_reach(trial) for location in empty)
+            if best is None or score > best[0]:
+                best = score, target, item
+        if best is None or best[0] < len(reached) + minimum_gain:
+            break
+        _, target, item = best
+        target.item = item
+        item.location = target
+        pool.remove(item)
+        reserved = True
+    return reserved
+
+
 def fill_solo_progression(world, progression, locations):
     from Fill import FillError, fill_restrictive, sweep_from_pool
     from .requirement_rules import _invalidate_native_source_player
@@ -823,39 +637,42 @@ def fill_solo_progression(world, progression, locations):
             or not progression
             or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
         return
-    managed = getattr(world, "_silksong_spell_shuffle_locations", ())
-    spells = [location for location in managed if location.item.name == "Silkspear"]
-    spear_source = spells[0] if spells else None
-    targets = [location for location in managed if location is not spear_source] if spear_source else []
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]
     failure = None
     accepted = False
-    original_spear = spear_source.item if spear_source else None
-    skills = getattr(world, "_silksong_skill_shuffle_locations", ())
+
+    opening_attempted = False
+    reserved_opening = False
 
     def attempts():
-        yield (), ()
-        opening = sweep_from_pool(multiworld.state)
-        multiworld.random.shuffle(targets)
-        targets.sort(key=lambda location: not location.can_reach(opening))
-        for target in targets:
-            yield (spear_source, target), (target.item, original_spear)
+        yield (), (), False
+        if reserved_opening:
+            yield (), (), False
+        for changed, items in _opening_shuffle_swaps(
+            multiworld, getattr(world, "_silksong_shuffle_locations", ()),
+        ):
+            yield changed, items, False
+        from .display_names import FLEA_ITEM_NAMES
+
+        if any(item.name in FLEA_ITEM_NAMES for item in progression):
+            for changed, items in _opening_shuffle_swaps(
+                multiworld, getattr(world, "_silksong_shuffle_locations", ()),
+                assumed=[item for item in progression if item.name not in FLEA_ITEM_NAMES],
+            ):
+                yield changed, items, False
+                for _ in range(2):
+                    multiworld.random.shuffle(progression)
+                    multiworld.random.shuffle(available)
+                    yield changed, items, False
         for _ in range(4):
             multiworld.random.shuffle(progression)
             multiworld.random.shuffle(available)
-            yield (), ()
-        grip = next((location for location in skills if location.item.name == "Cling Grip"), None)
-        dash = next((location for location in skills if location.name == "Swift Step"), None)
-        if grip is not None and dash is not None and grip is not dash:
-            yield (dash, grip), (grip.item, dash.item)
-        if skills:
-            for _ in range(4):
-                items = [location.item for location in skills]
-                multiworld.random.shuffle(items)
-                yield skills, items
+            yield (), (), False
 
-    for changed, items in attempts():
+        yield (), (), True
+
+    for changed, items, neutral_opening in attempts():
         previous = [location.item for location in changed]
         if changed:
             if not _items_obey_fill_rules(multiworld, changed, items):
@@ -864,16 +681,20 @@ def fill_solo_progression(world, progression, locations):
             _invalidate_native_source_player(multiworld, world.player)
         try:
             pool = list(progression)
-            fill_restrictive(multiworld, sweep_from_pool(multiworld.state), available[:], pool,
+            if neutral_opening:
+                if not _reserve_solo_opening(world, pool, available, minimum_gain=1):
+                    continue
+            elif not opening_attempted:
+                opening_attempted = True
+                reserved_opening = _reserve_solo_opening(world, pool, available)
+            fill_restrictive(multiworld, sweep_from_pool(multiworld.state),
+                             [location for location in available if location.item is None], pool,
                              single_player_placement=True, name="Silksong progression")
             reached = sweep_from_pool(multiworld.state)
             if pool or not multiworld.has_beaten_game(reached) or any(
                     world.options.accessibility != "minimal"
                     and location.item.advancement and not location.can_reach(reached)
                     for location in multiworld.get_filled_locations()):
-                continue
-            if getattr(world, "_early_dash_shuffle_locations", ()) and not any(
-                    opening.has("Swift Step", world.player) for opening, _ in _early_dash_states(world)):
                 continue
             progression.clear()
             locations[:] = [location for location in locations if location.item is None]
@@ -950,13 +771,7 @@ def prefill_category_shuffles(
     multiworld,
     game_name: str,
 ) -> None:
-    """Place exact-category shuffle pools before Archipelago's generic fill.
-
-    Archipelago's generic restrictive fill can spend minutes backtracking
-    across many mutually exclusive lanes. Start from a known reachable native
-    layout, break the two modeled bootstrap cycles, then randomize each lane
-    while retaining only reachable progression layouts.
-    """
+    """Place shuffled Simple Keys before the global fill."""
 
     _restore_reserved_filler(multiworld)
     _validate_unrestricted_opening(multiworld)
@@ -1011,22 +826,11 @@ def prefill_category_shuffles(
         lane = (category, player)
         category_items = items_by_lane[lane]
         category_locations = locations_by_lane[lane]
-        if category in OBSERVATION_LOCATION_CATEGORIES:
-            planned_items = list(category_items)
-            multiworld.random.shuffle(planned_items)
-        elif (
-            get_base_randomization_category(category)
-            in PAIRED_LOCATION_CATEGORIES
-        ):
-            planned_items = _build_native_baseline(
-                category,
-                category_locations,
-                category_items,
-            )
-        else:
-            raise ValueError(
-                f"Unsupported Silksong shuffle category: {category!r}"
-            )
+        planned_items = _build_native_baseline(
+            category,
+            category_locations,
+            category_items,
+        )
         planned_items_by_lane[lane] = _match_items_to_locations(
             multiworld,
             category,
@@ -1039,103 +843,6 @@ def prefill_category_shuffles(
         for player in multiworld.player_ids
         if multiworld.worlds[player].game == game_name
     )
-
-    protected_locations = set()
-    opening_state = CollectionState(multiworld)
-    opening_state.sweep_for_advancements()
-    for player in silksong_players:
-        lane = ("Skill", player)
-        if lane in planned_items_by_lane:
-            world = multiworld.worlds[player]
-            if world.is_early_dash_enabled() and opening_state.has("Swift Step", player):
-                multiworld.local_early_items[player].pop("Swift Step", None)
-            elif world.is_early_dash_enabled():
-                from .entrance_randomization import _has_possible_category_order
-
-                joint_plan = []
-                if _has_possible_category_order(world, 'Skill', ('BellShrine',), joint_plan):
-                    world._early_dash_shuffle_locations = tuple(locations_by_lane[lane])
-                    before_dash = True
-                    for opening, item in joint_plan:
-                        planned_lane = (_placement_category(item), player)
-                        _place_bootstrap_item(
-                            locations_by_lane[planned_lane], planned_items_by_lane[planned_lane],
-                            player, opening.name, item.name,
-                        )
-                        if _placement_category(item) == 'Skill' and before_dash:
-                            protected_locations.add(opening)
-                        if item.name == 'Swift Step':
-                            before_dash = False
-                    continue
-                chain = _early_dash_chain(world)
-                if chain is None:
-                    raise OptionError("Early Dash with Skill Shuffle has no opening route within two other "
-                                      "movement abilities. Disable Early Dash or use Skills Anywhere.")
-                world._early_dash_shuffle_locations = tuple(locations_by_lane[lane])
-                for opening, item in chain:
-                    _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
-                                          player, opening.name, item.name)
-                    protected_locations.add(opening)
-            if not any(location.name == "Swift Step" for location in protected_locations
-                       if location.player == player):
-                _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
-                                      player, "Swift Step", "Cling Grip")
-            if not any(location.name == "Cling Grip" for location in protected_locations
-                       if location.player == player):
-                _place_bootstrap_item(locations_by_lane[lane], planned_items_by_lane[lane],
-                                      player, "Cling Grip", "Clawline")
-
-    # The modeled Bellhart/Greymoor/Shellwood cluster otherwise has no
-    # external entrance. Put either cluster Bellway at the first Deep Docks
-    # booth, keeping the choice randomized and inside the Bellway lane.
-    for player in silksong_players:
-        lane = ("Bellway", player)
-        if lane in planned_items_by_lane:
-            cluster_source = multiworld.random.choice(
-                (
-                    "Bellway: Bellhart",
-                    "Bellway: Greymoor",
-                )
-            )
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Deep Docks - Bellway",
-                cluster_source,
-            )
-
-    for player in silksong_players:
-        lane = ("Ventrica", player)
-        if lane in planned_items_by_lane:
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Underworks - Ventrica",
-                "Ventrica: Grand Bellway",
-            )
-
-    for player in silksong_players:
-        lane = ("Map", player)
-        if lane in planned_items_by_lane:
-            world = multiworld.worlds[player]
-            get_requirement = getattr(
-                world,
-                "get_trails_end_requirement_key",
-                None,
-            )
-            if not callable(get_requirement):
-                continue
-            if get_requirement() != "owned_maps":
-                continue
-            _place_bootstrap_item(
-                locations_by_lane[lane],
-                planned_items_by_lane[lane],
-                player,
-                "Hunter's March - Map Purchase",
-                "Map: Hunter's March",
-            )
 
     for category, player in lanes:
         lane = (category, player)
@@ -1157,6 +864,11 @@ def prefill_category_shuffles(
             multiworld.push_item(location, item, False)
             location.locked = True
 
+    for player in silksong_players:
+        multiworld.worlds[player]._silksong_shuffle_locations = tuple(
+            location for lane, locations in locations_by_lane.items() if lane[1] == player
+            for location in locations
+        )
     placed_item_ids = {id(item) for item in shuffled_items}
     multiworld.itempool[:] = [
         item
@@ -1174,7 +886,7 @@ def prefill_category_shuffles(
     ) and not _repair_shuffle_bootstrap(
         multiworld, all_shuffled_locations, silksong_players,
         [location for locations in locations_by_lane.values() for location in locations],
-        protected_locations, reachability_context,
+        reachability_context,
     ):
         unreachable_locations, unbeaten_players = (
             _shuffle_reachability_failures(
@@ -1203,9 +915,6 @@ def prefill_category_shuffles(
             + " "
             "This indicates a logic or plando conflict."
         )
-
-    for location in protected_locations:
-        multiworld.local_early_items[location.player].pop("Swift Step", None)
 
     local_contexts = {}
     if (
@@ -1236,11 +945,7 @@ def prefill_category_shuffles(
         check_locations, check_players, check_context = local_contexts.get(
             lane[1], (all_shuffled_locations, silksong_players, reachability_context)
         )
-        locations = [
-            location
-            for location in locations_by_lane[lane]
-            if location not in protected_locations
-        ]
+        locations = locations_by_lane[lane]
         if len(locations) < 2:
             continue
 
@@ -1329,14 +1034,6 @@ def prefill_category_shuffles(
                         non_progression_items,
                     )
                     break
-
-    for player in silksong_players:
-        multiworld.worlds[player]._silksong_skill_shuffle_locations = tuple(
-            locations_by_lane.get(("Skill", player), ())
-        )
-        multiworld.worlds[player]._silksong_spell_shuffle_locations = tuple(
-            locations_by_lane.get(("Spell", player), ())
-        )
 
     if local_contexts and not _shuffle_is_accessible(
         multiworld, all_shuffled_locations, silksong_players, reachability_context,

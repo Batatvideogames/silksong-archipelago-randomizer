@@ -1433,7 +1433,7 @@ namespace SilksongRandomizer
             if (roomIdentityMatches &&
                 checkMapMarkers != archipelago.CheckMapMarkers)
             {
-                return "This randomizer save uses check_map_markers '" +
+                return "This randomizer save uses location_map_markers '" +
                        GetCheckMapMarkerModeName(checkMapMarkers) +
                        "', but the current slot uses '" +
                        GetCheckMapMarkerModeName(
@@ -1915,30 +1915,6 @@ namespace SilksongRandomizer
                     StringComparison.OrdinalIgnoreCase))
             {
                 return true;
-            }
-
-            if (needleUpgradeRandomization != RandomizationMode.Vanilla &&
-                string.Equals(
-                    canonicalName,
-                    "Wish: Pinmaster's Oil",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                // Completing the vanilla oil wish is part of the Shining
-                // Needle transaction. The randomized smith location reports
-                // that transaction, so Quest Sanity must not report it again.
-                return false;
-            }
-
-            if (IsRandomized(ItemType.ToolPouch) &&
-                string.Equals(
-                    canonicalName,
-                    "Wish: Bugs of Pharloom",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                // Journal has one physical reward. When its Tool Pouch source
-                // is active, Quest Sanity must not report that completion as
-                // a second AP check.
-                return false;
             }
 
             if (ScroungeRelicTurnInManifest.IsTurnInLocation(

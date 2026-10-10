@@ -651,7 +651,8 @@
     ],
     "checks": [
       "Loddie - Tool Pouch",
-      "Straight Pin"
+      "Straight Pin",
+      "Loddie - Heavy Rosary Necklace"
     ],
     "events": [
       "Room Event: event:mapper/381b6434-4c93-41ff-ad14-61d7bcf173f8",
@@ -1345,7 +1346,8 @@
       "Wish: Bone Bottom Repairs",
       "Wish: A Lifesaving Bridge",
       "Wish: An Icon of Hope",
-      "Wish: Survivor's Camp Supplies"
+      "Wish: Survivor's Camp Supplies",
+      "Wish: Bone Bottom Supplies"
     ],
     "events": [
       "Room Event: event:mapper/reviewed:bone-bottom-repairs-completed",
@@ -1354,7 +1356,8 @@
       "Room Event: event:mapper/reviewed:bone-bottom-bridge-constructed",
       "Room Event: event:mapper/reviewed:bone-bottom-statue-constructed",
       "Room Event: event:mapper/04c1ce1a-f0c1-464e-8000-971f77978cef",
-      "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+      "Room Event: event:mapper/reviewed:courier-fixer-delivered",
+      "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
     ],
     "item_id": 839037,
     "act": 1

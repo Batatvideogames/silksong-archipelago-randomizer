@@ -16,6 +16,7 @@ namespace SilksongRandomizer
             internal SpriteRenderer Renderer;
             internal string Name;
             internal Sprite Source;
+            internal string FleaName;
         }
 
         private sealed class RowView
@@ -46,6 +47,18 @@ namespace SilksongRandomizer
         private int iconIndex;
         private float refreshAt;
         private bool reportedError;
+        private readonly List<IconView> fleaButtons = new List<IconView>();
+        private readonly AudioSource[] fleaVoices = new AudioSource[8];
+        private int nextFleaVoice;
+        private float lastOrdinaryFleaTime = float.NegativeInfinity;
+        private bool actionsFocused;
+        private bool waitingForActionRelease;
+        private int selectedFlea = -1;
+        private float actionsReadyAt;
+        private float nextTimePass;
+        private float timePassPulseUntil;
+        private TextMeshPro timeButton;
+        private static readonly Rect TimeButtonRect = new Rect(1.7f, -13.6f, 5.2f, .65f);
 
         public override bool IsAvailable => SaveState.Instance?.IsRoomBound == true;
 
@@ -83,6 +96,16 @@ namespace SilksongRandomizer
             owner.ClosingInventory += EndInventory;
             input = gameObject.AddComponent<InventoryPaneInput>();
             input.enabled = false;
+            var inventoryAudio = (AudioSource)AccessTools.Field(typeof(InventoryPaneList), "audioSourcePrefab").GetValue(owner);
+            for (int i = 0; i < fleaVoices.Length; i++)
+            {
+                var voice = gameObject.AddComponent<AudioSource>();
+                voice.playOnAwake = false;
+                voice.spatialBlend = 0f;
+                voice.ignoreListenerPause = true;
+                voice.outputAudioMixerGroup = inventoryAudio.outputAudioMixerGroup;
+                fleaVoices[i] = voice;
+            }
             AccessTools.Field(typeof(InventoryPaneInput), "allowHorizontalSelection").SetValue(input, true);
             AccessTools.Field(typeof(InventoryPaneInput), "allowVerticalSelection").SetValue(input, true);
             AccessTools.Field(typeof(InventoryPaneInput), "allowRepeat").SetValue(input, true);
@@ -255,13 +278,20 @@ namespace SilksongRandomizer
             owner.IsPaneMoveCustom = false;
             owner.CanSwitchPanes = true;
             page = 0;
+            actionsFocused = waitingForActionRelease = false;
+            selectedFlea = -1;
+            lastOrdinaryFleaTime = float.NegativeInfinity;
+            timePassPulseUntil = 0f;
+            actionsReadyAt = Time.unscaledTime + .3f;
             Refresh();
             input.enabled = true;
         }
 
         public override void PaneEnd()
         {
+            RestoreBrowsing();
             input.enabled = false;
+            foreach (var voice in fleaVoices) voice?.Stop();
             input.CancelRepeat();
             base.PaneEnd();
             sheets.Clear();
@@ -291,7 +321,7 @@ namespace SilksongRandomizer
 
         private void SwitchTab(string moveEvent)
         {
-            if (!IsPaneActive || owner == null || !owner.CanSwitchPanes || owner.InSubMenu) return;
+            if (!IsPaneActive || actionsFocused || waitingForActionRelease || owner == null || !owner.CanSwitchPanes || owner.InSubMenu) return;
             input.CancelRepeat();
             FSMUtility.SendEventToGameObject(owner.gameObject, moveEvent);
         }
@@ -301,14 +331,177 @@ namespace SilksongRandomizer
 
         private void Browse(int direction)
         {
-            if (!IsPaneActive || !IsAvailable || sheets.Count < 2) return;
+            if (!IsPaneActive || !IsAvailable || actionsFocused || waitingForActionRelease || sheets.Count < 2) return;
             page = (page + direction + sheets.Count) % sheets.Count;
             Render();
         }
 
         private void Update()
         {
-            if (IsPaneActive && IsAvailable && Time.unscaledTime >= refreshAt) Refresh();
+            if (!IsPaneActive || !IsAvailable)
+            {
+                if (actionsFocused || waitingForActionRelease) RestoreBrowsing();
+                return;
+            }
+            if (Time.unscaledTime >= refreshAt) Refresh();
+            UpdateActions();
+            UpdateTimeButtonFeedback();
+        }
+
+        private void UpdateTimeButtonFeedback()
+        {
+            if (timeButton == null) return;
+            float pulse = Mathf.Sin(Mathf.PI * Mathf.Clamp01((timePassPulseUntil - Time.unscaledTime) / .45f));
+            float size = 4f + .6f * pulse;
+            timeButton.fontSize = size;
+            timeButton.fontSizeMin = size * .85f;
+            timeButton.fontSizeMax = size;
+            float brightness = .85f + .15f * pulse;
+            timeButton.color = new Color(brightness, brightness, brightness, timeButton.color.a);
+        }
+
+        private void FocusActions(int flea = -1)
+        {
+            actionsFocused = true;
+            waitingForActionRelease = true;
+            selectedFlea = flea;
+            input.CancelRepeat();
+            input.enabled = false;
+            owner.CanSwitchPanes = false;
+            owner.InSubMenu = true;
+            owner.CloseBlocked = true;
+            Render();
+        }
+
+        private void RestoreBrowsing()
+        {
+            actionsFocused = waitingForActionRelease = false;
+            if (owner == null) return;
+            owner.CanSwitchPanes = true;
+            owner.InSubMenu = false;
+            owner.CloseBlocked = false;
+            input.CancelRepeat();
+            input.enabled = IsPaneActive;
+        }
+
+        private void UpdateActions()
+        {
+            if (sheets.Count == 0 || sheets[page].Key != "overview" ||
+                Time.unscaledTime < actionsReadyAt || InventoryPaneInput.IsInputBlocked || CheatManager.IsOpen) return;
+            GameManager manager = GameManager.UnsafeInstance;
+            if (manager == null || !manager.IsGameplayScene() || manager.IsLoadingSceneTransition ||
+                manager.IsInSceneTransition || PlayerData.instance == null || PlayerData.instance.health <= 0)
+            {
+                if (actionsFocused || waitingForActionRelease) RestoreBrowsing();
+                return;
+            }
+            var controls = manager.inputHandler?.inputActions;
+            if (controls == null) return;
+            if (waitingForActionRelease)
+            {
+                if (Platform.Current.GetMenuAction(controls) != Platform.MenuActions.None ||
+                    Platform.Current.GetMenuAction(controls, isContinuous: true) != Platform.MenuActions.None ||
+                    controls.Left.WasPressed || controls.Right.WasPressed || controls.Up.WasPressed || controls.Down.WasPressed ||
+                    controls.Left.IsPressed || controls.Right.IsPressed || controls.Up.IsPressed || controls.Down.IsPressed ||
+                    InventoryPaneInput.GetInventoryInputPressed(controls) != InventoryPaneList.PaneTypes.None ||
+                    Input.GetMouseButton(0)) return;
+                waitingForActionRelease = false;
+                if (!actionsFocused) RestoreBrowsing();
+                return;
+            }
+            if (!actionsFocused && (owner.InSubMenu || owner.CloseBlocked)) return;
+            if (Input.GetMouseButtonDown(0))
+            {
+                HandleActionClick();
+                return;
+            }
+            var action = Platform.Current.GetMenuAction(controls);
+            if (!actionsFocused)
+            {
+                if (!owner.InSubMenu && !owner.CloseBlocked && action == Platform.MenuActions.Submit)
+                    FocusActions();
+                return;
+            }
+            if (action == Platform.MenuActions.Cancel || InventoryPaneInput.IsInventoryButtonPressed(controls))
+            {
+                actionsFocused = false;
+                waitingForActionRelease = true;
+                Render();
+                return;
+            }
+            if (action == Platform.MenuActions.Submit)
+            {
+                ActivateAction();
+                waitingForActionRelease = true;
+                return;
+            }
+            int previous = selectedFlea;
+            if (controls.Down.WasPressed) selectedFlea = -1;
+            else if (controls.Up.WasPressed && fleaButtons.Count > 0) selectedFlea = Math.Max(0, selectedFlea);
+            else if (controls.Left.WasPressed) selectedFlea = Math.Max(-1, selectedFlea - 1);
+            else if (controls.Right.WasPressed) selectedFlea = Math.Min(fleaButtons.Count - 1, selectedFlea + 1);
+            if (previous != selectedFlea) Render();
+        }
+
+        private void HandleActionClick()
+        {
+            Camera camera = GameCameras.SilentInstance?.hudCamera;
+            if (camera == null) return;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            var plane = new Plane(transform.forward, transform.TransformPoint(0f, 0f, -3.3f));
+            if (!plane.Raycast(ray, out float distance)) return;
+            Vector3 point = transform.InverseTransformPoint(ray.GetPoint(distance));
+            if (TimeButtonRect.Contains(new Vector2(point.x, point.y)))
+            {
+                FocusActions();
+                ActivateAction();
+                return;
+            }
+            var clicked = fleaButtons.Where(flea => flea.Renderer.enabled && flea.Renderer.bounds.IntersectRay(ray))
+                .OrderByDescending(flea => flea.Renderer.sortingOrder).FirstOrDefault();
+            if (clicked != null)
+            {
+                FocusActions(fleaButtons.IndexOf(clicked));
+                ActivateAction();
+            }
+            else if (actionsFocused)
+            {
+                actionsFocused = false;
+                waitingForActionRelease = true;
+                Render();
+            }
+        }
+
+        private void ActivateAction()
+        {
+            if (selectedFlea >= 0)
+            {
+                if (selectedFlea < fleaButtons.Count)
+                {
+                    string name = fleaButtons[selectedFlea].FleaName;
+                    float pitch = name == "Flea" && Time.unscaledTime - lastOrdinaryFleaTime < 3f
+                        ? UnityEngine.Random.Range(.85f, 1.2f) : 1f;
+                    if (FleaRescueAudio.TryPlayInventoryFlea(name, fleaVoices[nextFleaVoice], pitch))
+                    {
+                        nextFleaVoice = (nextFleaVoice + 1) % fleaVoices.Length;
+                        if (name == "Flea") lastOrdinaryFleaTime = Time.unscaledTime;
+                    }
+                }
+                return;
+            }
+            if (Time.unscaledTime < nextTimePass) return;
+            nextTimePass = Time.unscaledTime + 1f;
+            try
+            {
+                GameManager.UnsafeInstance.TimePasses();
+                timePassPulseUntil = Time.unscaledTime + .45f;
+                Refresh();
+            }
+            catch (Exception error)
+            {
+                RandomizerPlugin.Log?.LogError("[RANDOMIZER] Could not pass time from inventory: " + error);
+                Render();
+            }
         }
 
         private void Refresh()
@@ -319,6 +512,7 @@ namespace SilksongRandomizer
                 SaveState state = SaveState.Instance;
                 if (!ReferenceEquals(displayedSave, state))
                 {
+                    if (actionsFocused || waitingForActionRelease) RestoreBrowsing();
                     displayedSave = state;
                     page = 0;
                     soul = null;
@@ -352,6 +546,8 @@ namespace SilksongRandomizer
         private void Clear()
         {
             labelIndex = rowIndex = iconIndex = 0;
+            fleaButtons.Clear();
+            timeButton = null;
             soulDivider.enabled = false;
             foreach (var label in labels) label.text = "";
             foreach (var row in rows) { row.Title.text = ""; row.Detail.text = ""; ClearIcon(row.Icon); }
@@ -373,9 +569,10 @@ namespace SilksongRandomizer
                 navigation = "Up: " + SheetName(sheets[(page + sheets.Count - 1) % sheets.Count]) +
                     "    /    Down: " + SheetName(sheets[(page + 1) % sheets.Count]);
             bool overview = sheet.Key == "overview";
-            Label(navigation, -7.6f, -12.55f, overview ? 11.4f : 23.8f, .55f, 3.6f, .85f);
-            Label("F4: Return to " + FastTravelUtil.GetPreferredHubName() + "    |    F3: Change destination",
-                -7.6f, -13.2f, overview ? 11.4f : 23.8f, .5f, 3.3f, .6f);
+            Label(actionsFocused ? "" : navigation, -7.6f, -12.55f, overview ? 8.8f : 23.8f, .55f, 3.6f, .85f);
+            string travelHelp = overview ? "F4: " + FastTravelUtil.GetPreferredHubName() + "   |   F3: Destination"
+                : "F4: Return to " + FastTravelUtil.GetPreferredHubName() + "    |    F3: Change destination";
+            Label(travelHelp, -7.6f, -13.2f, overview ? 8.8f : 23.8f, .5f, 3.3f, .6f);
             if (overview)
             {
                 Label("Total traps received: " + sheet.TrapsReceived, 4.8f, -12.6f, 11.4f, .5f, 3.2f, .85f, TextAlignmentOptions.TopRight);
@@ -393,6 +590,13 @@ namespace SilksongRandomizer
 
         private void RenderOverview(ArchipelagoInventorySheet sheet)
         {
+            timeButton = labels[labelIndex];
+            Label(actionsFocused && selectedFlea < 0 ? "[ Pass Time ]" : "Pass Time",
+                TimeButtonRect.x, TimeButtonRect.yMax, TimeButtonRect.width, TimeButtonRect.height,
+                4f, .85f, TextAlignmentOptions.Top);
+            UpdateTimeButtonFeedback();
+            Label("Confirm / A Button: Actions",
+                -2.1f, -1.25f, 18.3f, .45f, 3.1f, .8f);
             Row(sheet.Left[0], -7.6f, -2.3f, 10.8f, 5.5f);
             Label("Recently Received", -7.6f, -4.2f, 10.8f, .7f, 4.5f);
             for (int i = 0; i < sheet.Right.Count; i++)
@@ -407,13 +611,22 @@ namespace SilksongRandomizer
                 "<color=#" + (row.Dim ? "737373" : "FFFFFF") + ">" +
                 ArchipelagoInventoryModel.Plain(row.Title) +
                 (index < sheet.Caravan.Count - 1 ? "," : "") + "</color>"));
+            float fleaLabelX = 4.8f;
             for (int i = 0; i < sheet.Fleas.Count; i++)
             {
                 bool front = i % 2 == 1;
                 float x = 5.225f + (front ? .325f : 0f) + (i / 2) * (9.275f / 14f);
-                Icon(sheet.Fleas[i], x, front ? -3.625f : -3.475f, .65f);
-                if (front) icons[iconIndex - 1].Renderer.sortingOrder++;
+                bool selected = actionsFocused && selectedFlea == i;
+                if (selected) fleaLabelX = x - 1.7f;
+                Icon(sheet.Fleas[i], x, front ? -3.625f : -3.475f, selected ? .8f : .65f);
+                var flea = icons[iconIndex - 1];
+                flea.FleaName = sheet.Fleas[i].Icon;
+                fleaButtons.Add(flea);
+                flea.Renderer.sortingOrder += selected ? 2 : front ? 1 : 0;
             }
+            Label(actionsFocused && selectedFlea >= 0 && selectedFlea < sheet.Fleas.Count
+                ? sheet.Fleas[selectedFlea].Icon : "", fleaLabelX, -3.98f, 3.4f, .3f, 3f,
+                1f, TextAlignmentOptions.Top);
 
             var soulRow = sheet.Left.FirstOrDefault(r => r.Title == "Silk and Soul");
             if (soulRow != null)

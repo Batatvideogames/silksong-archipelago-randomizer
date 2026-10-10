@@ -15,6 +15,7 @@ from .locations import (
     COURIER_DELIVERY_WISH_LOCATION_NAMES,
     OBSERVATION_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
+    WISH_REWARD_LOCATION_BY_COMPLETION,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
@@ -329,22 +330,8 @@ def set_silksong_rules(world) -> None:
             and not individual_relic_turn_ins
         ):
             continue
-        if (
-            location_name == PINMASTER_OIL_QUEST_LOCATION
-            and randomize_needle_upgrades
-        ):
+        if location_name in WISH_REWARD_LOCATION_BY_COMPLETION:
             continue
-        if (
-            location_name == VOLATILE_FLINTBEETLES_QUEST_LOCATION
-            and world.get_category_mode('MemoryLocket') != 'vanilla'
-        ):
-            continue
-        if (
-            location_name == 'Wish: Bugs of Pharloom'
-            and world.get_category_mode('ToolPouch') != 'vanilla'
-        ):
-            continue
-
         mode = (
             world.get_location_randomization_mode(
                 location_name,
@@ -588,25 +575,11 @@ def set_silksong_rules(world) -> None:
         world._silksong_rule_builder_rules[location_name] = location_rule
         world.set_rule(location, location_rule)
 
-        # Vanilla logic events and the fixed shuffle exceptions
-        # already have their sole legal reward.
         if getattr(location, "item", None) is not None:
             continue
 
-        if mode == "shuffle":
-            placement_category = (
-                world.get_location_shuffle_placement_category(
-                    location_name,
-                    location_data.category,
-                )
-            )
-            add_item_rule(
-                location,
-                _is_matching_shuffle_item(
-                    placement_category,
-                    world.player,
-                ),
-            )
+        if location_data.category == "Key" and mode == "shuffle":
+            add_item_rule(location, _is_matching_shuffle_item("Key", world.player))
 
         if location_name in ROSARY_BANK_GATED_LOCATIONS:
             # The door's own key is excluded from these locations. Its

@@ -234,8 +234,6 @@ def _early_item_assignment(world):
         if location.address is None or location in getattr(world, '_soul_opening_locations', ())
     ))
     pending = dict(world.multiworld.local_early_items[world.player])
-    if world.get_category_mode('Skill') == 'shuffle' and world.is_early_dash_enabled():
-        pending.pop('Swift Step', None)
     items = []
     for item in world.multiworld.itempool:
         if item.player == world.player and pending.get(item.name, 0) > 0:
@@ -306,21 +304,20 @@ def _has_possible_category_progression(world):
                 del pending[category]
                 changed = True
     return (not pending and multiworld.has_beaten_game(state, world.player)
-            and _has_possible_category_order(world, 'Skill', ('BellShrine',))
+            and _has_possible_category_order(world, 'BellShrine')
             and _has_possible_category_order(world, 'Melody'))
 
 
-def _has_possible_category_order(world, category, related_categories=(), placements=None):
+def _has_possible_category_order(world, category):
     from .category_fill import _placement_category
 
     multiworld = world.multiworld
-    categories = (category, *related_categories)
     items = [item for item in multiworld.itempool
-             if item.player == world.player and _placement_category(item) in categories]
+             if item.player == world.player and _placement_category(item) == category]
     if not items:
         return True
     locations = [location for location in world.get_locations()
-                 if location.item is None and _placement_category(location) in categories]
+                 if location.item is None and _placement_category(location) == category]
     state = CollectionState(multiworld)
     for item in multiworld.itempool:
         if item not in items:
@@ -329,11 +326,10 @@ def _has_possible_category_order(world, category, related_categories=(), placeme
         if location.item.code is not None and (
                 location.player != world.player or location.item.player != world.player):
             state.collect(location.item, True)
-    early_dash = category == 'Skill' and world.is_early_dash_enabled()
-    pending_states = [(state, tuple(range(len(items))), tuple(range(len(locations))), ())]
+    pending_states = [(state, tuple(range(len(items))), tuple(range(len(locations))))]
     visited = set()
     while pending_states:
-        state, pending, slots, chain = pending_states.pop()
+        state, pending, slots = pending_states.pop()
         key = pending, slots
         if key in visited:
             continue
@@ -341,13 +337,7 @@ def _has_possible_category_order(world, category, related_categories=(), placeme
         if len(visited) > 128:
             return False
         state.sweep_for_advancements(world.get_locations())
-        placed_skills = sum(_placement_category(item) == 'Skill' for item in items) - sum(
-            _placement_category(items[index]) == 'Skill' for index in pending)
-        placing_early_dash = (early_dash and placed_skills >= 2
-                              and any(items[index].name == 'Swift Step' for index in pending))
         if not pending:
-            if placements is not None:
-                placements.extend(chain)
             return True
         for location_index in slots:
             location = locations[location_index]
@@ -355,9 +345,6 @@ def _has_possible_category_order(world, category, related_categories=(), placeme
                 continue
             for item_index in pending:
                 if _placement_category(items[item_index]) != _placement_category(location):
-                    continue
-                if (placing_early_dash and _placement_category(items[item_index]) == 'Skill'
-                        and items[item_index].name != 'Swift Step'):
                     continue
                 if not location.can_fill(state, items[item_index], check_access=False):
                     continue
@@ -367,83 +354,8 @@ def _has_possible_category_order(world, category, related_categories=(), placeme
                     trial,
                     tuple(index for index in pending if index != item_index),
                     tuple(index for index in slots if index != location_index),
-                    (*chain, (location, items[item_index])),
                 ))
     return False
-
-
-def _reserve_starting_skill_pair(world, exits, repair_shuffle=False):
-    early_dash = world.is_early_dash_enabled()
-    if (len(exits) < 4 or world.get_category_mode('Skill') != 'shuffle'
-            or not (early_dash or repair_shuffle)):
-        return {}
-    from collections import deque
-    from .category_fill import _placement_category
-
-    dash = next((item for item in world.multiworld.itempool
-                 if item.player == world.player and item.name == 'Swift Step'), None)
-    if dash is None:
-        return {}
-    locations = [location for location in world.get_locations()
-                 if location.item is None and _placement_category(location) == 'Skill']
-    destinations = {entrance: entrance.connected_region for entrance in exits.values()}
-    incoming = {entrance.parent_region: list(entrance.parent_region.entrances) for entrance in exits.values()}
-    selected = {}
-
-    def starting_state():
-        state = CollectionState(world.multiworld, True)
-        if early_dash or repair_shuffle:
-            for item in world.multiworld.itempool:
-                if item.player == world.player and (
-                        _placement_category(item) != 'Skill' if early_dash
-                        else _placement_category(item) is None):
-                    state.collect(item, True)
-        state.sweep_for_advancements(_early_sweep_locations(world))
-        return state
-
-    try:
-        for entrance in exits.values():
-            _disconnect(entrance)
-        state = starting_state()
-        if state.has('Swift Step', world.player) or any(location.can_fill(state, dash) for location in locations):
-            return {}
-        starts = [source for source, entrance in exits.items() if entrance.can_reach(state)]
-        distances = {location.parent_region: 0 for location in locations}
-        queue = deque(distances)
-        while queue:
-            region = queue.popleft()
-            for entrance in region.entrances:
-                parent = entrance.parent_region
-                if parent is not None and parent not in distances:
-                    distances[parent] = distances[region] + 1
-                    queue.append(parent)
-        candidates = [
-            (source, target) for source in starts for target in exits
-            if source != target and OPPOSITE_GROUP[POOL[source]['group']] == POOL[target]['group']
-            and (scope(world) != 'within_areas' or area(source) == area(target))
-        ]
-        world.random.shuffle(candidates)
-        candidates.sort(key=lambda pair: distances.get(exits[pair[1]].parent_region, float('inf')))
-        for source, target in candidates[:64]:
-            exits[source].connect(exits[target].parent_region)
-            exits[target].connect(exits[source].parent_region)
-            state = starting_state()
-            possible = any(location.can_fill(state, dash) for location in locations)
-            _disconnect(exits[source])
-            _disconnect(exits[target])
-            if possible:
-                selected = {source: target, target: source}
-                break
-    finally:
-        for region, entrances in incoming.items():
-            region.entrances[:] = entrances
-        for entrance, destination in destinations.items():
-            entrance.connected_region = destination
-        world.multiworld.state.stale[world.player] = True
-    for source, target in selected.items():
-        _disconnect(exits[source])
-        exits[source].connect(exits[target].parent_region)
-    return selected
 
 
 def _randomize_group(world, exits):
@@ -453,9 +365,7 @@ def _randomize_group(world, exits):
               for source, entrance in exits.items()} if scope(world) == 'within_areas' else {
                   group: [opposite] for group, opposite in OPPOSITE_GROUP.items()}
     for attempt in range(10):
-        fixed = _reserve_starting_skill_pair(world, exits, repair_shuffle=attempt > 0)
-        remaining = {source: entrance for source, entrance in exits.items() if source not in fixed}
-        for entrance in remaining.values():
+        for entrance in exits.values():
             disconnect_entrance_for_randomization(entrance)
         try:
             native_items = tuple(
@@ -466,12 +376,11 @@ def _randomize_group(world, exits):
             world._entrance_construction_items = native_items
             try:
                 result = randomize_entrances(world, coupled=True, target_group_lookup=groups,
-                                             exits=list(remaining.values()))
+                                             exits=list(exits.values()))
             finally:
                 world._entrance_construction_items = ()
             if native_items and not _has_reachable_exits(world, exits):
                 raise EntranceRandomizationError('Entrance layout blocks native-item progression.')
-            result.pairings.extend((exits[source].name, exits[target].name) for source, target in fixed.items())
             if scope(world) != 'within_areas' and not _has_early_item_space(world):
                 raise EntranceRandomizationError('Entrance layout has insufficient checks for local early items.')
             if scope(world) != 'within_areas' and not _has_possible_category_progression(world):
@@ -553,29 +462,7 @@ def _with_entrance_candidates(world, exits, predicate):
         world.multiworld.state.stale[world.player] = True
 
 
-def _validate_early_dash_start(world, exits):
-    if world.get_category_mode('Skill') != 'shuffle' or not world.is_early_dash_enabled():
-        return
-    from .category_fill import _early_dash_chain
-
-    def can_place_dash():
-        state = CollectionState(world.multiworld)
-        state.sweep_for_advancements(world.get_locations())
-        return state.has('Swift Step', world.player) or _early_dash_chain(world) is not None
-
-    if can_place_dash():
-        return
-    if exits and _with_entrance_candidates(world, exits, can_place_dash):
-        return
-    raise OptionError(
-        'Early Dash with Skill Shuffle has no opening route within two other movement abilities, '
-        'even with every compatible entrance destination available. Disable Early Dash, '
-        'use Skills Anywhere or change the starting abilities or entrance scope.'
-    )
-
-
 def _validate_fixed_start(world, exits):
-    _validate_early_dash_start(world, exits)
     state, items, assigned, fits = _early_item_assignment(world)
     if any(entrance.can_reach(state) for entrance in exits.values()):
         return

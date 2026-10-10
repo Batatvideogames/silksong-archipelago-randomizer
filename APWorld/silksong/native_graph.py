@@ -134,6 +134,8 @@ def _external_roots(world):
               *world._progression_location_rules.values(), get_pinmaster_oil_requirements(True)]
     groups.extend(world_location_requirements(world, name) for name in REQUIREMENTS)
     groups.extend(check_requirements(name) for name in enabled_enemies(world))
+    from .scene_exits import fixed_exits
+    groups.extend(exit.requirements for exit in fixed_exits(world))
     from .requirement_rules import build_requirements_rule
     from .native_regions import native_rule_options
     from .room_graph_logic import native_region_name
@@ -169,15 +171,18 @@ def compact_requirements(world, original, additional_roots=(), *, silk_supply=Fa
                 resolved = build_requirements_rule(
                     (condition,), extra_abstract_requirement_names=names, **options,
                 ).resolve(world)
-                constants[condition] = (resolved.always_true, resolved.always_false)
-            always_true, always_false = constants[condition]
+                predicate_id = 0
+                if not resolved.always_true and not resolved.always_false:
+                    predicate = replace(condition, all_of=(), any_of=())
+                    predicate_id = predicates.setdefault(predicate, len(predicates))
+                constants[condition] = (resolved.always_true, resolved.always_false, predicate_id)
+            always_true, always_false, predicate_id = constants[condition]
             if always_false:
                 continue
             if always_true:
-                rule = req(*refs, crest=False)
-            predicate = replace(rule, all_of=(), any_of=())
-            predicate_id = predicates.setdefault(predicate, len(predicates))
-            retained.add((frozenset(rule.all_of), frozenset(rule.any_of), predicate_id))
+                retained.add((frozenset(refs), frozenset(), 0))
+            else:
+                retained.add((frozenset(rule.all_of), frozenset(rule.any_of), predicate_id))
         graph[owner] = retained
     boundaries = set()
     if entrances_enabled(world) and not silk_supply:
@@ -187,6 +192,7 @@ def compact_requirements(world, original, additional_roots=(), *, silk_supply=Fa
         boundaries.update("Room Node: " + node for _, node in WARP_DESTINATIONS.values())
         boundaries.update(at(node, amount) for node in tuple(boundaries)
                           for amount in range(1, MAX_SILK + 1))
+    assumed = frozenset(world._progression_events) | boundaries
     from .scene_exits import fixed_exits
     boundaries.update(node for exit in fixed_exits(world) for node in (exit.source, exit.destination) if node in original)
     mutable = frozenset(world._progression_events) | boundaries
@@ -194,7 +200,7 @@ def compact_requirements(world, original, additional_roots=(), *, silk_supply=Fa
     if not getattr(world, '_silk_node_rules', None):
         from .entrance_randomization import WARP_DESTINATIONS
         from .room_graph_logic import room_node_name
-        possible = set(mutable) | set(additional_roots)
+        possible = set(assumed) | set(additional_roots)
         possible.update(aliases.get(room_node_name(node), room_node_name(node))
                         for _, node in WARP_DESTINATIONS.values())
         pending = set(graph) - possible
@@ -237,7 +243,7 @@ def compact_requirements(world, original, additional_roots=(), *, silk_supply=Fa
     roots = _external_roots(world) & result.keys()
     roots.update(name for name in (*additional_roots, *boundaries) if name in result)
     retained_rules = (*world._progression_location_rules.values(),
-                      *(original[name] for name in mutable))
+                      *(original[name] for name in world._progression_events))
     for rules in retained_rules:
         for rule in rules:
             roots.update(n for n in (*rule.all_of, *rule.any_of) if n in result)

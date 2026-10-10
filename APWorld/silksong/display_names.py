@@ -90,7 +90,7 @@ def clean_item_display_name(name: str) -> str:
         return {
             "Flea: Greymoor - Kratt": "Flea (Kratt)",
             "Flea: Putrified Ducts - Vog": "Flea (Vog)",
-            "Flea: Memorium - Huge Flea": "Flea (Big Flea)",
+            "Flea: Memorium - Huge Flea": "Flea (Huge Flea)",
         }.get(name, "Flea")
     return name
 

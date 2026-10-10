@@ -39,17 +39,16 @@ from .alphabet_mode import (
     parse_spelling_bee_phrase,
 )
 from .category_fill import prefill_category_shuffles
+from .display_names import FLEA_ITEM_NAMES
 from .items import (
     ACT_TWO_START_WITH_MAP_ITEMS,
     AUTOMATIC_COMPASS_ITEM,
     OPTIONAL_START_REPLACEMENT_ITEM,
     POOL_ONLY_USEFUL_ITEM_NAMES,
     QUILL_ITEM,
-    PROGRESSIVE_SILK_HEART_ITEM,
     PROGRESSIVE_SWIFT_STEP_ITEM,
     START_WITH_MAP_ITEMS,
     STARTING_CREST_ITEM_BY_KEY,
-    SHUFFLE_FIXED_LOCATION_REWARDS,
     TRAP_ITEM_NAME_BY_WEIGHT_OPTION,
     TRAP_ITEM_NAMES,
     ItemPoolEntry,
@@ -71,6 +70,7 @@ from .locations import (
     OBSERVATION_LOCATION_CATEGORIES,
     PAIRED_LOCATION_CATEGORIES,
     PINMASTER_OIL_QUEST_LOCATION,
+    WISH_REWARD_LOCATION_BY_COMPLETION,
     RELIC_TURN_IN_LOCATION_CATEGORY,
     SCROUNGE_RELIC_ITEM_NAMES,
     VOLATILE_FLINTBEETLES_QUEST_LOCATION,
@@ -84,7 +84,7 @@ from .locations import (
 from .minor_families import (
     MINOR_FAMILY_BY_LOCATION,
     MINOR_FAMILY_OPTION_BY_KEY,
-    get_minor_family_shuffle_category,
+    get_minor_family_category,
 )
 from .native_regions import (
     choose_location_anchor,
@@ -99,7 +99,6 @@ from .options import (
     get_aggregate_minor_mode_key,
     get_category_mode_key,
     get_minor_family_modes,
-    get_minor_family_shuffle_placement_category,
 )
 from .prices import (
     PRICE_CATEGORY_OPTION_NAMES,
@@ -221,7 +220,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
-    tracker_world: ClassVar[dict[str, Any]] = {
+    _tracker_world: ClassVar[dict[str, Any]] = {
         "external_pack_key": "ut_pack_path",
         "map_page_folder": "tracker",
         "map_page_maps":"maps.json",
@@ -362,10 +361,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         wish_ids = frozenset(assignment_data.get("wishes", {}))
         if not wish_ids.issubset(SUPPORTED_WISH_IDS):
             raise TrackerException(message="Unknown shuffled wish identity.")
-        wish_mode = option_types["wish_sanity"].from_any(slot_data["wish_sanity"])
+        wish_shuffle = option_types["shuffle_wish_offers"].from_any(slot_data["shuffle_wish_offers"])
         boss_mode = option_types["boss_sanity"].from_any(slot_data["boss_sanity"])
-        if bool(wish_ids) != (wish_mode.value != wish_mode.option_vanilla):
-            raise TrackerException(message="Wish Sanity setting does not match its assignments.")
+        if bool(wish_ids) != bool(wish_shuffle):
+            raise TrackerException(message="Shuffle Wish Offers setting does not match its assignments.")
         boss_ids = frozenset(assignment_data.get("bosses", {}))
         if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_vanilla):
             raise TrackerException(message="Boss Sanity setting does not match its assignments.")
@@ -407,7 +406,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             return self._resolved_starting_crest
 
         if self.options.force_naked and self.get_category_mode('Crest') == 'vanilla':
-            raise OptionError("Naked start requires Crest Randomization set to shuffle or anywhere.")
+            raise OptionError("Naked start requires Crest Randomization set to anywhere.")
         configured_crest = (
             'naked' if self.options.force_naked else (
                 'hunter' if self.get_category_mode('Crest') == 'vanilla'
@@ -678,7 +677,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             category_modes,
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
-            self.get_minor_family_shuffle_categories(),
             individual_relic_turn_ins=(
                 self.is_individual_relic_turn_ins_enabled()
             ),
@@ -700,18 +698,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             steel_soul=self.is_steel_soul(),
             silk_soar_begone=bool(self.options.silk_soar_begone),
         )
-        if (
-            (self.options.silk_heart_logic or self.options.enemy_souls)
-            and self.get_category_mode('Skill') == 'shuffle'
-            and self.get_category_mode('SilkHeart') == 'anywhere'
-        ):
-            player_early_items = self.multiworld.local_early_items[
-                self.player
-            ]
-            player_early_items[PROGRESSIVE_SILK_HEART_ITEM] = max(
-                1,
-                player_early_items.get(PROGRESSIVE_SILK_HEART_ITEM, 0),
-            )
         if self.is_early_dash_enabled():
             player_early_items = self.multiworld.local_early_items[
                 self.player
@@ -742,7 +728,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def is_early_dash_enabled(self) -> bool:
         return (
             bool(self.options.early_dash.value)
-            and self.get_category_mode('Skill') != 'vanilla'
+            and self.get_category_mode('Skill') == 'anywhere'
         )
 
     def is_ledgegrab_ability_rando_enabled(self) -> bool:
@@ -829,11 +815,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.options.trails_end_requirement.current_key
         )
 
-    def get_check_map_markers_key(self) -> str:
-        key = self.options.check_map_markers.current_key
+    def get_location_map_markers_key(self) -> str:
+        key = self.options.location_map_markers.current_key
         if key not in {"off", "mapped_rooms", "owned_maps", "all"}:
             raise OptionError(
-                f"Unknown check map marker mode: {key!r}"
+                f"Unknown location map marker mode: {key!r}"
             )
         return key
 
@@ -972,24 +958,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ) from exc
         return self.get_minor_family_modes()[family_key]
 
-    def get_minor_family_shuffle_categories(self) -> dict[str, str]:
-        return {
-            family_key: get_minor_family_shuffle_placement_category(
-                self.options,
-                family_key,
-            )
-            for family_key in self.get_minor_family_modes()
-        }
 
-    def get_location_shuffle_placement_category(
-        self,
-        location_name: str,
-        category: str,
-    ) -> str:
-        if category != "Resource":
-            return category
-        family_key = MINOR_FAMILY_BY_LOCATION[location_name]
-        return self.get_minor_family_shuffle_categories()[family_key]
 
     def get_category_modes(self) -> dict[str, str]:
         modes = {
@@ -999,7 +968,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         modes["Resource"] = get_aggregate_minor_mode_key(self.options)
         modes.update(
             {
-                get_minor_family_shuffle_category(family_key): mode
+                get_minor_family_category(family_key): mode
                 for family_key, mode in
                 self.get_minor_family_modes().items()
             }
@@ -1034,7 +1003,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()],
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
-            self.get_minor_family_shuffle_categories(),
             self.is_individual_relic_turn_ins_enabled(),
             self.is_act_two_content_scope(),
             self.is_start_fully_mapped_enabled(),
@@ -1260,25 +1228,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         location_name,
                         reward_name,
                     )
-            if (
-                category != 'Resource'
-                and category_modes[category] == 'shuffle'
-            ):
-                for location_name, reward_name in (
-                    SHUFFLE_FIXED_LOCATION_REWARDS
-                    .get(category, {})
-                    .items()
-                ):
-                    if (
-                        location_name
-                        in self.get_goal_excluded_location_names()
-                    ):
-                        continue
-                    place_fixed_reward(
-                        location_name,
-                        reward_name,
-                    )
-
         for item_name in sorted(precollected_option_items):
             self.multiworld.push_precollected(self.create_item(item_name))
 
@@ -1316,7 +1265,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             category_modes,
             self.is_start_with_maps_enabled(),
             self.is_automatic_compass_enabled(),
-            self.get_minor_family_shuffle_categories(),
             getattr(self, 'random', None),
             self.is_individual_relic_turn_ins_enabled(),
             self.is_act_two_content_scope(),
@@ -1448,6 +1396,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def _finalize_progression_shuffle(self) -> None:
         from .progression_shuffle import finalize_world
         finalize_world(self)
+        self._configure_tracker_map()
         state = self.multiworld.get_all_state()
         if self.get_goal_key() == "act_3":
             available = (
@@ -1501,7 +1450,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .progression_shuffle import world_location_requirements
         self._active_crest_slot_locations = None
         self._entrance_construction_items = ()
-        self._early_dash_shuffle_locations = ()
         menu = Region("Menu", self.player, self.multiworld)
         pharloom = Region("Pharloom", self.player, self.multiworld)
         logic_unknown = Region(
@@ -1544,11 +1492,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
         logic_item_references = get_logic_item_references()
 
-        fixed_shuffle_locations = {
-            location_name
-            for locations in SHUFFLE_FIXED_LOCATION_REWARDS.values()
-            for location_name in locations
-        }
         source_rule_dependencies = {}
         for name, data in location_data_table.items():
             if (
@@ -1560,20 +1503,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 and not self.is_individual_relic_turn_ins_enabled()
             ):
                 continue
-            if (
-                name == PINMASTER_OIL_QUEST_LOCATION
-                and randomize_needle_upgrades
-            ):
-                continue
-            if (
-                name == VOLATILE_FLINTBEETLES_QUEST_LOCATION
-                and self.get_category_mode('MemoryLocket') != 'vanilla'
-            ):
-                continue
-            if (
-                name == 'Wish: Bugs of Pharloom'
-                and self.get_category_mode('ToolPouch') != 'vanilla'
-            ):
+            if name in WISH_REWARD_LOCATION_BY_COMPLETION:
                 continue
             mode = (
                 self.get_location_randomization_mode(
@@ -1668,16 +1598,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 parent_region,
             )
             location.silksong_randomization_category = data.category
-            if (
-                mode == 'shuffle'
-                and name not in fixed_shuffle_locations
-            ):
-                location.silksong_placement_category = (
-                    self.get_location_shuffle_placement_category(
-                        name,
-                        data.category,
-                    )
-                )
+            if data.category == 'Key' and mode == 'shuffle':
+                location.silksong_placement_category = 'Key'
             parent_region.locations.append(location)
 
         # Wish events use their verified source region and rule when available.
@@ -1806,6 +1728,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         set_silksong_rules(self)
         from .enemy_souls import set_rules as set_enemy_rules
         set_enemy_rules(self)
+        self._configure_tracker_map()
+
+    def _configure_tracker_map(self) -> None:
+        from .tracker.wishes import location_mapping
+        self.tracker_world = {**self._tracker_world, "poptracker_name_mapping": location_mapping(self)}
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:
@@ -1847,11 +1774,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     multiworld,
                     "_silksong_shuffle_item_rule_scope",
                 )
-        from .category_fill import reserve_early_dash
-
-        for world in multiworld.get_game_worlds(cls.game):
-            if world.game == cls.game:
-                reserve_early_dash(world)
         for world in multiworld.get_game_worlds(cls.game):
             if world.game == cls.game:
                 world._finalize_progression_shuffle()
@@ -1921,7 +1843,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
         }
         ordered = sorted((progitempool[index] for index in indices),
-                         key=lambda item: (item.name.startswith("Flea:"), item.name not in movement))
+                         key=lambda item: (item.name in FLEA_ITEM_NAMES, item.name not in movement))
         for index, item in zip(indices, ordered):
             progitempool[index] = item
         if uses_crest_slot_locket_logic(self):
@@ -2212,14 +2134,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         from .requirement_rules import _enable_native_source_memo
 
-        from .category_fill import _early_dash_states
-
         _enable_native_source_memo(multiworld, frozenset(world.player for world in worlds))
-        for world in worlds:
-            if getattr(world, "_early_dash_shuffle_locations", ()):
-                assert any(state.has("Swift Step", world.player) for state, _ in _early_dash_states(world)), (
-                    "The reserved Early Dash opening was changed after pre-fill."
-                )
         for world in worlds:
             world.build_vog_hint_plan()
 
@@ -2305,6 +2220,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 if location.item is not None
                 and location.item.name != MEMORY_LOCKET_ITEM
             },
+            "shuffle_wish_offers": bool(self.options.shuffle_wish_offers),
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "proficient_combat": self.get_proficient_combat_mode(),
@@ -2323,7 +2239,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "start_fully_mapped":
                 self.is_start_fully_mapped_enabled(),
             "automatic_compass": self.is_automatic_compass_enabled(),
-            "check_map_markers": self.get_check_map_markers_key(),
+            "location_map_markers": self.get_location_map_markers_key(),
             "randomized_bell_markers":
                 self.uses_randomized_bell_markers(),
             "randomized_melody_markers":

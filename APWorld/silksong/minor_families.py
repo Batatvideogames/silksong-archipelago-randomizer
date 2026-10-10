@@ -6,7 +6,7 @@ from .minor_caches import (
     MINOR_CACHE_FAMILY_BY_LOCATION,
     MINOR_CACHE_REWARD_BY_LOCATION,
 )
-from .minor_pickups import MINOR_PICKUP_REWARD_BY_LOCATION
+from .minor_pickups import MINOR_PICKUP_REWARD_BY_LOCATION, SCRIPTED_MINOR_REWARDS
 from .locations import canonicalize_location_name
 
 
@@ -121,6 +121,7 @@ MINOR_FAMILY_KEY_BY_REWARD_NAME.update({
 })
 
 MINOR_REWARD_BY_LOCATION: dict[str, str] = {
+    **SCRIPTED_MINOR_REWARDS,
     **{
         canonicalize_location_name(location_name): reward_name
         for location_name, reward_name in MINOR_PICKUP_REWARD_BY_LOCATION.items()
@@ -161,20 +162,20 @@ MINOR_FAMILY_REWARD_COUNTS: dict[str, dict[str, int]] = {
     for family_key, location_names in MINOR_FAMILY_LOCATION_NAMES.items()
 }
 
-MINOR_FAMILY_SHUFFLE_PREFIX = "Resource:"
-MINOR_FAMILY_SHUFFLE_CATEGORIES: tuple[str, ...] = tuple(
-    MINOR_FAMILY_SHUFFLE_PREFIX + family_key
+MINOR_FAMILY_CATEGORY_PREFIX = "Resource:"
+MINOR_FAMILY_CATEGORIES: tuple[str, ...] = tuple(
+    MINOR_FAMILY_CATEGORY_PREFIX + family_key
     for family_key in MINOR_FAMILY_KEYS
 )
 
 
-def get_minor_family_shuffle_category(family_key: str) -> str:
+def get_minor_family_category(family_key: str) -> str:
     if family_key not in MINOR_FAMILY_OPTION_BY_KEY:
         raise ValueError(f"Unknown minor pickup family: {family_key!r}")
-    return MINOR_FAMILY_SHUFFLE_PREFIX + family_key
+    return MINOR_FAMILY_CATEGORY_PREFIX + family_key
 
 
-def get_minor_family_shuffle_category_for_location(
+def get_minor_family_category_for_location(
     location_name: str,
 ) -> str:
     try:
@@ -183,10 +184,10 @@ def get_minor_family_shuffle_category_for_location(
         raise ValueError(
             f"No minor pickup family for {location_name!r}."
         ) from exc
-    return get_minor_family_shuffle_category(family_key)
+    return get_minor_family_category(family_key)
 
 
 def get_base_randomization_category(category: str) -> str:
-    if category.startswith(MINOR_FAMILY_SHUFFLE_PREFIX):
+    if category.startswith(MINOR_FAMILY_CATEGORY_PREFIX):
         return "Resource"
     return category

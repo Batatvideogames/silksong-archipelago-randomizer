@@ -19,17 +19,18 @@ from .act2_scope import (
 from .display_names import clean_item_display_name
 from .minor_families import (
     MINOR_FAMILY_REWARD_COUNTS,
-    MINOR_FAMILY_SHUFFLE_CATEGORIES,
+    MINOR_FAMILY_CATEGORIES,
     MINOR_REWARD_BY_LOCATION,
     MINOR_REWARD_COUNTS,
     get_base_randomization_category,
-    get_minor_family_shuffle_category_for_location,
+    get_minor_family_category_for_location,
 )
 from .locations import (
     BOSS_CREDIT_BY_LOCATION,
     HUNTER_CREST_SLOT_LOCATION_NAMES,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
+    WISH_REWARD_LOCATION_BY_COMPLETION,
     MASK_SHARD_LOCATION_NAMES,
     NEEDLE_UPGRADE_LOCATION_CATEGORY,
     PALE_OIL_LOCATION_CATEGORY,
@@ -848,8 +849,8 @@ PALE_OIL_POOL_COUNTS: Mapping[str, int] = {
 # Quest Sanity adds one ordinary currency filler per added quest check. These
 # copies participate in trap_percentage whenever Quest Sanity is randomized.
 QUEST_FILLER_COUNTS: Dict[str, int] = {
-    'Rosaries (60)': 22,
-    'Shell Shards (80)': 13,
+    'Rosaries (60)': 15,
+    'Shell Shards (80)': 9,
 }
 
 # These items enter the pool only when their corresponding option is enabled.
@@ -1049,7 +1050,7 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
 )
 
 REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
-    'Flea': {'Flea': 27, 'Flea (Kratt)': 1, 'Flea (Vog)': 1, 'Flea (Big Flea)': 1},
+    'Flea': {'Flea': 27, 'Flea (Kratt)': 1, 'Flea (Vog)': 1, 'Flea (Huge Flea)': 1},
     'MaskShard': {'Mask Shard': 20},
     'SpoolFragment': {'Spool Fragment': 18},
     'SilkHeart': {'Progressive Silkheart': 3},
@@ -1068,31 +1069,6 @@ OBSERVATION_ITEM_CATEGORIES: tuple[str, ...] = (
     'Quest',
 )
 
-SHUFFLE_FIXED_LOCATION_REWARDS: Dict[str, Dict[str, str]] = {
-    # These checks cannot hold arbitrary useful or progression
-    # rewards. Keeping their own optional reward fixed preserves that safety
-    # while the remaining category is shuffled.
-    'Tool': {
-        'Throwing Ring': 'Throwing Ring',
-    },
-    # These map sources have incomplete access logic. Their native rewards do
-    # not unlock routes, so fixing only those rewards
-    # preserves Map shuffle without exposing arbitrary progression there.
-    'Map': {
-        'The Slab - Map Pickup': 'Map: The Slab',
-        'Putrified Ducts - Map Pickup': 'Map: Putrified Ducts',
-        'The Cradle - Map Purchase': 'Map: The Cradle',
-        'Verdania - Map Pickup': 'Map: Verdania',
-        'The Abyss - Map Pickup': 'Map: The Abyss',
-    },
-    # Beastling Call is Act 3-only and still progression-quarantined. Keeping
-    # its own non-routing song here prevents a Melody-shuffle cycle.
-    'Melody': {
-        'Beastling Call': 'Beastling Call',
-    },
-}
-
-
 def get_category_item_names(category: str) -> tuple[str, ...]:
     """Return the exact reward multiset paired with a source category."""
 
@@ -1103,7 +1079,7 @@ def get_category_item_names(category: str) -> tuple[str, ...]:
             item for location, item in LORE_TABLET_ITEM_BY_LOCATION.items()
             if location in location_data_table
         )
-    if category in MINOR_FAMILY_SHUFFLE_CATEGORIES:
+    if category in MINOR_FAMILY_CATEGORIES:
         family_key = category.split(":", 1)[1]
         return tuple(
             item_name
@@ -1313,22 +1289,11 @@ def _trim_act_one_pool_entries(
             and not individual_relic_turn_ins
         ):
             continue
-        if (
-            location_name == "Wish: Pinmaster's Oil"
-            and category_modes.get(
-                NEEDLE_UPGRADE_LOCATION_CATEGORY,
-                "vanilla",
-            ) != "vanilla"
-        ):
-            continue
-        if (
-            location_name == "Wish: Bugs of Pharloom"
-            and category_modes.get("ToolPouch", "vanilla") != "vanilla"
-        ):
+        if location_name in WISH_REWARD_LOCATION_BY_COMPLETION:
             continue
 
         source_category = (
-            get_minor_family_shuffle_category_for_location(location_name)
+            get_minor_family_category_for_location(location_name)
             if category == "Resource"
             else category
         )
@@ -1422,7 +1387,7 @@ def _balance_act_two_skill_pool(
         if filler_index is not None:
             entries.pop(filler_index)
             return
-    elif mode not in {'shuffle', 'anywhere'}:
+    elif mode != 'anywhere':
         raise ValueError(f"Unknown Skill randomization mode: {mode!r}")
     entries.pop(soar_indices[0])
 
@@ -1433,7 +1398,6 @@ def get_dynamic_trap_capacity(
     starting_crest_item: str | None = 'Crest: Hunter',
     start_with_maps: bool = False,
     automatic_compass: bool = False,
-    minor_shuffle_category_by_family: Mapping[str, str] | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
     start_fully_mapped: bool = False,
@@ -1462,7 +1426,6 @@ def get_dynamic_trap_capacity(
             category_modes,
             start_with_maps,
             automatic_compass,
-            minor_shuffle_category_by_family,
             individual_relic_turn_ins=individual_relic_turn_ins,
             act_two_only=act_two_only,
             start_fully_mapped=start_fully_mapped,
@@ -1578,7 +1541,6 @@ def build_item_pool_entries(
     category_modes: Mapping[str, str],
     start_with_maps: bool = False,
     automatic_compass: bool = False,
-    minor_shuffle_category_by_family: Mapping[str, str] | None = None,
     trap_randomizer: Random | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
@@ -1604,6 +1566,9 @@ def build_item_pool_entries(
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
+    for category, mode in category_modes.items():
+        if mode == 'shuffle' and category != 'Key':
+            raise ValueError(f"{category} does not support shuffle.")
     if act_one_only and act_two_only:
         raise ValueError("Act 1 and Act 2 content scopes cannot overlap.")
     exclude_verdania_content = (
@@ -1660,7 +1625,7 @@ def build_item_pool_entries(
             for category in PAIRED_ITEM_CATEGORIES
             if category != 'Resource'
         ),
-        *MINOR_FAMILY_SHUFFLE_CATEGORIES,
+        *MINOR_FAMILY_CATEGORIES,
     )
     for category in pool_categories:
         mode = category_modes.get(category, 'anywhere')
@@ -1699,47 +1664,7 @@ def build_item_pool_entries(
                 ) from exc
             item_names.append(OPTIONAL_START_REPLACEMENT_ITEM)
 
-        if mode == 'shuffle':
-            removed_option_items = set(
-                removed_option_items_by_category.get(category, ())
-            )
-            for fixed_location, fixed_reward in (
-                SHUFFLE_FIXED_LOCATION_REWARDS
-                .get(category, {})
-                .items()
-            ):
-                # Goal-scoped sources are not locked shuffle locations. Their
-                # rewards remain in this lane until the trim below removes the
-                # corresponding copy in shuffle or anywhere.
-                if (
-                    fixed_location in goal_excluded_location_names
-                ):
-                    continue
-                pool_reward = (
-                    OPTIONAL_START_REPLACEMENT_ITEM
-                    if fixed_reward in removed_option_items
-                    else fixed_reward
-                )
-                try:
-                    item_names.remove(pool_reward)
-                except ValueError as exc:
-                    raise ValueError(
-                        f"Fixed {category} shuffle reward is absent from "
-                        f"its pool: {pool_reward!r}"
-                    ) from exc
-
-        placement_category = (
-            (
-                (minor_shuffle_category_by_family or {}).get(
-                    category.split(":", 1)[1],
-                    category,
-                )
-                if category in MINOR_FAMILY_SHUFFLE_CATEGORIES
-                else category
-            )
-            if mode == 'shuffle'
-            else None
-        )
+        placement_category = 'Key' if category == 'Key' and mode == 'shuffle' else None
         entries.extend(
             ItemPoolEntry(
                 item_name,
@@ -1753,7 +1678,6 @@ def build_item_pool_entries(
         mode = category_modes.get(category, 'anywhere')
         if mode == 'vanilla':
             continue
-        placement_category = category if mode == 'shuffle' else None
         for item_name, count in (
             OBSERVATION_FILLER_COUNTS_BY_CATEGORY[category].items()
         ):
@@ -1761,7 +1685,6 @@ def build_item_pool_entries(
                 ItemPoolEntry(
                     item_name,
                     category,
-                    placement_category,
                 )
                 for _copy_index in range(count)
             )
@@ -1775,89 +1698,6 @@ def build_item_pool_entries(
                 )
                 for _copy_index in range(count)
             )
-
-    if (
-        category_modes.get(NEEDLE_UPGRADE_LOCATION_CATEGORY, 'vanilla') != 'vanilla'
-        and category_modes.get('Quest', 'anywhere') != 'vanilla'
-    ):
-        # Pinmaster's Oil is the same vanilla interaction represented by the
-        # randomized Plinney chain. Its Quest Sanity filler counterpart is
-        # omitted so that action cannot report two AP locations.
-        duplicate_quest_filler_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == 'Quest'
-                    and entry.name in {
-                        'Rosaries (60)',
-                        'Shell Shards (80)',
-                    }
-                )
-            ),
-            None,
-        )
-        if duplicate_quest_filler_index is None:
-            raise ValueError(
-                "Could not remove the duplicate Pinmaster's Oil quest filler."
-            )
-        entries.pop(duplicate_quest_filler_index)
-
-    if (
-        category_modes.get('MemoryLocket', 'vanilla') != 'vanilla'
-        and category_modes.get('Quest', 'anywhere') != 'vanilla'
-    ):
-        # Volatile Flintbeetles' Wish completion and Act 3 ground fallback
-        # are the same physical Memory Locket source. When that source is an
-        # AP location, remove the duplicate Quest Sanity check and its filler.
-        duplicate_quest_filler_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == 'Quest'
-                    and entry.name in {
-                        'Rosaries (60)',
-                        'Shell Shards (80)',
-                    }
-                )
-            ),
-            None,
-        )
-        if duplicate_quest_filler_index is None:
-            raise ValueError(
-                "Could not remove the duplicate Volatile Flintbeetles "
-                "quest filler."
-            )
-        entries.pop(duplicate_quest_filler_index)
-
-    if (
-        category_modes.get('ToolPouch', 'vanilla') != 'vanilla'
-        and category_modes.get('Quest', 'anywhere') != 'vanilla'
-    ):
-        # Bugs of Pharloom has one physical Tool Pouch reward. When that
-        # source becomes the Tool Pouch AP location, its Quest Sanity location
-        # is removed above and its matching Quest filler must leave the pool.
-        duplicate_quest_filler_index = next(
-            (
-                index
-                for index, entry in enumerate(entries)
-                if (
-                    entry.source_category == 'Quest'
-                    and entry.name in {
-                        'Rosaries (60)',
-                        'Shell Shards (80)',
-                    }
-                )
-            ),
-            None,
-        )
-        if duplicate_quest_filler_index is None:
-            raise ValueError(
-                "Could not remove the duplicate Bugs of Pharloom "
-                "quest filler."
-            )
-        entries.pop(duplicate_quest_filler_index)
 
     entries_before_goal_trim = tuple(entries)
 
@@ -1902,7 +1742,7 @@ def build_item_pool_entries(
         for item, category in additions:
             mode = category_modes.get(category, "anywhere")
             if mode != "vanilla":
-                entries.append(ItemPoolEntry(item, category, category if mode == "shuffle" else None))
+                entries.append(ItemPoolEntry(item, category))
     goal_excluded_location_names |= mode_exclusions
     if steel_soul and category_modes.get("Quest", "anywhere") != "vanilla" and "Wish: A Vassal Lost" not in goal_excluded_location_names:
         index = next(index for index, entry in enumerate(entries)
@@ -1923,7 +1763,7 @@ def build_item_pool_entries(
     if category_modes.get("Journal", "vanilla") != "vanilla":
         from .boss_journal import excluded_locations
         journal_excluded = excluded_locations(goal_excluded_location_names, 1 if act_one_only else 2 if act_two_only else 3)
-        entries.extend(ItemPoolEntry(item, "Journal", "Journal" if category_modes["Journal"] == "shuffle" else None)
+        entries.extend(ItemPoolEntry(item, "Journal")
                        for location, item in JOURNAL_ITEMS.items() if location not in journal_excluded)
 
     # Act 2 may keep the otherwise Verdania-only key as an optional bingo
@@ -2168,7 +2008,6 @@ def get_configured_item_pool_size(
     category_modes: Mapping[str, str],
     start_with_maps: bool = False,
     automatic_compass: bool = False,
-    minor_shuffle_category_by_family: Mapping[str, str] | None = None,
     individual_relic_turn_ins: bool = False,
     act_two_only: bool = False,
     start_fully_mapped: bool = False,
@@ -2191,7 +2030,6 @@ def get_configured_item_pool_size(
             category_modes,
             start_with_maps,
             automatic_compass,
-            minor_shuffle_category_by_family,
             individual_relic_turn_ins=individual_relic_turn_ins,
             act_two_only=act_two_only,
             start_fully_mapped=start_fully_mapped,
@@ -2271,8 +2109,6 @@ def _get_adjusted_pool_counts(
         counts[item_name] = count if randomize_needle_upgrades else 0
     for item_name, count in PALE_OIL_POOL_COUNTS.items():
         counts[item_name] = count if randomize_pale_oils else 0
-    if wish_sanity and randomize_needle_upgrades:
-        counts['Rosaries (60)'] -= 1
     counts['Rosaries (60)'] -= int(split_dash_and_sprint)
 
     innate_ability_items = (

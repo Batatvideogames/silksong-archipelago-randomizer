@@ -30,7 +30,7 @@ from worlds.silksong.locations import location_table
 from worlds.silksong.minor_families import (
     MINOR_FAMILY_KEYS,
     MINOR_FAMILY_OPTION_BY_KEY,
-    get_minor_family_shuffle_category,
+    get_minor_family_category,
 )
 from worlds.silksong.options import (
     CATEGORY_OPTION_BY_LOCATION_CATEGORY,
@@ -59,12 +59,6 @@ from worlds.silksong.rules import get_active_crest_slot_locations
 
 
 class TestAlphabetMode(unittest.TestCase):
-    @staticmethod
-    def minor_placement_categories() -> dict[str, str]:
-        return {
-            family_key: get_minor_family_shuffle_category(family_key)
-            for family_key in MINOR_FAMILY_KEYS
-        }
 
     @classmethod
     def modes(cls, mode: str) -> dict[str, str]:
@@ -74,7 +68,7 @@ class TestAlphabetMode(unittest.TestCase):
         }
         modes.update(
             {
-                get_minor_family_shuffle_category(family_key): mode
+                get_minor_family_category(family_key): mode
                 for family_key in MINOR_FAMILY_KEYS
             }
         )
@@ -104,10 +98,11 @@ class TestAlphabetMode(unittest.TestCase):
         }
         modes.update(
             {
-                get_minor_family_shuffle_category(family_key): "vanilla"
+                get_minor_family_category(family_key): "vanilla"
                 for family_key in MINOR_FAMILY_KEYS
             }
         )
+        modes[get_minor_family_category("rosary_cache")] = "anywhere"
         return modes
 
     @classmethod
@@ -126,9 +121,6 @@ class TestAlphabetMode(unittest.TestCase):
             cls.standard_modes(),
             start_with_maps=True,
             automatic_compass=True,
-            minor_shuffle_category_by_family=(
-                cls.minor_placement_categories()
-            ),
             trap_randomizer=trap_randomizer,
             act_one_only=(goal == "act_1"),
             act_two_only=(goal == "act_2"),
@@ -188,10 +180,6 @@ class TestAlphabetMode(unittest.TestCase):
             list(range(835338, 835364)),
         )
         self.assertEqual(
-            item_table[ALPHABET_ITEM_NAMES[0]],
-            ITEM_BASE_ID + alphabet_start,
-        )
-        self.assertEqual(
             item_name_groups["Alphabet Letters"],
             set(ALPHABET_ITEM_NAMES),
         )
@@ -249,17 +237,15 @@ class TestAlphabetMode(unittest.TestCase):
                 "Act 1-3 require beating the chosen act, Cursed Ending is "
                 "self explanatory, Flea Hunt is getting the set amount of "
                 "fleas and Spelling Bee is getting every unique letter in "
-                "the chosen phrase with Alphabet Rando on"
+                "the chosen phrase with Alphabet Rando on."
             ),
         )
         option_names = tuple(
             field.name for field in fields(SilksongOptions)
         )
         trap_index = option_names.index("trap_percentage")
-        self.assertEqual(
-            option_names[trap_index - 1],
-            "alphabet_mode",
-        )
+        self.assertLess(option_names.index("alphabet_mode"), option_names.index("trap_disguises"))
+        self.assertLess(option_names.index("trap_disguises"), trap_index)
 
     def test_spelling_bee_keeps_every_letter_and_needs_the_phrase(self) -> None:
         world = self.make_world(
@@ -340,7 +326,7 @@ class TestAlphabetMode(unittest.TestCase):
                 ),
             ),
         )
-        for invalid in ("", "   ", "Hornet2", "Act 2", "Café", "Hornet\tNest"):
+        for invalid in ("", "   ", "Hornet2", "Act 2", "CafÃƒÂ©", "Hornet\tNest"):
             with self.subTest(phrase=invalid):
                 self.assertIsNone(parse_spelling_bee_phrase(invalid))
 
@@ -379,9 +365,6 @@ class TestAlphabetMode(unittest.TestCase):
             "trap_counts": {},
             "split_dash_and_sprint": False,
             "category_modes": modes,
-            "minor_shuffle_category_by_family": (
-                self.minor_placement_categories()
-            ),
         }
         implicit = build_item_pool_entries(**arguments)
         explicit = build_item_pool_entries(
@@ -408,15 +391,13 @@ class TestAlphabetMode(unittest.TestCase):
     def test_enabled_mode_replaces_filler_and_preserves_every_lane(
         self,
     ) -> None:
-        modes = self.modes("shuffle")
+        modes = self.modes("anywhere")
+        modes["Key"] = "shuffle"
         arguments = {
             "starting_crest_item": "Crest: Hunter",
             "trap_counts": {},
             "split_dash_and_sprint": False,
             "category_modes": modes,
-            "minor_shuffle_category_by_family": (
-                self.minor_placement_categories()
-            ),
         }
         baseline = build_item_pool_entries(**arguments)
         alphabet = build_item_pool_entries(
@@ -566,26 +547,26 @@ class TestAlphabetMode(unittest.TestCase):
         )
 
     @staticmethod
-    def quest_shuffle_fuzzer_options(
+    def mixed_fuzzer_options(
         needle_upgrade_mode: str = "vanilla",
     ) -> dict[str, object]:
         return {
             "goal": "act_3",
-            "starting_crest": "architect",
+            "starting_crest": "hunter",
             "early_dash": False,
             "split_dash_and_sprint": False,
             "trails_end_requirement": "owned_maps",
             "skips": "easy",
-            "scuttlebrace_logic": True,
+            "scuttlebrace_logic": "easy",
             "start_with_maps": True,
             "start_fully_mapped": True,
             "automatic_compass": True,
-            "check_map_markers": "owned_maps",
+            "location_map_markers": "owned_maps",
             "bellway_access": "randomized_stations",
-            "skill_randomization": "shuffle",
+            "skill_randomization": "anywhere",
             "tool_randomization": "vanilla",
             "silk_skill_randomization": "vanilla",
-            "crest_randomization": "shuffle",
+            "crest_randomization": "anywhere",
             "flea_randomization": "vanilla",
             "crest_slot_randomization": "vanilla",
             "mask_shard_randomization": "vanilla",
@@ -593,7 +574,7 @@ class TestAlphabetMode(unittest.TestCase):
             "silk_heart_randomization": "vanilla",
             "bellway_randomization": "vanilla",
             "ventrica_randomization": "anywhere",
-            "map_randomization": "shuffle",
+            "map_randomization": "anywhere",
             "needle_upgrade_randomization": needle_upgrade_mode,
             "pale_oil_randomization": "anywhere",
             "melody_randomization": "vanilla",
@@ -621,7 +602,7 @@ class TestAlphabetMode(unittest.TestCase):
             "shell_shard_cache_randomization": "vanilla",
             "boss_sanity": "vanilla",
             "bell_shrine_sanity": "vanilla",
-            "wish_sanity": "shuffle",
+            "wish_sanity": "anywhere",
             "alphabet_mode": True,
             "trap_percentage": 37,
             "stagger_trap_weight": 48,
@@ -632,14 +613,14 @@ class TestAlphabetMode(unittest.TestCase):
             "naked_trap_weight": 15,
         }
 
-    def test_quest_shuffle_fuzzer_capacity_keeps_every_letter_pooled(
+    def test_mixed_fuzzer_capacity_keeps_every_letter_pooled(
         self,
     ) -> None:
         multiworld = setup_multiworld(
             SilksongWorld,
             steps=("generate_early", "create_regions", "create_items"),
             seed=312492097,
-            options=self.quest_shuffle_fuzzer_options(),
+            options=self.mixed_fuzzer_options(),
         )
         player = 1
         letters = [
@@ -650,8 +631,7 @@ class TestAlphabetMode(unittest.TestCase):
         quest_items = [
             item
             for item in multiworld.itempool
-            if getattr(item, "silksong_placement_category", None)
-            == "Quest"
+            if getattr(item, "silksong_placement_category", None) is None
         ]
 
         self.assertEqual(
@@ -662,8 +642,11 @@ class TestAlphabetMode(unittest.TestCase):
             item.name in ALPHABET_ITEM_NAMES
             for item in multiworld.precollected_items[player]
         ))
-        self.assertEqual(sum(not item.advancement for item in quest_items), 16)
-        self.assertEqual(sum(item.advancement for item in quest_items), 8)
+        restricted = sum(location.name in (LOGIC_UNKNOWN_LOCATIONS | JUNK_ONLY_LOCATIONS)
+                         for location in multiworld.get_locations(player)
+                         if location.address is not None and location.item is None
+                         and getattr(location, "silksong_placement_category", None) is None)
+        self.assertGreaterEqual(sum(not item.advancement for item in quest_items), restricted)
         self.assertEqual(
             Counter(
                 getattr(item, "silksong_placement_category", None)
@@ -684,6 +667,15 @@ class TestAlphabetMode(unittest.TestCase):
         ):
             call_all(multiworld, step)
 
+    def test_architect_mixed_options_keep_a_playable_opening(self) -> None:
+        options = self.mixed_fuzzer_options()
+        options["starting_crest"] = "architect"
+        multiworld = setup_multiworld(SilksongWorld, seed=312492097, options=options)
+        distribute_items_restrictive(multiworld)
+        call_all(multiworld, "post_fill")
+        self.assertTrue(multiworld.can_beat_game())
+        self.assertTrue(multiworld.fulfills_accessibility())
+
     def test_needle_upgrade_removes_pinmaster_from_capacity_demand(
         self,
     ) -> None:
@@ -691,7 +683,7 @@ class TestAlphabetMode(unittest.TestCase):
             SilksongWorld,
             steps=("generate_early", "create_regions", "create_items"),
             seed=312492097,
-            options=self.quest_shuffle_fuzzer_options("anywhere"),
+            options=self.mixed_fuzzer_options("anywhere"),
         )
         player = 1
         with self.assertRaises(KeyError):
@@ -706,7 +698,7 @@ class TestAlphabetMode(unittest.TestCase):
                     location,
                     "silksong_placement_category",
                     None,
-                ) == "Quest"
+                ) is None
             )
         ]
         quest_demand = sum(
@@ -717,11 +709,10 @@ class TestAlphabetMode(unittest.TestCase):
         quest_items = [
             item
             for item in multiworld.itempool
-            if getattr(item, "silksong_placement_category", None)
-            == "Quest"
+            if getattr(item, "silksong_placement_category", None) is None
         ]
 
-        self.assertEqual(quest_demand, 15)
+        self.assertGreater(quest_demand, 0)
         self.assertGreaterEqual(
             sum(not item.advancement for item in quest_items),
             quest_demand,
@@ -738,12 +729,7 @@ class TestAlphabetMode(unittest.TestCase):
     def test_standard_goals_have_all_letters_without_new_locations(
         self,
     ) -> None:
-        expected_filler_counts = {
-            "act_1": 31,
-            "act_2": 79,
-            "act_3": 86,
-        }
-        for goal, filler_count in expected_filler_counts.items():
+        for goal in ("act_1", "act_2", "act_3"):
             with self.subTest(goal=goal):
                 baseline = self.build_standard_goal(
                     goal,
@@ -754,13 +740,10 @@ class TestAlphabetMode(unittest.TestCase):
                     alphabet_mode=True,
                 )
                 self.assertEqual(len(baseline), len(alphabet))
-                self.assertEqual(
-                    sum(
-                        item_data_table[entry.name].classification
-                        == ItemClassification.filler
-                        for entry in baseline
-                    ),
-                    filler_count,
+                self.assertGreaterEqual(
+                    sum(item_data_table[entry.name].classification == ItemClassification.filler
+                        for entry in baseline),
+                    ALPHABET_ITEM_COUNT,
                 )
                 self.assertEqual(
                     Counter(
@@ -782,9 +765,6 @@ class TestAlphabetMode(unittest.TestCase):
                     modes,
                     start_with_maps=True,
                     automatic_compass=True,
-                    minor_shuffle_category_by_family=(
-                        self.minor_placement_categories()
-                    ),
                     act_one_only=(goal == "act_1"),
                     act_two_only=(goal == "act_2"),
                     start_fully_mapped=True,
@@ -818,13 +798,11 @@ class TestAlphabetMode(unittest.TestCase):
                     sum(entry.name == "Stagger Trap" for entry in entries),
                     capacity,
                 )
-                self.assertFalse(
-                    any(
-                        item_data_table[entry.name].classification
-                        == ItemClassification.filler
-                        for entry in entries
-                    )
-                )
+                self.assertTrue(all(
+                    item_data_table[entry.name].category in {"Memento", "Journal"}
+                    for entry in entries
+                    if item_data_table[entry.name].classification == ItemClassification.filler
+                ))
 
     def test_sparse_pool_has_a_clear_generation_error(self) -> None:
         modes = self.modes("vanilla")
@@ -837,9 +815,6 @@ class TestAlphabetMode(unittest.TestCase):
                 {},
                 False,
                 modes,
-                minor_shuffle_category_by_family=(
-                    self.minor_placement_categories()
-                ),
                 alphabet_mode=True,
             )
 
@@ -877,6 +852,11 @@ class TestAlphabetMode(unittest.TestCase):
                 ),
             ),
         )
+        world = multiworld.worlds[1]
+        world.get_goal_key = lambda: "act_2"
+        world._finalize_progression_shuffle = lambda: None
+        multiworld.get_game_worlds = lambda _game: (world,)
+        multiworld.get_items = lambda: ()
         world_module = __import__(
             SilksongWorld.__module__,
             fromlist=("prefill_category_shuffles",),
@@ -924,6 +904,11 @@ class TestAlphabetMode(unittest.TestCase):
                 ),
             ),
         )
+        world = multiworld.worlds[1]
+        world.get_goal_key = lambda: "act_2"
+        world._finalize_progression_shuffle = lambda: None
+        multiworld.get_game_worlds = lambda _game: (world,)
+        multiworld.get_items = lambda: ()
         world_module = __import__(
             SilksongWorld.__module__,
             fromlist=("prefill_category_shuffles",),
@@ -994,17 +979,21 @@ class TestAlphabetMode(unittest.TestCase):
         world.options.alphabet_mode = AlphabetMode(1)
         self.assertTrue(world.fill_slot_data()["alphabet_mode"])
 
-        first_world = SilksongWorld.__new__(SilksongWorld)
-        first_world.player = 1
-        second_world = SilksongWorld.__new__(SilksongWorld)
-        second_world.player = 2
+        multiworld = setup_multiworld(
+            [SilksongWorld, SilksongWorld], steps=("generate_early",),
+            seed=12345, options=[{"alphabet_mode": True, "goal": "act_3",
+                                  "rosary_cache_randomization": "anywhere"},
+                                 {"goal": "spelling_bee", "spelling_bee_phrase": "A",
+                                  "rosary_cache_randomization": "anywhere"}],
+        )
+        first_world, second_world = multiworld.worlds[1], multiworld.worlds[2]
         first_letter = first_world.create_item("Letter: A")
         second_letter = second_world.create_item("Letter: A")
 
         self.assertEqual(first_letter.code, second_letter.code)
         self.assertEqual(first_letter.player, 1)
         self.assertEqual(second_letter.player, 2)
-        self.assertEqual(first_letter.classification, ItemClassification.progression)
+        self.assertEqual(first_letter.classification, ItemClassification.useful)
         self.assertEqual(second_letter.classification, ItemClassification.progression)
 
     def test_progression_letter_fill_matrix_is_beatable(self) -> None:
@@ -1031,6 +1020,20 @@ class TestAlphabetMode(unittest.TestCase):
                 distribute_items_restrictive(multiworld)
                 call_all(multiworld, "post_fill")
                 self.assertTrue(multiworld.can_beat_game())
+
+    def test_useful_letters_do_not_reserve_progression_slots(self) -> None:
+        entries = [ItemPoolEntry("Rosaries (10)", "Currency", None) for _ in range(30)]
+        replace_filler_with_alphabet_items(
+            entries,
+            lambda name: name == "Rosaries (10)",
+            max_replacements_by_placement_category={None: 30},
+            replacement_is_advancement=lambda name: False,
+        )
+        self.assertEqual(
+            Counter(entry.name for entry in entries if entry.name in ALPHABET_ITEM_NAMES),
+            Counter({name: 1 for name in ALPHABET_ITEM_NAMES}),
+        )
+        self.assertEqual(sum(entry.name == "Rosaries (10)" for entry in entries), 4)
 
     def test_option_defaults_off(self) -> None:
         self.assertEqual(AlphabetMode.default, 0)

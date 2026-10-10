@@ -784,6 +784,8 @@ namespace SilksongRandomizer
             MaskAndSpoolLocationManifest.AppendTo(
             CoreLocationManifest.AppendTo(new Location[]
         {
+            new Location(MinorPickupManifest.LoddieNecklace, ItemType.Resource,
+                () => PlayerData.instance != null && PlayerData.instance.pinGalleriesCompleted >= 2),
             // Skills
             new Location("Skill Unlock: Double Jump", ItemType.Skill, () => { return PlayerData.instance.hasDoubleJump; }),
             new Location("Skill Unlock: Charge Slash", ItemType.Skill, () => { return PlayerData.instance.hasChargeSlash; }),

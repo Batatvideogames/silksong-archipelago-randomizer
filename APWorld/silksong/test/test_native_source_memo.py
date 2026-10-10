@@ -63,7 +63,7 @@ class TestNativeSourceMemo(SilksongTestBase):
 
         inventory_key = (
             self.player,
-            tuple(sorted(state.prog_items[self.player].items())),
+            frozenset(state.prog_items[self.player].items()),
             state.allow_partial_entrances,
         )
         setattr(
@@ -81,7 +81,8 @@ class TestNativeSourceMemo(SilksongTestBase):
             SilksongWorld.stage_finalize_multiworld(self.multiworld)
 
         memo = getattr(self.multiworld, "_silksong_native_source_memo")
-        self.assertEqual(memo, {"inventory_keys": {}, "results": {}, "slot_players": frozenset()})
+        self.assertEqual(memo, {"inventory_keys": {}, "results": {}, "slot_players": frozenset(),
+                                "players": frozenset({self.player})})
         self.assertEqual(rule._evaluate(state), expected)
         with mock.patch.object(
             CollectionState,
@@ -157,3 +158,4 @@ class TestNativeSourceMemo(SilksongTestBase):
                 inventory_key,
                 canonical_inventories[inventory_key],
             )
+

@@ -167540,7 +167540,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 22
               }
@@ -176345,7 +176345,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 5
               }
@@ -177053,7 +177053,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 22
               }
@@ -183104,7 +183104,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 14
               }
@@ -189824,7 +189824,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 30
               }
@@ -195255,7 +195255,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 5
               }
@@ -195280,7 +195280,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 5
               }
@@ -198500,7 +198500,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 22
               }
@@ -200177,7 +200177,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 12
               }
@@ -200206,7 +200206,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 22
               }
@@ -203539,7 +203539,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 5
               }
@@ -384984,6 +384984,23 @@
           }
         ]
       },
+      "Bellhart - East Sign": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bellhart/bellhart-right-entrance#lower-level"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Bellhart - Map Purchase": {
         "alternatives": [
           {
@@ -391309,7 +391326,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 30
               }
@@ -392149,7 +392166,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 14
               }
@@ -393249,7 +393266,7 @@
                   "Flea",
                   "Flea (Kratt)",
                   "Flea (Vog)",
-                  "Flea (Big Flea)"
+                  "Flea (Huge Flea)"
                 ],
                 "minimum": 22
               }
@@ -398468,6 +398485,25 @@
             "all_of": [
               "Room Node: the-cradle/lace-2-fight#arena",
               "Room Event: event:mapper/0ecf7e04-42c8-48f7-a444-bb46478a58ad"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Loddie - Heavy Rosary Necklace": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-marrow/the-marrow-jail#ground-floor",
+              "Room Event: event:mapper/bb722371-5624-4a76-b335-a989e6677a1b",
+              "Event: Widow Defeated"
             ],
             "any_of": [],
             "item_counts": [],
@@ -425672,7 +425708,8 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: sands-of-karak/voltnest#bottom"
+              "Room Node: sands-of-karak/voltnest#bottom",
+              "Room Event: event:mapper/c245a3a8-e4da-44e6-96bf-329e94ea8298"
             ],
             "any_of": [],
             "item_counts": [],

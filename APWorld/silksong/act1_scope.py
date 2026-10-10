@@ -105,12 +105,9 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Seeker Soul",
         "Bilewater - Map Purchase",
         "Sands of Karak - Map Purchase",
-        "Flea: Bilewater - Thieves",
         "Flea: Deep Docks - Mines",
-        "Flea: Greymoor - Tower",
         "Flea: Sands of Karak",
         "Volt Filament",
-        "Tacks",
         "Snare Setter",
         "Thief's Mark",
         "Snitch Pick",
@@ -140,9 +137,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Crest Slot: Architect (Blue 2)",
         "Crest Slot: Shaman (Blue 1)",
         "Crest Slot: Shaman (Blue 2)",
-        "Deep Docks (Central) - Spool Fragment",
         "Deep Docks - Shard Bundle #1",
-        "Deep Docks - Shard Bundle #2",
         "Shellwood - Shard Bundle",
         "Shellwood - Rosary String #2",
         "Relic: Weaver Effigy (Keelal, Shellwood)",
@@ -162,26 +157,15 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Songclave - Heavy Rosary Necklace",
         "Underworks - Frayed Rosary String #2",
         "Wisp Thicket - Rosary Necklace",
-        "Deep Docks - Rosary Cache #3",
-        "Deep Docks - Rosary Cache #4",
-        "Deep Docks - Rosary Cache #5",
-        "Deep Docks - Rosary Cache #6",
         "Deep Docks - Rosary Cache #1",
         "Deep Docks - Rosary Cache #2",
-        "Greymoor - Rosary Cache #1",
-        "Greymoor - Rosary Cache #20",
-        "Flea: Exhaust Organ",
         "Sinner's Road - Rosary Cache #8",
         "Bone Bottom - Shell Shard Cache",
-        "Deep Docks - Shell Shard Cache #1",
-        "Deep Docks - Shell Shard Cache #2",
-        "Deep Docks - Shell Shard Cache #3",
         "Deep Docks - Shell Shard Cache #5",
         "Deep Docks - Shell Shard Cache #6",
         "Deep Docks - Shell Shard Cache #7",
         "Deep Docks - Shell Shard Cache #8",
         "Deep Docks - Shell Shard Cache #9",
-        "Deep Docks - Shell Shard Cache #10",
         "Far Fields - Pale Rosary Necklace",
         "Far Fields - Rosary Cache #18",
         "Far Fields - Shell Shard Cache #2",
@@ -194,9 +178,6 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Sands of Karak - Shell Shard Cache #11",
         "Sands of Karak - Shell Shard Cache #9",
         "Sands of Karak - Shell Shard Cache #10",
-        "Sinner's Road - Shell Shard Cache #4",
-        "Sinner's Road - Shell Shard Cache #5",
-        "Roachkeeper - Simple Key",
         "Wisp Thicket - Shell Shard Cache #1",
         "Wisp Thicket - Shell Shard Cache #2",
         "Wisp Thicket - Shell Shard Cache #3",
@@ -204,8 +185,6 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Wisp Thicket - Shell Shard Cache #5",
         "Wisp Thicket - Shell Shard Cache #6",
         "Wisp Thicket - Shell Shard Cache #7",
-        "Deep Docks Church - Shell Shard Chest",
-        "Deep Docks - Forge Note",
         "Conchcutter",
         "Flea: Bilehaven",
         "Putrified Ducts - Frayed Rosary String",
@@ -259,11 +238,11 @@ def get_act_one_excluded_location_names(
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     starting_crest_item: str | None = None,
 ) -> frozenset[str]:
-    if major_key_mode not in {"vanilla", "shuffle", "anywhere"}:
+    if major_key_mode not in {"vanilla", "anywhere"}:
         raise ValueError(
             f"Unknown Major Key randomization mode: {major_key_mode!r}"
         )
-    if boss_mode not in {"vanilla", "shuffle", "anywhere"}:
+    if boss_mode not in {"vanilla", "anywhere"}:
         raise ValueError(f"Unknown Boss Sanity mode: {boss_mode!r}")
 
     requirements = donation_tool_pouch_requirements or {}

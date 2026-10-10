@@ -1721,7 +1721,7 @@ namespace SilksongRandomizer
             );
             SetIfTrue(
                 counts,
-                "Flea (Big Flea)",
+                "Flea (Huge Flea)",
                 playerData.tamedGiantFlea
             );
         }

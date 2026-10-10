@@ -19,7 +19,6 @@ from Options import (
 from .minor_families import (
     MINOR_FAMILY_KEYS,
     MINOR_FAMILY_OPTION_BY_KEY,
-    get_minor_family_shuffle_category,
 )
 
 
@@ -45,33 +44,23 @@ class GlobalRandomization(Choice):
     default = option_anywhere
 
 
-class CategoryRandomization(GlobalRandomization):
-    """
-    Choose how one source/reward category participates in the seed.
-    """
-
-    option_shuffle = 2
-
-
-class SkillRandomization(CategoryRandomization):
+class SkillRandomization(GlobalRandomization):
     """
     Randomizes the 8 traversal skills in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Skill Randomization"
 
 
-class ToolRandomization(CategoryRandomization):
+class ToolRandomization(GlobalRandomization):
     """
     Randomizes tools other than Compass in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Tool Randomization"
@@ -97,13 +86,12 @@ class CompassRandomization(GlobalRandomization):
     display_name = "Compass Randomization"
 
 
-class SilkSkillRandomization(CategoryRandomization):
+class SilkSkillRandomization(GlobalRandomization):
     """
     Randomizes the 6 Silk Skills in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Silk Skill Randomization"
@@ -118,13 +106,12 @@ class SilkSoarBegone(Toggle):
     display_name = "Silk Soar Begone"
 
 
-class CrestRandomization(CategoryRandomization):
+class CrestRandomization(GlobalRandomization):
     """
     Randomizes the 7 Crests in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Crest Randomization"
@@ -201,13 +188,12 @@ class FleaRandomization(GlobalRandomization):
     display_name = "Flea Randomization"
 
 
-class CrestSlotRandomization(CategoryRandomization):
+class CrestSlotRandomization(GlobalRandomization):
     """
     Randomizes the 20 Crest Slots in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
 
     If needed, filler rewards become extra Memory Lockets so every randomized
     slot has enough Lockets available. Native pickups stay unchanged.
@@ -263,37 +249,34 @@ class SilkHeartLogic(Toggle):
     default = 1
 
 
-class BellwayRandomization(CategoryRandomization):
+class BellwayRandomization(GlobalRandomization):
     """
     Randomizes the 10 Bellways in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Bellway Randomization"
 
 
-class VentricaRandomization(CategoryRandomization):
+class VentricaRandomization(GlobalRandomization):
     """
     Randomizes the 6 Ventricas in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Ventrica Randomization"
 
 
-class MapRandomization(CategoryRandomization):
+class MapRandomization(GlobalRandomization):
     """
     Randomizes the 28 Maps in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Map Randomization"
@@ -312,13 +295,12 @@ class MelodyRandomization(GlobalRandomization):
     display_name = "Melody Randomization"
 
 
-class PinRandomization(CategoryRandomization):
+class PinRandomization(GlobalRandomization):
     """
     Randomizes the 4 map-pin types in the game.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Pin Randomization"
@@ -427,7 +409,7 @@ class PollipHeartRandomization(RepeatedCollectibleRandomization):
     """
 
     display_name = "Pollip Heart Randomization"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class SilkeaterRandomization(RepeatedCollectibleRandomization):
@@ -441,7 +423,7 @@ class SilkeaterRandomization(RepeatedCollectibleRandomization):
     display_name = "Silkeater Randomization"
 
 
-class MajorKeyRandomization(CategoryRandomization):
+class MajorKeyRandomization(GlobalRandomization):
     """
     Randomizes Key of Apostate, White Key, Surgeon's Key, Architect's Key and Craw Summons.
 
@@ -450,11 +432,10 @@ class MajorKeyRandomization(CategoryRandomization):
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
     """
 
     display_name = "Major Key Randomization"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class DivingBellKeyRandomization(Toggle):
@@ -474,8 +455,8 @@ class SimpleKeyRandomization(Choice):
     shuffle: mixes them up between one another
     """
 
-    option_anywhere = CategoryRandomization.option_anywhere
-    option_shuffle = CategoryRandomization.option_shuffle
+    option_anywhere = GlobalRandomization.option_anywhere
+    option_shuffle = 2
     default = option_anywhere
     display_name = "Simple Key Randomization"
 
@@ -518,7 +499,7 @@ class RosaryStringRandomization(MinorFamilyRandomization):
 
 class RosaryNecklaceRandomization(MinorFamilyRandomization):
     """
-    Randomizes the 5 Rosary Necklaces in the game.
+    Randomizes Rosary Necklaces, including wish rewards.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
@@ -529,7 +510,7 @@ class RosaryNecklaceRandomization(MinorFamilyRandomization):
 
 class HeavyRosaryNecklaceRandomization(MinorFamilyRandomization):
     """
-    Randomizes the 3 Heavy Rosary Necklaces in the game.
+    Randomizes Heavy Rosary Necklaces, including wish rewards and Loddie's second pin challenge.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
@@ -621,7 +602,7 @@ class JournalRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
-class BossSanity(CategoryRandomization):
+class BossSanity(GlobalRandomization):
     """
     EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
 
@@ -634,11 +615,10 @@ class BossSanity(CategoryRandomization):
 
     vanilla: keeps the usual boss progression without extra checks
     anywhere: boss credits can appear anywhere in the multiworld
-    shuffle: boss credits stay at your own boss checks
     """
 
     display_name = "Boss Sanity"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
 class BossSouls(Toggle):
@@ -674,36 +654,47 @@ class NpcSouls(Toggle):
     default = 0
 
 
-class BellShrineSanity(CategoryRandomization):
+class BellShrineSanity(GlobalRandomization):
     """
     Randomizes the 5 Judge Bell Shrines.
     """
 
     display_name = "Bell Shrine Sanity"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
 
 
-class QuestSanity(CategoryRandomization):
+class QuestSanity(GlobalRandomization):
     """
     EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
 
-    Adds wish completion checks and shuffles supported board and NPC offers.
-    Linked NPC follow-ups stay with their original NPCs.
+    Adds completion checks for wishes without a separately randomized item reward.
+    Does not change which board or NPC offers a wish.
     Also randomizes Growstone in Steel Soul.
     Items earned from bosses and wishes follow their own randomization settings.
     
-    vanilla: no wish completion checks or offer shuffle
+    vanilla: no additional wish completion checks
     anywhere: fills wish completion checks from the global item pool
-    shuffle: shuffles items only among wish completion checks.
     """
 
     display_name = "Wish-Sanity"
-    default = CategoryRandomization.option_vanilla
+    default = GlobalRandomization.option_vanilla
+
+
+class ShuffleWishOffers(Toggle):
+    """
+    EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
+
+    Shuffles supported wishes between boards and NPCs independently of Wish-Sanity.
+    Each wish keeps its tasks and story effects. Linked NPC follow-ups stay with
+    their original NPCs.
+    """
+
+    display_name = "Shuffle Wish Offers"
 
 
 class WishPlando(OptionDict):
     """
-    Fix which wish an offer gives. Requires Wish-Sanity.
+    Fix which wish an offer gives. Requires Shuffle Wish Offers.
     Use wish names, with the original offer on the left and the wanted wish on the right.
     Example: {"Wish: Berry Picking": "Wish: Final Audience"}
     The remaining offers are shuffled. Assignments that block progression are rejected.
@@ -756,9 +747,9 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
 }
 
 CATEGORY_MODE_KEY_BY_VALUE: dict[int, str] = {
-    CategoryRandomization.option_vanilla: "vanilla",
-    CategoryRandomization.option_anywhere: "anywhere",
-    CategoryRandomization.option_shuffle: "shuffle",
+    GlobalRandomization.option_vanilla: "vanilla",
+    GlobalRandomization.option_anywhere: "anywhere",
+    SimpleKeyRandomization.option_shuffle: "shuffle",
 }
 
 
@@ -767,7 +758,7 @@ def get_category_mode_value(options, category: str) -> int:
     option = getattr(options, option_name)
     value = int(option.value)
     if (
-        value == CategoryRandomization.option_shuffle
+        value == SimpleKeyRandomization.option_shuffle
         and not hasattr(type(option), "option_shuffle")
     ):
         raise ValueError(f"{option_name} does not support shuffle.")
@@ -794,7 +785,7 @@ def get_minor_family_mode_key(options, family_key: str) -> str:
 
     option = getattr(options, option_name)
     if (
-        int(option.value) == CategoryRandomization.option_shuffle
+        int(option.value) == SimpleKeyRandomization.option_shuffle
         and not hasattr(type(option), "option_shuffle")
     ):
         raise ValueError(f"{option_name} does not support shuffle.")
@@ -813,20 +804,6 @@ def get_minor_family_modes(options) -> dict[str, str]:
     }
 
 
-def get_minor_family_shuffle_placement_category(
-    options,
-    family_key: str,
-) -> str:
-    """Return the independent shuffle lane for one minor pickup family."""
-
-    try:
-        option_name = MINOR_FAMILY_OPTION_BY_KEY[family_key]
-    except KeyError as exc:
-        raise ValueError(
-            f"Unknown minor pickup family: {family_key!r}"
-        ) from exc
-
-    return get_minor_family_shuffle_category(family_key)
 
 
 def get_aggregate_minor_mode_key(options) -> str:
@@ -922,7 +899,7 @@ class StartingCrest(Choice):
 class ForceNaked(Toggle):
     """
     Start cloakless without a Crest until you find one. Overrides Starting Crest.
-    Experimental. Requires Crest Randomization set to shuffle or anywhere.
+    Experimental. Requires Crest Randomization set to anywhere.
     """
 
     display_name = "Force Naked"
@@ -933,9 +910,6 @@ class ForceNaked(Toggle):
 class EarlyDash(Toggle):
     """
     Place Dash early when Skills are randomized.
-
-    With Skill Shuffle, Dash can follow up to two other movement abilities needed
-    to reach it. Other items can come first.
     """
 
     display_name = "Early Dash"
@@ -1210,7 +1184,7 @@ class CheckMapMarkers(Choice):
     Show enabled, unchecked Archipelago checks on the in-game map.
     """
 
-    display_name = "Check Map Markers"
+    display_name = "Location Map Markers"
     option_off = 0
     option_mapped_rooms = 1
     option_owned_maps = 2
@@ -1668,7 +1642,7 @@ class SilksongOptions(PerGameCommonOptions):
     start_with_maps: StartWithMaps
     start_fully_mapped: StartFullyMapped
     automatic_compass: AutomaticCompass
-    check_map_markers: CheckMapMarkers
+    location_map_markers: CheckMapMarkers
     randomized_bell_markers: RandomizedBellMarkers
     randomized_melody_markers: RandomizedMelodyMarkers
     vog_area_hints: VogAreaHints
@@ -1742,6 +1716,7 @@ class SilksongOptions(PerGameCommonOptions):
     journal_randomization: JournalRandomization
     bell_shrine_sanity: BellShrineSanity
     wish_sanity: QuestSanity
+    shuffle_wish_offers: ShuffleWishOffers
     wish_plando: WishPlando
     individual_relic_turn_ins: IndividualRelicTurnIns
     death_link: DeathLink
@@ -1854,6 +1829,7 @@ silksong_option_groups = [
         BossSanity,
         BellShrineSanity,
         QuestSanity,
+        ShuffleWishOffers,
         WishPlando,
         IndividualRelicTurnIns,
         AlphabetMode,

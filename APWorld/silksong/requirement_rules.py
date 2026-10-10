@@ -292,9 +292,13 @@ def sweep_native_sources(state, locations):
             if accessible:
                 reachable.append(location)
         if not reachable:
-            for location in pending:
+            order = getattr(state.multiworld, "_native_sweep_order", None)
+            if order is None:
+                order = state.multiworld._native_sweep_order = {}
+            for location in sorted(pending, key=lambda loc: order.get(loc, len(order))):
                 if location.can_reach(state):
                     reachable.append(location)
+                    order.setdefault(location, len(order))
                     break
             if not reachable:
                 break

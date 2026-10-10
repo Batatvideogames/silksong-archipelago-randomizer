@@ -78,7 +78,7 @@ def replace_filler_with_alphabet_items(
         raise OptionError(
             "alphabet_mode needs 26 filler rewards in the configured "
             f"random pool but only {len(eligible_indices)} are available. "
-            "Enable more filler-bearing checks such as Boss Sanity, Quest "
+            "Enable more filler-bearing checks such as Boss Sanity, Wish "
             "Sanity, Lore Tablets, Rosary Caches or Shell Shard Caches."
         )
     unrestricted_indices = [

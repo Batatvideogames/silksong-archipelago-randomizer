@@ -212,7 +212,7 @@ def native_source_requires_assumption(
     reward_name: str,
     pollip_heart_count: int,
     anchor_requirement_name: str | None,
-    rule_dependencies: dict[int, tuple[frozenset[str], frozenset[str], bool]] | None = None,
+    rule_dependencies: dict[str, tuple[frozenset[str], frozenset[str], bool]] | None = None,
 ) -> bool:
     if reward_name == "Memory Locket" or reward_name.startswith(("Bellway: ", "Ventrica: ")):
         return False
@@ -238,57 +238,46 @@ def native_source_requires_assumption(
         if source_names is None:
             source_names = {native_region_name(name): name for name in world._silksong_native_abstract_names}
             world._silksong_source_names = source_names
+    dependencies_by_region = rule_dependencies if rule_dependencies is not None else {}
     visited: set[str] = set()
     while pending:
         region_name = pending.pop()
         if region_name in visited:
             continue
-        if region_name in source_names:
-            dependencies = _native_source_dependencies(world, source_names[region_name])
-            if dependencies is None:
-                return True
-            items, regions, external = dependencies
-            if reward_name in items or external:
-                return True
-            visited.add(region_name)
-            pending.update(regions)
-            continue
-        try:
-            region = world.multiworld.get_region(
-                region_name,
-                world.player,
-            )
-        except KeyError:
-            return True
-        if region.player != world.player:
+        dependencies = dependencies_by_region.get(region_name)
+        if dependencies is None:
+            if region_name in source_names:
+                dependencies = _native_source_dependencies(world, source_names[region_name])
+                if dependencies is None:
+                    return True
+            else:
+                try:
+                    region = world.multiworld.get_region(region_name, world.player)
+                except KeyError:
+                    return True
+                if region.player != world.player:
+                    return True
+                items, regions = set(), set()
+                external = False
+                for entrance in region.entrances:
+                    access_rule = entrance.access_rule
+                    if access_rule is not type(entrance).access_rule:
+                        if not isinstance(access_rule, Rule.Resolved) or access_rule.player != world.player:
+                            return True
+                        items.update(access_rule.item_dependencies())
+                        regions.update(access_rule.region_dependencies())
+                        external |= bool(access_rule.location_dependencies() or access_rule.entrance_dependencies())
+                    parent_region = entrance.parent_region
+                    if parent_region is None or parent_region.player != world.player:
+                        return True
+                    regions.add(parent_region.name)
+                dependencies = frozenset(items), frozenset(regions), external
+            dependencies_by_region[region_name] = dependencies
+        items, regions, external = dependencies
+        if reward_name in items or external:
             return True
         visited.add(region_name)
-        for entrance in region.entrances:
-            access_rule = entrance.access_rule
-            if access_rule is not type(entrance).access_rule:
-                if not isinstance(access_rule, Rule.Resolved) or access_rule.player != world.player:
-                    return True
-                key = id(access_rule)
-                dependencies = rule_dependencies.get(key) if rule_dependencies is not None else None
-                if dependencies is None:
-                    dependencies = (
-                        frozenset(access_rule.item_dependencies()),
-                        frozenset(access_rule.region_dependencies()),
-                        bool(access_rule.location_dependencies() or access_rule.entrance_dependencies()),
-                    )
-                    if rule_dependencies is not None:
-                        rule_dependencies[key] = dependencies
-                items, regions, external = dependencies
-                if reward_name in items or external:
-                    return True
-                pending.update(regions)
-            parent_region = entrance.parent_region
-            if (
-                parent_region is None
-                or parent_region.player != world.player
-            ):
-                return True
-            pending.add(parent_region.name)
+        pending.update(regions)
     return False
 
 

@@ -15,7 +15,7 @@ from .display_names import (
 from .location_display_names import (
     location_first_name,
 )
-from .minor_pickups import MINOR_PICKUP_LOCATION_NAMES
+from .minor_pickups import MINOR_PICKUP_LOCATION_NAMES, WISH_CURRENCY_REWARDS
 from .lore_tablets import (
     ADDITIONAL_LORE_TABLET_SOURCES,
     LORE_TABLET_CATEGORY,
@@ -1091,8 +1091,21 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Boss: Lace (Deep Docks)", "Boss"),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
 
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Loddie - Heavy Rosary Necklace', 'Resource'),)
+
+WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
+    "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
+    'Wish: Volatile Flintbeetles': 'Volatile Flintbeetles - Memory Locket',
+    'Wish: Bugs of Pharloom': 'Bugs of Pharloom - Tool Pouch',
+    'Wish: Great Taste of Pharloom': 'Great Taste of Pharloom - Pale Oil',
+    'Wish: Balm for the Wounded': canonicalize_location_name('Spool Fragment Unlock #13'),
+    'Wish: Fatal Resolve': canonicalize_location_name('Tool Unlock: Pinstress Tool'),
+}
+
+
 LOCATION_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
-    (canonicalize_location_name(location_name), category)
+    (canonicalize_location_name(location_name),
+     'Resource' if canonicalize_location_name(location_name) in WISH_CURRENCY_REWARDS else category)
     for location_name, category in _LOCATION_TABLE_SOURCE_UNNORMALIZED
 )
 
@@ -1191,10 +1204,20 @@ LOCATION_NAMES_BY_CATEGORY: Dict[str, tuple[str, ...]] = {
 location_name_groups: Dict[str, set[str]] = {
     category: set(names)
     for category, names in LOCATION_NAMES_BY_CATEGORY.items()
-    if category not in location_data_table
+    if category not in location_data_table and category != "Quest"
 }
 # The data package exposes this friendlier plural group label.
-location_name_groups['Quests'] = set(QUEST_LOCATION_NAMES)
+location_name_groups['Wishes'] = (
+    set(QUEST_LOCATION_NAMES) - WISH_REWARD_LOCATION_BY_COMPLETION.keys()
+) | set(WISH_REWARD_LOCATION_BY_COMPLETION.values()) | {
+    canonicalize_location_name(name) for name in (
+        'Mask Shard Unlock #7', 'Mask Shard Unlock #17', 'Mask Shard Unlock #18',
+        'Mask Shard Unlock #19', 'Drifter\'s Cloak', 'Flea Brew', "Druid's Eye",
+        "Druid's Eyes", 'Plasmium Phial', 'Pollip Pouch', 'Longclaw', 'Tacks',
+        'Throwing Ring', 'Crawbug Clearing (Creige) - Crafting Kit',
+        'Ecstasy of the End - Pale Oil', 'Everbloom',
+    )
+} & location_data_table.keys()
 location_name_groups['Needle Upgrades'] = set(
     NEEDLE_UPGRADE_LOCATION_NAMES
 )

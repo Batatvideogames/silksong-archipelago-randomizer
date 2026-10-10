@@ -165,7 +165,7 @@ def get_act_two_excluded_location_names(
     if starting_crest_item != "Crest: Shaman":
         excluded |= ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES
 
-    if skill_mode not in {"vanilla", "shuffle", "anywhere"}:
+    if skill_mode not in {"vanilla", "anywhere"}:
         raise ValueError(f"Unknown Skill randomization mode: {skill_mode!r}")
     if skill_mode != "anywhere" or silk_soar_begone:
         excluded |= ACT_TWO_SILK_SOAR_LOCATION_NAMES
@@ -223,7 +223,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     },
     "Quest": {
         "Rosaries (60)": 3,
-        "Shell Shards (80)": 3,
+        "Shell Shards (80)": 2,
     },
     "RelicTurnIn": {"Shell Shards (80)": 2},
     "LoreTablet": {

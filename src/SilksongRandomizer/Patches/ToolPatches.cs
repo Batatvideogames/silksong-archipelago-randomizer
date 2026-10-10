@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using GlobalEnums;
 using System;
@@ -13,6 +14,47 @@ namespace SilksongRandomizer.Patches
 {
     public class ToolPatches
     {
+        internal static bool WaitForCindrilPickup(SaveState save)
+        {
+            const string location = "Tool Unlock: Sprintmaster";
+            return save != null && save.IsRandomized(ItemType.Tool) &&
+                save.IsLocationEnabled(location) && save.IsLocationInSeed(location) &&
+                !save.IsLocationChecked(location);
+        }
+
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class CindrilPedestal
+        {
+            private static void Prefix(FsmState __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || fsm.GameObject.scene.name != "Bone_East_Weavehome" ||
+                    fsm.Name != "Completion" || __instance.Name != "Completed Max" ||
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) != "Weaver Speed Challenge" ||
+                    !WaitForCindrilPickup(SaveState.Instance)) return;
+                __instance.Actions = new FsmStateAction[] { new AwaitCindrilPickup(__instance) };
+            }
+        }
+
+        private sealed class AwaitCindrilPickup : FsmStateAction
+        {
+            private readonly FsmState state;
+            private readonly FsmStateAction[] actions;
+
+            internal AwaitCindrilPickup(FsmState state)
+            {
+                this.state = state;
+                actions = state.Actions;
+            }
+
+            public override void OnUpdate()
+            {
+                if (!WaitForCindrilPickup(SaveState.Instance)) Fsm.SetState(state.Name);
+            }
+
+            public override void OnExit() => state.Actions = actions;
+        }
+
         private const string NeedlePhialInternalName = "Extractor";
         private const string AlchemistAssistantQuest = "Extractor Blue";
 

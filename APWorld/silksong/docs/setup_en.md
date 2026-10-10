@@ -111,7 +111,7 @@ Some items become unavailable once you enter Act 3. Go to your Bellhome in Bellh
 Once you reach act 3 once, sit on the bed, press dash + needolin to get a pop-up asking to revert the world back to Act 2 and vice versa.
 
 ### What Are the Map Markers Showing?
-When enabled in the yaml "check_map_markers", the map can show randomized checks at their physical locations.
+When enabled in the yaml "location_map_markers", the map can show randomized locations at their physical locations.
 
 Key for these markers are as follows:
 - **Fully opaque (with AP style rosary icon)**: Reachable / in logic.

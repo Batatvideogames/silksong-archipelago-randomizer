@@ -1,6 +1,11 @@
 from collections import Counter
 from unittest import TestCase
 
+from BaseClasses import CollectionState
+from test.general import setup_multiworld
+from .. import SilksongWorld
+from ..requirements import ABSTRACT_REQUIREMENTS
+
 from ..items import (
     PAIRED_ITEM_CATEGORIES,
     PALE_OIL_ITEM,
@@ -119,30 +124,35 @@ class TestNeedleOilRandomization(TestCase):
             },
         )
 
-    def test_either_randomized_lane_gates_crawfather_by_upgrades(self) -> None:
-        for needle_randomized, oil_randomized in (
-            (True, False),
-            (False, True),
-            (True, True),
-        ):
-            with self.subTest(
-                needle_randomized=needle_randomized,
-                oil_randomized=oil_randomized,
-            ):
-                requirements = get_crawfather_requirements(
-                    needle_randomized,
-                    oil_randomized,
-                )
+    def test_crawfather_keeps_combat_gates_with_either_randomized_lane(self) -> None:
+        event = "Room Event: event:mapper/reviewed:crawfather-defeated"
+        for needle_randomized, oil_randomized in ((True, False), (False, True), (True, True)):
+            with self.subTest(needle=needle_randomized, oil=oil_randomized):
+                requirements = get_crawfather_requirements(needle_randomized, oil_randomized)
                 self.assertTrue(requirements)
+                self.assertTrue(all(event in requirement.all_of for requirement in requirements))
                 self.assertTrue(all(
-                    any(
-                        count.item_names
-                        == (PROGRESSIVE_NEEDLE_UPGRADE_ITEM,)
-                        and count.minimum == 2
-                        for count in requirement.item_counts
-                    )
-                    for requirement in requirements
+                    {"Combat: Crawfather", "Combat: Crawfather Gauntlet"} <= set(requirement.all_of)
+                    for requirement in ABSTRACT_REQUIREMENTS[event]
                 ))
+                multiworld = setup_multiworld(
+                    SilksongWorld, seed=12345,
+                    steps=("generate_early", "create_regions", "create_items", "set_rules"),
+                    options={
+                        "starting_crest": "hunter",
+                        "needle_upgrade_randomization": "anywhere" if needle_randomized else "vanilla",
+                        "pale_oil_randomization": "anywhere" if oil_randomized else "vanilla",
+                    },
+                )
+                world = multiworld.worlds[1]
+                state = CollectionState(multiworld)
+                state.collect(world.create_item("Crest: Hunter"), True)
+                for _ in range(2):
+                    state.collect(world.create_item(PROGRESSIVE_NEEDLE_UPGRADE_ITEM), True)
+                damage = world.get_region("Combat: Crawfather Damage")
+                self.assertFalse(damage.can_reach(state))
+                state.collect(world.create_item(PROGRESSIVE_NEEDLE_UPGRADE_ITEM), True)
+                self.assertTrue(damage.can_reach(state))
 
     def test_progressive_upgrade_sources_are_not_self_locked(self) -> None:
         dependencies = _get_location_self_dependencies(

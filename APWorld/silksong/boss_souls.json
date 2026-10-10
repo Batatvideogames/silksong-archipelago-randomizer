@@ -442,7 +442,6 @@
         "path": "Boss Scene",
         "fsm": "Control",
         "states": [
-          "Init",
           "Wake",
           "Remeet 1"
         ]

@@ -560,8 +560,9 @@ namespace SilksongRandomizer.Patches
                     !string.Equals(__instance.gameObject.scene.name, "Room_Huntress", StringComparison.OrdinalIgnoreCase) ||
                     Utils.GetHierarchyPath(__instance.transform) != "scene/Huntress_set/post/Incompleted") return true;
                 string assigned = SaveState.Instance?.progressionShuffle?.AssignedWish("Huntress Quest");
-                if (assigned == null || QuestManager.GetQuest(assigned).IsCompleted) return true;
-                return false;
+                return assigned == null || (QuestManager.GetQuest(assigned).IsCompleted &&
+                    (QuestManager.GetQuest("Huntress Quest").IsCompleted ||
+                     QuestManager.GetQuest("Huntress Quest Runt").IsCompleted));
             }
         }
 
@@ -822,7 +823,7 @@ namespace SilksongRandomizer.Patches
                             QuestManager.GetQuest("Huntress Quest").IsAccepted &&
                             !QuestManager.GetQuest("Huntress Quest").IsCompleted) huntress.BeginQuest(null, showPrompt: false);
                         if (huntress.IsAccepted) return true;
-                        __instance.Fsm.SetState("End");
+                        __instance.Fsm.SetState("Repeat");
                     }
                     __instance.Finish();
                     return false;

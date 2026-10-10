@@ -72,6 +72,20 @@ MINOR_PICKUP_REWARD_BY_ASSET: dict[str, str] = {
 }
 
 
+WISH_CURRENCY_REWARDS: dict[str, str] = {
+    'Wish: Fine Pins': 'Heavy Rosary Necklace',
+    'Wish: Garb of the Pilgrims': 'Rosary Necklace',
+    'Wish: Silver Bells': 'Rosary Necklace',
+    'Wish: The Terrible Tyrant': 'Heavy Rosary Necklace',
+    'Wish: Cloaks of the Choir': 'Heavy Rosary Necklace',
+}
+
+SCRIPTED_MINOR_REWARDS: dict[str, str] = {
+    **WISH_CURRENCY_REWARDS,
+    'Loddie - Heavy Rosary Necklace': 'Heavy Rosary Necklace',
+}
+
+
 MINOR_PICKUP_LOCATION_NAMES: tuple[str, ...] = tuple(
     location_first_name(location_name)
     for location_name, *_identity in MINOR_PICKUP_SOURCE
