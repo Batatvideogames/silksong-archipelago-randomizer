@@ -7025,5 +7025,25 @@
     "name": "Songclave Steam Tunnel - Lower Box Opened",
     "kind": "logic-point",
     "locations": []
+  },
+  "event:mapper/1dc4fd10-7059-4b80-afcf-29987a5167a1": {
+    "name": "Far Fields Pilgrim's Rest Church - Rhinogrund pilgrim's rest church",
+    "kind": "miniboss",
+    "locations": []
+  },
+  "event:mapper/accc02ca-02fe-4d0c-a4d0-602441b0c504": {
+    "name": "Far Fields Skull Room West - Hoker 3",
+    "kind": "enemy",
+    "locations": []
+  },
+  "event:mapper/e3133a07-c297-4e02-9703-28819e1f695d": {
+    "name": "Far Fields Skull Room East - Hoker 3",
+    "kind": "enemy",
+    "locations": []
+  },
+  "event:mapper/efb90238-8530-4331-b9fb-53ee86e3bb37": {
+    "name": "Bilewater Weavenest Murglin - silk room wall",
+    "kind": "blockade",
+    "locations": []
   }
 }

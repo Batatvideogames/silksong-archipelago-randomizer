@@ -5,7 +5,6 @@ using HutongGames.PlayMaker;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
 using GetPlayerDataBoolAction =
@@ -246,68 +245,43 @@ namespace SilksongRandomizer.Patches
     )]
     internal static class HeroController_RegainControl_BrollyPatch
     {
-        private static IEnumerable<CodeInstruction> Transpiler(
-            IEnumerable<CodeInstruction> instructions
-        )
+        private struct OwnershipSnapshot
         {
-            List<CodeInstruction> result = new List<CodeInstruction>(instructions);
-            FieldInfo vanillaBrolly = AccessTools.Field(
-                typeof(PlayerData),
-                nameof(PlayerData.hasBrolly)
-            );
-            FieldInfo vanillaDoubleJump = AccessTools.Field(
-                typeof(PlayerData),
-                nameof(PlayerData.hasDoubleJump)
-            );
-            MethodInfo randomizedBrollyOwnership = AccessTools.Method(
-                typeof(HeroControllerAbilityPatchUtil),
-                nameof(HeroControllerAbilityPatchUtil.HasBrolly)
-            );
-            MethodInfo randomizedDoubleJumpOwnership = AccessTools.Method(
-                typeof(HeroControllerAbilityPatchUtil),
-                nameof(HeroControllerAbilityPatchUtil.HasDoubleJump)
-            );
-            int brollyReplacements = 0;
-            int doubleJumpReplacements = 0;
+            internal PlayerData PlayerData;
+            internal bool NativeBrolly;
+            internal bool NativeDoubleJump;
+        }
 
-            foreach (CodeInstruction instruction in result)
-            {
-                if (instruction.opcode == OpCodes.Ldfld &&
-                    Equals(instruction.operand, vanillaBrolly))
-                {
-                    // The PlayerData instance is already on the evaluation
-                    // stack, so a static helper call is a drop-in replacement.
-                    instruction.opcode = OpCodes.Call;
-                    instruction.operand = randomizedBrollyOwnership;
-                    brollyReplacements++;
-                }
-                else if (instruction.opcode == OpCodes.Ldfld &&
-                    Equals(instruction.operand, vanillaDoubleJump))
-                {
-                    instruction.opcode = OpCodes.Call;
-                    instruction.operand = randomizedDoubleJumpOwnership;
-                    doubleJumpReplacements++;
-                }
-            }
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.First)]
+        private static void Prefix(PlayerData ___playerData, out OwnershipSnapshot __state)
+        {
+            __state = default;
+            if (SaveState.Instance == null || ___playerData == null) return;
 
-            if (brollyReplacements != 2)
+            __state = new OwnershipSnapshot
             {
-                RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Expected two Drifter's Cloak ownership reads " +
-                    "in HeroController.RegainControl(bool), replaced " +
-                    brollyReplacements + "."
-                );
-            }
-            if (doubleJumpReplacements != 1)
-            {
-                RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Expected one Faydown Cloak ownership read " +
-                    "in HeroController.RegainControl(bool), replaced " +
-                    doubleJumpReplacements + "."
-                );
-            }
+                PlayerData = ___playerData,
+                NativeBrolly = ___playerData.hasBrolly,
+                NativeDoubleJump = ___playerData.hasDoubleJump,
+            };
+            // Prepatcher can replace the field reads before Harmony sees them.
+            ___playerData.hasBrolly = HeroControllerAbilityPatchUtil.ResolveBrollyOwnership(
+                __state.NativeBrolly);
+            ___playerData.hasDoubleJump = HeroControllerAbilityPatchUtil.ResolveDoubleJumpOwnership(
+                __state.NativeDoubleJump);
+        }
 
-            return result;
+        [HarmonyFinalizer]
+        [HarmonyPriority(Priority.Last)]
+        private static Exception Finalizer(Exception __exception, OwnershipSnapshot __state)
+        {
+            if (__state.PlayerData != null)
+            {
+                __state.PlayerData.hasBrolly = __state.NativeBrolly;
+                __state.PlayerData.hasDoubleJump = __state.NativeDoubleJump;
+            }
+            return __exception;
         }
     }
 

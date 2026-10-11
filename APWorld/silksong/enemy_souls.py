@@ -189,8 +189,27 @@ def gate_graph(world, graph):
         for event in BY_NAME[name].get('events', ()):
             result[event] = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, item_name(name)))))
                                   for rule in result[event])
+    for combat, souls in _boss_summons(names).items():
+        result[combat] = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls))))
+                               for rule in result[combat])
     for owner, rules in tuple(result.items()):
         result[owner] = tuple(_combat_gate(rule, names) for rule in rules)
+    return result
+
+
+@lru_cache(maxsize=8)
+def _boss_summons(names):
+    def guards(row):
+        return {('state', s['scene'], s['path'], s['fsm'], state)
+                for s in row.get('states', ()) for state in s['states']} | {
+                    ('battle', b['scene'], b['path']) for b in row.get('battles', ())}
+    enemies = {name: guards(BY_NAME[name]) for name in names}
+    result = {}
+    for boss in BOSS_CATALOGUE:
+        required = tuple(item_name(name) for name, guarded in enemies.items() if guards(boss) & guarded)
+        if required:
+            for combat in boss['combat']:
+                result[combat] = required
     return result
 
 

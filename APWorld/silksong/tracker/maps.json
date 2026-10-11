@@ -162,6 +162,12 @@
   "location_border_thickness": 3
  },
  {
+  "name": "The Marrow Bellshrine",
+  "img": "01-geometry/aaedb20a-fa75-416a-ad42-61d9a7685a4e.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "The Marrow Skull Wall",
   "img": "01-geometry/f0416b27-92ed-45a9-88f4-ed93a25a8330.webp",
   "location_size": 19,
@@ -290,7 +296,7 @@
  {
   "name": "Wormways Shaft",
   "img": "01-geometry/ea088d71-c8bc-445f-93d9-15c68be6f6e4.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -338,8 +344,8 @@
  {
   "name": "Wormways Weavenest",
   "img": "01-geometry/77b705d4-9230-4bf2-8253-23fb8fc52303.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Wormways Zango Arena",
@@ -524,20 +530,20 @@
  {
   "name": "Far Fields Entrance East",
   "img": "01-geometry/16ba5610-106d-4a42-b3df-8ae3f69c59cc.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Far Fields Entrance West",
   "img": "01-geometry/cdccc660-7c1a-4513-a5b3-8c1f98621e3b.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Far Fields Fort Lower Passage",
   "img": "01-geometry/d4f60d7c-fa7d-489b-9eaa-8b59b7094b3b.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Far Fields Fort Flea Rescue",
@@ -572,14 +578,14 @@
  {
   "name": "Far Fields Pilgrim's Rest Church",
   "img": "01-geometry/4716eb35-8a42-4ba3-91df-05e4876577b1.webp",
-  "location_size": 34,
-  "location_border_thickness": 5
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Far Fields Pilgrim's Rest Shop",
   "img": "01-geometry/474b4f3d-3908-4ece-ad9e-33e453901d0a.webp",
-  "location_size": 8,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Far Fields Chorus",
@@ -596,7 +602,7 @@
  {
   "name": "Far Fields Pinstress Room",
   "img": "01-geometry/ccc8af18-a103-48e2-91cb-70d8966927f0.webp",
-  "location_size": 19,
+  "location_size": 20,
   "location_border_thickness": 3
  },
  {
@@ -614,8 +620,8 @@
  {
   "name": "Far Fields Target Practice",
   "img": "01-geometry/5e5d7a8a-f4ba-453c-9e4d-5a8e2e70a7ea.webp",
-  "location_size": 8,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Far Fields Map Shop",
@@ -1884,6 +1890,12 @@
   "location_border_thickness": 3
  },
  {
+  "name": "Whispering Vaults Vaultborn Lever",
+  "img": "01-geometry/4839e900-8feb-458c-9814-4b823239fdc4.webp",
+  "location_size": 13,
+  "location_border_thickness": 2
+ },
+ {
   "name": "Grand Bellway Library",
   "img": "01-geometry/cc80ef22-3b5a-4e2f-8acc-762f15b9e556.webp",
   "location_size": 19,
@@ -1970,13 +1982,13 @@
  {
   "name": "High Halls Shaft Top",
   "img": "01-geometry/608cc2ce-e00d-4a79-91c4-ac2e963c9755.webp",
-  "location_size": 11,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "High Halls Shaft Bottom",
   "img": "01-geometry/f8a1f36c-d7d1-42b9-9d85-2d4c3294fa17.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1988,8 +2000,8 @@
  {
   "name": "High Halls Big Shaft",
   "img": "01-geometry/69346cc0-51c8-4a52-abb6-074d66d45a05.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "High Halls Flooded Room",
@@ -2030,8 +2042,8 @@
  {
   "name": "High Halls Sentinel Graveyard",
   "img": "01-geometry/738907f7-5c16-415f-8b41-698f78a1cc2c.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Arena Shack",

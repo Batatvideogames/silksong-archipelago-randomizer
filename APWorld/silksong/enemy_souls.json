@@ -2743,7 +2743,7 @@
       {
         "act": 2,
         "nodes": [
-          "bilewater/exhaust-organ-interior#elevator",
+          "bilewater/exhaust-organ-interior#top-elevator",
           "bilewater/exhaust-organ-interior#top-layer",
           "bilewater/exhaust-organ-interior#ground-floor",
           "bilewater/exhaust-organ-interior#maze",
@@ -7492,7 +7492,7 @@
       {
         "act": 2,
         "nodes": [
-          "bilewater/bilewater-weavenest-murglin#room"
+          "bilewater/bilewater-weavenest-murglin#left-hall"
         ]
       }
     ],

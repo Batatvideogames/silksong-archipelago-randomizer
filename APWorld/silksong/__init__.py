@@ -1958,10 +1958,26 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 ),
                 key=lambda location: (location.player, location.name),
             )
-            if not progression_slots or not replacement_locations:
+            if not progression_slots:
                 return slotless_state
 
             from Fill import swap_location_item, sweep_from_pool
+
+            if not replacement_locations:
+                # Tiny pools can have nothing but progression left to swap.
+                for slot_location in progression_slots:
+                    for replacement in sorted(non_slot_locations, key=lambda loc: (loc.player, loc.name)):
+                        if (replacement.address is None or replacement.locked or replacement.item is None
+                                or not replacement.can_reach(slotless_state)
+                                or not replacement.can_fill(slotless_state, slot_location.item, False)
+                                or not slot_location.can_fill(slotless_state, replacement.item, False)):
+                            continue
+                        swap_location_item(slot_location, replacement)
+                        candidate = cls._build_crest_slot_budget_state(multiworld, excluded_slots)
+                        if candidate.count(MEMORY_LOCKET_ITEM, world.player) >= get_crest_slot_memory_locket_count(world):
+                            return candidate
+                        swap_location_item(slot_location, replacement)
+                return slotless_state
 
             pending_locations = {
                 location

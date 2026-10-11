@@ -542,21 +542,19 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             object.__setattr__(self, "_item_rule", _native_item_requirement(self.child))
 
         def _evaluate(self, state: CollectionState) -> bool:
-            memo_entry = _lookup_native_source_memo(self, state)
-            if memo_entry is not None:
-                results, key, cached_result = memo_entry
-                if cached_result is not None:
-                    return cached_result
-
             if (
                 (self.anchor_requirement_name is None
                  or state.can_reach_region(
                      native_region_name(self.anchor_requirement_name), self.player))
                 and self.child(state)
             ):
-                if memo_entry is not None:
-                    _remember_native_source_result(state, memo_entry, True)
                 return True
+
+            memo_entry = _lookup_native_source_memo(self, state)
+            if memo_entry is not None:
+                results, key, cached_result = memo_entry
+                if cached_result is not None:
+                    return cached_result
 
             assumed_state = CollectionState(
                 state.multiworld, state.allow_partial_entrances

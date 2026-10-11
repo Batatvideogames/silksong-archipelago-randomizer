@@ -275,17 +275,25 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        [HarmonyPatch(typeof(CollectableItem), nameof(CollectableItem.Get))]
-        private static class SprintmasterMementoReward
+        [HarmonyPatch(typeof(CollectableItem), nameof(CollectableItem.Get), new Type[] { typeof(bool) })]
+        private static class MementoReward
         {
             [HarmonyPrefix]
             private static bool Prefix(CollectableItem __instance)
             {
-                if (__instance.name != "Sprintmaster Memento" ||
-                    GameManager.UnsafeInstance?.GetSceneNameString() != "Sprintmaster_Cave" ||
-                    !IsActive(SaveState.Instance, "Sprintmaster's Memento", ItemType.Memento))
-                    return true;
-                GetProxyItem("Sprintmaster's Memento", ItemType.Memento, true).Get();
+                string location = __instance.name == "Crowman Memento" ? "Craw Memento" :
+                    __instance.name == "Sprintmaster Memento" &&
+                    GameManager.UnsafeInstance?.GetSceneNameString() == "Sprintmaster_Cave"
+                        ? "Sprintmaster's Memento" : null;
+                if (location == null) return true;
+                SaveState state = SaveState.Instance;
+                if (location == "Craw Memento")
+                    RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Craw Memento reward: randomized=" +
+                        (state?.IsRandomized(ItemType.Memento) == true) + ", in seed=" +
+                        (state?.IsLocationInSeed(location) == true));
+                if (!IsActive(state, location, ItemType.Memento)) return true;
+                // AP deliveries use Collect directly, so they still grant the real memento.
+                GetProxyItem(location, ItemType.Memento, true).Get();
                 return false;
             }
         }
@@ -330,6 +338,7 @@ namespace SilksongRandomizer.Patches
         {
             if (PlayerData.instance != null)
             {
+                if (locationName == "Craw Memento") PlayerData.instance.PickedUpCrowMemento = true;
                 if (locationName == "Grey Memento") PlayerData.instance.CollectedMementoGrey = true;
                 if (locationName == "Sprintmaster's Memento") PlayerData.instance.CollectedMementoSprintmaster = true;
             }

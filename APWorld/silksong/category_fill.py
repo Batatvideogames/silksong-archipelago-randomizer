@@ -642,13 +642,12 @@ def fill_solo_progression(world, progression, locations):
     failure = None
     accepted = False
 
+    attempted_normal = False
     opening_attempted = False
-    reserved_opening = False
 
     def attempts():
         yield (), (), False
-        if reserved_opening:
-            yield (), (), False
+        yield (), (), False
         for changed, items in _opening_shuffle_swaps(
             multiworld, getattr(world, "_silksong_shuffle_locations", ()),
         ):
@@ -684,9 +683,12 @@ def fill_solo_progression(world, progression, locations):
             if neutral_opening:
                 if not _reserve_solo_opening(world, pool, available, minimum_gain=1):
                     continue
+            elif not attempted_normal:
+                attempted_normal = True
             elif not opening_attempted:
                 opening_attempted = True
-                reserved_opening = _reserve_solo_opening(world, pool, available)
+                if not _reserve_solo_opening(world, pool, available):
+                    continue
             fill_restrictive(multiworld, sweep_from_pool(multiworld.state),
                              [location for location in available if location.item is None], pool,
                              single_player_placement=True, name="Silksong progression")

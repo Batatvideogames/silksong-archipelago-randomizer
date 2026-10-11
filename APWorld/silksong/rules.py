@@ -3,6 +3,7 @@ from __future__ import annotations
 from .options import get_silk_and_soul_points
 
 from BaseClasses import Item, ItemClassification
+from Options import OptionError
 from rule_builder.rules import Has, HasAny, True_
 from worlds.generic.Rules import add_item_rule
 
@@ -260,6 +261,20 @@ def set_silksong_rules(world) -> None:
         check_vanilla_self_locks=False,
     )
     logic_unknown_locations = getattr(world, 'get_logic_unknown_locations', lambda: LOGIC_UNKNOWN_LOCATIONS)()
+    protected = (logic_unknown_locations | JUNK_ONLY_LOCATIONS
+                 | (UNVERIFIED_PROGRESSION_LOCATIONS - CREST_SLOT_LOCATION_NAMES))
+    blocked_priorities = sorted(
+        location.name for location in world.multiworld.get_unfilled_locations(world.player)
+        if location.address is not None and location.name in protected
+        and location.name in world.options.priority_locations.value
+    )
+    if blocked_priorities:
+        raise OptionError(
+            f"{world.multiworld.get_player_name(world.player)}: priority_locations requires progression, "
+            "but these locations cannot hold it because they are missable or their logic is unverified: "
+            + ", ".join(blocked_priorities)
+            + ". Remove them from priority_locations, including any groups that contain them."
+        )
     split_dash_and_sprint = world.is_split_dash_and_sprint()
     randomize_ledge_grab = world.is_ledgegrab_ability_rando_enabled()
     randomize_swim = world.is_swim_ability_rando_enabled()
