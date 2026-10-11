@@ -6,20 +6,34 @@ It randomizes Silksong checks and items into an Archipelago multiworld, allowing
 
 This project is currently being tested and improved. Expect occasional bugs or logic changes between releases.
 
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [What is randomized?](#what-is-randomized)
+- [Requirements and Installation](#requirements-and-installation)
+  - [Installation with Cogfly](#using-cogfly-125)
+  - [Installation with R2Modman / Thunderstore Manager](#using-r2modman-3218--thunderstore-manager-11231)
+  - [Manual Installation](#manually)
+- [Archipelago Setup](#archipelago-setup)
+- [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
+- [Support and Additional Information](#support-and-additional-information)
+- [Credits](#credits)
+  - [Logic Mapping](#logic-mapping)
+  - [Additional Contributors](#additional-contributors)
+
 ## What is randomized?
 
 The world can randomize Silksong checks and progression items, including movement abilities, tools, crests, maps, mask shards, silk skills, fleas, and other useful or filler items. Traps may also be enabled depending on the generation settings.
 
 The exact checks and options available can change as the randomizer develops. Use the generated YAML template and the release notes for the current version.
 
-## Requirements
+
+## Requirements and Installation
 
 - *Hollow Knight: Silksong* on PC
-- Archipelago
 - BepInEx configured for Silksong
+- Archipelago (v0.6.7+)
 - The Archipelago client included with the release or your Archipelago installation
-
-## Installation
 
 There are multiple installation methods due to different issues with each of them at times, follow one of the methods below to install the Archipelago randomizer.
 
@@ -33,7 +47,7 @@ There are multiple installation methods due to different issues with each of the
 The profile code contains the Archipelago Randomizer Mod, Custom Music Randomizer, Crest Wheel, Silksong Archip Display, Recent Items Display, Mod Menu, Mod List, and all other dependencies (CanvasUtil, DataManager, FsmUtil, I18N, BepInExPack_Silksong, Monodeteour_BepInEx_5, UnityHelper, MonoDetour, WavLib).
 
 > [!WARNING]
-> If you get an error when importing a code into Cogfly, especially the error below, refer to [here](https://github.com/Batatvideogames/silksong-archipelago-randomizer#cogfly---getting-a-server-returned-http-response-code-502-error):
+> If you get an error when importing a code into Cogfly, especially the error below, refer to [here](#cogfly---getting-a-server-returned-http-response-code-502-error):
 > 
 > **Server returned HTTP response code: 502 for URL**
 
@@ -162,14 +176,14 @@ This has been happening for a little bit where it seems that Cogfly is having a 
 Try manually installing the mod list using the photo below, [swap to R2Modman](https://github.com/Batatvideogames/silksong-archipelago-randomizer#using-r2modman-3218--thunderstore-manager-11231) using the same code, or try a [manual install](https://github.com/Batatvideogames/silksong-archipelago-randomizer#manually).
 <img width="1377" height="506" alt="image" src="https://github.com/user-attachments/assets/dcc2824c-d762-4300-8aac-1493a651054d" />
 
-## Troubleshooting
+### Additional common issues or troubleshooting steps to take
 
 - If Silksong does not connect, confirm that BepInEx is installed correctly and that the plugin is in the `BepInEx/plugins` folder.
 - If the Silksong world does not appear in Archipelago, confirm that the `.apworld` is in `custom_worlds` and restart the Archipelago launcher.
 - If items or checks appear out of sync, reconnect the client or use the client's resynchronization command if available.
 - If reporting a bug, include the randomizer version, Archipelago version, relevant YAML settings, and the BepInEx log.
 
-## Feedback and bug reports
+## Feedback and Bug Reports
 
 Please report bugs and logic issues through the repository's [issues](https://github.com/Batatvideogames/silksong-archipelago-randomizer/issues) page. Include enough information to reproduce the problem, but do not upload save files containing personal information.
 
@@ -185,7 +199,7 @@ This is a reminder that this is a passion project and people will try to help to
 
 ## Credits
 
-A huge thanks goes out to all that support the channel and thread, the logic mapping team, and the mod developers who have helped contribute to this project:
+A huge thanks goes out to all that support the channel and thread, the logic mapping team, playtesters, mod developers, and others who have helped contribute to this project:
 
 ### Logic Mapping
 
@@ -204,6 +218,15 @@ Some of these regions are still incomplete and still being mapped out. They've b
 | **SuperEpicGuy** | [Moss Grotto](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/moss-grotto) |
 | **UNMAPPED** | [The Mist](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-mist), [Red Memory](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/red-memory), [Verdania](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/verdania) |
 
-### Mod Developers
+### Contributors
+A huge thanks to all the people who have contributed to this project including ones that aren't displayed on the contributors list.
+
+<a href="https://github.com/Batatvideogames/silksong-archipelago-randomizer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Batatvideogames/silksong-archipelago-randomizer" />
+</a>
+
+- [HeroUnit](https://github.com/zerounit-dev) for his great work on standardizing logic for this project and largely handling all logical coordination.
 - [TheMathGeek314](https://github.com/TheMathGeek314) for the original [HK Alphabet Rando](https://github.com/TheMathGeek314/AlphabetRando) and for giving permission to extend their idea to Silksong.
 - [Nix](https://github.com/Nix-main) for [SilksongArchiDisplay](https://github.com/Nix-main/SilksongArchiDisplay) and all the additional help with [Cogfly](https://github.com/Nix-main/Cogfly) support.
+- [FarisTheAncient](https://github.com/FarisTheAncient) for a ton of help with archipelago compliance and consistent help with making things work with [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases?q=Tracker).
+- RainingChain and IdoManti for their incredible work on documenting Silksong's map and providing us the image files to be used for UT and our logic tool. The map can be found on [Scripter's War](https://scripterswar.com/silksong/map).
