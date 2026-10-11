@@ -665,11 +665,7 @@ class BellShrineSanity(GlobalRandomization):
 
 class QuestSanity(GlobalRandomization):
     """
-    EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
-
     Adds completion checks for wishes without a separately randomized item reward.
-    Does not change which board or NPC offers a wish.
-    Also randomizes Growstone in Steel Soul.
     Items earned from bosses and wishes follow their own randomization settings.
     
     vanilla: no additional wish completion checks
