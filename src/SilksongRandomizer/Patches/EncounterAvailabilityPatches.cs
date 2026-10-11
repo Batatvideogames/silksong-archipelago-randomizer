@@ -1,8 +1,5 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using GlobalEnums;
 using HarmonyLib;
 using HutongGames.PlayMaker;
@@ -83,6 +80,9 @@ namespace SilksongRandomizer.Patches
                 else if (scene == "Bone_15" && __instance.FsmName == "Behaviour" &&
                     Utils.GetHierarchyPath(__instance.transform) == "Boss Scene/Skull King")
                     KeepMarrowSkullTyrant(__instance.Fsm.GetState("State Check"));
+                else if (scene == "Bone_East_10_Room" && __instance.FsmName == "Ruckus Control" &&
+                    Utils.GetHierarchyPath(__instance.transform) == "RestBench")
+                    LogRhinogrundRoom(__instance);
             }
         }
 
@@ -105,26 +105,56 @@ namespace SilksongRandomizer.Patches
                 .ToArray();
         }
 
-        private static bool RhinogrundCitadelGate(bool visited) => WorldInteractionPatches.IsActive || visited;
+        internal static void UpdateRhinogrundInvasion(PlayerData data, MapZone zone)
+        {
+            if (!WorldInteractionPatches.IsActive || data == null || !data.rhinoChurchUnlocked ||
+                data.churchRhinoKilled || !data.PilgrimsRestDoorBroken || zone == MapZone.WILDS ||
+                data.respawnScene == "Bone_East_10_Room") return;
+            data.rhinoRuckus = true;
+            data.didRhinoRuckus = true;
+        }
+
+        private static string RhinogrundState(PlayerData data) =>
+            $"apBound={WorldInteractionPatches.IsActive} released={data.rhinoChurchUnlocked} " +
+            $"mechanismBroken={data.PilgrimsRestDoorBroken} killed={data.churchRhinoKilled} " +
+            $"visitedCitadel={data.visitedCitadel} bench={data.respawnScene} " +
+            $"rhinoRuckus={data.rhinoRuckus} didRhinoRuckus={data.didRhinoRuckus} " +
+            $"rampageCompleted={data.rhinoRampageCompleted} blackThreadWorld={data.blackThreadWorld}";
 
         [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
         private static class RhinogrundInvasionPatch
         {
-            [HarmonyTranspiler]
-            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            [HarmonyPrefix]
+            private static void Prefix(GameManager __instance, out bool __state) =>
+                __state = __instance.playerData?.rhinoRuckus == true;
+
+            [HarmonyPostfix]
+            private static void Postfix(GameManager __instance, bool __state)
             {
-                string previousField = null;
-                foreach (CodeInstruction instruction in instructions)
-                {
-                    yield return instruction;
-                    if (instruction.opcode != OpCodes.Ldfld || !(instruction.operand is FieldInfo field) ||
-                        field.DeclaringType != typeof(PlayerData)) continue;
-                    if (field.Name == nameof(PlayerData.visitedCitadel) && previousField == nameof(PlayerData.churchRhinoKilled))
-                        yield return new CodeInstruction(OpCodes.Call,
-                            AccessTools.Method(typeof(EncounterAvailabilityPatches), nameof(RhinogrundCitadelGate)));
-                    previousField = field.Name;
-                }
+                PlayerData data = __instance.playerData;
+                if (SaveState.Instance == null || data == null) return;
+                MapZone zone = __instance.GetCurrentMapZoneEnum();
+                MapZone timePassZone = WorldInteractionPatches.TimePassZone(zone);
+                bool afterNative = data.rhinoRuckus;
+                UpdateRhinogrundInvasion(data, timePassZone);
+                RandomizerPlugin.Log?.LogInfo(
+                    $"[Rhinogrund] TimePasses: scene={__instance.sceneName} zone={zone} " +
+                    $"timePassZone={timePassZone} before={__state} afterNative={afterNative} " +
+                    RhinogrundState(data));
             }
+        }
+
+        private static void LogRhinogrundRoom(PlayMakerFSM fsm)
+        {
+            PlayerData data = PlayerData.instance;
+            if (SaveState.Instance == null || data == null) return;
+            var root = fsm.gameObject.scene.GetRootGameObjects()
+                .FirstOrDefault(obj => obj.name == "Black Thread States");
+            var rhino = root == null ? null : root.transform.Find("Normal World/Rhino");
+            string actor = rhino == null ? "missing" :
+                $"activeSelf={rhino.gameObject.activeSelf} activeInHierarchy={rhino.gameObject.activeInHierarchy}";
+            RandomizerPlugin.Log?.LogInfo($"[Rhinogrund] Pilgrims Rest loaded: actor={actor} " +
+                RhinogrundState(data));
         }
 
         [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]

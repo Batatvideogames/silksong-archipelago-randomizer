@@ -19,7 +19,7 @@ This project is currently being tested and improved. Expect occasional bugs or l
 - [Support and Additional Information](#support-and-additional-information)
 - [Credits](#credits)
   - [Logic Mapping](#logic-mapping)
-  - [Additional Contributors](#additional-contributors)
+  - [Contributors](#contributors)
 
 ## What is randomized?
 
