@@ -694,7 +694,7 @@ namespace SilksongRandomizer.Patches
                 __state.ShouldStart = ShouldStartFleaGames(
                     state,
                     playerData,
-                    __instance.GetCurrentMapZoneEnum()
+                    WorldInteractionPatches.TimePassZone(__instance.GetCurrentMapZoneEnum())
                 );
             }
 

@@ -493,7 +493,7 @@ namespace SilksongRandomizer
             nextTimePass = Time.unscaledTime + 1f;
             try
             {
-                GameManager.UnsafeInstance.TimePasses();
+                Patches.WorldInteractionPatches.PassInventoryTime(GameManager.UnsafeInstance);
                 timePassPulseUntil = Time.unscaledTime + .45f;
                 Refresh();
             }

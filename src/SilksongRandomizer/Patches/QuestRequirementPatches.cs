@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
@@ -746,7 +746,7 @@ namespace SilksongRandomizer.Patches
                 {
                     SaveState = state,
                     PlayerData = playerData,
-                    SceneName = __instance.GetSceneNameString(),
+                    SceneName = WorldInteractionPatches.TimePassScene(__instance.GetSceneNameString()),
                     NativeStockGateSuppressed = true,
                 };
 

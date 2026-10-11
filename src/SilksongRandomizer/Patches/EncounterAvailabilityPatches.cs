@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using GlobalEnums;
 using HarmonyLib;
 using HutongGames.PlayMaker;
@@ -102,6 +105,28 @@ namespace SilksongRandomizer.Patches
                 .ToArray();
         }
 
+        private static bool RhinogrundCitadelGate(bool visited) => WorldInteractionPatches.IsActive || visited;
+
+        [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
+        private static class RhinogrundInvasionPatch
+        {
+            [HarmonyTranspiler]
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                string previousField = null;
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    yield return instruction;
+                    if (instruction.opcode != OpCodes.Ldfld || !(instruction.operand is FieldInfo field) ||
+                        field.DeclaringType != typeof(PlayerData)) continue;
+                    if (field.Name == nameof(PlayerData.visitedCitadel) && previousField == nameof(PlayerData.churchRhinoKilled))
+                        yield return new CodeInstruction(OpCodes.Call,
+                            AccessTools.Method(typeof(EncounterAvailabilityPatches), nameof(RhinogrundCitadelGate)));
+                    previousField = field.Name;
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePasses))]
         private static class SkullTyrantInvasionPatch
         {
@@ -118,7 +143,7 @@ namespace SilksongRandomizer.Patches
                     return;
                 if (QuestManager.GetQuest("Soul Snare")?.IsAccepted == true &&
                     progress?.TryGetBossDefeat("Boss: Skull Tyrant (Bone Bottom)", out _) != true) return;
-                MapZone zone = __instance.GetCurrentMapZoneEnum();
+                MapZone zone = WorldInteractionPatches.TimePassZone(__instance.GetCurrentMapZoneEnum());
                 if (zone != MapZone.BONETOWN && zone != MapZone.PATH_OF_BONE && zone != MapZone.MOSS_CAVE)
                     data.skullKingWillInvade = true;
             }

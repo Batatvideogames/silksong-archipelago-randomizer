@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using GlobalEnums;
 using HarmonyLib;
 using HutongGames.PlayMaker;
@@ -62,6 +63,75 @@ namespace SilksongRandomizer.Patches
             {
                 SaveState state = SaveState.Instance;
                 return state != null && state.IsRoomBound;
+            }
+        }
+
+        [ThreadStatic] private static bool inventoryTimePass;
+        [ThreadStatic] private static bool inventoryTimePassedElsewhere;
+
+        internal static void PassInventoryTime(GameManager manager)
+        {
+            if (!IsActive)
+            {
+                manager.TimePasses();
+                return;
+            }
+            bool previousPass = inventoryTimePass;
+            bool previousElsewhere = inventoryTimePassedElsewhere;
+            try
+            {
+                inventoryTimePass = true;
+                inventoryTimePassedElsewhere = false;
+                manager.TimePasses();
+                if (!inventoryTimePassedElsewhere) manager.TimePassesElsewhere();
+            }
+            finally
+            {
+                inventoryTimePass = previousPass;
+                inventoryTimePassedElsewhere = previousElsewhere;
+            }
+        }
+
+        internal static string TimePassScene(string scene) => inventoryTimePass ? string.Empty : scene;
+        internal static MapZone TimePassZone(MapZone zone) => inventoryTimePass ? MapZone.NONE : zone;
+
+        [HarmonyPatch]
+        private static class InventoryTimePassLocationPatch
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TimePasses));
+                yield return AccessTools.Method(typeof(GameManager), nameof(GameManager.TimePassesElsewhere));
+            }
+
+            [HarmonyTranspiler]
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    yield return instruction;
+                    string helper = null;
+                    if (instruction.operand is MethodInfo method && method.DeclaringType == typeof(GameManager))
+                    {
+                        if (method.Name == nameof(GameManager.GetSceneNameString)) helper = nameof(TimePassScene);
+                        else if (method.Name == nameof(GameManager.GetCurrentMapZoneEnum)) helper = nameof(TimePassZone);
+                    }
+                    else if (instruction.opcode == OpCodes.Ldfld && instruction.operand is FieldInfo field &&
+                             field.DeclaringType == typeof(GameManager) && field.Name == "sceneName")
+                        helper = nameof(TimePassScene);
+                    if (helper != null)
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(WorldInteractionPatches), helper));
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(GameManager), nameof(GameManager.TimePassesElsewhere))]
+        private static class InventoryTimePassElsewherePatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix()
+            {
+                if (inventoryTimePass) inventoryTimePassedElsewhere = true;
             }
         }
 

@@ -1168,6 +1168,8 @@ namespace SilksongRandomizer
                         );
                     }
 
+                    AddNativeWhitewardKeys(counts, state, playerData);
+
                     SetMinimumCount(
                         counts,
                         "Progressive Crafting Kit",
@@ -1199,6 +1201,17 @@ namespace SilksongRandomizer
                 AddNativeWorldState(counts, state);
             }
             return counts;
+        }
+
+        private static void AddNativeWhitewardKeys(
+            Dictionary<string, int> counts,
+            SaveState state,
+            PlayerData playerData
+        )
+        {
+            if (state.IsRandomized(ItemType.MajorKey)) return;
+            SetIfTrue(counts, "White Key", playerData.collectedWardKey);
+            SetIfTrue(counts, "Surgeon's Key", playerData.collectedWardBossKey);
         }
 
         private static int GetPersistedCollectableCount(

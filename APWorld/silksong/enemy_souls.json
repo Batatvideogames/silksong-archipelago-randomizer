@@ -2012,9 +2012,13 @@
       {
         "act": 2,
         "nodes": [
-          "bilewater/bilewater-west-secret-rooms#top-area",
-          "bilewater/bilewater-west-secret-rooms#lower-area",
-          "bilewater/bilewater-west-secret-rooms#ceiling-exit"
+          "bilewater/bilewater-west-secret-rooms#middle-floor"
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-west-secret-rooms#bud-hall"
         ]
       }
     ],
@@ -3459,7 +3463,10 @@
         ]
       }
     ],
-    "entrances": []
+    "entrances": [],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
+    ]
   },
   {
     "name": "Pilgrim Hornfly",
@@ -6983,6 +6990,9 @@
     "entrances": [],
     "black_thread_only_rooms": [
       "high-halls/high-halls-arena"
+    ],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
     ]
   },
   {
@@ -7105,7 +7115,10 @@
       }
     ],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
+    ]
   },
   {
     "name": "Choristor",
@@ -7166,6 +7179,9 @@
     "entrances": [],
     "black_thread_only_rooms": [
       "choral-chambers/choral-chambers-below-ventrica"
+    ],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
     ]
   },
   {
@@ -7177,7 +7193,7 @@
       {
         "act": 2,
         "nodes": [
-          "high-halls/high-halls-big-slide#room"
+          "high-halls/high-halls-big-slide#center-platform"
         ]
       }
     ],
@@ -7192,7 +7208,10 @@
       }
     ],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
+    ]
   },
   {
     "name": "Reed",
@@ -7251,6 +7270,9 @@
     "black_thread_only_rooms": [
       "choral-chambers/choral-chambers-below-ventrica",
       "choral-chambers/choral-chambers-east-to-west"
+    ],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
     ]
   },
   {
@@ -7699,6 +7721,9 @@
     "entrances": [],
     "black_thread_only_rooms": [
       "high-halls/high-halls-arena"
+    ],
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet"
     ]
   },
   {

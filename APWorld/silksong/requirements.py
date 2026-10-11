@@ -416,9 +416,6 @@ _quest_item_clauses = {
     'Pollen Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Nyleth'],
     "Hunter's Heart": COMPILED_ROOM_GRAPH.check_requirements['Boss: Skarrsinger Karmelita'],
     'Encrusted Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Crust King Khann'],
-    'Twisted Bud': (CompiledRoomClause(all_of=(
-        room_event_name('event:mapper/reviewed:twisted-bud-collected'),
-    )),),
 }
 _quest_item_nodes = {
     'Loddie - Heavy Rosary Necklace': 'the-marrow/the-marrow-jail#ground-floor',
@@ -428,7 +425,6 @@ _quest_item_nodes = {
     'Pollen Heart': 'grand-gate/nyleth-fight#room',
     "Hunter's Heart": 'far-fields/memory-karmelita#arena',
     'Encrusted Heart': 'sands-of-karak/coral-tower#main',
-    'Twisted Bud': 'bilewater/bilewater-west-secret-rooms#top-area',
 }
 COMPILED_ROOM_GRAPH = replace(
     COMPILED_ROOM_GRAPH,
@@ -2416,7 +2412,6 @@ def get_trails_end_requirements(
         'Path: Bilewater - Bilehaven',
         'Path: Mount Fay - Workbench',
         'Ability: Faydown Cloak',
-        'Ancestral Art: Needolin',
     )
     required_maps = (
         SHAKRA_MAP_ITEMS
@@ -6016,8 +6011,6 @@ REQUIREMENT_ROWS: tuple[tuple[str, LocationRequirement], ...] = tuple(
 
 
 REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = _compile_requirements(REQUIREMENT_ROWS)
-REQUIREMENTS["Boss: Lace (Deep Docks)"] = (req(
-    "Room Event: event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda", crest=False),)
 from .boss_journal import base_requirements as journal_requirements
 REQUIREMENTS.update(journal_requirements(REQUIREMENTS, req))
 

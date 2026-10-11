@@ -290,7 +290,7 @@
  {
   "name": "Wormways Craggler Hallway",
   "img": "01-geometry/9fd864b5-7137-465d-8f48-a0a7dc781822.webp",
-  "location_size": 22,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -368,6 +368,12 @@
  {
   "name": "Deep Docks Map Shop",
   "img": "01-geometry/d40a939d-596e-4351-8b1f-ebc9abd828e2.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Deep Docks Map Shop Side Room",
+  "img": "01-geometry/cface164-19a2-4203-bb4a-589b80fd1824.webp",
   "location_size": 19,
   "location_border_thickness": 3
  },
@@ -660,6 +666,12 @@
   "location_border_thickness": 3
  },
  {
+  "name": "Far Fields Skull Arena",
+  "img": "01-geometry/4be34479-044f-4973-a7cb-f475718640b8.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Weavenest Cindril",
   "img": "01-geometry/153c050d-86d9-42bf-ae15-f0b203eeed83.webp",
   "location_size": 9,
@@ -710,13 +722,19 @@
  {
   "name": "Current Karmelita",
   "img": "01-geometry/12930568-b5cd-4b7a-a912-37122b18f2d1.webp",
-  "location_size": 13,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Sprintmaster Cave",
   "img": "01-geometry/cd6baea4-a19b-4b65-80e6-e1d1df0709e8.webp",
   "location_size": 21,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Chapel of the Beast",
+  "img": "01-geometry/2a3e4e0b-66b5-4358-afcd-a3d66eca858d.webp",
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -948,6 +966,12 @@
   "location_border_thickness": 2
  },
  {
+  "name": "Bellhart Bellway",
+  "img": "01-geometry/4fbdfd88-9f6c-4880-974d-577c3b164c4f.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Bellhart Hallway to Shellwood",
   "img": "01-geometry/feeee28e-ebda-4001-a38f-409db8808abc.webp",
   "location_size": 11,
@@ -996,10 +1020,16 @@
   "location_border_thickness": 2
  },
  {
+  "name": "Greymoor Crow Court",
+  "img": "01-geometry/3e0e8999-5264-45f4-a333-66e9d6a85c5b.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Greymoor Crow Nest",
   "img": "01-geometry/a5474092-51d2-46a4-85aa-1a54d431ec21.webp",
-  "location_size": 562,
-  "location_border_thickness": 93
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Greymoor East Bellshrine Room",
@@ -1170,6 +1200,12 @@
   "location_border_thickness": 2
  },
  {
+  "name": "Father of the Flame",
+  "img": "01-geometry/cec31268-d1fe-47e1-879d-f314bfada843.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Wisp Thicket Secret Path",
   "img": "01-geometry/97fffa96-7c72-42b6-80fe-d17df4914853.webp",
   "location_size": 19,
@@ -1270,6 +1306,12 @@
   "img": "01-geometry/523cd404-f410-42f7-9346-130e1e7d9eeb.webp",
   "location_size": 5,
   "location_border_thickness": 1
+ },
+ {
+  "name": "Windy Pinstress Room",
+  "img": "01-geometry/946271d1-d81c-4ce9-af86-4a2767941c97.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Pre Last Judge Room",
@@ -1892,8 +1934,8 @@
  {
   "name": "Whispering Vaults Vaultborn Lever",
   "img": "01-geometry/4839e900-8feb-458c-9814-4b823239fdc4.webp",
-  "location_size": 13,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Grand Bellway Library",
@@ -1976,7 +2018,7 @@
  {
   "name": "High Halls Small Slide",
   "img": "01-geometry/bb387c38-447d-4079-84d4-074092d95679.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1992,9 +2034,15 @@
   "location_border_thickness": 3
  },
  {
+  "name": "High Halls Small Room",
+  "img": "01-geometry/b258c8b4-a7c2-452f-a512-d15679395c4e.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "High Halls Big Slide",
   "img": "01-geometry/5a253816-b61d-455f-aae9-84405e22a334.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2006,25 +2054,25 @@
  {
   "name": "High Halls Flooded Room",
   "img": "01-geometry/163bd943-fbcf-4c36-a890-a03ef45e5935.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "High Halls Cogfly Room",
   "img": "01-geometry/015f1bb2-672f-4c05-ad83-94a43342d8c5.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "High Halls Baby Room",
   "img": "01-geometry/89fe1df3-f19a-4fbc-ba48-7978713abc52.webp",
-  "location_size": 8,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "High Halls Vault",
   "img": "01-geometry/10419f8e-1c44-4505-b67f-2ea8edc1a9fc.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2034,9 +2082,27 @@
   "location_border_thickness": 3
  },
  {
+  "name": "High Halls Conductor",
+  "img": "01-geometry/c8fd4054-d5f8-40b9-a991-6323a105efcf.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "High Halls Arena",
   "img": "01-geometry/c6409264-61a6-4040-ba80-a8bf79d6d85b.webp",
-  "location_size": 18,
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "High Halls Rosary Bank",
+  "img": "01-geometry/0e5037e5-56c7-4c94-8a15-60df8ab29bf9.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Baby Room Interior Secret",
+  "img": "01-geometry/b129bc04-1a20-4dc0-994a-fcc65d2ab579.webp",
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2066,7 +2132,7 @@
  {
   "name": "Bilewater Citadel Exit",
   "img": "01-geometry/1fb05968-1ce6-4a12-9bc3-0cea39c1890a.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2198,7 +2264,7 @@
  {
   "name": "Bilewater Waterfall",
   "img": "01-geometry/7a603e77-880c-445b-87d1-6dea66836282.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2724,6 +2790,24 @@
   "location_border_thickness": 3
  },
  {
+  "name": "Cradle Path Of Pain First Room",
+  "img": "01-geometry/1a06351f-a821-4c08-9f24-49edd7eda43b.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Path of Pain Bench",
+  "img": "01-geometry/b8579f03-b516-4ef7-839b-c774a952efb6.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "The Surface",
+  "img": "01-geometry/4b4df32e-4ea1-4ecd-85d6-a2515d491994.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Abyss Bottom Left Lore Room",
   "img": "01-geometry/ce8e217b-4e99-4f9c-a0d6-3c0123977b13.webp",
   "location_size": 19,
@@ -2804,6 +2888,12 @@
  {
   "name": "Weavenest Absolom",
   "img": "01-geometry/3afd9f81-4057-412b-998a-74f5bd59dcbd.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Abyss Cocoon",
+  "img": "01-geometry/5ee88aea-8b93-44f8-aeb1-7c392dce8376.webp",
   "location_size": 19,
   "location_border_thickness": 3
  }

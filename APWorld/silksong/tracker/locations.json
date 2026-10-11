@@ -675,8 +675,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Town",
-      "x": 1987,
-      "y": 509
+      "x": 1645,
+      "y": 512
      }
     ]
    },
@@ -1268,8 +1268,8 @@
     "map_locations": [
      {
       "map": "The Big Fall",
-      "x": 120,
-      "y": 948
+      "x": 70,
+      "y": 1691
      }
     ]
    },
@@ -1298,8 +1298,8 @@
     "map_locations": [
      {
       "map": "The Big Fall",
-      "x": 379,
-      "y": 699
+      "x": 171,
+      "y": 1021
      }
     ]
    },
@@ -4278,8 +4278,8 @@
     "map_locations": [
      {
       "map": "Wormways Craggler Hallway",
-      "x": 492,
-      "y": 43
+      "x": 428,
+      "y": 37
      }
     ]
    },
@@ -4293,8 +4293,8 @@
     "map_locations": [
      {
       "map": "Wormways Craggler Hallway",
-      "x": 103,
-      "y": 74
+      "x": 9,
+      "y": 63
      }
     ]
    },
@@ -4308,8 +4308,8 @@
     "map_locations": [
      {
       "map": "Wormways Craggler Hallway",
-      "x": 973,
-      "y": 118
+      "x": 946,
+      "y": 101
      }
     ]
    }
@@ -5227,6 +5227,26 @@
   ]
  },
  {
+  "name": "Deep Docks Map Shop Side Room",
+  "children": [
+   {
+    "name": "Deep Docks Map Shop Side Room - left1",
+    "sections": [
+     {
+      "name": "Deep Docks Map Shop Side Room - left1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Deep Docks Map Shop Side Room",
+      "x": 4,
+      "y": 69
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Deep Docks Bellway",
   "children": [
    {
@@ -5330,13 +5350,25 @@
   "name": "Deep Docks Lace Intro",
   "children": [
    {
+    "name": "Boss: Lace (Deep Docks)",
+    "sections": [
+     {
+      "name": "Boss: Lace (Deep Docks)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Deep Docks Lace Intro",
+      "x": 502,
+      "y": 125
+     }
+    ]
+   },
+   {
     "name": "Journal: Lace",
     "sections": [
      {
       "name": "Journal: Lace"
-     },
-     {
-      "name": "Boss: Lace (Deep Docks)"
      }
     ],
     "map_locations": [
@@ -8629,6 +8661,56 @@
   ]
  },
  {
+  "name": "Far Fields Skull Arena",
+  "children": [
+   {
+    "name": "Far Fields (Skull Cave) - Mask Shard",
+    "sections": [
+     {
+      "name": "Far Fields (Skull Cave) - Mask Shard"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Skull Arena",
+      "x": 148,
+      "y": 70
+     }
+    ]
+   },
+   {
+    "name": "Far Fields - Shell Shard Cache #8",
+    "sections": [
+     {
+      "name": "Far Fields - Shell Shard Cache #8"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Skull Arena",
+      "x": 92,
+      "y": 609
+     }
+    ]
+   },
+   {
+    "name": "Far Fields Skull Arena - left1",
+    "sections": [
+     {
+      "name": "Far Fields Skull Arena - left1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Skull Arena",
+      "x": 3,
+      "y": 279
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Weavenest Cindril",
   "children": [
    {
@@ -9239,8 +9321,8 @@
     "map_locations": [
      {
       "map": "Current Karmelita",
-      "x": 162,
-      "y": 49
+      "x": 183,
+      "y": 71
      }
     ]
    },
@@ -9254,8 +9336,8 @@
     "map_locations": [
      {
       "map": "Current Karmelita",
-      "x": 183,
-      "y": 61
+      "x": 208,
+      "y": 87
      }
     ]
    },
@@ -9269,8 +9351,8 @@
     "map_locations": [
      {
       "map": "Current Karmelita",
-      "x": 14,
-      "y": 44
+      "x": 15,
+      "y": 63
      }
     ]
    },
@@ -9284,8 +9366,8 @@
     "map_locations": [
      {
       "map": "Current Karmelita",
-      "x": 155,
-      "y": 60
+      "x": 176,
+      "y": 86
      }
     ]
    }
@@ -9327,6 +9409,44 @@
       "map": "Sprintmaster Cave",
       "x": 0,
       "y": 193
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Chapel of the Beast",
+  "children": [
+   {
+    "name": "Journal: Savage Beastfly",
+    "sections": [
+     {
+      "name": "Journal: Savage Beastfly"
+     },
+     {
+      "name": "Journal Completion: Savage Beastfly"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Chapel of the Beast",
+      "x": 285,
+      "y": 438
+     }
+    ]
+   },
+   {
+    "name": "Chapel of the Beast - left1 (L)",
+    "sections": [
+     {
+      "name": "Chapel of the Beast - left1 (L)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Chapel of the Beast",
+      "x": 50,
+      "y": 555
      }
     ]
    }
@@ -11818,6 +11938,71 @@
   ]
  },
  {
+  "name": "Bellhart Bellway",
+  "children": [
+   {
+    "name": "Bellhart - Bellway",
+    "sections": [
+     {
+      "name": "Bellhart - Bellway"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bellhart Bellway",
+      "x": 215,
+      "y": 210
+     }
+    ]
+   },
+   {
+    "name": "Bellhart Bellway - bot1",
+    "sections": [
+     {
+      "name": "Bellhart Bellway - bot1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bellhart Bellway",
+      "x": 514,
+      "y": 215
+     }
+    ]
+   },
+   {
+    "name": "Bellhart Bellway - left1 (L)",
+    "sections": [
+     {
+      "name": "Bellhart Bellway - left1 (L)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bellhart Bellway",
+      "x": 282,
+      "y": 63
+     }
+    ]
+   },
+   {
+    "name": "Bellhart Bellway - door_fastTravelExit (BH)",
+    "sections": [
+     {
+      "name": "Bellhart Bellway - door_fastTravelExit (BH)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bellhart Bellway",
+      "x": 175,
+      "y": 192
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Bellhart Hallway to Shellwood",
   "children": [
    {
@@ -12860,6 +13045,119 @@
   ]
  },
  {
+  "name": "Greymoor Crow Court",
+  "children": [
+   {
+    "name": "Craw Memento",
+    "sections": [
+     {
+      "name": "Craw Memento"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 243,
+      "y": 461
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - Rosary Cache #35",
+    "sections": [
+     {
+      "name": "Greymoor - Rosary Cache #35"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 124,
+      "y": 284
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - Rosary Cache #36",
+    "sections": [
+     {
+      "name": "Greymoor - Rosary Cache #36"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 109,
+      "y": 264
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - Rosary Cache #37",
+    "sections": [
+     {
+      "name": "Greymoor - Rosary Cache #37"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 57,
+      "y": 77
+     }
+    ]
+   },
+   {
+    "name": "Journal: Crawfather",
+    "sections": [
+     {
+      "name": "Journal: Crawfather"
+     },
+     {
+      "name": "Boss: Crawfather"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 205,
+      "y": 400
+     }
+    ]
+   },
+   {
+    "name": "Craw Summons",
+    "sections": [
+     {
+      "name": "Craw Summons"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 123,
+      "y": 302
+     }
+    ]
+   },
+   {
+    "name": "Greymoor Crow Court - top1 (T)",
+    "sections": [
+     {
+      "name": "Greymoor Crow Court - top1 (T)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Crow Court",
+      "x": 380,
+      "y": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Greymoor Crow Nest",
   "children": [
    {
@@ -12872,8 +13170,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 5862,
-      "y": 8471
+      "x": 126,
+      "y": 286
      }
     ]
    },
@@ -12887,8 +13185,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 4988,
-      "y": 8557
+      "x": 108,
+      "y": 289
      }
     ]
    },
@@ -12902,8 +13200,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 8120,
-      "y": 11940
+      "x": 175,
+      "y": 404
      }
     ]
    },
@@ -12917,8 +13215,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 11536,
-      "y": 11960
+      "x": 249,
+      "y": 405
      }
     ]
    },
@@ -12932,8 +13230,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 10843,
-      "y": 12260
+      "x": 234,
+      "y": 415
      }
     ]
    },
@@ -12947,8 +13245,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 9243,
-      "y": 12087
+      "x": 200,
+      "y": 409
      }
     ]
    },
@@ -12962,23 +13260,23 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 14420,
-      "y": 7911
+      "x": 312,
+      "y": 267
      }
     ]
    },
    {
-    "name": "Greymoor Crow Nest - bottom (b)",
+    "name": "Greymoor Crow Nest - bottom (B)",
     "sections": [
      {
-      "name": "Greymoor Crow Nest - bottom (b)"
+      "name": "Greymoor Crow Nest - bottom (B)"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 17571,
-      "y": 13968
+      "x": 380,
+      "y": 473
      }
     ]
    },
@@ -12992,8 +13290,8 @@
     "map_locations": [
      {
       "map": "Greymoor Crow Nest",
-      "x": 146,
-      "y": 9187
+      "x": 3,
+      "y": 311
      }
     ]
    }
@@ -15384,6 +15682,26 @@
   ]
  },
  {
+  "name": "Father of the Flame",
+  "children": [
+   {
+    "name": "Father of the Flame - right1 (R)",
+    "sections": [
+     {
+      "name": "Father of the Flame - right1 (R)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Father of the Flame",
+      "x": 286,
+      "y": 247
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Wisp Thicket Secret Path",
   "children": [
    {
@@ -16945,6 +17263,41 @@
       "map": "Lumble the Lucky",
       "x": 327,
       "y": 15
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Windy Pinstress Room",
+  "children": [
+   {
+    "name": "Needle Strike",
+    "sections": [
+     {
+      "name": "Needle Strike"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Windy Pinstress Room",
+      "x": 200,
+      "y": 108
+     }
+    ]
+   },
+   {
+    "name": "Pinstress Room - Left",
+    "sections": [
+     {
+      "name": "Pinstress Room - Left"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Windy Pinstress Room",
+      "x": 66,
+      "y": 114
      }
     ]
    }
@@ -23964,8 +24317,8 @@
     "map_locations": [
      {
       "map": "Whispering Vaults Vaultborn Lever",
-      "x": 403,
-      "y": 44
+      "x": 572,
+      "y": 63
      }
     ]
    }
@@ -24700,34 +25053,10 @@
     "sections": [
      {
       "name": "The Unravelled - Silk Heart"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Whiteward Unravelled Arena Room",
-      "x": 339,
-      "y": 492
-     }
-    ]
-   },
-   {
-    "name": "Boss: The Unravelled",
-    "sections": [
+     },
      {
       "name": "Boss: The Unravelled"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Whiteward Unravelled Arena Room",
-      "x": 349,
-      "y": 497
-     }
-    ]
-   },
-   {
-    "name": "Journal: The Unravelled",
-    "sections": [
+     },
      {
       "name": "Journal: The Unravelled"
      }
@@ -24735,8 +25064,8 @@
     "map_locations": [
      {
       "map": "Whiteward Unravelled Arena Room",
-      "x": 313,
-      "y": 484
+      "x": 349,
+      "y": 497
      }
     ]
    },
@@ -24850,8 +25179,8 @@
     "map_locations": [
      {
       "map": "High Halls Small Slide",
-      "x": 668,
-      "y": 79
+      "x": 724,
+      "y": 69
      }
     ]
    },
@@ -24866,7 +25195,7 @@
      {
       "map": "High Halls Small Slide",
       "x": 0,
-      "y": 281
+      "y": 247
      }
     ]
    }
@@ -24988,6 +25317,41 @@
   ]
  },
  {
+  "name": "High Halls Small Room",
+  "children": [
+   {
+    "name": "High Halls - Shell Shard Cache #2",
+    "sections": [
+     {
+      "name": "High Halls - Shell Shard Cache #2"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Small Room",
+      "x": 26,
+      "y": 75
+     }
+    ]
+   },
+   {
+    "name": "High Halls Small Room - right1",
+    "sections": [
+     {
+      "name": "High Halls Small Room - right1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Small Room",
+      "x": 161,
+      "y": 51
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "High Halls Big Slide",
   "children": [
    {
@@ -25000,8 +25364,8 @@
     "map_locations": [
      {
       "map": "High Halls Big Slide",
-      "x": 571,
-      "y": 71
+      "x": 584,
+      "y": 63
      }
     ]
    },
@@ -25016,7 +25380,7 @@
      {
       "map": "High Halls Big Slide",
       "x": 0,
-      "y": 369
+      "y": 330
      }
     ]
    }
@@ -25160,8 +25524,8 @@
     "map_locations": [
      {
       "map": "High Halls Flooded Room",
-      "x": 473,
-      "y": 176
+      "x": 461,
+      "y": 151
      }
     ]
    },
@@ -25176,7 +25540,7 @@
      {
       "map": "High Halls Flooded Room",
       "x": 3,
-      "y": 215
+      "y": 197
      }
     ]
    },
@@ -25190,8 +25554,8 @@
     "map_locations": [
      {
       "map": "High Halls Flooded Room",
-      "x": 600,
-      "y": 167
+      "x": 584,
+      "y": 139
      }
     ]
    }
@@ -25210,8 +25574,8 @@
     "map_locations": [
      {
       "map": "High Halls Cogfly Room",
-      "x": 315,
-      "y": 163
+      "x": 280,
+      "y": 201
      }
     ]
    },
@@ -25225,8 +25589,8 @@
     "map_locations": [
      {
       "map": "High Halls Cogfly Room",
-      "x": 213,
-      "y": 63
+      "x": 64,
+      "y": 78
      }
     ]
    },
@@ -25240,8 +25604,8 @@
     "map_locations": [
      {
       "map": "High Halls Cogfly Room",
-      "x": 342,
-      "y": 66
+      "x": 337,
+      "y": 82
      }
     ]
    }
@@ -25260,8 +25624,8 @@
     "map_locations": [
      {
       "map": "High Halls Baby Room",
-      "x": 182,
-      "y": 70
+      "x": 55,
+      "y": 149
      }
     ]
    },
@@ -25275,8 +25639,8 @@
     "map_locations": [
      {
       "map": "High Halls Baby Room",
-      "x": 280,
-      "y": 77
+      "x": 286,
+      "y": 164
      }
     ]
    },
@@ -25290,8 +25654,8 @@
     "map_locations": [
      {
       "map": "High Halls Baby Room",
-      "x": 236,
-      "y": 33
+      "x": 182,
+      "y": 70
      }
     ]
    }
@@ -25310,8 +25674,8 @@
     "map_locations": [
      {
       "map": "High Halls Vault",
-      "x": 108,
-      "y": 86
+      "x": 103,
+      "y": 77
      }
     ]
    },
@@ -25326,7 +25690,7 @@
      {
       "map": "High Halls Vault",
       "x": 0,
-      "y": 161
+      "y": 145
      }
     ]
    },
@@ -25340,8 +25704,8 @@
     "map_locations": [
      {
       "map": "High Halls Vault",
-      "x": 193,
-      "y": 211
+      "x": 184,
+      "y": 190
      }
     ]
    },
@@ -25355,8 +25719,8 @@
     "map_locations": [
      {
       "map": "High Halls Vault",
-      "x": 573,
-      "y": 175
+      "x": 546,
+      "y": 158
      }
     ]
    },
@@ -25370,7 +25734,7 @@
     "map_locations": [
      {
       "map": "High Halls Vault",
-      "x": 479,
+      "x": 457,
       "y": 0
      }
     ]
@@ -25390,8 +25754,8 @@
     "map_locations": [
      {
       "map": "High Halls Ventrica",
-      "x": 277,
-      "y": 125
+      "x": 324,
+      "y": 120
      }
     ]
    },
@@ -25405,8 +25769,8 @@
     "map_locations": [
      {
       "map": "High Halls Ventrica",
-      "x": 171,
-      "y": 102
+      "x": 200,
+      "y": 97
      }
     ]
    },
@@ -25421,7 +25785,7 @@
      {
       "map": "High Halls Ventrica",
       "x": 0,
-      "y": 112
+      "y": 108
      }
     ]
    },
@@ -25435,8 +25799,58 @@
     "map_locations": [
      {
       "map": "High Halls Ventrica",
-      "x": 171,
-      "y": 117
+      "x": 200,
+      "y": 112
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "High Halls Conductor",
+  "children": [
+   {
+    "name": "Relic: Rune Harp (High Halls)",
+    "sections": [
+     {
+      "name": "Relic: Rune Harp (High Halls)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Conductor",
+      "x": 96,
+      "y": 89
+     }
+    ]
+   },
+   {
+    "name": "Conductor's Melody",
+    "sections": [
+     {
+      "name": "Conductor's Melody"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Conductor",
+      "x": 77,
+      "y": 69
+     }
+    ]
+   },
+   {
+    "name": "High Halls Conductor - right1",
+    "sections": [
+     {
+      "name": "High Halls Conductor - right1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Conductor",
+      "x": 406,
+      "y": 76
      }
     ]
    }
@@ -25456,7 +25870,7 @@
      {
       "map": "High Halls Arena",
       "x": 0,
-      "y": 102
+      "y": 107
      }
     ]
    },
@@ -25470,8 +25884,189 @@
     "map_locations": [
      {
       "map": "High Halls Arena",
-      "x": 406,
-      "y": 114
+      "x": 451,
+      "y": 120
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "High Halls Rosary Bank",
+  "children": [
+   {
+    "name": "Rosary Cannon",
+    "sections": [
+     {
+      "name": "Rosary Cannon"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 326,
+      "y": 340
+     }
+    ]
+   },
+   {
+    "name": "High Halls - Pale Rosary Necklace",
+    "sections": [
+     {
+      "name": "High Halls - Pale Rosary Necklace"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 466,
+      "y": 156
+     }
+    ]
+   },
+   {
+    "name": "High Halls - Rosary Cache #1",
+    "sections": [
+     {
+      "name": "High Halls - Rosary Cache #1"
+     },
+     {
+      "name": "High Halls - Rosary Cache #2"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 516,
+      "y": 124
+     }
+    ]
+   },
+   {
+    "name": "High Halls - Rosary Cache #3",
+    "sections": [
+     {
+      "name": "High Halls - Rosary Cache #3"
+     },
+     {
+      "name": "High Halls - Rosary Cache #4"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 545,
+      "y": 119
+     }
+    ]
+   },
+   {
+    "name": "High Halls - Rosary Cache #5",
+    "sections": [
+     {
+      "name": "High Halls - Rosary Cache #5"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 581,
+      "y": 177
+     }
+    ]
+   },
+   {
+    "name": "High Halls - Rosary Cache #6",
+    "sections": [
+     {
+      "name": "High Halls - Rosary Cache #6"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 583,
+      "y": 129
+     }
+    ]
+   },
+   {
+    "name": "High Halls Bank - Rosary Chest #1",
+    "sections": [
+     {
+      "name": "High Halls Bank - Rosary Chest #1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 590,
+      "y": 153
+     }
+    ]
+   },
+   {
+    "name": "High Halls Bank - Rosary Chest #2",
+    "sections": [
+     {
+      "name": "High Halls Bank - Rosary Chest #2"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 567,
+      "y": 216
+     }
+    ]
+   },
+   {
+    "name": "High Halls Bank - Rosary Chest #3",
+    "sections": [
+     {
+      "name": "High Halls Bank - Rosary Chest #3"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 465,
+      "y": 153
+     }
+    ]
+   },
+   {
+    "name": "High Halls Rosary Bank - left1 (L)",
+    "sections": [
+     {
+      "name": "High Halls Rosary Bank - left1 (L)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Rosary Bank",
+      "x": 63,
+      "y": 203
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Baby Room Interior Secret",
+  "children": [
+   {
+    "name": "Baby Room Interior Secret - left1 (L)",
+    "sections": [
+     {
+      "name": "Baby Room Interior Secret - left1 (L)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Baby Room Interior Secret",
+      "x": 0,
+      "y": 193
      }
     ]
    }
@@ -25480,6 +26075,36 @@
  {
   "name": "High Halls Sentinel Graveyard",
   "children": [
+   {
+    "name": "Boss: Second Sentinel",
+    "sections": [
+     {
+      "name": "Boss: Second Sentinel"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Sentinel Graveyard",
+      "x": 282,
+      "y": 95
+     }
+    ]
+   },
+   {
+    "name": "Wish: Final Audience",
+    "sections": [
+     {
+      "name": "Wish: Final Audience"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Sentinel Graveyard",
+      "x": 267,
+      "y": 94
+     }
+    ]
+   },
    {
     "name": "Reserve Bind",
     "sections": [
@@ -25490,7 +26115,7 @@
     "map_locations": [
      {
       "map": "High Halls Sentinel Graveyard",
-      "x": 281,
+      "x": 272,
       "y": 104
      }
     ]
@@ -25500,12 +26125,6 @@
     "sections": [
      {
       "name": "Journal: Second Sentinel"
-     },
-     {
-      "name": "Wish: Final Audience"
-     },
-     {
-      "name": "Boss: Second Sentinel"
      }
     ],
     "map_locations": [
@@ -25666,7 +26285,7 @@
     "map_locations": [
      {
       "map": "Bilewater Citadel Exit",
-      "x": 184,
+      "x": 158,
       "y": 0
      }
     ]
@@ -25681,7 +26300,7 @@
     "map_locations": [
      {
       "map": "Bilewater Citadel Exit",
-      "x": 224,
+      "x": 193,
       "y": 0
      }
     ]
@@ -25696,7 +26315,7 @@
     "map_locations": [
      {
       "map": "Bilewater Citadel Exit",
-      "x": 261,
+      "x": 225,
       "y": 0
      }
     ]
@@ -25711,8 +26330,8 @@
     "map_locations": [
      {
       "map": "Bilewater Citadel Exit",
-      "x": 471,
-      "y": 667
+      "x": 405,
+      "y": 603
      }
     ]
    }
@@ -26976,8 +27595,8 @@
     "map_locations": [
      {
       "map": "Bilewater Waterfall",
-      "x": 1183,
-      "y": 180
+      "x": 1156,
+      "y": 188
      }
     ]
    },
@@ -26991,8 +27610,8 @@
     "map_locations": [
      {
       "map": "Bilewater Waterfall",
-      "x": 407,
-      "y": 79
+      "x": 3,
+      "y": 82
      }
     ]
    }
@@ -27141,8 +27760,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 691,
-      "y": 115
+      "x": 699,
+      "y": 105
      }
     ]
    },
@@ -33266,6 +33885,126 @@
   ]
  },
  {
+  "name": "Cradle Path Of Pain First Room",
+  "children": [
+   {
+    "name": "Cradle Path Of Pain First Room - top1",
+    "sections": [
+     {
+      "name": "Cradle Path Of Pain First Room - top1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Cradle Path Of Pain First Room",
+      "x": 361,
+      "y": 0
+     }
+    ]
+   },
+   {
+    "name": "Cradle Path Of Pain First Room - left1",
+    "sections": [
+     {
+      "name": "Cradle Path Of Pain First Room - left1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Cradle Path Of Pain First Room",
+      "x": 9,
+      "y": 717
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Path of Pain Bench",
+  "children": [
+   {
+    "name": "Path of Pain Bench - right1",
+    "sections": [
+     {
+      "name": "Path of Pain Bench - right1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Path of Pain Bench",
+      "x": 352,
+      "y": 120
+     }
+    ]
+   },
+   {
+    "name": "Path of Pain Bench - bot1",
+    "sections": [
+     {
+      "name": "Path of Pain Bench - bot1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Path of Pain Bench",
+      "x": 65,
+      "y": 159
+     }
+    ]
+   },
+   {
+    "name": "Path of Pain Bench - door1 (D)",
+    "sections": [
+     {
+      "name": "Path of Pain Bench - door1 (D)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Path of Pain Bench",
+      "x": 174,
+      "y": 34
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "The Surface",
+  "children": [
+   {
+    "name": "The Surface - door1 (D)",
+    "sections": [
+     {
+      "name": "The Surface - door1 (D)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "The Surface",
+      "x": 1415,
+      "y": 172
+     }
+    ]
+   },
+   {
+    "name": "The Surface - bot1",
+    "sections": [
+     {
+      "name": "The Surface - bot1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "The Surface",
+      "x": 992,
+      "y": 197
+     }
+    ]
+   }
+  ]
+ },
+ {
   "name": "Abyss Bottom Left Lore Room",
   "children": [
    {
@@ -34020,6 +34759,26 @@
       "map": "Weavenest Absolom",
       "x": 24,
       "y": 77
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Abyss Cocoon",
+  "children": [
+   {
+    "name": "Abyss Cocoon - door_entry (D)",
+    "sections": [
+     {
+      "name": "Abyss Cocoon - door_entry (D)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Abyss Cocoon",
+      "x": 185,
+      "y": 307
      }
     ]
    }

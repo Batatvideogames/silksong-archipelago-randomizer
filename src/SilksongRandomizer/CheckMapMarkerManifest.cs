@@ -422,11 +422,8 @@ namespace SilksongRandomizer
             // inventing a separate hidden map room.
             new MapCheckPosition("Boss: Bell Beast", "Bone_05", 93.285164f, 7.283544f, 201f, 22f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silk Heart: Bell Beast", "Bone_05", 85.275162f, 8.813543f, 201f, 22f, MapMarkerPositionConfidence.ExactUpstream),
-            // Bonetown_boss is an additive encounter scene without its own
-            // GameMapScene. The live Skull Tyrant transform is authored in
-            // Bonetown world coordinates, so project that point through
-            // the visible Bonetown map scene.
-            new MapCheckPosition("Boss: Skull Tyrant (Bone Bottom)", "Bonetown", 313.029999f, 9.82f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            // Skull Tyrant spawns here during the invasion.
+            new MapCheckPosition("Boss: Skull Tyrant (Bone Bottom)", "Bonetown", 259.100006f, 9.435561f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             // Remaining boss checks use the boss root (or an
             // authored arena centre when the enemy is spawned dynamically).
             // Additive encounter scenes share the visible host room's world
@@ -449,7 +446,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Boss: Savage Beastfly (Far Fields)", "Bone_East_08", 83.877693f, 17.483248f, 150f, 50f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Lost Lace", "Abyss_Cocoon", 38f, 7.07f, 65f, 1024f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Lace (Cradle)", "Song_Tower_01", 59.193787f, 100.517998f, 130f, 140f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Silk Heart: The Unravelled", "Ward_02", 50.759998f, 14.000000f, 150f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Silk Heart: The Unravelled", "Ward_02", 50.849998f, 8.280000f, 150f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silk Heart: Lace (Cradle)", "Song_Tower_01", 54.610001f, 106.970001f, 130f, 140f, MapMarkerPositionConfidence.ExactUpstream),
             // Wish checks are anchored where the completion/reward actually
             // happens, never at an objective enemy or the place a delivery is

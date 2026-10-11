@@ -1264,9 +1264,11 @@
     "locations": []
   },
   "event:mapper/4092e48f-ea2e-4d19-9a3a-71fa7b4fcbda": {
-    "name": "Deep Docks Lace Intro - lace 1 boss fight",
+    "name": "Boss: Lace (Deep Docks)",
     "kind": "boss",
-    "locations": []
+    "locations": [
+      "Boss: Lace (Deep Docks)"
+    ]
   },
   "event:mapper/5f791110-649f-4e71-a4dd-da083b2fd4ac": {
     "name": "Deep Docks Bellshrine - Bellshrine switch",
@@ -5775,11 +5777,6 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/reviewed:twisted-bud-collected": {
-    "name": "Bilewater West Secret Rooms - Twisted Bud Collected",
-    "kind": "event",
-    "locations": []
-  },
   "event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59": {
     "name": "Exhaust Organ Interior - Boss: Phantom",
     "kind": "boss",
@@ -7043,6 +7040,83 @@
   },
   "event:mapper/efb90238-8530-4331-b9fb-53ee86e3bb37": {
     "name": "Bilewater Weavenest Murglin - silk room wall",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/13643ba4-bb66-4c29-be9c-9109379f8ac7": {
+    "name": "Baby Room Interior Secret - Breakable Ceiling",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/22ff55f7-43ef-4403-a546-0da5c3266b7f": {
+    "name": "High Halls Rosary Bank - Rosary Cannon Wall",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/4872f943-25bb-44a4-b240-9ad0056da624": {
+    "name": "High Halls Vault - Floor Lever",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/4d37aa86-b7fa-47dc-b609-d120aa4cfee6": {
+    "name": "High Halls Big Shaft - Clawline Gate 3",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/51fb8265-eec9-4bfe-9035-66b57bde945e": {
+    "name": "High Halls Rosary Bank - Breakable Ceiling",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/a82b85f2-ab4c-48bb-afe5-b6ac3d0ffffc": {
+    "name": "High Halls Big Shaft - Clawline Gate 2",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/c53c7234-3688-45d1-91f6-df7086b934b6": {
+    "name": "High Halls Big Shaft - Clawline Gate 1",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/ce2380c3-4ebc-430e-b98f-066f0faaa568": {
+    "name": "High Halls Rosary Bank - Vault Door Switch",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/efc735da-bc56-41f0-880c-ea2c4f3f875f": {
+    "name": "High Halls Vault - Rosary Bank Door",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/356ae035-f627-4735-971a-5671d5af3fef": {
+    "name": "Twisted Bud",
+    "kind": "collectible",
+    "locations": [
+      "Twisted Bud"
+    ]
+  },
+  "event:mapper/0d7c90f3-fa64-44ce-8409-fa94268ccc56": {
+    "name": "Bilewater West Secret Rooms - lowerable hatch",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f1101975-ce71-4224-842b-a613932508bd": {
+    "name": "Bilewater West Secret Rooms - breakable wall to bud",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/23f17faa-1141-4dae-a871-dfcb35f9cce9": {
+    "name": "Bilewater West Secret Rooms - bud hall wall 1",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/89939d32-24b0-4871-922b-d496758552e9": {
+    "name": "Bilewater West Secret Rooms - bud hall wall 2",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f09d3b24-064c-4d34-9884-cb828131858e": {
+    "name": "Bilewater West Secret Rooms - bud hall wall 3",
     "kind": "blockade",
     "locations": []
   }

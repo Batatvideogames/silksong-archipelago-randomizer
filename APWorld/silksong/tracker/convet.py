@@ -196,6 +196,15 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
             children.append(marker(room, [name], point))
             positioned_entrances.add(name)
 
+        if scene == "Ward_02":
+            boss_marker = next((child for child in children
+                                if any(s["name"] == "Boss: The Unravelled" for s in child["sections"])), None)
+            if boss_marker:
+                for child in children:
+                    if any(s["name"] in {"Journal: The Unravelled", "The Unravelled - Silk Heart"}
+                           for s in child["sections"]):
+                        child["map_locations"] = boss_marker["map_locations"]
+
         grouped = {}
         for child in children:
             point = child["map_locations"][0]
