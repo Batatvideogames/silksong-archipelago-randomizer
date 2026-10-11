@@ -16,26 +16,27 @@ def is_spatial(name):
     return not name.startswith(("First Kill: ", "Crest Slot: ")) and name not in {"Crest: Hunter", "Goal"}
 
 
-def image_point(entry, width, height, entrance=False):
-    x, y = entry.get("image_x"), entry.get("image_y")
-    if x is not None and y is not None and 0 <= x <= 1 and 0 <= y <= 1:
+def image_point(entry, width, height, width_scale, height_scale, entrance=False):
+    x, y = entry.get("image_pixel_x"), entry.get("image_pixel_y")
+    if x is not None and y is not None and 0 <= x <= width and 0 <= y <= height:
         return x, y
     x, y = entry.get("annotation_x"), entry.get("annotation_y")
     if not entry.get("annotation_enabled") or x is None or y is None or not width or not height:
         return None
+    x, y = x * width_scale, height - (y * height_scale)
     margin = 1 if entrance else 0
     if not (-margin <= x <= width + margin and -margin <= y <= height + margin):
         return None
     # Gate centres can sit just outside the room boundary.
-    return min(1, max(0, x / width)), min(1, max(0, 1 - y / height))
+    return min(width, max(0, x)), min(height, max(0, y))
 
 
-def marker(room, names, point, image_size, name=None):
+def marker(room, names, point, name=None):
     return {
         "name": name or names[0],
         "sections": [{"name": value} for value in names],
-        "map_locations": [{"map": room["name"], "x": int(image_size[0] * point[0]),
-                           "y": int(image_size[1] * point[1])}], # Actually in image coords cause they love me
+        "map_locations": [{"map": room["name"], "x": int(point[0]),
+                           "y": int(point[1])}], # Actually in image coords cause they love me
     }
 
 
@@ -57,6 +58,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
     pool_names = {e["name"] for e in pool}
     pool_gates = {member: e["gate"] for e in pool for member in e.get("members", [e["id"]])}
     native_gates = {}
+    map_groups = {}
     catalogue_path = catalogue_path or geometry_path.parent / "silksong-room-catalogue.json"
     if catalogue_path.is_file():
         for room in load(catalogue_path)["rooms"]:
@@ -66,7 +68,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
             for gate in sorted(room.get("transitions", []), key=lambda g: not g.get("isArchived", False)):
                 if gate.get("inGameId"):
                     native_gates[scene.casefold(), gate["inGameId"]] = (
-                        (room["sceneUnitWidth"], room["sceneUnitHeight"]),
+                        (room["sceneImagePixelsPerUnitX"], room["sceneImagePixelsPerUnitY"]),
                         {"annotation_x": gate.get("annotationSceneUnitX"),
                          "annotation_y": gate.get("annotationSceneUnitY"),
                          "annotation_enabled": gate.get("enableAnnotation", False)},
@@ -100,17 +102,21 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
 
     for room in geometry["rooms"]:
         scene = room["in_game_id"]
-        width, height = room["scene_width"], room["scene_height"]
+        width, height = room["image_pixel_width"], room["image_pixel_height"]
+        scale_x, scale_y = room["scene_width"], room["scene_height"]
         image_name = f"01-geometry/{room['image_guid']}.webp"
-        image_path = image_root / f"{room['image_guid']}.webp"
+        #image_path = image_root / f"{room['image_guid']}.webp"
         image_size = None
-        if image_path.is_file():
-            with Image.open(image_path) as image:
-                image_size = image.size
-        elif width and height:
-            image_size = (6.473361 * width, 6.473361 * height) # Determined by brute force, replace with actual image size when we have it
-        if scene and not image_path.is_file():
+        if width and height:
+            image_size = (width, height) # Determined by brute force, replace with actual image size when we have it
+            scale_x = width/scale_x
+            scale_y = height/scale_y
+        #elif image_path.is_file():
+        #    with Image.open(image_path) as image:
+        #        image_size = image.size
+        if not scene or not image_size:# and not image_path.is_file():
             missing_images.append({"room": room["name"], "scene": scene, "image": image_name})
+            continue
 
         children = []
         for entry in room.get("locations", []):
@@ -124,9 +130,9 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
             location_names = [name for name in location_names if name not in CHECKS]
             if not location_names:
                 continue
-            point = image_point(entry, width, height)
-            if point is not None and image_size:
-                children.append(marker(room, location_names, point, image_size))
+            point = image_point(entry, width, height, scale_x, scale_y)
+            if point is not None:
+                children.append(marker(room, location_names, point))
 
         positioned = {section["name"] for child in children for section in child["sections"]}
         for position in by_scene.get((scene or "").casefold(), []):
@@ -143,7 +149,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
                                  "source_dimensions": [position["width"], position["height"]],
                                  "map_dimensions": [width, height]})
                 continue
-            children.append(marker(room, [name], (position["x"] / width, 1 - position["y"] / height), image_size))
+            children.append(marker(room, [name], (position["x"] / width, 1 - position["y"] / height)))
             positioned.add(name)
         positioned_checks.update(positioned)
 
@@ -163,17 +169,17 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
                 physical_entrances.add(name)
                 entrance_details[name] = {"name": name, "room": room["name"], "scene": scene,
                                           "id": entrance["id"], "gate": entrance.get("in_game_id")}
-            point = image_point(entrance, width, height, entrance=True)
+            point = image_point(entrance, width, height, scale_x, scale_y, entrance=True)
             gate = entrance.get("in_game_id") or pool_gates.get(entrance["id"])
             native = native_gates.get(((scene or "").casefold(), gate))
             if point is None and native and native[0] == (width, height):
-                point = image_point(native[1], width, height, entrance=True)
-            if point is None or image_size is None:
+                point = image_point(native[1], width, height, scale_x, scale_y, entrance=True)
+            if point is None:
                 continue
             # Keep existing markers for scripted links, without adding new ones.
-            if nonphysical and (entrance.get("image_x") is None or entrance.get("image_y") is None):
+            if nonphysical and (entrance.get("image_pixel_x") is None or entrance.get("image_pixel_y") is None):
                 continue
-            children.append(marker(room, [name], point, image_size))
+            children.append(marker(room, [name], point))
             positioned_entrances.add(name)
 
         grouped = {}
@@ -197,15 +203,24 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
                                  "map_dimensions": [width, height]}
                 continue
             children.append(marker(room, [f"Turn-in: {name}" for name in CHECKS],
-                                   (x / width, 1 - y / height), image_size, name=host))
+                                   (x / width, 1 - y / height), name=host))
             turn_ins[host] = None
 
         if children:
             if not scene or scene in mapping:
                 raise ValueError(f"Room map has no unique scene: {room['name']}")
             mapping[scene] = len(maps)
-            maps.append({"name": room["name"], "img": image_name})
+            temp_map = {"name": room["name"], "img": image_name}
+            scene_height = room["scene_height"] if "scene_height" in room else None
+            if image_size and scene_height: # Don't care about truthy here as both 0 and None are fail cases
+                temp_map["location_size"] = int(3 * height / room["scene_height"]) # Three scene units tall
+                temp_map["location_border_thickness"] = max(int(5 * height / room["scene_height"] / 10), 1) # 1/30 scene units tall (min 1 px)
+            maps.append(temp_map)
             locations.append({"name": room["name"], "children": children}) # Don't add a map with nothing on it
+            if "room_group_name" in room:
+                if room["room_group_name"] not in map_groups:
+                    map_groups[room["room_group_name"]] = []
+                map_groups[room["room_group_name"]].append(room["name"])
 
     present_hosts = {host for host, issue in turn_ins.items() if issue is None}
     positioned_checks.update(name for name, (_, host) in CHECKS.items() if host in present_hosts)
@@ -241,6 +256,9 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
     source = "# Generated File\n\nfrom typing import Any\n\nmapping = {\n"
     source += "".join(f"\t{json.dumps(scene)}:{index},\n" for scene, index in mapping.items())
     source += "}\n\n\ndef ut_page_index(data: Any) -> int:\n\tif data in mapping:\n\t\treturn mapping[data]\n\treturn 0\n\n"
+    source += "tracker_map_groups = [\n"
+    source += "".join(f"\t({json.dumps(group)}, [{', '.join(f'({json.dumps(imap)},{json.dumps(imap)})' for imap in maps)}]),\n" for group, maps in map_groups.items())
+    source += "]\n\n"
     (output / "mapping.py").write_text(source, encoding="utf-8")
     return errors
 
@@ -248,11 +266,11 @@ def build(geometry_path, image_root, output, world, catalogue_path=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build UT maps and report remaining mapping gaps.")
     parser.add_argument("--geometry", type=Path, default=Path("room_geometry_data.json"))
-    parser.add_argument("--images", type=Path)
+    parser.add_argument("--images", type=str, default="01-geometry")
     parser.add_argument("--catalogue", type=Path, help="Room catalogue containing native gate annotations")
     parser.add_argument("--output", type=Path, default=Path(__file__).resolve().parent)
     args = parser.parse_args()
-    errors = build(args.geometry, args.images or args.geometry.parent / "01-geometry",
+    errors = build(args.geometry, args.images,
                    args.output, Path(__file__).resolve().parent.parent, args.catalogue)
     print(f"Missing locations: {len(errors['missing_locs'])}; physical entrances: {len(errors['missing_ents'])}; "
           f"room images: {len(errors['missing_images'])}")

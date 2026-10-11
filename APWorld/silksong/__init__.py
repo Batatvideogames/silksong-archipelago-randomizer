@@ -163,7 +163,7 @@ from .verdania_scope import (
     ACT_THREE_GOAL_KEY,
     VERDANIA_LOCATION_NAMES,
 )
-from .tracker.mapping import ut_page_index
+from .tracker.mapping import ut_page_index, tracker_map_groups
 
 __version__ = WORLD_VERSION
 
@@ -226,7 +226,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         "map_page_maps":"maps.json",
         "map_page_locations":"locations.json",
         "map_page_index": ut_page_index,
-        "map_page_setting_key": "Silksong:CurrentRoom:{team}:{player}"
+        "map_page_setting_key": "Silksong:CurrentRoom:{team}:{player}",
+        "map_page_groups": tracker_map_groups
     }
 
     required_client_version = (0, 6, 0)
