@@ -1,16 +1,139 @@
 {
  "coverage_source": "map_logic.json",
  "missing_locs": [
+  "Ascendant's Grip",
+  "Balm for the Wounded - Spool Fragment",
+  "Barbed Bracelet",
+  "Beastling Call",
+  "Bell Beast - Silk Heart",
+  "Bellhart - Bellway",
+  "Bellhart - East Sign",
+  "Bellhart - Map Purchase",
+  "Bilewater - Rosary Cache #6",
+  "Bilewater - Rosary Cache #7",
+  "Bilewater - Storeroom Record",
+  "Blasted Steps - Rosary Cache",
+  "Blue Vesticrest",
+  "Bone Bottom - Rosary Cache #5",
+  "Bone Bottom - Shell Shard Cache",
+  "Bonegrave - Mossberry",
   "Boss: Bell Eater",
   "Boss: Broodmother",
   "Boss: Clover Dancers",
+  "Boss: Cogwork Dancers",
+  "Boss: Crawfather",
+  "Boss: Crust King Khann",
+  "Boss: Father of the Flame",
   "Boss: First Sinner",
+  "Boss: Fourth Chorus",
+  "Boss: Grand Mother Silk",
+  "Boss: Lace (Deep Docks)",
+  "Boss: Lost Garmond",
+  "Boss: Nyleth",
   "Boss: Palestag",
+  "Boss: Pinstress",
+  "Boss: Second Sentinel",
+  "Boss: Skarrsinger Karmelita",
+  "Boss: Skull Tyrant (Bone Bottom)",
   "Boss: Summoned Saviour",
+  "Boss: Voltvyrm",
   "Choral Chambers - Heavy Rosary Necklace",
+  "Choral Chambers - Map Purchase",
+  "Choral Chambers - Rosary Cache #1",
+  "Choral Chambers - Rosary Cache #12",
+  "Choral Chambers - Rosary Cache #13",
+  "Choral Chambers - Rosary Cache #14",
+  "Choral Chambers - Rosary Cache #15",
+  "Choral Chambers - Rosary Cache #16",
+  "Choral Chambers - Rosary Cache #17",
+  "Choral Chambers - Rosary Cache #18",
+  "Choral Chambers - Rosary Cache #19",
+  "Choral Chambers - Rosary Cache #2",
+  "Choral Chambers - Rosary Cache #3",
+  "Choral Chambers - Rosary Cache #4",
+  "Choral Chambers - Rosary Cache #5",
+  "Choral Chambers - Rosary Cache #6",
+  "Choral Chambers - Rosary Cache #7",
+  "Choral Chambers - Rosary Cache #8",
+  "Choral Chambers - Rosary Cache #9",
+  "Choral Chambers - Rosary Chest #1",
+  "Choral Chambers - Rosary Chest #2",
+  "Choral Chambers - Rosary Chest #3",
+  "Choral Chambers - Rosary Necklace #1",
+  "Choral Chambers - Rosary Necklace #2",
+  "Choral Chambers - Shell Shard Cache",
+  "Choral Chambers - Ventrica",
   "Choral Chambers East - Silkeater",
+  "Choral Chambers West - Silkeater",
+  "Cogfly",
+  "Cogwork Core - Map Pickup",
+  "Cogwork Core - Mask Shard",
+  "Compass",
+  "Conchcutter",
   "Conductor's Melody",
+  "Craw Memento",
+  "Crawbug Clearing (Creige) - Crafting Kit",
+  "Crest: Architect",
+  "Crest: Beast",
+  "Crest: Reaper",
+  "Crest: Witch",
+  "Cross Stitch",
+  "Curvesickle",
+  "Dark Hearts - Mask Shard",
+  "Deep Docks - Bellshrine",
+  "Deep Docks - Bellway",
+  "Drifter's Cloak",
+  "Druid's Eye",
+  "Druid's Eyes",
+  "Egg of Flealia",
+  "Elegy of the Deep",
+  "Encrusted Heart",
+  "Everbloom",
+  "Far Fields (Skull Cave) - Mask Shard",
+  "Far Fields - Bellway",
+  "Far Fields - Map Purchase",
+  "Far Fields - Rosary Cache #10",
+  "Far Fields - Rosary Cache #11",
+  "Far Fields - Rosary Cache #12",
+  "Far Fields - Rosary Cache #13",
+  "Far Fields - Rosary Cache #14",
+  "Far Fields - Rosary Cache #15",
+  "Far Fields - Rosary Cache #16",
+  "Far Fields - Rosary Cache #17",
+  "Far Fields - Rosary Cache #2",
+  "Far Fields - Rosary Cache #3",
+  "Far Fields - Rosary Cache #4",
+  "Far Fields - Rosary Cache #9",
+  "Far Fields - Rosary Chest #1",
+  "Far Fields - Shell Shard Cache #1",
+  "Far Fields - Shell Shard Cache #8",
+  "Fastest in Pharloom - Mask Shard",
+  "Flea: Choral Chambers - Spa",
+  "Flea: Choral Chambers - Walled Room",
+  "Flea: Exhaust Organ",
+  "Flea: Far Fields - Captured",
+  "Flea: Hunter's March",
+  "Flea: Memorium - Huge Flea",
+  "Flea: Pilgrim's Rest",
+  "Flea: Shellwood",
+  "Flea: Sinner's Road",
+  "Flea: Songclave",
+  "Flea: The Slab - Bellway",
+  "Flea: The Slab - Cell",
+  "Fleatopia - Rosary Necklace",
+  "Fleatopia - Rosary String",
+  "Fleatopia - Tool Pouch",
+  "Grand Bellway - Bellway",
+  "Grand Bellway - Ventrica",
+  "Grand Gate - Nyleth Shrine Inscription",
   "Great Taste of Pharloom - Pale Oil",
+  "Greymoor - Bellshrine",
+  "Greymoor - Rosary Cache #35",
+  "Greymoor - Rosary Cache #36",
+  "Greymoor - Rosary Cache #37",
+  "Hermit Soul",
+  "Hero's Memento",
+  "High Halls - Map Purchase",
   "High Halls - Pale Rosary Necklace",
   "High Halls - Rosary Cache #1",
   "High Halls - Rosary Cache #2",
@@ -19,62 +142,300 @@
   "High Halls - Rosary Cache #5",
   "High Halls - Rosary Cache #6",
   "High Halls - Shell Shard Cache #2",
+  "High Halls - Ventrica",
   "High Halls Bank - Rosary Chest #1",
   "High Halls Bank - Rosary Chest #2",
   "High Halls Bank - Rosary Chest #3",
+  "Hunter Evolution 1",
+  "Hunter Evolution 2",
+  "Hunter's Heart",
+  "Hunter's March - Map Purchase",
+  "Hunter's March - Rosary Cache #10",
+  "Hunter's March - Rosary Cache #4",
+  "Hunter's March - Rosary Cache #5",
+  "Hunter's March - Rosary Cache #6",
+  "Hunter's March - Rosary Cache #7",
+  "Hunter's March - Rosary Cache #8",
+  "Hunter's March - Rosary Cache #9",
+  "Hunter's March - Shell Shard Cache #1",
+  "Hunter's March - Shell Shard Cache #2",
+  "Item: Quill",
+  "Journal Completion: Great Conchflies",
+  "Journal Completion: Lace",
+  "Journal Completion: Moss Mother",
+  "Journal Completion: Savage Beastfly",
+  "Journal: Bell Beast",
   "Journal: Bell Eater",
   "Journal: Broodmother",
   "Journal: Clover Dancers",
+  "Journal: Cogwork Dancers",
+  "Journal: Crawfather",
+  "Journal: Crust King Khann",
+  "Journal: Disgraced Chef Lugoli",
+  "Journal: Father of the Flame",
   "Journal: First Sinner",
+  "Journal: Forebrothers Signis & Gron",
+  "Journal: Fourth Chorus",
+  "Journal: Grand Mother Silk",
+  "Journal: Great Conchflies",
+  "Journal: Groal the Great",
+  "Journal: Gurr the Outcast",
+  "Journal: Lace",
+  "Journal: Last Judge",
+  "Journal: Lost Garmond",
   "Journal: Lost Lace",
+  "Journal: Moorwing",
+  "Journal: Moss Mother",
+  "Journal: Nyleth",
   "Journal: Palestag",
+  "Journal: Phantom",
+  "Journal: Pinstress",
+  "Journal: Plasmified Zango",
+  "Journal: Savage Beastfly",
+  "Journal: Second Sentinel",
+  "Journal: Shrine Guardian Seth",
+  "Journal: Sister Splinter",
+  "Journal: Skarrsinger Karmelita",
+  "Journal: Skull Tyrant",
   "Journal: Summoned Saviour",
+  "Journal: The Unravelled",
+  "Journal: Tormented Trobbio",
+  "Journal: Trobbio",
+  "Journal: Voltvyrm",
+  "Journal: Watcher at the Edge",
+  "Journal: Widow",
+  "Jubilana (Songclave) - Mask Shard",
+  "Jubilana (Songclave) - Spool Fragment",
+  "Loddie - Heavy Rosary Necklace",
+  "Loddie - Tool Pouch",
+  "Longclaw",
+  "Maiden Soul",
+  "Memorium - Beast Shard",
+  "Memorium - Orders",
+  "Memorium - Shell Shard Cache #1",
+  "Memorium - Shell Shard Cache #2",
+  "Memorium - Ventrica",
+  "Moorwing - Beast Shard",
+  "Moss Grotto - Shaman Storeroom Record",
+  "Mosshome - Moss Plaque",
+  "Mosshome - Mossberry",
+  "Mosshome - Rosary Cache #3",
+  "Mosshome - Rosary Cache #4",
+  "Mosshome - Weaver Harp Inscription",
+  "Mosslands - Map Purchase",
+  "Mount Fay - Weaver Inscription",
+  "Needle Strike",
+  "Nuu - Hunter's Journal",
+  "Pilgrim's Rest - Beast Shard",
+  "Pilgrim's Rest - Tool Pouch",
+  "Pilgrim's Rest Shop - Memory Locket",
+  "Pin Purchase: Bellway Pins",
+  "Pin Purchase: Bench Pins",
+  "Pin Purchase: Vendor Pins",
+  "Pin Purchase: Ventrica Pins",
+  "Pinmaster Plinney: Hivesteel Needle",
+  "Pinmaster Plinney: Pale Steel Needle",
+  "Pinmaster Plinney: Sharpened Needle",
+  "Pinmaster Plinney: Shining Needle",
+  "Pollen Heart",
+  "Relic Turn-in: Arcane Egg",
+  "Relic Turn-in: Bone Scroll (Far Fields)",
+  "Relic Turn-in: Bone Scroll (Greymoor)",
+  "Relic Turn-in: Bone Scroll (Underworks)",
+  "Relic Turn-in: Bone Scroll (Wisp Thicket)",
+  "Relic Turn-in: Choral Commandment (Eastern Whiteward)",
+  "Relic Turn-in: Choral Commandment (Jubilana)",
+  "Relic Turn-in: Choral Commandment (Moss Grotto)",
+  "Relic Turn-in: Choral Commandment (Western Whiteward)",
+  "Relic Turn-in: Psalm Cylinder (East Whispering Vaults)",
+  "Relic Turn-in: Psalm Cylinder (Grindle)",
+  "Relic Turn-in: Psalm Cylinder (High Halls)",
+  "Relic Turn-in: Psalm Cylinder (Underworks)",
+  "Relic Turn-in: Psalm Cylinder (Vaultkeeper Cardinius)",
+  "Relic Turn-in: Rune Harp (High Halls)",
+  "Relic Turn-in: Rune Harp (Weavenest Atla)",
+  "Relic Turn-in: Rune Harp (Weavenest Cindril)",
+  "Relic Turn-in: Sacred Cylinder",
+  "Relic Turn-in: Weaver Effigy (Atla, The Slab)",
+  "Relic Turn-in: Weaver Effigy (Camora, Moss Grotto)",
+  "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)",
+  "Relic: Bone Scroll (Wisp Thicket)",
+  "Relic: Choral Commandment (Jubilana)",
   "Relic: Rune Harp (High Halls)",
+  "Relic: Weaver Effigy (Atla, The Slab)",
   "Rosary Cannon",
   "Rune Rage",
+  "Sands of Karak - Lower Coral Tablet",
+  "Savage Beastfly - Mask Shard",
+  "Seeker Soul",
+  "Shellwood - Bellway",
+  "Shellwood - Shell Shard Cache #12",
+  "Shellwood - Shellgrave Inscription",
+  "Silkshot (Original)",
+  "Silkshot (Twelfth Architect)",
+  "Sinner's Road - Rosary Cache #1",
+  "Sinner's Road - Rosary Cache #2",
+  "Sinner's Road - Rosary Cache #3",
+  "Sinner's Road - Rosary Cache #4",
+  "Sinner's Road - Shell Shard Cache #1",
+  "Sinner's Road - Shell Shard Cache #2",
+  "Sinner's Road - Shell Shard Cache #3",
+  "Sinner's Road - Shell Shard Cache #4",
+  "Sinner's Road - Shell Shard Cache #5",
+  "Songclave Shop - Craftmetal",
+  "Songclave Shop - Simple Key",
+  "Spider Strings",
+  "Spool Extender",
+  "Sprintmaster - Beast Shard",
+  "Sprintmaster's Memento",
+  "Surface Memento",
+  "Sylphsong",
+  "Tacks",
+  "The Cradle - Lower Cage Inscription",
+  "The Cradle - Map Purchase",
+  "The Cradle - Middle Cage Inscription",
+  "The Cradle - Shell Shard Cache",
+  "The Cradle - Terminus Commandment",
+  "The Cradle - Upper Cage Inscription",
+  "The Hidden Hunter - Mask Shard",
+  "The Marrow - Bellshrine",
+  "The Marrow - Entrance Inscription",
+  "The Marrow - Map Purchase",
+  "The Marrow - Rosary Cache #1",
+  "The Marrow - Rosary Cache #2",
+  "The Marrow - Shell Shard Cache #1",
+  "The Slab (Key of the Apostate) - Mask Shard",
+  "The Slab - Bellway",
+  "The Slab - Frayed Rosary String #2",
+  "The Slab - Left Orders",
+  "The Slab - Right Orders",
+  "The Slab - Rosary Cache #1",
+  "The Slab - Rosary Cache #3",
+  "The Slab - Rosary Cache #4",
+  "The Slab - Rosary Cache #5",
+  "The Slab - Shell Shard Cache #1",
+  "The Slab - Shell Shard Cache #2",
+  "The Slab - Shell Shard Cache #3",
+  "The Slab - Shell Shard Cache #4",
+  "The Slab - Shell Shard Cache #5",
+  "The Slab - Weaver Gate Inscription",
+  "Twisted Bud",
+  "Vaultkeeper's Melody",
   "Verdania - Map Pickup",
   "Verdania - Oath Plaque",
-  "Wish: Great Taste of Pharloom"
+  "Volatile Flintbeetles - Memory Locket",
+  "Volt Filament",
+  "Warding Bell",
+  "Weavelight",
+  "Weighted Belt",
+  "Wish: A Lifesaving Bridge",
+  "Wish: Advanced Alchemy",
+  "Wish: An Icon of Hope",
+  "Wish: Balm for the Wounded",
+  "Wish: Bellhart's Glory",
+  "Wish: Bone Bottom Repairs",
+  "Wish: Bone Bottom Supplies",
+  "Wish: Building Up Songclave",
+  "Wish: Cloaks of the Choir",
+  "Wish: Fatal Resolve",
+  "Wish: Final Audience",
+  "Wish: Fine Pins",
+  "Wish: Fleatopia Supplies",
+  "Wish: Garb of the Pilgrims",
+  "Wish: Great Taste of Pharloom",
+  "Wish: Hero's Call",
+  "Wish: Liquid Lacquer",
+  "Wish: My Missing Brother",
+  "Wish: Passing of the Age",
+  "Wish: Pilgrim's Rest Supplies",
+  "Wish: Pinmaster's Oil",
+  "Wish: Queen's Egg",
+  "Wish: Restoration of Bellhart",
+  "Wish: Silver Bells",
+  "Wish: Songclave Supplies",
+  "Wish: Strengthening Songclave",
+  "Wish: Survivor's Camp Supplies",
+  "Wish: The Lost Merchant",
+  "Wish: The Terrible Tyrant",
+  "Wish: The Wandering Merchant",
+  "Wish: Volatile Flintbeetles",
+  "Wisp Thicket - Craftmetal",
+  "Wisp Thicket - Mask Shard",
+  "Wisp Thicket - Rosary Necklace",
+  "Wisp Thicket - Shell Shard Cache #1",
+  "Wisp Thicket - Shell Shard Cache #2",
+  "Wisp Thicket - Shell Shard Cache #3",
+  "Wisp Thicket - Shell Shard Cache #4",
+  "Wisp Thicket - Shell Shard Cache #5",
+  "Wisp Thicket - Shell Shard Cache #6",
+  "Wisp Thicket - Shell Shard Cache #7",
+  "Wispfire Lantern",
+  "Yellow Vesticrest"
  ],
  "missing_ents": [
-  "Abyss Cocoon - door_entry (D)",
-  "Bonegrave Passage - right (R)",
+  "Blasted Steps Wide Long Vertical - Bottom (3) (B3)",
+  "Blasted Steps Wide Long Vertical - Bottom (4) (B4)",
+  "Blasted Steps Wide Long Vertical - Bottom (5) (B5)",
+  "Blasted Steps Wide Long Vertical - Bottom (6) (B6)",
+  "Blasted Steps Wide Long Vertical - Bottom (7) (B7)",
+  "Blasted Steps Wide Long Vertical - Bottom (8) (B8)",
   "Choral Chambers Dining Room - top1 (T)",
-  "Deep Docks Map Shop Side Room - left1",
-  "Greymoor Yarnaby Room - left (L)",
-  "High Halls Conductor - right1",
-  "High Halls Not Implemented Room - left1 (L)",
-  "High Halls Small Room - right1",
-  "Last Dive - door_cutscenePosition (D)",
-  "Last Dive - door_cutscenePosition2 (D2)",
-  "Memory Karmelita - door_wakeInMemory (MG)",
-  "Nyleth Fight - door_wakeInMemory (D)",
-  "Path of Pain Bench - bot1",
-  "Path of Pain Bench - door1 (D)",
-  "Path of Pain Bench - right1",
+  "Mount Fay Right Side Middle Room - top2",
+  "Mount Fay Right Side Middle Room - top3 (C3)",
+  "Rotating Tunnel - bot1 (B)",
+  "Rotating Tunnel - left2 (L1)",
+  "Rotating Tunnel - left4 (LH)",
+  "Rotating Tunnel - top1",
   "Slab Bellway - door1 (NI)",
-  "Slab Flea Cell - left1 (L)",
+  "Slab Infleatween Bottom - bot1 (B)",
+  "The Marrow Bellshrine - left",
   "The Marrow Bellshrine - right (R)",
-  "The Surface - bot1",
-  "The Surface - door1 (D)",
   "Whispering Vaults Totally Not White Palace - bot2 (B2)",
   "Whispering Vaults Totally Not White Palace - bot3 (B3)",
   "Wisp Thicket Grounds - top1 (T)"
  ],
  "entrance_details": [
   {
-   "name": "Abyss Cocoon - door_entry (D)",
-   "room": "Abyss Cocoon",
-   "scene": "Abyss_Cocoon",
-   "id": "the-abyss/abyss-cocoon@d",
-   "gate": "door_entry"
+   "name": "Blasted Steps Wide Long Vertical - Bottom (3) (B3)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b3",
+   "gate": "bot3"
   },
   {
-   "name": "Bonegrave Passage - right (R)",
-   "room": "Bonegrave Passage",
-   "scene": "Bone_Steel_Servant",
-   "id": "bone-bottom/bonegrave-passage@r",
-   "gate": null
+   "name": "Blasted Steps Wide Long Vertical - Bottom (4) (B4)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b4",
+   "gate": "bot4"
+  },
+  {
+   "name": "Blasted Steps Wide Long Vertical - Bottom (5) (B5)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b5",
+   "gate": "bot5"
+  },
+  {
+   "name": "Blasted Steps Wide Long Vertical - Bottom (6) (B6)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b6",
+   "gate": "bot6"
+  },
+  {
+   "name": "Blasted Steps Wide Long Vertical - Bottom (7) (B7)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b7",
+   "gate": "bot7"
+  },
+  {
+   "name": "Blasted Steps Wide Long Vertical - Bottom (8) (B8)",
+   "room": "Blasted Steps Wide Long Vertical",
+   "scene": "Coral_03",
+   "id": "blasted-steps/blasted-steps-wide-long-vertical@b8",
+   "gate": "bot8"
   },
   {
    "name": "Choral Chambers Dining Room - top1 (T)",
@@ -84,88 +445,46 @@
    "gate": "top1"
   },
   {
-   "name": "Deep Docks Map Shop Side Room - left1",
-   "room": "Deep Docks Map Shop Side Room",
-   "scene": "Dock_05",
-   "id": "deep-docks/deep-docks-map-shop-side-room@l",
-   "gate": "left1"
+   "name": "Mount Fay Right Side Middle Room - top2",
+   "room": "Mount Fay Right Side Middle Room",
+   "scene": "Peak_07",
+   "id": "mount-fay/mount-fay-right-side-middle-room@c2",
+   "gate": "top2"
   },
   {
-   "name": "Greymoor Yarnaby Room - left (L)",
-   "room": "Greymoor Yarnaby Room",
-   "scene": "Belltown_Room_doctor",
-   "id": "greymoor/greymoor-yarnaby-room@l",
-   "gate": "left1"
+   "name": "Mount Fay Right Side Middle Room - top3 (C3)",
+   "room": "Mount Fay Right Side Middle Room",
+   "scene": "Peak_07",
+   "id": "mount-fay/mount-fay-right-side-middle-room@c3",
+   "gate": "top3"
   },
   {
-   "name": "High Halls Conductor - right1",
-   "room": "High Halls Conductor",
-   "scene": "Hang_12",
-   "id": "high-halls/high-halls-conductor@r",
-   "gate": "right1"
-  },
-  {
-   "name": "High Halls Not Implemented Room - left1 (L)",
-   "room": "High Halls Not Implemented Room",
-   "scene": "Cog_11",
-   "id": "high-halls/high-halls-not-implemented-room@l",
-   "gate": null
-  },
-  {
-   "name": "High Halls Small Room - right1",
-   "room": "High Halls Small Room",
-   "scene": "Hang_15",
-   "id": "high-halls/high-halls-small-room@r",
-   "gate": "right1"
-  },
-  {
-   "name": "Last Dive - door_cutscenePosition (D)",
-   "room": "Last Dive",
-   "scene": "Last_Dive",
-   "id": "the-abyss/last-dive@d",
-   "gate": "door_cutscenePosition"
-  },
-  {
-   "name": "Last Dive - door_cutscenePosition2 (D2)",
-   "room": "Last Dive",
-   "scene": "Last_Dive",
-   "id": "the-abyss/last-dive@d2",
-   "gate": null
-  },
-  {
-   "name": "Memory Karmelita - door_wakeInMemory (MG)",
-   "room": "Memory Karmelita",
-   "scene": "Memory_Ant_Queen",
-   "id": "far-fields/memory-karmelita@mg",
-   "gate": "door_wakeInMemory"
-  },
-  {
-   "name": "Nyleth Fight - door_wakeInMemory (D)",
-   "room": "Nyleth Fight",
-   "scene": "Shellwood_11b_Memory",
-   "id": "grand-gate/nyleth-fight@d",
-   "gate": "door_wakeInMemory"
-  },
-  {
-   "name": "Path of Pain Bench - bot1",
-   "room": "Path of Pain Bench",
-   "scene": "Cradle_Destroyed_Challenge_Bench",
-   "id": "the-cradle/path-of-pain-bench@f",
+   "name": "Rotating Tunnel - bot1 (B)",
+   "room": "Rotating Tunnel",
+   "scene": "Song_20b",
+   "id": "choral-chambers/rotating-tunnel@b",
    "gate": "bot1"
   },
   {
-   "name": "Path of Pain Bench - door1 (D)",
-   "room": "Path of Pain Bench",
-   "scene": "Cradle_Destroyed_Challenge_Bench",
-   "id": "the-cradle/path-of-pain-bench@d",
-   "gate": "door1"
+   "name": "Rotating Tunnel - left2 (L1)",
+   "room": "Rotating Tunnel",
+   "scene": "Song_20b",
+   "id": "choral-chambers/rotating-tunnel@l1",
+   "gate": "left2"
   },
   {
-   "name": "Path of Pain Bench - right1",
-   "room": "Path of Pain Bench",
-   "scene": "Cradle_Destroyed_Challenge_Bench",
-   "id": "the-cradle/path-of-pain-bench@r",
-   "gate": "right1"
+   "name": "Rotating Tunnel - left4 (LH)",
+   "room": "Rotating Tunnel",
+   "scene": "Song_20b",
+   "id": "choral-chambers/rotating-tunnel@lh",
+   "gate": "left4"
+  },
+  {
+   "name": "Rotating Tunnel - top1",
+   "room": "Rotating Tunnel",
+   "scene": "Song_20b",
+   "id": "choral-chambers/rotating-tunnel@t",
+   "gate": "top1"
   },
   {
    "name": "Slab Bellway - door1 (NI)",
@@ -175,11 +494,18 @@
    "gate": "door1"
   },
   {
-   "name": "Slab Flea Cell - left1 (L)",
-   "room": "Slab Flea Cell",
-   "scene": "Slab_Cell",
-   "id": "the-slab/slab-flea-cell@l",
-   "gate": "left1"
+   "name": "Slab Infleatween Bottom - bot1 (B)",
+   "room": "Slab Infleatween Bottom",
+   "scene": "Slab_05",
+   "id": "the-slab/slab-infleatween-bottom@b",
+   "gate": "bot1"
+  },
+  {
+   "name": "The Marrow Bellshrine - left",
+   "room": "The Marrow Bellshrine",
+   "scene": "Bellshrine",
+   "id": "the-marrow/the-marrow-bellshrine@l",
+   "gate": null
   },
   {
    "name": "The Marrow Bellshrine - right (R)",
@@ -187,20 +513,6 @@
    "scene": "Bellshrine",
    "id": "the-marrow/the-marrow-bellshrine@r",
    "gate": null
-  },
-  {
-   "name": "The Surface - bot1",
-   "room": "The Surface",
-   "scene": "Abandoned_town",
-   "id": "the-cradle/the-surface@f",
-   "gate": "bot1"
-  },
-  {
-   "name": "The Surface - door1 (D)",
-   "room": "The Surface",
-   "scene": "Abandoned_town",
-   "id": "the-cradle/the-surface@d",
-   "gate": "door1"
   },
   {
    "name": "Whispering Vaults Totally Not White Palace - bot2 (B2)",
@@ -317,11 +629,6 @@
    "image": "01-geometry/2a3e4e0b-66b5-4358-afcd-a3d66eca858d.webp"
   },
   {
-   "room": "Greyroot",
-   "scene": "Room_Witch",
-   "image": "01-geometry/59ded786-5b51-4e66-a579-d37a8afb1dd0.webp"
-  },
-  {
    "room": "Witch Chapel",
    "scene": "Shellwood_25b",
    "image": "01-geometry/5f4edaaf-b3aa-464a-aa81-6532e1aac370.webp"
@@ -352,11 +659,6 @@
    "image": "01-geometry/3e0e8999-5264-45f4-a333-66e9d6a85c5b.webp"
   },
   {
-   "room": "Greymoor Crow Nest",
-   "scene": "Room_CrowCourt",
-   "image": "01-geometry/a5474092-51d2-46a4-85aa-1a54d431ec21.webp"
-  },
-  {
    "room": "Greymoor Chapel of The Reaper",
    "scene": "Greymoor_20c",
    "image": "01-geometry/ec5f77ca-8b6f-41df-af6f-522defd2a9e4.webp"
@@ -370,6 +672,11 @@
    "room": "Father of the Flame",
    "scene": "Belltown_08",
    "image": "01-geometry/cec31268-d1fe-47e1-879d-f314bfada843.webp"
+  },
+  {
+   "room": "Verdania Placeholder",
+   "scene": null,
+   "image": "01-geometry/3cb9e2f7-ead8-47ac-bb72-a077c32c24f8.webp"
   },
   {
    "room": "Windy Pinstress Room",
@@ -402,6 +709,11 @@
    "image": "01-geometry/d57d0573-04e1-4e71-ae8b-e8c586db173c.webp"
   },
   {
+   "room": "Whispering Vaults Vaultborn Lever",
+   "scene": "Library_15",
+   "image": "01-geometry/4839e900-8feb-458c-9814-4b823239fdc4.webp"
+  },
+  {
    "room": "Whiteward Sherma Gauntlet",
    "scene": "Ward_09",
    "image": "01-geometry/ffe09fec-0947-4f05-8fe5-e8820ef65a63.webp"
@@ -422,14 +734,9 @@
    "image": "01-geometry/5d6dfe6f-edbf-4649-ac34-374a0a4d1326.webp"
   },
   {
-   "room": "Memorium puzzle",
-   "scene": "Arborium_10",
-   "image": "01-geometry/e6a36e12-4434-450d-a154-b295dc80ad1d.webp"
-  },
-  {
-   "room": "Voltnest",
-   "scene": "Coral_29",
-   "image": "01-geometry/15f51dc2-e60f-4fb3-bb64-cae69fae43a6.webp"
+   "room": "Slab Broodmother Alcove",
+   "scene": "",
+   "image": "01-geometry/e50f482d-ed23-48ff-9f06-b807ba68e753.webp"
   },
   {
    "room": "Slab Flea Cell",
@@ -500,35 +807,2562 @@
    "room": "Last Dive",
    "scene": "Last_Dive",
    "image": "01-geometry/aa56ed92-1d08-4aec-878c-4558570595e0.webp"
+  },
+  {
+   "room": "Bellway Menu",
+   "scene": null,
+   "image": "01-geometry/62409486-f45d-42fa-84c8-0b3e49253ae1.webp"
+  },
+  {
+   "room": "Ventrica Menu",
+   "scene": null,
+   "image": "01-geometry/0f11482e-65f2-4774-a53f-2d6565741cce.webp"
+  },
+  {
+   "room": "Slab Capture",
+   "scene": null,
+   "image": "01-geometry/bb413d85-7fee-49ea-8522-cdb9f8c2bdd6.webp"
+  },
+  {
+   "room": "Bone Bottom Wish Wall",
+   "scene": null,
+   "image": "01-geometry/173947cf-ce57-434b-af98-b9e19446655d.webp"
+  },
+  {
+   "room": "Bellhart Wish Wall",
+   "scene": null,
+   "image": "01-geometry/8f2f2fe4-172d-4708-98c8-5483158b626d.webp"
+  },
+  {
+   "room": "Bellhart Deliveries",
+   "scene": null,
+   "image": "01-geometry/581e9b82-cb20-4652-84d7-379020864428.webp"
+  },
+  {
+   "room": "Songclave Wish Wall",
+   "scene": null,
+   "image": "01-geometry/2a773d7c-00b1-4be5-a710-ee04966949ab.webp"
   }
  ],
  "rejected_positions": [
   {
-   "name": "Journal: Summoned Saviour",
-   "scene": "Bone_Steel_Servant",
-   "room": "Bonegrave Passage",
-   "reason": "missing room dimensions",
+   "name": "Journal: Moss Mother",
+   "scene": "Tut_03",
+   "room": "Ruined Chapel",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
-    130,
-    40
+    126,
+    35
    ],
    "map_dimensions": [
-    null,
-    null
+    800,
+    222
    ]
   },
   {
-   "name": "Boss: Summoned Saviour",
-   "scene": "Bone_Steel_Servant",
-   "room": "Bonegrave Passage",
-   "reason": "missing room dimensions",
+   "name": "Journal Completion: Moss Mother",
+   "scene": "Tut_03",
+   "room": "Ruined Chapel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    126,
+    35
+   ],
+   "map_dimensions": [
+    800,
+    222
+   ]
+  },
+  {
+   "name": "Everbloom",
+   "scene": "Tut_03",
+   "room": "Ruined Chapel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    126,
+    35
+   ],
+   "map_dimensions": [
+    800,
+    222
+   ]
+  },
+  {
+   "name": "Elegy of the Deep",
+   "scene": "Tut_03",
+   "room": "Ruined Chapel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    126,
+    35
+   ],
+   "map_dimensions": [
+    800,
+    222
+   ]
+  },
+  {
+   "name": "Moss Grotto - Shaman Storeroom Record",
+   "scene": "Tut_04",
+   "room": "Ruined Chapel Interior",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    87,
+    36
+   ],
+   "map_dimensions": [
+    552,
+    229
+   ]
+  },
+  {
+   "name": "Journal: Skull Tyrant",
+   "scene": "Bonetown",
+   "room": "Bone Bottom Town",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    90
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "name": "Maiden Soul",
+   "scene": "Bonetown",
+   "room": "Bone Bottom Town",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    90
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "name": "Boss: Skull Tyrant (Bone Bottom)",
+   "scene": "Bonetown",
+   "room": "Bone Bottom Town",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    90
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "name": "Wish: Bone Bottom Supplies",
+   "scene": "Bonetown",
+   "room": "Bone Bottom Town",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    90
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "name": "Bone Bottom - Shell Shard Cache",
+   "scene": "Bonetown",
+   "room": "Bone Bottom Town",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    90
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "name": "Beastling Call",
+   "scene": "Bellway_01",
+   "room": "Bone Bottom Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    635,
+    286
+   ]
+  },
+  {
+   "name": "Bonegrave - Mossberry",
+   "scene": "Bonegrave",
+   "room": "Bonegrave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315,
+    82
+   ],
+   "map_dimensions": [
+    1111,
+    521
+   ]
+  },
+  {
+   "name": "Mosshome - Mossberry",
+   "scene": "Bone_05b",
+   "room": "Mosshome Side Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    30
+   ],
+   "map_dimensions": [
+    508,
+    108
+   ]
+  },
+  {
+   "name": "Druid's Eye",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Druid's Eyes",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Mosshome - Rosary Cache #3",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Mosshome - Rosary Cache #4",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Mosshome - Moss Plaque",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Mosshome - Weaver Harp Inscription",
+   "scene": "Mosstown_02",
+   "room": "Mosshome Upper",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    65
+   ],
+   "map_dimensions": [
+    1016,
+    235
+   ]
+  },
+  {
+   "name": "Bone Bottom - Rosary Cache #5",
+   "scene": "Bone_11",
+   "room": "Mosshome Lower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    31
+   ],
+   "map_dimensions": [
+    762,
+    197
+   ]
+  },
+  {
+   "name": "The Marrow - Rosary Cache #1",
+   "scene": "Bone_01",
+   "room": "The Marrow Entrance",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
     130,
+    91
+   ],
+   "map_dimensions": [
+    826,
+    578
+   ]
+  },
+  {
+   "name": "The Marrow - Rosary Cache #2",
+   "scene": "Bone_01",
+   "room": "The Marrow Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    91
+   ],
+   "map_dimensions": [
+    826,
+    578
+   ]
+  },
+  {
+   "name": "The Marrow - Shell Shard Cache #1",
+   "scene": "Bone_01",
+   "room": "The Marrow Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    91
+   ],
+   "map_dimensions": [
+    826,
+    578
+   ]
+  },
+  {
+   "name": "The Marrow - Entrance Inscription",
+   "scene": "Bone_01c",
+   "room": "The Marrow Bell Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    198,
+    91
+   ],
+   "map_dimensions": [
+    495,
+    578
+   ]
+  },
+  {
+   "name": "Wish: Survivor's Camp Supplies",
+   "scene": "Bone_10",
+   "room": "The Marrow Flea Caravan",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    69
+   ],
+   "map_dimensions": [
+    730,
+    438
+   ]
+  },
+  {
+   "name": "Item: Quill",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "Compass",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "Mosslands - Map Purchase",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "The Marrow - Map Purchase",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "Pin Purchase: Bench Pins",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "Pin Purchase: Bellway Pins",
+   "scene": "Bone_04",
+   "room": "The Marrow Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    233,
+    31
+   ],
+   "map_dimensions": [
+    1480,
+    197
+   ]
+  },
+  {
+   "name": "Journal: Bell Beast",
+   "scene": "Bone_05",
+   "room": "The Marrow Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    201,
+    22
+   ],
+   "map_dimensions": [
+    1276,
+    140
+   ]
+  },
+  {
+   "name": "Bell Beast - Silk Heart",
+   "scene": "Bone_05",
+   "room": "The Marrow Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    201,
+    22
+   ],
+   "map_dimensions": [
+    1276,
+    140
+   ]
+  },
+  {
+   "name": "The Marrow - Bellshrine",
+   "scene": "Bellshrine",
+   "room": "The Marrow Bellshrine",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    43,
+    25
+   ],
+   "map_dimensions": [
+    273,
+    159
+   ]
+  },
+  {
+   "name": "Loddie - Tool Pouch",
+   "scene": "Bone_12",
+   "room": "The Marrow Jail",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    58,
+    43
+   ],
+   "map_dimensions": [
+    368,
+    273
+   ]
+  },
+  {
+   "name": "Loddie - Heavy Rosary Necklace",
+   "scene": "Bone_12",
+   "room": "The Marrow Jail",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    58,
+    43
+   ],
+   "map_dimensions": [
+    368,
+    273
+   ]
+  },
+  {
+   "name": "Journal: Skull Tyrant",
+   "scene": "Bone_15",
+   "room": "The Marrow Skull Tyrant Arena",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    113,
+    29
+   ],
+   "map_dimensions": [
+    718,
+    184
+   ]
+  },
+  {
+   "name": "Hunter Evolution 1",
+   "scene": "Weave_10",
+   "room": "Weavenest Atla Eva",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    444,
+    286
+   ]
+  },
+  {
+   "name": "Hunter Evolution 2",
+   "scene": "Weave_10",
+   "room": "Weavenest Atla Eva",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    444,
+    286
+   ]
+  },
+  {
+   "name": "Yellow Vesticrest",
+   "scene": "Weave_10",
+   "room": "Weavenest Atla Eva",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    444,
+    286
+   ]
+  },
+  {
+   "name": "Blue Vesticrest",
+   "scene": "Weave_10",
+   "room": "Weavenest Atla Eva",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    444,
+    286
+   ]
+  },
+  {
+   "name": "Sylphsong",
+   "scene": "Weave_10",
+   "room": "Weavenest Atla Eva",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    45
+   ],
+   "map_dimensions": [
+    444,
+    286
+   ]
+  },
+  {
+   "name": "Journal: Moss Mother",
+   "scene": "Weave_03",
+   "room": "Weavenest Atla Grotto",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    284,
+    35
+   ],
+   "map_dimensions": [
+    1803,
+    222
+   ]
+  },
+  {
+   "name": "Journal Completion: Moss Mother",
+   "scene": "Weave_03",
+   "room": "Weavenest Atla Grotto",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    284,
+    35
+   ],
+   "map_dimensions": [
+    1803,
+    222
+   ]
+  },
+  {
+   "name": "Weavelight",
+   "scene": "Weave_03",
+   "room": "Weavenest Atla Grotto",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    284,
+    35
+   ],
+   "map_dimensions": [
+    1803,
+    222
+   ]
+  },
+  {
+   "name": "Wish: Advanced Alchemy",
+   "scene": "Crawl_08",
+   "room": "Wormways Laboratory",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    105,
+    22
+   ],
+   "map_dimensions": [
+    437,
+    114
+   ]
+  },
+  {
+   "name": "Journal: Plasmified Zango",
+   "scene": "Crawl_10",
+   "room": "Wormways Zango Arena",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    53,
+    30
+   ],
+   "map_dimensions": [
+    304,
+    99
+   ]
+  },
+  {
+   "name": "Pin Purchase: Vendor Pins",
+   "scene": "Bone_East_01",
+   "room": "Deep Docks Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    47,
+    83
+   ],
+   "map_dimensions": [
+    313,
+    539
+   ]
+  },
+  {
+   "name": "Deep Docks - Bellway",
+   "scene": "Bellway_02",
+   "room": "Deep Docks Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    50
+   ],
+   "map_dimensions": [
+    562,
+    330
+   ]
+  },
+  {
+   "name": "Journal: Lace",
+   "scene": "Bone_East_12",
+   "room": "Deep Docks Lace Intro",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    180,
+    32
+   ],
+   "map_dimensions": [
+    1021,
+    203
+   ]
+  },
+  {
+   "name": "Boss: Lace (Deep Docks)",
+   "scene": "Bone_East_12",
+   "room": "Deep Docks Lace Intro",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    180,
+    32
+   ],
+   "map_dimensions": [
+    1021,
+    203
+   ]
+  },
+  {
+   "name": "Deep Docks - Bellshrine",
+   "scene": "Bellshrine_05",
+   "room": "Deep Docks Bellshrine",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    43,
+    25
+   ],
+   "map_dimensions": [
+    359,
+    222
+   ]
+  },
+  {
+   "name": "Journal: Forebrothers Signis & Gron",
+   "scene": "Dock_09",
+   "room": "Deep Docks Forebrothers",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    77,
+    35
+   ],
+   "map_dimensions": [
+    493,
+    191
+   ]
+  },
+  {
+   "name": "Far Fields - Shell Shard Cache #1",
+   "scene": "Bone_East_02b",
+   "room": "Far Fields Entrance West",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    330,
+    35
+   ],
+   "map_dimensions": [
+    1100,
+    243
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #11",
+   "scene": "Bone_East_16",
+   "room": "Far Fields Fort Lower Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    57,
+    30
+   ],
+   "map_dimensions": [
+    334,
+    167
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #12",
+   "scene": "Bone_East_16",
+   "room": "Far Fields Fort Lower Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    57,
+    30
+   ],
+   "map_dimensions": [
+    334,
+    167
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #13",
+   "scene": "Bone_East_16",
+   "room": "Far Fields Fort Lower Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    57,
+    30
+   ],
+   "map_dimensions": [
+    334,
+    167
+   ]
+  },
+  {
+   "name": "Flea: Far Fields - Captured",
+   "scene": "Bone_East_17b",
+   "room": "Far Fields Fort Flea Rescue",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    64
+   ],
+   "map_dimensions": [
+    558,
+    398
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #16",
+   "scene": "Bone_East_17b",
+   "room": "Far Fields Fort Flea Rescue",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    64
+   ],
+   "map_dimensions": [
+    558,
+    398
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #17",
+   "scene": "Bone_East_17b",
+   "room": "Far Fields Fort Flea Rescue",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    64
+   ],
+   "map_dimensions": [
+    558,
+    398
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #14",
+   "scene": "Bone_East_17",
+   "room": "Far Fields Fort Upper Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    107
+   ],
+   "map_dimensions": [
+    730,
+    305
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #15",
+   "scene": "Bone_East_17",
+   "room": "Far Fields Fort Upper Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    107
+   ],
+   "map_dimensions": [
+    730,
+    305
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Chest #1",
+   "scene": "Bone_East_17",
+   "room": "Far Fields Fort Upper Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    107
+   ],
+   "map_dimensions": [
+    730,
+    305
+   ]
+  },
+  {
+   "name": "Pilgrim's Rest - Beast Shard",
+   "scene": "Bone_East_10_Church",
+   "room": "Far Fields Pilgrim's Rest Church",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    200,
+    30
+   ],
+   "map_dimensions": [
+    1287,
+    340
+   ]
+  },
+  {
+   "name": "Flea: Pilgrim's Rest",
+   "scene": "Bone_East_10_Church",
+   "room": "Far Fields Pilgrim's Rest Church",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    200,
+    30
+   ],
+   "map_dimensions": [
+    1287,
+    340
+   ]
+  },
+  {
+   "name": "Weighted Belt",
+   "scene": "Bone_East_10_Room",
+   "room": "Far Fields Pilgrim's Rest Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    155,
+    50
+   ],
+   "map_dimensions": [
+    492,
+    148
+   ]
+  },
+  {
+   "name": "Pilgrim's Rest Shop - Memory Locket",
+   "scene": "Bone_East_10_Room",
+   "room": "Far Fields Pilgrim's Rest Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    155,
+    50
+   ],
+   "map_dimensions": [
+    492,
+    148
+   ]
+  },
+  {
+   "name": "Pilgrim's Rest - Tool Pouch",
+   "scene": "Bone_East_10_Room",
+   "room": "Far Fields Pilgrim's Rest Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    155,
+    50
+   ],
+   "map_dimensions": [
+    492,
+    148
+   ]
+  },
+  {
+   "name": "Wish: Pilgrim's Rest Supplies",
+   "scene": "Bone_East_10_Room",
+   "room": "Far Fields Pilgrim's Rest Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    155,
+    50
+   ],
+   "map_dimensions": [
+    492,
+    148
+   ]
+  },
+  {
+   "name": "Journal: Fourth Chorus",
+   "scene": "Bone_East_08",
+   "room": "Far Fields Chorus",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    50
+   ],
+   "map_dimensions": [
+    960,
+    320
+   ]
+  },
+  {
+   "name": "Journal: Savage Beastfly",
+   "scene": "Bone_East_08",
+   "room": "Far Fields Chorus",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    50
+   ],
+   "map_dimensions": [
+    960,
+    320
+   ]
+  },
+  {
+   "name": "Journal Completion: Savage Beastfly",
+   "scene": "Bone_East_08",
+   "room": "Far Fields Chorus",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    50
+   ],
+   "map_dimensions": [
+    960,
+    320
+   ]
+  },
+  {
+   "name": "Boss: Fourth Chorus",
+   "scene": "Bone_East_08",
+   "room": "Far Fields Chorus",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    50
+   ],
+   "map_dimensions": [
+    960,
+    320
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #2",
+   "scene": "Bone_East_08",
+   "room": "Far Fields Chorus",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    50
+   ],
+   "map_dimensions": [
+    960,
+    320
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #3",
+   "scene": "Bone_East_09b",
+   "room": "Far Fields Pinstress Attic",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    200
+   ],
+   "map_dimensions": [
+    780,
+    942
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #4",
+   "scene": "Bone_East_09b",
+   "room": "Far Fields Pinstress Attic",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    200
+   ],
+   "map_dimensions": [
+    780,
+    942
+   ]
+  },
+  {
+   "name": "Drifter's Cloak",
+   "scene": "Bone_East_Umbrella",
+   "room": "Far Fields Pinstress Hut Interior",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    26
+   ],
+   "map_dimensions": [
+    205,
+    150
+   ]
+  },
+  {
+   "name": "Curvesickle",
+   "scene": "Bone_East_22",
+   "room": "Far Fields Target Practice",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    59,
+    35
+   ],
+   "map_dimensions": [
+    376,
+    100
+   ]
+  },
+  {
+   "name": "Far Fields - Map Purchase",
+   "scene": "Bone_East_21",
+   "room": "Far Fields Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    20
+   ],
+   "map_dimensions": [
+    175,
+    111
+   ]
+  },
+  {
+   "name": "Far Fields - Bellway",
+   "scene": "Bellway_03",
+   "room": "Far Fields Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    60
+   ],
+   "map_dimensions": [
+    938,
+    371
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #9",
+   "scene": "Bone_East_15",
+   "room": "Far Fields Deep Docks Loopback",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    173,
+    110
+   ],
+   "map_dimensions": [
+    1099,
+    698
+   ]
+  },
+  {
+   "name": "Far Fields - Rosary Cache #10",
+   "scene": "Bone_East_15",
+   "room": "Far Fields Deep Docks Loopback",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    173,
+    110
+   ],
+   "map_dimensions": [
+    1099,
+    698
+   ]
+  },
+  {
+   "name": "Warding Bell",
+   "scene": "Dock_03b",
+   "room": "Far Fields Deep Docks Backdoor",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    168,
+    120
+   ],
+   "map_dimensions": [
+    227,
+    261
+   ]
+  },
+  {
+   "name": "Journal: Gurr the Outcast",
+   "scene": "Bone_East_18b",
+   "room": "Far Fields Deep Lower East",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    327,
+    108
+   ],
+   "map_dimensions": [
+    2162,
+    748
+   ]
+  },
+  {
+   "name": "Journal: Skarrsinger Karmelita",
+   "scene": "Ant_Queen",
+   "room": "Current Karmelita",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    34
+   ],
+   "map_dimensions": [
+    308,
+    150
+   ]
+  },
+  {
+   "name": "Hunter's Heart",
+   "scene": "Ant_Queen",
+   "room": "Current Karmelita",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    34
+   ],
+   "map_dimensions": [
+    308,
+    150
+   ]
+  },
+  {
+   "name": "Boss: Skarrsinger Karmelita",
+   "scene": "Ant_Queen",
+   "room": "Current Karmelita",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    34
+   ],
+   "map_dimensions": [
+    308,
+    150
+   ]
+  },
+  {
+   "name": "Sprintmaster's Memento",
+   "scene": "Sprintmaster_Cave",
+   "room": "Sprintmaster Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    236,
+    51
+   ],
+   "map_dimensions": [
+    1513,
+    365
+   ]
+  },
+  {
+   "name": "Sprintmaster - Beast Shard",
+   "scene": "Sprintmaster_Cave",
+   "room": "Sprintmaster Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    236,
+    51
+   ],
+   "map_dimensions": [
+    1513,
+    365
+   ]
+  },
+  {
+   "name": "Fastest in Pharloom - Mask Shard",
+   "scene": "Sprintmaster_Cave",
+   "room": "Sprintmaster Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    236,
+    51
+   ],
+   "map_dimensions": [
+    1513,
+    365
+   ]
+  },
+  {
+   "name": "Crest: Beast",
+   "scene": "Ant_20",
+   "room": "Hunter's March Chapel Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    222,
+    48
+   ],
+   "map_dimensions": [
+    1410,
+    305
+   ]
+  },
+  {
+   "name": "Hunter's March - Map Purchase",
+   "scene": "Ant_20",
+   "room": "Hunter's March Chapel Passage",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    222,
+    48
+   ],
+   "map_dimensions": [
+    1410,
+    305
+   ]
+  },
+  {
+   "name": "Hunter's March - Shell Shard Cache #1",
+   "scene": "Ant_02",
+   "room": "Hunter's March Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    25
+   ],
+   "map_dimensions": [
+    815,
+    104
+   ]
+  },
+  {
+   "name": "Hunter's March - Shell Shard Cache #2",
+   "scene": "Ant_02",
+   "room": "Hunter's March Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    25
+   ],
+   "map_dimensions": [
+    815,
+    104
+   ]
+  },
+  {
+   "name": "Flea: Hunter's March",
+   "scene": "Ant_03",
+   "room": "Hunter's March Pogo Intro",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    78
+   ],
+   "map_dimensions": [
+    328,
+    474
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #4",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #5",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #6",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #7",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #8",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #9",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Hunter's March - Rosary Cache #10",
+   "scene": "Ant_21",
+   "room": "Hunter's March Treasure Vault",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    89
+   ],
+   "map_dimensions": [
+    542,
+    168
+   ]
+  },
+  {
+   "name": "Shellwood - Shellgrave Inscription",
+   "scene": "Shellgrave",
+   "room": "Shellgrave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    588,
+    203
+   ]
+  },
+  {
+   "name": "Shellwood - Bellway",
+   "scene": "Shellwood_19",
+   "room": "Shellwood Bellway\n",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    127,
+    19
+   ],
+   "map_dimensions": [
+    714,
+    171
+   ]
+  },
+  {
+   "name": "Shellwood - Shell Shard Cache #12",
+   "scene": "Shellwood_25",
+   "room": "Shellwood Diddy Basement Main",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    290,
     40
    ],
    "map_dimensions": [
-    null,
-    null
+    1927,
+    238
+   ]
+  },
+  {
+   "name": "Flea: Shellwood",
+   "scene": "Shellwood_03",
+   "room": "Shellwood Lower Left Tall Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    135
+   ],
+   "map_dimensions": [
+    258,
+    836
+   ]
+  },
+  {
+   "name": "Journal: Sister Splinter",
+   "scene": "Shellwood_18",
+   "room": "Sister Splinter",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    140,
+    35
+   ],
+   "map_dimensions": [
+    973,
+    165
+   ]
+  },
+  {
+   "name": "Hermit Soul",
+   "scene": "Belltown_basement_03",
+   "room": "Bellhart Lower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    150
+   ],
+   "map_dimensions": [
+    550,
+    979
+   ]
+  },
+  {
+   "name": "Bellhart - East Sign",
+   "scene": "Belltown_06",
+   "room": "Bellhart Right Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    83
+   ],
+   "map_dimensions": [
+    524,
+    507
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Weaver Effigy (Keelal, Shellwood)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Bone Scroll (Wisp Thicket)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Weaver Effigy (Camora, Moss Grotto)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Choral Commandment (Jubilana)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Rune Harp (High Halls)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Choral Commandment (Western Whiteward)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Rune Harp (Weavenest Cindril)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Rune Harp (Weavenest Atla)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Bone Scroll (Underworks)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Bone Scroll (Far Fields)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Choral Commandment (Moss Grotto)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Choral Commandment (Eastern Whiteward)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Bone Scroll (Greymoor)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Weaver Effigy (Atla, The Slab)",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Arcane Egg",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Bellhart - Map Purchase",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Pin Purchase: Ventrica Pins",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Crawbug Clearing (Creige) - Crafting Kit",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Dark Hearts - Mask Shard",
+   "scene": "Belltown",
+   "room": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109,
+    75
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "name": "Journal: Widow",
+   "scene": "Belltown_Shrine",
+   "room": "Widow Boss Fight",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    95,
+    38
+   ],
+   "map_dimensions": [
+    588,
+    195
+   ]
+  },
+  {
+   "name": "Greymoor - Bellshrine",
+   "scene": "Bellshrine_02",
+   "room": "Greymoor Bellshrine",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    43,
+    25
+   ],
+   "map_dimensions": [
+    205,
+    167
+   ]
+  },
+  {
+   "name": "Crest: Witch",
+   "scene": "Wisp_03",
+   "room": "Yarnaby Place",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    179,
+    47
+   ],
+   "map_dimensions": [
+    1025,
+    225
+   ]
+  },
+  {
+   "name": "Crest: Reaper",
+   "scene": "Greymoor_20b",
+   "room": "Greymoor Chapel of The Reaper Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    20
+   ],
+   "map_dimensions": [
+    304,
+    135
+   ]
+  },
+  {
+   "name": "Nuu - Hunter's Journal",
+   "scene": "Halfway_01",
+   "room": "Greymoor Halfway Home",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    56,
+    32
+   ],
+   "map_dimensions": [
+    269,
+    176
+   ]
+  },
+  {
+   "name": "Journal: Moorwing",
+   "scene": "Greymoor_05",
+   "room": "Greymoor Towers Patio",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    75
+   ],
+   "map_dimensions": [
+    704,
+    550
+   ]
+  },
+  {
+   "name": "Moorwing - Beast Shard",
+   "scene": "Greymoor_05",
+   "room": "Greymoor Towers Patio",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    75
+   ],
+   "map_dimensions": [
+    704,
+    550
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Mask Shard",
+   "scene": "Wisp_07",
+   "room": "Eastern Wisp Thicket",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    290,
+    39
+   ],
+   "map_dimensions": [
+    1212,
+    239
+   ]
+  },
+  {
+   "name": "Relic: Bone Scroll (Wisp Thicket)",
+   "scene": "Wisp_08",
+   "room": "Wisp Thicket Shaft",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    30,
+    125
+   ],
+   "map_dimensions": [
+    175,
+    789
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Rosary Necklace",
+   "scene": "Wisp_02",
+   "room": "Wisp Thicket Grounds",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    230,
+    46
+   ],
+   "map_dimensions": [
+    1503,
+    271
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Craftmetal",
+   "scene": "Wisp_05",
+   "room": "Wisp Thicket Secret Path",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    57,
+    69
+   ],
+   "map_dimensions": [
+    330,
+    445
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #1",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #2",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #3",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #4",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #5",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #6",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Wisp Thicket - Shell Shard Cache #7",
+   "scene": "Wisp_09",
+   "room": "Wisp Thicket Cave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    39
+   ],
+   "map_dimensions": [
+    668,
+    240
+   ]
+  },
+  {
+   "name": "Blasted Steps - Rosary Cache",
+   "scene": "Coral_12",
+   "room": "Blasted Steps Shakra Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    94,
+    78
+   ],
+   "map_dimensions": [
+    550,
+    486
+   ]
+  },
+  {
+   "name": "Journal: Great Conchflies",
+   "scene": "Coral_11",
+   "room": "Great Conchflies",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    180,
+    31
+   ],
+   "map_dimensions": [
+    920,
+    199
+   ]
+  },
+  {
+   "name": "Journal Completion: Great Conchflies",
+   "scene": "Coral_11",
+   "room": "Great Conchflies",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    180,
+    31
+   ],
+   "map_dimensions": [
+    920,
+    199
+   ]
+  },
+  {
+   "name": "Journal: Last Judge",
+   "scene": "Coral_Judge_Arena",
+   "room": "Last Judge Arena",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    62,
+    42
+   ],
+   "map_dimensions": [
+    383,
+    131
+   ]
+  },
+  {
+   "name": "Journal: Lost Garmond",
+   "scene": "Coral_33",
+   "room": "Lumble the Lucky",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    58,
+    74
+   ],
+   "map_dimensions": [
+    330,
+    143
+   ]
+  },
+  {
+   "name": "Hero's Memento",
+   "scene": "Coral_33",
+   "room": "Lumble the Lucky",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    58,
+    74
+   ],
+   "map_dimensions": [
+    330,
+    143
+   ]
+  },
+  {
+   "name": "Boss: Lost Garmond",
+   "scene": "Coral_33",
+   "room": "Lumble the Lucky",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    58,
+    74
+   ],
+   "map_dimensions": [
+    330,
+    143
+   ]
+  },
+  {
+   "name": "Journal: Shrine Guardian Seth",
+   "scene": "Shellwood_22",
+   "room": "Shrine Guardian Seth",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    182,
+    28
+   ],
+   "map_dimensions": [
+    1135,
+    199
+   ]
+  },
+  {
+   "name": "Journal: Disgraced Chef Lugoli",
+   "scene": "Dust_Chef",
+   "room": "Sinner's Road Chef's Kitchen",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    60,
+    74
+   ],
+   "map_dimensions": [
+    449,
+    501
+   ]
+  },
+  {
+   "name": "Flea: Sinner's Road",
+   "scene": "Dust_12",
+   "room": "Sinner's Road Flea Rescue",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    44,
+    16
+   ],
+   "map_dimensions": [
+    235,
+    127
+   ]
+  },
+  {
+   "name": "Wish: My Missing Brother",
+   "scene": "Dust_04",
+   "room": "Sinner's Road Hanging Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    90
+   ],
+   "map_dimensions": [
+    694,
+    553
+   ]
+  },
+  {
+   "name": "Sinner's Road - Shell Shard Cache #4",
+   "scene": "Dust_04",
+   "room": "Sinner's Road Hanging Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    90
+   ],
+   "map_dimensions": [
+    694,
+    553
+   ]
+  },
+  {
+   "name": "Sinner's Road - Shell Shard Cache #5",
+   "scene": "Dust_04",
+   "room": "Sinner's Road Hanging Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    90
+   ],
+   "map_dimensions": [
+    694,
+    553
+   ]
+  },
+  {
+   "name": "Sinner's Road - Rosary Cache #4",
+   "scene": "Dust_03",
+   "room": "Sinner's Road Muckroach Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    145,
+    40
+   ],
+   "map_dimensions": [
+    928,
+    271
+   ]
+  },
+  {
+   "name": "Sinner's Road - Shell Shard Cache #1",
+   "scene": "Dust_03",
+   "room": "Sinner's Road Muckroach Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    145,
+    40
+   ],
+   "map_dimensions": [
+    928,
+    271
+   ]
+  },
+  {
+   "name": "Sinner's Road - Shell Shard Cache #2",
+   "scene": "Dust_03",
+   "room": "Sinner's Road Muckroach Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    145,
+    40
+   ],
+   "map_dimensions": [
+    928,
+    271
+   ]
+  },
+  {
+   "name": "Sinner's Road - Shell Shard Cache #3",
+   "scene": "Dust_03",
+   "room": "Sinner's Road Muckroach Cages",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    145,
+    40
+   ],
+   "map_dimensions": [
+    928,
+    271
+   ]
+  },
+  {
+   "name": "Barbed Bracelet",
+   "scene": "Dust_Barb",
+   "room": "Sinner's Road Spike Basement",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    45,
+    32
+   ],
+   "map_dimensions": [
+    174,
+    227
+   ]
+  },
+  {
+   "name": "Wish: Queen's Egg",
+   "scene": "Dust_11",
+   "room": "Sinner's Road Styx Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    140,
+    40
+   ],
+   "map_dimensions": [
+    740,
+    208
+   ]
+  },
+  {
+   "name": "Sinner's Road - Rosary Cache #1",
+   "scene": "Dust_02",
+   "room": "Sinner's Road Vertical Hall West",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    130
+   ],
+   "map_dimensions": [
+    263,
+    868
+   ]
+  },
+  {
+   "name": "Sinner's Road - Rosary Cache #2",
+   "scene": "Dust_02",
+   "room": "Sinner's Road Vertical Hall West",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    130
+   ],
+   "map_dimensions": [
+    263,
+    868
+   ]
+  },
+  {
+   "name": "Sinner's Road - Rosary Cache #3",
+   "scene": "Dust_02",
+   "room": "Sinner's Road Vertical Hall West",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    130
+   ],
+   "map_dimensions": [
+    263,
+    868
+   ]
+  },
+  {
+   "name": "Tacks",
+   "scene": "dust_shack",
+   "room": "Sinner's Road Shack",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    38,
+    30
+   ],
+   "map_dimensions": [
+    154,
+    112
+   ]
+  },
+  {
+   "name": "Silkshot (Twelfth Architect)",
+   "scene": "Under_17",
+   "room": "Underworks Twelfth Architect",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    164,
+    48
+   ],
+   "map_dimensions": [
+    1059,
+    335
+   ]
+  },
+  {
+   "name": "Crest: Architect",
+   "scene": "Under_17",
+   "room": "Underworks Twelfth Architect",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    164,
+    48
+   ],
+   "map_dimensions": [
+    1059,
+    335
+   ]
+  },
+  {
+   "name": "Songclave Shop - Simple Key",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Songclave Shop - Craftmetal",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Spider Strings",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Ascendant's Grip",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Spool Extender",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Relic: Choral Commandment (Jubilana)",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Jubilana (Songclave) - Mask Shard",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Jubilana (Songclave) - Spool Fragment",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
+  {
+   "name": "Wish: Songclave Supplies",
+   "scene": "Song_Enclave",
+   "room": "Songclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120,
+    33
+   ],
+   "map_dimensions": [
+    710,
+    235
    ]
   },
   {
@@ -541,8 +3375,190 @@
     68
    ],
    "map_dimensions": [
-    143,
-    83
+    843,
+    450
+   ]
+  },
+  {
+   "name": "Flea: Choral Chambers - Spa",
+   "scene": "Song_14",
+   "room": "Choral Chambers Flea Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    72,
+    21
+   ],
+   "map_dimensions": [
+    466,
+    123
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #17",
+   "scene": "Song_15",
+   "room": "Choral Chambers Maintenance Tunnel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    85,
+    41
+   ],
+   "map_dimensions": [
+    558,
+    275
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #18",
+   "scene": "Song_15",
+   "room": "Choral Chambers Maintenance Tunnel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    85,
+    41
+   ],
+   "map_dimensions": [
+    558,
+    275
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #19",
+   "scene": "Song_15",
+   "room": "Choral Chambers Maintenance Tunnel",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    85,
+    41
+   ],
+   "map_dimensions": [
+    558,
+    275
+   ]
+  },
+  {
+   "name": "Flea: Choral Chambers - Walled Room",
+   "scene": "Song_11",
+   "room": "Choral Chambers Flea Shaft",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    60,
+    188
+   ],
+   "map_dimensions": [
+    380,
+    1152
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #14",
+   "scene": "Song_11",
+   "room": "Choral Chambers Flea Shaft",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    60,
+    188
+   ],
+   "map_dimensions": [
+    380,
+    1152
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #15",
+   "scene": "Song_11",
+   "room": "Choral Chambers Flea Shaft",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    60,
+    188
+   ],
+   "map_dimensions": [
+    380,
+    1152
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #16",
+   "scene": "Song_11",
+   "room": "Choral Chambers Flea Shaft",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    60,
+    188
+   ],
+   "map_dimensions": [
+    380,
+    1152
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Chest #2",
+   "scene": "Song_17",
+   "room": "Corridor to High Halls",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    135,
+    115
+   ],
+   "map_dimensions": [
+    820,
+    378
+   ]
+  },
+  {
+   "name": "Cogwork Core - Mask Shard",
+   "scene": "Song_09",
+   "room": "Choral Chambers Over Dininig",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    85
+   ],
+   "map_dimensions": [
+    292,
+    549
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Necklace #2",
+   "scene": "Song_09",
+   "room": "Choral Chambers Over Dininig",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    85
+   ],
+   "map_dimensions": [
+    292,
+    549
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #12",
+   "scene": "Song_09",
+   "room": "Choral Chambers Over Dininig",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    85
+   ],
+   "map_dimensions": [
+    292,
+    549
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #13",
+   "scene": "Song_09",
+   "room": "Choral Chambers Over Dininig",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    85
+   ],
+   "map_dimensions": [
+    292,
+    549
    ]
   },
   {
@@ -555,8 +3571,8 @@
     146
    ],
    "map_dimensions": [
-    160,
-    30
+    1013,
+    195
    ]
   },
   {
@@ -569,8 +3585,8 @@
     146
    ],
    "map_dimensions": [
-    160,
-    30
+    1013,
+    195
    ]
   },
   {
@@ -583,68 +3599,1566 @@
     146
    ],
    "map_dimensions": [
-    160,
-    30
+    1013,
+    195
    ]
   },
   {
-   "name": "High Halls - Shell Shard Cache #2",
-   "scene": "Hang_15",
-   "room": "High Halls Small Room",
-   "reason": "missing room dimensions",
+   "name": "Wish: The Wandering Merchant",
+   "scene": "Song_07",
+   "room": "Choral Chambers Merchant Room",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
-    93,
+    80,
+    24
+   ],
+   "map_dimensions": [
+    413,
+    127
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Necklace #1",
+   "scene": "Song_07",
+   "room": "Choral Chambers Merchant Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    24
+   ],
+   "map_dimensions": [
+    413,
+    127
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #8",
+   "scene": "Song_03",
+   "room": "Choral Chambers Above Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    140,
+    40
+   ],
+   "map_dimensions": [
+    934,
+    263
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #9",
+   "scene": "Song_03",
+   "room": "Choral Chambers Above Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    140,
+    40
+   ],
+   "map_dimensions": [
+    934,
+    263
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Chest #1",
+   "scene": "Song_03",
+   "room": "Choral Chambers Above Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    140,
+    40
+   ],
+   "map_dimensions": [
+    934,
+    263
+   ]
+  },
+  {
+   "name": "Choral Chambers - Map Purchase",
+   "scene": "Song_01b",
+   "room": "Choral Chambers Ventrica Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    19
+   ],
+   "map_dimensions": [
+    836,
+    143
+   ]
+  },
+  {
+   "name": "Choral Chambers - Ventrica",
+   "scene": "Song_01b",
+   "room": "Choral Chambers Ventrica Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    19
+   ],
+   "map_dimensions": [
+    836,
+    143
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #5",
+   "scene": "Song_01b",
+   "room": "Choral Chambers Ventrica Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    19
+   ],
+   "map_dimensions": [
+    836,
+    143
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #6",
+   "scene": "Song_01b",
+   "room": "Choral Chambers Ventrica Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    19
+   ],
+   "map_dimensions": [
+    836,
+    143
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #7",
+   "scene": "Song_01b",
+   "room": "Choral Chambers Ventrica Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    19
+   ],
+   "map_dimensions": [
+    836,
+    143
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #1",
+   "scene": "Song_01",
+   "room": "Choral Chambers Below Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    162,
+    150
+   ],
+   "map_dimensions": [
+    991,
+    793
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #2",
+   "scene": "Song_01",
+   "room": "Choral Chambers Below Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    162,
+    150
+   ],
+   "map_dimensions": [
+    991,
+    793
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #3",
+   "scene": "Song_01",
+   "room": "Choral Chambers Below Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    162,
+    150
+   ],
+   "map_dimensions": [
+    991,
+    793
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Cache #4",
+   "scene": "Song_01",
+   "room": "Choral Chambers Below Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    162,
+    150
+   ],
+   "map_dimensions": [
+    991,
+    793
+   ]
+  },
+  {
+   "name": "Choral Chambers - Shell Shard Cache",
+   "scene": "Song_01",
+   "room": "Choral Chambers Below Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    162,
+    150
+   ],
+   "map_dimensions": [
+    991,
+    793
+   ]
+  },
+  {
+   "name": "Choral Chambers West - Silkeater",
+   "scene": "Song_24",
+   "room": "Grand Bellway Side Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    61,
+    55
+   ],
+   "map_dimensions": [
+    372,
+    267
+   ]
+  },
+  {
+   "name": "Choral Chambers - Rosary Chest #3",
+   "scene": "Song_24",
+   "room": "Grand Bellway Side Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    61,
+    55
+   ],
+   "map_dimensions": [
+    372,
+    267
+   ]
+  },
+  {
+   "name": "Choral Chambers - Map Purchase",
+   "scene": "Bellway_City",
+   "room": "Grand Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    112,
+    36
+   ],
+   "map_dimensions": [
+    672,
+    207
+   ]
+  },
+  {
+   "name": "Grand Bellway - Bellway",
+   "scene": "Bellway_City",
+   "room": "Grand Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    112,
+    36
+   ],
+   "map_dimensions": [
+    672,
+    207
+   ]
+  },
+  {
+   "name": "Grand Bellway - Ventrica",
+   "scene": "Bellway_City",
+   "room": "Grand Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    112,
+    36
+   ],
+   "map_dimensions": [
+    672,
+    207
+   ]
+  },
+  {
+   "name": "Journal: Cogwork Dancers",
+   "scene": "Cog_Dancers",
+   "room": "Cog Dancers",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    45
+   ],
+   "map_dimensions": [
+    512,
+    240
+   ]
+  },
+  {
+   "name": "Boss: Cogwork Dancers",
+   "scene": "Cog_Dancers",
+   "room": "Cog Dancers",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    45
+   ],
+   "map_dimensions": [
+    512,
+    240
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Psalm Cylinder (East Whispering Vaults)",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Sacred Cylinder",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Psalm Cylinder (Underworks)",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Psalm Cylinder (Vaultkeeper Cardinius)",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Psalm Cylinder (High Halls)",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Relic Turn-in: Psalm Cylinder (Grindle)",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Vaultkeeper's Melody",
+   "scene": "Library_08",
+   "room": "Whispering Vaults Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    40
+   ],
+   "map_dimensions": [
+    801,
+    279
+   ]
+  },
+  {
+   "name": "Flea: Songclave",
+   "scene": "Library_09",
+   "room": "Whispering Vaults Jumps",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    106
+   ],
+   "map_dimensions": [
+    1018,
+    700
+   ]
+  },
+  {
+   "name": "Journal: Trobbio",
+   "scene": "Library_13",
+   "room": "Trobbio",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    56
+   ],
+   "map_dimensions": [
+    806,
+    340
+   ]
+  },
+  {
+   "name": "Journal: Tormented Trobbio",
+   "scene": "Library_13",
+   "room": "Trobbio",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    56
+   ],
+   "map_dimensions": [
+    806,
+    340
+   ]
+  },
+  {
+   "name": "Journal: Trobbio",
+   "scene": "Library_13",
+   "room": "Trobbio",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    124,
+    56
+   ],
+   "map_dimensions": [
+    806,
+    340
+   ]
+  },
+  {
+   "name": "Journal: The Unravelled",
+   "scene": "Ward_02",
+   "room": "Whiteward Unravelled Arena Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    150,
+    90
+   ],
+   "map_dimensions": [
+    926,
+    534
+   ]
+  },
+  {
+   "name": "Cogfly",
+   "scene": "Hang_09",
+   "room": "High Halls Cogfly Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    114,
     48
    ],
    "map_dimensions": [
-    null,
-    null
+    342,
+    247
    ]
   },
   {
-   "name": "Relic: Rune Harp (High Halls)",
-   "scene": "Hang_12",
-   "room": "High Halls Conductor",
-   "reason": "missing room dimensions",
+   "name": "High Halls - Map Purchase",
+   "scene": "Hang_06b",
+   "room": "High Halls Ventrica",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
-    64,
-    19
+    62,
+    22
    ],
    "map_dimensions": [
-    null,
-    null
+    337,
+    146
    ]
   },
   {
-   "name": "Conductor's Melody",
-   "scene": "Hang_12",
-   "room": "High Halls Conductor",
-   "reason": "missing room dimensions",
+   "name": "High Halls - Ventrica",
+   "scene": "Hang_06b",
+   "room": "High Halls Ventrica",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
-    64,
-    19
+    62,
+    22
    ],
    "map_dimensions": [
-    null,
-    null
+    337,
+    146
    ]
   },
   {
-   "name": "Journal: Lost Lace",
-   "scene": "Abyss_Cocoon",
-   "room": "Abyss Cocoon",
-   "reason": "missing room dimensions",
+   "name": "Journal: Second Sentinel",
+   "scene": "Hang_17b",
+   "room": "High Halls Sentinel Graveyard",
+   "reason": "coordinate frames differ",
    "source_dimensions": [
-    65,
-    1024
+    55,
+    21
    ],
    "map_dimensions": [
-    null,
-    null
+    300,
+    123
+   ]
+  },
+  {
+   "name": "Wish: Final Audience",
+   "scene": "Hang_17b",
+   "room": "High Halls Sentinel Graveyard",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    21
+   ],
+   "map_dimensions": [
+    300,
+    123
+   ]
+  },
+  {
+   "name": "Boss: Second Sentinel",
+   "scene": "Hang_17b",
+   "room": "High Halls Sentinel Graveyard",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55,
+    21
+   ],
+   "map_dimensions": [
+    300,
+    123
+   ]
+  },
+  {
+   "name": "Seeker Soul",
+   "scene": "Shadow_Bilehaven_Room",
+   "room": "Bilewater Arena Shack",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    20
+   ],
+   "map_dimensions": [
+    249,
+    112
+   ]
+  },
+  {
+   "name": "Bilewater - Storeroom Record",
+   "scene": "Shadow_08",
+   "room": "Bilewater East Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    55
+   ],
+   "map_dimensions": [
+    667,
+    344
+   ]
+  },
+  {
+   "name": "Journal: Groal the Great",
+   "scene": "Shadow_18",
+   "room": "Bilewater Groal Arena",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    117,
+    45
+   ],
+   "map_dimensions": [
+    758,
+    283
+   ]
+  },
+  {
+   "name": "Twisted Bud",
+   "scene": "Shadow_20",
+   "room": "Bilewater West Secret Rooms",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    230,
+    65
+   ],
+   "map_dimensions": [
+    1473,
+    464
+   ]
+  },
+  {
+   "name": "Bilewater - Rosary Cache #6",
+   "scene": "Shadow_20",
+   "room": "Bilewater West Secret Rooms",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    230,
+    65
+   ],
+   "map_dimensions": [
+    1473,
+    464
+   ]
+  },
+  {
+   "name": "Bilewater - Rosary Cache #7",
+   "scene": "Shadow_20",
+   "room": "Bilewater West Secret Rooms",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    230,
+    65
+   ],
+   "map_dimensions": [
+    1473,
+    464
+   ]
+  },
+  {
+   "name": "Flea: Exhaust Organ",
+   "scene": "Dust_09",
+   "room": "Exhaust Organ Exterior",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    180,
+    52
+   ],
+   "map_dimensions": [
+    1129,
+    358
+   ]
+  },
+  {
+   "name": "Journal: Phantom",
+   "scene": "Organ_01",
+   "room": "Exhaust Organ Interior",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    229
+   ],
+   "map_dimensions": [
+    1640,
+    1200
+   ]
+  },
+  {
+   "name": "Cross Stitch",
+   "scene": "Organ_01",
+   "room": "Exhaust Organ Interior",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    160,
+    229
+   ],
+   "map_dimensions": [
+    1640,
+    1200
+   ]
+  },
+  {
+   "name": "Flea: Memorium - Huge Flea",
+   "scene": "Arborium_08",
+   "room": "BEEG flea",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    132,
+    60
+   ],
+   "map_dimensions": [
+    638,
+    311
+   ]
+  },
+  {
+   "name": "Memorium - Shell Shard Cache #1",
+   "scene": "Arborium_06",
+   "room": "Memorium Karak",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    132,
+    29
+   ],
+   "map_dimensions": [
+    878,
+    191
+   ]
+  },
+  {
+   "name": "Memorium - Shell Shard Cache #2",
+   "scene": "Arborium_06",
+   "room": "Memorium Karak",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    132,
+    29
+   ],
+   "map_dimensions": [
+    878,
+    191
+   ]
+  },
+  {
+   "name": "Memorium - Beast Shard",
+   "scene": "Arborium_02",
+   "room": "Memorium Rhino Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    132,
+    29
+   ],
+   "map_dimensions": [
+    824,
+    179
+   ]
+  },
+  {
+   "name": "Memorium - Ventrica",
+   "scene": "Arborium_Tube",
+   "room": "Memorium Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    32,
+    22
+   ],
+   "map_dimensions": [
+    174,
+    147
+   ]
+  },
+  {
+   "name": "Memorium - Orders",
+   "scene": "Arborium_03",
+   "room": "Seed Shooty Memorium",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    29,
+    110
+   ],
+   "map_dimensions": [
+    247,
+    677
+   ]
+  },
+  {
+   "name": "Wish: The Lost Merchant",
+   "scene": "Arborium_11",
+   "room": "Shopkeeper Hides",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    222,
+    61
+   ],
+   "map_dimensions": [
+    1757,
+    363
+   ]
+  },
+  {
+   "name": "Journal: Crust King Khann",
+   "scene": "Coral_Tower_01",
+   "room": "Coral Tower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    666,
+    150
+   ]
+  },
+  {
+   "name": "Encrusted Heart",
+   "scene": "Coral_Tower_01",
+   "room": "Coral Tower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    666,
+    150
+   ]
+  },
+  {
+   "name": "Conchcutter",
+   "scene": "Coral_Tower_01",
+   "room": "Coral Tower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    666,
+    150
+   ]
+  },
+  {
+   "name": "Boss: Crust King Khann",
+   "scene": "Coral_Tower_01",
+   "room": "Coral Tower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    666,
+    150
+   ]
+  },
+  {
+   "name": "Sands of Karak - Lower Coral Tablet",
+   "scene": "Coral_Tower_01",
+   "room": "Coral Tower",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    138,
+    22
+   ],
+   "map_dimensions": [
+    666,
+    150
+   ]
+  },
+  {
+   "name": "Journal: Great Conchflies",
+   "scene": "Coral_27",
+   "room": "Sands of Karak Upper Left Long Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    202,
+    46
+   ],
+   "map_dimensions": [
+    1264,
+    291
+   ]
+  },
+  {
+   "name": "Journal Completion: Great Conchflies",
+   "scene": "Coral_27",
+   "room": "Sands of Karak Upper Left Long Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    202,
+    46
+   ],
+   "map_dimensions": [
+    1264,
+    291
+   ]
+  },
+  {
+   "name": "Journal: Watcher at the Edge",
+   "scene": "Coral_39",
+   "room": "Watcher at the Edge",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    192,
+    43
+   ],
+   "map_dimensions": [
+    668,
+    386
+   ]
+  },
+  {
+   "name": "Journal: Voltvyrm",
+   "scene": "Coral_29",
+   "room": "Voltnest",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    302,
+    92
+   ],
+   "map_dimensions": [
+    1742,
+    525
+   ]
+  },
+  {
+   "name": "Volt Filament",
+   "scene": "Coral_29",
+   "room": "Voltnest",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    302,
+    92
+   ],
+   "map_dimensions": [
+    1742,
+    525
+   ]
+  },
+  {
+   "name": "Boss: Voltvyrm",
+   "scene": "Coral_29",
+   "room": "Voltnest",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    302,
+    92
+   ],
+   "map_dimensions": [
+    1742,
+    525
+   ]
+  },
+  {
+   "name": "The Slab - Bellway",
+   "scene": "Slab_06",
+   "room": "Slab Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    101,
+    35
+   ],
+   "map_dimensions": [
+    612,
+    223
+   ]
+  },
+  {
+   "name": "Flea: The Slab - Bellway",
+   "scene": "Slab_06",
+   "room": "Slab Bellway",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    101,
+    35
+   ],
+   "map_dimensions": [
+    612,
+    223
+   ]
+  },
+  {
+   "name": "The Slab - Left Orders",
+   "scene": "Slab_08",
+   "room": "Slab Cave Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    35,
+    40
+   ],
+   "map_dimensions": [
+    241,
+    199
+   ]
+  },
+  {
+   "name": "The Slab - Right Orders",
+   "scene": "Slab_08",
+   "room": "Slab Cave Entrance",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    35,
+    40
+   ],
+   "map_dimensions": [
+    241,
+    199
+   ]
+  },
+  {
+   "name": "The Slab - Weaver Gate Inscription",
+   "scene": "Slab_10c",
+   "room": "Slab First Sinner Antechamber",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    42,
+    65
+   ],
+   "map_dimensions": [
+    243,
+    398
+   ]
+  },
+  {
+   "name": "Flea: The Slab - Cell",
+   "scene": "Slab_13",
+   "room": "Slab Flea Prison",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    25
+   ],
+   "map_dimensions": [
+    427,
+    135
+   ]
+  },
+  {
+   "name": "The Slab - Shell Shard Cache #1",
+   "scene": "Slab_05",
+   "room": "Slab Infleatween Bottom",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    36
+   ],
+   "map_dimensions": [
+    539,
+    263
+   ]
+  },
+  {
+   "name": "The Slab - Shell Shard Cache #2",
+   "scene": "Slab_05",
+   "room": "Slab Infleatween Bottom",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    36
+   ],
+   "map_dimensions": [
+    539,
+    263
+   ]
+  },
+  {
+   "name": "The Slab - Shell Shard Cache #3",
+   "scene": "Slab_05",
+   "room": "Slab Infleatween Bottom",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    36
+   ],
+   "map_dimensions": [
+    539,
+    263
+   ]
+  },
+  {
+   "name": "The Slab - Rosary Cache #3",
+   "scene": "Slab_19b",
+   "room": "Slab Prelude",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    44,
+    36
+   ],
+   "map_dimensions": [
+    262,
+    208
+   ]
+  },
+  {
+   "name": "The Slab - Rosary Cache #4",
+   "scene": "Slab_19b",
+   "room": "Slab Prelude",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    44,
+    36
+   ],
+   "map_dimensions": [
+    262,
+    208
+   ]
+  },
+  {
+   "name": "The Slab - Rosary Cache #5",
+   "scene": "Slab_19b",
+   "room": "Slab Prelude",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    44,
+    36
+   ],
+   "map_dimensions": [
+    262,
+    208
+   ]
+  },
+  {
+   "name": "The Slab - Frayed Rosary String #2",
+   "scene": "Slab_18",
+   "room": "Slab Secret Side Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    76
+   ],
+   "map_dimensions": [
+    611,
+    498
+   ]
+  },
+  {
+   "name": "The Slab - Rosary Cache #1",
+   "scene": "Slab_18",
+   "room": "Slab Secret Side Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    100,
+    76
+   ],
+   "map_dimensions": [
+    611,
+    498
+   ]
+  },
+  {
+   "name": "The Slab (Key of the Apostate) - Mask Shard",
+   "scene": "Slab_17",
+   "room": "Slab Why Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    81,
+    77
+   ],
+   "map_dimensions": [
+    452,
+    490
+   ]
+  },
+  {
+   "name": "Relic: Weaver Effigy (Atla, The Slab)",
+   "scene": "Slab_12",
+   "room": "Slab Window",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    40
+   ],
+   "map_dimensions": [
+    657,
+    150
+   ]
+  },
+  {
+   "name": "The Slab - Shell Shard Cache #4",
+   "scene": "Slab_12",
+   "room": "Slab Window",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    40
+   ],
+   "map_dimensions": [
+    657,
+    150
+   ]
+  },
+  {
+   "name": "The Slab - Shell Shard Cache #5",
+   "scene": "Slab_12",
+   "room": "Slab Window",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    110,
+    40
+   ],
+   "map_dimensions": [
+    657,
+    150
+   ]
+  },
+  {
+   "name": "Wish: Liquid Lacquer",
+   "scene": "Peak_Mask_Maker",
+   "room": "Mask Maker",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    33,
+    30
+   ],
+   "map_dimensions": [
+    123,
+    135
+   ]
+  },
+  {
+   "name": "Mount Fay - Weaver Inscription",
+   "scene": "Peak_10",
+   "room": "Mount Fay Lore Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    50
+   ],
+   "map_dimensions": [
+    536,
+    147
+   ]
+  },
+  {
+   "name": "Silkshot (Original)",
+   "scene": "Peak_12",
+   "room": "Mount Fay Peak Bench",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    50,
+    22
+   ],
+   "map_dimensions": [
+    152,
+    141
+   ]
+  },
+  {
+   "name": "Journal: Pinstress",
+   "scene": "Peak_07",
+   "room": "Mount Fay Right Side Middle Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    150
+   ],
+   "map_dimensions": [
+    608,
+    958
+   ]
+  },
+  {
+   "name": "Boss: Pinstress",
+   "scene": "Peak_07",
+   "room": "Mount Fay Right Side Middle Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    150
+   ],
+   "map_dimensions": [
+    608,
+    958
+   ]
+  },
+  {
+   "name": "Wish: Fatal Resolve",
+   "scene": "Peak_07",
+   "room": "Mount Fay Right Side Middle Room",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    115,
+    150
+   ],
+   "map_dimensions": [
+    608,
+    958
+   ]
+  },
+  {
+   "name": "Fleatopia - Rosary Necklace",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Fleatopia - Rosary String",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Egg of Flealia",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Wish: Passing of the Age",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Wish: Fleatopia Supplies",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Fleatopia - Tool Pouch",
+   "scene": "Aqueduct_05",
+   "room": "Fleatopia",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332,
+    100
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "name": "Surface Memento",
+   "scene": "Cradle_03_Destroyed",
+   "room": "ACT3 GMS Arena",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80,
+    190
+   ],
+   "map_dimensions": [
+    536,
+    833
+   ]
+  },
+  {
+   "name": "Journal: Lace",
+   "scene": "Song_Tower_01",
+   "room": "Lace 2 Fight",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    140
+   ],
+   "map_dimensions": [
+    452,
+    414
+   ]
+  },
+  {
+   "name": "Journal Completion: Lace",
+   "scene": "Song_Tower_01",
+   "room": "Lace 2 Fight",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    130,
+    140
+   ],
+   "map_dimensions": [
+    452,
+    414
+   ]
+  },
+  {
+   "name": "The Cradle - Map Purchase",
+   "scene": "Tube_Hub",
+   "room": "Terminus Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    135,
+    145
+   ],
+   "map_dimensions": [
+    748,
+    893
+   ]
+  },
+  {
+   "name": "The Cradle - Terminus Commandment",
+   "scene": "Tube_Hub",
+   "room": "Terminus Ventrica",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    135,
+    145
+   ],
+   "map_dimensions": [
+    748,
+    893
    ]
   }
  ],
  "missing_turn_ins": [
+  {
+   "host": "Bone Bottom Wishwall",
+   "room": "Bone Bottom Town",
+   "scene": "Bonetown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    315.0,
+    90.0
+   ],
+   "map_dimensions": [
+    2000,
+    572
+   ]
+  },
+  {
+   "host": "Alchemist",
+   "room": "Wormways Laboratory",
+   "scene": "Crawl_08",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    105.0,
+    22.0
+   ],
+   "map_dimensions": [
+    437,
+    114
+   ]
+  },
+  {
+   "host": "Seamstress",
+   "room": "Far Fields Pinstress Hut Interior",
+   "scene": "Bone_East_Umbrella",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    55.0,
+    26.0
+   ],
+   "map_dimensions": [
+    205,
+    150
+   ]
+  },
+  {
+   "host": "Greyroot",
+   "room": "Greyroot",
+   "scene": "Room_Witch",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    33.0,
+    19.0
+   ],
+   "map_dimensions": [
+    205,
+    150
+   ]
+  },
+  {
+   "host": "Bellhart Wishwall",
+   "room": "Belltown",
+   "scene": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109.0,
+    75.0
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "host": "Bellhart Couriers",
+   "room": "Belltown",
+   "scene": "Belltown",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    109.0,
+    75.0
+   ],
+   "map_dimensions": [
+    711,
+    435
+   ]
+  },
+  {
+   "host": "Yarnaby",
+   "room": "Yarnaby Place",
+   "scene": "Wisp_03",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    179.0,
+    47.0
+   ],
+   "map_dimensions": [
+    1025,
+    225
+   ]
+  },
+  {
+   "host": "Zi",
+   "room": "Blasted Steps Steel Soul",
+   "scene": "Coral_37",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    80.0,
+    21.0
+   ],
+   "map_dimensions": [
+    410,
+    127
+   ]
+  },
+  {
+   "host": "Songclave Wishwall",
+   "room": "Songclave",
+   "scene": "Song_Enclave",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    120.0,
+    33.0
+   ],
+   "map_dimensions": [
+    710,
+    235
+   ]
+  },
   {
    "host": "Gourmand Servant",
    "room": "Choral Chambers Dining Room",
@@ -655,12 +5169,41 @@
     146.0
    ],
    "map_dimensions": [
-    160,
-    30
+    1013,
+    195
    ]
+  },
+  {
+   "host": "Herald Tablet",
+   "room": "Fleatopia",
+   "scene": "Aqueduct_05",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    332.0,
+    100.0
+   ],
+   "map_dimensions": [
+    2105,
+    670
+   ]
+  },
+  {
+   "host": "Pinmaster Plinney",
+   "scene": "Belltown_Room_pinsmith",
+   "reason": "missing room"
+  },
+  {
+   "host": "Huntress",
+   "scene": "Room_Huntress",
+   "reason": "missing room"
   }
  ],
- "skipped_locs": [],
+ "skipped_locs": [
+  {
+   "room": "Bilewater West Secret Rooms",
+   "name": "Twisted Bud"
+  }
+ ],
  "skipped_ents": [],
  "unpositioned_locs": [],
  "ignored": {
@@ -689,21 +5232,21 @@
    "Goal"
   ],
   "geometry_objects": {
-   "bench": 46,
-   "blockade": 116,
-   "boss": 9,
-   "collectible": 81,
-   "enemy": 1469,
-   "event": 168,
-   "gauntlet": 24,
-   "lock": 21,
-   "logic-point": 16,
-   "lore": 14,
+   "bench": 41,
+   "blockade": 112,
+   "boss": 5,
+   "collectible": 73,
+   "enemy": 1403,
+   "event": 90,
+   "gauntlet": 22,
+   "lock": 20,
+   "logic-point": 15,
+   "lore": 13,
    "miniboss": 11,
    "resource": 17,
-   "switch": 112,
+   "switch": 108,
    "travel": 4,
-   "unknown": 221
+   "unknown": 203
   },
   "aliases_resolved_elsewhere": [
    {
@@ -715,32 +5258,12 @@
     "name": "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard"
    },
    {
-    "room": "Nyleth Fight",
-    "name": "Pollen Heart"
-   },
-   {
     "room": "Sinner's Road Styx Room",
     "name": "Craw Summons"
    },
    {
     "room": "Songclave",
     "name": "Wish: Pain, Anguish and Misery"
-   },
-   {
-    "room": "Bilewater West Secret Rooms",
-    "name": "Twisted Bud"
-   },
-   {
-    "room": "Bellhart Wish Wall",
-    "name": "Savage Beastfly - Mask Shard"
-   },
-   {
-    "room": "Bellhart Wish Wall",
-    "name": "Dark Hearts - Mask Shard"
-   },
-   {
-    "room": "Bellhart Wish Wall",
-    "name": "The Hidden Hunter - Mask Shard"
    }
   ],
   "nonphysical_links": [
@@ -757,10 +5280,6 @@
     "reason": "menu, scripted link or placeholder"
    },
    {
-    "name": "Witch Chapel - Quest Rebirth (QR)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
     "name": "Belltown - wish wall (WW)",
     "reason": "menu, scripted link or placeholder"
    },
@@ -773,10 +5292,6 @@
     "reason": "menu, scripted link or placeholder"
    },
    {
-    "name": "Verdania Placeholder - placeholder (P)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
     "name": "Songclave - wish wall (WW)",
     "reason": "menu, scripted link or placeholder"
    },
@@ -785,119 +5300,7 @@
     "reason": "menu, scripted link or placeholder"
    },
    {
-    "name": "Slab Broodmother Alcove - unknown (U)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
     "name": "Mount Fay Entrance - Dummy (DU)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - bone bottom (BB)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - the marrow (TM)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - deep docks (DD)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - far fields (FF)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - greymoor (GM)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - bellhart (BH)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - shellwood (SW)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - blasted steps (BS)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - the slab (TS)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - grand bellway (GB)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - bilewater (BW)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellway Menu - putrified ducts (PD)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - terminus (T)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - memorium (M)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - high halls (HH)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - first shrine (FS)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - choral chambers (CC)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - grand bellway (GB)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Ventrica Menu - underworks (UW)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Slab Capture - cage (CG)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Slab Capture - deep docks (DD)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Slab Capture - bilewater (BW)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Slab Capture - greymoor (GM)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bone Bottom Wish Wall - bone bottom (BB)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellhart Wish Wall - bellhart (BH)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Bellhart Deliveries - bellhart (BH)",
-    "reason": "menu, scripted link or placeholder"
-   },
-   {
-    "name": "Songclave Wish Wall - songclave (SC)",
     "reason": "menu, scripted link or placeholder"
    }
   ]
