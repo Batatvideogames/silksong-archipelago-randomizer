@@ -5947,9 +5947,11 @@
     ]
   },
   "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5": {
-    "name": "Slab Arena - Key of Heretic",
+    "name": "Key of Heretic",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Key of Heretic"
+    ]
   },
   "event:mapper/26123de3-3769-41c2-9cdf-ec537fbd4f68": {
     "name": "Slab Arena - Gauntlet Fight",
@@ -6009,9 +6011,11 @@
     "locations": []
   },
   "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc": {
-    "name": "Slab Indolent Room - Indolent Key",
+    "name": "Key of Indolent",
     "kind": "collectible",
-    "locations": []
+    "locations": [
+      "Key of Indolent"
+    ]
   },
   "event:mapper/fefde6db-e7a0-4bee-863d-06cb5f2a2512": {
     "name": "Slab Poodle - Exit Breakable Wall Blockade",

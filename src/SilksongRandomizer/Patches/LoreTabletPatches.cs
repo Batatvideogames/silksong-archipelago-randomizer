@@ -76,7 +76,8 @@ namespace SilksongRandomizer.Patches
             [HarmonyPrefix]
             private static bool Prefix(BasicNPC __instance, LocalisedString[] ___talkText, ref int ___endTalkState)
             {
-                if (RandomizedEntry(__instance, ___talkText) == null) return true;
+                LoreTabletManifest.Entry entry = RandomizedEntry(__instance, ___talkText);
+                if (entry == null || entry.LocationName == "Greymoor - Nuu's Scrolls") return true;
                 ___endTalkState = ___talkText.Length;
                 __instance.EndDialogue();
                 return false;

@@ -1258,7 +1258,8 @@ namespace SilksongRandomizer.Patches
                 }
             }
 
-            return cachedLocationNames.Contains(locationName);
+            return cachedLocationNames.Contains(locationName) &&
+                   state.IsLocationInSeed(locationName);
         }
 
         private static bool IsLocationChecked(

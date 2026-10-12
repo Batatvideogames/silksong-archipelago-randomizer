@@ -29796,6 +29796,21 @@
   "name": "Slab Arena",
   "children": [
    {
+    "name": "Key of Heretic",
+    "sections": [
+     {
+      "name": "Key of Heretic"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Slab Arena",
+      "x": 158,
+      "y": 404
+     }
+    ]
+   },
+   {
     "name": "Slab Arena - door1 (D)",
     "sections": [
      {
@@ -30675,6 +30690,21 @@
  {
   "name": "Slab Indolent Room",
   "children": [
+   {
+    "name": "Key of Indolent",
+    "sections": [
+     {
+      "name": "Key of Indolent"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Slab Indolent Room",
+      "x": 80,
+      "y": 142
+     }
+    ]
+   },
    {
     "name": "Slab Indolent Room - top1 (T)",
     "sections": [

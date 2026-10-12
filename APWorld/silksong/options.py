@@ -425,10 +425,8 @@ class SilkeaterRandomization(RepeatedCollectibleRandomization):
 
 class MajorKeyRandomization(GlobalRandomization):
     """
-    Randomizes Key of Apostate, White Key, Surgeon's Key, Architect's Key and Craw Summons.
-
-    Key of Heretic and Key of Indolent remain at their vanilla locations until
-    logic for the Slab is finished.
+    Randomizes Key of Indolent, Key of Heretic, Key of Apostate, White Key,
+    Surgeon's Key, Architect's Key and Craw Summons.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool

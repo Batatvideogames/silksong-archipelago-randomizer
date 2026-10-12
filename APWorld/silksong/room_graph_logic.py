@@ -168,6 +168,8 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:needle-strike": (_part("Ability: Needle Strike"),),
     "item:needolin": (_part("Ancestral Art: Needolin"),),
     "item:key-of-apostate": (_part("Key of Apostate"),),
+    "item:key-of-indolent": (_part("Key of Indolent"),),
+    "item:key-of-heretic": (_part("Key of Heretic"),),
     "item:ruined-tool": (_part("Ruined Tool"),),
     "item:reaper-crest": (_part("Crest: Reaper"),),
     "item:rune-rage": (_part("Usable Rune Rage"),),
@@ -592,7 +594,6 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
             )
         ),
     ),
-    # Clearing the Arena makes the fixed Heretic Key available.
     "event:the-slab/slab-arena/gauntlet": (
         _part(room_node_name("the-slab/slab-arena#arena")),
     ),

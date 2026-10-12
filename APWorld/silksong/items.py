@@ -27,7 +27,6 @@ from .minor_families import (
 )
 from .locations import (
     BOSS_CREDIT_BY_LOCATION,
-    HUNTER_CREST_SLOT_LOCATION_NAMES,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
     WISH_REWARD_LOCATION_BY_COMPLETION,
@@ -691,11 +690,6 @@ ITEM_CATEGORY_BY_NAME.update({row["item"]: "BossSoul" for row in BOSS_SOUL_CATAL
 
 ITEM_CATEGORY_BY_NAME[SETH_SOUL] = "BossSoul"
 
-VANILLA_ONLY_ITEM_NAMES: FrozenSet[str] = frozenset({
-    'Key of Indolent',
-    'Key of Heretic',
-})
-
 item_name_groups: Dict[str, set[str]] = {
     "Skills": {name for name, category in ITEM_TABLE_SOURCE if category == "Skill"},
     "Spells": {name for name, category in ITEM_TABLE_SOURCE if category == "Spell"},
@@ -703,7 +697,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Tools": {
         name
         for name, category in ITEM_TABLE_SOURCE
-        if category in {"Tool", "Compass"} and name not in VANILLA_ONLY_ITEM_NAMES
+        if category in {"Tool", "Compass"}
     },
     "Fleas": {name for name, category in ITEM_TABLE_SOURCE if category == "Flea"},
     "MaskShard": {name for name, category in ITEM_TABLE_SOURCE if category == "MaskShard"},
@@ -711,7 +705,7 @@ item_name_groups: Dict[str, set[str]] = {
     "SilkHeart": {
         name
         for name, category in ITEM_TABLE_SOURCE
-        if category == "SilkHeart" and name not in VANILLA_ONLY_ITEM_NAMES
+        if category == "SilkHeart"
     },
     "Bells": {name for name, category in ITEM_TABLE_SOURCE if category == "BellShrine"},
     "Bellway": {name for name, category in ITEM_TABLE_SOURCE if category == "Bellway"},
@@ -749,7 +743,7 @@ item_name_groups: Dict[str, set[str]] = {
     },
     "Major Keys": {
         name for name, category in ITEM_TABLE_SOURCE
-        if category == "MajorKey" and name not in VANILLA_ONLY_ITEM_NAMES
+        if category == "MajorKey"
     },
     "Simple Keys": {
         name for name, category in ITEM_TABLE_SOURCE if category == "Key"
@@ -1094,7 +1088,6 @@ def get_category_item_names(category: str) -> tuple[str, ...]:
                 for name, item_category in ITEM_TABLE_SOURCE
                 if (
                     item_category == 'Tool'
-                    and name not in VANILLA_ONLY_ITEM_NAMES
                     and name not in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
             ),
@@ -1124,7 +1117,6 @@ def get_category_item_names(category: str) -> tuple[str, ...]:
     excluded_names = (
         set(TRAP_ITEM_NAMES)
         | set(CONDITIONAL_POOL_ITEM_NAMES)
-        | set(VANILLA_ONLY_ITEM_NAMES)
         | set(POOL_ONLY_USEFUL_ITEM_NAMES)
     )
     return tuple(
@@ -1801,6 +1793,11 @@ def build_item_pool_entries(
     missing_lockets = max(
         0, minimum_memory_lockets - sum(entry.name == 'Memory Locket' for entry in entries)
     )
+    if (
+        category_modes.get('Crest', 'anywhere') == 'anywhere'
+        and starting_crest_item in goal_excluded_location_names
+    ):
+        required_goal_items = (*required_goal_items, 'Crest: Hunter')
     missing_goal_items = [name for name in required_goal_items if not any(entry.name == name for entry in entries)]
     needed_items = ['Memory Locket'] * missing_lockets + missing_goal_items
     if needed_items:
@@ -1944,7 +1941,6 @@ def build_item_pool_entries(
         from collections import Counter
         remaining = Counter((entry.name, entry.source_category) for entry in entries)
         required_retained = set(missing_goal_items)
-        excluded_hunter_slots = HUNTER_CREST_SLOT_LOCATION_NAMES & goal_excluded_location_names
         retained = []
         for entry in entries_before_goal_trim:
             key = (entry.name, entry.source_category)
@@ -1954,7 +1950,6 @@ def build_item_pool_entries(
                 required_retained.remove(entry.name)
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
-                and entry.name not in excluded_hunter_slots
                 and not (silk_soar_begone and entry.name == SILK_SOAR_ITEM)
                 and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
@@ -2084,7 +2079,6 @@ def _get_adjusted_pool_counts(
                     category in {'Resource', 'BossSoul', 'NpcSoul'}
                     or name in TRAP_ITEM_NAMES
                     or name in CONDITIONAL_POOL_ITEM_NAMES
-                    or name in VANILLA_ONLY_ITEM_NAMES
                     or name in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
                 else 1
@@ -2200,7 +2194,6 @@ def iter_item_pool_names(
                 if (
                     name in TRAP_ITEM_NAMES
                     or name in CONDITIONAL_POOL_ITEM_NAMES
-                    or name in VANILLA_ONLY_ITEM_NAMES
                     or name in POOL_ONLY_USEFUL_ITEM_NAMES
                 )
                 else 1

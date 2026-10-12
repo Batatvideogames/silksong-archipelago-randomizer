@@ -7831,6 +7831,7 @@ def export_abstract_requirements(
         'Event: Last Judge Defeated': 'Boss: Last Judge',
         'Event: Widow Defeated': 'Boss: Widow',
         'Room Event: event:mapper/reviewed:phantom-defeated': 'Boss: Phantom',
+        'Room Event: event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59': 'Boss: Phantom',
         'Event: Act 2 Started': 'Act: 2',
     }.items():
         if event in exported:

@@ -13,7 +13,6 @@ namespace SilksongRandomizer
         internal const string GreymoorHubKey = "greymoor";
         internal const string BellhartHubKey = "bellhart";
         internal const string SongclaveHubKey = "songclave";
-        internal const string SlabReturnHubKey = "slab_return";
         internal const string UnderworksReturnHubKey = "underworks_return";
         internal const string TerminusHubKey = "terminus";
         private static readonly string[] MainHubKeys =
@@ -23,7 +22,6 @@ namespace SilksongRandomizer
             GreymoorHubKey,
             BellhartHubKey,
             SongclaveHubKey,
-            SlabReturnHubKey,
             UnderworksReturnHubKey,
             TerminusHubKey,
         };
@@ -42,8 +40,6 @@ namespace SilksongRandomizer
             "door_act3_wakeUp";
         private const string GreymoorCaravanSceneName = "Greymoor_08";
         private const string GreymoorCaravanEntryGateName = "left2";
-        private const string SlabReturnSceneName = "Slab_03";
-        private const string SlabReturnEntryGateName = "left2";
         private const string UnderworksReturnSceneName = "Under_01b";
         private const string UnderworksReturnEntryGateName = "left1";
 
@@ -56,7 +52,6 @@ namespace SilksongRandomizer
             Terminus,
             Greymoor,
             WidowShrine,
-            SlabReturn,
             UnderworksReturn,
         }
 
@@ -252,8 +247,6 @@ namespace SilksongRandomizer
             {
                 case WarpDestination.RoomEntrance:
                     return "Room Entrance";
-                case WarpDestination.SlabReturn:
-                    return "Slab Return";
                 case WarpDestination.UnderworksReturn:
                     return "Underworks Return";
                 case WarpDestination.WidowShrine:
@@ -299,10 +292,6 @@ namespace SilksongRandomizer
                 case WarpDestination.UnderworksReturn:
                     sceneName = UnderworksReturnSceneName;
                     entryGateName = UnderworksReturnEntryGateName;
-                    break;
-                case WarpDestination.SlabReturn:
-                    sceneName = SlabReturnSceneName;
-                    entryGateName = SlabReturnEntryGateName;
                     break;
                 case WarpDestination.WidowShrine:
                     sceneName = WidowSequenceSafety.WidowShrineSceneName;
@@ -391,8 +380,6 @@ namespace SilksongRandomizer
             {
                 case EntranceHubKey:
                     return WarpDestination.RoomEntrance;
-                case SlabReturnHubKey:
-                    return WarpDestination.SlabReturn;
                 case UnderworksReturnHubKey:
                     return WarpDestination.UnderworksReturn;
                 case TerminusHubKey:
@@ -423,7 +410,6 @@ namespace SilksongRandomizer
                 playerData.blackThreadWorld &&
                 playerData.act3_wokeUp &&
                 playerData.act3_enclaveWakeSceneCompleted &&
-                !IsSlabReturnAvailable() &&
                 !IsUnderworksReturnAvailable(playerData) &&
                 !EntranceRandomization.TryGetReturnPoint(out _, out _))
             {
@@ -456,10 +442,6 @@ namespace SilksongRandomizer
                 if (EntranceRandomization.TryGetReturnPoint(out _, out _))
                     available.Add(EntranceHubKey);
                 available.Add(TerminusHubKey);
-                if (IsSlabReturnAvailable())
-                {
-                    available.Add(SlabReturnHubKey);
-                }
                 if (IsUnderworksReturnAvailable(playerData))
                 {
                     available.Add(UnderworksReturnHubKey);
@@ -485,8 +467,6 @@ namespace SilksongRandomizer
             {
                 case EntranceHubKey:
                     return EntranceRandomization.TryGetReturnPoint(out _, out _);
-                case SlabReturnHubKey:
-                    return IsSlabReturnAvailable();
                 case UnderworksReturnHubKey:
                     return IsUnderworksReturnAvailable(playerData);
                 case GreymoorHubKey:
@@ -508,38 +488,6 @@ namespace SilksongRandomizer
         {
             return playerData != null && playerData.understoreLiftBroke &&
                 !MapLogicEvaluator.CanReachUnderworksWithoutCrash(SaveState.Instance);
-        }
-
-        private static bool IsSlabReturnAvailable()
-        {
-            SaveState state = SaveState.Instance;
-            PlayerData playerData = PlayerData.instance;
-            if (state == null || !state.slabCaptureReturnUnlocked)
-            {
-                return false;
-            }
-
-            bool randomizedSkills = state.IsRandomized(ItemType.Skill);
-            bool clingGrip = randomizedSkills
-                ? state.canWallJump : playerData != null && playerData.hasWalljump;
-            bool faydown = randomizedSkills
-                ? state.canDoubleJump : playerData != null && playerData.hasDoubleJump;
-            if (playerData == null || !playerData.slab_cloak_battle_completed ||
-                !clingGrip || !faydown ||
-                !(playerData.HasSlabKeyC || playerData.slab_05_gateOpen))
-            {
-                return true;
-            }
-
-            bool bellwayUnlocked = state.IsRandomized(ItemType.Bellway)
-                ? state.UnlockedPeakStation
-                : playerData.UnlockedPeakStation;
-            bool bellwayUsable = playerData.UnlockedFastTravel && bellwayUnlocked;
-            bool choralRouteOpen = state.slabChoralApproachVisited &&
-                SceneData.instance != null &&
-                SceneData.instance.PersistentBools.GetValueOrDefault(
-                    "Slab_02", "slab_jail_lever");
-            return !bellwayUsable && !choralRouteOpen;
         }
 
         private static bool IsBellhartHubAvailable(PlayerData playerData)
@@ -590,8 +538,7 @@ namespace SilksongRandomizer
             }
             for (int index = available.Count - 1; index >= 0; index--)
             {
-                if (available[index] != SlabReturnHubKey &&
-                    available[index] != UnderworksReturnHubKey)
+                if (available[index] != UnderworksReturnHubKey)
                 {
                     return available[index];
                 }

@@ -10,11 +10,6 @@ using PlayerDataVariableTestAction =
 
 namespace SilksongRandomizer.Patches
 {
-    /// <summary>
-    /// Lets all three overworld Wardenflies use randomized Cling Grip
-    /// ownership without granting the vanilla wall-jump source flag.
-    /// Every unrelated appearance and retirement gate remains native.
-    /// </summary>
     internal static class FarFieldsWardenflyPatches
     {
         private const string BoneEastScene = "Bone_East_04c";
@@ -124,19 +119,22 @@ namespace SilksongRandomizer.Patches
                 PlayerDataVariableTestAction __instance)
             {
                 SaveState state = SaveState.Instance;
+                if (state != null && IsCursedDeathGate(__instance))
+                {
+                    __instance.Fsm.Event(__instance.IsNotExpectedEvent);
+                    __instance.Finish();
+                    return false;
+                }
+
                 if (state == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
+                    PlayerData.instance == null ||
                     !IsExactCageWallJumpGate(__instance))
                 {
                     return true;
                 }
 
-            // The first action expects hasWalljump == false.
-                // FALSE therefore means the cage remains and proceeds into
-                // Dormant. The following blackThreadWorld action is left
-                // untouched.
                 __instance.Fsm.Event(
-                    state.canWallJump
+                    HasClingGrip(state, PlayerData.instance)
                         ? __instance.IsNotExpectedEvent
                         : __instance.IsExpectedEvent
                 );
@@ -160,19 +158,14 @@ namespace SilksongRandomizer.Patches
                 PlayerData playerData = PlayerData.instance;
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
                     !IsExactGreymoorOuterWallJumpGate(__instance))
                 {
                     return true;
                 }
 
-                // Substitute only this exact hasWalljump branch. The
-                // UnlockedFastTravel component on the cage root and the six
-                // following Enemy Suite conditions remain native.
-                bool eligible = state.canWallJump;
-                __instance.Fsm.Event(
-                    eligible ? __instance.isTrue : __instance.isFalse
-                );
+                bool eligible = HasClingGrip(state, playerData) &&
+                                playerData.citadelWoken;
+                __instance.Fsm.Event(eligible ? "JAILER" : FarmersEvent);
                 __instance.Finish();
                 return false;
             }
@@ -190,7 +183,6 @@ namespace SilksongRandomizer.Patches
                 PlayerData playerData = PlayerData.instance;
                 if (state == null ||
                     playerData == null ||
-                    !state.IsRandomized(ItemType.Skill) ||
                     !IsExactBoneEastOuterActivator(__instance))
                 {
                     return true;
@@ -199,6 +191,111 @@ namespace SilksongRandomizer.Patches
                 ApplyBoneEastOuterGate(__instance, state, playerData);
                 return false;
             }
+        }
+
+        [HarmonyPatch(typeof(HealthManager), nameof(HealthManager.OnAwake))]
+        private static class WardenflyRespawnPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(HealthManager __instance)
+            {
+                if (SaveState.Instance != null && IsCaptureWardenfly(__instance.gameObject))
+                {
+                    __instance.ignorePersistence = true;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class WardenflyUpperSlabPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
+            {
+                return SaveState.Instance == null ||
+                       __instance.boolName != "visitedUpperSlab" ||
+                       __instance.objectToDeactivate != null ||
+                       !IsCaptureWardenfly(__instance.gameObject);
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerDataTestResponse), "Evaluate")]
+        private static class BilewaterWardenflyScenePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(PlayerDataTestResponse __instance, PlayerDataTest ___test)
+            {
+                if (SaveState.Instance == null ||
+                    !HasExactPath(__instance.gameObject, ShadowScene, "Scene Control") ||
+                    ___test?.TestGroups == null || ___test.TestGroups.Length != 1)
+                {
+                    return true;
+                }
+
+                PlayerDataTest.Test[] conditions = ___test.TestGroups[0].Tests;
+                if (conditions == null || conditions.Length != 3 ||
+                    !IsExactBoolCondition(conditions[0], "slab_cloak_battle_completed", false) ||
+                    !IsExactBoolCondition(conditions[1], BlackThreadBool, false) ||
+                    !IsExactBoolCondition(conditions[2], "visitedUpperSlab", false))
+                {
+                    return true;
+                }
+
+                __instance.IsFullfilled?.Invoke();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.BoolTest), "OnEnter")]
+        private static class RepeatSlabCapturePatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(HutongGames.PlayMaker.Actions.BoolTest __instance)
+            {
+                if (SaveState.Instance == null ||
+                    GameManager.instance?.entryGateName != "door_slabCaged" ||
+                    !IsExactActionIdentity(__instance, "Slab_03", "door_slabCaged",
+                        "Teleport Arrive", "Teleport Arrive?") ||
+                    __instance.boolVariable?.Name != "Activated" ||
+                    !IsNamedLocalEvent(__instance.isTrue, "BREAK") ||
+                    !IsNoEvent(__instance.isFalse))
+                {
+                    return true;
+                }
+
+                // The broken cage otherwise skips the next capture's arrival.
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        private static bool IsCaptureWardenfly(GameObject gameObject)
+        {
+            return gameObject != null &&
+                   WardenflyScenes.Contains(gameObject.scene.name) &&
+                   HasExactPath(gameObject, gameObject.scene.name,
+                       GetExpectedCagePath(gameObject.scene.name));
+        }
+
+        private static bool IsCursedDeathGate(PlayerDataVariableTestAction action)
+        {
+            if (action == null || !action.Enabled || !IsCaptureWardenfly(action.Owner) ||
+                !IsExactActionIdentity(action, action.Owner.scene.name,
+                    GetExpectedCagePath(action.Owner.scene.name), CageFsm, "Is Cursed Dead?") ||
+                action.ExpectedValue == null || action.ExpectedValue.Type != VariableType.Bool ||
+                action.ExpectedValue.useVariable || !action.ExpectedValue.boolValue ||
+                !IsNamedLocalEvent(action.IsExpectedEvent, "TRUE") ||
+                !IsNamedLocalEvent(action.IsNotExpectedEvent, "FALSE"))
+            {
+                return false;
+            }
+
+            string expectedFlag = action.Owner.scene.name == BoneEastScene
+                ? "CurseKilledFlyBoneEast"
+                : action.Owner.scene.name == GreymoorScene
+                    ? "CurseKilledFlyGreymoor"
+                    : "CurseKilledFlySwamp";
+            return action.VariableName?.Value == expectedFlag;
         }
 
         internal static bool SynchronizeActiveScene()
@@ -254,11 +351,7 @@ namespace SilksongRandomizer.Patches
 
             bool synchronized = false;
 
-            // A cage that already evaluated AP ownership as absent disables
-            // itself in Not Here. Re-enable only that exact cage and let the
-            // two-part gate run again. The cage-root
-            // UnlockedFastTravel component and every retirement condition
-            // remain untouched.
+            // Not Here is the cage's waiting state before Cling Grip arrives.
             foreach (PlayMakerFSM fsm in
                      Resources.FindObjectsOfTypeAll<PlayMakerFSM>())
             {
@@ -361,12 +454,7 @@ namespace SilksongRandomizer.Patches
             GameObject activateTarget = GetBoneActivateTarget(activator);
             GameObject deactivateTarget =
                 GetBoneDeactivateTarget(activator);
-            bool eligible =
-                state.canWallJump &&
-                !playerData.blackThreadWorld &&
-                !playerData.boneEastJailerClearedOut &&
-                !playerData.slab_cloak_battle_completed &&
-                !playerData.visitedUpperSlab;
+            bool eligible = HasClingGrip(state, playerData);
 
             activateTarget.SetActive(eligible);
             deactivateTarget.SetActive(!eligible);
@@ -410,46 +498,30 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
+        private static bool HasClingGrip(SaveState state, PlayerData playerData)
+        {
+            return state.IsRandomized(ItemType.Skill)
+                ? state.canWallJump
+                : playerData.hasWalljump;
+        }
+
         private static bool IsNativeReceiptEligible(
             string sceneName,
             PlayerData playerData)
         {
-            if (playerData == null ||
-                !playerData.UnlockedFastTravel ||
-                playerData.blackThreadWorld ||
-                playerData.visitedUpperSlab ||
-                playerData.slab_cloak_battle_completed)
+            if (playerData == null || !playerData.UnlockedFastTravel)
             {
                 return false;
             }
 
-            if (string.Equals(
-                    sceneName,
-                    BoneEastScene,
-                    StringComparison.Ordinal))
-            {
-                return !playerData.boneEastJailerKilled &&
-                       !playerData.boneEastJailerClearedOut &&
-                       !playerData.CurseKilledFlyBoneEast;
-            }
-
-            if (string.Equals(
-                    sceneName,
-                    GreymoorScene,
-                    StringComparison.Ordinal))
+            if (sceneName == GreymoorScene)
             {
                 return playerData.defeatedVampireGnatBoss &&
                        playerData.citadelWoken &&
-                       !playerData.greymoor05_clearedOut &&
-                       !playerData.greymoor05_killedJailer &&
-                       !playerData.CurseKilledFlyGreymoor;
+                       !playerData.greymoor05_clearedOut;
             }
 
-            return string.Equals(
-                       sceneName,
-                       ShadowScene,
-                       StringComparison.Ordinal) &&
-                   !playerData.CurseKilledFlySwamp;
+            return sceneName == BoneEastScene || sceneName == ShadowScene;
         }
 
         private static bool HasActiveCageParentForScene(

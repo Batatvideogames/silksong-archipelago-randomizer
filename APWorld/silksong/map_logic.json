@@ -197212,22 +197212,6 @@
             "act": "",
             "all_of": [
               "Room Node: bilewater/exhaust-organ-interior#top-layer",
-              "Swift Step",
-              "Combat: Phantom"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-interior#top-layer",
-              "Progressive Swift Step",
               "Combat: Phantom"
             ],
             "any_of": [],
@@ -197238,7 +197222,8 @@
             "require_silk_spear": false,
             "required_locations": []
           }
-        ]
+        ],
+        "checked_source": "Boss: Phantom"
       },
       "Room Event: event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87": {
         "alternatives": [
@@ -342582,11 +342567,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-arena#right-entrance",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-arena#right-entrance"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -342646,11 +342637,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-arena#arena",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-arena#arena"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -342940,11 +342937,17 @@
             "act": "",
             "all_of": [
               "Room Node: the-slab/slab-cavern-exit#right",
-              "Room Event: event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
               "Combat: The Slab Northwest Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Indolent"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -343028,11 +343031,17 @@
             "act": "",
             "all_of": [
               "Room Node: the-slab/slab-cavern-exit#left",
-              "Room Event: event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
               "Combat: The Slab Northwest Gauntlet"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Indolent"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -343059,11 +343068,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-cell#l3l",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-cell#l3l"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -343073,11 +343088,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-cell#l3r",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-cell#l3r"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -343933,11 +343954,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-cave-entrance#room",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-cave-entrance#room"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -343991,11 +344018,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-prelude#room",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-prelude#room"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -344077,11 +344110,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-chilly-prison#right",
-              "Room Event: event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+              "Room Node: the-slab/slab-chilly-prison#right"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Indolent"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -344135,11 +344174,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-chilly-prison#left",
-              "Room Event: event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+              "Room Node: the-slab/slab-chilly-prison#left"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Indolent"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -344476,11 +344521,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-indolent-room#left",
-              "Room Event: event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+              "Room Node: the-slab/slab-indolent-room#left"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Indolent"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -344849,11 +344900,17 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: the-slab/slab-cell#l6",
-              "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+              "Room Node: the-slab/slab-cell#l6"
             ],
             "any_of": [],
-            "item_counts": [],
+            "item_counts": [
+              {
+                "items": [
+                  "Key of Heretic"
+                ],
+                "minimum": 1
+              }
+            ],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -407784,6 +407841,41 @@
             "act": "",
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#apostate-key-area"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Key of Heretic": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-arena#arena",
+              "Combat: The Slab East Gauntlet"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
+      "Key of Indolent": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: the-slab/slab-indolent-room#left"
             ],
             "any_of": [],
             "item_counts": [],

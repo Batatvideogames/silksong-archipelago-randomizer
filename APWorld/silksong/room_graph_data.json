@@ -5,7 +5,7 @@
     "document_count": 517,
     "aggregate_sha256": "0de6736857884d9920e320c697921f547851202b1cac95ac8e4083b41ae922a8",
     "catalogue_sha256": "0cf2da11a7755c6a16d58e63367bd608ec61846fdce05888bd361e7e7db8e612",
-    "bindings_sha256": "dcfb9fc428feae502a6240bf037cb993a77f6ec17372aa84e5724177059eede3"
+    "bindings_sha256": "73b9eefc3bf9858852932453a06ff5ae7e054f1df9d49c20bdf8a767146eb29e"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -476,6 +476,8 @@
       "Jubilana (Songclave) - Mask Shard",
       "Jubilana (Songclave) - Spool Fragment",
       "Key of Apostate",
+      "Key of Heretic",
+      "Key of Indolent",
       "Lace (Cradle) - Silk Heart",
       "Loddie - Heavy Rosary Necklace",
       "Loddie - Tool Pouch",
@@ -214338,11 +214340,6 @@
             "mode": "expression",
             "dnf": [
               [
-                "macro:progressive-swift-step-full",
-                "combat:boss:phantom"
-              ],
-              [
-                "macro:progressive-swift-step-first",
                 "combat:boss:phantom"
               ]
             ],
@@ -227084,7 +227081,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -227111,7 +227108,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -227212,6 +227209,35 @@
         }
       ],
       "checks": [
+        {
+          "id": "the-slab/slab-arena::mapper-check:260cb049-e57d-4d5e-8b29-983c717b1af5:836437",
+          "requirement": {
+            "raw": "defeat gauntlet fight",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left",
+                "combat:gauntlet:the-slab-east"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "260cb049-e57d-4d5e-8b29-983c717b1af5"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Key of Heretic",
+          "node_id": "the-slab/slab-arena#arena",
+          "canonical_location": "Key of Heretic",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
         {
           "id": "the-slab/slab-arena::reviewed-check:835744",
           "label": "Boss: Broodmother",
@@ -227877,7 +227903,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -228402,7 +228428,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -228429,7 +228455,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -229019,7 +229045,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+                "received:Key of Indolent"
               ]
             ],
             "annotations": [],
@@ -229046,7 +229072,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+                "received:Key of Indolent"
               ]
             ],
             "annotations": [],
@@ -229519,7 +229545,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],
@@ -229772,7 +229798,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
+                "received:Key of Indolent",
                 "combat:gauntlet:the-slab-northwest"
               ]
             ],
@@ -229800,7 +229826,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc",
+                "received:Key of Indolent",
                 "combat:gauntlet:the-slab-northwest"
               ]
             ],
@@ -230862,7 +230888,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+                "received:Key of Indolent"
               ]
             ],
             "annotations": [],
@@ -230911,7 +230937,36 @@
           "node_id": "the-slab/slab-indolent-room#left"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "id": "the-slab/slab-indolent-room::mapper-check:89c81e1d-f72a-49a0-9d2a-914ed763e7fc:836436",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "Not randomized",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "89c81e1d-f72a-49a0-9d2a-914ed763e7fc"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Indolent Key",
+          "node_id": "the-slab/slab-indolent-room#left",
+          "canonical_location": "Key of Indolent",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
       "omitted_check_rows": [
         {
           "mapper_id": "bd0a30fa-8e38-4beb-b1a2-f50a0134d543",
@@ -231629,7 +231684,7 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+                "received:Key of Heretic"
               ]
             ],
             "annotations": [],

@@ -16,7 +16,9 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(BoolTest __instance)
             {
                 if (SaveState.Instance == null || PlayerData.instance == null ||
-                    PlayerData.instance.HasSlabKeyB ||
+                    (SaveState.Instance.IsRandomized(ItemType.MajorKey)
+                        ? SaveState.Instance.IsLocationChecked("Key of Heretic")
+                        : PlayerData.instance.HasSlabKeyB) ||
                     __instance.boolVariable?.Name != "Broodmother Hunt Accepted" ||
                     __instance.isTrue?.Name != "BROODMOTHER" ||
                     __instance.State?.Name != "Idle" ||

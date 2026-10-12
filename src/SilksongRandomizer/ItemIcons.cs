@@ -123,6 +123,8 @@ namespace SilksongRandomizer
             { "Drifter's Cloak", "I_spine_cloak" },
             { "Faydown Cloak", "I_spine_cloak_down" },
             { "Flintslate", "Hornet_icon_0003_T_flintstone" },
+            { "Key of Indolent", "I_slab_key" },
+            { "Key of Heretic", "I_slab_key_gold" },
             { "Key of Apostate", "I_slab_key" },
             { "Progressive Tool Pouch", "Inv_tool_pouch_upgrade" },
             { "Magnetite Dice", "_0006_I_magnetite_dice" },

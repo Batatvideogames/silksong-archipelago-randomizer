@@ -253,8 +253,6 @@ namespace SilksongRandomizer
         public int shellShardLinkPrivateShards = -1;
         public bool individualRelicTurnIns;
         public string preferredF4Hub = string.Empty;
-        public bool slabCaptureReturnUnlocked;
-        public bool slabChoralApproachVisited;
         public bool saunaReturnButtonUnlocked;
         // Set only by the Bone Bottom-to-Greymoor caravan arrival
         // sequence. Unlike CaravanTroupeLocation, this cannot be advanced by

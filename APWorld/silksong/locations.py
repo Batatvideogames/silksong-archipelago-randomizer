@@ -526,12 +526,6 @@ _CREST_SLOT_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Crest Slot: Shaman (Blue 2)',
 )
 
-HUNTER_CREST_SLOT_LOCATION_NAMES = frozenset(
-    name for name in _CREST_SLOT_CANONICAL_LOCATION_NAMES
-    if name.startswith("Crest Slot: Hunter (")
-)
-
-
 _RELIC_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Relic: Weaver Effigy (Keelal, Shellwood)',
     'Relic: Psalm Cylinder (East Whispering Vaults)',
@@ -1092,6 +1086,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Boss: Lace (Deep Docks)", "Boss"),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
 
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Loddie - Heavy Rosary Necklace', 'Resource'),)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key of Heretic', 'MajorKey'))
 
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),

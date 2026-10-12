@@ -1168,7 +1168,7 @@ namespace SilksongRandomizer
                         );
                     }
 
-                    AddNativeWhitewardKeys(counts, state, playerData);
+                    AddNativeMajorKeys(counts, state, playerData);
 
                     SetMinimumCount(
                         counts,
@@ -1203,13 +1203,15 @@ namespace SilksongRandomizer
             return counts;
         }
 
-        private static void AddNativeWhitewardKeys(
+        private static void AddNativeMajorKeys(
             Dictionary<string, int> counts,
             SaveState state,
             PlayerData playerData
         )
         {
             if (state.IsRandomized(ItemType.MajorKey)) return;
+            SetIfTrue(counts, "Key of Indolent", playerData.HasSlabKeyA);
+            SetIfTrue(counts, "Key of Heretic", playerData.HasSlabKeyB);
             SetIfTrue(counts, "White Key", playerData.collectedWardKey);
             SetIfTrue(counts, "Surgeon's Key", playerData.collectedWardBossKey);
         }

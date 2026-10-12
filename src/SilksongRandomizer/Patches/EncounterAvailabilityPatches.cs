@@ -225,6 +225,8 @@ namespace SilksongRandomizer.Patches
                     : !data.hasJournal;
                 data.nuuIsHome = !data.MetHalfwayHunterFan || needsJournal || quest == null ||
                     (!quest.IsAccepted && !quest.IsCompleted) || (data.blackThreadWorld && !data.nuuIntroAct3);
+                var scrolls = Fsm.GameObject.transform.Find("Nuu_Scrolls/Inspect Region");
+                scrolls?.gameObject.SetActive(!data.nuuIsHome || NpcSoulState.IsMissing(SaveState.Instance, "Nuu"));
                 Fsm.Event(data.nuuIsHome ? "HOME" : "AWAY");
                 Finish();
             }

@@ -261,6 +261,8 @@ LOCATION_POSITIONS = (
     {'name': 'Whispering Vaults - Silkeater', 'scene': 'Library_14', 'x': 54.51, 'y': 17.26, 'width': 65, 'height': 30},
     {'name': 'Whiteward - Silkeater', 'scene': 'Ward_04', 'x': 24.19633, 'y': 22.264452, 'width': 35, 'height': 28},
     {'name': 'The Cradle - Silkeater', 'scene': 'Tube_Hub', 'x': 20.35, 'y': 8.78, 'width': 135, 'height': 145},
+    {'name': 'Key of Indolent', 'scene': 'Slab_14', 'x': 12.900001, 'y': 6.892, 'width': 100, 'height': 29},
+    {'name': 'Key of Heretic', 'scene': 'Slab_16', 'x': 25.450001, 'y': 18.200001, 'width': 100, 'height': 80},
     {'name': 'Key of Apostate', 'scene': 'Aqueduct_04', 'x': 7.570004, 'y': 38.651806, 'width': 185, 'height': 60},
     {'name': 'White Key', 'scene': 'Song_Enclave', 'x': 102.076, 'y': 6.29, 'width': 120, 'height': 33},
     {'name': "Surgeon's Key", 'scene': 'Ward_07', 'x': 13.134485, 'y': 7.159246, 'width': 130, 'height': 20},

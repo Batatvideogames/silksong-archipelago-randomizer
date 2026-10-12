@@ -299,6 +299,8 @@ namespace SilksongRandomizer
             new MapCheckPosition("Silkeater: Whiteward", "Ward_04", 24.196329f, 22.264452f, 35f, 28f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silkeater: The Cradle", "Tube_Hub", 20.350000f, 8.780000f, 135f, 145f, MapMarkerPositionConfidence.ExactUpstream),
 
+            new MapCheckPosition("Key of Indolent", "Slab_14", 12.900001f, 6.892000f, 100f, 29f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Key of Heretic", "Slab_16", 25.450001f, 18.200001f, 100f, 80f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Key of Apostate", "Aqueduct_04", 7.570004f, 38.651804f, 185f, 60f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("White Key", "Song_Enclave", 102.076000f, 6.290000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Surgeon's Key", "Ward_07", 13.134485f, 7.159246f, 130f, 20f, MapMarkerPositionConfidence.ExactUpstream),
