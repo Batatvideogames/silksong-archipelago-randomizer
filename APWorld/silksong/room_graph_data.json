@@ -5,7 +5,7 @@
     "document_count": 517,
     "aggregate_sha256": "0de6736857884d9920e320c697921f547851202b1cac95ac8e4083b41ae922a8",
     "catalogue_sha256": "0cf2da11a7755c6a16d58e63367bd608ec61846fdce05888bd361e7e7db8e612",
-    "bindings_sha256": "73b9eefc3bf9858852932453a06ff5ae7e054f1df9d49c20bdf8a767146eb29e"
+    "bindings_sha256": "c2fb314d5fb4362fe4ed74c45da1f579c34b2f49f8263a4d7143f353af16e6ba"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -45911,26 +45911,24 @@
           "id": "deep-docks/deep-docks-march-side-room@sc",
           "requirement": {
             "raw": "after get kidnapped",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:deep-docks/deep-docks-march-side-room::logic-point/get-kidnapped"
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "dependency lacks reviewed event semantics: location:deep-docks/deep-docks-march-side-room::logic-point/get-kidnapped"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "ae69bdb2-15f6-4314-8977-97a3e8be67ee"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "dependency lacks reviewed event semantics: location:deep-docks/deep-docks-march-side-room::logic-point/get-kidnapped"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "SC",
           "name": "slab capture",
           "source_node_id": "deep-docks/deep-docks-march-side-room#room",
@@ -45944,7 +45942,34 @@
         }
       ],
       "connections": [],
-      "events": [],
+      "events": [
+        {
+          "id": "event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c",
+          "requirement": {
+            "raw": "after wardenfly",
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:wardenfly-capture"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "get kidnapped",
+          "kind": "logic-point",
+          "node_id": "deep-docks/deep-docks-march-side-room#room"
+        }
+      ],
       "checks": [],
       "omitted_check_rows": [
         {
@@ -45976,11 +46001,6 @@
             "y": null,
             "z": null
           }
-        },
-        {
-          "mapper_id": "27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c",
-          "label": "get kidnapped",
-          "kind": "logic-point"
         },
         {
           "mapper_id": "e36ede3d-5b60-4a0b-8e61-ec3ccb6c4c9b",
@@ -121975,26 +121995,31 @@
           "id": "event:mapper/4ca36e70-22f0-4c8e-bd38-982ed1505247",
           "requirement": {
             "raw": "after wardenfly",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/wardenfly"
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:wardenfly-capture",
+                "event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c",
+                "event:mapper/28393033-5e52-47f0-85ab-290f8b37d008"
+              ],
+              [
+                "macro:wardenfly-capture",
+                "event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c",
+                "event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/wardenfly"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "4ca36e70-22f0-4c8e-bd38-982ed1505247"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/wardenfly"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Get Kidnapped",
           "kind": "event",
           "node_id": "greymoor/greymoor-towers-patio#lower-section"
@@ -202362,26 +202387,24 @@
           "id": "event:mapper/72e2d50d-267c-43a4-8576-1d801b863377",
           "requirement": {
             "raw": "after Wardenfly",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:bilewater/bilewater-lower-east-hall-secret::enemy/wardenfly"
+            "mode": "expression",
+            "dnf": [
+              [
+                "macro:wardenfly-capture"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "dependency lacks reviewed event semantics: location:bilewater/bilewater-lower-east-hall-secret::enemy/wardenfly"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "72e2d50d-267c-43a4-8576-1d801b863377"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "dependency lacks reviewed event semantics: location:bilewater/bilewater-lower-east-hall-secret::enemy/wardenfly"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Get Kidnapped",
           "kind": "logic-point",
           "node_id": "bilewater/bilewater-lower-east-hall-secret#upper-area"

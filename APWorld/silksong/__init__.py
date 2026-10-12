@@ -2152,6 +2152,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .requirement_rules import _enable_native_source_memo
 
         _enable_native_source_memo(multiworld, frozenset(world.player for world in worlds))
+        from .craftmetal import audit_craftmetal_spending
+
+        audit_craftmetal_spending(multiworld, worlds)
         for world in worlds:
             world.build_vog_hint_plan()
 

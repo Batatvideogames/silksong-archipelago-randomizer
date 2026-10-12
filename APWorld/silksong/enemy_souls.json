@@ -3958,7 +3958,12 @@
       }
     ],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "events": [
+      "Room Event: event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c",
+      "Room Event: event:mapper/4ca36e70-22f0-4c8e-bd38-982ed1505247",
+      "Room Event: event:mapper/72e2d50d-267c-43a4-8576-1d801b863377"
+    ]
   },
   {
     "name": "Guardfly",

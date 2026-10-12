@@ -1231,6 +1231,7 @@ PATH_ORDER: tuple[str, ...] = (
     'The Cradle - Surface Ascent',
     'Abyss - Void Tendrils',
     'Abyss - Escape',
+    'Wardenfly Capture',
     # Bellways
     'Bellways',
     'Bellway - Deep Docks',
@@ -2299,6 +2300,9 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
             'Ancestral Art: Clawline',
         ),
     ),
+    'Path: Wardenfly Capture': (
+        req('Ancestral Art: Cling Grip', 'Event: Bell Beast Defeated', crest=False),
+    ),
     # Bellways
     'Path: Bellways': (
         # Booths may be bought before this, but the Bell Beast network cannot
@@ -3065,6 +3069,10 @@ if MAPPER_GRAPH_ENABLED:
     )
     ABSTRACT_REQUIREMENTS.update({name: () for name in MAPPER_UNRESOLVED_LEGACY_REFERENCES})
 
+WARDENFLY_OPEN_BELLWAY_REQUIREMENTS = (
+    req('Ancestral Art: Cling Grip', crest=False),
+)
+
 BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
     req(
         'Room Node: bone-bottom/bone-bottom-bellway#room'
@@ -3271,6 +3279,7 @@ def get_abstract_requirements(
             ]
         )
     if allow_bellways_before_bell_beast:
+        adjusted_requirements['Path: Wardenfly Capture'] = WARDENFLY_OPEN_BELLWAY_REQUIREMENTS
         adjusted_requirements['Path: Bellways'] = (
             BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
         )
@@ -6175,6 +6184,8 @@ _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS = tuple(
         requirement_name,
         BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
         if requirement_name == 'Path: Bellways'
+        else WARDENFLY_OPEN_BELLWAY_REQUIREMENTS
+        if requirement_name == 'Path: Wardenfly Capture'
         else alternatives,
     )
     for requirement_name, alternatives in _STATIC_ABSTRACT_REQUIREMENT_ITEMS
@@ -6194,6 +6205,8 @@ _STATIC_BELLWAY_VANILLA_CREST_SLOT_ABSTRACT_REQUIREMENT_ITEMS = tuple(
         requirement_name,
         BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS
         if requirement_name == 'Path: Bellways'
+        else WARDENFLY_OPEN_BELLWAY_REQUIREMENTS
+        if requirement_name == 'Path: Wardenfly Capture'
         else VANILLA_CREST_SLOT_COLORED_TOOL_REQUIREMENTS.get(
             requirement_name,
             alternatives,

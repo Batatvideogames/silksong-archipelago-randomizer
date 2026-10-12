@@ -65,7 +65,7 @@ namespace SilksongRandomizer
 
             foreach (string locationName in LocationNames)
             {
-                if (names.Add(locationName))
+                if (names.Add(LocationSet.GetCanonicalLocationName(locationName)))
                 {
                     yield return new Location(
                         locationName,

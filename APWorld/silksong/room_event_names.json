@@ -7123,5 +7123,10 @@
     "name": "Bilewater West Secret Rooms - bud hall wall 3",
     "kind": "blockade",
     "locations": []
+  },
+  "event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c": {
+    "name": "Slab Capture: Far Fields",
+    "kind": "logic-point",
+    "locations": []
   }
 }

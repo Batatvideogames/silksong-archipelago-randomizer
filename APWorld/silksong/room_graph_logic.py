@@ -186,6 +186,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "item:wanderer-crest": (_part("Crest: Wanderer"),),
     "item:witch-crest": (_part("Crest: Witch"),),
     "item:white-key": (_part("White Key"),),
+    "macro:wardenfly-capture": (_part("Path: Wardenfly Capture"),),
     "path:bellways": (_part("Path: Bellways"),),
     "path:bilewater-twisted-bud": (
         _part("Twisted Bud"),

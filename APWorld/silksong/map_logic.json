@@ -180161,6 +180161,24 @@
           }
         ]
       },
+      "Path: Wardenfly Capture": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Cling Grip",
+              "Event: Bell Beast Defeated"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Path: Weavenest - Atla": {
         "alternatives": [
           {
@@ -183646,6 +183664,24 @@
           }
         ]
       },
+      "Room Event: event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c": {
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-march-side-room#room",
+              "Path: Wardenfly Capture"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
+      },
       "Room Event: event:mapper/282aae6f-3964-4935-93ea-5beaa6ef9fa4": {
         "alternatives": [
           {
@@ -186392,7 +186428,40 @@
         ]
       },
       "Room Event: event:mapper/4ca36e70-22f0-4c8e-bd38-982ed1505247": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-section",
+              "Path: Wardenfly Capture",
+              "Room Event: event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c",
+              "Room Event: event:mapper/28393033-5e52-47f0-85ab-290f8b37d008"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-section",
+              "Path: Wardenfly Capture",
+              "Room Event: event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c",
+              "Room Event: event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Event: event:mapper/4d37aa86-b7fa-47dc-b609-d120aa4cfee6": {
         "alternatives": [
@@ -189247,7 +189316,22 @@
         "alternatives": []
       },
       "Room Event: event:mapper/72e2d50d-267c-43a4-8576-1d801b863377": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: bilewater/bilewater-lower-east-hall-secret#upper-area",
+              "Path: Wardenfly Capture"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          }
+        ]
       },
       "Room Event: event:mapper/733f9153-3c3b-4017-8cb5-14167d192ed5": {
         "alternatives": [
@@ -275266,6 +275350,20 @@
       },
       "Room Node: fast-travel/slab-capture#room": {
         "alternatives": [
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-march-side-room#room",
+              "Room Event: event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
+          },
           {
             "act": "",
             "all_of": [
