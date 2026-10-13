@@ -109,10 +109,6 @@ def room_event_action_names() -> Mapping[str, str]:
     })
 
 
-def room_event_action_name(event_id: str) -> str:
-    return room_event_action_names()[event_id]
-
-
 @lru_cache(maxsize=1)
 def room_event_display_names() -> Mapping[str, str]:
     return MappingProxyType({

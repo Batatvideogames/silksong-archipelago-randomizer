@@ -12,7 +12,9 @@ namespace SilksongRandomizer
     [System.Serializable]
     public partial class SaveState
     {
-        public const int CurrentSchemaVersion = 26;
+        public const int CurrentSchemaVersion = 27;
+
+        public string nativeSaveHash = string.Empty;
 
         public ProgressionShuffleState progressionShuffle = new ProgressionShuffleState();
 

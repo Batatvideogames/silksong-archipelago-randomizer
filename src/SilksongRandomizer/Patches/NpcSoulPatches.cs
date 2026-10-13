@@ -114,11 +114,15 @@ namespace SilksongRandomizer.Patches
                 else if (Actors[i].activeInHierarchy) Hold(Actors[i].transform);
             if (WaitingPrompts.Count != 0)
             {
-                var ready = new List<InteractableBase>();
+                List<InteractableBase> ready = null;
                 foreach (var pair in WaitingPrompts)
                     if (pair.Key == null || pair.Value != SaveState.Instance ||
-                        (NpcSoulState.CanInteract(pair.Key.transform) && BossSoulPatches.CanInteract(pair.Key.transform))) ready.Add(pair.Key);
-                foreach (InteractableBase npc in ready)
+                        (NpcSoulState.CanInteract(pair.Key.transform) && BossSoulPatches.CanInteract(pair.Key.transform)))
+                    {
+                        if (ready == null) ready = new List<InteractableBase>();
+                        ready.Add(pair.Key);
+                    }
+                if (ready != null) foreach (InteractableBase npc in ready)
                 {
                     SaveState state = WaitingPrompts[npc];
                     WaitingPrompts.Remove(npc);
@@ -127,11 +131,15 @@ namespace SilksongRandomizer.Patches
                 }
             }
             if (Hidden.Count == 0) return;
-            var release = new List<GameObject>();
+            List<GameObject> release = null;
             List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
-                    !NpcSoulState.MissingAny(pair.Value.state, pair.Value.npcs)) release.Add(pair.Key);
+                    !NpcSoulState.MissingAny(pair.Value.state, pair.Value.npcs))
+                {
+                    if (release == null) release = new List<GameObject>();
+                    release.Add(pair.Key);
+                }
                 else if (pair.Key.activeSelf)
                 {
                     if (retry == null) retry = new List<GameObject>();
@@ -139,6 +147,7 @@ namespace SilksongRandomizer.Patches
                 }
             if (retry != null)
                 foreach (GameObject actor in retry) actor.SetActive(false);
+            if (release == null) return;
             foreach (GameObject actor in release)
             {
                 var saved = Hidden[actor];

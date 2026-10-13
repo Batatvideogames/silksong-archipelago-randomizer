@@ -326,12 +326,6 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        internal static void RefreshCurrentMarkerStates()
-        {
-            RequestCurrentMarkerStateRefresh();
-            ProcessPendingMarkerStateRefresh(currentMap);
-        }
-
         internal static void RequestCurrentMarkerStateRefresh()
         {
             markerStatesDirty = true;

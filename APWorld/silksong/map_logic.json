@@ -194209,17 +194209,11 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: moss-grotto/moss-grotto-east#upper-platforms"
+              "Room Node: moss-grotto/moss-grotto-east#upper-platforms",
+              "Crest: Shaman"
             ],
             "any_of": [],
-            "item_counts": [
-              {
-                "items": [
-                  "Crest: Shaman"
-                ],
-                "minimum": 1
-              }
-            ],
+            "item_counts": [],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,
@@ -409198,17 +409192,11 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: moss-grotto/moss-grotto-east#upper-platforms"
+              "Room Node: moss-grotto/moss-grotto-east#upper-platforms",
+              "Crest: Shaman"
             ],
             "any_of": [],
-            "item_counts": [
-              {
-                "items": [
-                  "Crest: Shaman"
-                ],
-                "minimum": 1
-              }
-            ],
+            "item_counts": [],
             "minimum_skip_tier": 0,
             "path": "",
             "require_any_crest": false,

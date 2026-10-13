@@ -556,7 +556,6 @@ class TestAlphabetMode(unittest.TestCase):
             "early_dash": False,
             "split_dash_and_sprint": False,
             "trails_end_requirement": "owned_maps",
-            "skips": "easy",
             "scuttlebrace_logic": "easy",
             "start_with_maps": True,
             "start_fully_mapped": True,

@@ -102,34 +102,6 @@ namespace SilksongRandomizer
 
         internal static bool TryGetEnemyDropLocation(
             HealthManager healthManager,
-            SavedItem dropItem,
-            int count,
-            CollectableItemPickup customPickupPrefab,
-            int limit,
-            out string locationName)
-        {
-            locationName = null;
-            if (healthManager == null ||
-                dropItem == null ||
-                !string.Equals(
-                    dropItem.name,
-                    NativeItemName,
-                    StringComparison.Ordinal) ||
-                count != 1 ||
-                customPickupPrefab != null ||
-                limit != 0)
-            {
-                return false;
-            }
-
-            return TryGetEnemyDropLocation(
-                healthManager,
-                out locationName
-            );
-        }
-
-        internal static bool TryGetEnemyDropLocation(
-            HealthManager healthManager,
             out string locationName)
         {
             locationName = null;

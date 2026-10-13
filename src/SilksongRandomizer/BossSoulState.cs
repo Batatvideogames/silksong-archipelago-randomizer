@@ -12,9 +12,23 @@ namespace SilksongRandomizer
         internal const string SethSoul = "Progressive Seth Soul";
         internal const string SethBoss = "Boss: Shrine Guardian Seth";
 
-        internal static bool ProgressiveSeth(SaveState state) => state != null &&
-            JArray.Parse(string.IsNullOrEmpty(state.bossSoulsJson) ? "[]" : state.bossSoulsJson).Values<string>().Contains(SethBoss) &&
-            JArray.Parse(string.IsNullOrEmpty(state.npcSoulsJson) ? "[]" : state.npcSoulsJson).Values<string>().Contains("Seth");
+        private static string cachedJson;
+        private static Dictionary<string, string> cachedItems = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        internal static bool ProgressiveSeth(SaveState state) =>
+            IsEnabled(state, SethBoss) && NpcSoulState.IsEnabled(state, "Seth");
+
+        internal static bool IsEnabled(SaveState state, string boss)
+        {
+            if (state == null || string.IsNullOrEmpty(state.bossSoulsJson) || state.bossSoulsJson == "[]") return false;
+            if (cachedJson != state.bossSoulsJson)
+            {
+                cachedItems = JArray.Parse(state.bossSoulsJson).Values<string>().Distinct(StringComparer.Ordinal)
+                    .ToDictionary(name => name, name => ItemSet.GetCanonicalItemName(ItemName(name)), StringComparer.Ordinal);
+                cachedJson = state.bossSoulsJson;
+            }
+            return cachedItems.ContainsKey(boss);
+        }
 
         internal const string Groal = "Boss: Groal the Great";
         internal static readonly JArray Catalogue = Load();
@@ -43,11 +57,9 @@ namespace SilksongRandomizer
 
         internal static bool IsMissing(SaveState state, string boss)
         {
-            if (state == null || string.IsNullOrEmpty(state.bossSoulsJson) || state.bossSoulsJson == "[]")
-                return false;
+            if (!IsEnabled(state, boss)) return false;
             if (boss == SethBoss && ProgressiveSeth(state)) return state.GetReceivedItemCount(SethSoul) < 1;
-            return JArray.Parse(state.bossSoulsJson).Values<string>().Contains(boss) &&
-                state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(ItemName(boss))) != true;
+            return state.receivedItems?.Contains(cachedItems[boss]) != true;
         }
     }
 }

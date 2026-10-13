@@ -109,13 +109,6 @@ namespace SilksongRandomizer.Patches
             return owned;
         }
 
-        public static bool HasBrolly(PlayerData playerData)
-        {
-            return ResolveBrollyOwnership(
-                playerData != null && playerData.hasBrolly
-            );
-        }
-
         public static bool HasDoubleJump(PlayerData playerData)
         {
             return ResolveDoubleJumpOwnership(

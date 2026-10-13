@@ -23,7 +23,7 @@ namespace SilksongRandomizer
         internal static bool IsJournalDeath(string species, string fsm, string state) =>
             JournalStates.Contains(species + "|" + fsm + "|" + state);
         private static string cachedJson;
-        private static HashSet<string> cachedNames = new HashSet<string>(StringComparer.Ordinal);
+        private static Dictionary<string, string> cachedItems = new Dictionary<string, string>(StringComparer.Ordinal);
 
         private static JArray Load()
         {
@@ -46,13 +46,7 @@ namespace SilksongRandomizer
 
         internal static bool IsMissing(SaveState state, string npc)
         {
-            if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]") return false;
-            if (cachedJson != state.enemySoulsJson)
-            {
-                cachedNames = new HashSet<string>(JArray.Parse(state.enemySoulsJson).Values<string>(), StringComparer.Ordinal);
-                cachedJson = state.enemySoulsJson;
-            }
-            return cachedNames.Contains(npc) && state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(ItemName(npc))) != true;
+            return IsEnabled(state, npc) && state.receivedItems?.Contains(cachedItems[npc]) != true;
         }
 
         internal static Sprite GetIcon(string itemName)
@@ -76,8 +70,13 @@ namespace SilksongRandomizer
         internal static bool IsEnabled(SaveState state, string name)
         {
             if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]") return false;
-            IsMissing(state, name);
-            return cachedNames.Contains(name);
+            if (cachedJson != state.enemySoulsJson)
+            {
+                cachedItems = JArray.Parse(state.enemySoulsJson).Values<string>().Distinct(StringComparer.Ordinal)
+                    .ToDictionary(species => species, species => ItemSet.GetCanonicalItemName(ItemName(species)), StringComparer.Ordinal);
+                cachedJson = state.enemySoulsJson;
+            }
+            return cachedItems.ContainsKey(name);
         }
     }
 }

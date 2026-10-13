@@ -16,7 +16,7 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, string[]> Interactions = BuildIndex("interactions");
         private static readonly Dictionary<string, string[]> States = BuildIndex("states");
         private static string cachedJson;
-        private static HashSet<string> cachedNames = new HashSet<string>(StringComparer.Ordinal);
+        private static Dictionary<string, string> cachedItems = new Dictionary<string, string>(StringComparer.Ordinal);
 
         private static JArray Load()
         {
@@ -40,7 +40,12 @@ namespace SilksongRandomizer
                 .ToDictionary(group => group.Key, group => group.Select(entry => entry.Value).Distinct().ToArray(), StringComparer.OrdinalIgnoreCase);
         }
 
-        internal static bool MissingAny(SaveState state, IEnumerable<string> npcs) => npcs.Any(npc => IsMissing(state, npc));
+        internal static bool MissingAny(SaveState state, string[] npcs)
+        {
+            foreach (string npc in npcs)
+                if (IsMissing(state, npc)) return true;
+            return false;
+        }
 
         private static bool Find(Dictionary<string, string[]> index, string scene, string path, string suffix, out string[] npcs) =>
             index.TryGetValue(scene + "|" + path + suffix, out npcs) ||
@@ -58,9 +63,10 @@ namespace SilksongRandomizer
             if (string.IsNullOrEmpty(state?.npcSoulsJson) || state.npcSoulsJson == "[]") return true;
             for (Transform current = transform; current != null; current = current.parent)
             {
-                string key = current.gameObject.scene.name + "|" + Utils.GetHierarchyPath(current);
+                string path = Utils.GetHierarchyPath(current);
+                string key = current.gameObject.scene.name + "|" + path;
                 if (Interactions.TryGetValue(key, out string[] npcs) && MissingAny(SaveState.Instance, npcs)) return false;
-                if (TryGetActor(current.gameObject.scene.name, Utils.GetHierarchyPath(current), out npcs) && MissingAny(SaveState.Instance, npcs)) return false;
+                if (TryGetActor(current.gameObject.scene.name, path, out npcs) && MissingAny(SaveState.Instance, npcs)) return false;
             }
             return true;
         }
@@ -78,16 +84,23 @@ namespace SilksongRandomizer
             return new JArray(names.Where(Names.Contains).OrderBy(name => name, StringComparer.Ordinal)).ToString(Formatting.None);
         }
 
-        internal static bool IsMissing(SaveState state, string npc)
+        internal static bool IsEnabled(SaveState state, string npc)
         {
             if (state == null || string.IsNullOrEmpty(state.npcSoulsJson) || state.npcSoulsJson == "[]") return false;
             if (cachedJson != state.npcSoulsJson)
             {
-                cachedNames = new HashSet<string>(JArray.Parse(state.npcSoulsJson).Values<string>(), StringComparer.Ordinal);
+                cachedItems = JArray.Parse(state.npcSoulsJson).Values<string>().Distinct(StringComparer.Ordinal)
+                    .ToDictionary(name => name, name => ItemSet.GetCanonicalItemName(ItemName(name)), StringComparer.Ordinal);
                 cachedJson = state.npcSoulsJson;
             }
+            return cachedItems.ContainsKey(npc);
+        }
+
+        internal static bool IsMissing(SaveState state, string npc)
+        {
+            if (!IsEnabled(state, npc)) return false;
             if (npc == "Seth" && BossSoulState.ProgressiveSeth(state)) return state.GetReceivedItemCount(BossSoulState.SethSoul) < 2;
-            return cachedNames.Contains(npc) && state.receivedItems?.Contains(ItemSet.GetCanonicalItemName(ItemName(npc))) != true;
+            return state.receivedItems?.Contains(cachedItems[npc]) != true;
         }
 
         internal static bool FindActor(Transform transform, out GameObject actor, out string[] npcs)

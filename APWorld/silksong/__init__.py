@@ -2097,6 +2097,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 slotless_state,
             )
 
+        from .craftmetal import audit_craftmetal_spending
+
+        audit_craftmetal_spending(multiworld, [
+            multiworld.worlds[player] for player in multiworld.player_ids
+            if multiworld.worlds[player].game == cls.game
+        ])
+
         # Freeze the resulting count before core progression balancing. The
         # slot placements are locked so that balancing cannot change it.
         for world in combined_worlds:

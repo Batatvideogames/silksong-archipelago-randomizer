@@ -487,38 +487,6 @@ namespace SilksongRandomizer
             return results;
         }
 
-        internal static bool TryGetLocationPath(
-            SaveState state,
-            string locationName,
-            out string path
-        )
-        {
-            path = string.Empty;
-            ParsedPayload payload = GetPayload(state);
-            string canonicalLocationName =
-                LocationSet.GetCanonicalLocationName(locationName);
-            if (payload == null ||
-                string.IsNullOrWhiteSpace(canonicalLocationName) ||
-                !payload.Requirements.TryGetValue(
-                    canonicalLocationName,
-                    out LogicRequirement group
-                ))
-            {
-                return false;
-            }
-
-            foreach (LogicRequirement alternative in
-                GetAlternatives(group))
-            {
-                if (!string.IsNullOrWhiteSpace(alternative?.Path))
-                {
-                    path = alternative.Path.Trim();
-                    return true;
-                }
-            }
-            return false;
-        }
-
         internal static bool RequiresLogicVerification(
             SaveState state,
             string locationName

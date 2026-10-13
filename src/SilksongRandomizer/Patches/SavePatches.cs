@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
@@ -16,10 +17,12 @@ namespace SilksongRandomizer.Patches
     {
         public const string VanillaExtension = ".dat";
         public const string SaveExtension = ".randomizersave";
-        private const string DataExtension = ".randomizerdata";
         private const string DataBackupExtension = ".bak";
         private const string DataTemporaryExtension = ".tmp";
+        private const string DataPendingExtension = ".pending";
         private static readonly object SaveLock = new object();
+        private static readonly HashSet<string> PendingWrites =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         internal static void NewGame()
         {
@@ -221,53 +224,108 @@ namespace SilksongRandomizer.Patches
                    "start a new randomizer save.";
         }
 
-        internal static bool Save(int slot, SaveState state)
+        internal sealed class PendingWrite
         {
+            internal readonly string Path;
+            internal readonly string Hash;
+            private bool completed;
+
+            internal PendingWrite(string path, string hash)
+            {
+                Path = path;
+                Hash = hash;
+            }
+
+            internal bool TryComplete(bool nativeSaved, out bool saved)
+            {
+                saved = false;
+                lock (SaveLock)
+                {
+                    if (completed) return false;
+                    completed = true;
+                    try
+                    {
+                        if (nativeSaved)
+                        {
+                            if (GetNativeHash(Path) != Hash)
+                                throw new InvalidDataException("The game save changed during the write.");
+                            CommitPending(Path);
+                            saved = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning("[Randomizer Save] AP data is still pending. " + ex);
+                    }
+                    finally
+                    {
+                        PendingWrites.Remove(Path);
+                    }
+                    return true;
+                }
+            }
+        }
+
+        internal static bool TryPrepareSave(int slot, byte[] bytes, SaveState state,
+            out PendingWrite pending, out string error)
+        {
+            pending = null;
+            if (!SaveFolderManager.CanWriteCurrentSave(out error)) return false;
             string path = GetDataPath(slot);
             string tempPath = path + DataTemporaryExtension;
-            string backupPath = path + DataBackupExtension;
-
             lock (SaveLock)
             {
+                if (!PendingWrites.Add(path))
+                {
+                    error = "A save for this slot is still in progress.";
+                    return false;
+                }
                 try
                 {
-                    if (state == null)
-                    {
-                        throw new InvalidOperationException("No active randomizer state exists.");
-                    }
-
-                    XmlSerializer serializer = new XmlSerializer(typeof(SaveState));
+                    if (state == null || bytes == null || bytes.Length == 0)
+                        throw new InvalidOperationException("No complete randomizer save is available.");
                     Directory.CreateDirectory(Path.GetDirectoryName(path));
-
-                    using (FileStream stream = new FileStream(
-                        tempPath,
-                        FileMode.Create,
-                        FileAccess.Write,
-                        FileShare.None
-                    ))
-                    using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
+                    string pendingPath = path + DataPendingExtension;
+                    if (File.Exists(pendingPath) &&
+                        File.Exists(System.IO.Path.ChangeExtension(path, SaveExtension)) &&
+                        TryDeserialize(pendingPath, out SaveState previous, out _) &&
+                        previous.nativeSaveHash == GetNativeHash(path))
                     {
-                        serializer.Serialize(writer, state);
-                        writer.Flush();
-                        stream.Flush(true);
+                        // This was the last completed game save before an interrupted AP write.
+                        CommitPending(path);
                     }
 
-                    if (File.Exists(path))
+                    string hash;
+                    using (SHA256 algorithm = SHA256.Create())
+                        hash = Convert.ToBase64String(algorithm.ComputeHash(bytes));
+                    string previousHash = state.nativeSaveHash;
+                    try
                     {
-                        File.Replace(tempPath, path, backupPath);
+                        state.nativeSaveHash = hash;
+                        using (FileStream stream = new FileStream(
+                            tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
+                        {
+                            new XmlSerializer(typeof(SaveState)).Serialize(writer, state);
+                            writer.Flush();
+                            stream.Flush(true);
+                        }
                     }
-                    else
+                    finally
                     {
-                        File.Move(tempPath, path);
-                        File.Copy(path, backupPath, true);
+                        state.nativeSaveHash = previousHash;
                     }
-
-                    Debug.Log("[Randomizer Save] SaveState saved: " + path);
+                    if (File.Exists(pendingPath)) File.Replace(tempPath, pendingPath, null);
+                    else File.Move(tempPath, pendingPath);
+                    pending = new PendingWrite(path, hash);
+                    error = string.Empty;
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogWarning("[Randomizer Save] Failed to save SaveState. " + ex);
+                    PendingWrites.Remove(path);
+                    error = "AP data could not be prepared. The game save was not written. " + ex.Message;
+                    Debug.LogWarning("[Randomizer Save] " + error);
                     return false;
                 }
                 finally
@@ -277,46 +335,72 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static void CommitPending(string path)
+        {
+            if (File.Exists(path))
+                File.Replace(path + DataPendingExtension, path, path + DataBackupExtension);
+            else File.Move(path + DataPendingExtension, path);
+        }
+
+        private static string GetNativeHash(string dataPath)
+        {
+            using (FileStream stream = File.OpenRead(Path.ChangeExtension(dataPath, SaveExtension)))
+            using (SHA256 algorithm = SHA256.Create())
+                return Convert.ToBase64String(algorithm.ComputeHash(stream));
+        }
+
+        internal static bool IsWritePending(int slot)
+        {
+            lock (SaveLock) return PendingWrites.Contains(GetDataPath(slot));
+        }
+
         internal static void Delete(int slot)
         {
             TryDelete(GetDataPath(slot));
             TryDelete(GetDataPath(slot) + DataBackupExtension);
             TryDelete(GetDataPath(slot) + DataTemporaryExtension);
+            TryDelete(GetDataPath(slot) + DataPendingExtension);
         }
 
         private static bool TryLoadState(int slot, out SaveState state, out string error)
         {
-            string path = GetDataPath(slot);
-            string backupPath = path + DataBackupExtension;
             state = null;
-            error = string.Empty;
-
-            if (!File.Exists(path) && !File.Exists(backupPath))
+            if (!SaveFolderManager.CanAccessSaves(out error)) return false;
+            string path = GetDataPath(slot);
+            lock (SaveLock)
             {
-                error = "Randomizer metadata is missing for slot " + slot +
-                        ". The save was not loaded so no blank state could overwrite it.";
+                if (PendingWrites.Contains(path))
+                {
+                    error = "A save for this slot is still in progress.";
+                    return false;
+                }
+                try
+                {
+                    string hash = GetNativeHash(path);
+                    foreach (string candidate in new[] { path + DataPendingExtension, path, path + DataBackupExtension })
+                    {
+                        if (File.Exists(candidate) &&
+                            TryDeserialize(candidate, out SaveState loaded, out _) &&
+                            loaded.nativeSaveHash == hash)
+                        {
+                            state = loaded;
+                            if (candidate != path)
+                                Debug.LogWarning("[Randomizer Save] Using matching AP data: " + candidate);
+                            error = string.Empty;
+                            return true;
+                        }
+                    }
+                    error = "The game save and AP data for slot " + slot +
+                        " do not match, or the AP data is missing or unreadable. " +
+                        "Loading was stopped and the files were left untouched.";
+                }
+                catch (Exception ex)
+                {
+                    error = "The game save for slot " + slot +
+                        " could not be checked. Loading was stopped and the files were left untouched. " + ex.Message;
+                }
                 return false;
             }
-
-            Exception primaryError = null;
-            if (File.Exists(path) && TryDeserialize(path, out state, out primaryError))
-            {
-                return true;
-            }
-
-            Exception backupError = null;
-            if (File.Exists(backupPath) && TryDeserialize(backupPath, out state, out backupError))
-            {
-                Debug.LogWarning("[Randomizer Save] Recovered metadata from backup: " + backupPath);
-                return true;
-            }
-
-            error = "Randomizer metadata for slot " + slot +
-                    " is unreadable. The save was blocked; primary error: " +
-                    (primaryError == null ? "missing" : primaryError.Message) +
-                    "; backup error: " +
-                    (backupError == null ? "missing" : backupError.Message);
-            return false;
         }
 
         private static bool TryDeserialize(string path, out SaveState state, out Exception error)
@@ -365,7 +449,7 @@ namespace SilksongRandomizer.Patches
 
         internal static string GetDataPath(int slot)
         {
-            return Path.Combine(Application.persistentDataPath, "user" + slot + DataExtension);
+            return SaveFolderManager.GetDataPath(slot);
         }
 
         internal static MethodBase GetSaveFileNameMethod()
@@ -395,6 +479,12 @@ namespace SilksongRandomizer.Patches
     {
         private static bool Prefix(ref bool __0, out bool __state)
         {
+            __state = false;
+            if (!SaveFolderManager.CanAccessSaves(out string error))
+            {
+                RandomizerPlugin.Instance.ReportBlockingError(error);
+                return false;
+            }
             __state = Archipelago.Instance != null && Archipelago.Instance.Connected;
             if (__state)
             {
@@ -427,6 +517,11 @@ namespace SilksongRandomizer.Patches
     {
         private static bool Prefix()
         {
+            if (!SaveFolderManager.CanAccessSaves(out string error))
+            {
+                RandomizerPlugin.Instance.ReportBlockingError(error);
+                return false;
+            }
             if (Archipelago.Instance != null && Archipelago.Instance.Connected)
             {
                 return true;
@@ -557,15 +652,28 @@ namespace SilksongRandomizer.Patches
             return SavePatches.GetWriteSaveSlotMethod();
         }
 
-        private static void Prefix(int slotIndex, ref Action<bool> callback)
+        private static bool Prefix(int slotIndex, byte[] bytes, ref Action<bool> callback,
+            out SavePatches.PendingWrite __state)
         {
-            SaveState state = SaveState.Instance;
+            if (!SavePatches.TryPrepareSave(slotIndex, bytes, SaveState.Instance, out __state, out string error))
+            {
+                RandomizerPlugin.Instance.ReportBlockingError(error);
+                callback?.Invoke(false);
+                return false;
+            }
+            SavePatches.PendingWrite pending = __state;
             Action<bool> originalCallback = callback;
             callback = successful =>
             {
-                bool randomizerSaved = successful && SavePatches.Save(slotIndex, state);
-                originalCallback?.Invoke(successful && randomizerSaved);
+                if (pending.TryComplete(successful, out bool saved))
+                    originalCallback?.Invoke(saved);
             };
+            return true;
+        }
+
+        private static void Finalizer(Exception __exception, SavePatches.PendingWrite __state)
+        {
+            if (__exception != null) __state?.TryComplete(false, out _);
         }
     }
 
@@ -589,8 +697,20 @@ namespace SilksongRandomizer.Patches
     [HarmonyPatch(typeof(DesktopPlatform), "ClearSaveSlot", new Type[] { typeof(int), typeof(Action<bool>) })]
     internal static class ClearRandomizerSavePatch
     {
-        private static void Prefix(int slotIndex, ref Action<bool> callback)
+        private static bool Prefix(int slotIndex, ref Action<bool> callback)
         {
+            if (!SaveFolderManager.CanAccessSaves(out string error))
+            {
+                RandomizerPlugin.Instance.ReportBlockingError(error);
+                callback?.Invoke(false);
+                return false;
+            }
+            if (SavePatches.IsWritePending(slotIndex))
+            {
+                RandomizerPlugin.Instance.ReportBlockingError("A save for this slot is still in progress.");
+                callback?.Invoke(false);
+                return false;
+            }
             Action<bool> originalCallback = callback;
             callback = successful =>
             {
@@ -601,6 +721,7 @@ namespace SilksongRandomizer.Patches
 
                 originalCallback?.Invoke(successful);
             };
+            return true;
         }
     }
 

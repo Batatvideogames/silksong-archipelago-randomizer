@@ -42,7 +42,12 @@ namespace SilksongRandomizer.Patches
                 .ToDictionary(group => group.Key, group => group.Select(row => row.Value).Distinct().ToArray(), StringComparer.OrdinalIgnoreCase);
         }
 
-        private static bool MissingAny(SaveState state, IEnumerable<string> species) => species.Any(name => EnemySoulState.IsMissing(state, name));
+        private static bool MissingAny(SaveState state, string[] species)
+        {
+            foreach (string name in species)
+                if (EnemySoulState.IsMissing(state, name)) return true;
+            return false;
+        }
 
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state) =>
             !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] species) || !MissingAny(state, species);
@@ -147,14 +152,27 @@ namespace SilksongRandomizer.Patches
         internal static void Update()
         {
             if (SkippedBossEnemies.Count != 0)
-                foreach (GameObject actor in SkippedBossEnemies.Where(pair => pair.Key == null || !WasSkipped(pair.Key)).Select(pair => pair.Key).ToArray())
-                    SkippedBossEnemies.Remove(actor);
+            {
+                List<GameObject> expired = null;
+                foreach (var pair in SkippedBossEnemies)
+                    if (pair.Key == null || !WasSkipped(pair.Key))
+                    {
+                        if (expired == null) expired = new List<GameObject>();
+                        expired.Add(pair.Key);
+                    }
+                if (expired != null)
+                    foreach (GameObject actor in expired) SkippedBossEnemies.Remove(actor);
+            }
             if (Hidden.Count == 0) return;
-            var release = new List<GameObject>();
+            List<GameObject> release = null;
             List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
-                    (!MissingAny(pair.Value.state, pair.Value.species) && !WasSkipped(pair.Key))) release.Add(pair.Key);
+                    (!MissingAny(pair.Value.state, pair.Value.species) && !WasSkipped(pair.Key)))
+                {
+                    if (release == null) release = new List<GameObject>();
+                    release.Add(pair.Key);
+                }
                 else if (pair.Key.activeSelf)
                 {
                     if (retry == null) retry = new List<GameObject>();
@@ -162,6 +180,7 @@ namespace SilksongRandomizer.Patches
                 }
             if (retry != null)
                 foreach (GameObject actor in retry) actor.SetActive(false);
+            if (release == null) return;
             foreach (GameObject actor in release)
             {
                 var saved = Hidden[actor];

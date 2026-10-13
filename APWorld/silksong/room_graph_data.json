@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 517,
-    "aggregate_sha256": "0de6736857884d9920e320c697921f547851202b1cac95ac8e4083b41ae922a8",
-    "catalogue_sha256": "0cf2da11a7755c6a16d58e63367bd608ec61846fdce05888bd361e7e7db8e612",
-    "bindings_sha256": "c2fb314d5fb4362fe4ed74c45da1f579c34b2f49f8263a4d7143f353af16e6ba"
+    "aggregate_sha256": "380cffb5812a99a500e9dd9997664021d013edb9994e534a6423de239ac7f33e",
+    "catalogue_sha256": "a797c6991b964dcf3d6543529c39c96634103191e6268b1bb6c124cb6152f432",
+    "bindings_sha256": "3c5ebfd6a0397abd83d59c5b6f81fe2743e3565aed2d51df3e31c7aa09a480f3"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -1214,7 +1214,7 @@
       "area_id": "moss-grotto",
       "name": "Moss Grotto Center",
       "source_file": "moss-grotto/moss-grotto-center.json",
-      "source_sha256": "a18e6a61a8a51e641141e07789b54ef16b854d478a93f9f62b93de09f41b18f6",
+      "source_sha256": "a05b6169fa14c2988da4fb34d0b4f1f2bba771029736405f8c062c1adf609c30",
       "geometry_act_independent": true,
       "notes": "renamed from \"moss grotto west\" - was mistakenly marked as same room as west room\nnot having the west part as part of this area causes the graph to be more complex",
       "nodes": [
@@ -1465,7 +1465,7 @@
         {
           "id": "moss-grotto/moss-grotto-center#upper-crossing>up-and-away@s1",
           "requirement": {
-            "raw": "silk soar \nOR scuttlebrace \nOR ( cling grip AND ( easy shaman crest pogo OR easy heal stall OR faydown cloak OR run OR dash OR sharpdart OR clawline ) )",
+            "raw": "silk soar \nOR scuttlebrace \nOR ( cling grip AND ( easy shaman pogo OR easy heal stall OR faydown cloak OR run OR dash OR sharpdart OR clawline ) )",
             "mode": "expression",
             "dnf": [
               [
@@ -2171,7 +2171,7 @@
           "label": "Mossmir 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-center#side-room",
-          "in_game_id": "MossBone Fly (1)",
+          "in_game_id": "\"MossBone Fly (1)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -2194,7 +2194,7 @@
           "label": "Mossmir 2",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-center#side-room",
-          "in_game_id": "MossBone Fly (2)",
+          "in_game_id": "\"MossBone Fly (2)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -2217,7 +2217,7 @@
           "label": "Marrowmaw 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-center#beast-alcove",
-          "in_game_id": "Bone Thumper",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"Bone Thumper\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -2244,7 +2244,7 @@
       "area_id": "moss-grotto",
       "name": "Moss Grotto West",
       "source_file": "moss-grotto/moss-grotto-west.json",
-      "source_sha256": "06727d9b1c71dace3fc5acc620203889bd9c657f35a2722cc0008d8fa9b62641",
+      "source_sha256": "e576e8bb0e36a57bb322357c3d13084a7588230f055635d96f24f1c48764bc00",
       "geometry_act_independent": true,
       "notes": "somehow missed this being its own room before",
       "nodes": [
@@ -2691,7 +2691,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "test enemy pogo options here",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "4248e60d-55ed-4fd3-a811-e8d0dd770be8"
@@ -2965,7 +2965,7 @@
           "label": "Mossgrub 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#the-backroom-floor",
-          "in_game_id": "MossBone Crawler (5)",
+          "in_game_id": "\"MossBone Crawler (5)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -2988,7 +2988,7 @@
           "label": "Mossgrub 2",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Crawler (1)",
+          "in_game_id": "\"MossBone Crawler (1)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3011,7 +3011,7 @@
           "label": "Mossgrub 3",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#the-pond",
-          "in_game_id": "MossBone Crawler (4)",
+          "in_game_id": "\"MossBone Crawler (4)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3034,7 +3034,7 @@
           "label": "Mossgrub 4",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#lower-right-exit-area",
-          "in_game_id": "MossBone Crawler (3)",
+          "in_game_id": "\"MossBone Crawler (3)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3057,7 +3057,7 @@
           "label": "Mossgrub 5",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#the-backroom-cache",
-          "in_game_id": "MossBone Crawler (6)",
+          "in_game_id": "\"MossBone Crawler (6)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3080,7 +3080,7 @@
           "label": "Mossgrub 6",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#lower-right-exit-area",
-          "in_game_id": "MossBone Crawler",
+          "in_game_id": "\"MossBone Crawler\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3103,7 +3103,7 @@
           "label": "Mossgrub 7",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Crawler (9)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"MossBone Crawler (9)\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -3128,7 +3128,7 @@
           "label": "Mossgrub 8",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Crawler (8)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"MossBone Crawler (8)\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -3153,7 +3153,7 @@
           "label": "MossBone Cocoon 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#lower-right-exit-area",
-          "in_game_id": "MossBone Cocoon (3)",
+          "in_game_id": "\"MossBone Cocoon (3)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3176,7 +3176,7 @@
           "label": "MossBone Cocoon 2",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#lower-right-exit-area",
-          "in_game_id": "MossBone Cocoon (4)",
+          "in_game_id": "\"MossBone Cocoon (4)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3199,7 +3199,7 @@
           "label": "MossBone Cocoon 3",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#lower-right-exit-area",
-          "in_game_id": "MossBone Cocoon (6)",
+          "in_game_id": "\"MossBone Cocoon (6)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3222,7 +3222,7 @@
           "label": "Mossmir 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Fly",
+          "in_game_id": "\"MossBone Fly\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -3245,7 +3245,7 @@
           "label": "Mossmir 2",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#mossberry-platform",
-          "in_game_id": "MossBone Fly (2)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"MossBone Fly (2)\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -3270,7 +3270,7 @@
           "label": "Mossmir 3",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "NW/MossBone Fly (1)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"MossBone Fly (1)\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -3295,7 +3295,7 @@
           "label": "MossBone Cocoon 4",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Cocoon (5)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Normal World\"[0]/\"Group\"[1]/\"MossBone Cocoon (5)\"[0]",
           "requirement": {
             "raw": "Normal World Spawn",
             "mode": "expression",
@@ -3320,7 +3320,7 @@
           "label": "Mossmir 4",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "MossBone Fly (1)",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Black Thread World\"[0]/\"MossBone Fly (1)\"[0]",
           "requirement": {
             "raw": "Black Thread World Spawn",
             "mode": "expression",
@@ -3345,7 +3345,7 @@
           "label": "Moss Mother 1",
           "kind": "enemy",
           "node_id": "moss-grotto/moss-grotto-west#upper-level",
-          "in_game_id": "Mossbone Mother Ambient",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Black Thread World\"[0]/\"Mossbone Mother Scene\"[0]/\"Mossbone Mother Ambient\"[0]",
           "requirement": {
             "raw": "Black Thread World Spawn",
             "mode": "expression",
@@ -3372,7 +3372,7 @@
       "area_id": "moss-grotto",
       "name": "Moss Grotto East",
       "source_file": "moss-grotto/moss-grotto-east.json",
-      "source_sha256": "ca13caca89a1dd1ece389154ebc2f3263db07213af31f084e923a78e68dff14b",
+      "source_sha256": "c9d4331afe72524aaa9e76b237fb653f5333fcec2a9552aad6b5d1e11939dfae",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -3787,7 +3787,7 @@
         {
           "id": "event:mapper/a8a69f0a-48a0-4da6-93f0-6f494eec8032",
           "requirement": {
-            "raw": "easy enemy pogo OR run OR dash OR drifter's cloak OR faydown cloak OR silk soar OR clawline OR sharpdart OR easy beast pogo OR ( have crest shaman AND ( attack up OR attack right ) )",
+            "raw": "easy enemy pogo \nOR run OR dash \nOR drifter's cloak \nOR faydown cloak \nOR silk soar \nOR clawline \nOR sharpdart \nOR easy beast pogo \nOR shaman attack up \nOR shaman attack right",
             "mode": "expression",
             "dnf": [
               [
@@ -3818,12 +3818,10 @@
                 "mapper:beast-crest-pogo:easy"
               ],
               [
-                "received:Crest: Shaman",
-                "mapper:attack:up"
+                "mapper:shaman-crest-attack:up"
               ],
               [
-                "received:Crest: Shaman",
-                "mapper:attack:right"
+                "mapper:shaman-crest-attack:right"
               ]
             ],
             "annotations": [],
@@ -3925,7 +3923,7 @@
         {
           "id": "moss-grotto/moss-grotto-east::mapper-check:a8a69f0a-48a0-4da6-93f0-6f494eec8032:836249",
           "requirement": {
-            "raw": "easy enemy pogo OR run OR dash OR drifter's cloak OR faydown cloak OR silk soar OR clawline OR sharpdart OR easy beast pogo OR ( have crest shaman AND ( attack up OR attack right ) )",
+            "raw": "easy enemy pogo \nOR run OR dash \nOR drifter's cloak \nOR faydown cloak \nOR silk soar \nOR clawline \nOR sharpdart \nOR easy beast pogo \nOR shaman attack up \nOR shaman attack right",
             "mode": "expression",
             "dnf": [
               [
@@ -3956,12 +3954,10 @@
                 "mapper:beast-crest-pogo:easy"
               ],
               [
-                "received:Crest: Shaman",
-                "mapper:attack:up"
+                "mapper:shaman-crest-attack:up"
               ],
               [
-                "received:Crest: Shaman",
-                "mapper:attack:right"
+                "mapper:shaman-crest-attack:right"
               ]
             ],
             "annotations": [],
@@ -5863,7 +5859,7 @@
       "area_id": "bone-bottom",
       "name": "Bone Bottom Town",
       "source_file": "bone-bottom/bone-bottom-town.json",
-      "source_sha256": "0c4a1f32ff98ea6123d0ede8be3bcecb07ad42bbaf3b7e1f7504b7f9f430d952",
+      "source_sha256": "63bf05c081ebccf2c7b57e5912d35c84dc8b3230403888582279ef0b208d9eb7",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -8354,7 +8350,7 @@
       "area_id": "bone-bottom",
       "name": "Bonegrave",
       "source_file": "bone-bottom/bonegrave.json",
-      "source_sha256": "95c41c1a714e7006f70a52804297c17274e819865605e99e2905412adf3e00dd",
+      "source_sha256": "d15b00d7471055b2fe64f3d23899dd6e1997fb1f3746c444b237897611ad1cce",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -10940,7 +10936,7 @@
       "area_id": "bone-bottom",
       "name": "The Big Fall",
       "source_file": "bone-bottom/the-big-fall.json",
-      "source_sha256": "ba55e007ac52bbaf30c755c9c44aba0298e4a7cc8b48a7f895d18746c14a74d7",
+      "source_sha256": "8d4f87ecb852ecea95e2e3b2789f8ad0dedd53b8cb90075e1318e7e574ac7ad6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -13906,7 +13902,7 @@
       "area_id": "bone-bottom",
       "name": "Mosshome Upper",
       "source_file": "bone-bottom/mosshome-upper.json",
-      "source_sha256": "e7a8d4cc7d55979d833608c71deb25699157367e05de0a1e274fb868eec40b4a",
+      "source_sha256": "0a13fda8e1c8ad549f10ab0194184bce32d8f654f273a18c794ca23ecf039ab3",
       "geometry_act_independent": true,
       "notes": "known silk blockade breakers = silk spear, sharpdart, rune rage, weaver silkshot, pimpillo, and needle strikes from hunter, reaper, beast, and shaman",
       "nodes": [
@@ -15038,7 +15034,7 @@
       "area_id": "bone-bottom",
       "name": "Mosshome Middle",
       "source_file": "bone-bottom/mosshome-middle.json",
-      "source_sha256": "3fe1db30d6d7cb57074a43b379b6ad05f56822e6865d9229052c4676dafd0f6c",
+      "source_sha256": "31a3ddc953cc1f73f681854255764062b170dc331ad14441417fc2b3f38fc2d9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -15785,7 +15781,7 @@
       "area_id": "bone-bottom",
       "name": "Mosshome Lower",
       "source_file": "bone-bottom/mosshome-lower.json",
-      "source_sha256": "2e74fda0464615abf26ffaa4dfb659eafae0fdc8894acaf349e84b4c90255e45",
+      "source_sha256": "b64f1f4a0558699b68a65a0ec29962832a3d261f1ddfc00a099beace07c34d48",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -16574,7 +16570,7 @@
       "area_id": "bone-bottom",
       "name": "Mosshome Basement",
       "source_file": "bone-bottom/mosshome-basement.json",
-      "source_sha256": "e74a82fafedd7d1616901a48a5ffb6136a1cf188c952e892d7024ca2486d48ef",
+      "source_sha256": "c211e38ede3ceb83f3008ce16c71c1185895ce146440efb0259364dcc0d3a04c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -16808,7 +16804,7 @@
       "area_id": "bone-bottom",
       "name": "Mosshome Basement Passage",
       "source_file": "bone-bottom/mosshome-basement-passage.json",
-      "source_sha256": "d03626d89e11cf6e3d30398364171541dacc196ef15dac4bc027f6284206e2fc",
+      "source_sha256": "1f64ecf9a3102d90353d2169fef3ed9539449fad3ac53db018a9ad472d1b9beb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -18848,7 +18844,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Lava Intro",
       "source_file": "the-marrow/the-marrow-lava-intro.json",
-      "source_sha256": "abbd0dc9ba86e6c24d4c549460fca33a0ae3e4c70f1610fc991006694400f3c7",
+      "source_sha256": "5916370fe80746629cf1cf78723920b37cef1999901aaa5a882ec130aea89a39",
       "geometry_act_independent": true,
       "notes": "no checks",
       "nodes": [
@@ -19648,7 +19644,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Lava Track",
       "source_file": "the-marrow/the-marrow-lava-track.json",
-      "source_sha256": "629c77bec2bf9f7acb6edc4d9fd5e49024d7c76e79be9ccaffec4a08ed0bc6bc",
+      "source_sha256": "ca270601083c6fe2a90fe19f3d43a3f006fa46c84c5e1dfbf3bb05f5a70fb76d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -20955,7 +20951,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Flea Caravan",
       "source_file": "the-marrow/the-marrow-flea-caravan.json",
-      "source_sha256": "2c35fa2e5dda4261273f8eb52f4e298f972dc56778632695126cb4d04f31aaa1",
+      "source_sha256": "af20479b7df5eb11f8992ed2a2a5e686711518187c126467092f84bc3cfd482c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -21832,7 +21828,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Shaft",
       "source_file": "the-marrow/the-marrow-shaft.json",
-      "source_sha256": "98b0641110546bd17482b446aa62a5b541c76a1081e1e0536802683513af1728",
+      "source_sha256": "d5c9ea434f05b9900fec64ddfa2609b814a83c400fdf6b64c99f7a940fe5c003",
       "geometry_act_independent": true,
       "notes": "no checks",
       "nodes": [
@@ -22109,7 +22105,7 @@
         {
           "id": "the-marrow/the-marrow-shaft#upper-middle-shaft>the-bridge@ds",
           "requirement": {
-            "raw": "activate door switch\nAND (\nledge grab\nOR run\nOR dash\nOR easy beast pogo\nOR easy shaman pogo\nOR drifters\nOR faydown\nOR cling grip\nOR silk soar\nOR clawline\nOR sharpdart\n)",
+            "raw": "activate door switch\nAND (\nledge grab\nOR run\nOR dash\nOR easy [beast, shaman] pogo\nOR drifters\nOR faydown\nOR cling grip\nOR silk soar\nOR clawline\nOR sharpdart\n)",
             "mode": "expression",
             "dnf": [
               [
@@ -22268,7 +22264,7 @@
         {
           "id": "the-marrow/the-marrow-shaft#lower-middle-shaft>upper-middle-shaft@v2",
           "requirement": {
-            "raw": "ledge grab\nOR easy pogo off caranid\nOR run\nOR dash\nOR drifters\nOR faydown\nOR cling grip\nOR scuttlebrace\nOR clawline\nOR sharpdart\nOR silk soar\nOR easy shaman pogo\nOR easy hunter pogo\nOR easy architect pogo\nOR easy beast pogo\nOR easy wanderer charge\nOR easy reaper charge\nOR easy heal stall\nOR easy flea brew stall\nOR easy flintslate stall\nOR easy plasmium phial stall\nOR easy voltvessels stall",
+            "raw": "ledge grab\nOR easy pogo off caranid\nOR run\nOR dash\nOR drifters\nOR faydown\nOR cling grip\nOR scuttlebrace\nOR clawline\nOR sharpdart\nOR silk soar\nOR easy [shaman, hunter, architect, beast] pogo\nOR easy [wanderer, reaper] charge\nOR easy heal stall\nOR easy flea brew stall\nOR easy flintslate stall\nOR easy plasmium phial stall\nOR easy voltvessels stall",
             "mode": "expression",
             "dnf": [
               [
@@ -22906,7 +22902,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Map Shop",
       "source_file": "the-marrow/the-marrow-map-shop.json",
-      "source_sha256": "3b257c30eed1f29765f75d79b8ce7e991e8df631a3bad05b1af83b6964d51332",
+      "source_sha256": "09f6eb516fac20c8cfa1cfb9798c882856680a20c4b6e1bf348761c3c34f8916",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -25104,7 +25100,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Skull Wall",
       "source_file": "the-marrow/the-marrow-skull-wall.json",
-      "source_sha256": "8e58be852cd8e7cbde546d760af80b26a6ff2c366fe6cc939f7e4419b6243aa3",
+      "source_sha256": "68f644ec0b3897a56ebba0a1c8ff248da904385887d8df9fe383a7c71db33513",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -26326,7 +26322,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Mr Burns House",
       "source_file": "the-marrow/the-marrow-mr-burns-house.json",
-      "source_sha256": "4fa53b7305c1db78f5de3470e863877d86b8d64ec2f534f21cf9428447412330",
+      "source_sha256": "be91ef5bc275017bb23c41a15007f4dfefd4ead293dd65c50fa1128b6e67728b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -26990,7 +26986,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Lower Pogo",
       "source_file": "the-marrow/the-marrow-lower-pogo.json",
-      "source_sha256": "3d426cb0fda22ce7b91821415df68f2935c05f249bc1207b065f30e436326bdb",
+      "source_sha256": "99bd743596dbe8cb8d12a00c96a39594caab9ca1f0f9b0759e4d5c892c58949a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -28068,7 +28064,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Jail Pathway",
       "source_file": "the-marrow/the-marrow-jail-pathway.json",
-      "source_sha256": "5b501cee2cb02060a842e4e146fbc2f21a36aca4e6a179b6a30b2dd9d553f4d1",
+      "source_sha256": "c40fed9c50dc703c3132acd4756094dc7b469515d4dc8787db106e1cafbc1511",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -29867,7 +29863,7 @@
       "area_id": "the-marrow",
       "name": "The Marrow Skull Tyrant Arena",
       "source_file": "the-marrow/the-marrow-skull-tyrant-arena.json",
-      "source_sha256": "303d15a8bb020c282c6a49ddb7db5c788634f9181d64147a43c3bc68a501dcdc",
+      "source_sha256": "59df80b8bcdd3b4b3f5d6c8c76d7488c1b7955bc0c96218586f72d645a91b016",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -30132,7 +30128,7 @@
       "area_id": "weavenest-atla",
       "name": "Weavenest Atla Entrance",
       "source_file": "weavenest-atla/weavenest-atla-entrance.json",
-      "source_sha256": "cb5ad952a20568a340775210fef1f10bb0d7ae4b53f2f32adbea0512f5c8441f",
+      "source_sha256": "e9c8d52d69428458fd42e5e276d1d3c2bb50361e15a6b9297374fd9a7e74f781",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -30230,19 +30226,19 @@
                 "capability:silk-soar"
               ],
               [
-                "technique:reaper-crest-attack:up"
+                "capability:needle:reaper:up"
               ],
               [
-                "technique:beast-crest-attack:up"
+                "capability:needle:beast:up"
               ],
               [
-                "technique:architect-crest-attack:up"
+                "capability:needle:architect:up"
               ],
               [
-                "technique:witch-crest-attack:up"
+                "capability:needle:witch:up"
               ],
               [
-                "technique:shaman-crest-attack:up"
+                "capability:needle:shaman:up"
               ]
             ],
             "unresolved_reasons": []
@@ -30263,7 +30259,7 @@
       "area_id": "weavenest-atla",
       "name": "Weavenest Atla Teleporter",
       "source_file": "weavenest-atla/weavenest-atla-teleporter.json",
-      "source_sha256": "6e4095ef277c7ac90a24323296a92a0605f215c610be407f5976f742b5912da3",
+      "source_sha256": "9f7a0667999bfe455786782cf1f53d84fc373dcb9c19e007e1214ec138e1f56a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -30664,7 +30660,7 @@
           "label": "Servitor Ignim 1",
           "kind": "enemy",
           "node_id": "weavenest-atla/weavenest-atla-teleporter#lower-telepad",
-          "in_game_id": "Weaver Servitor (2)",
+          "in_game_id": "\"Weaver Servitor (2)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -30687,7 +30683,7 @@
           "label": "Servitor Ignim 2",
           "kind": "enemy",
           "node_id": "weavenest-atla/weavenest-atla-teleporter#lower-shaft",
-          "in_game_id": "Weaver Servitor (1)",
+          "in_game_id": "\"Weaver Servitor (1)\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -30710,7 +30706,7 @@
           "label": "Servitor Ignim 3",
           "kind": "enemy",
           "node_id": "weavenest-atla/weavenest-atla-teleporter#lower-telepad",
-          "in_game_id": "Weaver Servitor",
+          "in_game_id": "\"Weaver Servitor\"[0]",
           "requirement": {
             "raw": "None",
             "mode": "none",
@@ -31299,7 +31295,7 @@
       "area_id": "weavenest-atla",
       "name": "Weavenest Atla Grotto",
       "source_file": "weavenest-atla/weavenest-atla-grotto.json",
-      "source_sha256": "d65b27f1368a06841857453513896a87b04ca9587c69c9c41e2ddb17bb91263c",
+      "source_sha256": "0c29a80f946f71d927ac51e3495005cdb5f0793b0dc5db6856436bc0ce28510d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -33266,7 +33262,7 @@
       "area_id": "weavenest-atla",
       "name": "Weavenest Atla Mask Shard",
       "source_file": "weavenest-atla/weavenest-atla-mask-shard.json",
-      "source_sha256": "6d7b2651d30b456551654f83f3f6ad4356ba12faf01c7dd61f1e095d22e53260",
+      "source_sha256": "b10a7a816b4c9481507099445e1721797aeba09def60aca8e197910171973e8d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -33584,7 +33580,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "test flea brew as option for getting from pogo fruit to wall to cling grip",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "a956760e-3d21-443f-b34c-604b3a9efcc4"
@@ -33928,7 +33924,7 @@
       "area_id": "weavenest-atla",
       "name": "Weavenest Atla Spool",
       "source_file": "weavenest-atla/weavenest-atla-spool.json",
-      "source_sha256": "c13cbeefb9d92ba68b52e92058a6fd3ee1dee9bd10437b2f65f45c7d66980ab9",
+      "source_sha256": "3429d1e435bbfd04a1c6d2135aff3cf36954c6043e027b4ba619a40bc40c8679",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -34559,7 +34555,7 @@
       "area_id": "wormways",
       "name": "Wormways Shaft",
       "source_file": "wormways/wormways-shaft.json",
-      "source_sha256": "8e3f1a2ce794a6d3faa62ef8fcffda44409a8c7b96972c5413bb39b866b92cc0",
+      "source_sha256": "01a30c010f333a80d5d44367b8bbfa14a4a5bcbeda06d7b8816fdc4847d49bb9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -35594,7 +35590,7 @@
       "area_id": "wormways",
       "name": "Wormways Middle",
       "source_file": "wormways/wormways-middle.json",
-      "source_sha256": "dc5393ffd16ea55a35d207d5287d2bca3424c34860ffd1bc960b63541028a384",
+      "source_sha256": "7b44fcb19336deb8c38421ff0e930513dd668960ef321f1ff173d7df2517aab0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -35892,7 +35888,7 @@
       "area_id": "wormways",
       "name": "Wormways Upper West",
       "source_file": "wormways/wormways-upper-west.json",
-      "source_sha256": "d5233a8e57eb26ee8c4736f90e9afe2d9f388f0744f67cbb68737e319b8d5576",
+      "source_sha256": "332f514d91b21015d729f5d3b731b177d1ceab2a2841d1696762c9f6deb1dc83",
       "geometry_act_independent": true,
       "notes": "does anything show up in that tunnel opposite to the plasmium alcove later on? feels like there'd be an item or something relevant there",
       "nodes": [
@@ -36827,7 +36823,7 @@
       "area_id": "wormways",
       "name": "Wormways Upper East",
       "source_file": "wormways/wormways-upper-east.json",
-      "source_sha256": "aacc728ab478de01971076e62236abbf9bdfc7195cd1b1cb50c2f22eab2f42b4",
+      "source_sha256": "4645ae6e2c054e5df0975e99e4cf6181dce66a86199c03ca4bbb4f0b309a3814",
       "geometry_act_independent": true,
       "notes": "cry: elevator abyss cross is one and done if entered from above without the requirements to climb back up the abyss",
       "nodes": [
@@ -38578,7 +38574,7 @@
       "area_id": "wormways",
       "name": "Wormways Lower East",
       "source_file": "wormways/wormways-lower-east.json",
-      "source_sha256": "f6cefb955f54e5521b20d83d13f06fa772bbe8efdf37339d03f85c3c16740627",
+      "source_sha256": "24edef1351d3c889109ab3eca7f6a3531cbb7870f0c2b44e09d53b675f5c0ad9",
       "geometry_act_independent": true,
       "notes": "this one seems a bit tricky, but also it's just a bit late\ni think you need cling grip to from any one point to another in here\nTODO: review the mapping in here\ncry: Most of this area can be navigated without mobility upgrades simply with pogos, every worm-spawn shaft has a blind spot on the right side hornet can hug to safely avoid the worms and pogo over, most other shafts in wormways also have a blind spot in one direction",
       "nodes": [
@@ -39619,7 +39615,7 @@
       "area_id": "wormways",
       "name": "Wormways Lower West",
       "source_file": "wormways/wormways-lower-west.json",
-      "source_sha256": "95e884b77ef9f5d98daefe8c1e7ae4a6714e43d3ddbcbcefb74320a4eed01d16",
+      "source_sha256": "c5b120c5631753115c6d32be311612e4df1019ee9139ae4078fd68106de68e47",
       "geometry_act_independent": true,
       "notes": "this one seems a bit tricky, but also it's just a bit late\ni think you need cling grip to from any one point to another in here\nTODO: review the mapping in here\ncry: wasn't sure how to mark the second markable wall in this room, there's one at the left exit and one right before the climb connecting to the tunnel network -- the full area behind this second wall is left in the dark until that wall is broken; worth noting since you will have to navigate to it blindly in future room rando if you first enter this room from the left entrance",
       "nodes": [
@@ -40701,7 +40697,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Entrance",
       "source_file": "deep-docks/deep-docks-entrance.json",
-      "source_sha256": "d2e7beab7add9a587feb36e29bd504d16b31ab0ef685b427d4186500622c08c6",
+      "source_sha256": "b1c4176df785cbb398f7106bb33a3db8dec52f2d0fff1546e1c39650dd3a3576",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -41666,7 +41662,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Map Shop",
       "source_file": "deep-docks/deep-docks-map-shop.json",
-      "source_sha256": "50999b7e50e7f445863c8247ad274e51a1f1bf014b89539675c0903624b51ca0",
+      "source_sha256": "4589b72d8414ef24140482c30e1576e35e49115a38d56711118f494d06ff1bf3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -44027,7 +44023,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Lace Intro",
       "source_file": "deep-docks/deep-docks-lace-intro.json",
-      "source_sha256": "81ee8619a0991dacc7b6be039f49bfb2908bf02e571afcce16b1be1ffeb55d9c",
+      "source_sha256": "d3fb23203b7fec31703e26688dc86502bbb9f79dc3e2ad9379b4577e5e27d74f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -44686,7 +44682,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Spire Lower",
       "source_file": "deep-docks/deep-docks-spire-lower.json",
-      "source_sha256": "31200632c0043d06c2c31bd9a61996c85836d95c2ebfc8f755c1be3f821bcc5b",
+      "source_sha256": "5c30fabdaf6d8107d71275aa00ce386be86d4b086fe683883ebc830f0ef550d2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -46014,7 +46010,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Upper Spire",
       "source_file": "deep-docks/deep-docks-upper-spire.json",
-      "source_sha256": "bc8d602d189752b3321c53b98cc16217f96760944b658c1d87580ba66d754ba2",
+      "source_sha256": "a504e59716a24c668c32ae1b3d9cc842aef94ed343f0c4fac9d6f21040d62c04",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -46604,7 +46600,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Forge",
       "source_file": "deep-docks/deep-docks-forge.json",
-      "source_sha256": "98f2cb4bf2a4a826f7c0cc6150395d62cba3f204963c5306b07fc93ea81d2a34",
+      "source_sha256": "498e9ba01ccc92119ba0077fc7890092bd2b48bb1e4490aed349660e6406a465",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -48340,7 +48336,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Spool East",
       "source_file": "deep-docks/deep-docks-spool-east.json",
-      "source_sha256": "c0fa40cc2cc4babe54b7f22ce369a64877d23104e617b36e0c9402ea9bdac997",
+      "source_sha256": "c9cf89ff04e180b3ca52e44e1b21c6acc94e863e8d9d00887f039bd0fda78d96",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -49057,7 +49053,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains West",
       "source_file": "deep-docks/deep-docks-chains-west.json",
-      "source_sha256": "a79b0653481ee65570eec056b956020fb97f5ac12209a04231eb1baccbceae6d",
+      "source_sha256": "da4736f9abb3035f420be01694dc5a60abff055185e75439a01bf981cf02147c",
       "geometry_act_independent": true,
       "notes": "need to verify how this room works - thought it had some of the platforms go away, but not sure if that was in act 3",
       "nodes": [
@@ -50113,7 +50109,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains Flea Rescue",
       "source_file": "deep-docks/deep-docks-chains-flea-rescue.json",
-      "source_sha256": "66ff2658774513a881891de0155006d7f983149bf0992bbfb03229200c6b6f1d",
+      "source_sha256": "684998ffaecd4c87f7f00fdc5a6a3cc417d8eba69da54b3b7e455ab3c12e50c1",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -50204,7 +50200,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains Center",
       "source_file": "deep-docks/deep-docks-chains-center.json",
-      "source_sha256": "f7899a22546f91982307f7e408a79ff1f4624a7ca21621ca4550e512ab865c8c",
+      "source_sha256": "ded9670f8370af2660306994f6865174591e10b49443730e6cd3c76a30f99016",
       "geometry_act_independent": true,
       "notes": "the floor/lower half of this area is closed off initially\n\nthe switch to lower the middle chain section makes some of this logic difficult to reason about - but if you can reach the middle switch platform, there is no reason you can't reach all the stuff that unlocking the chains provides - might need to revise this for switch randomization",
       "nodes": [
@@ -51970,7 +51966,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Chains Lower East",
       "source_file": "deep-docks/deep-docks-chains-lower-east.json",
-      "source_sha256": "a55b234fe199249db1cc2eb716d6cbd910037dcf6e9236c67f815ef685fcf982",
+      "source_sha256": "956d75339f10e52873dab527f8aebac392e97c6e73a29742b4df2153eb3874ef",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -54319,7 +54315,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Sauna",
       "source_file": "deep-docks/deep-docks-sauna.json",
-      "source_sha256": "1b290342027796fe062f1980fdf97beae9c5abba7d0580b7f1c442bea3b1c1cc",
+      "source_sha256": "fa178fce6d0866f984745a50b51fa5eade21f83ecf26d9412e5450b707ec81d2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -56248,7 +56244,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Entrance East",
       "source_file": "far-fields/far-fields-entrance.json",
-      "source_sha256": "f1aeecfe4a29ebe6d6f298198082b48f31af6839ee7a354308a8c6e682bb3dce",
+      "source_sha256": "7100487e838337adf58f7149db08308988fbb847037bc8641bece7d7ba934ca3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -56973,7 +56969,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Entrance West",
       "source_file": "far-fields/far-fields-entrance-west.json",
-      "source_sha256": "7fe6079bd7fb05fcf945caa2eee3c49dcd9785ea797613533049bef549013bb0",
+      "source_sha256": "cc2accff2628174432c3c91a7ba266caea080f1005a564c482a6d56a4675c8de",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -58051,7 +58047,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Fort Lower Passage",
       "source_file": "far-fields/far-fields-fort-lower-passage.json",
-      "source_sha256": "da5adc1a20b79f45f4541f0a2cba40e0dc3163072055ad56e57f015c6904413e",
+      "source_sha256": "421f245443551e7f6fafdf09b7f9d0f7f30d24fa183dcd9ef96685a6bd2f8584",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -59132,7 +59128,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Fort Upper Passage",
       "source_file": "far-fields/far-fields-fort-upper-passage.json",
-      "source_sha256": "1b7db3fdb90747808e5aff2abb6281d857c799c494d69df2d4cf87c889e1b9a8",
+      "source_sha256": "62e7117938fd576244f79f2cb84b79b14ed17ea6deb1ea269235e96395d2985f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -60152,7 +60148,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Wind Shaft",
       "source_file": "far-fields/far-fields-wind-shaft.json",
-      "source_sha256": "70ab5d16eafaf49978da6855dd073ef8a300f5728a7177744865197fcff2a8cc",
+      "source_sha256": "a216830e7ab098a01a7b97fad8ed939f3f92c77c5554ee568fa5724103e84c52",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -63104,7 +63100,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Pilgrim's Rest",
       "source_file": "far-fields/far-fields-pilgrims-rest.json",
-      "source_sha256": "6de9bfe4e2812c9adad710f6266105ae5eece5f9b941bfe1c744cf978e90d976",
+      "source_sha256": "e84c0a24b89124eac95063bcdeb29dab6d545093a484d083d3710036c1ef9aa8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -65573,7 +65569,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Pinstress Room",
       "source_file": "far-fields/far-fields-pinstress-room.json",
-      "source_sha256": "b2572e5b7fe415071c08195b5815be084bcf04fa274b3798b81d8ca5a960fc14",
+      "source_sha256": "eda00d0dfe590a6ad840cd3af552f53e3a26433450ad29dba2ebed2c596cae91",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -69098,7 +69094,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Deep Docks Backdoor",
       "source_file": "far-fields/far-fields-deep-docks-backdoor.json",
-      "source_sha256": "973af6a728bb9f9e79922e300b1c2aff7783858bd8c1763b5eb08465d5e52b80",
+      "source_sha256": "a9e2dfe708088fd3f92bcd001ccf1152e8b48f24b5df976f9f8c8be1a5b655a6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -69431,7 +69427,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Skull Room West",
       "source_file": "far-fields/far-fields-skull-room-west.json",
-      "source_sha256": "94d185ebf66f10a193b6d53723bd3eb4edef80a8107d57eac94ffcfc901d1223",
+      "source_sha256": "7c0d57849344d042f186d7bba7feef032bdacadc4cd48355cdfa06c59bd36a33",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -70649,7 +70645,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Skull Room East",
       "source_file": "far-fields/far-fields-skull-room-east.json",
-      "source_sha256": "e8ba25023f3539bbd164ad2f81b1f32a00d736979b299e54786d54eb0d9a07b8",
+      "source_sha256": "5f5bf8cae4cbd9a4a3fa08d71b2c3d04874cc10d9becf907917a479c7abb08b0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -72627,7 +72623,7 @@
       "area_id": "far-fields",
       "name": "Weavenest Cindril",
       "source_file": "far-fields/weavenest-cindril.json",
-      "source_sha256": "78564f79f40d63a9b65fa5d05e7a4673da3140e7abe91231535e218f2f7e30d4",
+      "source_sha256": "23a83fc9b59ea16f9b6af27a257318a56507cef94934524835a4a8a817d05df3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -72944,15 +72940,13 @@
           "in_game_id": null,
           "requirement": {
             "raw": "needle [up]",
-            "mode": "expression",
-            "dnf": [
-              [
-                "capability:needle:up"
-              ]
-            ],
-            "unresolved_reasons": []
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "invalid or missing direction operand/list: [up]"
+            ]
           },
-          "logic_status": "active",
+          "logic_status": "unresolved",
           "is_todo": false,
           "is_verified": true,
           "position": {
@@ -73106,7 +73100,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Deep Entrance",
       "source_file": "far-fields/far-fields-deep-entrance.json",
-      "source_sha256": "5e237a6f89fb245ca6da9515cb33c6202d81f4c314cd6498730f539117a19dbd",
+      "source_sha256": "38b9a65ea467b1accf4ee8007fe90fdac4c7f0bd236d2c079e9766be656efc81",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -74996,7 +74990,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Deep Lower East",
       "source_file": "far-fields/far-fields-deep-lower-east.json",
-      "source_sha256": "e11caec352c38f2414e543f363096836327d8315c5dcf6d1c29d40145e2e83fa",
+      "source_sha256": "d5a43efb7219cc0bccf906fc5b050694c88264fb179c257fbe89336ce6d3388a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -75955,7 +75949,7 @@
       "area_id": "far-fields",
       "name": "Far Fields Deep Lower West",
       "source_file": "far-fields/far-fields-deep-lower-west.json",
-      "source_sha256": "56ce1d471682978feb163301a26829da7781dedf11f316dee2817a37000e54ff",
+      "source_sha256": "a801ef8da6ab2a081e08371379cdd1998bc0c38ef39498252415a6bbfd207d51",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -78933,7 +78927,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Chapel Passage",
       "source_file": "hunter-s-march/hunters-march-chapel-passage.json",
-      "source_sha256": "f590c96b00d35b5f8435067d877247993f5b07f51074666e03352436b27c7e0c",
+      "source_sha256": "da8b94cc174bb89f02d0b3a1436855bb08d6fa995d6ed2ffb69eca4eab06e143",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -80235,7 +80229,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Pogo Intro",
       "source_file": "hunter-s-march/hunters-march-pogo-intro.json",
-      "source_sha256": "6ca6c598fb7126785d25f7c9cd23d66f7ce0519157c10aafadf21f1bdc6df088",
+      "source_sha256": "43cbaa9e28bf24e1df6ed384f77af50fa766f178ba4c9870e147baad198b3abb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -80575,7 +80569,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Early Pathway West",
       "source_file": "hunter-s-march/hunters-march-early-pathway-west.json",
-      "source_sha256": "f195d28fc35d391cc457c0a31072f7c336cefc24265176feab72ec0535389b82",
+      "source_sha256": "76a2197bde890c891849e5e892ab3e7638dd9595c99a403e9bee397ac0eb84aa",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -82571,7 +82565,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Early Pathway East",
       "source_file": "hunter-s-march/hunters-march-early-pathway-east.json",
-      "source_sha256": "8890cb56bb372139d377fb4e49192decc1b727f6346eb7eb88c7ff0c79114618",
+      "source_sha256": "d961aa6ff8ef0dcebc699fb2e78e19a312fda66909f3a3c36194854b5fed7165",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -82849,7 +82843,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Shaft",
       "source_file": "hunter-s-march/hunters-march-shaft.json",
-      "source_sha256": "9f70741d8a3eec941d01458d091d4d6bcfbba2a7aaee1f42c8adc84be1f82121",
+      "source_sha256": "5876da029a652389bad73437d56c718c7325ce919180b92fcc8947536368897f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -83587,7 +83581,7 @@
       "area_id": "hunter-s-march",
       "name": "Hunter's March Skarr Shop",
       "source_file": "hunter-s-march/ant-merchant.json",
-      "source_sha256": "dbfcfcf2e9e7709eebcf5a97cb514fd109c0f4f22444cd0a6417f2597b30eaa2",
+      "source_sha256": "f09d5e34080e10abadd065749852c94225fc6a1a42a1eec16ed11077889c844d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -83704,7 +83698,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "",
+          "notes": "test both directions for flea brew",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "a4bb7f3d-4e6e-4bf3-ba18-29984204da51"
@@ -85323,7 +85317,7 @@
       "area_id": "shellwood",
       "name": "Cling Grip Room",
       "source_file": "shellwood/cling-grip-room.json",
-      "source_sha256": "c21e61539cf70bac11b82d4601ed491aec3a887608cc0b087fe6465a78455762",
+      "source_sha256": "827ab0c655c1ac48d824515594d93aa73a0a2ac394fd93e55995b9e929d2e187",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -85880,7 +85874,7 @@
       "area_id": "shellwood",
       "name": "Cling Grip Side Room",
       "source_file": "shellwood/cling-grip-side-room.json",
-      "source_sha256": "c9b903d489dccd60fee2bcffaae8cf912f5396ed3350a1973c389f3ebb847a86",
+      "source_sha256": "942d75a03950e83c92c094ef8c3e3b9da375068ec835205bb0991825e15fa21d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -86727,7 +86721,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Bellway\n",
       "source_file": "shellwood/shellwood-bellway.json",
-      "source_sha256": "a979f9c35d75bb71b42dd9e342bbc02c4874bf22175f22657e9d4306ae966598",
+      "source_sha256": "bc3965ec74512243a3880f5ef61a89095ba27c0d4a6547f1deda3432d8101262",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -87045,7 +87039,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Big Room Left",
       "source_file": "shellwood/shellwood-big-room-left.json",
-      "source_sha256": "9aec9c42ec722a60a1c12081c81ad64a3b530d4f325d511aaf928f1847c04156",
+      "source_sha256": "68f118d9291fb7674b10072f2b5dbd4672119aa68d80eeebf945ef8432e0a7d2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -88315,7 +88309,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Diddy Basement Main",
       "source_file": "shellwood/shellwood-diddy-basement-main.json",
-      "source_sha256": "28d8934090de69b642658e8fcb0c9f47c1502664b44df5369fd6f044dcda1b74",
+      "source_sha256": "cffcd84008cf82c14bbeb9e8e2da80819d630437d9bf47b11cc5d7e02c70fce9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -89744,7 +89738,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Hidden Bellhart Connection",
       "source_file": "shellwood/shellwood-hidden-bellhart-connection.json",
-      "source_sha256": "736aac6b66a24303c3ac6114ac3d14186794b2b64329feba664745f547063b7a",
+      "source_sha256": "b9312cf1322917ad02bf3f08861cb26aa346d07bae61033c44434b46d89981e0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -90678,7 +90672,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Lower Left Tall Room",
       "source_file": "shellwood/shellwood-lower-left-tall-room.json",
-      "source_sha256": "9222994a927728bcf6ec6a159bd13e93412388ca35c3fc348666dfbaa77dd16a",
+      "source_sha256": "f083dde962835ad0427a8c7ed4800d491299fb0fa6b20a721e231ed2aa158487",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -91501,7 +91495,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Mask Shard Room",
       "source_file": "shellwood/shellwood-mask-shard-room.json",
-      "source_sha256": "6433158e2ac7b676d6367fccbe8a4bb98d57b532496a8bbc310e663296dab1ac",
+      "source_sha256": "7f45d727d0284fa228d6f4f3ff6a7773f507a9d85709602dd4f45aa74332b02a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -91647,7 +91641,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Right Side Big room",
       "source_file": "shellwood/shellwood-right-side-big-room.json",
-      "source_sha256": "fbfde8f60612b8ba739da021bc96ca72d96c46fcb8f18a47bcb4326f568831ab",
+      "source_sha256": "8da3a5a949b18f252ee7f9c9ccff76335667fb2305d2a74963b69dce96ce7a6f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -93973,7 +93967,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Sister Splinter Bench",
       "source_file": "shellwood/shellwood-sister-splinter-bench.json",
-      "source_sha256": "c0ca59ca58c199d93762701002778b1e5b5854690852edda1e3b416c37b9bddd",
+      "source_sha256": "b98389a9daad727de71df47ebbaec438de94c5613176fa689f5f887fb5faa7b3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -94831,7 +94825,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Top Room",
       "source_file": "shellwood/shellwood-top-room.json",
-      "source_sha256": "3874bc71cd4fe762409a43e15cdb988db2a5d8e044e31ef493cad498d10fdfa1",
+      "source_sha256": "397ef0ecd8d9c1ef755946fe5e2583f0a6b5c4c03de7782f086113b777cfd8a4",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -95483,7 +95477,7 @@
       "area_id": "shellwood",
       "name": "Shellwood Upper Bellhart Entrance",
       "source_file": "shellwood/shellwood-upper-bellhart-entrance.json",
-      "source_sha256": "1d816203784e09393f278481cae23c0d71647d06a39c1a79e28cf4aa2da8d5fb",
+      "source_sha256": "d716c4a73f5efcd4e42a113ce91373e6846b39916d780872b4338d2acae8ec8a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -96055,7 +96049,7 @@
       "area_id": "shellwood",
       "name": "Sister Splinter",
       "source_file": "shellwood/sister-splinter.json",
-      "source_sha256": "4333d87b2386d0defca290d986e48cc738bacae078ad1689992e11f3aef84c87",
+      "source_sha256": "d11d53e0a8fe42f2f2f2e3ed6e39e5ef922b2b9f35da01bc3ef0f20d83785b33",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -96797,7 +96791,7 @@
       "area_id": "bellhart",
       "name": "Bellhart Lower",
       "source_file": "bellhart/bellhart-lower.json",
-      "source_sha256": "d3fb9f72690fa3f8fc2f229f4e3496f0d52aae47a68eb514ec219924e78477b7",
+      "source_sha256": "3639f23e392bba6dacc6952df3b96bc70c30fbdaa6f17725c40c97183c9139c2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -99305,7 +99299,7 @@
       "area_id": "bellhart",
       "name": "Belltown",
       "source_file": "bellhart/belltown.json",
-      "source_sha256": "5cd61662a60793c6a8e084f625ee1d8b6f931d5045cf6012e6c9b338d6f1aa05",
+      "source_sha256": "85334a3529100ead2662d549ec44a3cc7be8e80c53614892a3043b5d0959cc00",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -103763,7 +103757,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Craw Lake",
       "source_file": "greymoor/greymoor-craw-lake.json",
-      "source_sha256": "bd787ee27243ca1a34672d41933e0dd76fda48cffd92c8372060bdab35ee2a48",
+      "source_sha256": "bf5bf7bb9c2986bcf3a2dcf672386bdfd85008b624d3dd6338426a9f0e811246",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -106960,7 +106954,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Crow Court",
       "source_file": "greymoor/greymoor-crow-court.json",
-      "source_sha256": "ed38a51c7abf1d32e412bd5e8e132cc44f62bc9c8ed2ace4834956f361cd5dfa",
+      "source_sha256": "a23f50275133bfe559d3f17a4d3ab6f236778a93cd2050d6dbfef024deab7f11",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -107557,7 +107551,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Crow Nest",
       "source_file": "greymoor/greymoor-crow-nest.json",
-      "source_sha256": "941bd0ff1d1cc460025d0986bc9a05ae04f144c4e103c0ce2ca93892261e19ac",
+      "source_sha256": "975836055a0c2c355814eeaf523b96075e5c62e6b1850f1aa92cbbf052063103",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -111604,7 +111598,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Lower Halfway Home Path",
       "source_file": "greymoor/greymoor-lower-halfway-home-path.json",
-      "source_sha256": "db262c6c3c3c6ac9e3faada8392c5a94eb3e4db88ae6fdfeb1d887602eb1a2ce",
+      "source_sha256": "6530d12d95766d29c22377a16c794bac55f5615c64bb1a4e0fdf56c2f8920834",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -112123,7 +112117,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Weaver Shrine",
       "source_file": "greymoor/greymoor-weaver-shrine.json",
-      "source_sha256": "89a156c96868c7f6c077f51dff82191d901b4d91596b1f1a0a01eee9d7f6980b",
+      "source_sha256": "9b0218d6f8b62d3b0afd83900766fd9bf3aebe6274a31a034c3ef649cc19b76a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -112525,7 +112519,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Western Tower",
       "source_file": "greymoor/greymoor-western-tower.json",
-      "source_sha256": "a071e981038945e6a3e1b6181383e24e887f0b80c9548ee1b03ad5b910f923a7",
+      "source_sha256": "a57fc6416c3668796d1146e5314f3166a7759a719b6429a90f9e05bd746d524f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -113624,7 +113618,7 @@
       "area_id": "greymoor",
       "name": "Yarnaby Place",
       "source_file": "greymoor/yarnaby-place.json",
-      "source_sha256": "860e29072e484a5775ae6fd36b1bc1b695147f0c029b53cd7c0aed6105943740",
+      "source_sha256": "7ea922be72e72fcb2ccf867996035a41d1c081cfc1f182f588efbda0dac43b2c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -114327,7 +114321,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Bone Scroll Room",
       "source_file": "greymoor/greymoor-bone-scroll-room.json",
-      "source_sha256": "810fc1971d971d81e139b58457325827db2938d64240ae22cfe7b5ca1dc689e6",
+      "source_sha256": "344e8374029bdbf8d0babecafa69adcdefe9876e63441aa24c416a41bd7deccc",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -117365,7 +117359,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Halfway Home Exterior",
       "source_file": "greymoor/greymoor-halfway-home-exterior.json",
-      "source_sha256": "7889cb68dfe8f87df253915b23793a01819dab480ae25ba69c8cc5932b12d909",
+      "source_sha256": "3c56bb3b802d67e80547b3d6f63296b68abc52d2da1b0ed5fbc5ab7cb7df79b5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -119671,7 +119665,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Rat Tunnel",
       "source_file": "greymoor/greymoor-rat-tunnel.json",
-      "source_sha256": "5396d2979e52a6f41db3817a5821fbee463df97bc712540cf2ecfa237251c821",
+      "source_sha256": "ecc3d8469d14a7ff2a8f0fdc63a860b8fe72c828ece07f352c900443b1cf078e",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -122773,7 +122767,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Upper Halfway Home Path",
       "source_file": "greymoor/greymoor-upper-halfway-home-path.json",
-      "source_sha256": "dc4b595e7ead0c8f1237a8c086a677fe04e16000f4609cfbd03495e2bb90c7e6",
+      "source_sha256": "273afdf2471c4092f96bc9412853da6cf0e00da3af7b0e97cad323a87dbf3c80",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -123848,7 +123842,7 @@
       "area_id": "greymoor",
       "name": "Greymoor West Bellshrine Room ",
       "source_file": "greymoor/greymoor-west-bellshrine-room.json",
-      "source_sha256": "9149082a8c9afa4479be2fa8828957bca2165c858adaf1b78d8ea0a02eed2354",
+      "source_sha256": "586ee2df5691634964ef89929b28bb5a80fbdcfc0c166da9abcd470b81a3658a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -124731,7 +124725,7 @@
       "area_id": "greymoor",
       "name": "Greymoor Western Room",
       "source_file": "greymoor/greymoor-western-room.json",
-      "source_sha256": "b550079658bd439b36715f3593d392fe10de834fe1fcae7ce09f84fb5abe5c52",
+      "source_sha256": "a186bb25c46190344240e6bb34fd4a8b40a7962d7ed295845468b729e8263d51",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -129449,7 +129443,7 @@
       "area_id": "blasted-steps",
       "name": "Blasted Steps Horizontal Room with Two Sand Pits",
       "source_file": "blasted-steps/blasted-steps-horizontal-room-with-two-sand-pits.json",
-      "source_sha256": "e22ea02080c3d07e83c2fcaef0ff1ba6737546bdc65b20cb74aa304581db4f1f",
+      "source_sha256": "35b720b5c52a87f4ea328addae523014c10684a2837f516f6dafa3f08eacf026",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -130828,7 +130822,7 @@
       "area_id": "blasted-steps",
       "name": "Blasted Steps Shakra Room",
       "source_file": "blasted-steps/blasted-steps-shakra-map-room.json",
-      "source_sha256": "29805b725a4d02c9ad2d4de182a77792ff0506346b99beebc29e374521fe61ac",
+      "source_sha256": "c51e70f7d59571161fc989d80ed3cd3f614abce03863783f20dc05dc4c68ac9c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -133774,7 +133768,7 @@
       "area_id": "blasted-steps",
       "name": "Blasted Steps Toll Bench Bottom",
       "source_file": "blasted-steps/blasted-steps-toll-bench-bottom.json",
-      "source_sha256": "1749fda46708df8f512b2aa039aefeb96ef06d84381d6d0816c196013d895e82",
+      "source_sha256": "9fab10c58dda05fc0519e940d7dfa6ff5b8d851cdaeab9dfd330f4e81207a0a6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -135017,7 +135011,7 @@
       "area_id": "blasted-steps",
       "name": "Blasted Steps Wide Long Vertical",
       "source_file": "blasted-steps/blasted-steps-wide-long-vertical.json",
-      "source_sha256": "fa6964b44c8c6ada13b37420320c4588657f1dd372456ffa8e54ead07313ce7f",
+      "source_sha256": "74965adccf010e5c65fc598eb6c2fc3d4e339f67c99f21a760c1fd0be3ddffad",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -136775,7 +136769,7 @@
       "area_id": "blasted-steps",
       "name": "Great Conchflies",
       "source_file": "blasted-steps/great-conchflies.json",
-      "source_sha256": "0a95bf81c9f201c7ba7b56cad92c3431f8c230b87fc0819f9f6118c30a7c1bcc",
+      "source_sha256": "ba704857c71c981bc8a41a3e45980305624f6b51d4d997bad4713b8fc120aac2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -137301,7 +137295,7 @@
       "area_id": "blasted-steps",
       "name": "Horizontal Room with Sand Pit",
       "source_file": "blasted-steps/blasted-steps-horizontal-room-with-sand-pit.json",
-      "source_sha256": "2804124177a53142e9c5b063dc58f1de5aae799b7736b7549a6abd8e3714d9ca",
+      "source_sha256": "cc4f0dfc08e729231cadf1cfc087c85bb77a541d1358b198fbd3ad8845c9aff4",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -138407,7 +138401,7 @@
       "area_id": "blasted-steps",
       "name": "Pre Last Judge Room",
       "source_file": "blasted-steps/pre-last-judge-room.json",
-      "source_sha256": "4404a8b146e679f962685695a89a24640ec55396017206eccacf84fa3be6fff3",
+      "source_sha256": "e24f1e3d867b616179b04c99b9cfe9608093ecd4a477e858d063d450f951ed23",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -139401,7 +139395,7 @@
       "area_id": "blasted-steps",
       "name": "Windy Pinstress Entrance",
       "source_file": "blasted-steps/windy-pinstress-entrance.json",
-      "source_sha256": "f75509fc749519f7ac5e50ec5aeb46e5e204c3fda900548aad77601c62b1ae6e",
+      "source_sha256": "c8cf90f0f26316d0729c806461269eda305b644b92370bbe149b762be5778b55",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -139977,7 +139971,7 @@
       "area_id": "grand-gate",
       "name": "Grand Gate Courtroom",
       "source_file": "grand-gate/grand-gate-courtroom.json",
-      "source_sha256": "f79886a93e5d5de27b45b51c45e39b8ec50eadfec86191aa0696a309da9ffae8",
+      "source_sha256": "249da60c3ebf9cf45fd9dd9cdc3bd1f1a4c07eaf8170808e42ef1f42653aea2a",
       "geometry_act_independent": true,
       "notes": "the syntax assumes upswing is not randomized otherwise, must make upswing required for the subroom transition and the check of the spool ",
       "nodes": [
@@ -143652,7 +143646,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Hanging Cages",
       "source_file": "sinner-s-road/sinner-s-road-hanging-cages.json",
-      "source_sha256": "23d7e8a6317a32c19d669e656f9bb3d14b02eba5151b7a8edcd1b7114659993e",
+      "source_sha256": "7e7af3109174435120acb2481f7f4a7b983b2bdf091c7519b8a26817a0280a39",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -146614,7 +146608,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road North Hall",
       "source_file": "sinner-s-road/sinner-s-road-north-hall.json",
-      "source_sha256": "0a746caefdee329506888509a68e7cc3a1dd826b4500e96f4c5a2fb0c2771fcf",
+      "source_sha256": "69d71340a402b1546a24daa31e4a8f12e4025cd4b3d86c428274a7e5746267c5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151340,7 +151334,7 @@
       "area_id": "underworks",
       "name": "Underworks Below Vaultkeeper",
       "source_file": "underworks/underworks-below-vaultkeeper.json",
-      "source_sha256": "68012d58c1872509d41bc32d7cf8c9b3a4fd89fc5db2c3992be3e67f82a0c0cf",
+      "source_sha256": "343afec5010cfa745e1722c4bb72db7701e3264a12cdae2af60884e136c8650f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -151792,7 +151786,7 @@
       "area_id": "underworks",
       "name": "Underworks Clawline Entrance",
       "source_file": "underworks/underworks-clawline-entrance.json",
-      "source_sha256": "e241de78aa6ea500899b27200495dd254d7879de7d35f501730849401deb99c5",
+      "source_sha256": "0a55f0c21baf671781b82bf09657b2a112101ba2a30152cfce6ce9d789c04cc8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152054,7 +152048,7 @@
       "area_id": "underworks",
       "name": "Underworks Clawline Room",
       "source_file": "underworks/underworks-clawline-room.json",
-      "source_sha256": "eb6ffb4a441db4de7681620bb177730eee0bac194cfeaa1280d07fe01772e680",
+      "source_sha256": "3202c1aa0a8eacac5ae82a392330d4269e5122a67d9ac4b97669562e99511c3a",
       "geometry_act_independent": true,
       "notes": "Left and right sides of this room are not connected.",
       "nodes": [
@@ -152707,7 +152701,7 @@
       "area_id": "underworks",
       "name": "Underworks Craftmetal Corridor",
       "source_file": "underworks/underworks-craftmetal-corridor.json",
-      "source_sha256": "2561c0b782fa4fba16588029b8d4cd9294b11fe6ba44497af7954e3a7cf48de1",
+      "source_sha256": "c92b3581d2110f894470fc36a978c0e0f3a6850d9fdb8f3dc0090ef05aec13c1",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -152898,7 +152892,7 @@
       "area_id": "underworks",
       "name": "Underworks East Shaft",
       "source_file": "underworks/underworks-east-shaft.json",
-      "source_sha256": "7f29a92b457492ea5f56f317ffe643e4a18fe03455cbd26cc5ae9b0042a946b1",
+      "source_sha256": "902cedc50d00e844faa4278dc8853017606cb6b3a7123947cec1c8bc426b36dc",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -154260,7 +154254,7 @@
       "area_id": "underworks",
       "name": "Underworks Exhaust Organ Transit",
       "source_file": "underworks/underworks-exhaust-organ-transit.json",
-      "source_sha256": "47b42752116fff999da959239cbdd3874a12cd857ef297a6bec32f3fa89a57cf",
+      "source_sha256": "ec712960b6cf3de66e1e9613ddd7d1bc2aa835850b22287ff0db318368fefaa9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -156296,7 +156290,7 @@
       "area_id": "underworks",
       "name": "Underworks Silk Spool",
       "source_file": "underworks/underworks-silk-spool.json",
-      "source_sha256": "4f3d896ec74b0d61719dfbf4a69dbfbbe1e12a50fe64466e383675824a8d4932",
+      "source_sha256": "08cf7f1270b7d75763d64c90a5f7429fc349c8bc811a8c497b85adad7feae073",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -158592,7 +158586,7 @@
       "area_id": "underworks",
       "name": "Confession Toll",
       "source_file": "underworks/confession-toll.json",
-      "source_sha256": "9e52f4cefc4b1ced3a4781354757dc84bd35c7371ae5ac9dbced59c101f8cdfe",
+      "source_sha256": "8ba9d2e62169636cdf3e2d836b11bbb52bd26419ba1b82a64ca7d3f881367eb1",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -159002,7 +158996,7 @@
         {
           "id": "underworks/confession-toll#top>whiteward-entrance@s",
           "requirement": {
-            "raw": "Open Airlock Left AND (Silk Soar OR Cling Grip OR Scuttlebrace)",
+            "raw": "Open Airlock Left AND Activate Whiteward Side Scaffold Wall AND (Silk Soar OR Cling Grip OR Scuttlebrace)",
             "mode": "expression",
             "dnf": [
               [
@@ -159240,7 +159234,7 @@
       "area_id": "underworks",
       "name": "Underworks Below Confession",
       "source_file": "underworks/underworks-below-confession.json",
-      "source_sha256": "e476447064765232fbc8a80fe61e875f0ea9de48e903cf0d35d7ba73ab28aa8f",
+      "source_sha256": "27ee954182d6ab2a3c3571282f57cffbf029cd4b8fa8d7be51f68b2b37e54ceb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -160216,7 +160210,7 @@
       "area_id": "underworks",
       "name": "Underworks Shaft",
       "source_file": "underworks/underworks-shaft.json",
-      "source_sha256": "b391c9cd1461f90c69cc82cd58be25aa29fc8fdf8235e4069ab172fe99feff28",
+      "source_sha256": "d2f9129c459db84c3d64a5baa6e029a4837c57446a4800ed68a442837c7c5470",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -162098,7 +162092,7 @@
       "area_id": "underworks",
       "name": "Underworks Crushing Path",
       "source_file": "underworks/underworks-crushing-path.json",
-      "source_sha256": "f45f46cdff9652d60685c94a97dd52d1cdc013be7c52a206f5cfa9aaf53f16bc",
+      "source_sha256": "8ceb9891d93e1c62c173c52e10b8bfc93b4611ce0c328cfde5e8028051f9d130",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -162878,7 +162872,7 @@
       "area_id": "underworks",
       "name": "Underworks Saw Intro",
       "source_file": "underworks/underworks-saw-intro.json",
-      "source_sha256": "8264a9e34e01dd5b9c0a8d9b9a70a9176b154edde6317ebcbcda8761bb96263e",
+      "source_sha256": "2620fa802bb1ee36b871466163a14bd81d829790367d4da9217c6aca9d6446ed",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -163154,7 +163148,7 @@
       "area_id": "underworks",
       "name": "Underworks Saw Shaft",
       "source_file": "underworks/underworks-saw-shaft.json",
-      "source_sha256": "fce788811c462b93b9912829ebd29bd4022dbddd01066ebcb734d3587abdfcd0",
+      "source_sha256": "2298c67f3051195adf3a84b4eb31a32b0dc5e08ed530cb8a8abfc0930eff1979",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -163639,7 +163633,7 @@
       "area_id": "underworks",
       "name": "Underworks Wisp Thicket Passage",
       "source_file": "underworks/underworks-wisp-thicket-passage.json",
-      "source_sha256": "020a5a06bae082d8f6471c6400c99fb162094b870e971ff0e21c2000f878900c",
+      "source_sha256": "620eaabcc87ff6d1a5d09a80d30c8676b127582bd4243dbd7d081b48814e046c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -168294,7 +168288,7 @@
       "area_id": "choral-chambers",
       "name": "High Halls Corridor",
       "source_file": "choral-chambers/high-halls-corridor.json",
-      "source_sha256": "3db80a969e939f8a2b5e16c1f5401673e10def8dfd12cc85f4e0fd75305dd622",
+      "source_sha256": "0250e3ab0b2711240a205bdf9e90e9b3662e29ac7a3a292e98fc26ac145778c5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -168312,13 +168306,13 @@
             "raw": "one way entrance, opens from the other side",
             "mode": "unresolved",
             "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:one way entrance, opens from the other side"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": [
-              "unsupported mapper capability: unresolved-catalogue:one way entrance, opens from the other side"
+              "invalid or unrecognized operand-list application (check selected list markers and operand order): one way entrance, opens from the other side",
+              "mapper row is unresolved",
+              "requirement is unresolved"
             ]
           },
           "notes": "one way entrance, opens from the other side",
@@ -168328,7 +168322,9 @@
           },
           "logic_status": "unresolved",
           "unresolved_reasons": [
-            "unsupported mapper capability: unresolved-catalogue:one way entrance, opens from the other side"
+            "invalid or unrecognized operand-list application (check selected list markers and operand order): one way entrance, opens from the other side",
+            "mapper row is unresolved",
+            "requirement is unresolved"
           ],
           "alias": "L",
           "name": "left1",
@@ -173875,7 +173871,7 @@
       "area_id": "choral-chambers",
       "name": "Choral Chambers East to West",
       "source_file": "choral-chambers/choral-chambers-east-to-west.json",
-      "source_sha256": "ddbd4c7961240c05bc87051601e7bce9bba6f3a66d5712bb42ec7044ddfe0b93",
+      "source_sha256": "2b4ce42005f0b7e3ba3ca300a2132d4b0e4e043e2335fc8d965f8df94ea6482b",
       "geometry_act_independent": true,
       "notes": "Door on the east can be only opened from the west",
       "nodes": [
@@ -173899,14 +173895,14 @@
             "raw": "One way, can't be used at all from this side even if you entered from it!",
             "mode": "unresolved",
             "dnf": [],
-            "annotations": [
-              "unsupported mapper capability: unresolved-catalogue:One way, can't be used at all from this side even if you entered from it!"
-            ],
-            "catalogue_recovered": true,
+            "annotations": [],
+            "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": [
+              "invalid or unrecognized operand-list application (check selected list markers and operand order): One way, can't be used at all from this side even if you entered from it!",
               "mapper TODO requires review",
-              "unsupported mapper capability: unresolved-catalogue:One way, can't be used at all from this side even if you entered from it!"
+              "mapper row is unresolved",
+              "requirement is unresolved"
             ]
           },
           "notes": "One way, can't be used at all from this side even if you entered from it!",
@@ -173916,8 +173912,10 @@
           },
           "logic_status": "unresolved",
           "unresolved_reasons": [
+            "invalid or unrecognized operand-list application (check selected list markers and operand order): One way, can't be used at all from this side even if you entered from it!",
             "mapper TODO requires review",
-            "unsupported mapper capability: unresolved-catalogue:One way, can't be used at all from this side even if you entered from it!"
+            "mapper row is unresolved",
+            "requirement is unresolved"
           ],
           "alias": "T",
           "name": "top1",
@@ -177237,7 +177235,7 @@
       "area_id": "cogwork-core",
       "name": "Cogwork Core North Main",
       "source_file": "cogwork-core/cogwork-core-north-main.json",
-      "source_sha256": "0aa9ff312004ee566eab8f028d5e865651c5fe7b6f73f07efc182cb1a7ca33b1",
+      "source_sha256": "a2022176029e4670243ae195104f355ab13d48f9c619ea09705879db6b9314cc",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -181154,7 +181152,7 @@
       "area_id": "whispering-vaults",
       "name": "Whispering Vaults Flea Shaft",
       "source_file": "whispering-vaults/whispering-vaults-flea-shaft.json",
-      "source_sha256": "c99cf377ca73b7690d6d92c0374d7c407be7e79ffced864374629c9555bedbe8",
+      "source_sha256": "1350e23aa1c9f514d56ad36ad90af5e0be53dc480a0c557ff4035f85314bd54d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -181808,7 +181806,7 @@
       "area_id": "whispering-vaults",
       "name": "Whispering Vaults Hell",
       "source_file": "whispering-vaults/whispering-vaults-hub-area.json",
-      "source_sha256": "5bdeb6047d5ef28639e61b80538e91f84edf74dafd4fc3865545302ed0645c0e",
+      "source_sha256": "e67027ccf58e1e53ff62012bbdb6baddb350aaa5fd710908e387a8212aa8558f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -185221,7 +185219,7 @@
       "area_id": "whispering-vaults",
       "name": "Songclave Steam Tunnel",
       "source_file": "whispering-vaults/songclave-steam-tunnel.json",
-      "source_sha256": "f498c756541a09eba7f4265a72bccd0f2093bc13e46ae5c92bf464bafdc9f9d4",
+      "source_sha256": "25c98f7b88dc6fb36e789f750aaa52fee6a45d10b8caedcaa60ea9ca80297562",
       "geometry_act_independent": true,
       "notes": "No connection from Top to the rest of the subrooms.",
       "nodes": [
@@ -185834,7 +185832,7 @@
       "area_id": "whispering-vaults",
       "name": "Trobbio",
       "source_file": "whispering-vaults/trobbio.json",
-      "source_sha256": "ef9b58a19ef84e23845a77a468dd5439ef883730819306997edf9f7d5ef40d67",
+      "source_sha256": "b06b6d1f8ae6891b4fa63941108a2f2971aa25aa1b03ef5d5b3bd2dbdaf58e6c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -190992,7 +190990,7 @@
       "area_id": "high-halls",
       "name": "High Halls Small Slide",
       "source_file": "high-halls/high-halls-small-slide.json",
-      "source_sha256": "7333ccaf96049f4a0db8a1dc3aa5687c3a8dd0abc469304b747adef5551521c7",
+      "source_sha256": "5bfed4cfc4b090fef93b77420602cb10f374c57cdc89e09608ddac117e6e2432",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -191643,7 +191641,7 @@
       "area_id": "high-halls",
       "name": "High Halls Shaft Top",
       "source_file": "high-halls/high-halls-shaft-top.json",
-      "source_sha256": "5b515851556b463e4a7e410ee1241917ea5b0d0aa0e1e8555e020d8217ca0f52",
+      "source_sha256": "353e9f2dfadf34bd2870f92404b5df2aba366e4903ee737319a446a56a403106",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -192672,7 +192670,7 @@
       "area_id": "high-halls",
       "name": "High Halls Big Slide",
       "source_file": "high-halls/high-halls-big-slide.json",
-      "source_sha256": "9835bfc068e9042cd7b4cfaca5622d85e46ab888e58b965b734ba33f81a74c56",
+      "source_sha256": "54d4abde58e6cbc0f706407cd9b94f1d355bb81b2aa7cbdac471c9bead57722b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -196781,7 +196779,7 @@
       "area_id": "high-halls",
       "name": "Baby Room Interior Secret",
       "source_file": "high-halls/baby-room-interior-secret.json",
-      "source_sha256": "63cbbd81ce8a636f8e9777ca2abbeff2ca77007d8d2a4827370ced435a20a101",
+      "source_sha256": "765e554acf717e49155a13516b86cbb33d59f389ed695b82deffd1e0bb7c9faa",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -200761,7 +200759,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower Bloatroach Tower",
       "source_file": "bilewater/bilewater-lower-bloatroach-tower.json",
-      "source_sha256": "71b6bc41467ed3d29bf37c28cee49f04ef57aaad9828aa0f58c95d7391cc947c",
+      "source_sha256": "4bb71c25b47d6eb9938caeb855ca35d7f5ddd76080e5daa5adb9304f79ef2ffa",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -201633,7 +201631,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower East Hall",
       "source_file": "bilewater/bilewater-lower-east-hall.json",
-      "source_sha256": "87106d63f243992ff5b602edc8605fbea6e2a3840e5d84370f406ce26eb90156",
+      "source_sha256": "3b30fa660de73ba9f28a7548a45b303f40fa1986bc133c0bd65877f988208398",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -202501,7 +202499,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower Trap Gauntlet Hall",
       "source_file": "bilewater/bilewater-lower-trap-gauntlet-hall.json",
-      "source_sha256": "3810d41a707027bb5f705989fc5b8a7464de149c9bddc9d07fac6019ef6d32b3",
+      "source_sha256": "7dcc459f1947eb17352d51645bb25e2f34c763917d58465181504e2cfebfc5e6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -203980,7 +203978,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Northeast Tiny Room",
       "source_file": "bilewater/bilewater-northeast-tiny-room.json",
-      "source_sha256": "735a578f92df3ef9341d67335b09507f461330f146676cfcfead63eb54fb78d9",
+      "source_sha256": "61246b02d845e1fb3f20a4e143950d01b2911f2742626f60cd7be71dcb855aad",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -204234,7 +204232,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Organ Entrance",
       "source_file": "bilewater/bilewater-organ-entrance.json",
-      "source_sha256": "cae2e18afbbb0ada7eed38681d46a7095df7aa16349aaeee19a42d534502dd3a",
+      "source_sha256": "fe9bd151752f658aab4467efe7ceeae9fd0ef6397df5d501fde7d274994c4637",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -205487,7 +205485,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Sinner's Entrance",
       "source_file": "bilewater/bilewater-sinner-s-entrance.json",
-      "source_sha256": "29c19f0e9e2d458b9a406111036b24820357c24ff29146f0073bd7a4c52cd77b",
+      "source_sha256": "7a9e2a3736990a7e59c4adc0e4cb40e58b7a88526fa10c858f5b09706bf7c3da",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -206476,7 +206474,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Slubberlug River",
       "source_file": "bilewater/bilewater-slubberlug-river.json",
-      "source_sha256": "f839f7b25b8421c818f8c0323ae1351a67bdfb04b87cfade9d426109e162ef3b",
+      "source_sha256": "5eac0a6a7331e19a8a745ca2a4eea0992bbf706f6e87f3d097dda15c3ec8db80",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -206574,7 +206572,7 @@
           "label": "Slubberlug 1",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206597,7 +206595,7 @@
           "label": "Slubberlug 2",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (1)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (1)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206620,7 +206618,7 @@
           "label": "Slubberlug 3",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (2)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (2)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206643,7 +206641,7 @@
           "label": "Slubberlug 4",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (3)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (3)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206666,7 +206664,7 @@
           "label": "Slubberlug 5",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (4)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (4)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206689,7 +206687,7 @@
           "label": "Slubberlug 6",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (5)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (5)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206712,7 +206710,7 @@
           "label": "Slubberlug 7",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (6)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (6)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206735,7 +206733,7 @@
           "label": "Slubberlug 8",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (7)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (7)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206758,7 +206756,7 @@
           "label": "Slubberlug 9",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (8)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (8)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206781,7 +206779,7 @@
           "label": "Slubberlug 10",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Dustroach Pollywog (9)",
+          "in_game_id": "\"Dustroach Pollywog Control\"[0]/\"Dustroach Pollywog Pool\"[0]/\"Dustroach Pollywog (9)\"[0]",
           "requirement": {
             "raw": "none",
             "mode": "none",
@@ -206804,18 +206802,20 @@
           "label": "Swamp Squit 1",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Swamp Mosquito (4)",
+          "in_game_id": "\"Swamp Mosquito (4)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "Invalid",
+            "mode": "expression",
+            "dnf": [
+              [
+                "invalid"
+              ]
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
-          "is_todo": true,
-          "is_verified": false,
+          "logic_status": "active",
+          "is_todo": false,
+          "is_verified": true,
           "position": {
             "x": -61.4,
             "y": 45.4,
@@ -206827,18 +206827,20 @@
           "label": "Swamp Squit 2",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Swamp Mosquito (2)",
+          "in_game_id": "\"Swamp Mosquito (2)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "Invalid",
+            "mode": "expression",
+            "dnf": [
+              [
+                "invalid"
+              ]
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
-          "is_todo": true,
-          "is_verified": false,
+          "logic_status": "active",
+          "is_todo": false,
+          "is_verified": true,
           "position": {
             "x": -61.4,
             "y": 45.4,
@@ -206850,18 +206852,20 @@
           "label": "Swamp Squit 3",
           "kind": "enemy",
           "node_id": "bilewater/bilewater-slubberlug-river#room",
-          "in_game_id": "Swamp Mosquito (6)",
+          "in_game_id": "\"Swamp Mosquito (6)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "Invalid",
+            "mode": "expression",
+            "dnf": [
+              [
+                "invalid"
+              ]
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
-          "is_todo": true,
-          "is_verified": false,
+          "logic_status": "active",
+          "is_todo": false,
+          "is_verified": true,
           "position": {
             "x": -61.4,
             "y": 45.4,
@@ -206875,7 +206879,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Spike Ball Ceiling Trap Room",
       "source_file": "bilewater/bilewater-spike-ball-ceiling-trap-room.json",
-      "source_sha256": "a92bf385b374eb49f3cd6f94f37daccf8dddacbeaf3f8ddd20d52c1bbade6b3e",
+      "source_sha256": "a5a590f834b7ac838cd6381723f984be46fd76e5962ef6529e5d66ae813c1a17",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -207224,7 +207228,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper Bloatroach Tower",
       "source_file": "bilewater/bilewater-upper-bloatroach-tower.json",
-      "source_sha256": "fc50406945e0f26e1cbe3ebaaab2374dd898393bcf06cc2756ae1ea109286b1b",
+      "source_sha256": "88be3f4a1d171a402cb0483b7f51ba11d3c48e545fee95de1d36e0428c283b92",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -208227,7 +208231,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Upper East Column",
       "source_file": "bilewater/bilewater-upper-east-column.json",
-      "source_sha256": "83e3fa26801ac5179413c0dc8e402072a1b1444af928c9517d94f79417fb0bcf",
+      "source_sha256": "710f0208c545869ddbcee4f93134514c6efb5021ff7d219dc4f64b6afbed6691",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -210568,7 +210572,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Weavenest Murglin",
       "source_file": "bilewater/bilewater-weavenest-murglin.json",
-      "source_sha256": "fc7a8eb76b0077ce97d5fc2d82d35ae17a81aaa2f7d772ac84f51f0869ecd24b",
+      "source_sha256": "49dc942ba968e7131a27ab7800e5818df56fcf095909b31537ceffad18ba4c67",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -211027,7 +211031,7 @@
       "area_id": "bilewater",
       "name": "Bilewater West Hall",
       "source_file": "bilewater/bilewater-west-hall.json",
-      "source_sha256": "6206df8a0101ce18d42acdef57666d11e88ece80d891816255130e9525523a36",
+      "source_sha256": "6d4ee569aa23be8a6dd9e2badc53869012d1e96e03aea60688881059750a58b0",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -211551,7 +211555,7 @@
       "area_id": "bilewater",
       "name": "Bilewater West Secret Rooms",
       "source_file": "bilewater/bilewater-west-secret-rooms.json",
-      "source_sha256": "23e4a768e0309876cbd9babdeae2d0e379901beb1a3d19e746e0af7761691bcc",
+      "source_sha256": "d2ab71842ef56ef480d0e508c82c333724dfc9f7a1d0fa8b829e2f0f5e9df166",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -213751,7 +213755,7 @@
       "area_id": "bilewater",
       "name": "Exhaust Organ Interior",
       "source_file": "bilewater/exhaust-organ-interior.json",
-      "source_sha256": "cdb0308bdfdead01078b6f6ec1b8ba6bcf0a980d7ae23244e5a980ccbe92e831",
+      "source_sha256": "fda3c303e9e475144b8439cbcce7bc8511ecd81d46d73b54119361e9cfff5380",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -214589,7 +214593,7 @@
       "area_id": "memorium",
       "name": "BEEG flea",
       "source_file": "memorium/beeg-flea.json",
-      "source_sha256": "48f6661fb191b98ed4d6216b1768c8ae6f701a2aaac9cf226cd61ac4baf79aad",
+      "source_sha256": "65c25f448158c5880ebb91653e65f4c0905a23c853435efb8a06b37a4c5355b5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -215447,7 +215451,7 @@
       "area_id": "memorium",
       "name": "Memorium Karak",
       "source_file": "memorium/memorium-karak.json",
-      "source_sha256": "29b325328b522487e43415dff25765d330907950adf9e94336eceae76d47eb1a",
+      "source_sha256": "6b9a8f2394f3251872ecce38893059883a4c15b2347245f8ab8cce0a245879bf",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -216038,7 +216042,7 @@
       "area_id": "memorium",
       "name": "Memorium Mossy",
       "source_file": "memorium/memorium-mossy.json",
-      "source_sha256": "8a01cc6d48f699ed45924e4af7ccd3c9566da94e7fd01eca4c223393b6c48228",
+      "source_sha256": "da50908abc575cf4f00af4cc5b49077708ada308c47a255d4be7b7bb6d318a01",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -216877,7 +216881,7 @@
       "area_id": "memorium",
       "name": "Memorium Start Shaft",
       "source_file": "memorium/memorium-start-shaft.json",
-      "source_sha256": "3b19334ce36312ba61e0b2a1a85cf729fa2ce798f56b6b1be4d84ee2df96152d",
+      "source_sha256": "aa5245067f5c52acc23c7693e22f91323fa19aa2de7d257c4e5b2f1f6fd7cd53",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -217988,7 +217992,7 @@
       "area_id": "memorium",
       "name": "Memorium Voltnest",
       "source_file": "memorium/memorium-voltnest.json",
-      "source_sha256": "5b33ba36bb85d9986b2851eba188b86bf6f13c633e41aa12c068cbdc7c6d39cc",
+      "source_sha256": "6467a256bede04d7cd7dbb57514c7bbaf95c1f0d7b0dcb0123a2c2ab58b06ffc",
       "geometry_act_independent": true,
       "notes": "you can do some scuttlebrace things but its rng nonsense thats not reasonable for anyone to figure out\n\nfarsight isnt randoed yet but from \"Memorium stuff\" needs nada",
       "nodes": [
@@ -218333,7 +218337,7 @@
       "area_id": "memorium",
       "name": "Memorium water room",
       "source_file": "memorium/memorium-water-room.json",
-      "source_sha256": "743f51aa65ee1342e36e93a6575036827a55f1e5ed28e765b513ca88961aa717",
+      "source_sha256": "1135cbd5ef9d0a3d8d24434e21a5e58d59777cfc5c324fdbaa42a21a6deefc88",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -218920,7 +218924,7 @@
       "area_id": "memorium",
       "name": "Seed Shooty Memorium",
       "source_file": "memorium/seed-shooty-memorium.json",
-      "source_sha256": "87a11d22eca65a660b2bbe624b540bccff5e015a99fd33aa4905dcd31132fcbc",
+      "source_sha256": "9af0e2b603c81597d7173749b472406b89615718598cb15927fc8ad14a2c6ecf",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -219519,7 +219523,7 @@
       "area_id": "memorium",
       "name": "Shopkeeper Hides",
       "source_file": "memorium/shopkeeper-hides.json",
-      "source_sha256": "4f5532192d6bfcb3433073061d02f44e4ec1198749bbb4ae4dfc7ae0aea733be",
+      "source_sha256": "068b3ad8bef81eec9d7f56b28b595d20e8fe9c55029179f7c5c017d9e0940580",
       "geometry_act_independent": true,
       "notes": "I HATE THIS ROOOOOM",
       "nodes": [
@@ -220337,7 +220341,7 @@
       "area_id": "sands-of-karak",
       "name": "Coral Tower",
       "source_file": "sands-of-karak/coral-tower.json",
-      "source_sha256": "a10da57558c4f97fcdb3371af92a984efa0ee957182a885fe816493640110e9d",
+      "source_sha256": "3cf8e435f00f10087b2aa282ecd01991ab5c3d6117825d96d59811afec2ec0c5",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -220771,7 +220775,7 @@
       "area_id": "sands-of-karak",
       "name": "Coral Tower Entrance",
       "source_file": "sands-of-karak/coral-tower-entrance.json",
-      "source_sha256": "5232f2e4d3463264080bd295750b25d645b4726990e35d18856b5f66221f386d",
+      "source_sha256": "93af573a5388f0f173f0abce82efdf60d3d9ca8e69360bff3ea7e0bf3a3ae806",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -221226,7 +221230,7 @@
       "area_id": "sands-of-karak",
       "name": "Crustnut",
       "source_file": "sands-of-karak/crustnut.json",
-      "source_sha256": "e66ad9aa578f99d0ee2b12ac27e9405fcfcb6d991f7b36c70dd6534909ed4d1c",
+      "source_sha256": "471ade84f706017730f749f6b15d6f8d5eca4081725c12466352b3d09dad1627",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -221645,7 +221649,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Elevator to Blasted Steps",
       "source_file": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps.json",
-      "source_sha256": "7be705c9c1a7751a494f81b6888e63802b288d0a1d3ae281402087db7b3618a3",
+      "source_sha256": "5f9aa221b2bd27bcdc30f296088a06534e420916615f18e4ae2ecc5783f831ba",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -222388,7 +222392,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Lower Left Long Room",
       "source_file": "sands-of-karak/sands-of-karak-lower-left-long-room.json",
-      "source_sha256": "7486281cdad07cf4ee5b7fc96c5488e9b4aac99fc7bb1a3330d42232ae257000",
+      "source_sha256": "5ca2af4208cb85c26f466a72122fd85b8f42b44543989678be72921f0ed9c6fb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -222917,7 +222921,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Lower Right Long Room",
       "source_file": "sands-of-karak/sands-of-karak-lower-right-long-room.json",
-      "source_sha256": "a8bf236550782a49259de1ef47c5eb2cddb6bec90423d172cfc0076c86900170",
+      "source_sha256": "0b482aaf42fe6f1bf4b527e2954c35b0f45bf701b9a488fed5d2790dfae4e1ed",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -223506,7 +223510,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Right Side Tall room",
       "source_file": "sands-of-karak/sands-of-karak-right-side-tall-room.json",
-      "source_sha256": "21bbd3703e1baaf8092119cd9bc2115990fe1ea9aae07ec23b1f874ab9570581",
+      "source_sha256": "7cdbd17adedae16ad9b1b61da995073ad41a962245754791f7b0015d4f68a22d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -223846,7 +223850,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Tall Centre Room",
       "source_file": "sands-of-karak/sands-of-karak-tall-centre-room.json",
-      "source_sha256": "c54c2fcfb9f3a5c28f35ff9e6a8b1226407e3a96e38b2aeff040427b29f68f3b",
+      "source_sha256": "09173b42b7ace240511ae0df0d51569a9e169a58bd33d3f338c074bbb8abce56",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -224786,7 +224790,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Upper Left Long Room",
       "source_file": "sands-of-karak/sands-of-karak-upper-left-long-room.json",
-      "source_sha256": "deafece2fbc09a09cde09a8d695902108320a72053faf4afdb0b7df7c5719ed3",
+      "source_sha256": "ead3400c6e337cf07af93fc3153da9dda36223e6b16e7c8206f4ff4c96fac853",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -225192,7 +225196,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Karak Upper Right Long Room",
       "source_file": "sands-of-karak/sands-of-karak-upper-right-long-room.json",
-      "source_sha256": "013f628adba5ecb2eb5a6aaf7cbd2e51a946aef2ebcf8de59086752921bfbf75",
+      "source_sha256": "758a0e0d0de490851137184cc3b2fc26e09be8316352833a237c759e9cfce597",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -225377,7 +225381,7 @@
       "area_id": "sands-of-karak",
       "name": "Sands of Shakra",
       "source_file": "sands-of-karak/sands-of-shakra.json",
-      "source_sha256": "1aacec7e5c9516892332b03437aa1b0258629fcdfb3f0ab377eda473a1b4325d",
+      "source_sha256": "bc8f7374d36c29bcfb5279968533bed39455d0c9797eb0dd5e3264eaa04f298f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -226359,7 +226363,7 @@
       "area_id": "sands-of-karak",
       "name": "Voltnest",
       "source_file": "sands-of-karak/voltnest.json",
-      "source_sha256": "d8ccf14ad4a3c004d41ae54e33ddad555a290126d3036d100513ab493d703579",
+      "source_sha256": "5c54fa4729d5f1d695da95056b668e32f712c987b0e17b20e5aa95f3eed13179",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -229183,7 +229187,7 @@
       "area_id": "the-slab",
       "name": "Slab Bellway",
       "source_file": "the-slab/slab-bellway.json",
-      "source_sha256": "813fa846909a7eac3da1d020bc384b10d54e9dbdd28f5622162fc7b549f0f564",
+      "source_sha256": "5967e09bcd8d4488d4489694bad99c50f7bb837ac8d18a3f2c14a89518715669",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -232931,7 +232935,7 @@
       "area_id": "mount-fay",
       "name": "Mount Fay Entrance",
       "source_file": "mount-fay/mount-fay-entrance.json",
-      "source_sha256": "5f8c7bd737d5720109c6dab5d75658526359332e3234483f8cb3e1b15a83d4cb",
+      "source_sha256": "f189ad5e5548bbb59567df29a81aa6f80d3ddd9d18caf51bdac436b18fbc85e3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -234817,7 +234821,7 @@
       "area_id": "mount-fay",
       "name": "FayForn",
       "source_file": "mount-fay/fayforn.json",
-      "source_sha256": "d3c1b55d4f49508208842c2cabcc8e748bc724e53ea0eba918adb85cf77bb8e0",
+      "source_sha256": "396904be3ed7568a45634b6de8dfadba6315ca0c6a9ee82ba02695a763de01d2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -238549,7 +238553,7 @@
       "area_id": "mount-fay",
       "name": "Mount Fay Right Side Middle Room",
       "source_file": "mount-fay/mount-fay-right-side-middle-room.json",
-      "source_sha256": "a3bf7e1d86c3fa14545c9940de7020a1e5e7051d0cd307ae4cafbe9e8a32ee44",
+      "source_sha256": "7a4540a51bb05fbbc9b0443a31a33905c65edd1d1ccd4f519a35dabed4895d8b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -239556,7 +239560,7 @@
       "area_id": "mount-fay",
       "name": "Mount Fay Shakra",
       "source_file": "mount-fay/mount-fay-shakra.json",
-      "source_sha256": "e8e6b720dfb1cbfe95abc57175471474467bc10591e2c5049cb1192f71e3b75e",
+      "source_sha256": "2f3eb24ada0f37b162dda2ccdb773a29ab4ad05735e700b28b1c70fc9aa0687f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -242968,7 +242972,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Bellway",
       "source_file": "putrified-ducts/putrified-ducts-bellway.json",
-      "source_sha256": "e0514f1465342d8ad16e48ca7eac580f3c1a15fd2e2685fda342bff5002860cb",
+      "source_sha256": "8161d44e88117044f6084e6e75e1be9dc2e8091981869c022ad9e21723bce5c8",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -243355,7 +243359,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Connection To Bilewater",
       "source_file": "putrified-ducts/putrified-ducts-connection-to-bilewater.json",
-      "source_sha256": "c7af77d3ca0ae09bd0af2b02d585b50ba3d6289cf8596b713419fe186f124293",
+      "source_sha256": "751480de992b734c03dcce47d16b693adc718c1f8f78e4fbc354c7977c160c00",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -244607,7 +244611,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Entrance",
       "source_file": "putrified-ducts/putrified-ducts-entrance.json",
-      "source_sha256": "9e7715aa3ec2ea9859a5802d0a24da6b01af6aea11f6887a2304fd5efdc970bf",
+      "source_sha256": "5d6b71540eb52cc6f0c223fc7a7fb2e5c5f610825030d8a56578de1cedc8fd52",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -245584,7 +245588,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Lower Bridge Room",
       "source_file": "putrified-ducts/putrified-ducts-lower-bridge-room.json",
-      "source_sha256": "5b68135c808cc2ade667de8d3b06bc6d4574ee38e60b23d2b022727a3273184c",
+      "source_sha256": "b8a017b272d512059433640f0d1a81f31017a84d830a8e33a38cec4e91c7bbf3",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -246516,7 +246520,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Path To Vog",
       "source_file": "putrified-ducts/putrified-ducts-path-to-vog.json",
-      "source_sha256": "3e428a476ce5e0911632e41fa9adbee32139f920d08061d0ff01efa0033e41d8",
+      "source_sha256": "057a0741d169835fbcd1051d8b596b74e36b8c3db60c7dcaa97f1d5994892eab",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -247024,7 +247028,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Rosary Room",
       "source_file": "putrified-ducts/putrified-ducts-rosary-room.json",
-      "source_sha256": "d737362db804408c12b1f34dd76c11891a0e8e39c05396e23ec9d6c1b76ce92f",
+      "source_sha256": "a1d1045b7255c2d8712b59c36e390aeea89a4e90b2cee4b05394e634ae489db2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -247342,7 +247346,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Tall Room",
       "source_file": "putrified-ducts/putrified-ducts-tall-room.json",
-      "source_sha256": "271616954a8b35587e30b037ff980293abf584f11fba7a549b9d914d90b3535f",
+      "source_sha256": "bd36f0bfef68fe3c9bc834f178071c06aa035d1ae6b6fd51c6fbfff5112cf000",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -250182,7 +250186,7 @@
       "area_id": "the-cradle",
       "name": "Weaver Jail Lore Room",
       "source_file": "the-cradle/weaver-jail-lore-room.json",
-      "source_sha256": "3842d8a2cba1733202b95cca90a78bc15e92bf7cbfc95bf02be51af1dd0bee68",
+      "source_sha256": "56d9b6c47cdbf990af05b9b858686ec45e5be859bdc9802b1268a9ff5a22d941",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -252196,7 +252200,7 @@
       "area_id": "the-abyss",
       "name": "Abyss Bottom Left Lore Room",
       "source_file": "the-abyss/abyss-bottom-left-lore-room.json",
-      "source_sha256": "67cba45073f3e70ade0db8726f43d6a67da727d05f3d15bfeb348b313ac248a7",
+      "source_sha256": "f6673fad3b80b31d9fdbc3a09e716627636206ed214a145adcacae248fa7e7c2",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -252678,7 +252682,7 @@
       "area_id": "the-abyss",
       "name": "Abyss Drop Down From Escape Hall",
       "source_file": "the-abyss/abyss-drop-down-from-escape-hall.json",
-      "source_sha256": "9dea0aed75da2430d462e5ae8fa40dc16ccc9004bf6fb8f0f0dcae62850ee1c5",
+      "source_sha256": "292de1fafdfadcfa0317fbb3f9b34789ba2fe0658328b5ad5dfc533bf2f07726",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -253273,7 +253277,7 @@
       "area_id": "the-abyss",
       "name": "Abyss Escape Hallway",
       "source_file": "the-abyss/abyss-escape-hallway.json",
-      "source_sha256": "72bf0a95e10fdfe20cf9b1b23fa8862b2c37c9da70836166264b81ac809fd297",
+      "source_sha256": "96df15d55e73f6c21d54260e2911c294ae18b72fdcda4b35f5cf0c5cbe113a7f",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -253858,7 +253862,7 @@
       "area_id": "the-abyss",
       "name": "Abyss Hallway To Upper Big Room",
       "source_file": "the-abyss/abyss-hallway-to-upper-big-room.json",
-      "source_sha256": "ceca129fe82b88eba93f50655710d185c1eb39b7d5b1eed524f3e02f99afdd18",
+      "source_sha256": "d14e63389d34f46db1f66e905de4a1657a2f8763d668f9c8142fe6db8e3b889a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -254166,7 +254170,7 @@
       "area_id": "the-abyss",
       "name": "Abyss Landing Zone",
       "source_file": "the-abyss/abyss-landing-zone.json",
-      "source_sha256": "cb440e535db627da4bcf0d66d30f8d38b0ad9995c942f7e72d8c0de6e2b907c8",
+      "source_sha256": "17f4d5a328ccd2cf6004ea4edef51362f364a3d6bea2969d34f02ec4af2c145c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [

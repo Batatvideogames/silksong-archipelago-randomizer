@@ -1314,14 +1314,5 @@ namespace SilksongRandomizer.Patches
             return slotNames;
         }
 
-        public static string GetSlotNameAsItem(InventoryToolCrest crest, ToolCrest.SlotInfo slotInfo)
-        {
-            return GetSlotNames(crest, slotInfo).ItemName;
-        }
-
-        public static string GetSlotNameAsLocation(InventoryToolCrest crest, ToolCrest.SlotInfo slotInfo)
-        {
-            return GetSlotNames(crest, slotInfo).LocationName;
-        }
     }
 }

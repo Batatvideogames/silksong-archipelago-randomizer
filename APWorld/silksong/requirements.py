@@ -6163,21 +6163,6 @@ ALLOWED_DEAD_PATHS: frozenset[str] = frozenset(
 )
 
 
-def has_any_crest(state: CollectionState, player: int) -> bool:
-    return any(state.has(crest, player) for crest in CREST_ITEMS)
-
-
-def has_any_non_architect_crest(state: CollectionState, player: int) -> bool:
-    return any(state.has(crest, player) for crest in NON_ARCHITECT_CREST_ITEMS)
-
-
-def has_silk_spear(state: CollectionState, player: int) -> bool:
-    return (
-        state.has('Silkspear', player)
-        and has_any_non_architect_crest(state, player)
-    )
-
-
 _STATIC_ABSTRACT_REQUIREMENT_ITEMS = tuple(ABSTRACT_REQUIREMENTS.items())
 _STATIC_BELLWAY_ABSTRACT_REQUIREMENT_ITEMS = tuple(
     (

@@ -107,23 +107,6 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        internal static bool CanRequestHint(ShopItem shopItem)
-        {
-            SynchronizeShopSession();
-            return shopSessionState != null &&
-                   shopSessionClient != null &&
-                   shopSessionClient.Connected &&
-                   shopItem != null &&
-                   presentationRefreshDepth == 0 &&
-                   TryResolveShopPreviewLocation(
-                       shopItem,
-                       out string locationName
-                   ) &&
-                   InteractionRevealedLocations.Contains(
-                       LocationSet.GetCanonicalLocationName(locationName)
-                   );
-        }
-
         private static void RevealAvailableStock(ShopMenuStock shopMenu)
         {
             SynchronizeShopSession();
@@ -625,19 +608,6 @@ namespace SilksongRandomizer.Patches
                     presentationRefreshDepth--;
                 }
             }
-        }
-
-        internal static bool TryGetPresentationHint(
-            string locationName,
-            out string user,
-            out string item,
-            out ItemFlags flags)
-        {
-            bool found = TryGetPresentationHintData(locationName, out SaveState.HintData hint);
-            user = hint?.user;
-            item = hint?.item;
-            flags = hint?.flags ?? ItemFlags.None;
-            return found;
         }
 
         internal static bool TryGetPresentationHintData(string locationName, out SaveState.HintData hint)

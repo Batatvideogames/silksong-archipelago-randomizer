@@ -29,7 +29,7 @@ namespace SilksongRandomizer
             Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.5.1";
+        public const string PluginVersion = "0.5.2";
 
         public static bool OverrideUnlock { get; set; } = true;
 
@@ -160,6 +160,7 @@ namespace SilksongRandomizer
             Log = Logger;
             LoadSavedConnectionDetails();
             LoadClientDisplaySettings();
+            SaveFolderManager.Initialize(Config);
             DeathLinkManager.Initialize(QueueConnectionStatus);
             SilkLinkManager.Initialize(QueueConnectionStatus);
             CurrencyLinkManager.Initialize(QueueConnectionStatus);
@@ -1496,6 +1497,8 @@ namespace SilksongRandomizer
                 GUILayout.BeginVertical();
                 DrawArchipelagoWindowTabs();
                 GUILayout.Space(8f);
+
+                SaveFolderManager.DrawNotice();
 
                 if (selectedWindowTab == ArchipelagoWindowTab.Hints)
                 {

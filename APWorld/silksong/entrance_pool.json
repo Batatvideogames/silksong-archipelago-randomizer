@@ -4998,6 +4998,19 @@
     "group": "left"
   },
   {
+    "id": "moss-grotto/moss-grotto-center@ll",
+    "name": "Moss Grotto Center - left3",
+    "scene": "Tut_01",
+    "gate": "left3",
+    "direction": "left",
+    "vanilla": "moss-grotto/moss-grotto-west@lr",
+    "target_scene": "Tut_02",
+    "target_gate": "right2",
+    "is_door": false,
+    "group": "left",
+    "arrival_requires": "moss-grotto/moss-grotto-center@ll"
+  },
+  {
     "id": "moss-grotto/moss-grotto-center@lr",
     "name": "Moss Grotto Center - lower right",
     "scene": "Tut_01",
@@ -5006,6 +5019,18 @@
     "vanilla": "moss-grotto/moss-grotto-east@ll",
     "target_scene": "Tut_01b",
     "target_gate": "left2",
+    "is_door": false,
+    "group": "right"
+  },
+  {
+    "id": "moss-grotto/moss-grotto-center@ur",
+    "name": "Moss Grotto Center - right1",
+    "scene": "Tut_01",
+    "gate": "right1",
+    "direction": "right",
+    "vanilla": "moss-grotto/moss-grotto-east@ul",
+    "target_scene": "Tut_01b",
+    "target_gate": "left1",
     "is_door": false,
     "group": "right"
   },
@@ -5022,6 +5047,18 @@
     "group": "left"
   },
   {
+    "id": "moss-grotto/moss-grotto-east@ul",
+    "name": "Moss Grotto East - left1",
+    "scene": "Tut_01b",
+    "gate": "left1",
+    "direction": "left",
+    "vanilla": "moss-grotto/moss-grotto-center@ur",
+    "target_scene": "Tut_01",
+    "target_gate": "right1",
+    "is_door": false,
+    "group": "left"
+  },
+  {
     "id": "moss-grotto/moss-grotto-east@wd",
     "name": "Moss Grotto East - weavenest door",
     "scene": "Tut_01b",
@@ -5034,6 +5071,19 @@
     "group": "right",
     "arrival_requires": "moss-grotto/moss-grotto-east@wd",
     "return_requires": "moss-grotto/moss-grotto-east@wd"
+  },
+  {
+    "id": "moss-grotto/moss-grotto-west@lr",
+    "name": "Moss Grotto West - right2",
+    "scene": "Tut_02",
+    "gate": "right2",
+    "direction": "right",
+    "vanilla": "moss-grotto/moss-grotto-center@ll",
+    "target_scene": "Tut_01",
+    "target_gate": "left3",
+    "is_door": false,
+    "group": "right",
+    "arrival_requires": "moss-grotto/moss-grotto-west@lr"
   },
   {
     "id": "mount-fay/brightvein-entrance@d",

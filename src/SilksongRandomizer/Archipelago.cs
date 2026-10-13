@@ -3841,39 +3841,6 @@ namespace SilksongRandomizer
             }
         }
 
-        internal bool CreateOfficialHint(string locationName)
-        {
-            if (!Connected || string.IsNullOrWhiteSpace(locationName))
-            {
-                return false;
-            }
-
-            string canonical =
-                LocationSet.GetCanonicalLocationName(locationName);
-            long locationId = GetLocationId(canonical);
-            if (locationId < 0)
-            {
-                return false;
-            }
-
-            try
-            {
-                session.Hints.CreateHints(
-                    HintStatus.Unspecified,
-                    new[] { locationId }
-                );
-                return true;
-            }
-            catch (Exception ex)
-            {
-                RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Could not announce Vog hint: " +
-                    ex.Message
-                );
-                return false;
-            }
-        }
-
         private HintData ConvertOfficialHint(
             ArchipelagoSession sourceSession,
             Hint hint

@@ -220,6 +220,16 @@ class SpendingAudit:
              and location.item.advancement and location.item.name != MEMORY_LOCKET_ITEM),
             key=lambda location: location.item.name == CRAFTMETAL_ITEM,
         )
+        sources.extend(sorted(
+            (location for location in self.free
+             if location.address is not None and not location.locked
+             and location.item.name == CRAFTMETAL_ITEM
+             and location.item.player in self.worlds
+             and self.available(location.item.player, failure.state, failure.bought)
+                 < self.remaining_cost(location.item.player, failure.bought)
+             and not location.can_reach(failure.state)),
+            key=lambda location: (ranks.get(location, -1), location.player, location.name),
+        ))
         targets = sorted(
             (location for location in self.free
              if location.address is not None and not location.locked
@@ -266,4 +276,8 @@ def audit_craftmetal_spending(multiworld, worlds):
                 multiworld=multiworld,
             )
         repairs.append(repair)
-    multiworld._silksong_craftmetal_audit = {'states': audit.states, 'repairs': repairs}
+    previous = getattr(multiworld, '_silksong_craftmetal_audit', {'states': 0, 'repairs': []})
+    multiworld._silksong_craftmetal_audit = {
+        'states': previous['states'] + audit.states,
+        'repairs': previous['repairs'] + repairs,
+    }

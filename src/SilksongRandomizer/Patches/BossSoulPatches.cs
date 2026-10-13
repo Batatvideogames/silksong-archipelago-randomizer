@@ -124,12 +124,16 @@ namespace SilksongRandomizer.Patches
                 else if (SceneActors[i].activeInHierarchy && !Hold(SceneActors[i].transform))
                     EnemySoulPatches.Hold(SceneActors[i].transform);
             if (Hidden.Count == 0) return;
-            var release = new List<GameObject>();
+            List<GameObject> release = null;
             List<GameObject> retry = null;
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
                     (pair.Value.travel ? !NeedsTravelSoul(pair.Value.state) :
-                        !BossSoulState.IsMissing(pair.Value.state, pair.Value.boss))) release.Add(pair.Key);
+                        !BossSoulState.IsMissing(pair.Value.state, pair.Value.boss)))
+                {
+                    if (release == null) release = new List<GameObject>();
+                    release.Add(pair.Key);
+                }
                 else if (pair.Key.activeSelf)
                 {
                     if (retry == null) retry = new List<GameObject>();
@@ -137,6 +141,7 @@ namespace SilksongRandomizer.Patches
                 }
             if (retry != null)
                 foreach (GameObject actor in retry) actor.SetActive(false);
+            if (release == null) return;
             foreach (GameObject actor in release)
             {
                 var saved = Hidden[actor];
