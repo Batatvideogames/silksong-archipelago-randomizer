@@ -3,7 +3,9 @@ using GlobalSettings;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -16,9 +18,29 @@ namespace SilksongRandomizer.Patches
 {
     internal static class HeroControllerAbilityPatchUtil
     {
+        private static class FieldReaders<T>
+        {
+            internal static readonly ConcurrentDictionary<(Type, string), Func<object, T>> Cache =
+                new ConcurrentDictionary<(Type, string), Func<object, T>>();
+            internal static readonly Func<(Type, string), Func<object, T>> Create = Build;
+
+            private static Func<object, T> Build((Type type, string name) key)
+            {
+                FieldInfo field = AccessTools.Field(key.type, key.name);
+                if (field == null) return _ => default(T);
+                ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
+                MemberExpression value = Expression.Field(
+                    field.IsStatic ? null : Expression.Convert(instance, field.DeclaringType), field);
+                return Expression.Lambda<Func<object, T>>(
+                    Expression.Convert(value, typeof(T)), instance).Compile();
+            }
+        }
+
         public static T Field<T>(object instance, string name)
         {
-            return Traverse.Create(instance).Field(name).GetValue<T>();
+            if (instance == null) return default(T);
+            return FieldReaders<T>.Cache.GetOrAdd(
+                (instance.GetType(), name), FieldReaders<T>.Create)(instance);
         }
 
         public static T Property<T>(object instance, string name)
@@ -53,7 +75,7 @@ namespace SilksongRandomizer.Patches
         public static bool CState(object heroController, string name)
         {
             object cState = Field<object>(heroController, "cState");
-            return Traverse.Create(cState).Field(name).GetValue<bool>();
+            return Field<bool>(cState, name);
         }
 
         public static T Call<T>(object instance, string methodName, params object[] args)

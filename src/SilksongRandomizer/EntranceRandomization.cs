@@ -43,6 +43,12 @@ namespace SilksongRandomizer
             pendingScene = pendingGate = null;
         }
 
+        internal static void PrepareForExternalWarp()
+        {
+            ClearPending();
+            returnPoint.Clear();
+        }
+
         internal static string NormalizeLayout(JObject layout)
         {
             if (layout == null || layout.Count == 0 || layout.Count > 2048)

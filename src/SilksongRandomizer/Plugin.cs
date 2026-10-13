@@ -19,6 +19,9 @@ using UnityEngine;
 namespace SilksongRandomizer
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+    [BepInDependency(OptionalModCompatibility.QoLId, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(OptionalModCompatibility.FreeCompassId, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(OptionalModCompatibility.BenchwarpId, BepInDependency.DependencyFlags.SoftDependency)]
     public class RandomizerPlugin : BaseUnityPlugin
     {
         public static RandomizerPlugin Instance { get; private set; }
@@ -166,6 +169,7 @@ namespace SilksongRandomizer
             {
                 Harmony h = new Harmony(PluginGuid);
                 PatchAssemblySafely(h);
+                OptionalModCompatibility.Initialize(h);
                 Log.LogInfo($"{PluginName} {PluginVersion} loaded.");
                 DumpPatchState(h);
             }

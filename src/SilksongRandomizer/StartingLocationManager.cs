@@ -17,6 +17,22 @@ namespace SilksongRandomizer
         private const int BenchRespawnType = 1;
         private static bool isApplying;
 
+        internal static bool TryGetAlternateStartRespawn(
+            out string scene, out string marker, out int type, out MapZone zone)
+        {
+            scene = marker = null;
+            type = BenchRespawnType;
+            zone = MapZone.BONETOWN;
+            SaveState state = SaveState.Instance;
+            if (state?.IsRoomBound != true ||
+                state.startingLocation != Archipelago.StartingLocationBoneBottom)
+                return false;
+
+            scene = ResolveBoneBottomSceneName();
+            marker = BoneBottomBenchMarkerName;
+            return !string.IsNullOrEmpty(scene);
+        }
+
         internal static void ScheduleIfNeeded()
         {
             SaveState state = SaveState.Instance;

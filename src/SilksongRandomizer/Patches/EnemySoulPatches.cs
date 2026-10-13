@@ -146,8 +146,9 @@ namespace SilksongRandomizer.Patches
 
         internal static void Update()
         {
-            foreach (GameObject actor in SkippedBossEnemies.Where(pair => pair.Key == null || !WasSkipped(pair.Key)).Select(pair => pair.Key).ToArray())
-                SkippedBossEnemies.Remove(actor);
+            if (SkippedBossEnemies.Count != 0)
+                foreach (GameObject actor in SkippedBossEnemies.Where(pair => pair.Key == null || !WasSkipped(pair.Key)).Select(pair => pair.Key).ToArray())
+                    SkippedBossEnemies.Remove(actor);
             if (Hidden.Count == 0) return;
             var release = new List<GameObject>();
             List<GameObject> retry = null;
