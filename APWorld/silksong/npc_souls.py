@@ -110,14 +110,15 @@ def export_world(world, slot_data):
     slot_data['npc_soul_npcs'] = list(npcs)
     if not npcs:
         return
-    from .requirements import _export_requirement_group
+    from .requirements import _export_requirement_group, LOGIC_UNKNOWN_LOCATIONS
+    unknown = world.get_logic_unknown_locations() - world.get_goal_excluded_location_names()
     affected = {name for npc in npcs for name in (*BY_NAME[npc]['checks'], *BY_NAME[npc].get('alternatives', {}))}
     overrides = location_overrides(world, world._progression_location_rules)
     for name in affected:
         if name in slot_data['requirements']:
             rules = overrides[name]
             group = _export_requirement_group(rules)
-            if name in world.get_logic_unknown_locations():
+            if name in unknown or name in LOGIC_UNKNOWN_LOCATIONS:
                 group['logic_unknown'] = True
             slot_data['requirements'][name] = group
     for npc in npcs:

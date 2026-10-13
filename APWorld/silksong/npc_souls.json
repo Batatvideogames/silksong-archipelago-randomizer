@@ -2191,5 +2191,22 @@
         "path": "Gourmand/Great Gourmand Scene/Gourmand Servant"
       }
     ]
+  },
+  {
+    "name": "Fearful Pilgrim",
+    "actors": [
+      {
+        "scene": "bellway_01",
+        "path": "Black Thread States Thread Only Variant/Normal World/Bellway Pilgrim Stuff/Bellway Pilgrim"
+      },
+      {
+        "scene": "bone_02",
+        "path": "Bellway Pilgrim Corpse"
+      }
+    ],
+    "checks": [],
+    "events": [],
+    "act": 1,
+    "item_id": 839062
   }
 ]

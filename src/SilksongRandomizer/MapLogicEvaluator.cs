@@ -531,6 +531,8 @@ namespace SilksongRandomizer
             internal Dictionary<string, int> Inventory;
             internal Dictionary<string, bool> AbstractValues;
             internal bool HasSilkSpear;
+            internal readonly Dictionary<(string, MapCheckReachability), IReadOnlyList<LogicTooltipLine>> Lines =
+                new Dictionary<(string, MapCheckReachability), IReadOnlyList<LogicTooltipLine>>();
         }
 
         // This calls CollectAccessDelta and returns the lines for the logic tooltip.
@@ -573,6 +575,9 @@ namespace SilksongRandomizer
                     state,
                     payload
                 );
+                var key = (canonicalLocationName, reachability);
+                if (context.Lines.TryGetValue(key, out var cachedLines))
+                    return cachedLines;
                 if (reachability == MapCheckReachability.Reachable)
                 {
                     lines.Add(
@@ -589,6 +594,7 @@ namespace SilksongRandomizer
                     );
                 }
                 lines.AddRange(CollectAccessDelta(context, group));
+                context.Lines[key] = lines;
             }
             catch (Exception ex)
             {

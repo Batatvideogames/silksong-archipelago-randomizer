@@ -39,6 +39,7 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, Portrait> Portraits =
             new Dictionary<string, Portrait>(StringComparer.OrdinalIgnoreCase)
             {
+                { "Fearful Pilgrim", new Portrait("Assets/Collections/Hornet NPCs/Bellway Pilgrim Cln Data/Bellway Pilgrim Cln.prefab", "BP_idle0000", "tk2dcollections_assets_areabellwayareabone.bundle") },
                 { "Greyroot", new Portrait("Assets/Collections/Hornet NPCs/Wood Witch Cln Data/Wood Witch Cln.prefab", "WW_idle0000", "tk2dcollections_assets_areashellwood.bundle") },
                 { "Pinmaster Plinney", new Portrait("Assets/Collections/Hornet NPCs/Plinney Inside Cln Data/Plinney Inside Cln.prefab", "plinney_inside0000", "tk2dcollections_assets_areabell.bundle") },
                 { "Scrounge", new Portrait("Assets/Collections/Hornet NPCs/Relic Dealer Cln Data/Relic Dealer Cln.prefab", "listen_talk0002", "tk2dcollections_assets_areabell.bundle") },

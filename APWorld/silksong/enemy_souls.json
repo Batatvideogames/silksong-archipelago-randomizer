@@ -2846,6 +2846,9 @@
     "record": "Coral Conch Shooter Heavy",
     "item_id": 840119,
     "location_id": 841119,
+    "events": [
+      "Room Event: event:mapper/reviewed:khann-memory-heart"
+    ],
     "routes": [
       {
         "act": 2,
@@ -5237,6 +5240,40 @@
     "entrances": []
   },
   {
+    "name": "Dregwheel",
+    "record": "Song Threaded Husk Spin",
+    "item_id": 840225,
+    "location_id": 841225,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "whiteward/whiteward-unravelled-arena-room#unravelled-arena"
+        ],
+        "events": [
+          "Combat: The Unravelled"
+        ]
+      }
+    ],
+    "rooms": [
+      "whiteward/whiteward-unravelled-arena-room"
+    ],
+    "battles": [],
+    "states": [
+      {
+        "scene": "ward_02_boss",
+        "path": "Boss Scene",
+        "fsm": "Control",
+        "states": [
+          "Idle",
+          "Arena Start",
+          "Encountered Start"
+        ]
+      }
+    ],
+    "entrances": []
+  },
+  {
     "name": "Undercrank",
     "record": "Understore Heavy",
     "item_id": 840154,
@@ -7568,6 +7605,9 @@
     "record": "Coral Conch Driller",
     "item_id": 840217,
     "location_id": 841217,
+    "events": [
+      "Room Event: event:mapper/reviewed:khann-memory-heart"
+    ],
     "routes": [
       {
         "act": 1,
@@ -7904,6 +7944,394 @@
         "scene": "shadow_21",
         "path": "Scene Control/Muckmen Control/Muckmen Scene/Swamp Muckman"
       }
+    ]
+  },
+  {
+    "name": "Stilkin Trapper",
+    "record": "Swamp Muckman Tall",
+    "item_id": 840226,
+    "location_id": 841226,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "bilewater/bilewater-groal-arena#arena"
+        ],
+        "events": [
+          "Combat: Bilehaven (Groal the Great) Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "bilewater/bilewater-groal-arena"
+    ],
+    "battles": [
+      {
+        "scene": "shadow_18",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Last Claw",
+    "record": "Bone Hunter Chief",
+    "item_id": 840227,
+    "location_id": 841227,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "far-fields/memory-karmelita#arena"
+        ],
+        "events": [
+          "Combat: Karmelita Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "far-fields/memory-karmelita"
+    ],
+    "battles": [
+      {
+        "scene": "memory_ant_queen",
+        "path": "Boss Scene/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Tarmite",
+    "record": "Bone Spitter",
+    "item_id": 840228,
+    "location_id": 841228,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "far-fields/far-fields-skull-arena#arena"
+        ],
+        "events": [
+          "Combat: Skull Cavern Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "far-fields/far-fields-skull-arena"
+    ],
+    "battles": [
+      {
+        "scene": "bone_east_lavachallenge",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true,
+    "actors": [
+      {
+        "scene": "bone_east_08_boss_beastfly",
+        "path": "Boss Scene Beastfly/Beastfly States/Active/Bone Flyer Giant"
+      }
+    ],
+    "events": [
+      "Combat: Savage Beastfly (Far Fields)"
+    ]
+  },
+  {
+    "name": "Squatcraw Juror",
+    "record": "Crowman Dagger Juror",
+    "item_id": 840229,
+    "location_id": 841229,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-crow-court#the-court"
+        ],
+        "events": [
+          "Combat: Crawfather Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-crow-court"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene/Battle Start",
+        "fsm": "Battle Start",
+        "states": [
+          "Idle",
+          "Enter"
+        ]
+      }
+    ],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Tallcraw Juror",
+    "record": "Crowman Juror",
+    "item_id": 840230,
+    "location_id": 841230,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-crow-court#the-court"
+        ],
+        "events": [
+          "Combat: Crawfather Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-crow-court"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene/Battle Start",
+        "fsm": "Battle Start",
+        "states": [
+          "Idle",
+          "Enter"
+        ]
+      }
+    ],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Craw Juror",
+    "record": "Crowman Juror Tiny",
+    "item_id": 840231,
+    "location_id": 841231,
+    "routes": [
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-crow-court#the-court"
+        ],
+        "events": [
+          "Combat: Crawfather Gauntlet"
+        ]
+      }
+    ],
+    "rooms": [
+      "greymoor/greymoor-crow-court"
+    ],
+    "battles": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene"
+      }
+    ],
+    "states": [
+      {
+        "scene": "room_crowcourt_02",
+        "path": "Battle Scene/Battle Start",
+        "fsm": "Battle Start",
+        "states": [
+          "Idle",
+          "Enter"
+        ]
+      }
+    ],
+    "entrances": [],
+    "scripted_death": true
+  },
+  {
+    "name": "Burning Bug",
+    "record": "Farmer Wisp",
+    "item_id": 840232,
+    "location_id": 841232,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "wisp-thicket/wisp-thicket-grounds#room"
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "wisp-thicket/eastern-wisp-thicket#room"
+        ]
+      }
+    ],
+    "rooms": [
+      "wisp-thicket/wisp-thicket-grounds",
+      "wisp-thicket/eastern-wisp-thicket"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Roachserver",
+    "record": "Roachkeeper Chef Tiny",
+    "item_id": 840233,
+    "location_id": 841233,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "sinner-s-road/sinner-s-road-chef-s-kitchen#upper"
+        ],
+        "events": [
+          "Combat: Disgraced Chef Lugoli"
+        ]
+      }
+    ],
+    "rooms": [
+      "sinner-s-road/sinner-s-road-chef-s-kitchen"
+    ],
+    "battles": [
+      {
+        "scene": "dust_chef",
+        "path": "Battle Parent/Battle Scene"
+      }
+    ],
+    "states": [
+      {
+        "scene": "dust_chef",
+        "path": "Battle Parent/Kitchen Pipe Gong",
+        "fsm": "Gong Hit Reaction",
+        "states": [
+          "Hero Inside?",
+          "Hit Wait",
+          "Start Battle"
+        ]
+      }
+    ],
+    "entrances": []
+  },
+  {
+    "name": "Flintbeetle",
+    "record": "Rock Roller",
+    "item_id": 840234,
+    "location_id": 841234,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "the-marrow/the-marrow-entrance#above-gauntlet"
+        ],
+        "events": [
+          "Room Event: event:mapper/7c3615cb-a431-4cd0-8047-47aaffa9e9b7"
+        ]
+      }
+    ],
+    "rooms": [],
+    "battles": [],
+    "states": [],
+    "entrances": [],
+    "events": [
+      "Room Event: event:mapper/4bc84a08-c299-4d94-9774-0de006f3a1ec",
+      "Room Event: event:mapper/4a8b0a37-4e8e-493e-83b1-eaafe55c174f",
+      "Room Event: event:mapper/fcacceb1-8b08-435b-a080-59894c1189d8",
+      "Room Event: event:mapper/reviewed:flintbeetle-two-collected"
+    ]
+  },
+  {
+    "name": "Freshfly",
+    "record": "Slab Fly Small Fresh",
+    "item_id": 840235,
+    "location_id": 841235,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "the-slab/slab-arena#arena"
+        ],
+        "events": [
+          "Combat: Broodmother Gauntlet",
+          "Room Event: event:mapper/reviewed:wailing-mother-accepted",
+          "Room Event: event:mapper/260cb049-e57d-4d5e-8b29-983c717b1af5"
+        ]
+      }
+    ],
+    "rooms": [],
+    "battles": [
+      {
+        "scene": "slab_16b",
+        "path": "Broodmother Scene Control/Broodmother Scene/Battle Scene Broodmother"
+      }
+    ],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Cragglite",
+    "record": "Small Crab",
+    "item_id": 840236,
+    "location_id": 841236,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "wormways/wormways-craggler-hallway#room"
+        ],
+        "events": [
+          "Room Event: event:mapper/a024eccb-84f9-4033-8890-a5cdd7668a97"
+        ]
+      }
+    ],
+    "rooms": [],
+    "battles": [],
+    "states": [],
+    "entrances": []
+  },
+  {
+    "name": "Clawmaiden",
+    "record": "Song Handmaiden",
+    "item_id": 840237,
+    "location_id": 841237,
+    "routes": [
+      {
+        "act": 2,
+        "nodes": [
+          "high-halls/baby-room-interior-secret#ground"
+        ]
+      }
+    ],
+    "rooms": [
+      "high-halls/baby-room-interior-secret"
+    ],
+    "battles": [
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene"
+      },
+      {
+        "scene": "song_04",
+        "path": "Black Thread States/Normal World/Scene States/Battle Scene"
+      }
+    ],
+    "states": [],
+    "entrances": [],
+    "scripted_death": true,
+    "events": [
+      "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet",
+      "Room Event: event:mapper/reviewed:choral-spa-gauntlet"
     ]
   }
 ]

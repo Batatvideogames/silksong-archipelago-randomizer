@@ -71,6 +71,31 @@ class NativeRegionRule(Rule, game=GAME_NAME):
 
 
 @dataclasses.dataclass()
+class RequiredLocationRule(Rule, game=GAME_NAME):
+    name: str
+    compile_options: tuple
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.compile_options = tuple((name, frozenset(value) if name == 'abstract_requirement_names'
+                                      else tuple(value) if isinstance(value, list) else value)
+                                     for name, value in self.compile_options)
+
+    def to_dict(self):
+        result = super().to_dict()
+        result['args']['compile_options'] = tuple((name, sorted(value) if isinstance(value, frozenset) else value)
+                                                 for name, value in self.compile_options)
+        return result
+
+    def _instantiate(self, world):
+        from .progression_shuffle import world_location_requirements
+        return _or_rules(
+            _compile_requirement(rule, **dict(self.compile_options))
+            for rule in world_location_requirements(world, self.name)
+        ).resolve(world)
+
+
+@dataclasses.dataclass()
 class AbstractRequirementRule(Rule, game=GAME_NAME):
     """Evaluate one named node in Silksong's cyclic route graph.
 
@@ -924,13 +949,10 @@ def _compile_requirement(
             return True_()
         if canonical_name in required_location_stack:
             return False_()
-        alternatives = REQUIREMENTS.get(canonical_name)
-        if not alternatives:
+        if not REQUIREMENTS.get(canonical_name):
             return False_()
         next_stack = (*required_location_stack, canonical_name)
-        return _or_rules(
-            _compile_requirement(
-                alternative,
+        return RequiredLocationRule(canonical_name, tuple(dict(
                 abstract_requirement_names=abstract_requirement_names,
                 split_dash_and_sprint=split_dash_and_sprint,
                 allow_bellways_before_bell_beast=(
@@ -965,9 +987,7 @@ def _compile_requirement(
                 steel_soul_sites=steel_soul_sites,
                 silk_and_soul_points=silk_and_soul_points,
                 silk_heart_logic=silk_heart_logic,
-            )
-            for alternative in alternatives
-        )
+            ).items()))
 
     if anchor_requirement_name in requirement.all_of:
         requirement = dataclasses.replace(

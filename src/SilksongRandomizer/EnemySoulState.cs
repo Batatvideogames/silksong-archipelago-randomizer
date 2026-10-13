@@ -61,6 +61,13 @@ namespace SilksongRandomizer
 
         internal static string LocationName(string name) => "First Kill: " + name;
 
+        internal static bool IsFirstKillPending(SaveState state, string name)
+        {
+            if (!IsEnabled(state, name)) return false;
+            string location = LocationSet.GetCanonicalLocationName(LocationName(name));
+            return state.IsLocationInSeed(location) && state.checkedLocations?.Contains(location) != true;
+        }
+
         internal static bool TryGetSpecies(EnemyJournalRecord record, out string species)
         {
             species = null;

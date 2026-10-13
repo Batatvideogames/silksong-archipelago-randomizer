@@ -2209,7 +2209,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.get_category_mode('Relic') != 'vanilla'
             ),
         )
-        for name in self.get_logic_unknown_locations() - LOGIC_UNKNOWN_LOCATIONS:
+        for name in (self.get_logic_unknown_locations() - LOGIC_UNKNOWN_LOCATIONS
+                     - self.get_goal_excluded_location_names()):
             exported_requirements[name] = {'alternatives': [], 'logic_unknown': True}
         slot_data = {
             **self.options.as_dict("accessibility", "start_inventory", "start_inventory_from_pool", "exclude_locations"),

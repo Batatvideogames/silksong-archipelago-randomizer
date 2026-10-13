@@ -49,8 +49,67 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
-        internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state) =>
-            !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] species) || !MissingAny(state, species);
+        internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state)
+        {
+            if (IsClawmaidenRemoval(scene, path, fsm, name) && EnemySoulState.IsFirstKillPending(state, "Clawmaiden")) return false;
+            return !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] species) || !MissingAny(state, species);
+        }
+
+        internal static bool IsClawmaidenRemoval(string scene, string path, string fsm, string name) =>
+            string.Equals(scene, "Hang_14", StringComparison.OrdinalIgnoreCase) &&
+            ((path == "Handmaiden Scene/break_thread_core" && fsm == "Break Threads" && name == "Snap Start") ||
+             (fsm == "Control" && ((path == "Handmaiden Scene" && (name == "Break Pause" || name == "Broken")) ||
+              (IsClawmaidenActor(path) && name == "Burn Death"))));
+
+        private static bool IsClawmaidenActor(string path) =>
+            path.StartsWith("Handmaiden Scene/Hanging Handmaidens/Song Handmaiden", StringComparison.Ordinal) ||
+            path.StartsWith("Handmaiden Scene/Handmaiden Attackers/Song Handmaiden", StringComparison.Ordinal);
+
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.PlayerDataBoolTest), "OnEnter")]
+        private static class UnfinishedClawmaidenEncounter
+        {
+            private static bool Prefix(HutongGames.PlayMaker.Actions.PlayerDataBoolTest __instance)
+            {
+                if (__instance.boolName?.Value != "marionettesBurned" ||
+                    __instance.Fsm.GameObject.scene.name != "Hang_14" || __instance.Fsm.Name != "Control" ||
+                    !EnemySoulState.IsFirstKillPending(SaveState.Instance, "Clawmaiden")) return true;
+                string path = Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform);
+                if (!(path == "Handmaiden Scene" && __instance.State.Name == "Idle") &&
+                    !(IsClawmaidenActor(path) && __instance.State.Name == "Burned?")) return true;
+                __instance.Fsm.Event(__instance.isFalse);
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        internal static bool IsBurningBugActor(string scene, string path) =>
+            (scene == "Wisp_02" && path.StartsWith("Wisp Farmers/Farmer Wisp", StringComparison.Ordinal)) ||
+            (scene == "Wisp_07" && path.StartsWith("Wisp Farmers (1)/Farmer Wisp", StringComparison.Ordinal));
+
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class UnfinishedBurningBugEncounter
+        {
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance) =>
+                __instance.boolName != "defeatedWispPyreEffigy" || __instance.objectToDeactivate != null ||
+                !EnemySoulState.IsFirstKillPending(SaveState.Instance, "Burning Bug") ||
+                !IsBurningBugActor(__instance.gameObject.scene.name, Utils.GetHierarchyPath(__instance.transform));
+        }
+
+        [HarmonyPatch(typeof(PlayerDataTestResponse), "Evaluate")]
+        private static class BurningBugReturnGate
+        {
+            private static bool Prefix(PlayerDataTestResponse __instance, PlayerDataTest ___test)
+            {
+                if (__instance.gameObject.scene.name != "Wisp_02" ||
+                    !EnemySoulState.IsFirstKillPending(SaveState.Instance, "Burning Bug") ||
+                    !IsBurningBugActor("Wisp_02", Utils.GetHierarchyPath(__instance.transform)) ||
+                    ___test?.TestGroups?.Length != 1) return true;
+                var tests = ___test.TestGroups[0].Tests;
+                return tests == null || tests.Length != 2 || tests[0].FieldName != "defeatedWispPyreEffigy" ||
+                    !tests[0].BoolValue || tests[1].FieldName != "wisp02_enemiesReturned" || tests[1].BoolValue;
+            }
+        }
+
         private static readonly ConditionalWeakTable<object, Reward> Rewards = new ConditionalWeakTable<object, Reward>();
         private static readonly MethodInfo NativeCurrency = AccessTools.Method(typeof(HealthManager), "SpawnCurrency");
 
@@ -211,9 +270,9 @@ namespace SilksongRandomizer.Patches
         internal static bool CanStartBattle(BattleScene battle)
         {
             SaveState state = SaveState.Instance;
-            if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]" || IsBossBattle(battle)) return true;
-            string key = battle.gameObject.scene.name + "|" + Utils.GetHierarchyPath(battle.transform);
-            if (Battles.TryGetValue(key, out string[] expected) && MissingAny(state, expected)) return false;
+            if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]") return true;
+            if (!CanStartBattle(battle.gameObject.scene.name, Utils.GetHierarchyPath(battle.transform), state)) return false;
+            if (IsBossBattle(battle)) return true;
             foreach (EnemyDeathEffects death in battle.GetComponentsInChildren<EnemyDeathEffects>(true))
                 if (TryGetSpecies(death, out string species) &&
                     EnemySoulState.IsMissing(state, species)) return false;
@@ -225,6 +284,9 @@ namespace SilksongRandomizer.Patches
                                 EnemySoulState.IsMissing(state, species)) return false;
             return true;
         }
+
+        internal static bool CanStartBattle(string scene, string path, SaveState state) =>
+            !Battles.TryGetValue(scene + "|" + path, out string[] expected) || !MissingAny(state, expected);
 
         private static bool IsBossBattle(BattleScene battle) => battle != null &&
             BossSoulPatches.Battles.ContainsKey(battle.gameObject.scene.name + "|" + Utils.GetHierarchyPath(battle.transform));
@@ -362,7 +424,7 @@ namespace SilksongRandomizer.Patches
             {
                 if (string.IsNullOrEmpty(SaveState.Instance?.enemySoulsJson) || SaveState.Instance.enemySoulsJson == "[]") return;
                 HealthManager health = __instance.GetComponent<HealthManager>();
-                if (health == null || !health.hasSpecialDeath || !health.WillAwardJournalKill ||
+                if (health == null || !health.WillAwardJournalKill ||
                     !TryGetSpecies(__instance, out string species) || !EnemySoulState.HasScriptedDeath(species)) return;
                 if (ClaimKill(SaveState.Instance, species))
                 {

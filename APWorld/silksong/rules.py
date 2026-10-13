@@ -545,6 +545,7 @@ def set_silksong_rules(world) -> None:
         if (
             randomize_needle_upgrades
             and location_name == RESTORATION_OF_BELLHART_QUEST_LOCATION
+            and shuffled_requirements is None
         ):
             # FullQuestBase Belltown House Start requires nailUpgrades > 0.
             # The client mirrors received Progressive Needle Upgrades into
@@ -556,6 +557,7 @@ def set_silksong_rules(world) -> None:
         if (
             relic_mode != 'vanilla'
             and location_name == RESTORATION_OF_BELLHART_QUEST_LOCATION
+            and shuffled_requirements is None
         ):
             # BelltownRelicDealerGaveRelic is set only when Scrounge takes at
             # least one deposited relic. In vanilla mode the free Moss Grotto
