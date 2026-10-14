@@ -599,7 +599,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(room_node_name("the-slab/slab-entrance#room")),
     ),
     "event:the-slab/slab-cell/poodle-wall-opened": (
-        _part(room_node_name("the-slab/slab-poodle#room")),
+        _part(room_node_name("the-slab/slab-poodle#top-right")),
     ),
     "event:the-slab/slab-cell/secret-side-wall-opened": (
         _part(room_node_name("the-slab/slab-secret-side-room#bottom")),

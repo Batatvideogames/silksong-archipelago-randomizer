@@ -313,6 +313,10 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        // Rhinogrund uses a kill flag, so his reloaded HealthManager still looks alive.
+        internal static bool IsEnemySourceConsumed(string locationName, bool dead, PlayerData data) =>
+            dead || (locationName == "Beast Shard: Pilgrim's Rest" && data != null && data.churchRhinoKilled);
+
         private static bool TryGetConsumedEnemyDropLocation(
             HealthManager healthManager,
             out string locationName)
@@ -323,15 +327,15 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            if (healthManager.isDead &&
-                BeastShardSourceManifest.TryGetEnemyDropLocation(
+            PlayerData playerData = PlayerData.instance;
+            if (BeastShardSourceManifest.TryGetEnemyDropLocation(
                     healthManager,
-                    out locationName))
+                    out locationName) &&
+                IsEnemySourceConsumed(locationName, healthManager.isDead, playerData))
             {
                 return true;
             }
 
-            PlayerData playerData = PlayerData.instance;
             EnemyDeathEffects deathEffects =
                 healthManager.GetComponent<EnemyDeathEffects>();
             if (playerData != null &&

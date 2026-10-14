@@ -237,6 +237,19 @@ namespace SilksongRandomizer.Patches
             scene != "Ward_02" || path != "Boss Scene Parent/ward_slide_hatch/lock_machine" ||
             CanEnterState("ward_02_boss", "Boss Scene", "Control", "Idle", state);
 
+        internal static void DescribeMissingSouls(string scene, string path, string fsm, string name,
+            SaveState save, List<string> missing)
+        {
+            string key = scene + "|" + path;
+            string boss;
+            bool found = fsm == null ? Battles.TryGetValue(key, out boss) :
+                States.TryGetValue(key + "|" + fsm + "|" + name, out boss) ||
+                States.TryGetValue(scene + "|@" + path.Substring(path.LastIndexOf('/') + 1) + "|" + fsm + "|" + name, out boss);
+            if (found && BossSoulState.IsMissing(save, boss)) missing.Add(BossSoulState.ItemName(boss));
+            EnemySoulPatches.DescribeMissingSouls(scene, path, fsm, name, save, missing);
+            if (fsm != null) NpcSoulState.DescribeMissingSouls(scene, path, fsm, name, save, missing);
+        }
+
         [HarmonyPatch(typeof(BattleScene), nameof(BattleScene.StartBattle))]
         private static class StartBattle
         {
@@ -281,17 +294,55 @@ namespace SilksongRandomizer.Patches
         {
             private readonly FsmState state;
             private readonly FsmStateAction[] actions;
+            private readonly SaveState owner;
+            private SoulTriggerContact[] contacts;
+            private bool enteredState;
+            private readonly ArenaSoulDiagnostic diagnostic = new ArenaSoulDiagnostic();
 
             internal AwaitSoul(FsmState state, FsmStateAction[] actions)
             {
                 this.state = state;
                 this.actions = actions;
+                owner = SaveState.Instance;
+            }
+
+            public override void OnEnter()
+            {
+                contacts = actions.Select(SoulTriggerContact.Create).Where(contact => contact != null).ToArray();
+                if (contacts.Length != 0) return;
+                contacts = Fsm.States.Where(previous => previous.Transitions?.Any(t => t.ToState == state.Name) == true)
+                    .SelectMany(previous => previous.Actions).Select(SoulTriggerContact.Create)
+                    .Where(contact => contact != null).ToArray();
+                enteredState = contacts.Length != 0;
             }
 
             public override void OnUpdate()
             {
-                if (CanEnterState(Fsm.GameObject.scene.name, Utils.GetHierarchyPath(Fsm.GameObject.transform),
-                    Fsm.Name, state.Name, SaveState.Instance)) Fsm.SetState(state.Name);
+                if (owner != SaveState.Instance) return;
+                HeroController hero = contacts.Length == 0 ? null : HeroController.instance;
+                Collider2D player = hero == null ? null : hero.GetComponent<Collider2D>();
+                bool inside = false;
+                foreach (SoulTriggerContact contact in contacts)
+                {
+                    contact.Observe(player);
+                    inside |= contact.CanReplay(player);
+                }
+                bool soulsReady = CanEnterState(Fsm.GameObject.scene.name, Utils.GetHierarchyPath(Fsm.GameObject.transform),
+                    Fsm.Name, state.Name, SaveState.Instance);
+                bool outside = enteredState && !inside;
+                bool playerReady = !soulsReady || outside || !(inside || enteredState) || ArenaSoulGatePatches.PlayerReady(hero);
+                var reason = !soulsReady ? ArenaWaitReason.MissingSouls : outside ? ArenaWaitReason.OutsideArena :
+                    !playerReady ? ArenaWaitReason.PlayerNotReady : ArenaWaitReason.Resuming;
+                diagnostic.State(state, reason, owner.receivedItems?.Count ?? 0);
+                if (!soulsReady || outside || !playerReady) return;
+                Fsm.SetState(state.Name);
+                if (enteredState || Fsm.ActiveState != state) return;
+                foreach (SoulTriggerContact contact in contacts)
+                    if (contact.CanReplay(player))
+                    {
+                        contact.Replay(player);
+                        if (Fsm.ActiveState != state) break;
+                    }
             }
 
             public override void OnExit() => state.Actions = actions;

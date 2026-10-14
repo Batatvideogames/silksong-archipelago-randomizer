@@ -25,6 +25,7 @@ namespace SilksongRandomizer.Patches
         private static readonly Dictionary<string, string[]> Entrances = BuildRequirements("entrances");
         private static readonly Dictionary<string, string[]> Actors = BuildRequirements("actors");
         private static readonly Dictionary<string, string[]> States = BuildRequirements("states");
+        private static readonly Dictionary<string, string> StateBattles = BuildStateBattles();
         private static readonly AccessTools.FieldRef<BattleScene, bool> BattleCompleted =
             AccessTools.FieldRefAccess<BattleScene, bool>("completed");
 
@@ -71,13 +72,54 @@ namespace SilksongRandomizer.Patches
             return false;
         }
 
+        internal static void DescribeMissingSouls(string scene, string path, string fsm, string name,
+            SaveState state, List<string> missing)
+        {
+            void Add(string[] species)
+            {
+                foreach (string value in species)
+                    if (EnemySoulState.IsMissing(state, value))
+                    {
+                        string item = EnemySoulState.ItemName(value);
+                        if (!missing.Contains(item)) missing.Add(item);
+                    }
+            }
+            string key = scene + "|" + path;
+            if (fsm == null)
+            {
+                if (Battles.TryGetValue(key, out string[] battle)) Add(battle);
+                return;
+            }
+            key += "|" + fsm + "|" + name;
+            if (States.TryGetValue(key, out string[] required)) Add(required);
+            if (StateBattles.TryGetValue(key, out string parent)) Add(Battles[parent]);
+            if (IsClawmaidenRemoval(scene, path, fsm, name) && EnemySoulState.IsFirstKillPending(state, "Clawmaiden"))
+                missing.Add("First Kill: Clawmaiden pending");
+        }
+
+        private static Dictionary<string, string> BuildStateBattles()
+        {
+            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (string key in States.Keys)
+            {
+                string[] parts = key.Split('|');
+                string actor = parts[0] + "|" + parts[1];
+                string parent = null;
+                foreach (string battle in Battles.Keys)
+                    if ((actor.Equals(battle, StringComparison.OrdinalIgnoreCase) ||
+                         actor.StartsWith(battle + "/", StringComparison.OrdinalIgnoreCase)) &&
+                        (parent == null || battle.Length > parent.Length)) parent = battle;
+                if (parent != null) result[key] = parent;
+            }
+            return result;
+        }
+
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state)
         {
-            if (scene == "Song_04" && fsm == "Control" && (name == "Idle" || name == "State") &&
-                path == "Black Thread States/Normal World/Scene States/Battle Scene/Wake Scene")
-                return CanStartBattle(scene, "Black Thread States/Normal World/Scene States/Battle Scene", state);
             if (IsClawmaidenRemoval(scene, path, fsm, name) && EnemySoulState.IsFirstKillPending(state, "Clawmaiden")) return false;
-            return !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] species) || !MissingAny(state, species);
+            string key = scene + "|" + path + "|" + fsm + "|" + name;
+            return (!States.TryGetValue(key, out string[] species) || !MissingAny(state, species)) &&
+                (!StateBattles.TryGetValue(key, out string battle) || !MissingAny(state, Battles[battle]));
         }
 
         internal static bool IsClawmaidenRemoval(string scene, string path, string fsm, string name) =>

@@ -1666,11 +1666,6 @@
       "Flea: Pilgrim's Rest"
     ]
   },
-  "event:mapper/cb3993fd-b414-4c2f-b348-5126c86110a0": {
-    "name": "Far Fields Pilgrim's Rest Church - Rhinogrund miniboss fight",
-    "kind": "miniboss",
-    "locations": []
-  },
   "event:mapper/155d2d7d-749c-43c7-a626-f90e59b6f78c": {
     "name": "Far Fields Pilgrim's Rest Church - Door switch",
     "kind": "switch",
@@ -1906,11 +1901,6 @@
       "Far Fields - Rosary Cache #6"
     ]
   },
-  "event:mapper/ad86a3dd-97bb-489f-9a5c-770535255953": {
-    "name": "Far Fields Skull Room West - Hoker enemy",
-    "kind": "enemy",
-    "locations": []
-  },
   "event:mapper/fed44522-1cb6-4044-bb55-d5ba6af1bb5a": {
     "name": "Far Fields Skull Room West - Spine break blast rock",
     "kind": "blockade",
@@ -1949,11 +1939,6 @@
     "locations": [
       "Far Fields - Rosary Cache #8"
     ]
-  },
-  "event:mapper/ad488f84-fc0c-4e3b-9d67-12cf15721e4a": {
-    "name": "Far Fields Skull Room East - Hoker enemy",
-    "kind": "enemy",
-    "locations": []
   },
   "event:mapper/c5fc9095-edd9-4228-a2dc-899833c115b8": {
     "name": "Far Fields Skull Room East - Mister Mushroom Meeting Far Fields",
@@ -4720,16 +4705,6 @@
     "kind": "switch",
     "locations": []
   },
-  "event:mapper/4abc52e9-4841-4c56-b8e6-688817e2f3ff": {
-    "name": "Underworks Clawline Room - Underworks: Gauntlet #3",
-    "kind": "gauntlet",
-    "locations": []
-  },
-  "event:mapper/c5d0fd1a-0170-482b-847d-106937db8af5": {
-    "name": "Underworks East Shaft - Underworks: Flip Switch #3",
-    "kind": "switch",
-    "locations": []
-  },
   "event:mapper/1733ac4b-c34e-4248-9585-fe16f874a928": {
     "name": "Underworks Eastern Gauntlet - Underworks: Lever #1",
     "kind": "switch",
@@ -4813,16 +4788,6 @@
   "event:mapper/64a48827-9b2f-478f-9bb6-1f921054ef1f": {
     "name": "Underworks Ventrica - Underworks: Ventrica",
     "kind": "travel",
-    "locations": []
-  },
-  "event:mapper/7954d0d0-4544-449f-ab7e-6dcfbd843718": {
-    "name": "Broken Elevator - Locked Door",
-    "kind": "blockade",
-    "locations": []
-  },
-  "event:mapper/7f216e4a-24b2-4053-8528-a008c394a594": {
-    "name": "Underworks Map Room - Underworks: Break Wall #4",
-    "kind": "blockade",
     "locations": []
   },
   "event:mapper/reviewed:underworks-western-gauntlet": {
@@ -4990,11 +4955,6 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/05da2ea3-0da3-421e-b7cd-1317630a6461": {
-    "name": "Choral Chambers Below Spa - Second Sentinel Encounter",
-    "kind": "event",
-    "locations": []
-  },
   "event:mapper/reviewed:songclave-board-open": {
     "name": "Choral Chambers Above Ventrica - Songclave Board Open",
     "kind": "event",
@@ -5059,11 +5019,6 @@
     "kind": "blockade",
     "locations": []
   },
-  "event:mapper/806bfab6-defa-49c9-9ef8-967920cc7b07": {
-    "name": "Memorium Entrance Tunnel - Second Sentinel Encounter",
-    "kind": "event",
-    "locations": []
-  },
   "event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87": {
     "name": "Grand Bellway Shaft - Lace Second Encounter",
     "kind": "event",
@@ -5120,11 +5075,6 @@
   "event:mapper/84efce81-d731-423a-ab13-d9b197c0bdd6": {
     "name": "Choral Chambers East to West - door switch",
     "kind": "switch",
-    "locations": []
-  },
-  "event:mapper/098ca929-dddd-4ee1-b241-40db9799bfbe": {
-    "name": "Choral Chambers East to West - Second Sentinel Encounter",
-    "kind": "event",
     "locations": []
   },
   "event:mapper/282aae6f-3964-4935-93ea-5beaa6ef9fa4": {
@@ -6016,11 +5966,6 @@
     "locations": [
       "Key of Indolent"
     ]
-  },
-  "event:mapper/fefde6db-e7a0-4bee-863d-06cb5f2a2512": {
-    "name": "Slab Poodle - Exit Breakable Wall Blockade",
-    "kind": "blockade",
-    "locations": []
   },
   "event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af": {
     "name": "Slab Secret Side Room - Breakable Wall Blockade",
@@ -7127,6 +7072,96 @@
   "event:mapper/27d2fcc9-a7a9-47b0-b544-19cc0ff98a1c": {
     "name": "Slab Capture: Far Fields",
     "kind": "logic-point",
+    "locations": []
+  },
+  "event:mapper/82e5438a-c4d7-411c-9dca-71bc23d6a2e4": {
+    "name": "Memorium Entrance Tunnel - Second Sentinel Encounter",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/b779369b-04de-4ae6-a301-e35e82de1b40": {
+    "name": "Choral Chambers East to West - Second Sentinel Encounter",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/190ad3fa-fa49-45ec-b1f3-124d9f803578": {
+    "name": "Slab Poodle - Exit Breakable Wall Blockade",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/5c93f00c-6c72-4316-b5ff-3e13d2009d7d": {
+    "name": "Greymoor Towers Patio - Sleeping Garmond",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/338a5fbb-6f58-4a2d-a357-8ec089601ac5": {
+    "name": "Choral Chambers Below Spa - Second Sentinel Encounter",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/dbefa28e-af56-4324-8410-439ca7da5851": {
+    "name": "Slab Arena - Bench Upper",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/8dd9205d-4b92-4ef4-94de-f359badde026": {
+    "name": "Slab Arena - Bench Lower",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/7b48b918-7dd5-4cf5-8ffa-f6f2f1e65385": {
+    "name": "Slab Cell - apostate door mask shard",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/88445b54-102c-4fae-91c4-e515df880f22": {
+    "name": "Slab Cell - heretic door first sinner",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/87c776f4-cb65-4c93-93f8-e17cf1ca84b2": {
+    "name": "Slab Bellway - Bench",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745": {
+    "name": "Slab Cavern Exit - cavern blockade",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/87da0564-cb35-47e7-8fb3-55a5e95f5788": {
+    "name": "Slab Cavern Exit - indolent door",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/f8038f26-66d1-4827-9dc2-168038ad6536": {
+    "name": "Slab Cavern Exit - enemy gauntlet",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/6a15b962-9c27-46ed-9281-5d5df248cca2": {
+    "name": "Slab Chilly Top - slab_jail_lever",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/9721a931-d5d6-47ea-8b1f-e11c21d14fd5": {
+    "name": "Slab First Sinner Antechamber - door_lock_1",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/ced05d73-bfb1-4d0d-ac99-a5a645fad125": {
+    "name": "Slab First Sinner Antechamber - door_lock_2",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/175019d8-c1d9-4640-8622-36357ed24189": {
+    "name": "Slab First Sinner Antechamber - door_lock_3",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846": {
+    "name": "Slab First Sinner Antechamber - door_lock_4",
+    "kind": "lock",
     "locations": []
   }
 }

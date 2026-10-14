@@ -1846,9 +1846,9 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-infleatween-bottom#top",
-          "the-slab/slab-infleatween-bottom#bottom",
-          "the-slab/slab-infleatween-bottom#mid"
+          "the-slab/slab-infleatween-bottom#upper",
+          "the-slab/slab-infleatween-bottom#lower",
+          "the-slab/slab-infleatween-bottom#middle"
         ]
       }
     ],
@@ -2793,7 +2793,9 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-infleatween-top#room"
+          "the-slab/slab-infleatween-top#left",
+          "the-slab/slab-infleatween-top#bottom",
+          "the-slab/slab-infleatween-top#platforms"
         ]
       },
       {
@@ -2998,7 +3000,8 @@
         "act": 1,
         "nodes": [
           "greymoor/greymoor-western-tower#lower-section",
-          "greymoor/greymoor-western-tower#guarded-platforms",
+          "greymoor/greymoor-western-tower#first-guarded-platform",
+          "greymoor/greymoor-western-tower#second-guarded-platform",
           "greymoor/greymoor-western-tower#lower-spike-wheel",
           "greymoor/greymoor-western-tower#upper-spike-wheel",
           "greymoor/greymoor-western-tower#tower-top-section",
@@ -3225,7 +3228,8 @@
         "act": 1,
         "nodes": [
           "greymoor/greymoor-western-tower#lower-section",
-          "greymoor/greymoor-western-tower#guarded-platforms",
+          "greymoor/greymoor-western-tower#first-guarded-platform",
+          "greymoor/greymoor-western-tower#second-guarded-platform",
           "greymoor/greymoor-western-tower#lower-spike-wheel",
           "greymoor/greymoor-western-tower#upper-spike-wheel",
           "greymoor/greymoor-western-tower#tower-top-section",
@@ -3942,7 +3946,12 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-chilly-top#room"
+          "the-slab/slab-chilly-top#bottom-right-entrance",
+          "the-slab/slab-chilly-top#right",
+          "the-slab/slab-chilly-top#mid-lower-1",
+          "the-slab/slab-chilly-top#left-lower",
+          "the-slab/slab-chilly-top#left-mid",
+          "the-slab/slab-chilly-top#bottom-left-entrance"
         ]
       }
     ],
@@ -3980,14 +3989,14 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-cell#l0l",
-          "the-slab/slab-cell#l0r",
+          "the-slab/slab-cell#arena",
+          "the-slab/slab-cell#why",
           "the-slab/slab-cell#l1",
-          "the-slab/slab-cell#l2l",
-          "the-slab/slab-cell#l2r",
-          "the-slab/slab-cell#l3l",
-          "the-slab/slab-cell#l3r",
-          "the-slab/slab-cell#key-of-heretic-bridge",
+          "the-slab/slab-cell#indolent",
+          "the-slab/slab-cell#grindle",
+          "the-slab/slab-cell#flea-1",
+          "the-slab/slab-cell#cavern",
+          "the-slab/slab-cell#heretic-bridge",
           "the-slab/slab-cell#l4",
           "the-slab/slab-cell#l5l",
           "the-slab/slab-cell#l5r",
@@ -4006,7 +4015,9 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-infleatween-top#room"
+          "the-slab/slab-infleatween-top#left",
+          "the-slab/slab-infleatween-top#bottom",
+          "the-slab/slab-infleatween-top#platforms"
         ]
       }
     ],
@@ -4044,9 +4055,9 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-infleatween-bottom#top",
-          "the-slab/slab-infleatween-bottom#bottom",
-          "the-slab/slab-infleatween-bottom#mid"
+          "the-slab/slab-infleatween-bottom#upper",
+          "the-slab/slab-infleatween-bottom#lower",
+          "the-slab/slab-infleatween-bottom#middle"
         ]
       }
     ],
@@ -6509,7 +6520,8 @@
         "act": 2,
         "nodes": [
           "choral-chambers/choral-chambers-above-ventrica#top",
-          "choral-chambers/choral-chambers-above-ventrica#bottom"
+          "choral-chambers/choral-chambers-above-ventrica#bottom-left",
+          "choral-chambers/choral-chambers-above-ventrica#bottom-right"
         ]
       }
     ],
@@ -6871,7 +6883,10 @@
       {
         "act": 2,
         "nodes": [
-          "the-slab/slab-poodle#room"
+          "the-slab/slab-poodle#bottom-right",
+          "the-slab/slab-poodle#bottom",
+          "the-slab/slab-poodle#top-right",
+          "the-slab/slab-poodle#top-left"
         ]
       }
     ],
@@ -7146,7 +7161,8 @@
         "act": 2,
         "nodes": [
           "choral-chambers/choral-chambers-above-ventrica#top",
-          "choral-chambers/choral-chambers-above-ventrica#bottom"
+          "choral-chambers/choral-chambers-above-ventrica#bottom-left",
+          "choral-chambers/choral-chambers-above-ventrica#bottom-right"
         ]
       }
     ],
@@ -7340,7 +7356,8 @@
       {
         "act": 2,
         "nodes": [
-          "choral-chambers/high-halls-corridor#room"
+          "choral-chambers/high-halls-corridor#bottom",
+          "choral-chambers/high-halls-corridor#top"
         ]
       }
     ],

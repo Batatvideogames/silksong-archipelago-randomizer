@@ -1619,7 +1619,8 @@
         "target_scene": "Cog_04",
         "target_gate": "top2"
       }
-    ]
+    ],
+    "arrival_requires": "cogwork-core/cog-dancers@b1"
   },
   {
     "id": "cogwork-core/cog-dancers@l",
@@ -3327,7 +3328,8 @@
     "target_scene": "Shellwood_11b",
     "target_gate": "right1",
     "is_door": true,
-    "group": "door_in"
+    "group": "door_in",
+    "arrival_requires": "grand-gate/shrine-guardian-seth@d"
   },
   {
     "id": "grand-gate/shrine-guardian-seth@r",

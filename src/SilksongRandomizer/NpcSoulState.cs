@@ -57,6 +57,14 @@ namespace SilksongRandomizer
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state) =>
             !Find(States, scene, path, "|" + fsm + "|" + name, out string[] npcs) || !MissingAny(state, npcs);
 
+        internal static void DescribeMissingSouls(string scene, string path, string fsm, string name,
+            SaveState state, List<string> missing)
+        {
+            if (Find(States, scene, path, "|" + fsm + "|" + name, out string[] npcs))
+                foreach (string npc in npcs)
+                    if (IsMissing(state, npc)) missing.Add(ItemName(npc));
+        }
+
         internal static bool CanInteract(Transform transform)
         {
             SaveState state = SaveState.Instance;

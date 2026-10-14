@@ -2236,7 +2236,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req(room_node_name("the-slab/slab-bellway#room")),
     ),
     'Path: The Slab - Window': (
-        req(room_node_name("the-slab/slab-window#room")),
+        req(room_node_name("the-slab/slab-window#left")),
     ),
     'Path: Mount Fay - Shakra': (
         # Clawline reaches Mount Fay and Shakra's entrance camp. Drifter's
@@ -3403,7 +3403,7 @@ def _minor_pickup_requirement(location_name: str) -> LocationRequirement:
     if scene_name == 'slab_22':
         return req(
             'Act: 2',
-            room_node_name("the-slab/slab-chilly-top#room"),
+            room_node_name("the-slab/slab-chilly-top#left-mid"),
             'Ancestral Art: Cling Grip',
             'Swift Step',
             act='Act 2',
