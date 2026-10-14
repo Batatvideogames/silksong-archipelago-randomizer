@@ -967,6 +967,9 @@
         "act": 1,
         "nodes": [
           "blasted-steps/blasted-steps-shell-beast-shard#room"
+        ],
+        "events": [
+          "Needolin"
         ]
       }
     ],
@@ -5888,6 +5891,16 @@
           "memorium/memorium-start-shaft#volt-ledge",
           "memorium/memorium-start-shaft#tippidy-top"
         ]
+      },
+      {
+        "act": 2,
+        "requires_act": 1,
+        "nodes": [
+          "memorium/memorium-voltnest#memorium-stuff"
+        ],
+        "events": [
+          "Combat: Memorium Northeast Gauntlet"
+        ]
       }
     ],
     "rooms": [
@@ -6181,7 +6194,7 @@
     "location_id": 841176,
     "routes": [
       {
-        "act": 3,
+        "act": 1,
         "nodes": [
           "greymoor/greymoor-east-bellshrine-room#lower-section-left",
           "greymoor/greymoor-east-bellshrine-room#lower-section-right",
@@ -6218,7 +6231,7 @@
     "location_id": 841177,
     "routes": [
       {
-        "act": 3,
+        "act": 1,
         "nodes": [
           "greymoor/greymoor-east-bellshrine-room#lower-section-left",
           "greymoor/greymoor-east-bellshrine-room#lower-section-right",
@@ -6776,7 +6789,8 @@
         "act": 2,
         "nodes": [
           "memorium/memorium-rhino-room#room"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [
@@ -8332,6 +8346,99 @@
     "events": [
       "Room Event: event:mapper/reviewed:high-halls-forum-gauntlet",
       "Room Event: event:mapper/reviewed:choral-spa-gauntlet"
+    ]
+  },
+  {
+    "name": "Shellwood Gnat",
+    "record": "Shellwood Gnat",
+    "item_id": 840238,
+    "location_id": 841238,
+    "routes": [
+      {
+        "act": 1,
+        "nodes": [
+          "shellwood/shellwood-right-side-big-room#ground-level-left",
+          "shellwood/shellwood-right-side-big-room#central-platforms",
+          "shellwood/shellwood-right-side-big-room#right-platforms",
+          "shellwood/shellwood-right-side-big-room#ground-level-right"
+        ]
+      }
+    ],
+    "rooms": [
+      "memorium/memorium-water-room",
+      "shellwood/shellwood-big-room-left",
+      "shellwood/shellwood-diddy-basement-main",
+      "shellwood/shellwood-diddy-basement-tall-room",
+      "shellwood/shellwood-hidden-bellhart-connection",
+      "shellwood/shellwood-right-side-big-room"
+    ],
+    "battles": [],
+    "states": [],
+    "entrances": [
+      {
+        "scene": "arborium_05",
+        "path": "Shellwood Goomba"
+      },
+      {
+        "scene": "arborium_05",
+        "path": "Shellwood Goomba Flyer"
+      },
+      {
+        "scene": "mosstown_03",
+        "path": "Shellwood Goomba Flyer"
+      },
+      {
+        "scene": "mosstown_03",
+        "path": "Shellwood Goomba Flyer (1)"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Shellwood Goomba"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Black Thread States/Normal World/Shellwood Goomba (6)"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Shellwood Goomba (2)"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Black Thread States/Black Thread World/Shellwood Goomba Flyer (4)"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Shellwood Goomba Flyer (2)"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Black Thread States/Normal World/Shellwood Goomba Flyer"
+      },
+      {
+        "scene": "shellwood_01",
+        "path": "Shellwood Goomba Flyer (1)"
+      },
+      {
+        "scene": "shellwood_02",
+        "path": "Shellwood Goomba Flyer"
+      },
+      {
+        "scene": "shellwood_02",
+        "path": "Shellwood Goomba Flyer (3)"
+      },
+      {
+        "scene": "shellwood_15",
+        "path": "Shellwood Goomba Flyer"
+      },
+      {
+        "scene": "shellwood_25",
+        "path": "Shellwood Goomba"
+      },
+      {
+        "scene": "shellwood_25",
+        "path": "Shellwood Goomba Flyer"
+      }
     ]
   }
 ]

@@ -108,6 +108,10 @@ namespace SilksongRandomizer
 
         internal void SynchronizeUnlockedWarps()
         {
+            var manager = GameManager.SilentInstance;
+            if (manager == null || !manager.IsGameplayScene() || HeroController.instance == null ||
+                !manager.HasFinishedEnteringScene || manager.IsLoadingSceneTransition ||
+                manager.IsInSceneTransition) return;
             var state = SaveState.Instance;
             var activeSession = session;
             if (!Connected || state == null || !state.IsRoomBound || PlayerData.instance == null ||

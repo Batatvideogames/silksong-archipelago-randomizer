@@ -88,8 +88,15 @@ namespace SilksongRandomizer.Patches
         private static void Postfix(BasicNPC __instance, LocalisedString[] ___talkText)
         {
             LoreTabletManifest.Entry entry = RandomizedEntry(__instance, ___talkText);
-            if (entry != null && !SaveState.Instance.IsLocationChecked(entry.LocationName))
-                SaveState.Instance.CheckLocation(entry.LocationName);
+            if (entry != null) CompleteRead(SaveState.Instance, entry.LocationName);
+        }
+
+        internal static void CompleteRead(SaveState state, string locationName)
+        {
+            if (state == null || state.IsLocationChecked(locationName)) return;
+            state.CheckLocation(locationName);
+            if (state.IsLocationChecked(locationName))
+                CollectableItemHeroReaction.DoReaction(Vector2.zero, true);
         }
 
         internal static bool ShouldUseInactiveSourceFallback(

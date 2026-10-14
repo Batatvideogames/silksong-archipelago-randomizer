@@ -20,6 +20,7 @@ namespace SilksongRandomizer.AlphabetMode
             string sheetTitle,
             ref string __result)
         {
+            if (string.Equals(sheetTitle, "Error", StringComparison.Ordinal)) return;
             __result = SpellingBeeTitle.ResolveText(key, __result);
             __result = AlphabetModeManager.FilterLocalizedText(key, __result);
             __result = DeathLinkManager.ResolvePermadeathBodyText(

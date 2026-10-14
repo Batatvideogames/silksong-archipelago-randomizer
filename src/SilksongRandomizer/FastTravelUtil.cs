@@ -405,18 +405,6 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            PlayerData playerData = PlayerData.instance;
-            if (playerData != null &&
-                playerData.blackThreadWorld &&
-                playerData.act3_wokeUp &&
-                playerData.act3_enclaveWakeSceneCompleted &&
-                !IsUnderworksReturnAvailable(playerData) &&
-                !EntranceRandomization.TryGetReturnPoint(out _, out _))
-            {
-                destination = WarpDestination.Terminus;
-                return true;
-            }
-
             destination = WarpDestination.BoneBottom;
             return false;
         }
@@ -425,7 +413,7 @@ namespace SilksongRandomizer
         {
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || WidowSequenceSafety.CanRecoverToWidowShrine() ||
-                (playerData.blackThreadWorld && playerData.act3_wokeUp && playerData.act3_enclaveWakeSceneCompleted))
+                IsActThreeOpeningInProgress(playerData))
                 yield break;
             foreach (string key in new[] { BoneBottomHubKey, BellhartHubKey, SongclaveHubKey })
                 if (IsMainHubAvailable(key, playerData)) yield return key;
@@ -436,18 +424,6 @@ namespace SilksongRandomizer
         )
         {
             List<string> available = new List<string>();
-            if (playerData != null && playerData.blackThreadWorld &&
-                playerData.act3_wokeUp && playerData.act3_enclaveWakeSceneCompleted)
-            {
-                if (EntranceRandomization.TryGetReturnPoint(out _, out _))
-                    available.Add(EntranceHubKey);
-                available.Add(TerminusHubKey);
-                if (IsUnderworksReturnAvailable(playerData))
-                {
-                    available.Add(UnderworksReturnHubKey);
-                }
-                return available;
-            }
             foreach (string hubKey in MainHubKeys)
             {
                 if (IsMainHubAvailable(hubKey, playerData))
@@ -469,6 +445,9 @@ namespace SilksongRandomizer
                     return EntranceRandomization.TryGetReturnPoint(out _, out _);
                 case UnderworksReturnHubKey:
                     return IsUnderworksReturnAvailable(playerData);
+                case TerminusHubKey:
+                    return playerData != null && playerData.blackThreadWorld &&
+                        !IsActThreeOpeningInProgress(playerData);
                 case GreymoorHubKey:
                     return IsGreymoorHubAvailable(playerData);
                 case BellhartHubKey:
@@ -580,13 +559,15 @@ namespace SilksongRandomizer
             HeroController hero
         )
         {
-            return playerData != null &&
-                   playerData.blackThreadWorld &&
-                   (
-                       !playerData.act3_wokeUp ||
-                       !playerData.act3_enclaveWakeSceneCompleted ||
-                       IsActThreeWakeEntry(gameManager, hero)
-                   );
+            return IsActThreeOpeningInProgress(playerData) ||
+                   (playerData != null && playerData.blackThreadWorld &&
+                    IsActThreeWakeEntry(gameManager, hero));
+        }
+
+        private static bool IsActThreeOpeningInProgress(PlayerData playerData)
+        {
+            return playerData != null && playerData.blackThreadWorld &&
+                (!playerData.act3_wokeUp || !playerData.act3_enclaveWakeSceneCompleted);
         }
     }
 

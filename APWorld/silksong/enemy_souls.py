@@ -37,15 +37,16 @@ def enabled_enemies(world):
     act = int(world.get_content_scope().removeprefix('act_'))
     anywhere = frozenset(category for category in SCOPE_CATEGORIES
                          if world.get_category_mode(category) == 'anywhere')
-    return _scoped_enemies(act, anywhere)
+    excluded_items = frozenset({'Silk Soar'} if world.options.silk_soar_begone and act < 3 else ())
+    return _scoped_enemies(act, anywhere, excluded_items)
 
 
 @lru_cache(maxsize=16)
-def _scoped_enemies(act, anywhere):
+def _scoped_enemies(act, anywhere, excluded_items=frozenset()):
     return tuple(row['name'] for row in CATALOGUE
                  if any(route['act'] <= act for route in row['routes'])
-                 and all(category in anywhere
-                         for category in row.get('scope_items', {}).get(str(act), {}).values()))
+                 and all(category in anywhere and item not in excluded_items
+                         for item, category in row.get('scope_items', {}).get(str(act), {}).items()))
 
 
 def required_pool_items(world):
@@ -68,7 +69,7 @@ def validate_slot_data(data):
 def check_requirements(name, enabled=None):
     from .requirements import req
     enabled = frozenset(BY_NAME if enabled is None else enabled)
-    return tuple(req(item_name(name), *(('Act: ' + str(route['act']),) if route['act'] > 1 else ()),
+    return tuple(req(item_name(name), *(('Act: ' + str(route.get('requires_act', route['act'])),) if route.get('requires_act', route['act']) > 1 else ()),
                      *route.get('events', ()),
                      *(item_name(soul) for soul in route.get('souls', ()) if soul in enabled),
                      *('Room Node: ' + node for node in route['nodes']))

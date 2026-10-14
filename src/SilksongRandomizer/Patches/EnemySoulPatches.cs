@@ -25,6 +25,28 @@ namespace SilksongRandomizer.Patches
         private static readonly Dictionary<string, string[]> Entrances = BuildRequirements("entrances");
         private static readonly Dictionary<string, string[]> Actors = BuildRequirements("actors");
         private static readonly Dictionary<string, string[]> States = BuildRequirements("states");
+        private static readonly AccessTools.FieldRef<BattleScene, bool> BattleCompleted =
+            AccessTools.FieldRefAccess<BattleScene, bool>("completed");
+
+        internal static bool KeepHunterMarchGateClosed(string scene, string path, string fsm, bool completed, SaveState state) =>
+            state != null && !completed && scene == "Ant_02" && fsm == "BG Control" &&
+            path == "Battle Scene/Gates/Battle Gate Ant" &&
+            (EnemySoulState.IsEnabled(state, "Skarrgard") ||
+             (!string.IsNullOrEmpty(state.entranceLayoutJson) && state.entranceLayoutJson != "{}"));
+
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class HunterMarchExitGate
+        {
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (__instance.gameObject.scene.name != "Ant_02" || __instance.FsmName != "BG Control") return;
+                BattleScene battle = __instance.GetComponentInParent<BattleScene>();
+                if (battle != null && KeepHunterMarchGateClosed(__instance.gameObject.scene.name,
+                    Utils.GetHierarchyPath(__instance.transform), __instance.FsmName,
+                    BattleCompleted(battle), SaveState.Instance))
+                    __instance.FsmVariables.FindFsmBool("Start Closed").Value = true;
+            }
+        }
 
         private static Dictionary<string, string[]> BuildRequirements(string field)
         {
@@ -51,6 +73,9 @@ namespace SilksongRandomizer.Patches
 
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state)
         {
+            if (scene == "Song_04" && fsm == "Control" && (name == "Idle" || name == "State") &&
+                path == "Black Thread States/Normal World/Scene States/Battle Scene/Wake Scene")
+                return CanStartBattle(scene, "Black Thread States/Normal World/Scene States/Battle Scene", state);
             if (IsClawmaidenRemoval(scene, path, fsm, name) && EnemySoulState.IsFirstKillPending(state, "Clawmaiden")) return false;
             return !States.TryGetValue(scene + "|" + path + "|" + fsm + "|" + name, out string[] species) || !MissingAny(state, species);
         }
@@ -64,6 +89,22 @@ namespace SilksongRandomizer.Patches
         private static bool IsClawmaidenActor(string path) =>
             path.StartsWith("Handmaiden Scene/Hanging Handmaidens/Song Handmaiden", StringComparison.Ordinal) ||
             path.StartsWith("Handmaiden Scene/Handmaiden Attackers/Song Handmaiden", StringComparison.Ordinal);
+
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.PlayerDataBoolTest), "OnEnter")]
+        private static class RoachkeeperEscape
+        {
+            private static bool Prefix(HutongGames.PlayMaker.Actions.PlayerDataBoolTest __instance)
+            {
+                if (__instance.boolName?.Value != "CollectedDustCageKey" ||
+                    !string.Equals(__instance.Fsm.GameObject.scene.name, "Dust_06", StringComparison.OrdinalIgnoreCase) ||
+                    __instance.Fsm.Name != "Start Open If Key Collected" || __instance.State.Name != "Check" ||
+                    Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform) != "greymoor_flip_bridge (3)" ||
+                    !EnemySoulState.IsMissing(SaveState.Instance, "Roachkeeper")) return true;
+                __instance.Fsm.Event(__instance.isTrue);
+                __instance.Finish();
+                return false;
+            }
+        }
 
         [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.PlayerDataBoolTest), "OnEnter")]
         private static class UnfinishedClawmaidenEncounter

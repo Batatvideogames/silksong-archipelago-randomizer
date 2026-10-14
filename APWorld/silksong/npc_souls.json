@@ -287,6 +287,10 @@
       {
         "scene": "mosstown_02c",
         "path": "moss_hut_set/NPC Scene/Moss Creep NPC"
+      },
+      {
+        "scene": "mosstown_02",
+        "path": "Audio Loop Moss Druid"
       }
     ],
     "checks": [
@@ -1448,11 +1452,8 @@
         "path": "Caravan_States/Flea Festival/Flea Game - Bouncing/Flea Games Host NPC"
       }
     ],
-    "checks": [
-      "Flea: Greymoor - Kratt"
-    ],
+    "checks": [],
     "events": [
-      "Room Event: event:mapper/f9c80fa4-3dca-448c-a508-27c9257f30cd",
       "Room Event: event:mapper/41133206-b008-4501-8c55-9f9440e2728b",
       "Room Event: event:mapper/0d8438fa-157f-4192-8b6a-3b6ac91bf8b3"
     ],
@@ -1523,7 +1524,9 @@
         "path": "Caravan/Caravan Troup Member Short Greymoor"
       }
     ],
-    "checks": [],
+    "checks": [
+      "Flea Brew"
+    ],
     "events": [],
     "item_id": 839041,
     "act": 1

@@ -580,7 +580,70 @@ namespace SilksongRandomizer.Patches
     internal static class DeferReceivedItemsDuringSavePatch
     {
         private static int pendingSaves;
-        internal static bool IsSaving => Volatile.Read(ref pendingSaves) > 0;
+        private static readonly Queue<SaveRequest> Queued = new Queue<SaveRequest>();
+        private static bool scheduled;
+        private static bool replaying;
+        internal static bool IsSaving => Volatile.Read(ref pendingSaves) > 0 || scheduled || Queued.Count > 0;
+
+        private sealed class SaveRequest
+        {
+            private readonly GameManager manager;
+            private readonly MethodBase method;
+            private readonly object[] arguments;
+            private readonly SaveState state = SaveState.Instance;
+            private readonly PlayerData player = PlayerData.instance;
+            private readonly Action<bool> callback;
+            private int notified;
+
+            internal SaveRequest(GameManager manager, MethodBase method, object[] arguments, Action<bool> callback)
+            {
+                this.manager = manager;
+                this.method = method;
+                this.arguments = (object[])arguments.Clone();
+                this.callback = callback;
+                int index = Array.FindIndex(method.GetParameters(), parameter => parameter.Name == "ogCallback");
+                this.arguments[index] = new Action<bool>(Notify);
+            }
+
+            private void Notify(bool saved)
+            {
+                if (Interlocked.Exchange(ref notified, 1) == 0) callback?.Invoke(saved);
+            }
+
+            internal void Run()
+            {
+                if (manager == null || SaveState.Instance != state || PlayerData.instance != player)
+                {
+                    Notify(false);
+                    return;
+                }
+                try
+                {
+                    replaying = true;
+                    method.Invoke(manager, arguments);
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception is TargetInvocationException invocation ? invocation.InnerException : exception);
+                    Notify(false);
+                }
+                finally { replaying = false; }
+            }
+        }
+
+        private static void ScheduleNext()
+        {
+            if (Volatile.Read(ref pendingSaves) != 0 || scheduled || Queued.Count == 0) return;
+            scheduled = true;
+            CoreLoop.InvokeNext(() =>
+            {
+                scheduled = false;
+                if (Volatile.Read(ref pendingSaves) != 0) return;
+                SaveRequest request = Queued.Dequeue();
+                try { request.Run(); }
+                finally { ScheduleNext(); }
+            });
+        }
 
         internal sealed class PendingSave
         {
@@ -591,10 +654,15 @@ namespace SilksongRandomizer.Patches
                 Interlocked.Increment(ref pendingSaves);
             }
 
-            internal void Complete()
+            internal void Complete(Action callback = null)
             {
-                if (Interlocked.Exchange(ref completed, 1) == 0)
+                if (Interlocked.Exchange(ref completed, 1) != 0) return;
+                try { callback?.Invoke(); }
+                finally
+                {
                     Interlocked.Decrement(ref pendingSaves);
+                    ScheduleNext();
+                }
             }
         }
 
@@ -617,19 +685,28 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPriority(Priority.First)]
-        private static void Prefix(ref Action<bool> ogCallback, out PendingSave __state)
+        private static bool Prefix(GameManager __instance, MethodBase __originalMethod, object[] __args,
+            out PendingSave __state)
         {
             __state = null;
-            if (SaveState.Instance == null) return;
+            bool replay = replaying;
+            replaying = false;
+            if (SaveState.Instance == null) return true;
+            int index = Array.FindIndex(__originalMethod.GetParameters(), parameter => parameter.Name == "ogCallback");
+            Action<bool> originalCallback = (Action<bool>)__args[index];
+            if (!replay && IsSaving)
+            {
+                Queued.Enqueue(new SaveRequest(__instance, __originalMethod, __args, originalCallback));
+                return false;
+            }
 
             PendingSave pending = new PendingSave();
             __state = pending;
-            Action<bool> originalCallback = ogCallback;
-            ogCallback = successful =>
+            __args[index] = new Action<bool>(successful =>
             {
-                pending.Complete();
-                originalCallback?.Invoke(successful);
-            };
+                pending.Complete(() => originalCallback?.Invoke(successful));
+            });
+            return true;
         }
 
         private static void Postfix(bool __runOriginal, PendingSave __state)
