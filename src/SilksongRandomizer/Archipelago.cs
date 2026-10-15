@@ -185,6 +185,11 @@ namespace SilksongRandomizer
         public string GameMode { get; private set; } = SteelSoulSettings.Classic;
         public string[] SteelSoulSites { get; private set; } = Array.Empty<string>();
         public bool SplitDashAndSprint { get; private set; }
+        public bool DirectionalClingGrip { get; private set; }
+        public bool DirectionalClawline { get; private set; }
+        public bool DirectionalSwiftStep { get; private set; }
+        public bool DirectionalLedgeGrab { get; private set; }
+
         public bool LedgegrabAbilityRando { get; private set; }
         public bool SwimAbilityRando { get; private set; }
         public bool ScuttlebraceLogic { get; private set; } = true;
@@ -605,6 +610,10 @@ namespace SilksongRandomizer
                     successful,
                     "split_dash_and_sprint"
                 );
+                DirectionalClingGrip = GetBooleanSlotData(successful, "directional_cling_grip");
+                DirectionalClawline = GetBooleanSlotData(successful, "directional_clawline");
+                DirectionalSwiftStep = GetBooleanSlotData(successful, "directional_swift_step");
+                DirectionalLedgeGrab = GetBooleanSlotData(successful, "directional_ledge_grab");
                 LedgegrabAbilityRando = GetBooleanSlotData(
                     successful,
                     "ledgegrab_ability_rando"
@@ -3251,6 +3260,11 @@ namespace SilksongRandomizer
             StartingLocation = StartingLocationVanilla;
             StartingCrest = string.Empty;
             SplitDashAndSprint = false;
+            DirectionalClingGrip = false;
+            DirectionalClawline = false;
+            DirectionalSwiftStep = false;
+            DirectionalLedgeGrab = false;
+
             LedgegrabAbilityRando = false;
             SwimAbilityRando = false;
             ScuttlebraceLogic = true;

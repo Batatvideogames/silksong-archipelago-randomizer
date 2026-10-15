@@ -685,7 +685,7 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPriority(Priority.First)]
-        private static bool Prefix(GameManager __instance, MethodBase __originalMethod, object[] __args,
+        private static bool Prefix(GameManager __instance, MethodBase __originalMethod, object[] __args, ref Action<bool> ogCallback,
             out PendingSave __state)
         {
             __state = null;
@@ -693,7 +693,7 @@ namespace SilksongRandomizer.Patches
             replaying = false;
             if (SaveState.Instance == null) return true;
             int index = Array.FindIndex(__originalMethod.GetParameters(), parameter => parameter.Name == "ogCallback");
-            Action<bool> originalCallback = (Action<bool>)__args[index];
+            Action<bool> originalCallback = ogCallback;
             if (!replay && IsSaving)
             {
                 Queued.Enqueue(new SaveRequest(__instance, __originalMethod, __args, originalCallback));
@@ -702,10 +702,11 @@ namespace SilksongRandomizer.Patches
 
             PendingSave pending = new PendingSave();
             __state = pending;
-            __args[index] = new Action<bool>(successful =>
+            ogCallback = new Action<bool>(successful =>
             {
                 pending.Complete(() => originalCallback?.Invoke(successful));
             });
+            __args[index] = ogCallback;
             return true;
         }
 

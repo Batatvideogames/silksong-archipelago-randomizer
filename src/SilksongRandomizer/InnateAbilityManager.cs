@@ -32,7 +32,9 @@ namespace SilksongRandomizer
                 return saveState == null ||
                        !saveState.IsRoomBound ||
                        !saveState.ledgegrabAbilityRando ||
-                       HasReceivedItem(saveState, LedgeGrabItemName);
+                       (saveState.directionalLedgeGrab
+                           ? HeroController.instance != null && DirectionalAbilities.Owns(saveState, "Ledge Grab", HeroController.instance.cState.facingRight)
+                           : HasReceivedItem(saveState, LedgeGrabItemName));
             }
         }
 

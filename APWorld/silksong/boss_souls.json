@@ -720,7 +720,9 @@
     "events": [
       "Room Event: event:mapper/reviewed:phantom-defeated"
     ],
-    "combat": [],
+    "combat": [
+      "Combat: Phantom"
+    ],
     "actors": [
       {
         "scene": "organ_01",
@@ -741,7 +743,7 @@
   },
   {
     "boss": "Boss: Pinstress",
-    "item": "Soul of Pinstress",
+    "item": "Soul of Pinstress (Boss)",
     "item_id": 842025,
     "events": [
       "Room Event: event:mapper/reviewed:pinstress-defeated"
@@ -1213,7 +1215,7 @@
   },
   {
     "boss": "Boss: Shakra",
-    "item": "Soul of Shakra",
+    "item": "Soul of Shakra (Boss)",
     "item_id": 842105,
     "act": 2,
     "events": [],

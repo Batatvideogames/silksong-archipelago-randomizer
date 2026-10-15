@@ -24,7 +24,7 @@ namespace SilksongRandomizer
                 var pixels = NpcPortraitPixels.Create(readable.GetPixels32(), atlas.width, atlas.height, vertices, uv, triangles, premultiplied);
                 texture = new Texture2D(256, 256, TextureFormat.RGBA32, false)
                 {
-                    name = "NPC Soul: " + name,
+                    name = NpcSoulState.ItemName(name),
                     hideFlags = HideFlags.HideAndDontSave,
                     filterMode = FilterMode.Bilinear,
                     wrapMode = TextureWrapMode.Clamp

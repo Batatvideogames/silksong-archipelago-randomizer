@@ -167,6 +167,11 @@ namespace SilksongRandomizer
         public bool startingLocationApplied;
         public string startingCrest = string.Empty;
         public bool splitDashAndSprint;
+        public bool directionalClingGrip;
+        public bool directionalClawline;
+        public bool directionalSwiftStep;
+        public bool directionalLedgeGrab;
+
         public bool ledgegrabAbilityRando;
         public bool swimAbilityRando;
         public bool randomizeNeedleUpgrades;
@@ -722,7 +727,7 @@ namespace SilksongRandomizer
                 {
                     canSprint = true;
                 }
-                if (swiftStepLevel >= 2)
+                if (!directionalSwiftStep && swiftStepLevel >= 2)
                 {
                     canDash = true;
                 }
@@ -911,6 +916,11 @@ namespace SilksongRandomizer
                 roomSeed + ":" + team + ":" + slot);
             entranceLayoutJson = archipelago.EntranceLayoutJson;
             splitDashAndSprint = archipelago.SplitDashAndSprint;
+            directionalClingGrip = archipelago.DirectionalClingGrip;
+            directionalClawline = archipelago.DirectionalClawline;
+            directionalSwiftStep = archipelago.DirectionalSwiftStep;
+            directionalLedgeGrab = archipelago.DirectionalLedgeGrab;
+
             ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
             swimAbilityRando = archipelago.SwimAbilityRando;
             randomizeNeedleUpgrades =
@@ -1052,6 +1062,11 @@ namespace SilksongRandomizer
                    (progressionShuffle ?? new ProgressionShuffleState()).MatchesConfiguration(archipelago.ProgressionShuffleJson) &&
                    string.Equals(entranceLayoutJson, archipelago.EntranceLayoutJson, StringComparison.Ordinal) &&
                    splitDashAndSprint == archipelago.SplitDashAndSprint &&
+                   directionalClingGrip == archipelago.DirectionalClingGrip &&
+                   directionalClawline == archipelago.DirectionalClawline &&
+                   directionalSwiftStep == archipelago.DirectionalSwiftStep &&
+                   directionalLedgeGrab == archipelago.DirectionalLedgeGrab &&
+
                    ledgegrabAbilityRando ==
                        archipelago.LedgegrabAbilityRando &&
                    swimAbilityRando == archipelago.SwimAbilityRando &&

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .directional_abilities import requirements as directional_requirements, split_requirement_counts
+
 from .combat import SKILLS_BY_TIER, TOOLS_BY_TIER, build_requirements as build_combat_requirements
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST
 
@@ -533,10 +535,7 @@ CRAFTMETAL_MAXIMUM_CONSUMPTION = (
 # Routes which need only the run/ground-momentum half of Swift Step accept the
 # first progressive copy in split seeds.  Full dash routes continue to use
 # SWIFT_STEP_ITEM, which resolves to two progressive copies when split.
-SWIFT_STEP_OR_SPRINT_ITEMS: tuple[str, ...] = (
-    SWIFT_STEP_ITEM,
-    PROGRESSIVE_SWIFT_STEP_ITEM,
-)
+SWIFT_STEP_OR_SPRINT_ITEMS: tuple[str, ...] = ('Capability: Sprint',)
 # The far-right ledge in Shellwood_01 uses the same traversal alternatives as
 # the Longpin alcove above Bellhart. One shared movement tuple defines Longpin
 # and the three adjacent shard caches.
@@ -3038,9 +3037,11 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
     {
         PROFICIENT_COMBAT_REQUIREMENT: (),
         "Option: Proficient Movement": (),
+        "Option: Elite Ball Knowledge": (),
+        **directional_requirements(req),
         "Option: Flea Brew Jump Logic": (),
         **{f"Technique: {technique} {tier}": ()
-           for technique in ("Heal Stall", "Hazard Respawn", "Scuttlebrace", "Crest Pogo", "Needle Strike", "Enemy Pogo", "Drill Crystal Pogo", 'Flea Brew Stall', 'Flintslate Stall', 'Plasmium Phial Stall', 'Voltvessels Stall')
+           for technique in ("Damage Boost", "Heal Stall", "Hazard Respawn", "Scuttlebrace", "Crest Pogo", "Needle Strike", "Enemy Pogo", "Drill Crystal Pogo", 'Flea Brew Stall', 'Flintslate Stall', 'Plasmium Phial Stall', 'Voltvessels Stall')
            for tier in (1, 2, 3)},
         "Capability: Has Any Map": tuple(req("Map: " + area, crest=False) for area in (
             "Mosslands", "The Marrow", "Deep Docks", "Far Fields", "Wormways", "Hunter's March",
@@ -3185,11 +3186,13 @@ def technique_requirement_overrides(
     needle_strike_tier: int,
     enemy_pogo_tier: int,
     drill_crystal_pogo_tier: int = 0,
+    damage_boost_tier: int = 0,
 ) -> dict[str, tuple[LocationRequirement, ...]]:
     return {
         f"Technique: {name} {tier}": (req(crest=name == "Crest Pogo"),) if selected >= tier else ()
         for name, selected in (
             ("Heal Stall", heal_stall_tier),
+            ("Damage Boost", damage_boost_tier),
             ("Hazard Respawn", hazard_respawn_tier),
             ("Scuttlebrace", scuttlebrace_tier),
             ("Crest Pogo", crest_pogo_tier),
@@ -3214,7 +3217,9 @@ def get_abstract_requirements(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -3255,7 +3260,9 @@ def get_abstract_requirements(
         and not randomize_ledge_grab
         and not randomize_swim
         and not proficient_combat
-        and not proficient_movement
+        and not platforming_capability
+        and not directional_abilities
+        and not damage_boost_tier
         and not flea_brew_jump_logic
         and sharpdart_logic
         and not heal_stall_tier
@@ -3273,6 +3280,8 @@ def get_abstract_requirements(
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    adjusted_requirements.update(directional_requirements(req, directional_abilities))
+    adjusted_requirements["Option: Elite Ball Knowledge"] = (req(crest=False),) if platforming_capability >= 2 else ()
     if steel_soul:
         adjusted_requirements["Option: Steel Soul On"] = (req(crest=False),)
         adjusted_requirements["Option: Steel Soul Off"] = ()
@@ -3281,7 +3290,7 @@ def get_abstract_requirements(
     if room_node_overrides:
         adjusted_requirements.update(room_node_overrides)
     adjusted_requirements['Event: Silk and Soul Offered'] = get_silk_and_soul_requirements(silk_and_soul_points)
-    if proficient_movement:
+    if platforming_capability:
         adjusted_requirements["Option: Proficient Movement"] = PROFICIENT_COMBAT_REQUIREMENTS
     if flea_brew_jump_logic:
         adjusted_requirements["Option: Flea Brew Jump Logic"] = (req(crest=False),)
@@ -3290,10 +3299,10 @@ def get_abstract_requirements(
         adjusted_requirements["Option: Bellshrinesanity Off"] = ()
     adjusted_requirements.update(technique_requirement_overrides(
         heal_stall_tier, hazard_respawn_tier, scuttlebrace_tier,
-        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier,
+        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier, damage_boost_tier,
     ))
     adjusted_requirements.update(combat_requirement_overrides(proficient_combat))
-    if randomize_ledge_grab:
+    if randomize_ledge_grab and "Ledge Grab" not in directional_abilities:
         adjusted_requirements[LEDGE_GRAB_CAPABILITY_REQUIREMENT] = (
             RANDOMIZED_INNATE_CAPABILITY_REQUIREMENTS[
                 LEDGE_GRAB_CAPABILITY_REQUIREMENT
@@ -3364,6 +3373,9 @@ def get_abstract_requirements(
                 )
     if not sharpdart_logic:
         adjusted_requirements[USABLE_SHARPDART_REQUIREMENT] = ()
+    if directional_abilities:
+        adjusted_requirements = {name: split_requirement_counts(rules, directional_abilities)
+                                 for name, rules in adjusted_requirements.items()}
     return adjusted_requirements
 
 
@@ -6194,7 +6206,9 @@ def _get_static_abstract_requirement_items(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -6257,7 +6271,7 @@ def _get_static_abstract_requirement_items(
             for name, alternatives in requirement_items
         )
 
-    if proficient_movement:
+    if platforming_capability:
         requirement_items = tuple(
             (name, PROFICIENT_COMBAT_REQUIREMENTS if name == "Option: Proficient Movement" else alternatives)
             for name, alternatives in requirement_items
@@ -6277,7 +6291,7 @@ def _get_static_abstract_requirement_items(
 
     technique_overrides = technique_requirement_overrides(
         heal_stall_tier, hazard_respawn_tier, scuttlebrace_tier,
-        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier,
+        red_tool_stall_tier, crest_pogo_tier, needle_strike_tier, enemy_pogo_tier, drill_crystal_pogo_tier, damage_boost_tier,
     )
     requirement_items = tuple((name, technique_overrides.get(name, alternatives)) for name, alternatives in requirement_items)
 
@@ -6323,6 +6337,15 @@ def _get_static_abstract_requirement_items(
             )
             for requirement_name, alternatives in requirement_items
         )
+
+    overrides = directional_requirements(req, directional_abilities)
+    overrides['Option: Elite Ball Knowledge'] = (req(crest=False),) if platforming_capability >= 2 else ()
+    requirement_items = tuple((name, overrides.get(name, rules)) for name, rules in requirement_items)
+    existing = {name for name, _ in requirement_items}
+    requirement_items += tuple((name, rules) for name, rules in overrides.items() if name not in existing)
+    if directional_abilities:
+        requirement_items = tuple((name, split_requirement_counts(rules, directional_abilities))
+                                 for name, rules in requirement_items)
 
     if (
         starting_location == STARTING_LOCATION_VANILLA
@@ -6441,7 +6464,9 @@ def _compile_static_abstract_worklist_plan(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -6466,7 +6491,9 @@ def _compile_static_abstract_worklist_plan(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -6498,7 +6525,9 @@ def _matches_static_abstract_requirements(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -6525,7 +6554,9 @@ def _matches_static_abstract_requirements(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -6564,7 +6595,9 @@ def _compute_abstract_values(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -6619,7 +6652,9 @@ def _compute_abstract_values(
             randomize_swim,
             pollip_heart_count,
             proficient_combat,
-            proficient_movement,
+            platforming_capability,
+            directional_abilities,
+            damage_boost_tier,
             flea_brew_jump_logic,
             sharpdart_logic,
             red_tool_stall_tier,
@@ -6689,7 +6724,9 @@ def _compute_abstract_values(
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -6715,7 +6752,9 @@ def _compute_abstract_values(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -6740,7 +6779,9 @@ def _compute_abstract_values(
             randomize_swim,
             pollip_heart_count,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
@@ -6967,7 +7008,9 @@ def _has_named_requirement(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7005,7 +7048,9 @@ def _has_named_requirement(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -7046,7 +7091,9 @@ def _satisfies_requirement(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7085,7 +7132,9 @@ def _satisfies_requirement(
             randomize_swim,
             pollip_heart_count,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
@@ -7130,7 +7179,9 @@ def make_requirements_rule(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7147,6 +7198,7 @@ def make_requirements_rule(
     silk_and_soul_points: int = 17,
     silk_heart_logic: bool = False,
 ):
+    requirements = split_requirement_counts(requirements, directional_abilities)
     def access_rule(state: CollectionState) -> bool:
         logic_item_dependencies = get_logic_item_dependencies(
             split_dash_and_sprint,
@@ -7167,7 +7219,9 @@ def make_requirements_rule(
                 randomize_swim,
                 pollip_heart_count,
                 proficient_combat=proficient_combat,
-                proficient_movement=proficient_movement,
+                platforming_capability=platforming_capability,
+                directional_abilities=directional_abilities,
+                damage_boost_tier=damage_boost_tier,
                 flea_brew_jump_logic=flea_brew_jump_logic,
                 sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
@@ -7218,7 +7272,9 @@ def make_rule(
     randomize_swim: bool = False,
     pollip_heart_count: int = 0,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7255,7 +7311,9 @@ def make_rule(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -7513,7 +7571,9 @@ def make_goal_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7549,7 +7609,9 @@ def make_goal_rule(
         randomize_swim,
         pollip_heart_count,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -7613,6 +7675,7 @@ def export_requirements(
     scuttlebrace_logic_enabled: bool = True,
     spelling_bee_item_names: tuple[str, ...] | None = None,
     randomized_relics: bool = False,
+    directional_abilities: tuple[str, ...] = (),
 ) -> Mapping[str, dict[str, object]]:
     exported: dict[str, dict[str, object]] = {}
     for name, requirements in REQUIREMENTS.items():
@@ -7688,7 +7751,7 @@ def export_requirements(
                 )
         group = _export_requirement_group(
             _apply_scuttlebrace_logic_option(
-                resolved_requirements,
+                split_requirement_counts(resolved_requirements, directional_abilities),
                 scuttlebrace_logic_enabled,
             )
         )
@@ -7747,7 +7810,9 @@ def export_abstract_requirements(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -7783,7 +7848,9 @@ def export_abstract_requirements(
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,

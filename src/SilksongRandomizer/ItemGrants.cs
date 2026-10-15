@@ -33,6 +33,9 @@ namespace SilksongRandomizer
         {
             RequireSaveState().progressionShuffle.ReceiveBossCredit(boss);
             if (boss == "Boss: Widow") QuestManager.IncrementVersion();
+            if (boss == "Boss: Phantom") ProgressionShufflePatches.RefreshPhantomExhaust();
+            if (boss == "Boss: Gurr the Outcast") ProgressionShufflePatches.RefreshGurrTraps();
+            if (boss == "Boss: Broodmother" || boss == "Boss: First Sinner") ProgressionShufflePatches.RefreshBossAudio(boss);
         }
 
         public static void GrantMemento(string assetName)
@@ -92,7 +95,7 @@ namespace SilksongRandomizer
             SaveState state = RequireSaveState();
             int nextLevel = Math.Min(
                 state.swiftStepLevel + 1,
-                MaxSwiftStepLevel
+                state.directionalSwiftStep ? 1 : MaxSwiftStepLevel
             );
             if (nextLevel == state.swiftStepLevel)
             {

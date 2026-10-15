@@ -11,6 +11,8 @@ namespace SilksongRandomizer
     internal static class NpcSoulState
     {
         internal static readonly JArray Catalogue = Load();
+        private static readonly Dictionary<string, string> ItemNames = Catalogue.ToDictionary(
+            row => (string)row["name"], row => (string)row["item"] ?? "Soul of " + (string)row["name"]);
         internal static readonly string[] Names = Catalogue.Where(row => (bool?)row["legacy"] != true).Select(row => (string)row["name"]).ToArray();
         internal static readonly Dictionary<string, string[]> Actors = BuildIndex("actors");
         private static readonly Dictionary<string, string[]> Interactions = BuildIndex("interactions");
@@ -79,7 +81,7 @@ namespace SilksongRandomizer
             return true;
         }
 
-        internal static string ItemName(string npc) => "NPC Soul: " + npc;
+        internal static string ItemName(string npc) => ItemNames[npc];
 
         internal static string NormalizeConfiguration(string json)
         {

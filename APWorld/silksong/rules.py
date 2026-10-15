@@ -285,7 +285,7 @@ def set_silksong_rules(world) -> None:
     )
     skips_tier = 0
     proficient_combat = world.get_proficient_combat_mode()
-    proficient_movement = bool(getattr(getattr(world.options, "proficient_movement", None), "value", 0))
+    platforming_capability = int(world.options.platforming_capability.value)
     flea_brew_jump_logic = bool(getattr(getattr(world.options, "flea_brew_jump_logic", None), "value", 0))
     sharpdart_logic = bool(getattr(getattr(world.options, "sharpdart_logic", None), "value", 0))
     red_tool_stall_tier = int(world.options.red_tool_stall_logic.value)
@@ -402,7 +402,9 @@ def set_silksong_rules(world) -> None:
                     )
                 ),
                 proficient_combat=proficient_combat,
-                proficient_movement=proficient_movement,
+                platforming_capability=platforming_capability,
+                directional_abilities=world.get_directional_abilities(),
+                damage_boost_tier=int(world.options.damage_boost_logic.value),
                 flea_brew_jump_logic=flea_brew_jump_logic,
                 sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
@@ -443,7 +445,9 @@ def set_silksong_rules(world) -> None:
                     )
                 ),
                 proficient_combat=proficient_combat,
-                proficient_movement=proficient_movement,
+                platforming_capability=platforming_capability,
+                directional_abilities=world.get_directional_abilities(),
+                damage_boost_tier=int(world.options.damage_boost_logic.value),
                 flea_brew_jump_logic=flea_brew_jump_logic,
                 sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
@@ -482,7 +486,9 @@ def set_silksong_rules(world) -> None:
                     pollip_heart_count=pollip_heart_count,
                     native_abstract_regions=True,
                     proficient_combat=proficient_combat,
-                    proficient_movement=proficient_movement,
+                    platforming_capability=platforming_capability,
+                    directional_abilities=world.get_directional_abilities(),
+                    damage_boost_tier=int(world.options.damage_boost_logic.value),
                     flea_brew_jump_logic=flea_brew_jump_logic,
                     sharpdart_logic=sharpdart_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
@@ -518,7 +524,9 @@ def set_silksong_rules(world) -> None:
                 pollip_heart_count=pollip_heart_count,
                 native_abstract_regions=True,
                 proficient_combat=proficient_combat,
-                proficient_movement=proficient_movement,
+                platforming_capability=platforming_capability,
+                directional_abilities=world.get_directional_abilities(),
+                damage_boost_tier=int(world.options.damage_boost_logic.value),
                 flea_brew_jump_logic=flea_brew_jump_logic,
                 sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
@@ -667,7 +675,9 @@ def set_silksong_rules(world) -> None:
                         )
                     ),
                     proficient_combat=proficient_combat,
-                    proficient_movement=proficient_movement,
+                    platforming_capability=platforming_capability,
+                    directional_abilities=world.get_directional_abilities(),
+                    damage_boost_tier=int(world.options.damage_boost_logic.value),
                     flea_brew_jump_logic=flea_brew_jump_logic,
                     sharpdart_logic=sharpdart_logic,
                     red_tool_stall_tier=red_tool_stall_tier,
@@ -742,7 +752,9 @@ def set_silksong_rules(world) -> None:
         randomize_swim=randomize_swim,
         native_abstract_regions=True,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=world.get_directional_abilities(),
+        damage_boost_tier=int(world.options.damage_boost_logic.value),
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,

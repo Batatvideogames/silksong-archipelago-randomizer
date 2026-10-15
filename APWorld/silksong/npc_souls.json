@@ -121,6 +121,7 @@
   },
   {
     "name": "Shakra",
+    "item": "Soul of Shakra (NPC)",
     "actors": [
       {
         "scene": "ant_04_mid",
@@ -672,6 +673,12 @@
       {
         "scene": "coral_33",
         "path": "Black Thread States/Normal World/Dice Game Control/Dice Game/Dice Pilgrim"
+      }
+    ],
+    "interactions": [
+      {
+        "scene": "coral_33",
+        "path": "Black Thread States/Normal World/Dice Game Control/Dice Game/Play Point"
       }
     ],
     "checks": [],
@@ -1602,6 +1609,7 @@
   },
   {
     "name": "Pinstress",
+    "item": "Soul of Pinstress (NPC)",
     "actors": [
       {
         "scene": "room_pinstress",
@@ -1681,6 +1689,7 @@
   },
   {
     "name": "Styx",
+    "game_mode": "classic",
     "actors": [
       {
         "scene": "dust_11",
@@ -1700,6 +1709,7 @@
   },
   {
     "name": "Skynx",
+    "game_mode": "steel_soul",
     "actors": [
       {
         "scene": "dust_11",
@@ -1835,6 +1845,7 @@
   },
   {
     "name": "Steel Seer Zi",
+    "game_mode": "steel_soul",
     "actors": [
       {
         "scene": "coral_37",

@@ -584,7 +584,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 split_dash_and_sprint=self.is_split_dash_and_sprint(),
                 allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
                 proficient_combat=self.get_proficient_combat_mode(),
-                proficient_movement=self.is_proficient_movement_enabled(),
+                platforming_capability=self.get_platforming_capability(),
+                directional_abilities=self.get_directional_abilities(),
+                damage_boost_tier=int(self.options.damage_boost_logic.value),
                 flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
                 sharpdart_logic=self.is_sharpdart_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),
@@ -636,6 +638,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self._resolved_purchase_prices = dict(passthrough["purchase_prices"])
             self._resolved_trap_counts = dict(passthrough["trap_counts"])
             self._crest_slot_memory_locket_count = passthrough["crest_slot_memory_locket_count"]
+        if self.options.directional_ledge_grab:
+            self.options.ledgegrab_ability_rando.value = 1
         if self.get_goal_key() == "act_3":
             self.options.silk_and_soul_points.value = get_silk_and_soul_points(self.options)
         from .game_modes import choose_resting_sites, validate_resting_sites
@@ -681,6 +685,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
@@ -695,6 +700,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 if self.is_split_dash_and_sprint()
                 else "Swift Step"
             )
+            if self.options.directional_swift_step:
+                early_item_name = 'Dash (Left)' if self.is_split_dash_and_sprint() else 'Swift Step (Left)'
+                right = early_item_name.replace('(Left)', '(Right)')
+                player_early_items[right] = player_early_items.get(right, 0) + 1
             player_early_items[early_item_name] = (
                 player_early_items.get(early_item_name, 0)
                 + 1
@@ -703,6 +712,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self.options.non_local_items.value.difference_update(
             entry.name for entry in opening_pool if entry.placement_category is not None
         )
+
+    def get_directional_abilities(self):
+        from .directional_abilities import selected
+        return selected(self.options, self.get_category_mode('Skill') == 'anywhere')
 
     def is_steel_soul(self) -> bool:
         return self.options.game_mode.current_key == "steel_soul"
@@ -738,8 +751,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def get_proficient_combat_mode(self) -> int:
         return self.options.proficient_combat.value
 
-    def is_proficient_movement_enabled(self) -> bool:
-        return bool(getattr(getattr(self.options, "proficient_movement", None), "value", 0))
+    def get_platforming_capability(self) -> int:
+        return int(self.options.platforming_capability.value)
 
     def is_flea_brew_jump_logic_enabled(self) -> bool:
         return bool(getattr(getattr(self.options, "flea_brew_jump_logic", None), "value", 0))
@@ -1007,6 +1020,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
@@ -1268,6 +1282,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
@@ -2176,6 +2191,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 else 0
             ),
             bone_bottom_statue_tool_pouch_count,
+            directional_abilities=self.get_directional_abilities(),
             randomize_needle_upgrades=(
                 self.is_needle_upgrade_randomization_enabled()
             ),
@@ -2211,6 +2227,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "force_naked": bool(self.options.force_naked.value),
             "early_dash": self.is_early_dash_enabled(),
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
+            "directional_cling_grip": 'Cling Grip' in self.get_directional_abilities(),
+            "directional_clawline": 'Clawline' in self.get_directional_abilities(),
+            "directional_swift_step": bool({'Swift Step', 'Dash'} & set(self.get_directional_abilities())),
+            "directional_ledge_grab": 'Ledge Grab' in self.get_directional_abilities(),
             "silk_heart_logic": bool(self.options.silk_heart_logic.value),
             "ledgegrab_ability_rando": (
                 self.is_ledgegrab_ability_rando_enabled()
@@ -2235,7 +2255,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "individual_relic_turn_ins":
                 self.is_individual_relic_turn_ins_enabled(),
             "proficient_combat": self.get_proficient_combat_mode(),
-            "proficient_movement": self.is_proficient_movement_enabled(),
+            "platforming_capability": self.get_platforming_capability(),
+            "damage_boost_logic": int(self.options.damage_boost_logic.value),
             "flea_brew_jump_logic": self.is_flea_brew_jump_logic_enabled(),
             "sharpdart_logic": self.is_sharpdart_logic_enabled(),
             "scuttlebrace_logic": int(self.options.scuttlebrace_logic.value),
@@ -2297,7 +2318,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     self.is_swim_ability_rando_enabled()
                 ),
                 proficient_combat=self.get_proficient_combat_mode(),
-                proficient_movement=self.is_proficient_movement_enabled(),
+                platforming_capability=self.get_platforming_capability(),
+                directional_abilities=self.get_directional_abilities(),
+                damage_boost_tier=int(self.options.damage_boost_logic.value),
                 flea_brew_jump_logic=self.is_flea_brew_jump_logic_enabled(),
                 sharpdart_logic=self.is_sharpdart_logic_enabled(),
                 red_tool_stall_tier=int(self.options.red_tool_stall_logic.value),

@@ -13,6 +13,8 @@ namespace SilksongRandomizer
 {
     internal static class NpcSoulIcons
     {
+        private static readonly Dictionary<string, string> Npcs = NpcSoulState.Catalogue.ToDictionary(
+            row => NpcSoulState.ItemName((string)row["name"]), row => (string)row["name"], StringComparer.OrdinalIgnoreCase);
         private sealed class Portrait
         {
             internal readonly string Asset, Frame, Bundle;
@@ -105,9 +107,7 @@ namespace SilksongRandomizer
 
         internal static Sprite GetIcon(string itemName)
         {
-            const string prefix = "NPC Soul: ";
-            if (itemName == null || !itemName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return null;
-            string name = itemName.Substring(prefix.Length);
+            if (itemName == null || !Npcs.TryGetValue(itemName, out string name)) return null;
             if (JournalRecords.TryGetValue(name, out string recordName))
             {
                 EnemyJournalRecord record = EnemyJournalManager.GetRecord(recordName);

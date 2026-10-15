@@ -29,10 +29,22 @@ namespace SilksongRandomizer
             { "Needle Strike", "prompt_nail_art" },
             { "Silk Soar", "Inv_0029_spell_core_outer_icons_0000_1_super_jump" },
             { "Cling Grip", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
+            { "Ledge Grab", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
             { "Clawline", "Inv_0029_spell_core_outer_icons_0000_1_harpoon_dash" },
             { "Needolin", "Inv_0029_spell_core_outer_icons_0000_1" },
             { "Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
             { "Progressive Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+
+            { "Cling Grip (Left)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
+            { "Cling Grip (Right)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
+            { "Clawline (Left)", "Inv_0029_spell_core_outer_icons_0000_1_harpoon_dash" },
+            { "Clawline (Right)", "Inv_0029_spell_core_outer_icons_0000_1_harpoon_dash" },
+            { "Swift Step (Left)", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+            { "Swift Step (Right)", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+            { "Dash (Left)", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+            { "Dash (Right)", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+            { "Ledge Grab (Left)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
+            { "Ledge Grab (Right)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
 
             // Silk Spells
             { "Silkspear", "S_needle_throw" },
@@ -376,6 +388,8 @@ namespace SilksongRandomizer
             else
                 return null;
 
+            if (name.EndsWith(" (Boss)", StringComparison.Ordinal))
+                name = name.Substring(0, name.Length - " (Boss)".Length);
             if (!BossJournalRecords.TryGetValue(name, out string recordName))
                 return null;
 

@@ -31,6 +31,9 @@ namespace SilksongRandomizer
         internal static Dictionary<string, string> Map(string name, bool ignoreCase = false) =>
             ((JObject)Data[name]).Properties().ToDictionary(property => property.Name,
                 property => (string)property.Value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+
+        internal static string BossCreditDescription(string boss) =>
+            (string)Data["boss_credit_descriptions"]?[boss] ?? "No separate world unlock.";
     }
 
     [Serializable]

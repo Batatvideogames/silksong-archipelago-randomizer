@@ -12,7 +12,7 @@ BY_NAME = {row['name']: row for row in CATALOGUE}
 
 
 def item_name(npc):
-    return 'NPC Soul: ' + npc
+    return BY_NAME[npc].get('item', 'Soul of ' + npc)
 
 
 def soul_requirement(world, npc):
@@ -28,7 +28,10 @@ def enabled_npcs(world):
         validate_slot_data(passthrough)
         return tuple(passthrough.get('npc_soul_npcs', ()))
     act = int(world.get_content_scope().removeprefix("act_"))
-    return tuple(row["name"] for row in CATALOGUE if not row.get("legacy") and row.get("act", 1) <= act)
+    mode = 'steel_soul' if world.is_steel_soul() else 'classic'
+    return tuple(row["name"] for row in CATALOGUE
+                 if not row.get("legacy") and row.get("act", 1) <= act
+                 and row.get('game_mode', mode) == mode)
 
 
 def validate_slot_data(data):

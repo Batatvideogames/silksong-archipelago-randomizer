@@ -5,7 +5,7 @@
     "document_count": 530,
     "aggregate_sha256": "24cf9424454fa3a8b5df80beae84c47b620a18b92d79377f7bfd79aba09e2b78",
     "catalogue_sha256": "75c46320a7d18bbeec0e2bfc1a341ed9d01452664e91a8041e8ea42f5be07d9e",
-    "bindings_sha256": "c008cc973cb58f8f97275e21c79aa69d0156d5bd467ab5c2a7fc6bbb9d92a589"
+    "bindings_sha256": "c8f84c65be8d64f54f4c536092d7d0da6584feb032a0a74c41db978847bc0882"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -5449,6 +5449,29 @@
               [
                 "event:mapper/reviewed:everbloom-ritual"
               ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "moss-grotto/ruined-chapel-interior::reviewed-check:836353",
+          "label": "Moss Grotto - Shaman Storeroom Record",
+          "node_id": "moss-grotto/ruined-chapel-interior#ritual-chamber",
+          "canonical_location": "Moss Grotto - Shaman Storeroom Record",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
             ],
             "annotations": [],
             "minimum_skip_tier": 0,
@@ -183359,13 +183382,16 @@
                 "item:faydown-cloak"
               ],
               [
+                "mapper:enemy-type-pogo:Song Reed:medium",
+                "mapper:heal-stall:medium",
+                "mapper:damage-boost:medium"
+              ],
+              [
                 "mapper:shaman-crest-pogo:easy",
                 "mapper:enemy-type-pogo:Song Reed:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: capability:damage-boost:medium"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -185207,11 +185233,14 @@
               [
                 "mapper:shaman-crest-pogo:easy",
                 "item:cling-grip"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Reed:easy",
+                "mapper:damage-boost:easy"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: capability:damage-boost:easy"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -186440,11 +186469,19 @@
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Pilgrim 04 Song:medium",
+                "mapper:damage-boost:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-type-pogo:Pilgrim 04 Song:medium",
+                "mapper:damage-boost:medium"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: capability:damage-boost:medium"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -188805,11 +188842,40 @@
                 "capability:ledge-grab",
                 "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
                 "mapper:reaper-crest-pogo:hard"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
+                "mapper:hunter-crest-pogo:hard",
+                "mapper:damage-boost:hard"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
+                "mapper:beast-crest-pogo:hard",
+                "mapper:damage-boost:hard"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
+                "mapper:witch-crest-pogo:hard",
+                "mapper:damage-boost:hard"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
+                "mapper:wanderer-crest-pogo:hard",
+                "mapper:damage-boost:hard"
+              ],
+              [
+                "capability:ledge-grab",
+                "mapper:enemy-type-pogo:Song Pilgrim 03:hard",
+                "mapper:architect-crest-pogo:hard",
+                "item:clawline",
+                "mapper:damage-boost:hard"
               ]
             ],
-            "annotations": [
-              "unsupported mapper capability: capability:damage-boost:hard"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -196016,6 +196082,28 @@
           "name": "Main-Left",
           "source_node_id": "cogwork-core/cogwork-core-west-gauntlet#left-entrance",
           "target_node_id": "cogwork-core/cogwork-core-west-gauntlet#main"
+        },
+        {
+          "id": "reviewed:cogwork-west-main-to-arena",
+          "alias": "reviewed:cogwork-west-main-to-arena",
+          "name": "Main to Arena",
+          "source_node_id": "cogwork-core/cogwork-core-west-gauntlet#main",
+          "target_node_id": "cogwork-core/cogwork-core-west-gauntlet#arena",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "events": [
@@ -254393,24 +254481,27 @@
           "id": "the-slab/slab-why-room#left-lower>mask-shard@m",
           "requirement": {
             "raw": "cling grip AND spike pogo AND faydown cloak AND dash",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:cling-grip",
+                "macro:spike-pogo",
+                "item:faydown-cloak",
+                "macro:progressive-swift-step-full"
+              ]
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "mapper TODO requires review"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "someone more skilled than me can figure this one out",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "318eaf7c-fde9-4be3-a4f7-2f3de61edcc4"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "mapper TODO requires review"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "M",
           "name": "Mask Shard",
           "source_node_id": "the-slab/slab-why-room#left-lower",
@@ -271973,6 +272064,29 @@
           "canonical_location": "The Cradle - Silkeater",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "the-cradle/terminus-ventrica::reviewed-check:836324",
+          "label": "The Cradle - Terminus Commandment",
+          "node_id": "the-cradle/terminus-ventrica#ventricas",
+          "canonical_location": "The Cradle - Terminus Commandment",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": []

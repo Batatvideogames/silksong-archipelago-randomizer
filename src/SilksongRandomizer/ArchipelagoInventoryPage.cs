@@ -114,7 +114,7 @@ namespace SilksongRandomizer
             OnInputUp += PreviousSheet;
             OnInputDown += NextSheet;
             for (int i = 0; i < ArchipelagoInventoryModel.SoulRowsPerColumn * 3 + 15; i++) labels.Add(CreateText(template, "Heading"));
-            for (int i = 0; i < ArchipelagoInventoryModel.BossesPerPage; i++)
+            for (int i = 0; i < ArchipelagoInventoryModel.SoulsPerPage; i++)
                 rows.Add(new RowView {
                     Title = CreateText(template, "Item Name"),
                     Detail = CreateText(template, "Item Details"),
@@ -758,7 +758,17 @@ namespace SilksongRandomizer
                 Label(sheet.RightHeading, 9.4f, -2.5f, 6.8f, .55f, 3.7f, .85f, TextAlignmentOptions.TopRight);
             var bosses = sheet.Left.Concat(sheet.Right).ToList();
             for (int i = 0; i < bosses.Count; i++)
-                Row(bosses[i], -7.6f + i % 4 * 6f, -4.35f - i / 4 * 1.6f, 5.6f, 3.5f, 1f, .8f);
+            {
+                if (sheet.SoulCollection)
+                    Row(bosses[i], -7.6f + i % 4 * 6f, -4.35f - i / 4 * 1.6f, 5.6f, 3.5f, 1f, .8f);
+                else
+                {
+                    float x = -7.6f + i % 2 * 12f;
+                    float y = -4.35f - i / 2 * 2.1f;
+                    Row(bosses[i], x, y, 11.4f, 3.5f, 1f);
+                    Label(bosses[i].EffectDescription, x + 1.25f, y - 1.05f, 10.15f, .85f, 2.8f, .85f);
+                }
+            }
         }
 
         private void RenderDetails(ArchipelagoInventorySheet sheet)

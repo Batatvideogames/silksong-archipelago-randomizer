@@ -52,6 +52,10 @@ class SpendingAudit:
             self.masks[location.player] |= 1 << index
             if location.name in RUINED_TOOL_REPAIR_LOCATIONS:
                 self.repairs[location.player] |= 1 << index
+        # Reachable filler purchases spend the same coin without opening anything.
+        self.filler = sum(1 << index for index, location in enumerate(self.purchases)
+                          if not location.item.advancement and self.recipients.get(location.item.player)
+                          and location.address is not None and not self.repairs[location.player] & (1 << index))
         self.full = {player for player, world in multiworld.worlds.items()
                      if world.options.accessibility == 'full'}
         self.minimal = {player for player, world in multiworld.worlds.items()
@@ -141,7 +145,7 @@ class SpendingAudit:
                 repairs = self.repairs[player]
                 if repairs & bit and not self.refunds[player]:
                     continue
-                if player in funded:
+                if player in funded or self.filler & bit:
                     bought = self.buy(state, bought, index)
             if bought == previous:
                 return bought
@@ -188,20 +192,13 @@ class SpendingAudit:
                    and reachable & (1 << index)]
         if not choices:
             return SpendingFailure(state, bought)
-        filler_wallets = set()
         for index in choices:
             bit = 1 << index
             location = self.purchases[index]
-            if (not location.item.advancement and location.item.player in self.worlds
-                    and location.address is not None and not self.repairs[location.player] & bit):
-                if location.player in filler_wallets:
-                    continue
-                # Reachable filler purchases spend the same coin without opening anything.
-                filler_wallets.add(location.player)
             if sleeping & bit:
                 continue
             # Different players don't spend from the same wallet.
-            next_sleeping = sleeping & ~self.masks[self.purchases[index].player]
+            next_sleeping = sleeping & ~self.masks[location.player]
             if self.covered(bought | bit, next_sleeping):
                 sleeping |= bit
                 continue

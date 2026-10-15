@@ -921,22 +921,50 @@ class SplitDashAndSprint(Toggle):
 
 class LedgegrabAbilityRando(Toggle):
     """
-    EXPERIMENTAL FEATURE: Disables Hornets Ledge Grab Ability and must be found as item to acquire that ability, enable at own risk
+    Randomizes Hornet's ability to grab ledges.
     """
 
-    display_name = "Ledgegrab Ability Rando"
+    display_name = "Ledge Grab Rando"
     default = 0
-    visibility = Visibility.none
 
 
 class SwimAbilityRando(Toggle):
     """
-    EXPERIMENTAL FEATURE: Disables Hornets Swim Ability and must be found as item to acquire that ability, enable at own risk
+    Randomizes Hornet's ability to swim.
     """
 
-    display_name = "Swim Ability Rando"
+    display_name = "Swim Rando"
     default = 0
-    visibility = Visibility.none
+
+
+class DirectionalLedgeGrab(Toggle):
+    """Split Ledge Grab into Left and Right items. Automatically enables Ledge Grab Rando."""
+    display_name = "Directional Ledge Grab Rando"
+    default = 0
+
+
+class DirectionalClingGrip(Toggle):
+    """Split Cling Grip into Left and Right wall-clinging items with Skills set to anywhere."""
+    display_name = "Directional Cling Grip"
+    default = 0
+
+
+class DirectionalSwiftStep(Toggle):
+    """
+    Split Swift Step into Left and Right items with Skills set to anywhere.
+    Each side grants dash and sprint. With Split Dash And Sprint enabled,
+    sprint stays unrestricted and only dash is split by direction.
+    """
+    display_name = "Directional Swift Step"
+    default = 0
+
+
+class DirectionalClawline(Toggle):
+    """
+    Split Clawline into Left and Right items with Skills set to anywhere.
+    """
+    display_name = "Directional Clawline"
+    default = 0
 
 
 class NeedleUpgradeRandomization(GlobalRandomization):
@@ -1012,15 +1040,18 @@ class ProficientCombat(Choice):
     default = option_off
 
 
-class ProficientMovement(Toggle):
+class PlatformingCapability(Choice):
     """
-    Increase traversal difficulty by substituting parts of movement 
-    requirements for traversal with frame-precise inputs or timings or 
-    special usage of movement abilities.
+    Normal uses ordinary platforming routes. Proficient Movement allows
+    precise inputs and advanced uses of movement abilities.
+    Elite Ball Knowledge also includes routes marked for that setting.
     """
 
-    display_name = "Proficient Movement"
-    default = 0
+    display_name = "Platforming Capability"
+    option_normal = 0
+    option_proficient_movement = 1
+    option_elite_ball_knowledge = 2
+    default = option_normal
 
 
 class FleaBrewJumpLogic(Toggle):
@@ -1043,6 +1074,14 @@ class TechniqueDifficulty(Choice):
     option_moderate = 2
     option_difficult = 3
     default = option_none
+
+
+class DamageBoostLogic(TechniqueDifficulty):
+    """
+    Take a hit to cross an obstacle using knockback or invulnerability.
+    None disables these routes. Higher settings also allow easier boosts.
+    """
+    display_name = "Damage Boost Logic"
 
 
 class SharpdartLogic(Toggle):
@@ -1616,14 +1655,19 @@ class SilksongOptions(PerGameCommonOptions):
     force_naked: ForceNaked
     start_inventory_from_pool: StartInventoryPool
     early_dash: EarlyDash
-    split_dash_and_sprint: SplitDashAndSprint
     silk_and_soul_points: SilkAndSoulPoints
     ledgegrab_ability_rando: LedgegrabAbilityRando
+    directional_ledge_grab: DirectionalLedgeGrab
     swim_ability_rando: SwimAbilityRando
+    directional_cling_grip: DirectionalClingGrip
+    directional_swift_step: DirectionalSwiftStep
+    directional_clawline: DirectionalClawline
+    split_dash_and_sprint: SplitDashAndSprint
     trails_end_requirement: TrailsEndRequirement
     enemy_pogo_logic: EnemyPogoLogic
     proficient_combat: ProficientCombat
-    proficient_movement: ProficientMovement
+    damage_boost_logic: DamageBoostLogic
+    platforming_capability: PlatformingCapability
     flea_brew_jump_logic: FleaBrewJumpLogic
     red_tool_stall_logic: RedToolStallLogic
     drill_crystal_pogo_logic: DrillCrystalPogoLogic
@@ -1754,8 +1798,9 @@ silksong_option_groups = [
         CheckMapMarkers,
     ], start_collapsed=False),
     OptionGroup("Proficiency/Skip Options", [
-        ProficientMovement,
+        PlatformingCapability,
         ProficientCombat,
+        DamageBoostLogic,
         FleaBrewJumpLogic,
         RedToolStallLogic,
         DrillCrystalPogoLogic,
@@ -1768,7 +1813,6 @@ silksong_option_groups = [
         HazardRespawnLogic,
     ], start_collapsed=True),
     OptionGroup("Randomization Options", [
-        SplitDashAndSprint,
         RandomizedBellMarkers,
         RandomizedMelodyMarkers,
         QuillRandomization,
@@ -1828,6 +1872,15 @@ silksong_option_groups = [
         IndividualRelicTurnIns,
         AlphabetMode,
     ], start_collapsed=True),
+    OptionGroup("Split/Directional Abilities", [
+        LedgegrabAbilityRando,
+        DirectionalLedgeGrab,
+        SwimAbilityRando,
+        DirectionalClingGrip,
+        DirectionalSwiftStep,
+        DirectionalClawline,
+        SplitDashAndSprint,
+    ], start_collapsed=True),
     OptionGroup("Costsanity", [
         NormalShopPrices,
         BellwayPrices,
@@ -1841,8 +1894,6 @@ silksong_option_groups = [
         VogHintPrices,
     ], start_collapsed=True),
     OptionGroup("BETA Features", [
-        LedgegrabAbilityRando,
-        SwimAbilityRando,
         EntranceRandomization,
         EntranceRandomizationScope,
     ], start_collapsed=True),

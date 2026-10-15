@@ -12,7 +12,8 @@ namespace SilksongRandomizer
     {
         internal static readonly JArray Catalogue = Load();
         internal static readonly string[] Names = Catalogue.Select(row => (string)row["name"]).ToArray();
-        private static readonly Dictionary<string, string> Records = Catalogue.ToDictionary(row => (string)row["record"], row => (string)row["name"], StringComparer.Ordinal);
+        private static readonly Dictionary<string, string> Records = Catalogue
+            .ToDictionary(row => (string)row["record"], row => (string)row["name"], StringComparer.Ordinal);
         private static readonly HashSet<string> ScriptedDeaths = new HashSet<string>(
             Catalogue.Where(row => (bool?)row["scripted_death"] == true).Select(row => (string)row["name"]), StringComparer.Ordinal);
         internal static bool HasScriptedDeath(string species) => ScriptedDeaths.Contains(species);
@@ -31,7 +32,7 @@ namespace SilksongRandomizer
             using (var reader = new StreamReader(stream)) return JArray.Parse(reader.ReadToEnd());
         }
 
-        internal static string ItemName(string npc) => "Enemy Soul: " + npc;
+        internal static string ItemName(string npc) => "Soul of " + npc;
 
         internal static string NormalizeConfiguration(string json)
         {
@@ -51,7 +52,7 @@ namespace SilksongRandomizer
 
         internal static Sprite GetIcon(string itemName)
         {
-            const string prefix = "Enemy Soul: ";
+            const string prefix = "Soul of ";
             if (!itemName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return null;
             string species = itemName.Substring(prefix.Length);
             string recordName = Records.FirstOrDefault(pair => string.Equals(pair.Value, species, StringComparison.OrdinalIgnoreCase)).Key;

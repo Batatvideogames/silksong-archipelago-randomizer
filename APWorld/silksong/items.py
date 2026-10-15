@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from .npc_souls import CATALOGUE as NPC_SOUL_CATALOGUE
+from .npc_souls import CATALOGUE as NPC_SOUL_CATALOGUE, item_name as npc_soul_name
+from .directional_abilities import ITEMS as DIRECTIONAL_ITEMS, split_pool
 
 from .eva import EVA_NODE, EVA_REWARDS, EVA_POINT, EVA_POINT_SOURCES, EVA_CREST_SLOTS, EVOLVED_HUNTER, YELLOW_VESTICREST, BLUE_VESTICREST, SYLPHSONG
 
@@ -423,7 +424,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Craw Memento', 'Memento'),
     ('Literacy Trap', 'Trap'),
 ) + tuple((name, 'Boss') for location, name in BOSS_CREDIT_BY_LOCATION.items()
-          if location != 'Boss: Lace (Deep Docks)') + (
+          if location not in {'Boss: Lace (Deep Docks)', 'Boss: Palestag'}) + (
     ('Soul of Groal the Great', 'BossSoul'),
     ('Soul of Moss Mother', 'BossSoul'),
     ('Soul of Broodmother', 'BossSoul'),
@@ -431,7 +432,7 @@ ITEM_TABLE_SOURCE: tuple[tuple[str, str], ...] = tuple(
     ('Soul of Disgraced Chef Lugoli', 'BossSoul'),
     ('Soul of Raging Conchfly', 'BossSoul'),
     ('Soul of Skull Tyrant', 'BossSoul'),
-    *(("NPC Soul: " + row['name'], 'NpcSoul') for row in NPC_SOUL_CATALOGUE),
+    *((npc_soul_name(row['name']), 'NpcSoul') for row in NPC_SOUL_CATALOGUE),
 )
 
 from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
@@ -439,6 +440,8 @@ ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[:1])
 ITEM_TABLE_SOURCE += (("Boss Credit: Lace (Deep Docks)", "Boss"),)
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
+ITEM_TABLE_SOURCE += (("Boss Credit: Palestag", "Boss"),)
+ITEM_TABLE_SOURCE += tuple((name, "InnateAbility" if name.startswith("Ledge Grab") else "Skill") for name in DIRECTIONAL_ITEMS)
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -676,7 +679,7 @@ ITEM_TABLE_SOURCE = tuple(dict.fromkeys(ITEM_TABLE_SOURCE))
 
 from .enemy_souls import CATALOGUE as ENEMY_SOUL_CATALOGUE, item_name as enemy_soul_name
 from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE, SETH_SOUL
-item_table.update({"NPC Soul: " + row["name"]: row["item_id"] for row in NPC_SOUL_CATALOGUE})
+item_table.update({npc_soul_name(row["name"]): row["item_id"] for row in NPC_SOUL_CATALOGUE})
 item_table.update({enemy_soul_name(row['name']): row['item_id'] for row in ENEMY_SOUL_CATALOGUE})
 item_table.update({row["item"]: row["item_id"] for row in BOSS_SOUL_CATALOGUE})
 
@@ -752,7 +755,7 @@ item_name_groups: Dict[str, set[str]] = {
     "Boss Credits": set(BOSS_CREDIT_BY_LOCATION.values()),
     "Journal Entries": set(JOURNAL_ITEMS.values()) - {JOURNAL},
     "Enemy Souls": {enemy_soul_name(row["name"]) for row in ENEMY_SOUL_CATALOGUE},
-    "NPC Souls": {"NPC Soul: " + row["name"] for row in NPC_SOUL_CATALOGUE if not row.get("legacy")},
+    "NPC Souls": {npc_soul_name(row["name"]) for row in NPC_SOUL_CATALOGUE if not row.get("legacy")},
     "Boss Souls": {row["item"] for row in BOSS_SOUL_CATALOGUE} | {SETH_SOUL},
     "Traps": {name for name, category in ITEM_TABLE_SOURCE if category == "Trap"},
     "Needle Upgrades": {'Progressive Needle Upgrade'},
@@ -775,6 +778,8 @@ def _classification_for(name: str) -> ItemClassification:
     if ITEM_CATEGORY_BY_NAME[name] == "Trap":
         return ItemClassification.trap
     if ITEM_CATEGORY_BY_NAME[name] in {"BossSoul", "NpcSoul", "EnemySoul"}:
+        return ItemClassification.progression
+    if name in DIRECTIONAL_ITEMS:
         return ItemClassification.progression
     if name == JOURNAL:
         return ItemClassification.progression
@@ -849,6 +854,7 @@ QUEST_FILLER_COUNTS: Dict[str, int] = {
 # These items enter the pool only when their corresponding option is enabled.
 CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     PROGRESSIVE_SWIFT_STEP_ITEM,
+    *DIRECTIONAL_ITEMS,
     *PALE_OIL_POOL_COUNTS,
     *NEEDLE_UPGRADE_POOL_COUNTS,
     *ALPHABET_ITEM_NAMES,
@@ -1404,6 +1410,7 @@ def get_dynamic_trap_capacity(
     minimum_memory_lockets: int = 0,
     required_goal_items: tuple[str, ...] = (),
     silk_soar_begone: bool = False,
+    directional_abilities: tuple[str, ...] = (),
 ) -> int:
     """Count filler entries that can be replaced by traps."""
 
@@ -1435,6 +1442,7 @@ def get_dynamic_trap_capacity(
             minimum_memory_lockets=minimum_memory_lockets,
             required_goal_items=required_goal_items,
             silk_soar_begone=silk_soar_begone,
+            directional_abilities=directional_abilities,
         )
     )
 
@@ -1501,6 +1509,7 @@ def build_item_pool_entries(
     minimum_memory_lockets: int = 0,
     required_goal_items: tuple[str, ...] = (),
     silk_soar_begone: bool = False,
+    directional_abilities: tuple[str, ...] = (),
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
 
@@ -1928,6 +1937,7 @@ def build_item_pool_entries(
         for index, entry in zip(filler_indices, selected):
             entries[index] = entry
 
+    split_pool(entries, directional_abilities, ItemPoolEntry, replace_filler_with_innate_ability_items)
     return tuple(entries)
 
 

@@ -19,12 +19,136 @@ namespace SilksongRandomizer.Patches
 
         private static readonly Dictionary<string, string> StoryActions = ProgressionCatalogue.Map("boss_story_actions", true);
 
+        private static readonly Dictionary<string, string> GurrTrapScenes = ProgressionCatalogue.Map("gurr_trap_scenes", true);
+        private static readonly List<GurrTrapGroup> GurrTraps = new List<GurrTrapGroup>();
+
         [ThreadStatic] private static string storyOwner;
         [ThreadStatic] private static int questAvailabilityDepth;
 
         internal static bool StoryCredit(string boss, bool native) =>
             SaveState.Instance?.progressionShuffle?.TryGetBossCredit(boss, out bool completed) == true
                 ? completed : native;
+
+        private sealed class GurrTrapGroup
+        {
+            internal TestGameObjectActivator Owner;
+            internal readonly List<GameObject> Traps = new List<GameObject>();
+            private bool visible;
+
+            internal void Refresh(bool active)
+            {
+                if (visible == active) return;
+                visible = active;
+                foreach (GameObject trap in Traps)
+                    if (trap != null) trap.SetActive(active);
+            }
+        }
+
+        private static bool TryGurrTrapVisibility(out bool active)
+        {
+            active = false;
+            if (SaveState.Instance?.progressionShuffle?.TryGetBossCredit("Boss: Gurr the Outcast", out bool credit) != true)
+                return false;
+            active = !credit && QuestManager.GetQuest("Ant Trapper")?.IsAccepted == true;
+            return true;
+        }
+
+        internal static void RefreshGurrTraps()
+        {
+            if (!TryGurrTrapVisibility(out bool active)) return;
+            for (int i = GurrTraps.Count - 1; i >= 0; i--)
+            {
+                if (GurrTraps[i].Owner == null) GurrTraps.RemoveAt(i);
+                else GurrTraps[i].Refresh(active);
+            }
+        }
+
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class GurrTrapSetupPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(TestGameObjectActivator __instance, GameObject ___activateGameObject)
+            {
+                if (!GurrTrapScenes.TryGetValue(__instance.gameObject.scene.name, out string root) ||
+                    __instance.transform.parent != null || __instance.name != root ||
+                    !TryGurrTrapVisibility(out bool active)) return;
+                for (int i = GurrTraps.Count - 1; i >= 0; i--)
+                {
+                    if (GurrTraps[i].Owner == null) GurrTraps.RemoveAt(i);
+                    else if (GurrTraps[i].Owner == __instance)
+                    {
+                        GurrTraps[i].Refresh(active);
+                        return;
+                    }
+                }
+                GameObject tracking = ___activateGameObject;
+                if (tracking == null || tracking.name != "Tracking Scene" || tracking.transform.parent != __instance.transform)
+                    return;
+                var group = new GurrTrapGroup { Owner = __instance };
+                // The tracking clues still follow the real fight and quest state.
+                for (int i = tracking.transform.childCount - 1; i >= 0; i--)
+                {
+                    Transform child = tracking.transform.GetChild(i);
+                    if (child.name != "Trapper Barb Trap Landmine" && child.name != "Trapper Barb Trap Landmine (1)" &&
+                        child.name != "Trapper Barb Trap Landmine (2)" && child.name != "Trapper Barb Trap Landmine (3)") continue;
+                    child.gameObject.SetActive(false);
+                    child.SetParent(__instance.transform, true);
+                    group.Traps.Add(child.gameObject);
+                }
+                GurrTraps.Add(group);
+                group.Refresh(active);
+            }
+        }
+
+        internal static void RefreshBossAudio(string boss)
+        {
+            string field = boss == "Boss: Broodmother" ? "defeatedBroodMother" :
+                boss == "Boss: First Sinner" ? "defeatedFirstWeaver" : null;
+            if (field == null || SaveState.Instance?.progressionShuffle?.TryGetBossCredit(boss, out bool credit) != true || !credit)
+                return;
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                if (!scene.isLoaded) continue;
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    GameObject audio = boss == "Boss: Broodmother" ?
+                        (root.name == "Audio Loop Broodmother Wail" ? root : null) :
+                        (root.name == "Break Gate Group" ? root.transform.Find("Audio Loop Whisper")?.gameObject : null);
+                    if (audio == null || !TryComponentCredit(OwnerKey(audio.transform), field, out bool received) || !received) continue;
+                    if (boss == "Boss: Broodmother") audio.GetComponent<TestGameObjectActivator>()?.DoEvaluate();
+                    else audio.SetActive(false);
+                }
+            }
+        }
+
+        internal static void RefreshPhantomExhaust()
+        {
+            if (SaveState.Instance?.progressionShuffle?.TryGetBossCredit("Boss: Phantom", out bool credit) != true || !credit)
+                return;
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                if (!scene.isLoaded || (scene.name != "Organ_01" && scene.name != "Library_12b" &&
+                    scene.name != "Shadow_20" && scene.name != "Dust_09")) continue;
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    string owner = scene.name + "|" + root.name;
+                    if (StoryActions.TryGetValue(owner + "|Control|Init|defeatedPhantom", out string boss) && boss == "Boss: Phantom")
+                    {
+                        foreach (PlayMakerFSM fsm in root.GetComponents<PlayMakerFSM>())
+                            if (fsm.isActiveAndEnabled && fsm.FsmName == "Control") fsm.SendEvent("EXHAUST END");
+                    }
+                    if (!TryComponentCredit(owner, "defeatedPhantom", out _)) continue;
+                    var off = root.GetComponent<DeactivateIfPlayerdataTrue>();
+                    if (off != null && off.boolName == "defeatedPhantom")
+                        (off.objectToDeactivate != null ? off.objectToDeactivate : root).SetActive(false);
+                    var on = root.GetComponent<DeactivateIfPlayerdataFalse>();
+                    if (on != null && on.boolName == "defeatedPhantom")
+                        (on.objectToDeactivate != null ? on.objectToDeactivate : root).SetActive(true);
+                }
+            }
+        }
 
         private static bool StoryFlag(bool native, string field) =>
             BossFlags.TryGetValue(field, out string boss) ? StoryCredit(boss, native) : native;
@@ -1081,6 +1205,7 @@ namespace SilksongRandomizer.Patches
             [HarmonyPostfix]
             private static void Postfix(FullQuestBase __instance)
             {
+                if (__instance.name == "Ant Trapper") RefreshGurrTraps();
                 if (__instance.IsAccepted && SaveState.Instance?.progressionShuffle?.RecordWishAccepted(
                     ProgressionShuffleState.WishIdentity(__instance.name)) == true)
                     GameManager.instance?.QueueSaveGame();

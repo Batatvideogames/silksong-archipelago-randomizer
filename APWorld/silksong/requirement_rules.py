@@ -117,7 +117,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     randomize_swim: bool = False
     pollip_heart_count: int = 0
     proficient_combat: int = 0
-    proficient_movement: bool = False
+    platforming_capability: int = 0
+    directional_abilities: tuple[str, ...] = ()
+    damage_boost_tier: int = 0
     flea_brew_jump_logic: bool = False
     sharpdart_logic: bool = True
     red_tool_stall_tier: int = 0
@@ -137,6 +139,7 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
     def __post_init__(self) -> None:
         super().__post_init__()
         self.steel_soul_sites = tuple(self.steel_soul_sites)
+        self.directional_abilities = tuple(self.directional_abilities)
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         return self.Resolved(
@@ -152,7 +155,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
             self.randomize_swim,
             self.pollip_heart_count,
             self.proficient_combat,
-            self.proficient_movement,
+            self.platforming_capability,
+            self.directional_abilities,
+            self.damage_boost_tier,
             self.flea_brew_jump_logic,
             self.sharpdart_logic,
             self.red_tool_stall_tier,
@@ -186,7 +191,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
         randomize_swim: bool
         pollip_heart_count: int
         proficient_combat: int
-        proficient_movement: bool
+        platforming_capability: int
+        directional_abilities: tuple[str, ...]
+        damage_boost_tier: int
         flea_brew_jump_logic: bool
         sharpdart_logic: bool
         red_tool_stall_tier: int
@@ -225,7 +232,9 @@ class AbstractRequirementRule(Rule, game=GAME_NAME):
                 randomize_swim=self.randomize_swim,
                 pollip_heart_count=self.pollip_heart_count,
                 proficient_combat=self.proficient_combat,
-                proficient_movement=self.proficient_movement,
+                platforming_capability=self.platforming_capability,
+                directional_abilities=self.directional_abilities,
+                damage_boost_tier=self.damage_boost_tier,
                 flea_brew_jump_logic=self.flea_brew_jump_logic,
                 sharpdart_logic=self.sharpdart_logic,
                 red_tool_stall_tier=self.red_tool_stall_tier,
@@ -480,7 +489,9 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     randomize_ledge_grab: bool = False
     randomize_swim: bool = False
     proficient_combat: int = 0
-    proficient_movement: bool = False
+    platforming_capability: int = 0
+    directional_abilities: tuple[str, ...] = ()
+    damage_boost_tier: int = 0
     flea_brew_jump_logic: bool = False
     sharpdart_logic: bool = True
     red_tool_stall_tier: int = 0
@@ -500,6 +511,7 @@ class NativeSourceRule(Rule, game=GAME_NAME):
     def __post_init__(self) -> None:
         super().__post_init__()
         self.steel_soul_sites = tuple(self.steel_soul_sites)
+        self.directional_abilities = tuple(self.directional_abilities)
 
     def _instantiate(self, world: World) -> Rule.Resolved:
         child_rule = build_location_rule(
@@ -521,7 +533,9 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             randomize_ledge_grab=self.randomize_ledge_grab,
             randomize_swim=self.randomize_swim,
             proficient_combat=self.proficient_combat,
-            proficient_movement=self.proficient_movement,
+            platforming_capability=self.platforming_capability,
+            directional_abilities=self.directional_abilities,
+            damage_boost_tier=self.damage_boost_tier,
             flea_brew_jump_logic=self.flea_brew_jump_logic,
             sharpdart_logic=self.sharpdart_logic,
             red_tool_stall_tier=self.red_tool_stall_tier,
@@ -784,7 +798,9 @@ def _compile_named_requirement(
     pollip_heart_count: int,
     native_abstract_regions: bool = False,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -826,7 +842,9 @@ def _compile_named_requirement(
             randomize_swim=randomize_swim,
             pollip_heart_count=pollip_heart_count,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
@@ -883,7 +901,9 @@ def _compile_requirement(
     anchor_requirement_name: str | None = None,
     required_location_stack: tuple[str, ...] = (),
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -900,6 +920,8 @@ def _compile_requirement(
     silk_and_soul_points: int = 17,
     silk_heart_logic: bool = False,
 ) -> Rule:
+    from .directional_abilities import split_requirement_counts
+    requirement, = split_requirement_counts((requirement,), directional_abilities)
     if requirement.minimum_skip_tier > skips_tier:
         return False_()
 
@@ -923,7 +945,9 @@ def _compile_requirement(
             pollip_heart_count=pollip_heart_count,
             native_abstract_regions=native_abstract_regions,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
@@ -971,7 +995,9 @@ def _compile_requirement(
                 native_abstract_regions=True,
                 required_location_stack=next_stack,
                 proficient_combat=proficient_combat,
-                proficient_movement=proficient_movement,
+                platforming_capability=platforming_capability,
+                directional_abilities=directional_abilities,
+                damage_boost_tier=damage_boost_tier,
                 flea_brew_jump_logic=flea_brew_jump_logic,
                 sharpdart_logic=sharpdart_logic,
                 red_tool_stall_tier=red_tool_stall_tier,
@@ -1052,7 +1078,9 @@ def build_requirements_rule(
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -1085,7 +1113,9 @@ def build_requirements_rule(
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -1123,7 +1153,9 @@ def build_requirements_rule(
             native_abstract_regions=native_abstract_regions,
             anchor_requirement_name=anchor_requirement_name,
             proficient_combat=proficient_combat,
-            proficient_movement=proficient_movement,
+            platforming_capability=platforming_capability,
+            directional_abilities=directional_abilities,
+            damage_boost_tier=damage_boost_tier,
             flea_brew_jump_logic=flea_brew_jump_logic,
             sharpdart_logic=sharpdart_logic,
             red_tool_stall_tier=red_tool_stall_tier,
@@ -1160,7 +1192,9 @@ def build_location_rule(
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -1197,7 +1231,9 @@ def build_location_rule(
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -1234,7 +1270,9 @@ def build_goal_rule(
     native_abstract_regions: bool = False,
     anchor_requirement_name: str | None = None,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -1271,7 +1309,9 @@ def build_goal_rule(
         native_abstract_regions=native_abstract_regions,
         anchor_requirement_name=anchor_requirement_name,
         proficient_combat=proficient_combat,
-        proficient_movement=proficient_movement,
+        platforming_capability=platforming_capability,
+        directional_abilities=directional_abilities,
+        damage_boost_tier=damage_boost_tier,
         flea_brew_jump_logic=flea_brew_jump_logic,
         sharpdart_logic=sharpdart_logic,
         red_tool_stall_tier=red_tool_stall_tier,
@@ -1306,7 +1346,9 @@ def build_native_source_rule(
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
     proficient_combat: int = 0,
-    proficient_movement: bool = False,
+    platforming_capability: int = 0,
+    directional_abilities: tuple[str, ...] = (),
+    damage_boost_tier: int = 0,
     flea_brew_jump_logic: bool = False,
     sharpdart_logic: bool = True,
     red_tool_stall_tier: int = 0,
@@ -1340,7 +1382,9 @@ def build_native_source_rule(
         randomize_ledge_grab,
         randomize_swim,
         proficient_combat,
-        proficient_movement,
+        platforming_capability,
+        directional_abilities,
+        damage_boost_tier,
         flea_brew_jump_logic,
         sharpdart_logic,
         red_tool_stall_tier,

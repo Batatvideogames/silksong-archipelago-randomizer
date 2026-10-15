@@ -9,7 +9,7 @@ namespace SilksongRandomizer
 {
     internal static class BossSoulState
     {
-        internal const string SethSoul = "Progressive Seth Soul";
+        internal const string SethSoul = "Soul of Seth (Progressive)";
         internal const string SethBoss = "Boss: Shrine Guardian Seth";
 
         private static string cachedJson;
@@ -32,6 +32,8 @@ namespace SilksongRandomizer
 
         internal const string Groal = "Boss: Groal the Great";
         internal static readonly JArray Catalogue = Load();
+        private static readonly Dictionary<string, string> ItemNames = Catalogue.ToDictionary(
+            row => (string)row["boss"], row => (string)row["item"]);
         internal static readonly string[] SupportedBosses = Catalogue.Select(row => (string)row["boss"]).ToArray();
 
         private static JArray Load()
@@ -40,8 +42,7 @@ namespace SilksongRandomizer
             using (var reader = new StreamReader(stream)) return JArray.Parse(reader.ReadToEnd());
         }
 
-        internal static string ItemName(string boss) => "Soul of " +
-            (boss.StartsWith("Boss: Skull Tyrant (", StringComparison.Ordinal) ? "Skull Tyrant" : boss.Substring("Boss: ".Length));
+        internal static string ItemName(string boss) => ItemNames[boss];
 
         internal static string NormalizeConfiguration(string json)
         {

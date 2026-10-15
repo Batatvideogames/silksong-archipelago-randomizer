@@ -413,7 +413,7 @@ LORE_TABLET_SOURCES: tuple[LoreTabletSource, ...] = (
     LoreTabletSource(
         "Moss Grotto - Shaman Storeroom Record",
         "Tut_04", 79.080002, 9.18, 87.0, 36.0,
-        1, "Mosslands - Moss Grotto",
+        3, "Mosslands - Moss Grotto",
         (_identity(
             "tut_04", "Inspect Region", "Inspect", "SHAMAN_STORE_ROOM",
         ),),

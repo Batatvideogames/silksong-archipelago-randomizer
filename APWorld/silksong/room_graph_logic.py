@@ -187,10 +187,7 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "path:bilewater-twisted-bud": (
         _part("Twisted Bud"),
     ),
-    "macro:progressive-swift-step-first": (
-        _part("Swift Step"),
-        _part("Progressive Swift Step"),
-    ),
+    "macro:progressive-swift-step-first": (_part("Capability: Sprint"),),
     "macro:progressive-swift-step-full": (_part("Swift Step"),),
     # Confirmed graph vocabulary: any one of Sharpdart, full Dash or
     # Clawline is horizontal movement tech. Sprint alone is not.
@@ -1430,6 +1427,12 @@ def _event_requirement_name(atom: str) -> str:
 
 
 def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
+    if atom == 'mapper:elite-ball-knowledge:none':
+        return (_part('Option: Elite Ball Knowledge'),)
+    if atom.startswith(('mapper:damage-boost:', 'mapper:enemy-damage-boost:')):
+        difficulty = atom.rsplit(':', 1)[-1]
+        tier = {'none': 1, 'easy': 1, 'medium': 2, 'hard': 3}[difficulty]
+        return (_part(f'Technique: Damage Boost {tier}'),)
     if atom.startswith("combat:"):
         return (_part(combat_requirement_name(atom.removeprefix("combat:"))),)
     if atom == "mapper:act-2":
@@ -1444,7 +1447,11 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         _, _, direction, casts = atom.split(":")
         if direction not in {"up", "down", "left", "right"}:
             raise ValueError(f"unsupported Clawline direction: {direction}")
-        return _atom_alternatives("mapper:clawline:" + casts)
+        if not 1 <= int(casts) <= 8:
+            raise ValueError(f"unsupported Clawline quantity: {casts}")
+        if direction in {'left', 'right'}:
+            return (_part('Directional: Clawline ' + direction.title()),)
+        return _atom_alternatives('item:clawline')
     if atom.startswith("mapper:"):
         _, kind, difficulty = atom.split(":")
         if kind.endswith("-direction") and difficulty in {"up", "down", "left", "right"}:
@@ -1454,6 +1461,8 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                     "look": "capability:free", "move": "capability:free"}.get(capability)
             if base is None:
                 raise ValueError(f"unsupported directional capability: {atom}")
+            if capability in {'ledge-grab', 'cling-grip', 'sprint', 'dash'} and difficulty in {'left', 'right'}:
+                return (_part('Directional: ' + capability.replace('-', ' ').title() + ' ' + difficulty.title()),)
             return _atom_alternatives(base)
         if kind == "attack" and difficulty in {"up", "down", "left", "right"}:
             return (_part(),)

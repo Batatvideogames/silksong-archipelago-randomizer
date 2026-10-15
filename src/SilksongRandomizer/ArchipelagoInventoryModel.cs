@@ -18,6 +18,7 @@ namespace SilksongRandomizer
         internal bool Required;
         internal bool? LocationCompleted;
         internal string CompletionText;
+        internal string EffectDescription;
         internal float Points;
 
         internal ArchipelagoInventoryRow(string title, string detail = "", string icon = null, bool dim = false)
@@ -58,7 +59,8 @@ namespace SilksongRandomizer
     {
         internal const int RowsPerColumn = 6;
         internal const int RecentItemCount = 3;
-        internal const int BossesPerPage = 20;
+        internal const int BossesPerPage = 8;
+        internal const int SoulsPerPage = 20;
         internal const int SoulRowsPerColumn = 15;
 
         internal static string BossIconBadge(string itemName)
@@ -166,7 +168,8 @@ namespace SilksongRandomizer
                     return new ArchipelagoInventoryRow(id.StartsWith("Boss: ") ? id.Substring(6) : id,
                         owned ? "Credit received" : "Credit missing", id, !owned) {
                             LocationCompleted = defeated || checkedLocation,
-                            CompletionText = defeated ? "Defeated" : checkedLocation ? "Did the location" : "Not defeated"
+                            CompletionText = defeated ? "Defeated" : checkedLocation ? "Did the location" : "Not defeated",
+                            EffectDescription = ProgressionCatalogue.BossCreditDescription(id)
                         };
                 }).ToList();
                 overview.Bosses.AddRange(bosses);
@@ -201,9 +204,9 @@ namespace SilksongRandomizer
                     icon: "Pollip Heart", dim: hearts < 6));
             }
             pages.Add(music);
-            AddSoulCollection(pages, state, "npc-souls", "NPC Souls", state.npcSoulsJson, NpcSoulState.ItemName, "NPC Soul: ");
+            AddSoulCollection(pages, state, "npc-souls", "NPC Souls", state.npcSoulsJson, NpcSoulState.ItemName, "Soul of ");
             AddSoulCollection(pages, state, "boss-souls", "Boss Souls", state.bossSoulsJson, BossSoulState.ItemName, "Soul of ");
-            AddSoulCollection(pages, state, "enemy-souls", "Enemy Souls", state.enemySoulsJson, EnemySoulState.ItemName, "Enemy Soul: ", true);
+            AddSoulCollection(pages, state, "enemy-souls", "Enemy Souls", state.enemySoulsJson, EnemySoulState.ItemName, "Soul of ", true);
             return pages;
         }
 
@@ -230,13 +233,13 @@ namespace SilksongRandomizer
                     };
                 }).ToList();
             string progress = entries.Count(row => !row.Dim) + " / " + entries.Count + " unlocked";
-            for (int offset = 0; offset < entries.Count; offset += BossesPerPage)
+            for (int offset = 0; offset < entries.Count; offset += SoulsPerPage)
             {
                 var sheet = new ArchipelagoInventorySheet {
                     Key = key + ":" + offset, LeftHeading = heading, RightHeading = progress, SoulCollection = true, IconGrid = true
                 };
-                sheet.Left.AddRange(entries.Skip(offset).Take(BossesPerPage / 2));
-                sheet.Right.AddRange(entries.Skip(offset + BossesPerPage / 2).Take(BossesPerPage / 2));
+                sheet.Left.AddRange(entries.Skip(offset).Take(SoulsPerPage / 2));
+                sheet.Right.AddRange(entries.Skip(offset + SoulsPerPage / 2).Take(SoulsPerPage / 2));
                 pages.Add(sheet);
             }
         }

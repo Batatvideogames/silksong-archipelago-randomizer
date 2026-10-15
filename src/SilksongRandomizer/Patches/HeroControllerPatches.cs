@@ -127,7 +127,8 @@ namespace SilksongRandomizer.Patches
             FsmStateAction action,
             string stateName,
             FsmString boolName,
-            out bool value)
+            out bool value,
+            string fsmName = SprintFsmName)
         {
             value = false;
             SaveState state = SaveState.Instance;
@@ -141,7 +142,7 @@ namespace SilksongRandomizer.Patches
                 action.Fsm == null ||
                 !string.Equals(
                     action.Fsm.Name,
-                    SprintFsmName,
+                    fsmName,
                     StringComparison.Ordinal) ||
                 action.State == null ||
                 !string.Equals(
@@ -233,6 +234,29 @@ namespace SilksongRandomizer.Patches
                 );
                 __instance.Finish();
                 return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerDataBoolTestAction), nameof(PlayerDataBoolTestAction.OnEnter))]
+        private static class ClawlineJumpCloakPatch
+        {
+            private static bool Prefix(PlayerDataBoolTestAction __instance)
+            {
+                if (!TryResolveAbilityFlag(__instance, "Jump Type", __instance?.boolName,
+                    out bool value, "Harpoon Dash")) return true;
+                __instance.Fsm.Event(value ? __instance.isTrue : __instance.isFalse);
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(HeroController), "StartFloat")]
+        private static class StartFloatOwnership
+        {
+            private static bool Prefix()
+            {
+                SaveState state = SaveState.Instance;
+                return state == null || !state.IsRandomized(ItemType.Skill) || state.canBrolly;
             }
         }
     }
@@ -432,7 +456,7 @@ namespace SilksongRandomizer.Patches
                         HeroControllerAbilityPatchUtil.CState(__instance, "wallSliding")
                     ) &&
                     !HeroControllerAbilityPatchUtil.CState(__instance, "hazardDeath") &&
-                    (state.canDash || canUseEmergencySwiftStep);
+                    (DirectionalAbilities.CanDash(state, __instance) || canUseEmergencySwiftStep);
 
                 return false;
             }
@@ -442,7 +466,7 @@ namespace SilksongRandomizer.Patches
         internal static class HeroController_CanSprint_Patch
         {
             [HarmonyPostfix]
-            private static void Postfix(ref bool __result)
+            private static void Postfix(HeroController __instance, ref bool __result)
             {
                 SaveState state = SaveState.Instance;
                 if (state != null && state.IsRandomized(ItemType.Skill))
@@ -450,7 +474,7 @@ namespace SilksongRandomizer.Patches
                     __result =
                         __result &&
                         (
-                            state.canSprint ||
+                            DirectionalAbilities.CanSprint(state, __instance) ||
                             WidowSequenceSafety.CanUseEmergencySwiftStep(
                                 state
                             )
@@ -467,7 +491,7 @@ namespace SilksongRandomizer.Patches
         internal static class HeroController_HeroDash_Patch
         {
             [HarmonyPrefix]
-            private static bool Prefix()
+            private static bool Prefix(HeroController __instance)
             {
                 SaveState state = SaveState.Instance;
                 if (state == null || !state.IsRandomized(ItemType.Skill))
@@ -479,7 +503,7 @@ namespace SilksongRandomizer.Patches
                 // directly instead of consulting CanDash. Guard the action
                 // itself so Sprint alone cannot leak the Dash upgrade.
                 return
-                    state.canDash ||
+                    DirectionalAbilities.CanDash(state, __instance) ||
                     WidowSequenceSafety.CanUseEmergencySwiftStep(state);
             }
         }
@@ -504,8 +528,8 @@ namespace SilksongRandomizer.Patches
                     SynchronizeSprintStartSpeed(__instance, state);
                 if (state == null ||
                     !state.IsRandomized(ItemType.Skill) ||
-                    !state.canSprint ||
-                    state.canDash ||
+                    !DirectionalAbilities.CanSprint(state, __instance) ||
+                    DirectionalAbilities.CanDash(state, __instance) ||
                     !sprintStartSpeedSuppressed ||
                     __instance == null ||
                     !HeroControllerAbilityPatchUtil.CState(
@@ -616,8 +640,8 @@ namespace SilksongRandomizer.Patches
                 bool sprintOnly =
                     state != null &&
                     state.IsRandomized(ItemType.Skill) &&
-                    state.canSprint &&
-                    !state.canDash;
+                    DirectionalAbilities.CanSprint(state, hero) &&
+                    !DirectionalAbilities.CanDash(state, hero);
                 startSpeed.Value = sprintOnly
                     ? regularSpeed.Value
                     : nativeSprintStartSpeed;

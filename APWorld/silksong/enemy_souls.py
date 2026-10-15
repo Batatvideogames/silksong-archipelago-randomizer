@@ -21,7 +21,7 @@ BOSS_EVENTS = frozenset(name for row in BOSS_CATALOGUE for name in row['events']
 
 
 def item_name(name):
-    return 'Enemy Soul: ' + name
+    return 'Soul of ' + name
 
 
 def location_name(name):
@@ -161,7 +161,7 @@ def pogo_graph(names):
             for branch in spec.dnf:
                 needed = souls if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
                 needed += tuple(connections.get(row.id, ()))
-                records = {atom.split(':')[2] for atom in branch if atom.startswith('mapper:enemy-type-pogo:')}
+                records = {atom.split(':')[2] for atom in branch if atom.startswith(('mapper:enemy-type-pogo:', 'mapper:enemy-damage-boost:'))}
                 if records:
                     needed += tuple('received:' + item_name(name) for name in names if BY_NAME[name]['record'] in records)
                 if ('Skullwing' in names and room.id in BY_NAME['Skullwing']['rooms']
