@@ -1526,6 +1526,10 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
             raise ValueError("received item name cannot be empty")
         if name == "Swift Step":
             return (_part(name),)
+        if name in {"Cling Grip", "Clawline"}:
+            # Either half sets the native ownership flag. Movement still checks its direction.
+            return tuple(_part(item_counts=((item, 1),))
+                         for item in (name, f"{name} (Left)", f"{name} (Right)"))
         return (_part(item_counts=((name, 1),)),)
     alternatives = _ATOM_ALTERNATIVES.get(atom)
     if alternatives is not None:

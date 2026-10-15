@@ -12,7 +12,7 @@ namespace SilksongRandomizer
     {
         internal sealed class Exit
         {
-            internal string Id, Scene, Gate, VanillaScene, VanillaGate, Target, TargetScene, TargetGate, Group;
+            internal string Id, Scene, Gate, VanillaScene, VanillaGate, Target, TargetScene, TargetGate, Group, ShuffleRegion;
             internal bool IsDoor;
         }
 
@@ -64,6 +64,7 @@ namespace SilksongRandomizer
                     Id = property.Name, Scene = Read(row, "scene"), Gate = Read(row, "gate"),
                     VanillaScene = Read(row, "vanilla_scene"), VanillaGate = Read(row, "vanilla_gate"),
                     Group = Read(row, "group"), IsDoor = ReadDoor(row),
+                    ShuffleRegion = ReadShuffleRegion(row),
                     Target = Read(row, "target"), TargetScene = Read(row, "target_scene"), TargetGate = Read(row, "target_gate")
                 };
                 var aliases = new JArray();
@@ -81,6 +82,7 @@ namespace SilksongRandomizer
                 normalized.Add(entry.Id, new JObject {
                     ["scene"] = entry.Scene, ["gate"] = entry.Gate,
                     ["group"] = entry.Group, ["is_door"] = entry.IsDoor,
+                    ["shuffle_region"] = entry.ShuffleRegion,
                     ["vanilla_scene"] = entry.VanillaScene, ["vanilla_gate"] = entry.VanillaGate,
                     ["target"] = entry.Target, ["target_scene"] = entry.TargetScene, ["target_gate"] = entry.TargetGate,
                     ["aliases"] = aliases
@@ -92,11 +94,11 @@ namespace SilksongRandomizer
                 if (!byGate.TryGetValue(entry.VanillaScene + "/" + entry.VanillaGate, out var vanilla) ||
                     !byGate.TryGetValue(vanilla.VanillaScene + "/" + vanilla.VanillaGate, out var returning) ||
                     returning.Id != entry.Id ||
-                    OppositeGroup(entry.Group) != vanilla.Group)
+                    OppositeGroup(entry.Group) != vanilla.Group || entry.ShuffleRegion != vanilla.ShuffleRegion)
                     throw new FormatException("Entrance beta layout has an invalid vanilla connection.");
                 if (!parsed.TryGetValue(entry.Target, out var target) || target.Target != entry.Id ||
                     target.Scene != entry.TargetScene || target.Gate != entry.TargetGate ||
-                    OppositeGroup(entry.Group) != target.Group)
+                    OppositeGroup(entry.Group) != target.Group || entry.ShuffleRegion != target.ShuffleRegion)
                     throw new FormatException("Entrance beta layout is not coupled or has incompatible directions.");
             }
             return normalized.ToString(Formatting.None);
@@ -116,6 +118,7 @@ namespace SilksongRandomizer
                     Id = entry.Id, Scene = entry.Scene, Gate = Read(alias, "gate"),
                     VanillaScene = Read(alias, "vanilla_scene"), VanillaGate = Read(alias, "vanilla_gate"),
                     Group = entry.Group, IsDoor = entry.IsDoor, Target = entry.Target,
+                    ShuffleRegion = entry.ShuffleRegion,
                     TargetScene = entry.TargetScene, TargetGate = entry.TargetGate
                 };
         }
@@ -132,6 +135,14 @@ namespace SilksongRandomizer
             if (row["is_door"]?.Type != JTokenType.Boolean)
                 throw new FormatException("Entrance beta is missing its door type.");
             return (bool)row["is_door"];
+        }
+
+        private static string ReadShuffleRegion(JObject row)
+        {
+            if (row["shuffle_region"] == null) return "";
+            if (row["shuffle_region"].Type != JTokenType.String)
+                throw new FormatException("Entrance beta has an invalid shuffle region.");
+            return (string)row["shuffle_region"];
         }
 
         private static string GateDirection(string gate)
@@ -180,6 +191,7 @@ namespace SilksongRandomizer
                         Id = property.Name, Scene = (string)row["scene"], Gate = (string)row["gate"],
                         VanillaScene = (string)row["vanilla_scene"], VanillaGate = (string)row["vanilla_gate"],
                         Group = (string)row["group"], IsDoor = (bool)row["is_door"],
+                        ShuffleRegion = (string)row["shuffle_region"],
                         Target = (string)row["target"], TargetScene = (string)row["target_scene"], TargetGate = (string)row["target_gate"]
                     };
                     foreach (var gate in ReadGates(row, entry))

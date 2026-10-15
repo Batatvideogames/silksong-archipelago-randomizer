@@ -44,6 +44,7 @@ namespace SilksongRandomizer
                 throw new FormatException("Invalid map logic overrides.");
             JObject result = Prepare(data.Payload, scuttlebrace, entranceScope, entrancePairs);
             Merge(result, changes);
+            RestoreDefaults(result);
             if (!(result["logic_event_order"] is JArray order) ||
                 !(result["logic_events"] is JObject events))
                 throw new FormatException("Invalid map logic event data.");
@@ -115,21 +116,20 @@ namespace SilksongRandomizer
             if (!scuttlebrace)
             {
                 ((JObject)result["abstract_requirements"]).Remove("Usable Scuttlebrace");
-                var groups = ((JObject)result["requirements"]).Properties().Select(p => (JObject)p.Value)
-                    .Concat(((JObject)result["abstract_requirements"]).Properties().Select(p => (JObject)p.Value))
-                    .Concat(((JObject)result["logic_events"]).Properties().Select(p => (JObject)p.Value["requirement"]));
-                foreach (JObject group in groups)
+                foreach (JObject group in RequirementGroups(result))
                 {
                     JArray alternatives = (JArray)group["alternatives"];
                     for (int index = alternatives.Count - 1; index >= 0; index--)
                     {
                         JObject requirement = (JObject)alternatives[index];
-                        if (((JArray)requirement["all_of"]).Values<string>().Contains("Usable Scuttlebrace"))
+                        if (requirement["all_of"] is JArray all && all.Values<string>().Contains("Usable Scuttlebrace"))
                         {
                             alternatives.RemoveAt(index);
                             continue;
                         }
                         JArray any = (JArray)requirement["any_of"];
+                        if (any == null)
+                            continue;
                         bool hadAlternatives = any.Count > 0;
                         for (int item = any.Count - 1; item >= 0; item--)
                         {
@@ -142,6 +142,31 @@ namespace SilksongRandomizer
                 }
             }
             return result;
+        }
+
+        private static System.Collections.Generic.IEnumerable<JObject> RequirementGroups(JObject payload, bool includeSilk = true)
+        {
+            return ((JObject)payload["requirements"]).Properties().Select(p => (JObject)p.Value)
+                .Concat(((JObject)payload["abstract_requirements"]).Properties()
+                    .Where(p => includeSilk || !p.Name.StartsWith("Silk ", StringComparison.Ordinal))
+                    .Select(p => (JObject)p.Value))
+                .Concat(((JObject)payload["logic_events"]).Properties().Select(p => (JObject)p.Value["requirement"]));
+        }
+
+        private static void RestoreDefaults(JObject payload)
+        {
+            var defaults = new JObject
+            {
+                ["all_of"] = new JArray(), ["any_of"] = new JArray(),
+                ["required_locations"] = new JArray(), ["item_counts"] = new JArray(),
+                ["require_any_crest"] = false, ["require_silk_spear"] = false,
+                ["minimum_skip_tier"] = 0, ["act"] = "", ["path"] = "",
+            };
+            foreach (JObject group in RequirementGroups(payload, includeSilk: false))
+                foreach (JObject rule in (JArray)group["alternatives"])
+                    foreach (JProperty field in defaults.Properties())
+                        if (rule.Property(field.Name) == null)
+                            rule[field.Name] = field.Value.DeepClone();
         }
 
         private static void Merge(JObject target, JObject changes)

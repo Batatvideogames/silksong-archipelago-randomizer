@@ -5,7 +5,7 @@
     "document_count": 530,
     "aggregate_sha256": "24cf9424454fa3a8b5df80beae84c47b620a18b92d79377f7bfd79aba09e2b78",
     "catalogue_sha256": "75c46320a7d18bbeec0e2bfc1a341ed9d01452664e91a8041e8ea42f5be07d9e",
-    "bindings_sha256": "c8f84c65be8d64f54f4c536092d7d0da6584feb032a0a74c41db978847bc0882"
+    "bindings_sha256": "a4a54b2db54d4e91fe9e27844f911b85825836f48e080fdfcd2bf4064130347c"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -971,6 +971,15 @@
       ],
       "Event: Bellhart Full House Conversation": [
         "reviewed:bellhart-full-house-conversation"
+      ],
+      "Event: Flexile Spines Completed": [
+        "88ab2f59-9e0c-41a1-ab62-d18f910e4f88"
+      ],
+      "Event: Rite of the Pollip Completed": [
+        "fe8b52a9-f154-4a76-b35b-be05595cd934"
+      ],
+      "Event: Wailing Mother Completed": [
+        "0dd94f77-255c-486d-814b-dc93ec3487b8"
       ],
       "Event: Bone Bottom Repairs Completed": [
         "reviewed:bone-bottom-repairs-completed"
@@ -280974,7 +280983,8 @@
               [
                 "state:act-3",
                 "received:Silk Soar",
-                "received:Needle Strike"
+                "received:Needle Strike",
+                "event:mapper/reviewed:dark-below-accepted"
               ]
             ],
             "annotations": [],

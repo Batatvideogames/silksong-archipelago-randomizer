@@ -27,7 +27,7 @@ WARP_DESTINATIONS = {
 ACT_ONE_AREAS = frozenset({
     'moss-grotto', 'bone-bottom', 'the-marrow', 'weavenest-atla', 'wormways',
     'deep-docks', 'far-fields', 'hunter-s-march', 'shellwood', 'bellhart',
-    'greymoor', 'whisp-thicket', 'blasted-steps', 'sinner-s-road', 'bilewater',
+    'greymoor', 'wisp-thicket', 'blasted-steps', 'sinner-s-road', 'bilewater',
     'sands-of-karak',
 })
 ACT_TWO_AREAS = frozenset({
@@ -80,6 +80,13 @@ def area(source):
     return source.split('/', 1)[0]
 
 
+def pairing_group(source, scope_name):
+    data = POOL[source]
+    # Memory entrances must keep their native entry and death-return setup.
+    return (area(source) if scope_name == 'within_areas' else '',
+            data.get('shuffle_region', ''), data['group'])
+
+
 @lru_cache(maxsize=9)
 def scoped_pool(scope_name, content_scope='act_3'):
     if scope_name not in {'full', 'interiors', 'within_areas'}:
@@ -103,6 +110,7 @@ def validate_pairs(pairs, scope_name='full', content_scope='act_3'):
         if (POOL[source]['vanilla'] not in pairs
                 or not isinstance(target, str) or target not in pairs or pairs.get(target) != source
                 or OPPOSITE_GROUP.get(POOL[source]['group']) != POOL[target]['group']
+                or POOL[source].get('shuffle_region', '') != POOL[target].get('shuffle_region', '')
                 or scope_name == 'within_areas' and area(source) != area(target)):
             raise OptionError('Entrance beta requires reciprocal, direction-compatible pairs.')
     return dict(pairs)
@@ -137,6 +145,7 @@ def _validate_pool(ports):
         group_members = members(data)
         if (port is None or partner is None or partner['vanilla'] != source
                 or OPPOSITE_GROUP.get(data['group']) != partner['group']
+                or data.get('shuffle_region', '') != partner.get('shuffle_region', '')
                 or source not in group_members or len(set(group_members)) != len(group_members)
                 or claimed.intersection(group_members)):
             raise OptionError(f'Entrance beta audit is out of date: {source}')
@@ -385,9 +394,8 @@ def _has_possible_category_order(world, category):
 def _randomize_group(world, exits):
     destinations = {entrance: entrance.connected_region for entrance in exits.values()}
     incoming = {entrance.parent_region: list(entrance.parent_region.entrances) for entrance in exits.values()}
-    groups = {entrance.randomization_group: [(area(source), OPPOSITE_GROUP[POOL[source]['group']])]
-              for source, entrance in exits.items()} if scope(world) == 'within_areas' else {
-                  group: [opposite] for group, opposite in OPPOSITE_GROUP.items()}
+    groups = {group: [(*group[:-1], OPPOSITE_GROUP[group[-1]])]
+              for source in exits for group in (pairing_group(source, scope(world)),)}
     for attempt in range(10):
         for entrance in exits.values():
             disconnect_entrance_for_randomization(entrance)
@@ -460,12 +468,12 @@ def _with_entrance_candidates(world, exits, predicate):
     incoming = {entrance.parent_region: list(entrance.parent_region.entrances) for entrance in exits.values()}
     groups = {}
     for source, entrance in exits.items():
-        key = (area(source), POOL[source]['group']) if scope(world) == 'within_areas' else POOL[source]['group']
+        key = pairing_group(source, scope(world))
         groups.setdefault(key, []).append(entrance)
     portals = []
     try:
         for key, entrances in groups.items():
-            target_key = (key[0], OPPOSITE_GROUP[key[1]]) if isinstance(key, tuple) else OPPOSITE_GROUP[key]
+            target_key = (*key[:-1], OPPOSITE_GROUP[key[-1]])
             portal = Region(f'Entrance candidates: {key}', world.player, world.multiworld)
             portals.append(portal)
             for region in dict.fromkeys(entrance.parent_region for entrance in groups[target_key]):
@@ -542,7 +550,7 @@ def _repair_entrance_layout(world, exits):
 
     groups = {}
     for source in exits:
-        key = (area(source), POOL[source]['group']) if scope(world) == 'within_areas' else POOL[source]['group']
+        key = pairing_group(source, scope(world))
         groups.setdefault(key, []).append(source)
     try:
         connect(pairs)
@@ -553,7 +561,7 @@ def _repair_entrance_layout(world, exits):
             world.random.shuffle(starts)
             found = False
             for first in starts:
-                key = (area(first), POOL[first]['group']) if scope(world) == 'within_areas' else POOL[first]['group']
+                key = pairing_group(first, scope(world))
                 candidates = [source for source in groups[key] if source != first]
                 world.random.shuffle(candidates)
                 if any(swap(first, second) for second in candidates):
@@ -711,6 +719,7 @@ def slot_entrances(world):
             source: {
                 'scene': data['scene'], 'gate': data['gate'],
                 'group': data['group'], 'is_door': data['is_door'],
+                'shuffle_region': data.get('shuffle_region', ''),
                 'vanilla_scene': data['target_scene'], 'vanilla_gate': data['target_gate'],
                 'target': pairs[source], 'target_scene': POOL[pairs[source]]['scene'],
                 'target_gate': POOL[pairs[source]]['gate'],

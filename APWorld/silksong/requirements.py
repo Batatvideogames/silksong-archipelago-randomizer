@@ -1154,9 +1154,7 @@ PATH_ORDER: tuple[str, ...] = (
     'Mosslands - Bonegrave',
     'Mosslands - Snail Shamans',
     'The Marrow - Mosshome Gate',
-    'Mosslands - Moss Druid',
     'The Marrow - Toll',
-    'The Marrow - Bellshrine', # Requires silkspear
     'The Marrow - Shooting Gallery',
     "Hunter's March - Trap",
     'Deep Docks - Toll', # Can't go west (blocked by lever)
@@ -1863,18 +1861,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     'Path: The Marrow - Mosshome Gate': (
         req('Path: Mosslands - Bone Bottom'),
-        req('Path: Mosslands - Moss Druid'),
         req('Path: Wormways - Entrance'),
-    ),
-    'Path: Mosslands - Moss Druid': ( # Silk spear or run/dash or double jump
-        req('Path: The Marrow - Mosshome Gate', silk_spear=True),
-        req(
-            'Path: The Marrow - Mosshome Gate',
-            any_of=(
-                *SWIFT_STEP_OR_SPRINT_ITEMS,
-                'Ability: Faydown Cloak',
-            ),
-        ),
     ),
     'Path: Mosslands - Bonegrave': (
         req('Path: Wormways - Bottom'),
@@ -1891,14 +1878,11 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req('Path: Deep Docks - Toll'), # One way
         req('Path: Deep Docks - Forge'), # One way
     ),
-    'Path: The Marrow - Bellshrine': (
-        req('Path: The Marrow - Mosshome Gate', silk_spear=True),
-        # Blocked path to the East until Bellbeast has been freed
-    ),
     'Path: The Marrow - Shooting Gallery': (
         req(
-            'Path: The Marrow - Bellshrine',
+            'Path: The Marrow - Mosshome Gate',
             'Event: Bell Beast Defeated',
+            silk_spear=True,
         ),
         req('Path: Bellhart - Bellhart', 'Ancestral Art: Cling Grip'),
     ),
@@ -2486,12 +2470,6 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     "Event: Ordinary Silk Blockades Cleared": (
         req("Room Event: event:mapper/95f1f75b-e452-4709-9fbc-ad8785ac520a", crest=False),
     ),
-    'Event: Bell Beast Defeated': (
-        req(
-            'Path: The Marrow - Bellshrine',
-            crest=False,
-        ),
-    ),
     'Event: Rite of the Pollip Completed': (
         req(POLLIP_RITE_ROOM_NODE, crest=False),
     ),
@@ -2810,6 +2788,7 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
         req(
             'Event: Act 2 Started',
             'Path: Putrified Ducts - Fleatopia',
+            'Room Event: event:mapper/reviewed:caravan-reached-fleatopia',
             'Path: Choral Chambers - Songclave',
             'Event: Bellhart Full House Conversation',
             "Event: Trail's End Completed",
@@ -3685,22 +3664,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     # ACT 1
     # Mosslands
     ('Tool Unlock: Rosary Magnet', area(1, 'Mosslands - Bone Bottom')),
-    ('Tool Unlock: Mosscreep Tool 1', area(
-        1,
-        'Mosslands - Moss Druid',
-        silk_spear=True,
-        item_counts=(item_count(3, MOSSBERRY_ITEM),),
-    )),
-    ('Tool Unlock: Mosscreep Tool 1', area(
-        1,
-        'Mosslands - Moss Druid',
-        any_of=(
-            *SWIFT_STEP_OR_SPRINT_ITEMS,
-            'Ability: Faydown Cloak',
-            USABLE_SHARPDART_REQUIREMENT,
-        ),
-        item_counts=(item_count(3, MOSSBERRY_ITEM),),
-    )),
     ('Crest Unlock: Wanderer', area(1, 'Mosslands - Bonegrave')),
 
     # Weavenest Atla
@@ -3714,11 +3677,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Spell Unlock: Silk Spear', area(1, 'The Marrow - Mosshome Gate')),
     ('Tool Unlock: Straight Pin', area(1, 'The Marrow - Shooting Gallery')),
 
-    ('Save Flea: The Marrow (Tangle)', area(
-        1,
-        'The Marrow - Bellshrine',
-        'Event: Bell Beast Defeated',
-    )),
 
     # Hunter's March
     ('Tool Unlock: Curve Claws', area(1, "Hunter's March - Trap", any_of=('Ancestral Art: Swift Step', 'Ability: Faydown Cloak', 'Ancestral Art: Clawline'))),
@@ -4157,15 +4115,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Ability: Faydown Cloak',
     )),
 
-    # The second Moss Druid reward is claimed from the same physical room as
-    # the first. The seven randomized Mossberries are its actual gate. Some of
-    # those berries may naturally place it late without inventing an Act 3
-    # Abyss source.
-    ('Tool Unlock: Mosscreep Tool 2', area(
-        1,
-        'Mosslands - Moss Druid',
-        item_counts=(item_count(7, MOSSBERRY_ITEM),),
-    )),
 
     # ACT 3
     ('Crest Unlock: Shaman', area(3, 'Mosslands - Ruined Chapel')),
@@ -4201,20 +4150,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         2,
         'Outlying Citadel - Library',
         'Ancestral Art: Cling Grip',
-    )),
-    ('Pale Oil: Great Taste of Pharloom', area(
-        2,
-        'Choral Chambers - Below Dining',
-        'Event: Last Judge Defeated',
-        'Path: Mosslands - Moss Druid',
-        'Path: Greymoor - Halfway House',
-        "Path: Far Fields - Pilgrim's Rest",
-        "Path: Sinner's Road - Styx",
-        'Path: Sands of Karak - Sands of Karak',
-        SWIFT_STEP_ITEM,
-        'Ancestral Art: Cling Grip',
-        'Ancestral Art: Clawline',
-        'Ability: Faydown Cloak',
     )),
     ('Pale Oil: Ecstasy of the End', area(
         3,
@@ -4354,11 +4289,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Relic Pickup: Ancient Egg Abyss Middle', area(3, 'Abyss - Void Tendrils')),
 
     # BELLSHRINES
-    ('Bell Shrine Completion: bellShrineBoneForest', area(
-        1,
-        'The Marrow - Bellshrine',
-        silk_spear=True,
-    )),
     ('Bell Shrine Completion: bellShrineWilds', area(
         1,
         'Deep Docks - Bellshrine',
@@ -4564,18 +4494,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Ancestral Art: Cling Grip',
     )),
     ('Quest Completion: A Pinsmiths Tools', area(
-        2,
-        'Bellhart - Bellhart',
-        'Event: Widow Defeated',
-        'Path: Choral Chambers - First Shrine',
-        'Path: Mosslands - Moss Druid',
-        'Path: Greymoor - Halfway House',
-        'Event: Missing Brother Rescued',
-        'Path: Sands of Karak - Sands of Karak',
-        "Path: Sinner's Road - Styx",
-        'Ability: Faydown Cloak',
-    )),
-    ('Quest Completion: A Pinsmiths Tools', area(
         3,
         'Bellhart - Bellhart',
         'Event: Widow Defeated',
@@ -4687,17 +4605,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Blasted Steps - Bellway',
         'Event: Widow Defeated',
         'Event: Everbloom Obtained',
-    )),
-    ('Quest Completion: Great Gourmand', area(
-        2,
-        'Choral Chambers - First Shrine',
-        'Event: Last Judge Defeated',
-        'Path: Mosslands - Moss Druid',
-        'Path: Greymoor - Halfway House',
-        'Event: Missing Brother Rescued',
-        'Path: Sands of Karak - Sands of Karak',
-        "Path: Sinner's Road - Styx",
-        'Ability: Faydown Cloak',
     )),
     ('Quest Completion: Journal', area(
         1,
@@ -5393,7 +5300,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         crest=False,
     )),
     ('Mossberry: Bone Bottom', area(1, 'Mosslands - Bone Bottom')),
-    ('Mossberry: Mosshome', area(1, 'Mosslands - Moss Druid')),
     ('Mossberry: Bonegrave', area(1, 'Mosslands - Bonegrave')),
     ('Mossberry: Weavenest Atla', area(1, 'Weavenest - Atla')),
     ('Mossberry: Memorium', area(
