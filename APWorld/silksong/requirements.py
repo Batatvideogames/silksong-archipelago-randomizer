@@ -38,6 +38,7 @@ from .locations import (
     NEEDLE_UPGRADE_LOCATION_NAMES,
     PINMASTER_OIL_QUEST_LOCATION,
     QUEST_LOCATION_NAMES,
+    RETIRED_LOCATION_NAMES,
     SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION,
     SCROUNGE_RELIC_ITEM_NAMES,
     SILK_HEART_LOCATION_NAMES,
@@ -441,6 +442,7 @@ COMPILED_ROOM_GRAPH = replace(
 ROOM_GRAPH_CANONICAL_CHECK_NAMES: frozenset[str] = frozenset(
     canonicalize_location_name(name)
     for name in COMPILED_ROOM_GRAPH.authoritative_check_names
+    if canonicalize_location_name(name) not in RETIRED_LOCATION_NAMES
 )
 ROOM_GRAPH_QUARANTINED_CHECK_NAMES: frozenset[str] = frozenset(
     canonicalize_location_name(name)
@@ -970,8 +972,6 @@ ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS: frozenset[str] = frozenset(
         # Handing in a Pale Oil before accepting this Wish can skip its
         # completion state permanently.
         "Wish: Pinmaster's Oil",
-        # Opening the Weaver Gate makes this inscription missable.
-        'The Slab - Weaver Gate Inscription',
     )
 )
 
@@ -5590,38 +5590,11 @@ _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
 )
 
 
-_CLAWLINE_GATED_LOCATIONS: frozenset[str] = frozenset(
-    (
-        'Whispering Vaults - Rosary Cache #5',
-        'Whispering Vaults - Shell Shard Cache #1',
-        'Songclave - Heavy Rosary Necklace',
-        'Relic: Psalm Cylinder (East Whispering Vaults)',
-        'Deep Docks - Shard Bundle #1',
-        'Deep Docks - Shell Shard Cache #5',
-        'Deep Docks - Rosary Cache #1',
-        'Deep Docks - Rosary Cache #2',
-        'Flintslate',
-        'Deep Docks - Shell Shard Cache #6',
-        'Deep Docks - Shell Shard Cache #7',
-        'Deep Docks - Shell Shard Cache #8',
-        'Deep Docks - Shell Shard Cache #9',
-        'Cogfly',
-        'High Halls - Shell Shard Cache #2',
-    )
-)
-
-
 # These local conditions remain attached to every room-graph source clause.
 # They supplement source geometry instead of becoming alternate routes.
 _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     str, tuple[LocationRequirement, ...]
 ] = {
-    **{
-        location_name: (
-            req('Ancestral Art: Clawline', crest=False),
-        )
-        for location_name in _CLAWLINE_GATED_LOCATIONS
-    },
     'Throwing Ring': (
         req(
             "Event: Trail's End Completed",
@@ -5643,24 +5616,6 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     ),
     # Forge Daughter consumes one Craftmetal for each of these purchases. The
     # Silkshot graph clause already carries its separate Ruined Tool gate.
-    'Greymoor - Bellshrine': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
-    'Flea: Greymoor - Craw Lake': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
-    'Threefold Pin': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
-    'Thread Storm': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
-    'Greymoor - Spool Fragment': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
-    'Greymoor - Map Purchase': (
-        req('Event: Craw Lake Cleared', crest=False),
-    ),
     'Silkshot (Forge Daughter)': (
         req(CRAFTMETAL_ITEM, crest=False),
     ),
@@ -5965,6 +5920,8 @@ def _authoritative_requirement_rows() -> Iterable[
     """Resolve established rows against the authoritative room graph."""
 
     for location_name, established in _ESTABLISHED_REQUIREMENTS_BY_LOCATION.items():
+        if location_name in RETIRED_LOCATION_NAMES:
+            continue
         graph_sources = ROOM_CHECK_REQUIREMENTS.get(location_name)
         if MAPPER_GRAPH_ENABLED and not graph_sources and location_name != 'Goal':
             yield location_name, req(crest=False)
@@ -6004,6 +5961,7 @@ def _authoritative_requirement_rows() -> Iterable[
         (location_name, requirement)
         for location_name, requirements in ROOM_CHECK_REQUIREMENTS.items()
         if location_name not in _ESTABLISHED_REQUIREMENTS_BY_LOCATION
+        and location_name not in RETIRED_LOCATION_NAMES
         for requirement in _attach_preserved_local_gates(
             location_name,
             requirements,
@@ -6039,7 +5997,6 @@ UNVERIFIED_PROGRESSION_LOCATIONS: frozenset[str] = frozenset(
         'Blasted Steps - Mask Shard',
         'Pimpillo',
         'Greymoor - Silkeater',
-        'Far Fields - Shell Shard Cache #8',
         'Boss: Skull Tyrant (Bone Bottom)',
         'Tool Unlock: Reserve Bind',
         'Relic: Bone Scroll (Wisp Thicket)',

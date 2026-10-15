@@ -1125,14 +1125,16 @@ location_table: Dict[str, int] = {
     )
 }
 
+RETIRED_LOCATION_NAMES = RETIRED_MINOR_CACHE_LOCATION_NAMES | {
+    "Verdania - Lake Plaque",
+    "Whispering Vaults - Heavy Rosary Necklace",
+    "The Slab - Weaver Gate Inscription",
+}
+
 location_data_table: Dict[str, SilksongLocationData] = {
     name: SilksongLocationData(location_table.get(name), category)
     for name, category in LOCATION_TABLE_SOURCE
-    if (
-        name not in RETIRED_MINOR_CACHE_LOCATION_NAMES
-        and name != "Verdania - Lake Plaque"
-        and name != "Whispering Vaults - Heavy Rosary Necklace"
-    )
+    if name not in RETIRED_LOCATION_NAMES
 }
 
 PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (

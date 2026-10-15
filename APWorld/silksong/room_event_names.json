@@ -1953,9 +1953,7 @@
   "event:mapper/4569d53f-f69a-47be-a1ac-46736e1da290": {
     "name": "Far Fields - Shell Shard Cache #8",
     "kind": "collectible",
-    "locations": [
-      "Far Fields - Shell Shard Cache #8"
-    ]
+    "locations": []
   },
   "event:mapper/c9aa76d7-d547-4ebf-a38d-9db81e7cd644": {
     "name": "Far Fields (Skull Cave) - Mask Shard",

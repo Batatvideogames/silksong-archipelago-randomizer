@@ -120,19 +120,25 @@ namespace SilksongRandomizer
                     .Concat(((JObject)result["logic_events"]).Properties().Select(p => (JObject)p.Value["requirement"]));
                 foreach (JObject group in groups)
                 {
-                    JArray alternatives = new JArray();
-                    foreach (JObject requirement in (JArray)group["alternatives"])
+                    JArray alternatives = (JArray)group["alternatives"];
+                    for (int index = alternatives.Count - 1; index >= 0; index--)
                     {
+                        JObject requirement = (JObject)alternatives[index];
                         if (((JArray)requirement["all_of"]).Values<string>().Contains("Usable Scuttlebrace"))
+                        {
+                            alternatives.RemoveAt(index);
                             continue;
+                        }
                         JArray any = (JArray)requirement["any_of"];
-                        JArray filtered = new JArray(any.Values<string>().Where(name => name != "Usable Scuttlebrace"));
-                        if (any.Count > 0 && filtered.Count == 0)
-                            continue;
-                        requirement["any_of"] = filtered;
-                        alternatives.Add(requirement);
+                        bool hadAlternatives = any.Count > 0;
+                        for (int item = any.Count - 1; item >= 0; item--)
+                        {
+                            if (any[item].Value<string>() == "Usable Scuttlebrace")
+                                any.RemoveAt(item);
+                        }
+                        if (hadAlternatives && any.Count == 0)
+                            alternatives.RemoveAt(index);
                     }
-                    group["alternatives"] = alternatives;
                 }
             }
             return result;
@@ -146,9 +152,16 @@ namespace SilksongRandomizer
                     target.Remove(property.Name);
                 else if (property.Value is JObject child)
                 {
-                    JObject current = target[property.Name] as JObject ?? new JObject();
-                    Merge(current, child);
-                    target[property.Name] = current;
+                    if (target[property.Name] is JObject current)
+                    {
+                        Merge(current, child);
+                    }
+                    else
+                    {
+                        JObject added = new JObject();
+                        Merge(added, child);
+                        target[property.Name] = added;
+                    }
                 }
                 else
                     target[property.Name] = property.Value.DeepClone();

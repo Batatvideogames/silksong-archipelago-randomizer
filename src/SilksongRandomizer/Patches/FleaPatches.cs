@@ -90,6 +90,25 @@ namespace SilksongRandomizer.Patches
             SaveState.Instance?.TryCompleteFleaHuntGoal();
         }
 
+        internal static void ReportRescuedFleas(string fieldTemplate)
+        {
+            SaveState state = SaveState.Instance;
+            if (fieldTemplate != SavedFleaFieldTemplate || state == null || !state.IsRoomBound ||
+                !state.IsRandomized(ItemType.Flea) || !PlayerData.HasInstance) return;
+
+            foreach (Location location in state.locations.Locations)
+                if (location.Type == ItemType.Flea && location.Check != null &&
+                    state.IsLocationEnabled(location.Name) && state.IsLocationInSeed(location.Name) &&
+                    !state.IsLocationChecked(location.Name) && location.Check())
+                    state.CheckLocation(location.Name);
+        }
+
+        [HarmonyPatch(typeof(QuestTargetPlayerDataBools), nameof(QuestTargetPlayerDataBools.Get), new[] { typeof(bool) })]
+        private static class ReportFleaRescuePatch
+        {
+            private static void Postfix(string ___pdFieldTemplate) => ReportRescuedFleas(___pdFieldTemplate);
+        }
+
         internal static int GetReceivedOrdinaryFleaCount()
         {
             SaveState state = SaveState.Instance;

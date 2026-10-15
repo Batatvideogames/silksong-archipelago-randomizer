@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HutongGames.PlayMaker;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -97,6 +98,32 @@ namespace SilksongRandomizer.Patches
             state.CheckLocation(locationName);
             if (state.IsLocationChecked(locationName))
                 CollectableItemHeroReaction.DoReaction(Vector2.zero, true);
+        }
+
+        internal static void CompleteFallenMossPlaque(SaveState state)
+        {
+            const string locationName = "Mosshome - Moss Plaque";
+            if (state == null || !state.IsRoomBound ||
+                !state.IsRandomized(ItemType.LoreTablet) ||
+                !state.IsLocationEnabled(locationName) || !state.IsLocationInSeed(locationName))
+                return;
+            CompleteRead(state, locationName);
+        }
+
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class MossPlaqueFallPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(FsmState __instance)
+            {
+                if (__instance.Name != "Activate" && __instance.Name != "Activated") return;
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || fsm.Name != "Control" ||
+                    fsm.GameObject.scene.name != "Mosstown_02" ||
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) != "lore_tablet/moss_bone_plaque")
+                    return;
+                CompleteFallenMossPlaque(SaveState.Instance);
+            }
         }
 
         internal static bool ShouldUseInactiveSourceFallback(

@@ -57064,69 +57064,12 @@
               }
             ]
           },
-          "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase": {
+          "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#flea"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Silk Soar"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Usable Scuttlebrace",
-                  "Swift Step",
-                  "Technique: Scuttlebrace 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Cling Grip"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#annoying-ass-jump-right"
+                  "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -59823,7 +59766,7 @@
         "whispering-vaults/whispering-vaults-hub-area@lr": "Room Node: whispering-vaults/whispering-vaults-hub-area#upper-low-hallway",
         "whispering-vaults/whispering-vaults-hub-area@mhr": "Room Node: whispering-vaults/whispering-vaults-hub-area#upper-platform",
         "whispering-vaults/whispering-vaults-hub-area@tl": "Room Node: whispering-vaults/whispering-vaults-hub-area#top-hallway",
-        "whispering-vaults/whispering-vaults-jumps@b": "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase",
+        "whispering-vaults/whispering-vaults-jumps@b": "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
         "whispering-vaults/whispering-vaults-music-box@r": "Room Node: whispering-vaults/whispering-vaults-music-box#room",
         "whispering-vaults/whispering-vaults-palace@bl": "Room Node: whispering-vaults/whispering-vaults-palace#up-and-away",
         "whispering-vaults/whispering-vaults-palace@t": "Room Node: whispering-vaults/whispering-vaults-palace#sky-high",
@@ -77873,7 +77816,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase"
+                "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance"
               ],
               "any_of": [],
               "item_counts": [],
@@ -138430,69 +138373,12 @@
               }
             ]
           },
-          "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase": {
+          "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance": {
             "alternatives": [
               {
                 "act": "",
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#flea"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Silk Soar"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Usable Scuttlebrace",
-                  "Swift Step",
-                  "Technique: Scuttlebrace 1"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
-                  "Cling Grip"
-                ],
-                "any_of": [],
-                "item_counts": [],
-                "minimum_skip_tier": 0,
-                "path": "",
-                "require_any_crest": false,
-                "require_silk_spear": false,
-                "required_locations": []
-              },
-              {
-                "act": "",
-                "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-jumps#annoying-ass-jump-right"
+                  "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase"
                 ],
                 "any_of": [],
                 "item_counts": [],
@@ -140888,7 +140774,7 @@
         "whispering-vaults/whispering-vaults-hub-area@lr": "Room Node: whispering-vaults/whispering-vaults-hub-area#upper-low-hallway",
         "whispering-vaults/whispering-vaults-hub-area@mhr": "Room Node: whispering-vaults/whispering-vaults-hub-area#upper-platform",
         "whispering-vaults/whispering-vaults-hub-area@tl": "Room Node: whispering-vaults/whispering-vaults-hub-area#top-hallway",
-        "whispering-vaults/whispering-vaults-jumps@b": "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase",
+        "whispering-vaults/whispering-vaults-jumps@b": "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
         "whispering-vaults/whispering-vaults-music-box@r": "Room Node: whispering-vaults/whispering-vaults-music-box#room",
         "whispering-vaults/whispering-vaults-palace@bl": "Room Node: whispering-vaults/whispering-vaults-palace#up-and-away",
         "whispering-vaults/whispering-vaults-palace@t": "Room Node: whispering-vaults/whispering-vaults-palace#sky-high",
@@ -157302,7 +157188,7 @@
             {
               "act": "",
               "all_of": [
-                "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase"
+                "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance"
               ],
               "any_of": [],
               "item_counts": [],
@@ -375754,6 +375640,19 @@
             "require_any_crest": false,
             "require_silk_spear": false,
             "required_locations": []
+          },
+          {
+            "act": "",
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-palace#sky-high"
+            ],
+            "any_of": [],
+            "item_counts": [],
+            "minimum_skip_tier": 0,
+            "path": "",
+            "require_any_crest": false,
+            "require_silk_spear": false,
+            "required_locations": []
           }
         ]
       },
@@ -376005,19 +375904,6 @@
             "act": "",
             "all_of": [
               "Room Node: whispering-vaults/whispering-vaults-jumps#annoying-ass-jump-right"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          },
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-palace#sky-high"
             ],
             "any_of": [],
             "item_counts": [],
@@ -376581,7 +376467,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-jumps#flea-chase"
+              "Room Node: whispering-vaults/whispering-vaults-jumps#bottom-right-entrance"
             ],
             "any_of": [],
             "item_counts": [],
@@ -406055,8 +405941,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: high-halls/high-halls-cogfly-room#main-area",
-              "Clawline"
+              "Room Node: high-halls/high-halls-cogfly-room#main-area"
             ],
             "any_of": [],
             "item_counts": [
@@ -407580,8 +407465,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-west#main-area",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-west#main-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407598,8 +407482,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-west#main-area",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-west#main-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407748,8 +407631,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-west#shard-bundle",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-west#shard-bundle"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407872,8 +407754,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-west#main-area",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-west#main-area"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407890,8 +407771,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407908,8 +407788,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407926,8 +407805,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -407944,8 +407822,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-center#middle-side-room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -408855,23 +408732,6 @@
           }
         ]
       },
-      "Far Fields - Shell Shard Cache #8": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: far-fields/far-fields-skull-arena#check-alcove"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "Far Fields - Weavenest Cindril Inscription": {
         "alternatives": [
           {
@@ -409410,8 +409270,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#flea-room",
-              "Silk Soar",
-              "Event: Craw Lake Cleared"
+              "Silk Soar"
             ],
             "any_of": [],
             "item_counts": [],
@@ -409425,8 +409284,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#flea-room",
-              "Capability: Ledge Grab",
-              "Event: Craw Lake Cleared"
+              "Capability: Ledge Grab"
             ],
             "any_of": [],
             "item_counts": [],
@@ -409440,8 +409298,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#flea-room",
-              "Faydown Cloak",
-              "Event: Craw Lake Cleared"
+              "Faydown Cloak"
             ],
             "any_of": [],
             "item_counts": [],
@@ -409455,8 +409312,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#flea-room",
-              "Cling Grip",
-              "Event: Craw Lake Cleared"
+              "Cling Grip"
             ],
             "any_of": [],
             "item_counts": [],
@@ -409470,8 +409326,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#flea-room",
-              "Technique: Enemy Pogo 2",
-              "Event: Craw Lake Cleared"
+              "Technique: Enemy Pogo 2"
             ],
             "any_of": [],
             "item_counts": [],
@@ -410088,8 +409943,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: deep-docks/deep-docks-chains-center#flintslate",
-              "Clawline"
+              "Room Node: deep-docks/deep-docks-chains-center#flintslate"
             ],
             "any_of": [],
             "item_counts": [],
@@ -410383,8 +410237,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-bellshrine#room",
-              "Room Event: event:mapper/31821823-aa92-40dc-b2a9-8eb8a521f934",
-              "Event: Craw Lake Cleared"
+              "Room Event: event:mapper/31821823-aa92-40dc-b2a9-8eb8a521f934"
             ],
             "any_of": [],
             "item_counts": [],
@@ -410487,8 +410340,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: greymoor/greymoor-east-bellshrine-room#lower-section-right",
-              "Event: Craw Lake Cleared"
+              "Room Node: greymoor/greymoor-east-bellshrine-room#lower-section-right"
             ],
             "any_of": [],
             "item_counts": [],
@@ -413088,8 +412940,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: greymoor/greymoor-east-bellshrine-room#top-left",
-              "Event: Craw Lake Cleared"
+              "Room Node: greymoor/greymoor-east-bellshrine-room#top-left"
             ],
             "any_of": [],
             "item_counts": [],
@@ -413415,8 +413266,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: high-halls/high-halls-small-room#room",
-              "Clawline"
+              "Room Node: high-halls/high-halls-small-room#room"
             ],
             "any_of": [],
             "item_counts": [],
@@ -436349,8 +436199,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-jumps#room-with-stuff",
-              "Clawline"
+              "Room Node: whispering-vaults/whispering-vaults-jumps#room-with-stuff"
             ],
             "any_of": [],
             "item_counts": [],
@@ -439434,8 +439283,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-jumps#rosary-necklace",
-              "Clawline"
+              "Room Node: whispering-vaults/whispering-vaults-jumps#rosary-necklace"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441305,24 +441153,6 @@
           }
         ]
       },
-      "The Slab - Weaver Gate Inscription": {
-        "alternatives": [
-          {
-            "act": "",
-            "all_of": [
-              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Faydown Cloak"
-            ],
-            "any_of": [],
-            "item_counts": [],
-            "minimum_skip_tier": 0,
-            "path": "",
-            "require_any_crest": false,
-            "require_silk_spear": false,
-            "required_locations": []
-          }
-        ]
-      },
       "The Unravelled - Silk Heart": {
         "alternatives": [
           {
@@ -441365,8 +441195,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Hunter",
-              "Technique: Crest Pogo 1",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441381,8 +441210,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Reaper",
-              "Technique: Crest Pogo 1",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441397,8 +441225,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Wanderer",
-              "Technique: Crest Pogo 1",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441413,8 +441240,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Beast",
-              "Technique: Crest Pogo 1",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441429,8 +441255,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Witch",
-              "Technique: Crest Pogo 3",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 3"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441445,8 +441270,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Architect",
-              "Technique: Crest Pogo 2",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 2"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441461,8 +441285,7 @@
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
               "Crest: Shaman",
-              "Technique: Crest Pogo 1",
-              "Event: Craw Lake Cleared"
+              "Technique: Crest Pogo 1"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441476,8 +441299,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
-              "Capability: Ledge Grab",
-              "Event: Craw Lake Cleared"
+              "Capability: Ledge Grab"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441491,8 +441313,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
-              "Cling Grip",
-              "Event: Craw Lake Cleared"
+              "Cling Grip"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441506,8 +441327,7 @@
             "act": "",
             "all_of": [
               "Room Node: greymoor/greymoor-weaver-shrine#left-section",
-              "Faydown Cloak",
-              "Event: Craw Lake Cleared"
+              "Faydown Cloak"
             ],
             "any_of": [],
             "item_counts": [],
@@ -441524,8 +441344,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#right-top-craw-nest",
-              "Event: Craw Lake Cleared"
+              "Room Node: greymoor/greymoor-craw-lake#right-top-craw-nest"
             ],
             "any_of": [],
             "item_counts": [],
@@ -442819,8 +442638,7 @@
           {
             "act": "",
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-palace#collectibles-2-tm",
-              "Clawline"
+              "Room Node: whispering-vaults/whispering-vaults-palace#collectibles-2-tm"
             ],
             "any_of": [],
             "item_counts": [],
@@ -442890,8 +442708,7 @@
             "all_of": [
               "Room Node: whispering-vaults/whispering-vaults-palace#collectibles-tm",
               "Room Event: event:mapper/2b077200-9a7a-419b-be50-ca472ce64653",
-              "Room Event: event:mapper/60093235-1178-4fa0-a4bc-813597f80477",
-              "Clawline"
+              "Room Event: event:mapper/60093235-1178-4fa0-a4bc-813597f80477"
             ],
             "any_of": [],
             "item_counts": [],

@@ -5,7 +5,7 @@
     "document_count": 517,
     "aggregate_sha256": "13ca35a343807d9b8d334b0d1ad7892529e12333581fde1a82ac21db3ed47191",
     "catalogue_sha256": "29f55f592c15faf4c3878e1d852a74cee31107825425f2cb0d2543c1d094d2bd",
-    "bindings_sha256": "31e651088cf679e5ccb98e21ae792888000e0319d7c3269373622938264bb9e6"
+    "bindings_sha256": "ff98d7e18ba759723df930cca9e637b4d5a7bc35388b9c3d0a1d6fb4ae3a5169"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -315,7 +315,6 @@
       "Far Fields - Shell Shard Cache #5",
       "Far Fields - Shell Shard Cache #6",
       "Far Fields - Shell Shard Cache #7",
-      "Far Fields - Shell Shard Cache #8",
       "Far Fields - Weavenest Cindril Inscription",
       "Fastest in Pharloom - Mask Shard",
       "Faydown Cloak",
@@ -791,7 +790,6 @@
       "The Slab - Shell Shard Cache #6",
       "The Slab - Shell Shard Cache #7",
       "The Slab - Spool Fragment",
-      "The Slab - Weaver Gate Inscription",
       "The Unravelled - Silk Heart",
       "Thief's Mark",
       "Thread Storm",
@@ -72262,32 +72260,6 @@
         }
       ],
       "checks": [
-        {
-          "id": "far-fields/far-fields-skull-arena::mapper-check:4569d53f-f69a-47be-a1ac-46736e1da290:836056",
-          "requirement": {
-            "raw": "none",
-            "mode": "expression",
-            "dnf": [
-              []
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "this becomes inaccessible after defeating the gauntlet - perhaps auto collect?",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "4569d53f-f69a-47be-a1ac-46736e1da290"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "shell shard cache far fields 8",
-          "node_id": "far-fields/far-fields-skull-arena#check-alcove",
-          "canonical_location": "Far Fields - Shell Shard Cache #8",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true
-        },
         {
           "id": "far-fields/far-fields-skull-arena::mapper-check:c9aa76d7-d547-4ebf-a38d-9db81e7cd644:835635",
           "requirement": {
@@ -189303,7 +189275,7 @@
           "unresolved_reasons": [],
           "alias": "B",
           "name": "bot1",
-          "source_node_id": "whispering-vaults/whispering-vaults-jumps#flea-chase",
+          "source_node_id": "whispering-vaults/whispering-vaults-jumps#bottom-right-entrance",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-palace@t",
             "room_id": "whispering-vaults/whispering-vaults-palace",
@@ -239341,34 +239313,6 @@
       ],
       "checks": [
         {
-          "id": "the-slab/slab-fist-sinner-antechamber::mapper-check:cc2f3a04-6b50-46dd-a742-c2f2a714a46c:836352",
-          "requirement": {
-            "raw": "none",
-            "mode": "expression",
-            "dnf": [
-              [
-                "item:faydown-cloak"
-              ]
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "cc2f3a04-6b50-46dd-a742-c2f2a714a46c"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "The Slab - Weaver Gate Inscription",
-          "node_id": "the-slab/slab-fist-sinner-antechamber#antechamber",
-          "canonical_location": "The Slab - Weaver Gate Inscription",
-          "canonical_mapping_confidence": "explicit",
-          "currently_randomized": true
-        },
-        {
           "id": "the-slab/slab-fist-sinner-antechamber::mapper-check:e433fd44-e6ab-443f-b1dd-0e77586301e3:835569",
           "requirement": {
             "raw": "defeat Boss: First Sinner",
@@ -239435,7 +239379,13 @@
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": []
+      "omitted_check_rows": [
+        {
+          "mapper_id": "cc2f3a04-6b50-46dd-a742-c2f2a714a46c",
+          "label": "The Slab - Weaver Gate Inscription",
+          "kind": "lore"
+        }
+      ]
     },
     {
       "id": "the-slab/slab-flea-cell",
