@@ -159,10 +159,6 @@ from .vog_hints import (
     copy_vog_hint_plan,
     empty_vog_hint_plan,
 )
-from .verdania_scope import (
-    ACT_THREE_GOAL_KEY,
-    VERDANIA_LOCATION_NAMES,
-)
 from .tracker.mapping import ut_page_index, tracker_map_groups
 
 __version__ = WORLD_VERSION
@@ -492,11 +488,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return (
             ACT_TWO_START_WITH_MAP_ITEMS
             if self.is_act_two_content_scope()
-            else tuple(
-                name
-                for name in START_WITH_MAP_ITEMS
-                if name != "Map: Verdania" or self.get_goal_key() == ACT_THREE_GOAL_KEY
-            )
+            else START_WITH_MAP_ITEMS
         )
 
     def get_act_two_excluded_location_names(self) -> frozenset[str]:
@@ -521,11 +513,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .game_modes import excluded_locations
         mode_exclusions = excluded_locations(self.is_steel_soul(), self.is_act_one_content_scope())
         goal_key = self.get_content_scope()
-        verdania_location_names = (
-            frozenset()
-            if self.get_goal_key() == ACT_THREE_GOAL_KEY
-            else VERDANIA_LOCATION_NAMES
-        )
         act_three_only_location_names = (
             ACT_THREE_ONLY_GOAL_LOCATION_NAMES
             if goal_key in {
@@ -547,13 +534,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         ]
                     ),
                 )
-                | verdania_location_names
+
                 | act_three_only_location_names
                 | mode_exclusions
             )
         return (
             self.get_act_two_excluded_location_names()
-            | verdania_location_names
+
             | act_three_only_location_names
             | mode_exclusions
         )
@@ -684,7 +671,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             act_two_only=self.is_act_two_content_scope(),
             start_fully_mapped=self.is_start_fully_mapped_enabled(),
             act_one_only=self.is_act_one_content_scope(),
-            exclude_verdania=(goal_key != ACT_THREE_GOAL_KEY),
+
             retain_green_prince_key=(goal_key == ACT_TWO_GOAL_KEY),
             alphabet_mode=self.is_alphabet_mode_enabled(),
             act_one_donation_tool_pouch_requirements=(
@@ -1008,9 +995,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.is_act_two_content_scope(),
             self.is_start_fully_mapped_enabled(),
             act_one_only=self.is_act_one_content_scope(),
-            exclude_verdania=(
-                self.get_goal_key() != ACT_THREE_GOAL_KEY
-            ),
+
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
             ),
@@ -1100,7 +1085,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             classification = ItemClassification.useful
         if (
             name == SIMPLE_KEY_GREEN_PRINCE
-            and self.get_goal_key() != ACT_THREE_GOAL_KEY
+            and self.get_content_scope() != "act_3"
         ):
             classification = ItemClassification.useful
         if name in OPTION_DEPENDENT_CREST_SLOT_ITEM_NAMES:
@@ -1202,7 +1187,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.player,
             ).place_locked_item(effective_reward)
 
-        if (self.options.silk_soar_begone and self.get_content_scope() == ACT_THREE_GOAL_KEY
+        if (self.options.silk_soar_begone and self.get_content_scope() == "act_3"
                 and category_modes['Skill'] != 'vanilla'):
             place_fixed_reward('Silk Soar', 'Silk Soar')
 
@@ -1271,9 +1256,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.is_act_two_content_scope(),
             self.is_start_fully_mapped_enabled(),
             act_one_only=self.is_act_one_content_scope(),
-            exclude_verdania=(
-                self.get_goal_key() != ACT_THREE_GOAL_KEY
-            ),
+
             retain_green_prince_key=(
                 self.get_goal_key() == ACT_TWO_GOAL_KEY
             ),

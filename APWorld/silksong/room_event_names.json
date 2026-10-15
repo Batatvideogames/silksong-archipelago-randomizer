@@ -5071,7 +5071,7 @@
     "locations": []
   },
   "event:mapper/84efce81-d731-423a-ab13-d9b197c0bdd6": {
-    "name": "Choral Chambers East to West - door switch",
+    "name": "Choral Chambers East to West - Lever East to West",
     "kind": "switch",
     "locations": []
   },
@@ -7160,6 +7160,289 @@
   "event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846": {
     "name": "Slab First Sinner Antechamber - door_lock_4",
     "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/1ce486d0-78c0-41fb-90f3-eb363f661211": {
+    "name": "Clover Dancers - Conjoined heart",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/399c5eda-e776-4279-a0f0-ba20a4913047": {
+    "name": "Boss: Clover Dancers",
+    "kind": "boss",
+    "locations": [
+      "Boss: Clover Dancers"
+    ]
+  },
+  "event:mapper/f7ff1826-8efc-46f1-92a2-82bd5666acf9": {
+    "name": "Clover Dancers - Clover Dancers 2",
+    "kind": "boss",
+    "locations": []
+  },
+  "event:mapper/8b856b65-4f98-495a-9924-0b2bbe47ddca": {
+    "name": "Dead Verdania Bench - Dead Verdania Bench",
+    "kind": "bench",
+    "locations": []
+  },
+  "event:mapper/d957010c-3c3f-45fc-933f-a07211b2a4dd": {
+    "name": "Verdania - Map Pickup",
+    "kind": "collectible",
+    "locations": [
+      "Verdania - Map Pickup"
+    ]
+  },
+  "event:mapper/42ee8ec7-1a86-4857-8002-dc2ae6f42649": {
+    "name": "Dead Verdania Main - Dead Verdania Breakable Wall Left Side",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/6f5a2f7c-308d-427a-bdad-1398c045e4ca": {
+    "name": "Dead Verdania Main - Dead Verdania Breakable Wall Right Side",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/eaca2aab-749c-4919-8c8b-ec178d17a991": {
+    "name": "Palestag - Verdania Essence 3",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/ca4ae3ad-472a-4c14-a0f4-61a228696853": {
+    "name": "Palestag - Verdania Essence 4",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/9d26e16d-b819-414d-8120-3bc5cbdf84ff": {
+    "name": "Palestag - Verdania Essence 5",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/b991b62f-80a8-4df9-813e-b59d7a316fd5": {
+    "name": "Palestag - Verdania Essence 6",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/4831951b-3a5c-41ac-bb5b-3b93d185aaa9": {
+    "name": "Palestag - Verdania Essence 7",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/7e414719-d452-4954-8204-827c64b71b24": {
+    "name": "Boss: Palestag",
+    "kind": "boss",
+    "locations": [
+      "Boss: Palestag"
+    ]
+  },
+  "event:mapper/fd0cb7fe-a628-4913-a770-da27fed1ce2a": {
+    "name": "Verdania Big Button Room - Button LR",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/e05d0b0e-ee06-4cad-ae61-51110df5ddc8": {
+    "name": "Verdania Big Button Room - Button UR",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/3b6c560d-679b-4261-9067-c05a8af22f42": {
+    "name": "Verdania Big Button Room - Button L",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/1700ef24-8183-4077-bebe-819eba9b293c": {
+    "name": "Verdania Big Button Room - Big Button",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/e3336589-3b8b-431f-aaba-d4a0e9007afd": {
+    "name": "Verdania Big Button Room - Verdania Essence 13",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/47ed8486-a783-4f62-87fc-5bc9ca11f767": {
+    "name": "Verdania Big Button Room - Verdania Essence 14",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/2099f907-2e47-4a34-bfcc-70eb2d3e3349": {
+    "name": "Verdania Big Button Room - Verdania Essence 15",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/e768b048-eaa4-4d8e-af2b-4adc95703c1b": {
+    "name": "Verdania Big Button Room - Verdania Essence 16",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/05b6de30-43e2-4b96-a05b-542b256d2969": {
+    "name": "Verdania Big Button Room - Verdania Essence 17",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/11fd9758-1581-4479-8176-25a208e50c4c": {
+    "name": "Verdania Big Room - Verdania Essence 1",
+    "kind": "resource",
+    "locations": []
+  },
+  "event:mapper/fb54c34d-db27-42d0-8c51-f3db2fd1f943": {
+    "name": "Verdania Big Room - Verdania Big Room Shortcut",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/70969911-69ad-4894-96f2-01f2292e009f": {
+    "name": "Verdania Capital - Verdanir Arena",
+    "kind": "gauntlet",
+    "locations": []
+  },
+  "event:mapper/81ede374-045d-4997-a059-af6c65cf1eb2": {
+    "name": "Verdania Cloverstag Steps - Verdania Essence 9",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/3ba45e6a-59a6-4e13-9b95-2db291a62940": {
+    "name": "Verdania Cloverstag Steps - Verdania Essence 10",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/bd843228-1b83-4ed0-9290-b355ff32395f": {
+    "name": "Verdania Cloverstag Steps - Cloverstag Wall",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/213c526c-798f-4164-b8a6-272b9051e81e": {
+    "name": "Verdania Kindanir egg Room - Verdania Essence 8",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/e00b9119-538a-4b04-a563-deb7ef54e7d8": {
+    "name": "Verdania Left Side Essence Shrine - Verdania essence 11",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/70ec9b24-9c04-49ca-ba35-f7d36159c62f": {
+    "name": "Verdania Left Side Tall Room - Verdania Gate",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/ac2cb3cc-93b1-4a6e-8aff-51af15482f67": {
+    "name": "Verdania Right Side Tall Room - Verdania Essence 2",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/98c7c476-26be-443a-bfd5-428822f098b9": {
+    "name": "Verdania Top Room - Verdania Essence 12",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/05091324-bccf-408c-893f-61b88fb50590": {
+    "name": "Choral Chambers Outside Spa - Switch - Outside Spa",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/87a6e1fc-4ab9-490f-a1f5-612f80d5d8ac": {
+    "name": "Choral Chambers Flea Shaft - Lever Flea shaft",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/e54aed5d-25ca-4209-b377-8c877e377a7f": {
+    "name": "Choral Chambers - Rosary Chest #2",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Chest #2"
+    ]
+  },
+  "event:mapper/896f5186-1d21-4908-9361-b9b3b8e1b46e": {
+    "name": "Choral Chambers Over Dininig - Rosary Necklace - Choral Chambers #2",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/7e81a4e7-8e9e-4cae-a7b6-2594226a6c6b": {
+    "name": "Choral Chambers Over Dininig - Switch over dining",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/498a1170-2ed8-4c38-8b23-a6b64a8d350b": {
+    "name": "Choral Chambers Dining Room - Lever - Dining #1",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/03ef73ad-bb73-4e3a-b1a1-e86ebfdcc069": {
+    "name": "Choral Chambers Dining Room - Lever - Dining #2",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/e56c43f4-f833-4b65-bdf1-2f9383ea42a6": {
+    "name": "Choral Chambers - Rosary Necklace #1",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Necklace #1"
+    ]
+  },
+  "event:mapper/936ce385-67b7-432c-b258-22445485f9d6": {
+    "name": "Choral Chambers - Rosary Chest #1",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Chest #1"
+    ]
+  },
+  "event:mapper/932fba53-6a79-47ce-a4ef-d0456a986508": {
+    "name": "Choral Chambers - Rosary Cache #8",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Cache #8"
+    ]
+  },
+  "event:mapper/c0c57e6d-2417-46c7-8b6f-d1ec15b1a193": {
+    "name": "Choral Chambers - Rosary Cache #9",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Cache #9"
+    ]
+  },
+  "event:mapper/acdc4350-d378-43f6-93d6-e0d420e0e217": {
+    "name": "Choral Chambers Ventrica Room - Lever Ventrica",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/73ba7475-f2f5-4c03-84f3-d42864ae2a1d": {
+    "name": "Choral Chambers - Rosary Chest #3",
+    "kind": "collectible",
+    "locations": [
+      "Choral Chambers - Rosary Chest #3"
+    ]
+  },
+  "event:mapper/7fd15653-2492-4020-bb58-842787851ce1": {
+    "name": "Grand Bellway - Beastling Call",
+    "kind": "collectible",
+    "locations": []
+  },
+  "event:mapper/ee8a0436-e281-44b9-856d-ceadf809de0f": {
+    "name": "Slab Cell - poodle blockade",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/3217cb04-cdc1-478d-99a1-b3ce5e0c6954": {
+    "name": "Slab Cell - heretic lever upper",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360": {
+    "name": "Slab Cell - heretic lever lower",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6": {
+    "name": "Slab Cell - upper blockade",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/79296215-4345-42e9-b606-d45e6b628d86": {
+    "name": "Slab Cell - upper bridge key",
+    "kind": "lock",
+    "locations": []
+  },
+  "event:mapper/reviewed:verdania-memory-entry": {
+    "name": "Dead Verdania Main - Verdania Memory Entry",
+    "kind": "event",
     "locations": []
   }
 }

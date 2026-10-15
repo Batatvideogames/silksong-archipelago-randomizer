@@ -264,9 +264,33 @@ def _has_early_item_space(world):
     for item in items:
         state.collect(item, True)
     state.sweep_for_advancements(_early_sweep_locations(world))
-    return (world.multiworld.completion_condition[world.player](state)
-            or any(location.item is None and location not in assigned and location.can_reach(state)
-                   for location in world.get_locations()))
+    if world.multiworld.completion_condition[world.player](state):
+        return True
+    pending = [item for item in world.multiworld.itempool
+               if item.player == world.player and item.advancement and item not in items]
+    remaining = [location for location in world.get_locations()
+                 if location.item is None and location not in assigned]
+    reachable = [location for location in remaining if location.can_reach(state)
+                 and any(location.can_fill(state, item, check_access=False) for item in pending)]
+    if len(reachable) != 1 or world.multiworld.players != 1:
+        return bool(reachable)
+    # One spare check isn't enough if the next route needs two new items.
+    target = reachable[0]
+    seen = set()
+    for item in pending:
+        if item.name in seen or not target.can_fill(state, item, check_access=False):
+            continue
+        seen.add(item.name)
+        trial = state.copy()
+        trial.collect(item, True)
+        trial.sweep_for_advancements(_early_sweep_locations(world))
+        if (world.multiworld.completion_condition[world.player](trial)
+                or any(location is not target and location.can_reach(trial)
+                       and any(location.can_fill(trial, next_item, check_access=False)
+                               for next_item in pending if next_item is not item)
+                       for location in remaining)):
+            return True
+    return False
 
 
 def _has_possible_category_progression(world):

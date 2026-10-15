@@ -24,6 +24,9 @@ class SpendingAudit:
     def __init__(self, multiworld, worlds):
         self.multiworld = multiworld
         self.worlds = {world.player: world for world in worlds}
+        self.recipients = {player: {player} for player in self.worlds}
+        self.recipients.update({group: data['players'] & self.worlds.keys()
+                                for group, data in multiworld.groups.items()})
         self.locations = tuple(multiworld.get_filled_locations())
         self.purchases = tuple(sorted(
             (location for location in self.locations
@@ -185,8 +188,16 @@ class SpendingAudit:
                    and reachable & (1 << index)]
         if not choices:
             return SpendingFailure(state, bought)
+        filler_wallets = set()
         for index in choices:
             bit = 1 << index
+            location = self.purchases[index]
+            if (not location.item.advancement and location.item.player in self.worlds
+                    and location.address is not None and not self.repairs[location.player] & bit):
+                if location.player in filler_wallets:
+                    continue
+                # Reachable filler purchases spend the same coin without opening anything.
+                filler_wallets.add(location.player)
             if sleeping & bit:
                 continue
             # Different players don't spend from the same wallet.
@@ -224,9 +235,9 @@ class SpendingAudit:
             (location for location in self.free
              if location.address is not None and not location.locked
              and location.item.name == CRAFTMETAL_ITEM
-             and location.item.player in self.worlds
-             and self.available(location.item.player, failure.state, failure.bought)
-                 < self.remaining_cost(location.item.player, failure.bought)
+             and any(self.available(player, failure.state, failure.bought)
+                     < self.remaining_cost(player, failure.bought)
+                     for player in self.recipients.get(location.item.player, ()))
              and not location.can_reach(failure.state)),
             key=lambda location: (ranks.get(location, -1), location.player, location.name),
         ))

@@ -1521,6 +1521,11 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
     alternatives = _ATOM_ALTERNATIVES.get(atom)
     if alternatives is not None:
         return alternatives
+    if atom.startswith("count:verdania-shards:"):
+        minimum = int(atom.rsplit(":", 1)[1])
+        if not 1 <= minimum <= 17:
+            raise ValueError(f"unsupported Verdania essence count: {atom}")
+        return (_part(f"Verdania Shards: {minimum}"),)
     if atom.startswith(("count:fleas:", "count:pale-oil:", "count:bellshrines-activated:", "count:craftmetal:")):
         _, kind, quantity = atom.split(":")
         minimum = int(quantity)

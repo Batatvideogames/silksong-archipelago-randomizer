@@ -56,7 +56,6 @@ from .requirements import (
     SIMPLE_KEY_GREEN_PRINCE,
     get_logic_item_references,
 )
-from .verdania_scope import VERDANIA_LOCATION_NAMES
 
 ITEM_BASE_ID = 835000
 
@@ -1394,7 +1393,6 @@ def get_dynamic_trap_capacity(
     act_two_only: bool = False,
     start_fully_mapped: bool = False,
     act_one_only: bool = False,
-    exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
@@ -1422,7 +1420,7 @@ def get_dynamic_trap_capacity(
             act_two_only=act_two_only,
             start_fully_mapped=start_fully_mapped,
             act_one_only=act_one_only,
-            exclude_verdania=exclude_verdania,
+
             retain_green_prince_key=retain_green_prince_key,
             alphabet_mode=alphabet_mode,
             act_one_donation_tool_pouch_requirements=(
@@ -1439,57 +1437,6 @@ def get_dynamic_trap_capacity(
             silk_soar_begone=silk_soar_begone,
         )
     )
-
-
-def _trim_verdania_pool_entries(
-    entries: list[ItemPoolEntry],
-    category_modes: Mapping[str, str],
-) -> list[ItemPoolEntry]:
-    """Remove rewards paired with the five Lost Verdania checks."""
-
-    for location_name in sorted(VERDANIA_LOCATION_NAMES):
-        location_data = location_data_table[location_name]
-        source_category = location_data.category
-        if category_modes.get(source_category, "anywhere") == "vanilla":
-            continue
-
-        if source_category in OBSERVATION_LOCATION_CATEGORIES:
-            entry_index = next(
-                (
-                    index
-                    for index, entry in enumerate(entries)
-                    if (
-                        entry.source_category == source_category
-                        and _is_replaceable_filler(entry.name)
-                    )
-                ),
-                None,
-            )
-        else:
-            reward_name = get_vanilla_reward_name(
-                location_name,
-                source_category,
-            )
-            entry_index = next(
-                (
-                    index
-                    for index, entry in enumerate(entries)
-                    if (
-                        entry.source_category == source_category
-                        and entry.name == reward_name
-                    )
-                ),
-                None,
-            )
-
-        if entry_index is None:
-            raise ValueError(
-                "Lost Verdania content trim could not remove an item for "
-                f"{location_name!r} from the {source_category!r} pool lane."
-            )
-        entries.pop(entry_index)
-
-    return entries
 
 
 def _replace_verdania_only_key_pool_entry(
@@ -1538,7 +1485,6 @@ def build_item_pool_entries(
     act_two_only: bool = False,
     start_fully_mapped: bool = False,
     act_one_only: bool = False,
-    exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
@@ -1563,9 +1509,6 @@ def build_item_pool_entries(
             raise ValueError(f"{category} does not support shuffle.")
     if act_one_only and act_two_only:
         raise ValueError("Act 1 and Act 2 content scopes cannot overlap.")
-    exclude_verdania_content = (
-        exclude_verdania or act_one_only or act_two_only
-    )
 
     entries: list[ItemPoolEntry] = []
     act_one_excluded_location_names = (
@@ -1584,8 +1527,6 @@ def build_item_pool_entries(
         else get_act_two_excluded_location_names(
             starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
         if act_two_only
-        else VERDANIA_LOCATION_NAMES
-        if exclude_verdania
         else frozenset()
     )
     start_with_map_items = (
@@ -1595,11 +1536,7 @@ def build_item_pool_entries(
         if act_one_only
         else ACT_TWO_START_WITH_MAP_ITEMS
         if act_two_only
-        else tuple(
-            name
-            for name in START_WITH_MAP_ITEMS
-            if name != "Map: Verdania" or not exclude_verdania
-        )
+        else START_WITH_MAP_ITEMS
     )
     removed_option_items_by_category: Dict[str, tuple[str, ...]] = {
         'Map': start_with_map_items if start_with_maps else (),
@@ -1709,8 +1646,6 @@ def build_item_pool_entries(
             trim_act_two_pool_entries(
                 entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
         )
-    elif exclude_verdania:
-        entries = _trim_verdania_pool_entries(entries, category_modes)
 
     from .game_modes import excluded_locations
     mode_exclusions = excluded_locations(steel_soul, act_one_only)
@@ -1761,7 +1696,7 @@ def build_item_pool_entries(
     # Act 2 may keep the otherwise Verdania-only key as an optional bingo
     # collectible without restoring any Verdania locations or requirements.
     if (
-        exclude_verdania_content
+        act_two_only
         and not act_one_only
         and not retain_green_prince_key
     ):
@@ -2007,7 +1942,6 @@ def get_configured_item_pool_size(
     act_two_only: bool = False,
     start_fully_mapped: bool = False,
     act_one_only: bool = False,
-    exclude_verdania: bool = False,
     retain_green_prince_key: bool = False,
     alphabet_mode: bool = False,
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
@@ -2029,7 +1963,7 @@ def get_configured_item_pool_size(
             act_two_only=act_two_only,
             start_fully_mapped=start_fully_mapped,
             act_one_only=act_one_only,
-            exclude_verdania=exclude_verdania,
+
             retain_green_prince_key=retain_green_prince_key,
             alphabet_mode=alphabet_mode,
             act_one_donation_tool_pouch_requirements=(

@@ -480,7 +480,7 @@ LORE_TABLET_ITEM_BY_LOCATION: dict[str, str] = {
 LORE_TABLET_ACT_THREE_LOCATION_NAMES: frozenset[str] = frozenset(
     source.location_name
     for source in LORE_TABLET_SOURCES
-    if source.act_number == 3 and source.location_name != "Verdania - Lake Plaque"
+    if source.act_number == 3
 )
 
 LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
@@ -504,5 +504,4 @@ LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
 LORE_TABLET_JUNK_ONLY_LOCATION_NAMES: frozenset[str] = (
     frozenset(LORE_TABLET_LOCATION_NAMES)
     - LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES
-    - {"Verdania - Lake Plaque"}
 )

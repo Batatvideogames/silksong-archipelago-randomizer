@@ -1126,7 +1126,6 @@ location_table: Dict[str, int] = {
 }
 
 RETIRED_LOCATION_NAMES = RETIRED_MINOR_CACHE_LOCATION_NAMES | {
-    "Verdania - Lake Plaque",
     "Whispering Vaults - Heavy Rosary Necklace",
     "The Slab - Weaver Gate Inscription",
 }

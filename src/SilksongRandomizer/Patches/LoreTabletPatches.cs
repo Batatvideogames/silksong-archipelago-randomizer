@@ -102,12 +102,31 @@ namespace SilksongRandomizer.Patches
 
         internal static void CompleteFallenMossPlaque(SaveState state)
         {
-            const string locationName = "Mosshome - Moss Plaque";
+            CompleteRemovedPlaque(state, "Mosshome - Moss Plaque");
+        }
+
+        private static void CompleteRemovedPlaque(SaveState state, string locationName)
+        {
             if (state == null || !state.IsRoomBound ||
                 !state.IsRandomized(ItemType.LoreTablet) ||
                 !state.IsLocationEnabled(locationName) || !state.IsLocationInSeed(locationName))
                 return;
             CompleteRead(state, locationName);
+        }
+
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class LakePlaqueLoweredPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(FsmState __instance)
+            {
+                if (__instance.Name != "Complete Fountains") return;
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || fsm.Name != "FSM" || fsm.GameObject.scene.name != "Clover_18" ||
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) != "Fountains Group")
+                    return;
+                CompleteRemovedPlaque(SaveState.Instance, "Verdania - Lake Plaque");
+            }
         }
 
         [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]

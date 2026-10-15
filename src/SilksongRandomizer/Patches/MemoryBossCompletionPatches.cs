@@ -2,6 +2,7 @@ using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using System;
+using UnityEngine;
 using SetPlayerDataBoolAction =
     HutongGames.PlayMaker.Actions.SetPlayerDataBool;
 
@@ -25,6 +26,43 @@ namespace SilksongRandomizer.Patches
         private const string CoralKingVictoryState = "Heart Death Start";
         private const string CoralKingDefeatedFlag = "defeatedCoralKing";
         private const string CoralKingLocation = "Boss: Crust King Khann";
+
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class VerdaniaReturnPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(TestGameObjectActivator __instance,
+                GameObject ___activateGameObject, GameObject ___deactivateGameObject)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || PlayerData.instance == null ||
+                    !PlayerData.instance.defeatedCloverDancers || __instance == null ||
+                    __instance.gameObject.scene.name != "Clover_01" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "Memory Scene Control" ||
+                    ___activateGameObject == null || ___deactivateGameObject == null ||
+                    Utils.GetHierarchyPath(___activateGameObject.transform) != "Memory Scene Control/Memory Scene" ||
+                    Utils.GetHierarchyPath(___deactivateGameObject.transform) != "Memory Scene Control/Memory Scene After")
+                    return;
+
+                // The heart pickup still uses the post-fight scene.
+                ___activateGameObject.SetActive(true);
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayMakerFSM), "OnEnable")]
+        private static class CompletedCloverArenaPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(PlayMakerFSM __instance)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || PlayerData.instance == null ||
+                    !PlayerData.instance.defeatedCloverDancers || __instance == null ||
+                    __instance.gameObject.scene.name != "Clover_10" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "Boss Scene")
+                    return true;
+                __instance.gameObject.SetActive(false);
+                return false;
+            }
+        }
 
         private sealed class Entry
         {

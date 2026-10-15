@@ -1416,6 +1416,32 @@ def grindle_access(
     )
 
 
+def _verdania_shard_requirements() -> dict[str, tuple[LocationRequirement, ...]]:
+    events = {
+        int(event.label.rsplit(' ', 1)[1]): 'Room Event: ' + event.id
+        for room in load_room_graph().rooms if room.area_id == 'verdania'
+        for event in room.events
+        if event.label.casefold().startswith('verdania essence ')
+    }
+    if set(events) != set(range(1, 18)):
+        raise ValueError('Verdania essence events are incomplete.')
+    result = {}
+    for prefix in range(1, 18):
+        for minimum in range(1, prefix + 1):
+            name = f"Verdania Shards: {minimum} of first {prefix}"
+            collect = (events[prefix],)
+            if minimum > 1:
+                collect += (f"Verdania Shards: {minimum - 1} of first {prefix - 1}",)
+            alternatives = (req(*collect, crest=False),)
+            if minimum < prefix:
+                alternatives += (req(f"Verdania Shards: {minimum} of first {prefix - 1}", crest=False),)
+            result[name] = alternatives
+    result.update({f"Verdania Shards: {minimum}":
+                   (req(f"Verdania Shards: {minimum} of first 17", crest=False),)
+                   for minimum in range(1, 18)})
+    return result
+
+
 def _compiled_room_clause_requirement(
     clause: CompiledRoomClause,
 ) -> LocationRequirement:
@@ -3055,6 +3081,7 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
         # The Bell Beast room event replaces the earlier path-derived event
         # of the same name.
         **ROOM_EVENT_REQUIREMENTS,
+        **_verdania_shard_requirements(),
     }
 )
 
@@ -5551,7 +5578,6 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
             ),
         )
         for source in LORE_TABLET_SOURCES
-        if source.location_name != "Verdania - Lake Plaque"
     ),
     (
         'Moss Grotto - Rosary Cache',

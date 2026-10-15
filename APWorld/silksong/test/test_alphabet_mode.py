@@ -125,7 +125,7 @@ class TestAlphabetMode(unittest.TestCase):
             act_one_only=(goal == "act_1"),
             act_two_only=(goal == "act_2"),
             start_fully_mapped=True,
-            exclude_verdania=(goal != "act_3"),
+
             retain_green_prince_key=(goal == "act_2"),
             alphabet_mode=alphabet_mode,
         )
@@ -767,7 +767,7 @@ class TestAlphabetMode(unittest.TestCase):
                     act_one_only=(goal == "act_1"),
                     act_two_only=(goal == "act_2"),
                     start_fully_mapped=True,
-                    exclude_verdania=(goal != "act_3"),
+
                     retain_green_prince_key=(goal == "act_2"),
                     alphabet_mode=True,
                 )

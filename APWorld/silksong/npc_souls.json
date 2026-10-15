@@ -1408,7 +1408,8 @@
     ],
     "checks": [],
     "events": [
-      "Combat: Clover Dancers"
+      "Combat: Clover Dancers",
+      "Room Event: event:mapper/reviewed:verdania-memory-entry"
     ],
     "item_id": 839038,
     "act": 1,
