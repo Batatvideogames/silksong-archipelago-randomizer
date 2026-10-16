@@ -60,6 +60,7 @@ namespace SilksongRandomizer
         private bool cursorStateCaptured;
         private bool previousCursorVisible;
         private bool isConnecting;
+        private bool connectionSubmitRequested;
         private CursorLockMode previousCursorLockState;
         private Vector2 connectionScrollPosition;
         private Rect connectionWindowRect = new Rect(0f, 0f, ConnectionWindowWidth, ConnectionWindowHeight);
@@ -759,6 +760,16 @@ namespace SilksongRandomizer
                 TryWarpToPreferredHub();
             }
 
+            if (connectionSubmitRequested)
+            {
+                connectionSubmitRequested = false;
+                if (showConnectionGui && Application.isFocused &&
+                    selectedWindowTab == ArchipelagoWindowTab.Connection)
+                {
+                    TryConnectFromGui();
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.F6))
             {
                 if (showMapMarkerLogic.Value)
@@ -1372,6 +1383,16 @@ namespace SilksongRandomizer
                 return;
             }
 
+            Event input = Event.current;
+            if (selectedWindowTab == ArchipelagoWindowTab.Connection &&
+                !isConnecting && input.type == EventType.KeyDown &&
+                (input.keyCode == KeyCode.Return || input.keyCode == KeyCode.KeypadEnter) &&
+                !input.alt && !input.control && !input.command)
+            {
+                connectionSubmitRequested = true;
+                input.Use();
+            }
+
             arialFont ??= Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault(
                 font => font != null && font.name.IndexOf("Arial", StringComparison.OrdinalIgnoreCase) >= 0
             );
@@ -1443,6 +1464,7 @@ namespace SilksongRandomizer
             }
 
             showConnectionGui = false;
+            connectionSubmitRequested = false;
 
             if (restoreCursor)
             {
@@ -1633,7 +1655,7 @@ namespace SilksongRandomizer
             GUI.enabled = !isConnecting;
             string connectButtonText = isConnecting
                 ? "Connecting..."
-                : connected ? "Reconnect / Switch" : "Connect";
+                : connected ? "Reconnect / Switch" : "Connect (Enter)";
             if (GUILayout.Button(
                     AlphabetModeManager.FilterDirectText(connectButtonText),
                     GUILayout.Height(32f)
@@ -1854,6 +1876,11 @@ namespace SilksongRandomizer
 
         private void TryConnectFromGui()
         {
+            if (isConnecting)
+            {
+                return;
+            }
+
             int port;
             if (!int.TryParse(connectionPort, NumberStyles.Integer, CultureInfo.InvariantCulture, out port) || port < 1 || port > 65535)
             {

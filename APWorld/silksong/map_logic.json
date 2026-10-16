@@ -5609,7 +5609,8 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: choral-chambers/choral-chambers-spa#spa"
+                  "Room Node: choral-chambers/choral-chambers-spa#spa",
+                  "Room Event: event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9"
                 ]
               }
             ]
@@ -5739,35 +5740,40 @@
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Hunter",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Wanderer",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Witch",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Architect",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Reaper",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               }
             ]
@@ -5802,7 +5808,14 @@
               {
                 "all_of": [
                   "Room Node: choral-chambers/songclave#base",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: choral-chambers/songclave#base",
+                  "Directional: Cling Grip Right",
+                  "Faydown Cloak"
                 ]
               }
             ]
@@ -24348,19 +24361,26 @@
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
-                  "Capability: Ledge Grab"
+                  "Directional: Ledge Grab Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
                   "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-bridge#right",
+                  "Crest: Shaman",
+                  "Technique: Crest Pogo 2"
                 ]
               }
             ]
@@ -24370,13 +24390,13 @@
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#left",
-                  "Cling Grip"
+                  "Directional: Ledge Grab Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#left",
-                  "Capability: Ledge Grab"
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -24388,7 +24408,14 @@
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#left",
-                  "Clawline"
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-bridge#left",
+                  "Crest: Shaman",
+                  "Technique: Crest Pogo 2"
                 ]
               }
             ]
@@ -24436,7 +24463,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#bridge-center-top",
                   "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#bridge-center-top",
+                  "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -24505,7 +24539,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#mid",
                   "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#mid",
+                  "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -24535,7 +24576,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#mid",
                   "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#mid",
+                  "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -33341,63 +33389,28 @@
             {
               "all_of": [
                 "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Hunter"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Reaper"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Shaman"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Architect"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Wanderer"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Beast"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Crest: Witch"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: choral-chambers/high-halls-entrance#room",
-                "Clawline",
-                "Faydown Cloak"
+                "Directional: Clawline Left",
+                "Directional: Clawline Right"
               ]
             },
             {
               "all_of": [
                 "Room Node: choral-chambers/high-halls-entrance#room",
                 "Silk Soar"
+              ]
+            },
+            {
+              "all_of": [
+                "Room Node: choral-chambers/high-halls-entrance#room",
+                "Directional: Clawline Left",
+                "Faydown Cloak"
+              ]
+            },
+            {
+              "all_of": [
+                "Room Node: choral-chambers/high-halls-entrance#room",
+                "Directional: Clawline Right",
+                "Faydown Cloak"
               ]
             }
           ],
@@ -40755,7 +40768,14 @@
               "all_of": [
                 "Room Node: the-slab/slab-cave-entrance#room",
                 "Faydown Cloak",
-                "Cling Grip"
+                "Directional: Cling Grip Left"
+              ]
+            },
+            {
+              "all_of": [
+                "Room Node: the-slab/slab-cave-entrance#room",
+                "Faydown Cloak",
+                "Directional: Cling Grip Right"
               ]
             },
             {
@@ -46240,7 +46260,14 @@
               "all_of": [
                 "Room Node: the-slab/slab-cave-entrance#room",
                 "Faydown Cloak",
-                "Cling Grip"
+                "Directional: Cling Grip Left"
+              ]
+            },
+            {
+              "all_of": [
+                "Room Node: the-slab/slab-cave-entrance#room",
+                "Faydown Cloak",
+                "Directional: Cling Grip Right"
               ]
             },
             {
@@ -51399,7 +51426,8 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: choral-chambers/choral-chambers-spa#spa"
+                  "Room Node: choral-chambers/choral-chambers-spa#spa",
+                  "Room Event: event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9"
                 ]
               }
             ]
@@ -51451,35 +51479,40 @@
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Hunter",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Wanderer",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Witch",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Architect",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: choral-chambers/rotating-tunnel#centralarea",
                   "Crest: Reaper",
-                  "Technique: Crest Pogo 1"
+                  "Technique: Crest Pogo 1",
+                  "Technique: Enemy Pogo 1"
                 ]
               }
             ]
@@ -51495,7 +51528,14 @@
               {
                 "all_of": [
                   "Room Node: choral-chambers/songclave#base",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: choral-chambers/songclave#base",
+                  "Directional: Cling Grip Right",
+                  "Faydown Cloak"
                 ]
               }
             ]
@@ -69359,19 +69399,26 @@
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
-                  "Capability: Ledge Grab"
+                  "Directional: Ledge Grab Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: the-slab/slab-bridge#right",
                   "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-bridge#right",
+                  "Crest: Shaman",
+                  "Technique: Crest Pogo 2"
                 ]
               }
             ]
@@ -69419,7 +69466,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#bridge-center-top",
                   "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#bridge-center-top",
+                  "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -69488,7 +69542,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#mid",
                   "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#mid",
+                  "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -69518,7 +69579,14 @@
                 "all_of": [
                   "Room Node: the-slab/slab-cell#mid",
                   "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-                  "Cling Grip"
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: the-slab/slab-cell#mid",
+                  "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -84510,7 +84578,14 @@
               "all_of": [
                 "Room Node: the-slab/slab-cave-entrance#room",
                 "Faydown Cloak",
-                "Cling Grip"
+                "Directional: Cling Grip Left"
+              ]
+            },
+            {
+              "all_of": [
+                "Room Node: the-slab/slab-cave-entrance#room",
+                "Faydown Cloak",
+                "Directional: Cling Grip Right"
               ]
             },
             {
@@ -100093,6 +100168,16 @@
           }
         ]
       },
+      "Room Event: event:mapper/007f3c9a-50b0-4802-8f2b-4d87bffafe98": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-outside-spa#gauntlet",
+              "Room Event: event:mapper/reviewed:choral-spa-gauntlet"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/00d28806-3861-49d5-bc98-61f024a2cfa5": {
         "alternatives": [
           {
@@ -101182,7 +101267,7 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Swift Step"
+              "Directional: Dash Left"
             ]
           },
           {
@@ -101348,15 +101433,6 @@
           }
         ]
       },
-      "Room Event: event:mapper/190ad3fa-fa49-45ec-b1f3-124d9f803578": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#top-right"
-            ]
-          }
-        ]
-      },
       "Room Event: event:mapper/190e2efd-95c9-431d-b742-26294a5e2802": {
         "alternatives": [
           {
@@ -101511,7 +101587,24 @@
         ]
       },
       "Room Event: event:mapper/1d494539-e87e-425a-9924-8d49592db7bf": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Option: Proficient Movement"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/1d619ded-fff0-43a1-9f37-802484cfef4a": {
         "alternatives": [
@@ -102341,8 +102434,9 @@
             "all_of": [
               "Room Node: putrified-ducts/fleatopia#fleatopia",
               "Room Event: event:mapper/reviewed:flea-festival-started",
-              "Swift Step",
-              "Faydown Cloak"
+              "Room Event: event:mapper/66774f19-233f-4382-a524-1a3a0501b443",
+              "Room Event: event:mapper/1d494539-e87e-425a-9924-8d49592db7bf",
+              "Room Event: event:mapper/41133206-b008-4501-8c55-9f9440e2728b"
             ]
           }
         ]
@@ -102439,6 +102533,16 @@
             "all_of": [
               "Room Node: the-marrow/the-marrow-skull-tyrant-arena#tyrants-throne",
               "Combat: Skull Tyrant (The Marrow)"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/2e7b660c-234b-41ce-a90a-ad0e7c5246e7": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-first-sinner#room",
+              "Combat: First Sinner"
             ]
           }
         ]
@@ -103322,7 +103426,146 @@
         ]
       },
       "Room Event: event:mapper/41133206-b008-4501-8c55-9f9440e2728b": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Wanderer",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Wanderer",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Hunter",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Hunter",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Witch",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Witch",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Architect",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Architect",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Shaman",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Shaman",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Reaper",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Crest: Reaper",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/4127289c-12aa-4bb2-84ca-ef581aa3941c": {
         "alternatives": [
@@ -104343,7 +104586,15 @@
         ]
       },
       "Room Event: event:mapper/5b382fa7-7c89-4935-838b-c93d1aaa496e": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/grand-bellway-side-room#room",
+              "Act: 3",
+              "Room Event: event:mapper/7e244da0-3815-4fc1-a0cd-ef1e8551abbd"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/5b619204-c40d-4358-a8cb-273d1fe1fcbe": {
         "alternatives": [
@@ -104737,7 +104988,143 @@
         ]
       },
       "Room Event: event:mapper/66774f19-233f-4382-a524-1a3a0501b443": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Shaman",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Shaman",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Shaman",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Wanderer",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Wanderer",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Wanderer",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Hunter",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Hunter",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Hunter",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Architect",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Architect",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Architect",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Witch",
+              "Directional: Dash Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Witch",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/fleatopia#fleatopia",
+              "Room Event: event:mapper/b7c5c050-5667-4f14-b608-9cc91ef57eb1",
+              "Crest: Witch",
+              "Option: Proficient Movement",
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/66c01078-89ad-4aeb-ab46-a4ac05424109": {
         "alternatives": [
@@ -104814,6 +105201,15 @@
           {
             "all_of": [
               "Room Node: underworks/underworks-twelfth-architect#first-floor"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-spa#spa"
             ]
           }
         ]
@@ -104986,6 +105382,15 @@
           {
             "all_of": [
               "Room Node: the-abyss/arcane-egg-room#end"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/6ac7d595-f0ee-4599-afd8-85ccdf03c323": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-spa#spa"
             ]
           }
         ]
@@ -106786,7 +107191,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude"
+              "Room Node: the-slab/slab-cell#prelude1"
             ],
             "item_counts": [
               {
@@ -106863,7 +107268,13 @@
         ]
       },
       "Room Event: event:mapper/896f5186-1d21-4908-9361-b9b3b8e1b46e": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-over-dining#base"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/898e5e64-3ce0-49b3-8194-b6d14ac2fa7d": {
         "alternatives": [
@@ -108243,16 +108654,6 @@
           }
         ]
       },
-      "Room Event: event:mapper/a4d09e81-8fd7-4c22-8c2c-d2a90c4c4e71": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-outside-spa#gauntlet",
-              "Room Event: event:mapper/reviewed:choral-spa-gauntlet"
-            ]
-          }
-        ]
-      },
       "Room Event: event:mapper/a4febb13-a6cc-49c4-a655-a40e40ea43b5": {
         "alternatives": [
           {
@@ -109213,16 +109614,6 @@
           }
         ]
       },
-      "Room Event: event:mapper/b7e3016e-56c1-4f49-869a-83c908b46ac8": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/bellshrine-enclave#room",
-              "Room Event: event:mapper/f0e546ed-9791-4077-bcee-2bb58e51fe49"
-            ]
-          }
-        ]
-      },
       "Room Event: event:mapper/b7f47ef9-ceec-4bf2-aca0-6259e5e24d49": {
         "alternatives": [
           {
@@ -109360,7 +109751,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-broodmother-alcove#room",
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
               "Room Event: event:mapper/fef5ea03-485e-4dd9-ac36-cab1aef17946"
             ]
           }
@@ -111820,7 +112211,44 @@
         ]
       },
       "Room Event: event:mapper/e54aed5d-25ca-4209-b377-8c877e377a7f": {
-        "alternatives": []
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Faydown Cloak"
+            ]
+          }
+        ]
       },
       "Room Event: event:mapper/e54c64bb-2486-4a2c-81f0-9af465fd3865": {
         "alternatives": [
@@ -111847,7 +112275,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-merchant-room#room",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-merchant-room#room",
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -112776,6 +113210,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/f9c80fa4-3dca-448c-a508-27c9257f30cd": {
         "alternatives": [
           {
@@ -113004,7 +113447,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-broodmother-alcove#room",
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
               "Room Event: event:mapper/reviewed:broodmother-defeated"
             ]
           }
@@ -113551,7 +113994,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-arena#arena",
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
               "Room Event: event:mapper/reviewed:wailing-mother-accepted",
               "Combat: Broodmother",
               "Combat: Broodmother Gauntlet",
@@ -115419,6 +115862,47 @@
             "all_of": [
               "Room Node: greymoor/greymoor-yarnaby-room#room",
               "Room Event: event:mapper/0579d689-67d7-443a-a85b-916aa61ccabe"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:khann-memory-enemies": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/coral-tower#main",
+              "Act: 3",
+              "Needolin",
+              "Silk Soar",
+              "Combat: Coral Tower (All 4) Gauntlet"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Elegy of the Deep"
+                ],
+                "minimum": 1
+              }
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:khann-memory-entry": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/coral-tower#main",
+              "Act: 3",
+              "Needolin",
+              "Silk Soar"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Elegy of the Deep"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -131560,6 +132044,33 @@
           },
           {
             "all_of": [
+              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
+              "Directional: Cling Grip Left",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
+              "Capability: Ledge Grab",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: choral-chambers/choral-chambers-ventrica-room#ventrica",
               "Cling Grip"
             ]
@@ -131582,7 +132093,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#top"
+              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left"
             ]
           }
         ]
@@ -131635,33 +132146,6 @@
               "Capability: Ledge Grab",
               "Technique: Enemy Pogo 1",
               "Technique: Damage Boost 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
-              "Directional: Cling Grip Right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
-              "Directional: Cling Grip Left",
-              "Technique: Enemy Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-right",
-              "Capability: Ledge Grab",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
             ]
           }
         ]
@@ -131762,188 +132246,141 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window"
-            ]
-          },
-          {
-            "all_of": [
               "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit"
             ]
-          }
-        ]
-      },
-      "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top": {
-        "alternatives": [
+          },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#top"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle"
             ]
           }
         ]
       },
-      "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit": {
+      "Room Node: choral-chambers/choral-chambers-below-ventrica#middle": {
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Swift Step",
-              "Capability: Ledge Grab"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Silk Soar"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
               "Faydown Cloak"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Technique: Enemy Pogo 1",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Capability: Ledge Grab",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Cling Grip",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Capability: Ledge Grab",
-              "Crest: Shaman",
-              "Technique: Crest Pogo 3"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Capability: Ledge Grab",
-              "Crest: Beast",
-              "Technique: Crest Pogo 2",
-              "Technique: Heal Stall 3"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-outside-underworks#room"
-            ]
-          }
-        ]
-      },
-      "Room Node: choral-chambers/choral-chambers-below-ventrica#side-chamber": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
-              "Technique: Enemy Pogo 1",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic",
               "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
-              "Directional: Cling Grip Right",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
-              "Directional: Cling Grip Right",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
-              "Directional: Cling Grip Right",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic",
               "Capability: Ledge Grab",
-              "Crest: Shaman",
-              "Technique: Crest Pogo 1",
-              "Technique: Enemy Pogo 1",
-              "Faydown Cloak"
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top"
-            ]
-          }
-        ]
-      },
-      "Room Node: choral-chambers/choral-chambers-below-ventrica#top": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-ventrica-room#lateral"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
-              "Cling Grip"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
-              "Faydown Cloak"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Dash Left",
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#side-chamber",
-              "Silk Soar"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Dash Left",
+              "Capability: Ledge Grab",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#side-chamber",
-              "Cling Grip"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Sprint Left",
+              "Directional: Cling Grip Left"
             ]
-          }
-        ]
-      },
-      "Room Node: choral-chambers/choral-chambers-below-ventrica#window": {
-        "alternatives": [
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Sprint Right",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Sprint Left",
+              "Capability: Ledge Grab",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Sprint Right",
+              "Capability: Ledge Grab",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Clawline Left",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032",
+              "Directional: Clawline Left",
+              "Capability: Ledge Grab",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
-              "Cling Grip"
+              "Directional: Cling Grip Left",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -131977,41 +132414,465 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top"
+            ]
+          }
+        ]
+      },
+      "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
               "Silk Soar"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Technique: Enemy Pogo 1",
               "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
-              "Swift Step",
-              "Capability: Ledge Grab",
-              "Technique: Enemy Pogo 1"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit",
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Directional: Cling Grip Right",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Directional: Cling Grip Right",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Capability: Ledge Grab",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#top"
+            ]
+          }
+        ]
+      },
+      "Room Node: choral-chambers/choral-chambers-below-ventrica#right-exit": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Drifter's Cloak",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Left",
+              "Directional: Dash Right",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Sprint Left",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Sprint Right",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
               "Clawline",
-              "Capability: Ledge Grab",
               "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#side-chamber"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Clawline",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Clawline",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Clawline",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Spool Fragment"
+                ],
+                "minimum": 6
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Spool Fragment"
+                ],
+                "minimum": 6
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Right"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Spool Fragment"
+                ],
+                "minimum": 6
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Spool Fragment"
+                ],
+                "minimum": 6
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Right",
+              "Capability: Ledge Grab",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Right",
+              "Capability: Ledge Grab",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Right",
+              "Directional: Cling Grip Right",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Right",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Directional: Dash Left",
+              "Capability: Ledge Grab",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Capability: Ledge Grab",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Capability: Ledge Grab",
+              "Crest: Beast",
+              "Technique: Crest Pogo 2",
+              "Technique: Heal Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Capability: Ledge Grab",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Capability: Ledge Grab",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#bottom",
+              "Capability: Ledge Grab",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle",
+              "Room Event: event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-outside-underworks#room"
+            ]
+          }
+        ]
+      },
+      "Room Node: choral-chambers/choral-chambers-below-ventrica#side-chamber": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top"
+            ]
+          }
+        ]
+      },
+      "Room Node: choral-chambers/choral-chambers-below-ventrica#top": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-ventrica-room#lateral"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#pre-top",
+              "Silk Soar"
             ]
           }
         ]
@@ -132099,7 +132960,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-east-to-west#right-side",
-              "Clawline"
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-east-to-west#right-side",
+              "Directional: Clawline Left"
             ]
           },
           {
@@ -132168,7 +133035,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-east-to-west#left-side",
-              "Clawline"
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-east-to-west#left-side",
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -132409,20 +133282,7 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-spa#spa",
-              "Cling Grip"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-spa#spa",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-spa#spa",
-              "Faydown Cloak",
-              "Capability: Ledge Grab"
+              "Room Event: event:mapper/6ac7d595-f0ee-4599-afd8-85ccdf03c323"
             ]
           },
           {
@@ -132583,7 +133443,8 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-flea-shaft#top-section-3-right",
-              "Clawline"
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -132666,7 +133527,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-maintenance-tunnel#maintenance-tunnel",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-maintenance-tunnel#maintenance-tunnel",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -132693,7 +133560,15 @@
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-maintenance-tunnel#base",
               "Faydown Cloak",
-              "Cling Grip",
+              "Directional: Cling Grip Left",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-maintenance-tunnel#base",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right",
               "Technique: Enemy Pogo 1"
             ]
           }
@@ -132922,7 +133797,8 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-spa#spa"
+              "Room Node: choral-chambers/choral-chambers-spa#spa",
+              "Room Event: event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9"
             ]
           },
           {
@@ -132937,14 +133813,38 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-spa#showers",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-spa#showers",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-spa#showers",
+              "Silk Soar"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-spa#showers",
               "Faydown Cloak",
-              "Silk Soar"
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-spa#showers",
+              "Room Event: event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-flea-shaft#base-upper",
+              "Room Event: event:mapper/6ac7d595-f0ee-4599-afd8-85ccdf03c323"
             ]
           }
         ]
@@ -132958,8 +133858,20 @@
           },
           {
             "all_of": [
+              "Room Node: choral-chambers/choral-chambers-ventrica-room#ventrica",
+              "Room Event: event:mapper/acdc4350-d378-43f6-93d6-e0d420e0e217"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: choral-chambers/choral-chambers-below-ventrica#top",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#top",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -132975,6 +133887,12 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-ventrica-room#lateral",
+              "Room Event: event:mapper/acdc4350-d378-43f6-93d6-e0d420e0e217"
             ]
           },
           {
@@ -134000,35 +134918,40 @@
             "all_of": [
               "Room Node: choral-chambers/rotating-tunnel#centralarea",
               "Crest: Hunter",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/rotating-tunnel#centralarea",
               "Crest: Wanderer",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/rotating-tunnel#centralarea",
               "Crest: Witch",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/rotating-tunnel#centralarea",
               "Crest: Architect",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/rotating-tunnel#centralarea",
               "Crest: Reaper",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
             ]
           }
         ]
@@ -134068,7 +134991,14 @@
           {
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak"
             ]
           },
           {
@@ -159887,63 +160817,28 @@
           {
             "all_of": [
               "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Hunter"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Reaper"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Shaman"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Architect"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Wanderer"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Beast"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Crest: Witch"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: choral-chambers/high-halls-entrance#room",
-              "Clawline",
-              "Faydown Cloak"
+              "Directional: Clawline Left",
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: choral-chambers/high-halls-entrance#room",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/high-halls-entrance#room",
+              "Directional: Clawline Left",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/high-halls-entrance#room",
+              "Directional: Clawline Right",
+              "Faydown Cloak"
             ]
           },
           {
@@ -182701,13 +183596,19 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-arena#above-arena2",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-arena#above-arena2",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-arena#above-arena2",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -182760,6 +183661,11 @@
             "all_of": [
               "Room Node: the-slab/slab-arena#above-arena2"
             ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-broodmother-alcove#upper"
+            ]
           }
         ]
       },
@@ -182773,7 +183679,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-arena#above-arena1",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-arena#above-arena1",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -182856,7 +183768,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-arena#bench",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-arena#bench",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -182948,19 +183866,26 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#right",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#right",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#right",
               "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-bridge#right",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 2"
             ]
           },
           {
@@ -182980,13 +183905,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#left",
-              "Cling Grip"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#left",
-              "Capability: Ledge Grab"
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -182998,12 +183923,28 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-bridge#left",
-              "Clawline"
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-bridge#left",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 2"
             ]
           }
         ]
       },
-      "Room Node: the-slab/slab-broodmother-alcove#room": {
+      "Room Node: the-slab/slab-broodmother-alcove#arena": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-broodmother-alcove#upper"
+            ]
+          }
+        ]
+      },
+      "Room Node: the-slab/slab-broodmother-alcove#upper": {
         "alternatives": [
           {
             "all_of": [
@@ -183064,6 +184005,56 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-upper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cavern-exit#cavern",
+              "Room Event: event:mapper/a1869328-015b-47d8-90a4-cee45c1b3745",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183137,13 +184128,25 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-upper",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-upper",
-              "Capability: Ledge Grab"
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#bridge-upper",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#bridge-upper",
+              "Directional: Ledge Grab Right"
             ]
           },
           {
@@ -183177,7 +184180,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-cell#before-bridge",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#before-bridge",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183206,7 +184215,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Capability: Swim"
             ]
           },
@@ -183242,7 +184251,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-center-top",
               "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#bridge-center-top",
+              "Room Event: event:mapper/0b547d15-6aa6-417a-8a2f-6db28b472360",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183319,7 +184335,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-upper-internal",
               "Room Event: event:mapper/79296215-4345-42e9-b606-d45e6b628d86",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#bridge-upper-internal",
+              "Room Event: event:mapper/79296215-4345-42e9-b606-d45e6b628d86",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183362,7 +184385,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#bridge-center",
               "Room Event: event:mapper/3217cb04-cdc1-478d-99a1-b3ce5e0c6954",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#bridge-center",
+              "Room Event: event:mapper/3217cb04-cdc1-478d-99a1-b3ce5e0c6954",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183453,7 +184483,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#mid",
               "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#mid",
+              "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183483,7 +184520,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#mid",
               "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#mid",
+              "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183530,13 +184574,13 @@
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1"
@@ -183544,14 +184588,14 @@
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Faydown Cloak",
               "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Silk Soar"
             ]
           }
@@ -183851,18 +184895,18 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Room Event: event:mapper/ee8a0436-e281-44b9-856d-ceadf809de0f"
             ]
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-poodle#top-right"
+              "Room Node: the-slab/slab-poodle#top"
             ]
           }
         ]
       },
-      "Room Node: the-slab/slab-cell#prelude": {
+      "Room Node: the-slab/slab-cell#prelude1": {
         "alternatives": [
           {
             "all_of": [
@@ -183873,7 +184917,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cell#poodle-top",
               "Room Event: event:mapper/ee8a0436-e281-44b9-856d-ceadf809de0f",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#poodle-top",
+              "Room Event: event:mapper/ee8a0436-e281-44b9-856d-ceadf809de0f",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -183887,15 +184938,23 @@
           },
           {
             "all_of": [
+              "Room Node: the-slab/slab-cell#prelude2",
+              "Room Event: event:mapper/88445b54-102c-4fae-91c4-e515df880f22"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: the-slab/slab-prelude#lower"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Key of Heretic"
-                ],
-                "minimum": 1
-              }
+            ]
+          }
+        ]
+      },
+      "Room Node: the-slab/slab-cell#prelude2": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#prelude1",
+              "Room Event: event:mapper/88445b54-102c-4fae-91c4-e515df880f22"
             ]
           }
         ]
@@ -183914,7 +184973,15 @@
               "Room Node: the-slab/slab-cell#mid",
               "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
               "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#mid",
+              "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+              "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184035,7 +185102,7 @@
               "Room Node: the-slab/slab-cell#secret",
               "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
               "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
@@ -184043,7 +185110,23 @@
               "Room Node: the-slab/slab-cell#secret",
               "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
               "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
-              "Cling Grip"
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#secret",
+              "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+              "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cell#secret",
+              "Room Event: event:mapper/3c32a463-f570-4ecd-af18-f8f49d1275af",
+              "Room Event: event:mapper/18f510d7-77d8-42ad-aaf6-9bcca701bed6",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184249,7 +185332,21 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-arena#top-entrance",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-arena#top-entrance",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-arena#top-entrance",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
             ]
           },
           {
@@ -184282,13 +185379,19 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#right",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#right",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#right",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184329,7 +185432,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#top",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-shaft#top",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184351,13 +185460,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#mid-lower-1",
-              "Swift Step"
+              "Directional: Dash Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#mid-lower-1",
-              "Clawline"
+              "Directional: Clawline Left"
             ]
           },
           {
@@ -184443,13 +185552,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#right",
-              "Swift Step"
+              "Directional: Dash Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#right",
-              "Clawline"
+              "Directional: Clawline Left"
             ]
           },
           {
@@ -184474,7 +185583,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-lower",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-lower",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184489,13 +185604,13 @@
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-lower",
               "Faydown Cloak",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#bottom-left-entrance",
-              "Cling Grip"
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184510,7 +185625,7 @@
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#bottom-left-entrance",
               "Faydown Cloak",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Right"
             ]
           }
         ]
@@ -184531,13 +185646,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-lower",
-              "Swift Step"
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-lower",
-              "Clawline"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -184606,13 +185721,19 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#mid-lower-1",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#mid-lower-1",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#mid-lower-1",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184644,13 +185765,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
-              "Swift Step"
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
-              "Clawline"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -184689,8 +185810,26 @@
           }
         ]
       },
+      "Room Node: the-slab/slab-first-sinner#room": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
+              "Room Event: event:mapper/9721a931-d5d6-47ea-8b1f-e11c21d14fd5",
+              "Room Event: event:mapper/ced05d73-bfb1-4d0d-ac99-a5a645fad125",
+              "Room Event: event:mapper/175019d8-c1d9-4640-8622-36357ed24189",
+              "Room Event: event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846"
+            ]
+          }
+        ]
+      },
       "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber": {
         "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-first-sinner#room"
+            ]
+          },
           {
             "all_of": [
               "Room Node: the-slab/slab-fist-sinner-antechamber#entrance"
@@ -184703,7 +185842,16 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Capability: Ledge Grab",
+              "Directional: Ledge Grab Left",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
+              "Directional: Ledge Grab Right",
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1"
@@ -184730,7 +185878,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -184870,60 +186024,44 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Cling Grip"
+              "Silk Soar",
+              "Directional: Ledge Grab Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Silk Soar"
+              "Silk Soar",
+              "Directional: Ledge Grab Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1"
+              "Silk Soar",
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Faydown Cloak",
-              "Option: Proficient Movement",
-              "Capability: Ledge Grab"
+              "Silk Soar",
+              "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Faydown Cloak",
-              "Usable Flea Brew",
-              "Option: Flea Brew Jump Logic"
+              "Silk Soar",
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Faydown Cloak",
-              "Technique: Heal Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-bellway#room",
-              "Faydown Cloak",
-              "Usable Flea Brew",
-              "Technique: Flea Brew Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-bellway#room",
-              "Faydown Cloak",
-              "Crest: Shaman",
-              "Technique: Crest Pogo 1"
+              "Directional: Ledge Grab Left",
+              "Directional: Ledge Grab Right",
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -184951,13 +186089,25 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-bottom#lower",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-bottom#lower",
-              "Cling Grip"
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-infleatween-bottom#lower",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-infleatween-bottom#lower",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -185051,7 +186201,7 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#bottom",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
@@ -185063,7 +186213,7 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#bottom",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -185096,21 +186246,35 @@
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#bottom",
               "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Technique: Enemy Pogo 2"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#bottom",
-              "Cling Grip",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Left",
+              "Technique: Enemy Pogo 2"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#bottom",
-              "Capability: Ledge Grab",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-infleatween-top#bottom",
+              "Directional: Ledge Grab Left",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-infleatween-top#bottom",
+              "Directional: Ledge Grab Right",
+              "Technique: Enemy Pogo 2"
             ]
           },
           {
@@ -185122,7 +186286,7 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#left",
-              "Cling Grip"
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -185141,6 +186305,13 @@
             "all_of": [
               "Room Node: the-slab/slab-infleatween-top#left",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-infleatween-top#left",
+              "Directional: Dash Right",
+              "Directional: Ledge Grab Right"
             ]
           }
         ]
@@ -185172,12 +186343,7 @@
           },
           {
             "all_of": [
-              "Room Node: the-slab/slab-poodle#top-right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#top-left"
+              "Room Node: the-slab/slab-poodle#top"
             ]
           }
         ]
@@ -185205,41 +186371,7 @@
           }
         ]
       },
-      "Room Node: the-slab/slab-poodle#top-left": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#bottom",
-              "Faydown Cloak",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#bottom",
-              "Faydown Cloak",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#bottom",
-              "Silk Soar",
-              "Directional: Clawline Right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: the-slab/slab-poodle#bottom",
-              "Silk Soar",
-              "Usable Sharpdart"
-            ]
-          }
-        ]
-      },
-      "Room Node: the-slab/slab-poodle#top-right": {
+      "Room Node: the-slab/slab-poodle#top": {
         "alternatives": [
           {
             "all_of": [
@@ -185282,7 +186414,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-cell#prelude",
+              "Room Node: the-slab/slab-cell#prelude1",
               "Room Event: event:mapper/88445b54-102c-4fae-91c4-e515df880f22"
             ]
           },
@@ -185297,15 +186429,21 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-fist-sinner-antechamber#entrance",
-              "Cling Grip"
+              "Room Node: the-slab/slab-fist-sinner-antechamber#entrance"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-prelude#lower",
               "Faydown Cloak",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-prelude#lower",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -185337,7 +186475,14 @@
             "all_of": [
               "Room Node: the-slab/slab-cave-entrance#room",
               "Faydown Cloak",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-cave-entrance#room",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -185420,7 +186565,13 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-quiet-cell#locket",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-quiet-cell#locket",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -185499,14 +186650,27 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-secret-side-room#bottom",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-secret-side-room#bottom",
+              "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-secret-side-room#bottom",
               "Faydown Cloak",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-secret-side-room#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Right"
             ]
           }
         ]
@@ -185607,57 +186771,57 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Hunter"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Reaper"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Shaman"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Architect"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Wanderer"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Beast"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Witch"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#bottom",
-              "Cling Grip",
-              "Swift Step"
+              "Directional: Cling Grip Left",
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -185672,57 +186836,57 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Hunter"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Reaper"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Shaman"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Architect"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Wanderer"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Beast"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Witch"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-shaft#mid",
-              "Cling Grip",
-              "Swift Step"
+              "Directional: Cling Grip Left",
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -185744,7 +186908,7 @@
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
               "Directional: Cling Grip Left",
-              "Capability: Ledge Grab"
+              "Directional: Ledge Grab Left"
             ]
           },
           {
@@ -185783,64 +186947,71 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Hunter",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Reaper",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Shaman",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Architect",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Wanderer",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Beast",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-why-room#left-lower",
-              "Cling Grip",
+              "Directional: Cling Grip Right",
               "Crest: Witch",
               "Faydown Cloak",
-              "Swift Step"
+              "Directional: Dash Left",
+              "Directional: Dash Right"
             ]
           }
         ]
@@ -192850,6 +194021,11 @@
               "Technique: Scuttlebrace 1",
               "Crest: Witch",
               "Loadout: Crest: Witch + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/grand-bellway#secret-tunnel"
             ]
           }
         ]
@@ -218533,7 +219709,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-arena#arena",
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
               "Room Event: event:mapper/reviewed:broodmother-defeated"
             ]
           }
@@ -218605,13 +219781,8 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Faydown Cloak",
-              "Combat: First Sinner",
-              "Room Event: event:mapper/9721a931-d5d6-47ea-8b1f-e11c21d14fd5",
-              "Room Event: event:mapper/ced05d73-bfb1-4d0d-ac99-a5a645fad125",
-              "Room Event: event:mapper/175019d8-c1d9-4640-8622-36357ed24189",
-              "Room Event: event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846"
+              "Room Node: the-slab/slab-first-sinner#room",
+              "Combat: First Sinner"
             ]
           }
         ]
@@ -219039,7 +220210,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle"
             ]
           }
         ]
@@ -219049,7 +220220,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-merchant-room#room",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-merchant-room#room",
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -219145,7 +220322,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-below-ventrica#window"
+              "Room Node: choral-chambers/choral-chambers-below-ventrica#middle"
             ]
           }
         ]
@@ -219224,9 +220401,43 @@
       },
       "Choral Chambers - Rosary Chest #2": {
         "alternatives": [
-          {}
-        ],
-        "logic_unknown": true
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/corridor-to-high-halls#room",
+              "Faydown Cloak"
+            ]
+          }
+        ]
       },
       "Choral Chambers - Rosary Chest #3": {
         "alternatives": [
@@ -219242,7 +220453,13 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-merchant-room#room",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-merchant-room#room",
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -221517,7 +222734,14 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-bellway#room",
-              "Cling Grip",
+              "Directional: Cling Grip Left",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-bellway#room",
+              "Directional: Cling Grip Right",
               "Faydown Cloak"
             ]
           },
@@ -223690,7 +224914,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-arena#arena",
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
               "Room Event: event:mapper/reviewed:broodmother-defeated"
             ]
           }
@@ -223762,13 +224986,8 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Faydown Cloak",
-              "Combat: First Sinner",
-              "Room Event: event:mapper/9721a931-d5d6-47ea-8b1f-e11c21d14fd5",
-              "Room Event: event:mapper/ced05d73-bfb1-4d0d-ac99-a5a645fad125",
-              "Room Event: event:mapper/175019d8-c1d9-4640-8622-36357ed24189",
-              "Room Event: event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846"
+              "Room Node: the-slab/slab-first-sinner#room",
+              "Combat: First Sinner"
             ]
           }
         ]
@@ -234701,13 +235920,8 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: the-slab/slab-fist-sinner-antechamber#antechamber",
-              "Faydown Cloak",
-              "Combat: First Sinner",
-              "Room Event: event:mapper/9721a931-d5d6-47ea-8b1f-e11c21d14fd5",
-              "Room Event: event:mapper/ced05d73-bfb1-4d0d-ac99-a5a645fad125",
-              "Room Event: event:mapper/175019d8-c1d9-4640-8622-36357ed24189",
-              "Room Event: event:mapper/36d3d047-e426-4573-ae69-cceb5ea3b846"
+              "Room Node: the-slab/slab-first-sinner#room",
+              "Room Event: event:mapper/2e7b660c-234b-41ce-a90a-ad0e7c5246e7"
             ]
           }
         ]
@@ -236849,21 +238063,28 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
-              "Cling Grip",
-              "Swift Step"
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
-              "Cling Grip",
-              "Clawline"
+              "Directional: Cling Grip Left",
+              "Capability: Sprint"
             ]
           },
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
-              "Cling Grip",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Directional: Cling Grip Left",
               "Crest: Beast",
               "Technique: Crest Pogo 1"
             ]
@@ -236871,9 +238092,60 @@
           {
             "all_of": [
               "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
               "Usable Scuttlebrace",
               "Swift Step",
-              "Technique: Scuttlebrace 1"
+              "Technique: Scuttlebrace 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-chilly-top#left-mid",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
             ]
           }
         ]

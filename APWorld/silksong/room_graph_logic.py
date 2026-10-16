@@ -596,7 +596,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(room_node_name("the-slab/slab-entrance#room")),
     ),
     "event:the-slab/slab-cell/poodle-wall-opened": (
-        _part(room_node_name("the-slab/slab-poodle#top-right")),
+        _part(room_node_name("the-slab/slab-poodle#top")),
     ),
     "event:the-slab/slab-cell/secret-side-wall-opened": (
         _part(room_node_name("the-slab/slab-secret-side-room#bottom")),
@@ -1445,16 +1445,20 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         return (_part(f"Technique: Enemy Pogo {tier}"),) if tier else (_part(),)
     if atom.startswith("mapper:clawline:") and len(atom.split(":")) == 4:
         _, _, direction, casts = atom.split(":")
-        if direction not in {"up", "down", "left", "right"}:
+        if direction not in {"up", "down", "left", "right", "any", "both"}:
             raise ValueError(f"unsupported Clawline direction: {direction}")
         if not 1 <= int(casts) <= 8:
             raise ValueError(f"unsupported Clawline quantity: {casts}")
         if direction in {'left', 'right'}:
             return (_part('Directional: Clawline ' + direction.title()),)
+        if direction == 'any':
+            return (_part('Directional: Clawline Left'), _part('Directional: Clawline Right'))
+        if direction == 'both':
+            return (_part('Directional: Clawline Left', 'Directional: Clawline Right'),)
         return _atom_alternatives('item:clawline')
     if atom.startswith("mapper:"):
         _, kind, difficulty = atom.split(":")
-        if kind.endswith("-direction") and difficulty in {"up", "down", "left", "right"}:
+        if kind.endswith("-direction") and difficulty in {"up", "down", "left", "right", "any", "both"}:
             capability = kind.removesuffix("-direction")
             base = {"ledge-grab": "capability:ledge-grab", "cling-grip": "item:cling-grip",
                     "sprint": "macro:progressive-swift-step-first", "dash": "macro:progressive-swift-step-full",
@@ -1463,8 +1467,12 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
                 raise ValueError(f"unsupported directional capability: {atom}")
             if capability in {'ledge-grab', 'cling-grip', 'sprint', 'dash'} and difficulty in {'left', 'right'}:
                 return (_part('Directional: ' + capability.replace('-', ' ').title() + ' ' + difficulty.title()),)
+            if capability in {'ledge-grab', 'cling-grip', 'sprint', 'dash'} and difficulty in {'any', 'both'}:
+                left = 'Directional: ' + capability.replace('-', ' ').title() + ' Left'
+                right = 'Directional: ' + capability.replace('-', ' ').title() + ' Right'
+                return (_part(left), _part(right)) if difficulty == 'any' else (_part(left, right),)
             return _atom_alternatives(base)
-        if kind == "attack" and difficulty in {"up", "down", "left", "right"}:
+        if kind == "attack" and difficulty in {"up", "down", "left", "right", "any", "either", "both"}:
             return (_part(),)
         if kind.endswith("-crest-attack") and difficulty in {"up", "down", "left", "right"}:
             return (_part("Crest: " + kind.removesuffix("-crest-attack").title()),)

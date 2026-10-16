@@ -179,9 +179,7 @@ def _validate_pool(ports):
 
 
 @lru_cache(maxsize=8)
-def _node_overrides(pairs, scope_name='full', content_scope='act_3', enemy_species=(), silk=False):
-    from .requirements import _compiled_room_clause_requirement
-
+def _base_node_overrides(scope_name, content_scope, enemy_species, silk):
     from .enemy_souls import pogo_graph
     graph = pogo_graph(enemy_species) if enemy_species else load_room_graph()
     ports = graph.transition_by_id
@@ -200,7 +198,20 @@ def _node_overrides(pairs, scope_name='full', content_scope='act_3', enemy_speci
                 replace(clause, all_of=(landing, *clause.all_of))
                 for clause in compile_transition_requirements(ports[data['arrival_requires']], include_source=False, silk_costs=silk)
             )
+    return {name: tuple(alternatives) for name, alternatives in clauses.items()}
+
+
+@lru_cache(maxsize=8)
+def _node_overrides(pairs, scope_name='full', content_scope='act_3', enemy_species=(), silk=False):
+    from .requirements import _compiled_room_clause_requirement
+    from .enemy_souls import pogo_graph
+
+    clauses = {name: list(rules) for name, rules in
+               _base_node_overrides(scope_name, content_scope, enemy_species, silk).items()}
     if pairs:
+        graph = pogo_graph(enemy_species) if enemy_species else load_room_graph()
+        ports = graph.transition_by_id
+        selected = scoped_pool(scope_name, content_scope)
         destinations = dict(pairs)
         for source, data in selected.items():
             target = POOL[destinations.get(source, data['vanilla'])]

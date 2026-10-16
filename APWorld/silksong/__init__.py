@@ -1730,8 +1730,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._configure_tracker_map()
 
     def _configure_tracker_map(self) -> None:
+        from .tracker import install_marker_status
         from .tracker.wishes import location_mapping
         self.tracker_world = {**self._tracker_world, "poptracker_name_mapping": location_mapping(self)}
+        if getattr(self.multiworld, 'generation_is_fake', False):
+            install_marker_status()
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:

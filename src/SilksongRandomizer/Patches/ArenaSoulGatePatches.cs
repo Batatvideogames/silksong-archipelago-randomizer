@@ -133,7 +133,7 @@ namespace SilksongRandomizer.Patches
             string scene = __instance.gameObject.scene.name;
             string path = Utils.GetHierarchyPath(__instance.transform);
             Arena arena = Find(scene, path);
-            if (arena == null || EnemySoulPatches.CanStartBattle(scene, path, state)) return;
+            if (arena == null || EnemySoulPatches.CanStartBattle(__instance)) return;
             Transform source = arena.TriggerPath.Length == 0 ? __instance.transform : __instance.transform.Find(arena.TriggerPath);
             BoxCollider2D trigger = source == null ? null : source.GetComponent<BoxCollider2D>();
             PlayMakerFSM[] left = ResolveGates(__instance, arena.Left, arena.Fsm);

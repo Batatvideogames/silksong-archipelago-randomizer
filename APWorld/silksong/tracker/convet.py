@@ -113,7 +113,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
                 check_rooms[name].add(room["name"])
 
     for room_id, label, name in (
-            ('the-slab/slab-fist-sinner-antechamber', 'Boss: First Sinner', 'Journal: First Sinner'),
+            ('the-slab/slab-first-sinner', 'Boss: First Sinner', 'Journal: First Sinner'),
             ('the-abyss/abyss-cocoon', 'Lost Lace Boss 1', 'Journal: Lost Lace')):
         if name in expected:
             checks[room_id, label].append(name)
@@ -214,6 +214,12 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
             if point is None and native:
                 point = (scene_point(native['in_game_x'], native['in_game_y'], room, width, height, entrance=True)
                          if corrected_gate else image_point(native, room, width, height, entrance=True))
+            if (point is None and scene == 'Last_Dive' and entrance['id'] == 'the-abyss/last-dive@d2'
+                    and entrance.get('target') == 'the-abyss/abyss-cocoon@d'):
+                # The cinematic leaves from the same spot, there isn't a second door.
+                arrival = next((e for e in room['transitions'] if e.get('in_game_id') == 'door_cutscenePosition'), None)
+                if arrival:
+                    point = image_point(arrival, room, width, height, entrance=True)
             # These left-hand gates sit beyond the cropped edge of the column image.
             if point is None and scene == 'Shadow_09' and gate in {'left1', 'left2', 'left3'}:
                 x, y = entrance.get('annotation_x'), entrance.get('annotation_y')

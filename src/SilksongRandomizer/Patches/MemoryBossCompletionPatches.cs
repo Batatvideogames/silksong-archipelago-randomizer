@@ -27,6 +27,28 @@ namespace SilksongRandomizer.Patches
         private const string CoralKingDefeatedFlag = "defeatedCoralKing";
         private const string CoralKingLocation = "Boss: Crust King Khann";
 
+        internal static bool KeepEntrance(string scene, string path, string before, string after,
+            bool defeated, SaveState state) => defeated && scene == "Coral_Tower_01" && path == "Memory Group" &&
+            before == "Memory Group/before" && after == "Memory Group/after" &&
+            EnemySoulState.HasPendingMemoryKills(state, "Memory_Coral_Tower");
+
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class CoralMemoryReturn
+        {
+            private static void Postfix(TestGameObjectActivator __instance,
+                GameObject ___activateGameObject, GameObject ___deactivateGameObject)
+            {
+                if (SaveState.Instance?.IsRoomBound != true || PlayerData.instance == null ||
+                    __instance == null || ___activateGameObject == null || ___deactivateGameObject == null)
+                    return;
+                if (KeepEntrance(__instance.gameObject.scene.name, Utils.GetHierarchyPath(__instance.transform),
+                    Utils.GetHierarchyPath(___deactivateGameObject.transform),
+                    Utils.GetHierarchyPath(___activateGameObject.transform),
+                    PlayerData.instance.defeatedCoralKing, SaveState.Instance))
+                    ___deactivateGameObject.SetActive(true);
+            }
+        }
+
         [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
         private static class VerdaniaReturnPatch
         {

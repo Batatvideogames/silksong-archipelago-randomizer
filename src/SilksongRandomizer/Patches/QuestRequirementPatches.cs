@@ -4,11 +4,48 @@ using HutongGames.PlayMaker.Actions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        private static void RequireFourthChorus(ref PlayerDataTest test)
+        {
+            if (test != null && test.TestGroups.Length == 0)
+                test = new PlayerDataTest(nameof(PlayerData.defeatedSongGolem), true);
+        }
+
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class BeastflyPlatformsPatch
+        {
+            private static void Prefix(TestGameObjectActivator __instance, GameObject ___deactivateGameObject,
+                ref PlayerDataTest ___playerDataTest)
+            {
+                if (SaveState.Instance?.IsRoomBound != true ||
+                    __instance.gameObject.scene.name != "Bone_East_08" || ___deactivateGameObject == null)
+                    return;
+                string path = Utils.GetHierarchyPath(___deactivateGameObject.transform);
+                if (path == "Boss Scene/Battle End Floor/Song Golem Floor (6)" ||
+                    path == "Boss Scene/Battle End Floor/Song Golem Floor (7)" ||
+                    path == "Boss Scene/Pre Activation Floor/Song Golem Floor (8)")
+                    RequireFourthChorus(ref ___playerDataTest);
+            }
+        }
+
+        [HarmonyPatch(typeof(SceneAdditiveLoadConditional), "TryTestLoad")]
+        private static class BeastflyLoaderPatch
+        {
+            private static void Prefix(SceneAdditiveLoadConditional __instance, string ___sceneNameToLoad,
+                ref PlayerDataTest ___tests)
+            {
+                if (SaveState.Instance?.IsRoomBound == true &&
+                    __instance.gameObject.scene.name == "Bone_East_08" &&
+                    __instance.name == "Boss Beastfly Loader" && ___sceneNameToLoad == "Bone_East_08_boss_beastfly")
+                    RequireFourthChorus(ref ___tests);
+            }
+        }
+
         [HarmonyPatch(typeof(BoolTest), nameof(BoolTest.OnEnter))]
         private static class BroodmotherLayoutPatch
         {

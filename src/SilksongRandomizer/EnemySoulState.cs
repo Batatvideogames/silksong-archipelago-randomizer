@@ -69,6 +69,10 @@ namespace SilksongRandomizer
             return state.IsLocationInSeed(location) && state.checkedLocations?.Contains(location) != true;
         }
 
+        internal static bool HasPendingMemoryKills(SaveState state, string scene) => Catalogue.Any(row =>
+            string.Equals((string)row["memory_scene"], scene, StringComparison.Ordinal) &&
+            IsFirstKillPending(state, (string)row["name"]));
+
         internal static bool TryGetSpecies(EnemyJournalRecord record, out string species)
         {
             species = null;

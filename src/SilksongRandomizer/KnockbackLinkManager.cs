@@ -22,6 +22,7 @@ namespace SilksongRandomizer
         private const float OutgoingStrength = 40f;
         private static readonly object Sync = new object();
         private static readonly Dictionary<string, double> Seen = new Dictionary<string, double>();
+        private static readonly HashSet<string> Diagnostics = new HashSet<string>();
         internal static readonly FieldInfo RecoilVectorField = typeof(HeroController).GetField("recoilVector", BindingFlags.Instance | BindingFlags.NonPublic);
         private static ArchipelagoSession session;
         private static ArchipelagoSocketHelperDelagates.PacketReceivedHandler handler;
@@ -41,7 +42,10 @@ namespace SilksongRandomizer
         {
             Reset();
             if (!enabled || connectedSession == null)
+            {
+                Diagnostic("setup", "disabled for this connection.");
                 return;
+            }
 
             lock (Sync)
             {
@@ -53,6 +57,7 @@ namespace SilksongRandomizer
                 session.Socket.PacketReceived += handler;
                 session.ConnectionInfo.UpdateConnectionOptions(
                     session.ConnectionInfo.Tags.Concat(new[] { Tag }).Distinct().ToArray());
+                Diagnostic("setup", "enabled for " + player + ". Tags: " + string.Join(", ", session.ConnectionInfo.Tags));
             }
         }
 
@@ -79,6 +84,7 @@ namespace SilksongRandomizer
                 handler = null;
                 pending = null;
                 Seen.Clear();
+                Diagnostics.Clear();
                 lastSent = lastApplied = double.NegativeInfinity;
             }
         }
@@ -108,7 +114,7 @@ namespace SilksongRandomizer
             return !double.IsNaN(value) && !double.IsInfinity(value);
         }
 
-        internal static bool TryReadPacket(BouncedPacket packet, double utc,
+        internal static bool TryReadPacket(BouncedPacket packet,
             out Vector2 direction, out string sender, out string senderUuid, out string key)
         {
             direction = default;
@@ -116,7 +122,6 @@ namespace SilksongRandomizer
             if (packet?.Tags == null || !packet.Tags.Contains(Tag) || packet.Data == null ||
                 !packet.Data.TryGetValue("source", out JToken sourceToken) || sourceToken.Type != JTokenType.String ||
                 !packet.Data.TryGetValue("time", out JToken timeToken) || !TryNumber(timeToken, out double time) ||
-                utc - time > Lifetime || time - utc > 30 ||
                 !packet.Data.TryGetValue("value", out JToken value) || !(value is JObject vector) ||
                 !TryNumber(vector["x"], out double x) || !TryNumber(vector["y"], out double y) ||
                 !TryNormalize(x, y, out direction))
@@ -140,13 +145,19 @@ namespace SilksongRandomizer
         {
             try
             {
-                if (!(packet is BouncedPacket bounced) ||
-                    !TryReadPacket(bounced, UnixNow, out Vector2 direction,
-                        out string sender, out string senderUuid, out string key))
+                if (!(packet is BouncedPacket bounced) || bounced.Tags?.Contains(Tag) != true)
                     return;
                 lock (Sync)
                 {
-                    if (session == null || current != generation || senderUuid == uuid ||
+                    if (session == null || current != generation)
+                        return;
+                    if (!TryReadPacket(bounced, out Vector2 direction,
+                        out string sender, out string senderUuid, out string key))
+                    {
+                        Diagnostic("invalid", "ignored a malformed packet.");
+                        return;
+                    }
+                    if (senderUuid == uuid ||
                         (string.IsNullOrEmpty(senderUuid) && sender == source))
                         return;
                     double now = Now;
@@ -157,10 +168,12 @@ namespace SilksongRandomizer
                     Seen[key] = now;
                     pending = direction;
                     expires = now + Lifetime;
+                    Diagnostic("received", "received a knockback from " + sender + ".");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Diagnostic("receive-error", "could not read a packet: " + ex.Message);
             }
         }
 
@@ -174,6 +187,7 @@ namespace SilksongRandomizer
                 if (now > expires)
                 {
                     pending = null;
+                    Diagnostic("expired", "discarded a received knockback because the player was not ready within three seconds.");
                     return;
                 }
                 if (now - lastApplied < Cooldown || !CanApply())
@@ -185,6 +199,7 @@ namespace SilksongRandomizer
                     {
                         pending = null;
                         lastApplied = now;
+                        Diagnostic("applied", "applied a received knockback.");
                     }
                 }
                 catch (Exception ex)
@@ -221,10 +236,15 @@ namespace SilksongRandomizer
             lock (Sync)
             {
                 if (session == null || current != generation || !session.Socket.Connected ||
-                    SaveState.Instance?.knockbackLink != true || applyingRemote ||
+                    applyingRemote ||
                     RecoilVectorField == null || hero?.cState == null || !hero.cState.recoilFrozen ||
                     Now - lastSent < Cooldown)
                     return;
+                if (SaveState.Instance?.knockbackLink != true)
+                {
+                    Diagnostic("save-disabled", "did not send recoil because the loaded save has KnockbackLink disabled.");
+                    return;
+                }
                 Vector2 native = (Vector2)RecoilVectorField.GetValue(hero);
                 if (!TryNormalize(native.x, native.y, out Vector2 direction))
                     return;
@@ -252,7 +272,18 @@ namespace SilksongRandomizer
             catch (Exception ex)
             {
                 RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Knockback Link send failed: " + ex.Message);
+                return;
             }
+            lock (Sync)
+                if (ReferenceEquals(session, target))
+                    Diagnostic("sent", "sent a knockback.");
+        }
+
+        private static void Diagnostic(string key, string message)
+        {
+            lock (Sync)
+                if (Diagnostics.Add(key))
+                    RandomizerPlugin.Log?.LogInfo("[RANDOMIZER] Knockback Link " + message);
         }
 
         private static IEnumerator ObserveRecoil(HeroController hero, IEnumerator native, int current)
@@ -286,7 +317,10 @@ namespace SilksongRandomizer
                 lock (Sync)
                 {
                     if (session != null && !applyingRemote && __result != null)
+                    {
+                        Diagnostic("recoil", "observed native recoil.");
                         __result = ObserveRecoil(__instance, __result, generation);
+                    }
                 }
             }
         }

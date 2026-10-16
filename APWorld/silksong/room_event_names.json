@@ -4794,13 +4794,8 @@
     "locations": []
   },
   "event:mapper/f0e546ed-9791-4077-bcee-2bb58e51fe49": {
-    "name": "Songclave Bellshrine - bellshrine switch",
+    "name": "Songclave - Lever Bellshrine Enclave",
     "kind": "switch",
-    "locations": []
-  },
-  "event:mapper/b7e3016e-56c1-4f49-869a-83c908b46ac8": {
-    "name": "Songclave Bellshrine - bench",
-    "kind": "bench",
     "locations": []
   },
   "event:mapper/reviewed:songclave-bellshrine-activated": {
@@ -4891,11 +4886,6 @@
   "event:mapper/reviewed:wailing-mother-accepted": {
     "name": "Wailing Mother Accepted",
     "kind": "event",
-    "locations": []
-  },
-  "event:mapper/a4d09e81-8fd7-4c22-8c2c-d2a90c4c4e71": {
-    "name": "Choral Chambers Outside Spa - Gauntlet Fight",
-    "kind": "gauntlet",
     "locations": []
   },
   "event:mapper/c2a9d8b0-280e-4cee-8aad-0ccf34e05fb2": {
@@ -5798,6 +5788,16 @@
   },
   "event:mapper/reviewed:khann-memory-heart": {
     "name": "Coral Tower - Khann Memory Heart",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:khann-memory-entry": {
+    "name": "Coral Tower - Enter Khann's Memory",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:khann-memory-enemies": {
+    "name": "Coral Tower - Memory Gauntlet Combat",
     "kind": "event",
     "locations": []
   },
@@ -7082,11 +7082,6 @@
     "kind": "event",
     "locations": []
   },
-  "event:mapper/190ad3fa-fa49-45ec-b1f3-124d9f803578": {
-    "name": "Slab Poodle - Exit Breakable Wall Blockade",
-    "kind": "blockade",
-    "locations": []
-  },
   "event:mapper/5c93f00c-6c72-4316-b5ff-3e13d2009d7d": {
     "name": "Greymoor Towers Patio - Sleeping Garmond",
     "kind": "event",
@@ -7444,5 +7439,32 @@
     "name": "Dead Verdania Main - Verdania Memory Entry",
     "kind": "event",
     "locations": []
+  },
+  "event:mapper/007f3c9a-50b0-4802-8f2b-4d87bffafe98": {
+    "name": "Choral Chambers Outside Spa - Gauntlet Fight",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9": {
+    "name": "Choral Chambers Spa - Lever Chambers Spa",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/6ac7d595-f0ee-4599-afd8-85ccdf03c323": {
+    "name": "Choral Chambers Spa - Lever Chambers Spa 2",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/f95b192b-1ce4-4298-b7e7-93dd6e46c032": {
+    "name": "Choral Chambers Below Ventrica - Lever Below Ventrica",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/2e7b660c-234b-41ce-a90a-ad0e7c5246e7": {
+    "name": "Boss: First Sinner",
+    "kind": "enemy",
+    "locations": [
+      "Boss: First Sinner"
+    ]
   }
 }
