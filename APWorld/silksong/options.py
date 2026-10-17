@@ -140,8 +140,7 @@ class SoulRandomization(GlobalRandomization):
 
 class OldHeartRandomization(GlobalRandomization):
     """
-    Randomizes Pollen Heart, Hunter's Heart and Encrusted Heart for the Act 3 goal. 
-    Conjoined Heart stays vanilla.
+    Randomizes Pollen Heart, Hunter's Heart, Encrusted Heart and Conjoined Heart for the Act 3 goal.
     """
 
     display_name = "Old Heart Randomization"
@@ -912,7 +911,9 @@ class EarlyDash(Toggle):
 
 class SplitDashAndSprint(Toggle):
     """
-    Use separate Sprint and Dash items with Skills set to anywhere.
+    With Skills set to anywhere, the first Progressive Swift Step grants sprint
+    and the second grants dash. With Directional Swift Step enabled, use three
+    independent items instead: Sprint, Dash (Left) and Dash (Right).
     """
 
     display_name = "Split Dash And Sprint"
@@ -953,7 +954,8 @@ class DirectionalSwiftStep(Toggle):
     """
     Split Swift Step into Left and Right items with Skills set to anywhere.
     Each side grants dash and sprint. With Split Dash And Sprint enabled,
-    sprint stays unrestricted and only dash is split by direction.
+    Sprint is a separate item that works in both directions. Dash (Left) and
+    Dash (Right) work independently of Sprint and can be found first.
     """
     display_name = "Directional Swift Step"
     default = 0

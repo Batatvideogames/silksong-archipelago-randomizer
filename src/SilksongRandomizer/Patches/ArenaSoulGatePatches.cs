@@ -44,6 +44,9 @@ namespace SilksongRandomizer.Patches
             new Arena("Slab_23", "Battle Scene", "", "BG Control",
                 new[] { "Battle Gate Slab (3)", "Battle Gate Slab (2)" },
                 new[] { "Battle Gate Slab", "Battle Gate Slab (1)" }),
+            new Arena("Shadow_18", "Battle Scene", "", "BG Control",
+                new[] { "Battle Gate Swamp", "Battle Gate Swamp (2)" },
+                new[] { "Battle Gate Swamp (1)", "Battle Gate Swamp (3)" }),
         };
 
         internal static readonly AccessTools.FieldRef<BattleScene, bool> Completed =
@@ -128,12 +131,14 @@ namespace SilksongRandomizer.Patches
         private static void StartPostfix(BattleScene __instance)
         {
             SaveState state = SaveState.Instance;
-            if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]" ||
+            if (state == null ||
+                ((string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]") &&
+                 (string.IsNullOrEmpty(state.bossSoulsJson) || state.bossSoulsJson == "[]")) ||
                 Completed(__instance) || __instance.gates == null) return;
             string scene = __instance.gameObject.scene.name;
             string path = Utils.GetHierarchyPath(__instance.transform);
             Arena arena = Find(scene, path);
-            if (arena == null || EnemySoulPatches.CanStartBattle(__instance)) return;
+            if (arena == null || SoulsReady(__instance)) return;
             Transform source = arena.TriggerPath.Length == 0 ? __instance.transform : __instance.transform.Find(arena.TriggerPath);
             BoxCollider2D trigger = source == null ? null : source.GetComponent<BoxCollider2D>();
             PlayMakerFSM[] left = ResolveGates(__instance, arena.Left, arena.Fsm);
@@ -204,7 +209,7 @@ namespace SilksongRandomizer.Patches
             if (closed || owner != SaveState.Instance || battle == null ||
                 ArenaSoulGatePatches.Completed(battle) || !other.CompareTag("Player")) return;
             HeroController hero = other.GetComponent<HeroController>();
-            if (hero == null || !hero.isHeroInPosition || EnemySoulPatches.CanStartBattle(battle)) return;
+            if (hero == null || !hero.isHeroInPosition || ArenaSoulGatePatches.SoulsReady(battle)) return;
             float center = trigger.transform.TransformPoint(trigger.offset).x;
             if (!TrySelectExit(hero.transform.position.x, center, out bool closeRight)) return;
             PlayMakerFSM[] gates = closeRight ? right : left;

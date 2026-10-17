@@ -134,7 +134,7 @@
  {
   "name": "The Marrow Lava Track",
   "img": "01-geometry/544ec07f-d3bc-494d-8bbb-01908a8ae80c.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -308,8 +308,8 @@
  {
   "name": "Wormways Flea Rescue",
   "img": "01-geometry/c7e270a3-07ac-4e0c-ae58-782fd8111730.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Wormways Middle",
@@ -1082,7 +1082,7 @@
  {
   "name": "Greymoor Lower Halfway Home Path",
   "img": "01-geometry/bf133942-a6cd-467e-a3b7-66c29cb7a7ea.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1118,7 +1118,7 @@
  {
   "name": "Greymoor Bone Scroll Room",
   "img": "01-geometry/3ae434b5-9d96-4c35-8fd8-d131f06d64d3.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1154,7 +1154,7 @@
  {
   "name": "Greymoor Halfway Home Exterior",
   "img": "01-geometry/8eea16fa-bd7c-4b73-9bd1-cf6c70018efc.webp",
-  "location_size": 23,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1178,8 +1178,8 @@
  {
   "name": "Greymoor Silver Shells room",
   "img": "01-geometry/c355d518-9dc5-4ad4-a755-94eb3a080efe.webp",
-  "location_size": 14,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Greymoor Towers Patio",
@@ -1190,7 +1190,7 @@
  {
   "name": "Greymoor Upper Halfway Home Path",
   "img": "01-geometry/9e464f57-c0a0-4970-8420-05326f5cfba8.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1202,7 +1202,7 @@
  {
   "name": "Greymoor West Bellshrine Room ",
   "img": "01-geometry/aa005fde-640b-47bb-b03e-ae7556ed768e.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1706,8 +1706,8 @@
  {
   "name": "Underworks Outside Choral Chambers",
   "img": "01-geometry/a0c1d39a-cf5d-4cf0-b04c-412f222b5deb.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Underworks Shaft",
@@ -1778,7 +1778,7 @@
  {
   "name": "Songclave Bellshrine",
   "img": "01-geometry/17eb3fe1-a3f8-468b-8114-63903a5e54a2.webp",
-  "location_size": 22,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1844,7 +1844,7 @@
  {
   "name": "Choral Chambers Flea Shaft",
   "img": "01-geometry/531a61f0-6d2f-4a2d-9b24-c240cb509b29.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1860,7 +1860,7 @@
   "location_border_thickness": 3
  },
  {
-  "name": "Choral Chambers Over Dininig",
+  "name": "Choral Chambers Over Dining",
   "img": "01-geometry/6d8fb266-f747-40eb-8434-242f5cc6d31f.webp",
   "location_size": 19,
   "location_border_thickness": 3
@@ -1892,7 +1892,7 @@
  {
   "name": "Choral Chambers Below Spa",
   "img": "01-geometry/1d5e5d3e-5ca2-4b47-9177-26310b4f1f54.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1904,7 +1904,7 @@
  {
   "name": "Choral Chambers Ventrica Room",
   "img": "01-geometry/09c0a344-d713-44f9-9e5e-2c65203a9066.webp",
-  "location_size": 22,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1928,7 +1928,7 @@
  {
   "name": "Memorium Entrance Tunnel",
   "img": "01-geometry/aae4b7ae-f565-4955-b510-cfe2f08bfa1b.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1966,6 +1966,12 @@
   "img": "01-geometry/959cbd97-d320-4d01-886d-54ad7ac98a23.webp",
   "location_size": 19,
   "location_border_thickness": 3
+ },
+ {
+  "name": "Bellway Centipede Arena",
+  "img": "01-geometry/1da34e84-7cd7-5108-92c4-37ef4bab0897.webp",
+  "location_size": 192,
+  "location_border_thickness": 32
  },
  {
   "name": "Cog Dancers",
@@ -3134,12 +3140,6 @@
  {
   "name": "Last Dive",
   "img": "01-geometry/aa56ed92-1d08-4aec-878c-4558570595e0.webp",
-  "location_size": 192,
-  "location_border_thickness": 32
- },
- {
-  "name": "Bell Eater Arena",
-  "img": "01-geometry/1da34e84-7cd7-5108-92c4-37ef4bab0897.webp",
   "location_size": 192,
   "location_border_thickness": 32
  }

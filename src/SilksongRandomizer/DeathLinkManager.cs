@@ -108,6 +108,8 @@ namespace SilksongRandomizer
 
         private static Action<string> statusReporter;
         private static DeathLinkService service;
+        private static DeathLinkService.DeathLinkReceivedHandler serviceHandler;
+        private static int serviceGeneration;
         private static HeroController subscribedHero;
         private static DeathLinkData pendingRemoteDeath;
         private static DeathLinkData remoteDeathInFlight;
@@ -242,15 +244,19 @@ namespace SilksongRandomizer
             }
 
             DeathLinkService createdService = null;
+            int currentGeneration;
+            lock (StateLock) currentGeneration = serviceGeneration;
+            DeathLinkService.DeathLinkReceivedHandler createdHandler = deathLink => OnDeathLinkReceived(deathLink, currentGeneration);
             try
             {
                 createdService = session.CreateDeathLinkService();
-                createdService.OnDeathLinkReceived += OnDeathLinkReceived;
+                createdService.OnDeathLinkReceived += createdHandler;
                 createdService.EnableDeathLink();
 
                 lock (StateLock)
                 {
                     service = createdService;
+                    serviceHandler = createdHandler;
                     sourcePlayer = source.Trim();
                     deathLinkCocoonMode = cocoonMode;
                     enabled = true;
@@ -263,7 +269,7 @@ namespace SilksongRandomizer
             {
                 if (createdService != null)
                 {
-                    createdService.OnDeathLinkReceived -= OnDeathLinkReceived;
+                    createdService.OnDeathLinkReceived -= createdHandler;
                     try
                     {
                         createdService.DisableDeathLink();
@@ -277,6 +283,7 @@ namespace SilksongRandomizer
                 lock (StateLock)
                 {
                     service = null;
+                    serviceHandler = null;
                     sourcePlayer = string.Empty;
                     enabled = false;
                 }
@@ -408,11 +415,15 @@ namespace SilksongRandomizer
         internal static void Reset(bool disconnecting = false)
         {
             DeathLinkService oldService;
+            DeathLinkService.DeathLinkReceivedHandler oldHandler;
             lock (StateLock)
             {
+                serviceGeneration++;
                 enabled = false;
                 oldService = service;
+                oldHandler = serviceHandler;
                 service = null;
+                serviceHandler = null;
                 sourcePlayer = string.Empty;
                 deathLinkCocoonMode =
                     Archipelago.DeathLinkCocoonProtected;
@@ -426,7 +437,7 @@ namespace SilksongRandomizer
 
             if (oldService != null)
             {
-                oldService.OnDeathLinkReceived -= OnDeathLinkReceived;
+                oldService.OnDeathLinkReceived -= oldHandler;
                 try
                 {
                     if (!disconnecting)
@@ -452,7 +463,7 @@ namespace SilksongRandomizer
             remoteDeathSafeSince = 0f;
         }
 
-        private static void OnDeathLinkReceived(DeathLinkData deathLink)
+        private static void OnDeathLinkReceived(DeathLinkData deathLink, int currentGeneration)
         {
             if (deathLink == null)
             {
@@ -468,7 +479,7 @@ namespace SilksongRandomizer
 
             lock (StateLock)
             {
-                if (!enabled)
+                if (!enabled || currentGeneration != serviceGeneration)
                 {
                     return;
                 }

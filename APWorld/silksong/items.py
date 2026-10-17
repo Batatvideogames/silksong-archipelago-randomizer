@@ -442,6 +442,7 @@ ITEM_TABLE_SOURCE += (("Boss Credit: Lace (Deep Docks)", "Boss"),)
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
 ITEM_TABLE_SOURCE += (("Boss Credit: Palestag", "Boss"),)
 ITEM_TABLE_SOURCE += tuple((name, "InnateAbility" if name.startswith("Ledge Grab") else "Skill") for name in DIRECTIONAL_ITEMS)
+ITEM_TABLE_SOURCE += (("Sprint", "Skill"), ("Conjoined Heart", "OldHeart"))
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -854,6 +855,7 @@ QUEST_FILLER_COUNTS: Dict[str, int] = {
 # These items enter the pool only when their corresponding option is enabled.
 CONDITIONAL_POOL_ITEM_NAMES: FrozenSet[str] = frozenset({
     PROGRESSIVE_SWIFT_STEP_ITEM,
+    'Sprint',
     *DIRECTIONAL_ITEMS,
     *PALE_OIL_POOL_COUNTS,
     *NEEDLE_UPGRADE_POOL_COUNTS,

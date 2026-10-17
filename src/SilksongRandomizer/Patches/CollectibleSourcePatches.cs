@@ -1182,6 +1182,52 @@ namespace SilksongRandomizer.Patches
                     replacement.Init(state);
                     actions[index] = replacement;
                 }
+
+                FsmState roll = __result.GetState("Craw summons check");
+                if (roll?.Actions == null || roll.Actions.Length != 4 ||
+                    !(roll.Actions[3] is SendRandomEvent random) ||
+                    random.events?.Length != 2 ||
+                    random.events[0]?.Name != "CANCEL" ||
+                    random.events[1]?.Name != "FINISHED" ||
+                    random.delay == null || random.delay.Value != 0f ||
+                    !HasTransition(roll, "CANCEL", "Send CANCEL") ||
+                    !HasTransition(roll, "FINISHED", "Finish"))
+                {
+                    RandomizerPlugin.Log?.LogWarning(
+                        "[RANDOMIZER] Craw Summons chance roll has an unexpected layout."
+                    );
+                    return;
+                }
+
+                var guaranteedRoll = new CrawSpawnRoll(random);
+                guaranteedRoll.Init(roll);
+                roll.Actions[3] = guaranteedRoll;
+            }
+        }
+
+        private sealed class CrawSpawnRoll : FsmStateAction
+        {
+            private readonly SendRandomEvent nativeAction;
+
+            internal CrawSpawnRoll(SendRandomEvent nativeAction)
+            {
+                this.nativeAction = nativeAction;
+            }
+
+            public override void OnEnter()
+            {
+                SaveState state = SaveState.Instance;
+                if (IsActive(state, CollectibleSourceManifest.CrawSummons,
+                    ItemType.MajorKey))
+                {
+                    Fsm.Event(state.IsLocationChecked(CollectibleSourceManifest.CrawSummons)
+                        ? "CANCEL" : "FINISHED");
+                }
+                else
+                {
+                    nativeAction.OnEnter();
+                }
+                Finish();
             }
         }
 

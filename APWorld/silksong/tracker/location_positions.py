@@ -924,4 +924,5 @@ LOCATION_POSITIONS = (
     {'name': 'Grand Gate - Nyleth Shrine Inscription', 'scene': 'Shellwood_11b', 'x': 59.06555, 'y': 149.04713, 'width': 120, 'height': 170},
     {'name': 'Bellhart - East Sign', 'scene': 'Belltown_06', 'x': 14.92, 'y': 8.37, 'width': 80, 'height': 83},
     {'name': 'Loddie - Heavy Rosary Necklace', 'scene': 'Bone_12', 'x': 23.02, 'y': 4.7, 'width': 58, 'height': 43},
+    {'name': 'Conjoined Heart', 'scene': 'Clover_01', 'x': 118.691002, 'y': 7.199656, 'width': 175, 'height': 22},
 )

@@ -988,6 +988,7 @@ namespace SilksongRandomizer
             new Location("Pollen Heart", ItemType.OldHeart, null),
             new Location("Hunter's Heart", ItemType.OldHeart, null),
             new Location("Encrusted Heart", ItemType.OldHeart, null),
+            new Location("Conjoined Heart", ItemType.OldHeart, null),
             new Location("Twisted Bud", ItemType.TwistedBud, null),
             new Location("Everbloom", ItemType.Everbloom, null),
             new Location("Sprintmaster's Memento", ItemType.Memento, null),

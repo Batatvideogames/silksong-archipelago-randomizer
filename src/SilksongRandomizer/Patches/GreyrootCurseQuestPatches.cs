@@ -30,6 +30,77 @@ namespace SilksongRandomizer.Patches
         private const string CursedEndingFsm = "Phase Control";
         private const string CursedEndingGateState = "Death Type";
 
+        internal static bool CanUseCursedServices =>
+            SaveState.Instance?.IsRoomBound == true && HasGenuineGreyrootCurse(PlayerData.instance);
+
+        private static bool IsService(FsmStateAction action, string scene, string owner, string state) =>
+            action?.Owner != null && action.Owner.scene.name == scene && action.Owner.name == owner &&
+            action.Fsm?.Name == "Dialogue" && action.State?.Name == state;
+
+        private static bool IsCrestShrine(FsmStateAction action, string state)
+        {
+            if (action?.Owner == null || action.Owner.name != "Crest Get Shrine" ||
+                action.Fsm?.Name != "Control" || action.State?.Name != state) return false;
+            string scene = action.Owner.scene.name;
+            return scene == "Ant_19" || scene == "Chapel_Wanderer" || scene == "Greymoor_20c" ||
+                scene == "Tut_04" || scene == "Tut_05" || scene == "Under_20";
+        }
+
+        [HarmonyPatch(typeof(CheckIfCrestEquipped), "get_IsTrue")]
+        private static class KeepCursedServicesAvailable
+        {
+            private static void Postfix(CheckIfCrestEquipped __instance, ref bool __result)
+            {
+                if (!__result || !CanUseCursedServices || !IsNativeCursedCrest(__instance.Crest)) return;
+                if (IsService(__instance, "Weave_10", "Crest Upgrade Shrine", "Met?") ||
+                    IsService(__instance, "Halfway_01", "HH Bartender", "Met?") ||
+                    IsService(__instance, "Belltown", "Couriers Quest Giver", "Has Met?") ||
+                    IsService(__instance, "Belltown", "Couriers Quest Giver", "Shop?"))
+                    __result = false;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerDataBoolMultiTest), nameof(PlayerDataBoolMultiTest.OnEnter))]
+        private static class KeepPavoHouseConversationAvailable
+        {
+            private static bool Prefix(PlayerDataBoolMultiTest __instance)
+            {
+                if (!CanUseCursedServices ||
+                    !IsService(__instance, "Belltown", "Belltown Greeter NPC", "Convo") ||
+                    __instance.passedEvent?.Name != "CURSED") return true;
+                __instance.storeValue.Value = false;
+                __instance.Fsm.Event(__instance.failedEvent);
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerDataVariableTest), nameof(PlayerDataVariableTest.OnEnter))]
+        private static class KeepCursedShrinesAvailable
+        {
+            private static bool Prefix(PlayerDataVariableTest __instance)
+            {
+                if (!CanUseCursedServices || __instance.VariableName?.Value != "IsAnyCursed" ||
+                    !__instance.ExpectedValue.boolValue ||
+                    !(IsCrestShrine(__instance, "Cursed?") ||
+                      IsService(__instance, "Tut_04", "Snail Shamans Set", "Can Sit?"))) return true;
+                __instance.Fsm.Event(__instance.IsNotExpectedEvent);
+                __instance.Finish();
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(AutoEquipCrestV2), nameof(AutoEquipCrestV2.OnEnter))]
+        private static class PreserveCurseAfterShrine
+        {
+            private static bool Prefix(AutoEquipCrestV2 __instance)
+            {
+                if (!CanUseCursedServices || !IsCrestShrine(__instance, "Crest Change")) return true;
+                __instance.Finish();
+                return false;
+            }
+        }
+
         [HarmonyPrefix]
         [HarmonyPriority(Priority.Last)]
         private static void Prefix(PlayMakerFSM __instance)

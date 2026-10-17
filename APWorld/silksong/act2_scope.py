@@ -34,6 +34,7 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
         'Craw Memento',
         "Hunter's Heart",
         "Encrusted Heart",
+        "Conjoined Heart",
         "Cogwork Core - Pristine Core",
         "Curvesickle",
         "Wish: Fatal Resolve",
@@ -190,7 +191,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     str,
     Mapping[str, int],
 ] = {
-    "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1},
+    "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1, "Conjoined Heart": 1},
     "Everbloom": {"Everbloom": 1},
     "Memento": {"Sprintmaster's Memento": 1, "Guardian's Memento": 1, "Hero's Memento": 1, 'Surface Memento': 1, 'Craw Memento': 1},
     "Map": {

@@ -99,6 +99,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         'Craw Memento',
         "Hunter's Heart",
         "Encrusted Heart",
+        "Conjoined Heart",
         "Twisted Bud",
         "Maiden Soul",
         "Hermit Soul",

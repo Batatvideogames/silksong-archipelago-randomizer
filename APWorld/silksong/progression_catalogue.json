@@ -455,6 +455,7 @@
       [
         "Room Node: wish-menus/bone-bottom-wish-wall#room",
         "reviewed:courier-bonebottom-accepted",
+        "reviewed:courier-bonebottom-delivered",
         "85191ff4-7a5c-4364-ab2c-0f4821b21a7e",
         "Event: Other Courier Delivery Completed"
       ],
@@ -549,7 +550,7 @@
     "Boss: Great Conchflies": "Enables Raging Conchfly and Nuu's Blasted Steps visit.",
     "Boss: Groal the Great": "Counts toward Trail's End and enables Stilkin Trapper's invasion.",
     "Boss: Gurr the Outcast": "Removes his overworld traps, which appear after accepting The Hidden Hunter.",
-    "Boss: Lace (Cradle)": "Counts toward Silk and Soul and changes Songclave residents.",
+    "Boss: Lace (Cradle)": "Counts toward Silk and Soul and changes two background pilgrims in Songclave.",
     "Boss: Last Judge": "No separate world unlock.",
     "Boss: Lost Garmond": "No separate world unlock.",
     "Boss: Moorwing": "Advances Garmond's Moorwing dialogue and appearances.",

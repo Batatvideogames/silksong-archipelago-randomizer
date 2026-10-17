@@ -10,6 +10,22 @@ namespace SilksongRandomizer.Patches
 {
     internal static class QuestRequirementPatches
     {
+        [HarmonyPatch(typeof(DeactivateIfPlayerdataTrue), "ForceEvaluate")]
+        private static class ShermaHealerAppearancePatch
+        {
+            private static bool Prefix(DeactivateIfPlayerdataTrue __instance)
+            {
+                if (SaveState.Instance?.IsRoomBound != true ||
+                    __instance.boolName != "shermaQuestActive" ||
+                    __instance.gameObject.scene.name != "Song_Enclave" ||
+                    Utils.GetHierarchyPath(__instance.transform) !=
+                        "Black Thread States/Normal World/Enclave States/States/Level 2/Sherma Enclave NPC" ||
+                    QuestManager.GetQuest("Save Sherma")?.IsCompleted != true) return true;
+                __instance.gameObject.SetActive(false);
+                return false;
+            }
+        }
+
         private static void RequireFourthChorus(ref PlayerDataTest test)
         {
             if (test != null && test.TestGroups.Length == 0)

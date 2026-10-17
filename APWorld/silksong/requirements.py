@@ -2844,20 +2844,17 @@ EVENT_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     'Event: Act 3 Started': (
         req('Event: Grand Mother Silk Snared', crest=False),
     ),
-    # Three standard Old Hearts are used instead of the optional Verdania
-    # substitute, which is not represented by the current path graph.
-    'Event: Three Old Hearts Awakened': (
+    'Event: Three Old Hearts Awakened': tuple(
         req(
             'Act: 3',
             'Path: Abyss - Escape',
-            'Pollen Heart',
-            "Hunter's Heart",
-            'Encrusted Heart',
+            *hearts,
             'Path: Mosslands - Snail Shamans',
             'Ancestral Art: Needolin',
             'Ancestral Art: Silk Soar',
             crest=False,
-        ),
+        )
+        for hearts in combinations(('Pollen Heart', "Hunter's Heart", 'Encrusted Heart', 'Conjoined Heart'), 3)
     ),
     'Event: Everbloom Obtained': (
         req(

@@ -100,6 +100,8 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Ecstasy of the End - Pale Oil", ItemType.PaleOil, "Aqueduct_05_festival",
+                "Pale_Oil", "Caravan_States/Flea Festival Outro/Flea Festival Pinata/Item Reward Final/Collectable Item Pickup Reward 3", 153.113f, 15.319643f),
             new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
                 "Memento Garmond", "Black Thread States/Black Thread World/Garmond Scenes/Garmond Defeated Scene/Memento Pickup", 34.729999f, 60.261999f),
             new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
@@ -131,6 +133,8 @@ namespace SilksongRandomizer
                 "Coral Heart", "Memory Group/after/Collectable Item Pickup Heart", 82.580000f, 6.370000f),
             new DirectPickupEntry("Encrusted Heart", ItemType.OldHeart, "Coral_Tower_01",
                 "Coral Heart", "Memory Group/after/GK_collapse/Collectable Item Pickup Heart", 80.880000f, 10.110000f),
+            new DirectPickupEntry("Conjoined Heart", ItemType.OldHeart, "Clover_01",
+                "Clover Heart", "Memory Scene Control/Memory Scene After/Collectable Item Pickup", 118.691002f, 7.199656f),
             new DirectPickupEntry("Twisted Bud", ItemType.TwistedBud, "Shadow_20",
                 "Wood Witch Item", "Collectable Mandrake Scene/Collectable Item Pickup (1)", 107.983002f, 48.877998f),
             new DirectPickupEntry("Key of Indolent", ItemType.MajorKey, "Slab_14",

@@ -14,6 +14,29 @@ namespace SilksongRandomizer.Patches
 {
     public class ToolPatches
     {
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class MagmaBellHudPatch
+        {
+            private static void Prefix(FsmState __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (SaveState.Instance?.IsRoomBound != true || fsm?.Name != "Animation" || fsm.GameObject == null ||
+                    fsm.GameObject.name != "Lava Bell HUD") return;
+                if (__instance.Name == "Inert")
+                    fsm.Variables.FindFsmGameObject("Effects")?.Value?.SetActive(false);
+                if (__instance.Name == "Full Sizzle" &&
+                    !__instance.Transitions.Any(t => t.EventName == "TOOL EQUIPS CHANGED"))
+                {
+                    FsmState target = fsm.GetState("Unequipped? Full");
+                    if (target == null) return;
+                    __instance.Transitions = __instance.Transitions.Append(new FsmTransition {
+                        FsmEvent = FsmEvent.GetFsmEvent("TOOL EQUIPS CHANGED"),
+                        ToState = target.Name, ToFsmState = target
+                    }).ToArray();
+                }
+            }
+        }
+
         internal static bool WaitForCindrilPickup(SaveState save)
         {
             const string location = "Tool Unlock: Sprintmaster";

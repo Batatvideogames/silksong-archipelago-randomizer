@@ -18,6 +18,15 @@ from .combat import profiles, requirement_name
 BOSS_COMBAT = frozenset(requirement_name(key) for key in profiles() if key.startswith('boss:')) | frozenset(
     name for row in BOSS_CATALOGUE for name in row['combat'])
 BOSS_EVENTS = frozenset(name for row in BOSS_CATALOGUE for name in row['events'])
+STYX_EVENTS = frozenset((
+    'Room Event: event:mapper/reviewed:styx-first-grub-grown',
+    'Room Event: event:mapper/reviewed:courier-queens-egg-delivered',
+))
+ACT_3_INTRO_NODE = 'Room Node: cogwork-core/cogwork-core-breakable-walls#northern-gauntlet'
+ACT_3_INTRO_EVENT = 'Room Event: event:mapper/82aabe64-d7cd-4911-9a15-f1338e0400c0'
+ACT_3_INTRO_SPECIES = frozenset(row['name'] for row in CATALOGUE
+                               if any(b['scene'].lower() == 'cog_10_destroyed' and b['path'] == 'Battle Scene'
+                                      for b in row.get('battles', ())))
 
 
 def item_name(name):
@@ -81,6 +90,8 @@ def check_requirements(name, enabled=None):
                                   require_any_crest=True) for rule in _mapped_requirements(name, index))
         else:
             result.append(req(*prefix, *('Room Node: ' + node for node in route['nodes'])))
+    if name in ACT_3_INTRO_SPECIES:
+        result.append(replace(req('Act: 3', ACT_3_INTRO_EVENT), require_any_crest=True))
     return tuple(dict.fromkeys(result))
 
 
@@ -229,18 +240,21 @@ def gate_graph(world, graph):
         souls = tuple(item_name(name) for name in names if room.id in BY_NAME[name]['rooms'])
         for event in room.events:
             owner = 'Room Event: ' + event.id
-            if souls and event.kind in {'enemy', 'miniboss', 'gauntlet'} and owner in result and owner not in BOSS_EVENTS:
+            if (souls and event.kind in {'enemy', 'miniboss', 'gauntlet'} and owner in result
+                    and owner not in BOSS_EVENTS and owner != ACT_3_INTRO_EVENT):
                 result[owner] = tuple(rule if BOSS_COMBAT.intersection(rule.all_of) else
                                       replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls)))) for rule in result[owner])
     for name in names:
         for event in BY_NAME[name].get('events', ()):
-            result[event] = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, item_name(name)))))
-                                  for rule in result[event])
+            alternatives = (item_name(name), 'Act: 3') if name == 'Muckroach' and event in STYX_EVENTS else (item_name(name),)
+            result[event] = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, requirement))))
+                                  for rule in result[event] for requirement in alternatives)
     for combat, souls in _boss_summons(names).items():
         result[combat] = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls))))
                                for rule in result[combat])
     for owner, rules in tuple(result.items()):
-        result[owner] = tuple(_combat_gate(rule, names) for rule in rules)
+        if owner != ACT_3_INTRO_EVENT:
+            result[owner] = tuple(_combat_gate(rule, names) for rule in rules)
     return result
 
 

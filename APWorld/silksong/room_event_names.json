@@ -5116,28 +5116,8 @@
     "kind": "bench",
     "locations": []
   },
-  "event:mapper/becd88f4-9704-4ec2-85cf-4d414b2369bf": {
-    "name": "Cogwork Core Breakable Walls - Cogwork Core: Break Wall #3",
-    "kind": "blockade",
-    "locations": []
-  },
-  "event:mapper/ad10cfff-02de-4eb6-be1d-44946d48355f": {
-    "name": "Cogwork Core Breakable Walls - Cogwork Core: Break Wall #4",
-    "kind": "blockade",
-    "locations": []
-  },
   "event:mapper/8ad12e59-d813-497e-a5f7-ffae9a9d534e": {
     "name": "Cogwork Core Breakable Walls - Cogwork Core: Break Wall #5",
-    "kind": "blockade",
-    "locations": []
-  },
-  "event:mapper/fc6a5c06-5a71-4e89-a4b0-47a536e48e5d": {
-    "name": "Cogwork Core Breakable Walls - Cogwork Core: Break Wall #6",
-    "kind": "blockade",
-    "locations": []
-  },
-  "event:mapper/cc013dd5-6e87-498b-97aa-cfdb8068a587": {
-    "name": "Cogwork Core Breakable Walls - Cogwork Core: Break Wall #7",
     "kind": "blockade",
     "locations": []
   },
@@ -7466,5 +7446,22 @@
     "locations": [
       "Boss: First Sinner"
     ]
+  },
+  "event:mapper/a50abec1-8b34-4363-9057-ec99263bcf06": {
+    "name": "Crest: Architect",
+    "kind": "collectible",
+    "locations": [
+      "Crest: Architect"
+    ]
+  },
+  "event:mapper/c6157655-3d4f-46cc-b301-bb8266d47d89": {
+    "name": "Underworks Outside Choral Chambers - Switch Outside Choral Chambers",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/f30f8794-c647-456f-aefc-ef464466e126": {
+    "name": "Bellway Centipede Arena - Bell Eater",
+    "kind": "boss",
+    "locations": []
   }
 }

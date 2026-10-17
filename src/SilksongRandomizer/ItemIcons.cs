@@ -34,6 +34,7 @@ namespace SilksongRandomizer
             { "Needolin", "Inv_0029_spell_core_outer_icons_0000_1" },
             { "Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
             { "Progressive Swift Step", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
+            { "Sprint", "Inv_0029_spell_core_outer_icons_0000_1_sprint" },
 
             { "Cling Grip (Left)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
             { "Cling Grip (Right)", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },
@@ -217,6 +218,7 @@ namespace SilksongRandomizer
             { "Pollen Heart", "flower_queen_heart_icon0000" },
             { "Hunter's Heart", "ant_queen_heart_icon0002" },
             { "Encrusted Heart", "coral_king_heart_icon0000" },
+            { "Conjoined Heart", "clover_prince_heart0000" },
             { "Twisted Bud", "mandrake_icon0000" },
             { "Mossberry", "I_moss_berry" },
         };

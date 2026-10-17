@@ -29,6 +29,10 @@ namespace SilksongRandomizer.Patches
         private static readonly AccessTools.FieldRef<BattleScene, bool> BattleCompleted =
             AccessTools.FieldRefAccess<BattleScene, bool>("completed");
 
+        internal static bool IsActThreeIntroBattle(string scene, string path) =>
+            string.Equals(scene, "Cog_10_Destroyed", StringComparison.OrdinalIgnoreCase) &&
+            (path == "Battle Scene" || path.StartsWith("Battle Scene/", StringComparison.Ordinal));
+
         internal static bool KeepHunterMarchGateClosed(string scene, string path, string fsm, bool completed, SaveState state) =>
             state != null && !completed && scene == "Ant_02" && fsm == "BG Control" &&
             path == "Battle Scene/Gates/Battle Gate Ant" &&
@@ -75,6 +79,7 @@ namespace SilksongRandomizer.Patches
         internal static void DescribeMissingSouls(string scene, string path, string fsm, string name,
             SaveState state, List<string> missing)
         {
+            if (IsActThreeIntroBattle(scene, path)) return;
             void Add(string[] species)
             {
                 foreach (string value in species)
@@ -116,6 +121,7 @@ namespace SilksongRandomizer.Patches
 
         internal static bool CanEnterState(string scene, string path, string fsm, string name, SaveState state)
         {
+            if (IsActThreeIntroBattle(scene, path)) return true;
             if (IsClawmaidenRemoval(scene, path, fsm, name) && EnemySoulState.IsFirstKillPending(state, "Clawmaiden")) return false;
             string key = scene + "|" + path + "|" + fsm + "|" + name;
             return (!States.TryGetValue(key, out string[] species) || !MissingAny(state, species)) &&
@@ -253,6 +259,8 @@ namespace SilksongRandomizer.Patches
         internal static bool Hold(Transform transform)
         {
             if (SaveState.Instance == null || string.IsNullOrEmpty(SaveState.Instance.enemySoulsJson) || SaveState.Instance.enemySoulsJson == "[]") return false;
+            if (string.Equals(transform.gameObject.scene.name, "Cog_10_Destroyed", StringComparison.OrdinalIgnoreCase) &&
+                IsActThreeIntroBattle("Cog_10_Destroyed", Utils.GetHierarchyPath(transform))) return false;
             for (Transform current = transform; current != null; current = current.parent)
             {
                 if (WasSkipped(current.gameObject))
@@ -354,10 +362,11 @@ namespace SilksongRandomizer.Patches
         {
             SaveState state = SaveState.Instance;
             if (state == null || string.IsNullOrEmpty(state.enemySoulsJson) || state.enemySoulsJson == "[]") return true;
+            if (IsActThreeIntroBattle(battle.gameObject.scene.name, Utils.GetHierarchyPath(battle.transform))) return true;
             if (!CanStartBattle(battle.gameObject.scene.name, Utils.GetHierarchyPath(battle.transform), state)) return false;
             if (IsBossBattle(battle)) return true;
             foreach (EnemyDeathEffects death in battle.GetComponentsInChildren<EnemyDeathEffects>(true))
-                if (TryGetSpecies(death, out string species) &&
+                if (!IsUnusedStyxWave(death) && TryGetSpecies(death, out string species) &&
                     EnemySoulState.IsMissing(state, species)) return false;
             if (battle.waves != null)
                 foreach (BattleWave wave in battle.waves)
@@ -368,7 +377,14 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
+        private static bool IsUnusedStyxWave(EnemyDeathEffects death) =>
+            string.Equals(death.gameObject.scene.name, "Dust_11", StringComparison.OrdinalIgnoreCase) &&
+            Utils.GetHierarchyPath(death.transform).StartsWith(
+                "Steel Soul States/Regular/NPC Control/Act 3 Thread Cores/Battle Scene Act3/Wave UNUSED/",
+                StringComparison.Ordinal);
+
         internal static bool CanStartBattle(string scene, string path, SaveState state) =>
+            IsActThreeIntroBattle(scene, path) ||
             !Battles.TryGetValue(scene + "|" + path, out string[] expected) || !MissingAny(state, expected);
 
         private static bool IsBossBattle(BattleScene battle) => battle != null &&

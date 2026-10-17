@@ -21,9 +21,10 @@ def split_requirement_counts(rules, enabled):
             ability = 'Dash' if name == 'Swift Step' and 'Dash' in enabled else name
             if ability in enabled:
                 counts.extend(replace(count, item_names=(f'{ability} ({side})',)) for side in ('Left', 'Right'))
-            elif name == 'Progressive Swift Step' and 'Dash' in enabled and count.minimum >= 2:
-                counts.append(replace(count, minimum=1))
-                counts.extend(replace(count, item_names=(f'Dash ({side})',), minimum=1) for side in ('Left', 'Right'))
+            elif name == 'Progressive Swift Step' and 'Dash' in enabled:
+                counts.append(replace(count, item_names=('Sprint',), minimum=min(count.minimum, 1)))
+                if count.minimum >= 2:
+                    counts.extend(replace(count, item_names=(f'Dash ({side})',), minimum=1) for side in ('Left', 'Right'))
             else:
                 counts.append(count)
         result.append(replace(rule, item_counts=tuple(counts)) if tuple(counts) != rule.item_counts else rule)
@@ -59,7 +60,8 @@ def requirements(req, enabled=()):
             )
     result['Capability: Sprint'] = (req('Swift Step'), req('Progressive Swift Step'))
     if 'Dash' in enabled:
-        result['Capability: Sprint'] = (req('Progressive Swift Step'),)
+        result['Capability: Sprint'] = (req('Sprint'),)
+        result['Progressive Swift Step'] = (req('Sprint', crest=False),)
     elif 'Swift Step' in enabled:
         result['Capability: Sprint'] = (req('Swift Step (Left)', 'Swift Step (Right)'),)
     for ability in enabled:
@@ -85,3 +87,7 @@ def split_pool(entries, enabled, entry_type, replace_filler):
         entries[index] = entry_type(f'{ability} (Left)', entry.source_category, entry.placement_category)
         extras.append(f'{ability} (Right)')
     replace_filler(entries, tuple(extras), None)
+    if 'Dash' in enabled:
+        for index, entry in enumerate(entries):
+            if entry.name == 'Progressive Swift Step':
+                entries[index] = entry_type('Sprint', entry.source_category, entry.placement_category)

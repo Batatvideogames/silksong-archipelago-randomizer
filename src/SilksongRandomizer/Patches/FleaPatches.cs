@@ -663,6 +663,80 @@ namespace SilksongRandomizer.Patches
         private const string EggOfFlealiaItem =
             "Tool: Egg of Flealia";
         private const string FleatopiaScene = "Aqueduct_05";
+        private const string PinataPath = "Caravan_States/Flea Festival Outro/Flea Festival Pinata";
+
+        private static void AwardFestivalEgg(Fsm fsm)
+        {
+            const string location = "Egg of Flealia";
+            SaveState state = SaveState.Instance;
+            PlayerData data = PlayerData.instance;
+            if (state?.IsRoomBound != true || !state.IsRandomized(ItemType.Tool) ||
+                !state.IsLocationEnabled(location) || !state.IsLocationInSeed(location) ||
+                state.IsLocationChecked(location) || data == null || !data.FleaGamesStarted ||
+                data.CaravanTroupeLocation != CaravanTroupeLocations.Aqueduct ||
+                !NpcSoulState.CanInteract(fsm.GameObject.transform)) return;
+            foreach (QuestTargetPlayerDataBools target in Resources.FindObjectsOfTypeAll<QuestTargetPlayerDataBools>())
+                if (target.name == "FleasCollected Target" && target.AllCollected)
+                {
+                    GlobalSettings.Gameplay.FleaCharmTool.Unlock(null, ToolItem.PopupFlags.None);
+                    return;
+                }
+        }
+
+        private static void RestorePinataRosary(Transform pinata, int reward, string location, string asset)
+        {
+            SaveState state = SaveState.Instance;
+            if (state?.IsRoomBound != true || !state.IsRandomized(ItemType.Resource) ||
+                !state.IsLocationEnabled(location) || !state.IsLocationInSeed(location) ||
+                state.IsLocationChecked(location)) return;
+            Transform holder = pinata.Find("Item Reward " + reward);
+            CollectableItemPickup pickup = holder?.Find("Collectable Item Pickup Reward " + reward)
+                ?.GetComponent<CollectableItemPickup>();
+            if (pickup?.Item == null || pickup.Item.name != asset) return;
+            pickup.SetItem(MinorPickupPatches.GetProxyItem(location), keepPersistence: true);
+            // Only the oil should end the festival.
+            for (int i = 0; i < pickup.OnPickedUp.GetPersistentEventCount(); i++)
+                if (pickup.OnPickedUp.GetPersistentTarget(i) is PlayMakerFSM target &&
+                    target.transform == pinata && target.FsmName == "Rewards" &&
+                    pickup.OnPickedUp.GetPersistentMethodName(i) == "SendEvent")
+                    pickup.OnPickedUp.SetPersistentListenerState(i, UnityEngine.Events.UnityEventCallState.Off);
+            holder.SetParent(null, true);
+            holder.gameObject.SetActive(true);
+        }
+
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class FestivalRewardsPatch
+        {
+            private static void Prefix(FsmState __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (fsm?.GameObject == null || fsm.GameObject.scene.name != "Aqueduct_05_festival") return;
+                Transform pinata;
+                string path = Utils.GetHierarchyPath(fsm.GameObject.transform);
+                if (fsm.Name == "Control" && __instance.Name == "Intro Type" &&
+                    path == "Caravan_States/Flea Festival/Flea Game - Juggling/Flea Games Host NPC")
+                {
+                    AwardFestivalEgg(fsm);
+                    return;
+                }
+                if (fsm.Name == "Rewards" && __instance.Name == "Final Effects" && path == PinataPath)
+                    pinata = fsm.GameObject.transform;
+                else if (fsm.Name == "Conditions" && __instance.Name == "Festival" &&
+                         path == "Caravan_States")
+                {
+                    pinata = fsm.GameObject.transform.Find("Flea Festival Outro/Flea Festival Pinata");
+                    CollectableItemPickup oil = pinata?.Find("Item Reward Final/Collectable Item Pickup Reward 3")
+                        ?.GetComponent<CollectableItemPickup>();
+                    // Bind the oil before the native fling detaches it.
+                    if (oil?.Item != null) oil.SetItem(oil.Item, keepPersistence: true);
+                    if (!PlayerData.instance.FleaGamesEnded) return;
+                }
+                else return;
+                if (pinata == null) return;
+                RestorePinataRosary(pinata, 1, "Fleatopia - Rosary String", "Rosary_Set_Small");
+                RestorePinataRosary(pinata, 2, "Fleatopia - Rosary Necklace", "Rosary_Set_Medium");
+            }
+        }
 
         private struct FleaGamesStartState
         {
