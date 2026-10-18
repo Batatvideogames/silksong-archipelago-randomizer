@@ -77,9 +77,6 @@ namespace SilksongRandomizer.Patches
                     Utils.GetHierarchyPath(__instance.transform) ==
                     "Black Thread States Thread Only Variant/Normal World/Boss Scene")
                     KeepGreatConchflies(__instance.Fsm.GetState("State"));
-                else if (scene == "Bone_15" && __instance.FsmName == "Behaviour" &&
-                    Utils.GetHierarchyPath(__instance.transform) == "Boss Scene/Skull King")
-                    KeepMarrowSkullTyrant(__instance.Fsm.GetState("State Check"));
                 else if (scene == "Bone_East_10_Room" && __instance.FsmName == "Ruckus Control" &&
                     Utils.GetHierarchyPath(__instance.transform) == "RestBench")
                     LogRhinogrundRoom(__instance);
@@ -95,14 +92,22 @@ namespace SilksongRandomizer.Patches
                   solo.falseBool.Value == "defeatedCoralDrillerSolo")).ToArray();
         }
 
-        private static void KeepMarrowSkullTyrant(FsmState state)
+        [HarmonyPatch(typeof(PlayerDataBoolTest), nameof(PlayerDataBoolTest.OnEnter))]
+        private static class MarrowSkullTyrantStatePatch
         {
-            if (state == null || SaveState.Instance?.progressionShuffle?.TryGetBossDefeat(
-                "Boss: Skull Tyrant (The Marrow)", out _) != true) return;
-            state.Actions = state.Actions.Where(action =>
-                !(action is PlayerDataBoolTest invasion &&
-                  (invasion.boolName.Value == "skullKingInvaded" || invasion.boolName.Value == "skullKingWillInvade")))
-                .ToArray();
+            [HarmonyPrefix]
+            private static bool Prefix(PlayerDataBoolTest __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if ((__instance.boolName.Value != "skullKingInvaded" && __instance.boolName.Value != "skullKingWillInvade") ||
+                    fsm?.GameObject == null || fsm.GameObject.scene.name != "Bone_15" ||
+                    fsm.Name != "Behaviour" || __instance.State?.Name != "State Check" ||
+                    Utils.GetHierarchyPath(fsm.GameObject.transform) != "Boss Scene/Skull King" ||
+                    SaveState.Instance?.progressionShuffle?.TryGetBossDefeat(
+                        "Boss: Skull Tyrant (The Marrow)", out _) != true) return true;
+                __instance.Finish();
+                return false;
+            }
         }
 
         internal static void UpdateRhinogrundInvasion(PlayerData data, MapZone zone)

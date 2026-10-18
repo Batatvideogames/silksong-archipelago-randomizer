@@ -29,7 +29,7 @@ namespace SilksongRandomizer
             Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.5.2";
+        public const string PluginVersion = "0.5.3";
 
         public static bool OverrideUnlock { get; set; } = true;
 
