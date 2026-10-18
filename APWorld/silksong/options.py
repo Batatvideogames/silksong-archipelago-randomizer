@@ -601,8 +601,6 @@ class JournalRandomization(GlobalRandomization):
 
 class BossSanity(GlobalRandomization):
     """
-    EXPERIMENTAL FEATURE, should be fine but please don't bring to syncs
-
     Adds boss checks and replaces their filler with boss credit items.
     Receiving a credit grants that boss's story unlocks.
     Items dropped by bosses follow their own randomization settings.
