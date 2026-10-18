@@ -479,6 +479,13 @@ namespace SilksongRandomizer.Patches
             StateChangeSequence sequence)
         {
             SaveState state = SaveState.Instance;
+            if (state?.IsRoomBound == true && !state.rangSongclaveBell && sequence != null &&
+                sequence.gameObject.scene.name == "Bellshrine_Enclave" &&
+                IsCompleteBoolField?.GetValue(sequence) as string == "bellShrineEnclave")
+            {
+                state.rangSongclaveBell = true;
+                GameManager.SilentInstance?.QueueSaveGame();
+            }
             if (state == null ||
                 !TryGetEntry(sequence, out Entry entry) ||
                 !IsActive(state, entry.LocationName))

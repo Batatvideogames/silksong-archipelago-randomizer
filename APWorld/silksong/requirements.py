@@ -2949,6 +2949,9 @@ if MAPPER_GRAPH_ENABLED:
     EVENT_REQUIREMENTS['Event: Everbloom Obtained'] = (
         req(room_event_name('event:mapper/owned/everbloom'), crest=False),
     )
+    EVENT_REQUIREMENTS['Event: Shrine Guardian Seth Defeated'] = (
+        req(room_event_name('event:mapper/66c01078-89ad-4aeb-ab46-a4ac05424109'), crest=False),
+    )
 
 PROFICIENT_COMBAT_REQUIREMENT = "Option: Proficient Combat"
 PROFICIENT_COMBAT_REQUIREMENTS = (req(crest=False),)

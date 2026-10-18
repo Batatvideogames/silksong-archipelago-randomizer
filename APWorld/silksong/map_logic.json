@@ -93612,9 +93612,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Act: 3",
-              "Path: Grand Gate",
-              "Silk Soar"
+              "Room Event: event:mapper/66c01078-89ad-4aeb-ab46-a4ac05424109"
             ]
           }
         ]
@@ -115275,7 +115273,6 @@
           {
             "all_of": [
               "Room Node: sands-of-karak/coral-tower#main",
-              "Act: 3",
               "Needolin",
               "Silk Soar",
               "Combat: Coral Tower (All 4) Gauntlet"
@@ -115296,7 +115293,6 @@
           {
             "all_of": [
               "Room Node: sands-of-karak/coral-tower#main",
-              "Act: 3",
               "Needolin",
               "Silk Soar"
             ],
@@ -115316,7 +115312,6 @@
           {
             "all_of": [
               "Room Node: sands-of-karak/coral-tower#main",
-              "Act: 3",
               "Needolin",
               "Silk Soar",
               "Combat: Crust King Khann",
@@ -190009,6 +190004,11 @@
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-clawline-room#main-side-door"
             ]
           }
         ]

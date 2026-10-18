@@ -170,6 +170,7 @@ namespace SilksongRandomizer
         public bool directionalClingGrip;
         public bool directionalClawline;
         public bool directionalSwiftStep;
+        public bool swiftStepFirstRight;
         public bool directionalLedgeGrab;
 
         public bool ledgegrabAbilityRando;
@@ -265,6 +266,7 @@ namespace SilksongRandomizer
         // sequence. Unlike CaravanTroupeLocation, this cannot be advanced by
         // declining the ride and remains true if the troupe later relocates.
         public bool rodeFleaCaravanToGreymoor;
+        public bool rangSongclaveBell;
         public bool bellhomePhaseToggleUnlocked;
         // F4 may cross the opening story boundary and make vanilla briefly
         // assert defeatedMossMother. That synthetic state remains quarantined
@@ -715,7 +717,7 @@ namespace SilksongRandomizer
                 0,
                 Math.Min(2, curveclawLevel)
             );
-            swiftStepLevel = Math.Max(0, Math.Min(2, swiftStepLevel));
+            swiftStepLevel = Math.Max(0, Math.Min(splitDashAndSprint && directionalSwiftStep ? 3 : 2, swiftStepLevel));
             needleUpgradeLevel = Math.Max(
                 0,
                 Math.Min(4, needleUpgradeLevel)
@@ -727,7 +729,7 @@ namespace SilksongRandomizer
                 {
                     canSprint = true;
                 }
-                if (!directionalSwiftStep && swiftStepLevel >= 2)
+                if (swiftStepLevel >= 2)
                 {
                     canDash = true;
                 }
@@ -919,6 +921,7 @@ namespace SilksongRandomizer
             directionalClingGrip = archipelago.DirectionalClingGrip;
             directionalClawline = archipelago.DirectionalClawline;
             directionalSwiftStep = archipelago.DirectionalSwiftStep;
+            swiftStepFirstRight = archipelago.SwiftStepFirstRight;
             directionalLedgeGrab = archipelago.DirectionalLedgeGrab;
 
             ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
@@ -1065,6 +1068,7 @@ namespace SilksongRandomizer
                    directionalClingGrip == archipelago.DirectionalClingGrip &&
                    directionalClawline == archipelago.DirectionalClawline &&
                    directionalSwiftStep == archipelago.DirectionalSwiftStep &&
+                   swiftStepFirstRight == archipelago.SwiftStepFirstRight &&
                    directionalLedgeGrab == archipelago.DirectionalLedgeGrab &&
 
                    ledgegrabAbilityRando ==

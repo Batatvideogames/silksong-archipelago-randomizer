@@ -22,13 +22,15 @@ namespace SilksongRandomizer
         }
 
         internal static bool Cling(SaveState state, bool wallToRight) =>
-            !state.directionalClingGrip || Owns(state, "Cling Grip", !wallToRight);
+            !state.directionalClingGrip || Owns(state, "Cling Grip", wallToRight);
 
         internal static bool Clawline(SaveState state, bool right) =>
             !state.directionalClawline || Owns(state, "Clawline", right);
 
         internal static bool Dash(SaveState state, bool right) =>
-            !state.directionalSwiftStep || Owns(state, state.splitDashAndSprint ? "Dash" : "Swift Step", right);
+            !state.directionalSwiftStep ||
+            (state.splitDashAndSprint && state.swiftStepLevel >= (right == state.swiftStepFirstRight ? 2 : 3)) ||
+            Owns(state, state.splitDashAndSprint ? "Dash" : "Swift Step", right);
 
         internal static bool Sprint(SaveState state, bool right) =>
             !state.directionalSwiftStep || state.splitDashAndSprint || Owns(state, "Swift Step", right);
@@ -89,7 +91,7 @@ namespace SilksongRandomizer
             private static bool Prefix(FsmState __instance)
             {
                 SaveState state = SaveState.Instance;
-                if (state == null || (!state.directionalClawline && !state.directionalSwiftStep) ||
+                if (state == null ||
                     !state.IsRandomized(ItemType.Skill)) return true;
                 HeroController hero = HeroController.instance;
                 if (hero == null) return true;
@@ -103,10 +105,10 @@ namespace SilksongRandomizer
                     fsm.SetState("Cancel All");
                     return false;
                 }
-                if (state.directionalSwiftStep && !state.splitDashAndSprint &&
-                    ReferenceEquals(fsm, hero.sprintFSM?.Fsm) &&
+                if (ReferenceEquals(fsm, hero.sprintFSM?.Fsm) &&
                     (name == "Ground Sprint L" || name == "Ground Sprint R" || name == "Air Sprint L" || name == "Air Sprint R") &&
-                    !Sprint(state, name.EndsWith(" R")) && !WidowSequenceSafety.CanUseEmergencySwiftStep(state))
+                    (!state.canSprint || !Sprint(state, name.EndsWith(" R"))) &&
+                    !WidowSequenceSafety.CanUseEmergencySwiftStep(state))
                 {
                     fsm.SetState("Regain Control Normal");
                     return false;

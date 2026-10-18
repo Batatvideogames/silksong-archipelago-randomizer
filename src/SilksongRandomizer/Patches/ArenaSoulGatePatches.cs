@@ -322,7 +322,8 @@ namespace SilksongRandomizer.Patches
             }
             else detail = reason == ArenaWaitReason.OutsideArena ? "waiting for player inside the arena" :
                 reason == ArenaWaitReason.PlayerNotReady ? "waiting for player control" : "resuming encounter";
-            string entry = HeroController.instance?.sceneEntryGate?.name ?? "unknown";
+            var gate = HeroController.instance?.sceneEntryGate;
+            string entry = gate != null ? gate.name : "unknown";
             string message = $"[Arena] {scene}/{path} {fsm}/{state}: {detail}, entry={entry}";
             if (message == lastMessage) return;
             lastMessage = message;

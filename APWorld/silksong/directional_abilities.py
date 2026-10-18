@@ -9,6 +9,11 @@ ABILITIES = ('Cling Grip', 'Ledge Grab', 'Clawline', 'Swift Step', 'Dash')
 ITEMS = tuple(f'{ability} ({side})' for ability in ABILITIES for side in ('Left', 'Right'))
 
 
+def progressive_steps(first_right=False):
+    sides = ('Right', 'Left') if first_right else ('Left', 'Right')
+    return ('Sprint', *(f'Dash ({side})' for side in sides))
+
+
 @lru_cache(maxsize=4096)
 def split_requirement_counts(rules, enabled):
     if not enabled:
@@ -53,9 +58,8 @@ def requirements(req, enabled=()):
         split = ability in enabled or ability in ('Dash', 'Sprint') and 'Swift Step' in enabled
         item = 'Swift Step' if 'Swift Step' in enabled and ability in ('Dash', 'Sprint') else ability
         for side in ('Left', 'Right'):
-            item_side = ('Right' if side == 'Left' else 'Left') if ability == 'Cling Grip' else side
             result[f'Directional: {ability} {side}'] = (
-                req(f'{item} ({item_side})', crest=ability != 'Ledge Grab') if split
+                req(f'{item} ({side})', crest=ability != 'Ledge Grab') if split
                 else req(base, crest=False),
             )
     result['Capability: Sprint'] = (req('Swift Step'), req('Progressive Swift Step'))
@@ -78,7 +82,10 @@ def requirements(req, enabled=()):
 def split_pool(entries, enabled, entry_type, replace_filler):
     extras = []
     for ability in enabled:
-        source = 'Progressive Swift Step' if ability == 'Dash' else ability
+        if ability == 'Dash':
+            extras.append('Progressive Swift Step')
+            continue
+        source = ability
         matches = [i for i, entry in enumerate(entries) if clean_item_display_name(entry.name) == source]
         if not matches:
             continue
@@ -87,7 +94,3 @@ def split_pool(entries, enabled, entry_type, replace_filler):
         entries[index] = entry_type(f'{ability} (Left)', entry.source_category, entry.placement_category)
         extras.append(f'{ability} (Right)')
     replace_filler(entries, tuple(extras), None)
-    if 'Dash' in enabled:
-        for index, entry in enumerate(entries):
-            if entry.name == 'Progressive Swift Step':
-                entries[index] = entry_type('Sprint', entry.source_category, entry.placement_category)

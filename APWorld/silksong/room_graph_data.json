@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "e951e2c680a3f95d1be001b4a3a7e4bd3e45292ce593afcef2d9a30b520e8368",
     "catalogue_sha256": "70043eaee207db25880f5be647df9b5b474744f0e71bfb7016f8b9e201e55868",
-    "bindings_sha256": "ef852ed436049e00bfe4a4ebf00b364bcbf16ed4821a86c7bc110b1f90ee9306"
+    "bindings_sha256": "084d38b015b58e4a2c78b6d5a9565eab9c390d65b1922b2cf4b44e5dc283798c"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -156831,7 +156831,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #8",
+          "label": "Rosary Cache: Sinnerâ€™s Road #8",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-bench#room"
         },
@@ -157105,7 +157105,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #8",
+          "label": "Rosary Cache: Sinnerâ€™s Road #8",
           "node_id": "sinner-s-road/sinner-s-road-bench#room",
           "canonical_location": "Sinner's Road - Rosary Cache #8",
           "canonical_mapping_confidence": "explicit",
@@ -159021,7 +159021,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-hanging-cages#plat-above-upper-door>shack@ues",
           "requirement": {
-            "raw": "Clawline OR ((Cling grip OR silk soar) AND enemy pogo AND (drifter’s cloak OR sharpdart))",
+            "raw": "Clawline OR ((Cling grip OR silk soar) AND enemy pogo AND (drifterâ€™s cloak OR sharpdart))",
             "mode": "expression",
             "dnf": [
               [
@@ -159925,7 +159925,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #4",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #4",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -159949,7 +159949,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #5",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #5",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -160037,7 +160037,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #4",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #4",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
           "canonical_location": "Sinner's Road - Shell Shard Cache #4",
           "canonical_mapping_confidence": "explicit",
@@ -160063,7 +160063,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #5",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #5",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
           "canonical_location": "Sinner's Road - Shell Shard Cache #5",
           "canonical_mapping_confidence": "explicit",
@@ -160908,7 +160908,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #1",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #1",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -160943,7 +160943,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #2",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #2",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -160978,7 +160978,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #3",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #3",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -161013,7 +161013,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #4",
+          "label": "Rosary Cache: Sinnerâ€™s Road #4",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -161078,7 +161078,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #1",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #1",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #1",
           "canonical_mapping_confidence": "explicit",
@@ -161115,7 +161115,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #2",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #2",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #2",
           "canonical_mapping_confidence": "explicit",
@@ -161152,7 +161152,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #3",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #3",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #3",
           "canonical_mapping_confidence": "explicit",
@@ -161189,7 +161189,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #4",
+          "label": "Rosary Cache: Sinnerâ€™s Road #4",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Rosary Cache #4",
           "canonical_mapping_confidence": "explicit",
@@ -161954,7 +161954,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#left-area>middle-area@lam",
           "requirement": {
-            "raw": "clawline OR enemy pogo OR (sharpdart x 3 AND (drifter’s cloak OR faydown cloak)) OR (drifter’s cloak AND ((cling grip AND ledge grab) OR faydown cloak)) OR (swim AND ledge grab)",
+            "raw": "clawline OR enemy pogo OR (sharpdart x 3 AND (drifterâ€™s cloak OR faydown cloak)) OR (drifterâ€™s cloak AND ((cling grip AND ledge grab) OR faydown cloak)) OR (swim AND ledge grab)",
             "mode": "expression",
             "dnf": [
               [
@@ -162005,7 +162005,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#middle-area>left-area@lam",
           "requirement": {
-            "raw": "clawline OR enemy pogo OR (sharpdart AND (drifter’s cloak OR faydown cloak)) OR (drifter’s cloak AND faydown cloak) OR (swim AND (ledge grab OR cling grip))",
+            "raw": "clawline OR enemy pogo OR (sharpdart AND (drifterâ€™s cloak OR faydown cloak)) OR (drifterâ€™s cloak AND faydown cloak) OR (swim AND (ledge grab OR cling grip))",
             "mode": "expression",
             "dnf": [
               [
@@ -162116,7 +162116,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#middle-area>right-door-platform@mar",
           "requirement": {
-            "raw": "(swim AND faydown cloak) OR (clawline AND (drifter’s cloak OR sharpdart OR enemy pogo)) OR (drifter’s cloak AND (sharpdart OR enemy pogo)) OR (sharpdart AND enemy pogo)",
+            "raw": "(swim AND faydown cloak) OR (clawline AND (drifterâ€™s cloak OR sharpdart OR enemy pogo)) OR (drifterâ€™s cloak AND (sharpdart OR enemy pogo)) OR (sharpdart AND enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -162168,7 +162168,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#right-door-platform>middle-area@mar",
           "requirement": {
-            "raw": "enemy pogo OR swim OR (drifter’s cloak AND (run OR dash OR ledge grab OR sharpdart OR clawline OR faydown cloak)) OR (run AND (faydown cloak OR sharpdart OR clawline))",
+            "raw": "enemy pogo OR swim OR (drifterâ€™s cloak AND (run OR dash OR ledge grab OR sharpdart OR clawline OR faydown cloak)) OR (run AND (faydown cloak OR sharpdart OR clawline))",
             "mode": "expression",
             "dnf": [
               [
@@ -162381,7 +162381,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #6",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #6",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -162408,7 +162408,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #7",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #7",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -162623,7 +162623,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #6",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #6",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
           "canonical_location": "Sinner's Road - Shell Shard Cache #6",
           "canonical_mapping_confidence": "explicit",
@@ -162652,7 +162652,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner’s Road #7",
+          "label": "Shell Shard Cache: Sinnerâ€™s Road #7",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
           "canonical_location": "Sinner's Road - Shell Shard Cache #7",
           "canonical_mapping_confidence": "explicit",
@@ -163163,7 +163163,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-styx-room#right>left@lr",
           "requirement": {
-            "raw": "(Spike pogo OR Faydown cloak OR (silk soar AND drifter’s cloak) OR (cling grip AND (sharpdart OR clawline OR dash))) AND complete Styx Room Upper Breakable Wall",
+            "raw": "(Spike pogo OR Faydown cloak OR (silk soar AND drifterâ€™s cloak) OR (cling grip AND (sharpdart OR clawline OR dash))) AND complete Styx Room Upper Breakable Wall",
             "mode": "expression",
             "dnf": [
               [
@@ -164290,7 +164290,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #5",
+          "label": "Rosary Cache: Sinnerâ€™s Road #5",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -164314,7 +164314,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #6",
+          "label": "Rosary Cache: Sinnerâ€™s Road #6",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -164338,7 +164338,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #7",
+          "label": "Rosary Cache: Sinnerâ€™s Road #7",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -164362,14 +164362,14 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shard Bundle: Sinner’s Road",
+          "label": "Shard Bundle: Sinnerâ€™s Road",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door"
         },
         {
           "id": "event:mapper/b08ca6ef-95fe-4e21-8813-7cfe691aa778",
           "requirement": {
-            "raw": "Cling grip AND (dash OR drifter’s cloak OR clawline OR sharpdart)",
+            "raw": "Cling grip AND (dash OR drifterâ€™s cloak OR clawline OR sharpdart)",
             "mode": "expression",
             "dnf": [
               [
@@ -164574,7 +164574,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #5",
+          "label": "Rosary Cache: Sinnerâ€™s Road #5",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #5",
           "canonical_mapping_confidence": "explicit",
@@ -164600,7 +164600,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #6",
+          "label": "Rosary Cache: Sinnerâ€™s Road #6",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #6",
           "canonical_mapping_confidence": "explicit",
@@ -164626,7 +164626,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #7",
+          "label": "Rosary Cache: Sinnerâ€™s Road #7",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #7",
           "canonical_mapping_confidence": "explicit",
@@ -164652,7 +164652,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shard Bundle: Sinner’s Road",
+          "label": "Shard Bundle: Sinnerâ€™s Road",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door",
           "canonical_location": "Sinner's Road - Shard Bundle",
           "canonical_mapping_confidence": "explicit",
@@ -164661,7 +164661,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-vertical-hall-east::mapper-check:b08ca6ef-95fe-4e21-8813-7cfe691aa778:836199",
           "requirement": {
-            "raw": "Cling grip AND (dash OR drifter’s cloak OR clawline OR sharpdart)",
+            "raw": "Cling grip AND (dash OR drifterâ€™s cloak OR clawline OR sharpdart)",
             "mode": "expression",
             "dnf": [
               [
@@ -165411,7 +165411,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #1",
+          "label": "Rosary Cache: Sinnerâ€™s Road #1",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#lower"
         },
@@ -165435,7 +165435,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #2",
+          "label": "Rosary Cache: Sinnerâ€™s Road #2",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right"
         },
@@ -165459,7 +165459,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #3",
+          "label": "Rosary Cache: Sinnerâ€™s Road #3",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right"
         }
@@ -165496,7 +165496,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #1",
+          "label": "Rosary Cache: Sinnerâ€™s Road #1",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#lower",
           "canonical_location": "Sinner's Road - Rosary Cache #1",
           "canonical_mapping_confidence": "explicit",
@@ -165522,7 +165522,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #2",
+          "label": "Rosary Cache: Sinnerâ€™s Road #2",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "canonical_location": "Sinner's Road - Rosary Cache #2",
           "canonical_mapping_confidence": "explicit",
@@ -165548,7 +165548,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #3",
+          "label": "Rosary Cache: Sinnerâ€™s Road #3",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "canonical_location": "Sinner's Road - Rosary Cache #3",
           "canonical_mapping_confidence": "explicit",
@@ -167329,7 +167329,9 @@
           "requirement": {
             "raw": "Invalid",
             "mode": "expression",
-            "dnf": [],
+            "dnf": [
+              []
+            ],
             "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
@@ -219811,7 +219813,7 @@
         {
           "id": "bilewater/bilewater-east-column#floor>middle@fm",
           "requirement": {
-            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter’s cloak)",
+            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifterâ€™s cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -219891,7 +219893,7 @@
         {
           "id": "bilewater/bilewater-east-column#middle>upper@mu",
           "requirement": {
-            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter’s cloak)",
+            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifterâ€™s cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -222640,7 +222642,7 @@
         {
           "id": "bilewater/bilewater-lower-east-hall#left-lower>left-platform@lll",
           "requirement": {
-            "raw": "(cling grip AND (swim OR clawline OR sharpdart OR drifter’s cloak OR run OR dash)) OR faydown cloak",
+            "raw": "(cling grip AND (swim OR clawline OR sharpdart OR drifterâ€™s cloak OR run OR dash)) OR faydown cloak",
             "mode": "expression",
             "dnf": [
               [
@@ -222801,7 +222803,7 @@
         {
           "id": "bilewater/bilewater-lower-east-hall#right-hall>under-upper@ruu",
           "requirement": {
-            "raw": "((cling grip OR ledge grab) AND (swim OR clawline OR sharpdart OR drifter’s cloak OR run OR dash)) OR faydown cloak",
+            "raw": "((cling grip OR ledge grab) AND (swim OR clawline OR sharpdart OR drifterâ€™s cloak OR run OR dash)) OR faydown cloak",
             "mode": "expression",
             "dnf": [
               [
@@ -226489,7 +226491,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-quarter>middle-quarter@lmq",
           "requirement": {
-            "raw": "(cling grip AND (drifter’s cloak OR clawline OR sharpdart OR (faydown cloak AND swim))) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
+            "raw": "(cling grip AND (drifterâ€™s cloak OR clawline OR sharpdart OR (faydown cloak AND swim))) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
             "mode": "expression",
             "dnf": [
               [
@@ -226547,7 +226549,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>left-quarter@lmq",
           "requirement": {
-            "raw": "Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo",
+            "raw": "Drifterâ€™s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -226607,7 +226609,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>left-rosary-platform@mql",
           "requirement": {
-            "raw": "Clawline OR sharpdart OR (ledge grab AND (drifter’s cloak OR run))",
+            "raw": "Clawline OR sharpdart OR (ledge grab AND (drifterâ€™s cloak OR run))",
             "mode": "expression",
             "dnf": [
               [
@@ -226645,7 +226647,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform>middle-quarter@mql",
           "requirement": {
-            "raw": "Clawline OR drifter’s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR easy architect pogo OR easy beast pogo))",
+            "raw": "Clawline OR drifterâ€™s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR easy architect pogo OR easy beast pogo))",
             "mode": "expression",
             "dnf": [
               [
@@ -226701,7 +226703,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#right-quarter>middle-quarter@rqm",
           "requirement": {
-            "raw": "Drifter’s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR easy beast pogo OR easy architect pogo",
+            "raw": "Drifterâ€™s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR easy beast pogo OR easy architect pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -226752,7 +226754,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>right-quarter@rqm",
           "requirement": {
-            "raw": "(silk soar AND (easy beast pogo OR dash OR clawline OR sharpdart OR drifter’s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter’s cloak AND ledge grab)))",
+            "raw": "(silk soar AND (easy beast pogo OR dash OR clawline OR sharpdart OR drifterâ€™s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifterâ€™s cloak AND ledge grab)))",
             "mode": "expression",
             "dnf": [
               [
@@ -230356,7 +230358,7 @@
         {
           "id": "bilewater/bilewater-upper-west-column#upper>lower@lm",
           "requirement": {
-            "raw": "Cling grip AND (Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR dash)",
+            "raw": "Cling grip AND (Drifterâ€™s cloak OR faydown cloak OR clawline OR sharpdart OR dash)",
             "mode": "expression",
             "dnf": [
               [
@@ -241503,7 +241505,6 @@
             "mode": "expression",
             "dnf": [
               [
-                "state:act-3",
                 "item:needolin",
                 "received:Elegy of the Deep",
                 "item:silk-soar",
@@ -241531,7 +241532,6 @@
             "mode": "expression",
             "dnf": [
               [
-                "state:act-3",
                 "item:needolin",
                 "received:Elegy of the Deep",
                 "item:silk-soar"
@@ -241557,7 +241557,6 @@
             "mode": "expression",
             "dnf": [
               [
-                "state:act-3",
                 "item:needolin",
                 "received:Elegy of the Deep",
                 "item:silk-soar",
@@ -286487,7 +286486,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"First donation completed, sonclave level ≥2 and four completed Songclave wishes\n\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"First donation completed, sonclave level â‰¥2 and four completed Songclave wishes\n\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "68ecdd2e-814e-4cd1-b690-5d5857598e9d"
@@ -286802,7 +286801,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"Two encounters + Conductors Melody + Congclave level ≥ 2, or one encounter + Everbloom\" - requirements per Moriko\n\n\"This datamining session sucked\" - Additional note by Moriko. Still unsure what it means. Perhaps related to Bilewater?\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"Two encounters + Conductors Melody + Congclave level â‰¥ 2, or one encounter + Everbloom\" - requirements per Moriko\n\n\"This datamining session sucked\" - Additional note by Moriko. Still unsure what it means. Perhaps related to Bilewater?\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d885d4f4-5024-4d4b-bfa9-fe9400739e54"

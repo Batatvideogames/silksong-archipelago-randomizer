@@ -4,7 +4,7 @@ from .options import get_silk_and_soul_points
 
 from BaseClasses import Item, ItemClassification
 from Options import OptionError
-from rule_builder.rules import Has, HasAny, True_
+from rule_builder.rules import Has, HasAny, False_, True_
 from worlds.generic.Rules import add_item_rule
 
 from .items import (
@@ -578,7 +578,7 @@ def set_silksong_rules(world) -> None:
         if location_name in logic_unknown_locations and (
             MAPPER_GRAPH_ENABLED or location_name not in LOGIC_UNKNOWN_LOCATIONS
         ):
-            location_rule = True_()
+            location_rule = False_() if getattr(world.multiworld, 'generation_is_fake', False) else True_()
 
         if (
             crest_slot_locket_logic

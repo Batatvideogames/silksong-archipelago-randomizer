@@ -6,6 +6,20 @@ using HarmonyLib;
 
 namespace SilksongRandomizer.Patches
 {
+    [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.CheckIsClamberBlocked), "get_IsTrue")]
+    internal static class InnateAbilitySprintVaultPatch
+    {
+        private static void Postfix(
+            HutongGames.PlayMaker.Actions.CheckIsClamberBlocked __instance,
+            ref bool __result)
+        {
+            HeroController hero = HeroController.instance;
+            if (hero != null && ReferenceEquals(__instance.Fsm, hero.sprintFSM?.Fsm) &&
+                !InnateAbilityManager.LedgeGrabEnabled)
+                __result = true;
+        }
+    }
+
     [HarmonyPatch(
         typeof(HeroController),
         nameof(HeroController.CheckClamberLedge)

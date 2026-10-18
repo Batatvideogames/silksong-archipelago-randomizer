@@ -188,6 +188,7 @@ namespace SilksongRandomizer
         public bool DirectionalClingGrip { get; private set; }
         public bool DirectionalClawline { get; private set; }
         public bool DirectionalSwiftStep { get; private set; }
+        public bool SwiftStepFirstRight { get; private set; }
         public bool DirectionalLedgeGrab { get; private set; }
 
         public bool LedgegrabAbilityRando { get; private set; }
@@ -613,6 +614,7 @@ namespace SilksongRandomizer
                 DirectionalClingGrip = GetBooleanSlotData(successful, "directional_cling_grip");
                 DirectionalClawline = GetBooleanSlotData(successful, "directional_clawline");
                 DirectionalSwiftStep = GetBooleanSlotData(successful, "directional_swift_step");
+                SwiftStepFirstRight = GetBooleanSlotData(successful, "swift_step_first_right");
                 DirectionalLedgeGrab = GetBooleanSlotData(successful, "directional_ledge_grab");
                 LedgegrabAbilityRando = GetBooleanSlotData(
                     successful,
@@ -3263,6 +3265,7 @@ namespace SilksongRandomizer
             DirectionalClingGrip = false;
             DirectionalClawline = false;
             DirectionalSwiftStep = false;
+            SwiftStepFirstRight = false;
             DirectionalLedgeGrab = false;
 
             LedgegrabAbilityRando = false;

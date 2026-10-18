@@ -18,11 +18,15 @@ from .requirements import (
 class SpendingFailure:
     state: CollectionState
     bought: int
+    exhausted: bool = False
 
 
 class SpendingAudit:
-    def __init__(self, multiworld, worlds):
+    state_limit = 4096
+
+    def __init__(self, multiworld, worlds, *, finalized=True):
         self.multiworld = multiworld
+        self.finalized = finalized
         self.worlds = {world.player: world for world in worlds}
         self.recipients = {player: {player} for player in self.worlds}
         self.recipients.update({group: data['players'] & self.worlds.keys()
@@ -52,14 +56,11 @@ class SpendingAudit:
             self.masks[location.player] |= 1 << index
             if location.name in RUINED_TOOL_REPAIR_LOCATIONS:
                 self.repairs[location.player] |= 1 << index
-        # Reachable filler purchases spend the same coin without opening anything.
-        self.filler = sum(1 << index for index, location in enumerate(self.purchases)
-                          if not location.item.advancement and self.recipients.get(location.item.player)
-                          and location.address is not None and not self.repairs[location.player] & (1 << index))
         self.full = {player for player, world in multiworld.worlds.items()
                      if world.options.accessibility == 'full'}
         self.minimal = {player for player, world in multiworld.worlds.items()
                         if world.options.accessibility == 'minimal'}
+        self.foreign_full = tuple(location for location in self.foreign_free if location.player in self.full)
         self.alternatives = {
             location for location in self.purchases
             if location.name in RUINED_TOOL_REPAIR_LOCATIONS
@@ -120,6 +121,10 @@ class SpendingAudit:
                         state.advancements.add(location)
             if self.foreign_free:
                 state.sweep_for_advancements(locations=self.foreign_free)
+            for location in self.foreign_full:
+                if location not in state.advancements and location.can_reach(state):
+                    state.collect(location.item, True, location)
+                    state.advancements.add(location)
             if len(state.advancements) == previous:
                 return
 
@@ -151,6 +156,10 @@ class SpendingAudit:
                 return bought
 
     def finished(self, state, bought):
+        # Other worlds may still have post-fill work left.
+        if not self.finalized and all(bought & (1 << index) or self.excluded_repair(index, bought)
+                                      for index in range(len(self.purchases))):
+            return True
         if not self.multiworld.has_beaten_game(state):
             return False
         for location in self.required:
@@ -182,9 +191,8 @@ class SpendingAudit:
         self.run_states += 1
         if self.finished(state, bought):
             return None
-        if self.run_states > 4096:
-            raise FillError('Craftmetal spending validation exceeded its search limit. '
-                            'This seed could not be verified.', multiworld=self.multiworld)
+        if self.run_states > self.state_limit:
+            return SpendingFailure(state, bought, exhausted=True)
         reachable = self.reachable_purchases(state)
         choices = [index for index, location in enumerate(self.purchases)
                    if not bought & (1 << index) and not self.excluded_repair(index, bought)
@@ -213,6 +221,10 @@ class SpendingAudit:
         self.visited.clear()
         self.reach_cache.clear()
         self.run_states = 0
+        # Reachable filler purchases spend the same coin without opening anything.
+        self.filler = sum(1 << index for index, location in enumerate(self.purchases)
+                          if not location.item.advancement and self.recipients.get(location.item.player)
+                          and location.address is not None and not self.repairs[location.player] & (1 << index))
         self.required = tuple(
             location for location in self.locations
             if location not in self.alternatives and (location.player in self.full or (
@@ -260,8 +272,8 @@ class SpendingAudit:
         return None
 
 
-def audit_craftmetal_spending(multiworld, worlds):
-    audit = SpendingAudit(multiworld, worlds)
+def audit_craftmetal_spending(multiworld, worlds, *, finalized=True):
+    audit = SpendingAudit(multiworld, worlds, finalized=finalized)
     if not audit.purchases:
         return
     repairs = []
@@ -277,10 +289,26 @@ def audit_craftmetal_spending(multiworld, worlds):
                 f'{audit.available(player, failure.state, failure.bought)} left'
                 for player in audit.worlds
             )
+            blocked = [str(location) for location in audit.required
+                       if location not in failure.state.advancements and not location.can_reach(failure.state)]
+            goals = [multiworld.player_name[player] for player in multiworld.player_ids
+                     if not multiworld.has_beaten_game(failure.state, player)]
+            pending = [str(location) for index, location in enumerate(audit.purchases)
+                       if not failure.bought & (1 << index) and not audit.excluded_repair(index, failure.bought)]
+            details = (f' Unreachable checks: {", ".join(blocked[:8])}.' if blocked else '')
+            details += (f' Unfinished goals: {", ".join(goals[:8])}.' if goals else '')
+            if not pending:
+                raise FillError('All Craftmetal purchases were reachable, but final accessibility validation failed.'
+                                + details, multiworld=multiworld)
+            if failure.exhausted:
+                raise FillError('Craftmetal spending validation exceeded its search limit. '
+                                'No legal reward swap remains. This seed could not be verified.'
+                                + details, multiworld=multiworld)
             raise FillError(
                 'Craftmetal purchases can leave required progression unreachable '
                 f'({spent}). No legal reward swap remains. '
-                'Check locked placements, exclusions or vanilla tool settings.',
+                'Check locked placements, exclusions or vanilla tool settings.'
+                f' Unbought checks: {", ".join(pending[:8])}.' + details,
                 multiworld=multiworld,
             )
         repairs.append(repair)

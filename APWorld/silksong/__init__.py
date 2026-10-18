@@ -250,11 +250,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
             resolved_rule = resolved_rule.child
         super().register_rule_dependencies(resolved_rule)
 
+    def collect_item(self, state: CollectionState, item: Item, remove: bool = False):
+        if item.name == PROGRESSIVE_SWIFT_STEP_ITEM and 'Dash' in self.get_directional_abilities():
+            from .directional_abilities import progressive_steps
+            steps = progressive_steps(self._swift_step_first_right)
+            if remove:
+                return next((name for name in reversed(steps) if state.has(name, self.player)), None)
+            return next((name for name in steps if not state.has(name, self.player)), None)
+        return super().collect_item(state, item, remove)
+
     def collect(self, state: CollectionState, item: Item) -> bool:
+        collected_name = self.collect_item(state, item)
         changed = World.collect(self, state, item)
+        if changed and collected_name != item.name and hasattr(self, '_silk_supply'):
+            self._silk_supply.collect(state, collected_name)
         results = state.rule_builder_cache[self.player]
         if changed and results:
-            for name in (item.name, self.item_mapping.get(item.name, "")):
+            for name in (item.name, collected_name, self.item_mapping.get(item.name, "")):
                 for rule_id in self.rule_item_dependencies.get(name, ()):
                     if results.get(rule_id) is False:
                         del results[rule_id]
@@ -331,6 +343,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if slot_data.get("logic_base") != load_base()[0]:
             raise TrackerException(message="Tracker map logic does not match this seed. Use the matching APWorld.")
         slot_data = dict(slot_data)
+        if type(slot_data.get("swift_step_first_right")) is not bool:
+            raise TrackerException(message="Tracker slot data is missing the Swift Step upgrade order.")
         slot_data.setdefault("start_inventory_from_pool", {})
         slot_data.setdefault("npc_souls", False)
         from .npc_souls import validate_slot_data as validate_npc_souls
@@ -499,6 +513,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.get_category_mode('Skill'),
             self.get_goal_key() == CURSED_ENDING_GOAL_KEY,
             bool(self.options.silk_soar_begone),
+            (*enemy_soul_required_pool_items(self),
+             *(('Crest: Shaman',) if self.get_category_mode('Crest') == 'anywhere' else ())),
         )
         if self.get_category_mode('Soul') == 'vanilla':
             return excluded | {'Maiden Soul', 'Hermit Soul', 'Seeker Soul'}
@@ -624,6 +640,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._resolved_logic_unknown_locations = None
         self._crest_slot_memory_locket_count = None
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
+        self._swift_step_first_right = (
+            bool(passthrough['swift_step_first_right']) if passthrough is not None
+            else bool(self.random.getrandbits(1)) if self.is_split_dash_and_sprint() and self.options.directional_swift_step
+            else False
+        )
         if passthrough is not None:
             passthrough = dict(passthrough)
             passthrough.setdefault("start_inventory_from_pool", {})
@@ -689,6 +710,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
             steel_soul=self.is_steel_soul(),
+            required_goal_items=enemy_soul_required_pool_items(self),
             silk_soar_begone=bool(self.options.silk_soar_begone),
         )
         if self.is_early_dash_enabled():
@@ -700,13 +722,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 if self.is_split_dash_and_sprint()
                 else "Swift Step"
             )
-            if self.options.directional_swift_step:
-                early_item_name = 'Dash (Left)' if self.is_split_dash_and_sprint() else 'Swift Step (Left)'
+            if self.options.directional_swift_step and not self.is_split_dash_and_sprint():
+                early_item_name = 'Swift Step (Left)'
                 right = early_item_name.replace('(Left)', '(Right)')
                 player_early_items[right] = player_early_items.get(right, 0) + 1
             player_early_items[early_item_name] = (
                 player_early_items.get(early_item_name, 0)
-                + 1
+                + (3 if 'Dash' in self.get_directional_abilities() else 1)
             )
 
         self.options.non_local_items.value.difference_update(
@@ -1886,10 +1908,13 @@ class SilksongWorld(CachedRuleBuilderWorld):
         fill_solo_progression(self, progitempool, fill_locations)
 
     @classmethod
-    def _build_crest_slot_budget_state(cls, multiworld, excluded_slots):
-        state = CollectionState(multiworld)
+    def _build_crest_slot_budget_state(cls, multiworld, excluded_slots, base_state=None):
+        state = base_state.copy() if base_state is not None else CollectionState(multiworld)
         remaining_slots = set(excluded_slots)
-        filled_locations = tuple(multiworld.get_filled_locations())
+        filled_locations = tuple(
+            location for location in multiworld.get_filled_locations()
+            if location.advancement and location not in state.advancements
+        )
         while True:
             state.sweep_for_advancements(
                 locations=(
@@ -1942,6 +1967,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     location.item is not None
                     and location.item.advancement
                     and not location.locked
+                    and location not in slotless_state.advancements
                 )
             ]
             replacement_locations = sorted(
@@ -1962,33 +1988,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if not progression_slots:
                 return slotless_state
 
-            from Fill import swap_location_item, sweep_from_pool
+            from Fill import swap_location_item
 
-            if not replacement_locations:
-                # Tiny pools can have nothing but progression left to swap.
-                for slot_location in progression_slots:
-                    for replacement in sorted(non_slot_locations, key=lambda loc: (loc.player, loc.name)):
-                        if (replacement.address is None or replacement.locked or replacement.item is None
-                                or not replacement.can_reach(slotless_state)
-                                or not replacement.can_fill(slotless_state, slot_location.item, False)
-                                or not slot_location.can_fill(slotless_state, replacement.item, False)):
-                            continue
-                        swap_location_item(slot_location, replacement)
-                        candidate = cls._build_crest_slot_budget_state(multiworld, excluded_slots)
-                        if candidate.count(MEMORY_LOCKET_ITEM, world.player) >= get_crest_slot_memory_locket_count(world):
-                            return candidate
-                        swap_location_item(slot_location, replacement)
-                return slotless_state
-
-            pending_locations = {
-                location
-                for location in non_slot_locations
-                if (
-                    location.advancement
-                    and location not in slotless_state.advancements
-                )
-            }
-            candidate_locations = {}
             improved_state = None
             fallback_swap = None
             fallback_state = None
@@ -2008,24 +2009,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     ):
                         continue
 
-                    slot_item = slot_location.item
-                    previous_item_count = slotless_state.count(
-                        slot_item.name,
-                        slot_item.player,
-                    )
                     swap_location_item(slot_location, replacement_location)
-                    if replacement_location not in candidate_locations:
-                        candidate_locations[replacement_location] = tuple(
-                            location
-                            for location in non_slot_locations
-                            if (
-                                location in pending_locations
-                                or location is replacement_location
-                            )
-                        )
-                    candidate_state = sweep_from_pool(
-                        slotless_state,
-                        locations=candidate_locations[replacement_location],
+                    candidate_state = cls._build_crest_slot_budget_state(
+                        multiworld, excluded_slots, slotless_state,
                     )
                     candidate_count = candidate_state.count(
                         MEMORY_LOCKET_ITEM,
@@ -2036,10 +2022,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                         break
                     if (
                         fallback_swap is None
-                        and candidate_state.count(
-                            slot_item.name,
-                            slot_item.player,
-                        ) > previous_item_count
+                        and candidate_state.prog_items != slotless_state.prog_items
                     ):
                         fallback_swap = (
                             slot_location,
@@ -2053,6 +2036,22 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
             if improved_state is None:
                 if fallback_swap is None:
+                    # Tiny pools can have nothing but progression left to swap.
+                    for slot_location in progression_slots:
+                        for replacement in sorted(non_slot_locations, key=lambda loc: (loc.player, loc.name)):
+                            if (replacement.address is None or replacement.locked or replacement.item is None
+                                    or not replacement.can_reach(slotless_state)
+                                    or not replacement.can_fill(slotless_state, slot_location.item, False)
+                                    or not slot_location.can_fill(slotless_state, replacement.item, False)):
+                                continue
+                            swap_location_item(slot_location, replacement)
+                            candidate = cls._build_crest_slot_budget_state(multiworld, excluded_slots)
+                            if (candidate.count(MEMORY_LOCKET_ITEM, world.player)
+                                    >= get_crest_slot_memory_locket_count(world)
+                                    and all(candidate.prog_items[player] >= counts
+                                            for player, counts in slotless_state.prog_items.items())):
+                                return candidate
+                            swap_location_item(slot_location, replacement)
                     return slotless_state
                 swap_location_item(*fallback_swap)
                 improved_state = fallback_state
@@ -2103,7 +2102,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         audit_craftmetal_spending(multiworld, [
             multiworld.worlds[player] for player in multiworld.player_ids
             if multiworld.worlds[player].game == cls.game
-        ])
+        ], finalized=False)
 
         # Freeze the resulting count before core progression balancing. The
         # slot placements are locked so that balancing cannot change it.
@@ -2233,6 +2232,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "directional_cling_grip": 'Cling Grip' in self.get_directional_abilities(),
             "directional_clawline": 'Clawline' in self.get_directional_abilities(),
             "directional_swift_step": bool({'Swift Step', 'Dash'} & set(self.get_directional_abilities())),
+            "swift_step_first_right": self._swift_step_first_right,
             "directional_ledge_grab": 'Ledge Grab' in self.get_directional_abilities(),
             "silk_heart_logic": bool(self.options.silk_heart_logic.value),
             "ledgegrab_ability_rando": (

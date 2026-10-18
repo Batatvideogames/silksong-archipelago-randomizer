@@ -348,7 +348,10 @@ def connect_native_logic_regions(
     if supply is not None:
         from .silk_supply import SilkSupplyRule
         for name in sorted(supply.boundaries):
-            world.create_entrance(menu, regions[name], SilkSupplyRule(name), f'Silksong Silk: {name}')
+            for source in supply.query_sources(name):
+                world.create_entrance(regions[source] if source is not None else menu,
+                                      regions[name], SilkSupplyRule(name),
+                                      f'Silksong Silk: {name} from {source or "Menu"}')
 
 
 @lru_cache(maxsize=1)

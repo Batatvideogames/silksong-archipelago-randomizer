@@ -255,6 +255,19 @@ def gate_graph(world, graph):
     for owner, rules in tuple(result.items()):
         if owner != ACT_3_INTRO_EVENT:
             result[owner] = tuple(_combat_gate(rule, names) for rule in rules)
+    ragpelts = 'Room Event: event:mapper/reviewed:crawbug-ragpelts-collected'
+    if 'Craw' in names and ragpelts in result:
+        original = result[ragpelts]
+        result[ragpelts] = ()
+        from .requirements import _combine_room_graph_gate
+        for species in ('Craw', 'Tallcraw', 'Squatcraw'):
+            for source in check_requirements(species, names):
+                if species not in names:
+                    source = replace(source, all_of=tuple(n for n in source.all_of if n != item_name(species)))
+                for rule in original:
+                    gate = replace(rule, all_of=tuple(n for n in rule.all_of if not n.startswith('Room Node: ')))
+                    result[ragpelts] += (_combine_room_graph_gate(source, gate),)
+        result[ragpelts] = tuple(dict.fromkeys(result[ragpelts]))
     return result
 
 

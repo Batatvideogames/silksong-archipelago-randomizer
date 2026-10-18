@@ -1521,6 +1521,9 @@ def build_item_pool_entries(
     if act_one_only and act_two_only:
         raise ValueError("Act 1 and Act 2 content scopes cannot overlap.")
 
+    if act_two_only and category_modes.get('Crest', 'anywhere') == 'anywhere':
+        required_goal_items = tuple(dict.fromkeys((*required_goal_items, 'Crest: Shaman')))
+
     entries: list[ItemPoolEntry] = []
     act_one_excluded_location_names = (
         get_act_one_excluded_location_names(
@@ -1536,7 +1539,8 @@ def build_item_pool_entries(
         act_one_excluded_location_names
         if act_one_only
         else get_act_two_excluded_location_names(
-            starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
+            starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone,
+            required_goal_items)
         if act_two_only
         else frozenset()
     )
@@ -1655,7 +1659,8 @@ def build_item_pool_entries(
     elif act_two_only:
         entries = list(
             trim_act_two_pool_entries(
-                entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone)
+                entries, starting_crest_item, category_modes.get("Skill", "anywhere"), cursed_ending, silk_soar_begone,
+                required_goal_items)
         )
 
     from .game_modes import excluded_locations

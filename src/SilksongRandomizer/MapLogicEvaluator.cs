@@ -1100,6 +1100,14 @@ namespace SilksongRandomizer
 
             if (state != null)
             {
+                if (state.splitDashAndSprint && state.directionalSwiftStep)
+                {
+                    if (state.swiftStepLevel >= 1) SetMinimumCount(counts, "Sprint", 1);
+                    if (state.swiftStepLevel >= 2)
+                        SetMinimumCount(counts, state.swiftStepFirstRight ? "Dash (Right)" : "Dash (Left)", 1);
+                    if (state.swiftStepLevel >= 3)
+                        SetMinimumCount(counts, state.swiftStepFirstRight ? "Dash (Left)" : "Dash (Right)", 1);
+                }
                 SetMinimumCount(
                     counts,
                     "Progressive Swift Step",
@@ -1916,7 +1924,7 @@ namespace SilksongRandomizer
             }
             if (group.LogicUnknown)
             {
-                return goalCompleted;
+                return false;
             }
             if (group.Alternatives != null)
             {

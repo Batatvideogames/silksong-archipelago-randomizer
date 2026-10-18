@@ -9,6 +9,24 @@ namespace SilksongRandomizer.Patches
 {
     internal static class ReverseRouteSafetyPatches
     {
+        [HarmonyPatch(typeof(Trapdoor), "Awake")]
+        private static class ClawlineEntryHatch
+        {
+            private static void Prefix(Trapdoor __instance, ref bool ___stayOpen, out bool __state)
+            {
+                __state = SaveState.Instance?.IsRoomBound == true &&
+                    __instance.gameObject.scene.name == "Under_18" &&
+                    Utils.GetHierarchyPath(__instance.transform) == "Battle Scene/Gates/Pipe_Vent_Hatch (1)";
+                if (__state) ___stayOpen = true;
+            }
+
+            [HarmonyPostfix]
+            private static void Postfix(Trapdoor __instance, bool __state)
+            {
+                if (__state) __instance.SetOpened();
+            }
+        }
+
         [HarmonyPatch(typeof(TempGate), "SetStartingState")]
         private static class SaunaReturnButton
         {

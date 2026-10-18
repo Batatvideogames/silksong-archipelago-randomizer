@@ -95,7 +95,7 @@ namespace SilksongRandomizer
             SaveState state = RequireSaveState();
             int nextLevel = Math.Min(
                 state.swiftStepLevel + 1,
-                state.directionalSwiftStep ? 1 : MaxSwiftStepLevel
+                state.splitDashAndSprint && state.directionalSwiftStep ? 3 : MaxSwiftStepLevel
             );
             if (nextLevel == state.swiftStepLevel)
             {
