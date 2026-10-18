@@ -53,7 +53,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a12cf3-f4cb-5402-d6a8-0f266b3e7aa8` (Same as R2Modman)
+**Cogfly Import Code:** `01a15150-4496-f47c-5102-41aae48899c7` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -66,7 +66,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a12cf3-f4cb-5402-d6a8-0f266b3e7aa8` (Same as Cogfly)
+**R2Modman Import Code:** `01a15150-4496-f47c-5102-41aae48899c7` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -147,6 +147,8 @@ Long answer, it can cause softlocks and other issues, it can be used but at your
 This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
 
 Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers (these work for both):
+
+**v0.5.2** Import Code: `01a15150-4496-f47c-5102-41aae48899c7`
 
 **v0.5.1** Import Code: `01a12cf3-f4cb-5402-d6a8-0f266b3e7aa8`
 
