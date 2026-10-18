@@ -232,10 +232,11 @@ namespace SilksongRandomizer.Patches
                     candidate => Utils.GetHierarchyPath(candidate) == path).Take(2).ToArray();
                 return matches.Length == 1 ? matches[0].gameObject : null;
             }
-            if (scene == WormwaysScene || scene == "Bone_16")
+            if (scene == WormwaysScene || scene == "Bone_16" || scene == "Greymoor_02")
             {
                 GameObject[] walls = scene == "Bone_16"
                     ? new[] { Find("Breakable Wall (1)"), Find("Breakable Wall (2)") }
+                    : scene == "Greymoor_02" ? new[] { Find("Breakable Wall") }
                     : new[] { Find("Breakable Wall"), Find(WormwaysWallPath) };
                 if (walls.Any(wall => wall == null)) return false;
                 PlayMakerFSM[] fsms = walls.Select(wall => wall.GetComponents<PlayMakerFSM>()
@@ -278,7 +279,16 @@ namespace SilksongRandomizer.Patches
             }
             else if (scene == "Arborium_06")
             {
-                covers = Array.Empty<GameObject>();
+                GameObject[] coverRoots = new[] {
+                    Find("Coral Crust Wall Tall/Damager"),
+                    Find("Coral Crust Wall Tall (1)/Damager"),
+                    Find("Coral Goomba Ambush/Crust Wall/Damager")
+                };
+                if (coverRoots.Any(root => root == null)) return false;
+                covers = coverRoots.SelectMany(root => root.GetComponentsInChildren<SpriteRenderer>(true))
+                    .Where(renderer => renderer.color == Color.black)
+                    .Select(renderer => renderer.gameObject).ToArray();
+                if (covers.Length == 0) return false;
                 locks = new[] {
                     "Coral Crust Wall Tall (1)/Damager/CameraLockArea (2)",
                     "Coral Goomba Ambush/Crust Wall/Damager/CameraLockArea (1)",
@@ -1393,6 +1403,9 @@ namespace SilksongRandomizer.Patches
 
                 if (IsRoomBoundScene(__instance, "Ward_02b") && __instance.GetEntryGateName() == "right1")
                     __instance.StartCoroutine(RevealSideEntry("Ward_02b", "right1"));
+
+                if (IsRoomBoundScene(__instance, "Greymoor_02") && __instance.GetEntryGateName() == "right2")
+                    __instance.StartCoroutine(RevealSideEntry("Greymoor_02", "right2"));
 
                 if (IsRoomBoundScene(__instance, "Bone_16") && __instance.GetEntryGateName() == "top1")
                     __instance.StartCoroutine(RevealSideEntry("Bone_16", "top1"));

@@ -740,7 +740,7 @@
  {
   "name": "Sprintmaster Cave",
   "img": "01-geometry/cd6baea4-a19b-4b65-80e6-e1d1df0709e8.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1472,8 +1472,8 @@
  {
   "name": "Grand Gate Courtroom",
   "img": "01-geometry/205b19ef-859b-41a8-b288-2bbc789e5423.webp",
-  "location_size": 24,
-  "location_border_thickness": 4
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Grand Elevator",

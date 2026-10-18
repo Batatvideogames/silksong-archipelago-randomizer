@@ -1031,7 +1031,8 @@ namespace SilksongRandomizer.Patches
                 }
                 FullQuestBase native = QuestManager.GetQuest(offer.Quest);
                 if (native != null && native.IsAccepted) return true;
-                __instance.Fsm.SetState(offer.Quest == "A Pinsmiths Tools" ? "Upgrade? Cost" : offer.Exit);
+                __instance.Fsm.SetState(offer.Quest == "Shell Flowers" ? "Repeat" :
+                    offer.Quest == "A Pinsmiths Tools" ? "Upgrade? Cost" : offer.Exit);
                 __instance.Finish();
                 return false;
             }

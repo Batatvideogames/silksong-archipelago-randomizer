@@ -1027,9 +1027,9 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
         'Moss Grotto - Shell Shard Cache #6',
         'Moss Grotto - Shell Shard Cache #7',
         'Shellwood - Shell Shard Cache #12',
-        'Shellwood - Shell Shard Cache #4',
-        'Shellwood - Shell Shard Cache #5',
-        'Shellwood - Shell Shard Cache #6',
+        'Shell shard Cache: Outside Longpin 1',
+        'Shell shard Cache: Outside Longpin 2',
+        'Shell shard Cache: Outside Longpin 3',
         'The Marrow - Rosary Cache #1',
         'The Marrow - Rosary Cache #2',
         'The Marrow - Rosary Cache #3',
@@ -3536,9 +3536,9 @@ def _minor_cache_requirement(location_name: str) -> LocationRequirement:
             SWIFT_STEP_ITEM,
         )
     if source_location_name in {
-        'Shellwood - Shell Shard Cache #4',
-        'Shellwood - Shell Shard Cache #5',
-        'Shellwood - Shell Shard Cache #6',
+        'Shell shard Cache: Outside Longpin 1',
+        'Shell shard Cache: Outside Longpin 2',
+        'Shell shard Cache: Outside Longpin 3',
     }:
         return area(
             1,

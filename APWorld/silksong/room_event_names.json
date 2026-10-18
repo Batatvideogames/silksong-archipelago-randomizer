@@ -2434,10 +2434,10 @@
     ]
   },
   "event:mapper/55df7d93-322d-4514-b91e-e79ecb43e782": {
-    "name": "Shellwood - Pollip Heart #3",
+    "name": "Pollip Heart Cling Grip Room",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Pollip Heart #3"
+      "Pollip Heart Cling Grip Room"
     ]
   },
   "event:mapper/27c9f587-ce44-47a5-8a93-494bdf16f46b": {
@@ -2502,10 +2502,10 @@
     "locations": []
   },
   "event:mapper/3e10ff53-11cc-4ef7-ad85-596283eb81d5": {
-    "name": "Shellwood - Pollip Heart #1",
+    "name": "Pollip Heart Left Big Room",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Pollip Heart #1"
+      "Pollip Heart Left Big Room"
     ]
   },
   "event:mapper/131cbcdb-bcc5-4dfd-98f7-ef7901cfb691": {
@@ -2553,10 +2553,10 @@
     "locations": []
   },
   "event:mapper/e00aa296-5eff-4a52-963d-79e46f92d5d7": {
-    "name": "Shellwood - Pollip Heart #2",
+    "name": "Pollip Heart Flower Room",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Pollip Heart #2"
+      "Pollip Heart Flower Room"
     ]
   },
   "event:mapper/906d3bff-5700-4551-acf8-32b63d7611e8": {
@@ -2565,10 +2565,10 @@
     "locations": []
   },
   "event:mapper/395cf407-2776-4a46-b3db-abdc118bf21c": {
-    "name": "Shellwood - Pollip Heart #5",
+    "name": "Pollip Heart Hidden Room",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Pollip Heart #5"
+      "Pollip Heart Hidden Room"
     ]
   },
   "event:mapper/de6a65d1-7fe6-42b4-b493-584013701de8": {
@@ -2609,10 +2609,10 @@
     "locations": []
   },
   "event:mapper/bc01a957-802d-4d96-81c9-8e8585ec8a2a": {
-    "name": "Shellwood - Mask Shard",
+    "name": "Mask Shard: Shellwood",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Mask Shard"
+      "Mask Shard: Shellwood"
     ]
   },
   "event:mapper/06276091-a0f2-4789-a76f-c74c45bbaf39": {
@@ -2623,10 +2623,10 @@
     ]
   },
   "event:mapper/73f29fa5-ad19-466b-a0c5-55396e3644c6": {
-    "name": "Shellwood - Pollip Heart #6",
+    "name": "Pollip Heart Right Side Big Room",
     "kind": "collectible",
     "locations": [
-      "Shellwood - Pollip Heart #6"
+      "Pollip Heart Right Side Big Room"
     ]
   },
   "event:mapper/066e35f0-51e1-4bc6-891a-ed8e49ff006a": {
@@ -3018,13 +3018,6 @@
     "kind": "collectible",
     "locations": [
       "Flea: Bellhart"
-    ]
-  },
-  "event:mapper/f00c4d34-3d84-4746-b034-961203e08150": {
-    "name": "Boss: Widow",
-    "kind": "boss",
-    "locations": [
-      "Boss: Widow"
     ]
   },
   "event:mapper/94ea2d54-b8d0-4055-8c36-edc237378236": {
@@ -7472,6 +7465,23 @@
   "event:mapper/7e04acc9-5735-4193-924c-6aa3652d94c7": {
     "name": "Greymoor East Bellshrine Room - cooler bridge lever",
     "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/dc5a5a3f-8e91-4056-b23b-e0f0f5d933a0": {
+    "name": "Boss: Widow",
+    "kind": "boss",
+    "locations": [
+      "Boss: Widow"
+    ]
+  },
+  "event:mapper/498a6a37-8793-447e-a72b-4f4e1fd08b64": {
+    "name": "Shellgrave - Save Plinney",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/6b37d230-4333-4c5a-822d-c3ac73ea10db": {
+    "name": "Shellwood Sister Splinter Bench - Shellwood Toll Bench Arena",
+    "kind": "gauntlet",
     "locations": []
   }
 }

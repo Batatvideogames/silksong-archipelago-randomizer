@@ -955,7 +955,7 @@ class DirectionalClingGrip(Toggle):
 class DirectionalSwiftStep(Toggle):
     """
     Split Swift Step into Left and Right items with Skills set to anywhere.
-    Each side grants dash and sprint. With Split Dash And Sprint enabled,
+    Each item grants dash and sprint only in its direction. With Split Dash And Sprint enabled,
     three Progressive Swift Steps grant sprint in both directions first,
     then one dash direction chosen by the seed, then the other direction.
     """

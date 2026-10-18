@@ -486,7 +486,7 @@ namespace SilksongRandomizer
         private static bool IsSongclaveHubAvailable(PlayerData playerData)
         {
             return playerData != null &&
-                playerData.bellShrineEnclave;
+                (playerData.bellShrineEnclave || SaveState.Instance?.rangSongclaveBell == true);
         }
 
         private static string ResolveMainHubKey(

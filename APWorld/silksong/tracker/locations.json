@@ -9450,8 +9450,8 @@
     "map_locations": [
      {
       "map": "Sprintmaster Cave",
-      "x": 570,
-      "y": 263
+      "x": 564,
+      "y": 234
      }
     ]
    },
@@ -9466,7 +9466,7 @@
      {
       "map": "Sprintmaster Cave",
       "x": 0,
-      "y": 193
+      "y": 171
      }
     ]
    }
@@ -10341,10 +10341,10 @@
     ]
    },
    {
-    "name": "Shellwood - Pollip Heart #3",
+    "name": "Pollip Heart Cling Grip Room",
     "sections": [
      {
-      "name": "Shellwood - Pollip Heart #3"
+      "name": "Pollip Heart Cling Grip Room"
      }
     ],
     "map_locations": [
@@ -10728,8 +10728,8 @@
     "map_locations": [
      {
       "map": "Shellwood Bellway\n",
-      "x": 325,
-      "y": 124
+      "x": 320,
+      "y": 127
      }
     ]
    },
@@ -10784,10 +10784,10 @@
   "name": "Shellwood Big Room Left",
   "children": [
    {
-    "name": "Shellwood - Pollip Heart #1",
+    "name": "Pollip Heart Left Big Room",
     "sections": [
      {
-      "name": "Shellwood - Pollip Heart #1"
+      "name": "Pollip Heart Left Big Room"
      }
     ],
     "map_locations": [
@@ -10994,10 +10994,10 @@
   "name": "Greyroots Basement Tall room",
   "children": [
    {
-    "name": "Shellwood - Shell Shard Cache #1",
+    "name": "Shell Shard Cache: Greyroots Diddy Basement 1",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #1"
+      "name": "Shell Shard Cache: Greyroots Diddy Basement 1"
      }
     ],
     "map_locations": [
@@ -11009,10 +11009,10 @@
     ]
    },
    {
-    "name": "Shellwood - Shell Shard Cache #2",
+    "name": "Shell Shard Cache: Greyroots Diddy Basement 2",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #2"
+      "name": "Shell Shard Cache: Greyroots Diddy Basement 2"
      }
     ],
     "map_locations": [
@@ -11024,10 +11024,10 @@
     ]
    },
    {
-    "name": "Shellwood - Shell Shard Cache #3",
+    "name": "Shell Shard Cache: Greyroots Diddy Basement 3",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #3"
+      "name": "Shell Shard Cache: Greyroots Diddy Basement 3"
      }
     ],
     "map_locations": [
@@ -11124,10 +11124,10 @@
   "name": "Shellwood Flower Pogo Upper Hall",
   "children": [
    {
-    "name": "Shellwood - Pollip Heart #2",
+    "name": "Pollip Heart Flower Room",
     "sections": [
      {
-      "name": "Shellwood - Pollip Heart #2"
+      "name": "Pollip Heart Flower Room"
      }
     ],
     "map_locations": [
@@ -11209,10 +11209,10 @@
   "name": "Shellwood Hidden Bellhart Connection",
   "children": [
    {
-    "name": "Shellwood - Pollip Heart #5",
+    "name": "Pollip Heart Hidden Room",
     "sections": [
      {
-      "name": "Shellwood - Pollip Heart #5"
+      "name": "Pollip Heart Hidden Room"
      }
     ],
     "map_locations": [
@@ -11333,8 +11333,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 156,
-      "y": 532
+      "x": 159,
+      "y": 566
      }
     ]
    },
@@ -11469,10 +11469,10 @@
   "name": "Shellwood Mask Shard Room",
   "children": [
    {
-    "name": "Shellwood - Mask Shard",
+    "name": "Mask Shard: Shellwood",
     "sections": [
      {
-      "name": "Shellwood - Mask Shard"
+      "name": "Mask Shard: Shellwood"
      }
     ],
     "map_locations": [
@@ -11519,10 +11519,10 @@
     ]
    },
    {
-    "name": "Shellwood - Pollip Heart #6",
+    "name": "Pollip Heart Right Side Big Room",
     "sections": [
      {
-      "name": "Shellwood - Pollip Heart #6"
+      "name": "Pollip Heart Right Side Big Room"
      }
     ],
     "map_locations": [
@@ -11534,10 +11534,10 @@
     ]
    },
    {
-    "name": "Shellwood - Shell Shard Cache #4",
+    "name": "Shell shard Cache: Outside Longpin 1",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #4"
+      "name": "Shell shard Cache: Outside Longpin 1"
      }
     ],
     "map_locations": [
@@ -11549,10 +11549,10 @@
     ]
    },
    {
-    "name": "Shellwood - Shell Shard Cache #5",
+    "name": "Shell shard Cache: Outside Longpin 2",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #5"
+      "name": "Shell shard Cache: Outside Longpin 2"
      }
     ],
     "map_locations": [
@@ -11564,10 +11564,10 @@
     ]
    },
    {
-    "name": "Shellwood - Shell Shard Cache #6",
+    "name": "Shell shard Cache: Outside Longpin 3",
     "sections": [
      {
-      "name": "Shellwood - Shell Shard Cache #6"
+      "name": "Shell shard Cache: Outside Longpin 3"
      }
     ],
     "map_locations": [
@@ -11804,10 +11804,10 @@
     ]
    },
    {
-    "name": "Shellwood - Rosary Cache",
+    "name": "Rosary cache: Shellwood Top Room",
     "sections": [
      {
-      "name": "Shellwood - Rosary Cache"
+      "name": "Rosary cache: Shellwood Top Room"
      }
     ],
     "map_locations": [
@@ -12043,7 +12043,7 @@
     "map_locations": [
      {
       "map": "Bellhart Bellway",
-      "x": 215,
+      "x": 158,
       "y": 210
      }
     ]
@@ -12058,8 +12058,8 @@
     "map_locations": [
      {
       "map": "Bellhart Bellway",
-      "x": 514,
-      "y": 215
+      "x": 457,
+      "y": 216
      }
     ]
    },
@@ -12073,7 +12073,7 @@
     "map_locations": [
      {
       "map": "Bellhart Bellway",
-      "x": 282,
+      "x": 225,
       "y": 63
      }
     ]
@@ -12088,7 +12088,7 @@
     "map_locations": [
      {
       "map": "Bellhart Bellway",
-      "x": 175,
+      "x": 118,
       "y": 192
      }
     ]
@@ -12941,21 +12941,6 @@
   "name": "Widow Boss Fight",
   "children": [
    {
-    "name": "Boss: Widow",
-    "sections": [
-     {
-      "name": "Boss: Widow"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Widow Boss Fight",
-      "x": 337,
-      "y": 166
-     }
-    ]
-   },
-   {
     "name": "Bellhart - Bellshrine",
     "sections": [
      {
@@ -12990,6 +12975,9 @@
     "sections": [
      {
       "name": "Journal: Widow"
+     },
+     {
+      "name": "Boss: Widow"
      }
     ],
     "map_locations": [
@@ -18445,8 +18433,8 @@
     "map_locations": [
      {
       "map": "Grand Gate Courtroom",
-      "x": 124,
-      "y": 115
+      "x": 134,
+      "y": 298
      }
     ]
    },
@@ -18460,8 +18448,8 @@
     "map_locations": [
      {
       "map": "Grand Gate Courtroom",
-      "x": 212,
-      "y": 843
+      "x": 229,
+      "y": 858
      }
     ]
    },
@@ -18475,8 +18463,8 @@
     "map_locations": [
      {
       "map": "Grand Gate Courtroom",
-      "x": 14,
-      "y": 809
+      "x": 15,
+      "y": 832
      }
     ]
    },
@@ -18490,8 +18478,8 @@
     "map_locations": [
      {
       "map": "Grand Gate Courtroom",
-      "x": 388,
-      "y": 338
+      "x": 418,
+      "y": 470
      }
     ]
    },
@@ -18505,8 +18493,8 @@
     "map_locations": [
      {
       "map": "Grand Gate Courtroom",
-      "x": 441,
-      "y": 842
+      "x": 476,
+      "y": 857
      }
     ]
    }
