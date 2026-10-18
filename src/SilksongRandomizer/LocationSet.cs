@@ -192,6 +192,10 @@ namespace SilksongRandomizer
                 )
             {
                 {
+                    "Relic: Bone Scroll (Greymoor)",
+                    "Relic: Bone Scroll (Greymoor) at bugs lonely resting place"
+                },
+                {
                     "Skill Unlock: Drifter's Cloak",
                     DriftersCloakLocationName
                 },

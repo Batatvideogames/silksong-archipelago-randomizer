@@ -866,7 +866,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ),
     "event:greymoor/greymoor-craw-lake/lever-broken-from-greymoor-crow-nest": (
         _part(
-            room_node_name("greymoor/greymoor-crow-nest#crow-arena")
+            room_node_name("greymoor/greymoor-craw-nest#crow-arena")
         ),
     ),
     "event:greymoor/greymoor-west-bellshrine-room/lever-switch": (
@@ -1384,8 +1384,8 @@ _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS = tuple(
 _EXISTING_LOCATION_CLAUSE_BINDINGS: Mapping[
     str, tuple[CompiledRoomClause, ...]
 ] = {
-    "Greymoor - Rosary Cache #2": _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
-    "Greymoor - Rosary Cache #3": _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
+    'Greymoor - Craw gang lunch money': _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
+    'Greymoor - Craw gang savings': _GREYMOOR_EAST_CACHE_POGO_REQUIREMENTS,
     "Beast Shard: Craggler": (
         _part(
             room_event_name(

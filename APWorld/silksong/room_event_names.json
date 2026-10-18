@@ -3206,7 +3206,7 @@
     "locations": []
   },
   "event:mapper/bbbfbd7e-87e1-44ce-9d77-34356f89f0b9": {
-    "name": "Greymoor Crow Court - Crow Father",
+    "name": "Greymoor Craw Court - Crow Father",
     "kind": "boss",
     "locations": []
   },
@@ -3218,27 +3218,27 @@
     ]
   },
   "event:mapper/b39d642d-8a47-4e88-a14d-90dba73dbf1f": {
-    "name": "Greymoor Crow Court - Crow bell",
+    "name": "Greymoor Craw Court - Crow bell",
     "kind": "collectible",
     "locations": []
   },
   "event:mapper/26d1e6f5-b722-4821-ab61-42504c901169": {
-    "name": "Greymoor Crow Court - Wood wall",
+    "name": "Greymoor Craw Court - Wood wall",
     "kind": "blockade",
     "locations": []
   },
   "event:mapper/reviewed:crawfather-defeated": {
-    "name": "Greymoor Crow Court - Crawfather Defeated",
+    "name": "Greymoor Craw Court - Crawfather Defeated",
     "kind": "event",
     "locations": []
   },
   "event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08": {
-    "name": "Greymoor Crow Nest - Balloon lever",
+    "name": "Greymoor Craw Nest - Balloon lever",
     "kind": "switch",
     "locations": []
   },
   "event:mapper/39352487-8748-4f63-99f8-05f29a14caa7": {
-    "name": "Greymoor Crow Nest - Craw Lake Gauntlet",
+    "name": "Greymoor Craw Nest - Craw Lake Gauntlet",
     "kind": "gauntlet",
     "locations": []
   },
@@ -3372,10 +3372,10 @@
     "locations": []
   },
   "event:mapper/399ff2f5-9205-4154-852f-68dd2752327a": {
-    "name": "Relic: Bone Scroll (Greymoor)",
+    "name": "Relic: Bone Scroll (Greymoor) at bugs lonely resting place",
     "kind": "collectible",
     "locations": [
-      "Relic: Bone Scroll (Greymoor)"
+      "Relic: Bone Scroll (Greymoor) at bugs lonely resting place"
     ]
   },
   "event:mapper/d46d73d0-a65d-4132-b613-a2d7981a3c7b": {
@@ -4886,11 +4886,6 @@
   "event:mapper/reviewed:wailing-mother-accepted": {
     "name": "Wailing Mother Accepted",
     "kind": "event",
-    "locations": []
-  },
-  "event:mapper/c2a9d8b0-280e-4cee-8aad-0ccf34e05fb2": {
-    "name": "Choral Chambers Outside Spa - Second Sentinel Encounter",
-    "kind": "resource",
     "locations": []
   },
   "event:mapper/reviewed:choral-spa-gauntlet": {
@@ -7319,10 +7314,10 @@
     "locations": []
   },
   "event:mapper/e54aed5d-25ca-4209-b377-8c877e377a7f": {
-    "name": "Choral Chambers - Rosary Chest #2",
+    "name": "Reed's personal chest",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Chest #2"
+      "Reed's personal chest"
     ]
   },
   "event:mapper/896f5186-1d21-4908-9361-b9b3b8e1b46e": {
@@ -7353,24 +7348,24 @@
     ]
   },
   "event:mapper/936ce385-67b7-432c-b258-22445485f9d6": {
-    "name": "Choral Chambers - Rosary Chest #1",
+    "name": "Choristor's precious belongings",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Chest #1"
+      "Choristor's precious belongings"
     ]
   },
   "event:mapper/932fba53-6a79-47ce-a4ef-d0456a986508": {
-    "name": "Choral Chambers - Rosary Cache #8",
+    "name": "Old Ventrica gains",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Cache #8"
+      "Old Ventrica gains"
     ]
   },
   "event:mapper/c0c57e6d-2417-46c7-8b6f-d1ec15b1a193": {
-    "name": "Choral Chambers - Rosary Cache #9",
+    "name": "Old Ventrica treasury",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Cache #9"
+      "Old Ventrica treasury"
     ]
   },
   "event:mapper/acdc4350-d378-43f6-93d6-e0d420e0e217": {
@@ -7379,10 +7374,10 @@
     "locations": []
   },
   "event:mapper/73ba7475-f2f5-4c03-84f3-d42864ae2a1d": {
-    "name": "Choral Chambers - Rosary Chest #3",
+    "name": "Grand bellway hidden chest",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Chest #3"
+      "Grand bellway hidden chest"
     ]
   },
   "event:mapper/7fd15653-2492-4020-bb58-842787851ce1": {
@@ -7422,7 +7417,7 @@
   },
   "event:mapper/007f3c9a-50b0-4802-8f2b-4d87bffafe98": {
     "name": "Choral Chambers Outside Spa - Gauntlet Fight",
-    "kind": "event",
+    "kind": "gauntlet",
     "locations": []
   },
   "event:mapper/67d0412e-1ffe-43fd-9128-da5814b210a9": {
@@ -7462,6 +7457,21 @@
   "event:mapper/f30f8794-c647-456f-aefc-ef464466e126": {
     "name": "Bellway Centipede Arena - Bell Eater",
     "kind": "boss",
+    "locations": []
+  },
+  "event:mapper/5536617d-a390-461a-8f22-9dd629833250": {
+    "name": "Choral Chambers Outside Spa - Second Sentinel Encounter",
+    "kind": "event",
+    "locations": []
+  },
+  "event:mapper/4d44e40c-3534-42dc-807e-80d6bfabcdc1": {
+    "name": "Greymoor Craw Lake - Greymoor Stand Lever",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/7e04acc9-5735-4193-924c-6aa3652d94c7": {
+    "name": "Greymoor East Bellshrine Room - cooler bridge lever",
+    "kind": "switch",
     "locations": []
   }
 }

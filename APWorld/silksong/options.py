@@ -694,6 +694,7 @@ class WishPlando(OptionDict):
     """
 
     display_name = "Wish Offer Plando"
+    visibility = Visibility.none
     default = {}
 
 
@@ -912,8 +913,9 @@ class EarlyDash(Toggle):
 class SplitDashAndSprint(Toggle):
     """
     With Skills set to anywhere, the first Progressive Swift Step grants sprint
-    and the second grants dash. With Directional Swift Step enabled, use three
-    independent items instead: Sprint, Dash (Left) and Dash (Right).
+    and the second grants dash. With Directional Swift Step enabled, three
+    Progressive Swift Steps grant sprint, one dash direction chosen by the seed
+    then the other dash direction.
     """
 
     display_name = "Split Dash And Sprint"
@@ -954,8 +956,8 @@ class DirectionalSwiftStep(Toggle):
     """
     Split Swift Step into Left and Right items with Skills set to anywhere.
     Each side grants dash and sprint. With Split Dash And Sprint enabled,
-    Sprint is a separate item that works in both directions. Dash (Left) and
-    Dash (Right) work independently of Sprint and can be found first.
+    three Progressive Swift Steps grant sprint in both directions first,
+    then one dash direction chosen by the seed, then the other direction.
     """
     display_name = "Directional Swift Step"
     default = 0

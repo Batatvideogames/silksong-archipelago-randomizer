@@ -130,8 +130,6 @@ namespace SilksongRandomizer
                     bosses.Count(id => OwnsBossCredit(state, id)) + " / " + bosses.Length,
                     "Received credits are separate from physical defeats"));
             }
-            overview.Left.Add(new ArchipelagoInventoryRow("Return to " + FastTravelUtil.GetPreferredHubName(),
-                "F4: Return to safety   |   F3: Change destination"));
             overview.Right.AddRange(history);
             if (overview.Right.Count == 0)
                 overview.Right.Add(new ArchipelagoInventoryRow("No items received yet"));

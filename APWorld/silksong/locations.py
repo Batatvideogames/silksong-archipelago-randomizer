@@ -71,6 +71,8 @@ def _location_first_display_name(location_name: str) -> str:
 
 def get_item_first_location_name(location_name: str) -> str:
     """Return the source-style name used by paired native rewards."""
+    if location_name == 'Relic: Bone Scroll (Greymoor) at bugs lonely resting place':
+        return 'Relic: Bone Scroll (Greymoor)'
     if location_name.startswith('Flea: '):
         return location_name
     for item_label in _LOCATION_FIRST_ITEM_LABELS:
@@ -545,7 +547,7 @@ _RELIC_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Relic: Bone Scroll (Far Fields)',
     'Relic: Choral Commandment (Moss Grotto)',
     'Relic: Choral Commandment (Eastern Whiteward)',
-    'Relic: Bone Scroll (Greymoor)',
+    'Relic: Bone Scroll (Greymoor) at bugs lonely resting place',
     'Relic: Weaver Effigy (Atla, The Slab)',
     'Relic: Arcane Egg',
 )

@@ -1111,6 +1111,15 @@ namespace SilksongRandomizer
             {
                 hero.MaxRegenSilk();
             }
+            if (!playerData.HasBoundCrestUpgrader) return;
+            foreach (PlayMakerFSM bench in UnityEngine.Object.FindObjectsByType<PlayMakerFSM>(FindObjectsSortMode.None))
+            {
+                if (bench.FsmName != "Bench Control" ||
+                    bench.FsmVariables.FindFsmBool("At This Bench")?.Value != true) continue;
+                foreach (PlayMakerFSM heal in bench.GetComponents<PlayMakerFSM>())
+                    if (heal.FsmName == "Eva Heal" && heal.ActiveStateName == "Inert")
+                        heal.SendEvent("AT THIS BENCH");
+            }
         }
 
         private static void SetCrest(ToolCrest crest, bool markTemporary)

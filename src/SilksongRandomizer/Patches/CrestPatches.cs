@@ -9,6 +9,26 @@ namespace SilksongRandomizer.Patches
 {
     public class CrestPatches
     {
+        [HarmonyPatch(typeof(InventoryItemManager), nameof(InventoryItemManager.SetSelected),
+            new[] { typeof(InventoryItemManager.SelectedActionType), typeof(bool) })]
+        private static class EmptyCrestInventoryDisplay
+        {
+            [HarmonyPostfix]
+            private static void Postfix(InventoryItemManager __instance, bool __result)
+            {
+                if (__result || !(__instance is InventoryItemToolManager tools) ||
+                    SaveState.Instance?.IsRoomBound != true || PlayerData.instance?.CurrentCrestID != "Cloakless") return;
+                tools.SetDisplay((GameObject)null);
+                var title = (TMProOld.TextMeshPro)AccessTools.Field(typeof(InventoryItemManager), "nameText").GetValue(tools);
+                var description = (TMProOld.TextMeshPro)AccessTools.Field(typeof(InventoryItemManager), "descriptionText").GetValue(tools);
+                if (title != null) title.text = "No Crest";
+                if (description != null) description.text = "Tools and silk skills need a crest.";
+                var inventory = tools.GetComponentInParent<InventoryPaneList>();
+                if (inventory != null && tools.EquipState == InventoryItemToolManager.EquipStates.None)
+                    inventory.CloseBlocked = false;
+            }
+        }
+
         [HarmonyPatch(typeof(InventoryToolCrestList), "CanChangeCrests", new Type[0])]
         internal static class InventoryToolCrestList_CanChangeCrests_Patch
         {
@@ -22,7 +42,7 @@ namespace SilksongRandomizer.Patches
                     return true;
                 }
 
-                __result = !TrapManager.IsCursedCrestActive;
+                __result = !TrapManager.IsCursedCrestActive && !StartingCrestFix.IsNakedStart;
                 return false;
             }
         }

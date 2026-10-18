@@ -381,6 +381,10 @@
       {
         "scene": "slab_10b",
         "path": "Boss Scene/Shrine First Weaver NPC"
+      },
+      {
+        "scene": "slab_10b",
+        "path": "Shrine First Weaver"
       }
     ],
     "battles": [],

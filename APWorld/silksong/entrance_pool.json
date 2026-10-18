@@ -3625,7 +3625,7 @@
     "scene": "Greymoor_15b",
     "gate": "door1",
     "direction": "door",
-    "vanilla": "greymoor/greymoor-crow-nest@l",
+    "vanilla": "greymoor/greymoor-craw-nest@l",
     "target_scene": "Room_CrowCourt",
     "target_gate": "left1",
     "is_door": true,
@@ -3668,8 +3668,8 @@
     "group": "top"
   },
   {
-    "id": "greymoor/greymoor-crow-nest@l",
-    "name": "Greymoor Crow Nest - left",
+    "id": "greymoor/greymoor-craw-nest@l",
+    "name": "Greymoor Craw Nest - left",
     "scene": "Room_CrowCourt",
     "gate": "left1",
     "direction": "left",

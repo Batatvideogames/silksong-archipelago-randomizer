@@ -1838,7 +1838,7 @@ namespace SilksongRandomizer
             return sanitized.Length == 0 ? "Unknown hint" : sanitized;
         }
 
-        private void TryWarpToPreferredHub()
+        internal void TryWarpToPreferredHub()
         {
             try
             {

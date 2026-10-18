@@ -258,51 +258,38 @@ class TestDefaultWorld(SilksongTestBase):
             state.collect(item)
         self.assertTrue(location.can_reach(state))
 
-    def test_high_halls_safeguards_require_clawline(self) -> None:
-        locations = tuple(
-            self.multiworld.get_location(name, self.player)
-            for name in (
-                "Cogfly",
-                "High Halls - Shell Shard Cache #2",
-            )
-        )
-
+    def test_high_halls_clawline_gate_only_blocks_the_route_that_needs_it(self) -> None:
+        cogfly = self.multiworld.get_location("Cogfly", self.player)
+        cache = self.multiworld.get_location("High Halls - Shell Shard Cache #2", self.player)
         state = CollectionState(self.multiworld)
         self.collect_all_but(CLAWLINE_ITEM, state)
-        for location in locations:
-            with self.subTest(name=location.name, has_clawline=False):
-                self.assertFalse(location.can_reach(state))
+        self.assertFalse(cogfly.can_reach(state))
+        self.assertTrue(cache.can_reach(state))
 
         for item in self.get_items_by_name(CLAWLINE_ITEM):
             state.collect(item)
-        for location in locations:
-            with self.subTest(name=location.name, has_clawline=True):
-                self.assertTrue(location.can_reach(state))
+        self.assertTrue(cogfly.can_reach(state))
+        self.assertTrue(cache.can_reach(state))
 
-    def test_diving_bell_and_void_require_act_three(self) -> None:
+    def test_diving_bell_and_silk_soar_require_act_three(self) -> None:
         state = CollectionState(self.multiworld)
         self.collect_all_but("Snare Setter", state)
 
         self.assertTrue(state.has("Silk Soar", self.player))
         self.assertTrue(
             state.can_reach_region(
-                "Path: Deep Docks - Sauna",
+                "Room Node: deep-docks/deep-docks-sauna#room",
                 self.player,
             )
         )
         self.assertFalse(state.can_reach_region("Act: 3", self.player))
         self.assertFalse(
             state.can_reach_region(
-                "Path: Deep Docks - Diving Bell",
+                "Room Node: deep-docks/deep-docks-diving-bell-interior#room",
                 self.player,
             )
         )
-        self.assertFalse(
-            state.can_reach_region(
-                "Path: Abyss - Void Tendrils",
-                self.player,
-            )
-        )
+        self.assertFalse(self.world.get_location("Silk Soar").can_reach(state))
 
         for item in self.get_items_by_name("Snare Setter"):
             state.collect(item)
@@ -310,16 +297,11 @@ class TestDefaultWorld(SilksongTestBase):
         self.assertTrue(state.can_reach_region("Act: 3", self.player))
         self.assertTrue(
             state.can_reach_region(
-                "Path: Deep Docks - Diving Bell",
+                "Room Node: deep-docks/deep-docks-diving-bell-interior#room",
                 self.player,
             )
         )
-        self.assertTrue(
-            state.can_reach_region(
-                "Path: Abyss - Void Tendrils",
-                self.player,
-            )
-        )
+        self.assertTrue(self.world.get_location("Silk Soar").can_reach(state))
 
     def test_logic_unknown_locations_unlock_after_victory(self) -> None:
         locations = [
@@ -353,6 +335,8 @@ class TestDefaultWorld(SilksongTestBase):
             "Boss: Gurr the Outcast",
             "Far Fields - Rosary Cache #19",
             "Underworks - Shell Shard Cache #13",
+            "Boss: Clover Dancers",
+            "Boss: Palestag",
         ):
             with self.subTest(name=name):
                 self.assertNotIn(name, LOGIC_UNKNOWN_LOCATIONS)
@@ -362,11 +346,7 @@ class TestDefaultWorld(SilksongTestBase):
                         for dependency in requirement.all_of)
                     for requirement in REQUIREMENTS[name]
                 ))
-        self.assertLessEqual({
-            "Boss: Clover Dancers",
-            "Boss: Palestag",
-            "Wish: Garb of the Pilgrims",
-        }, LOGIC_UNKNOWN_LOCATIONS)
+        self.assertIn("Wish: Garb of the Pilgrims", LOGIC_UNKNOWN_LOCATIONS)
         self.assertFalse(
             ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
             & ROOM_GRAPH_QUARANTINED_CHECK_NAMES
@@ -559,14 +539,14 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
         state = self.multiworld.get_all_state(False)
         names = (
             "Flea: Greymoor - Craw Lake",
-            "Greymoor - Frayed Rosary String #1",
+            'Greymoor - Frayed Rosary String from dead bug guarded by rat',
             "Greymoor - Rosary Cache #18",
-            "Greymoor - Rosary Cache #19",
-            "Greymoor - Rosary Cache #21",
-            "Greymoor - Rosary Cache #22",
-            "Greymoor - Rosary Cache #2",
-            "Greymoor - Rosary Cache #3",
-            "Greymoor - Rosary Cache #20",
+            'Greymoor - mathematician nest rosaries if you know you know',
+            'Greymoor - the other flea segment rosaries',
+            'Greymoor - flea segment rosaries',
+            'Greymoor - Craw gang lunch money',
+            'Greymoor - Craw gang savings',
+            'Greymoor - Rosary Cache under the flea below the hatch',
         )
         for name in names:
             with self.subTest(name=name):
@@ -605,9 +585,9 @@ class TestActOneOrdinaryTraversal(SilksongTestBase):
     def test_greymoor_caches_need_no_skip_option(self) -> None:
         state = self.multiworld.get_all_state(False)
         for name in (
-            "Greymoor - Rosary Cache #2",
-            "Greymoor - Rosary Cache #3",
-            "Greymoor - Rosary Cache #20",
+            'Greymoor - Craw gang lunch money',
+            'Greymoor - Craw gang savings',
+            'Greymoor - Rosary Cache under the flea below the hatch',
         ):
             with self.subTest(name=name):
                 self.assertTrue(
@@ -1218,6 +1198,14 @@ class TestWishLogicEvents(SilksongTestBase):
 
 
 
+class TestWishOfferDisplayNames(TestCase):
+    def test_every_supported_offer_has_a_player_facing_name(self) -> None:
+        from ..progression_shuffle import SUPPORTED_WISH_IDS
+        from ..locations import wish_offer_display_name
+        for asset in SUPPORTED_WISH_IDS:
+            with self.subTest(asset=asset):
+                self.assertTrue(wish_offer_display_name(asset).startswith("Wish: "))
+        self.assertEqual(wish_offer_display_name("Steel Sentinel"), "Wish: A Vassal Lost")
 
 
 class TestRoomGraphCountRequirements(TestCase):
@@ -1287,7 +1275,7 @@ class TestShellwoodMovementBoundary(TestCase):
                 "goal": "act_3",
                 "bellway_access": "randomized_stations",
                 "bellway_randomization": bellway_randomization,
-                "proficient_movement": proficient_movement,
+                "platforming_capability": int(proficient_movement),
                 "boss_sanity": "anywhere",
                 "starting_crest": "hunter",
             },

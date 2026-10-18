@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace SilksongRandomizer
 {
     internal sealed class ArchipelagoInventoryPage : InventoryPane
     {
+        private enum OverviewAction { Warp, Destination, PassTime, Flea }
         private sealed class IconView
         {
             internal SpriteRenderer Renderer;
@@ -53,12 +55,15 @@ namespace SilksongRandomizer
         private float lastOrdinaryFleaTime = float.NegativeInfinity;
         private bool actionsFocused;
         private bool waitingForActionRelease;
+        private OverviewAction selectedAction;
         private int selectedFlea = -1;
         private float actionsReadyAt;
         private float nextTimePass;
         private float timePassPulseUntil;
         private TextMeshPro timeButton;
         private static readonly Rect TimeButtonRect = new Rect(1.7f, -13.6f, 5.2f, .65f);
+        private static readonly Rect WarpButtonRect = new Rect(-7.6f, -13.1f, 5.3f, .55f);
+        private static readonly Rect DestinationButtonRect = new Rect(-1.9f, -13.1f, 3.1f, .55f);
 
         public override bool IsAvailable => SaveState.Instance?.IsRoomBound == true;
 
@@ -279,6 +284,7 @@ namespace SilksongRandomizer
             owner.CanSwitchPanes = true;
             page = 0;
             actionsFocused = waitingForActionRelease = false;
+            selectedAction = OverviewAction.Warp;
             selectedFlea = -1;
             lastOrdinaryFleaTime = float.NegativeInfinity;
             timePassPulseUntil = 0f;
@@ -360,10 +366,11 @@ namespace SilksongRandomizer
             timeButton.color = new Color(brightness, brightness, brightness, timeButton.color.a);
         }
 
-        private void FocusActions(int flea = -1)
+        private void FocusActions(OverviewAction action = OverviewAction.Warp, int flea = -1)
         {
             actionsFocused = true;
             waitingForActionRelease = true;
+            selectedAction = action;
             selectedFlea = flea;
             input.CancelRepeat();
             input.enabled = false;
@@ -435,12 +442,31 @@ namespace SilksongRandomizer
                 waitingForActionRelease = true;
                 return;
             }
-            int previous = selectedFlea;
-            if (controls.Down.WasPressed) selectedFlea = -1;
-            else if (controls.Up.WasPressed && fleaButtons.Count > 0) selectedFlea = Math.Max(0, selectedFlea);
-            else if (controls.Left.WasPressed) selectedFlea = Math.Max(-1, selectedFlea - 1);
-            else if (controls.Right.WasPressed) selectedFlea = Math.Min(fleaButtons.Count - 1, selectedFlea + 1);
-            if (previous != selectedFlea) Render();
+            var previousAction = selectedAction;
+            int previousFlea = selectedFlea;
+            if (controls.Down.WasPressed && selectedAction == OverviewAction.Flea)
+                selectedAction = OverviewAction.Warp;
+            else if (controls.Up.WasPressed && fleaButtons.Count > 0)
+            {
+                selectedAction = OverviewAction.Flea;
+                selectedFlea = Math.Max(0, selectedFlea);
+            }
+            else if (controls.Left.WasPressed)
+            {
+                if (selectedAction == OverviewAction.Flea && selectedFlea > 0) selectedFlea--;
+                else if (selectedAction != OverviewAction.Warp) selectedAction--;
+            }
+            else if (controls.Right.WasPressed)
+            {
+                if (selectedAction == OverviewAction.Flea)
+                    selectedFlea = Math.Min(fleaButtons.Count - 1, selectedFlea + 1);
+                else if (selectedAction != OverviewAction.PassTime || fleaButtons.Count > 0)
+                {
+                    selectedAction++;
+                    if (selectedAction == OverviewAction.Flea) selectedFlea = 0;
+                }
+            }
+            if (previousAction != selectedAction || previousFlea != selectedFlea) Render();
         }
 
         private void HandleActionClick()
@@ -453,7 +479,15 @@ namespace SilksongRandomizer
             Vector3 point = transform.InverseTransformPoint(ray.GetPoint(distance));
             if (TimeButtonRect.Contains(new Vector2(point.x, point.y)))
             {
-                FocusActions();
+                FocusActions(OverviewAction.PassTime);
+                ActivateAction();
+                return;
+            }
+            if (WarpButtonRect.Contains(new Vector2(point.x, point.y)) ||
+                DestinationButtonRect.Contains(new Vector2(point.x, point.y)))
+            {
+                FocusActions(WarpButtonRect.Contains(new Vector2(point.x, point.y))
+                    ? OverviewAction.Warp : OverviewAction.Destination);
                 ActivateAction();
                 return;
             }
@@ -461,7 +495,7 @@ namespace SilksongRandomizer
                 .OrderByDescending(flea => flea.Renderer.sortingOrder).FirstOrDefault();
             if (clicked != null)
             {
-                FocusActions(fleaButtons.IndexOf(clicked));
+                FocusActions(OverviewAction.Flea, fleaButtons.IndexOf(clicked));
                 ActivateAction();
             }
             else if (actionsFocused)
@@ -474,7 +508,22 @@ namespace SilksongRandomizer
 
         private void ActivateAction()
         {
-            if (selectedFlea >= 0)
+            if (selectedAction == OverviewAction.Warp)
+            {
+                var plugin = RandomizerPlugin.Instance;
+                if (plugin == null) return;
+                RestoreBrowsing();
+                input.enabled = false;
+                plugin.StartCoroutine(WarpAfterInventory());
+                return;
+            }
+            if (selectedAction == OverviewAction.Destination)
+            {
+                FastTravelUtil.TryCyclePreferredHub(1);
+                Render();
+                return;
+            }
+            if (selectedAction == OverviewAction.Flea)
             {
                 if (selectedFlea < fleaButtons.Count)
                 {
@@ -501,6 +550,35 @@ namespace SilksongRandomizer
             {
                 RandomizerPlugin.Log?.LogError("[RANDOMIZER] Could not pass time from inventory: " + error);
                 Render();
+            }
+        }
+
+        private IEnumerator WarpAfterInventory()
+        {
+            var game = GameManager.UnsafeInstance;
+            var state = SaveState.Instance;
+            string scene = game.GetSceneNameString();
+            game.inventoryFSM.SendEvent("INVENTORY CANCEL");
+            float deadline = Time.unscaledTime + 3f;
+            try
+            {
+                do
+                {
+                    yield return null;
+                    if (game == null || !ReferenceEquals(state, SaveState.Instance) ||
+                        game.GetSceneNameString() != scene || game.IsInSceneTransition) yield break;
+                }
+                while (PlayerData.instance?.isInventoryOpen == true && Time.unscaledTime < deadline);
+                if (PlayerData.instance?.isInventoryOpen != false) yield break;
+                RandomizerPlugin.Instance?.TryWarpToPreferredHub();
+            }
+            finally
+            {
+                if (this != null && IsPaneActive)
+                {
+                    RestoreBrowsing();
+                    Render();
+                }
             }
         }
 
@@ -569,12 +647,17 @@ namespace SilksongRandomizer
                 navigation = "Up: " + SheetName(sheets[(page + sheets.Count - 1) % sheets.Count]) +
                     "    /    Down: " + SheetName(sheets[(page + 1) % sheets.Count]);
             bool overview = sheet.Key == "overview";
-            Label(actionsFocused ? "" : navigation, -7.6f, -12.55f, overview ? 8.8f : 23.8f, .55f, 3.6f, .85f);
-            string travelHelp = overview ? "F4: " + FastTravelUtil.GetPreferredHubName() + "   |   F3: Destination"
-                : "F4: Return to " + FastTravelUtil.GetPreferredHubName() + "    |    F3: Change destination";
-            Label(travelHelp, -7.6f, -13.2f, overview ? 8.8f : 23.8f, .5f, 3.3f, .6f);
+            Label(actionsFocused ? "Back / B: Page navigation" : navigation,
+                -7.6f, -13.2f, overview ? 8.8f : 23.8f, .55f, 3.3f, .85f);
             if (overview)
             {
+                string warp = "F4: " + FastTravelUtil.GetPreferredHubName();
+                Label(actionsFocused && selectedAction == OverviewAction.Warp ? "[ " + warp + " ]" : warp,
+                    WarpButtonRect.x, WarpButtonRect.yMax, WarpButtonRect.width, WarpButtonRect.height, 3.3f, .85f);
+                Label("|", -2.4f, -12.55f, .5f, .55f, 3.3f, .6f, TextAlignmentOptions.Top);
+                Label(actionsFocused && selectedAction == OverviewAction.Destination ? "[ F3: Destination ]" : "F3: Destination",
+                    DestinationButtonRect.x, DestinationButtonRect.yMax, DestinationButtonRect.width,
+                    DestinationButtonRect.height, 3.3f, FastTravelUtil.CanCyclePreferredHub() ? .85f : .45f);
                 Label("Total traps received: " + sheet.TrapsReceived, 4.8f, -12.6f, 11.4f, .5f, 3.2f, .85f, TextAlignmentOptions.TopRight);
                 Label(sheet.DeathSummary, 4.8f, -13.2f, 11.4f, .45f, 3f, .85f, TextAlignmentOptions.TopRight);
             }
@@ -591,7 +674,7 @@ namespace SilksongRandomizer
         private void RenderOverview(ArchipelagoInventorySheet sheet)
         {
             timeButton = labels[labelIndex];
-            Label(actionsFocused && selectedFlea < 0 ? "[ Pass Time ]" : "Pass Time",
+            Label(actionsFocused && selectedAction == OverviewAction.PassTime ? "[ Pass Time ]" : "Pass Time",
                 TimeButtonRect.x, TimeButtonRect.yMax, TimeButtonRect.width, TimeButtonRect.height,
                 4f, .85f, TextAlignmentOptions.Top);
             UpdateTimeButtonFeedback();
@@ -616,7 +699,7 @@ namespace SilksongRandomizer
             {
                 bool front = i % 2 == 1;
                 float x = 5.225f + (front ? .325f : 0f) + (i / 2) * (9.275f / 14f);
-                bool selected = actionsFocused && selectedFlea == i;
+                bool selected = actionsFocused && selectedAction == OverviewAction.Flea && selectedFlea == i;
                 if (selected) fleaLabelX = x - 1.7f;
                 Icon(sheet.Fleas[i], x, front ? -3.625f : -3.475f, selected ? .8f : .65f);
                 var flea = icons[iconIndex - 1];
@@ -624,7 +707,7 @@ namespace SilksongRandomizer
                 fleaButtons.Add(flea);
                 flea.Renderer.sortingOrder += selected ? 2 : front ? 1 : 0;
             }
-            Label(actionsFocused && selectedFlea >= 0 && selectedFlea < sheet.Fleas.Count
+            Label(actionsFocused && selectedAction == OverviewAction.Flea && selectedFlea >= 0 && selectedFlea < sheet.Fleas.Count
                 ? sheet.Fleas[selectedFlea].Icon : "", fleaLabelX, -3.98f, 3.4f, .3f, 3f,
                 1f, TextAlignmentOptions.Top);
 

@@ -1050,19 +1050,19 @@
   "location_border_thickness": 3
  },
  {
+  "name": "Greymoor Craw Court",
+  "img": "01-geometry/3e0e8999-5264-45f4-a333-66e9d6a85c5b.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
   "name": "Greymoor Craw Lake",
   "img": "01-geometry/18314a1d-436b-455f-9991-fe014f8e6a4c.webp",
   "location_size": 19,
   "location_border_thickness": 3
  },
  {
-  "name": "Greymoor Crow Court",
-  "img": "01-geometry/3e0e8999-5264-45f4-a333-66e9d6a85c5b.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
- },
- {
-  "name": "Greymoor Crow Nest",
+  "name": "Greymoor Craw Nest",
   "img": "01-geometry/a5474092-51d2-46a4-85aa-1a54d431ec21.webp",
   "location_size": 19,
   "location_border_thickness": 3
@@ -1070,7 +1070,7 @@
  {
   "name": "Greymoor East Bellshrine Room",
   "img": "01-geometry/c14ade81-d5e6-403d-84a5-2adadd5e43e1.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1088,7 +1088,7 @@
  {
   "name": "Greymoor Weaver Shrine",
   "img": "01-geometry/46f96f64-794d-468d-8034-8de1b7500b1a.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1208,7 +1208,7 @@
  {
   "name": "Greymoor Western Room",
   "img": "01-geometry/9a877d30-750e-4ee5-8b97-a978f5e1ff02.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1220,8 +1220,8 @@
  {
   "name": "Halfway Home Cellar",
   "img": "01-geometry/9a735e37-9925-4266-853a-61f69954c09f.webp",
-  "location_size": 14,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Eastern Wisp Thicket",

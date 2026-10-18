@@ -13103,35 +13103,148 @@
   ]
  },
  {
-  "name": "Greymoor Craw Lake",
+  "name": "Greymoor Craw Court",
   "children": [
    {
-    "name": "Greymoor - Frayed Rosary String #2",
+    "name": "Craw Memento",
     "sections": [
      {
-      "name": "Greymoor - Frayed Rosary String #2"
+      "name": "Craw Memento"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Craw Lake",
-      "x": 109,
-      "y": 668
+      "map": "Greymoor Craw Court",
+      "x": 222,
+      "y": 453
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #20",
+    "name": "Greymoor - craw court rosary vault stash",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #20"
+      "name": "Greymoor - craw court rosary vault stash"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 122,
+      "y": 263
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - the other craw court rosary vault stash",
+    "sections": [
+     {
+      "name": "Greymoor - the other craw court rosary vault stash"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 112,
+      "y": 246
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - the final craw court rosary vault stash",
+    "sections": [
+     {
+      "name": "Greymoor - the final craw court rosary vault stash"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 54,
+      "y": 69
+     }
+    ]
+   },
+   {
+    "name": "Journal: Crawfather",
+    "sections": [
+     {
+      "name": "Journal: Crawfather"
+     },
+     {
+      "name": "Boss: Crawfather"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 205,
+      "y": 400
+     }
+    ]
+   },
+   {
+    "name": "Craw Summons",
+    "sections": [
+     {
+      "name": "Craw Summons"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 123,
+      "y": 302
+     }
+    ]
+   },
+   {
+    "name": "Greymoor Craw Court - top1 (T)",
+    "sections": [
+     {
+      "name": "Greymoor Craw Court - top1 (T)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 380,
+      "y": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Greymoor Craw Lake",
+  "children": [
+   {
+    "name": "Greymoor - Frayed Rosary String in tiny ass hole above left lower entrance",
+    "sections": [
+     {
+      "name": "Greymoor - Frayed Rosary String in tiny ass hole above left lower entrance"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 713,
-      "y": 585
+      "x": 113,
+      "y": 677
+     }
+    ]
+   },
+   {
+    "name": "Greymoor - Rosary Cache under the flea below the hatch",
+    "sections": [
+     {
+      "name": "Greymoor - Rosary Cache under the flea below the hatch"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Lake",
+      "x": 783,
+      "y": 614
      }
     ]
    },
@@ -13151,47 +13264,47 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #21",
+    "name": "Greymoor - the other flea segment rosaries",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #21"
+      "name": "Greymoor - the other flea segment rosaries"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 824,
-      "y": 446
+      "x": 825,
+      "y": 452
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #22",
+    "name": "Greymoor - flea segment rosaries",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #22"
+      "name": "Greymoor - flea segment rosaries"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 807,
-      "y": 429
+      "x": 836,
+      "y": 466
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #19",
+    "name": "Greymoor - mathematician nest rosaries if you know you know",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #19"
+      "name": "Greymoor - mathematician nest rosaries if you know you know"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 594,
-      "y": 191
+      "x": 691,
+      "y": 237
      }
     ]
    },
@@ -13205,8 +13318,8 @@
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 613,
-      "y": 206
+      "x": 675,
+      "y": 225
      }
     ]
    },
@@ -13288,251 +13401,138 @@
   ]
  },
  {
-  "name": "Greymoor Crow Court",
+  "name": "Greymoor Craw Nest",
   "children": [
    {
-    "name": "Craw Memento",
+    "name": "Greymoor - entrance rosary stash",
     "sections": [
      {
-      "name": "Craw Memento"
+      "name": "Greymoor - entrance rosary stash"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 243,
-      "y": 461
+      "map": "Greymoor Craw Nest",
+      "x": 163,
+      "y": 268
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #35",
+    "name": "Greymoor - entrance food savings",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #35"
+      "name": "Greymoor - entrance food savings"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 124,
-      "y": 284
+      "map": "Greymoor Craw Nest",
+      "x": 156,
+      "y": 266
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #36",
+    "name": "Greymoor - nest savings at the extreme left",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #36"
+      "name": "Greymoor - nest savings at the extreme left"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 109,
-      "y": 264
+      "map": "Greymoor Craw Nest",
+      "x": 153,
+      "y": 336
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #37",
+    "name": "Greymoor - nest savings at the extreme right",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #37"
+      "name": "Greymoor - nest savings at the extreme right"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 57,
-      "y": 77
+      "map": "Greymoor Craw Nest",
+      "x": 212,
+      "y": 336
      }
     ]
    },
    {
-    "name": "Journal: Crawfather",
+    "name": "Greymoor - nest mortage at the inner right",
     "sections": [
      {
-      "name": "Journal: Crawfather"
-     },
-     {
-      "name": "Boss: Crawfather"
+      "name": "Greymoor - nest mortage at the inner right"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 205,
-      "y": 400
+      "map": "Greymoor Craw Nest",
+      "x": 202,
+      "y": 345
      }
     ]
    },
    {
-    "name": "Craw Summons",
+    "name": "Greymoor - nest mortage at the inner left",
     "sections": [
      {
-      "name": "Craw Summons"
+      "name": "Greymoor - nest mortage at the inner left"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 123,
-      "y": 302
+      "map": "Greymoor Craw Nest",
+      "x": 167,
+      "y": 345
      }
     ]
    },
    {
-    "name": "Greymoor Crow Court - top1 (T)",
+    "name": "Greymoor - some dumb bird life savings left outside in the nest",
     "sections": [
      {
-      "name": "Greymoor Crow Court - top1 (T)"
+      "name": "Greymoor - some dumb bird life savings left outside in the nest"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Court",
-      "x": 380,
-      "y": 0
-     }
-    ]
-   }
-  ]
- },
- {
-  "name": "Greymoor Crow Nest",
-  "children": [
-   {
-    "name": "Greymoor - Rosary Cache #30",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #30"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 126,
-      "y": 286
+      "map": "Greymoor Craw Nest",
+      "x": 297,
+      "y": 261
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #29",
+    "name": "Greymoor Craw Nest - bottom (B)",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #29"
+      "name": "Greymoor Craw Nest - bottom (B)"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Nest",
-      "x": 108,
-      "y": 289
-     }
-    ]
-   },
-   {
-    "name": "Greymoor - Rosary Cache #28",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #28"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 175,
-      "y": 404
-     }
-    ]
-   },
-   {
-    "name": "Greymoor - Rosary Cache #32",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #32"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 249,
-      "y": 405
-     }
-    ]
-   },
-   {
-    "name": "Greymoor - Rosary Cache #33",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #33"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 234,
-      "y": 415
-     }
-    ]
-   },
-   {
-    "name": "Greymoor - Rosary Cache #31",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #31"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 200,
-      "y": 409
-     }
-    ]
-   },
-   {
-    "name": "Greymoor - Rosary Cache #34",
-    "sections": [
-     {
-      "name": "Greymoor - Rosary Cache #34"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
-      "x": 312,
-      "y": 267
-     }
-    ]
-   },
-   {
-    "name": "Greymoor Crow Nest - bottom (B)",
-    "sections": [
-     {
-      "name": "Greymoor Crow Nest - bottom (B)"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Crow Nest",
+      "map": "Greymoor Craw Nest",
       "x": 380,
       "y": 473
      }
     ]
    },
    {
-    "name": "Greymoor Crow Nest - left",
+    "name": "Greymoor Craw Nest - left",
     "sections": [
      {
-      "name": "Greymoor Crow Nest - left"
+      "name": "Greymoor Craw Nest - left"
      }
     ],
     "map_locations": [
      {
-      "map": "Greymoor Crow Nest",
+      "map": "Greymoor Craw Nest",
       "x": 3,
       "y": 311
      }
@@ -13553,38 +13553,38 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 183,
-      "y": 78
+      "x": 193,
+      "y": 71
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #2",
+    "name": "Greymoor - Craw gang lunch money",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #2"
+      "name": "Greymoor - Craw gang lunch money"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 287,
-      "y": 366
+      "x": 330,
+      "y": 348
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #3",
+    "name": "Greymoor - Craw gang savings",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #3"
+      "name": "Greymoor - Craw gang savings"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 304,
-      "y": 357
+      "x": 336,
+      "y": 340
      }
     ]
    },
@@ -13598,8 +13598,8 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 410,
-      "y": 1008
+      "x": 432,
+      "y": 914
      }
     ]
    },
@@ -13614,7 +13614,7 @@
      {
       "map": "Greymoor East Bellshrine Room",
       "x": 0,
-      "y": 854
+      "y": 774
      }
     ]
    },
@@ -13628,8 +13628,8 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 543,
-      "y": 1008
+      "x": 572,
+      "y": 913
      }
     ]
    },
@@ -13643,8 +13643,8 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 177,
-      "y": 770
+      "x": 187,
+      "y": 698
      }
     ]
    },
@@ -13658,8 +13658,8 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 543,
-      "y": 777
+      "x": 572,
+      "y": 704
      }
     ]
    },
@@ -13674,7 +13674,7 @@
      {
       "map": "Greymoor East Bellshrine Room",
       "x": 0,
-      "y": 609
+      "y": 552
      }
     ]
    },
@@ -13688,8 +13688,8 @@
     "map_locations": [
      {
       "map": "Greymoor East Bellshrine Room",
-      "x": 543,
-      "y": 42
+      "x": 572,
+      "y": 38
      }
     ]
    }
@@ -13699,17 +13699,17 @@
   "name": "Greymoor Eastern Tower",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #6",
+    "name": "Greymoor - Rosary Cache next to the lowest airstream",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #6"
+      "name": "Greymoor - Rosary Cache next to the lowest airstream"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Eastern Tower",
-      "x": 196,
-      "y": 765
+      "x": 192,
+      "y": 842
      }
     ]
    },
@@ -13868,38 +13868,38 @@
     "map_locations": [
      {
       "map": "Greymoor Weaver Shrine",
-      "x": 202,
-      "y": 95
+      "x": 250,
+      "y": 56
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #26",
+    "name": "Greymoor - rosaries hanging left of the weaver shrine",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #26"
+      "name": "Greymoor - rosaries hanging left of the weaver shrine"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Weaver Shrine",
-      "x": 513,
-      "y": 165
+      "x": 562,
+      "y": 116
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #27",
+    "name": "Greymoor - some craw rosaries i guess and he will hit you",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #27"
+      "name": "Greymoor - some craw rosaries i guess and he will hit you"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Weaver Shrine",
-      "x": 599,
-      "y": 136
+      "x": 663,
+      "y": 104
      }
     ]
    },
@@ -13913,8 +13913,8 @@
     "map_locations": [
      {
       "map": "Greymoor Weaver Shrine",
-      "x": 301,
-      "y": 358
+      "x": 336,
+      "y": 318
      }
     ]
    }
@@ -13939,10 +13939,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #10",
+    "name": "Greymoor - Rosary cache below a spike wheel",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #10"
+      "name": "Greymoor - Rosary cache below a spike wheel"
      }
     ],
     "map_locations": [
@@ -14114,10 +14114,10 @@
   "name": "Yarnaby Place",
   "children": [
    {
-    "name": "Greymoor - Frayed Rosary String #3",
+    "name": "Greymoor - Yanarby stash with a Frayed Rosary",
     "sections": [
      {
-      "name": "Greymoor - Frayed Rosary String #3"
+      "name": "Greymoor - Yanarby stash with a Frayed Rosary"
      }
     ],
     "map_locations": [
@@ -14310,10 +14310,10 @@
   "name": "Greymoor Bone Scroll Room",
   "children": [
    {
-    "name": "Relic: Bone Scroll (Greymoor)",
+    "name": "Relic: Bone Scroll (Greymoor) at bugs lonely resting place",
     "sections": [
      {
-      "name": "Relic: Bone Scroll (Greymoor)"
+      "name": "Relic: Bone Scroll (Greymoor) at bugs lonely resting place"
      }
     ],
     "map_locations": [
@@ -14430,17 +14430,17 @@
   "name": "Greymoor Craw Lake Entrance",
   "children": [
    {
-    "name": "Greymoor - Frayed Rosary String #1",
+    "name": "Greymoor - Frayed Rosary String from dead bug guarded by rat",
     "sections": [
      {
-      "name": "Greymoor - Frayed Rosary String #1"
+      "name": "Greymoor - Frayed Rosary String from dead bug guarded by rat"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Craw Lake Entrance",
-      "x": 438,
-      "y": 387
+      "x": 408,
+      "y": 378
      }
     ]
    },
@@ -14454,8 +14454,8 @@
     "map_locations": [
      {
       "map": "Greymoor Craw Lake Entrance",
-      "x": 318,
-      "y": 66
+      "x": 296,
+      "y": 65
      }
     ]
    },
@@ -14470,7 +14470,7 @@
      {
       "map": "Greymoor Craw Lake Entrance",
       "x": 0,
-      "y": 467
+      "y": 456
      }
     ]
    },
@@ -14484,8 +14484,8 @@
     "map_locations": [
      {
       "map": "Greymoor Craw Lake Entrance",
-      "x": 531,
-      "y": 467
+      "x": 495,
+      "y": 456
      }
     ]
    },
@@ -14499,8 +14499,8 @@
     "map_locations": [
      {
       "map": "Greymoor Craw Lake Entrance",
-      "x": 531,
-      "y": 142
+      "x": 495,
+      "y": 139
      }
     ]
    },
@@ -14515,7 +14515,7 @@
      {
       "map": "Greymoor Craw Lake Entrance",
       "x": 0,
-      "y": 253
+      "y": 247
      }
     ]
    }
@@ -14525,10 +14525,10 @@
   "name": "Greymoor Entry to Bellhart",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #14",
+    "name": "Greymoor - Secret dead bug rosaries near rat tunnel",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #14"
+      "name": "Greymoor - Secret dead bug rosaries near rat tunnel"
      }
     ],
     "map_locations": [
@@ -14745,10 +14745,10 @@
   "name": "Greymoor Halfway Home Exterior",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #4",
+    "name": "Greymoor - Rosary Cache bellow sinners road entrance",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #4"
+      "name": "Greymoor - Rosary Cache bellow sinners road entrance"
      }
     ],
     "map_locations": [
@@ -14760,10 +14760,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #5",
+    "name": "Greymoor - sinner road entrance guards lunch money",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #5"
+      "name": "Greymoor - sinner road entrance guards lunch money"
      }
     ],
     "map_locations": [
@@ -14985,10 +14985,10 @@
   "name": "Greymoor Rat Tunnel",
   "children": [
    {
-    "name": "Greymoor - Shell Shard Cache #1",
+    "name": "Greymoor - Shell Shard Cache next to the pit with with fat fuck",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #1"
+      "name": "Greymoor - Shell Shard Cache next to the pit with with fat fuck"
      }
     ],
     "map_locations": [
@@ -15000,10 +15000,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shell Shard Cache #2",
+    "name": "Greymoor - The other Shell Shard Cache in the pit with the fat fuck",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #2"
+      "name": "Greymoor - The other Shell Shard Cache in the pit with the fat fuck"
      }
     ],
     "map_locations": [
@@ -15045,10 +15045,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #23",
+    "name": "Greymoor - Rosary Cache behind the big rat above the pit",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #23"
+      "name": "Greymoor - Rosary Cache behind the big rat above the pit"
      }
     ],
     "map_locations": [
@@ -15060,10 +15060,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #24",
+    "name": "Greymoor - the other Rosary Cache behind the big rat above the pit with the other big rat",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #24"
+      "name": "Greymoor - the other Rosary Cache behind the big rat above the pit with the other big rat"
      }
     ],
     "map_locations": [
@@ -15075,10 +15075,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #25",
+    "name": "Greymoor - Another rosary cache behind the big rat above the pit",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #25"
+      "name": "Greymoor - Another rosary cache behind the big rat above the pit"
      }
     ],
     "map_locations": [
@@ -15125,10 +15125,10 @@
   "name": "Greymoor Silver Shells room",
   "children": [
    {
-    "name": "Greymoor - Shell Shard Cache #3",
+    "name": "Greymoor - Shell Shard Cache of the silver room",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #3"
+      "name": "Greymoor - Shell Shard Cache of the silver room"
      }
     ],
     "map_locations": [
@@ -15140,10 +15140,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shell Shard Cache #4",
+    "name": "Greymoor - the other Shell Shard Cache of the silver room",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #4"
+      "name": "Greymoor - the other Shell Shard Cache of the silver room"
      }
     ],
     "map_locations": [
@@ -15155,10 +15155,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shell Shard Cache #5",
+    "name": "Greymoor - the other other Shell Shard Cache of the silver room",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #5"
+      "name": "Greymoor - the other other Shell Shard Cache of the silver room"
      }
     ],
     "map_locations": [
@@ -15170,10 +15170,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shell Shard Cache #6",
+    "name": "Greymoor - the other other other Shell Shard Cache of the silver room",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #6"
+      "name": "Greymoor - the other other other Shell Shard Cache of the silver room"
      }
     ],
     "map_locations": [
@@ -15185,10 +15185,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shell Shard Cache #7",
+    "name": "Greymoor - the other other other other Shell Shard Cache of the silver room idk why so many",
     "sections": [
      {
-      "name": "Greymoor - Shell Shard Cache #7"
+      "name": "Greymoor - the other other other other Shell Shard Cache of the silver room idk why so many"
      }
     ],
     "map_locations": [
@@ -15235,10 +15235,10 @@
   "name": "Greymoor Towers Patio",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #7",
+    "name": "Greymoor - flying rat stolen rosaries above the west tower entrance",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #7"
+      "name": "Greymoor - flying rat stolen rosaries above the west tower entrance"
      }
     ],
     "map_locations": [
@@ -15250,10 +15250,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #8",
+    "name": "Greymoor - poor soul rosaries that were stolen by flying rats above the west tower entrance",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #8"
+      "name": "Greymoor - poor soul rosaries that were stolen by flying rats above the west tower entrance"
      }
     ],
     "map_locations": [
@@ -15265,10 +15265,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #9",
+    "name": "Greymoor - someones mortage at the top of the room",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #9"
+      "name": "Greymoor - someones mortage at the top of the room"
      }
     ],
     "map_locations": [
@@ -15280,10 +15280,10 @@
     ]
    },
    {
-    "name": "Greymoor - Shard Bundle #1",
+    "name": "Greymor - totally free to take shell shard cache at the top",
     "sections": [
      {
-      "name": "Greymoor - Shard Bundle #1"
+      "name": "Greymor - totally free to take shell shard cache at the top"
      }
     ],
     "map_locations": [
@@ -15393,10 +15393,10 @@
   "name": "Greymoor Upper Halfway Home Path",
   "children": [
    {
-    "name": "Greymoor - Shard Bundle #2",
+    "name": "Greymoor that shard bundle i hate at the left side of the room",
     "sections": [
      {
-      "name": "Greymoor - Shard Bundle #2"
+      "name": "Greymoor that shard bundle i hate at the left side of the room"
      }
     ],
     "map_locations": [
@@ -15443,10 +15443,10 @@
   "name": "Greymoor Upper Towers Path",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #15",
+    "name": "Greymoor - another smaller hanging rosary string at the left side of the room",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #15"
+      "name": "Greymoor - another smaller hanging rosary string at the left side of the room"
      }
     ],
     "map_locations": [
@@ -15458,10 +15458,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #16",
+    "name": "Greymoor - Rosary Cache hanging at the left side of the room",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #16"
+      "name": "Greymoor - Rosary Cache hanging at the left side of the room"
      }
     ],
     "map_locations": [
@@ -15473,10 +15473,10 @@
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #17",
+    "name": "Greymoor - Someones rosary pocket change above the airstream",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #17"
+      "name": "Greymoor - Someones rosary pocket change above the airstream"
      }
     ],
     "map_locations": [
@@ -15523,10 +15523,10 @@
   "name": "Greymoor West Bellshrine Room ",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #1",
+    "name": "Greymoor - Rosary Cache above rosary machine",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #1"
+      "name": "Greymoor - Rosary Cache above rosary machine"
      }
     ],
     "map_locations": [
@@ -15633,32 +15633,32 @@
   "name": "Greymoor Western Room",
   "children": [
    {
-    "name": "Greymoor - Rosary Cache #11",
+    "name": "Greymoor - hanging rosaries below scissor fucker",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #11"
+      "name": "Greymoor - hanging rosaries below scissor fucker"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 177,
-      "y": 525
+      "x": 173,
+      "y": 537
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #12",
+    "name": "Greymoor - the other hanging rosaries below scissor fucker",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #12"
+      "name": "Greymoor - the other hanging rosaries below scissor fucker"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 184,
-      "y": 519
+      "x": 180,
+      "y": 531
      }
     ]
    },
@@ -15672,23 +15672,23 @@
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 182,
-      "y": 551
+      "x": 178,
+      "y": 564
      }
     ]
    },
    {
-    "name": "Greymoor - Rosary Cache #13",
+    "name": "Greymoor - that one rosary i hate in tiny platform to the right",
     "sections": [
      {
-      "name": "Greymoor - Rosary Cache #13"
+      "name": "Greymoor - that one rosary i hate in tiny platform to the right"
      }
     ],
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 401,
-      "y": 165
+      "x": 392,
+      "y": 169
      }
     ]
    },
@@ -15702,8 +15702,8 @@
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 487,
-      "y": 477
+      "x": 476,
+      "y": 488
      }
     ]
    },
@@ -15717,8 +15717,8 @@
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 487,
-      "y": 43
+      "x": 476,
+      "y": 44
      }
     ]
    },
@@ -15732,8 +15732,8 @@
     "map_locations": [
      {
       "map": "Greymoor Western Room",
-      "x": 168,
-      "y": 620
+      "x": 165,
+      "y": 635
      }
     ]
    },
@@ -15748,7 +15748,7 @@
      {
       "map": "Greymoor Western Room",
       "x": 0,
-      "y": 353
+      "y": 361
      }
     ]
    }
@@ -15787,7 +15787,7 @@
     "map_locations": [
      {
       "map": "Halfway Home Cellar",
-      "x": 262,
+      "x": 257,
       "y": 0
      }
     ]
@@ -22437,10 +22437,10 @@
   "name": "Choral Chambers Maintenance Tunnel",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Cache #17",
+    "name": "Maintenance Worker's Wage Rosary cache",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #17"
+      "name": "Maintenance Worker's Wage Rosary cache"
      }
     ],
     "map_locations": [
@@ -22452,10 +22452,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #18",
+    "name": "Maintenance Tunnel's Rosary cache budget",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #18"
+      "name": "Maintenance Tunnel's Rosary cache budget"
      }
     ],
     "map_locations": [
@@ -22467,10 +22467,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #19",
+    "name": "Maintenance Head chief's embezzled Rosary cache",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #19"
+      "name": "Maintenance Head chief's embezzled Rosary cache"
      }
     ],
     "map_locations": [
@@ -22532,10 +22532,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #14",
+    "name": "Flea Shaft's stolen rosaries",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #14"
+      "name": "Flea Shaft's stolen rosaries"
      }
     ],
     "map_locations": [
@@ -22547,10 +22547,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #15",
+    "name": "Flea Shaft's bounty",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #15"
+      "name": "Flea Shaft's bounty"
      }
     ],
     "map_locations": [
@@ -22562,10 +22562,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #16",
+    "name": "Flea Shaft's kidnappers' bonus",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #16"
+      "name": "Flea Shaft's kidnappers' bonus"
      }
     ],
     "map_locations": [
@@ -22752,10 +22752,10 @@
   "name": "Corridor to High Halls",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Chest #2",
+    "name": "Reed's personal chest",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Chest #2"
+      "name": "Reed's personal chest"
      }
     ],
     "map_locations": [
@@ -22802,10 +22802,10 @@
   "name": "Choral Chambers Over Dining",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Cache #11",
+    "name": "Dining Hall's food budget",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #11"
+      "name": "Dining Hall's food budget"
      },
      {
       "name": "Choral Chambers - Rosary Necklace #2"
@@ -22820,10 +22820,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #12",
+    "name": "Mergwin's hidden stash",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #12"
+      "name": "Mergwin's hidden stash"
      }
     ],
     "map_locations": [
@@ -22835,10 +22835,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #13",
+    "name": "Great Gourmand's treasury",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #13"
+      "name": "Great Gourmand's treasury"
      }
     ],
     "map_locations": [
@@ -23153,21 +23153,6 @@
   "name": "Choral Chambers Merchant Room",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Cache #10",
-    "sections": [
-     {
-      "name": "Choral Chambers - Rosary Cache #10"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Choral Chambers Merchant Room",
-      "x": 17,
-      "y": 124
-     }
-    ]
-   },
-   {
     "name": "Choral Chambers - Rosary Necklace #1",
     "sections": [
      {
@@ -23179,6 +23164,21 @@
       "map": "Choral Chambers Merchant Room",
       "x": 48,
       "y": 128
+     }
+    ]
+   },
+   {
+    "name": "Merchant's funds",
+    "sections": [
+     {
+      "name": "Merchant's funds"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Choral Chambers Merchant Room",
+      "x": 17,
+      "y": 124
      }
     ]
    },
@@ -23288,10 +23288,10 @@
   "name": "Choral Chambers Above Ventrica",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Chest #1",
+    "name": "Choristor's precious belongings",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Chest #1"
+      "name": "Choristor's precious belongings"
      }
     ],
     "map_locations": [
@@ -23303,10 +23303,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #8",
+    "name": "Old Ventrica gains",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #8"
+      "name": "Old Ventrica gains"
      }
     ],
     "map_locations": [
@@ -23318,10 +23318,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #9",
+    "name": "Old Ventrica treasury",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #9"
+      "name": "Old Ventrica treasury"
      }
     ],
     "map_locations": [
@@ -23368,10 +23368,10 @@
   "name": "Choral Chambers Ventrica Room",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Cache #5",
+    "name": "Ventrica's stored funds",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #5"
+      "name": "Ventrica's stored funds"
      }
     ],
     "map_locations": [
@@ -23383,10 +23383,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #6",
+    "name": "Ventrica's maintenance fees",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #6"
+      "name": "Ventrica's maintenance fees"
      }
     ],
     "map_locations": [
@@ -23398,10 +23398,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #7",
+    "name": "Ventrica's closed door budget",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #7"
+      "name": "Ventrica's closed door budget"
      }
     ],
     "map_locations": [
@@ -23508,10 +23508,10 @@
   "name": "Choral Chambers Below Ventrica",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Cache #3",
+    "name": "Ventrica worker's wage",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #3"
+      "name": "Ventrica worker's wage"
      }
     ],
     "map_locations": [
@@ -23523,10 +23523,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #4",
+    "name": "Ventrica worker's stolen funds",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #4"
+      "name": "Ventrica worker's stolen funds"
      }
     ],
     "map_locations": [
@@ -23553,10 +23553,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #1",
+    "name": "Ventrica Window's repairing fees",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #1"
+      "name": "Ventrica Window's repairing fees"
      }
     ],
     "map_locations": [
@@ -23568,10 +23568,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Cache #2",
+    "name": "Ventrica Window's cleaning fees",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Cache #2"
+      "name": "Ventrica Window's cleaning fees"
      }
     ],
     "map_locations": [
@@ -24011,10 +24011,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Rosary Chest #3",
+    "name": "Grand bellway hidden chest",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Chest #3"
+      "name": "Grand bellway hidden chest"
      }
     ],
     "map_locations": [

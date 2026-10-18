@@ -2146,7 +2146,8 @@
   },
   {
     "name": "Eva",
-    "actors": [
+    "actors": [],
+    "interactions": [
       {
         "scene": "weave_10",
         "path": "Crest Upgrade Shrine"

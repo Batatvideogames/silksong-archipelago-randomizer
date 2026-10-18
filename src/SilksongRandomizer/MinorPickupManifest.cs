@@ -55,10 +55,10 @@ namespace SilksongRandomizer
             new Entry("Deep Docks - Beast Shard", "dock_11", "Great Shard", 100.63f, 6.28f),
             new Entry("Sinner's Road - Frayed Rosary String", "dust_01", "Rosary_Set_Frayed", 76.43f, 2.7178f),
             new Entry("Sinner's Road - Shard Bundle", "dust_06", "Shard Pouch", 26.11f, 96.25f),
-            new Entry("Greymoor - Shard Bundle #1", "greymoor_05", "Shard Pouch", 59.01f, 62.74f),
-            new Entry("Greymoor - Shard Bundle #2", "greymoor_12", "Shard Pouch", 61.29f, 14.4f),
-            new Entry("Greymoor - Frayed Rosary String #1", "greymoor_15", "Rosary_Set_Frayed", 64.41f, 24.21f),
-            new Entry("Greymoor - Frayed Rosary String #2", "greymoor_15b", "Rosary_Set_Frayed", 91.86f, 35.26f),
+            new Entry("Greymor - totally free to take shell shard cache at the top", "greymoor_05", "Shard Pouch", 59.01f, 62.74f),
+            new Entry("Greymoor that shard bundle i hate at the left side of the room", "greymoor_12", "Shard Pouch", 61.29f, 14.4f),
+            new Entry("Greymoor - Frayed Rosary String from dead bug guarded by rat", "greymoor_15", "Rosary_Set_Frayed", 64.41f, 24.21f),
+            new Entry("Greymoor - Frayed Rosary String in tiny ass hole above left lower entrance", "greymoor_15b", "Rosary_Set_Frayed", 91.86f, 35.26f),
             new Entry("High Halls - Pale Rosary Necklace", "hang_06_bank", "Rosary_Set_Huge_White", 73.41f, 35.3895f),
             new Entry("High Halls - Frayed Rosary String", "hang_16", "Rosary_Set_Frayed", 68.15f, 6.38f),
             new Entry("Whispering Vaults - Heavy Rosary Necklace", "library_02", "Rosary_Set_Large", 76.437f, 48.02f),
@@ -85,7 +85,7 @@ namespace SilksongRandomizer
             new Entry("Underworks - Pristine Core", "under_17", "Pristine Core", 75.44f, 23.37f),
             new Entry("Underworks - Shard Bundle #2", "under_18", "Shard Pouch", 34.14f, 34.3f),
             new Entry("Wisp Thicket - Rosary Necklace", "wisp_02", "Rosary_Set_Medium", 111.32f, 37.99f),
-            new Entry("Greymoor - Frayed Rosary String #3", "wisp_03", "Rosary_Set_Frayed", 62.89f, 35.37f),
+            new Entry("Greymoor - Yanarby stash with a Frayed Rosary", "wisp_03", "Rosary_Set_Frayed", 62.89f, 35.37f),
 
             // The four vanilla Simple Key acquisitions become AP checks. The
             // reward is replaced at the SavedItem boundary, preserving each
