@@ -722,6 +722,18 @@ namespace SilksongRandomizer.Patches
         }
     }
 
+    [HarmonyPatch(typeof(GameCoreOnlineSubsystem), "get_HandlesGameSaves")]
+    internal static class GamePassLocalSavePatch
+    {
+        private static void Postfix(ref bool __result) => __result = false;
+    }
+
+    [HarmonyPatch(typeof(GameCoreOnlineSubsystem), "get_SaveRestoreHandler")]
+    internal static class GamePassLocalRestorePatch
+    {
+        private static void Postfix(ref SaveRestoreHandler __result) => __result = null;
+    }
+
     [HarmonyPatch]
     internal static class WriteSaveSlotPatch
     {

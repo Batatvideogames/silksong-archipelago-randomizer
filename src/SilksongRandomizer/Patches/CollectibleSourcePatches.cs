@@ -333,6 +333,23 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(CollectableItemCollect), "DoAction")]
+        private static class HeroMementoReward
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(CollectableItemCollect __instance, CollectableItem item)
+            {
+                if (__instance.Fsm?.GameObject?.scene.name != "Coral_33" ||
+                    __instance.Fsm.GameObject.name != "Corpse Garmond BlackThreaded(Clone)" ||
+                    __instance.Fsm.Name != "Control" || __instance.State?.Name != "End" ||
+                    item?.name != "Memento Garmond" ||
+                    !IsActive(SaveState.Instance, "Hero's Memento", ItemType.Memento))
+                    return true;
+                GetProxyItem("Hero's Memento", ItemType.Memento, true).Get();
+                return false;
+            }
+        }
+
         private static void MarkPhysicalSourceCollected(
             string locationName)
         {

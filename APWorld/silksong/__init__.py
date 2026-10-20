@@ -728,7 +728,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 player_early_items[right] = player_early_items.get(right, 0) + 1
             player_early_items[early_item_name] = (
                 player_early_items.get(early_item_name, 0)
-                + (3 if 'Dash' in self.get_directional_abilities() else 1)
+                + 1
             )
 
         self.options.non_local_items.value.difference_update(

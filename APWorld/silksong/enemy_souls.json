@@ -2226,6 +2226,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Massive Mossgrub",
     "record": "MossBone Crawler Fat",
     "item_id": 840053,
@@ -2248,6 +2249,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Mossmir",
     "record": "MossBone Fly",
     "item_id": 840054,
@@ -2810,6 +2812,15 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
+    "journal_states": [
+      {
+        "fsm": "Control",
+        "states": [
+          "Drown"
+        ]
+      }
+    ],
     "name": "Miremite",
     "record": "Swamp Goomba",
     "item_id": 840105,
@@ -3713,6 +3724,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Skarr Stalker",
     "record": "Bone Hunter",
     "item_id": 840114,
@@ -3916,6 +3928,12 @@
         "nodes": [
           "far-fields/memory-karmelita#entrance",
           "far-fields/memory-karmelita#arena"
+        ],
+        "souls": [
+          "Last Claw"
+        ],
+        "events": [
+          "Combat: Karmelita Gauntlet"
         ]
       },
       {
@@ -4487,6 +4505,10 @@
               ],
               [
                 "mapper:sprint-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
               ],
               [
                 "item:silk-soar"
@@ -6058,6 +6080,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Scabfly",
     "record": "Slab Fly Small",
     "item_id": 840135,
@@ -6436,6 +6459,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Cogwork Hauler",
     "record": "Understore Automaton EX",
     "item_id": 840143,
@@ -6804,6 +6828,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Vicious Caranid",
     "record": "Bone Circler Vicious",
     "item_id": 840147,
@@ -6985,6 +7010,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Kilik",
     "record": "Bone Crawler",
     "item_id": 840148,
@@ -7111,6 +7137,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Beastfly",
     "record": "Bone Flyer",
     "item_id": 840149,
@@ -7220,6 +7247,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Skarr Scout",
     "record": "Bone Hunter Child",
     "item_id": 840150,
@@ -7321,6 +7349,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Muckroach",
     "record": "Dustroach",
     "item_id": 840151,
@@ -7414,6 +7443,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Mossgrub",
     "record": "MossBone Crawler",
     "item_id": 840152,
@@ -7557,6 +7587,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Dreg Husk",
     "record": "Song Threaded Husk",
     "item_id": 840153,
@@ -7594,6 +7625,7 @@
     "entrances": []
   },
   {
+    "scripted_death": true,
     "name": "Dregwheel",
     "record": "Song Threaded Husk Spin",
     "item_id": 840225,
@@ -8804,6 +8836,7 @@
     "scripted_death": true
   },
   {
+    "scripted_death": true,
     "name": "Plasmid",
     "record": "Bone Worm BlueBlood",
     "item_id": 840172,
@@ -8837,6 +8870,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Plasmidas",
     "record": "Bone Worm BlueTurret",
     "item_id": 840173,
@@ -9114,6 +9148,14 @@
     "states": [],
     "entrances": [],
     "scripted_death": true,
+    "journal_states": [
+      {
+        "fsm": "Control",
+        "states": [
+          "Journal Entry?"
+        ]
+      }
+    ],
     "scope_items": {
       "2": {
         "Silk Soar": "Skill"
@@ -10405,6 +10447,7 @@
     "scripted_death": true
   },
   {
+    "scripted_death": true,
     "name": "Splinterbark",
     "record": "Stick Insect Flyer",
     "item_id": 840210,
@@ -10487,6 +10530,14 @@
     ]
   },
   {
+    "journal_states": [
+      {
+        "fsm": "Control",
+        "states": [
+          "Drown"
+        ]
+      }
+    ],
     "name": "Swamp Squit",
     "record": "Swamp Mosquito",
     "item_id": 840213,
@@ -11304,7 +11355,8 @@
         ],
         "events": [
           "Combat: Karmelita Gauntlet"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [
@@ -11573,6 +11625,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Freshfly",
     "record": "Slab Fly Small Fresh",
     "item_id": 840235,
@@ -12639,7 +12692,8 @@
         "events": [
           "Room Event: event:mapper/reviewed:khann-memory-entry"
         ],
-        "souls": []
+        "souls": [],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12674,7 +12728,8 @@
           "Steelspine Kai",
           "Yago",
           "Yumama"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12696,6 +12751,7 @@
     ]
   },
   {
+    "scripted_death": true,
     "name": "Kai",
     "record": "Coral Swimmer Fat",
     "item_id": 840250,
@@ -12714,7 +12770,8 @@
           "Kakri",
           "Karaka",
           "Yago"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12767,7 +12824,8 @@
           "Karaka",
           "Yago",
           "Yumama"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12816,7 +12874,8 @@
           "Karaka",
           "Steelspine Kai",
           "Yago"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12865,7 +12924,8 @@
           "Steelspine Kai",
           "Yago",
           "Yumama"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12905,7 +12965,8 @@
           "Kai",
           "Kakri",
           "Yago"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -12953,7 +13014,8 @@
           "Kai",
           "Karaka",
           "Yago"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -13008,7 +13070,8 @@
           "Steelspine Kai",
           "Yago",
           "Yumama"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -13053,7 +13116,8 @@
           "Steelspine Kai",
           "Yago",
           "Yumama"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -13097,7 +13161,8 @@
           "Kai",
           "Kakri",
           "Karaka"
-        ]
+        ],
+        "requires_act": 1
       }
     ],
     "rooms": [],
@@ -13140,7 +13205,8 @@
         "events": [
           "Room Event: event:mapper/reviewed:khann-memory-entry"
         ],
-        "souls": []
+        "souls": [],
+        "requires_act": 1
       }
     ],
     "rooms": [],

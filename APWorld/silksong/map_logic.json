@@ -4837,6 +4837,42 @@
                   "Room Node: bone-bottom/mosshome-upper#center-platforms",
                   "Usable Sharpdart"
                 ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Usable Silkshot (Original)"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Usable Pimpillo"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Hunter"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Reaper"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Beast"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Shaman"
+                ]
               }
             ]
           },
@@ -9563,6 +9599,13 @@
               {
                 "all_of": [
                   "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side",
+                  "Room Event: event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side",
                   "Clawline",
                   "Silk Soar"
                 ]
@@ -13060,6 +13103,20 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+                  "Technique: Enemy Pogo 2",
+                  "Act: 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+                  "Technique: Enemy Pogo 2",
+                  "Act: 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
                   "Crest: Shaman",
                   "Technique: Crest Pogo 1"
                 ]
@@ -13147,6 +13204,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
                   "Silk Soar"
                 ]
               },
@@ -13207,6 +13270,12 @@
                 "all_of": [
                   "Room Node: greymoor/greymoor-towers-patio#steep-climb",
                   "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-towers-patio#steep-climb",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
@@ -13420,6 +13489,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
                   "Directional: Cling Grip Right"
                 ]
               },
@@ -13458,6 +13533,13 @@
                   "Usable Scuttlebrace",
                   "Swift Step",
                   "Technique: Scuttlebrace 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-upper-towers-path#main-section",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
                 ]
               }
             ]
@@ -13873,6 +13955,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-western-room#upper-section",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-western-room#upper-section",
                   "Directional: Cling Grip Right"
                 ]
               },
@@ -13920,6 +14008,12 @@
                   "Room Node: greymoor/greymoor-western-tower#small-drop",
                   "Option: Proficient Movement",
                   "Directional: Dash Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-western-tower#small-drop",
+                  "Technique: Enemy Pogo 2"
                 ]
               }
             ]
@@ -51504,6 +51598,42 @@
                   "Room Node: bone-bottom/mosshome-upper#center-platforms",
                   "Usable Sharpdart"
                 ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Usable Silkshot (Original)"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Usable Pimpillo"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Hunter"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Reaper"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Beast"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: bone-bottom/mosshome-upper#center-platforms",
+                  "Crest: Shaman"
+                ]
               }
             ]
           },
@@ -55783,6 +55913,13 @@
               {
                 "all_of": [
                   "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side",
+                  "Room Event: event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side",
                   "Clawline",
                   "Silk Soar"
                 ]
@@ -59186,6 +59323,20 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+                  "Technique: Enemy Pogo 2",
+                  "Act: 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+                  "Technique: Enemy Pogo 2",
+                  "Act: 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
                   "Crest: Shaman",
                   "Technique: Crest Pogo 1"
                 ]
@@ -59273,6 +59424,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
                   "Silk Soar"
                 ]
               },
@@ -59338,6 +59495,12 @@
                 "all_of": [
                   "Room Node: greymoor/greymoor-towers-patio#steep-climb",
                   "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-towers-patio#steep-climb",
+                  "Technique: Enemy Pogo 1"
                 ]
               },
               {
@@ -59551,6 +59714,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
                   "Directional: Cling Grip Right"
                 ]
               },
@@ -59589,6 +59758,13 @@
                   "Usable Scuttlebrace",
                   "Swift Step",
                   "Technique: Scuttlebrace 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-upper-towers-path#main-section",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
                 ]
               }
             ]
@@ -60004,6 +60180,12 @@
               {
                 "all_of": [
                   "Room Node: greymoor/greymoor-western-room#upper-section",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-western-room#upper-section",
                   "Directional: Cling Grip Right"
                 ]
               },
@@ -60051,6 +60233,12 @@
                   "Room Node: greymoor/greymoor-western-tower#small-drop",
                   "Option: Proficient Movement",
                   "Directional: Dash Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: greymoor/greymoor-western-tower#small-drop",
+                  "Technique: Enemy Pogo 2"
                 ]
               }
             ]
@@ -101671,6 +101859,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/01969fac-b623-4c26-bc6a-4034ad4ee3db": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side-tunnel"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/01a0875a-f191-4a24-ba2e-a0529880003f": {
         "alternatives": [
           {
@@ -103915,6 +104112,16 @@
           }
         ]
       },
+      "Room Event: event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-east-to-west#center",
+              "Room Event: event:mapper/be0fea63-a83e-45b9-a3e0-0fb069abc886"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/2bd728e5-4615-42c8-9d79-8c840ef9a596": {
         "alternatives": [
           {
@@ -105577,6 +105784,15 @@
             "all_of": [
               "Room Node: far-fields/sprintmaster-cave#the-race",
               "Room Event: event:mapper/ca8bc076-0a61-46b2-9065-38137eeaa41e"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side-tunnel"
             ]
           }
         ]
@@ -132926,6 +133142,42 @@
           },
           {
             "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Usable Silkshot (Original)"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Usable Pimpillo"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#ground-right",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: bone-bottom/mosshome-upper#ground-left",
               "Capability: Ledge Grab"
             ]
@@ -133155,6 +133407,42 @@
               "Room Node: bone-bottom/mosshome-upper#center-platforms",
               "Usable Sharpdart"
             ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Usable Silkshot (Original)"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Usable Pimpillo"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#center-platforms",
+              "Crest: Shaman"
+            ]
           }
         ]
       },
@@ -133182,6 +133470,42 @@
             "all_of": [
               "Room Node: bone-bottom/mosshome-upper#spire-platforms",
               "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Usable Silkshot (Original)"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Usable Pimpillo"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#spire-platforms",
+              "Crest: Shaman"
             ]
           },
           {
@@ -133246,6 +133570,42 @@
             "all_of": [
               "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
               "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Usable Silkshot (Original)"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Usable Pimpillo"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bone-bottom/mosshome-upper#silkspear-passage",
+              "Crest: Shaman"
             ]
           },
           {
@@ -151421,6 +151781,13 @@
               "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side-tunnel",
               "Silk Soar"
             ]
+          },
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side-tunnel",
+              "Room Event: event:mapper/01969fac-b623-4c26-bc6a-4034ad4ee3db",
+              "Drifter's Cloak"
+            ]
           }
         ]
       },
@@ -151438,6 +151805,13 @@
           {
             "all_of": [
               "Room Node: far-fields/far-fields-pinstress-room#upper-left-exit-area"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-pinstress-mask-shard#left-side",
+              "Room Event: event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712",
+              "Drifter's Cloak"
             ]
           },
           {
@@ -158201,6 +158575,12 @@
           },
           {
             "all_of": [
+              "Room Node: greymoor/greymoor-eastern-tower#upper-airstream-section",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: greymoor/greymoor-eastern-tower#tower-top"
             ]
           }
@@ -159298,6 +159678,20 @@
         "alternatives": [
           {
             "all_of": [
+              "Room Node: greymoor/greymoor-halfway-home-exterior#lower-guarded-platform",
+              "Technique: Enemy Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-halfway-home-exterior#lower-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Directional: Clawline Left",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: greymoor/greymoor-halfway-home-exterior#upper-guarded-plaform",
               "Silk Soar"
             ]
@@ -159415,6 +159809,13 @@
             "all_of": [
               "Room Node: greymoor/greymoor-halfway-home-exterior#lower-guarded-platform",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-halfway-home-exterior#lower-guarded-platform",
+              "Technique: Enemy Pogo 1",
+              "Faydown Cloak"
             ]
           },
           {
@@ -160739,6 +161140,20 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+              "Technique: Enemy Pogo 2",
+              "Act: 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
+              "Technique: Enemy Pogo 2",
+              "Act: 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-bottom",
               "Crest: Shaman",
               "Technique: Crest Pogo 1"
             ]
@@ -160859,6 +161274,74 @@
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Directional: Sprint Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-left-shaft-center",
+              "Technique: Enemy Pogo 1",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -160997,6 +161480,12 @@
               "Swift Step",
               "Technique: Scuttlebrace 1",
               "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-rat-tunnel#top-right-section-bottom",
+              "Technique: Enemy Pogo 2"
             ]
           },
           {
@@ -161155,6 +161644,12 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-silver-shells-room#hidden-area",
               "Silk Soar"
             ]
           },
@@ -161259,6 +161754,12 @@
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#steep-climb",
               "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#steep-climb",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
@@ -161544,6 +162045,13 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Directional: Ledge Grab Left",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
               "Faydown Cloak",
               "Directional: Clawline Left"
             ]
@@ -161572,6 +162080,13 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1",
@@ -161588,6 +162103,42 @@
               "Usable Flea Brew",
               "Option: Flea Brew Jump Logic",
               "Loadout: Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Technique: Enemy Pogo 2",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Technique: Enemy Pogo 2",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Technique: Enemy Pogo 2",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Technique: Enemy Pogo 2",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#east-tower-entrance",
+              "Technique: Enemy Pogo 2",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
             ]
           },
           {
@@ -161655,6 +162206,12 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#hanging-platform",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#hanging-platform",
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1"
@@ -161673,7 +162230,56 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 2",
+              "Act: 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 2",
+              "Act: 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 1",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#lower-hanging-platforms",
+              "Technique: Enemy Pogo 1",
+              "Drifter's Cloak"
             ]
           },
           {
@@ -162067,6 +162673,95 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#long-platform",
               "Usable Flea Brew",
               "Option: Flea Brew Jump Logic",
               "Directional: Ledge Grab Right"
@@ -162182,6 +162877,26 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-upper-halfway-home-path#right-section",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#right-section",
+              "Technique: Enemy Pogo 1",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#right-section",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#right-section",
               "Directional: Cling Grip Right",
               "Directional: Sprint Left"
             ]
@@ -162234,6 +162949,12 @@
             "all_of": [
               "Room Node: greymoor/greymoor-upper-halfway-home-path#short-platform",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-halfway-home-path#short-platform",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
@@ -162415,6 +163136,12 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-towers-path#airstream-lever",
               "Directional: Cling Grip Right"
             ]
           },
@@ -162458,6 +163185,13 @@
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-upper-towers-path#main-section",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 3"
             ]
           }
         ]
@@ -163523,6 +164257,16 @@
           },
           {
             "all_of": [
+              "Room Node: greymoor/greymoor-western-room#lower-section",
+              "Act: 3",
+              "Technique: Enemy Pogo 3",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: greymoor/greymoor-western-room#middle-section"
             ]
           }
@@ -164019,6 +164763,12 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-western-room#upper-section",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-room#upper-section",
               "Directional: Cling Grip Right"
             ]
           },
@@ -164140,6 +164890,12 @@
               "Room Node: greymoor/greymoor-western-tower#small-drop",
               "Option: Proficient Movement",
               "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#small-drop",
+              "Technique: Enemy Pogo 2"
             ]
           },
           {
@@ -164338,6 +165094,42 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Directional: Sprint Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
+              "Technique: Enemy Pogo 2",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#second-guarded-platform",
               "Silk Soar"
             ]
           },
@@ -164416,6 +165208,28 @@
             "all_of": [
               "Room Node: greymoor/greymoor-western-tower#first-guarded-platform",
               "Directional: Ledge Grab Right",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#first-guarded-platform",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#first-guarded-platform",
+              "Technique: Enemy Pogo 1",
+              "Option: Proficient Movement",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-western-tower#first-guarded-platform",
+              "Technique: Enemy Pogo 1",
               "Directional: Cling Grip Left"
             ]
           },
@@ -208988,6 +209802,29 @@
               "Room Node: whispering-vaults/whispering-vaults-east-to-west#top",
               "Silk Soar"
             ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-east-to-west#top",
+              "Room Event: event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+              "Option: Proficient Movement"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-east-to-west#top",
+              "Room Event: event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+              "Cling Grip"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-east-to-west#top",
+              "Room Event: event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
           }
         ]
       },
@@ -227564,8 +228401,15 @@
         ]
       },
       "Conjoined Heart": {
-        "alternatives": [],
-        "logic_unknown": true
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: verdania/verdania-entrance#right-side",
+              "Act: 3",
+              "Room Event: event:mapper/1ce486d0-78c0-41fb-90f3-eb363f661211"
+            ]
+          }
+        ]
       },
       "Craggler - Beast Shard": {
         "alternatives": [
@@ -231114,6 +231958,12 @@
             "all_of": [
               "Room Node: greymoor/greymoor-towers-patio#upper-area",
               "Directional: Sprint Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-towers-patio#upper-area",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {

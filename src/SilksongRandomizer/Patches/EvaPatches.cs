@@ -59,6 +59,21 @@ namespace SilksongRandomizer.Patches
             PlayerData.instance.HasBoundCrestUpgrader = true;
         }
 
+        [HarmonyPatch(typeof(FsmState), nameof(FsmState.OnEnter))]
+        private static class FirstMeeting
+        {
+            private static bool Prefix(FsmState __instance)
+            {
+                Fsm fsm = __instance.Fsm;
+                if (__instance.Name != "Roar Lock Start" || fsm?.GameObject == null ||
+                    fsm.Name != "Dialogue" || fsm.GameObject.name != "Crest Upgrade Shrine" ||
+                    fsm.GameObject.scene.name != "Weave_10" ||
+                    !NpcSoulState.IsMissing(SaveState.Instance, "Eva")) return true;
+                fsm.SetState("Wait for enter");
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
         private static class KeepShrineAvailable
         {

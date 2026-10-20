@@ -11,11 +11,17 @@ namespace SilksongRandomizer
     {
         private static readonly MethodInfo NativePathMethod = AccessTools.Method(
             typeof(DesktopPlatform), "GetSaveSlotPath");
+        private static readonly FieldInfo OnlineSubsystemField = AccessTools.Field(
+            typeof(DesktopPlatform), "onlineSubsystem");
         private static ConfigEntry<string> lastDirectory;
         private static ConfigEntry<bool> defaultNoticeDismissed;
         private static string sessionDirectory;
         private static string notice;
         private static bool needsConfirmation;
+
+        private static bool UsesLocalGamePassSaves =>
+            Platform.Current is DesktopPlatform platform &&
+            OnlineSubsystemField?.GetValue(platform) is GameCoreOnlineSubsystem;
 
         internal static void Initialize(ConfigFile config)
         {
@@ -61,7 +67,8 @@ namespace SilksongRandomizer
                 notice = "The game is using a different save folder. This can happen when its account service " +
                     "is unavailable. Some save slots may not appear. Your other saves have not been moved or deleted.";
             }
-            else if (Path.GetFileName(directory) == "default" && !defaultNoticeDismissed.Value)
+            else if (Path.GetFileName(directory) == "default" &&
+                !UsesLocalGamePassSaves && !defaultNoticeDismissed.Value)
             {
                 notice = "The game is using its offline save folder. You can play offline, " +
                     "but saves from your account folder may not appear here.";
@@ -95,7 +102,12 @@ namespace SilksongRandomizer
 
         internal static void DrawNotice()
         {
-            if (CanAccessSaves(out string error)) return;
+            if (CanAccessSaves(out string error))
+            {
+                if (UsesLocalGamePassSaves)
+                    GUILayout.Label("Game Pass randomizer saves are stored locally and do not sync with Xbox cloud saves.");
+                return;
+            }
             if (!needsConfirmation)
             {
                 GUILayout.Label(error);

@@ -87,7 +87,7 @@ def check_requirements(name, enabled=None):
                   *(item_name(soul) for soul in route.get('souls', ()) if soul in enabled))
         if 'mapped_encounters' in route or route.get('mapper_generated'):
             result.extend(replace(rule, all_of=tuple(dict.fromkeys((*prefix, *rule.all_of))),
-                                  require_any_crest=True) for rule in _mapped_requirements(name, index))
+                                  require_any_crest=True) for rule in _mapped_requirements(name, index, enabled))
         else:
             result.append(req(*prefix, *('Room Node: ' + node for node in route['nodes'])))
     if name in ACT_3_INTRO_SPECIES:
@@ -106,11 +106,12 @@ def _mapped_route_error(name, index, detail):
 
 
 @lru_cache(maxsize=None)
-def _mapped_requirements(name, index):
+def _mapped_requirements(name, index, enabled=None):
     from .room_graph import load_room_graph, RequirementMode, RequirementSpec
     from .room_graph_logic import _compile_spec
     from .requirements import _compiled_room_clause_requirement
     route = BY_NAME[name]['routes'][index]
+    enabled = frozenset(BY_NAME if enabled is None else enabled)
     graph = load_room_graph()
     if route.get('mapper_source') != graph.source_aggregate_sha256:
         raise _mapped_route_error(name, index,
@@ -123,8 +124,15 @@ def _mapped_requirements(name, index):
             raise _mapped_route_error(name, index,
                 f'Placement {node!r} is missing or outside its reviewed room. '
                 f'Node exists: {node in graph.node_by_id}. Reviewed rooms: {sorted(rooms)!r}.')
-        spec = RequirementSpec('', RequirementMode.EXPRESSION,
-                               tuple(tuple(clause) for clause in encounter['dnf']), (), (), 0)
+        dnf = []
+        for clause in encounter['dnf']:
+            present = {atom.removeprefix('mapper:enemy-presence:') for atom in clause
+                       if atom.startswith('mapper:enemy-presence:')}
+            if present - BY_NAME.keys():
+                raise _mapped_route_error(name, index, 'Unknown enemy presence: ' + ', '.join(sorted(present - BY_NAME.keys())))
+            souls = ('received:' + item_name(species) for species in sorted(present & enabled))
+            dnf.append(tuple(dict.fromkeys((*clause, *souls))))
+        spec = RequirementSpec('', RequirementMode.EXPRESSION, tuple(dnf), (), (), 0)
         rules.extend(_compiled_room_clause_requirement(clause)
                      for clause in _compile_spec(spec, 'Room Node: ' + node))
     if not rules:
@@ -170,7 +178,11 @@ def pogo_graph(names):
             spec = row.requirement
             dnf = []
             for branch in spec.dnf:
-                needed = souls if any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
+                present = {atom.removeprefix('mapper:enemy-presence:') for atom in branch if atom.startswith('mapper:enemy-presence:')}
+                if present - BY_NAME.keys():
+                    raise ValueError('Unknown enemy presence: ' + ', '.join(sorted(present - BY_NAME.keys())))
+                needed = souls if not present and any(atom.startswith('mapper:enemy-pogo:') for atom in branch) else ()
+                needed += tuple('received:' + item_name(name) for name in names if name in present)
                 needed += tuple(connections.get(row.id, ()))
                 records = {atom.split(':')[2] for atom in branch if atom.startswith(('mapper:enemy-type-pogo:', 'mapper:enemy-damage-boost:'))}
                 if records:

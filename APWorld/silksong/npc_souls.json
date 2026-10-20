@@ -128,6 +128,10 @@
         "path": "Black Thread States Thread Only Variant/Normal World/Battle Scene/Mapper NPC"
       },
       {
+        "scene": "ant_04_mid",
+        "path": "Black Thread States Thread Only Variant/Normal World/Battle Scene/Shakra Fighter"
+      },
+      {
         "scene": "ant_20",
         "path": "Mapper States/Here/Mapper Sit NPC"
       },
@@ -190,6 +194,10 @@
       {
         "scene": "greymoor_08_mapper",
         "path": "Mapper Spar NPC"
+      },
+      {
+        "scene": "hang_04_boss",
+        "path": "Battle Scene/Shakra Fighter"
       },
       {
         "scene": "hang_06",

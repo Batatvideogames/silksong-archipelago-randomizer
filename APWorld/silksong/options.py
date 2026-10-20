@@ -1229,7 +1229,7 @@ class CheckMapMarkers(Choice):
 
 class RandomizedBellMarkers(Toggle):
     """
-    Move the five Grand Gate Bell markers to their randomized local checks.
+    Show map markers for your Grand Gate Bells where the randomizer placed them in your world.
     """
 
     display_name = "Randomized Bell Markers"
@@ -1238,7 +1238,7 @@ class RandomizedBellMarkers(Toggle):
 
 class RandomizedMelodyMarkers(Toggle):
     """
-    Move Threefold Melody markers to their randomized local checks.
+    Show map markers for your Threefold Melody pieces where the randomizer placed them in your world.
     """
 
     display_name = "Randomized Melody Markers"

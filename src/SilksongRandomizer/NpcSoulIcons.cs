@@ -36,11 +36,11 @@ namespace SilksongRandomizer
                 { "Pinstress", "Pinstress Boss" },
                 { "Seth", "Seth" },
                 { "Garmond", "Garmond_Zaza" },
-                { "Zaza", "Garmond_Zaza" },
             };
         private static readonly Dictionary<string, Portrait> Portraits =
             new Dictionary<string, Portrait>(StringComparer.OrdinalIgnoreCase)
             {
+                { "Zaza", new Portrait("Assets/Collections/Zaza Lone Cln Data/Zaza Lone Cln.prefab", "idle0000", "tk2dcollections_assets_garmond.bundle") },
                 { "Fearful Pilgrim", new Portrait("Assets/Collections/Hornet NPCs/Bellway Pilgrim Cln Data/Bellway Pilgrim Cln.prefab", "BP_idle0000", "tk2dcollections_assets_areabellwayareabone.bundle") },
                 { "Greyroot", new Portrait("Assets/Collections/Hornet NPCs/Wood Witch Cln Data/Wood Witch Cln.prefab", "WW_idle0000", "tk2dcollections_assets_areashellwood.bundle") },
                 { "Pinmaster Plinney", new Portrait("Assets/Collections/Hornet NPCs/Plinney Inside Cln Data/Plinney Inside Cln.prefab", "plinney_inside0000", "tk2dcollections_assets_areabell.bundle") },

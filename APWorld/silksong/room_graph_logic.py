@@ -318,6 +318,12 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
         _part(silk_spear=True),
         _part("Usable Rune Rage"),
         _part("Usable Sharpdart"),
+        _part("Usable Silkshot (Original)"),
+        _part("Usable Pimpillo"),
+        _part("Crest: Hunter"),
+        _part("Crest: Reaper"),
+        _part("Crest: Beast"),
+        _part("Crest: Shaman"),
     ),
     # These describe ordinary environmental interactions, not inventory.
     "capability:break-vines": (_part(),),
@@ -1427,6 +1433,8 @@ def _event_requirement_name(atom: str) -> str:
 
 
 def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
+    if atom.startswith('mapper:enemy-presence:'):
+        return (_part(),)
     if atom == 'mapper:elite-ball-knowledge:none':
         return (_part('Option: Elite Ball Knowledge'),)
     if atom.startswith(('mapper:damage-boost:', 'mapper:enemy-damage-boost:')):

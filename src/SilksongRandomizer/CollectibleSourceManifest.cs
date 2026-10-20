@@ -106,6 +106,8 @@ namespace SilksongRandomizer
                 "Memento Garmond", "Black Thread States/Black Thread World/Garmond Scenes/Garmond Defeated Scene/Memento Pickup", 34.729999f, 60.261999f),
             new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
                 "Memento Garmond", "Black Thread States/Black Thread World/Garmond Scenes/Garmond Black Threaded Scene/Zaza Beckon NPC/Memento Pickup", 53.749999f, 62.320001f),
+            new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",
+                "Memento Garmond", "Zaza Beckon NPC/Memento Pickup", float.NaN, float.NaN),
             new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",
                 "Grey Memento", "Coral Warrior Item Spitter/Pit Pickup", 102.269997f, 3.930000f),
             new DirectPickupEntry("Grey Memento", ItemType.Memento, "Coral_39",

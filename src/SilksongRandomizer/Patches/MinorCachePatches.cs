@@ -29,7 +29,7 @@ namespace SilksongRandomizer.Patches
         private const string InactiveChestPickupPrefix =
             "AP Inactive Currency Chest - ";
         private const string SongInactiveChestLocation =
-            "Choral Chambers - Rosary Chest #3";
+            "Grand bellway hidden chest";
         private const string SongInactiveChestScene = "Song_24";
         private const string SongInactiveChestPath =
             "Black Thread States/Normal World/Enemy Control/" +
@@ -1049,21 +1049,35 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static bool KeepGrindleChest(PlayMakerFSM fsm)
+        {
+            string scene = fsm.gameObject.scene.name;
+            if (fsm.FsmName != "Control" ||
+                (scene != "Hang_08" && scene != "Song_03" && scene != "Song_17") ||
+                Utils.GetHierarchyPath(fsm.transform) != "Chest Scene/Grindle Chest Thief" ||
+                !TryGetSeededEntry(fsm.transform.parent.Find("Chest"),
+                    MinorCacheManifest.SourceKind.CurrencyChest, out _, out _)) return false;
+            fsm.gameObject.SetActive(false);
+            return true;
+        }
+
         [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
         private static class CurrencyChestFsmPatch
         {
             [HarmonyPrefix]
             [HarmonyPriority(Priority.Last)]
-            private static void Prefix(PlayMakerFSM __instance)
+            private static bool Prefix(PlayMakerFSM __instance)
             {
                 if (__instance == null ||
                     __instance.gameObject == null)
                 {
-                    return;
+                    return true;
                 }
 
+                if (KeepGrindleChest(__instance)) return false;
                 PatchBankOpenedFsm(__instance);
                 PatchCurrencyChestFsm(__instance);
+                return true;
             }
         }
 

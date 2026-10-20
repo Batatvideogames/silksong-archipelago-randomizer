@@ -7483,5 +7483,20 @@
     "name": "Shellwood Sister Splinter Bench - Shellwood Toll Bench Arena",
     "kind": "gauntlet",
     "locations": []
+  },
+  "event:mapper/01969fac-b623-4c26-bc6a-4034ad4ee3db": {
+    "name": "Far Fields Pinstress Mask Shard - vent boulder 1",
+    "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf": {
+    "name": "Whispering Vaults East To West - Whispering Vaults Shard Box",
+    "kind": "logic-point",
+    "locations": []
+  },
+  "event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712": {
+    "name": "Far Fields Pinstress Mask Shard - vent boulder 2",
+    "kind": "blockade",
+    "locations": []
   }
 }

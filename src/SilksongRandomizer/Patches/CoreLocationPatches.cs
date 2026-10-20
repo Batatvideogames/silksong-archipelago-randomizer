@@ -36,6 +36,12 @@ namespace SilksongRandomizer.Patches
             "PurchasedBelltownSpoolSegment";
         private const string FreySpoolSourceLocation =
             "Spool Fragment Unlock #6";
+        private const string JubilanaSpoolShopAsset =
+            "City Merchant Spool Piece";
+        private const string JubilanaSpoolPlayerDataBool =
+            "MerchantEnclaveSpoolPiece";
+        private const string JubilanaSpoolSourceLocation =
+            "Spool Fragment Unlock #18";
 
         // The shop assets map to two stable physical sources. Pebb's
         // unsold shard moves to Grindle in Act 3, while Jubilana owns a
@@ -336,6 +342,26 @@ namespace SilksongRandomizer.Patches
             {
                 locationName = LocationSet.GetCanonicalLocationName(
                     FreySpoolSourceLocation
+                );
+                return true;
+            }
+
+            if (spoolFragmentsRandomized &&
+                string.Equals(
+                    shopAssetName,
+                    JubilanaSpoolShopAsset,
+                    StringComparison.Ordinal) &&
+                string.Equals(
+                    playerDataBoolName,
+                    JubilanaSpoolPlayerDataBool,
+                    StringComparison.Ordinal) &&
+                string.Equals(
+                    itemAssetName,
+                    GrindleSpoolItemAsset,
+                    StringComparison.Ordinal))
+            {
+                locationName = LocationSet.GetCanonicalLocationName(
+                    JubilanaSpoolSourceLocation
                 );
                 return true;
             }

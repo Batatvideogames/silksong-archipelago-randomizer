@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "f307cc2d954fb87d1ad75efe29c310fbb387733ae232eb84600604644a6e8b30",
     "catalogue_sha256": "be3aa684416107c69484aa3a845ea7ef669fffc2193cc0ecd9066cb0571d5632",
-    "bindings_sha256": "d62af8d8f1875e76a64373aba769008f6dd4d499967ce549f42db9ac9177c30a"
+    "bindings_sha256": "82b0ac8b4bd831796a166385816b26b669e7e93d8e8b1c06b04b08ecc2427208"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -66877,6 +66877,10 @@
             "mode": "expression",
             "dnf": [
               [
+                "event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712",
+                "item:drifters-cloak"
+              ],
+              [
                 "item:clawline",
                 "item:silk-soar"
               ],
@@ -66903,9 +66907,7 @@
                 "mapper:voltvessels-stall:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:far-fields/far-fields-pinstress-mask-shard::blockade/vent-boulder-2"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -66965,11 +66967,13 @@
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "event:mapper/01969fac-b623-4c26-bc6a-4034ad4ee3db",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:far-fields/far-fields-pinstress-mask-shard::blockade/vent-boulder-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -67019,6 +67023,54 @@
           "label": "mask shard far fields above the seamstress",
           "kind": "collectible",
           "node_id": "far-fields/far-fields-pinstress-mask-shard#left-side"
+        },
+        {
+          "id": "event:mapper/01969fac-b623-4c26-bc6a-4034ad4ee3db",
+          "requirement": {
+            "raw": "none (attack)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "must be broken to return escape tunnel with drifter's cloak",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "01969fac-b623-4c26-bc6a-4034ad4ee3db"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "vent boulder 1",
+          "kind": "blockade",
+          "node_id": "far-fields/far-fields-pinstress-mask-shard#left-side-tunnel"
+        },
+        {
+          "id": "event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712",
+          "requirement": {
+            "raw": "none (attack)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "must be broken to return to right side using drifter's cloak",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "4dcb9ddb-902b-47a4-b128-66b661ebf712"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "vent boulder 2",
+          "kind": "blockade",
+          "node_id": "far-fields/far-fields-pinstress-mask-shard#left-side-tunnel"
         }
       ],
       "checks": [
@@ -67085,16 +67137,6 @@
             "y": null,
             "z": null
           }
-        },
-        {
-          "mapper_id": "01969fac-b623-4c26-bc6a-4034ad4ee3db",
-          "label": "vent boulder 1",
-          "kind": "blockade"
-        },
-        {
-          "mapper_id": "4dcb9ddb-902b-47a4-b128-66b661ebf712",
-          "label": "vent boulder 2",
-          "kind": "blockade"
         },
         {
           "mapper_id": "b815ccf6-9ceb-4594-a3de-61e682af26d4",
@@ -116071,11 +116113,13 @@
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-eastern-tower::enemy/silk-snipper-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -119198,6 +119242,31 @@
                 "mapper:flea-brew-jump:none"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:sprint-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:flea-brew-jump:none"
+              ],
+              [
                 "item:silk-soar"
               ],
               [
@@ -119213,9 +119282,7 @@
                 "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-tower::enemy/silk-snipper-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -119278,11 +119345,13 @@
               [
                 "mapper:proficient-movement:none",
                 "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Mite"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-tower::enemy/mite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -119389,6 +119458,22 @@
                 "mapper:cling-grip-direction:left"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:proficient-movement:none",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:cling-grip-direction:left"
+              ],
+              [
                 "mapper:proficient-movement:none",
                 "mapper:dash-direction:right",
                 "mapper:ledge-grab-direction:left"
@@ -119418,9 +119503,7 @@
                 "mapper:cling-grip-direction:left"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-tower::enemy/silk-snipper-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -125446,26 +125529,31 @@
           "id": "greymoor/greymoor-halfway-home-exterior#lower-guarded-platform>upper-center-room@bg",
           "requirement": {
             "raw": "(hard enemy pogo AND prereq fluttermite 1) OR (medium enemy pogo AND prereq fluttermite 1 AND clawline left x 3 AND faydown cloak)",
-            "mode": "unresolved",
-            "dnf": [],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-halfway-home-exterior::enemy/fluttermite-1"
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:enemy-pogo:hard",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:clawline:left:3",
+                "item:faydown-cloak"
+              ]
             ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-halfway-home-exterior::enemy/fluttermite-1"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "5b66adf5-65ee-4127-8b65-eddbb3ac63f8"
           },
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "dependency lacks reviewed event semantics: location:greymoor/greymoor-halfway-home-exterior::enemy/fluttermite-1"
-          ],
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "alias": "BG",
           "name": "baloon gap",
           "source_node_id": "greymoor/greymoor-halfway-home-exterior#lower-guarded-platform",
@@ -125717,11 +125805,14 @@
               ],
               [
                 "item:silk-soar"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "item:faydown-cloak"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-halfway-home-exterior::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -127188,11 +127279,54 @@
               ],
               [
                 "mapper:scuttlebrace:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:clawline:left:1",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:sprint-direction:left",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:sharpdart:1",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "item:drifters-cloak",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:hunter-crest-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:architect-crest-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-rat-tunnel::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -127287,6 +127421,16 @@
                 "mapper:scuttlebrace:easy"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "state:act-1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:act-2"
+              ],
+              [
                 "mapper:shaman-crest-pogo:easy"
               ],
               [
@@ -127296,9 +127440,7 @@
                 "mapper:reaper-crest-pogo:medium"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-rat-tunnel::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -127450,11 +127592,13 @@
               [
                 "mapper:scuttlebrace:easy",
                 "item:drifters-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Mitemother"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-rat-tunnel::enemy/mitemother-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -128648,6 +128792,10 @@
                 "mapper:ledge-grab-direction:right"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "item:silk-soar"
               ],
               [
@@ -128660,9 +128808,7 @@
                 "mapper:scuttlebrace:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-silver-shells-room::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -129358,6 +129504,11 @@
                 "mapper:flea-brew-jump:none"
               ],
               [
+                "mapper:ledge-grab-direction:left",
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "item:faydown-cloak",
                 "mapper:clawline:left:1"
               ],
@@ -129372,6 +129523,11 @@
               [
                 "item:faydown-cloak",
                 "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite"
               ],
               [
                 "mapper:scuttlebrace:easy",
@@ -129401,11 +129557,34 @@
                 "mapper:scuttlebrace:easy",
                 "item:drifters-cloak",
                 "mapper:flea-brew-jump:none"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:beast-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -129466,12 +129645,14 @@
                 "mapper:cling-grip-direction:right"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "mapper:scuttlebrace:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -129523,12 +129704,45 @@
                 "item:faydown-cloak"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "state:act-1"
+              ],
+              [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:act-2"
+              ],
+              [
                 "item:silk-soar"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:dash-direction:right"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "item:drifters-cloak"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -130073,12 +130287,14 @@
                 "mapper:cling-grip-direction:right"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "mapper:scuttlebrace:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -130578,6 +130794,10 @@
                 "mapper:sprint-direction:left"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "item:silk-soar"
               ],
               [
@@ -130587,9 +130807,7 @@
                 "mapper:clawline:left:1"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-towers-patio::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -131069,6 +131287,65 @@
                 "mapper:scuttlebrace:medium"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:witch-crest-pogo:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
                 "mapper:flea-brew-jump:none",
                 "mapper:ledge-grab-direction:right"
               ],
@@ -131113,9 +131390,7 @@
                 "mapper:shaman-crest-pogo:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-upper-halfway-home-path::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -131202,6 +131477,20 @@
                 "mapper:scuttlebrace:medium"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:cling-grip-direction:left"
+              ],
+              [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
                 "mapper:cling-grip-direction:right",
                 "mapper:sprint-direction:left"
               ],
@@ -131226,9 +131515,7 @@
                 "mapper:sharpdart:1"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-upper-halfway-home-path::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -131280,6 +131567,10 @@
                 "item:silk-soar"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Fluttermite"
+              ],
+              [
                 "mapper:sprint-direction:left"
               ],
               [
@@ -131303,9 +131594,7 @@
                 "mapper:ledge-grab-direction:left"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-upper-halfway-home-path::enemy/fluttermite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -132074,11 +132363,14 @@
               ],
               [
                 "mapper:scuttlebrace:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:enemy-pogo:hard",
+                "mapper:enemy-presence:Roachcatcher"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-upper-towers-path::enemy/roachcatcher-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -132161,6 +132453,10 @@
                 "mapper:ledge-grab-direction:right"
               ],
               [
+                "mapper:enemy-pogo:easy",
+                "mapper:enemy-presence:Mite"
+              ],
+              [
                 "mapper:cling-grip-direction:right"
               ],
               [
@@ -132171,9 +132467,7 @@
                 "mapper:dash-direction:right"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-upper-towers-path::enemy/mite-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -134451,11 +134745,16 @@
               [
                 "state:act-3",
                 "mapper:cling-grip-direction:left"
+              ],
+              [
+                "state:act-3",
+                "mapper:enemy-pogo:hard",
+                "mapper:enemy-presence:Silk Snipper",
+                "mapper:scuttlebrace:easy"
               ]
             ],
             "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-room::enemy/roachcatcher-1",
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-room::enemy/silk-snipper-1"
+              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-room::enemy/roachcatcher-1"
             ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
@@ -134626,15 +134925,17 @@
                 "item:silk-soar"
               ],
               [
+                "mapper:enemy-pogo:medium",
+                "mapper:enemy-presence:Silk Snipper"
+              ],
+              [
                 "mapper:cling-grip-direction:right"
               ],
               [
                 "mapper:cling-grip-direction:left"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:greymoor/greymoor-western-room::enemy/silk-snipper-1"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -145501,21 +145802,22 @@
           "currently_randomized": true,
           "requirement": {
             "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:act-3",
+                "event:mapper/1ce486d0-78c0-41fb-90f3-eb363f661211"
+              ]
+            ],
             "annotations": [],
             "minimum_skip_tier": 0,
-            "unresolved_reasons": [
-              "unsupported mapper capability: event:mapper/1ce486d0-78c0-41fb-90f3-eb363f661211"
-            ]
+            "unresolved_reasons": []
           },
           "notes": "",
           "source_line": 0,
           "raw_cells": {},
-          "logic_status": "unresolved",
-          "unresolved_reasons": [
-            "unsupported mapper capability: event:mapper/1ce486d0-78c0-41fb-90f3-eb363f661211"
-          ]
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": [
@@ -206769,11 +207071,21 @@
             "dnf": [
               [
                 "item:silk-soar"
+              ],
+              [
+                "event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+                "mapper:proficient-movement:none"
+              ],
+              [
+                "event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+                "item:cling-grip"
+              ],
+              [
+                "event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+                "mapper:scuttlebrace:easy"
               ]
             ],
-            "annotations": [
-              "dependency lacks reviewed event semantics: location:whispering-vaults/whispering-vaults-east-to-west::logic-point/whispering-vaults-shard-box"
-            ],
+            "annotations": [],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -206916,6 +207228,33 @@
           "label": "Whispering Vaults Shard Ladder",
           "kind": "switch",
           "node_id": "whispering-vaults/whispering-vaults-east-to-west#bottom"
+        },
+        {
+          "id": "event:mapper/2bcd3044-2e86-4845-87d5-6b0f8a41becf",
+          "requirement": {
+            "raw": "Activate Whispering Vaults Shard Ladder AND Attack Up",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/be0fea63-a83e-45b9-a3e0-0fb069abc886",
+                "mapper:attack:up"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "default state is down, activated state is up.",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "2bcd3044-2e86-4845-87d5-6b0f8a41becf"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Whispering Vaults Shard Box",
+          "kind": "logic-point",
+          "node_id": "whispering-vaults/whispering-vaults-east-to-west#center"
         }
       ],
       "checks": [
@@ -206946,13 +207285,7 @@
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "2bcd3044-2e86-4845-87d5-6b0f8a41becf",
-          "label": "Whispering Vaults Shard Box",
-          "kind": "logic-point"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "whispering-vaults/whispering-vaults-flea-shaft",

@@ -3168,7 +3168,10 @@ def technique_requirement_overrides(
     damage_boost_tier: int = 0,
 ) -> dict[str, tuple[LocationRequirement, ...]]:
     return {
-        f"Technique: {name} {tier}": (req(crest=name == "Crest Pogo"),) if selected >= tier else ()
+        f"Technique: {name} {tier}": (
+            req(any_of=tuple(sorted(NON_SHAMAN_CREST_ITEMS)), crest=False) if name == "Heal Stall"
+            else req(crest=name == "Crest Pogo"),
+        ) if selected >= tier else ()
         for name, selected in (
             ("Heal Stall", heal_stall_tier),
             ("Damage Boost", damage_boost_tier),

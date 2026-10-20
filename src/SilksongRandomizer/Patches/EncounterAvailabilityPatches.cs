@@ -80,6 +80,43 @@ namespace SilksongRandomizer.Patches
                 else if (scene == "Bone_East_10_Room" && __instance.FsmName == "Ruckus Control" &&
                     Utils.GetHierarchyPath(__instance.transform) == "RestBench")
                     LogRhinogrundRoom(__instance);
+                else if (scene == "Slab_14" && __instance.FsmName == "Control")
+                    KeepSlabAmbush(__instance);
+            }
+        }
+
+        private static void KeepSlabAmbush(PlayMakerFSM fsm)
+        {
+            if (SaveState.Instance == null) return;
+            string path = Utils.GetHierarchyPath(fsm.transform);
+            string soul = path == "Slab Prisoner Fly New" ? "Puny Penitent" :
+                path == "Slab Prisoner Leaper New" ? "Penitent" : null;
+            FsmState rest = fsm.Fsm.GetState("FG Rest");
+            if (soul == null || rest == null || rest.Actions.Any(action => action is SlabAmbushWake)) return;
+            var wake = new SlabAmbushWake { Soul = soul };
+            wake.Init(rest);
+            rest.Actions = rest.Actions.Concat(new FsmStateAction[] { wake }).ToArray();
+        }
+
+        private sealed class SlabAmbushWake : FsmStateAction
+        {
+            internal string Soul;
+            private PersistentBoolItem chain;
+
+            public override void OnEnter()
+            {
+                chain = Fsm.GameObject.scene.GetRootGameObjects()
+                    .FirstOrDefault(obj => obj.name == "slab_item_chain")?.GetComponent<PersistentBoolItem>();
+                OnUpdate();
+            }
+
+            public override void OnUpdate()
+            {
+                SaveState save = SaveState.Instance;
+                if (save == null || chain == null || !chain.ItemData.Value ||
+                    EnemySoulState.IsMissing(save, Soul)) return;
+                Fsm.Event("KEY CHAIN BROKEN");
+                Finish();
             }
         }
 

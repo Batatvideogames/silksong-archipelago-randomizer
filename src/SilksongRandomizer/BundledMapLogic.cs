@@ -23,11 +23,12 @@ namespace SilksongRandomizer
                     if (stream == null)
                         throw new InvalidOperationException("Bundled map logic is missing.");
                     stream.CopyTo(buffer);
-                    byte[] bytes = buffer.ToArray();
+                    string json = System.Text.Encoding.UTF8.GetString(buffer.ToArray())
+                        .Replace("\r\n", "\n").Replace("\r", "\n");
                     using (SHA256 hash = SHA256.Create())
-                        Identity = BitConverter.ToString(hash.ComputeHash(bytes))
+                        Identity = BitConverter.ToString(hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(json)))
                             .Replace("-", "").ToLowerInvariant();
-                    Payload = JObject.Parse(System.Text.Encoding.UTF8.GetString(bytes));
+                    Payload = JObject.Parse(json);
                 }
             }
         }
