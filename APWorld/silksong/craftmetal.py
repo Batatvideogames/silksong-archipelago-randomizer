@@ -61,6 +61,8 @@ class SpendingAudit:
         self.minimal = {player for player, world in multiworld.worlds.items()
                         if world.options.accessibility == 'minimal'}
         self.foreign_full = tuple(location for location in self.foreign_free if location.player in self.full)
+        self.baseline_locations = set()
+        self.goals = set()
         self.alternatives = {
             location for location in self.purchases
             if location.name in RUINED_TOOL_REPAIR_LOCATIONS
@@ -160,7 +162,7 @@ class SpendingAudit:
         if not self.finalized and all(bought & (1 << index) or self.excluded_repair(index, bought)
                                       for index in range(len(self.purchases))):
             return True
-        if not self.multiworld.has_beaten_game(state):
+        if not all(self.multiworld.has_beaten_game(state, player) for player in self.goals):
             return False
         for location in self.required:
             index = self.indices.get(location)
@@ -217,6 +219,24 @@ class SpendingAudit:
             sleeping |= bit
         return None
 
+    def update_baseline(self):
+        state = CollectionState(self.multiworld)
+        bought = 0
+        while True:
+            self.sweep(state)
+            reachable = self.reachable_purchases(state)
+            previous = bought
+            for index in range(len(self.purchases)):
+                if reachable & (1 << index) and not bought & (1 << index):
+                    bought = self.buy(state, bought, index)
+            if bought == previous:
+                break
+        # Keep earlier guarantees when a repair moves a reward.
+        self.baseline_locations.update(location for location in self.locations
+                                       if location in state.advancements or location.can_reach(state))
+        self.goals.update(player for player in self.multiworld.player_ids
+                          if self.multiworld.has_beaten_game(state, player))
+
     def run(self):
         self.visited.clear()
         self.reach_cache.clear()
@@ -225,9 +245,11 @@ class SpendingAudit:
         self.filler = sum(1 << index for index, location in enumerate(self.purchases)
                           if not location.item.advancement and self.recipients.get(location.item.player)
                           and location.address is not None and not self.repairs[location.player] & (1 << index))
+        self.update_baseline()
         self.required = tuple(
             location for location in self.locations
-            if location not in self.alternatives and (location.player in self.full or (
+            if location in self.baseline_locations
+            and location not in self.alternatives and (location.player in self.full or (
                 location.advancement and location.item.player not in self.minimal))
         )
         return self.search(CollectionState(self.multiworld))
@@ -236,13 +258,15 @@ class SpendingAudit:
         sources = sorted(
             (location for index, location in enumerate(self.purchases)
              if not failure.bought & (1 << index)
+             and location in self.baseline_locations
              and location.address is not None and not location.locked
              and location.item.advancement and location.item.name != MEMORY_LOCKET_ITEM),
             key=lambda location: location.item.name == CRAFTMETAL_ITEM,
         )
         sources.extend(sorted(
             (location for location in self.free
-             if location.address is not None and not location.locked
+             if location in self.baseline_locations
+             and location.address is not None and not location.locked
              and location.item.name == CRAFTMETAL_ITEM
              and any(self.available(player, failure.state, failure.bought)
                      < self.remaining_cost(player, failure.bought)
@@ -291,14 +315,15 @@ def audit_craftmetal_spending(multiworld, worlds, *, finalized=True):
             )
             blocked = [str(location) for location in audit.required
                        if location not in failure.state.advancements and not location.can_reach(failure.state)]
-            goals = [multiworld.player_name[player] for player in multiworld.player_ids
+            goals = [multiworld.player_name[player] for player in sorted(audit.goals)
                      if not multiworld.has_beaten_game(failure.state, player)]
             pending = [str(location) for index, location in enumerate(audit.purchases)
-                       if not failure.bought & (1 << index) and not audit.excluded_repair(index, failure.bought)]
+                       if location in audit.baseline_locations
+                       and not failure.bought & (1 << index) and not audit.excluded_repair(index, failure.bought)]
             details = (f' Unreachable checks: {", ".join(blocked[:8])}.' if blocked else '')
             details += (f' Unfinished goals: {", ".join(goals[:8])}.' if goals else '')
             if not pending:
-                raise FillError('All Craftmetal purchases were reachable, but final accessibility validation failed.'
+                raise FillError('Craftmetal spending left previously reachable checks or goals inaccessible.'
                                 + details, multiworld=multiworld)
             if failure.exhausted:
                 raise FillError('Craftmetal spending validation exceeded its search limit. '

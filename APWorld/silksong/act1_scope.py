@@ -176,6 +176,10 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Sands of Karak - Shell Shard Cache #2",
         "Sands of Karak - Shell Shard Cache #3",
         "Sands of Karak - Shell Shard Cache #4",
+        "Sands of Karak - Shell Shard Cache #5",
+        "Sands of Karak - Shell Shard Cache #6",
+        "Sands of Karak - Shell Shard Cache #7",
+        "Sands of Karak - Shell Shard Cache #8",
         "Sands of Karak - Shell Shard Cache #11",
         "Sands of Karak - Shell Shard Cache #9",
         "Sands of Karak - Shell Shard Cache #10",
@@ -197,6 +201,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Bilewater - Shell Shard Cache #4",
         "Sands of Karak East Bench - Simple Key",
         "Sands of Karak - Upper Coral Tablet",
+        "Sands of Karak - Lower Coral Tablet",
     )
 )
 
