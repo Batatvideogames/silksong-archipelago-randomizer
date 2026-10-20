@@ -114,7 +114,6 @@ namespace SilksongRandomizer
                 return;
             }
             GUILayout.Label(notice);
-            GUILayout.Label("Current save location: " + sessionDirectory);
             if (GUILayout.Button("Continue with the game's saves"))
             {
                 try

@@ -28,6 +28,7 @@ namespace SilksongRandomizer
                 "FreeCompass.FreeCompassMod+ShopItem_Cost_Patch", "ShopItem_Cost_Prefix",
                 nameof(AllowFreeCompassPrice)));
             Install(BenchwarpId, assembly => InstallBenchwarp(harmony, assembly));
+            Install(ModMenuOptions.PluginId, assembly => ModMenuOptions.Initialize(harmony, assembly));
         }
 
         private static void Install(string id, Action<Assembly> install)

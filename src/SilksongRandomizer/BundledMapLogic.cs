@@ -35,6 +35,8 @@ namespace SilksongRandomizer
 
         private static readonly Lazy<LogicData> Data = new Lazy<LogicData>(() => new LogicData());
 
+        internal static JObject RoomGeometry => (JObject)Data.Value.Payload["room_geometry"];
+
         internal static JObject Restore(string identity, JObject changes, bool scuttlebrace, string entranceScope, JObject entrancePairs)
         {
             LogicData data = Data.Value;

@@ -22,6 +22,7 @@ namespace SilksongRandomizer
     [BepInDependency(OptionalModCompatibility.QoLId, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(OptionalModCompatibility.FreeCompassId, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(OptionalModCompatibility.BenchwarpId, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(ModMenuOptions.PluginId, BepInDependency.DependencyFlags.SoftDependency)]
     public class RandomizerPlugin : BaseUnityPlugin
     {
         public static RandomizerPlugin Instance { get; private set; }
@@ -60,7 +61,6 @@ namespace SilksongRandomizer
         private bool cursorStateCaptured;
         private bool previousCursorVisible;
         private bool isConnecting;
-        private bool connectionSubmitRequested;
         private CursorLockMode previousCursorLockState;
         private Vector2 connectionScrollPosition;
         private Rect connectionWindowRect = new Rect(0f, 0f, ConnectionWindowWidth, ConnectionWindowHeight);
@@ -161,6 +161,7 @@ namespace SilksongRandomizer
             Log = Logger;
             LoadSavedConnectionDetails();
             LoadClientDisplaySettings();
+            RouteLocationOverlay.Initialize(Config);
             SaveFolderManager.Initialize(Config);
             DeathLinkManager.Initialize(QueueConnectionStatus);
             SilkLinkManager.Initialize(QueueConnectionStatus);
@@ -219,7 +220,7 @@ namespace SilksongRandomizer
                 "Map Markers",
                 "Tooltip Font Size",
                 14,
-                new ConfigDescription(
+                ModMenuOptions.Describe("Map Markers", "Text Size",
                     "Text size used for check names shown while focusing a " +
                     "map marker.",
                     new AcceptableValueRange<int>(10, 32)
@@ -230,7 +231,8 @@ namespace SilksongRandomizer
                 "Map Markers",
                 "Show Logic (Experimental)",
                 false,
-                "Checks nearby rooms for required logic for a check while focusing a map marker."
+                ModMenuOptions.Describe("Map Markers", "Show Requirements (Experimental)",
+                    "Show the requirements for a check when you focus its map marker. Toggle with F6.")
             );
         }
 
@@ -691,6 +693,8 @@ namespace SilksongRandomizer
 
         void Update()
         {
+            UpdateConnectionInput();
+            RouteLocationOverlay.Update();
             Archipelago.Instance?.ProcessPendingLinkReset();
             if (resetTransientEffectsRequested)
             {
@@ -758,16 +762,6 @@ namespace SilksongRandomizer
             if (!showConnectionGui && Input.GetKeyDown(KeyCode.F4))
             {
                 TryWarpToPreferredHub();
-            }
-
-            if (connectionSubmitRequested)
-            {
-                connectionSubmitRequested = false;
-                if (showConnectionGui && Application.isFocused &&
-                    selectedWindowTab == ArchipelagoWindowTab.Connection)
-                {
-                    TryConnectFromGui();
-                }
             }
 
             if (Input.GetKeyDown(KeyCode.F6))
@@ -1375,22 +1369,13 @@ namespace SilksongRandomizer
 
         private void OnGUI()
         {
+            RouteLocationOverlay.Draw();
             LiteracyTrap.Draw();
             CheckMapMarkerManager.DrawTooltip();
 
             if (!showConnectionGui)
             {
                 return;
-            }
-
-            Event input = Event.current;
-            if (selectedWindowTab == ArchipelagoWindowTab.Connection &&
-                !isConnecting && input.type == EventType.KeyDown &&
-                (input.keyCode == KeyCode.Return || input.keyCode == KeyCode.KeypadEnter) &&
-                !input.alt && !input.control && !input.command)
-            {
-                connectionSubmitRequested = true;
-                input.Use();
             }
 
             arialFont ??= Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault(
@@ -1464,7 +1449,6 @@ namespace SilksongRandomizer
             }
 
             showConnectionGui = false;
-            connectionSubmitRequested = false;
 
             if (restoreCursor)
             {
@@ -1655,7 +1639,7 @@ namespace SilksongRandomizer
             GUI.enabled = !isConnecting;
             string connectButtonText = isConnecting
                 ? "Connecting..."
-                : connected ? "Reconnect / Switch" : "Connect (Enter)";
+                : connected ? "Reconnect / Switch" : "Connect";
             if (GUILayout.Button(
                     AlphabetModeManager.FilterDirectText(connectButtonText),
                     GUILayout.Height(32f)
@@ -1872,6 +1856,19 @@ namespace SilksongRandomizer
                     connectionStatus = message;
                 }
             }
+        }
+
+        private void UpdateConnectionInput()
+        {
+            if (!showConnectionGui || isConnecting || !Application.isFocused ||
+                selectedWindowTab != ArchipelagoWindowTab.Connection ||
+                !(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+                return;
+            if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt) ||
+                Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
+                Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand))
+                return;
+            TryConnectFromGui();
         }
 
         private void TryConnectFromGui()
