@@ -723,6 +723,7 @@ namespace SilksongRandomizer
             VogHintManager.Update();
             WandererChapelPatches.Update();
             MinorCachePatches.UpdateInactiveCurrencyChestFallbacks();
+            BankRewardPatches.Update();
             LoreTabletPatches.UpdateInactiveSources();
             ProcessConnectionStatusQueue();
             ProcessAutomaticReconnectRequest();
@@ -803,6 +804,7 @@ namespace SilksongRandomizer
             FleaRescueAudio.ResetPending();
             VogHintManager.Reset();
             MinorCachePatches.ResetInactiveCurrencyChestFallbacks();
+            BankRewardPatches.Reset();
             LoreTabletPatches.ResetInactiveSources();
         }
 

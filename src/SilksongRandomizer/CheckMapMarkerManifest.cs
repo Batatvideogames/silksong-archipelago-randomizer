@@ -470,6 +470,7 @@ namespace SilksongRandomizer
             // Songclave Wishwall turn-ins. Both normal and Act 3 boards have
             // the same authored Turn In Effect Point.
             new MapCheckPosition("Wish: Fine Pins", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: The Wailing Mother", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Cloaks of the Choir", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Building Up Songclave", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Strengthening Songclave", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),

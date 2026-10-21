@@ -1871,12 +1871,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
         indices = [index for index, item in enumerate(progitempool) if item.player == self.player]
-        movement = {
-            "Ledge Grab", "Swift Step", "Progressive Swift Step", "Sprint", "Faydown Cloak",
-            "Cling Grip", "Clawline", "Needolin", "Silk Soar", "Drifter's Cloak", "Swim",
-        }
         ordered = sorted((progitempool[index] for index in indices),
-                         key=lambda item: (item.name in FLEA_ITEM_NAMES, item.name not in movement))
+                         key=lambda item: item.name in FLEA_ITEM_NAMES)
         for index, item in zip(indices, ordered):
             progitempool[index] = item
         if uses_crest_slot_locket_logic(self):

@@ -25,6 +25,7 @@ _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
         "Curvesickle",
         "Egg of Flealia",
         "Wish: Fine Pins",
+        "Wish: The Wailing Mother",
         "Wish: The Wandering Merchant",
         "Wish: My Missing Brother",
         "Wish: Balm for the Wounded",

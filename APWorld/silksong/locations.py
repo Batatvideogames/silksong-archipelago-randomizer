@@ -789,6 +789,7 @@ _QUEST_DISPLAY_NAME_BY_ASSET: Mapping[str, str] = {
     'Courier Delivery Songclave': 'Wish: Songclave Supplies',
     'Extractor Blue Worms': 'Wish: Advanced Alchemy',
     'Fine Pins': 'Wish: Fine Pins',
+    'Broodmother Hunt': 'Wish: The Wailing Mother',
     'Garmond Black Threaded': "Wish: Hero's Call",
     'Song Knight': 'Wish: Final Audience',
     'Tormented Trobbio': 'Wish: Pain, Anguish and Misery',
@@ -1093,6 +1094,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Loddie - Heavy Rosary Necklace', 'Resource'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key of Heretic', 'MajorKey'))
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Conjoined Heart', 'OldHeart'),)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Quest Completion: Broodmother Hunt', 'Resource'),)
 
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
@@ -1120,6 +1122,7 @@ QUEST_LOCATION_NAMES: tuple[str, ...] = tuple(
     'Wish: Final Audience',
     'Wish: Pain, Anguish and Misery',
     'Wish: Fatal Resolve',
+    'Wish: The Wailing Mother',
 )
 
 location_table: Dict[str, int] = {

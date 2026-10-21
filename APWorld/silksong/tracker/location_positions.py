@@ -383,6 +383,7 @@ LOCATION_POSITIONS = (
     {'name': "Wish: Hero's Call", 'scene': 'Belltown', 'x': 48.45767, 'y': 5.752009, 'width': 109, 'height': 75},
     {'name': 'Wish: Silver Bells', 'scene': 'Belltown', 'x': 48.45767, 'y': 5.752009, 'width': 109, 'height': 75},
     {'name': 'Wish: Fine Pins', 'scene': 'Song_Enclave', 'x': 70.555756, 'y': 4.579541, 'width': 120, 'height': 33},
+    {'name': 'Wish: The Wailing Mother', 'scene': 'Song_Enclave', 'x': 70.555756, 'y': 4.579541, 'width': 120, 'height': 33},
     {'name': 'Wish: Cloaks of the Choir', 'scene': 'Song_Enclave', 'x': 70.555756, 'y': 4.579541, 'width': 120, 'height': 33},
     {'name': 'Wish: Building Up Songclave', 'scene': 'Song_Enclave', 'x': 70.555756, 'y': 4.579541, 'width': 120, 'height': 33},
     {'name': 'Wish: Strengthening Songclave', 'scene': 'Song_Enclave', 'x': 70.555756, 'y': 4.579541, 'width': 120, 'height': 33},

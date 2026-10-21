@@ -62,6 +62,7 @@ namespace SilksongRandomizer
             new QuestLocationDefinition("Steel Sentinel Pt2"),
             new QuestLocationDefinition("Song Knight"),
             new QuestLocationDefinition("Tormented Trobbio"),
+            new QuestLocationDefinition("Broodmother Hunt"),
         };
 
         private static readonly Dictionary<string, string>
@@ -100,6 +101,7 @@ namespace SilksongRandomizer
                     },
                     { "Steel Sentinel Pt2", "Growstone" },
                     { "Fine Pins", "Rosary_Set_Large" },
+                    { "Broodmother Hunt", "Rosary_Set_Large" },
                     { "Pilgrim Rags", "Rosary_Set_Medium" },
                     { "Shiny Bell Goomba", "Rosary_Set_Medium" },
                     { "Skull King", "Rosary_Set_Large" },
@@ -187,6 +189,7 @@ namespace SilksongRandomizer
         {
             switch (assetName)
             {
+                case "Broodmother Hunt":
                 case "Fine Pins":
                 case "Pilgrim Rags":
                 case "Shiny Bell Goomba":

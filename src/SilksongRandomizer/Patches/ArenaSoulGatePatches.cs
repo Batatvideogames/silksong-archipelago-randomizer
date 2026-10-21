@@ -30,6 +30,12 @@ namespace SilksongRandomizer.Patches
 
         internal static readonly Arena[] Arenas =
         {
+            new Arena("Memory_Coral_Tower", "Battle Scenes/Battle Scene Chamber 1", "", "BG Control",
+                new[] { "Battle Gate Coral" }, new[] { "Battle Gate Coral (1)" }),
+            new Arena("Memory_Coral_Tower", "Battle Scenes/Battle Scene Chamber 2", "", "BG Control",
+                new[] { "Battle Gate Coral" }, new[] { "Battle Gate Coral (1)" }),
+            new Arena("Memory_Coral_Tower", "Battle Scenes/Battle Scene Chamber 3", "", "BG Control",
+                new[] { "Battle Gate Coral" }, new[] { "Battle Gate Coral (1)" }),
             new Arena("Ant_04_mid", "Black Thread States Thread Only Variant/Normal World/Battle Scene", "", "BG Control",
                 new[] { "Battle Gate Ant (1)" }, new[] { "Battle Gate Ant" }),
             new Arena("Ant_04_mid", "Black Thread States Thread Only Variant/Black Thread World/Battle Scene Black Thread", "", "Control",

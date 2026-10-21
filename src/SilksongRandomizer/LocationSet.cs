@@ -431,6 +431,7 @@ namespace SilksongRandomizer
                     "Wish: Advanced Alchemy"
                 },
                 { "Quest Completion: Fine Pins", "Wish: Fine Pins" },
+                { "Quest Completion: Broodmother Hunt", "Wish: The Wailing Mother" },
                 { "Quest Completion: Song Knight", "Wish: Final Audience" },
                 { "Quest Completion: Tormented Trobbio", "Wish: Pain, Anguish and Misery" },
                 { "Quest Completion: Pinstress Battle", "Wish: Fatal Resolve" },

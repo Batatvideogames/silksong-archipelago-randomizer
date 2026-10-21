@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using GlobalEnums;
 using HarmonyLib;
 using HutongGames.PlayMaker;
@@ -147,9 +149,23 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        internal static bool DeferRhinogrundInvasion() => WorldInteractionPatches.IsActive &&
+            EnemySoulState.IsMissing(SaveState.Instance, "Rhinogrund");
+
+        internal static void SetRhinogrundRuckus(PlayerData data, bool value)
+        {
+            if (!value || !DeferRhinogrundInvasion()) data.rhinoRuckus = value;
+        }
+
+        internal static void SetRhinogrundHistory(PlayerData data, bool value)
+        {
+            if (!value || !DeferRhinogrundInvasion()) data.didRhinoRuckus = value;
+        }
+
         internal static void UpdateRhinogrundInvasion(PlayerData data, MapZone zone)
         {
-            if (!WorldInteractionPatches.IsActive || data == null || !data.rhinoChurchUnlocked ||
+            if (!WorldInteractionPatches.IsActive || data == null || DeferRhinogrundInvasion() ||
+                !data.rhinoChurchUnlocked ||
                 data.churchRhinoKilled || !data.PilgrimsRestDoorBroken || zone == MapZone.WILDS ||
                 data.respawnScene == "Bone_East_10_Room") return;
             data.rhinoRuckus = true;
@@ -169,6 +185,24 @@ namespace SilksongRandomizer.Patches
             [HarmonyPrefix]
             private static void Prefix(GameManager __instance, out bool __state) =>
                 __state = __instance.playerData?.rhinoRuckus == true;
+
+            [HarmonyTranspiler]
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                var ruckus = AccessTools.Field(typeof(PlayerData), "rhinoRuckus");
+                var history = AccessTools.Field(typeof(PlayerData), "didRhinoRuckus");
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    string setter = instruction.StoresField(ruckus) ? nameof(SetRhinogrundRuckus) :
+                        instruction.StoresField(history) ? nameof(SetRhinogrundHistory) : null;
+                    if (setter == null) yield return instruction;
+                    else yield return new CodeInstruction(instruction)
+                    {
+                        opcode = OpCodes.Call,
+                        operand = AccessTools.Method(typeof(EncounterAvailabilityPatches), setter)
+                    };
+                }
+            }
 
             [HarmonyPostfix]
             private static void Postfix(GameManager __instance, bool __state)

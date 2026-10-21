@@ -7366,13 +7366,6 @@
     "kind": "switch",
     "locations": []
   },
-  "event:mapper/73ba7475-f2f5-4c03-84f3-d42864ae2a1d": {
-    "name": "Grand bellway hidden chest",
-    "kind": "collectible",
-    "locations": [
-      "Grand bellway hidden chest"
-    ]
-  },
   "event:mapper/7fd15653-2492-4020-bb58-842787851ce1": {
     "name": "Grand Bellway - Beastling Call",
     "kind": "collectible",
@@ -7497,6 +7490,16 @@
   "event:mapper/4dcb9ddb-902b-47a4-b128-66b661ebf712": {
     "name": "Far Fields Pinstress Mask Shard - vent boulder 2",
     "kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/3cc87304-596e-4274-845d-6fa5361efd35": {
+    "name": "Choral Chambers Flea Shaft - Lever Flea Shaft 2",
+    "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/68e170cf-11b8-4c13-bd24-64135a20b3cf": {
+    "name": "Mount Fay Bench Toll - Bench Toll",
+    "kind": "lock",
     "locations": []
   }
 }

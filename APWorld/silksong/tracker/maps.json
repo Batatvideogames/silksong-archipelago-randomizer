@@ -2792,8 +2792,8 @@
  {
   "name": "Mount Fay Entrance",
   "img": "01-geometry/eb6aaa0c-e6fb-442d-93b4-1240a8a48a9b.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Brightvein",
@@ -2828,7 +2828,7 @@
  {
   "name": "Memory Crystal",
   "img": "01-geometry/317ec0a5-26d0-4b2d-99fd-763a5a47138d.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {

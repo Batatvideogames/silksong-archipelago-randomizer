@@ -21912,6 +21912,21 @@
     ]
    },
    {
+    "name": "Wish: The Wailing Mother",
+    "sections": [
+     {
+      "name": "Wish: The Wailing Mother"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Songclave",
+      "x": 448,
+      "y": 180
+     }
+    ]
+   },
+   {
     "name": "Wish: Songclave Supplies",
     "sections": [
      {
@@ -23995,21 +24010,6 @@
       "map": "Grand Bellway Side Room",
       "x": 337,
       "y": 211
-     }
-    ]
-   },
-   {
-    "name": "Grand bellway hidden chest",
-    "sections": [
-     {
-      "name": "Grand bellway hidden chest"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Grand Bellway Side Room",
-      "x": 47,
-      "y": 106
      }
     ]
    },
@@ -32994,8 +32994,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 586,
-      "y": 1209
+      "x": 555,
+      "y": 1212
      }
     ]
    },
@@ -33009,8 +33009,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 585,
-      "y": 1189
+      "x": 564,
+      "y": 1200
      }
     ]
    },
@@ -33024,8 +33024,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 523,
-      "y": 694
+      "x": 522,
+      "y": 787
      }
     ]
    },
@@ -33039,8 +33039,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 636,
-      "y": 717
+      "x": 635,
+      "y": 812
      }
     ]
    },
@@ -33054,7 +33054,7 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 510,
+      "x": 509,
       "y": 0
      }
     ]
@@ -33100,7 +33100,7 @@
      {
       "map": "Mount Fay Entrance",
       "x": 0,
-      "y": 218
+      "y": 247
      }
     ]
    },
@@ -33115,7 +33115,7 @@
      {
       "map": "Mount Fay Entrance",
       "x": 0,
-      "y": 1283
+      "y": 1453
      }
     ]
    },
@@ -33130,7 +33130,7 @@
      {
       "map": "Mount Fay Entrance",
       "x": 0,
-      "y": 1176
+      "y": 1333
      }
     ]
    },
@@ -33145,7 +33145,7 @@
      {
       "map": "Mount Fay Entrance",
       "x": 0,
-      "y": 274
+      "y": 311
      }
     ]
    },
@@ -33159,8 +33159,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 636,
-      "y": 207
+      "x": 635,
+      "y": 234
      }
     ]
    },
@@ -33174,7 +33174,7 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 318,
+      "x": 317,
       "y": 0
      }
     ]
@@ -33189,8 +33189,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 636,
-      "y": 397
+      "x": 635,
+      "y": 450
      }
     ]
    },
@@ -33204,8 +33204,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Entrance",
-      "x": 636,
-      "y": 1288
+      "x": 635,
+      "y": 1460
      }
     ]
    }
@@ -33489,8 +33489,8 @@
     "map_locations": [
      {
       "map": "Memory Crystal",
-      "x": 130,
-      "y": 76
+      "x": 123,
+      "y": 69
      }
     ]
    },
@@ -33504,8 +33504,8 @@
     "map_locations": [
      {
       "map": "Memory Crystal",
-      "x": 526,
-      "y": 205
+      "x": 608,
+      "y": 185
      }
     ]
    },
@@ -33520,7 +33520,7 @@
      {
       "map": "Memory Crystal",
       "x": 0,
-      "y": 77
+      "y": 69
      }
     ]
    }
@@ -33784,8 +33784,8 @@
     "map_locations": [
      {
       "map": "Mount Fay Lore Room",
-      "x": 101,
-      "y": 47
+      "x": 102,
+      "y": 104
      }
     ]
    },

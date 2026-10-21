@@ -22,6 +22,10 @@ STYX_EVENTS = frozenset((
     'Room Event: event:mapper/reviewed:styx-first-grub-grown',
     'Room Event: event:mapper/reviewed:courier-queens-egg-delivered',
 ))
+COMBAT_BATTLES = {
+    requirement_name('gauntlet:halfway-home'): ('ant_08', 'Battle Scene'),
+    requirement_name('gauntlet:black-threaded-skarrgard'): ('bone_east_25', 'Battle Scene'),
+}
 ACT_3_INTRO_NODE = 'Room Node: cogwork-core/cogwork-core-breakable-walls#northern-gauntlet'
 ACT_3_INTRO_EVENT = 'Room Event: event:mapper/82aabe64-d7cd-4911-9a15-f1338e0400c0'
 ACT_3_INTRO_SPECIES = frozenset(row['name'] for row in CATALOGUE
@@ -254,8 +258,10 @@ def gate_graph(world, graph):
             owner = 'Room Event: ' + event.id
             if (souls and event.kind in {'enemy', 'miniboss', 'gauntlet'} and owner in result
                     and owner not in BOSS_EVENTS and owner != ACT_3_INTRO_EVENT):
-                result[owner] = tuple(rule if BOSS_COMBAT.intersection(rule.all_of) else
-                                      replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls)))) for rule in result[owner])
+                result[owner] = tuple(
+                    rule if BOSS_COMBAT.intersection(rule.all_of) else
+                    replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *_combat_souls(rule, names, {room.id})))))
+                    for rule in result[owner])
     for name in names:
         for event in BY_NAME[name].get('events', ()):
             alternatives = (item_name(name), 'Act: 3') if name == 'Muckroach' and event in STYX_EVENTS else (item_name(name),)
@@ -299,11 +305,21 @@ def _boss_summons(names):
     return result
 
 
+def _combat_souls(rule, names, rooms):
+    combat = {token for token in rule.all_of if token.startswith('Combat: ')}
+    if combat and combat <= COMBAT_BATTLES.keys():
+        battles = {COMBAT_BATTLES[token] for token in combat}
+        return tuple(item_name(name) for name in names if any(
+            (battle['scene'].lower(), battle['path']) in battles
+            for battle in BY_NAME[name].get('battles', ())))
+    return tuple(item_name(name) for name in names if rooms.intersection(BY_NAME[name]['rooms']))
+
+
 def _combat_gate(rule, names):
     if BOSS_COMBAT.intersection(rule.all_of) or not any(token.startswith('Combat: ') for token in rule.all_of):
         return rule
     rooms = {token.removeprefix('Room Node: ').split('#')[0] for token in rule.all_of if token.startswith('Room Node: ')}
-    souls = tuple(item_name(name) for name in names if rooms.intersection(BY_NAME[name]['rooms']))
+    souls = _combat_souls(rule, names, rooms)
     return replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls))))
 
 

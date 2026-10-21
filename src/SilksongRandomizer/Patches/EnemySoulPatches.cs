@@ -366,7 +366,8 @@ namespace SilksongRandomizer.Patches
             if (!CanStartBattle(battle.gameObject.scene.name, Utils.GetHierarchyPath(battle.transform), state)) return false;
             if (IsBossBattle(battle)) return true;
             foreach (EnemyDeathEffects death in battle.GetComponentsInChildren<EnemyDeathEffects>(true))
-                if (!IsUnusedStyxWave(death) && TryGetSpecies(death, out string species) &&
+                if (!IsNonCombatBattleActor(death.gameObject.scene.name, Utils.GetHierarchyPath(death.transform)) &&
+                    TryGetSpecies(death, out string species) &&
                     EnemySoulState.IsMissing(state, species)) return false;
             if (battle.waves != null)
                 foreach (BattleWave wave in battle.waves)
@@ -377,11 +378,13 @@ namespace SilksongRandomizer.Patches
             return true;
         }
 
-        private static bool IsUnusedStyxWave(EnemyDeathEffects death) =>
-            string.Equals(death.gameObject.scene.name, "Dust_11", StringComparison.OrdinalIgnoreCase) &&
-            Utils.GetHierarchyPath(death.transform).StartsWith(
-                "Steel Soul States/Regular/NPC Control/Act 3 Thread Cores/Battle Scene Act3/Wave UNUSED/",
-                StringComparison.Ordinal);
+        internal static bool IsNonCombatBattleActor(string scene, string path) =>
+            (string.Equals(scene, "Ant_08", StringComparison.OrdinalIgnoreCase) &&
+             path.StartsWith("Battle Scene/Mites/", StringComparison.Ordinal)) ||
+            (string.Equals(scene, "Dust_11", StringComparison.OrdinalIgnoreCase) &&
+             path.StartsWith(
+                 "Steel Soul States/Regular/NPC Control/Act 3 Thread Cores/Battle Scene Act3/Wave UNUSED/",
+                 StringComparison.Ordinal));
 
         internal static bool CanStartBattle(string scene, string path, SaveState state) =>
             IsActThreeIntroBattle(scene, path) ||
