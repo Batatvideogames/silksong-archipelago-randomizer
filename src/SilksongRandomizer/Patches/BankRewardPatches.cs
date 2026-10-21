@@ -67,6 +67,17 @@ namespace SilksongRandomizer.Patches
             reward.Pickup = null;
         }
 
+        private static Transform FindSource(Reward reward, Scene scene)
+        {
+            Transform candidate = sourceRoot?.Find(reward.Path);
+            if (MatchesSource(reward, candidate)) return candidate;
+            string sourceName = reward.Path.Substring(SourceBranch.Length);
+            foreach (GameObject root in scene.GetRootGameObjects())
+                if (root.name == sourceName && MatchesSource(reward, root.transform))
+                    return root.transform;
+            return null;
+        }
+
         private static void CreatePickup(Reward reward, int index, Scene scene)
         {
             if (reward.Pickup != null) return;
@@ -133,11 +144,7 @@ namespace SilksongRandomizer.Patches
                     RemovePickup(reward);
                     continue;
                 }
-                if (reward.Source == null && sourceRoot != null)
-                {
-                    Transform candidate = sourceRoot.Find(reward.Path);
-                    if (MatchesSource(reward, candidate)) reward.Source = candidate;
-                }
+                if (reward.Source == null) reward.Source = FindSource(reward, scene);
                 if (reward.Source != null && !reward.Source.gameObject.activeInHierarchy)
                     CreatePickup(reward, i, scene);
                 else RemovePickup(reward);
