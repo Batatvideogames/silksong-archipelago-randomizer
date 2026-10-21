@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 
 namespace SilksongRandomizer.Patches
 {
@@ -40,7 +41,6 @@ namespace SilksongRandomizer.Patches
             ["Shellwood_11b_Memory|Boss Scene/Flower Queen Boss"] = "Boss: Nyleth",
             ["Room_CrowCourt_02|Battle Scene/Wave 6/Crawfather"] = "Boss: Crawfather",
             ["Library_13|Grand Stage Scene/Boss Scene TormentedTrobbio/Tormented Trobbio"] = "Boss: Tormented Trobbio",
-            ["Coral_Judge_Arena|Boss Scene/Last Judge"] = "Boss: Last Judge",
             ["Clover_19|Boss Scene/Cloverstag White Boss"] = "Boss: Palestag",
             ["Bone_Steel_Servant|Steel Servant Scene/Battle Scene/Wave 1/Abyss Mass"] = "Boss: Summoned Saviour",
             ["Crawl_10|Blue Assistant"] = "Boss: Plasmified Zango",
@@ -165,6 +165,25 @@ namespace SilksongRandomizer.Patches
             {
                 try { Report(locationName); }
                 finally { Finish(); }
+            }
+        }
+
+        [HarmonyPatch(typeof(SetPlayerDataVariable), nameof(SetPlayerDataVariable.OnEnter))]
+        private static class LastJudgeCompletionPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(SetPlayerDataVariable __instance)
+            {
+                if (SaveState.Instance == null || PlayerData.instance?.defeatedLastJudge != true ||
+                    __instance.VariableName == null || __instance.VariableName.UsesVariable ||
+                    __instance.VariableName.Value != nameof(PlayerData.defeatedLastJudge) ||
+                    __instance.State?.Name != "Break 4" || __instance.Fsm?.Name != "Control" ||
+                    __instance.Fsm.GameObject == null ||
+                    __instance.Fsm.GameObject.scene.name != "Coral_Judge_Arena" ||
+                    Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform) != "Corpse Last Judge(Clone)")
+                    return;
+
+                Report("Boss: Last Judge");
             }
         }
 

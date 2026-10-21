@@ -13,6 +13,8 @@ namespace SilksongRandomizer
             typeof(DesktopPlatform), "GetSaveSlotPath");
         private static readonly FieldInfo OnlineSubsystemField = AccessTools.Field(
             typeof(DesktopPlatform), "onlineSubsystem");
+        internal static readonly Type GamePassSubsystemType =
+            typeof(DesktopPlatform).Assembly.GetType("GameCoreOnlineSubsystem");
         private static ConfigEntry<string> lastDirectory;
         private static ConfigEntry<bool> defaultNoticeDismissed;
         private static string sessionDirectory;
@@ -21,7 +23,7 @@ namespace SilksongRandomizer
 
         private static bool UsesLocalGamePassSaves =>
             Platform.Current is DesktopPlatform platform &&
-            OnlineSubsystemField?.GetValue(platform) is GameCoreOnlineSubsystem;
+            GamePassSubsystemType?.IsInstanceOfType(OnlineSubsystemField?.GetValue(platform)) == true;
 
         internal static void Initialize(ConfigFile config)
         {

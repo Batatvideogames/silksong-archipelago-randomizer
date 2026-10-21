@@ -118597,6 +118597,7 @@
             "all_of": [
               "Room Node: far-fields/far-fields-chorus#boss-arena",
               "Room Event: event:mapper/reviewed:savage-beastfly-accepted",
+              "Room Event: event:mapper/e6e6d899-9def-42c2-ab77-53db34ced41d",
               "Drifter's Cloak",
               "Combat: Savage Beastfly (Far Fields)"
             ]
@@ -230641,15 +230642,6 @@
               "Room Node: grand-gate/grand-gate-courtroom#upper-section",
               "Cling Grip",
               "Option: Proficient Movement"
-            ]
-          }
-        ]
-      },
-      "Grand bellway hidden chest": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/grand-bellway-side-room#room"
             ]
           }
         ]

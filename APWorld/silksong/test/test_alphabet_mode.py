@@ -553,7 +553,7 @@ class TestAlphabetMode(unittest.TestCase):
         return {
             "goal": "act_3",
             "starting_crest": "hunter",
-            "early_dash": False,
+            "early_sprint": False,
             "split_dash_and_sprint": False,
             "trails_end_requirement": "owned_maps",
             "scuttlebrace_logic": "easy",

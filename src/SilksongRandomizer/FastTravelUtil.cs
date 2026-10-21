@@ -13,6 +13,8 @@ namespace SilksongRandomizer
         internal const string GreymoorHubKey = "greymoor";
         internal const string BellhartHubKey = "bellhart";
         internal const string SongclaveHubKey = "songclave";
+        internal const string HalfwayHomeHubKey = "halfway_home";
+        internal const string SlabHubKey = "slab";
         internal const string UnderworksReturnHubKey = "underworks_return";
         internal const string TerminusHubKey = "terminus";
         private static readonly string[] MainHubKeys =
@@ -22,6 +24,13 @@ namespace SilksongRandomizer
             GreymoorHubKey,
             BellhartHubKey,
             SongclaveHubKey,
+            HalfwayHomeHubKey,
+            SlabHubKey,
+            Archipelago.StartingLocationWormways,
+            Archipelago.StartingLocationPilgrimsRest,
+            Archipelago.StartingLocationDeepDocks,
+            Archipelago.StartingLocationShellwood,
+            Archipelago.StartingLocationBlastedSteps,
             UnderworksReturnHubKey,
             TerminusHubKey,
         };
@@ -49,6 +58,9 @@ namespace SilksongRandomizer
             BoneBottom,
             Bellhart,
             Songclave,
+            HalfwayHome,
+            Slab,
+            StartingCheckpoint,
             Terminus,
             Greymoor,
             WidowShrine,
@@ -253,6 +265,12 @@ namespace SilksongRandomizer
                     return "Widow Shrine";
                 case WarpDestination.Songclave:
                     return "Songclave";
+                case WarpDestination.HalfwayHome:
+                    return "Halfway Home";
+                case WarpDestination.Slab:
+                    return "The Slab";
+                case WarpDestination.StartingCheckpoint:
+                    return StartingLocationManager.GetStartName(SaveState.Instance?.startingLocation);
                 case WarpDestination.Terminus:
                     return "Terminus";
                 case WarpDestination.Bellhart:
@@ -278,6 +296,8 @@ namespace SilksongRandomizer
             }
 
             WarpDestination destination = ResolveDestination();
+            string startingLocation = SaveState.Instance?.startingLocation;
+            bool useStartingCheckpoint = false;
             string sceneName;
             string entryGateName;
             switch (destination)
@@ -300,6 +320,13 @@ namespace SilksongRandomizer
                 case WarpDestination.Songclave:
                     sceneName = SongclaveBellSceneName;
                     entryGateName = SongclaveBellEntryGateName;
+                    useStartingCheckpoint = startingLocation == SongclaveHubKey;
+                    break;
+                case WarpDestination.HalfwayHome:
+                case WarpDestination.Slab:
+                case WarpDestination.StartingCheckpoint:
+                    sceneName = entryGateName = null;
+                    useStartingCheckpoint = true;
                     break;
                 case WarpDestination.Terminus:
                     sceneName = TerminusSceneName;
@@ -308,6 +335,7 @@ namespace SilksongRandomizer
                 case WarpDestination.Bellhart:
                     sceneName = BellhartSceneName;
                     entryGateName = BellhartEntryGateName;
+                    useStartingCheckpoint = startingLocation == BellhartHubKey;
                     break;
                 case WarpDestination.Greymoor:
                     sceneName = GreymoorCaravanSceneName;
@@ -321,6 +349,10 @@ namespace SilksongRandomizer
                     break;
             }
 
+            if (useStartingCheckpoint)
+                StartingLocationManager.TryGetStart(startingLocation, out sceneName,
+                    out entryGateName, out _, out _);
+
             if (string.IsNullOrEmpty(sceneName))
             {
                 error =
@@ -333,6 +365,7 @@ namespace SilksongRandomizer
                 MossMotherWarpSafety.PrepareForBoneBottomWarp();
             PlayerData playerData = PlayerData.instance;
             bool wasTravelling = playerData != null && playerData.travelling;
+            bool wasRespawning = GameManager.instance.RespawningHero;
             try
             {
                 DeliveryQuestItem.BreakAll();
@@ -340,6 +373,8 @@ namespace SilksongRandomizer
                 {
                     playerData.travelling = false;
                 }
+                if (useStartingCheckpoint)
+                    GameManager.instance.RespawningHero = true;
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,
@@ -352,6 +387,7 @@ namespace SilksongRandomizer
                 {
                     playerData.travelling = wasTravelling;
                 }
+                GameManager.instance.RespawningHero = wasRespawning;
                 if (protectedOpeningBoss)
                 {
                     MossMotherWarpSafety.CancelPreparedWarp();
@@ -386,6 +422,16 @@ namespace SilksongRandomizer
                     return WarpDestination.Terminus;
                 case SongclaveHubKey:
                     return WarpDestination.Songclave;
+                case HalfwayHomeHubKey:
+                    return WarpDestination.HalfwayHome;
+                case SlabHubKey:
+                    return WarpDestination.Slab;
+                case Archipelago.StartingLocationWormways:
+                case Archipelago.StartingLocationPilgrimsRest:
+                case Archipelago.StartingLocationDeepDocks:
+                case Archipelago.StartingLocationShellwood:
+                case Archipelago.StartingLocationBlastedSteps:
+                    return WarpDestination.StartingCheckpoint;
                 case BellhartHubKey:
                     return WarpDestination.Bellhart;
                 case GreymoorHubKey:
@@ -415,7 +461,10 @@ namespace SilksongRandomizer
             if (playerData == null || WidowSequenceSafety.CanRecoverToWidowShrine() ||
                 IsActThreeOpeningInProgress(playerData))
                 yield break;
-            foreach (string key in new[] { BoneBottomHubKey, BellhartHubKey, SongclaveHubKey })
+            foreach (string key in new[] { BoneBottomHubKey, BellhartHubKey, SongclaveHubKey, HalfwayHomeHubKey, SlabHubKey,
+                Archipelago.StartingLocationWormways, Archipelago.StartingLocationPilgrimsRest,
+                Archipelago.StartingLocationDeepDocks, Archipelago.StartingLocationShellwood,
+                Archipelago.StartingLocationBlastedSteps })
                 if (IsMainHubAvailable(key, playerData)) yield return key;
         }
 
@@ -439,8 +488,18 @@ namespace SilksongRandomizer
             PlayerData playerData
         )
         {
+            string start = SaveState.Instance?.startingLocation;
+            if (StartingLocationManager.RequiresBoneBottomVisit(start))
+            {
+                if (hubKey == start) return true;
+                if (hubKey == BoneBottomHubKey)
+                    return playerData?.scenesVisited?.Contains("Bonetown") == true;
+            }
             switch (hubKey)
             {
+                case HalfwayHomeHubKey:
+                case SlabHubKey:
+                    return false;
                 case EntranceHubKey:
                     return EntranceRandomization.TryGetReturnPoint(out _, out _);
                 case UnderworksReturnHubKey:
@@ -522,7 +581,8 @@ namespace SilksongRandomizer
                     return available[index];
                 }
             }
-            return BoneBottomHubKey;
+            string start = SaveState.Instance?.startingLocation;
+            return StartingLocationManager.RequiresBoneBottomVisit(start) ? start : BoneBottomHubKey;
         }
 
         private static bool IsActThreeWakeEntry(

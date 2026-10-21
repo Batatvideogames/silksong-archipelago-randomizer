@@ -434,8 +434,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return configured_crest
 
     def get_starting_location_key(self) -> str:
+        from .requirements import SUPPORTED_STARTING_LOCATIONS
         key = self.options.starting_location.current_key
-        if key not in {"vanilla", "bone_bottom"}:
+        if key not in SUPPORTED_STARTING_LOCATIONS:
             raise OptionError(
                 f"Unknown Silksong starting location: {key!r}"
             )
@@ -672,6 +673,14 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if (self.is_ledgegrab_ability_rando_enabled()
                 and self.options.starting_location.current_key == 'vanilla'):
             self.options.starting_location.value = self.options.starting_location.option_bone_bottom
+        if self.get_starting_location_key() in ('songclave', 'slab') and self.is_act_one_content_scope():
+            name = 'Songclave' if self.get_starting_location_key() == 'songclave' else 'The Slab'
+            raise OptionError(f"{name} start requires an Act 2 or later goal.")
+        if (self.get_starting_location_key() == 'slab'
+                and self.get_category_mode('MajorKey') == 'anywhere'
+                and not any(inventory.value.get('Key of Indolent', 0) > 0
+                            for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool))):
+            self.options.start_inventory_from_pool.value['Key of Indolent'] = 1
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
@@ -713,7 +722,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             required_goal_items=enemy_soul_required_pool_items(self),
             silk_soar_begone=bool(self.options.silk_soar_begone),
         )
-        if self.is_early_dash_enabled():
+        if self.is_early_sprint_enabled():
             player_early_items = self.multiworld.local_early_items[
                 self.player
             ]
@@ -748,9 +757,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             and self.get_category_mode('Skill') == 'anywhere'
         )
 
-    def is_early_dash_enabled(self) -> bool:
+    def is_early_sprint_enabled(self) -> bool:
         return (
-            bool(self.options.early_dash.value)
+            bool(self.options.early_sprint.value)
             and self.get_category_mode('Skill') == 'anywhere'
         )
 
@@ -2227,7 +2236,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "starting_location": self.get_starting_location_key(),
             "starting_crest": self.resolve_starting_crest(),
             "force_naked": bool(self.options.force_naked.value),
-            "early_dash": self.is_early_dash_enabled(),
+            "early_sprint": self.is_early_sprint_enabled(),
             "split_dash_and_sprint": self.is_split_dash_and_sprint(),
             "directional_cling_grip": 'Cling Grip' in self.get_directional_abilities(),
             "directional_clawline": 'Clawline' in self.get_directional_abilities(),

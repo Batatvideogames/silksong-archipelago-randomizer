@@ -1462,6 +1462,11 @@ namespace SilksongRandomizer
                     case "bone_bottom": yield return "Room Node: bone-bottom/bone-bottom-bellway#room"; break;
                     case "bellhart": yield return "Room Node: bellhart/belltown#lower-area"; break;
                     case "songclave": yield return "Room Node: choral-chambers/bellshrine-enclave#room"; break;
+                    case "wormways": yield return "Room Node: wormways/wormways-laboratory#room"; break;
+                    case "pilgrims_rest": yield return "Room Node: far-fields/far-fields-pilgrims-rest-shop#room"; break;
+                    case "deep_docks": yield return "Room Node: deep-docks/deep-docks-bench-shaft#room"; break;
+                    case "shellwood": yield return "Room Node: shellwood/shellwood-bellshrine#room"; break;
+                    case "blasted_steps": yield return "Room Node: blasted-steps/blasted-steps-bellway#room"; break;
                 }
         }
 

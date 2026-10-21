@@ -859,14 +859,25 @@ class FleaHuntCount(Range):
 
 class StartingLocation(Choice):
     """
-    Use the vanilla opening or experimental Bone Bottom start.
+    Choose your starting location and F4 destination. Alternate starts have a checkpoint immediately.
+    Bone Bottom's F4 warp unlocks after visiting.
 
-    With Ledge Grab randomization, Vanilla uses Bone Bottom instead.
+    Songclave and The Slab require an Act 2 or later goal.
+    Randomized Ledge Grab replaces Vanilla with Bone Bottom.
+    The Slab starts with its entrance gate open and Key of Indolent if Major Keys are randomized.
     """
 
     display_name = "Starting Location"
     option_vanilla = 0
     option_bone_bottom = 1
+    option_bellhart = 2
+    option_songclave = 4
+    option_slab = 5
+    option_wormways = 6
+    option_pilgrims_rest = 7
+    option_deep_docks = 8
+    option_shellwood = 9
+    option_blasted_steps = 10
     default = option_vanilla
 
 
@@ -899,12 +910,14 @@ class ForceNaked(Toggle):
     default = 0
 
 
-class EarlyDash(Toggle):
+class EarlySprint(Toggle):
     """
-    Place Dash early when Skills are randomized.
+    Place sprint early when Skills are randomized.
+    With Split Dash And Sprint enabled, only the first Progressive Swift Step is placed early.
+    Otherwise, the early Swift Step also grants dash.
     """
 
-    display_name = "Early Dash"
+    display_name = "Early Sprint"
     default = 1
 
 
@@ -1058,7 +1071,7 @@ class PlatformingCapability(Choice):
 
 class FleaBrewJumpLogic(Toggle):
     """
-    Use Flea Brew's extra jump height to reach ledges and cross gaps.
+    Use Flea Brew's movement speed boost to make longer jumps.
 
     Its speed boost for the Weavenest Cindril secret room remains in logic
     with this option disabled.
@@ -1656,7 +1669,7 @@ class SilksongOptions(PerGameCommonOptions):
     starting_crest: StartingCrest
     force_naked: ForceNaked
     start_inventory_from_pool: StartInventoryPool
-    early_dash: EarlyDash
+    early_sprint: EarlySprint
     silk_and_soul_points: SilkAndSoulPoints
     ledgegrab_ability_rando: LedgegrabAbilityRando
     directional_ledge_grab: DirectionalLedgeGrab
@@ -1908,7 +1921,7 @@ silksong_option_groups = [
         KnockbackLink,
     ], start_collapsed=True),
     OptionGroup("Miscellaneous", [
-        EarlyDash,
+        EarlySprint,
         VogAreaHints,
         EnemyRosaryMultiplier,
         EnemyShardMultiplier,

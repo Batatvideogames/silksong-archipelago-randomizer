@@ -878,7 +878,6 @@ LOCATION_POSITIONS = (
     {'name': 'High Halls - Rosary Chest', 'scene': 'Hang_08', 'x': 19.36, 'y': 195.09, 'width': 30, 'height': 230},
     {'name': "Choristor's precious belongings", 'scene': 'Song_03', 'x': 130.86, 'y': 4.89, 'width': 140, 'height': 40},
     {'name': "Reed's personal chest", 'scene': 'Song_17', 'x': 34.382584, 'y': 100.82, 'width': 135, 'height': 115},
-    {'name': 'Grand bellway hidden chest', 'scene': 'Song_24', 'x': 8.19, 'y': 38.75, 'width': 61, 'height': 55},
     {'name': 'Moss Grotto - Rosary Chest', 'scene': 'Tut_01', 'x': 24.68, 'y': 77.95, 'width': 120, 'height': 120},
     {'name': 'The Slab - Rosary Chest', 'scene': 'Slab_19b', 'x': 18.34, 'y': 10.02, 'width': 44, 'height': 36},
     {'name': 'Deep Docks Church - Shell Shard Chest', 'scene': 'Dock_06_Church', 'x': 7.269272, 'y': 21.892515, 'width': 75, 'height': 35},

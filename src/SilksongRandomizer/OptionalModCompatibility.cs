@@ -14,7 +14,6 @@ namespace SilksongRandomizer
         internal const string BenchwarpId = "io.github.homothetyhk.benchwarp";
 
         private static ConstructorInfo benchwarpRespawnConstructor;
-        private static object boneBottomStart;
         private static bool initialized;
 
         private static bool IsApSave => SaveState.Instance?.IsRoomBound == true;
@@ -124,9 +123,7 @@ namespace SilksongRandomizer
                     out string scene, out string marker, out int type, out MapZone zone))
                 return original;
 
-            if (boneBottomStart == null)
-                boneBottomStart = benchwarpRespawnConstructor.Invoke(new object[] { scene, marker, type, zone });
-            return (T)boneBottomStart;
+            return (T)benchwarpRespawnConstructor.Invoke(new object[] { scene, marker, type, zone });
         }
 
         private static bool PrepareBenchwarp()

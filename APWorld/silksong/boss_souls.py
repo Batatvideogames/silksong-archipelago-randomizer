@@ -123,7 +123,7 @@ def prepare_start(world):
                       if location.item is None and location not in [loc for loc, _ in planned]
                       and item is not None and location.can_fill(state, item)]
         if not candidates:
-            raise OptionError("Souls cannot place the opening encounter souls followed by Early Dash with these settings.")
+            raise OptionError("Souls cannot place the opening encounter souls followed by Early Sprint with these settings.")
         planned.append((world.random.choice(candidates), item))
         state.collect(item, True)
         state.sweep_for_advancements(world.get_locations())

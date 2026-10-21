@@ -28,12 +28,6 @@ namespace SilksongRandomizer.Patches
         private const string BankOpenedStateName = "State 1";
         private const string InactiveChestPickupPrefix =
             "AP Inactive Currency Chest - ";
-        private const string SongInactiveChestLocation =
-            "Grand bellway hidden chest";
-        private const string SongInactiveChestScene = "Song_24";
-        private const string SongInactiveChestPath =
-            "Black Thread States/Normal World/Enemy Control/" +
-            "Song Fencer/Chest";
         private const string DockInactiveChestLocation =
             "Deep Docks Church - Shell Shard Chest";
         private const string DockInactiveChestScene = "Dock_06_Church";
@@ -111,13 +105,6 @@ namespace SilksongRandomizer.Patches
         private static readonly InactiveCurrencyChestEntry[]
             InactiveCurrencyChests =
             {
-                new InactiveCurrencyChestEntry(
-                    SongInactiveChestLocation,
-                    SongInactiveChestScene,
-                    SongInactiveChestPath,
-                    8.19f,
-                    38.75f
-                ),
                 new InactiveCurrencyChestEntry(
                     DockInactiveChestLocation,
                     DockInactiveChestScene,
@@ -615,18 +602,6 @@ namespace SilksongRandomizer.Patches
         )
         {
             return
-                (string.Equals(
-                     SongInactiveChestLocation,
-                     locationName,
-                     StringComparison.Ordinal) &&
-                 string.Equals(
-                     SongInactiveChestScene,
-                     sceneName,
-                     StringComparison.OrdinalIgnoreCase) &&
-                 string.Equals(
-                     SongInactiveChestPath,
-                     hierarchyPath,
-                     StringComparison.Ordinal)) ||
                 (string.Equals(
                      DockInactiveChestLocation,
                      locationName,

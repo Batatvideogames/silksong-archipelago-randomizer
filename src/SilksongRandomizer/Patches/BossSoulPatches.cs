@@ -199,6 +199,11 @@ namespace SilksongRandomizer.Patches
                 string scene = current.gameObject.scene.name;
                 string path = Utils.GetHierarchyPath(current);
                 if (!CanUseReceptacle(scene, path, SaveState.Instance)) return false;
+                if (scene == "Ant_08" && path == "Battle Scene/BattleStart Inspect Region")
+                {
+                    BattleScene battle = current.GetComponentInParent<BattleScene>();
+                    if (battle != null && !EnemySoulPatches.CanStartBattle(battle)) return false;
+                }
                 if (Actors.TryGetValue(scene + "|" + path, out string boss) &&
                     BossSoulState.IsMissing(SaveState.Instance, boss)) return false;
             }
@@ -233,9 +238,14 @@ namespace SilksongRandomizer.Patches
                 NpcSoulState.CanEnterState(scene, path, fsm, stateName, state);
         }
 
-        internal static bool CanUseReceptacle(string scene, string path, SaveState state) =>
-            scene != "Ward_02" || path != "Boss Scene Parent/ward_slide_hatch/lock_machine" ||
-            CanEnterState("ward_02_boss", "Boss Scene", "Control", "Idle", state);
+        internal static bool CanUseReceptacle(string scene, string path, SaveState state)
+        {
+            if (scene == "Ward_02" && path == "Boss Scene Parent/ward_slide_hatch/lock_machine")
+                return CanEnterState("ward_02_boss", "Boss Scene", "Control", "Idle", state);
+            if (scene == "Bone_East_18b" && path == "Boss Scene/TrapBench")
+                return CanEnterState(scene, "Boss Scene", "Control", "Unencountered", state);
+            return true;
+        }
 
         internal static void DescribeMissingSouls(string scene, string path, string fsm, string name,
             SaveState save, List<string> missing)

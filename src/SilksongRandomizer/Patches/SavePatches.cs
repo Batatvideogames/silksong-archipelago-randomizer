@@ -722,15 +722,27 @@ namespace SilksongRandomizer.Patches
         }
     }
 
-    [HarmonyPatch(typeof(GameCoreOnlineSubsystem), "get_HandlesGameSaves")]
+    [HarmonyPatch]
     internal static class GamePassLocalSavePatch
     {
+        private static bool Prepare() => SaveFolderManager.GamePassSubsystemType != null;
+
+        private static MethodBase TargetMethod() =>
+            AccessTools.DeclaredPropertyGetter(SaveFolderManager.GamePassSubsystemType, "HandlesGameSaves")
+            ?? throw new MissingMethodException("Game Pass save handler was not found.");
+
         private static void Postfix(ref bool __result) => __result = false;
     }
 
-    [HarmonyPatch(typeof(GameCoreOnlineSubsystem), "get_SaveRestoreHandler")]
+    [HarmonyPatch]
     internal static class GamePassLocalRestorePatch
     {
+        private static bool Prepare() => SaveFolderManager.GamePassSubsystemType != null;
+
+        private static MethodBase TargetMethod() =>
+            AccessTools.DeclaredPropertyGetter(SaveFolderManager.GamePassSubsystemType, "SaveRestoreHandler")
+            ?? throw new MissingMethodException("Game Pass restore handler was not found.");
+
         private static void Postfix(ref SaveRestoreHandler __result) => __result = null;
     }
 

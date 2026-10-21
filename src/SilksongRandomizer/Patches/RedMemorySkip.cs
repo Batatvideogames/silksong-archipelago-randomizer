@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using SetPlayerDataBoolAction = HutongGames.PlayMaker.Actions.SetPlayerDataBool;
 using System.Linq;
+using System.Reflection.Emit;
 using HarmonyLib;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
@@ -125,6 +127,32 @@ namespace SilksongRandomizer.Patches
                 if (state != null && state.IsRandomized(ItemType.Everbloom) &&
                     state.IsLocationEnabled("Everbloom") && state.IsLocationInSeed("Everbloom"))
                     __result &= __instance.CompletedRedMemory;
+            }
+        }
+
+        [HarmonyPatch(typeof(AbyssWaterTendrils), "Update")]
+        private static class EverbloomTendrilProtection
+        {
+            private static bool HasFlower(PlayerData playerData)
+            {
+                return SaveState.Instance == null ? playerData.HasWhiteFlower :
+                    playerData.Collectables.GetData("White Flower").Amount > 0;
+            }
+
+            [HarmonyTranspiler]
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                var getter = AccessTools.PropertyGetter(typeof(PlayerData), nameof(PlayerData.HasWhiteFlower));
+                var replacement = AccessTools.Method(typeof(EverbloomTendrilProtection), nameof(HasFlower));
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    if (instruction.Calls(getter))
+                    {
+                        instruction.opcode = OpCodes.Call;
+                        instruction.operand = replacement;
+                    }
+                    yield return instruction;
+                }
             }
         }
 

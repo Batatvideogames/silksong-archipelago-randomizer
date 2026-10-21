@@ -1,4 +1,5 @@
 using GlobalEnums;
+using HarmonyLib;
 using SilksongRandomizer.Patches;
 using System;
 using System.Collections;
@@ -13,8 +14,10 @@ namespace SilksongRandomizer
     internal static class StartingLocationManager
     {
         private const string TutorialSceneName = "Tut_01";
-        private const string BoneBottomBenchMarkerName = "RestBench";
+        private const string BenchMarkerName = "RestBench";
         private const int BenchRespawnType = 1;
+        private const string SlabEntranceScene = "Slab_02";
+        private const string SlabEntranceSwitch = "slab_jail_lever";
         private static bool isApplying;
 
         internal static bool TryGetAlternateStartRespawn(
@@ -25,12 +28,97 @@ namespace SilksongRandomizer
             zone = MapZone.BONETOWN;
             SaveState state = SaveState.Instance;
             if (state?.IsRoomBound != true ||
-                state.startingLocation != Archipelago.StartingLocationBoneBottom)
+                !TryGetStart(state.startingLocation, out scene, out marker, out type, out zone))
                 return false;
 
-            scene = ResolveBoneBottomSceneName();
-            marker = BoneBottomBenchMarkerName;
             return !string.IsNullOrEmpty(scene);
+        }
+
+        internal static bool TryGetStart(string key, out string scene, out string marker,
+            out int type, out MapZone zone)
+        {
+            scene = null;
+            marker = BenchMarkerName;
+            type = BenchRespawnType;
+            zone = MapZone.NONE;
+            switch (key)
+            {
+                case Archipelago.StartingLocationBoneBottom:
+                    scene = ResolveBoneBottomSceneName();
+                    zone = MapZone.BONETOWN;
+                    break;
+                case Archipelago.StartingLocationBellhart:
+                    scene = "Belltown";
+                    zone = MapZone.BELLTOWN;
+                    break;
+                case Archipelago.StartingLocationSongclave:
+                    scene = "Bellshrine_Enclave";
+                    zone = MapZone.CITY_OF_SONG;
+                    break;
+                case Archipelago.StartingLocationSlab:
+                    scene = "Slab_03";
+                    marker = "Cage Broken Respawn Marker";
+                    type = 0;
+                    zone = MapZone.THE_SLAB;
+                    break;
+                case Archipelago.StartingLocationWormways:
+                    scene = "Crawl_08";
+                    zone = MapZone.CRAWLSPACE;
+                    break;
+                case Archipelago.StartingLocationPilgrimsRest:
+                    scene = "Bone_East_10_Room";
+                    zone = MapZone.PILGRIMS_REST;
+                    break;
+                case Archipelago.StartingLocationDeepDocks:
+                    scene = "Dock_01";
+                    zone = MapZone.DOCKS;
+                    break;
+                case Archipelago.StartingLocationShellwood:
+                    scene = "Bellshrine_03";
+                    zone = MapZone.SHELLWOOD_THICKET;
+                    break;
+                case Archipelago.StartingLocationBlastedSteps:
+                    scene = "Bellway_08";
+                    zone = MapZone.JUDGE_STEPS;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+
+        internal static bool RequiresBoneBottomVisit(string start) =>
+            start != Archipelago.StartingLocationBoneBottom &&
+            TryGetStart(start, out _, out _, out _, out _);
+
+        internal static string GetStartName(string start)
+        {
+            switch (start)
+            {
+                case Archipelago.StartingLocationWormways: return "Wormways Laboratory";
+                case Archipelago.StartingLocationPilgrimsRest: return "Pilgrim's Rest";
+                case Archipelago.StartingLocationDeepDocks: return "Deep Docks";
+                case Archipelago.StartingLocationShellwood: return "Shellwood Bellshrine";
+                case Archipelago.StartingLocationBlastedSteps: return "Blasted Steps Bellway";
+                default: return start;
+            }
+        }
+
+        [HarmonyPatch(typeof(BellBench), "Awake")]
+        private static class StartingBenchPatch
+        {
+            private static void Prefix(BellBench __instance, ref bool ___startUnlocked)
+            {
+                SaveState state = SaveState.Instance;
+                if (state?.IsRoomBound != true) return;
+                string scene = __instance.gameObject.scene.name;
+                string name = __instance.gameObject.name;
+                if ((state.startingLocation == Archipelago.StartingLocationDeepDocks &&
+                     scene == "Dock_01" && name == "bell_bench (1)") ||
+                    (state.startingLocation == Archipelago.StartingLocationBlastedSteps &&
+                     scene == "Bellway_08" && name == "bell_bench"))
+                    ___startUnlocked = true;
+            }
         }
 
         internal static void ScheduleIfNeeded()
@@ -51,11 +139,7 @@ namespace SilksongRandomizer
                 return;
             }
 
-            if (!string.Equals(
-                    state.startingLocation,
-                    Archipelago.StartingLocationBoneBottom,
-                    StringComparison.Ordinal
-                ))
+            if (!TryGetStart(state.startingLocation, out _, out _, out _, out _))
             {
                 RandomizerPlugin.Log?.LogError(
                     "[RANDOMIZER] Refusing unknown starting location '" +
@@ -66,16 +150,19 @@ namespace SilksongRandomizer
 
             isApplying = true;
             RandomizerPlugin.Instance.StartCoroutine(
-                ApplyBoneBottomWhenReady(state)
+                ApplyStartWhenReady(state)
             );
         }
 
-        private static IEnumerator ApplyBoneBottomWhenReady(
+        private static IEnumerator ApplyStartWhenReady(
             SaveState expectedState
         )
         {
             try
             {
+                if (!TryGetStart(expectedState.startingLocation, out string targetScene,
+                        out string marker, out int type, out MapZone zone))
+                    yield break;
                 while (ReferenceEquals(SaveState.Instance, expectedState) &&
                        !expectedState.startingLocationApplied)
                 {
@@ -86,16 +173,20 @@ namespace SilksongRandomizer
 
                     // A crash after the native scene transition but before
                     // the randomizer metadata save must not warp the player a
-                    // second time. Rebind the Bone Bottom bench spawn and
+                    // second time. Rebind the starting checkpoint and
                     // finish the persisted latch instead.
                     if (string.Equals(
                             sceneName,
-                            ResolveBoneBottomSceneName(),
+                            targetScene,
                             StringComparison.Ordinal
                         ))
                     {
-                        MossMotherWarpSafety.RecoverInterruptedBoneBottomWarp();
-                        BindBoneBottomBenchRespawn(sceneName);
+                        if (expectedState.startingLocation == Archipelago.StartingLocationBoneBottom)
+                            MossMotherWarpSafety.RecoverInterruptedBoneBottomWarp();
+                        if (expectedState.startingLocation == Archipelago.StartingLocationSlab)
+                            OpenSlabEntrance();
+                        BindStartRespawn(sceneName, marker, type, zone);
+                        SetInitialHub(expectedState);
                         expectedState.startingLocationApplied = true;
                         yield break;
                     }
@@ -111,7 +202,7 @@ namespace SilksongRandomizer
                         continue;
                     }
 
-                    ApplyBoneBottomStart(expectedState);
+                    ApplyStart(expectedState, targetScene, marker, type, zone);
                     yield break;
                 }
             }
@@ -121,13 +212,13 @@ namespace SilksongRandomizer
             }
         }
 
-        private static void ApplyBoneBottomStart(SaveState expectedState)
+        private static void ApplyStart(SaveState expectedState, string sceneName,
+            string marker, int type, MapZone zone)
         {
-            string sceneName = ResolveBoneBottomSceneName();
             if (string.IsNullOrWhiteSpace(sceneName))
             {
                 throw new InvalidOperationException(
-                    "Silksong could not resolve the Bone Bottom scene."
+                    "Silksong could not resolve the starting scene."
                 );
             }
 
@@ -144,21 +235,33 @@ namespace SilksongRandomizer
             int previousRespawnType = playerData.respawnType;
             MapZone previousMapZone = playerData.mapZone;
             bool previousAtBench = playerData.atBench;
+            bool wasRespawning = GameManager.instance.RespawningHero;
+            bool slabStart = expectedState.startingLocation == Archipelago.StartingLocationSlab;
+            PersistentItemData<bool> previousSlabGate = null;
+            if (slabStart)
+                SceneData.instance.PersistentBools.TryGetValue(
+                    SlabEntranceScene, SlabEntranceSwitch, out previousSlabGate);
 
-            BindBoneBottomBenchRespawn(sceneName);
+            BindStartRespawn(sceneName, marker, type, zone);
             bool protectedOpeningBoss =
+                expectedState.startingLocation == Archipelago.StartingLocationBoneBottom &&
                 MossMotherWarpSafety.PrepareForBoneBottomWarp();
             try
             {
+                if (slabStart)
+                    OpenSlabEntrance();
+                if (RequiresBoneBottomVisit(expectedState.startingLocation))
+                    GameManager.instance.RespawningHero = true;
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,
-                    EntryGateName = BoneBottomBenchMarkerName
+                    EntryGateName = marker
                 });
+                SetInitialHub(expectedState);
                 expectedState.startingLocationApplied = true;
                 RandomizerPlugin.Log?.LogInfo(
-                    "[RANDOMIZER] Applied Bone Bottom starting location at " +
-                    "its native RestBench respawn marker."
+                    "[RANDOMIZER] Applied " + expectedState.startingLocation +
+                    " start at its native respawn marker."
                 );
             }
             catch
@@ -168,6 +271,14 @@ namespace SilksongRandomizer
                 playerData.respawnType = previousRespawnType;
                 playerData.mapZone = previousMapZone;
                 playerData.atBench = previousAtBench;
+                GameManager.instance.RespawningHero = wasRespawning;
+                if (slabStart)
+                {
+                    if (previousSlabGate == null)
+                        SceneData.instance.PersistentBools.Remove(SlabEntranceScene, SlabEntranceSwitch);
+                    else
+                        SceneData.instance.PersistentBools.SetValue(previousSlabGate);
+                }
                 if (protectedOpeningBoss)
                 {
                     MossMotherWarpSafety.CancelPreparedWarp();
@@ -176,7 +287,24 @@ namespace SilksongRandomizer
             }
         }
 
-        private static void BindBoneBottomBenchRespawn(string sceneName)
+        private static void SetInitialHub(SaveState state)
+        {
+            if (RequiresBoneBottomVisit(state.startingLocation) &&
+                string.IsNullOrEmpty(state.preferredF4Hub))
+                state.preferredF4Hub = state.startingLocation;
+        }
+
+        private static void OpenSlabEntrance()
+        {
+            SceneData.instance.PersistentBools.SetValue(new PersistentItemData<bool>
+            {
+                SceneName = SlabEntranceScene,
+                ID = SlabEntranceSwitch,
+                Value = true
+            });
+        }
+
+        private static void BindStartRespawn(string sceneName, string marker, int type, MapZone zone)
         {
             PlayerData playerData = PlayerData.instance;
             if (playerData == null || string.IsNullOrWhiteSpace(sceneName))
@@ -185,9 +313,9 @@ namespace SilksongRandomizer
             }
 
             playerData.respawnScene = sceneName;
-            playerData.respawnMarkerName = BoneBottomBenchMarkerName;
-            playerData.respawnType = BenchRespawnType;
-            playerData.mapZone = MapZone.BONETOWN;
+            playerData.respawnMarkerName = marker;
+            playerData.respawnType = type;
+            playerData.mapZone = zone;
             playerData.atBench = false;
         }
 

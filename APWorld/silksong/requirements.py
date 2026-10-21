@@ -3090,9 +3090,21 @@ BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
 
 STARTING_LOCATION_VANILLA = 'vanilla'
 STARTING_LOCATION_BONE_BOTTOM = 'bone_bottom'
+ADDITIONAL_START_NODES = {
+    'bellhart': 'bellhart/belltown#lower-area',
+    'songclave': 'choral-chambers/bellshrine-enclave#room',
+    'slab': 'the-slab/slab-cell#upper',
+    'wormways': 'wormways/wormways-laboratory#room',
+    'pilgrims_rest': 'far-fields/far-fields-pilgrims-rest-shop#room',
+    'deep_docks': 'deep-docks/deep-docks-bench-shaft#room',
+    'shellwood': 'shellwood/shellwood-bellshrine#room',
+    'blasted_steps': 'blasted-steps/blasted-steps-bellway#room',
+}
+SLAB_ENTRANCE_EVENT = 'Room Event: event:mapper/dca26eb6-34ab-4710-8aaa-003968428d7a'
 SUPPORTED_STARTING_LOCATIONS = frozenset((
     STARTING_LOCATION_VANILLA,
     STARTING_LOCATION_BONE_BOTTOM,
+    *ADDITIONAL_START_NODES,
 ))
 MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS = (
     PATH_REQUIREMENTS['Path: Mosslands - Moss Grotto'][1:]
@@ -3112,6 +3124,19 @@ def normalize_starting_location_key(starting_location: str) -> str:
             f"Unknown Silksong starting location: {starting_location!r}"
         )
     return normalized
+
+
+def apply_additional_start(requirements, starting_location):
+    for node in load_room_graph().assumptions['starting_nodes']:
+        name = 'Room Node: ' + node
+        requirements[name] = tuple(rule for rule in requirements[name] if rule != req(crest=False))
+    start = 'Room Node: ' + ADDITIONAL_START_NODES[starting_location]
+    if start not in requirements:
+        raise ValueError(f'Mapper graph has no starting node for {starting_location}')
+    requirements[start] = (*requirements[start], req(crest=False))
+    requirements['Path: Mosslands - Moss Grotto'] = MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
+    if starting_location == 'slab':
+        requirements[SLAB_ENTRANCE_EVENT] = (req(crest=False),)
 
 
 DONATION_CAPACITY_EVENTS: Mapping[str, str] = {
@@ -3329,6 +3354,8 @@ def get_abstract_requirements(
         adjusted_requirements['Path: Mosslands - Bone Bottom'] = (
             BONE_BOTTOM_START_ROOT_REQUIREMENTS
         )
+    elif starting_location in ADDITIONAL_START_NODES:
+        apply_additional_start(adjusted_requirements, starting_location)
     if trails_end_requirement == TRAILS_END_REQUIREMENT_OWNED_MAPS:
         adjusted_requirements["Trail's End Maps"] = get_trails_end_map_requirements(trails_end_requirement)
         adjusted_requirements["Event: Trail's End Completed"] = (
@@ -6255,6 +6282,11 @@ def _get_static_abstract_requirement_items(
     if directional_abilities:
         requirement_items = tuple((name, split_requirement_counts(rules, directional_abilities))
                                  for name, rules in requirement_items)
+
+    if starting_location in ADDITIONAL_START_NODES:
+        adjusted_start = dict(requirement_items)
+        apply_additional_start(adjusted_start, starting_location)
+        requirement_items = tuple(adjusted_start.items())
 
     if (
         starting_location == STARTING_LOCATION_VANILLA

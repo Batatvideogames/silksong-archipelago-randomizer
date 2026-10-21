@@ -65044,12 +65044,14 @@
             "dnf": [
               [
                 "event:mapper/reviewed:savage-beastfly-accepted",
+                "event:mapper/e6e6d899-9def-42c2-ab77-53db34ced41d",
                 "item:drifters-cloak",
                 "mapper:attack:left",
                 "combat:boss:savage-beastfly-far-fields"
               ],
               [
                 "event:mapper/reviewed:savage-beastfly-accepted",
+                "event:mapper/e6e6d899-9def-42c2-ab77-53db34ced41d",
                 "item:drifters-cloak",
                 "mapper:attack:right",
                 "combat:boss:savage-beastfly-far-fields"

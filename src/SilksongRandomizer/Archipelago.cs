@@ -47,6 +47,14 @@ namespace SilksongRandomizer
             "owned_maps";
         public const string StartingLocationVanilla = "vanilla";
         public const string StartingLocationBoneBottom = "bone_bottom";
+        public const string StartingLocationBellhart = "bellhart";
+        public const string StartingLocationSongclave = "songclave";
+        public const string StartingLocationSlab = "slab";
+        public const string StartingLocationWormways = "wormways";
+        public const string StartingLocationPilgrimsRest = "pilgrims_rest";
+        public const string StartingLocationDeepDocks = "deep_docks";
+        public const string StartingLocationShellwood = "shellwood";
+        public const string StartingLocationBlastedSteps = "blasted_steps";
         public const string DeathLinkCocoonVanilla = "vanilla";
         public const string DeathLinkCocoonless = "cocoonless";
         public const string DeathLinkCocoonProtected = "cocoon";
@@ -564,8 +572,7 @@ namespace SilksongRandomizer
                             ? "missing"
                             : startingLocation) +
                         "' is invalid; expected '" +
-                        StartingLocationVanilla + "' or '" +
-                        StartingLocationBoneBottom + "'.";
+                        "vanilla', 'bone_bottom', 'bellhart', 'songclave' or 'slab'.";
                     Disconnect();
                     LastError = incompatible;
                     LastConnectionFailureRetryable = false;
@@ -3026,16 +3033,8 @@ namespace SilksongRandomizer
 
         internal static bool IsSupportedStartingLocation(string value)
         {
-            return string.Equals(
-                       value,
-                       StartingLocationVanilla,
-                       StringComparison.Ordinal
-                   ) ||
-                   string.Equals(
-                       value,
-                       StartingLocationBoneBottom,
-                       StringComparison.Ordinal
-                   );
+            return value == StartingLocationVanilla ||
+                StartingLocationManager.TryGetStart(value, out _, out _, out _, out _);
         }
 
         internal static bool IsSupportedWorldVersion(string worldVersion)

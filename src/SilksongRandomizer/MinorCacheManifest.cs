@@ -397,7 +397,6 @@ namespace SilksongRandomizer
             new Entry("High Halls - Rosary Chest", "Hang_08", "Chest", SourceKind.CurrencyChest, 19.360001f, 195.089996f, 30.0f, 230.0f),
             new Entry("Choristor's precious belongings", "Song_03", "Chest", SourceKind.CurrencyChest, 130.860001f, 4.89f, 140.0f, 40.0f),
             new Entry("Reed's personal chest", "Song_17", "Chest", SourceKind.CurrencyChest, 34.382584f, 100.82f, 135.0f, 115.0f),
-            new Entry("Grand bellway hidden chest", "Song_24", "Chest", SourceKind.CurrencyChest, 8.19f, 38.75f, 61.0f, 55.0f),
             new Entry("Moss Grotto - Rosary Chest", "Tut_01", "Bone Chest", SourceKind.CurrencyChest, 24.68f, 77.949997f, 120.0f, 120.0f),
             new Entry("The Slab - Rosary Chest", "Slab_19b", "City Shard Chest", SourceKind.CurrencyChest, 18.34f, 10.02f, 44.0f, 36.0f),
             new Entry("Deep Docks Church - Shell Shard Chest", "Dock_06_Church", "City Shard Chest", SourceKind.CurrencyChest, 7.269272f, 21.892515f, 75.0f, 35.0f),
