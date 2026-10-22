@@ -70,6 +70,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Pollen Heart", "Shellwood_11b", 22.01f, 149.009997f, 120f, 170f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Hunter's Heart", "Ant_Queen", 32.82f, 20.171078f, 55f, 34f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Encrusted Heart", "Coral_Tower_01", 82.58f, 6.37f, 138f, 22f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Conjoined Heart", "Clover_01", 118.691002f, 7.199656f, 175f, 22f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Twisted Bud", "Shadow_20", 107.983002f, 48.877998f, 230f, 65f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Grand Mother Silk", "Cradle_03", 50.61f, 138.94f, 80f, 160f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Bell Eater", "Bellway_Centipede_Arena", 139.36f, 10.03f, 191f, 43f, MapMarkerPositionConfidence.ExactUpstream),

@@ -15971,6 +15971,39 @@
   "name": "Father of the Flame",
   "children": [
    {
+    "name": "Wispfire Lantern",
+    "sections": [
+     {
+      "name": "Wispfire Lantern"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Father of the Flame",
+      "x": 3491,
+      "y": 2284
+     }
+    ]
+   },
+   {
+    "name": "Boss: Father of the Flame",
+    "sections": [
+     {
+      "name": "Boss: Father of the Flame"
+     },
+     {
+      "name": "Journal: Father of the Flame"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Father of the Flame",
+      "x": 3587,
+      "y": 2269
+     }
+    ]
+   },
+   {
     "name": "Father of the Flame - right1 (R)",
     "sections": [
      {
@@ -15980,8 +16013,8 @@
     "map_locations": [
      {
       "map": "Father of the Flame",
-      "x": 286,
-      "y": 247
+      "x": 7360,
+      "y": 2496
      }
     ]
    }
@@ -20528,10 +20561,10 @@
   "name": "Underworks Silk Spool",
   "children": [
    {
-    "name": "Underworks - Shell Shard Cache #3",
+    "name": "Underworks - Shell Shard Cache #4",
     "sections": [
      {
-      "name": "Underworks - Shell Shard Cache #3"
+      "name": "Underworks - Shell Shard Cache #4"
      }
     ],
     "map_locations": [
@@ -20543,10 +20576,10 @@
     ]
    },
    {
-    "name": "Underworks - Shell Shard Cache #4",
+    "name": "Underworks - Shell Shard Cache #1",
     "sections": [
      {
-      "name": "Underworks - Shell Shard Cache #4"
+      "name": "Underworks - Shell Shard Cache #1"
      }
     ],
     "map_locations": [
@@ -20558,10 +20591,10 @@
     ]
    },
    {
-    "name": "Underworks - Shell Shard Cache #5",
+    "name": "Underworks - Shell Shard Cache #2",
     "sections": [
      {
-      "name": "Underworks - Shell Shard Cache #5"
+      "name": "Underworks - Shell Shard Cache #2"
      }
     ],
     "map_locations": [
@@ -20588,10 +20621,10 @@
     ]
    },
    {
-    "name": "Underworks - Shell Shard Cache #1",
+    "name": "Underworks - Shell Shard Cache #3",
     "sections": [
      {
-      "name": "Underworks - Shell Shard Cache #1"
+      "name": "Underworks - Shell Shard Cache #3"
      }
     ],
     "map_locations": [
@@ -20603,10 +20636,10 @@
     ]
    },
    {
-    "name": "Underworks - Shell Shard Cache #2",
+    "name": "Underworks - Shell Shard Cache #5",
     "sections": [
      {
-      "name": "Underworks - Shell Shard Cache #2"
+      "name": "Underworks - Shell Shard Cache #5"
      }
     ],
     "map_locations": [

@@ -1250,8 +1250,8 @@
  {
   "name": "Father of the Flame",
   "img": "01-geometry/cec31268-d1fe-47e1-879d-f314bfada843.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
+  "location_size": 192,
+  "location_border_thickness": 32
  },
  {
   "name": "Wisp Thicket Secret Path",

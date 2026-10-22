@@ -219,8 +219,8 @@ class SpendingAudit:
             sleeping |= bit
         return None
 
-    def update_baseline(self):
-        state = CollectionState(self.multiworld)
+    def update_baseline(self, initial_state=None):
+        state = initial_state.copy() if initial_state is not None else CollectionState(self.multiworld)
         bought = 0
         while True:
             self.sweep(state)
@@ -237,7 +237,7 @@ class SpendingAudit:
         self.goals.update(player for player in self.multiworld.player_ids
                           if self.multiworld.has_beaten_game(state, player))
 
-    def run(self):
+    def run(self, base_state=None):
         self.visited.clear()
         self.reach_cache.clear()
         self.run_states = 0
@@ -245,14 +245,16 @@ class SpendingAudit:
         self.filler = sum(1 << index for index, location in enumerate(self.purchases)
                           if not location.item.advancement and self.recipients.get(location.item.player)
                           and location.address is not None and not self.repairs[location.player] & (1 << index))
-        self.update_baseline()
+        initial_state = base_state.copy() if base_state is not None else CollectionState(self.multiworld)
+        self.sweep(initial_state)
+        self.update_baseline(initial_state)
         self.required = tuple(
             location for location in self.locations
             if location in self.baseline_locations
             and location not in self.alternatives and (location.player in self.full or (
                 location.advancement and location.item.player not in self.minimal))
         )
-        return self.search(CollectionState(self.multiworld))
+        return self.search(initial_state)
 
     def repair(self, failure, ranks):
         sources = sorted(
@@ -296,13 +298,13 @@ class SpendingAudit:
         return None
 
 
-def audit_craftmetal_spending(multiworld, worlds, *, finalized=True):
+def audit_craftmetal_spending(multiworld, worlds, *, finalized=True, base_state=None):
     audit = SpendingAudit(multiworld, worlds, finalized=finalized)
     if not audit.purchases:
         return
     repairs = []
     ranks = None
-    while (failure := audit.run()) is not None:
+    while (failure := audit.run(base_state)) is not None:
         if ranks is None:
             ranks = {location: index for index, sphere in enumerate(multiworld.get_spheres())
                      for location in sphere}
@@ -337,6 +339,7 @@ def audit_craftmetal_spending(multiworld, worlds, *, finalized=True):
                 multiworld=multiworld,
             )
         repairs.append(repair)
+        base_state = None
     previous = getattr(multiworld, '_silksong_craftmetal_audit', {'states': 0, 'repairs': []})
     multiworld._silksong_craftmetal_audit = {
         'states': previous['states'] + audit.states,

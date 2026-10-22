@@ -2088,11 +2088,23 @@ class SilksongWorld(CachedRuleBuilderWorld):
         for world in combined_worlds:
             excluded_slots.update(get_active_crest_slot_locations(world))
 
+        from .requirements import CRAFTMETAL_PURCHASE_LOCATIONS
+
+        silksong_players = {world.player for world in multiworld.get_game_worlds(cls.game)}
+        placements = tuple((location, location.item) for location in multiworld.get_filled_locations())
+        base_state = CollectionState(multiworld)
+        base_state.sweep_for_advancements(locations=(
+            location for location, _ in placements
+            if location not in excluded_slots
+            and not (location.player in silksong_players and location.name in CRAFTMETAL_PURCHASE_LOCATIONS)
+        ))
+
         # First move only as much progression out of Crest Slots as needed
         # for the available independent Lockets plus the two-Locket buffer.
         slotless_state = cls._build_crest_slot_budget_state(
             multiworld,
             excluded_slots,
+            base_state,
         )
         for world in combined_worlds:
             slotless_state = cls._repair_crest_slot_locket_budget(
@@ -2104,10 +2116,16 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         from .craftmetal import audit_craftmetal_spending
 
+        if any(location.item is not item for location, item in placements):
+            base_state = None
+
         audit_craftmetal_spending(multiworld, [
             multiworld.worlds[player] for player in multiworld.player_ids
             if multiworld.worlds[player].game == cls.game
-        ], finalized=False)
+        ], finalized=False, base_state=base_state)
+
+        if any(location.item is not item for location, item in placements):
+            base_state = None
 
         # Freeze the resulting count before core progression balancing. The
         # slot placements are locked so that balancing cannot change it.
@@ -2118,6 +2136,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         slotless_state = cls._build_crest_slot_budget_state(
             multiworld,
             excluded_slots,
+            base_state,
         )
         for world in combined_worlds:
             progression_count = get_crest_slot_progression_item_count(

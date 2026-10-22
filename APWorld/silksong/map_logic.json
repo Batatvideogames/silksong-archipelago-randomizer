@@ -118922,7 +118922,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-level-three",
               "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
               "Faydown Cloak"
@@ -119580,7 +119580,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-caretaker-met"
             ]
           }
@@ -119611,7 +119611,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-second-donation-completed"
             ]
           }
@@ -119621,14 +119621,14 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed"
             ]
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:wandering-merchant-completed"
             ]
@@ -119639,7 +119639,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
@@ -119648,7 +119648,7 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
@@ -119657,7 +119657,7 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
@@ -119666,7 +119666,7 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
@@ -119675,7 +119675,7 @@
           },
           {
             "all_of": [
-              "Room Node: choral-chambers/choral-chambers-above-ventrica#bottom-left",
+              "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
@@ -247597,7 +247597,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-1"
+              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-2"
             ]
           }
         ]
@@ -247722,7 +247722,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-1"
+              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-2"
             ]
           }
         ]
@@ -247740,7 +247740,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-2"
+              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-1"
             ]
           }
         ]
@@ -247749,7 +247749,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-2"
+              "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-1"
             ]
           }
         ]

@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "5c4d91109d26c335da0d23bf968c15fe25336b6b4bb4a9c5d42e1fab6cc96f59",
     "catalogue_sha256": "103e64b2c55faa30ab7b217298c3617e7860d8928580160d8c779ec6c1bd75d6",
-    "bindings_sha256": "36cc7f5d02afcd4921d52bfb8718843a90bc9c1e8ff6822c025ece35bfe16707"
+    "bindings_sha256": "20229aa52a1faa95135ee2466fbce0704b15831994399842c6803d54ce496da8"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -176977,7 +176977,7 @@
       ],
       "checks": [
         {
-          "id": "underworks/underworks-silk-spool::mapper-check:1f3bcb48-205a-44ab-b21b-9d18dd795eaa:836154",
+          "id": "underworks/underworks-silk-spool::mapper-check:1f3bcb48-205a-44ab-b21b-9d18dd795eaa:836155",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -176998,12 +176998,12 @@
           "unresolved_reasons": [],
           "label": "Underworks: Shell Shard Rock #3",
           "node_id": "underworks/underworks-silk-spool#shell-shard-alcove-1",
-          "canonical_location": "Underworks - Shell Shard Cache #3",
+          "canonical_location": "Underworks - Shell Shard Cache #4",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
         {
-          "id": "underworks/underworks-silk-spool::mapper-check:4b49acfa-9cfd-4e35-987c-b4f50fcef2a8:836155",
+          "id": "underworks/underworks-silk-spool::mapper-check:4b49acfa-9cfd-4e35-987c-b4f50fcef2a8:836152",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -177024,12 +177024,12 @@
           "unresolved_reasons": [],
           "label": "Underworks: Shell Shard Rock #4",
           "node_id": "underworks/underworks-silk-spool#shell-shard-alcove-2",
-          "canonical_location": "Underworks - Shell Shard Cache #4",
+          "canonical_location": "Underworks - Shell Shard Cache #1",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
         {
-          "id": "underworks/underworks-silk-spool::mapper-check:6d845fa9-4d08-4f60-8a85-6a51562174c9:836156",
+          "id": "underworks/underworks-silk-spool::mapper-check:6d845fa9-4d08-4f60-8a85-6a51562174c9:836153",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -177050,7 +177050,7 @@
           "unresolved_reasons": [],
           "label": "Underworks: Shell Shard Rock #5",
           "node_id": "underworks/underworks-silk-spool#shell-shard-alcove-2",
-          "canonical_location": "Underworks - Shell Shard Cache #5",
+          "canonical_location": "Underworks - Shell Shard Cache #2",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -177081,7 +177081,7 @@
           "currently_randomized": true
         },
         {
-          "id": "underworks/underworks-silk-spool::mapper-check:804ea840-5a4f-49ae-9aea-9e77a86bf680:836152",
+          "id": "underworks/underworks-silk-spool::mapper-check:804ea840-5a4f-49ae-9aea-9e77a86bf680:836154",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -177102,12 +177102,12 @@
           "unresolved_reasons": [],
           "label": "Underworks: Shell Shard Cache #2",
           "node_id": "underworks/underworks-silk-spool#shell-shard-alcove-1",
-          "canonical_location": "Underworks - Shell Shard Cache #1",
+          "canonical_location": "Underworks - Shell Shard Cache #3",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
         {
-          "id": "underworks/underworks-silk-spool::mapper-check:7e9125a8-a116-4e81-9869-4d9ebb070e29:836153",
+          "id": "underworks/underworks-silk-spool::mapper-check:7e9125a8-a116-4e81-9869-4d9ebb070e29:836156",
           "requirement": {
             "raw": "Nothing.",
             "mode": "expression",
@@ -177128,7 +177128,7 @@
           "unresolved_reasons": [],
           "label": "Underworks: Shell Shard Cache #3",
           "node_id": "underworks/underworks-silk-spool#shell-shard-alcove-1",
-          "canonical_location": "Underworks - Shell Shard Cache #2",
+          "canonical_location": "Underworks - Shell Shard Cache #5",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -185056,6 +185056,29 @@
           "unresolved_reasons": []
         },
         {
+          "id": "event:mapper/reviewed:songclave-board-open",
+          "label": "Songclave Board Open",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-caretaker-met"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
           "id": "event:mapper/reviewed:songclave-first-donation-completed",
           "label": "Songclave First Donation Completed",
           "kind": "event",
@@ -185113,6 +185136,34 @@
             "dnf": [
               [
                 "event:mapper/reviewed:fine-pins-collected"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:songclave-level-two",
+          "label": "Songclave Level Two",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/reviewed:fine-pins-completed"
+              ],
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/reviewed:wandering-merchant-completed"
               ]
             ],
             "annotations": [],
@@ -185196,6 +185247,56 @@
           "unresolved_reasons": []
         },
         {
+          "id": "event:mapper/reviewed:songclave-second-donation-available",
+          "label": "Songclave Second Donation Available",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/reviewed:fine-pins-completed",
+                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+                "event:mapper/reviewed:choir-cloaks-completed"
+              ],
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/reviewed:fine-pins-completed",
+                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+                "event:mapper/reviewed:wandering-merchant-completed"
+              ],
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/reviewed:fine-pins-completed",
+                "event:mapper/reviewed:choir-cloaks-completed",
+                "event:mapper/reviewed:wandering-merchant-completed"
+              ],
+              [
+                "event:mapper/reviewed:songclave-first-donation-completed",
+                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+                "event:mapper/reviewed:choir-cloaks-completed",
+                "event:mapper/reviewed:wandering-merchant-completed"
+              ],
+              [
+                "event:mapper/reviewed:fine-pins-completed",
+                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+                "event:mapper/reviewed:choir-cloaks-completed",
+                "event:mapper/reviewed:wandering-merchant-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
           "id": "event:mapper/reviewed:songclave-second-donation-completed",
           "label": "Songclave Second Donation Completed",
           "kind": "event",
@@ -185259,6 +185360,54 @@
               [
                 "event:mapper/reviewed:wandering-merchant-completed",
                 "state:act-3"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:songclave-level-three",
+          "label": "Songclave Level Three",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-second-donation-completed"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
+        },
+        {
+          "id": "event:mapper/reviewed:lost-merchant-available",
+          "label": "Lost Merchant Available",
+          "kind": "event",
+          "node_id": "choral-chambers/songclave#base",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:songclave-level-three",
+                "event:mapper/reviewed:wandering-merchant-shop-met",
+                "item:faydown-cloak"
               ]
             ],
             "annotations": [],
@@ -194268,29 +194417,6 @@
           "node_id": "choral-chambers/choral-chambers-above-ventrica#top"
         },
         {
-          "id": "event:mapper/reviewed:songclave-board-open",
-          "label": "Songclave Board Open",
-          "kind": "event",
-          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom-left",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/reviewed:songclave-caretaker-met"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
           "id": "event:mapper/reviewed:fine-pins-collected",
           "label": "Fine Pins Collected",
           "kind": "event",
@@ -194319,34 +194445,6 @@
           "unresolved_reasons": []
         },
         {
-          "id": "event:mapper/reviewed:songclave-level-two",
-          "label": "Songclave Level Two",
-          "kind": "event",
-          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom-left",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/reviewed:fine-pins-completed"
-              ],
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/reviewed:wandering-merchant-completed"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
           "id": "event:mapper/reviewed:choir-cloaks-collected",
           "label": "Choir Cloaks Collected",
           "kind": "event",
@@ -194362,104 +194460,6 @@
               [
                 "event:mapper/reviewed:choir-cloaks-accepted",
                 "mapper:attack:right"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
-          "id": "event:mapper/reviewed:songclave-second-donation-available",
-          "label": "Songclave Second Donation Available",
-          "kind": "event",
-          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom-left",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/reviewed:fine-pins-completed",
-                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
-                "event:mapper/reviewed:choir-cloaks-completed"
-              ],
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/reviewed:fine-pins-completed",
-                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
-                "event:mapper/reviewed:wandering-merchant-completed"
-              ],
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/reviewed:fine-pins-completed",
-                "event:mapper/reviewed:choir-cloaks-completed",
-                "event:mapper/reviewed:wandering-merchant-completed"
-              ],
-              [
-                "event:mapper/reviewed:songclave-first-donation-completed",
-                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
-                "event:mapper/reviewed:choir-cloaks-completed",
-                "event:mapper/reviewed:wandering-merchant-completed"
-              ],
-              [
-                "event:mapper/reviewed:fine-pins-completed",
-                "event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
-                "event:mapper/reviewed:choir-cloaks-completed",
-                "event:mapper/reviewed:wandering-merchant-completed"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
-          "id": "event:mapper/reviewed:songclave-level-three",
-          "label": "Songclave Level Three",
-          "kind": "event",
-          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom-left",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/reviewed:songclave-second-donation-completed"
-              ]
-            ],
-            "annotations": [],
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {},
-          "logic_status": "active",
-          "unresolved_reasons": []
-        },
-        {
-          "id": "event:mapper/reviewed:lost-merchant-available",
-          "label": "Lost Merchant Available",
-          "kind": "event",
-          "node_id": "choral-chambers/choral-chambers-above-ventrica#bottom-left",
-          "requirement": {
-            "raw": "",
-            "mode": "expression",
-            "dnf": [
-              [
-                "event:mapper/reviewed:songclave-level-three",
-                "event:mapper/reviewed:wandering-merchant-shop-met",
-                "item:faydown-cloak"
               ]
             ],
             "annotations": [],

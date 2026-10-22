@@ -4932,7 +4932,7 @@
     "locations": []
   },
   "event:mapper/reviewed:songclave-board-open": {
-    "name": "Choral Chambers Above Ventrica - Songclave Board Open",
+    "name": "Songclave - Songclave Board Open",
     "kind": "event",
     "locations": []
   },
@@ -4942,7 +4942,7 @@
     "locations": []
   },
   "event:mapper/reviewed:songclave-level-two": {
-    "name": "Choral Chambers Above Ventrica - Songclave Level Two",
+    "name": "Songclave - Songclave Level Two",
     "kind": "event",
     "locations": []
   },
@@ -4952,17 +4952,17 @@
     "locations": []
   },
   "event:mapper/reviewed:songclave-second-donation-available": {
-    "name": "Choral Chambers Above Ventrica - Songclave Second Donation Available",
+    "name": "Songclave - Songclave Second Donation Available",
     "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:songclave-level-three": {
-    "name": "Choral Chambers Above Ventrica - Songclave Level Three",
+    "name": "Songclave - Songclave Level Three",
     "kind": "event",
     "locations": []
   },
   "event:mapper/reviewed:lost-merchant-available": {
-    "name": "Choral Chambers Above Ventrica - Lost Merchant Available",
+    "name": "Songclave - Lost Merchant Available",
     "kind": "event",
     "locations": []
   },
