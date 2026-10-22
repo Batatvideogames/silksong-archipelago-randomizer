@@ -21,6 +21,10 @@ namespace SilksongRandomizer
 {
     public sealed class Archipelago
     {
+        internal const string VersionHelpUrl =
+            "https://github.com/Batatvideogames/silksong-archipelago-randomizer#frequently-asked-questions-faq";
+        internal const string VersionHelpSuffix =
+            " More help can be found in the FAQ: " + VersionHelpUrl;
         public const string GoalLocationName = "Goal";
         public const string ActOneGoal = "act_1";
         public const string ActTwoGoal = "act_2";
@@ -523,9 +527,7 @@ namespace SilksongRandomizer
 
                 if (!IsSupportedWorldVersion(WorldVersion))
                 {
-                    string incompatible = "APWorld version '" +
-                        (string.IsNullOrWhiteSpace(WorldVersion) ? "missing" : WorldVersion) +
-                        "' is incompatible with plugin " + RandomizerPlugin.PluginVersion + ".";
+                    string incompatible = GetWorldVersionMismatchMessage(WorldVersion);
                     Disconnect();
                     LastError = incompatible;
                     LastConnectionFailureRetryable = false;
@@ -3044,6 +3046,21 @@ namespace SilksongRandomizer
                 RandomizerPlugin.PluginVersion,
                 StringComparison.Ordinal
             );
+        }
+
+        internal static string GetWorldVersionMismatchMessage(string worldVersion)
+        {
+            if (string.IsNullOrWhiteSpace(worldVersion))
+            {
+                return "This seed does not report its APWorld version, so it cannot be checked against " +
+                       "Silksong Randomizer " + RandomizerPlugin.PluginVersion +
+                       ". Ask the host which version was used to generate this seed." + VersionHelpSuffix;
+            }
+
+            return "This seed was generated with APWorld " + worldVersion +
+                   ", but you have Silksong Randomizer " + RandomizerPlugin.PluginVersion +
+                   " installed. This run can only be continued on Silksong Randomizer version " +
+                   worldVersion + ". Either downgrade your mod or update your APWorld and generate a new seed." + VersionHelpSuffix;
         }
 
         private static bool IsDeterministicLoginFailure(

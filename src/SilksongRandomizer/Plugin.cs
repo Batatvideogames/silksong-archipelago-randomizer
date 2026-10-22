@@ -75,6 +75,7 @@ namespace SilksongRandomizer
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
         private string connectionStatus = string.Empty;
+        private GUIStyle faqLinkStyle;
         private ArchipelagoWindowTab selectedWindowTab =
             ArchipelagoWindowTab.Connection;
         private Vector2 hintsScrollPosition;
@@ -1630,9 +1631,35 @@ namespace SilksongRandomizer
             if (!hideDetails && !string.IsNullOrEmpty(connectionStatus))
             {
                 GUILayout.Space(8f);
-                GUILayout.Label(
-                    AlphabetModeManager.FilterDirectText(connectionStatus)
+                bool showFaq = connectionStatus.EndsWith(
+                    Archipelago.VersionHelpSuffix,
+                    StringComparison.Ordinal
                 );
+                string statusText = showFaq
+                    ? connectionStatus.Substring(0, connectionStatus.Length - Archipelago.VersionHelpSuffix.Length)
+                    : connectionStatus;
+                GUILayout.Label(
+                    AlphabetModeManager.FilterDirectText(statusText)
+                );
+                if (showFaq)
+                {
+                    if (faqLinkStyle == null)
+                    {
+                        faqLinkStyle = new GUIStyle(GUI.skin.label);
+                        faqLinkStyle.normal.textColor = new Color(0.45f, 0.75f, 1f);
+                        faqLinkStyle.hover.textColor = new Color(0.75f, 0.9f, 1f);
+                        faqLinkStyle.active.textColor = Color.white;
+                        faqLinkStyle.focused.textColor = Color.white;
+                    }
+                    if (GUILayout.Button(
+                            AlphabetModeManager.FilterDirectText("More help can be found in the FAQ"),
+                            faqLinkStyle,
+                            GUILayout.ExpandWidth(false)
+                        ))
+                    {
+                        Application.OpenURL(Archipelago.VersionHelpUrl);
+                    }
+                }
             }
 
             GUILayout.FlexibleSpace();

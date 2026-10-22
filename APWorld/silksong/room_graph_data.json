@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "5c4d91109d26c335da0d23bf968c15fe25336b6b4bb4a9c5d42e1fab6cc96f59",
     "catalogue_sha256": "103e64b2c55faa30ab7b217298c3617e7860d8928580160d8c779ec6c1bd75d6",
-    "bindings_sha256": "e5d2cb719fcf21980413dfede5442bf967647f3edd27f0f1b225badd561ba817"
+    "bindings_sha256": "36cc7f5d02afcd4921d52bfb8718843a90bc9c1e8ff6822c025ece35bfe16707"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -48722,7 +48722,7 @@
           "unresolved_reasons": [],
           "label": "the lever that makes all of my hard work worthless",
           "kind": "switch",
-          "node_id": "deep-docks/deep-docks-spool-east#spool-fragment-area"
+          "node_id": "deep-docks/deep-docks-spool-east#the-floor-is-lava"
         }
       ],
       "checks": [

@@ -211,17 +211,7 @@ namespace SilksongRandomizer.Patches
             SaveState loadedState
         )
         {
-            string savedVersion = loadedState == null ||
-                                  string.IsNullOrWhiteSpace(
-                                      loadedState.worldVersion
-                                  )
-                ? "missing"
-                : loadedState.worldVersion;
-            return "This save has APWorld version '" + savedVersion +
-                   "', but this plugin requires the current APWorld version '" +
-                   RandomizerPlugin.PluginVersion +
-                   "'. Generate a new seed with the current APWorld and " +
-                   "start a new randomizer save.";
+            return Archipelago.GetWorldVersionMismatchMessage(loadedState?.worldVersion);
         }
 
         internal sealed class PendingWrite

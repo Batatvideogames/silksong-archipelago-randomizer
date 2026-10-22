@@ -1469,7 +1469,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         prepare_start(self)
         from .entrance_randomization import connect_exits
         connect_exits(self)
-        if self.options.enemy_souls and self.options.entrance_randomization:
+        if getattr(self, '_silk_supply', None) is not None:
             self.explicit_indirect_conditions = False
 
     def explain_path(self, entrance, state):
