@@ -1884,13 +1884,6 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
     node_requirements: dict[str, list[CompiledRoomClause]] = {
         room_node_name(node_id): [] for node_id in authoritative_node_ids
     }
-    for node_id, requirements in seeds.items():
-        _append_requirements(
-            node_requirements,
-            room_node_name(node_id),
-            requirements,
-        )
-
     transition_by_id = graph.transition_by_id
     structural_edges: list[tuple[str, str]] = []
     for room in authoritative_rooms:
@@ -2010,6 +2003,11 @@ def compile_room_graph(graph=None, *, node_seeds=None, legacy_rules=None, transi
             _append_requirements(event_requirements, owner, clauses)
         for owner, clauses in node_requirements.items():
             clauses[:] = [clause for clause in clauses if owner not in clause.all_of]
+
+    # The way back in still works when the start moves.
+    for node_id, requirements in seeds.items():
+        rows = node_requirements[room_node_name(node_id)]
+        rows[:0] = [rule for rule in requirements if rule not in rows]
 
     semantically_reachable_owners = _semantic_reachable_owners(
         node_requirements, event_requirements, strict_owners=mapper,

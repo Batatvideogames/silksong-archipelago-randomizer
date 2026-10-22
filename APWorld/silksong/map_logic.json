@@ -16514,6 +16514,16 @@
               {},
               {
                 "all_of": [
+                  "Room Node: moss-grotto/moss-grotto-center#dead-ledge"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: moss-grotto/moss-grotto-center#beast-alcove"
+                ]
+              },
+              {
+                "all_of": [
                   "Entrance landing: Moss Grotto Center - left3"
                 ]
               }
@@ -62793,6 +62803,16 @@
           "Room Node: moss-grotto/moss-grotto-center#rock-bottom": {
             "alternatives": [
               {},
+              {
+                "all_of": [
+                  "Room Node: moss-grotto/moss-grotto-center#dead-ledge"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: moss-grotto/moss-grotto-center#beast-alcove"
+                ]
+              },
               {
                 "all_of": [
                   "Entrance landing: Moss Grotto Center - left3"
@@ -172225,7 +172245,22 @@
       },
       "Room Node: moss-grotto/moss-grotto-center#rock-bottom": {
         "alternatives": [
-          {}
+          {},
+          {
+            "all_of": [
+              "Room Node: moss-grotto/moss-grotto-center#dead-ledge"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: moss-grotto/moss-grotto-center#beast-alcove"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: moss-grotto/moss-grotto-west#lower-right-exit-area"
+            ]
+          }
         ]
       },
       "Room Node: moss-grotto/moss-grotto-center#side-room": {

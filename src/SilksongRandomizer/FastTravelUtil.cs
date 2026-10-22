@@ -524,8 +524,12 @@ namespace SilksongRandomizer
 
         private static bool IsUnderworksReturnAvailable(PlayerData playerData)
         {
+            SaveState state = SaveState.Instance;
+            if (state?.IsRoomBound == true && state.entranceLayoutJson != "{}" &&
+                playerData?.scenesVisited?.Contains(UnderworksReturnSceneName) != true)
+                return false;
             return playerData != null && playerData.understoreLiftBroke &&
-                !MapLogicEvaluator.CanReachUnderworksWithoutCrash(SaveState.Instance);
+                !MapLogicEvaluator.CanReachUnderworksWithoutCrash(state);
         }
 
         private static bool IsBellhartHubAvailable(PlayerData playerData)

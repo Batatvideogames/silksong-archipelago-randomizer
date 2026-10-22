@@ -11408,6 +11408,9 @@
         ],
         "events": [
           "Combat: Skull Cavern Gauntlet"
+        ],
+        "souls": [
+          "Vicious Caranid"
         ]
       }
     ],
@@ -13232,6 +13235,9 @@
     "battles": [],
     "states": [],
     "entrances": [],
-    "memory_scene": "Memory_Coral_Tower"
+    "memory_scene": "Memory_Coral_Tower",
+    "events": [
+      "Room Event: event:mapper/reviewed:khann-memory-heart"
+    ]
   }
 ]

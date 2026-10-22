@@ -926,6 +926,15 @@ namespace SilksongRandomizer.Patches
             private static bool Prefix(ToolItem __instance)
             {
                 SaveState state = SaveState.Instance;
+                if (state != null && state.IsRandomized(ItemType.Tool) &&
+                    __instance != null && __instance.name == NeedlePhialInternalName &&
+                    HasReceivedToolItem(state, __instance))
+                {
+                    // The hidden flag needs an entry even if the phial's source was skipped.
+                    var data = __instance.SavedData;
+                    data.IsUnlocked = true;
+                    __instance.SavedData = data;
+                }
                 if (state == null ||
                     !state.IsRandomized(ItemType.Tool) ||
                     !ItemGrants.TryGetProgressiveToolState(
@@ -944,6 +953,26 @@ namespace SilksongRandomizer.Patches
                 // and native upgrade Unlock also locks its replacement. AP
                 // ownership must retain the currently active received tier.
                 return !isCurrentReceivedTier;
+            }
+        }
+
+        [HarmonyPatch]
+        private static class NeedlePhialQuestCounterPatch
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(ToolItem), nameof(ToolItem.GetSavedAmount), Type.EmptyTypes);
+                yield return AccessTools.Method(typeof(ToolItem), nameof(ToolItem.GetCompletionAmount));
+            }
+
+            private static bool Prefix(ToolItem __instance, ref int __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRandomized(ItemType.Tool) ||
+                    __instance == null || __instance.name != NeedlePhialInternalName)
+                    return true;
+                __result = state.receivedItems.Contains("Needle Phial") ? 1 : 0;
+                return false;
             }
         }
 
