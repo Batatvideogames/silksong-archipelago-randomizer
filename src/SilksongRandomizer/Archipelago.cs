@@ -80,6 +80,7 @@ namespace SilksongRandomizer
         private ArchipelagoSession roomSyncSession;
         private SaveState roomSyncSave;
         private string roomSyncValue;
+        private bool roomSyncActThree;
         private float nextRoomSync;
 
         internal void SynchronizeCurrentRoom()
@@ -94,22 +95,29 @@ namespace SilksongRandomizer
                 manager.IsInSceneTransition) return;
             string scene = manager.GetSceneNameString();
             if (string.IsNullOrWhiteSpace(scene)) return;
+            bool actThree = MapLogicEvaluator.IsActThreeActive;
             lock (connectionLock)
             {
                 var activeSession = session;
                 if (!Connected || state.roomSeed != RoomSeed || state.team != Team ||
                     state.slot != Slot) return;
                 if (ReferenceEquals(activeSession, roomSyncSession) &&
-                    ReferenceEquals(state, roomSyncSave) && scene == roomSyncValue) return;
+                    ReferenceEquals(state, roomSyncSave) && scene == roomSyncValue &&
+                    actThree == roomSyncActThree) return;
                 try
                 {
                     activeSession.Socket.SendPacket(new SetPacket {
                         Key = $"Silksong:CurrentRoom:{Team}:{Slot}", DefaultValue = "", WantReply = false,
                         Operations = new[] { new OperationSpecification { OperationType = OperationType.Replace, Value = scene } }
                     });
+                    activeSession.Socket.SendPacket(new SetPacket {
+                        Key = $"Silksong:Act3:{Team}:{Slot}", DefaultValue = false, WantReply = false,
+                        Operations = new[] { new OperationSpecification { OperationType = OperationType.Replace, Value = actThree } }
+                    });
                     roomSyncSession = activeSession;
                     roomSyncSave = state;
                     roomSyncValue = scene;
+                    roomSyncActThree = actThree;
                 }
                 catch (Exception ex)
                 {

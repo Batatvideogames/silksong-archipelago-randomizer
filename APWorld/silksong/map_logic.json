@@ -16949,16 +16949,7 @@
                 "all_of": [
                   "Room Node: mount-fay/mask-maker-passage#exit",
                   "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: mount-fay/mask-maker-passage#exit",
-                  "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Option: Proficient Movement"
+                  "Faydown Cloak"
                 ]
               }
             ]
@@ -17344,8 +17335,7 @@
                   "Directional: Cling Grip Left",
                   "Directional: Cling Grip Right",
                   "Directional: Clawline Left",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
@@ -17354,8 +17344,7 @@
                   "Directional: Cling Grip Left",
                   "Directional: Cling Grip Right",
                   "Faydown Cloak",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
@@ -17373,8 +17362,7 @@
                   "Directional: Clawline Left",
                   "Directional: Clawline Right",
                   "Directional: Cling Grip Left",
-                  "Directional: Cling Grip Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -17383,8 +17371,7 @@
                   "Directional: Clawline Left",
                   "Directional: Clawline Right",
                   "Faydown Cloak",
-                  "Directional: Ledge Grab Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Ledge Grab Right"
                 ]
               },
               {
@@ -17435,7 +17422,6 @@
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
                   "Capability: Swim",
-                  "Technique: Enemy Pogo 1",
                   "Option: Proficient Movement"
                 ]
               },
@@ -17443,24 +17429,21 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Directional: Cling Grip Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Right"
                 ]
               }
             ]
@@ -17471,32 +17454,28 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Capability: Swim",
-                  "Technique: Enemy Pogo 1"
+                  "Capability: Swim"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Directional: Cling Grip Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Left"
                 ]
               }
             ]
@@ -17604,16 +17583,14 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
@@ -17621,8 +17598,7 @@
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
                   "Directional: Dash Right",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
@@ -17636,16 +17612,14 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
@@ -17653,8 +17627,7 @@
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
                   "Directional: Dash Left",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               }
             ]
@@ -17670,72 +17643,62 @@
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Directional: Sprint Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Sprint Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Drifter's Cloak",
-                  "Directional: Dash Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Dash Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -17757,72 +17720,62 @@
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Directional: Sprint Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Sprint Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Drifter's Cloak",
-                  "Directional: Dash Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Dash Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -38097,8 +38050,7 @@
                 "Room Node: mount-fay/mount-fay-entrance#upper-left-exit",
                 "Directional: Cling Grip Left",
                 "Directional: Clawline Right",
-                "Directional: Clawline Left",
-                "Technique: Enemy Pogo 1"
+                "Directional: Clawline Left"
               ]
             },
             {
@@ -38107,8 +38059,7 @@
                 "Directional: Cling Grip Left",
                 "Faydown Cloak",
                 "Drifter's Cloak",
-                "Directional: Dash Right",
-                "Technique: Enemy Pogo 1"
+                "Directional: Dash Right"
               ]
             },
             {
@@ -38516,8 +38467,7 @@
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Directional: Cling Grip Left",
-                "Technique: Enemy Pogo 1"
+                "Directional: Cling Grip Left"
               ]
             },
             {
@@ -38525,22 +38475,19 @@
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
                 "Usable Scuttlebrace",
                 "Swift Step",
-                "Technique: Scuttlebrace 1",
-                "Technique: Enemy Pogo 1"
+                "Technique: Scuttlebrace 1"
               ]
             },
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Faydown Cloak",
-                "Technique: Enemy Pogo 1"
+                "Faydown Cloak"
               ]
             },
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Silk Soar",
-                "Technique: Enemy Pogo 1"
+                "Silk Soar"
               ]
             }
           ],
@@ -45710,16 +45657,7 @@
                 "all_of": [
                   "Room Node: mount-fay/mask-maker-passage#exit",
                   "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: mount-fay/mask-maker-passage#exit",
-                  "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Option: Proficient Movement"
+                  "Faydown Cloak"
                 ]
               }
             ]
@@ -63119,16 +63057,7 @@
                 "all_of": [
                   "Room Node: mount-fay/mask-maker-passage#exit",
                   "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: mount-fay/mask-maker-passage#exit",
-                  "Directional: Cling Grip Right",
-                  "Faydown Cloak",
-                  "Option: Proficient Movement"
+                  "Faydown Cloak"
                 ]
               }
             ]
@@ -63405,8 +63334,7 @@
                   "Directional: Cling Grip Left",
                   "Directional: Cling Grip Right",
                   "Directional: Clawline Left",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
@@ -63415,8 +63343,7 @@
                   "Directional: Cling Grip Left",
                   "Directional: Cling Grip Right",
                   "Faydown Cloak",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
@@ -63434,8 +63361,7 @@
                   "Directional: Clawline Left",
                   "Directional: Clawline Right",
                   "Directional: Cling Grip Left",
-                  "Directional: Cling Grip Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
@@ -63444,8 +63370,7 @@
                   "Directional: Clawline Left",
                   "Directional: Clawline Right",
                   "Faydown Cloak",
-                  "Directional: Ledge Grab Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Ledge Grab Right"
                 ]
               },
               {
@@ -63496,7 +63421,6 @@
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
                   "Capability: Swim",
-                  "Technique: Enemy Pogo 1",
                   "Option: Proficient Movement"
                 ]
               },
@@ -63504,24 +63428,21 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
                   "Directional: Clawline Right",
-                  "Directional: Cling Grip Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Right"
                 ]
               }
             ]
@@ -63532,32 +63453,28 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Capability: Swim",
-                  "Technique: Enemy Pogo 1"
+                  "Capability: Swim"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
                   "Directional: Clawline Left",
-                  "Directional: Cling Grip Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Cling Grip Left"
                 ]
               }
             ]
@@ -63665,16 +63582,14 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
@@ -63682,8 +63597,7 @@
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Silk Soar",
                   "Directional: Dash Right",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
@@ -63697,16 +63611,14 @@
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
@@ -63714,8 +63626,7 @@
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Silk Soar",
                   "Directional: Dash Left",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               }
             ]
@@ -63731,72 +63642,62 @@
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Directional: Sprint Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Sprint Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
                   "Drifter's Cloak",
-                  "Directional: Dash Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Dash Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Clawline Left",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -63818,72 +63719,62 @@
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Directional: Sprint Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Sprint Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
                   "Drifter's Cloak",
-                  "Directional: Dash Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Dash Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Dash Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Directional: Clawline Right",
-                  "Technique: Enemy Pogo 1"
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
+                  "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-                  "Usable Sharpdart",
-                  "Technique: Enemy Pogo 1"
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -83051,8 +82942,7 @@
                 "Room Node: mount-fay/mount-fay-entrance#upper-left-exit",
                 "Directional: Cling Grip Left",
                 "Directional: Clawline Right",
-                "Directional: Clawline Left",
-                "Technique: Enemy Pogo 1"
+                "Directional: Clawline Left"
               ]
             },
             {
@@ -83061,8 +82951,7 @@
                 "Directional: Cling Grip Left",
                 "Faydown Cloak",
                 "Drifter's Cloak",
-                "Directional: Dash Right",
-                "Technique: Enemy Pogo 1"
+                "Directional: Dash Right"
               ]
             },
             {
@@ -83437,8 +83326,7 @@
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Directional: Cling Grip Left",
-                "Technique: Enemy Pogo 1"
+                "Directional: Cling Grip Left"
               ]
             },
             {
@@ -83446,22 +83334,19 @@
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
                 "Usable Scuttlebrace",
                 "Swift Step",
-                "Technique: Scuttlebrace 1",
-                "Technique: Enemy Pogo 1"
+                "Technique: Scuttlebrace 1"
               ]
             },
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Faydown Cloak",
-                "Technique: Enemy Pogo 1"
+                "Faydown Cloak"
               ]
             },
             {
               "all_of": [
                 "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-                "Silk Soar",
-                "Technique: Enemy Pogo 1"
+                "Silk Soar"
               ]
             }
           ],
@@ -96399,7 +96284,8 @@
               "Event: Act 2 Started",
               "Path: Bilewater - Bilehaven",
               "Path: Mount Fay - Workbench",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Room Event: event:mapper/12bb5519-6e56-48c3-b0e1-5e937bcbd48a"
             ],
             "required_locations": [
               "Mosslands - Map Purchase",
@@ -96424,7 +96310,8 @@
               "Event: Act 2 Started",
               "Path: Bilewater - Bilehaven",
               "Path: Mount Fay - Workbench",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Room Event: event:mapper/12bb5519-6e56-48c3-b0e1-5e937bcbd48a"
             ],
             "item_counts": [
               {
@@ -173420,8 +173307,7 @@
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-              "Directional: Cling Grip Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -173429,22 +173315,19 @@
               "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
               "Usable Scuttlebrace",
               "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Technique: Enemy Pogo 1"
+              "Technique: Scuttlebrace 1"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-upper-slope#mask-maker-path",
-              "Silk Soar",
-              "Technique: Enemy Pogo 1"
+              "Silk Soar"
             ]
           }
         ]
@@ -173460,16 +173343,7 @@
             "all_of": [
               "Room Node: mount-fay/mask-maker-passage#exit",
               "Directional: Cling Grip Right",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: mount-fay/mask-maker-passage#exit",
-              "Directional: Cling Grip Right",
-              "Faydown Cloak",
-              "Option: Proficient Movement"
+              "Faydown Cloak"
             ]
           }
         ]
@@ -173973,8 +173847,7 @@
               "Directional: Cling Grip Left",
               "Directional: Cling Grip Right",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -173983,8 +173856,7 @@
               "Directional: Cling Grip Left",
               "Directional: Cling Grip Right",
               "Faydown Cloak",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
@@ -174025,8 +173897,7 @@
               "Directional: Clawline Left",
               "Directional: Clawline Right",
               "Directional: Cling Grip Left",
-              "Directional: Cling Grip Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -174035,8 +173906,7 @@
               "Directional: Clawline Left",
               "Directional: Clawline Right",
               "Faydown Cloak",
-              "Directional: Ledge Grab Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
@@ -174103,7 +173973,6 @@
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
               "Directional: Clawline Right",
               "Capability: Swim",
-              "Technique: Enemy Pogo 1",
               "Option: Proficient Movement"
             ]
           },
@@ -174111,24 +173980,21 @@
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
               "Directional: Clawline Right",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
               "Directional: Clawline Right",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#right-ledge",
               "Directional: Clawline Right",
-              "Directional: Cling Grip Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Right"
             ]
           }
         ]
@@ -174139,32 +174005,28 @@
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
               "Directional: Clawline Left",
-              "Capability: Swim",
-              "Technique: Enemy Pogo 1"
+              "Capability: Swim"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
               "Directional: Clawline Left",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
               "Directional: Clawline Left",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-ice-lake-platforming-room#left-ledge",
               "Directional: Clawline Left",
-              "Directional: Cling Grip Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -174364,16 +174226,14 @@
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
               "Silk Soar",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
               "Silk Soar",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174381,8 +174241,7 @@
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
               "Silk Soar",
               "Directional: Dash Right",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
@@ -174396,16 +174255,14 @@
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
               "Silk Soar",
-              "Directional: Clawline Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
               "Silk Soar",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174413,8 +174270,7 @@
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
               "Silk Soar",
               "Directional: Dash Left",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           }
         ]
@@ -174435,72 +174291,62 @@
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-              "Directional: Sprint Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Sprint Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-              "Directional: Clawline Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
               "Drifter's Cloak",
-              "Directional: Dash Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Dash Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#right-exit",
-              "Usable Sharpdart",
-              "Technique: Enemy Pogo 1"
+              "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Directional: Dash Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Dash Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Directional: Clawline Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Usable Sharpdart",
-              "Technique: Enemy Pogo 1"
+              "Usable Sharpdart"
             ]
           },
           {
@@ -174522,72 +174368,62 @@
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-              "Directional: Sprint Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Sprint Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
               "Drifter's Cloak",
-              "Directional: Dash Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#left-exit",
-              "Usable Sharpdart",
-              "Technique: Enemy Pogo 1"
+              "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Directional: Dash Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Dash Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein",
-              "Usable Sharpdart",
-              "Technique: Enemy Pogo 1"
+              "Usable Sharpdart"
             ]
           },
           {
@@ -174673,8 +174509,7 @@
               "Room Node: mount-fay/mount-fay-entrance#upper-left-exit",
               "Directional: Cling Grip Left",
               "Directional: Clawline Right",
-              "Directional: Clawline Left",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Left"
             ]
           },
           {
@@ -174683,8 +174518,7 @@
               "Directional: Cling Grip Left",
               "Faydown Cloak",
               "Drifter's Cloak",
-              "Directional: Dash Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Dash Right"
             ]
           },
           {
@@ -174713,8 +174547,7 @@
               "Directional: Cling Grip Left",
               "Directional: Cling Grip Right",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174722,8 +174555,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Hunter",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174731,8 +174563,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Reaper",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174740,8 +174571,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Shaman",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174749,8 +174579,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Architect",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174758,8 +174587,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Wanderer",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174767,8 +174595,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Beast",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174776,8 +174603,7 @@
               "Room Node: mount-fay/mount-fay-right-side-middle-room#bottom",
               "Directional: Cling Grip Left",
               "Crest: Witch",
-              "Faydown Cloak",
-              "Technique: Enemy Pogo 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -174786,8 +174612,7 @@
               "Directional: Cling Grip Left",
               "Crest: Hunter",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174796,8 +174621,7 @@
               "Directional: Cling Grip Left",
               "Crest: Reaper",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174806,8 +174630,7 @@
               "Directional: Cling Grip Left",
               "Crest: Shaman",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174816,8 +174639,7 @@
               "Directional: Cling Grip Left",
               "Crest: Architect",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174826,8 +174648,7 @@
               "Directional: Cling Grip Left",
               "Crest: Wanderer",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174836,8 +174657,7 @@
               "Directional: Cling Grip Left",
               "Crest: Beast",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {
@@ -174846,8 +174666,7 @@
               "Directional: Cling Grip Left",
               "Crest: Witch",
               "Directional: Clawline Left",
-              "Directional: Clawline Right",
-              "Technique: Enemy Pogo 1"
+              "Directional: Clawline Right"
             ]
           },
           {

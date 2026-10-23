@@ -146,27 +146,39 @@ Long answer, it can cause softlocks and other issues, it can be used but at your
 ### I Got An Error Saying My APWorld Version is Incompatible
 This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
 
-Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers (these work for both):
+Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers.
 
-**v0.5.2** Import Code: `01a15150-4496-f47c-5102-41aae48899c7`
+Given that Cogfly has some issues currently with import codes, you can downgrade manually by pressing the link attached to the version numbers below and then follow the steps. 
 
-**v0.5.1** Import Code: `01a12cf3-f4cb-5402-d6a8-0f266b3e7aa8`
+Alternatively, you can always replace Cogfly with a different mod manager that allows for downgrading. Downgrading on those mod managers can typically be done by uninstalling the mod and then reinstalling it and selecting the appropriate version to your generated run.
 
-**v0.5.0** Import Code: `01a109ba-4c4f-b4f0-8695-8b4d42cb8159`
+1.) Go to your BepInEx plugins folder, depending on your install this is located in one of two places. 
+   - For a manual installation it should be in your game directory. 
+   - For a mod manager, you want to go into the profile folder. For R2ModMan, this is in "Settings > Profile Folder". For Cogfly, go into the profile and press "Open Profile Folder".
 
-**v0.4.7** Import Code: `01a0dfd5-7d5b-682a-324c-6e2f385ad7df`
+2.) Go into BepInEx. Go into plugins. Go into the Silksong Randomizer folder this can also be named "BatAtVideoGames-SilksongArchipelagoRandomizer". A file named "SilksongRandomizer.dll" will be present in the folder, you want to replace this file using the version in one of the .rar files from below.
 
-**v0.4.6** Import Code: `01a0b6c0-a24b-cc11-7b3e-ba412942686b`
+3.) Start up your game normally after replacing and you should be able to connect once again.
 
-**v0.4.52** Import Code: `01a0926a-7b73-7a11-66bb-42117f64248f`
+[**v0.5.2**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.2) Import Code: `01a15150-4496-f47c-5102-41aae48899c7`
 
-**v0.4.51** Import Code: `01a0926b-eab2-0a1b-bf2c-76345f9973d3`
+[**v0.5.1**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.1) Import Code: `01a12cf3-f4cb-5402-d6a8-0f266b3e7aa8`
 
-**v0.4.5** Import Code: `01a0926c-50d2-f57d-ea27-e6261857cd3d`
+[**v0.5.0**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.0) Import Code: `01a109ba-4c4f-b4f0-8695-8b4d42cb8159`
 
-**v0.4.4** Import Code: `01a07254-1646-8e29-7cee-2ba65c34300d`
+[**v0.4.7**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.7) Import Code: `01a0dfd5-7d5b-682a-324c-6e2f385ad7df`
 
-**v0.4.3** Import Code: `01a07252-fdcb-41ae-1ea2-84fb05e3f1e5`
+[**v0.4.6**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.6) Import Code: `01a0b6c0-a24b-cc11-7b3e-ba412942686b`
+
+[**v0.4.52**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5-Hotfix2) Import Code: `01a0926a-7b73-7a11-66bb-42117f64248f`
+
+[**v0.4.51**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5-Hotfix) Import Code: `01a0926b-eab2-0a1b-bf2c-76345f9973d3`
+
+[**v0.4.5**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5) Import Code: `01a0926c-50d2-f57d-ea27-e6261857cd3d`
+
+[**v0.4.4**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.4) Import Code: `01a07254-1646-8e29-7cee-2ba65c34300d`
+
+[**v0.4.3**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.3) Import Code: `01a07252-fdcb-41ae-1ea2-84fb05e3f1e5`
 
 ### My Mod Manager Boots The Game In Vanilla
 For **Cogfly**, press 'Copy Launch Arguments' at the top. Go to Hollow Knight: Silksong on Steam, right-click and press "Properties...". In Launch Options, paste the the arguments Cogfly copied for you and start your game.

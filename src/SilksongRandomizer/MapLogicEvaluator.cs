@@ -35,6 +35,7 @@ namespace SilksongRandomizer
         private const int MaxMossberryCount = 7;
         private const int MaxPollipHeartCount = 6;
         private const int MaxPaleOilCount = 3;
+        internal static bool IsActThreeActive => PlayerData.instance?.blackThreadWorld == true;
         private const string UsableScuttlebraceRequirement =
             "Usable Scuttlebrace";
 
@@ -1475,7 +1476,7 @@ namespace SilksongRandomizer
             SaveState state
         )
         {
-            return string.Join(
+            return (IsActThreeActive ? "Act 3\n" : "") + string.Join(
                 "\n",
                 payload.CheckedSources.Where(source =>
                     IsCheckedLogicSource(state, source)).Concat(GetWarpNodes(state))
@@ -1884,6 +1885,8 @@ namespace SilksongRandomizer
                 if (completed[index]) continue;
                 bool isEvent = index >= payload.AbstractNames.Length;
                 LogicEvent logicEvent = isEvent ? payload.LogicEvents[index - payload.AbstractNames.Length] : null;
+                if (!isEvent && payload.AbstractNames[index] == "Event: Act 3 Started" && !IsActThreeActive)
+                    continue;
                 if (!isEvent && values[payload.AbstractNames[index]])
                 {
                     completed[index] = true;

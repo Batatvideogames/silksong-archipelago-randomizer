@@ -2425,6 +2425,7 @@ def get_trails_end_requirements(
         'Path: Bilewater - Bilehaven',
         'Path: Mount Fay - Workbench',
         'Ability: Faydown Cloak',
+        'Room Event: event:mapper/12bb5519-6e56-48c3-b0e1-5e937bcbd48a',
     )
     required_maps = (
         SHAKRA_MAP_ITEMS

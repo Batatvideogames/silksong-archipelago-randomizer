@@ -721,6 +721,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             steel_soul=self.is_steel_soul(),
             required_goal_items=enemy_soul_required_pool_items(self),
             silk_soar_begone=bool(self.options.silk_soar_begone),
+            soul_pool_entries=self._soul_pool_entries(),
         )
         if self.is_early_sprint_enabled():
             player_early_items = self.multiworld.local_early_items[
@@ -1018,11 +1019,18 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 set(LOCATION_NAMES_BY_CATEGORY['MemoryLocket'])
                 - excluded - self.get_logic_unknown_locations()
             )
-        starting_count = sum(
-            item.name == MEMORY_LOCKET_ITEM
-            for item in self.multiworld.precollected_items[self.player]
+        starting_count = max(
+            self.options.start_inventory.value.get(MEMORY_LOCKET_ITEM, 0),
+            sum(item.name == MEMORY_LOCKET_ITEM
+                for item in self.multiworld.precollected_items[self.player])
+            - self.options.start_inventory_from_pool.value.get(MEMORY_LOCKET_ITEM, 0),
         )
         return max(0, active_count - native_count - starting_count)
+
+    def _soul_pool_entries(self):
+        from .boss_souls import pool_entries as boss_entries
+        from .npc_souls import pool_entries as npc_entries
+        return (*boss_entries(self), *npc_entries(self))
 
     def resolve_trap_counts(self) -> dict[str, int]:
         if self._resolved_trap_counts is not None:
@@ -1058,6 +1066,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             silk_soar_begone=bool(self.options.silk_soar_begone),
             minimum_memory_lockets=self._minimum_pool_lockets(),
             required_goal_items=enemy_soul_required_pool_items(self),
+            soul_pool_entries=self._soul_pool_entries(),
         )
         total_traps = (trap_capacity * percentage + 50) // 100
         weights = {
@@ -1227,10 +1236,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 else reward_name
             )
             effective_reward = self.create_item(effective_reward_name)
-            self.multiworld.get_location(
-                location_name,
-                self.player,
-            ).place_locked_item(effective_reward)
+            location = self.multiworld.get_location(location_name, self.player)
+            if (location.address is None
+                    and location_name in self.get_logic_unknown_locations()
+                    and effective_reward.advancement):
+                effective_reward.classification = ItemClassification.useful
+            location.place_locked_item(effective_reward)
 
         if (self.options.silk_soar_begone and self.get_content_scope() == "act_3"
                 and category_modes['Skill'] != 'vanilla'):
@@ -1326,12 +1337,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             ),
             minimum_memory_lockets=self._minimum_pool_lockets(),
             required_goal_items=enemy_soul_required_pool_items(self),
+            soul_pool_entries=self._soul_pool_entries(),
         ))
 
-        from .boss_souls import add_souls_to_pool
-        add_souls_to_pool(self, pool_entries)
-        from .npc_souls import add_souls_to_pool as add_npc_souls
-        add_npc_souls(self, pool_entries)
         from .enemy_souls import add_souls_to_pool as add_enemy_souls
         add_enemy_souls(self, pool_entries)
 

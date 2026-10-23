@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using GlobalEnums;
 using HarmonyLib;
+using UnityEngine;
 
 namespace SilksongRandomizer
 {
@@ -23,6 +24,15 @@ namespace SilksongRandomizer
                 "ExitedWater",
                 new[] { typeof(bool) }
             );
+
+        private static readonly MethodInfo FrostSpeedMethod =
+            AccessTools.Method(typeof(HeroController), "GetTotalFrostSpeed");
+
+        private static readonly FieldInfo WaterEnteredEvent =
+            AccessTools.Field(typeof(SurfaceWaterRegion), "HeroEntered");
+
+        private static readonly MethodInfo MaggotWaterExitedMethod =
+            AccessTools.Method(typeof(MaggotRegion), "OnHeroExitedWater");
 
         internal static bool LedgeGrabEnabled
         {
@@ -120,7 +130,8 @@ namespace SilksongRandomizer
         }
 
         internal static void RespawnFromDisabledWater(
-            HeroController hero
+            HeroController hero,
+            SurfaceWaterRegion surfaceWater = null
         )
         {
             if (hero == null ||
@@ -133,6 +144,15 @@ namespace SilksongRandomizer
                 return;
             }
 
+            if (surfaceWater != null)
+            {
+                ApplyWaterEntryEffects(hero, surfaceWater);
+                if (hero.cState.dead || hero.playerData.health <= 0)
+                {
+                    return;
+                }
+            }
+
             CleanActiveWaterState(hero);
             hero.TakeDamage(
                 hero.gameObject,
@@ -140,6 +160,39 @@ namespace SilksongRandomizer
                 1,
                 HazardType.RESPAWN_PIT
             );
+        }
+
+        private static void ApplyWaterEntryEffects(
+            HeroController hero,
+            SurfaceWaterRegion surfaceWater
+        )
+        {
+            // A quick dip still counts for muckmaggots.
+            if (WaterEnteredEvent.GetValue(surfaceWater) is Action<HeroController> entered)
+            {
+                foreach (Action<HeroController> handler in entered.GetInvocationList())
+                {
+                    if (!(handler.Target is MaggotRegion region) ||
+                        !region.isActiveAndEnabled || !region.IsActive)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        handler(hero);
+                    }
+                    finally
+                    {
+                        MaggotWaterExitedMethod.Invoke(region, new object[] { hero });
+                    }
+                }
+            }
+
+            if ((float)FrostSpeedMethod.Invoke(hero, null) > Mathf.Epsilon)
+            {
+                hero.TakeFrostDamage(1);
+            }
         }
 
         private static void CleanActiveWaterState(HeroController hero)

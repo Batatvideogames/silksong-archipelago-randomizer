@@ -4,7 +4,6 @@ import json
 import pkgutil
 from dataclasses import replace
 
-from BaseClasses import ItemClassification
 from Options import OptionError
 
 BOSS = "Boss: Groal the Great"
@@ -75,21 +74,10 @@ def gate_graph(world, graph):
     return result
 
 
-def add_souls_to_pool(world, entries):
-    bosses = enabled_bosses(world)
-    if not bosses:
-        return
-    from .items import ItemPoolEntry, item_data_table
-    indices = [index for index, entry in enumerate(entries)
-               if entry.placement_category is None
-               and item_data_table[entry.name].classification == ItemClassification.filler
-               and entry.source_category not in {"Memento", "MemoryLocket", "Journal"}]
-    souls = tuple(dict.fromkeys(pool_item_name(world, boss) for boss in bosses))
-    if len(indices) < len(souls):
-        raise OptionError(f"Boss Souls needs {len(souls)} anywhere filler slots; only {len(indices)} are available. "
-                          "Enable another anywhere category.")
-    for soul, index in zip(souls, world.random.sample(indices, len(souls))):
-        entries[index] = ItemPoolEntry(soul, "BossSoul")
+def pool_entries(world):
+    from .items import ItemPoolEntry
+    souls = dict.fromkeys(pool_item_name(world, boss) for boss in enabled_bosses(world))
+    return tuple(ItemPoolEntry(soul, "BossSoul") for soul in souls)
 
 
 def prepare_start(world):

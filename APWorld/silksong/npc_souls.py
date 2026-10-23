@@ -4,7 +4,6 @@ import json
 import pkgutil
 from dataclasses import replace
 
-from BaseClasses import ItemClassification
 from Options import OptionError
 
 CATALOGUE = tuple(json.loads(pkgutil.get_data(__package__, 'npc_souls.json')))
@@ -112,19 +111,10 @@ def gate_graph(world, graph):
     return {name: gate(world, name, rules, 'events') for name, rules in graph.items()}
 
 
-def add_souls_to_pool(world, entries):
-    from .items import ItemPoolEntry, item_data_table
-    npcs = enabled_npcs(world)
-    if not npcs:
-        return
-    indices = [i for i, e in enumerate(entries) if e.placement_category is None
-               and item_data_table[e.name].classification == ItemClassification.filler
-               and e.source_category not in {'Memento', 'MemoryLocket', 'Journal'}]
-    if len(indices) < len(npcs):
-        raise OptionError(f'NPC Souls needs {len(npcs)} anywhere filler slots; only {len(indices)} remain. '
-                          'Enable more anywhere cache or resource checks.')
-    for npc, i in zip(npcs, world.random.sample(indices, len(npcs))):
-        entries[i] = ItemPoolEntry(soul_requirement(world, npc)[0], 'NpcSoul')
+def pool_entries(world):
+    from .items import ItemPoolEntry
+    return tuple(ItemPoolEntry(soul_requirement(world, npc)[0], 'NpcSoul')
+                 for npc in enabled_npcs(world))
 
 
 def export_world(world, slot_data):

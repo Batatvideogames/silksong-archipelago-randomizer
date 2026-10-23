@@ -154,14 +154,14 @@ namespace SilksongRandomizer.Patches
     {
         [HarmonyPrefix]
         [HarmonyPriority(Priority.First)]
-        private static bool Prefix(HeroController hero)
+        private static bool Prefix(SurfaceWaterRegion __instance, HeroController hero)
         {
             if (InnateAbilityManager.SwimEnabled)
             {
                 return true;
             }
 
-            InnateAbilityManager.RespawnFromDisabledWater(hero);
+            InnateAbilityManager.RespawnFromDisabledWater(hero, __instance);
             return false;
         }
     }
@@ -175,7 +175,7 @@ namespace SilksongRandomizer.Patches
     {
         [HarmonyPrefix]
         [HarmonyPriority(Priority.First)]
-        private static bool Prefix(HeroWaterController __instance)
+        private static bool Prefix(HeroWaterController __instance, SurfaceWaterRegion surfaceWater)
         {
             if (InnateAbilityManager.SwimEnabled)
             {
@@ -184,7 +184,7 @@ namespace SilksongRandomizer.Patches
 
             HeroController hero =
                 __instance.GetComponent<HeroController>();
-            InnateAbilityManager.RespawnFromDisabledWater(hero);
+            InnateAbilityManager.RespawnFromDisabledWater(hero, surfaceWater);
             return false;
         }
     }
