@@ -1503,7 +1503,7 @@ ROOM_CHECK_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
 
 ROOM_CHECK_REQUIREMENTS['Volt Filament'] = tuple(
     replace(source, all_of=(*source.all_of,
-        room_event_name('event:mapper/c245a3a8-e4da-44e6-96bf-329e94ea8298')))
+        room_event_name('event:mapper/a6c761eb-15e4-448e-ab9e-4f3928c35821')))
     for source in ROOM_CHECK_REQUIREMENTS['Volt Filament']
 )
 
@@ -2951,7 +2951,7 @@ if MAPPER_GRAPH_ENABLED:
         req(room_event_name('event:mapper/owned/everbloom'), crest=False),
     )
     EVENT_REQUIREMENTS['Event: Shrine Guardian Seth Defeated'] = (
-        req(room_event_name('event:mapper/66c01078-89ad-4aeb-ab46-a4ac05424109'), crest=False),
+        req(room_event_name('event:mapper/d3ccc449-7545-469b-abb9-596a597df834'), crest=False),
     )
 
 PROFICIENT_COMBAT_REQUIREMENT = "Option: Proficient Combat"
@@ -3031,6 +3031,8 @@ ABSTRACT_REQUIREMENTS = _VersionedRequirementMap(
             "High Halls", "The Slab", "Putrified Ducts", "The Cradle", "The Abyss", "Verdania",
         )),
         "Event: Selected Steel Soul Resting Sites Visited": (),
+        "Option: Entrance Randomizer On": (),
+        "Option: Entrance Randomizer Off": (req(crest=False),),
         "Option: Steel Soul On": (),
         "Option: Steel Soul Off": (req(crest=False),),
         "Option: Bellshrinesanity On": (),
@@ -3081,20 +3083,23 @@ WARDENFLY_OPEN_BELLWAY_REQUIREMENTS = (
     req('Ancestral Art: Cling Grip', crest=False),
 )
 
+BONE_BOTTOM_BELLWAY_NODE = room_node_name('bone-bottom/bone-bottom-bellway#room')
+BELLWAY_MENU_NODE = room_node_name('fast-travel/bellway-menu#room')
+BONE_BOTTOM_BELLWAY_EVENT = room_event_name('event:mapper/c98af456-e892-4765-b77d-db5b394c22df')
 BELLWAY_RANDOMIZED_STATIONS_REQUIREMENTS = (
-    req(
-        'Room Node: bone-bottom/bone-bottom-bellway#room'
-        if MAPPER_GRAPH_ENABLED else 'Path: Mosslands - Bone Bottom',
-        crest=False,
-    ),
-)
+    req('Event: Bell Beast Defeated', crest=False),
+    *(req(room_node_name(node), crest=False) for node in sorted({
+        port.source_node_id for port in load_room_graph().transition_by_id.values()
+        if port.is_compilable and port.target.room_id == 'fast-travel/bellway-menu'
+        and port.id != 'the-marrow/the-marrow-bellway@bb'
+    })),
+) if MAPPER_GRAPH_ENABLED else (req('Path: Mosslands - Bone Bottom', crest=False),)
 
 STARTING_LOCATION_VANILLA = 'vanilla'
 STARTING_LOCATION_BONE_BOTTOM = 'bone_bottom'
 ADDITIONAL_START_NODES = {
     'bellhart': 'bellhart/belltown#lower-area',
     'songclave': 'choral-chambers/bellshrine-enclave#room',
-    'slab': 'the-slab/slab-cell#upper',
     'wormways': 'wormways/wormways-laboratory#room',
     'pilgrims_rest': 'far-fields/far-fields-pilgrims-rest-shop#room',
     'deep_docks': 'deep-docks/deep-docks-bench-shaft#room',
@@ -3127,6 +3132,16 @@ def normalize_starting_location_key(starting_location: str) -> str:
     return normalized
 
 
+def bone_bottom_bellway_requirements(rules, starting_location):
+    if starting_location not in ADDITIONAL_START_NODES:
+        return rules
+    return tuple(
+        replace(rule, all_of=(*rule.all_of, BONE_BOTTOM_BELLWAY_EVENT))
+        if BELLWAY_MENU_NODE in rule.all_of and BONE_BOTTOM_BELLWAY_EVENT not in rule.all_of else rule
+        for rule in rules
+    )
+
+
 def apply_additional_start(requirements, starting_location):
     for node in load_room_graph().assumptions['starting_nodes']:
         name = 'Room Node: ' + node
@@ -3136,8 +3151,9 @@ def apply_additional_start(requirements, starting_location):
         raise ValueError(f'Mapper graph has no starting node for {starting_location}')
     requirements[start] = (*requirements[start], req(crest=False))
     requirements['Path: Mosslands - Moss Grotto'] = MOSS_GROTTO_WITHOUT_START_ROOT_REQUIREMENTS
-    if starting_location == 'slab':
-        requirements[SLAB_ENTRANCE_EVENT] = (req(crest=False),)
+    requirements[BONE_BOTTOM_BELLWAY_NODE] = bone_bottom_bellway_requirements(
+        requirements[BONE_BOTTOM_BELLWAY_NODE], starting_location
+    )
 
 
 DONATION_CAPACITY_EVENTS: Mapping[str, str] = {
@@ -3244,6 +3260,7 @@ def get_abstract_requirements(
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
+    entrance_randomizer: bool = False,
 ) -> Mapping[str, tuple[LocationRequirement, ...]]:
     """Return the abstract graph used by the selected world options."""
 
@@ -3259,6 +3276,7 @@ def get_abstract_requirements(
 
     if (
         not room_node_overrides
+        and not entrance_randomizer
         and silk_and_soul_points == 17
         and not allow_bellways_before_bell_beast
         and randomized_crest_slots_enabled
@@ -3288,6 +3306,8 @@ def get_abstract_requirements(
         return ABSTRACT_REQUIREMENTS
 
     adjusted_requirements = dict(ABSTRACT_REQUIREMENTS)
+    adjusted_requirements['Option: Entrance Randomizer On'] = (req(crest=False),) if entrance_randomizer else ()
+    adjusted_requirements['Option: Entrance Randomizer Off'] = () if entrance_randomizer else (req(crest=False),)
     adjusted_requirements.update(directional_requirements(req, directional_abilities))
     adjusted_requirements["Option: Elite Ball Knowledge"] = (req(crest=False),) if platforming_capability >= 2 else ()
     if steel_soul:
@@ -6041,8 +6061,7 @@ JUNK_ONLY_LOCATIONS: frozenset[str] = frozenset(
     )
 ) | ALWAYS_JUNK_ONLY_MISSABLE_LOCATIONS
 
-# These checks have incomplete routes. They unlock after Victory and cannot
-# hold advancement items.
+# These routes still need mapping, so their checks only hold filler or traps.
 LOGIC_UNKNOWN_LOCATIONS: frozenset[str] = (
     UNVERIFIED_PROGRESSION_LOCATIONS | JUNK_ONLY_LOCATIONS
 ) - frozenset((PINMASTER_OIL_QUEST_LOCATION,))
@@ -6910,7 +6929,7 @@ def _can_reach_required_location_with_values(
 ) -> bool:
     canonical_name = canonicalize_location_name(location_name)
     if canonical_name in LOGIC_UNKNOWN_LOCATIONS:
-        return True
+        return False
     if canonical_name in active_locations:
         return False
     alternatives = REQUIREMENTS.get(canonical_name)
@@ -7234,7 +7253,7 @@ def make_rule(
     silk_heart_logic: bool = False,
 ):
     if is_logic_unknown_location(location_name):
-        return lambda _state: True
+        return lambda _state: False
     return make_requirements_rule(
         get_location_requirements(
             location_name,
@@ -7771,6 +7790,7 @@ def export_abstract_requirements(
     silk_and_soul_points: int = 17,
     donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     room_node_overrides: Mapping[str, tuple[LocationRequirement, ...]] | None = None,
+    entrance_randomizer: bool = False,
 ) -> Mapping[str, dict[str, object]]:
     """Expose the option-adjusted fixed-point graph to external logic tools."""
 
@@ -7809,6 +7829,7 @@ def export_abstract_requirements(
             silk_and_soul_points=silk_and_soul_points,
             donation_tool_pouch_requirements=donation_tool_pouch_requirements,
             room_node_overrides=room_node_overrides,
+            entrance_randomizer=entrance_randomizer,
         ).items()
         if (
             scuttlebrace_logic_enabled
@@ -7821,7 +7842,7 @@ def export_abstract_requirements(
         'Event: Last Judge Defeated': 'Boss: Last Judge',
         'Event: Widow Defeated': 'Boss: Widow',
         'Room Event: event:mapper/reviewed:phantom-defeated': 'Boss: Phantom',
-        'Room Event: event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59': 'Boss: Phantom',
+        'Room Event: event:mapper/1cd7e543-0d4b-4ece-9b48-48d57b8112b4': 'Boss: Phantom',
         'Event: Act 2 Started': 'Act: 2',
     }.items():
         if event in exported:

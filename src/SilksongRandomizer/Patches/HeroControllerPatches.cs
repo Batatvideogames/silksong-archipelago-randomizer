@@ -456,7 +456,7 @@ namespace SilksongRandomizer.Patches
                         HeroControllerAbilityPatchUtil.CState(__instance, "wallSliding")
                     ) &&
                     !HeroControllerAbilityPatchUtil.CState(__instance, "hazardDeath") &&
-                    (DirectionalAbilities.CanDash(state, __instance) || canUseEmergencySwiftStep);
+                    (DirectionalAbilities.CanDashPressed(state, __instance) || canUseEmergencySwiftStep);
 
                 return false;
             }

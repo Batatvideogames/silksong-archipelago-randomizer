@@ -673,14 +673,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if (self.is_ledgegrab_ability_rando_enabled()
                 and self.options.starting_location.current_key == 'vanilla'):
             self.options.starting_location.value = self.options.starting_location.option_bone_bottom
-        if self.get_starting_location_key() in ('songclave', 'slab') and self.is_act_one_content_scope():
-            name = 'Songclave' if self.get_starting_location_key() == 'songclave' else 'The Slab'
-            raise OptionError(f"{name} start requires an Act 2 or later goal.")
-        if (self.get_starting_location_key() == 'slab'
-                and self.get_category_mode('MajorKey') == 'anywhere'
-                and not any(inventory.value.get('Key of Indolent', 0) > 0
-                            for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool))):
-            self.options.start_inventory_from_pool.value['Key of Indolent'] = 1
+        if self.get_starting_location_key() == 'songclave' and self.is_act_one_content_scope():
+            raise OptionError("Songclave start requires an Act 2 or later goal.")
         self._vog_hint_plan = None
         if self.is_alphabet_mode_enabled():
             self.options.alphabet_mode.value = 1
@@ -1237,10 +1231,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             )
             effective_reward = self.create_item(effective_reward_name)
             location = self.multiworld.get_location(location_name, self.player)
-            if (location.address is None
-                    and location_name in self.get_logic_unknown_locations()
-                    and effective_reward.advancement):
-                effective_reward.classification = ItemClassification.useful
             location.place_locked_item(effective_reward)
 
         if (self.options.silk_soar_begone and self.get_content_scope() == "act_3"
@@ -1261,7 +1251,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     location_name,
                     category,
                 )
-                if mode == 'vanilla':
+                if mode == 'vanilla' and location_name not in self.get_logic_unknown_locations():
                     reward_name = get_vanilla_reward_name(
                         location_name,
                         category,
@@ -1589,6 +1579,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 )
                 else data.code
             )
+            if address is None and name in self.get_logic_unknown_locations():
+                continue
             anchor = None
             if (
                 name != "Goal"
@@ -2198,7 +2190,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
             world.build_vog_hint_plan()
 
     def fill_slot_data(self) -> dict[str, object]:
-        from .entrance_randomization import node_overrides as entrance_node_overrides, slot_entrances
+        from .entrance_randomization import (
+            enabled as entrances_enabled,
+            node_overrides as entrance_node_overrides,
+            slot_entrances,
+        )
         goal_key = self.get_goal_key()
         flea_hunt_count = self.get_flea_hunt_goal_count()
         category_modes = self.get_category_modes()
@@ -2346,6 +2342,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     if self.get_category_mode('PollipHeart') != 'vanilla'
                     else 0
                 ),
+                entrance_randomizer=entrances_enabled(self),
                 randomize_ledge_grab=(
                     self.is_ledgegrab_ability_rando_enabled()
                 ),
@@ -2419,6 +2416,12 @@ class SilksongWorld(CachedRuleBuilderWorld):
         export_enemy_souls(self, slot_data)
         from .silk_economy import export_world as export_silk_economy
         export_silk_economy(self, slot_data)
+        unknown = self.get_logic_unknown_locations()
+        for location in self.get_locations():
+            if location.address is not None and location.name in unknown:
+                slot_data["requirements"][location.name] = {
+                    "alternatives": [{"all_of": ["Victory"]}], "logic_unknown": True,
+                }
         return slot_data
 
     def modify_multidata(self, multidata: dict) -> None:

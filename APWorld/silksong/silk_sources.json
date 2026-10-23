@@ -379,8 +379,7 @@
     "act": 2,
     "nodes": [
       "high-halls/high-halls-flooded-room#left-exit-area",
-      "high-halls/high-halls-flooded-room#right-exit-area",
-      "high-halls/high-halls-flooded-room#relic-spot"
+      "high-halls/high-halls-flooded-room#right-exit-area"
     ],
     "exits": [
       "high-halls/high-halls-flooded-room@l",

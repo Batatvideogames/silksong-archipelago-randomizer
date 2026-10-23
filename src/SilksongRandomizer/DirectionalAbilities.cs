@@ -71,6 +71,14 @@ namespace SilksongRandomizer
             return Dash(state, right);
         }
 
+        internal static bool CanDashPressed(SaveState state, HeroController hero)
+        {
+            if (state.directionalClingGrip && hero.cState.wallSliding &&
+                HeroControllerAbilityPatchUtil.Call<bool>(hero, "CanWallScramble"))
+                return state.canDash && Dash(state, WallRight(hero));
+            return CanDash(state, hero);
+        }
+
         internal static bool CanSprint(SaveState state, HeroController hero) =>
             state.canSprint && Sprint(state, InputRight(hero));
 

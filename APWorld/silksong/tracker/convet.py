@@ -9,6 +9,12 @@ from location_positions import LOCATION_POSITIONS
 from wishes import CHECKS, TURN_INS
 
 
+NATIVE_CHECK_POSITIONS = frozenset({
+    'Relic: Weaver Effigy (Camora, Moss Grotto)',
+    'Bone Bottom - Rosary Dish',
+})
+
+
 def map_frame(room, image_path):
     # Song_20b's image covers the top 80 units of its 243-unit native scene.
     if room['in_game_id'] == 'Song_20b' and tuple(room[k] for k in
@@ -114,7 +120,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
 
     for room_id, label, name in (
             ('the-slab/slab-first-sinner', 'Boss: First Sinner', 'Journal: First Sinner'),
-            ('the-abyss/abyss-cocoon', 'Lost Lace Boss 1', 'Journal: Lost Lace')):
+            ('the-abyss/abyss-cocoon', 'Boss: Lost Lace', 'Journal: Lost Lace')):
         if name in expected:
             checks[room_id, label].append(name)
 
@@ -159,7 +165,8 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
                 else:
                     ignored[entry.get("location_type") or "untyped"] += 1
                 continue
-            location_names = [name for name in location_names if name not in CHECKS]
+            location_names = [name for name in location_names
+                              if name not in CHECKS and name not in NATIVE_CHECK_POSITIONS]
             if not location_names:
                 continue
             point = image_point(entry, room, width, height)

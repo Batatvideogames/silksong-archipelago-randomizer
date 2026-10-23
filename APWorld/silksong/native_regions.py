@@ -60,7 +60,7 @@ def native_rule_options(world) -> dict[str, object]:
 
 
 def get_native_abstract_requirements(world):
-    from .entrance_randomization import node_overrides
+    from .entrance_randomization import enabled as entrances_enabled, node_overrides
     from .enemy_souls import node_overrides as enemy_nodes
 
     requirements = dict(get_abstract_requirements(
@@ -97,6 +97,7 @@ def get_native_abstract_requirements(world):
         silk_and_soul_points=get_silk_and_soul_points(world.options),
         donation_tool_pouch_requirements=get_shell_shard_donation_tool_pouch_requirements(world.get_purchase_prices()),
         room_node_overrides=enemy_nodes(world, node_overrides(world)),
+        entrance_randomizer=entrances_enabled(world),
     ))
     from .game_modes import RESTING_SITES_VISITED, resting_site_requirements
     requirements[RESTING_SITES_VISITED] = resting_site_requirements(world._steel_soul_sites)

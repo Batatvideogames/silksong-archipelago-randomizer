@@ -1425,9 +1425,7 @@ def get_dynamic_trap_capacity(
 ) -> int:
     """Count filler entries that can be replaced by traps."""
 
-    return sum(
-        _is_replaceable_filler(entry.name)
-        for entry in build_item_pool_entries(
+    return len(_trap_eligible_indices(build_item_pool_entries(
             starting_crest_item,
             None,
             split_dash_and_sprint,
@@ -1455,8 +1453,11 @@ def get_dynamic_trap_capacity(
             silk_soar_begone=silk_soar_begone,
             directional_abilities=directional_abilities,
             soul_pool_entries=soul_pool_entries,
-        )
-    )
+        )))
+
+
+def _trap_eligible_indices(entries):
+    return [index for index, entry in enumerate(entries) if _is_replaceable_filler(entry.name)]
 
 
 def _replace_verdania_only_key_pool_entry(
@@ -1894,11 +1895,7 @@ def build_item_pool_entries(
         for trap_name in TRAP_ITEM_NAMES
         for _copy_index in range(configured_traps[trap_name])
     )
-    eligible_indices = [
-        index
-        for index, entry in enumerate(entries)
-        if _is_replaceable_filler(entry.name)
-    ]
+    eligible_indices = _trap_eligible_indices(entries)
     if trap_randomizer is not None:
         # Shuffle the complete filler pool so each entry has the configured
         # trap chance.

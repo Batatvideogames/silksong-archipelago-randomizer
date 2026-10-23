@@ -304,6 +304,8 @@ _ATOM_ALTERNATIVES: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     "macro:damage-skewering": (_part("Damage: Skewering"),),
     "macro:steel-soul-resting-sites": (_part("Event: Selected Steel Soul Resting Sites Visited"),),
     "macro:any-map": (_part("Capability: Has Any Map"),),
+    "state:entrance-randomizer-on": (_part("Option: Entrance Randomizer On"),),
+    "state:entrance-randomizer-off": (_part("Option: Entrance Randomizer Off"),),
     "state:steel-soul-on": (_part("Option: Steel Soul On"),),
     "state:steel-soul-off": (_part("Option: Steel Soul Off"),),
     "state:bellshrinesanity-on": (_part("Option: Bellshrinesanity On"),),

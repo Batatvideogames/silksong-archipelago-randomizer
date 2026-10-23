@@ -32,6 +32,13 @@ class TestInnateAbilityGraphRows(TestCase):
             state.collect(self.world.create_item(name), True)
         return rule(state)
 
+    def connection(self, room_id, source, target):
+        matches = [row for row in self.graph.room_by_id[room_id].connections
+                   if row.source_node_id == f"{room_id}#{source}"
+                   and row.target_node_id == f"{room_id}#{target}"]
+        self.assertEqual(len(matches), 1)
+        return matches[0]
+
     def test_station_climb_uses_innate_or_received_ledge_grab(self):
         row = self.graph.connection_by_id[
             "greymoor/greymoor-bellway#bellway-zone>upper-entrance@pg1"]
@@ -49,14 +56,15 @@ class TestInnateAbilityGraphRows(TestCase):
         self.assertTrue(self.permits(row, ("Swim",), randomize_swim=True))
 
     def test_west_bellshrine_sharpdart_keeps_its_dash_conjunction(self):
-        row = self.graph.transition_by_id["greymoor/greymoor-west-bellshrine-room@tl"]
-        clauses = row.requirement.dnf
-        self.assertIn(("capability:ledge-grab",), clauses)
-        sharpdart = [clause for clause in clauses if "item:sharpdart" in clause]
-        self.assertTrue(sharpdart)
-        self.assertTrue(all("macro:progressive-swift-step-first" in clause for clause in sharpdart))
-        self.assertIn(("mapper:enemy-pogo:none",), clauses)
-        self.assertNotIn((), clauses)
+        room_id = "greymoor/greymoor-west-bellshrine-room"
+        exit = self.graph.transition_by_id[room_id + "@tl"]
+        row = self.connection(room_id, "upper-path-left", exit.source_node_id.split("#")[1])
+        self.assertTrue(self.permits(row))
+        self.assertFalse(self.permits(row, randomize_ledge_grab=True))
+        self.assertFalse(self.permits(row, ("Sharpdart",), randomize_ledge_grab=True))
+        self.assertTrue(self.permits(row, ("Sharpdart", "Swift Step"), randomize_ledge_grab=True))
+        self.assertTrue(self.permits(row, ("Ledge Grab",), randomize_ledge_grab=True))
+        self.assertTrue(self.permits(exit, randomize_ledge_grab=True))
 
     def test_bellhart_climb_and_return_keep_separate_requirements(self):
         climb = self.graph.connection_by_id["bellhart/bellhart-lower#hermit>top-exit@pl"]
@@ -65,19 +73,28 @@ class TestInnateAbilityGraphRows(TestCase):
         self.assertTrue(self.permits(climb, ("Ledge Grab",), randomize_ledge_grab=True))
         self.assertTrue(self.permits(fall, randomize_ledge_grab=True))
 
-    def test_halfway_path_keeps_directional_requirements(self):
-        forward = self.graph.connection_by_id[
-            "greymoor/greymoor-upper-halfway-home-path#left-section>right-section@tp"]
-        reverse = self.graph.connection_by_id[
-            "greymoor/greymoor-upper-halfway-home-path#right-section>left-section@tp"]
-        for row in (forward, reverse):
+    def test_halfway_water_path_uses_innate_or_received_swim(self):
+        room_id = "greymoor/greymoor-upper-halfway-home-path"
+        for source, target in (("left-section", "right-section"), ("right-section", "left-section")):
+            row = self.connection(room_id, source, target)
             self.assertTrue(self.permits(row))
             self.assertFalse(self.permits(row, randomize_swim=True))
             self.assertTrue(self.permits(row, ("Swim",), randomize_swim=True))
-            self.assertTrue(self.permits(row, ("Faydown Cloak",), randomize_swim=True))
-        options = dict(randomize_swim=True, flea_brew_jump_logic=True)
+            self.assertFalse(self.permits(row, ("Faydown Cloak",), randomize_swim=True))
+
+    def test_halfway_platform_path_keeps_directional_requirements(self):
+        room_id = "greymoor/greymoor-upper-halfway-home-path"
+        forward = self.connection(room_id, "long-platform", "short-platform")
+        reverse = self.connection(room_id, "short-platform", "long-platform")
+        self.assertFalse(self.permits(forward))
+        self.assertTrue(self.permits(reverse))
+        for row in (forward, reverse):
+            self.assertFalse(self.permits(row, randomize_ledge_grab=True))
+            self.assertTrue(self.permits(row, ("Faydown Cloak",), randomize_ledge_grab=True))
+        options = dict(flea_brew_jump_logic=True)
         self.assertTrue(self.permits(forward, ("Flea Brew",), **options))
-        self.assertFalse(self.permits(reverse, ("Flea Brew",), **options))
+        self.assertFalse(self.permits(forward, ("Flea Brew",), randomize_ledge_grab=True, **options))
+        self.assertFalse(self.permits(reverse, ("Flea Brew",), randomize_ledge_grab=True, **options))
 
     def test_throwing_ring_traversal_still_requires_swim_and_climbing(self):
         row = self.graph.connection_by_id[

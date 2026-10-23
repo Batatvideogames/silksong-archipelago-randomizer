@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from Options import (
-    Accessibility,
+    ItemsAccessibility as SilksongAccessibility,
     Choice,
     FreeText,
     OptionGroup,
@@ -803,19 +803,6 @@ def get_aggregate_minor_mode_key(options) -> str:
     return "anywhere" if "anywhere" in modes else "vanilla"
 
 
-class SilksongAccessibility(Accessibility):
-    """
-    Set rules for reachability of your items/locations.
-
-    **Full:** ensure everything can be reached and acquired.
-
-    **Minimal:** ensure what is needed to reach your goal can be acquired.
-    """
-
-    display_name = "Accessibility"
-    default = Accessibility.option_full
-
-
 class Goal(Choice):
     """
     Act 1-3 require beating the chosen act, Cursed Ending is self
@@ -862,9 +849,8 @@ class StartingLocation(Choice):
     Choose your starting location and F4 destination. Alternate starts have a checkpoint immediately.
     Bone Bottom's F4 warp unlocks after visiting.
 
-    Songclave and The Slab require an Act 2 or later goal.
+    Songclave requires an Act 2 or later goal.
     Randomized Ledge Grab replaces Vanilla with Bone Bottom.
-    The Slab starts with its entrance gate open and Key of Indolent if Major Keys are randomized.
     """
 
     display_name = "Starting Location"
@@ -872,7 +858,6 @@ class StartingLocation(Choice):
     option_bone_bottom = 1
     option_bellhart = 2
     option_songclave = 4
-    option_slab = 5
     option_wormways = 6
     option_pilgrims_rest = 7
     option_deep_docks = 8

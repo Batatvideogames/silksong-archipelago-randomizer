@@ -757,6 +757,23 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(FastTravelMapButtonBase<FastTravelLocations>), "IsUnlocked")]
+        private static class BoneBottomFastTravelUnlockPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(FastTravelLocations ___targetLocation, ref bool __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (!__result || state?.IsRoomBound != true ||
+                    ___targetLocation != FastTravelLocations.Bonetown ||
+                    !StartingLocationManager.RequiresBoneBottomVisit(state.startingLocation))
+                    return;
+
+                string station = FastTravelScenes.GetSceneName(FastTravelLocations.Bonetown);
+                __result = PlayerData.instance?.scenesVisited?.Contains(station) == true;
+            }
+        }
+
         [HarmonyPatch]
         private static class FastTravelMapButtonBase_IsUnlocked_Patch
         {
@@ -838,7 +855,6 @@ namespace SilksongRandomizer.Patches
                 // Randomized-station access opens the network before the Bell
                 // Beast but The Marrow is the boss's own arrival endpoint. Only
                 // that endpoint stays hidden until the physical fight is complete.
-                // Bone Bottom remains available.
                 if (___targetLocation == FastTravelLocations.Bone &&
                     !playerData.defeatedBellBeast)
                 {

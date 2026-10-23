@@ -146,7 +146,7 @@ class TestDefaultWorld(SilksongTestBase):
         )
         self.assertTrue(
             self.multiworld.get_location(
-                "Shellwood - Pollip Heart #3",
+                'Pollip Heart Cling Grip Room',
                 self.player,
             ).can_reach(state)
         )
@@ -303,30 +303,30 @@ class TestDefaultWorld(SilksongTestBase):
         )
         self.assertTrue(self.world.get_location("Silk Soar").can_reach(state))
 
-    def test_logic_unknown_locations_unlock_after_victory(self) -> None:
+    def test_logic_unknown_locations_wait_for_victory(self) -> None:
+        unknown = self.world.get_logic_unknown_locations()
         locations = [
             location
             for location in self.multiworld.get_locations(self.player)
-            if location.name in LOGIC_UNKNOWN_LOCATIONS
+            if location.name in unknown
         ]
 
         self.assertTrue(locations)
-        self.assertTrue(
-            all(
-                location.parent_region.name == LOGIC_UNKNOWN_REGION_NAME
-                for location in locations
-            )
-        )
+        state = self.multiworld.get_all_state(False)
+        state.remove(self.world.create_event("Victory"))
+        for location in locations:
+            self.assertIsNotNone(location.address)
+            self.assertEqual(location.progress_type, LocationProgressType.EXCLUDED)
+            self.assertFalse(location.can_reach(state))
+            for item in self.multiworld.itempool:
+                if item.advancement or item.useful:
+                    self.assertFalse(location.can_fill(state, item, check_access=False))
 
-        state = CollectionState(self.multiworld)
-        self.assertTrue(
-            all(not location.can_reach(state) for location in locations)
-        )
-
+        self.assertFalse(state.can_reach_region(LOGIC_UNKNOWN_REGION_NAME, self.player))
         state.collect(self.world.create_event("Victory"))
-        self.assertTrue(
-            all(location.can_reach(state) for location in locations)
-        )
+        self.assertTrue(state.can_reach_region(LOGIC_UNKNOWN_REGION_NAME, self.player))
+        for location in locations:
+            self.assertTrue(location.can_reach(state))
 
     def test_reviewed_mapper_checks_replace_weak_fallbacks(self) -> None:
         for name in (
@@ -439,8 +439,12 @@ class TestDefaultWorld(SilksongTestBase):
                     self.multiworld.get_location(name, self.player)
 
         self.assertEqual(sum(QUEST_FILLER_COUNTS.values()), 24)
-        self.assertEqual(len(QUEST_LOCATION_NAMES), 35)
-        self.assertEqual(len(location_name_groups['Wishes']), 51)
+        quests = set(QUEST_LOCATION_NAMES)
+        wishes = location_name_groups['Wishes']
+        self.assertEqual(len(quests), len(QUEST_LOCATION_NAMES))
+        self.assertLessEqual(quests, location_data_table.keys())
+        self.assertLessEqual(quests - WISH_REWARD_LOCATION_BY_COMPLETION.keys(), wishes)
+        self.assertLessEqual(wishes, location_data_table.keys())
         self.assertNotIn('Quest', location_name_groups)
         self.assertNotIn('Quests', location_name_groups)
         self.assertFalse(location_name_groups['Wishes'] & WISH_REWARD_LOCATION_BY_COMPLETION.keys())
@@ -658,9 +662,8 @@ class TestCrestSlotPostFillPerformance(TestCase):
         initial_state.count.return_value = 0
         candidate_state = mock.Mock()
         candidate_state.count.side_effect = lambda name, player: int(
-            name == progression_item.name and player == progression_item.player
+            name == "Memory Locket" and player == world.player
         )
-        initial_state.copy.return_value = candidate_state
         world_module = importlib.import_module(SilksongWorld.__module__)
 
         def swap_items(first, second):
@@ -672,10 +675,11 @@ class TestCrestSlotPostFillPerformance(TestCase):
                 "get_crest_slot_memory_locket_count",
                 return_value=1,
             ),
-            mock.patch(
-                "Fill.sweep_from_pool",
+            mock.patch.object(
+                SilksongWorld,
+                "_build_crest_slot_budget_state",
                 return_value=candidate_state,
-            ) as sweep_from_pool,
+            ) as build_budget_state,
             mock.patch(
                 "Fill.swap_location_item",
                 side_effect=swap_items,
@@ -690,7 +694,7 @@ class TestCrestSlotPostFillPerformance(TestCase):
 
         self.assertIs(result, candidate_state)
         self.assertEqual(slot.item.name, "Filler A")
-        self.assertEqual(sweep_from_pool.call_count, 1)
+        build_budget_state.assert_called_once_with(multiworld, {slot}, initial_state)
 
 
 class TestVogHintPerformance(TestCase):
@@ -1332,7 +1336,7 @@ class TestShellwoodMovementBoundary(TestCase):
             multiworld.get_location("Boss: Sister Splinter", 1).parent_region.can_reach(state)
         )
         self.assertTrue(
-            multiworld.get_location("Shellwood - Mask Shard", 1).can_reach(state)
+            multiworld.get_location('Mask Shard: Shellwood', 1).can_reach(state)
         )
 
     def test_full_swift_does_not_make_upper_bellhart_jump(self) -> None:

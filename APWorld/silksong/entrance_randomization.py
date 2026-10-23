@@ -218,10 +218,11 @@ def _node_overrides(pairs, scope_name='full', content_scope='act_3', enemy_speci
             target = POOL[destinations.get(source, data['vanilla'])]
             requirements = exit_clauses(data, ports, silk_costs=silk)
             _append_requirements(clauses, endpoint_name(target, ports), requirements)
-    return {
+    result = {
         name: tuple(dict.fromkeys(_compiled_room_clause_requirement(clause) for clause in alternatives))
         for name, alternatives in clauses.items()
     }
+    return result
 
 
 def node_overrides(world, connected=False):
