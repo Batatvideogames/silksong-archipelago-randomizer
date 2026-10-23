@@ -229,7 +229,7 @@ namespace SilksongRandomizer
                 )
             ),
             new Entry(
-                "Sands of Karak - Upper Coral Tablet",
+                "Sands of Karak - Lower Coral Tablet",
                 "Coral_25",
                 129.485153f,
                 85.096017f,
@@ -257,7 +257,7 @@ namespace SilksongRandomizer
                 )
             ),
             new Entry(
-                "Sands of Karak - Lower Coral Tablet",
+                "Sands of Karak - Upper Coral Tablet",
                 "Coral_Tower_01",
                 24.66f,
                 5.85f,

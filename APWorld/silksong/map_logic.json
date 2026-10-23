@@ -251570,7 +251570,52 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: sands-of-karak/coral-tower#entrance"
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Cling Grip",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Cling Grip",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Cling Grip",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Cling Grip",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Cling Grip",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak"
             ]
           }
         ]
@@ -251792,52 +251837,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Cling Grip",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Cling Grip",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Cling Grip",
-              "Drifter's Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Cling Grip",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Cling Grip",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sands-of-karak/sands-of-karak-entrance#top",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Faydown Cloak"
+              "Room Node: sands-of-karak/coral-tower#entrance"
             ]
           }
         ]

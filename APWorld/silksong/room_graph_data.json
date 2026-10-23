@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "e1183b93f3faacd1fecbd65278b7cb6e5adca81284459e4f707bd737fa381902",
     "catalogue_sha256": "e7695159d95fe3517a1c21d55d76190db968d18be4690ae97800cfeeeff9d67d",
-    "bindings_sha256": "115c7f9d62acf0ecbe41facb9e1a6a81485fd40a64f7e491d00d22bb518b6474"
+    "bindings_sha256": "05187110ffcb4676500de57c77869c7e3f7361c9fdd9d81ce4171af745797569"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -248972,7 +248972,7 @@
           "unresolved_reasons": [],
           "label": "Sands of Karak - Lower Coral Tablet",
           "node_id": "sands-of-karak/coral-tower#entrance",
-          "canonical_location": "Sands of Karak - Lower Coral Tablet",
+          "canonical_location": "Sands of Karak - Upper Coral Tablet",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -250614,7 +250614,7 @@
           "unresolved_reasons": [],
           "label": "Sands of Karak - Upper Coral Tablet",
           "node_id": "sands-of-karak/sands-of-karak-entrance#top",
-          "canonical_location": "Sands of Karak - Upper Coral Tablet",
+          "canonical_location": "Sands of Karak - Lower Coral Tablet",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }

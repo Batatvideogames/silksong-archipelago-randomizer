@@ -30359,10 +30359,10 @@
     ]
    },
    {
-    "name": "Sands of Karak - Lower Coral Tablet",
+    "name": "Sands of Karak - Upper Coral Tablet",
     "sections": [
      {
-      "name": "Sands of Karak - Lower Coral Tablet"
+      "name": "Sands of Karak - Upper Coral Tablet"
      }
     ],
     "map_locations": [
@@ -30609,10 +30609,10 @@
   "name": "Sands of Karak Entrance",
   "children": [
    {
-    "name": "Sands of Karak - Upper Coral Tablet",
+    "name": "Sands of Karak - Lower Coral Tablet",
     "sections": [
      {
-      "name": "Sands of Karak - Upper Coral Tablet"
+      "name": "Sands of Karak - Lower Coral Tablet"
      }
     ],
     "map_locations": [
