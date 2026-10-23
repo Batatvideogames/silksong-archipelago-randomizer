@@ -1471,8 +1471,48 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.explicit_indirect_conditions = False
 
     def explain_path(self, entrance, state):
-        from .native_regions import explain_path
-        return explain_path(entrance, state)
+        from rule_builder.rules import Or
+        label = getattr(entrance, "display_name", None)
+        if isinstance(entrance.access_rule, Or.Resolved):
+            j_return: list = [{"type":"color","color":"blue","text": (label if label is not None else entrance.name)}]
+            for child in entrance.access_rule.children:
+                j_return.append({"type":"text","text":"\n"})
+                if child(state):
+                    j_return.append({"type":"color","text":"TRUE","color":"green"})
+                else:
+                    j_return.append({"type":"color","text":"FALSE","color":"red"})
+                j_return.append({"type":"text","text":": "})
+                j_return.extend(child.explain_json(state))
+            return j_return
+        elif label is None:
+            return [] # Default behaviour
+        result = [{'type': 'color', 'color': 'blue', 'text': label}]
+        if hasattr(entrance.access_rule, 'explain_json'):
+            result.append({'type': 'text', 'text': ':\n    '})
+            result.extend(entrance.access_rule.explain_json(state))
+        return result
+    
+    def explain_spot(self, location, state):
+        from rule_builder.rules import Or
+        label = getattr(location, "display_name", None)
+        if isinstance(location.access_rule, Or.Resolved):
+            j_return: list = [{"type":"color","color":"green","text": (label if label is not None else location.name)}]
+            for child in location.access_rule.children:
+                j_return.append({"type":"text","text":"\n"})
+                if child(state):
+                    j_return.append({"type":"color","text":"TRUE","color":"green"})
+                else:
+                    j_return.append({"type":"color","text":"FALSE","color":"red"})
+                j_return.append({"type":"text","text":": "})
+                j_return.extend(child.explain_json(state))
+            return j_return
+        elif label is None:
+            return [] # Default behaviour
+        result = [{'type': 'color', 'color': 'green', 'text': label}]
+        if hasattr(location.access_rule, 'explain_json'):
+            result.append({'type': 'text', 'text': ':\n    '})
+            result.extend(location.access_rule.explain_json(state))
+        return result
 
     def create_regions(self) -> None:
         from .progression_shuffle import world_location_requirements

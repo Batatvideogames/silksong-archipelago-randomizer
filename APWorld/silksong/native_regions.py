@@ -364,14 +364,3 @@ def _room_node_labels():
 
 def region_label(name):
     return _room_node_labels().get(name, native_region_name(name))
-
-
-def explain_path(entrance, state):
-    label = getattr(entrance, 'display_name', None)
-    if label is None:
-        return []
-    result = [{'type': 'color', 'color': 'blue', 'text': label}]
-    if hasattr(entrance.access_rule, 'explain_json'):
-        result.append({'type': 'text', 'text': ':\n    '})
-        result.extend(entrance.access_rule.explain_json(state))
-    return result
