@@ -418,7 +418,6 @@ _quest_item_clauses = {
     )),),
     'Pollen Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Nyleth'],
     "Hunter's Heart": COMPILED_ROOM_GRAPH.check_requirements['Boss: Skarrsinger Karmelita'],
-    'Encrusted Heart': COMPILED_ROOM_GRAPH.check_requirements['Boss: Crust King Khann'],
 }
 _quest_item_nodes = {
     'Loddie - Heavy Rosary Necklace': 'the-marrow/the-marrow-jail#ground-floor',
@@ -427,7 +426,6 @@ _quest_item_nodes = {
     'Seeker Soul': 'bilewater/bilewater-arena-shack#room',
     'Pollen Heart': 'grand-gate/nyleth-fight#room',
     "Hunter's Heart": 'far-fields/memory-karmelita#arena',
-    'Encrusted Heart': 'sands-of-karak/coral-tower#main',
 }
 COMPILED_ROOM_GRAPH = replace(
     COMPILED_ROOM_GRAPH,

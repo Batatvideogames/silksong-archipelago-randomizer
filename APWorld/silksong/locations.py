@@ -66,7 +66,7 @@ def _location_first_display_name(location_name: str) -> str:
         prefix = f'{item_label}: '
         if location_name.startswith(prefix):
             return location_first_name(location_name)
-    return clean_location_display_name(location_name)
+    return location_name
 
 
 def get_item_first_location_name(location_name: str) -> str:

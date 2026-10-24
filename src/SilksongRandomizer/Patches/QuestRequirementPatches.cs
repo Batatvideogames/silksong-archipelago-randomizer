@@ -26,6 +26,26 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
+        private static class JubilanaShopDeparturePatch
+        {
+            private static bool Prefix(TestGameObjectActivator __instance, GameObject ___deactivateGameObject,
+                QuestTest[] ___questTests)
+            {
+                if (SaveState.Instance?.IsRoomBound != true ||
+                    __instance.gameObject.scene.name != "Song_Enclave" ||
+                    ___deactivateGameObject != __instance.gameObject || ___questTests?.Length != 1)
+                    return true;
+                QuestTest test = ___questTests[0];
+                if (test.Quest?.name != "Save City Merchant Bridge" ||
+                    !test.CheckAvailable || !test.IsAvailable || !test.CheckCompleted || test.IsCompleted)
+                    return true;
+                string path = Utils.GetHierarchyPath(__instance.transform);
+                return path != "Black Thread States/Normal World/Enclave States/States/Level 1/City Merchant Enclave" &&
+                    path != "Black Thread States/Black Thread World/City Merchant Enclave";
+            }
+        }
+
         private static void RequireFourthChorus(ref PlayerDataTest test)
         {
             if (test != null && test.TestGroups.Length == 0)

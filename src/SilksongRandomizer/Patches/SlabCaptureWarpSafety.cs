@@ -111,6 +111,12 @@ namespace SilksongRandomizer.Patches
                     playerData,
                     acceptAnySeatedBench))
             {
+                // The native save fixup can restore the crest without returning the money.
+                if (playerData != null && SaveState.Instance?.slabCaptureCurrencyStored == true)
+                {
+                    CurrencyManager.RestoreTempStoredCurrency();
+                    playerData.cloakOdour_slabFly = NativeRestoredCloakOdour;
+                }
                 return true;
             }
 
@@ -211,6 +217,7 @@ namespace SilksongRandomizer.Patches
         {
             return HasSlabCaptureCrestSignature(playerData) &&
                    (IsSlabCaptureContext(playerData) ||
+                    SaveState.Instance?.slabCaptureCurrencyStored == true ||
                     (acceptAnySeatedBench && playerData.atBench));
         }
 
@@ -265,6 +272,25 @@ namespace SilksongRandomizer.Patches
             // End temporary randomizer crest ownership first so the saved
             // return crest is always the player's genuine pre-capture crest.
             return TrapManager.PrepareForNativeSlabCapture();
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(bool __runOriginal)
+        {
+            SaveState state = SaveState.Instance;
+            if (__runOriginal && state?.IsRoomBound == true)
+                state.slabCaptureCurrencyStored = true;
+        }
+    }
+
+    [HarmonyPatch(typeof(CurrencyManager), nameof(CurrencyManager.RestoreTempStoredCurrency))]
+    internal static class SlabCaptureCurrencyRestorePatch
+    {
+        [HarmonyPostfix]
+        private static void Postfix(bool __runOriginal)
+        {
+            if (__runOriginal && SaveState.Instance != null)
+                SaveState.Instance.slabCaptureCurrencyStored = false;
         }
     }
 

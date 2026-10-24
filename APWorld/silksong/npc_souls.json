@@ -1814,6 +1814,7 @@
   },
   {
     "name": "Sula",
+    "game_mode": "steel_soul",
     "actors": [
       {
         "scene": "bone_steel_servant",
@@ -2010,7 +2011,7 @@
       "Room Event: event:mapper/2556f3de-c939-45d2-b25c-8b04d58eefbf",
       "Room Event: event:mapper/24e930a4-a9be-4227-8e8f-ba0338e80adb",
       "Room Event: event:mapper/80d7efe3-7652-4145-8776-16b218d05810",
-      "Room Event: event:mapper/eef2f48b-55f9-406d-b2cb-8283f396b7f1",
+      "Room Event: event:mapper/f26ac1cf-070c-4e05-84ee-df3df6c94277",
       "Room Event: event:mapper/7b7c6c0e-9ca1-49f1-9ec1-a578182f089a",
       "Room Event: event:mapper/reviewed:garmond-act-three-encounter-sinners-road",
       "Room Event: event:mapper/190e2efd-95c9-431d-b742-26294a5e2802",
@@ -2136,7 +2137,7 @@
       "Room Event: event:mapper/2556f3de-c939-45d2-b25c-8b04d58eefbf",
       "Room Event: event:mapper/24e930a4-a9be-4227-8e8f-ba0338e80adb",
       "Room Event: event:mapper/80d7efe3-7652-4145-8776-16b218d05810",
-      "Room Event: event:mapper/eef2f48b-55f9-406d-b2cb-8283f396b7f1",
+      "Room Event: event:mapper/f26ac1cf-070c-4e05-84ee-df3df6c94277",
       "Room Event: event:mapper/7b7c6c0e-9ca1-49f1-9ec1-a578182f089a",
       "Room Event: event:mapper/reviewed:garmond-act-three-encounter-sinners-road",
       "Room Event: event:mapper/190e2efd-95c9-431d-b742-26294a5e2802",

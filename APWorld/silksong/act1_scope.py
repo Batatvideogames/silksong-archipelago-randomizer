@@ -5,11 +5,13 @@ from __future__ import annotations
 from typing import Mapping
 
 from .eva import EVA_CREST_SLOTS, EVA_REWARDS
-from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION, canonicalize_location_name
+from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION, LOCATION_NAMES_BY_CATEGORY
 from .requirements import (
     COMPILED_ROOM_GRAPH,
     _ESTABLISHED_REQUIREMENTS_BY_LOCATION,
 )
+
+from .items import get_vanilla_reward_name
 
 
 ACT_ONE_GOAL_KEY = "act_1"
@@ -60,11 +62,17 @@ _POST_ACT_ONE_SOURCE_LOCATION_NAMES = frozenset(
     )
 ) | _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES
 
+_POST_ACT_ONE_RELIC_ITEMS = frozenset(
+    get_vanilla_reward_name(name, "Relic")
+    for name in LOCATION_NAMES_BY_CATEGORY["Relic"]
+    if name in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
+)
+
 _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES = frozenset(
     turn_in_location
     for turn_in_location, relic_item in
     INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
-    if canonicalize_location_name(relic_item) in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
+    if relic_item in _POST_ACT_ONE_RELIC_ITEMS
 )
 
 _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(

@@ -2651,17 +2651,17 @@
   "x": 1.0,
   "y": 0.782609
  },
- "blasted-steps/windy-pinstress-entrance@r": {
-  "scene": "Coral_34",
-  "gate": "right1",
-  "x": 1.0,
-  "y": 0.096386
- },
  "blasted-steps/windy-pinstress-entrance@c": {
   "scene": "Coral_34",
   "gate": "door1",
   "x": 0.563063,
   "y": 0.313253
+ },
+ "blasted-steps/windy-pinstress-entrance@r": {
+  "scene": "Coral_34",
+  "gate": "right1",
+  "x": 1.0,
+  "y": 0.096386
  },
  "blasted-steps/windy-pinstress-entrance@t": {
   "scene": "Coral_34",
@@ -2709,7 +2709,7 @@
   "scene": "Shellwood_11b",
   "gate": "right1",
   "x": 0.983333,
-  "y": 0.321429
+  "y": 0.888235
  },
  "sinner-s-road/sinner-s-road-bench@r": {
   "scene": "Dust_10",
@@ -3268,6 +3268,24 @@
   "gate": "bot1",
   "x": 0.365079,
   "y": 0.053571
+ },
+ "choral-chambers/rotating-tunnel@t": {
+  "scene": "Song_20b",
+  "gate": "top1",
+  "x": 0.12,
+  "y": 1.0
+ },
+ "choral-chambers/rotating-tunnel@r1": {
+  "scene": "Song_20b",
+  "gate": "right2",
+  "x": 1.0,
+  "y": 0.825
+ },
+ "choral-chambers/rotating-tunnel@rh": {
+  "scene": "Song_20b",
+  "gate": "right3",
+  "x": 1.0,
+  "y": 0.3375
  },
  "cogwork-core/cog-dancers@r": {
   "scene": "Cog_Dancers",
@@ -5012,26 +5030,26 @@
  "the-cradle/act3-connection-to-gms@f": {
   "scene": "Cradle_01_Destroyed",
   "gate": "bot1",
-  "x": 0.226415,
-  "y": 0.02439
+  "x": 0.4875,
+  "y": 0.550562
  },
  "the-cradle/act3-connection-to-gms@c": {
   "scene": "Cradle_01_Destroyed",
   "gate": "top1",
-  "x": 0.349057,
+  "x": 0.56875,
   "y": 1.0
  },
  "the-cradle/act3-gms-arena@f": {
   "scene": "Cradle_03_Destroyed",
   "gate": "bot1",
-  "x": 0.547945,
-  "y": 0.003546
+  "x": 0.5875,
+  "y": 0.260526
  },
  "the-cradle/act3-gms-arena@d": {
   "scene": "Cradle_03_Destroyed",
   "gate": "door1",
-  "x": 0.532055,
-  "y": 0.88523
+  "x": 0.573,
+  "y": 0.914829
  },
  "the-cradle/act3-lace2-arena@c": {
   "scene": "Song_Tower_Destroyed",
@@ -5043,13 +5061,13 @@
   "scene": "Cradle_03",
   "gate": "left2",
   "x": 0.0,
-  "y": 0.045045
+  "y": 0.3375
  },
  "the-cradle/act2-cradle-connector-hallway@l": {
   "scene": "Cradle_01",
   "gate": "left1",
   "x": 0.0,
-  "y": 0.3
+  "y": 0.794118
  },
  "the-cradle/act2-cradle-left-shaft@ur": {
   "scene": "Cradle_02",

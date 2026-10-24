@@ -2478,7 +2478,7 @@
   "location_border_thickness": 2
  },
  {
-  "name": "Memorium bench",
+  "name": "Memorium Bench",
   "img": "01-geometry/c837412d-1e99-49f8-8833-c3677803abcd.webp",
   "location_size": 14,
   "location_border_thickness": 2
@@ -2496,7 +2496,7 @@
   "location_border_thickness": 3
  },
  {
-  "name": "Memorium puzzle",
+  "name": "Memorium Puzzle",
   "img": "01-geometry/e6a36e12-4434-450d-a154-b295dc80ad1d.webp",
   "location_size": 14,
   "location_border_thickness": 2
@@ -2526,7 +2526,7 @@
   "location_border_thickness": 3
  },
  {
-  "name": "Memorium water room",
+  "name": "Memorium Water Room",
   "img": "01-geometry/d7eb652c-1764-41c0-9dda-98574eeb8896.webp",
   "location_size": 18,
   "location_border_thickness": 3
@@ -2978,8 +2978,8 @@
  {
   "name": "ACT3 Lace2 Arena",
   "img": "01-geometry/2a69b6e3-d53a-4824-b990-76b434052004.webp",
-  "location_size": 8,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "ACT2 GMS Arena",

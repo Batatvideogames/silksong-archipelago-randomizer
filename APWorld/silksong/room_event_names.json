@@ -4746,14 +4746,6 @@
     "locations": [],
     "mapper_kind": "event"
   },
-  "event:mapper/8c0065eb-b884-480e-9367-a2d02630a292": {
-    "name": "Blasted Steps - Beast Shard",
-    "kind": "collectible",
-    "locations": [
-      "Blasted Steps - Beast Shard"
-    ],
-    "mapper_kind": "collectible"
-  },
   "event:mapper/6b9b1949-1199-4ef8-8401-b0a3b30ca94d": {
     "name": "Blasted Steps - Shell Shard Cache #4",
     "kind": "collectible",
@@ -4843,12 +4835,6 @@
     "kind": "switch",
     "locations": [],
     "mapper_kind": "switch"
-  },
-  "event:mapper/eef2f48b-55f9-406d-b2cb-8283f396b7f1": {
-    "name": "Blasted Steps Toll Bench Bottom - Garmond and Zaza Act 3 Meeting Blasted Steps",
-    "kind": "event",
-    "locations": [],
-    "mapper_kind": "event"
   },
   "event:mapper/3f9f9d89-60e5-4a8b-a405-a167a161b4ae": {
     "name": "Blasted Steps - Frayed Rosary String",
@@ -4971,12 +4957,6 @@
     "kind": "event",
     "locations": [],
     "mapper_kind": "event"
-  },
-  "event:mapper/cfffc3d1-8691-4424-9304-a9381eb08c37": {
-    "name": "Lumble the Lucky - Lost Garmond Boss Fight",
-    "kind": "enemy",
-    "locations": [],
-    "mapper_kind": "enemy"
   },
   "event:mapper/ce4da52d-b73b-4ecf-8bed-7dbd973d9ed1": {
     "name": "Lumble the Lucky - Hero's Call Wish Granted",
@@ -8850,21 +8830,142 @@
   "event:mapper/f5340693-d3db-4c9d-925f-90bbf31a75d2": {
     "name": "Whiteward Entrance - Switch Entrance Left",
     "kind": "switch",
-    "locations": []
+    "locations": [],
+    "mapper_kind": "switch"
   },
   "event:mapper/ce23c303-3602-4ac1-af9e-7f730bc0c4d9": {
     "name": "Whiteward Entrance - Switch Entrance Right",
     "kind": "switch",
-    "locations": []
+    "locations": [],
+    "mapper_kind": "switch"
   },
   "event:mapper/reviewed:ballow-bell-ready": {
     "name": "Deep Docks Diving Bell - Ballow Ready",
     "kind": "event",
-    "locations": []
+    "locations": [],
+    "mapper_kind": "event"
   },
   "event:mapper/85bf2cd6-7d11-4efa-bf83-9fb130389712": {
     "name": "Whiteward Entrance - Entrance Randomizer Bottom Third Left Access",
     "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/02d118b2-41de-454f-bf36-d51588ef076b": {
+    "name": "Encrusted Heart",
+    "kind": "collectible",
+    "locations": [
+      "Encrusted Heart"
+    ]
+  },
+  "event:mapper/5cd1f85e-5c80-4045-b722-7a53b00e128c": {
+    "name": "Boss: Crust King Khann",
+    "kind": "boss",
+    "locations": [
+      "Boss: Crust King Khann"
+    ]
+  },
+  "event:mapper/3f3aa729-863e-4e11-b3b4-4e9f29026181": {
+    "name": "Path of Pain Bench - path of pain wall",
+    "kind": "blockade",
     "locations": []
+  },
+  "event:mapper/cac93eb2-6bac-4da5-a0f8-a0ab79f1e9a5": {
+    "name": "Blasted Steps - Beast Shard",
+    "kind": "collectible",
+    "locations": [
+      "Blasted Steps - Beast Shard"
+    ],
+    "mapper_kind": "collectible"
+  },
+  "event:mapper/a2f74a00-7c83-43bf-baee-e05f215c8366": {
+    "name": "Lumble the Lucky - Lost Garmond Boss Fight",
+    "kind": "boss",
+    "locations": [],
+    "mapper_kind": "boss"
+  },
+  "event:mapper/fa140236-ea8c-43a1-9ce9-9ccb6ac6da26": {
+    "name": "Blasted Steps Toll Bench Bottom - Bench",
+    "kind": "bench",
+    "locations": [],
+    "mapper_kind": "bench"
+  },
+  "event:mapper/5f4786ca-0c33-4ec4-a26f-8a8ec1ad6000": {
+    "name": "Blasted Steps Toll Bench Bottom - Bench Rosary Lock",
+    "kind": "lock",
+    "locations": [],
+    "mapper_kind": "lock"
+  },
+  "event:mapper/f26ac1cf-070c-4e05-84ee-df3df6c94277": {
+    "name": "Blasted Steps - Garmond Act 3 Encounter",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#broken-cage": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Broken Cage",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#pharlid-3": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Pharlid 3",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#pharlid-1": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Pharlid 1",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#bottom-left": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Bottom Left",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#bottom-right": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Bottom Right",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#pharlid-4": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Pharlid 4",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#pharlid-2": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Pharlid 2",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#middle-left": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Middle Left",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#middle-right": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Middle Right",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#lever": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Lever",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/reviewed:visit-blasted-steps:blasted-steps/blasted-steps-wide-long-vertical#upper": {
+    "name": "Blasted Steps Wide Long Vertical - Visit Blasted Steps:Blasted Steps/Blasted Steps Wide Long Vertical#Upper",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
   }
 }

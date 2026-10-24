@@ -23,11 +23,28 @@ STYX_EVENTS = frozenset((
     'Room Event: event:mapper/reviewed:courier-queens-egg-delivered',
 ))
 COMBAT_BATTLES = {
+    requirement_name('gauntlet:lost-verdania-center'): ('clover_04b', 'Battle Scene'),
     requirement_name('gauntlet:hunter-s-march-east'): ('ant_05b', 'Black Thread States Thread Only Variant/Normal World/Battle Scene'),
     requirement_name('gauntlet:halfway-home'): ('ant_08', 'Battle Scene'),
     requirement_name('gauntlet:black-threaded-skarrgard'): ('bone_east_25', 'Battle Scene'),
     requirement_name('gauntlet:whispering-vaults-entrance'): ('library_02', 'GameObject/Battle Scene Control/Battle Scene'),
     requirement_name('gauntlet:whispering-vaults-entrance-2'): ('library_02', 'GameObject/Battle Scene Control/Battle Scene Acolyte'),
+    requirement_name('gauntlet:deep-docks-southeast'): ('dock_03c', 'Battle Scene'),
+    requirement_name('gauntlet:hunter-s-march-center-2'): ('ant_04_mid', 'Black Thread States Thread Only Variant/Black Thread World/Battle Scene Black Thread'),
+    requirement_name('gauntlet:shellwood-east'): ('shellwood_01b', 'Battle Scene'),
+    requirement_name('gauntlet:craw-lake'): ('room_crowcourt', 'Battle Scene'),
+    requirement_name('gauntlet:greymoor-tower'): ('greymoor_04', 'Black Thread States Thread Only Variant/Normal World/Battle Scene'),
+    requirement_name('gauntlet:greymoor-tower-act-3'): ('greymoor_04', 'Black Thread States Thread Only Variant/Black Thread World/Black Thread Battle Scene'),
+    requirement_name('gauntlet:the-cauldron-gauntlet'): ('under_18', 'Battle Scene'),
+    requirement_name('gauntlet:underworks-northwest'): ('under_07', 'Battle Scene'),
+    requirement_name('gauntlet:choral-chambers-west'): ('song_04', 'Black Thread States/Normal World/Scene States/Battle Scene'),
+    requirement_name('gauntlet:cogwork-core-southeast'): ('cog_07', 'Battle Scene Test/Battle Scene'),
+    requirement_name('gauntlet:cogwork-core-southwest'): ('cog_05', 'Battle Scene'),
+    requirement_name('gauntlet:the-slab-east'): ('slab_16', 'Event Control/Battle Cloaked Scene'),
+}
+EVENT_BATTLES = {
+    'Room Event: event:mapper/c30170be-d6b7-43ec-823c-7eee5622a5cb': ('under_07', 'Battle Scene'),
+    'Room Event: event:mapper/007f3c9a-50b0-4802-8f2b-4d87bffafe98': ('song_04', 'Black Thread States/Normal World/Scene States/Battle Scene'),
 }
 ACT_3_INTRO_NODE = 'Room Node: cogwork-core/cogwork-core-breakable-walls#northern-gauntlet'
 ACT_3_INTRO_EVENT = 'Room Event: event:mapper/82aabe64-d7cd-4911-9a15-f1338e0400c0'
@@ -263,7 +280,8 @@ def gate_graph(world, graph):
                     and owner not in BOSS_EVENTS and owner != ACT_3_INTRO_EVENT):
                 result[owner] = tuple(
                     rule if BOSS_COMBAT.intersection(rule.all_of) else
-                    replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *_combat_souls(rule, names, {room.id})))))
+                    replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *(_battle_souls(names, {EVENT_BATTLES[owner]}) if owner in EVENT_BATTLES
+                        else _combat_souls(rule, names, {room.id}))))))
                     for rule in result[owner])
     for name in names:
         for event in BY_NAME[name].get('events', ()):
@@ -308,13 +326,17 @@ def _boss_summons(names):
     return result
 
 
+def _battle_souls(names, battles):
+    return tuple(item_name(name) for name in names if any(
+        (battle['scene'].lower(), battle['path']) in battles
+        for battle in BY_NAME[name].get('battles', ())))
+
+
 def _combat_souls(rule, names, rooms):
     combat = {token for token in rule.all_of if token.startswith('Combat: ')}
     if combat and combat <= COMBAT_BATTLES.keys():
         battles = {COMBAT_BATTLES[token] for token in combat}
-        return tuple(item_name(name) for name in names if any(
-            (battle['scene'].lower(), battle['path']) in battles
-            for battle in BY_NAME[name].get('battles', ())))
+        return _battle_souls(names, battles)
     return tuple(item_name(name) for name in names if rooms.intersection(BY_NAME[name]['rooms']))
 
 

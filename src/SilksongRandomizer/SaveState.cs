@@ -166,6 +166,7 @@ namespace SilksongRandomizer
         public string[] steelSoulSites = Array.Empty<string>();
         public bool startingLocationApplied;
         public string startingCrest = string.Empty;
+        public bool slabCaptureCurrencyStored;
         public bool splitDashAndSprint;
         public bool directionalClingGrip;
         public bool directionalClawline;

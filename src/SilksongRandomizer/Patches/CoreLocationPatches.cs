@@ -169,14 +169,14 @@ namespace SilksongRandomizer.Patches
                     return false;
                 }
 
-                string itemName =
-                    LocationSet.GetCanonicalLocationName(locationName);
+                locationName = LocationSet.GetCanonicalLocationName(locationName);
+                string itemName = ItemSet.GetCanonicalItemName("Relic: " + assetName);
                 bool shouldOwn =
                     state.receivedItems != null &&
                     state.receivedItems.Contains(itemName);
                 bool isActiveSource =
-                    state.IsLocationEnabled(itemName) &&
-                    state.IsLocationInSeed(itemName);
+                    state.IsLocationEnabled(locationName) &&
+                    state.IsLocationInSeed(locationName);
                 CollectableRelicsData.Data data = relic.SavedData;
 
                 if (shouldOwn)

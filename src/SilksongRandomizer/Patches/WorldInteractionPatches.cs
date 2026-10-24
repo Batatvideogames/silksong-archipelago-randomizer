@@ -566,6 +566,19 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(Lever_tk2d), nameof(Lever_tk2d.Hit))]
+        private static class BlastedStepsLeverPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(Lever_tk2d __instance, ref IHitResponder.HitResponse __result)
+            {
+                if (!IsActive || __instance.name != "Song_lever_side" ||
+                    GetBaseSceneName(__instance.gameObject) != "Coral_03") return true;
+                __result = IHitResponder.Response.None;
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(Trapdoor), "Awake")]
         private static class TrapdoorPatch
         {

@@ -12,7 +12,6 @@ from typing import Callable, Dict, FrozenSet, Mapping
 from BaseClasses import Item, ItemClassification
 from Options import OptionError
 
-from .act1_scope import get_act_one_excluded_location_names
 from .act2_scope import (
     trim_act_two_pool_entries,
     get_act_two_excluded_location_names,
@@ -1288,6 +1287,8 @@ def _trim_act_one_pool_entries(
     individual_relic_turn_ins: bool,
     donation_tool_pouch_requirements: Mapping[str, int] | None,
 ) -> list[ItemPoolEntry]:
+    from .act1_scope import get_act_one_excluded_location_names
+
     major_key_mode = category_modes.get("MajorKey", "vanilla")
     boss_mode = category_modes.get("Boss", "anywhere")
     excluded_location_names = get_act_one_excluded_location_names(
@@ -1535,6 +1536,7 @@ def build_item_pool_entries(
     soul_pool_entries: tuple[ItemPoolEntry, ...] = (),
 ) -> tuple[ItemPoolEntry, ...]:
     """Build the unfilled-location pool for the selected category modes."""
+    from .act1_scope import get_act_one_excluded_location_names
 
     for category, mode in category_modes.items():
         if mode == 'shuffle' and category != 'Key':
