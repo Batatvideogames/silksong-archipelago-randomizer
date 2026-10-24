@@ -408,6 +408,10 @@
       {
         "scene": "dock_09",
         "path": "Boss Scene/Dock Guard Thrower"
+      },
+      {
+        "scene": "dock_02b",
+        "path": "Dock Guard Control/Dock Guard Scene/Dock Guard Thrower Enc1"
       }
     ],
     "battles": [],

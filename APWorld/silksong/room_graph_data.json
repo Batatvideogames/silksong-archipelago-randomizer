@@ -5,7 +5,7 @@
     "document_count": 532,
     "aggregate_sha256": "e1183b93f3faacd1fecbd65278b7cb6e5adca81284459e4f707bd737fa381902",
     "catalogue_sha256": "e7695159d95fe3517a1c21d55d76190db968d18be4690ae97800cfeeeff9d67d",
-    "bindings_sha256": "05187110ffcb4676500de57c77869c7e3f7361c9fdd9d81ce4171af745797569"
+    "bindings_sha256": "48902cab6f3f8eed9a195da6d9e1c6d9f7a76ef104a635f92d28028ddacd54c6"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -36,7 +36,6 @@
       "Abyss - Upper Lore Stone",
       "Architect's Key",
       "Architect's Melody",
-      "Ascendant's Grip",
       "Balm for the Wounded - Spool Fragment",
       "Barbed Bracelet",
       "Beastling Call",
@@ -106,8 +105,10 @@
       "Bone Bottom - Rosary Dish",
       "Bone Bottom - Shell Shard Cache",
       "Bone Bottom - Spool Fragment",
-      "Bone Bottom Shop - Craftmetal",
-      "Bone Bottom Shop - Simple Key",
+      "Bone Bottom Shop - Craftmetal (Grindle in Act 3)",
+      "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)",
+      "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
+      "Bone Bottom Shop - Simple Key (Grindle in Act 3)",
       "Bonegrave - Mossberry",
       "Bonegrave - Rosary Cache #1",
       "Bonegrave - Rosary Cache #2",
@@ -457,8 +458,6 @@
       "Hunter's March - Shell Shard Cache #8",
       "Injector Band",
       "Item: Quill",
-      "Jubilana (Songclave) - Mask Shard",
-      "Jubilana (Songclave) - Spool Fragment",
       "Key of Apostate",
       "Key of Heretic",
       "Key of Indolent",
@@ -468,7 +467,6 @@
       "Longclaw",
       "Longpin",
       "Magma Bell",
-      "Magnetite Brooch",
       "Magnetite Dice",
       "Maiden Soul",
       "Maintenance Head chief's embezzled Rosary cache",
@@ -533,7 +531,6 @@
       "Old Ventrica gains",
       "Old Ventrica treasury",
       "Pale Nails",
-      "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard",
       "Pilgrim's Rest - Beast Shard",
       "Pilgrim's Rest - Tool Pouch",
       "Pilgrim's Rest Shop - Memory Locket",
@@ -603,7 +600,6 @@
       "Relic: Bone Scroll (Underworks)",
       "Relic: Bone Scroll (Wisp Thicket)",
       "Relic: Choral Commandment (Eastern Whiteward)",
-      "Relic: Choral Commandment (Jubilana)",
       "Relic: Choral Commandment (Moss Grotto)",
       "Relic: Choral Commandment (Western Whiteward)",
       "Relic: Psalm Cylinder (East Whispering Vaults)",
@@ -693,10 +689,15 @@
       "Snitch Pick",
       "Songclave - Heavy Rosary Necklace",
       "Songclave - Ventrica",
+      "Songclave Shop - Ascendant's Grip",
+      "Songclave Shop - Choral Commandment",
       "Songclave Shop - Craftmetal",
+      "Songclave Shop - Mask Shard",
       "Songclave Shop - Simple Key",
-      "Spider Strings",
-      "Spool Extender",
+      "Songclave Shop - Spider Strings",
+      "Songclave Shop - Spool Extender",
+      "Songclave Shop - Spool Fragment",
+      "Songclave Shop - White Key",
       "Sprintmaster - Beast Shard",
       "Sprintmaster's Memento",
       "Sting Shard",
@@ -859,7 +860,6 @@
       "Whispering Vaults - Shell Shard Cache #2",
       "Whispering Vaults - Silkeater",
       "Whispering Vaults - Theatre Desk",
-      "White Key",
       "Whiteward - Map Purchase",
       "Whiteward - Oath",
       "Whiteward - Rosary Cache #1",
@@ -8077,7 +8077,7 @@
           "unresolved_reasons": [],
           "label": "magnetite broach",
           "node_id": "bone-bottom/bone-bottom-town#ground-level",
-          "canonical_location": "Magnetite Brooch",
+          "canonical_location": "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -8103,7 +8103,7 @@
           "unresolved_reasons": [],
           "label": "mask shard pebbs shop grindle act 3",
           "node_id": "bone-bottom/bone-bottom-town#ground-level",
-          "canonical_location": "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard",
+          "canonical_location": "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -8129,7 +8129,7 @@
           "unresolved_reasons": [],
           "label": "bone bottom shop craft metal",
           "node_id": "bone-bottom/bone-bottom-town#ground-level",
-          "canonical_location": "Bone Bottom Shop - Craftmetal",
+          "canonical_location": "Bone Bottom Shop - Craftmetal (Grindle in Act 3)",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -8155,7 +8155,7 @@
           "unresolved_reasons": [],
           "label": "simple key",
           "node_id": "bone-bottom/bone-bottom-town#ground-level",
-          "canonical_location": "Bone Bottom Shop - Simple Key",
+          "canonical_location": "Bone Bottom Shop - Simple Key (Grindle in Act 3)",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -56673,7 +56673,8 @@
               [
                 "state:act-3",
                 "event:mapper/reviewed:dark-below-accepted",
-                "received:Diving Bell Key"
+                "received:Diving Bell Key",
+                "event:mapper/reviewed:ballow-bell-ready"
               ]
             ],
             "annotations": [],
@@ -56869,6 +56870,30 @@
           "label": "Ballow in Diving Bell Control Room",
           "kind": "event",
           "node_id": "deep-docks/deep-docks-diving-bell-room#diving-bell-control-room"
+        },
+        {
+          "id": "event:mapper/reviewed:ballow-bell-ready",
+          "label": "Ballow Bell Ready",
+          "kind": "event",
+          "node_id": "deep-docks/deep-docks-diving-bell-room#diving-bell-control-room",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:dark-below-accepted",
+                "received:Diving Bell Key"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [],
@@ -56931,7 +56956,8 @@
               [
                 "state:act-3",
                 "event:mapper/reviewed:dark-below-accepted",
-                "received:Diving Bell Key"
+                "received:Diving Bell Key",
+                "event:mapper/reviewed:ballow-bell-ready"
               ]
             ],
             "annotations": [],
@@ -185535,7 +185561,12 @@
             "raw": "",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/reviewed:songclave-board-open"
+              ],
+              [
+                "state:act-3"
+              ]
             ],
             "annotations": [],
             "minimum_skip_tier": 0,
@@ -186012,7 +186043,7 @@
           "unresolved_reasons": [],
           "label": "White Key",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "White Key",
+          "canonical_location": "Songclave Shop - White Key",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -186118,9 +186149,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835560",
-          "label": "Ascendant's Grip",
+          "label": "Songclave Shop - Ascendant's Grip",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Ascendant's Grip",
+          "canonical_location": "Songclave Shop - Ascendant's Grip",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {
@@ -186144,9 +186175,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835563",
-          "label": "Spool Extender",
+          "label": "Songclave Shop - Spool Extender",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Spool Extender",
+          "canonical_location": "Songclave Shop - Spool Extender",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {
@@ -186170,9 +186201,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835639",
-          "label": "Jubilana (Songclave) - Mask Shard",
+          "label": "Songclave Shop - Mask Shard",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Jubilana (Songclave) - Mask Shard",
+          "canonical_location": "Songclave Shop - Mask Shard",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {
@@ -186222,9 +186253,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835705",
-          "label": "Relic: Choral Commandment (Jubilana)",
+          "label": "Songclave Shop - Choral Commandment",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Relic: Choral Commandment (Jubilana)",
+          "canonical_location": "Songclave Shop - Choral Commandment",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {
@@ -186249,9 +186280,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835662",
-          "label": "Jubilana (Songclave) - Spool Fragment",
+          "label": "Songclave Shop - Spool Fragment",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Jubilana (Songclave) - Spool Fragment",
+          "canonical_location": "Songclave Shop - Spool Fragment",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {
@@ -186303,9 +186334,9 @@
         },
         {
           "id": "choral-chambers/songclave::reviewed-check:835528",
-          "label": "Spider Strings",
+          "label": "Songclave Shop - Spider Strings",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Spider Strings",
+          "canonical_location": "Songclave Shop - Spider Strings",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true,
           "requirement": {

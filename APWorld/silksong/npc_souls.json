@@ -465,16 +465,16 @@
     "item_id": 839013,
     "act": 1,
     "alternatives": {
-      "Magnetite Brooch": [
+      "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)": [
         "Room Event: event:mapper/e6555f0f-e4bc-44cf-848b-e7fdcd4569e1"
       ],
-      "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard": [
+      "Bone Bottom Shop - Mask Shard (Grindle in Act 3)": [
         "Room Event: event:mapper/7790f847-5f31-4156-b252-258dba9db17e"
       ],
-      "Bone Bottom Shop - Craftmetal": [
+      "Bone Bottom Shop - Craftmetal (Grindle in Act 3)": [
         "Room Event: event:mapper/049c9f4d-7eb0-4e3d-aa51-02cade3abab4"
       ],
-      "Bone Bottom Shop - Simple Key": [
+      "Bone Bottom Shop - Simple Key (Grindle in Act 3)": [
         "Room Event: event:mapper/8a42ddaa-1c1f-4971-bd30-215bef96b3b0"
       ]
     }
@@ -534,14 +534,14 @@
       }
     ],
     "checks": [
-      "Ascendant's Grip",
-      "Spool Extender",
-      "Jubilana (Songclave) - Mask Shard",
+      "Songclave Shop - Ascendant's Grip",
+      "Songclave Shop - Spool Extender",
+      "Songclave Shop - Mask Shard",
       "Songclave Shop - Simple Key",
-      "Relic: Choral Commandment (Jubilana)",
-      "Jubilana (Songclave) - Spool Fragment",
+      "Songclave Shop - Choral Commandment",
+      "Songclave Shop - Spool Fragment",
       "Songclave Shop - Craftmetal",
-      "Spider Strings",
+      "Songclave Shop - Spider Strings",
       "Wish: The Wandering Merchant",
       "Wish: The Lost Merchant"
     ],
@@ -612,16 +612,16 @@
     "item_id": 839016,
     "act": 1,
     "alternatives": {
-      "Magnetite Brooch": [
+      "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)": [
         "Room Event: event:mapper/84a51128-445c-4f80-bcc0-2651d6378ca1"
       ],
-      "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard": [
+      "Bone Bottom Shop - Mask Shard (Grindle in Act 3)": [
         "Room Event: event:mapper/22fa10f2-f4d5-4911-b727-50889602d7aa"
       ],
-      "Bone Bottom Shop - Craftmetal": [
+      "Bone Bottom Shop - Craftmetal (Grindle in Act 3)": [
         "Room Event: event:mapper/36ff4778-2502-4ea1-b5b8-60ed2c3197c3"
       ],
-      "Bone Bottom Shop - Simple Key": [
+      "Bone Bottom Shop - Simple Key (Grindle in Act 3)": [
         "Room Event: event:mapper/0f83ac9d-e2ba-4280-b538-9cf2a2612b7a"
       ],
       "Pilgrim's Rest - Tool Pouch": [
@@ -729,7 +729,8 @@
     "checks": [],
     "events": [
       "Room Event: event:mapper/095b74aa-2341-4319-9ca6-b84639264967",
-      "Room Event: event:mapper/bba25430-0885-40d0-9f99-283a852119d9"
+      "Room Event: event:mapper/bba25430-0885-40d0-9f99-283a852119d9",
+      "Room Event: event:mapper/reviewed:ballow-bell-ready"
     ],
     "item_id": 839020,
     "act": 1
@@ -802,7 +803,7 @@
       }
     ],
     "checks": [
-      "White Key",
+      "Songclave Shop - White Key",
       "Wish: Building Up Songclave",
       "Wish: Strengthening Songclave",
       "Wish: Fine Pins",
@@ -1893,6 +1894,10 @@
       {
         "scene": "bonetown",
         "path": "Black Thread States/Normal World/Bonetown Resident"
+      },
+      {
+        "scene": "bonetown",
+        "path": "Black Thread States/Normal World/Generic Pilgrim Control/Generic Pilgrim Round"
       }
     ],
     "checks": [],

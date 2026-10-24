@@ -573,10 +573,10 @@
     ]
    },
    {
-    "name": "Magnetite Brooch",
+    "name": "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)",
     "sections": [
      {
-      "name": "Magnetite Brooch"
+      "name": "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)"
      }
     ],
     "map_locations": [
@@ -588,10 +588,10 @@
     ]
    },
    {
-    "name": "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard",
+    "name": "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
     "sections": [
      {
-      "name": "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard"
+      "name": "Bone Bottom Shop - Mask Shard (Grindle in Act 3)"
      }
     ],
     "map_locations": [
@@ -603,10 +603,10 @@
     ]
    },
    {
-    "name": "Bone Bottom Shop - Craftmetal",
+    "name": "Bone Bottom Shop - Craftmetal (Grindle in Act 3)",
     "sections": [
      {
-      "name": "Bone Bottom Shop - Craftmetal"
+      "name": "Bone Bottom Shop - Craftmetal (Grindle in Act 3)"
      }
     ],
     "map_locations": [
@@ -618,10 +618,10 @@
     ]
    },
    {
-    "name": "Bone Bottom Shop - Simple Key",
+    "name": "Bone Bottom Shop - Simple Key (Grindle in Act 3)",
     "sections": [
      {
-      "name": "Bone Bottom Shop - Simple Key"
+      "name": "Bone Bottom Shop - Simple Key (Grindle in Act 3)"
      }
     ],
     "map_locations": [
@@ -21894,10 +21894,10 @@
   "name": "Songclave",
   "children": [
    {
-    "name": "White Key",
+    "name": "Songclave Shop - White Key",
     "sections": [
      {
-      "name": "White Key"
+      "name": "Songclave Shop - White Key"
      }
     ],
     "map_locations": [
@@ -21918,22 +21918,22 @@
       "name": "Songclave Shop - Craftmetal"
      },
      {
-      "name": "Spider Strings"
+      "name": "Songclave Shop - Spider Strings"
      },
      {
-      "name": "Ascendant's Grip"
+      "name": "Songclave Shop - Ascendant's Grip"
      },
      {
-      "name": "Spool Extender"
+      "name": "Songclave Shop - Spool Extender"
      },
      {
-      "name": "Relic: Choral Commandment (Jubilana)"
+      "name": "Songclave Shop - Choral Commandment"
      },
      {
-      "name": "Jubilana (Songclave) - Mask Shard"
+      "name": "Songclave Shop - Mask Shard"
      },
      {
-      "name": "Jubilana (Songclave) - Spool Fragment"
+      "name": "Songclave Shop - Spool Fragment"
      }
     ],
     "map_locations": [

@@ -289,12 +289,11 @@ namespace SilksongRandomizer.Patches
         }
     }
 
-    // The Bone Bottom warp leaves the vine masks up.
+    // Reverse entries can leave the vine masks up.
     [HarmonyPatch(typeof(HeroController), "SendHeroInPosition")]
     internal static class MossMotherVineMaskPatches
     {
         private const string SceneName = "Tut_03";
-        private const string EntryGateName = "top1";
         private const string ControlFsmName = "Control";
         private const string MaskVariableName = "Mask";
         private const string MaskRendererName = "GameObject";
@@ -305,6 +304,12 @@ namespace SilksongRandomizer.Patches
         {
             "Black Thread States/Normal World/Moss Vine Cluster/Mask",
             "Black Thread States/Normal World/Moss Vine Cluster (1)/Mask",
+        };
+
+        private static readonly string[] LockPaths =
+        {
+            "Black Thread States/Normal World/Moss Vine Cluster/Extra Vines/CameraLockArea (4)",
+            "Black Thread States/Normal World/Moss Vine Cluster (1)/Extra Vines/CameraLockArea (3)",
         };
 
         [HarmonyPostfix]
@@ -327,17 +332,13 @@ namespace SilksongRandomizer.Patches
                    hero.sceneEntryGate != null &&
                    state != null &&
                    gameManager != null &&
-                   state.mossMotherBypassedByBoneBottomWarp &&
+                    state.IsRoomBound &&
                    string.Equals(
                        gameManager.GetSceneNameString(),
                        SceneName,
                        StringComparison.Ordinal
                    ) &&
-                   string.Equals(
-                       hero.sceneEntryGate.name,
-                       EntryGateName,
-                       StringComparison.Ordinal
-                   );
+                    (hero.sceneEntryGate.name == "top1" || hero.sceneEntryGate.name == "door1");
         }
 
         private static void TryHideSkippedVineMasks()
@@ -358,12 +359,22 @@ namespace SilksongRandomizer.Patches
                         ))
                     {
                         RandomizerPlugin.Log?.LogWarning(
-                            "[RANDOMIZER] Moss Mother top1 mask repair " +
+                            "[RANDOMIZER] Moss Mother reverse-entry mask repair " +
                             "found changed Tut_03 vine structure and made " +
                             "no scene changes."
                         );
                         return;
                     }
+                }
+
+                CameraLockArea[] locks = new CameraLockArea[LockPaths.Length];
+                for (int index = 0; index < LockPaths.Length; index++)
+                {
+                    UnityEngine.GameObject target = UnityEngine.GameObject.Find(LockPaths[index]);
+                    if (target == null) continue;
+                    locks[index] = target.GetComponent<CameraLockArea>();
+                    Collider2D trigger = target.GetComponent<Collider2D>();
+                    if (locks[index] == null || trigger == null || !trigger.isTrigger) return;
                 }
 
                 bool changed = false;
@@ -372,19 +383,25 @@ namespace SilksongRandomizer.Patches
                     changed |= !Mathf.Approximately(target.AlphaSelf, 0f);
                     target.AlphaSelf = 0f;
                 }
+                foreach (CameraLockArea cameraLock in locks)
+                {
+                    if (cameraLock == null) continue;
+                    GameManager.instance.cameraCtrl.ReleaseLock(cameraLock);
+                    cameraLock.gameObject.SetActive(false);
+                }
 
                 if (changed)
                 {
                     RandomizerPlugin.Log?.LogInfo(
                         "[RANDOMIZER] Hid Tut_03's two skipped right-vine " +
-                        "masks for the Bone Bottom top1 route."
+                        "masks for the reverse entrance."
                     );
                 }
             }
             catch (Exception ex)
             {
                 RandomizerPlugin.Log?.LogWarning(
-                    "[RANDOMIZER] Moss Mother top1 mask repair failed " +
+                    "[RANDOMIZER] Moss Mother reverse-entry mask repair failed " +
                     "closed: " + ex.Message
                 );
             }

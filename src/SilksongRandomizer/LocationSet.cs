@@ -64,7 +64,7 @@ namespace SilksongRandomizer
 
         internal static readonly string[] MaskShardLocationNames =
         {
-            "Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)",
+            "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
             "Mask Shard: Wormways",
             "Mask Shard: Far Fields (Above the Seamstress)",
             "Mask Shard: Shellwood",
@@ -78,7 +78,7 @@ namespace SilksongRandomizer
             "Mask Shard: The Slab (Key of the Apostate)",
             "Mask Shard: Mount Fay",
             "Mask Shard: Wisp Thicket",
-            "Mask Shard: Jubilana (Songclave)",
+            "Songclave Shop - Mask Shard",
             "Mask Shard: Blasted Steps",
             "Mask Shard: Fastest in Pharloom",
             "Mask Shard: The Hidden Hunter",
@@ -105,7 +105,7 @@ namespace SilksongRandomizer
             "Spool Fragment: High Halls",
             "Spool Fragment: Memorium",
             "Spool Fragment: Grindle (Blasted Steps)",
-            "Spool Fragment: Jubilana (Songclave)",
+            "Songclave Shop - Spool Fragment",
         };
 
         internal static readonly string[] SilkHeartLocationNames =
@@ -209,6 +209,14 @@ namespace SilksongRandomizer
                     StringComparer.OrdinalIgnoreCase
                 )
             {
+                { "Tool Unlock: Musician Charm", "Songclave Shop - Spider Strings" },
+                { "Tool Unlock: Rosary Magnet", "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)" },
+                { "Tool Unlock: Wallcling", "Songclave Shop - Ascendant's Grip" },
+                { "Tool Unlock: Spool Extender", "Songclave Shop - Spool Extender" },
+                { "Simple Key: Bone Bottom Shop", "Bone Bottom Shop - Simple Key (Grindle in Act 3)" },
+                { "Craftmetal: Bone Bottom Shop", "Bone Bottom Shop - Craftmetal (Grindle in Act 3)" },
+                { "White Key", "Songclave Shop - White Key" },
+                { "Relic Pickup: Seal Chit City Merchant", "Songclave Shop - Choral Commandment" },
                 {
                     "Relic: Bone Scroll (Greymoor)",
                     "Relic: Bone Scroll (Greymoor) at bugs lonely resting place"

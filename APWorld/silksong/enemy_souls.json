@@ -9799,6 +9799,12 @@
     ],
     "locations": [
       "Flea: Bilewater - Thieves"
+    ],
+    "actors": [
+      {
+        "scene": "coral_42",
+        "path": "Rosary Thief Crowd"
+      }
     ]
   },
   {
@@ -11593,7 +11599,29 @@
     ],
     "battles": [],
     "states": [],
-    "entrances": []
+    "entrances": [],
+    "actors": [
+      {
+        "scene": "wisp_02",
+        "path": "Wisp Farmers/Farmer Wisp Immolater Variant"
+      },
+      {
+        "scene": "wisp_02",
+        "path": "Wisp Farmers/Farmer Wisp Immolater Variant (2)"
+      },
+      {
+        "scene": "wisp_02",
+        "path": "Wisp Farmers/Farmer Wisp Immolater Variant (3)"
+      },
+      {
+        "scene": "wisp_07",
+        "path": "Wisp Farmers (1)/Farmer Wisp Immolater Variant"
+      },
+      {
+        "scene": "wisp_07",
+        "path": "Wisp Farmers (1)/Farmer Wisp Immolater Variant (1)"
+      }
+    ]
   },
   {
     "name": "Roachserver",

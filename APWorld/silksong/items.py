@@ -1145,9 +1145,18 @@ def get_vanilla_reward_name(
     location_name: str,
     category: str,
 ) -> str:
-    """Map an AP source to the native reward represented by that source."""
+    """Get this check's vanilla reward."""
 
     location_name = canonicalize_location_name(location_name)
+    shop_reward = {
+        'Songclave Shop - Spider Strings': 'Spider Strings',
+        'Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)': 'Magnetite Brooch',
+        "Songclave Shop - Ascendant's Grip": "Ascendant's Grip",
+        'Songclave Shop - Spool Extender': 'Spool Extender',
+        'Songclave Shop - Choral Commandment': 'Relic: Choral Commandment (Jubilana)',
+    }.get(location_name)
+    if shop_reward is not None:
+        return shop_reward
     if location_name in EVA_REWARDS:
         return EVA_REWARDS[location_name][0]
     source_location_name = get_item_first_location_name(location_name)
@@ -1155,7 +1164,7 @@ def get_vanilla_reward_name(
     if category == 'Key':
         try:
             return {
-                'Simple Key: Bone Bottom Shop':
+                'Bone Bottom Shop - Simple Key (Grindle in Act 3)':
                     'Simple Key (Wormways)',
                 'Simple Key: Roachkeeper':
                     'Simple Key (Green Prince)',
@@ -1178,7 +1187,7 @@ def get_vanilla_reward_name(
                 'Key of Indolent': 'Key of Indolent',
                 'Key of Heretic': 'Key of Heretic',
                 'Key of Apostate': 'Key of Apostate',
-                'White Key': 'White Key',
+                'Songclave Shop - White Key': 'White Key',
                 "Surgeon's Key": "Surgeon's Key",
                 "Architect's Key": "Architect's Key",
                 'Craw Summons': 'Craw Summons',

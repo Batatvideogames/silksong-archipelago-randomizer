@@ -154,11 +154,20 @@ namespace SilksongRandomizer
             }
 
             CleanActiveWaterState(hero);
+            DamageHero soupBurner = null;
+            if (surfaceWater != null && surfaceWater.gameObject.scene.name == "Mosstown_02c" &&
+                surfaceWater.transform.parent?.name == "moss_hut_set")
+            {
+                soupBurner = surfaceWater.transform.parent.Find("NPC Scene/moss pot_large/Hero Burner")
+                    ?.GetComponent<DamageHero>();
+            }
+            bool hotSoup = soupBurner != null && soupBurner.isActiveAndEnabled &&
+                soupBurner.hazardType == HazardType.ACID;
             hero.TakeDamage(
-                hero.gameObject,
+                hotSoup ? soupBurner.gameObject : hero.gameObject,
                 CollisionSide.other,
                 1,
-                HazardType.RESPAWN_PIT
+                hotSoup ? HazardType.ACID : HazardType.RESPAWN_PIT
             );
         }
 

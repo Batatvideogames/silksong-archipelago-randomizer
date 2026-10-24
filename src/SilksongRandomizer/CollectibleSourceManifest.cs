@@ -473,7 +473,7 @@ namespace SilksongRandomizer
 
             foreach (DirectPickupEntry entry in DirectPickups)
             {
-                if (names.Add(entry.LocationName))
+                if (names.Add(LocationSet.GetCanonicalLocationName(entry.LocationName)))
                 {
                     yield return new Location(
                         entry.LocationName,

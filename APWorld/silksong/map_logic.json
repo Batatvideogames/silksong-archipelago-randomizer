@@ -119739,6 +119739,24 @@
           }
         ]
       },
+      "Room Event: event:mapper/reviewed:ballow-bell-ready": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-diving-bell-room#diving-bell-control-room",
+              "Room Event: event:mapper/reviewed:dark-below-accepted"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Diving Bell Key"
+                ],
+                "minimum": 1
+              }
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/reviewed:bell-eater-defeated": {
         "alternatives": [
           {
@@ -122845,7 +122863,14 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: choral-chambers/songclave#base"
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-board-open"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Act: 3"
             ]
           }
         ]
@@ -148133,7 +148158,8 @@
             "all_of": [
               "Room Node: deep-docks/deep-docks-diving-bell-room#diving-bell-platform",
               "Act: 3",
-              "Room Event: event:mapper/reviewed:dark-below-accepted"
+              "Room Event: event:mapper/reviewed:dark-below-accepted",
+              "Room Event: event:mapper/reviewed:ballow-bell-ready"
             ],
             "item_counts": [
               {
@@ -192508,7 +192534,8 @@
             "all_of": [
               "Room Node: deep-docks/deep-docks-diving-bell-interior#room",
               "Act: 3",
-              "Room Event: event:mapper/reviewed:dark-below-accepted"
+              "Room Event: event:mapper/reviewed:dark-below-accepted",
+              "Room Event: event:mapper/reviewed:ballow-bell-ready"
             ],
             "item_counts": [
               {
@@ -233699,16 +233726,6 @@
           }
         ]
       },
-      "Ascendant's Grip": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met"
-            ]
-          }
-        ]
-      },
       "Balm for the Wounded - Spool Fragment": {
         "alternatives": [
           {
@@ -235100,7 +235117,7 @@
           }
         ]
       },
-      "Bone Bottom Shop - Craftmetal": {
+      "Bone Bottom Shop - Craftmetal (Grindle in Act 3)": {
         "alternatives": [
           {
             "all_of": [
@@ -235109,7 +235126,25 @@
           }
         ]
       },
-      "Bone Bottom Shop - Simple Key": {
+      "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level"
+            ]
+          }
+        ]
+      },
+      "Bone Bottom Shop - Mask Shard (Grindle in Act 3)": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#ground-level"
+            ]
+          }
+        ]
+      },
+      "Bone Bottom Shop - Simple Key (Grindle in Act 3)": {
         "alternatives": [
           {
             "all_of": [
@@ -240679,27 +240714,6 @@
           }
         ]
       },
-      "Jubilana (Songclave) - Mask Shard": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met"
-            ]
-          }
-        ]
-      },
-      "Jubilana (Songclave) - Spool Fragment": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
-              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
-            ]
-          }
-        ]
-      },
       "Key of Apostate": {
         "alternatives": [
           {
@@ -240800,15 +240814,6 @@
                 ],
                 "minimum": 1
               }
-            ]
-          }
-        ]
-      },
-      "Magnetite Brooch": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bone-bottom/bone-bottom-town#ground-level"
             ]
           }
         ]
@@ -242070,15 +242075,6 @@
           {
             "all_of": [
               "Room Node: the-cradle/act3-gms-arena#bridge"
-            ]
-          }
-        ]
-      },
-      "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bone-bottom/bone-bottom-town#ground-level"
             ]
           }
         ]
@@ -251214,17 +251210,6 @@
           }
         ]
       },
-      "Relic: Choral Commandment (Jubilana)": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
-              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
-            ]
-          }
-        ]
-      },
       "Relic: Choral Commandment (Moss Grotto)": {
         "alternatives": [
           {
@@ -252941,6 +252926,27 @@
           }
         ]
       },
+      "Songclave Shop - Ascendant's Grip": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met"
+            ]
+          }
+        ]
+      },
+      "Songclave Shop - Choral Commandment": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          }
+        ]
+      },
       "Songclave Shop - Craftmetal": {
         "alternatives": [
           {
@@ -252948,6 +252954,16 @@
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
               "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          }
+        ]
+      },
+      "Songclave Shop - Mask Shard": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met"
             ]
           }
         ]
@@ -252962,7 +252978,7 @@
           }
         ]
       },
-      "Spider Strings": {
+      "Songclave Shop - Spider Strings": {
         "alternatives": [
           {
             "all_of": [
@@ -252972,12 +252988,32 @@
           }
         ]
       },
-      "Spool Extender": {
+      "Songclave Shop - Spool Extender": {
         "alternatives": [
           {
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:wandering-merchant-shop-met"
+            ]
+          }
+        ]
+      },
+      "Songclave Shop - Spool Fragment": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-shop-met",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          }
+        ]
+      },
+      "Songclave Shop - White Key": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base"
             ]
           }
         ]
@@ -254898,15 +254934,6 @@
           {
             "all_of": [
               "Room Node: whispering-vaults/trobbio-entrance#not-the-jump"
-            ]
-          }
-        ]
-      },
-      "White Key": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base"
             ]
           }
         ]

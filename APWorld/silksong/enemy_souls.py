@@ -23,8 +23,11 @@ STYX_EVENTS = frozenset((
     'Room Event: event:mapper/reviewed:courier-queens-egg-delivered',
 ))
 COMBAT_BATTLES = {
+    requirement_name('gauntlet:hunter-s-march-east'): ('ant_05b', 'Black Thread States Thread Only Variant/Normal World/Battle Scene'),
     requirement_name('gauntlet:halfway-home'): ('ant_08', 'Battle Scene'),
     requirement_name('gauntlet:black-threaded-skarrgard'): ('bone_east_25', 'Battle Scene'),
+    requirement_name('gauntlet:whispering-vaults-entrance'): ('library_02', 'GameObject/Battle Scene Control/Battle Scene'),
+    requirement_name('gauntlet:whispering-vaults-entrance-2'): ('library_02', 'GameObject/Battle Scene Control/Battle Scene Acolyte'),
 }
 ACT_3_INTRO_NODE = 'Room Node: cogwork-core/cogwork-core-breakable-walls#northern-gauntlet'
 ACT_3_INTRO_EVENT = 'Room Event: event:mapper/82aabe64-d7cd-4911-9a15-f1338e0400c0'

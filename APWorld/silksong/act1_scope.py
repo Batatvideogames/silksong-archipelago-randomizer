@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Mapping
 
 from .eva import EVA_CREST_SLOTS, EVA_REWARDS
-from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION
+from .locations import INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION, canonicalize_location_name
 from .requirements import (
     COMPILED_ROOM_GRAPH,
     _ESTABLISHED_REQUIREMENTS_BY_LOCATION,
@@ -64,7 +64,7 @@ _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES = frozenset(
     turn_in_location
     for turn_in_location, relic_item in
     INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
-    if relic_item in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
+    if canonicalize_location_name(relic_item) in _POST_ACT_ONE_SOURCE_LOCATION_NAMES
 )
 
 _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES = frozenset(

@@ -198,34 +198,34 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/e6555f0f-e4bc-44cf-848b-e7fdcd4569e1": {
-    "name": "Magnetite Brooch",
+    "name": "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)",
     "kind": "collectible",
     "locations": [
-      "Magnetite Brooch"
+      "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/7790f847-5f31-4156-b252-258dba9db17e": {
-    "name": "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard",
+    "name": "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
     "kind": "collectible",
     "locations": [
-      "Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard"
+      "Bone Bottom Shop - Mask Shard (Grindle in Act 3)"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/049c9f4d-7eb0-4e3d-aa51-02cade3abab4": {
-    "name": "Bone Bottom Shop - Craftmetal",
+    "name": "Bone Bottom Shop - Craftmetal (Grindle in Act 3)",
     "kind": "collectible",
     "locations": [
-      "Bone Bottom Shop - Craftmetal"
+      "Bone Bottom Shop - Craftmetal (Grindle in Act 3)"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/8a42ddaa-1c1f-4971-bd30-215bef96b3b0": {
-    "name": "Bone Bottom Shop - Simple Key",
+    "name": "Bone Bottom Shop - Simple Key (Grindle in Act 3)",
     "kind": "collectible",
     "locations": [
-      "Bone Bottom Shop - Simple Key"
+      "Bone Bottom Shop - Simple Key (Grindle in Act 3)"
     ],
     "mapper_kind": "collectible"
   },
@@ -8855,6 +8855,11 @@
   "event:mapper/ce23c303-3602-4ac1-af9e-7f730bc0c4d9": {
     "name": "Whiteward Entrance - Switch Entrance Right",
     "kind": "switch",
+    "locations": []
+  },
+  "event:mapper/reviewed:ballow-bell-ready": {
+    "name": "Deep Docks Diving Bell - Ballow Ready",
+    "kind": "event",
     "locations": []
   },
   "event:mapper/85bf2cd6-7d11-4efa-bf83-9fb130389712": {

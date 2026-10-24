@@ -218,7 +218,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Sawtooth Circlet", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Scuttlebrace", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Silkshot (Twelfth Architect)", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Magnetite Brooch", "Bonetown", 277.10223f, 8.04f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)", "Bonetown", 277.10223f, 8.04f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Multibinder", "Belltown", 55.43f, 7.88f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Thief's Mark", "Coral_42", 24.99f, 21.43f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Snitch Pick", "Coral_42", 24.99f, 21.43f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
@@ -237,7 +237,7 @@ namespace SilksongRandomizer
             // Simple Key sources. The Bone Bottom check is anchored at Pebb,
             // its normal source. Grindle's Act 3 stock is a fallback for that
             // same AP check rather than a fifth independent acquisition.
-            new MapCheckPosition("Simple Key: Bone Bottom Shop", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Bone Bottom Shop - Simple Key (Grindle in Act 3)", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Simple Key: Songclave Shop", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
 
             // Fixed collectible and named-key sources. Vendor fallbacks and
@@ -267,7 +267,7 @@ namespace SilksongRandomizer
             // PositionInScene places it in the upper-left nook below Watcher.
             new MapCheckPosition("Memory Locket: Sands of Karak", "Coral_23", 90.7400055f, 50.31117f, 316f, 102f, MapMarkerPositionConfidence.ExactUpstream),
 
-            new MapCheckPosition("Craftmetal: Bone Bottom Shop", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Bone Bottom Shop - Craftmetal (Grindle in Act 3)", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Craftmetal: The Marrow", "Bone_07", 41.310000f, 4.980000f, 92f, 74f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Craftmetal: Deep Docks", "Dock_03", 7.700000f, 81.890000f, 168f, 120f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Craftmetal: Blasted Steps", "Coral_32", 74.510000f, 9.060000f, 170f, 115f, MapMarkerPositionConfidence.ExactUpstream),
@@ -303,7 +303,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Key of Indolent", "Slab_14", 12.900001f, 6.892000f, 100f, 29f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Key of Heretic", "Slab_16", 25.450001f, 18.200001f, 100f, 80f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Key of Apostate", "Aqueduct_04", 7.570004f, 38.651804f, 185f, 60f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("White Key", "Song_Enclave", 102.076000f, 6.290000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - White Key", "Song_Enclave", 102.076000f, 6.290000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Surgeon's Key", "Ward_07", 13.134485f, 7.159246f, 130f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Architect's Key", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             // Craw Summons can trigger at multiple eligible benches. Anchor
@@ -355,9 +355,9 @@ namespace SilksongRandomizer
 
             // Vendor and reward-giver roots for the remaining tools,
             // relics, crest and progressive crafting-kit sources.
-            new MapCheckPosition("Spider Strings", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Ascendant's Grip", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Spool Extender", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Spider Strings", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Ascendant's Grip", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Spool Extender", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Reserve Bind", "Hang_17b", 30.220001f, 0.090000f, 55f, 21f, MapMarkerPositionConfidence.ExactUpstream),
             // Greymoor_08_caravan and Aqueduct_05_caravan are event-state
             // layers authored in their visible base scenes' coordinates.
@@ -367,14 +367,14 @@ namespace SilksongRandomizer
             // The Doctor's interior has no GameMapScene. Its authored
             // entrance in Wisp_03 is the visible map source for this reward.
             new MapCheckPosition("Crest: Witch", "Wisp_03", 50.790268f, 5.916079f, 179f, 47f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Relic: Choral Commandment (Jubilana)", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Choral Commandment", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Relic: Psalm Cylinder (Grindle)", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Forge Daughter", "Room_Forge", 114.190002f, 34.540005f, 140f, 69f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Twelfth Architect", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Grindle", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Crawbug Clearing (Creige)", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
 
-            new MapCheckPosition("Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Bone Bottom Shop - Mask Shard (Grindle in Act 3)", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Wormways", "Crawl_02", 22.231581f, 4.839001f, 30f, 150f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Far Fields (Above the Seamstress)", "Bone_East_20", 95.129998f, 12.184626f, 150f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Shellwood", "Shellwood_14", 127.889999f, 12.671935f, 135f, 19f, MapMarkerPositionConfidence.ExactUpstream),
@@ -388,7 +388,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Mask Shard: The Slab (Key of the Apostate)", "Slab_17", 19.240001f, 69.740002f, 81f, 77f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Mount Fay", "Peak_04c", 67.629997f, 27.430000f, 105f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Wisp Thicket", "Wisp_07", 251.410004f, 24.900000f, 290f, 39f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Mask Shard: Jubilana (Songclave)", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Mask Shard", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Blasted Steps", "Coral_19b", 74.860001f, 109.019997f, 118f, 117f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Fastest in Pharloom", "Sprintmaster_Cave", 88.930000f, 14.120000f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: The Hidden Hunter", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
@@ -414,7 +414,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Spool Fragment: High Halls", "Hang_03_top", 14.790000f, 160.619995f, 30f, 170f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Spool Fragment: Memorium", "Arborium_09", 19.040001f, 33.070000f, 66f, 112f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Spool Fragment: Grindle (Blasted Steps)", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Spool Fragment: Jubilana (Songclave)", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Songclave Shop - Spool Fragment", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
 
             // Moss Mother's own encounter FSM carries defeatedMossMother at
             // this authored transform in the visible Tut_03 map scene.
@@ -1233,12 +1233,12 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         position.LocationName,
-                        "Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)",
+                        "Bone Bottom Shop - Mask Shard (Grindle in Act 3)",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Simple Key: Bone Bottom Shop",
+                        "Bone Bottom Shop - Simple Key (Grindle in Act 3)",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
@@ -1248,7 +1248,7 @@ namespace SilksongRandomizer
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Craftmetal: Bone Bottom Shop",
+                        "Bone Bottom Shop - Craftmetal (Grindle in Act 3)",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
@@ -1263,7 +1263,7 @@ namespace SilksongRandomizer
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Magnetite Brooch",
+                        "Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )
@@ -1305,32 +1305,32 @@ namespace SilksongRandomizer
                 if (
                     string.Equals(
                         position.LocationName,
-                        "Mask Shard: Jubilana (Songclave)",
+                        "Songclave Shop - Mask Shard",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Spool Fragment: Jubilana (Songclave)",
+                        "Songclave Shop - Spool Fragment",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Spider Strings",
+                        "Songclave Shop - Spider Strings",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Ascendant's Grip",
+                        "Songclave Shop - Ascendant's Grip",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Spool Extender",
+                        "Songclave Shop - Spool Extender",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Relic: Choral Commandment (Jubilana)",
+                        "Songclave Shop - Choral Commandment",
                         StringComparison.OrdinalIgnoreCase
                     ) ||
                     string.Equals(
@@ -1345,7 +1345,7 @@ namespace SilksongRandomizer
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "White Key",
+                        "Songclave Shop - White Key",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )

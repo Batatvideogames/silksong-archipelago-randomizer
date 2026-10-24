@@ -503,11 +503,11 @@ ROSARY_BANK_GATED_LOCATIONS: frozenset[str] = frozenset(
         *(f'High Halls - Rosary Cache #{index}' for index in range(1, 7)),
     }
 )
-RUINED_TOOL_REPAIR_LOCATIONS: tuple[str, ...] = (
+RUINED_TOOL_REPAIR_LOCATIONS: tuple[str, ...] = tuple(canonicalize_location_name(name) for name in (
     'Silkshot (Forge Daughter)',
     'Silkshot (Twelfth Architect)',
     'Silkshot (Original)',
-)
+))
 
 # Every physical purchase which spends Craftmetal. The three Silkshot sources
 # are alternate repairs for one shared vanilla tool. Randomized repair handling
@@ -515,7 +515,7 @@ RUINED_TOOL_REPAIR_LOCATIONS: tuple[str, ...] = (
 # consumes one Craftmetal in total. Every other purchase consumes one. The
 # Bone_12 Loddie fallback keeps its free Tool Pouch branch and is not a
 # Craftmetal purchase.
-CRAFTMETAL_PURCHASE_LOCATIONS: frozenset[str] = frozenset({
+CRAFTMETAL_PURCHASE_LOCATIONS: frozenset[str] = frozenset(canonicalize_location_name(name) for name in {
     *RUINED_TOOL_REPAIR_LOCATIONS,
     'Pimpillo',
     'Cogwork Wheel',
@@ -985,7 +985,7 @@ TEMPORARILY_UNVERIFIED_KEY_OR_QUEST_LOCATIONS: frozenset[str] = frozenset(
         'Mask Shard: Dark Hearts',
         'Spider Strings',
         'Relic: Choral Commandment (Jubilana)',
-        'Spool Fragment: Jubilana (Songclave)',
+        'Songclave Shop - Spool Fragment',
     )
 )
 
@@ -1084,7 +1084,7 @@ MANUALLY_VERIFIED_MINOR_CACHE_LOCATIONS: frozenset[str] = frozenset(
     )
 )
 
-ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset({
+ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS: frozenset[str] = frozenset(canonicalize_location_name(name) for name in {
     "Architect's Key",
     'Blasted Steps - Map Purchase',
     'Blasted Steps - Memory Locket',
@@ -4909,13 +4909,13 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     # Every row below is a stable vanilla source, not the Nth shard collected.
     # Pebb relocates his unbought shard to Grindle in Act 3, so both physical
     # shop routes resolve to the same AP location.
-    ('Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)', area(
+    ('Bone Bottom Shop - Mask Shard (Grindle in Act 3)', area(
         1,
         'Mosslands - Bone Bottom',
     )),
     *(
         (
-            'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)',
+            'Bone Bottom Shop - Mask Shard (Grindle in Act 3)',
             requirement,
         )
         for requirement in grindle_access(3)
@@ -4994,7 +4994,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         'Greymoor - Wisp Thicket',
         'Ability: Faydown Cloak',
     )),
-    ('Mask Shard: Jubilana (Songclave)', area(
+    ('Songclave Shop - Mask Shard', area(
         2,
         'Choral Chambers - Songclave',
         'Event: Wandering Merchant Rescued',
@@ -5124,7 +5124,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
         ('Spool Fragment: Grindle (Blasted Steps)', requirement)
         for requirement in grindle_access(1)
     ),
-    ('Spool Fragment: Jubilana (Songclave)', area(
+    ('Songclave Shop - Spool Fragment', area(
         2,
         'Choral Chambers - Songclave',
         'Path: Outlying Citadel - Memorium',
@@ -5589,7 +5589,7 @@ _ROOM_GRAPH_ESTABLISHED_ONLY_LOCATIONS: frozenset[str] = frozenset(
 # They supplement source geometry instead of becoming alternate routes.
 _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     str, tuple[LocationRequirement, ...]
-] = {
+] = {canonicalize_location_name(name): clauses for name, clauses in {
     'Throwing Ring': (
         req(
             "Event: Trail's End Completed",
@@ -5752,7 +5752,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
         for location_name, relic_item_name
         in SCROUNGE_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
     },
-}
+}.items()}
 
 
 # These are distinct physical sources or later vendor-stock states.  They stay
@@ -5760,7 +5760,7 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
 # with it as though their path were an extra local movement requirement.
 _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     str, tuple[LocationRequirement, ...]
-] = {
+] = {canonicalize_location_name(name): clauses for name, clauses in {
     'Boss: Fourth Chorus': (
         req('Event: Act 3 Started', crest=False),
     ),
@@ -5772,7 +5772,7 @@ _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     ),
     'Bone Bottom Shop - Craftmetal': grindle_access(3),
     'Bone Bottom Shop - Simple Key': grindle_access(3),
-    'Pebb (Bone Bottom) / Grindle (Act 3) - Mask Shard': (
+    'Bone Bottom Shop - Mask Shard (Grindle in Act 3)': (
         grindle_access(3)
     ),
     'Magnetite Brooch': grindle_access(3),
@@ -5803,7 +5803,7 @@ _ROOM_GRAPH_EXTERNAL_SOURCE_ALTERNATIVES: Mapping[
     'Pin Purchase: Vendor Pins': (
         req('Path: Greymoor - Halfway House', crest=False),
     ),
-}
+}.items()}
 
 
 def _merge_item_count_requirements(

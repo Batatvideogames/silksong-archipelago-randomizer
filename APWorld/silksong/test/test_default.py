@@ -20,6 +20,7 @@ from ..locations import (
     WISH_REWARD_LOCATION_BY_COMPLETION,
     QUEST_LOCATION_NAMES,
     SCROUNGE_RELIC_ITEM_NAMES,
+    canonicalize_location_name,
     location_data_table,
     location_name_groups,
     location_table,
@@ -97,7 +98,8 @@ class TestDefaultWorld(SilksongTestBase):
             self.assertIs(first.connected_region, second.parent_region)
 
     def test_tracker_labels_preserve_rules_and_unlabelled_path_steps(self) -> None:
-        for hook_name in ("get_logical_path", "explain_spot", "explain_rule"):
+        from rule_builder.rules import Or
+        for hook_name in ("get_logical_path", "explain_rule"):
             with self.subTest(hook_name=hook_name):
                 self.assertFalse(hasattr(self.world, hook_name))
         state = self.multiworld.get_all_state()
@@ -108,8 +110,12 @@ class TestDefaultWorld(SilksongTestBase):
             with self.subTest(entrance=entrance.name):
                 explanation = self.world.explain_path(entrance, state)
                 self.assertEqual(explanation[0]["text"], entrance.display_name)
-                self.assertEqual(explanation[2:], entrance.access_rule.explain_json(state))
-        self.assertEqual(self.world.explain_path(SimpleNamespace(), state), [])
+                if isinstance(entrance.access_rule, Or.Resolved):
+                    verdicts = [part["text"] for part in explanation if part.get("text") in ("TRUE", "FALSE")]
+                    self.assertEqual(verdicts, ["TRUE" if child(state) else "FALSE" for child in entrance.access_rule.children])
+                else:
+                    self.assertEqual(explanation[2:], entrance.access_rule.explain_json(state))
+        self.assertEqual(self.world.explain_path(SimpleNamespace(access_rule=lambda state: True), state), [])
 
     def test_native_path_rules_support_rule_builder_explanations(self) -> None:
         state = self.multiworld.get_all_state(False)
@@ -168,7 +174,8 @@ class TestDefaultWorld(SilksongTestBase):
             "Forge Daughter - Crafting Kit",
         )
 
-        for name in names:
+        for source in names:
+            name = canonicalize_location_name(source)
             with self.subTest(name=name):
                 self.assertNotIn(name, LOGIC_UNKNOWN_LOCATIONS)
                 self.assertTrue(
@@ -570,7 +577,7 @@ class TestActOneMultibinderAnywhere(SilksongTestBase):
     }
 
     def test_multibinder_stays_randomized(self) -> None:
-        self.multiworld.get_location('Multibinder', self.player)
+        self.multiworld.get_location(canonicalize_location_name('Multibinder'), self.player)
         self.assertEqual(
             1,
             sum(

@@ -1,6 +1,8 @@
 using GlobalEnums;
+using HarmonyLib;
 using SilksongRandomizer.Patches;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using static GameManager;
 
@@ -8,6 +10,8 @@ namespace SilksongRandomizer
 {
     internal static class FastTravelUtil
     {
+        private static SaveState pendingBenchState;
+        private static string pendingBenchScene;
         internal const string EntranceHubKey = "room_entrance";
         internal const string BoneBottomHubKey = "bone_bottom";
         internal const string GreymoorHubKey = "greymoor";
@@ -375,6 +379,8 @@ namespace SilksongRandomizer
                 }
                 if (useStartingCheckpoint)
                     GameManager.instance.RespawningHero = true;
+                pendingBenchState = SaveState.Instance;
+                pendingBenchScene = useStartingCheckpoint && entryGateName == "RestBench" ? sceneName : null;
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,
@@ -383,6 +389,8 @@ namespace SilksongRandomizer
             }
             catch
             {
+                pendingBenchState = null;
+                pendingBenchScene = null;
                 if (playerData != null)
                 {
                     playerData.travelling = wasTravelling;
@@ -395,6 +403,27 @@ namespace SilksongRandomizer
                 throw;
             }
             return true;
+        }
+
+        [HarmonyPatch(typeof(HeroController), nameof(HeroController.Respawn))]
+        private static class WarpBenchRest
+        {
+            private static void Postfix(HeroController __instance, UnityEngine.Transform spawnPoint, ref IEnumerator __result)
+            {
+                bool rest = pendingBenchScene != null && ReferenceEquals(pendingBenchState, SaveState.Instance) &&
+                    GameManager.instance.GetSceneNameString() == pendingBenchScene &&
+                    spawnPoint != null && spawnPoint.name == "RestBench" &&
+                    FSMUtility.LocateFSM(spawnPoint.gameObject, "Bench Control") != null;
+                pendingBenchState = null;
+                pendingBenchScene = null;
+                if (rest) __result = RestAfterRespawn(__result, __instance, SaveState.Instance);
+            }
+
+            private static IEnumerator RestAfterRespawn(IEnumerator respawn, HeroController hero, SaveState state)
+            {
+                while (respawn.MoveNext()) yield return respawn.Current;
+                if (hero != null && ReferenceEquals(state, SaveState.Instance)) hero.SetIsMaggoted(false);
+            }
         }
 
         private static WarpDestination ResolveDestination()

@@ -66,7 +66,7 @@ def _location_first_display_name(location_name: str) -> str:
         prefix = f'{item_label}: '
         if location_name.startswith(prefix):
             return location_first_name(location_name)
-    return location_name
+    return clean_location_display_name(location_name)
 
 
 def get_item_first_location_name(location_name: str) -> str:
@@ -444,7 +444,7 @@ CURRENT_CORE_SOURCE_NAMES: tuple[str, ...] = (
     'Tool: Throwing Ring',
     "Tool: Delver's Drill",
     'Tool: Quick Sling',
-    'Tool: Spider Strings',
+    'Songclave Shop - Spider Strings',
     'Tool: Fractured Mask',
     'Tool: Silkspeed Anklets',
     'Tool: Weighted Belt',
@@ -461,7 +461,7 @@ CURRENT_CORE_SOURCE_NAMES: tuple[str, ...] = (
     'Tool: Cogwork Wheel',
     'Tool: Flea Brew',
     'Tool: Magnetite Dice',
-    'Tool: Magnetite Brooch',
+    'Bone Bottom Shop - Magnetite Brooch (Grindle in Act 3)',
     'Tool: Weavelight',
     'Tool: Pin Badge',
     'Tool: Needle Phial',
@@ -476,10 +476,10 @@ CURRENT_CORE_SOURCE_NAMES: tuple[str, ...] = (
     'Tool: Flintslate',
     'Tool: Wreath of Purity',
     'Tool: Magma Bell',
-    "Tool: Ascendant's Grip",
+    "Songclave Shop - Ascendant's Grip",
     'Tool: Longclaw',
     'Tool: Shard Pendant',
-    'Tool: Spool Extender',
+    'Songclave Shop - Spool Extender',
     'Tool: Egg of Flealia',
     'Silk Skill: Silkspear',
     'Silk Skill: Cross Stitch',
@@ -537,7 +537,7 @@ _RELIC_CANONICAL_LOCATION_NAMES: tuple[str, ...] = (
     'Relic: Bone Scroll (Wisp Thicket)',
     'Relic: Weaver Effigy (Camora, Moss Grotto)',
     'Relic: Sacred Cylinder',
-    'Relic: Choral Commandment (Jubilana)',
+    'Songclave Shop - Choral Commandment',
     'Relic: Psalm Cylinder (Underworks)',
     'Relic: Rune Harp (High Halls)',
     'Relic: Psalm Cylinder (Vaultkeeper Cardinius)',
@@ -613,7 +613,7 @@ RELIC_TURN_IN_LOCATION_CATEGORY = 'RelicTurnIn'
 
 # These names describe the persistent physical source that was collected.
 _MASK_SHARD_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
-    'Mask Shard: Pebb (Bone Bottom) / Grindle (Act 3)',
+    'Bone Bottom Shop - Mask Shard (Grindle in Act 3)',
     'Mask Shard: Wormways',
     'Mask Shard: Far Fields (Above the Seamstress)',
     'Mask Shard: Shellwood',
@@ -627,7 +627,7 @@ _MASK_SHARD_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Mask Shard: The Slab (Key of the Apostate)',
     'Mask Shard: Mount Fay',
     'Mask Shard: Wisp Thicket',
-    'Mask Shard: Jubilana (Songclave)',
+    'Songclave Shop - Mask Shard',
     'Mask Shard: Blasted Steps',
     'Mask Shard: Fastest in Pharloom',
     'Mask Shard: The Hidden Hunter',
@@ -657,7 +657,7 @@ _SPOOL_FRAGMENT_ITEM_FIRST_LOCATION_NAMES: tuple[str, ...] = (
     'Spool Fragment: High Halls',
     'Spool Fragment: Memorium',
     'Spool Fragment: Grindle (Blasted Steps)',
-    'Spool Fragment: Jubilana (Songclave)',
+    'Songclave Shop - Spool Fragment',
 )
 SPOOL_FRAGMENT_LOCATION_NAMES: tuple[str, ...] = tuple(
     _location_first_display_name(name)
@@ -716,6 +716,9 @@ _DIRECT_LOCATION_RENAMES: dict[str, str] = {
 }
 
 _DIRECT_LOCATION_RENAMES.update({
+    'Simple Key: Bone Bottom Shop': 'Bone Bottom Shop - Simple Key (Grindle in Act 3)',
+    'Craftmetal: Bone Bottom Shop': 'Bone Bottom Shop - Craftmetal (Grindle in Act 3)',
+    'White Key': 'Songclave Shop - White Key',
     'Pin Purchase: Bench': 'Pin Purchase: Bench Pins',
     'Pin Purchase: Ventrica': 'Pin Purchase: Ventrica Pins',
     'Pin Purchase: Bellway': 'Pin Purchase: Bellway Pins',
