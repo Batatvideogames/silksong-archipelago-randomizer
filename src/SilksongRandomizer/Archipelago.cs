@@ -22,7 +22,7 @@ namespace SilksongRandomizer
     public sealed class Archipelago
     {
         internal const string VersionHelpUrl =
-            "https://github.com/Batatvideogames/silksong-archipelago-randomizer#frequently-asked-questions-faq";
+            "https://github.com/Batatvideogames/silksong-archipelago-randomizer#i-got-an-error-saying-my-apworld-version-is-incompatible";
         internal const string VersionHelpSuffix =
             " More help can be found in the FAQ: " + VersionHelpUrl;
         public const string GoalLocationName = "Goal";
