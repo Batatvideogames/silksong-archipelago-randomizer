@@ -133,6 +133,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
     physical_entrances, positioned_entrances, positioned_checks = set(), set(), set()
     missing_links, turn_ins, entrance_details = [], {}, {}
     ignored = Counter()
+    entrance_anchors = {}
 
     ## Assemble maps
 
@@ -237,6 +238,15 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
             # Keep existing markers for scripted links, without adding new ones.
             if nonphysical and (entrance.get("image_pixel_x") is None or entrance.get("image_pixel_y") is None):
                 continue
+            if name in pool_names and entrance.get("id") and scene:
+                normalizedX = point[0] / width;
+                normalizedY = point[1] / height;
+                entrance_anchors[entrance["id"]] = {
+                    "scene": scene, 
+                    "gate": gate,
+                    "x": round(normalizedX, 6),
+                    "y": round(1.0 - normalizedY, 6),
+                }
             children.append(marker(room, [name], point))
             positioned_entrances.add(name)
 
@@ -336,7 +346,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
         if lost:
             raise ValueError('Rebuild would remove existing room maps: ' + ', '.join(sorted(lost)))
     output.mkdir(parents=True, exist_ok=True)
-    for filename, data in [("maps.json", maps), ("locations.json", locations), ("errors.json", errors)]:
+    for filename, data in [("maps.json", maps), ("locations.json", locations), ("errors.json", errors), ("entrance_anchors.json", entrance_anchors)]:
         (output / filename).write_text(json.dumps(data, indent=1), encoding="utf-8")
     source = "# Generated File\n\nfrom typing import Any\n\nmapping = {\n"
     source += "".join(f"\t{json.dumps(scene)}:{index},\n" for scene, index in mapping.items())
@@ -351,7 +361,7 @@ def build(geometry_path, image_root, output, world, catalogue_path=None, pack_pa
     if manifest_path:
         manifest = dict(images=image_manifest,
                         files={name: hashlib.sha256((output / name).read_bytes()).hexdigest()
-                               for name in ('maps.json', 'locations.json', 'mapping.py')},
+                               for name in ('maps.json', 'locations.json', 'mapping.py', 'entrance_anchors.json')},
                         inputs={name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in (
                             ('geometry', geometry_path), ('catalogue', catalogue_path),
                             ('graph', world / 'room_graph_data.json'), ('pool', world / 'entrance_pool.json'),
