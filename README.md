@@ -53,7 +53,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a15150-4496-f47c-5102-41aae48899c7` (Same as R2Modman)
+**Cogfly Import Code:** `01a16f9f-cc8a-7057-1c4b-4d17d794fec2` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -66,7 +66,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a15150-4496-f47c-5102-41aae48899c7` (Same as Cogfly)
+**R2Modman Import Code:** `01a16f9f-cc8a-7057-1c4b-4d17d794fec2` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -144,21 +144,27 @@ Short answer, no. Please refer to I’m stuck somewhere, what do I do?
 Long answer, it can cause softlocks and other issues, it can be used but at your own risk of issues and potential woodchipper related incidents.
 
 ### I Got An Error Saying My APWorld Version is Incompatible
-This occurs when you've changed your APWorld to a new version for an update while having your world generated on an old one.
+This occurs when you've changed your Randomizer Mod to a new version for an update while having your world generated on an old one.
 
-Use one of the installation methods to downgrade. Manual is preferred for downgrading but here are some old codes for the mod managers.
+Use one of the installation methods to downgrade. Manual is preferred for downgrading.
 
 Given that Cogfly has some issues currently with import codes, you can downgrade manually by pressing the link attached to the version numbers below and then follow the steps. 
 
 Alternatively, you can always replace Cogfly with a different mod manager that allows for downgrading. Downgrading on those mod managers can typically be done by uninstalling the mod and then reinstalling it and selecting the appropriate version to your generated run.
 
+#### Manual Downgrading
+
 1.) Go to your BepInEx plugins folder, depending on your install this is located in one of two places. 
    - For a manual installation it should be in your game directory. 
    - For a mod manager, you want to go into the profile folder. For R2ModMan, this is in "Settings > Profile Folder". For Cogfly, go into the profile and press "Open Profile Folder".
 
-2.) Go into BepInEx. Go into plugins. Go into the Silksong Randomizer folder this can also be named "BatAtVideoGames-SilksongArchipelagoRandomizer". A file named "SilksongRandomizer.dll" will be present in the folder, you want to replace this file using the version in one of the .rar files from below.
+2.) Go into the "BepInEx" folder. Go into the "plugins" folder. Go into the "Silksong Randomizer" folder this can also be named "BatAtVideoGames-SilksongArchipelagoRandomizer". A file named "SilksongRandomizer.dll" will be present in the folder, you want to replace this file using the version in one of the .rar files from below.
 
 3.) Start up your game normally after replacing and you should be able to connect once again.
+
+#### Old Import Codes
+
+[**v0.5.3**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.3) Import Code: `01a16f9f-cc8a-7057-1c4b-4d17d794fec2`
 
 [**v0.5.2**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.2) Import Code: `01a15150-4496-f47c-5102-41aae48899c7`
 
@@ -228,7 +234,7 @@ Some of these regions are still incomplete and still being mapped out. They've b
 | **Heric** | [Memorium](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/memorium) |
 | **Hero** | [Bone Bottom](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bone-bottom), [Deep Docks](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/deep-docks), [Far Fields](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/far-fields), [Hunter's March](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/hunter-s-march), [Moss Grotto](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/moss-grotto), [The Marrow](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-marrow), [Weavenest Atla](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/weavenest-atla), [Wormways](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/wormways) |
 | **Isssma** | [Greymoor](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/greymoor) |
-| **Maya** | [The Slab](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-slab)
+| **Maya** | [Blasted Steps](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/blasted-steps), [The Slab](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-slab) |
 | **Pyxl** | [Bellhart](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bellhart), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [Mount Fay](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/mount-fay), [Putrified Ducts](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/putrified-ducts), [Sands of Karak](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/sands-of-karak), [Shellwood](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/shellwood), [The Abyss](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-abyss), [The Cradle](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-cradle), [Verdania](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/verdania) |
 | **Rebel** | [Cogwork Core](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/cogwork-core), [Underworks (East)](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/underworks), [Whispering Vaults](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whispering-vaults) |
 | **Sergio** | [Choral Chambers](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/choral-chambers), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [High Halls](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/high-halls), [The Slab](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-slab), [Underworks (West)](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/underworks), [Wisp Thicket](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whisp-thicket) |
