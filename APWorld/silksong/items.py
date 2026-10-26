@@ -442,6 +442,7 @@ ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source i
 ITEM_TABLE_SOURCE += (("Boss Credit: Palestag", "Boss"),)
 ITEM_TABLE_SOURCE += tuple((name, "InnateAbility" if name.startswith("Ledge Grab") else "Skill") for name in DIRECTIONAL_ITEMS)
 ITEM_TABLE_SOURCE += (("Sprint", "Skill"), ("Conjoined Heart", "OldHeart"))
+ITEM_TABLE_SOURCE += (("Materium", "Materium"), ("Flintstone", "Materium"), ("Magnetite", "Materium"), ("Farsight", "Farsight"))
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -667,6 +668,7 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
         "Silkeater",
         "BellShrine",
         "Boss",
+        "Farsight",
     }
 ) | frozenset(POOL_ONLY_USEFUL_ITEM_NAMES)
 
@@ -912,7 +914,7 @@ class ItemPoolEntry:
 
 def _is_replaceable_filler(item_name: str) -> bool:
     data = item_data_table[item_name]
-    return data.classification == ItemClassification.filler and data.category not in {'Memento', 'Journal'}
+    return data.classification == ItemClassification.filler and data.category not in {'Memento', 'Materium', 'Farsight', 'Journal'}
 
 
 def add_pool_only_useful_items(
@@ -1022,6 +1024,8 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'OldHeart',
     'Everbloom',
     'Memento',
+    'Materium',
+    'Farsight',
     'TwistedBud',
     'Eva',
     'Skill',
@@ -1180,6 +1184,8 @@ def get_vanilla_reward_name(
         return clean_item_display_name(source_location_name)
     if category in REPEATED_CATEGORY_ITEM_COUNTS:
         return next(iter(REPEATED_CATEGORY_ITEM_COUNTS[category]))
+    if category == 'Materium':
+        return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite'}[location_name]
     if category == 'MajorKey':
         try:
             return {
@@ -1821,7 +1827,7 @@ def build_item_pool_entries(
         indices = [index for index, entry in enumerate(entries)
                    if entry.placement_category is None
                    and item_data_table[entry.name].classification == ItemClassification.filler
-                   and entry.source_category not in {'Memento', 'MemoryLocket', 'Journal'}]
+                   and entry.source_category not in {'Memento', 'Materium', 'Farsight', 'MemoryLocket', 'Journal'}]
         if len(indices) < len(soul_pool_entries):
             raise OptionError(
                 f"Boss and NPC Souls need {len(soul_pool_entries)} anywhere filler slots; "
@@ -1939,7 +1945,7 @@ def build_item_pool_entries(
             elif (
                 category_modes.get(entry.source_category, 'anywhere') == 'anywhere'
                 and not (silk_soar_begone and entry.name == SILK_SOAR_ITEM)
-                and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento'}
+                and entry.source_category not in {'OldHeart', 'Everbloom', 'Memento', 'Materium', 'Farsight'}
                 and not (act_one_only and entry.source_category in {'Soul', 'TwistedBud'})
                 and not (act_one_only and (
                     'Cylinder' in entry.name

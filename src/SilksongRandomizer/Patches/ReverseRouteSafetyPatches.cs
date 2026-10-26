@@ -233,6 +233,34 @@ namespace SilksongRandomizer.Patches
                 scene + " " + gate + ".");
         }
 
+        private static IEnumerator RevealTerminusEntry()
+        {
+            for (int frame = 0; frame < WallSearchFrames; frame++)
+            {
+                HeroController hero = HeroController.SilentInstance;
+                if (!IsRoomBoundScene(hero, "Tube_Hub") || !PlayerData.instance.blackThreadWorld ||
+                    (hero.GetEntryGateName() != "left3" && hero.GetEntryGateName() != "left4")) yield break;
+                Transform[] objects = Resources.FindObjectsOfTypeAll<Transform>()
+                    .Where(t => t != null && t.gameObject.scene.name == "Tube_Hub").ToArray();
+                SpriteRenderer[] covers = new[] { 21, 22, 23 }.Select(number => objects
+                    .SingleOrDefault(t => Utils.GetHierarchyPath(t) ==
+                        "Black Thread States/Black Thread World/collapse_pieces/collapse_chunks_0006_1 (" + number + ")")
+                    ?.GetComponent<SpriteRenderer>()).ToArray();
+                GameObject cameraLock = objects.SingleOrDefault(t => Utils.GetHierarchyPath(t) ==
+                    "Black Thread States/Black Thread World/CameraLockArea (4)")?.gameObject;
+                if (covers.Any(cover => cover == null || !IsEntryVisual(cover.gameObject, "Tube_Hub")) ||
+                    !IsEntryVisual(cameraLock, "Tube_Hub") || cameraLock.GetComponent<CameraLockArea>() == null)
+                {
+                    yield return null;
+                    continue;
+                }
+                foreach (SpriteRenderer cover in covers) cover.enabled = false;
+                cameraLock.SetActive(false);
+                yield break;
+            }
+            RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve Terminus entrance covers.");
+        }
+
         private static IEnumerator RevealNylethEntry()
         {
             const string scene = "Under_27";
@@ -297,6 +325,17 @@ namespace SilksongRandomizer.Patches
                     .FirstOrDefault(fsm => fsm.FsmName == ArboriumWallFsm)).ToArray();
                 covers = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallMasksVariable)?.Value).ToArray();
                 locks = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallCameraLocksVariable)?.Value).ToArray();
+            }
+            else if (scene == "Slab_15")
+            {
+                PlayMakerFSM wall = Find("Breakable Wall Waterways")?.GetComponents<PlayMakerFSM>()
+                    .SingleOrDefault(fsm => fsm.FsmName == ArboriumWallFsm);
+                GameObject cameraGroup = wall?.FsmVariables.FindFsmGameObject(WallCameraLocksVariable)?.Value;
+                if (cameraGroup == null) return false;
+                covers = new[] { wall.FsmVariables.FindFsmGameObject(WallMasksVariable)?.Value };
+                locks = cameraGroup.GetComponentsInChildren<CameraLockArea>(true)
+                    .Select(area => area.gameObject).ToArray();
+                if (locks.Length != 1) return false;
             }
             else if (scene == ShellwoodScene)
             {
@@ -1446,6 +1485,12 @@ namespace SilksongRandomizer.Patches
             [HarmonyPostfix]
             private static void Postfix(HeroController __instance)
             {
+                if (IsRoomBoundScene(__instance, "Tube_Hub"))
+                    __instance.StartCoroutine(RevealTerminusEntry());
+
+                if (IsRoomBoundScene(__instance, "Slab_15") && __instance.GetEntryGateName() == "top1")
+                    __instance.StartCoroutine(RevealSideEntry("Slab_15", "top1"));
+
                 if (IsRoomBoundScene(__instance, "Under_27") && __instance.GetEntryGateName() == "left1")
                     __instance.StartCoroutine(RevealNylethEntry());
 

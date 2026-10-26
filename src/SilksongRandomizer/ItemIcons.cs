@@ -297,8 +297,15 @@ namespace SilksongRandomizer
                 case "Surface Memento": collectableName = "Memento Surface"; break;
                 case "Craw Memento": collectableName = "Crowman Memento"; break;
                 case "Everbloom": collectableName = "White Flower"; break;
+                case "Farsight": collectableName = "Farsight"; break;
+                case "Materium": collectableName = "Materium"; break;
                 case "Diving Bell Key": collectableName = "Dock Key"; break;
                 case "Simple Key": collectableName = "Simple Key"; break;
+            }
+            if (rawName == "Flintstone" || rawName == "Magnetite")
+            {
+                var sample = CollectionItemSources.FindSample(rawName == "Flintstone" ? "Smeltstone" : rawName);
+                if (sample != null && sample.Icon != null) return sample.Icon;
             }
             if (collectableName != null)
             {

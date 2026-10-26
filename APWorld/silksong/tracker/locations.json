@@ -6211,6 +6211,21 @@
     ]
    },
    {
+    "name": "Flintstone",
+    "sections": [
+     {
+      "name": "Flintstone"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Deep Docks Chains West",
+      "x": 184,
+      "y": 585
+     }
+    ]
+   },
+   {
     "name": "Deep Docks - Rosary Cache #1",
     "sections": [
      {
@@ -25370,8 +25385,8 @@
     "map_locations": [
      {
       "map": "Whispering Vaults Hell",
-      "x": 221,
-      "y": 244
+      "x": 159,
+      "y": 84
      }
     ]
    },
@@ -25385,8 +25400,8 @@
     "map_locations": [
      {
       "map": "Whispering Vaults Hell",
-      "x": 491,
-      "y": 1063
+      "x": 566,
+      "y": 1008
      }
     ]
    },
@@ -30033,6 +30048,21 @@
     ]
    },
    {
+    "name": "Materium",
+    "sections": [
+     {
+      "name": "Materium"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Memorium Voltnest",
+      "x": 399,
+      "y": 68
+     }
+    ]
+   },
+   {
     "name": "Memorium Voltnest - left1",
     "sections": [
      {
@@ -33881,6 +33911,21 @@
   "name": "Mount Fay Magnetite Outcropping",
   "children": [
    {
+    "name": "Magnetite Outcrop",
+    "sections": [
+     {
+      "name": "Magnetite Outcrop"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Mount Fay Magnetite Outcropping",
+      "x": 57,
+      "y": 78
+     }
+    ]
+   },
+   {
     "name": "Mount Fay Magnetite Outcropping - right2",
     "sections": [
      {
@@ -36867,6 +36912,21 @@
  {
   "name": "Weavenest Absolom",
   "children": [
+   {
+    "name": "Farsight",
+    "sections": [
+     {
+      "name": "Farsight"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Weavenest Absolom",
+      "x": 962,
+      "y": 100
+     }
+    ]
+   },
    {
     "name": "Silk Soar",
     "sections": [

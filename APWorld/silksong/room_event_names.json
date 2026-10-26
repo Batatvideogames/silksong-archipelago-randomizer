@@ -7592,9 +7592,11 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/9daca89f-eada-4193-9512-be1a929b003c": {
-    "name": "Weavenest Absolom - Farsight",
+    "name": "Farsight",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Farsight"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/36fc6f30-aed2-4adb-be9a-2d00991cdee4": {
@@ -8066,7 +8068,7 @@
     "mapper_kind": "blockade"
   },
   "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f": {
-    "name": "Underworks Shaft - Unneeded Lever",
+    "name": "Underworks Shaft - Not-So-Unneeded Lever",
     "kind": "switch",
     "locations": [],
     "mapper_kind": "switch"
@@ -8970,5 +8972,23 @@
     "kind": "event",
     "locations": [],
     "mapper_kind": "event"
+  },
+  "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888": {
+    "name": "Whispering Vaults Hell - Fuckass Shortcut Box I Forgot About",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c": {
+    "name": "Whispering Vaults Hell - Optional Fuckass Shortcut Box",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/56c85c0f-c7ce-4d72-a3b9-203405f84fae": {
+    "name": "Putrified Ducts Entrance - Breakable Wall Ducts entrance Start",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
   }
 }

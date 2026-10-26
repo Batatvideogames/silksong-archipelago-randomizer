@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 533,
-    "aggregate_sha256": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
-    "catalogue_sha256": "f0b8a8085ca19c808cc8b4ba0f6b6b1c11d740a1268137aab81c675ad9a69096",
-    "bindings_sha256": "7f50e6da349a291c3f3bccb347a244b9f46f94cba6a34f2a3cdaa3434dcb55ae"
+    "aggregate_sha256": "a25c8cea91e9b4afc84f5a83686159860f760582efd5ac1fd03b9ab76b17dd4a",
+    "catalogue_sha256": "1791158a47155d9d64fdc5b7a531948c8582349e408648169eaca4830c0ea8fc",
+    "bindings_sha256": "38bad1176862aa64fb5e36be0c36e68fa866794347bba3e6df21b1f7fb25789d"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -298,6 +298,7 @@
       "Far Fields - Shell Shard Cache #6",
       "Far Fields - Shell Shard Cache #7",
       "Far Fields - Weavenest Cindril Inscription",
+      "Farsight",
       "Fastest in Pharloom - Mask Shard",
       "Faydown Cloak",
       "Flea Brew",
@@ -339,6 +340,7 @@
       "Fleatopia - Rosary String",
       "Fleatopia - Tool Pouch",
       "Flintslate",
+      "Flintstone",
       "Forge Daughter - Crafting Kit",
       "Fractured Mask",
       "Frey (Bellhart) - Spool Fragment",
@@ -468,12 +470,14 @@
       "Longpin",
       "Magma Bell",
       "Magnetite Dice",
+      "Magnetite Outcrop",
       "Maiden Soul",
       "Maintenance Head chief's embezzled Rosary cache",
       "Maintenance Tunnel's Rosary cache budget",
       "Maintenance Worker's Wage Rosary cache",
       "Marrowmaw - Beast Shard",
       "Mask Shard: Shellwood",
+      "Materium",
       "Memorium - Beast Shard",
       "Memorium - Lower Plaque",
       "Memorium - Map Purchase",
@@ -44150,7 +44154,7 @@
       "area_id": "deep-docks",
       "name": "Deep Docks Bellway",
       "source_file": "deep-docks/deep-docks-bellway.json",
-      "source_sha256": "c8970e1394e26a15d0053ee9acafa433926bb2bdf6f830c8df53821f9dd34999",
+      "source_sha256": "e8cb1ea6d281c899dea16b143b229c694b45652b7062e975199e6ea8291c2381",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -44362,32 +44366,6 @@
           "node_id": "deep-docks/deep-docks-bellway#bell-beast"
         },
         {
-          "id": "event:mapper/84982288-64ae-4e46-b9b6-1eebf3592294",
-          "requirement": {
-            "raw": "Break Wall Left",
-            "mode": "expression",
-            "dnf": [
-              [
-                "mapper:attack:left"
-              ]
-            ],
-            "annotations": [],
-            "catalogue_recovered": false,
-            "minimum_skip_tier": 0,
-            "unresolved_reasons": []
-          },
-          "notes": "",
-          "source_line": 0,
-          "raw_cells": {
-            "mapper_id": "84982288-64ae-4e46-b9b6-1eebf3592294"
-          },
-          "logic_status": "active",
-          "unresolved_reasons": [],
-          "label": "bellway breakable wall",
-          "kind": "blockade",
-          "node_id": "deep-docks/deep-docks-bellway#bell-beast"
-        },
-        {
           "id": "event:mapper/6ef2562b-add1-4c36-a7b2-11e14752d144",
           "requirement": {
             "raw": "unlock bellway rosary lock",
@@ -44411,6 +44389,32 @@
           "unresolved_reasons": [],
           "label": "bellway deep docks",
           "kind": "travel",
+          "node_id": "deep-docks/deep-docks-bellway#bell-beast"
+        },
+        {
+          "id": "event:mapper/84982288-64ae-4e46-b9b6-1eebf3592294",
+          "requirement": {
+            "raw": "Break Wall Left",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "84982288-64ae-4e46-b9b6-1eebf3592294"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "bellway breakable wall",
+          "kind": "blockade",
           "node_id": "deep-docks/deep-docks-bellway#bell-beast"
         }
       ],
@@ -50452,6 +50456,32 @@
           "currently_randomized": true
         },
         {
+          "id": "deep-docks/deep-docks-chains-west::mapper-check:022b58d6-24bc-4bd0-842c-69a40ccff8d2:836441",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "022b58d6-24bc-4bd0-842c-69a40ccff8d2"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "flintstone journal collection point",
+          "node_id": "deep-docks/deep-docks-chains-west#lower-left-exit",
+          "canonical_location": "Flintstone",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "deep-docks/deep-docks-chains-west::mapper-check:6384476f-2dc5-4c56-809f-4754927d7a41:835889",
           "requirement": {
             "raw": "none",
@@ -50505,11 +50535,6 @@
         }
       ],
       "omitted_check_rows": [
-        {
-          "mapper_id": "022b58d6-24bc-4bd0-842c-69a40ccff8d2",
-          "label": "flintstone journal collection point",
-          "kind": "lore"
-        },
         {
           "mapper_id": "f2a57662-adce-4618-8b86-a54a74d159ae",
           "label": "Lavalug 1",
@@ -182041,7 +182066,7 @@
       "area_id": "underworks",
       "name": "Underworks Silk Spool",
       "source_file": "underworks/underworks-silk-spool.json",
-      "source_sha256": "1b39c4381bc09cc545b6c958768c92e16f56c81db95e28b45177d0ded913f6d0",
+      "source_sha256": "9c00c1acb8df1db950321dd6fe62f30c94ae2a770d720f52cd26014320a4705a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -182642,6 +182667,381 @@
           "name": "Right-Left",
           "source_node_id": "underworks/underworks-silk-spool#upper-right",
           "target_node_id": "underworks/underworks-silk-spool#upper-left"
+        },
+        {
+          "id": "underworks/underworks-silk-spool#upper-right>bottom@br",
+          "requirement": {
+            "raw": "Nothing (Fall)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "737c7418-4bf6-4528-a554-fbff8daaec7f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BR",
+          "name": "Bottom-Right",
+          "source_node_id": "underworks/underworks-silk-spool#upper-right",
+          "target_node_id": "underworks/underworks-silk-spool#bottom"
+        },
+        {
+          "id": "underworks/underworks-silk-spool#bottom>upper-right@br",
+          "requirement": {
+            "raw": "( ( ( ( (Faydown Cloak AND Ledge Grab Left) OR Magma Bell) AND (Silk Soar AND Proficient Movement) )\nOR\n(Cling Grip Right AND Faydown Cloak)\nOR\nCling Grip Left\nOR\n( (Scuttlebrace AND ( Faydown Cloak\nOR\n( Easy [Shaman] Pogo AND Ponder the Orb AND Sprint) ) ) ) )\nAND\n( ( Sharpdart x 2 AND Faydown Cloak AND Cling Grip Right )\nOR\n( Clawline Right AND ( Faydown Cloak OR Medium Pogo OFF [Underloft] OR Cling Grip Right) )\nOR\n( Spike Pogo AND (Medium Pogo OFF [Underloft] OR Faydown Cloak OR Cling Grip Right OR Ledge Grab Right ) ) ) )",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "macro:usable-magma-bell",
+                "item:silk-soar",
+                "mapper:proficient-movement:none",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "item:faydown-cloak",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "mapper:sharpdart:2",
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "mapper:clawline:right:1",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "macro:spike-pogo",
+                "mapper:enemy-type-pogo:Understore Thrower:medium"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "macro:spike-pogo",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "macro:spike-pogo",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:none",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:elite-ball-knowledge:none",
+                "macro:progressive-swift-step-first",
+                "macro:spike-pogo",
+                "mapper:ledge-grab-direction:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "wack.",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e51fb2c7-1af4-4286-acac-702c314cdedc"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "BR",
+          "name": "Bottom-Right",
+          "source_node_id": "underworks/underworks-silk-spool#bottom",
+          "target_node_id": "underworks/underworks-silk-spool#upper-right"
         }
       ],
       "events": [
@@ -186083,7 +186483,7 @@
       "area_id": "underworks",
       "name": "Underworks Shaft",
       "source_file": "underworks/underworks-shaft.json",
-      "source_sha256": "08500f53528348a50d63b431de982e91693ebf1d17828d98b0ca5a71ebf2e21c",
+      "source_sha256": "ec5a560ec44d66fa85f13dddb71a5f36a5f81bffb4589291a2a2260e002ce8bb",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -186534,11 +186934,14 @@
         {
           "id": "underworks/underworks-shaft#mid>lever@lm",
           "requirement": {
-            "raw": "Activate Platform Fall Lever",
+            "raw": "Activate Platform Fall Lever OR Activate Not-So-Unneeded Lever",
             "mode": "expression",
             "dnf": [
               [
                 "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f"
               ]
             ],
             "annotations": [],
@@ -186561,7 +186964,7 @@
         {
           "id": "underworks/underworks-shaft#lever>mid@lm",
           "requirement": {
-            "raw": "Activate Platform Fall Lever AND (Cling Grip OR Ledge Grab OR Faydown Cloak OR Silk Soar)",
+            "raw": "(Activate Platform Fall Lever OR Activate Not-So-Unneeded Lever) AND (Cling Grip OR Ledge Grab OR Faydown Cloak OR Silk Soar)",
             "mode": "expression",
             "dnf": [
               [
@@ -186578,6 +186981,22 @@
               ],
               [
                 "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                "item:silk-soar"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                "item:cling-grip"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                "capability:ledge-grab"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                "item:faydown-cloak"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                 "item:silk-soar"
               ]
             ],
@@ -186601,11 +187020,14 @@
         {
           "id": "underworks/underworks-shaft#mid>bottom@mb",
           "requirement": {
-            "raw": "Activate Platform Fall Lever",
+            "raw": "Activate Platform Fall Lever OR Activate Not-So-Unneeded Lever",
             "mode": "expression",
             "dnf": [
               [
                 "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145"
+              ],
+              [
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f"
               ]
             ],
             "annotations": [],
@@ -186628,23 +187050,20 @@
         {
           "id": "underworks/underworks-shaft#bottom>mid@mb",
           "requirement": {
-            "raw": "Activate Platform Fall Lever AND (Cling Grip OR Ledge Grab OR Faydown Cloak OR Silk Soar)",
+            "raw": "Activate Not-So-Unneeded Lever AND (Cling Grip OR (Faydown Cloak AND Ledge Grab) OR Silk Soar)",
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                 "item:cling-grip"
               ],
               [
-                "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                "item:faydown-cloak",
                 "capability:ledge-grab"
               ],
               [
-                "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
-                "item:faydown-cloak"
-              ],
-              [
-                "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                "event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                 "item:silk-soar"
               ]
             ],
@@ -186668,12 +187087,10 @@
         {
           "id": "underworks/underworks-shaft#mid>bottom-lever@bl",
           "requirement": {
-            "raw": "Activate Platform Fall Lever",
+            "raw": "Nothing. (Fall)",
             "mode": "expression",
             "dnf": [
-              [
-                "event:mapper/a68ba937-702d-4a9b-927b-f5158217f145"
-              ]
+              []
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -186996,7 +187413,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Unneeded Lever",
+          "label": "Not-So-Unneeded Lever",
           "kind": "switch",
           "node_id": "underworks/underworks-shaft#bottom-lever"
         },
@@ -187030,9 +187447,190 @@
       "checks": [],
       "omitted_check_rows": [
         {
-          "mapper_id": "61c1942e-36ed-4cc5-b3df-90912233fb56",
-          "label": "import enemies",
-          "kind": "unknown"
+          "mapper_id": "1c8374cc-469e-4e1a-a858-e0ae271d57bb",
+          "label": "Underloft 1",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Thrower (3)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 18.99,
+            "y": 220.06,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "bc3aad79-6a1c-4d32-915f-bbfe02baa68d",
+          "label": "Underpoke 1",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Poker (1)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 27.18,
+            "y": 133.37,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "d62151eb-b065-4221-b323-2a514cfc5279",
+          "label": "Underloft 2",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Thrower\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 24.279,
+            "y": 62.15418,
+            "z": 0.00667646853
+          }
+        },
+        {
+          "mapper_id": "55c54000-7202-4bc6-8b5f-a5572cb93158",
+          "label": "Underpoke 2",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Poker\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 30.92,
+            "y": 57.56,
+            "z": 0.0065
+          }
+        },
+        {
+          "mapper_id": "31ecf88f-44b3-4466-ba33-4a3393b6a6d5",
+          "label": "Underpoke 3",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Poker (3)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 12.7308216,
+            "y": 176.58,
+            "z": 0.006
+          }
+        },
+        {
+          "mapper_id": "1a1c86a8-a07b-40a6-8353-a76e61edb2a1",
+          "label": "Underworker 1",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Small (2)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 34.06,
+            "y": 168.499435,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "47b3074f-36c5-4eef-81d4-3460f205edeb",
+          "label": "Underworker 2",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Understore Small\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 27.5499973,
+            "y": 90.64943,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "aa661898-0d8d-4332-aa1f-b5684c63d64a",
+          "label": "Void Mass 1",
+          "kind": "enemy",
+          "node_id": "underworks/underworks-shaft#unassigned",
+          "in_game_id": "\"Black Thread States Thread Only Variant\"[0]/\"Black Thread World\"[0]/\"Unspinner\"[0]/\"Black_Thread_Core\"[0]",
+          "requirement": {
+            "raw": "Black Thread World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-black-thread-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 12.9898148,
+            "y": 79.27043,
+            "z": -0.12875
+          }
         }
       ]
     },
@@ -213918,9 +214516,9 @@
       "area_id": "whispering-vaults",
       "name": "Whispering Vaults Hell",
       "source_file": "whispering-vaults/whispering-vaults-hub-area.json",
-      "source_sha256": "e7366636f36b981ff44575e5ac8d9e3731e42c3648a6df0cb3ca3b7e6d94c72e",
+      "source_sha256": "8081f8ec492f16757f4591bd378e7fceb1777c52346dad828d3bafb0800ee2a6",
       "geometry_act_independent": true,
-      "notes": "this room needs revisions, connections are not final.",
+      "notes": "this room needs revisions, connections are not final.\ni hate. this fucking. room. die.",
       "nodes": [
         {
           "id": "whispering-vaults/whispering-vaults-hub-area#ground",
@@ -213991,6 +214589,12 @@
         {
           "id": "whispering-vaults/whispering-vaults-hub-area#shortcut-box",
           "name": "Shortcut Box",
+          "notes": "",
+          "declared": true
+        },
+        {
+          "id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+          "name": "This Fucking Thing",
           "notes": "",
           "declared": true
         }
@@ -214342,24 +214946,29 @@
       ],
       "connections": [
         {
-          "id": "whispering-vaults/whispering-vaults-hub-area#ground>lowest-hallway@a1",
+          "id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing>lowest-hallway@a1",
           "requirement": {
-            "raw": "Silk Soar OR Ledge Grab OR Clawline OR Faydown Cloak OR Cling Grip",
+            "raw": "(Activate Fuckass Shortcut Box I Forgot About AND (Silk Soar OR Ledge Grab OR Clawline OR Faydown Cloak OR Cling Grip))",
             "mode": "expression",
             "dnf": [
               [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                 "item:silk-soar"
               ],
               [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                 "capability:ledge-grab"
               ],
               [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                 "item:clawline"
               ],
               [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                 "item:faydown-cloak"
               ],
               [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                 "item:cling-grip"
               ]
             ],
@@ -214377,16 +214986,18 @@
           "unresolved_reasons": [],
           "alias": "A1",
           "name": "Ascent 1",
-          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#ground",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
           "target_node_id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway"
         },
         {
-          "id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway>ground@a1",
+          "id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway>this-fucking-thing@a1",
           "requirement": {
-            "raw": "Nothing (Fall)",
+            "raw": "Activate Fuckass Shortcut Box I Forgot About",
             "mode": "expression",
             "dnf": [
-              []
+              [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
+              ]
             ],
             "annotations": [],
             "catalogue_recovered": false,
@@ -214403,7 +215014,7 @@
           "alias": "A1",
           "name": "Ascent 1",
           "source_node_id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway",
-          "target_node_id": "whispering-vaults/whispering-vaults-hub-area#ground"
+          "target_node_id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing"
         },
         {
           "id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway>upper-low-hallway@br",
@@ -215131,6 +215742,122 @@
           "target_node_id": "whispering-vaults/whispering-vaults-hub-area#middle-hallway"
         },
         {
+          "id": "whispering-vaults/whispering-vaults-hub-area#ground>this-fucking-thing@f.u",
+          "requirement": {
+            "raw": "Silk Soar OR (Faydown Cloak AND (Ledge Grab Right OR Cling Grip Right)) OR (((Easy Pogo OFF [Vaultborn] OR Easy Pogo OFF [Vaultkeeper]) AND Easy Pogo OFF [Lampbearer]) AND Ledge Grab Right)\nOR\n((Sprint Right OR Dash Right OR Clawline Right OR Easy [Shaman, Beast] Pogo OR Easy [Beast, Architect] Charge OR easy [Voltvessels, Flea Brew] Stall OR Flea Brew OR Ledge Grab Right)\nAND\nActivate Optional Fuckass Shortcut Box)",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:enemy-type-pogo:Song Scholar Acolyte:easy",
+                "mapper:enemy-type-pogo:Lightbearer:easy",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:enemy-type-pogo:Scholar:easy",
+                "mapper:enemy-type-pogo:Lightbearer:easy",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:sprint-direction:right",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:architect-crest-needle-strike:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:flea-brew-stall:easy",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:flea-brew-jump:none",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "b09ccf14-266b-452f-89b4-7438b1c6dbdf"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "F.U",
+          "name": "IHATEYOUIHATEYOUIHATEYOU",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#ground",
+          "target_node_id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing"
+        },
+        {
+          "id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing>ground@f.u",
+          "requirement": {
+            "raw": "Activate Fuckass Shortcut Box I Forgot About",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "9643e9f5-ac3a-4e13-96e4-1cc6449a6799"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "F.U",
+          "name": "IHATEYOUIHATEYOUIHATEYOU",
+          "source_node_id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+          "target_node_id": "whispering-vaults/whispering-vaults-hub-area#ground"
+        },
+        {
           "id": "reviewed:vaults-hub-lower-descent",
           "alias": "reviewed:vaults-hub-lower-descent",
           "name": "Left Side Shaft to Lowest Hallway",
@@ -215301,6 +216028,58 @@
           "label": "Hell Room Box Shortcut thing.",
           "kind": "logic-point",
           "node_id": "whispering-vaults/whispering-vaults-hub-area#shortcut-box"
+        },
+        {
+          "id": "event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
+          "requirement": {
+            "raw": "Attack Right",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:right"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "documentation only",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "fbeee50d-411d-485f-9005-fa12553fc888"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Fuckass Shortcut Box I Forgot About",
+          "kind": "logic-point",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#ground"
+        },
+        {
+          "id": "event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c",
+          "requirement": {
+            "raw": "Attack Left",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "documentation only, needed for the other box logic.",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "57519874-2947-4ae0-af2f-27f6e51be48c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Optional Fuckass Shortcut Box",
+          "kind": "logic-point",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#ground"
         }
       ],
       "checks": [
@@ -215364,9 +216143,662 @@
       ],
       "omitted_check_rows": [
         {
-          "mapper_id": "cac0f28f-5e18-4e15-b129-9903125f77a5",
-          "label": "import enemies",
-          "kind": "unknown"
+          "mapper_id": "3f40d105-0728-4de5-83ba-8ffc588d6d94",
+          "label": "Vaultborn 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (6)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 14.1,
+            "y": 117.84,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "340806f4-71c1-4867-8a07-64ecf81560bd",
+          "label": "Vaultborn 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (9)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": false,
+          "is_verified": null,
+          "position": {
+            "x": 16.98,
+            "y": 106.84,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "e9b0bbd7-928a-4160-b2bd-6d582896b1a6",
+          "label": "Vaultborn 3",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (10)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 36.78,
+            "y": 86.99,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "4b63bcb0-8f34-4b60-955b-325a31401c50",
+          "label": "Vaultborn 4",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (11)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 27.34,
+            "y": 60.63,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "bad96d4d-a6f0-4318-804e-9c01690c873c",
+          "label": "Vaultborn 5",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (12)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 12.29,
+            "y": 54.93,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "7068dba2-ca35-4916-9209-904a29739ce8",
+          "label": "Vaultborn 6",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Acolyte Control\"[0]/\"Song Scholar Acolyte (14)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 4.72,
+            "y": 19.83,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "37e2aaf0-82c6-4c1d-abe8-9de66d04e77f",
+          "label": "Drapefly 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Citadel Bat (3)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 41.53,
+            "y": 102.59,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "6281f9c0-de88-419e-af57-aa0dd028e675",
+          "label": "Vaultkeeper 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Scholar\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 38.04,
+            "y": 117.13,
+            "z": 0.0075
+          }
+        },
+        {
+          "mapper_id": "c5964e51-b9a9-40de-86e0-eb2b765cd676",
+          "label": "Lampbearer 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Lightbearer (1)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 11.3289871,
+            "y": 18.09765,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "9fa29bba-90e5-4b82-9f95-b8fc4062fd99",
+          "label": "Vaultkeeper 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Scholar (1)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 35.11,
+            "y": 10.03,
+            "z": 0.0045
+          }
+        },
+        {
+          "mapper_id": "6167d71d-242c-4982-a9e7-1f474da231f1",
+          "label": "Drapemite 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Mite Heavy (2)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 60,
+            "y": 18.93,
+            "z": 0.006
+          }
+        },
+        {
+          "mapper_id": "108a6f7a-588a-4b50-a805-0d73c7979e1c",
+          "label": "Drapemite 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Mite Heavy (3)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 28.98,
+            "y": 41,
+            "z": 0.006
+          }
+        },
+        {
+          "mapper_id": "79d2ce1c-57ab-4317-959d-c8201f254b41",
+          "label": "Drapemite 3",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Mite Heavy\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 44.66,
+            "y": 167,
+            "z": 0.006
+          }
+        },
+        {
+          "mapper_id": "016d0797-170b-4867-b853-1fde8d2077ad",
+          "label": "Drapemite 4",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Mite Heavy (1)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 39.94,
+            "y": 151.959991,
+            "z": 0.006
+          }
+        },
+        {
+          "mapper_id": "fa5cda7c-e323-4c23-8bdf-c26b7aa92294",
+          "label": "Drapefly 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Normal World\"[0]/\"Citadel Bat (4)\"[0]",
+          "requirement": {
+            "raw": "Normal World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-normal-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 48.59,
+            "y": 125.273422,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "b5a7a2af-df93-41df-8cbb-25c044a9d174",
+          "label": "Lampbearer 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Normal World\"[0]/\"Lightbearer (3)\"[0]",
+          "requirement": {
+            "raw": "Normal World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-normal-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 14.89,
+            "y": 68.02001,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "39298181-0a01-4eee-92c6-41e2e1e2c50f",
+          "label": "Lampbearer 3",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Normal World\"[0]/\"Lightbearer (2)\"[0]",
+          "requirement": {
+            "raw": "Normal World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-normal-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 22.62,
+            "y": 157.070023,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "69d6579a-3859-4c94-8f0d-74a8b0088717",
+          "label": "Scrollreader 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Normal World\"[0]/\"Scrollkeeper\"[0]",
+          "requirement": {
+            "raw": "Normal World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-normal-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 38.89,
+            "y": 190.545471,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "1749d6dc-9001-4abb-b763-e1eafad82ce6",
+          "label": "Void Mass 1",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Black Thread World\"[0]/\"Black_Thread_Core_Citadel\"[0]",
+          "requirement": {
+            "raw": "Black Thread World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-black-thread-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 15.64,
+            "y": 140.24,
+            "z": -0.12875
+          }
+        },
+        {
+          "mapper_id": "f91db1e4-e367-4c88-9312-7d8f28ee8bc9",
+          "label": "Void Mass 2",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Black Thread World\"[0]/\"Black_Thread_Core_Citadel (1)\"[0]",
+          "requirement": {
+            "raw": "Black Thread World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-black-thread-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 59.12,
+            "y": 89.31,
+            "z": -0.12875
+          }
+        },
+        {
+          "mapper_id": "42e0a465-4bbc-4a30-b9df-6d1884854f48",
+          "label": "Lampbearer 4",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Black Thread States\"[0]/\"Black Thread World\"[0]/\"Lightbearer (4)\"[0]",
+          "requirement": {
+            "raw": "Black Thread World Spawn",
+            "mode": "expression",
+            "dnf": [
+              [
+                "state:enemy-spawn-black-thread-world"
+              ]
+            ],
+            "unresolved_reasons": []
+          },
+          "logic_status": "active",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 28.5,
+            "y": 102.03,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "1da7d58e-445c-4ca3-88f4-c708c1a197a7",
+          "label": "Vaultborn 7",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (15)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 26.62,
+            "y": 15.06,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "ac2d8305-fdf8-48cd-ab40-00574796de11",
+          "label": "Vaultborn 8",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (5)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 51.66114,
+            "y": 140.318787,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "1e370320-af5c-4a9d-bf4d-b56f775f5732",
+          "label": "Vaultborn 9",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (2)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 38.72,
+            "y": 157.4,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "91514abe-8999-4556-b89c-2ee3b0e7c346",
+          "label": "Vaultborn 10",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (8)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 35.05,
+            "y": 96.93547,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "46f9926f-10d7-4e94-b9cd-37a7e9187b40",
+          "label": "Vaultborn 11",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 9.48778248,
+            "y": 162.175491,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "f916630a-9a44-40d4-b477-52d4a9eaaa5b",
+          "label": "Vaultborn 12",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (13)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 23.43,
+            "y": 41.935482,
+            "z": 0
+          }
+        },
+        {
+          "mapper_id": "70270613-125d-4483-92df-7d50fb1c2c74",
+          "label": "Vaultborn 13",
+          "kind": "enemy",
+          "node_id": "whispering-vaults/whispering-vaults-hub-area#unassigned",
+          "in_game_id": "\"Song Scholar Acolyte (3)\"[0]",
+          "requirement": {
+            "raw": "",
+            "mode": "unresolved",
+            "dnf": [],
+            "unresolved_reasons": [
+              "requirement is unresolved"
+            ]
+          },
+          "logic_status": "unresolved",
+          "is_todo": true,
+          "is_verified": null,
+          "position": {
+            "x": 39.68,
+            "y": 174.94545,
+            "z": 0
+          }
         }
       ]
     },
@@ -252106,6 +253538,29 @@
           "canonical_location": "Voltvessels",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "memorium/memorium-voltnest::reviewed-check:836440",
+          "label": "Materium",
+          "node_id": "memorium/memorium-voltnest#memorium-stuff",
+          "canonical_location": "Materium",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true,
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "omitted_check_rows": [
@@ -282666,13 +284121,35 @@
         }
       ],
       "events": [],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "b2c85623-67bc-4d1f-b8f5-81545fbbec4f",
+          "id": "mount-fay/mount-fay-magnetite-outcropping::mapper-check:b2c85623-67bc-4d1f-b8f5-81545fbbec4f:836442",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "Lore thingy not included rn",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "b2c85623-67bc-4d1f-b8f5-81545fbbec4f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Magnetite Outcrop",
-          "kind": "lore"
-        },
+          "node_id": "mount-fay/mount-fay-magnetite-outcropping#brightvein",
+          "canonical_location": "Magnetite Outcrop",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
+      "omitted_check_rows": [
         {
           "mapper_id": "37827a2e-11fb-4eef-95d9-64cb69e42289",
           "label": "Mnemonid 1",
@@ -289257,7 +290734,7 @@
       "area_id": "putrified-ducts",
       "name": "Putrified Ducts Entrance",
       "source_file": "putrified-ducts/putrified-ducts-entrance.json",
-      "source_sha256": "eea52c054faadf3280178da89248dfcae89701933da11c91048a97a8b2078cb0",
+      "source_sha256": "b9d1cc4a764f5e6981154ab59d620d425b969ef664bcdd0980f49cb5e875633a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -289366,12 +290843,17 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#entrance>left-platform@ec",
           "requirement": {
-            "raw": "Faydown Cloak AND ( CLing Grip OR Scuttlebrace )",
+            "raw": "Faydown Cloak AND ( CLing Grip Left OR ( Cling Grip Right AND Proficient movement ) OR Scuttlebrace )",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
-                "item:cling-grip"
+                "mapper:cling-grip-direction:left"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:proficient-movement:none"
               ],
               [
                 "item:faydown-cloak",
@@ -289398,35 +290880,550 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#left-platform>entrance@ec",
           "requirement": {
-            "raw": "( Faydown Cloak AND Cling Grip ) OR ( Silk Soar AND ( Dash OR Clawline OR Sharpdart OR Faydown Cloak OR Drifters Cloak ) )",
+            "raw": "( ( Faydown Cloak OR easy Heal Stall OR Easy Shaman Pogo OR Easy Rune rage stall OR Silk Soar ) AND ( Cling Grip Left OR Cling Grip Right ) AND ( Sharpdart OR Faydown Cloak OR Drifters Cloak OR Dash Left OR Clawline Left OR Easy Plasmium Stall OR Easy Voltvessels stall OR Easy Flintslate stall OR Medium Flea Brew Stall OR Easy Beast pogo OR Easy Architect pogo OR ( Dash right AND Scuttlebrace ) OR ( Ledge Grab Left AND ( easy Hunter Pogo OR easy Cross stitch Stall ) ) ) )",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
-                "item:cling-grip"
+                "mapper:cling-grip-direction:left",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:right",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:left",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:cling-grip-direction:right",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
               ],
               [
                 "item:silk-soar",
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "item:silk-soar",
-                "item:clawline"
-              ],
-              [
-                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
                 "mapper:sharpdart:1"
               ],
               [
                 "item:silk-soar",
+                "mapper:cling-grip-direction:left",
                 "item:faydown-cloak"
               ],
               [
                 "item:silk-soar",
+                "mapper:cling-grip-direction:left",
                 "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:left",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "item:faydown-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:medium"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:none"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:cling-grip-direction:right",
+                "mapper:ledge-grab-direction:left",
+                "mapper:hunter-crest-pogo:easy"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:cross-stitch:easy",
+              "stall option not available: capability:stall:rune-rage:easy"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289446,41 +291443,193 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#left-platform>centre-platform@lbb",
           "requirement": {
-            "raw": "Dash OR Faydown Cloak OR ( ( Cling Grip OR Ledge Grab ) AND ( Sprint OR Clawline OR SharpDart ) ) ",
+            "raw": "Faydown Cloak OR ( ( Ledge Grab Right OR Cling grip Right OR Easy Beast Charge ) AND ( Easy Flea Brew Stall OR Easy Voltvessels stall OR Sprint Right OR Dash Right OR Easy Beast pogo OR Swim OR Sharpdart OR Clawline Right ) ) OR ( Easy Flea brew stall AND ( Easy Plasmium Stall OR Easy Voltvessels Stall ) ) OR ( Silk Soar AND ( Easy Flea Brew Stall OR Easy Plasmium Stall OR Medium Voltvessels stall OR Easy Flintslate stall OR Easy thread storm stall OR Easy Cross stitch stall OR Easy Rune Rage Stall OR Easy Pale Nails Stall OR Medium Heal Stall OR Sharpdart OR Dash Right OR Drifters Cloak OR Clawline Right OR Sprint Right OR Easy Hunter Pogo OR ( Ledge Grab Right AND Easy Reaper Pogo ) OR Hard Reaper Pogo OR Easy Beast Pogo OR Easy Architect Pogo OR ( Easy shaman pogo AND easy Scuttlebrace ) ) ) OR ( Hard Shaman pogo AND Medium Scuttlebrace ) ",
             "mode": "expression",
             "dnf": [
-              [
-                "macro:progressive-swift-step-full"
-              ],
               [
                 "item:faydown-cloak"
               ],
               [
-                "item:cling-grip",
-                "macro:progressive-swift-step-first"
+                "mapper:ledge-grab-direction:right",
+                "mapper:flea-brew-stall:easy"
               ],
               [
-                "item:cling-grip",
-                "item:clawline"
+                "mapper:ledge-grab-direction:right",
+                "mapper:voltvessels-stall:easy"
               ],
               [
-                "item:cling-grip",
+                "mapper:ledge-grab-direction:right",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:dash-direction:right"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "capability:swim"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
                 "mapper:sharpdart:1"
               ],
               [
-                "capability:ledge-grab",
-                "macro:progressive-swift-step-first"
+                "mapper:ledge-grab-direction:right",
+                "mapper:clawline:right:1"
               ],
               [
-                "capability:ledge-grab",
-                "item:clawline"
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:easy"
               ],
               [
-                "capability:ledge-grab",
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "capability:swim"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
                 "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:dash-direction:right"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "capability:swim"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:beast-crest-needle-strike:easy",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:flea-brew-stall:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:voltvessels-stall:medium"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:flintslate-stall:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:heal-stall:medium"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:dash-direction:right"
+              ],
+              [
+                "item:silk-soar",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:hunter-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:ledge-grab-direction:right",
+                "mapper:reaper-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:reaper-crest-pogo:hard"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:silk-soar",
+                "mapper:shaman-crest-pogo:easy",
+                "mapper:scuttlebrace:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:hard",
+                "mapper:scuttlebrace:medium"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:cross-stitch:easy",
+              "stall option not available: capability:stall:pale-nails:easy",
+              "stall option not available: capability:stall:rune-rage:easy",
+              "stall option not available: capability:stall:thread-storm:easy"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289500,28 +291649,44 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#centre-platform>left-platform@lbb",
           "requirement": {
-            "raw": "Faydown Cloak OR Clawline OR Sprint OR ( Drifters Cloak AND Easy enemy pogo ) OR Silk Soar OR ( Cling Grip AND Dash )",
+            "raw": "Faydown Cloak OR Clawline left OR Sprint Left OR ( Intended pogo off barnak AND Drifters Cloak ) OR Silk Soar OR ( Cling Grip Right AND ( Dash Left OR Drifters Cloak OR Easy Plasmium Stall OR Easy Voltvessels Stall OR Easy Flea Brew Stall ) )",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak"
               ],
               [
-                "item:clawline"
+                "mapper:clawline:left:1"
               ],
               [
-                "macro:progressive-swift-step-first"
+                "mapper:sprint-direction:left"
               ],
               [
-                "item:drifters-cloak",
-                "mapper:enemy-pogo:easy"
+                "mapper:enemy-type-pogo:Swamp Barnacle:none",
+                "item:drifters-cloak"
               ],
               [
                 "item:silk-soar"
               ],
               [
-                "item:cling-grip",
-                "macro:progressive-swift-step-full"
+                "mapper:cling-grip-direction:right",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:right",
+                "mapper:flea-brew-stall:easy"
               ]
             ],
             "annotations": [],
@@ -289544,56 +291709,1001 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#centre-platform>shell-shards-bridge@ub",
           "requirement": {
-            "raw": "( Easy enemy pogo AND ( Ledge Grab OR Drifters Cloak OR easy Hunter Crest pogo OR easy Beast Crest pogo OR easy Architect Crest pogo OR  easy Shaman Crest pogo OR Clawline OR  Dash OR Sharpdart ) ) OR Faydown Cloak OR Cling Grip OR Scuttlebrace ",
+            "raw": "Faydown Cloak OR ( ( Swim OR Easy Voltvessels stall OR Medium Flea Brew Stall OR ( Ledge Grab Right AND ( easy Flintslate Stall OR Medium Cross stitch stall OR Hard Pale Nails Stall ) ) OR Easy Plasmium Stall OR Easy beast pogo OR ( Easy Reaper pogo AND Easy Flintslate stall ) OR ( Easy Architect pogo AND Architect attack Right ) OR Dash Right OR Drifters cloak OR Clawline Right OR Sharpdart ) AND ( cling grip right OR Medium Scuttlebrace OR ( easy pogo off barnak AND ( Ledge grab left OR Dash Left OR Clawline Left OR Drifters Cloak OR Sharpdart OR Hard hunter pogo OR Medium Flintslate stall OR Easy voltvessels stall OR Easy Beast Pogo OR Easy Plasmium stall OR Easy flea brew stall OR architect attack left OR Easy Architect pogo OR Easy shaman pogo ) ) ) )",
             "mode": "expression",
             "dnf": [
-              [
-                "mapper:enemy-pogo:easy",
-                "capability:ledge-grab"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "item:drifters-cloak"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "mapper:hunter-crest-pogo:easy"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "mapper:beast-crest-pogo:easy"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "mapper:architect-crest-pogo:easy"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "mapper:shaman-crest-pogo:easy"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "item:clawline"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "macro:progressive-swift-step-full"
-              ],
-              [
-                "mapper:enemy-pogo:easy",
-                "mapper:sharpdart:1"
-              ],
               [
                 "item:faydown-cloak"
               ],
               [
-                "item:cling-grip"
+                "capability:swim",
+                "mapper:cling-grip-direction:right"
               ],
               [
-                "mapper:scuttlebrace:none"
+                "capability:swim",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:flea-brew-stall:medium",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:ledge-grab-direction:right",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:reaper-crest-pogo:easy",
+                "mapper:flintslate-stall:easy",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy",
+                "mapper:architect-crest-attack:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:clawline:right:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:cling-grip-direction:right"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:scuttlebrace:medium"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:clawline:left:1"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:hunter-crest-pogo:hard"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-attack:left"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:architect-crest-pogo:easy"
+              ],
+              [
+                "mapper:sharpdart:1",
+                "mapper:enemy-type-pogo:Swamp Barnacle:easy",
+                "mapper:shaman-crest-pogo:easy"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:cross-stitch:medium",
+              "stall option not available: capability:stall:pale-nails:hard"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289613,24 +292723,20 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#shell-shards-bridge>centre-platform@ub",
           "requirement": {
-            "raw": "( Faydown Cloak AND ( Cling Grip OR Clawline OR Sprint OR Scuttlebrace OR Drifters Cloak OR Sharpdart ) )",
+            "raw": "( Faydown Cloak AND ( Cling grip right OR Clawline Left OR Sharpdart OR Drifters Cloak OR Medium Beast pogo OR Easy Flea Brew stall OR ( ( Ledge grab left OR Cling grip left ) AND Easy Plasmium Stall ) OR ( Cling grip Left AND ( Dash left OR Swim OR Hard flintslate stall OR Hard Cross stitch stall OR Easy Voltvessels stall ) ) ) ) OR ( Swim AND Cling Grip right AND ( Ledge grab Left OR Cling Grip left ) )",
             "mode": "expression",
             "dnf": [
               [
                 "item:faydown-cloak",
-                "item:cling-grip"
+                "mapper:cling-grip-direction:right"
               ],
               [
                 "item:faydown-cloak",
-                "item:clawline"
+                "mapper:clawline:left:1"
               ],
               [
                 "item:faydown-cloak",
-                "macro:progressive-swift-step-first"
-              ],
-              [
-                "item:faydown-cloak",
-                "mapper:scuttlebrace:none"
+                "mapper:sharpdart:1"
               ],
               [
                 "item:faydown-cloak",
@@ -289638,10 +292744,56 @@
               ],
               [
                 "item:faydown-cloak",
-                "mapper:sharpdart:1"
+                "mapper:beast-crest-pogo:medium"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:ledge-grab-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:dash-direction:left"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "capability:swim"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:flintslate-stall:hard"
+              ],
+              [
+                "item:faydown-cloak",
+                "mapper:cling-grip-direction:left",
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "capability:swim",
+                "mapper:cling-grip-direction:right",
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "capability:swim",
+                "mapper:cling-grip-direction:right",
+                "mapper:cling-grip-direction:left"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:cross-stitch:hard"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289661,34 +292813,31 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#centre-platform>exit@ob",
           "requirement": {
-            "raw": "Clawline OR Drifters Cloak OR Silk Soar OR ( Faydown Cloak AND ( Cling Grip OR Dash OR Sprint ) ) OR ( Swim AND Dash AND Cling Grip )",
+            "raw": "Silk Soar OR ( intended pogo off barnak AND ( Clawline Right OR Sharpdart OR Drifters Cloak ) ) OR ( Faydown Cloak AND ( Cling grip right OR Ledge Grab Right ) )",
             "mode": "expression",
             "dnf": [
-              [
-                "item:clawline"
-              ],
-              [
-                "item:drifters-cloak"
-              ],
               [
                 "item:silk-soar"
               ],
               [
-                "item:faydown-cloak",
-                "item:cling-grip"
+                "mapper:enemy-type-pogo:Swamp Barnacle:none",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:enemy-type-pogo:Swamp Barnacle:none",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:enemy-type-pogo:Swamp Barnacle:none",
+                "item:drifters-cloak"
               ],
               [
                 "item:faydown-cloak",
-                "macro:progressive-swift-step-full"
+                "mapper:cling-grip-direction:right"
               ],
               [
                 "item:faydown-cloak",
-                "macro:progressive-swift-step-first"
-              ],
-              [
-                "capability:swim",
-                "macro:progressive-swift-step-full",
-                "item:cling-grip"
+                "mapper:ledge-grab-direction:right"
               ]
             ],
             "annotations": [],
@@ -289711,35 +292860,64 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#exit>centre-platform@ob",
           "requirement": {
-            "raw": "Dash OR Faydown Cloak OR Run OR Drifters Cloak OR Cling Grip OR Silk Soar OR Clawline OR Sharpdart",
+            "raw": "Dash Left OR Faydown Cloak OR Sprint Left OR Drifters Cloak OR Cling Grip left OR Silk Soar OR Clawline Left OR Sharpdart OR Ledge grab Left OR Easy Flea brew stall OR Easy Voltvessels stall OR Hard thread storm stall OR hard Cross stitch stall OR Medium Flintslate stall OR Easy Rune Rage stall OR Easy plasmium stall OR hard Pale nails stall OR Easy Beast Pogo OR Easy Shaman Pogo OR Easy architect pogo",
             "mode": "expression",
             "dnf": [
               [
-                "macro:progressive-swift-step-full"
+                "mapper:dash-direction:left"
               ],
               [
                 "item:faydown-cloak"
               ],
               [
-                "macro:progressive-swift-step-first"
+                "mapper:sprint-direction:left"
               ],
               [
                 "item:drifters-cloak"
               ],
               [
-                "item:cling-grip"
+                "mapper:cling-grip-direction:left"
               ],
               [
                 "item:silk-soar"
               ],
               [
-                "item:clawline"
+                "mapper:clawline:left:1"
               ],
               [
                 "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:ledge-grab-direction:left"
+              ],
+              [
+                "mapper:flea-brew-stall:easy"
+              ],
+              [
+                "mapper:voltvessels-stall:easy"
+              ],
+              [
+                "mapper:flintslate-stall:medium"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy"
+              ],
+              [
+                "mapper:beast-crest-pogo:easy"
+              ],
+              [
+                "mapper:shaman-crest-pogo:easy"
+              ],
+              [
+                "mapper:architect-crest-pogo:easy"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:cross-stitch:hard",
+              "stall option not available: capability:stall:pale-nails:hard",
+              "stall option not available: capability:stall:rune-rage:easy",
+              "stall option not available: capability:stall:thread-storm:hard"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289784,7 +292962,7 @@
         {
           "id": "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge>exit@ue",
           "requirement": {
-            "raw": "Faydown Cloak OR Silk Soar OR ( ( Dash OR Cling Grip ) AND ( Clawline OR Drifters Cloak OR Sharpdart OR Sprint ) )",
+            "raw": "Faydown Cloak OR Silk Soar OR ( ( Ledge grab Left OR Cling grip Left OR Easy Plasmium stall OR Hard thread storm stall OR Easy rune rage stall OR Easy heal stall ) AND ( Clawline Right OR Drifters cloak OR Sharpdart OR Sprint Right OR Hard beast charge ) )",
             "mode": "expression",
             "dnf": [
               [
@@ -289794,39 +292972,90 @@
                 "item:silk-soar"
               ],
               [
-                "macro:progressive-swift-step-full",
-                "item:clawline"
+                "mapper:ledge-grab-direction:left",
+                "mapper:clawline:right:1"
               ],
               [
-                "macro:progressive-swift-step-full",
+                "mapper:ledge-grab-direction:left",
                 "item:drifters-cloak"
               ],
               [
-                "macro:progressive-swift-step-full",
+                "mapper:ledge-grab-direction:left",
                 "mapper:sharpdart:1"
               ],
               [
-                "macro:progressive-swift-step-full",
-                "macro:progressive-swift-step-first"
+                "mapper:ledge-grab-direction:left",
+                "mapper:sprint-direction:right"
               ],
               [
-                "item:cling-grip",
-                "item:clawline"
+                "mapper:ledge-grab-direction:left",
+                "mapper:beast-crest-needle-strike:hard"
               ],
               [
-                "item:cling-grip",
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
                 "item:drifters-cloak"
               ],
               [
-                "item:cling-grip",
+                "mapper:cling-grip-direction:left",
                 "mapper:sharpdart:1"
               ],
               [
-                "item:cling-grip",
-                "macro:progressive-swift-step-first"
+                "mapper:cling-grip-direction:left",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:beast-crest-needle-strike:hard"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:plasmium-phial-stall:easy",
+                "mapper:beast-crest-needle-strike:hard"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "item:drifters-cloak"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:sharpdart:1"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:sprint-direction:right"
+              ],
+              [
+                "mapper:heal-stall:easy",
+                "mapper:beast-crest-needle-strike:hard"
               ]
             ],
-            "annotations": [],
+            "annotations": [
+              "stall option not available: capability:stall:rune-rage:easy",
+              "stall option not available: capability:stall:thread-storm:hard"
+            ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
@@ -289868,6 +293097,38 @@
           "label": "Putrified Ducts - Frayed Rosary String",
           "kind": "collectible",
           "node_id": "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge"
+        },
+        {
+          "id": "event:mapper/56c85c0f-c7ce-4d72-a3b9-203405f84fae",
+          "requirement": {
+            "raw": "Needle Left OR Needle Up OR Needle Down ",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:attack:left"
+              ],
+              [
+                "mapper:attack:up"
+              ],
+              [
+                "mapper:attack:down"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "56c85c0f-c7ce-4d72-a3b9-203405f84fae"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Breakable Wall Ducts entrance Start",
+          "kind": "blockade",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#entrance"
         }
       ],
       "checks": [
@@ -289955,19 +293216,54 @@
           "mapper_id": "01c495a1-8b36-4a8a-9dc5-401798952f81",
           "label": "Ductsucker 1",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Ductsucker",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Ductsucker\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "Faydown Cloak OR Clawline left OR Sprint Left OR ( intended pogo off barnak AND Drifters Cloak ) OR Silk Soar OR ( Cling Grip Right AND ( Dash Left OR Drifters Cloak OR Easy Plasmium Stall OR Easy Voltvessels Stall OR Easy Flea Brew Stall ) )",
+            "mode": "expression",
+            "dnf": [
+              [
+                "capability:faydown-cloak"
+              ],
+              [
+                "capability:clawline:left:1"
+              ],
+              [
+                "capability:sprint:left"
+              ],
+              [
+                "capability:enemy-type-pogo:Swamp Barnacle:none",
+                "capability:drifters-cloak"
+              ],
+              [
+                "capability:silk-soar"
+              ],
+              [
+                "capability:cling-grip:right",
+                "capability:dash:left"
+              ],
+              [
+                "capability:cling-grip:right",
+                "capability:drifters-cloak"
+              ],
+              [
+                "capability:cling-grip:right",
+                "capability:stall:plasmium-phial:easy:1"
+              ],
+              [
+                "capability:cling-grip:right",
+                "capability:stall:voltvessels:easy:1"
+              ],
+              [
+                "capability:cling-grip:right",
+                "capability:stall:flea-brew:easy:1"
+              ]
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 129.459808,
             "y": 26.00767,
@@ -289978,19 +293274,19 @@
           "mapper_id": "05f33841-ee4c-45e2-953a-d5f55f62c4f2",
           "label": "Barnak 1",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Barnacle (5)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+          "in_game_id": "\"Swamp Barnacle (5)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 220.056473,
             "y": 20.99,
@@ -290001,19 +293297,19 @@
           "mapper_id": "3185b1ca-215b-46a3-91eb-5bba68936c87",
           "label": "Barnak 2",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Barnacle (1)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Barnacle (1)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 168.4,
             "y": 37.73,
@@ -290024,19 +293320,19 @@
           "mapper_id": "de89374f-434a-4451-a39e-7cc4ceaffb88",
           "label": "Barnak 3",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Barnacle (4)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Barnacle (4)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 206.62,
             "y": 36.39,
@@ -290047,19 +293343,19 @@
           "mapper_id": "a09fa1d4-01eb-4870-9e9b-482f9bbd7562",
           "label": "Ductsucker 2",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Ductsucker (1)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Ductsucker (1)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 179.52,
             "y": 17.00767,
@@ -290070,19 +293366,19 @@
           "mapper_id": "059c4cab-8f22-4930-a706-74aca8dfcec0",
           "label": "Ductsucker 3",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Ductsucker (2)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#exit",
+          "in_game_id": "\"Swamp Ductsucker (2)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 217.53,
             "y": 28.00767,
@@ -290093,19 +293389,19 @@
           "mapper_id": "ba54bada-7cfb-40e2-b10d-6604ff18f65c",
           "label": "Barnak 4",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Barnacle (2)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+          "in_game_id": "\"Swamp Barnacle (2)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 253.47,
             "y": 24.33,
@@ -290116,19 +293412,19 @@
           "mapper_id": "ae8db922-55f5-4447-840c-2f4b91a33fa3",
           "label": "Barnak 5",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Barnacle (3)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Barnacle (3)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 126.77,
             "y": 19.16,
@@ -290139,19 +293435,19 @@
           "mapper_id": "86798b1a-6f9f-4030-abf1-d480e9aabcbf",
           "label": "Spit Squit 1",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Mosquito Skinny (1)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#left-platform",
+          "in_game_id": "\"Swamp Mosquito Skinny (1)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 65.30478,
             "y": 14.6,
@@ -290162,19 +293458,19 @@
           "mapper_id": "d53177a5-55b8-45a8-a1fc-158aae5d9292",
           "label": "Spit Squit 2",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Mosquito Skinny (4)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#left-platform",
+          "in_game_id": "\"Swamp Mosquito Skinny (4)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 117.676872,
             "y": 14.99,
@@ -290185,19 +293481,19 @@
           "mapper_id": "9b35393d-065f-4f30-9116-f3a38a088956",
           "label": "Spit Squit 3",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Mosquito Skinny (3)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+          "in_game_id": "\"Swamp Mosquito Skinny (3)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 228.707336,
             "y": 12.56,
@@ -290208,19 +293504,19 @@
           "mapper_id": "f432e20e-aa45-4a8d-962b-9dcf0b3ab324",
           "label": "Spit Squit 4",
           "kind": "enemy",
-          "node_id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-          "in_game_id": "Swamp Mosquito Skinny (2)",
+          "node_id": "putrified-ducts/putrified-ducts-entrance#centre-platform",
+          "in_game_id": "\"Swamp Mosquito Skinny (2)\"[0]",
           "requirement": {
-            "raw": "",
-            "mode": "unresolved",
-            "dnf": [],
-            "unresolved_reasons": [
-              "requirement is blank"
-            ]
+            "raw": "None",
+            "mode": "none",
+            "dnf": [
+              []
+            ],
+            "unresolved_reasons": []
           },
-          "logic_status": "unresolved",
+          "logic_status": "active",
           "is_todo": false,
-          "is_verified": null,
+          "is_verified": true,
           "position": {
             "x": 140.18428,
             "y": 14.99,
@@ -301943,6 +305239,45 @@
         }
       ],
       "checks": [
+        {
+          "id": "the-abyss/weavenest-absolom::mapper-check:9daca89f-eada-4193-9512-be1a929b003c:836443",
+          "requirement": {
+            "raw": "Silk Soar OR Clawline OR ( Faydown Cloak AND ( Dash OR Drifters Cloak ) )",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "item:clawline"
+              ],
+              [
+                "item:faydown-cloak",
+                "macro:progressive-swift-step-full"
+              ],
+              [
+                "item:faydown-cloak",
+                "item:drifters-cloak"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "9daca89f-eada-4193-9512-be1a929b003c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Farsight",
+          "node_id": "the-abyss/weavenest-absolom#entrance",
+          "canonical_location": "Farsight",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
         {
           "id": "the-abyss/weavenest-absolom::mapper-check:36fc6f30-aed2-4adb-be9a-2d00991cdee4:835502",
           "requirement": {

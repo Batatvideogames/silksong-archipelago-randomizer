@@ -100,6 +100,10 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Materium", ItemType.Materium, "Arborium_07",
+                "Materium", "Collectable Item Pickup Materium", 103.38f, 11.11f),
+            new DirectPickupEntry("Farsight", ItemType.Farsight, "Abyss_08",
+                "Farsight", "Collectable Item Pickup", 157.55f, 90.38748f),
             new DirectPickupEntry("Ecstasy of the End - Pale Oil", ItemType.PaleOil, "Aqueduct_05_festival",
                 "Pale_Oil", "Caravan_States/Flea Festival Outro/Flea Festival Pinata/Item Reward Final/Collectable Item Pickup Reward 3", 153.113f, 15.319643f),
             new DirectPickupEntry("Hero's Memento", ItemType.Memento, "Coral_33",

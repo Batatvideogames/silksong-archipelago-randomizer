@@ -59,6 +59,8 @@ namespace SilksongRandomizer
         NpcSoul,
         EnemySoul,
         Journal,
+        Materium,
+        Farsight,
     }
 
     public class Item

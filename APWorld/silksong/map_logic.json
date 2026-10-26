@@ -20024,7 +20024,19 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Clawline"
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -20036,36 +20048,15 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Silk Soar"
+                  "Faydown Cloak",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
                   "Faydown Cloak",
-                  "Cling Grip"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Faydown Cloak",
-                  "Swift Step"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Faydown Cloak",
-                  "Capability: Sprint"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Capability: Swim",
-                  "Swift Step",
-                  "Cling Grip"
+                  "Directional: Ledge Grab Right"
                 ]
               },
               {
@@ -20083,57 +20074,156 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
-                  "Clawline"
+                  "Directional: Ledge Grab Left",
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
+                  "Directional: Ledge Grab Left",
                   "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
+                  "Directional: Ledge Grab Left",
                   "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
-                  "Capability: Sprint"
+                  "Directional: Ledge Grab Left",
+                  "Directional: Sprint Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
-                  "Clawline"
+                  "Directional: Ledge Grab Left",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
+                  "Directional: Cling Grip Left",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Directional: Cling Grip Left",
                   "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
+                  "Directional: Cling Grip Left",
                   "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
-                  "Capability: Sprint"
+                  "Directional: Cling Grip Left",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Directional: Cling Grip Left",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Usable Sharpdart",
+                  "Loadout: Usable Plasmium Phial + Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3",
+                  "Loadout: Crest: Beast + Usable Plasmium Phial"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
                 ]
               }
             ]
@@ -30035,29 +30125,51 @@
               },
               {
                 "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Cling Grip"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Capability: Ledge Grab"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                   "Cling Grip"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Faydown Cloak",
                   "Capability: Ledge Grab"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
-                  "Faydown Cloak"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                   "Silk Soar"
                 ]
               },
@@ -32546,7 +32658,8 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#lowest-hallway"
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
                 ]
               }
             ]
@@ -32608,31 +32721,36 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Silk Soar"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Capability: Ledge Grab"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Clawline"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Cling Grip"
                 ]
               },
@@ -68698,7 +68816,19 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Clawline"
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+                  "Usable Sharpdart"
                 ]
               },
               {
@@ -68710,36 +68840,15 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Silk Soar"
+                  "Faydown Cloak",
+                  "Directional: Cling Grip Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
                   "Faydown Cloak",
-                  "Cling Grip"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Faydown Cloak",
-                  "Swift Step"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Faydown Cloak",
-                  "Capability: Sprint"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-                  "Capability: Swim",
-                  "Swift Step",
-                  "Cling Grip"
+                  "Directional: Ledge Grab Right"
                 ]
               },
               {
@@ -68757,57 +68866,156 @@
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
-                  "Clawline"
+                  "Directional: Ledge Grab Left",
+                  "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
+                  "Directional: Ledge Grab Left",
                   "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
+                  "Directional: Ledge Grab Left",
                   "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Swift Step",
-                  "Capability: Sprint"
+                  "Directional: Ledge Grab Left",
+                  "Directional: Sprint Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
-                  "Clawline"
+                  "Directional: Ledge Grab Left",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
+                  "Directional: Cling Grip Left",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Directional: Cling Grip Left",
                   "Drifter's Cloak"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
+                  "Directional: Cling Grip Left",
                   "Usable Sharpdart"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-                  "Cling Grip",
-                  "Capability: Sprint"
+                  "Directional: Cling Grip Left",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Directional: Cling Grip Left",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Usable Sharpdart",
+                  "Loadout: Usable Plasmium Phial + Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3",
+                  "Loadout: Crest: Beast + Usable Plasmium Phial"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Directional: Sprint Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+                  "Technique: Heal Stall 1",
+                  "Crest: Beast",
+                  "Needle Strike",
+                  "Technique: Needle Strike 3"
                 ]
               }
             ]
@@ -78435,29 +78643,51 @@
               },
               {
                 "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Cling Grip"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Capability: Ledge Grab"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: underworks/underworks-shaft#lever",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                   "Cling Grip"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+                  "Faydown Cloak",
                   "Capability: Ledge Grab"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
-                  "Faydown Cloak"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: underworks/underworks-shaft#bottom",
-                  "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+                  "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
                   "Silk Soar"
                 ]
               },
@@ -80816,7 +81046,8 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#lowest-hallway"
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
                 ]
               }
             ]
@@ -80878,31 +81109,36 @@
             "alternatives": [
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Silk Soar"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Capability: Ledge Grab"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Clawline"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Faydown Cloak"
                 ]
               },
               {
                 "all_of": [
-                  "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+                  "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+                  "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
                   "Cling Grip"
                 ]
               },
@@ -101752,6 +101988,9 @@
       "Loadout: Crest: Architect + Crest: Reaper + Usable Flea Brew": {
         "alternatives": []
       },
+      "Loadout: Crest: Architect + Crest: Shaman + Usable Scuttlebrace": {
+        "alternatives": []
+      },
       "Loadout: Crest: Architect + Usable Flea Brew": {
         "alternatives": [
           {
@@ -101812,6 +102051,55 @@
           {
             "all_of": [
               "Flintslate",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Architect + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Architect",
+              "Crest Slot: Architect (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Architect",
+              "Crest Slot: Architect (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Architect",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Architect",
+              "Yellow Vesticrest",
+              "Crest Slot: Architect (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Architect",
+              "Yellow Vesticrest",
+              "Crest Slot: Architect (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
               "Crest: Architect",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -101913,6 +102201,9 @@
         "alternatives": []
       },
       "Loadout: Crest: Beast + Crest: Reaper + Usable Flea Brew": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace": {
         "alternatives": []
       },
       "Loadout: Crest: Beast + Usable Flea Brew": {
@@ -102130,6 +102421,25 @@
               "Flintslate",
               "Scuttlebrace",
               "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Beast + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Beast",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
               "Crest: Beast",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -102356,7 +102666,45 @@
           }
         ]
       },
+      "Loadout: Crest: Beast + Usable Voltvessels": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Voltvessels",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Voltvessels",
+              "Crest: Beast",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Voltvessels",
+              "Crest: Beast",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Voltvessels",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
       "Loadout: Crest: Hunter + Crest: Reaper + Usable Flea Brew": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Hunter + Crest: Reaper + Usable Flintslate": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Hunter + Crest: Shaman + Usable Scuttlebrace": {
         "alternatives": []
       },
       "Loadout: Crest: Hunter + Usable Flea Brew": {
@@ -102499,6 +102847,38 @@
           }
         ]
       },
+      "Loadout: Crest: Hunter + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Hunter",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Hunter",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Hunter",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
       "Loadout: Crest: Hunter + Usable Plasmium Phial": {
         "alternatives": [
           {
@@ -102620,6 +103000,12 @@
       "Loadout: Crest: Reaper + Crest: Shaman + Usable Flea Brew": {
         "alternatives": []
       },
+      "Loadout: Crest: Reaper + Crest: Shaman + Usable Flintslate": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Reaper + Crest: Shaman + Usable Scuttlebrace": {
+        "alternatives": []
+      },
       "Loadout: Crest: Reaper + Crest: Wanderer + Usable Flea Brew": {
         "alternatives": []
       },
@@ -102654,6 +103040,46 @@
               "Crest: Reaper",
               "Blue Vesticrest",
               "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Reaper + Usable Flea Brew + Usable Flintslate": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Flea Brew",
+              "Flintslate",
+              "Crest: Reaper",
+              "Crest Slot: Reaper (Red 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flea Brew",
+              "Flintslate",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Crest Slot: Reaper (Red 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flea Brew",
+              "Flintslate",
+              "Crest: Reaper",
+              "Yellow Vesticrest",
+              "Crest Slot: Reaper (Red 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flea Brew",
+              "Flintslate",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Yellow Vesticrest",
+              "Crest Slot: Reaper (Red 1)"
             ]
           }
         ]
@@ -102759,6 +103185,78 @@
           {
             "all_of": [
               "Flintslate",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Reaper + Usable Flintslate + Usable Scuttlebrace": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Reaper + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Reaper",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Reaper",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
               "Crest: Reaper",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -102884,6 +103382,12 @@
           }
         ]
       },
+      "Loadout: Crest: Shaman + Crest: Wanderer + Usable Scuttlebrace": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Shaman + Crest: Witch + Usable Scuttlebrace": {
+        "alternatives": []
+      },
       "Loadout: Crest: Shaman + Usable Flea Brew": {
         "alternatives": []
       },
@@ -102892,6 +103396,55 @@
       },
       "Loadout: Crest: Shaman + Usable Flintslate": {
         "alternatives": []
+      },
+      "Loadout: Crest: Shaman + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Crest Slot: Shaman (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Crest Slot: Shaman (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Yellow Vesticrest",
+              "Crest Slot: Shaman (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Yellow Vesticrest",
+              "Crest Slot: Shaman (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Shaman",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
       },
       "Loadout: Crest: Shaman + Usable Plasmium Phial": {
         "alternatives": []
@@ -103046,6 +103599,55 @@
           {
             "all_of": [
               "Flintslate",
+              "Crest: Wanderer",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Wanderer + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Wanderer",
+              "Crest Slot: Wanderer (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Wanderer",
+              "Crest Slot: Wanderer (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Wanderer",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Wanderer",
+              "Yellow Vesticrest",
+              "Crest Slot: Wanderer (Blue 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Wanderer",
+              "Yellow Vesticrest",
+              "Crest Slot: Wanderer (Blue 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
               "Crest: Wanderer",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -103264,6 +103866,38 @@
           {
             "all_of": [
               "Flintslate",
+              "Crest: Witch",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Crest: Witch + Usable Magma Bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Witch",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
+              "Crest: Witch",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Magma Bell",
               "Crest: Witch",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -104513,6 +105147,251 @@
           }
         ]
       },
+      "Loadout: Usable Flintslate + Usable Scuttlebrace": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Crest Slot: Architect (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Crest Slot: Architect (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Crest Slot: Architect (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Crest Slot: Architect (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Crest Slot: Beast (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Crest Slot: Beast (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Crest Slot: Beast (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Crest Slot: Beast (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Hunter",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Hunter",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Hunter",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Witch",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Flintslate",
+              "Scuttlebrace",
+              "Swift Step",
+              "Crest: Witch",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
       "Loadout: Usable Flintslate + Usable Sharpdart": {
         "alternatives": [
           {
@@ -105700,6 +106579,251 @@
               "Scuttlebrace",
               "Swift Step",
               "Thread Storm",
+              "Crest: Witch",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          }
+        ]
+      },
+      "Loadout: Usable Scuttlebrace + Usable Voltvessels": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Crest Slot: Architect (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Crest Slot: Architect (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Crest Slot: Architect (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Crest Slot: Architect (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Architect",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Crest Slot: Beast (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Crest Slot: Beast (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Crest Slot: Beast (Yellow 1)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Crest Slot: Beast (Yellow 2)"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Beast",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Hunter",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Hunter",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Hunter",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Reaper",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Reaper",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Blue Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Wanderer",
+              "Blue Vesticrest",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
+              "Crest: Witch",
+              "Yellow Vesticrest"
+            ]
+          },
+          {
+            "all_of": [
+              "Scuttlebrace",
+              "Voltvessels",
+              "Swift Step",
               "Crest: Witch",
               "Blue Vesticrest",
               "Yellow Vesticrest"
@@ -112803,6 +113927,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/56c85c0f-c7ce-4d72-a3b9-203405f84fae": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#entrance"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/56d4608c-80a4-49b8-a243-87341b93a68e": {
         "alternatives": [
           {
@@ -112817,6 +113950,15 @@
           {
             "all_of": [
               "Room Node: the-marrow/the-marrow-jail-pathway#upper-area"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground"
             ]
           }
         ]
@@ -122249,6 +123391,15 @@
             "all_of": [
               "Room Node: wish-menus/songclave-wish-wall#room",
               "Room Event: event:mapper/reviewed:choir-cloaks-accepted"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground"
             ]
           }
         ]
@@ -191290,92 +192441,374 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
               "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Cling Grip",
-              "Capability: Sprint"
+              "Directional: Ledge Grab Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Cling Grip",
-              "Clawline"
+              "Directional: Ledge Grab Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Cling Grip",
+              "Directional: Ledge Grab Right",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Ledge Grab Right",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Ledge Grab Right",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Ledge Grab Right",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Ledge Grab Right",
               "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Capability: Ledge Grab",
-              "Capability: Sprint"
+              "Directional: Ledge Grab Right",
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Capability: Ledge Grab",
-              "Clawline"
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Capability: Ledge Grab",
+              "Directional: Cling Grip Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
               "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
-              "Faydown Cloak",
-              "Cling Grip"
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
-              "Faydown Cloak",
-              "Clawline"
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Crest: Beast + Usable Flea Brew"
             ]
           },
           {
             "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
-              "Faydown Cloak",
-              "Capability: Sprint"
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Loadout: Crest: Beast + Usable Voltvessels"
             ]
           },
           {
             "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
-              "Faydown Cloak",
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Usable Sharpdart",
+              "Loadout: Crest: Beast + Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Usable Flea Brew + Usable Plasmium Phial"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Loadout: Usable Flea Brew + Usable Voltvessels"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Technique: Heal Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Ledge Grab Right",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
               "Usable Scuttlebrace",
               "Swift Step",
-              "Technique: Scuttlebrace 1"
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 3",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
               "Faydown Cloak",
-              "Drifter's Cloak"
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Clawline Left"
             ]
           },
           {
@@ -191387,8 +192820,99 @@
           },
           {
             "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Crest: Beast",
+              "Technique: Crest Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Faydown Cloak",
+              "Directional: Cling Grip Left",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Capability: Swim",
+              "Directional: Cling Grip Right",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#shell-shards-bridge",
+              "Capability: Swim",
+              "Directional: Cling Grip Right",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
-              "Swift Step"
+              "Directional: Dash Left"
             ]
           },
           {
@@ -191400,7 +192924,7 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
-              "Capability: Sprint"
+              "Directional: Sprint Left"
             ]
           },
           {
@@ -191412,7 +192936,7 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -191424,13 +192948,68 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
-              "Clawline"
+              "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
               "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#exit",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -191446,27 +193025,479 @@
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
               "Faydown Cloak",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Left",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Technique: Heal Stall 1",
+              "Directional: Cling Grip Right",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Usable Sharpdart",
+              "Loadout: Crest: Shaman + Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Loadout: Crest: Shaman + Usable Voltvessels"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Loadout: Crest: Shaman + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Loadout: Crest: Shaman + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Left",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Usable Sharpdart",
+              "Loadout: Crest: Shaman + Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Loadout: Crest: Shaman + Usable Voltvessels"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Loadout: Crest: Shaman + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Loadout: Crest: Shaman + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
               "Silk Soar",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Silk Soar",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
-              "Silk Soar",
+              "Directional: Cling Grip Left",
               "Usable Sharpdart"
             ]
           },
@@ -191474,14 +193505,206 @@
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
               "Silk Soar",
-              "Faydown Cloak"
+              "Directional: Cling Grip Left",
+              "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
               "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Left",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
               "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#left-platform",
+              "Silk Soar",
+              "Directional: Cling Grip Right",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -191491,7 +193714,19 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Clawline"
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Sharpdart"
             ]
           },
           {
@@ -191503,36 +193738,15 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Silk Soar"
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
               "Faydown Cloak",
-              "Cling Grip"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Faydown Cloak",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Faydown Cloak",
-              "Capability: Sprint"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Capability: Swim",
-              "Swift Step",
-              "Cling Grip"
+              "Directional: Ledge Grab Right"
             ]
           },
           {
@@ -191550,57 +193764,156 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Swift Step",
-              "Clawline"
+              "Directional: Ledge Grab Left",
+              "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Swift Step",
+              "Directional: Ledge Grab Left",
               "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Swift Step",
+              "Directional: Ledge Grab Left",
               "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Swift Step",
-              "Capability: Sprint"
+              "Directional: Ledge Grab Left",
+              "Directional: Sprint Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Cling Grip",
-              "Clawline"
+              "Directional: Ledge Grab Left",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 3"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Cling Grip",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Directional: Cling Grip Left",
               "Drifter's Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Cling Grip",
+              "Directional: Cling Grip Left",
               "Usable Sharpdart"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
-              "Cling Grip",
-              "Capability: Sprint"
+              "Directional: Cling Grip Left",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Usable Sharpdart",
+              "Loadout: Usable Plasmium Phial + Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 3",
+              "Loadout: Crest: Beast + Usable Plasmium Phial"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Technique: Heal Stall 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Technique: Heal Stall 1",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Technique: Heal Stall 1",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Technique: Heal Stall 1",
+              "Directional: Sprint Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
+              "Technique: Heal Stall 1",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 3"
             ]
           },
           {
@@ -191616,7 +193929,15 @@
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#entrance",
               "Faydown Cloak",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#entrance",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right",
+              "Option: Proficient Movement"
             ]
           },
           {
@@ -191637,20 +193958,19 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Clawline"
+              "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Capability: Sprint"
+              "Directional: Sprint Left"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Drifter's Cloak",
-              "Technique: Enemy Pogo 1"
+              "Drifter's Cloak"
             ]
           },
           {
@@ -191662,8 +193982,32 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Cling Grip",
-              "Swift Step"
+              "Directional: Cling Grip Right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Cling Grip Right",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Cling Grip Right",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
             ]
           }
         ]
@@ -191682,44 +194026,88 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Technique: Enemy Pogo 1",
-              "Capability: Ledge Grab"
+              "Faydown Cloak"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Technique: Enemy Pogo 1",
-              "Drifter's Cloak"
+              "Capability: Swim",
+              "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
               "Technique: Enemy Pogo 1",
               "Crest: Hunter",
-              "Technique: Crest Pogo 1"
+              "Technique: Crest Pogo 3"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
               "Technique: Enemy Pogo 1",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 2"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
               "Technique: Enemy Pogo 1",
-              "Crest: Architect",
-              "Technique: Crest Pogo 1"
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Capability: Swim",
               "Technique: Enemy Pogo 1",
               "Crest: Shaman",
               "Technique: Crest Pogo 1"
@@ -191728,42 +194116,640 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Technique: Enemy Pogo 1",
-              "Clawline"
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Directional: Cling Grip Right"
             ]
           },
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Technique: Enemy Pogo 1",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Technique: Enemy Pogo 1",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
-              "Cling Grip"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
               "Usable Scuttlebrace",
               "Swift Step",
-              "Technique: Scuttlebrace 1"
+              "Technique: Scuttlebrace 2",
+              "Loadout: Usable Scuttlebrace + Usable Voltvessels"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 3",
+              "Loadout: Crest: Hunter + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 2",
+              "Loadout: Usable Flea Brew + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect",
+              "Loadout: Crest: Architect + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 2",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Shaman + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Usable Flintslate + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 3",
+              "Loadout: Crest: Hunter + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Technique: Flintslate Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Usable Flea Brew + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect",
+              "Loadout: Crest: Architect + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Ledge Grab Right",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Shaman + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Crest: Reaper + Usable Flintslate + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left",
+              "Loadout: Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left",
+              "Loadout: Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 3",
+              "Loadout: Crest: Hunter + Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Technique: Flintslate Stall 2",
+              "Loadout: Crest: Reaper + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Crest: Reaper + Usable Flea Brew + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 1",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Loadout: Crest: Reaper + Crest: Shaman + Usable Flintslate"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Crest: Architect + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Dash Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Drifter's Cloak",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Drifter's Cloak",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Drifter's Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Usable Flintslate",
+              "Technique: Flintslate Stall 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Sharpdart",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Sharpdart",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 2",
+              "Loadout: Usable Scuttlebrace + Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-entrance#centre-platform",
+              "Usable Sharpdart",
+              "Technique: Enemy Pogo 1"
             ]
           }
         ]
@@ -216385,6 +219371,12 @@
           },
           {
             "all_of": [
+              "Room Node: underworks/underworks-shaft#mid",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: underworks/underworks-shaft#bottom-lever"
             ]
           },
@@ -216519,8 +219511,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: underworks/underworks-shaft#mid",
-              "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145"
+              "Room Node: underworks/underworks-shaft#mid"
             ]
           },
           {
@@ -216566,6 +219557,12 @@
             "all_of": [
               "Room Node: underworks/underworks-shaft#mid",
               "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-shaft#mid",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f"
             ]
           }
         ]
@@ -216613,29 +219610,51 @@
           },
           {
             "all_of": [
+              "Room Node: underworks/underworks-shaft#lever",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+              "Cling Grip"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-shaft#lever",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-shaft#lever",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-shaft#lever",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: underworks/underworks-shaft#bottom",
-              "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
               "Cling Grip"
             ]
           },
           {
             "all_of": [
               "Room Node: underworks/underworks-shaft#bottom",
-              "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
+              "Faydown Cloak",
               "Capability: Ledge Grab"
             ]
           },
           {
             "all_of": [
               "Room Node: underworks/underworks-shaft#bottom",
-              "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: underworks/underworks-shaft#bottom",
-              "Room Event: event:mapper/a68ba937-702d-4a9b-927b-f5158217f145",
+              "Room Event: event:mapper/5e59bcfe-e29b-44a1-be2f-e5cf160bea3f",
               "Silk Soar"
             ]
           },
@@ -216787,6 +219806,11 @@
           {
             "all_of": [
               "Room Node: underworks/underworks-silk-spool#silk-spool"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#upper-right"
             ]
           }
         ]
@@ -217515,6 +220539,1233 @@
             "all_of": [
               "Room Node: underworks/underworks-silk-spool#shell-shard-alcove-1",
               "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Left",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Directional: Clawline Right",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Directional: Clawline Right",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Hunter",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Hunter + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Reaper",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Reaper + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Shaman",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Shaman + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Architect",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Architect + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Wanderer",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Wanderer + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Beast + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Witch",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Witch + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Hunter",
+              "Faydown Cloak",
+              "Loadout: Crest: Hunter + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Reaper",
+              "Faydown Cloak",
+              "Loadout: Crest: Reaper + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Shaman",
+              "Faydown Cloak",
+              "Loadout: Crest: Shaman + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Architect",
+              "Faydown Cloak",
+              "Loadout: Crest: Architect + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Wanderer",
+              "Faydown Cloak",
+              "Loadout: Crest: Wanderer + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Faydown Cloak",
+              "Loadout: Crest: Beast + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Witch",
+              "Faydown Cloak",
+              "Loadout: Crest: Witch + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Hunter",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Hunter + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Reaper",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Reaper + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Shaman",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Shaman + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Architect",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Architect + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Wanderer",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Wanderer + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Beast + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Witch",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Witch + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Hunter",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Hunter + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Reaper",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Reaper + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Shaman",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Shaman + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Architect",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Architect + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Wanderer",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Wanderer + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Beast + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Magma Bell",
+              "Silk Soar",
+              "Option: Proficient Movement",
+              "Crest: Witch",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Witch + Usable Magma Bell"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Right",
+              "Faydown Cloak",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Directional: Clawline Right",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Hunter",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Reaper",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Shaman",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Wanderer",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Witch",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Hunter",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Reaper",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Shaman",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Wanderer",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Witch",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Hunter",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Reaper",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Shaman",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Wanderer",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Witch",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Hunter",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Reaper",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Shaman",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Architect",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Wanderer",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Beast",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Directional: Cling Grip Left",
+              "Crest: Witch",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Hunter",
+              "Loadout: Crest: Hunter + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Reaper",
+              "Loadout: Crest: Reaper + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Shaman",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Architect",
+              "Loadout: Crest: Architect + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Wanderer",
+              "Loadout: Crest: Wanderer + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Beast",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak",
+              "Crest: Witch",
+              "Loadout: Crest: Witch + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Hunter",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Hunter + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Reaper",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Reaper + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Architect",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Architect + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Wanderer",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Shaman + Crest: Wanderer + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Beast",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Witch",
+              "Technique: Enemy Pogo 2",
+              "Loadout: Crest: Shaman + Crest: Witch + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Hunter",
+              "Faydown Cloak",
+              "Loadout: Crest: Hunter + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Reaper",
+              "Faydown Cloak",
+              "Loadout: Crest: Reaper + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Architect",
+              "Faydown Cloak",
+              "Loadout: Crest: Architect + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Wanderer",
+              "Faydown Cloak",
+              "Loadout: Crest: Shaman + Crest: Wanderer + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Beast",
+              "Faydown Cloak",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Witch",
+              "Faydown Cloak",
+              "Loadout: Crest: Shaman + Crest: Witch + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Hunter",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Hunter + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Reaper",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Reaper + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Architect",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Architect + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Wanderer",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Shaman + Crest: Wanderer + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Beast",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Witch",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Shaman + Crest: Witch + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Hunter",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Hunter + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Reaper",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Reaper + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Architect",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Architect + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Wanderer",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Shaman + Crest: Wanderer + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Beast",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-silk-spool#bottom",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Option: Elite Ball Knowledge",
+              "Capability: Sprint",
+              "Crest: Witch",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Shaman + Crest: Witch + Usable Scuttlebrace"
             ]
           }
         ]
@@ -227101,7 +231352,8 @@
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#lowest-hallway"
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
             ]
           }
         ]
@@ -227309,31 +231561,36 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
               "Silk Soar"
             ]
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
               "Capability: Ledge Grab"
             ]
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
               "Clawline"
             ]
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
               "Faydown Cloak"
             ]
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888",
               "Cling Grip"
             ]
           },
@@ -227588,6 +231845,129 @@
       },
       "Room Node: whispering-vaults/whispering-vaults-hub-area#shortcut-box": {
         "alternatives": []
+      },
+      "Room Node: whispering-vaults/whispering-vaults-hub-area#this-fucking-thing": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#lowest-hallway",
+              "Room Event: event:mapper/fbeee50d-411d-485f-9005-fa12553fc888"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Technique: Enemy Pogo 1",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Directional: Sprint Right",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Directional: Dash Right",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Directional: Clawline Right",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Crest: Architect",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Usable Flea Brew",
+              "Option: Flea Brew Jump Logic",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-hub-area#ground",
+              "Directional: Ledge Grab Right",
+              "Room Event: event:mapper/57519874-2947-4ae0-af2f-27f6e51be48c"
+            ]
+          }
+        ]
       },
       "Room Node: whispering-vaults/whispering-vaults-hub-area#top-hallway": {
         "alternatives": [
@@ -247287,6 +251667,36 @@
           }
         ]
       },
+      "Farsight": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-abyss/weavenest-absolom#entrance",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-abyss/weavenest-absolom#entrance",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-abyss/weavenest-absolom#entrance",
+              "Faydown Cloak",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: the-abyss/weavenest-absolom#entrance",
+              "Faydown Cloak",
+              "Drifter's Cloak"
+            ]
+          }
+        ]
+      },
       "Fastest in Pharloom - Mask Shard": {
         "alternatives": [
           {
@@ -248062,6 +252472,15 @@
           {
             "all_of": [
               "Room Node: deep-docks/deep-docks-chains-center#flintslate"
+            ]
+          }
+        ]
+      },
+      "Flintstone": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-chains-west#lower-left-exit"
             ]
           }
         ]
@@ -250983,6 +255402,15 @@
           }
         ]
       },
+      "Magnetite Outcrop": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: mount-fay/mount-fay-magnetite-outcropping#brightvein"
+            ]
+          }
+        ]
+      },
       "Maiden Soul": {
         "alternatives": [
           {
@@ -251066,6 +255494,15 @@
               "Room Node: shellwood/shellwood-mask-shard-room#room",
               "Crest: Beast",
               "Technique: Crest Pogo 1"
+            ]
+          }
+        ]
+      },
+      "Materium": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: memorium/memorium-voltnest#memorium-stuff"
             ]
           }
         ]
@@ -281414,36 +285851,36 @@
           {
             "annotation_enabled": true,
             "annotation_height": 13.595,
-            "annotation_width": 38.71,
-            "annotation_x": 14.801,
+            "annotation_width": 60.77534353637695,
+            "annotation_x": 6.224656463623047,
             "annotation_y": 3.481,
             "id": "whispering-vaults/whispering-vaults-hub-area#ground",
             "name": "Ground"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 5.0429193725586,
-            "annotation_width": 38.71,
-            "annotation_x": 14.801,
-            "annotation_y": 37.6510806274414,
+            "annotation_height": 5.478733276367194,
+            "annotation_width": 56.642367324829095,
+            "annotation_x": -3.1313673248291014,
+            "annotation_y": 39.53484680175781,
             "id": "whispering-vaults/whispering-vaults-hub-area#lowest-hallway",
             "name": "Lowest Hallway"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 3.241489624023444,
-            "annotation_width": 36.867,
-            "annotation_x": 17.02898306274414,
-            "annotation_y": 85.402,
+            "annotation_height": 4.06081311035156,
+            "annotation_width": 66.09706719970703,
+            "annotation_x": 0,
+            "annotation_y": 94.53418688964844,
             "id": "whispering-vaults/whispering-vaults-hub-area#middle-hallway",
             "name": "Middle Hallway"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 2.7039999999999935,
-            "annotation_width": 25.326,
-            "annotation_x": 26.086,
-            "annotation_y": 116.798,
+            "annotation_height": 12.04141760253907,
+            "annotation_width": 41.517107772827146,
+            "annotation_x": 24.57995942687988,
+            "annotation_y": 128.93611492919922,
             "id": "whispering-vaults/whispering-vaults-hub-area#upper-platform",
             "name": "Upper Platform"
           },
@@ -281451,73 +285888,82 @@
             "annotation_enabled": true,
             "annotation_height": 13.477082275390615,
             "annotation_width": 36.867,
-            "annotation_x": 16.644,
-            "annotation_y": 179.278,
+            "annotation_x": 8.472052520751951,
+            "annotation_y": 204.0708466796875,
             "id": "whispering-vaults/whispering-vaults-hub-area#map-room",
             "name": "Map Room"
           },
           {
             "annotation_enabled": true,
             "annotation_height": 9.118860351562489,
-            "annotation_width": 41.368541778564456,
-            "annotation_x": 14.801,
-            "annotation_y": 167.826,
+            "annotation_width": 66.09706719970703,
+            "annotation_x": 0,
+            "annotation_y": 186.94004418945312,
             "id": "whispering-vaults/whispering-vaults-hub-area#top-hallway",
             "name": "Top Hallway"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 4.814999999999998,
-            "annotation_width": 36.867,
-            "annotation_x": 16.644,
-            "annotation_y": 42.694,
+            "annotation_height": 6.153539672851565,
+            "annotation_width": 37.61083978271484,
+            "annotation_x": 28.486227416992186,
+            "annotation_y": 48.818,
             "id": "whispering-vaults/whispering-vaults-hub-area#upper-low-hallway",
             "name": "Upper Low Hallway"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 4.882728576660156,
-            "annotation_width": 7.7147216796875,
-            "annotation_x": 42.046260833740234,
-            "annotation_y": 69.14408874511719,
+            "annotation_height": 3.550678710937504,
+            "annotation_width": 7.864140930175786,
+            "annotation_x": 48.30540084838867,
+            "annotation_y": 76.4293212890625,
             "id": "whispering-vaults/whispering-vaults-hub-area#rosary-dish",
             "name": "Rosary Dish"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 26.380968750000008,
-            "annotation_width": 11.432000000000002,
-            "annotation_x": 18.854,
-            "annotation_y": 48.818,
+            "annotation_height": 27.976646789550784,
+            "annotation_width": 14.455512802124026,
+            "annotation_x": 17.02898306274414,
+            "annotation_y": 57.42535321044922,
             "id": "whispering-vaults/whispering-vaults-hub-area#left-side-shaft",
             "name": "Left Side Shaft"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 5.421999999999997,
-            "annotation_width": 7.231999999999999,
-            "annotation_x": 18.854,
-            "annotation_y": 79.98,
+            "annotation_height": 5.233055114746094,
+            "annotation_width": 6.62478748321533,
+            "annotation_x": 6.224656463623047,
+            "annotation_y": 85.402,
             "id": "whispering-vaults/whispering-vaults-hub-area#lever",
             "name": "Lever"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 12.402145385742188,
-            "annotation_width": 20.81685098266601,
-            "annotation_x": 32.694149017333984,
-            "annotation_y": 144.05857849121094,
+            "annotation_height": 24.572418212890625,
+            "annotation_width": 23.697244964599605,
+            "annotation_x": 34.69900894165039,
+            "annotation_y": 160.1438446044922,
             "id": "whispering-vaults/whispering-vaults-hub-area#distant-platform",
             "name": "Distant Platform"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 4.198999999999998,
-            "annotation_width": 7.617227416992186,
-            "annotation_x": 20.869,
-            "annotation_y": 98.595,
+            "annotation_height": 7.277269958496092,
+            "annotation_width": 9.566795211791991,
+            "annotation_x": 18.919432205200195,
+            "annotation_y": 109.16371795654297,
             "id": "whispering-vaults/whispering-vaults-hub-area#shortcut-box",
             "name": "Shortcut Box"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 6.653234481811523,
+            "annotation_width": 25.138404846191406,
+            "annotation_x": 34.69900894165039,
+            "annotation_y": 28.285572052001953,
+            "id": "whispering-vaults/whispering-vaults-hub-area#this-fucking-thing",
+            "name": "This Fucking Thing"
           },
           {
             "annotation_enabled": false,
@@ -287224,15 +291670,6 @@
             "annotation_y": 13.668176651000977,
             "id": "putrified-ducts/putrified-ducts-entrance#rosary-string-ledge",
             "name": "Rosary String Ledge"
-          },
-          {
-            "annotation_enabled": false,
-            "annotation_height": null,
-            "annotation_width": null,
-            "annotation_x": null,
-            "annotation_y": null,
-            "id": "putrified-ducts/putrified-ducts-entrance#unassigned",
-            "name": "unassigned"
           }
         ],
         "room_group_name": "Putrified Ducts"

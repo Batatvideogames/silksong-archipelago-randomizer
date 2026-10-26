@@ -925,4 +925,8 @@ LOCATION_POSITIONS = (
     {'name': 'Bellhart - East Sign', 'scene': 'Belltown_06', 'x': 14.92, 'y': 8.37, 'width': 80, 'height': 83},
     {'name': 'Loddie - Heavy Rosary Necklace', 'scene': 'Bone_12', 'x': 23.02, 'y': 4.7, 'width': 58, 'height': 43},
     {'name': 'Conjoined Heart', 'scene': 'Clover_01', 'x': 118.691002, 'y': 7.199656, 'width': 175, 'height': 22},
+    {'name': 'Materium', 'scene': 'Arborium_07', 'x': 103.38, 'y': 11.11, 'width': 180, 'height': 22},
+    {'name': 'Farsight', 'scene': 'Abyss_08', 'x': 157.55, 'y': 90.38748, 'width': 164, 'height': 106},
+    {'name': 'Flintstone', 'scene': 'Dock_02', 'x': 26.35, 'y': 8.41, 'width': 125, 'height': 101},
+    {'name': 'Magnetite Outcrop', 'scene': 'Peak_05e', 'x': 20.095999, 'y': 49.490002, 'width': 115, 'height': 64},
 )

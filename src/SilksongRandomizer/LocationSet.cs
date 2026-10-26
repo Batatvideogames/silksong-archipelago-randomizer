@@ -1035,7 +1035,11 @@ namespace SilksongRandomizer
             new Location("Hero's Memento", ItemType.Memento, null),
             new Location("Grey Memento", ItemType.Memento, null),
             new Location("Surface Memento", ItemType.Memento, null),
-            new Location("Craw Memento", ItemType.Memento, null),
+            new Location("Craw Memento", ItemType.Memento, null),
+            new Location("Materium", ItemType.Materium, null),
+            new Location("Farsight", ItemType.Farsight, null),
+            new Location("Flintstone", ItemType.Materium, null),
+            new Location("Magnetite Outcrop", ItemType.Materium, null),
             new Location("Boss: Summoned Saviour", ItemType.Boss, null),
             new Location("Boss: Lace (Deep Docks)", ItemType.Boss, null),
 

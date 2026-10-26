@@ -1097,6 +1097,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Loddie - Heavy Rosary Necklace', 'Reso
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key of Heretic', 'MajorKey'))
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Conjoined Heart', 'OldHeart'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Quest Completion: Broodmother Hunt', 'Resource'),)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Materium', 'Materium'), ('Flintstone', 'Materium'), ('Magnetite Outcrop', 'Materium'), ('Farsight', 'Farsight'))
 
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
@@ -1152,6 +1153,8 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'OldHeart',
     'Everbloom',
     'Memento',
+    'Materium',
+    'Farsight',
     'TwistedBud',
     'Eva',
     'Skill',

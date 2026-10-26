@@ -157,6 +157,20 @@ class MementoRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
+class MateriumRandomization(GlobalRandomization):
+    """Randomizes Materium, Flintstone and Magnetite."""
+
+    display_name = "Materium Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
+class FarsightRandomization(GlobalRandomization):
+    """Randomizes Farsight for Act 3 goals."""
+
+    display_name = "Farsight Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class EverbloomRandomization(GlobalRandomization):
     """
     Randomizes Everbloom for Act 3 goals. 
@@ -708,6 +722,8 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "OldHeart": "old_heart_randomization",
     "Everbloom": "everbloom_randomization",
     "Memento": "memento_randomization",
+    "Materium": "materium_randomization",
+    "Farsight": "farsight_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
@@ -1711,6 +1727,8 @@ class SilksongOptions(PerGameCommonOptions):
     old_heart_randomization: OldHeartRandomization
     everbloom_randomization: EverbloomRandomization
     memento_randomization: MementoRandomization
+    materium_randomization: MateriumRandomization
+    farsight_randomization: FarsightRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
@@ -1827,6 +1845,8 @@ silksong_option_groups = [
         OldHeartRandomization,
         EverbloomRandomization,
         MementoRandomization,
+        MateriumRandomization,
+        FarsightRandomization,
         TwistedBudRandomization,
         FleaRandomization,
         CrestSlotRandomization,

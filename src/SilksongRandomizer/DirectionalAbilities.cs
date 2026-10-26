@@ -105,13 +105,21 @@ namespace SilksongRandomizer
                 if (hero == null) return true;
                 Fsm fsm = __instance.Fsm;
                 string name = __instance.Name;
-                if (state.directionalClawline && ReferenceEquals(fsm, hero.harpoonDashFSM?.Fsm) &&
-                    (name == "Left" || name == "Right" || name == "Ring Check L" || name == "Ring Check R") &&
-                    !Clawline(state, name == "Right" || name == "Ring Check R"))
+                if (state.directionalClawline && ReferenceEquals(fsm, hero.harpoonDashFSM?.Fsm))
                 {
-                    fsm.Variables.FindFsmBool("Queued Move").Value = false;
-                    fsm.SetState("Cancel All");
-                    return false;
+                    if (name == "Harpoon Ring Cancel" && !Clawline(state, InputRight(hero)))
+                    {
+                        fsm.SetState("Ring Grabbing");
+                        return false;
+                    }
+                    if ((name == "Left" || name == "Right" || name == "Ring Check L" || name == "Ring Check R") &&
+                        !Clawline(state, name == "Right" || name == "Ring Check R"))
+                    {
+                        fsm.Variables.FindFsmBool("Queued Move").Value = false;
+                        hero.RegainControl();
+                        fsm.SetState("Cancel All");
+                        return false;
+                    }
                 }
                 if (ReferenceEquals(fsm, hero.sprintFSM?.Fsm) &&
                     (name == "Ground Sprint L" || name == "Ground Sprint R" || name == "Air Sprint L" || name == "Air Sprint R") &&
