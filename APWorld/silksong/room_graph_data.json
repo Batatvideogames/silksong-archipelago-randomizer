@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 533,
-    "aggregate_sha256": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
-    "catalogue_sha256": "c32677c15b0a651ca5c5290ad5f5ca4417f1cb4a49bc12dfcec1d6c938f168ea",
-    "bindings_sha256": "84b8bfaa1dcbdf48b123f6ac9736c09935c74b261ca6995994f322e9926387d8"
+    "aggregate_sha256": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+    "catalogue_sha256": "f0b8a8085ca19c808cc8b4ba0f6b6b1c11d740a1268137aab81c675ad9a69096",
+    "bindings_sha256": "7f50e6da349a291c3f3bccb347a244b9f46f94cba6a34f2a3cdaa3434dcb55ae"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -697,7 +697,6 @@
       "Songclave Shop - Spider Strings",
       "Songclave Shop - Spool Extender",
       "Songclave Shop - Spool Fragment",
-      "Songclave Shop - White Key",
       "Sprintmaster - Beast Shard",
       "Sprintmaster's Memento",
       "Sting Shard",
@@ -860,6 +859,7 @@
       "Whispering Vaults - Shell Shard Cache #2",
       "Whispering Vaults - Silkeater",
       "Whispering Vaults - Theatre Desk",
+      "White Key",
       "Whiteward - Map Purchase",
       "Whiteward - Oath",
       "Whiteward - Rosary Cache #1",
@@ -191291,7 +191291,7 @@
           "unresolved_reasons": [],
           "label": "White Key",
           "node_id": "choral-chambers/songclave#base",
-          "canonical_location": "Songclave Shop - White Key",
+          "canonical_location": "White Key",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -211692,7 +211692,7 @@
       "area_id": "whispering-vaults",
       "name": "Whispering Vaults Below Bench",
       "source_file": "whispering-vaults/whispering-vaults-below-bench.json",
-      "source_sha256": "74379b81866c0a61402895a71d2b1df6a45d3bbcca636df552691296403ea76f",
+      "source_sha256": "4599d31be63c08f80c88e09e6ede7b5a92a430fec44ad8fbf2fbcd31f573fcf6",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -211775,7 +211775,7 @@
           "unresolved_reasons": [],
           "alias": "R",
           "name": "right1",
-          "source_node_id": "whispering-vaults/whispering-vaults-below-bench#top",
+          "source_node_id": "whispering-vaults/whispering-vaults-below-bench#right-exit",
           "target": {
             "raw": "whispering-vaults/whispering-vaults-palace@bl",
             "room_id": "whispering-vaults/whispering-vaults-palace",
@@ -211890,6 +211890,31 @@
           "target_node_id": "whispering-vaults/whispering-vaults-below-bench#top"
         },
         {
+          "id": "whispering-vaults/whispering-vaults-below-bench#top>bottom@la",
+          "requirement": {
+            "raw": "Free (Fall)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e2d050d2-00c4-49a5-bf8d-104c92426c73"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "LA",
+          "name": "Lower Ascent",
+          "source_node_id": "whispering-vaults/whispering-vaults-below-bench#top",
+          "target_node_id": "whispering-vaults/whispering-vaults-below-bench#bottom"
+        },
+        {
           "id": "whispering-vaults/whispering-vaults-below-bench#top>rosary@ha",
           "requirement": {
             "raw": "Silk Soar OR Proficient Movement (easy box pogo) OR (Cling Grip AND (Faydown Cloak OR Clawline OR Sharpdart OR easy Needle Strike Stall (Architect) OR (Cling Grip AND Easy Enemy Pogo)))",
@@ -211941,6 +211966,31 @@
           "target_node_id": "whispering-vaults/whispering-vaults-below-bench#rosary"
         },
         {
+          "id": "whispering-vaults/whispering-vaults-below-bench#rosary>top@ha",
+          "requirement": {
+            "raw": "Nothing (Fall)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "f173757a-bdd7-4350-9547-bd4f7c03f487"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "HA",
+          "name": "Higher Ascent",
+          "source_node_id": "whispering-vaults/whispering-vaults-below-bench#rosary",
+          "target_node_id": "whispering-vaults/whispering-vaults-below-bench#top"
+        },
+        {
           "id": "whispering-vaults/whispering-vaults-below-bench#top>right-exit@e",
           "requirement": {
             "raw": "Silk Soar OR Cling Grip OR Scuttlebrace OR (Faydown Cloak AND Ledge Grab)",
@@ -211976,6 +212026,31 @@
           "name": "Exit",
           "source_node_id": "whispering-vaults/whispering-vaults-below-bench#top",
           "target_node_id": "whispering-vaults/whispering-vaults-below-bench#right-exit"
+        },
+        {
+          "id": "whispering-vaults/whispering-vaults-below-bench#right-exit>top@e",
+          "requirement": {
+            "raw": "None (Fall)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "5b9acc4b-a45a-4a2c-b15c-a15c3f946a39"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "alias": "E",
+          "name": "Exit",
+          "source_node_id": "whispering-vaults/whispering-vaults-below-bench#right-exit",
+          "target_node_id": "whispering-vaults/whispering-vaults-below-bench#top"
         }
       ],
       "events": [],

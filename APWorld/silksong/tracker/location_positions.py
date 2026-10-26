@@ -264,7 +264,7 @@ LOCATION_POSITIONS = (
     {'name': 'Key of Indolent', 'scene': 'Slab_14', 'x': 12.900001, 'y': 6.892, 'width': 100, 'height': 29},
     {'name': 'Key of Heretic', 'scene': 'Slab_16', 'x': 25.450001, 'y': 18.200001, 'width': 100, 'height': 80},
     {'name': 'Key of Apostate', 'scene': 'Aqueduct_04', 'x': 7.570004, 'y': 38.651806, 'width': 185, 'height': 60},
-    {'name': 'Songclave Shop - White Key', 'scene': 'Song_Enclave', 'x': 102.076, 'y': 6.29, 'width': 120, 'height': 33},
+    {'name': 'White Key', 'scene': 'Song_Enclave', 'x': 102.076, 'y': 6.29, 'width': 120, 'height': 33},
     {'name': "Surgeon's Key", 'scene': 'Ward_07', 'x': 13.134485, 'y': 7.159246, 'width': 130, 'height': 20},
     {'name': "Architect's Key", 'scene': 'Under_17', 'x': 76.83148, 'y': 27.93, 'width': 164, 'height': 48},
     {'name': 'Craw Summons', 'scene': 'Room_CrowCourt_02', 'x': 19.41, 'y': 44.277, 'width': 70, 'height': 92},

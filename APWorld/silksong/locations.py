@@ -718,7 +718,6 @@ _DIRECT_LOCATION_RENAMES: dict[str, str] = {
 _DIRECT_LOCATION_RENAMES.update({
     'Simple Key: Bone Bottom Shop': 'Bone Bottom Shop - Simple Key (Grindle in Act 3)',
     'Craftmetal: Bone Bottom Shop': 'Bone Bottom Shop - Craftmetal (Grindle in Act 3)',
-    'White Key': 'Songclave Shop - White Key',
     'Pin Purchase: Bench': 'Pin Purchase: Bench Pins',
     'Pin Purchase: Ventrica': 'Pin Purchase: Ventrica Pins',
     'Pin Purchase: Bellway': 'Pin Purchase: Bellway Pins',

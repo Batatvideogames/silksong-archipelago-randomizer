@@ -32271,7 +32271,44 @@
             ]
           },
           "Room Node: whispering-vaults/whispering-vaults-below-bench#bottom": {
-            "alternatives": []
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+                ]
+              }
+            ]
+          },
+          "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Cling Grip"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Faydown Cloak",
+                  "Capability: Ledge Grab"
+                ]
+              }
+            ]
           },
           "Room Node: whispering-vaults/whispering-vaults-below-bench#top": {
             "alternatives": [
@@ -32337,6 +32374,16 @@
                   "Usable Scuttlebrace",
                   "Swift Step",
                   "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#rosary"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
                 ]
               }
             ]
@@ -34728,7 +34775,7 @@
         "whispering-vaults/vaultkeeper-cauldron-entrance@b": "Room Node: whispering-vaults/vaultkeeper-cauldron-entrance#right-side",
         "whispering-vaults/vaultkeeper-cauldron-entrance@l": "Room Node: whispering-vaults/vaultkeeper-cauldron-entrance#left-side",
         "whispering-vaults/whispering-vaults-below-bench@bl": "Room Node: whispering-vaults/whispering-vaults-below-bench#bottom",
-        "whispering-vaults/whispering-vaults-below-bench@r": "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+        "whispering-vaults/whispering-vaults-below-bench@r": "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit",
         "whispering-vaults/whispering-vaults-below-bench@tl": "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
         "whispering-vaults/whispering-vaults-bench@l": "Room Node: whispering-vaults/whispering-vaults-bench#cardinius",
         "whispering-vaults/whispering-vaults-bench@r": "Room Node: whispering-vaults/whispering-vaults-bench#side-room",
@@ -45597,7 +45644,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+                "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
               ]
             }
           ],
@@ -80494,7 +80541,44 @@
             ]
           },
           "Room Node: whispering-vaults/whispering-vaults-below-bench#bottom": {
-            "alternatives": []
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+                ]
+              }
+            ]
+          },
+          "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Silk Soar"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Cling Grip"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+                  "Faydown Cloak",
+                  "Capability: Ledge Grab"
+                ]
+              }
+            ]
           },
           "Room Node: whispering-vaults/whispering-vaults-below-bench#top": {
             "alternatives": [
@@ -80560,6 +80644,16 @@
                   "Usable Scuttlebrace",
                   "Swift Step",
                   "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#rosary"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
                 ]
               }
             ]
@@ -82754,7 +82848,7 @@
         "whispering-vaults/trobbio@tr": "Room Node: whispering-vaults/trobbio#top",
         "whispering-vaults/vaultkeeper-cauldron-entrance@l": "Room Node: whispering-vaults/vaultkeeper-cauldron-entrance#left-side",
         "whispering-vaults/whispering-vaults-below-bench@bl": "Room Node: whispering-vaults/whispering-vaults-below-bench#bottom",
-        "whispering-vaults/whispering-vaults-below-bench@r": "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
+        "whispering-vaults/whispering-vaults-below-bench@r": "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit",
         "whispering-vaults/whispering-vaults-below-bench@tl": "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
         "whispering-vaults/whispering-vaults-bench@l": "Room Node: whispering-vaults/whispering-vaults-bench#cardinius",
         "whispering-vaults/whispering-vaults-bench@r": "Room Node: whispering-vaults/whispering-vaults-bench#side-room",
@@ -92705,7 +92799,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+                "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
               ]
             }
           ],
@@ -226106,6 +226200,11 @@
         "alternatives": [
           {
             "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: whispering-vaults/whispering-vaults-east-to-west#bottom"
             ]
           }
@@ -226138,6 +226237,11 @@
               "Room Node: whispering-vaults/whispering-vaults-below-bench#top",
               "Faydown Cloak",
               "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-palace#up-and-away"
             ]
           }
         ]
@@ -226263,12 +226367,17 @@
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-east-to-west#top"
+              "Room Node: whispering-vaults/whispering-vaults-below-bench#rosary"
             ]
           },
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-palace#up-and-away"
+              "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-east-to-west#top"
             ]
           }
         ]
@@ -228301,7 +228410,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-below-bench#top"
+              "Room Node: whispering-vaults/whispering-vaults-below-bench#right-exit"
             ]
           },
           {
@@ -262917,15 +263026,6 @@
           }
         ]
       },
-      "Songclave Shop - White Key": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/songclave#base"
-            ]
-          }
-        ]
-      },
       "Sprintmaster - Beast Shard": {
         "alternatives": [
           {
@@ -264849,6 +264949,15 @@
           {
             "all_of": [
               "Room Node: whispering-vaults/trobbio-entrance#not-the-jump"
+            ]
+          }
+        ]
+      },
+      "White Key": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base"
             ]
           }
         ]

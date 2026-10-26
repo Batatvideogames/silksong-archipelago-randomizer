@@ -2462,6 +2462,17 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 slot_data["requirements"][location.name] = {
                     "alternatives": [{"all_of": ["Victory"]}], "logic_unknown": True,
                 }
+        if self.get_category_mode('Mossberry') == 'vanilla':
+            for location in self.get_locations():
+                if (getattr(location, 'silksong_randomization_category', None) == 'Mossberry'
+                        and location.address is None and location.item is not None
+                        and location.item.player == self.player and location.item.name == 'Mossberry'):
+                    slot_data['logic_events'].append({
+                        'location': 'Native Item: ' + location.name,
+                        'item': 'Mossberry',
+                        'native_source': True,
+                        'requirement': slot_data['requirements'][location.name],
+                    })
         return slot_data
 
     def modify_multidata(self, multidata: dict) -> None:

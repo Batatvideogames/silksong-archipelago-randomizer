@@ -215,7 +215,6 @@ namespace SilksongRandomizer
                 { "Tool Unlock: Spool Extender", "Songclave Shop - Spool Extender" },
                 { "Simple Key: Bone Bottom Shop", "Bone Bottom Shop - Simple Key (Grindle in Act 3)" },
                 { "Craftmetal: Bone Bottom Shop", "Bone Bottom Shop - Craftmetal (Grindle in Act 3)" },
-                { "White Key", "Songclave Shop - White Key" },
                 { "Relic Pickup: Seal Chit City Merchant", "Songclave Shop - Choral Commandment" },
                 {
                     "Relic: Bone Scroll (Greymoor)",

@@ -803,7 +803,6 @@
       }
     ],
     "checks": [
-      "Songclave Shop - White Key",
       "Wish: Building Up Songclave",
       "Wish: Strengthening Songclave",
       "Wish: Fine Pins",
@@ -1511,8 +1510,7 @@
     "events": [
       "Room Event: event:mapper/3ceea514-6141-4540-8362-7861c67a138d",
       "Room Event: event:mapper/1d494539-e87e-425a-9924-8d49592db7bf",
-      "Room Event: event:mapper/72aa38b8-7ca7-4642-8c2a-9d44dca06a61",
-      "Room Event: event:mapper/e24cf0d2-046f-494d-89be-9779f965e787"
+      "Room Event: event:mapper/72aa38b8-7ca7-4642-8c2a-9d44dca06a61"
     ],
     "item_id": 839040,
     "act": 1

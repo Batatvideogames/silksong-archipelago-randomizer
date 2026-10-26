@@ -119,7 +119,7 @@
           "blasted-steps/blasted-steps-map-edge#before-map-edge-lower",
           "blasted-steps/blasted-steps-map-edge#map-lower-edge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-map-edge#map-upper-edge",
@@ -136,7 +136,7 @@
           "blasted-steps/blasted-steps-mask-shard#pharlid2",
           "blasted-steps/blasted-steps-mask-shard#pharlid4"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-mask-shard#pharlid4",
@@ -164,7 +164,7 @@
           "blasted-steps/blasted-steps-toll-bench-bottom#above-shell-shards",
           "blasted-steps/blasted-steps-toll-bench-bottom#shell-shards"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-toll-bench-bottom#shell-shards",
@@ -188,7 +188,7 @@
           "blasted-steps/blasted-steps-wide-long-vertical#pharlid-3",
           "blasted-steps/blasted-steps-wide-long-vertical#pharlid-4"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-wide-long-vertical#pharlid-1",
@@ -222,7 +222,7 @@
           "sands-of-karak/sands-of-karak-entrance#top",
           "sands-of-karak/sands-of-karak-entrance#bottom"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-entrance#top",
@@ -238,7 +238,7 @@
           "the-cradle/cradle-path-of-pain-first-room#start",
           "the-cradle/cradle-path-of-pain-first-room#end"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-cradle/cradle-path-of-pain-first-room#end",
@@ -339,7 +339,7 @@
           "the-cradle/cradle-path-of-pain-first-room#start",
           "the-cradle/cradle-path-of-pain-first-room#end"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-cradle/cradle-path-of-pain-first-room#end",
@@ -367,7 +367,7 @@
           "weavenest-atla/weavenest-atla-mask-shard#starting-line",
           "weavenest-atla/weavenest-atla-mask-shard#mask-shard-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-mask-shard#left-exit-area",
@@ -431,7 +431,7 @@
           "bilewater/bilewater-lower-bloatroach-tower#rosary-plat",
           "bilewater/bilewater-lower-bloatroach-tower#up-left"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-lower-bloatroach-tower#rosary-plat",
@@ -462,7 +462,7 @@
           "bilewater/bilewater-upper-bloatroach-tower#middle-right"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-upper-bloatroach-tower#middle-left",
@@ -513,7 +513,7 @@
           "shellwood/cling-grip-room#central-level",
           "shellwood/cling-grip-room#upper-level"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/cling-grip-room#central-level",
@@ -529,7 +529,7 @@
           "shellwood/cling-grip-side-room#upper-level",
           "shellwood/cling-grip-side-room#lower-level"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/cling-grip-side-room#lower-level",
@@ -549,7 +549,7 @@
           "shellwood/shellwood-sister-splinter-bench#upper-main",
           "shellwood/shellwood-sister-splinter-bench#upper-hidden"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-sister-splinter-bench#upper-main",
@@ -612,7 +612,7 @@
           "shellwood/shellwood-lower-left-tall-room#top",
           "shellwood/shellwood-lower-left-tall-room#bottom"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-lower-left-tall-room#top",
@@ -655,7 +655,7 @@
           "bone-bottom/the-big-fall#bottom-left-area",
           "bone-bottom/the-big-fall#resting-site-ledge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/the-big-fall#wish-ledge",
@@ -699,7 +699,7 @@
           "far-fields/far-fields-pinstress-attic#upper-right-area",
           "far-fields/far-fields-pinstress-attic#ceiling-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-attic#bottom-left-area",
@@ -721,7 +721,7 @@
           "far-fields/far-fields-pinstress-room#pinstress-hut-platform",
           "far-fields/far-fields-pinstress-room#lava-basin"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-room#lava-basin",
@@ -741,7 +741,7 @@
           "far-fields/far-fields-upper-shaft#left-march-bridge-room",
           "far-fields/far-fields-upper-shaft#right-march-bridge-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-upper-shaft#first-shaft-scaffold",
@@ -777,7 +777,7 @@
           "the-marrow/the-marrow-lava-docks#upper-right-exit",
           "the-marrow/the-marrow-lava-docks#ground-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-docks#ground-floor",
@@ -797,7 +797,7 @@
           "the-marrow/the-marrow-lava-intro#upper-left-exit",
           "the-marrow/the-marrow-lava-intro#left-platforms"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-intro#left-platforms",
@@ -827,7 +827,7 @@
           "the-marrow/the-marrow-lava-track#left-lava-track",
           "the-marrow/the-marrow-lava-track#right-lava-track"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-track#caranids-over-lava",
@@ -847,7 +847,7 @@
           "the-marrow/the-marrow-lower-pogo#cache-alcove",
           "the-marrow/the-marrow-lower-pogo#pogo-supreme"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lower-pogo#pogo-supreme",
@@ -865,7 +865,7 @@
           "the-marrow/the-marrow-mr-burns-house#right-upper-area",
           "the-marrow/the-marrow-mr-burns-house#mr-burns-house"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-mr-burns-house#ground-floor",
@@ -898,7 +898,7 @@
           "the-marrow/the-marrow-shaft#big-boy-shelf",
           "the-marrow/the-marrow-shaft#collapsing-upper-crossing"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-shaft#bottom-shaft",
@@ -928,7 +928,7 @@
           "the-marrow/the-marrow-skull-wall#flea-platform",
           "the-marrow/the-marrow-skull-wall#middle-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-wall#flea-platform",
@@ -1019,7 +1019,7 @@
           "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
           "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-entrance#plains",
@@ -1037,7 +1037,7 @@
           "far-fields/far-fields-deep-lower-west#upper-right-alcove",
           "far-fields/far-fields-deep-lower-west#left-of-alcove-gate"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-lower-west#ground-level",
@@ -1110,7 +1110,7 @@
           "weavenest-atla/weavenest-atla-grotto#lower-west-platforms",
           "weavenest-atla/weavenest-atla-grotto#boss-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-grotto#causeway",
@@ -1133,7 +1133,7 @@
           "moss-grotto/moss-grotto-east#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-east#ground-floor",
@@ -1164,7 +1164,7 @@
         "nodes": [
           "moss-grotto/moss-grotto-center#beast-alcove"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-center#beast-alcove",
@@ -1193,7 +1193,7 @@
           "weavenest-atla/weavenest-atla-grotto#lower-west-platforms",
           "weavenest-atla/weavenest-atla-grotto#boss-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-grotto#upper-east-platforms",
@@ -1217,7 +1217,7 @@
           "weavenest-atla/weavenest-atla-spool#upper-left-passage",
           "weavenest-atla/weavenest-atla-spool#spool-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-spool#mid-passage",
@@ -1240,7 +1240,7 @@
           "moss-grotto/moss-grotto-east#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-east#ground-floor",
@@ -1284,7 +1284,7 @@
           "blasted-steps/blasted-steps-shakra-map-room#top-third",
           "blasted-steps/blasted-steps-shakra-map-room#top-third-entrance"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-shakra-map-room#middle-third-bottom",
@@ -1300,7 +1300,7 @@
           "blasted-steps/blasted-steps-wide-long-vertical#bottom-left",
           "blasted-steps/blasted-steps-wide-long-vertical#pharlid-1"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-wide-long-vertical#bottom-left",
@@ -1321,7 +1321,7 @@
         "nodes": [
           "blasted-steps/great-conchflies#platforms"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/great-conchflies#platforms",
@@ -1359,7 +1359,7 @@
           "blasted-steps/pre-last-judge-room#platform-d",
           "blasted-steps/pre-last-judge-room#subplata"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/pre-last-judge-room#platform-d",
@@ -1391,7 +1391,7 @@
           "sands-of-karak/crustnut#end",
           "sands-of-karak/crustnut#shard-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/crustnut#shard-platform",
@@ -1429,7 +1429,7 @@
           "sands-of-karak/sands-of-karak-lower-right-long-room#upper-centre-platform",
           "sands-of-karak/sands-of-karak-lower-right-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-lower-right-long-room#right-exit",
@@ -1446,7 +1446,7 @@
           "sands-of-karak/sands-of-karak-right-side-tall-room#bottom",
           "sands-of-karak/sands-of-karak-right-side-tall-room#top"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-right-side-tall-room#bottom",
@@ -1466,7 +1466,7 @@
           "sands-of-karak/sands-of-karak-tall-centre-room#bridge-level",
           "sands-of-karak/sands-of-karak-tall-centre-room#voltnest-level"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-tall-centre-room#crust-nut-ledge",
@@ -1494,7 +1494,7 @@
           "sands-of-karak/sands-of-karak-upper-right-long-room#left-exit",
           "sands-of-karak/sands-of-karak-upper-right-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-upper-right-long-room#left-exit",
@@ -1598,7 +1598,7 @@
           "blasted-steps/blasted-steps-shakra-map-room#top-third",
           "blasted-steps/blasted-steps-shakra-map-room#top-third-entrance"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-shakra-map-room#middle-third-top",
@@ -1620,7 +1620,7 @@
           "blasted-steps/blasted-steps-toll-bench-bottom#platform-f",
           "blasted-steps/blasted-steps-toll-bench-bottom#platform-g"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-toll-bench-bottom#platform-f",
@@ -1635,7 +1635,7 @@
         "nodes": [
           "blasted-steps/pre-last-judge-room#platform-a"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/pre-last-judge-room#platform-a",
@@ -1692,7 +1692,7 @@
             ]
           }
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08"
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc"
       }
     ],
     "rooms": [
@@ -1715,7 +1715,7 @@
           "sands-of-karak/crustnut#end",
           "sands-of-karak/crustnut#shard-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/crustnut#start",
@@ -1739,7 +1739,7 @@
           "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#bottom",
           "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#shardilard-ledge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-elevator-to-blasted-steps#bottom",
@@ -1758,7 +1758,7 @@
           "sands-of-karak/sands-of-karak-lower-left-long-room#hidden-exit",
           "sands-of-karak/sands-of-karak-lower-left-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-lower-left-long-room#centre-platform",
@@ -1783,7 +1783,7 @@
           "sands-of-karak/sands-of-karak-lower-right-long-room#upper-centre-platform",
           "sands-of-karak/sands-of-karak-lower-right-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform",
@@ -1934,7 +1934,7 @@
           "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
           "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
@@ -1998,7 +1998,7 @@
           "far-fields/far-fields-pinstress-attic#upper-right-area",
           "far-fields/far-fields-pinstress-attic#ceiling-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-attic#thorn-pit-spire-landing",
@@ -2016,7 +2016,7 @@
           "far-fields/far-fields-entrance#main-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-entrance#main-pathway",
@@ -2084,7 +2084,7 @@
           "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
           "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-entrance#lower-right-area",
@@ -2121,7 +2121,7 @@
           "far-fields/far-fields-deep-lower-west#upper-right-alcove",
           "far-fields/far-fields-deep-lower-west#left-of-alcove-gate"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-lower-west#ceiling-exit-area",
@@ -2181,7 +2181,7 @@
           "far-fields/far-fields-pinstress-attic#upper-right-area",
           "far-fields/far-fields-pinstress-attic#ceiling-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-attic#thorn-pit-spire-landing",
@@ -2210,7 +2210,7 @@
           "far-fields/far-fields-pinstress-room#pinstress-hut-platform",
           "far-fields/far-fields-pinstress-room#lava-basin"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-room#lower-left-exit-area",
@@ -2231,7 +2231,7 @@
           "far-fields/far-fields-skull-room-east#upper-passage",
           "far-fields/far-fields-skull-room-east#herald-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-east#upper-exit-channel",
@@ -2251,7 +2251,7 @@
           "far-fields/far-fields-skull-room-west#rosary-alcove",
           "far-fields/far-fields-skull-room-west#bone-bridge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-west#upper-left-exit-area",
@@ -2277,7 +2277,7 @@
           "far-fields/far-fields-wind-shaft#left-almost-bottom",
           "far-fields/far-fields-wind-shaft#the-bottom"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-wind-shaft#left-almost-bottom",
@@ -2301,7 +2301,7 @@
           "far-fields/far-fields-entrance#main-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-entrance#main-pathway",
@@ -2384,7 +2384,7 @@
           "greymoor/greymoor-rat-tunnel#bottom-section-left",
           "greymoor/greymoor-rat-tunnel#bottom-section-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-rat-tunnel#bottom-section-right",
@@ -2426,7 +2426,7 @@
           "choral-chambers/choral-chambers-below-dining#top",
           "choral-chambers/choral-chambers-below-dining#bottom"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-below-dining#bottom",
@@ -2442,7 +2442,7 @@
           "choral-chambers/choral-chambers-below-spa#left",
           "choral-chambers/choral-chambers-below-spa#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-below-spa#right",
@@ -2460,7 +2460,7 @@
           "choral-chambers/choral-chambers-outside-spa#left",
           "choral-chambers/choral-chambers-outside-spa#top"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-outside-spa#base",
@@ -2496,7 +2496,7 @@
           "the-slab/slab-chilly-prison#left",
           "the-slab/slab-chilly-prison#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-chilly-prison#top",
@@ -2512,7 +2512,7 @@
           "the-slab/slab-flea-prison#top",
           "the-slab/slab-flea-prison#secret"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-flea-prison#secret",
@@ -2560,12 +2560,28 @@
       },
       {
         "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-over-dining#base"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#base",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
         "requires_act": 1,
         "nodes": [
           "high-halls/high-halls-rosary-bank#upper-vents"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-rosary-bank#upper-vents",
@@ -2582,7 +2598,7 @@
           "the-slab/slab-secret-side-room#bottom"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-secret-side-room#bottom",
@@ -2683,7 +2699,7 @@
           "moss-grotto/moss-grotto-center#beast-alcove",
           "moss-grotto/moss-grotto-center#dead-ledge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-center#side-room",
@@ -2703,7 +2719,7 @@
           "moss-grotto/moss-grotto-west#upper-level",
           "moss-grotto/moss-grotto-west#mossberry-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-west#upper-level",
@@ -2731,7 +2747,7 @@
           "weavenest-atla/weavenest-atla-grotto#lower-west-platforms",
           "weavenest-atla/weavenest-atla-grotto#boss-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-grotto#upper-west-platforms",
@@ -2755,7 +2771,7 @@
           "moss-grotto/moss-grotto-east#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-east#upper-platforms",
@@ -2778,7 +2794,7 @@
           "moss-grotto/moss-grotto-east#upper-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-east#upper-platforms",
@@ -2820,7 +2836,7 @@
           "blasted-steps/blasted-steps-shakra-map-room#top-third",
           "blasted-steps/blasted-steps-shakra-map-room#top-third-entrance"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-shakra-map-room#middle-third-entrance",
@@ -2835,7 +2851,7 @@
         "nodes": [
           "blasted-steps/blasted-steps-wide-long-vertical#upper"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "blasted-steps/blasted-steps-wide-long-vertical#upper",
@@ -2873,7 +2889,7 @@
           "greymoor/greymoor-silver-shells-room#main-path",
           "greymoor/greymoor-silver-shells-room#hidden-area"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-silver-shells-room#hidden-area",
@@ -2913,7 +2929,7 @@
           "the-marrow/the-marrow-skull-wall#upper-echelon"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-wall#upper-echelon",
@@ -2950,7 +2966,7 @@
           "the-slab/slab-chilly-prison#left",
           "the-slab/slab-chilly-prison#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-chilly-prison#left",
@@ -2989,7 +3005,7 @@
           "the-slab/slab-chilly-prison#left",
           "the-slab/slab-chilly-prison#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-chilly-prison#left",
@@ -3013,7 +3029,7 @@
           "the-slab/slab-infleatween-bottom#lower",
           "the-slab/slab-infleatween-bottom#middle"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-infleatween-bottom#middle",
@@ -3045,7 +3061,7 @@
           "bilewater/bilewater-bullshit-bench#upper",
           "bilewater/bilewater-bullshit-bench#lower"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-bullshit-bench#fall",
@@ -3061,7 +3077,7 @@
           "bilewater/bilewater-citadel-exit#pond",
           "bilewater/bilewater-citadel-exit#platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-citadel-exit#pond",
@@ -3079,7 +3095,7 @@
           "bilewater/bilewater-mothleaf-hall#center",
           "bilewater/bilewater-mothleaf-hall#behind-wall"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-mothleaf-hall#center",
@@ -3101,7 +3117,7 @@
           "bilewater/bilewater-spike-ball-ceiling-trap-room#upper",
           "bilewater/bilewater-spike-ball-ceiling-trap-room#lower"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-spike-ball-ceiling-trap-room#upper",
@@ -3117,7 +3133,7 @@
           "bilewater/bilewater-upper-west-column#lower",
           "bilewater/bilewater-upper-west-column#upper"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-upper-west-column#upper",
@@ -3134,7 +3150,7 @@
           "bilewater/bilewater-northeast-tiny-room#room"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-northeast-tiny-room#room",
@@ -3152,7 +3168,7 @@
           "bilewater/bilewater-upper-east-column#up-left-door"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-upper-east-column#low-left-door",
@@ -3241,7 +3257,7 @@
           "bilewater/bilewater-east-column#floor",
           "bilewater/bilewater-east-column#nest"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-east-column#middle",
@@ -3257,7 +3273,7 @@
           "bilewater/bilewater-hanging-corpse-room#left",
           "bilewater/bilewater-hanging-corpse-room#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-hanging-corpse-room#top-wall",
@@ -3283,7 +3299,7 @@
           "bilewater/bilewater-lower-bloatroach-tower#rosary-plat",
           "bilewater/bilewater-lower-bloatroach-tower#up-left"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-lower-bloatroach-tower#halfway-up",
@@ -3346,7 +3362,7 @@
           "bilewater/bilewater-lower-east-hall-secret#lower-area",
           "bilewater/bilewater-lower-east-hall-secret#upper-area"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-lower-east-hall-secret#lower-area",
@@ -3364,7 +3380,7 @@
           "bilewater/bilewater-organ-entrance#left",
           "bilewater/bilewater-organ-entrance#lower-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-organ-entrance#up-right",
@@ -3382,7 +3398,7 @@
           "bilewater/bilewater-sinner-s-entrance#middle-quarter",
           "bilewater/bilewater-sinner-s-entrance#right-quarter"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-sinner-s-entrance#top-mid-plat",
@@ -3403,7 +3419,7 @@
         "nodes": [
           "bilewater/bilewater-west-secret-rooms#middle-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-west-secret-rooms#bud-hall",
@@ -3432,7 +3448,7 @@
         "nodes": [
           "bilewater/bilewater-west-secret-rooms#bud-hall"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-west-secret-rooms#bud-hall",
@@ -3463,7 +3479,7 @@
           "bilewater/bilewater-upper-trap-gauntlet-hall#top-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-upper-trap-gauntlet-hall#top-floor",
@@ -3653,7 +3669,7 @@
           "high-halls/high-halls-cogfly-room#main-area",
           "high-halls/high-halls-cogfly-room#down-the-drain"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-cogfly-room#down-the-drain",
@@ -3670,7 +3686,7 @@
           "high-halls/high-halls-flooded-room#right-exit-area",
           "high-halls/high-halls-flooded-room#relic-spot-left"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-flooded-room#relic-spot-left",
@@ -3704,7 +3720,7 @@
           "high-halls/high-halls-rosary-bank#side-vents"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-rosary-bank#side-vents",
@@ -3764,7 +3780,7 @@
           "the-marrow/the-marrow-entrance#above-gauntlet",
           "the-marrow/the-marrow-entrance#left-of-gauntlet"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-entrance#gauntlet-arena",
@@ -3788,7 +3804,7 @@
           "the-marrow/the-marrow-lava-docks#upper-right-exit",
           "the-marrow/the-marrow-lava-docks#ground-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-docks#upper-left-platforms",
@@ -3814,7 +3830,7 @@
           "the-marrow/the-marrow-lava-intro#upper-left-exit",
           "the-marrow/the-marrow-lava-intro#left-platforms"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-intro#ground-right",
@@ -3844,7 +3860,7 @@
           "the-marrow/the-marrow-lava-track#left-lava-track",
           "the-marrow/the-marrow-lava-track#right-lava-track"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-track#right-alcove",
@@ -3870,7 +3886,7 @@
           "the-marrow/the-marrow-lower-pogo#cache-alcove",
           "the-marrow/the-marrow-lower-pogo#pogo-supreme"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lower-pogo#lower-right-exit-area",
@@ -3889,7 +3905,7 @@
           "the-marrow/the-marrow-map-shop#shakra-intro",
           "the-marrow/the-marrow-map-shop#bench-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-map-shop#right-lower-path",
@@ -3907,7 +3923,7 @@
           "the-marrow/the-marrow-mr-burns-house#right-upper-area",
           "the-marrow/the-marrow-mr-burns-house#mr-burns-house"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-mr-burns-house#ground-floor",
@@ -3923,7 +3939,7 @@
           "the-marrow/the-marrow-skull-tyrant-arena#ground-floor",
           "the-marrow/the-marrow-skull-tyrant-arena#tyrants-throne"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-tyrant-arena#ground-floor",
@@ -3941,7 +3957,7 @@
           "the-marrow/the-marrow-skull-wall#flea-platform",
           "the-marrow/the-marrow-skull-wall#middle-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-wall#middle-platform",
@@ -4003,7 +4019,7 @@
           "the-marrow/the-marrow-lava-docks#upper-right-exit",
           "the-marrow/the-marrow-lava-docks#ground-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-docks#upper-left-platforms",
@@ -4027,7 +4043,7 @@
           "the-marrow/the-marrow-lava-track#left-lava-track",
           "the-marrow/the-marrow-lava-track#right-lava-track"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-track#brute-hole",
@@ -4051,7 +4067,7 @@
           "the-marrow/the-marrow-mr-burns-house#right-upper-area",
           "the-marrow/the-marrow-mr-burns-house#mr-burns-house"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-mr-burns-house#ground-floor",
@@ -4072,7 +4088,7 @@
           "the-marrow/the-marrow-shaft#big-boy-shelf",
           "the-marrow/the-marrow-shaft#collapsing-upper-crossing"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-shaft#bottom-shaft",
@@ -4096,7 +4112,7 @@
           "the-marrow/the-marrow-skull-wall#flea-platform",
           "the-marrow/the-marrow-skull-wall#middle-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-wall#ground-floor",
@@ -4152,7 +4168,7 @@
           "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
           "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-entrance#upper-right-alcove",
@@ -4179,7 +4195,7 @@
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "hunter-s-march/hunters-march-early-pathway-west#upper-left-platforms",
@@ -4252,7 +4268,7 @@
           "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "hunter-s-march/hunters-march-early-pathway-west#lower-floor",
@@ -4275,7 +4291,7 @@
           "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "hunter-s-march/hunters-march-early-pathway-west#upper-right-platforms",
@@ -4358,7 +4374,7 @@
           "the-marrow/the-marrow-jail-pathway#middle-area"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-jail-pathway#middle-area",
@@ -4449,7 +4465,7 @@
           "hunter-s-march/hunters-march-early-pathway-west#left-exit-area",
           "hunter-s-march/hunters-march-early-pathway-west#lower-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "hunter-s-march/hunters-march-early-pathway-west#upper-left-alcove",
@@ -4511,7 +4527,7 @@
           "bilewater/exhaust-organ-interior#bench-room",
           "bilewater/exhaust-organ-interior#right-column"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/exhaust-organ-interior#ground-floor",
@@ -4543,7 +4559,7 @@
           "choral-chambers/choral-chambers-western-shaft#section-4-left",
           "choral-chambers/choral-chambers-western-shaft#section-4-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-western-shaft#section-4-left",
@@ -4566,7 +4582,7 @@
           "high-halls/high-halls-flooded-room#left-exit-area",
           "high-halls/high-halls-flooded-room#right-exit-area"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-flooded-room#right-exit-area",
@@ -4587,7 +4603,7 @@
         "nodes": [
           "high-halls/high-halls-small-room#room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-small-room#room",
@@ -4604,7 +4620,7 @@
           "the-slab/slab-infleatween-top#bottom",
           "the-slab/slab-infleatween-top#platforms"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-infleatween-top#platforms",
@@ -4630,7 +4646,7 @@
           "whiteward/whiteward-tunnel-room#upper-tunnels",
           "whiteward/whiteward-tunnel-room#center-tunnels"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "whiteward/whiteward-tunnel-room#top-horizontal",
@@ -4642,12 +4658,53 @@
       },
       {
         "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-over-dining#base",
+          "choral-chambers/choral-chambers-over-dining#top"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#base",
+            "dnf": [
+              []
+            ]
+          },
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#top",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-over-dining#base"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#base",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
         "requires_act": 1,
         "nodes": [
           "high-halls/high-halls-rosary-bank#upper-vents"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-rosary-bank#upper-vents",
@@ -4718,7 +4775,7 @@
           "sands-of-karak/sands-of-karak-lower-left-long-room#hidden-exit",
           "sands-of-karak/sands-of-karak-lower-left-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-lower-left-long-room#right-exit",
@@ -4743,7 +4800,7 @@
           "sands-of-karak/sands-of-karak-lower-right-long-room#upper-centre-platform",
           "sands-of-karak/sands-of-karak-lower-right-long-room#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-lower-right-long-room#lower-centre-platform",
@@ -4760,7 +4817,7 @@
           "sands-of-karak/sands-of-karak-upper-left-long-room#left-ledge",
           "sands-of-karak/sands-of-karak-upper-left-long-room#shell-ledge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "sands-of-karak/sands-of-karak-upper-left-long-room#left-ledge",
@@ -4806,7 +4863,7 @@
         "nodes": [
           "greymoor/greymoor-middle-passage#room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-middle-passage#room",
@@ -4871,7 +4928,7 @@
           "greymoor/greymoor-eastern-tower#tower-top",
           "greymoor/greymoor-eastern-tower#upper-airstream-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-eastern-tower#upper-section",
@@ -4891,7 +4948,7 @@
           "greymoor/greymoor-western-room#lower-section",
           "greymoor/greymoor-western-room#door-cage"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-western-room#wood-corridor",
@@ -4919,7 +4976,7 @@
           "greymoor/greymoor-western-tower#whisp-thicket-entrance",
           "greymoor/greymoor-western-tower#middle-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-western-tower#first-guarded-platform",
@@ -4942,7 +4999,7 @@
           "greymoor/greymoor-towers-patio#upper-area"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-towers-patio#upper-area",
@@ -5031,7 +5088,7 @@
           "shellwood/cling-grip-room#central-level",
           "shellwood/cling-grip-room#upper-level"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/cling-grip-room#central-level",
@@ -5047,7 +5104,7 @@
           "shellwood/cling-grip-side-room#upper-level",
           "shellwood/cling-grip-side-room#lower-level"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/cling-grip-side-room#lower-level",
@@ -5063,7 +5120,7 @@
           "shellwood/shellwood-lower-left-tall-room#top",
           "shellwood/shellwood-lower-left-tall-room#bottom"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-lower-left-tall-room#top",
@@ -5083,7 +5140,7 @@
           "shellwood/shellwood-sister-splinter-bench#upper-main",
           "shellwood/shellwood-sister-splinter-bench#upper-hidden"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-sister-splinter-bench#upper-main",
@@ -5136,7 +5193,7 @@
           "greymoor/greymoor-craw-lake#right-top-craw-nest",
           "greymoor/greymoor-craw-lake#lil-top"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-craw-lake#flea-room",
@@ -5155,7 +5212,7 @@
           "greymoor/greymoor-craw-lake-entrance#middle-section",
           "greymoor/greymoor-craw-lake-entrance#craw-lake-middle-entrance"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-craw-lake-entrance#middle-section",
@@ -5178,7 +5235,7 @@
           "greymoor/greymoor-halfway-home-exterior#building-roof",
           "greymoor/greymoor-halfway-home-exterior#upper-right-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-halfway-home-exterior#tower-platform",
@@ -5218,7 +5275,7 @@
           "greymoor/greymoor-rat-tunnel#bottom-section-left",
           "greymoor/greymoor-rat-tunnel#bottom-section-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-rat-tunnel#top-right-section-bottom",
@@ -5246,7 +5303,7 @@
           "greymoor/greymoor-silver-shells-room#main-path",
           "greymoor/greymoor-silver-shells-room#hidden-area"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-silver-shells-room#main-path",
@@ -5264,7 +5321,7 @@
           "greymoor/greymoor-upper-halfway-home-path#upper-platform-section",
           "greymoor/greymoor-upper-halfway-home-path#check-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-upper-halfway-home-path#right-section",
@@ -5287,7 +5344,7 @@
           "greymoor/greymoor-upper-towers-path#airstream-lever",
           "greymoor/greymoor-upper-towers-path#upper-corridor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-upper-towers-path#airstream-lever",
@@ -5306,7 +5363,7 @@
           "greymoor/greymoor-west-bellshrine-room#upper-path-right",
           "greymoor/greymoor-west-bellshrine-room#upper-path-left"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-west-bellshrine-room#upper-path-right",
@@ -5326,7 +5383,7 @@
           "greymoor/greymoor-western-room#lower-section",
           "greymoor/greymoor-western-room#door-cage"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-western-room#tiny-platform",
@@ -5354,7 +5411,7 @@
           "greymoor/greymoor-western-tower#whisp-thicket-entrance",
           "greymoor/greymoor-western-tower#middle-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-western-tower#small-drop",
@@ -5406,6 +5463,40 @@
           "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "sinner-s-road/sinner-s-road-vertical-hall-west#top"
         ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "greymoor/greymoor-east-bellshrine-room#upper-craw-nest"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "greymoor/greymoor-east-bellshrine-room#upper-craw-nest",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-lower-halfway-home-path#center-section"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "greymoor/greymoor-lower-halfway-home-path#center-section",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
       }
     ],
     "rooms": [
@@ -5454,7 +5545,7 @@
           "greymoor/greymoor-halfway-home-exterior#building-roof",
           "greymoor/greymoor-halfway-home-exterior#upper-right-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-halfway-home-exterior#tower-platform",
@@ -5505,7 +5596,7 @@
           "greymoor/greymoor-rat-tunnel#bottom-section-left",
           "greymoor/greymoor-rat-tunnel#bottom-section-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-rat-tunnel#top-left-shaft-center",
@@ -5527,7 +5618,7 @@
           "greymoor/greymoor-silver-shells-room#main-path",
           "greymoor/greymoor-silver-shells-room#hidden-area"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-silver-shells-room#hidden-shaft-loower",
@@ -5553,7 +5644,7 @@
           "greymoor/greymoor-towers-patio#lower-hanging-platforms",
           "greymoor/greymoor-towers-patio#left-middle-section"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-towers-patio#fluttermite-place",
@@ -5595,7 +5686,7 @@
           "greymoor/greymoor-upper-halfway-home-path#upper-platform-section",
           "greymoor/greymoor-upper-halfway-home-path#check-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-upper-halfway-home-path#short-platform",
@@ -5612,10 +5703,26 @@
           "greymoor/greymoor-upper-towers-path#airstream-lever",
           "greymoor/greymoor-upper-towers-path#upper-corridor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-upper-towers-path#main-section",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "greymoor/greymoor-eastern-tower#lower-airstream-section"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "greymoor/greymoor-eastern-tower#lower-airstream-section",
             "dnf": [
               []
             ]
@@ -5630,7 +5737,7 @@
           "greymoor/greymoor-western-room#upper-section"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-western-room#middle-section",
@@ -5678,10 +5785,99 @@
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-left",
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-flea-shaft#top-section-3-left",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-outside-spa#gauntlet"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-eastern-shaft#section-4"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-eastern-shaft#section-4",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-below-spa#right"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-below-spa#right",
+            "dnf": [
+              [
+                "event:mapper/28393033-5e52-47f0-85ab-290f8b37d008"
+              ],
+              [
+                "event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-below-spa#right"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-below-spa#right",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/grand-bellway-shaft#upper"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/grand-bellway-shaft#upper",
             "dnf": [
               []
             ]
@@ -5775,7 +5971,7 @@
           "far-fields/far-fields-skull-room-east#upper-passage",
           "far-fields/far-fields-skull-room-east#herald-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-east#main-floor",
@@ -5791,7 +5987,7 @@
           "wormways/wormways-flea-rescue#entrance",
           "wormways/wormways-flea-rescue#main-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "wormways/wormways-flea-rescue#main-floor",
@@ -5836,7 +6032,7 @@
         "nodes": [
           "choral-chambers/choral-chambers-flea-room#room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-flea-room#room",
@@ -5856,7 +6052,7 @@
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-left",
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-flea-shaft#base-bottom",
@@ -5888,10 +6084,76 @@
           "choral-chambers/choral-chambers-western-shaft#section-4-left",
           "choral-chambers/choral-chambers-western-shaft#section-4-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-western-shaft#section-3",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-over-dining#base"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#base",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-over-dining#base"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-over-dining#base",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/grand-bellway-shaft#upper"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/grand-bellway-shaft#upper",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-east-to-west#left-side"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-east-to-west#left-side",
             "dnf": [
               []
             ]
@@ -5967,7 +6229,7 @@
           "the-marrow/the-marrow-lower-pogo#cache-alcove",
           "the-marrow/the-marrow-lower-pogo#pogo-supreme"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lower-pogo#lower-right-exit-area",
@@ -5987,7 +6249,7 @@
           "wormways/wormways-shaft#rosary-duct",
           "wormways/wormways-shaft#behind-door"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "wormways/wormways-shaft#middle-platform-area",
@@ -6010,7 +6272,7 @@
           "the-marrow/the-marrow-map-shop#right-upper-path"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-map-shop#right-upper-path",
@@ -6028,7 +6290,7 @@
           "shellwood/shellwood-far-left-tall-room#top"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-far-left-tall-room#top",
@@ -6044,7 +6306,7 @@
           "shellwood/shellwood-far-left-tall-room#top"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-far-left-tall-room#top",
@@ -6108,10 +6370,62 @@
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-left",
           "choral-chambers/choral-chambers-flea-shaft#top-section-3-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-flea-shaft#top-section-1",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-western-shaft#section-1"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-western-shaft#section-1",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-below-spa#right"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-below-spa#right",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/grand-bellway-shaft#upper"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/grand-bellway-shaft#upper",
             "dnf": [
               []
             ]
@@ -6160,7 +6474,7 @@
           "greymoor/greymoor-upper-towers-path#airstream-lever",
           "greymoor/greymoor-upper-towers-path#upper-corridor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-upper-towers-path#main-section",
@@ -6192,6 +6506,47 @@
           "sinner-s-road/sinner-s-road-vertical-hall-west#middle-left",
           "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "sinner-s-road/sinner-s-road-vertical-hall-west#top"
+        ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "greymoor/greymoor-upper-halfway-home-path#left-section",
+          "greymoor/greymoor-upper-halfway-home-path#upper-platform-section"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "greymoor/greymoor-upper-halfway-home-path#left-section",
+            "dnf": [
+              []
+            ]
+          },
+          {
+            "node": "greymoor/greymoor-upper-halfway-home-path#upper-platform-section",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "greymoor/greymoor-upper-halfway-home-path#upper-platform-section"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "greymoor/greymoor-upper-halfway-home-path#upper-platform-section",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
         ]
       }
     ],
@@ -6428,7 +6783,7 @@
           "the-slab/slab-cell#before-indolent",
           "the-slab/slab-cell#fall1"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-cell#before-indolent",
@@ -6450,7 +6805,7 @@
           "the-slab/slab-flea-prison#top",
           "the-slab/slab-flea-prison#secret"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-flea-prison#top",
@@ -6467,7 +6822,7 @@
           "the-slab/slab-infleatween-top#bottom",
           "the-slab/slab-infleatween-top#platforms"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-infleatween-top#left",
@@ -6497,7 +6852,7 @@
           "the-slab/slab-cavern-exit#arena"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-cavern-exit#arena",
@@ -6547,7 +6902,7 @@
           "the-slab/slab-infleatween-bottom#lower",
           "the-slab/slab-infleatween-bottom#middle"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-infleatween-bottom#middle",
@@ -6571,7 +6926,7 @@
           "the-slab/slab-cavern-exit#arena"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-cavern-exit#arena",
@@ -6682,7 +7037,7 @@
           "choral-chambers/choral-chambers-east-to-west#left-side",
           "choral-chambers/choral-chambers-east-to-west#right-side"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "choral-chambers/choral-chambers-east-to-west#right-side",
@@ -6697,6 +7052,22 @@
         "nodes": [
           "cogwork-core/cogwork-core-east-choral-entrance#left-side",
           "cogwork-core/cogwork-core-east-choral-entrance#right-side"
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/songclave-silk-shop#room"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/songclave-silk-shop#room",
+            "dnf": [
+              []
+            ]
+          }
         ]
       }
     ],
@@ -6795,7 +7166,7 @@
           "shellwood/shellwood-big-room-left#ground-centre",
           "shellwood/shellwood-big-room-left#ground-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-big-room-left#platforms",
@@ -6812,7 +7183,7 @@
           "shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
           "shellwood/shellwood-hidden-bellhart-connection#pollip-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-hidden-bellhart-connection#right-exit-area",
@@ -6881,7 +7252,7 @@
           "shellwood/shellwood-big-room-left#ground-centre",
           "shellwood/shellwood-big-room-left#ground-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-big-room-left#platforms",
@@ -7036,7 +7407,7 @@
           "underworks/underworks-silk-spool#bottom",
           "underworks/underworks-silk-spool#silk-spool"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "underworks/underworks-silk-spool#upper-left",
@@ -7218,7 +7589,7 @@
           "underworks/underworks-silk-spool#bottom",
           "underworks/underworks-silk-spool#silk-spool"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "underworks/underworks-silk-spool#bottom",
@@ -7327,7 +7698,7 @@
           "far-fields/far-fields-pinstress-attic#upper-right-area",
           "far-fields/far-fields-pinstress-attic#ceiling-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-attic#upper-right-area",
@@ -7355,7 +7726,7 @@
           "far-fields/far-fields-pinstress-room#pinstress-hut-platform",
           "far-fields/far-fields-pinstress-room#lava-basin"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-room#lava-basin",
@@ -7375,7 +7746,7 @@
           "far-fields/far-fields-upper-shaft#left-march-bridge-room",
           "far-fields/far-fields-upper-shaft#right-march-bridge-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-upper-shaft#wind-shaft-ascent",
@@ -7405,7 +7776,7 @@
           "far-fields/far-fields-wind-shaft#wind-shaft-rock-steps"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-wind-shaft#the-bottom",
@@ -7429,7 +7800,7 @@
           "far-fields/far-fields-wind-shaft#upper-crossing"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-wind-shaft#l2-area",
@@ -7519,7 +7890,7 @@
           "the-marrow/the-marrow-flea-caravan#flea-floor",
           "the-marrow/the-marrow-flea-caravan#ground-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-flea-caravan#top-floor",
@@ -7549,7 +7920,7 @@
           "the-marrow/the-marrow-lava-track#left-lava-track",
           "the-marrow/the-marrow-lava-track#right-lava-track"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-track#kilik-island",
@@ -7581,7 +7952,7 @@
           "the-marrow/the-marrow-lower-pogo#cache-alcove",
           "the-marrow/the-marrow-lower-pogo#pogo-supreme"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lower-pogo#pogo-supreme",
@@ -7638,7 +8009,7 @@
           "the-marrow/the-marrow-entrance#above-gauntlet",
           "the-marrow/the-marrow-entrance#left-of-gauntlet"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-entrance#above-gauntlet",
@@ -7656,7 +8027,7 @@
           "the-marrow/the-marrow-skull-wall#flea-platform",
           "the-marrow/the-marrow-skull-wall#middle-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-skull-wall#upper-echelon",
@@ -7747,7 +8118,7 @@
           "far-fields/far-fields-deep-entrance#plains-upper-right-platform",
           "far-fields/far-fields-deep-entrance#plains-upper-left-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-deep-entrance#plains",
@@ -7773,7 +8144,7 @@
           "far-fields/far-fields-pinstress-attic#upper-right-area",
           "far-fields/far-fields-pinstress-attic#ceiling-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-pinstress-attic#thorn-pit-spire-landing",
@@ -7963,7 +8334,7 @@
           "moss-grotto/moss-grotto-east#upper-platforms",
           "moss-grotto/moss-grotto-east#alcove-check-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-east#ground-floor",
@@ -7989,7 +8360,7 @@
           "moss-grotto/moss-grotto-west#upper-level",
           "moss-grotto/moss-grotto-west#mossberry-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "moss-grotto/moss-grotto-west#the-backroom-floor",
@@ -8035,7 +8406,7 @@
           "weavenest-atla/weavenest-atla-grotto#lower-west-platforms",
           "weavenest-atla/weavenest-atla-grotto#boss-room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-grotto#causeway",
@@ -8239,7 +8610,7 @@
           "bone-bottom/mosshome-upper#spire-platforms",
           "bone-bottom/mosshome-upper#silkspear-passage"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-upper#center-platforms",
@@ -8256,7 +8627,7 @@
           "bone-bottom/bonegrave#upper-right-exit"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/bonegrave#upper-right-exit",
@@ -8274,7 +8645,7 @@
           "bone-bottom/the-big-fall#lower-left-area"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/the-big-fall#right-aknids",
@@ -8298,7 +8669,7 @@
           "bone-bottom/the-big-fall#lower-left-area"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/the-big-fall#right-aknids",
@@ -8325,7 +8696,7 @@
           "bone-bottom/mosshome-side-room#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-side-room#ground-floor",
@@ -8342,7 +8713,7 @@
           "bone-bottom/mosshome-lower#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-lower#ground-floor",
@@ -8399,7 +8770,7 @@
           "the-marrow/the-marrow-lower-pogo#cache-alcove",
           "the-marrow/the-marrow-lower-pogo#pogo-supreme"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lower-pogo#pogo-supreme",
@@ -8425,7 +8796,7 @@
           "bone-bottom/mosshome-upper#spire-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-upper#spire-platforms",
@@ -8442,7 +8813,7 @@
           "bone-bottom/mosshome-middle#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-middle#ground-floor",
@@ -8459,7 +8830,7 @@
           "bone-bottom/mosshome-lower#upper-right-level"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-lower#upper-right-level",
@@ -8476,7 +8847,7 @@
           "the-marrow/the-marrow-mr-burns-house#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-mr-burns-house#ground-floor",
@@ -8542,7 +8913,7 @@
           "far-fields/far-fields-skull-room-east#upper-passage",
           "far-fields/far-fields-skull-room-east#herald-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-east#main-floor",
@@ -8604,7 +8975,7 @@
           "the-marrow/the-marrow-mr-burns-house#right-upper-area",
           "the-marrow/the-marrow-mr-burns-house#mr-burns-house"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-mr-burns-house#mr-burns-house",
@@ -8630,7 +9001,7 @@
           "bone-bottom/mosshome-middle#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-middle#ground-floor",
@@ -8648,7 +9019,7 @@
           "bone-bottom/mosshome-lower#upper-right-level"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/mosshome-lower#ground-floor",
@@ -8671,7 +9042,7 @@
           "the-marrow/the-marrow-map-shop#shakra-intro"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-map-shop#shakra-intro",
@@ -8794,7 +9165,7 @@
           "weavenest-atla/weavenest-atla-mask-shard#starting-line",
           "weavenest-atla/weavenest-atla-mask-shard#mask-shard-spot"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-mask-shard#lower-skullwing-spot",
@@ -8848,7 +9219,7 @@
           "shellwood/shellwood-right-side-big-room#right-platforms",
           "shellwood/shellwood-right-side-big-room#ground-level-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-right-side-big-room#ground-level-left",
@@ -8864,7 +9235,7 @@
           "shellwood/shellwood-big-room-left#ground-centre"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-big-room-left#ground-centre",
@@ -8882,7 +9253,7 @@
           "shellwood/shellwood-diddy-basement-main#right-corridor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-diddy-basement-main#left-puddles",
@@ -8911,7 +9282,7 @@
           "shellwood/shellwood-left-side-long-pond-room#left-lake"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-left-side-long-pond-room#right-lake",
@@ -8933,7 +9304,7 @@
           "shellwood/shellwood-top-room#central-left"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-top-room#central-left",
@@ -9070,7 +9441,7 @@
           "the-marrow/the-marrow-lava-docks#ground-floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-marrow/the-marrow-lava-docks#ground-floor",
@@ -9242,7 +9613,7 @@
           "greymoor/yarnaby-place#lower-section"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/yarnaby-place#lower-section",
@@ -9316,6 +9687,22 @@
         "nodes": [
           "wormways/wormways-flea-rescue#entrance"
         ]
+      },
+      {
+        "act": 1,
+        "nodes": [
+          "wormways/wormways-middle#main-tunnel"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "wormways/wormways-middle#main-tunnel",
+            "dnf": [
+              []
+            ]
+          }
+        ]
       }
     ],
     "rooms": [
@@ -9381,6 +9768,24 @@
           "wormways/wormways-upper-west#weavenest-landing",
           "wormways/wormways-upper-west#main-tunnel-lower",
           "wormways/wormways-upper-west#right-exit-area"
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "wormways/wormways-middle#main-tunnel"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "wormways/wormways-middle#main-tunnel",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
+            ]
+          }
         ]
       }
     ],
@@ -9458,7 +9863,7 @@
           "greymoor/greymoor-east-bellshrine-room#top-right",
           "greymoor/greymoor-east-bellshrine-room#hidden-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/greymoor-east-bellshrine-room#stupid-platform",
@@ -9670,7 +10075,7 @@
         "nodes": [
           "bilewater/bilewater-slubberlug-river#room"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-slubberlug-river#room",
@@ -9701,7 +10106,7 @@
           "greymoor/yarnaby-place#lower-section",
           "greymoor/yarnaby-place#upper-shaft"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "greymoor/yarnaby-place#lower-section",
@@ -9809,7 +10214,7 @@
           "mount-fay/mount-fay-lower-slope#ceiling-area",
           "mount-fay/mount-fay-lower-slope#right-exit"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "mount-fay/mount-fay-lower-slope#right-exit",
@@ -9835,6 +10240,119 @@
                 "mapper:cling-grip-direction:both",
                 "mapper:clawline:right:1"
               ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-entrance#upper-left-exit",
+          "mount-fay/mount-fay-entrance#lower-middle-left-exit"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "mount-fay/mount-fay-entrance#upper-left-exit",
+            "dnf": [
+              [
+                "mapper:cling-grip-direction:left",
+                "mapper:clawline:right:1",
+                "mapper:clawline:left:1",
+                "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:left",
+                "item:faydown-cloak",
+                "item:drifters-cloak",
+                "mapper:dash-direction:right",
+                "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              ],
+              [
+                "item:silk-soar"
+              ]
+            ]
+          },
+          {
+            "node": "mount-fay/mount-fay-entrance#lower-middle-left-exit",
+            "dnf": [
+              [
+                "item:silk-soar"
+              ],
+              [
+                "mapper:cling-grip-direction:both",
+                "mapper:clawline:both:1",
+                "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              ],
+              [
+                "mapper:cling-grip-direction:both",
+                "item:faydown-cloak",
+                "item:drifters-cloak",
+                "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-mask-shard#room"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "mount-fay/mount-fay-mask-shard#room",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-right-side-middle-room#top",
+          "mount-fay/mount-fay-right-side-middle-room#pinstress-arena",
+          "mount-fay/mount-fay-right-side-middle-room#bottom"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "mount-fay/mount-fay-right-side-middle-room#top",
+            "dnf": [
+              []
+            ]
+          },
+          {
+            "node": "mount-fay/mount-fay-right-side-middle-room#pinstress-arena",
+            "dnf": [
+              []
+            ]
+          },
+          {
+            "node": "mount-fay/mount-fay-right-side-middle-room#bottom",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "mount-fay/mount-fay-upper-slope#mask-maker-path"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "mount-fay/mount-fay-upper-slope#mask-maker-path",
+            "dnf": [
+              []
             ]
           }
         ]
@@ -10041,7 +10559,7 @@
           "wormways/wormways-shaft#rosary-duct",
           "wormways/wormways-shaft#behind-door"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "wormways/wormways-shaft#upper-platform-area",
@@ -10085,7 +10603,7 @@
           "bone-bottom/bonegrave#upper-right-exit"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bone-bottom/bonegrave#upper-right-exit",
@@ -10250,7 +10768,7 @@
           "the-slab/slab-poodle#bottom",
           "the-slab/slab-poodle#top"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-poodle#top",
@@ -10376,7 +10894,7 @@
           "shellwood/shellwood-big-room-left#ground-centre",
           "shellwood/shellwood-big-room-left#ground-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "shellwood/shellwood-big-room-left#platforms",
@@ -10424,7 +10942,7 @@
           "high-halls/high-halls-shaft-bottom#bottom-left",
           "high-halls/high-halls-shaft-bottom#bottom-right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-shaft-bottom#bottom-right",
@@ -10442,7 +10960,7 @@
           "high-halls/high-halls-shaft-top#enemy-2"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-shaft-top#enemy-1",
@@ -10465,7 +10983,7 @@
           "high-halls/high-halls-big-slide#top-platform"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-big-slide#top-platform",
@@ -10482,7 +11000,7 @@
           "high-halls/high-halls-big-shaft#middle"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-big-shaft#middle",
@@ -10657,7 +11175,7 @@
           "the-slab/slab-bridge#left",
           "the-slab/slab-bridge#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-bridge#left",
@@ -10730,7 +11248,7 @@
         "nodes": [
           "high-halls/high-halls-big-slide#center-platform"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "high-halls/high-halls-big-slide#center-platform",
@@ -10769,12 +11287,53 @@
           "the-slab/slab-bridge#left",
           "the-slab/slab-bridge#right"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-slab/slab-bridge#left",
             "dnf": [
               []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 2,
+        "nodes": [
+          "choral-chambers/choral-chambers-eastern-shaft#section-4",
+          "choral-chambers/choral-chambers-eastern-shaft#section-2"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-eastern-shaft#section-4",
+            "dnf": [
+              []
+            ]
+          },
+          {
+            "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+            "dnf": [
+              []
+            ]
+          }
+        ]
+      },
+      {
+        "act": 3,
+        "nodes": [
+          "choral-chambers/choral-chambers-eastern-shaft#section-2"
+        ],
+        "mapper_generated": true,
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
+        "mapped_encounters": [
+          {
+            "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+            "dnf": [
+              [
+                "state:act-3"
+              ]
             ]
           }
         ]
@@ -10889,7 +11448,7 @@
           "far-fields/far-fields-skull-room-west#rosary-alcove",
           "far-fields/far-fields-skull-room-west#bone-bridge"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-west#main-floor",
@@ -10906,7 +11465,7 @@
           "far-fields/far-fields-skull-room-east#upper-exit-channel",
           "far-fields/far-fields-skull-room-east#upper-passage"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-east#upper-left-exit-area",
@@ -10933,7 +11492,7 @@
         "nodes": [
           "far-fields/far-fields-skull-room-east#main-floor"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "far-fields/far-fields-skull-room-east#upper-left-exit-area",
@@ -11006,7 +11565,7 @@
           "the-cradle/the-surface#door",
           "the-cradle/the-surface#nameless-town"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "the-cradle/the-surface#hole",
@@ -11091,7 +11650,7 @@
           "bilewater/bilewater-sinner-s-entrance#middle-quarter",
           "bilewater/bilewater-sinner-s-entrance#right-quarter"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-sinner-s-entrance#top-mid-plat",
@@ -11115,7 +11674,7 @@
           "bilewater/bilewater-east-column#floor"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-east-column#middle",
@@ -11139,7 +11698,7 @@
           "bilewater/bilewater-organ-entrance#ceiling"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-organ-entrance#up-right",
@@ -11162,7 +11721,7 @@
           "bilewater/bilewater-spike-ball-ceiling-trap-room#lower"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-spike-ball-ceiling-trap-room#lower",
@@ -11180,7 +11739,7 @@
           "bilewater/bilewater-upper-trap-gauntlet-hall#mid"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-upper-trap-gauntlet-hall#mid-rightmost",
@@ -11203,7 +11762,7 @@
           "bilewater/bilewater-vertical-sac-pogo-room#climb-start-wall"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-vertical-sac-pogo-room#climb-start-wall",
@@ -11229,7 +11788,7 @@
           "bilewater/bilewater-west-secret-rooms#bud-wall-plat"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-west-secret-rooms#top-floor",
@@ -11320,7 +11879,7 @@
         "nodes": [
           "bilewater/bilewater-weavenest-murglin#left-hall"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-weavenest-murglin#left-hall",
@@ -11343,7 +11902,7 @@
           "weavenest-atla/weavenest-atla-entrance#room"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-entrance#room",
@@ -11380,7 +11939,7 @@
           "weavenest-atla/weavenest-atla-teleporter#lower-shaft"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-teleporter#lower-shaft",
@@ -11398,7 +11957,7 @@
           "weavenest-atla/weavenest-atla-grotto#lower-west-platforms"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-grotto#causeway",
@@ -11421,7 +11980,7 @@
           "weavenest-atla/weavenest-atla-hallway#room"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-hallway#room",
@@ -11439,7 +11998,7 @@
           "weavenest-atla/weavenest-atla-lore#upper-platform"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "weavenest-atla/weavenest-atla-lore#ground-floor",
@@ -11613,7 +12172,7 @@
         "events": [
           "Room Event: event:mapper/c072b5f9-82a5-469b-8bf6-b91bb53e5180"
         ],
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "bilewater/bilewater-shakra-room#room",
@@ -12378,7 +12937,7 @@
           "verdania/clover-dancers#lore-room"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/clover-dancers#lore-room",
@@ -12740,7 +13299,7 @@
           "verdania/verdania-cloverstag-steps#leaf-roller-platform"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-cloverstag-steps#upper-cloverstag-steps",
@@ -12763,7 +13322,7 @@
           "verdania/verdania-left-side-tall-room#ground-level"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-left-side-tall-room#level-which-exists-cause-of-a-single-leaf-roller",
@@ -12785,7 +13344,7 @@
           "verdania/verdania-right-side-tall-room#lower-right-transition"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-right-side-tall-room#lower-right-transition",
@@ -12819,7 +13378,7 @@
           "verdania/verdania-big-button-room#entrance"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-big-button-room#entrance",
@@ -12841,7 +13400,7 @@
           "verdania/verdania-capital#centre-bulb"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-capital#left-arena",
@@ -12864,7 +13423,7 @@
           "verdania/verdania-cloverstag-steps#upper-pendra-platform"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-cloverstag-steps#lower-pendra-plaforms",
@@ -12886,7 +13445,7 @@
           "verdania/verdania-left-side-tall-room#lower-level"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-left-side-tall-room#lower-level",
@@ -12902,7 +13461,7 @@
           "verdania/verdania-right-side-tall-room#lower-enemy-pool"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-right-side-tall-room#lower-enemy-pool",
@@ -12918,7 +13477,7 @@
           "verdania/verdania-top-room#lilypads-rng"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-top-room#lilypads-rng",
@@ -12955,7 +13514,7 @@
           "verdania/verdania-big-button-room#button-lr"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-big-button-room#entrance",
@@ -12977,7 +13536,7 @@
           "verdania/verdania-cloverstag-steps#ground-level-right"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-cloverstag-steps#ground-level-right",
@@ -13011,7 +13570,7 @@
           "verdania/verdania-left-side-essence-shrine#dry-ground"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-left-side-essence-shrine#wet",
@@ -13055,7 +13614,7 @@
           "verdania/verdania-capital#lilypads"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-capital#left-arena",
@@ -13077,7 +13636,7 @@
           "verdania/verdania-left-side-essence-shrine#dry-ground"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-left-side-essence-shrine#dry-ground",
@@ -13114,7 +13673,7 @@
           "verdania/verdania-kindanir-egg-room#room"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-kindanir-egg-room#room",
@@ -13152,7 +13711,7 @@
           "verdania/verdania-cloverstag-steps#ground-level-right"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-cloverstag-steps#ground-level-left",
@@ -13180,7 +13739,7 @@
           "verdania/verdania-top-room#dry-land"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-top-room#dry-land",
@@ -13213,7 +13772,7 @@
           "verdania/verdania-big-button-room#shrine"
         ],
         "mapper_generated": true,
-        "mapper_source": "99f8ca1d86357e7cfe49af6b7971461e302054bcfffcf8309d887bdaf0d4cc08",
+        "mapper_source": "1e78ced883342544beed8fcc2b856784a0a7b00fb7361739106fd2182e0f7fcc",
         "mapped_encounters": [
           {
             "node": "verdania/verdania-big-button-room#button-l",

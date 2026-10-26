@@ -1186,7 +1186,7 @@ def get_vanilla_reward_name(
                 'Key of Indolent': 'Key of Indolent',
                 'Key of Heretic': 'Key of Heretic',
                 'Key of Apostate': 'Key of Apostate',
-                'Songclave Shop - White Key': 'White Key',
+                'White Key': 'White Key',
                 "Surgeon's Key": "Surgeon's Key",
                 "Architect's Key": "Architect's Key",
                 'Craw Summons': 'Craw Summons',

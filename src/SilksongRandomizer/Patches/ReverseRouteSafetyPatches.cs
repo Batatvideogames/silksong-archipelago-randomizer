@@ -176,6 +176,20 @@ namespace SilksongRandomizer.Patches
                     masks[0].enabled = false;
                     masks[0].AlphaSelf = 1f;
                 }
+                else
+                {
+                    CameraLockArea[] roar = Resources.FindObjectsOfTypeAll<CameraLockArea>()
+                        .Where(area => area != null && area.gameObject.scene.name == scene &&
+                            Utils.GetHierarchyPath(area.transform) == "Boss Scene/CamLock Roar").ToArray();
+                    if (roar.Length == 1 && roar[0].positionSpace == Space.World &&
+                        Math.Abs(roar[0].cameraXMin - 29.2f) < 0.01f &&
+                        Math.Abs(roar[0].cameraXMax - 40.2f) < 0.01f)
+                    {
+                        CameraLockArea arena = locks.Single(area => area.name == firstName);
+                        roar[0].cameraXMin = arena.cameraXMin;
+                        roar[0].cameraXMax = arena.cameraXMax;
+                    }
+                }
 
                 foreach (CameraLockArea area in locks) area.gameObject.SetActive(false);
                 yield break;
@@ -217,6 +231,46 @@ namespace SilksongRandomizer.Patches
             }
             RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve entry covers and camera locks in " +
                 scene + " " + gate + ".");
+        }
+
+        private static IEnumerator RevealNylethEntry()
+        {
+            const string scene = "Under_27";
+            for (int frame = 0; frame < WallSearchFrames; frame++)
+            {
+                HeroController hero = HeroController.SilentInstance;
+                if (!IsRoomBoundScene(hero, scene) || hero.GetEntryGateName() != "left1") yield break;
+                Transform[] objects = Resources.FindObjectsOfTypeAll<Transform>()
+                    .Where(t => t != null && t.gameObject.scene.name == scene).ToArray();
+                GameObject Find(string path)
+                {
+                    var matches = objects.Where(t => Utils.GetHierarchyPath(t) == path).Take(2).ToArray();
+                    return matches.Length == 1 ? matches[0].gameObject : null;
+                }
+                GameObject[] covers = new[] { "Shellwood Twig Wall/Mask", "Group/Shellwood Twig Wall (2)/Mask" }.Select(Find).ToArray();
+                GameObject[] locks = new[] {
+                    "Group/Shellwood Twig Wall (2)/Terrain/CameraLockArea left shortcut",
+                    "Group/Shellwood Twig Wall (2)/Terrain/CameraLockArea right shortcut",
+                    "Group/Shellwood Twig Wall (2)/Terrain/CameraLockArea (2)"
+                }.Select(Find).ToArray();
+                SpriteRenderer[] masks = new[] {
+                    "Group/Shellwood Twig Wall (2)/Terrain/Group/Remasker",
+                    "Group/Shellwood Twig Wall (2)/Terrain/Group/Remasker (1)",
+                    "Unbroken State/Unbroken/break floor/Remasker New Sharp Ultra"
+                }.Select(path => Find(path)?.GetComponent<SpriteRenderer>()).ToArray();
+                if (covers.Any(o => !IsEntryVisual(o, scene)) ||
+                    locks.Any(o => !IsEntryVisual(o, scene) || o.GetComponent<CameraLockArea>() == null) ||
+                    masks.Any(s => s == null))
+                {
+                    yield return null;
+                    continue;
+                }
+                foreach (GameObject cover in covers) cover.SetActive(false);
+                foreach (GameObject cameraLock in locks) cameraLock.SetActive(false);
+                foreach (SpriteRenderer mask in masks) mask.enabled = false;
+                yield break;
+            }
+            RandomizerPlugin.Log?.LogWarning("[RANDOMIZER] Could not resolve Nyleth entrance covers.");
         }
 
         private static bool TryResolveEntryVisuals(string scene, out GameObject[] covers,
@@ -1392,6 +1446,9 @@ namespace SilksongRandomizer.Patches
             [HarmonyPostfix]
             private static void Postfix(HeroController __instance)
             {
+                if (IsRoomBoundScene(__instance, "Under_27") && __instance.GetEntryGateName() == "left1")
+                    __instance.StartCoroutine(RevealNylethEntry());
+
                 if (IsRoomBoundScene(__instance, "Arborium_06") ||
                     IsRoomBoundScene(__instance, "Arborium_09"))
                 {

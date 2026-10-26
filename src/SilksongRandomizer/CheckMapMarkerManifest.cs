@@ -303,7 +303,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Key of Indolent", "Slab_14", 12.900001f, 6.892000f, 100f, 29f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Key of Heretic", "Slab_16", 25.450001f, 18.200001f, 100f, 80f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Key of Apostate", "Aqueduct_04", 7.570004f, 38.651804f, 185f, 60f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Songclave Shop - White Key", "Song_Enclave", 102.076000f, 6.290000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("White Key", "Song_Enclave", 102.076000f, 6.290000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Surgeon's Key", "Ward_07", 13.134485f, 7.159246f, 130f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Architect's Key", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             // Craw Summons can trigger at multiple eligible benches. Anchor
@@ -1345,7 +1345,7 @@ namespace SilksongRandomizer
                     ) ||
                     string.Equals(
                         position.LocationName,
-                        "Songclave Shop - White Key",
+                        "White Key",
                         StringComparison.OrdinalIgnoreCase
                     )
                 )

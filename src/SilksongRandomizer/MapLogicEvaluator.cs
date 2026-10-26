@@ -133,6 +133,9 @@ namespace SilksongRandomizer
             [JsonProperty("checked_source")]
             internal string CheckedSource { get; set; }
 
+            [JsonProperty("native_source")]
+            internal bool NativeSource { get; set; }
+
             [JsonProperty("requirement")]
             internal LogicRequirement Requirement { get; set; }
         }
@@ -1515,7 +1518,9 @@ namespace SilksongRandomizer
                 foreach (var entry in cachedResolvedInventory)
                 {
                     int granted = entry.Value - CountItem(cachedAbstractInventory, entry.Key);
-                    if (granted > 0) AddCount(inventory, entry.Key, granted);
+                    if (payload.LogicEvents.Any(e => e.NativeSource && e.Item == entry.Key))
+                        SetMinimumCount(inventory, entry.Key, entry.Value);
+                    else if (granted > 0) AddCount(inventory, entry.Key, granted);
                 }
                 abstractValues = new Dictionary<string, bool>(cachedAbstractValues, StringComparer.Ordinal);
                 completed = (bool[])cachedAbstractCompleted.Clone();
@@ -1865,6 +1870,10 @@ namespace SilksongRandomizer
             bool hasSilkSpear = CountItem(startingInventory, "Silkspear") > 0 &&
                 NonArchitectCrestItemNames.Any(name => CountItem(startingInventory, name) > 0);
             var activeLocations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var nativeCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            for (int i = 0; i < payload.LogicEvents.Count; i++)
+                if (payload.LogicEvents[i].NativeSource && completed[payload.AbstractNames.Length + i])
+                    AddCount(nativeCounts, payload.LogicEvents[i].Item, 1);
             var pending = new Queue<int>(initialPending);
             var queued = new bool[payload.EvaluationRules.Length];
             foreach (int index in pending) queued[index] = true;
@@ -1900,7 +1909,12 @@ namespace SilksongRandomizer
                 completed[index] = true;
                 if (isEvent)
                 {
-                    AddCount(inventory, logicEvent.Item, 1);
+                    if (logicEvent.NativeSource)
+                    {
+                        AddCount(nativeCounts, logicEvent.Item, 1);
+                        SetMinimumCount(inventory, logicEvent.Item, CountItem(nativeCounts, logicEvent.Item));
+                    }
+                    else AddCount(inventory, logicEvent.Item, 1);
                     Notify(payload.ItemDependents, ItemSet.GetCanonicalItemName(logicEvent.Item));
                 }
                 else
