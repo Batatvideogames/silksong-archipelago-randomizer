@@ -229,6 +229,7 @@ Some of these regions are still incomplete and still being mapped out. They've b
 
 | Contributor | Regions |
 | :--- | :--- |
+| **Cryo** | [Far Fields](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/far-fields), [Wormways](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/wormways) |
 | **Gallos** | [Choral Chambers](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/choral-chambers) |
 | **Herchey** | [Bilewater](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bilewater), [Sinner's Road](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/sinner-s-road) |
 | **Heric** | [Memorium](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/memorium) |
