@@ -899,6 +899,7 @@ namespace SilksongRandomizer
             new Item("Growstone", ItemType.Resource, () => { ItemGrants.GrantCollectable("Growstone"); }),
             new Item("Materium", ItemType.Materium, () => ItemGrants.GrantCollectable("Materium")),
             new Item("Farsight", ItemType.Farsight, () => ItemGrants.GrantCollectable("Farsight")),
+            new Item("Crawbell", ItemType.Miscellaneous, () => ItemGrants.GrantCollectable("Crawbell")),
             new Item("Flintstone", ItemType.Materium, () => CollectionItemSources.GrantSample("Smeltstone")),
             new Item("Magnetite", ItemType.Materium, () => CollectionItemSources.GrantSample("Magnetite")),
             new Item("Rosaries (8)", ItemType.Resource, () => { ItemGrants.GrantRosaries(8); }, true),

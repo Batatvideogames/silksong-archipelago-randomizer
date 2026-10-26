@@ -54,6 +54,7 @@ from .items import (
     ItemPoolEntry,
     SilksongItem,
     build_item_pool_entries,
+    can_include_later_act_item,
     get_act_one_start_with_map_items,
     get_configured_item_pool_size,
     get_dynamic_trap_capacity,
@@ -580,11 +581,16 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if self.is_act_one_content_scope():
                 excluded = self.get_goal_excluded_location_names()
                 retained_items = set()
+                modes = self.get_category_modes()
                 for name, data in location_data_table.items():
                     if data.category not in PAIRED_LOCATION_CATEGORIES:
                         continue
                     reward = get_vanilla_reward_name(name, data.category)
-                    (unavailable_items if name in excluded else retained_items).add(reward)
+                    retained = name not in excluded or can_include_later_act_item(
+                        reward, data.category, modes, act_one_only=True,
+                        silk_soar_begone=bool(self.options.silk_soar_begone),
+                    )
+                    (retained_items if retained else unavailable_items).add(reward)
                 unavailable_items.difference_update(retained_items)
                 unavailable_items.discard(
                     STARTING_CREST_ITEM_BY_KEY[self.resolve_starting_crest()]
@@ -596,8 +602,21 @@ class SilksongWorld(CachedRuleBuilderWorld):
             if self.is_act_two_content_scope() and (
                     self.get_category_mode('Skill') != 'anywhere' or self.options.silk_soar_begone):
                 unavailable_items.add('Silk Soar')
+            starting_items = {
+                name for inventory in (self.options.start_inventory, self.options.start_inventory_from_pool)
+                for name, count in inventory.value.items() if count > 0
+            }
+            vanilla_stations = tuple(
+                (name, get_vanilla_reward_name(name, category))
+                for category in ('Bellway', 'Ventrica')
+                if self.get_category_mode(category) == 'vanilla'
+                for name in LOCATION_NAMES_BY_CATEGORY[category]
+                if name not in self.get_goal_excluded_location_names()
+                and get_vanilla_reward_name(name, category) not in starting_items
+            )
             self._mapper_option_quarantines = get_mapper_option_quarantines(
                 unavailable_items=frozenset(unavailable_items),
+                vanilla_stations=vanilla_stations,
                 split_dash_and_sprint=self.is_split_dash_and_sprint(),
                 allow_bellways_before_bell_beast=self.allows_bellways_before_bell_beast(),
                 proficient_combat=self.get_proficient_combat_mode(),
@@ -1251,7 +1270,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
                     location_name,
                     category,
                 )
-                if mode == 'vanilla' and location_name not in self.get_logic_unknown_locations():
+                if mode == 'vanilla' and (
+                    location_name not in self.get_logic_unknown_locations()
+                    or get_vanilla_reward_name(location_name, category) in option_replaced_item_names
+                ):
                     reward_name = get_vanilla_reward_name(
                         location_name,
                         category,
@@ -1364,7 +1386,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 if entry.placement_category == placement_category
             ]
             nonadvancement_count = sum(
-                not self.create_item(pool_entries[index].name).advancement
+                not self.create_item(pool_entries[index].name).classification
+                & (ItemClassification.progression | ItemClassification.useful)
                 for index in matching_indices
             )
             shortage = nonadvancement_demand - nonadvancement_count
@@ -1373,7 +1396,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
             raise OptionError(
                 f"{placement_category or 'Anywhere'} needs {shortage} more "
-                "non-progression items for checks with incomplete logic. "
+                "filler or trap items for checks with incomplete logic. "
                 "Use more anywhere categories or disable the affected checks."
             )
 
@@ -1393,7 +1416,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             nonadvancement_demand_by_lane.items()
         ):
             nonadvancement_count = sum(
-                not self.create_item(entry.name).advancement
+                not self.create_item(entry.name).classification
+                & (ItemClassification.progression | ItemClassification.useful)
                 for entry in pool_entries
                 if entry.placement_category == placement_category
             )

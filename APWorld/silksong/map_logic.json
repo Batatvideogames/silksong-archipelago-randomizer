@@ -250774,6 +250774,60 @@
           }
         ]
       },
+      "Crow bell": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-court#left-shaft",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
+            ]
+          }
+        ]
+      },
       "Curveclaw": {
         "alternatives": [
           {
@@ -251176,6 +251230,15 @@
             "all_of": [
               "Room Node: deep-docks/deep-docks-church#top",
               "Act: 2"
+            ]
+          }
+        ]
+      },
+      "Deep Docks Lower Spire Rosary Cache": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: deep-docks/deep-docks-spire-lower#rosary"
             ]
           }
         ]
@@ -266004,6 +266067,15 @@
           }
         ]
       },
+      "Rosary Grave Marker": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/cling-grip-side-room#upper-level"
+            ]
+          }
+        ]
+      },
       "Rosary cache: Shellwood Top Room": {
         "alternatives": [
           {
@@ -266031,6 +266103,15 @@
               "Room Node: shellwood/shellwood-top-room#right-side",
               "Directional: Cling Grip Left",
               "Directional: Cling Grip Right"
+            ]
+          }
+        ]
+      },
+      "Ruined Chapel - Rosary Cache": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber"
             ]
           }
         ]
@@ -266415,6 +266496,15 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-right-side-big-room#right-platforms"
+            ]
+          }
+        ]
+      },
+      "Shellgrave - Rosary Cache": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#room"
             ]
           }
         ]
@@ -270746,6 +270836,24 @@
             "all_of": [
               "Room Node: weavenest-atla/weavenest-atla-eva#eva-pod",
               "Event: Eva 12 Points"
+            ]
+          }
+        ]
+      },
+      "rosaries on grave": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bone-bottom/bonegrave#graveyard"
+            ]
+          }
+        ]
+      },
+      "rosary spike": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-marrow/the-marrow-lava-docks#upper-left-platforms"
             ]
           }
         ]

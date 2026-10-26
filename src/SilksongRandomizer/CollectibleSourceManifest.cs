@@ -100,6 +100,8 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Crow bell", ItemType.Miscellaneous, "Room_CrowCourt_02",
+                "Crawbell", "Collectable Item Pickup Crawbell", 19.41f, 44.32f),
             new DirectPickupEntry("Materium", ItemType.Materium, "Arborium_07",
                 "Materium", "Collectable Item Pickup Materium", 103.38f, 11.11f),
             new DirectPickupEntry("Farsight", ItemType.Farsight, "Abyss_08",

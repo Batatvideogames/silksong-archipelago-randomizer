@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from itertools import chain
 
 from BaseClasses import CollectionState
 from Fill import FillError, swap_location_item
@@ -285,7 +286,7 @@ class SpendingAudit:
              and location.can_reach(failure.state)),
             key=lambda location: (-ranks.get(location, -1), location.player, location.name),
         )
-        for source in sources:
+        for source in chain(sources, self.funding_sources(failure, ranks)):
             for target in targets:
                 if ranks.get(target, -1) > ranks.get(source, -1):
                     continue
@@ -296,6 +297,32 @@ class SpendingAudit:
                     return {'item': item.name, 'player': item.player,
                             'from': (source.player, source.name), 'to': (target.player, target.name)}
         return None
+
+    def funding_sources(self, failure, ranks):
+        underfunded = {
+            player for player in self.worlds
+            if self.available(player, failure.state, failure.bought)
+            < self.remaining_cost(player, failure.bought)
+        }
+        if not any(location.locked and location.item.name == CRAFTMETAL_ITEM
+                   and self.recipients.get(location.item.player, set()) & underfunded
+                   and not location.can_reach(failure.state) for location in self.free):
+            return
+        candidates = sorted(
+            (location for location in self.free
+             if location.address is not None and not location.locked
+             and location in self.baseline_locations and location.item.advancement
+             and location.item.name not in (CRAFTMETAL_ITEM, MEMORY_LOCKET_ITEM)
+             and not location.can_reach(failure.state)),
+            key=lambda location: (ranks.get(location, -1), location.player, location.name),
+        )
+        for location in candidates:
+            state = failure.state.copy()
+            state.collect(location.item, True, location)
+            self.sweep(state)
+            if any(state.count(CRAFTMETAL_ITEM, player) > failure.state.count(CRAFTMETAL_ITEM, player)
+                   for player in underfunded):
+                yield location
 
 
 def audit_craftmetal_spending(multiworld, worlds, *, finalized=True, base_state=None):

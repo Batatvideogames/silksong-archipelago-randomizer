@@ -5,7 +5,7 @@
     "document_count": 533,
     "aggregate_sha256": "a25c8cea91e9b4afc84f5a83686159860f760582efd5ac1fd03b9ab76b17dd4a",
     "catalogue_sha256": "1791158a47155d9d64fdc5b7a531948c8582349e408648169eaca4830c0ea8fc",
-    "bindings_sha256": "38bad1176862aa64fb5e36be0c36e68fa866794347bba3e6df21b1f7fb25789d"
+    "bindings_sha256": "213cc745cd3cef625794447047b56b435d37261024df569972eb8eabf6e6feef"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -213,6 +213,7 @@
       "Crest: Wanderer",
       "Crest: Witch",
       "Cross Stitch",
+      "Crow bell",
       "Curveclaw",
       "Curvesickle",
       "Dark Hearts - Mask Shard",
@@ -250,6 +251,7 @@
       "Deep Docks - Shell Shard Cache #9",
       "Deep Docks - Silkeater",
       "Deep Docks Church - Shell Shard Chest",
+      "Deep Docks Lower Spire Rosary Cache",
       "Delver's Drill",
       "Dining Hall's food budget",
       "Drifter's Cloak",
@@ -621,7 +623,9 @@
       "Reserve Bind",
       "Roachkeeper - Simple Key",
       "Rosary Cannon",
+      "Rosary Grave Marker",
       "Rosary cache: Shellwood Top Room",
+      "Ruined Chapel - Rosary Cache",
       "Ruined Tool",
       "Rune Rage",
       "Sands of Karak - Lower Coral Tablet",
@@ -653,6 +657,7 @@
       "Shell shard Cache: Outside Longpin 1",
       "Shell shard Cache: Outside Longpin 2",
       "Shell shard Cache: Outside Longpin 3",
+      "Shellgrave - Rosary Cache",
       "Shellwood - Bellshrine",
       "Shellwood - Bellway",
       "Shellwood - Frayed Rosary String",
@@ -922,7 +927,9 @@
       "Wormways - Mask Shard",
       "Wormways - Memory Locket",
       "Wreath of Purity",
-      "Yellow Vesticrest"
+      "Yellow Vesticrest",
+      "rosaries on grave",
+      "rosary spike"
     ],
     "quarantined_checks": {
       "Sprintmaster's Memento": "The mapper has not verified the movement requirements for this challenge.",
@@ -5703,6 +5710,32 @@
       ],
       "checks": [
         {
+          "id": "moss-grotto/ruined-chapel-interior::mapper-check:0c72dcb6-55b1-4dfb-994f-42684de9e033:836450",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "discarded robes from ruined chapel caretaker",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "0c72dcb6-55b1-4dfb-994f-42684de9e033"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "churchkeeper_rosary",
+          "node_id": "moss-grotto/ruined-chapel-interior#ritual-chamber",
+          "canonical_location": "Ruined Chapel - Rosary Cache",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "moss-grotto/ruined-chapel-interior::reviewed-check:836219",
           "label": "Elegy of the Deep",
           "node_id": "moss-grotto/ruined-chapel-interior#ritual-chamber",
@@ -5783,11 +5816,6 @@
           "mapper_id": "05e77b37-e5c0-45ab-8f48-d0beddd862d8",
           "label": "RestBench",
           "kind": "bench"
-        },
-        {
-          "mapper_id": "0c72dcb6-55b1-4dfb-994f-42684de9e033",
-          "label": "churchkeeper_rosary",
-          "kind": "collectible"
         }
       ]
     },
@@ -9675,6 +9703,32 @@
           "label": "rosary cache bone bottom 7",
           "node_id": "bone-bottom/bonegrave#upper-right-exit",
           "canonical_location": "Bone Bottom - Rosary Cache #7",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "bone-bottom/bonegrave::mapper-check:49a1fdbd-4973-4058-b7a9-213e0e508938:836445",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "NOT RANDOMIZED AS OF v0.4.5",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "49a1fdbd-4973-4058-b7a9-213e0e508938"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "rosaries on grave",
+          "node_id": "bone-bottom/bonegrave#graveyard",
+          "canonical_location": "rosaries on grave",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -29950,13 +30004,35 @@
           "node_id": "the-marrow/the-marrow-lava-docks#ground-floor"
         }
       ],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "0a63da36-5f0d-410c-982b-c5b115cc4f8d",
+          "id": "the-marrow/the-marrow-lava-docks::mapper-check:0a63da36-5f0d-410c-982b-c5b115cc4f8d:836446",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "0a63da36-5f0d-410c-982b-c5b115cc4f8d"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "rosary spike",
-          "kind": "collectible"
-        },
+          "node_id": "the-marrow/the-marrow-lava-docks#upper-left-platforms",
+          "canonical_location": "rosary spike",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
+      "omitted_check_rows": [
         {
           "mapper_id": "bc7f4a9e-17bf-4bcc-be2e-ca07cafd123f",
           "label": "Flintstone Flyer 1",
@@ -45886,13 +45962,35 @@
           "node_id": "deep-docks/deep-docks-spire-lower#top-right-entrance-path"
         }
       ],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "a64721ec-4a9d-42ff-ab62-7b87e2127026",
+          "id": "deep-docks/deep-docks-spire-lower::mapper-check:a64721ec-4a9d-42ff-ab62-7b87e2127026:836447",
+          "requirement": {
+            "raw": "Nothing.",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "a64721ec-4a9d-42ff-ab62-7b87e2127026"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Deep Docks Lower Spire Rosary Cache",
-          "kind": "resource"
-        },
+          "node_id": "deep-docks/deep-docks-spire-lower#rosary",
+          "canonical_location": "Deep Docks Lower Spire Rosary Cache",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
+      "omitted_check_rows": [
         {
           "mapper_id": "1265dfb5-9029-4ff1-9c82-c8fb6cc0bebd",
           "label": "import enemies",
@@ -87295,13 +87393,35 @@
         }
       ],
       "events": [],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "c792cced-796c-4edd-8f72-40ba51a97738",
+          "id": "shellwood/cling-grip-side-room::mapper-check:c792cced-796c-4edd-8f72-40ba51a97738:836449",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c792cced-796c-4edd-8f72-40ba51a97738"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "Rosary Grave Marker",
-          "kind": "resource"
-        },
+          "node_id": "shellwood/cling-grip-side-room#upper-level",
+          "canonical_location": "Rosary Grave Marker",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
+      "omitted_check_rows": [
         {
           "mapper_id": "6dd59412-ac8e-4e6c-b5ca-3f7f924a95f8",
           "label": "Phacia 1",
@@ -87924,6 +88044,32 @@
       ],
       "checks": [
         {
+          "id": "shellwood/shellgrave::mapper-check:552ccbc6-91b8-4aaf-9686-bc3b11184063:836448",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "Not included no id",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "552ccbc6-91b8-4aaf-9686-bc3b11184063"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Rosary Cache",
+          "node_id": "shellwood/shellgrave#room",
+          "canonical_location": "Shellgrave - Rosary Cache",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "shellwood/shellgrave::reviewed-check:836348",
           "label": "Shellwood - Shellgrave Inscription",
           "node_id": "shellwood/shellgrave#room",
@@ -87948,11 +88094,6 @@
         }
       ],
       "omitted_check_rows": [
-        {
-          "mapper_id": "552ccbc6-91b8-4aaf-9686-bc3b11184063",
-          "label": "Rosary Cache",
-          "kind": "resource"
-        },
         {
           "mapper_id": "27e2051d-a971-4ac2-baf8-ef0d5e300898",
           "label": "Pilgrim Bellbearer 1",
@@ -109327,6 +109468,50 @@
           "label": "Greymoor - the final craw court rosary vault stash",
           "node_id": "greymoor/greymoor-craw-court#left-shaft",
           "canonical_location": "Greymoor - the final craw court rosary vault stash",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "greymoor/greymoor-craw-court::mapper-check:b39d642d-8a47-4e88-a14d-90dba73dbf1f:836444",
+          "requirement": {
+            "raw": "cling grip either OR (easy scuttlebrace AND (ledge grab right OR faydown cloak OR clawline right x 1 OR easy beast pogo))",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:cling-grip-direction:any"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:ledge-grab-direction:right"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "item:faydown-cloak"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:clawline:right:1"
+              ],
+              [
+                "mapper:scuttlebrace:easy",
+                "mapper:beast-crest-pogo:easy"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "b39d642d-8a47-4e88-a14d-90dba73dbf1f"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Crow bell",
+          "node_id": "greymoor/greymoor-craw-court#left-shaft",
+          "canonical_location": "Crow bell",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },

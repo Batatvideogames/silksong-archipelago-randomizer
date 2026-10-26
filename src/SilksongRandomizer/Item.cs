@@ -61,6 +61,7 @@ namespace SilksongRandomizer
         Journal,
         Materium,
         Farsight,
+        Miscellaneous,
     }
 
     public class Item

@@ -52,6 +52,7 @@ namespace SilksongRandomizer
         // pickup census. Entries without a matching AP identity are omitted.
         private static readonly MapCheckPosition[] StaticPositions =
         {
+            new MapCheckPosition("Crow bell", "Room_CrowCourt_02", 19.41f, 44.32f, 70f, 92f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Materium", "Arborium_07", 103.38f, 11.11f, 180f, 22f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Farsight", "Abyss_08", 157.55f, 90.38748f, 164f, 106f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Flintstone", "Dock_02", 26.35f, 8.41f, 125f, 101f, MapMarkerPositionConfidence.ExactUpstream),

@@ -443,6 +443,21 @@
   "name": "Ruined Chapel Interior",
   "children": [
    {
+    "name": "Ruined Chapel - Rosary Cache",
+    "sections": [
+     {
+      "name": "Ruined Chapel - Rosary Cache"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Ruined Chapel Interior",
+      "x": 93,
+      "y": 167
+     }
+    ]
+   },
+   {
     "name": "Moss Grotto - Shaman Storeroom Record",
     "sections": [
      {
@@ -1065,6 +1080,21 @@
       "map": "Bonegrave",
       "x": 824,
       "y": 24
+     }
+    ]
+   },
+   {
+    "name": "rosaries on grave",
+    "sections": [
+     {
+      "name": "rosaries on grave"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bonegrave",
+      "x": 223,
+      "y": 474
      }
     ]
    },
@@ -3654,6 +3684,21 @@
   "name": "The Marrow Lava Docks",
   "children": [
    {
+    "name": "rosary spike",
+    "sections": [
+     {
+      "name": "rosary spike"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "The Marrow Lava Docks",
+      "x": 38,
+      "y": 56
+     }
+    ]
+   },
+   {
     "name": "The Marrow Lava Docks - ceiling",
     "sections": [
      {
@@ -5505,6 +5550,21 @@
  {
   "name": "Deep Docks Spire Lower",
   "children": [
+   {
+    "name": "Deep Docks Lower Spire Rosary Cache",
+    "sections": [
+     {
+      "name": "Deep Docks Lower Spire Rosary Cache"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Deep Docks Spire Lower",
+      "x": 959,
+      "y": 112
+     }
+    ]
+   },
    {
     "name": "Deep Docks Spire Lower - top1 (C)",
     "sections": [
@@ -10493,6 +10553,21 @@
   "name": "Cling Grip Side Room",
   "children": [
    {
+    "name": "Rosary Grave Marker",
+    "sections": [
+     {
+      "name": "Rosary Grave Marker"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Cling Grip Side Room",
+      "x": 373,
+      "y": 168
+     }
+    ]
+   },
+   {
     "name": "Cling Grip Side Room - right2",
     "sections": [
      {
@@ -10660,6 +10735,21 @@
  {
   "name": "Shellgrave",
   "children": [
+   {
+    "name": "Shellgrave - Rosary Cache",
+    "sections": [
+     {
+      "name": "Shellgrave - Rosary Cache"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Shellgrave",
+      "x": 43,
+      "y": 124
+     }
+    ]
+   },
    {
     "name": "Shellwood - Shellgrave Inscription",
     "sections": [
@@ -13181,6 +13271,24 @@
     ]
    },
    {
+    "name": "Crow bell",
+    "sections": [
+     {
+      "name": "Crow bell"
+     },
+     {
+      "name": "Craw Summons"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Greymoor Craw Court",
+      "x": 123,
+      "y": 302
+     }
+    ]
+   },
+   {
     "name": "Journal: Crawfather",
     "sections": [
      {
@@ -13195,21 +13303,6 @@
       "map": "Greymoor Craw Court",
       "x": 205,
       "y": 400
-     }
-    ]
-   },
-   {
-    "name": "Craw Summons",
-    "sections": [
-     {
-      "name": "Craw Summons"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Greymoor Craw Court",
-      "x": 123,
-      "y": 302
      }
     ]
    },

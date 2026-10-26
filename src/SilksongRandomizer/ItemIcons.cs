@@ -298,6 +298,7 @@ namespace SilksongRandomizer
                 case "Craw Memento": collectableName = "Crowman Memento"; break;
                 case "Everbloom": collectableName = "White Flower"; break;
                 case "Farsight": collectableName = "Farsight"; break;
+                case "Crawbell": collectableName = "Crawbell"; break;
                 case "Materium": collectableName = "Materium"; break;
                 case "Diving Bell Key": collectableName = "Dock Key"; break;
                 case "Simple Key": collectableName = "Simple Key"; break;

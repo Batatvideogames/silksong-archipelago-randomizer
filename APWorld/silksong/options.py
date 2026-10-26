@@ -157,6 +157,13 @@ class MementoRandomization(GlobalRandomization):
     default = GlobalRandomization.option_vanilla
 
 
+class MiscellaneousItemsRandomization(GlobalRandomization):
+    """Randomizes Crawbell."""
+
+    display_name = "Miscellaneous Items Randomization"
+    default = GlobalRandomization.option_vanilla
+
+
 class MateriumRandomization(GlobalRandomization):
     """Randomizes Materium, Flintstone and Magnetite."""
 
@@ -576,9 +583,9 @@ class PristineCoreRandomization(MinorFamilyRandomization):
 
 class RosaryCacheRandomization(MinorCacheRandomization):
     """
-    Randomizes the 200 Rosary Caches in the game.
+    Randomizes the 206 Rosary Caches in the game.
 
-    These are the Rosaries usually seen strung up and out in the open while exploring.
+    Includes hanging Rosaries, grave markers and other one-time Rosary stashes.
 
     vanilla: leaves them where they normally are
     anywhere: mixes them into the global item pool
@@ -724,6 +731,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Memento": "memento_randomization",
     "Materium": "materium_randomization",
     "Farsight": "farsight_randomization",
+    "Miscellaneous": "miscellaneous_items_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
@@ -1729,6 +1737,7 @@ class SilksongOptions(PerGameCommonOptions):
     memento_randomization: MementoRandomization
     materium_randomization: MateriumRandomization
     farsight_randomization: FarsightRandomization
+    miscellaneous_items_randomization: MiscellaneousItemsRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
@@ -1847,6 +1856,7 @@ silksong_option_groups = [
         MementoRandomization,
         MateriumRandomization,
         FarsightRandomization,
+        MiscellaneousItemsRandomization,
         TwistedBudRandomization,
         FleaRandomization,
         CrestSlotRandomization,

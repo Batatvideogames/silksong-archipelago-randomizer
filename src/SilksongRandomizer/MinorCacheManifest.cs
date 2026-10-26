@@ -14,6 +14,7 @@ namespace SilksongRandomizer
             BreakableHolder,
             RosaryCache,
             CurrencyChest,
+            Breakable,
         }
 
         internal sealed class Entry
@@ -401,6 +402,12 @@ namespace SilksongRandomizer
             new Entry("The Slab - Rosary Chest", "Slab_19b", "City Shard Chest", SourceKind.CurrencyChest, 18.34f, 10.02f, 44.0f, 36.0f),
             new Entry("Deep Docks Church - Shell Shard Chest", "Dock_06_Church", "City Shard Chest", SourceKind.CurrencyChest, 7.269272f, 21.892515f, 75.0f, 35.0f),
             new Entry("High Halls Bank - Rosary Chest #3", "Hang_06_bank", "Chest", SourceKind.CurrencyChest, 73.330002f, 35.759998f, 129.0f, 60.0f),
+            new Entry("rosaries on grave", "Bonegrave", "grave_marker_break_grey (2)", SourceKind.Breakable, 175.240005f, 7.334629f, 315f, 82f),
+            new Entry("rosary spike", "Bone_09", "grave_marker_break_grey", SourceKind.Breakable, 6.03f, 36.139999f, 164f, 45f),
+            new Entry("Deep Docks Lower Spire Rosary Cache", "Bone_East_03", "grave_marker_break_grey", SourceKind.Breakable, 153.0f, 22.15f, 224f, 42f),
+            new Entry("Shellgrave - Rosary Cache", "Shellgrave", "grave_marker_break_grey (2)", SourceKind.Breakable, 55.994095f, 10.462842f, 138f, 22f),
+            new Entry("Rosary Grave Marker", "Shellwood_11", "grave_marker_break_grey", SourceKind.Breakable, 58.349998f, 21.280001f, 102f, 78f),
+            new Entry("Ruined Chapel - Rosary Cache", "Tut_04", "churchkeeper_rosary", SourceKind.Breakable, 14.75f, 9.63f, 87f, 36f),
         };
 
         internal static Location[] AppendTo(IEnumerable<Location> existing)

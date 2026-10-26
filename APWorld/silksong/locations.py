@@ -23,6 +23,7 @@ from .lore_tablets import (
 )
 from .minor_caches import (
     MINOR_CACHE_LOCATION_NAMES,
+    ADDITIONAL_MINOR_CACHE_LOCATION_NAMES,
     RETIRED_MINOR_CACHE_LOCATION_NAMES,
 )
 
@@ -924,6 +925,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
 ) + tuple(
     (location_name, 'Resource')
     for location_name in MINOR_CACHE_LOCATION_NAMES
+    if location_name not in ADDITIONAL_MINOR_CACHE_LOCATION_NAMES
 ) + (
     # This is the physical Broken SilkShot pickup in Weavenest Murglin.
     ('Ruined Tool', 'Tool'),
@@ -1098,6 +1100,10 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key o
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Conjoined Heart', 'OldHeart'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Quest Completion: Broodmother Hunt', 'Resource'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Materium', 'Materium'), ('Flintstone', 'Materium'), ('Magnetite Outcrop', 'Materium'), ('Farsight', 'Farsight'))
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Crow bell', 'Miscellaneous'),) + tuple(
+    (name, 'Resource') for name in MINOR_CACHE_LOCATION_NAMES
+    if name in ADDITIONAL_MINOR_CACHE_LOCATION_NAMES
+)
 
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
@@ -1155,6 +1161,7 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Memento',
     'Materium',
     'Farsight',
+    'Miscellaneous',
     'TwistedBud',
     'Eva',
     'Skill',

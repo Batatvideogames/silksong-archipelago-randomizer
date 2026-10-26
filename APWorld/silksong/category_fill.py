@@ -637,6 +637,11 @@ def fill_solo_progression(world, progression, locations):
             or not progression
             or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
         return
+    if not multiworld.has_beaten_game(multiworld.get_all_state(), world.player):
+        raise OptionError(
+            'The goal cannot be reached with all available items under the current mapped logic. '
+            'Check vanilla ability settings and fixed reward access before generating again.'
+        )
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]
     failure = None

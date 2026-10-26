@@ -5,6 +5,7 @@ using HarmonyLib;
 using HutongGames.PlayMaker;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TeamCherry.SharedUtils;
 using FlingObjectsFromGlobalPoolV3 =
     HutongGames.PlayMaker.Actions.FlingObjectsFromGlobalPoolV3;
 using SetFsmBool = HutongGames.PlayMaker.Actions.SetFsmBool;
@@ -1123,6 +1124,38 @@ namespace SilksongRandomizer.Patches
                     __instance,
                     MinorCacheManifest.SourceKind.GeoRock
                 );
+            }
+        }
+
+        [HarmonyPatch(typeof(Breakable), nameof(Breakable.Break))]
+        private static class BreakableCachePatch
+        {
+            private static void Prefix(Breakable __instance,
+                ref MinMaxInt ___smallGeoDrops,
+                out Tuple<SaveState, string, MinMaxInt> __state)
+            {
+                __state = null;
+                if (__instance.IsBroken || !TryGetSeededEntry(__instance,
+                    MinorCacheManifest.SourceKind.Breakable, out SaveState state,
+                    out MinorCacheManifest.Entry entry)) return;
+                __state = Tuple.Create(state, entry.LocationName, ___smallGeoDrops);
+                ___smallGeoDrops = new MinMaxInt(0, 0);
+            }
+
+            private static void Postfix(Breakable __instance,
+                Tuple<SaveState, string, MinMaxInt> __state)
+            {
+                if (__state != null && __instance.IsBroken &&
+                    !__state.Item1.IsLocationChecked(__state.Item2))
+                    __state.Item1.CheckLocation(__state.Item2);
+            }
+
+            private static Exception Finalizer(Exception __exception,
+                ref MinMaxInt ___smallGeoDrops,
+                Tuple<SaveState, string, MinMaxInt> __state)
+            {
+                if (__state != null) ___smallGeoDrops = __state.Item3;
+                return __exception;
             }
         }
 

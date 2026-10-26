@@ -297,6 +297,9 @@ namespace SilksongRandomizer
         public RandomizationMode OldHeartRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode EverbloomRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MementoRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode FarsightRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode MiscellaneousRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode MateriumRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode TwistedBudRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FleaRandomization { get; private set; } = RandomizationMode.Anywhere;
         public RandomizationMode CrestSlotRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -791,6 +794,9 @@ namespace SilksongRandomizer
                 OldHeartRandomization = GetRandomizationModeSlotData(successful, "old_heart_randomization");
                 EverbloomRandomization = GetRandomizationModeSlotData(successful, "everbloom_randomization");
                 MementoRandomization = GetRandomizationModeSlotData(successful, "memento_randomization");
+                FarsightRandomization = GetRandomizationModeSlotData(successful, "farsight_randomization");
+                MiscellaneousRandomization = GetRandomizationModeSlotData(successful, "miscellaneous_items_randomization");
+                MateriumRandomization = GetRandomizationModeSlotData(successful, "materium_randomization");
                 TwistedBudRandomization = GetRandomizationModeSlotData(successful, "twisted_bud_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
                     successful, "flea_randomization");
@@ -3360,6 +3366,9 @@ namespace SilksongRandomizer
             OldHeartRandomization = RandomizationMode.Vanilla;
             EverbloomRandomization = RandomizationMode.Vanilla;
             MementoRandomization = RandomizationMode.Vanilla;
+            FarsightRandomization = RandomizationMode.Vanilla;
+            MiscellaneousRandomization = RandomizationMode.Vanilla;
+            MateriumRandomization = RandomizationMode.Vanilla;
             TwistedBudRandomization = RandomizationMode.Vanilla;
             FleaRandomization = RandomizationMode.Anywhere;
             CrestSlotRandomization = RandomizationMode.Anywhere;

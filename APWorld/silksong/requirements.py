@@ -6087,10 +6087,18 @@ class _AssumedMapperInventory:
         return self.count(item, player) >= count
 
 
-def get_mapper_option_quarantines(unavailable_items=frozenset(), **options) -> frozenset[str]:
+def get_mapper_option_quarantines(unavailable_items=frozenset(), vanilla_stations=(), **options) -> frozenset[str]:
     if not MAPPER_GRAPH_ENABLED:
         return frozenset()
-    state = _AssumedMapperInventory(unavailable_items)
+    pending = dict(vanilla_stations)
+    while True:
+        state = _AssumedMapperInventory(unavailable_items | frozenset(pending.values()))
+        reached = [name for name in pending
+                   if make_requirements_rule(get_location_requirements(name), 1, **options)(state)]
+        if not reached:
+            break
+        for name in reached:
+            del pending[name]
     return frozenset(
         name for name in ROOM_GRAPH_CANONICAL_CHECK_NAMES
         if not make_requirements_rule(get_location_requirements(name), 1, **options)(state)

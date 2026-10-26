@@ -101,6 +101,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Pollen Heart",
         "Everbloom",
         "Farsight",
+        "Crow bell",
         "Magnetite Outcrop",
         "Sprintmaster's Memento",
         "Guardian's Memento",

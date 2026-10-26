@@ -1038,6 +1038,7 @@ namespace SilksongRandomizer
             new Location("Craw Memento", ItemType.Memento, null),
             new Location("Materium", ItemType.Materium, null),
             new Location("Farsight", ItemType.Farsight, null),
+            new Location("Crow bell", ItemType.Miscellaneous, null),
             new Location("Flintstone", ItemType.Materium, null),
             new Location("Magnetite Outcrop", ItemType.Materium, null),
             new Location("Boss: Summoned Saviour", ItemType.Boss, null),

@@ -342,9 +342,11 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/49a1fdbd-4973-4058-b7a9-213e0e508938": {
-    "name": "Bonegrave - Rosaries on grave",
+    "name": "rosaries on grave",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "rosaries on grave"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/26ec6c1c-3131-4c29-98ca-3ed6d9cb9fe6": {
@@ -3781,9 +3783,11 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/b39d642d-8a47-4e88-a14d-90dba73dbf1f": {
-    "name": "Greymoor Craw Court - Crow bell",
+    "name": "Crow bell",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Crow bell"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/26d1e6f5-b722-4821-ab61-42504c901169": {

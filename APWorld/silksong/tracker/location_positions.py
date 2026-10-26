@@ -1,4 +1,5 @@
 LOCATION_POSITIONS = (
+    {'name': 'Crow bell', 'scene': 'Room_CrowCourt_02', 'x': 19.41, 'y': 44.32, 'width': 70, 'height': 92},
     {'name': 'Journal: Moss Mother', 'scene': 'Weave_03', 'x': 13, 'y': 31.12, 'width': 284, 'height': 35},
     {'name': 'Journal Completion: Moss Mother', 'scene': 'Weave_03', 'x': 13, 'y': 31.12, 'width': 284, 'height': 35},
     {'name': 'Journal: Grand Mother Silk', 'scene': 'Cradle_03', 'x': 50.61, 'y': 138.94, 'width': 80, 'height': 160},
