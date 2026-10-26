@@ -874,7 +874,7 @@ _IMPLICIT_EVENT_SOURCE: Mapping[str, tuple[CompiledRoomClause, ...]] = {
     ),
     "event:greymoor/greymoor-craw-lake/lever-broken-from-greymoor-crow-nest": (
         _part(
-            room_node_name("greymoor/greymoor-craw-nest#crow-arena")
+            room_node_name("greymoor/greymoor-craw-nest#craw-arena")
         ),
     ),
     "event:greymoor/greymoor-west-bellshrine-room/lever-switch": (
@@ -1245,7 +1245,7 @@ _CURATED_EDGES: tuple[
         ),
     ),
     (
-        "greymoor/greymoor-craw-lake#craw-building",
+        "greymoor/greymoor-craw-lake#craw-building-roof",
         "greymoor/greymoor-craw-lake#middle-craw-nest",
         tuple(
             _part(

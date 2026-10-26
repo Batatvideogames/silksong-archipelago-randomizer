@@ -8856,19 +8856,22 @@
     "kind": "collectible",
     "locations": [
       "Encrusted Heart"
-    ]
+    ],
+    "mapper_kind": "collectible"
   },
   "event:mapper/5cd1f85e-5c80-4045-b722-7a53b00e128c": {
     "name": "Boss: Crust King Khann",
     "kind": "boss",
     "locations": [
       "Boss: Crust King Khann"
-    ]
+    ],
+    "mapper_kind": "boss"
   },
   "event:mapper/3f3aa729-863e-4e11-b3b4-4e9f29026181": {
     "name": "Path of Pain Bench - path of pain wall",
     "kind": "blockade",
-    "locations": []
+    "locations": [],
+    "mapper_kind": "blockade"
   },
   "event:mapper/cac93eb2-6bac-4da5-a0f8-a0ab79f1e9a5": {
     "name": "Blasted Steps - Beast Shard",

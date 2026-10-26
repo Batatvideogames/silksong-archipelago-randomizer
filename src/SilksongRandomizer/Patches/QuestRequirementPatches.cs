@@ -26,6 +26,23 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(BasicNPC), "OnEndDialogue")]
+        private static class ShermaHealerMeetingPatch
+        {
+            private static void Postfix(BasicNPC __instance)
+            {
+                if (SaveState.Instance?.IsRoomBound != true ||
+                    SaveState.Instance.progressionShuffle?.AssignedWish("Save Sherma") == null ||
+                    PlayerData.instance == null || PlayerData.instance.metShermaEnclave ||
+                    !__instance.HasFinishedTalks || __instance.gameObject.scene.name != "Song_Enclave" ||
+                    Utils.GetHierarchyPath(__instance.transform) !=
+                        "Black Thread States/Normal World/Enclave States/States/Level 2/Songlave_healer_set/Sherma Healer")
+                    return;
+                PlayerData.instance.metShermaEnclave = true;
+                GameManager.instance.QueueSaveGame();
+            }
+        }
+
         [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
         private static class JubilanaShopDeparturePatch
         {

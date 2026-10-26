@@ -326,8 +326,8 @@
  {
   "name": "Wormways Upper East",
   "img": "01-geometry/6e9792bd-7871-4d51-87a7-833b9e17495e.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Wormways Laboratory",

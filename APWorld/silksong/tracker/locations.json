@@ -4626,8 +4626,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper East",
-      "x": 329,
-      "y": 235
+      "x": 345,
+      "y": 285
      }
     ]
    },
@@ -4641,8 +4641,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper East",
-      "x": 319,
-      "y": 238
+      "x": 335,
+      "y": 289
      }
     ]
    },
@@ -4656,8 +4656,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper East",
-      "x": 186,
-      "y": 373
+      "x": 196,
+      "y": 452
      }
     ]
    },
@@ -4672,7 +4672,7 @@
      {
       "map": "Wormways Upper East",
       "x": 0,
-      "y": 565
+      "y": 686
      }
     ]
    },
@@ -4686,8 +4686,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper East",
-      "x": 907,
-      "y": 104
+      "x": 952,
+      "y": 127
      }
     ]
    }
@@ -13258,8 +13258,8 @@
     "map_locations": [
      {
       "map": "Greymoor Craw Lake",
-      "x": 537,
-      "y": 524
+      "x": 693,
+      "y": 553
      }
     ]
    },

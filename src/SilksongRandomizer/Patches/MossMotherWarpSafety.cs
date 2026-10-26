@@ -31,7 +31,7 @@ namespace SilksongRandomizer.Patches
             value && flag == "defeatedMossMother" && fsm == "Control" &&
             stateName == "Set End" && owner == "Churchkeeper Intro Scene" &&
             string.Equals(scene, "Bonetown", StringComparison.OrdinalIgnoreCase) &&
-            IsSoulRandomized(state);
+            state?.IsRoomBound == true;
 
         [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.SetPlayerDataBool), "OnEnter")]
         private static class IntroDefeatPatch

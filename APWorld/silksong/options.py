@@ -446,7 +446,7 @@ class DivingBellKeyRandomization(Toggle):
 
 class SimpleKeyRandomization(Choice):
     """
-    Randomize four destination-specific keys without fungible spending.
+    Randomize the four Simple Keys. Each key opens its named lock.
 
     anywhere: mixes them into the global item pool
     shuffle: mixes them up between one another
