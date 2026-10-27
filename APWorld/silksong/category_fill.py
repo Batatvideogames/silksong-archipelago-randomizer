@@ -13,6 +13,61 @@ def _placement_category(value) -> str | None:
     return getattr(value, "silksong_placement_category", None)
 
 
+def validate_excluded_filler(multiworld, game):
+    solo = multiworld.players == 1 and not multiworld.groups
+    maximum = multiworld.get_all_state() if solo else None
+    if maximum is not None and not multiworld.has_beaten_game(maximum):
+        maximum = None
+    locations = [location for world in multiworld.get_game_worlds(game) for location in world.get_locations()
+                 if location.item is None and location.address is not None
+                 and (location.progress_type == LocationProgressType.EXCLUDED
+                      or maximum is not None and world.options.accessibility != 'minimal' and not location.can_reach(maximum))]
+    if not locations:
+        return
+    items = [item for item in multiworld.itempool if not item.advancement and not item.useful]
+    candidates = {location: [index for index, item in enumerate(items)
+                            if location.can_fill(multiworld.state, item, check_access=False)]
+                  for location in locations}
+    assigned = {}
+    owned = {}
+
+    def assign(location):
+        pending = [location]
+        visited = {location}
+        previous = {}
+        for current in pending:
+            for index in candidates[current]:
+                if index in previous:
+                    continue
+                previous[index] = current
+                if index not in assigned:
+                    while True:
+                        current = previous[index]
+                        old = owned.get(current)
+                        assigned[index] = current
+                        owned[current] = index
+                        if old is None:
+                            return True
+                        index = old
+                owner = assigned[index]
+                if owner not in visited:
+                    visited.add(owner)
+                    pending.append(owner)
+        return False
+
+    missing = [location for location in sorted(locations, key=lambda loc: len(candidates[loc]))
+               if not assign(location)]
+    if missing:
+        names = ', '.join(f'P{location.player} {location.name}' for location in missing[:8])
+        if len(missing) > 8:
+            names += f' and {len(missing) - 8} more'
+        raise OptionError(
+            f'The selected options leave {len(missing)} excluded or unreachable checks without compatible filler or traps: {names}. '
+            'Progression and useful items cannot fill these checks. Set a filler category such as Rosary Caches '
+            'to Anywhere or adjust exclusion, locality or plando settings.'
+        )
+
+
 def _assign_items(locations: list, items: list) -> None:
     for location in locations:
         if location.item is not None:
@@ -637,10 +692,16 @@ def fill_solo_progression(world, progression, locations):
             or not progression
             or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
         return
-    if not multiworld.has_beaten_game(multiworld.get_all_state(), world.player):
+    all_state = multiworld.get_all_state()
+    if not multiworld.has_beaten_game(all_state, world.player):
+        blocked = [f'{location.item.name} at {location.name}' for location in world.get_locations()
+                   if location.name in world.location_name_to_id and location.locked and location.item is not None
+                   and location.item.advancement and not location.can_reach(all_state)]
+        detail = (' Blocked fixed rewards: ' + '; '.join(blocked[:8]) + '.') if blocked else ''
         raise OptionError(
             'The goal cannot be reached with all available items under the current mapped logic. '
             'Check vanilla ability settings and fixed reward access before generating again.'
+            + detail
         )
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]

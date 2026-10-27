@@ -1874,6 +1874,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         for world in multiworld.get_game_worlds(cls.game):
             if world.game == cls.game:
                 world._finalize_progression_shuffle()
+        from .category_fill import validate_excluded_filler
+        validate_excluded_filler(multiworld, cls.game)
         alphabet_mode_enabled = any(
             getattr(world, "game", None) == cls.game
             and getattr(
