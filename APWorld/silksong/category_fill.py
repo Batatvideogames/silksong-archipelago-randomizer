@@ -688,9 +688,7 @@ def fill_solo_progression(world, progression, locations):
     from .requirement_rules import _invalidate_native_source_player
 
     multiworld = world.multiworld
-    if (multiworld.players != 1 or multiworld.groups
-            or not progression
-            or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
+    if multiworld.players != 1 or multiworld.groups or not progression:
         return
     all_state = multiworld.get_all_state()
     if not multiworld.has_beaten_game(all_state, world.player):
@@ -703,6 +701,23 @@ def fill_solo_progression(world, progression, locations):
             'Check vanilla ability settings and fixed reward access before generating again.'
             + detail
         )
+    if world.options.accessibility == 'full':
+        unreachable = [location.name for location in world.get_locations()
+                       if location.name in world.location_name_to_id and not location.can_reach(all_state)]
+        if unreachable:
+            detail = ''
+            if 'Egg of Flealia' in unreachable:
+                from .display_names import FLEA_ITEM_NAMES
+                fleas = sum(all_state.count(name, world.player) for name in FLEA_ITEM_NAMES)
+                if fleas < 30:
+                    detail = f' Egg of Flealia needs 30 fleas, but only {fleas} are available in logic.'
+            raise OptionError(
+                'Full accessibility cannot reach every enabled check with the selected items and logic options: '
+                + ', '.join(unreachable[:8]) + (f' and {len(unreachable) - 8} more' if len(unreachable) > 8 else '')
+                + '.' + detail + ' Check vanilla reward access, disabled techniques and removed abilities.'
+            )
+    if any(location.progress_type == LocationProgressType.PRIORITY for location in locations):
+        return
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]
     failure = None

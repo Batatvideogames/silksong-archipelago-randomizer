@@ -30,6 +30,7 @@ ACT_THREE_ONLY_GOAL_LOCATION_NAMES: frozenset[str] = frozenset(
         "Farsight",
         "Crow bell",
         "Magnetite Outcrop",
+        "Ruined Chapel - Rosary Cache",
         "Sprintmaster's Memento",
         "Guardian's Memento",
         "Hero's Memento",
@@ -220,7 +221,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "Silkeater": {"Silkeater": 1},
     "NeedleUpgrade": {"Progressive Needle Upgrade": 1},
     "PaleOil": {"Pale Oil": 1},
-    "Resource:rosary_cache": {"Rosaries (10)": 4},
+    "Resource:rosary_cache": {"Rosaries (10)": 4, "Rosaries (8)": 1},
     "Resource:shell_shard_cache": {"Shell Shards (10)": 9},
     "Boss": {
         "Rosaries (60)": 9,

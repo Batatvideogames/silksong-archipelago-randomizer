@@ -103,6 +103,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Farsight",
         "Crow bell",
         "Magnetite Outcrop",
+        "Ruined Chapel - Rosary Cache",
         "Sprintmaster's Memento",
         "Guardian's Memento",
         "Hero's Memento",
@@ -154,6 +155,10 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Shellwood - Shard Bundle",
         "Shellwood - Rosary String #2",
         "Relic: Weaver Effigy (Keelal, Shellwood)",
+        "Relic: Bone Scroll (Wisp Thicket)",
+        "Greymoor - Orders",
+        "Bilewater - Storeroom Record",
+        "Bilewater - Bilehaven Plaque",
         'Shell Shard Cache: Greyroots Diddy Basement 1',
         'Shell Shard Cache: Greyroots Diddy Basement 2',
         'Shell Shard Cache: Greyroots Diddy Basement 3',
@@ -207,10 +212,15 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Putrified Ducts - Frayed Rosary String",
         "Bilewater - Frayed Rosary String",
         "Bilewater - Rosary Cache #3",
+        "Bilewater - Rosary Cache #4",
+        "Bilewater - Rosary Cache #5",
         "Bilewater - Shell Shard Cache #1",
         "Bilewater - Shell Shard Cache #2",
         "Bilewater - Shell Shard Cache #3",
         "Bilewater - Shell Shard Cache #4",
+        "Bilewater - Shell Shard Cache #5",
+        "Bilewater - Shell Shard Cache #6",
+        "Bilewater - Shell Shard Cache #7",
         "Sands of Karak East Bench - Simple Key",
         "Sands of Karak - Upper Coral Tablet",
         "Sands of Karak - Lower Coral Tablet",
@@ -247,6 +257,14 @@ ACT_ONE_EXCLUDED_LOCATION_NAMES = (
     | _POST_ACT_ONE_RELIC_TURN_IN_LOCATION_NAMES
     | _POST_ACT_ONE_ROOM_GRAPH_LOCATION_NAMES
     | _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES
+)
+_ACT_ONE_EXCLUDED_RELIC_ITEMS = frozenset(
+    get_vanilla_reward_name(name, 'Relic') for name in LOCATION_NAMES_BY_CATEGORY['Relic']
+    if name in ACT_ONE_EXCLUDED_LOCATION_NAMES
+)
+ACT_ONE_EXCLUDED_LOCATION_NAMES |= frozenset(
+    location for location, item in INDIVIDUAL_RELIC_ITEM_BY_TURN_IN_LOCATION.items()
+    if item in _ACT_ONE_EXCLUDED_RELIC_ITEMS
 )
 
 
