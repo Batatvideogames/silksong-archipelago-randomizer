@@ -8391,20 +8391,6 @@
     "locations": [],
     "mapper_kind": "collectible"
   },
-  "event:mapper/399c5eda-e776-4279-a0f0-ba20a4913047": {
-    "name": "Boss: Clover Dancers",
-    "kind": "boss",
-    "locations": [
-      "Boss: Clover Dancers"
-    ],
-    "mapper_kind": "boss"
-  },
-  "event:mapper/f7ff1826-8efc-46f1-92a2-82bd5666acf9": {
-    "name": "Clover Dancers - Clover Dancers 2",
-    "kind": "boss",
-    "locations": [],
-    "mapper_kind": "boss"
-  },
   "event:mapper/8b856b65-4f98-495a-9924-0b2bbe47ddca": {
     "name": "Dead Verdania Bench - Dead Verdania Bench",
     "kind": "bench",
@@ -8607,12 +8593,6 @@
     "locations": [
       "Reed's personal chest"
     ],
-    "mapper_kind": "collectible"
-  },
-  "event:mapper/896f5186-1d21-4908-9361-b9b3b8e1b46e": {
-    "name": "Choral Chambers Over Dininig - Rosary Necklace - Choral Chambers #2",
-    "kind": "collectible",
-    "locations": [],
     "mapper_kind": "collectible"
   },
   "event:mapper/7e81a4e7-8e9e-4cae-a7b6-2594226a6c6b": {
@@ -8994,5 +8974,271 @@
     "kind": "blockade",
     "locations": [],
     "mapper_kind": "blockade"
+  },
+  "event:mapper/f867b511-7877-4afe-9e9c-78606d1b8cb2": {
+    "name": "awaiting the end complete",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/3ddb9511-768f-4c3e-858b-afe6852a5e95": {
+    "name": "Deep Docks Entrance Gate",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/c4b7635c-e229-40f9-9269-439ddaff93d0": {
+    "name": "Song_Gate_small",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/5a19c041-5480-4be5-99a0-b9780feb598c": {
+    "name": "Is this still Deep Docks East Blast Rock",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/1eada053-a82d-49ce-b63e-70fc77f58d15": {
+    "name": "Rosary Wall",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/ff5dcdc3-96ea-43b6-bfff-587d7c90637f": {
+    "name": "Deep Docks Backdoor",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/9d73778d-0d7b-46f3-8bf1-885201cb5d34": {
+    "name": "Hand In Bone Scroll Relic Bone Scroll Far Fields",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/fd037428-68a6-490e-80b4-5e535b8529a5": {
+    "name": "Hand In Bone Scroll Greymoor",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/589ebc2f-fa7d-4503-b799-3af5821a339d": {
+    "name": "Hand In Bone Scroll Underworks",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/539d6f29-4686-4882-8fa0-437ec045d4b6": {
+    "name": "Hand In Bone Scroll Wisp Thicket",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/e8e5844e-15b4-4b55-af4b-6c657270b752": {
+    "name": "Hand In Weaver Effigy Moss Grotto",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/6152a84d-78fd-47cc-944c-fcfd478a0e7f": {
+    "name": "Hand In Weaver Effigy Shellwood",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/cb87249b-0a5b-4f4e-8ab7-837a437304b1": {
+    "name": "Hand In Weaver Effigy  The Slab",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/342a8034-a6ad-4a17-bbed-9d4b50426d4c": {
+    "name": "Hand in Choral Commandment Jubilana",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/09ce84db-cf83-4bb6-83fb-ce5dbceb58eb": {
+    "name": "Hand in Choral Commandment Western Whiteward",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/5cc5918f-0200-4542-bbb9-9d4ef3762ce4": {
+    "name": "Hand in Choral Commandment Moss Grotto",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/4d674f5f-165b-4291-a321-a121bc7cbf74": {
+    "name": "Hand in Choral Commandment Eastern Whiteward",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/99f88879-c17a-4e2e-ba1b-580ffab9a748": {
+    "name": "Hand in Rune Harp Weavenest Atla",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/2e05c628-8ac5-4251-90c4-23eba830849b": {
+    "name": "Hand in Rune Harp Weavenest Cindril",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/a50578aa-b971-4c44-8235-17d2bb5f3e3e": {
+    "name": "Hand in Rune Harp High Halls",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/535aded0-5046-42db-a3cd-070e0ac266ad": {
+    "name": "Hand in Arcane Egg",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79": {
+    "name": "Visit Bellhome",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/20d1755f-f1ed-4600-b57f-b107fe387be3": {
+    "name": "floor blockade",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/690ea7cf-1241-4838-8cb7-401ce1c8eb0f": {
+    "name": "stone wall",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/75317c0b-e51c-4c57-8c35-d919503025b6": {
+    "name": "very hidden plank wall",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/4cfc90ba-4d6a-48b6-9b8f-6c5dde9f35f5": {
+    "name": "silver room wall",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/41d54897-5bb7-46f3-a521-f4b7e6fbe8ef": {
+    "name": "stone wall low",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/1a7312d8-e319-4057-81d2-3a0f954aa362": {
+    "name": "Boss: Clover Dancers",
+    "kind": "boss",
+    "locations": [
+      "Boss: Clover Dancers"
+    ],
+    "mapper_kind": "boss"
+  },
+  "event:mapper/0ecfa478-3a5c-4490-ad56-e03e393aabeb": {
+    "name": "Breakable Ceiling Gate Maintenance",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/a4c2389b-4b91-40d3-8acf-35fdbb070cb8": {
+    "name": "Spa block",
+    "kind": "resource",
+    "locations": [],
+    "mapper_kind": "resource"
+  },
+  "event:mapper/2dd2d662-24ce-4370-b947-e4258ed19eb1": {
+    "name": "Breakable wall Spa",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/76655bc3-01b8-44bc-a30b-767eed1e5646": {
+    "name": "Breakable ceiling Outside Spa",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/295c4124-2a29-4d91-839e-ef621f57f636": {
+    "name": "Air current Flea shaft",
+    "kind": "resource",
+    "locations": [],
+    "mapper_kind": "resource"
+  },
+  "event:mapper/8f833e99-d882-4c4d-9e3e-a545e51583b0": {
+    "name": "Flea Shaft Wall Air current",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/c629ecfd-37a7-4d7c-a402-8a5a0acb3e1d": {
+    "name": "Flea Shaft Flea Wall",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/d9a3645e-7da8-4967-ab44-cb4ee440093b": {
+    "name": "Wall over dining",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/0fb60238-9f37-4dc4-8cb1-c384196af992": {
+    "name": "Below Ventrica to Grand Gate",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
+  },
+  "event:mapper/2fdae6b8-bdb1-44e6-8f35-1d246f213c1d": {
+    "name": "Breakable Floor Below Ventrica",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/6bea8192-4568-4d35-a14f-05c26e0bd3eb": {
+    "name": "Rotating Tunnel top lever",
+    "kind": "switch",
+    "locations": [],
+    "mapper_kind": "switch"
+  },
+  "event:mapper/e5c7aee7-e86a-4992-9a77-1ef1d67342a6": {
+    "name": "Grand bellway lever",
+    "kind": "switch",
+    "locations": [],
+    "mapper_kind": "switch"
+  },
+  "event:mapper/eba9891f-8aa6-4105-8db1-2fe441a2da49": {
+    "name": "Grand bellway wall 1",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/be553712-46c6-4918-8041-9be808376849": {
+    "name": "Grand bellway wall 2",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/160395bd-4007-4d6d-8a96-b4df4fceaf98": {
+    "name": "Kratt Peeping",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
+  },
+  "event:mapper/fce7967e-04f6-4927-8567-330fa7d056fd": {
+    "name": "Choral Chambers Over Dininig - Rosary Necklace - Choral Chambers #2",
+    "kind": "collectible",
+    "locations": [],
+    "mapper_kind": "collectible"
   }
 }

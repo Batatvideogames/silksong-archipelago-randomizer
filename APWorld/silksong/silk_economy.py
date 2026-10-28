@@ -66,6 +66,8 @@ def clean(rule):
 
 
 def at(node, amount):
+    if amount > MAX_SILK:
+        return 'Silk capacity: above maximum'
     return node if amount == 0 else f'Silk ({amount}): {node.removeprefix("Room Node: ")}'
 
 
@@ -163,13 +165,15 @@ def prepare_world(world, graph):
     if not enabled(world):
         return graph
     from .requirements import req, item_count
+    from .rosary_economy import gate as rosary_gate
 
-    original = dict(graph)
+    original = {owner: rosary_gate(world, rules, owner) for owner, rules in graph.items()}
     graph = {owner: tuple(gate(rule) if source_node(rule) else clean(rule) for rule in rules)
              for owner, rules in original.items()}
     refills = _refills(world, graph)
     nodes = {name: rules for name, rules in original.items() if name.startswith(('Room Node: ', 'Entrance landing: '))}
     world._silk_node_rules = nodes
+    graph['Silk capacity: above maximum'] = ()
     for amount in range(1, MAX_SILK + 1):
         graph[f'Silk capacity: {amount}'] = (capacity(amount),)
         graph[f'Silk regeneration: {amount}'] = (req(crest=False, item_counts=(item_count(amount, 'Progressive Silkheart'),)),) if amount <= 3 else ()

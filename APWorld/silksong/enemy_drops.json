@@ -1,5 +1,5 @@
 {
-  "mapper_source": "a25c8cea91e9b4afc84f5a83686159860f760582efd5ac1fd03b9ab76b17dd4a",
+  "mapper_source": "170e20148b1734b8ee687dc396f823283e9592a9647ae936538ba9a00e772596",
   "scenes": {
     "moss-grotto/moss-grotto-center": "tut_01",
     "moss-grotto/moss-grotto-west": "tut_02",
@@ -194,7 +194,7 @@
     "greymoor/greymoor-entry-to-bellhart": "greymoor_08",
     "greymoor/greymoor-halfway-home": "halfway_01",
     "greymoor/greymoor-halfway-home-exterior": "greymoor_03",
-    "greymoor/greymoor-kraft-room": "greymoor_24",
+    "greymoor/greymoor-kratt-room": "greymoor_24",
     "greymoor/greymoor-middle-passage": "greymoor_10",
     "greymoor/greymoor-rat-tunnel": "greymoor_16",
     "greymoor/greymoor-silver-shells-room": "greymoor_17",
@@ -209,7 +209,7 @@
     "wisp-thicket/wisp-thicket-shaft": "wisp_08",
     "wisp-thicket/wisp-thicket-bench": "wisp_04",
     "wisp-thicket/wisp-thicket-grounds": "wisp_02",
-    "wisp-thicket/father-of-the-flame": "belltown_08",
+    "wisp-thicket/father-of-the-flame-gamer-cave": "belltown_08",
     "wisp-thicket/wisp-thicket-secret-path": "wisp_05",
     "wisp-thicket/wisp-thicket-cave": "wisp_09",
     "verdania/clover-dancers": "clover_10",
@@ -527,9 +527,12 @@
     "the-abyss/weavenest-absolom": "abyss_08",
     "the-abyss/abyss-cocoon": "abyss_cocoon",
     "the-abyss/last-dive": "last_dive",
+    "flea-caravan/varga-caravan-room": "room_caravan_interior",
+    "flea-caravan/kratt-spa": "room_caravan_spa",
     "fast-travel/bellway-menu": "",
     "fast-travel/ventrica-menu": "",
     "fast-travel/slab-capture": "",
+    "fast-travel/flea-caravan": "",
     "wish-menus/bone-bottom-wish-wall": "",
     "wish-menus/bellhart-wish-wall": "",
     "wish-menus/bellhart-deliveries": "",
@@ -4584,87 +4587,143 @@
     },
     "cd859437-77b3-4697-98ba-e0937c58479f": {
       "name": "Smelt Shoveller 1",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Smelt Shoveller",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6780",
+      "routes": [],
+      "farm": false
     },
     "8180fed6-6239-4227-a939-90a0df1e0e5c": {
       "name": "Beastfly 1",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6728",
+      "routes": [],
+      "farm": false
     },
     "ddf8cf41-8e8a-4e83-981a-50996ee20253": {
       "name": "Beastfly 2",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6721",
+      "routes": [],
+      "farm": false
     },
     "d9a103d3-7cde-42d7-8c32-cc8f26c49b14": {
       "name": "Flintstone Flyer 1",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Flintstone Flyer",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6432",
+      "routes": [],
+      "farm": false
     },
     "cf540604-266e-46ff-8544-5b8a9b213dc8": {
       "name": "Pilgrim Hulk 1",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Pilgrim Hulk",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6297",
+      "routes": [],
+      "farm": false
     },
     "dde7bc16-a2b7-4e42-9ebc-36a0b56d2391": {
       "name": "Beastfly 3",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6720",
+      "routes": [],
+      "farm": false
     },
     "1e25096c-af74-4c4d-bd30-4357e0b573e3": {
       "name": "Beastfly 4",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6722",
+      "routes": [],
+      "farm": false
     },
     "cb1175ae-0559-49b2-abb1-0c3d014d777f": {
       "name": "Flintstone Flyer 2",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Flintstone Flyer",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6433",
+      "routes": [],
+      "farm": false
     },
     "ad61d7cd-920f-43cf-a072-fcaf5f01df08": {
       "name": "Smokerock Sifter 1",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Smokerock Sifter",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6402",
+      "routes": [],
+      "farm": false
     },
     "b8385c03-fd06-4bb6-8bfe-1c58962e0fad": {
       "name": "Beastfly 5",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6725",
+      "routes": [],
+      "farm": false
     },
     "4af821e0-5325-4d49-a752-43be562084da": {
       "name": "Beastfly 6",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6727",
+      "routes": [],
+      "farm": false
     },
     "477cce0f-0f7f-47da-ac86-b0c37d026bea": {
       "name": "Beastfly 7",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6723",
+      "routes": [],
+      "farm": false
     },
     "92095321-ecf6-444b-b2e0-1ce84f7a45a2": {
       "name": "Beastfly 8",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6726",
+      "routes": [],
+      "farm": false
     },
     "9973046f-d617-40d2-804a-befd08e6db3a": {
       "name": "Beastfly 9",
-      "node": "deep-docks/deep-docks-entrance#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-entrance#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/dock_08.bundle:6724",
+      "routes": [],
+      "farm": false
     },
     "5a3c87d9-280b-40df-959b-d9796a1abdbc": {
       "name": "Smelt Shoveller 1",
@@ -4704,11 +4763,593 @@
       "routes": [],
       "farm": false
     },
+    "d7e3888d-a06b-473e-b7af-8300bf644aac": {
+      "name": "Shardillard 1",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Shardillard",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12093",
+      "routes": [],
+      "farm": false
+    },
+    "45906b74-858e-4743-84e9-40e034784e2e": {
+      "name": "Hardbone Hopper 1",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Hardbone Hopper",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12194",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "0fc4189b-f5d9-4f9c-844b-09aeb8f443c6": {
+      "name": "Hardbone Hopper 2",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Hardbone Hopper",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12193",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "47932a48-1c0b-4937-9e23-504e860a3b2a": {
+      "name": "Smelt Shoveller 1",
+      "node": "deep-docks/deep-docks-spire-lower#top-left-entrance-path",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Smelt Shoveller",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12429",
+      "routes": [],
+      "farm": false
+    },
+    "91d29e75-2c0a-4d9a-9d2d-e68e96f71466": {
+      "name": "Skull Scuttler 1",
+      "node": "deep-docks/deep-docks-spire-lower#top-left-entrance-path",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skull Scuttler",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12273",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "71fe0088-f06f-449f-8fdd-0cb766faba4b": {
+      "name": "Smelt Shoveller 2",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Smelt Shoveller",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12430",
+      "routes": [],
+      "farm": false
+    },
+    "39c94190-7b4d-4156-a26b-efdd5024992f": {
+      "name": "Skull Brute 1",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "rest",
+      "species": "Skull Brute",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12085",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "193a83bf-9fb3-408a-971c-0378999d628c": {
+      "name": "Hardbone Hopper 3",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Hardbone Hopper",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12192",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "20c34fc1-1da6-4001-bba8-eba8e4d1ce70": {
+      "name": "Caranid 1",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12103",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "5bec1242-d67d-4dfb-b078-17f42e9ee232": {
+      "name": "Skull Scuttler 2",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skull Scuttler",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12274",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "9b4f1e35-2aa5-4322-bf31-65b006ab9969": {
+      "name": "Skarr Scout 1",
+      "node": "deep-docks/deep-docks-spire-lower#rosary",
+      "drops": "both",
+      "reset": "one-time",
+      "species": "Skarr Scout",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:11846",
+      "routes": [],
+      "farm": false
+    },
+    "144bb364-4f52-441f-b117-63a91bb7bba4": {
+      "name": "Hardbone Hopper 4",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Hardbone Hopper",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12195",
+      "routes": [],
+      "farm": false
+    },
+    "13969806-c684-4de2-9295-c8be19e6d1fd": {
+      "name": "Caranid 2",
+      "node": "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12101",
+      "routes": [],
+      "farm": false
+    },
+    "781480eb-9001-42ed-b6c0-a3b80d68ad7a": {
+      "name": "Skarr Scout 2",
+      "node": "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Scout",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:11845",
+      "routes": [],
+      "farm": false
+    },
+    "2f52b49b-8b38-4cd6-bcbc-886fc07839ba": {
+      "name": "Caranid 3",
+      "node": "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12100",
+      "routes": [],
+      "farm": false
+    },
+    "a8f28d45-0305-4456-8e7a-7f73fe6ca2f3": {
+      "name": "Vicious Caranid 1",
+      "node": "deep-docks/deep-docks-spire-lower#floor",
+      "drops": "shell_shards",
+      "reset": "rest",
+      "species": "Vicious Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12102",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "533a5fe6-6427-404d-a292-10f17ac6fd3e": {
+      "name": "Beastfly 1",
+      "node": "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Beastfly",
+      "native_source": "scenes_scenes_scenes/bone_east_03.bundle:12334",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "57368a41-32c8-4dc8-8d06-1e026e7929bb": {
+      "name": "Void Mass 1",
+      "node": "deep-docks/deep-docks-spire-lower#top-right-entrance-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "5ee5b76e-4a18-41ab-bf97-44e5336f037b": {
+      "name": "Skarrlid 1",
+      "node": "deep-docks/is-this-still-deep-docks-east#top",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrlid",
+      "native_source": "scenes_scenes_scenes/bone_east_04.bundle:4556",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "1884db5e-db82-4437-aca4-0c6996f1384d": {
+      "name": "Skarrlid 2",
+      "node": "deep-docks/is-this-still-deep-docks-east#upper",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrlid",
+      "native_source": "scenes_scenes_scenes/bone_east_04.bundle:4557",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "5cef8488-d6bd-4c8e-80dc-f372959a3ff2": {
+      "name": "Skarrwing 1",
+      "node": "deep-docks/is-this-still-deep-docks-east#top",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04.bundle:4777",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "ff7c85bb-e858-49a6-87fa-fe7cd34a9500": {
+      "name": "Skarrwing 2",
+      "node": "deep-docks/is-this-still-deep-docks-east#ground",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04.bundle:4778",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "ddbd7a41-10df-4b54-9481-d7a6055c4dbf": {
+      "name": "Skarrwing 3",
+      "node": "deep-docks/is-this-still-deep-docks-east#upper",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04.bundle:4779",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "3d0cab68-017d-42b2-bbf2-6d8540a63488": {
+      "name": "Skarrwing 1",
+      "node": "deep-docks/is-this-still-deep-docks-west#side-room",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04b.bundle:4100",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "20c19f83-ebbc-42f0-a646-bf7859a8a210": {
+      "name": "Skarrwing 2",
+      "node": "deep-docks/is-this-still-deep-docks-west#main-area",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04b.bundle:4102",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "c345d8c9-1050-4606-8217-e68a1038a236": {
+      "name": "Skarrwing 3",
+      "node": "deep-docks/is-this-still-deep-docks-west#ground",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04b.bundle:4101",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "d0758e8a-849e-44b1-8034-81ef9d0cdeb4": {
+      "name": "Skarrwing 4",
+      "node": "deep-docks/is-this-still-deep-docks-west#ground",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Skarrwing",
+      "native_source": "scenes_scenes_scenes/bone_east_04b.bundle:4099",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
     "610a631c-f633-4182-87b0-7862e26f771f": {
       "name": "wardenfly",
       "node": "deep-docks/deep-docks-march-side-room#room",
       "drops": "unknown",
       "reset": "unverified"
+    },
+    "070b5580-a34b-4271-9416-f7c1915778c4": {
+      "name": "Skarr Scout 1",
+      "node": "deep-docks/deep-docks-march-side-room#room",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Scout",
+      "native_source": "scenes_scenes_scenes/bone_east_04c.bundle:2691",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": true
+    },
+    "e1b66455-eda2-4a33-9c9b-fdca6f51bcc0": {
+      "name": "Spear Skarr 1",
+      "node": "deep-docks/deep-docks-march-side-room#room",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Spear Skarr",
+      "native_source": "scenes_scenes_scenes/bone_east_04c.bundle:2710",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": true
+    },
+    "f85018f3-e762-4b71-8847-697d4fff5d9d": {
+      "name": "Smelt Shoveller 1",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Smelt Shoveller",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:10064",
+      "routes": [],
+      "farm": false
+    },
+    "3dfe7de9-2fd3-47aa-b2f5-d8c9d494c85b": {
+      "name": "Skarr Stalker 1",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Stalker",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9768",
+      "routes": [],
+      "farm": false
+    },
+    "22faa8c4-0b5f-4a2e-aaaf-56b91a1a00b0": {
+      "name": "Skarr Scout 1",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Scout",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9631",
+      "routes": [],
+      "farm": false
+    },
+    "7244e4f0-0cff-4200-8182-885da96ecf4d": {
+      "name": "Caranid 1",
+      "node": "deep-docks/deep-docks-upper-spire#right-exit-platform",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9772",
+      "routes": [],
+      "farm": false
+    },
+    "480f18ad-751e-4969-a8d3-7aad42aef2aa": {
+      "name": "Caranid 2",
+      "node": "deep-docks/deep-docks-upper-spire#right-exit-platform",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Caranid",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9771",
+      "routes": [],
+      "farm": false
+    },
+    "07bd66a9-e3d8-4181-8d8a-7bdb82bde4b5": {
+      "name": "Skarr Scout 2",
+      "node": "deep-docks/deep-docks-upper-spire#right-exit-platform",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Scout",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9632",
+      "routes": [],
+      "farm": false
+    },
+    "c6809501-d30e-481a-8013-a71d7eefacb3": {
+      "name": "Void Mass 1",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "2e73083a-caa9-42db-a8c7-40b812aa9416": {
+      "name": "Spear Skarr 1",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Spear Skarr",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9743",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": true
+    },
+    "80a36322-756d-4efd-acfd-95be94d762c8": {
+      "name": "Skarr Stalker 2",
+      "node": "deep-docks/deep-docks-upper-spire#spire",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Skarr Stalker",
+      "native_source": "scenes_scenes_scenes/bone_east_05.bundle:9767",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": true
     },
     "51c6b7fd-2fd6-4636-90de-5ed99385b9f3": {
       "name": "Smokerock Sifter 1",
@@ -9367,7 +10008,7 @@
     },
     "e2109861-fa7c-48c6-8ebe-1db86e3155b0": {
       "name": "Craw Juror 1",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#middle-craw-nest",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9377,7 +10018,7 @@
     },
     "c760a08e-b81f-4c21-9bfe-10d7dc2501e5": {
       "name": "Craw Juror 2",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#lower-left-section",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9387,7 +10028,7 @@
     },
     "4ca32e55-d2e7-445e-b9f4-dad783e9b734": {
       "name": "Craw Juror 3",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#craw-building-lower-right",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9397,7 +10038,7 @@
     },
     "7c7f0997-e29f-4eec-be1e-b2fd928276de": {
       "name": "Craw Juror 4",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#craw-building-lower-right",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9407,7 +10048,7 @@
     },
     "b2997f45-44a2-4d45-81f5-bd77e6398af6": {
       "name": "Craw Juror 5",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#lower-left-section",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9417,7 +10058,7 @@
     },
     "6e0b5e9b-7d31-4d5a-8940-d532fa8df15b": {
       "name": "Craw Juror 6",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#middle-craw-nest",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9427,7 +10068,7 @@
     },
     "d8f3a5dc-7f61-46cb-8385-d3369304275f": {
       "name": "Craw Juror 7",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#right-top-craw-nest",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9437,7 +10078,7 @@
     },
     "44660dcf-8d47-4c23-b505-61d2670be4fe": {
       "name": "Craw Juror 8",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#upper-craw-nest",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9447,7 +10088,7 @@
     },
     "f0cf1cf5-64e2-4c4f-9b36-85b2b911b18c": {
       "name": "Craw Juror 9",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#small-ass-platform",
       "drops": "both",
       "reset": "scene",
       "species": "Craw Juror",
@@ -9467,7 +10108,7 @@
     },
     "f0186c93-b593-44ee-9c19-3acd9eb747f5": {
       "name": "Craw 2",
-      "node": "greymoor/greymoor-craw-lake#unassigned",
+      "node": "greymoor/greymoor-craw-lake#right-top-craw-nest",
       "drops": "both",
       "reset": "scene",
       "species": "Craw",
@@ -11833,6 +12474,197 @@
       "drops": "unknown",
       "reset": "unverified"
     },
+    "c0341372-ef16-47d2-9861-19c374ce502b": {
+      "name": "Burning Bug 1",
+      "node": "wisp-thicket/eastern-wisp-thicket#middle-section",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Burning Bug",
+      "native_source": "scenes_scenes_scenes/wisp_07.bundle:9567",
+      "routes": [],
+      "farm": false
+    },
+    "9680e36c-28ea-44a9-b98d-32e70d30be09": {
+      "name": "Burning Bug 2",
+      "node": "wisp-thicket/eastern-wisp-thicket#left-section",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Burning Bug",
+      "native_source": "scenes_scenes_scenes/wisp_07.bundle:9568",
+      "routes": [],
+      "farm": false
+    },
+    "35a93c08-71b1-4442-a941-72293f169405": {
+      "name": "Farmer Wisp Immolater Variant 1",
+      "node": "wisp-thicket/eastern-wisp-thicket#middle-section",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "30377e7f-e7ed-4658-9552-d58b0ad42873": {
+      "name": "Farmer Wisp Immolater Variant (1) 1",
+      "node": "wisp-thicket/eastern-wisp-thicket#left-section",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "b58780c7-dfd9-423c-b83f-ac2c3067f09f": {
+      "name": "Wisp Lantern",
+      "node": "wisp-thicket/eastern-wisp-thicket#middle-section",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "de13e2e1-376c-4bf4-9c8c-a4d15000601c": {
+      "name": "Wisp Summon",
+      "node": "wisp-thicket/eastern-wisp-thicket#left-section",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "eaea1710-f004-4135-b406-bdc610486b29": {
+      "name": "Wisp 1",
+      "node": "wisp-thicket/wisp-thicket-shaft#top",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "e10c96d2-5c81-43c2-8d68-b49ed0c3bc1c": {
+      "name": "Wisp 2",
+      "node": "wisp-thicket/wisp-thicket-shaft#low-wisp-platform",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "ac92eb53-fc04-48b9-a144-fe6fa861fe15": {
+      "name": "Wisp 3",
+      "node": "wisp-thicket/wisp-thicket-shaft#middle-wisp-platform",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "cab62c07-303b-45c4-8438-ac9c8b190e90": {
+      "name": "Burning Bug 1",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Burning Bug",
+      "native_source": "scenes_scenes_scenes/wisp_02.bundle:10327",
+      "routes": [],
+      "farm": false
+    },
+    "3772958b-a3d1-41b4-8a70-4af0623db15d": {
+      "name": "Burning Bug 2",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Burning Bug",
+      "native_source": "scenes_scenes_scenes/wisp_02.bundle:10328",
+      "routes": [],
+      "farm": false
+    },
+    "bd62d6ff-ef2c-4844-8126-775b9176fad1": {
+      "name": "Burning Bug 3",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "both",
+      "reset": "rest",
+      "species": "Burning Bug",
+      "native_source": "scenes_scenes_scenes/wisp_02.bundle:10326",
+      "routes": [],
+      "farm": false
+    },
+    "5ed8cf41-9ee7-45bc-bf57-1678c1b71548": {
+      "name": "Farmer Wisp Immolater Variant 1",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "6892911a-7ac8-4503-8e88-088e5e299f60": {
+      "name": "Farmer Wisp Immolater Variant (2) 1",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "48959df1-527e-4961-b438-67634febee69": {
+      "name": "Farmer Wisp Immolater Variant (3) 1",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "4f786c8e-e768-4ff9-af6b-99c31b1e2820": {
+      "name": "Wisp 1",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "dbbfefa1-c51c-4f66-b6b3-a93247a7a38b": {
+      "name": "Wisp 2",
+      "node": "wisp-thicket/wisp-thicket-grounds#main-path",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "ae286632-9172-4f7c-9cb3-9417ee155f73": {
+      "name": "Pharlid Diver 1",
+      "node": "wisp-thicket/wisp-thicket-cave#middle-platform",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Pharlid Diver",
+      "native_source": "scenes_scenes_scenes/wisp_09.bundle:3132",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "b56b167a-6e15-42fd-adde-3185279b8647": {
+      "name": "Pharlid Diver 2",
+      "node": "wisp-thicket/wisp-thicket-cave#right-section",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Pharlid Diver",
+      "native_source": "scenes_scenes_scenes/wisp_09.bundle:3131",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "32c59996-62af-4f3b-8891-d34456490a79": {
+      "name": "Pharlid 1",
+      "node": "wisp-thicket/wisp-thicket-cave#why-2-rooms-can-reach-this",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "species": "Pharlid",
+      "native_source": "scenes_scenes_scenes/wisp_09.bundle:3218",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "399c5eda-e776-4279-a0f0-ba20a4913047": {
+      "name": "Clover Dancers 1",
+      "node": "verdania/clover-dancers#clover-dancers",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
+    "f7ff1826-8efc-46f1-92a2-82bd5666acf9": {
+      "name": "Clover Dancers 2",
+      "node": "verdania/clover-dancers#clover-dancers",
+      "drops": "unknown",
+      "reset": "unverified"
+    },
     "95280a18-b64c-4b86-b2d5-d1242072b536": {
       "name": "Nuphar 1",
       "node": "verdania/clover-dancers#lore-room",
@@ -13289,8 +14121,17 @@
       "reset": "rest",
       "species": "Judge",
       "native_source": "scenes_scenes_scenes/coral_02.bundle:13363",
-      "routes": [],
-      "farm": false
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": true
     },
     "2f3c316e-a061-47a5-8975-442e9995d2d0": {
       "name": "Pilgrim Hiker 1",
@@ -13299,8 +14140,17 @@
       "reset": "rest",
       "species": "Pilgrim Hiker",
       "native_source": "scenes_scenes_scenes/coral_02.bundle:13885",
-      "routes": [],
-      "farm": false
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": true
     },
     "30fc0431-c4fd-406d-b4ad-f30e9b75fd7e": {
       "name": "Pilgrim Hiker 2",
@@ -13309,8 +14159,19 @@
       "reset": "rest",
       "species": "Pilgrim Hiker",
       "native_source": "scenes_scenes_scenes/coral_02.bundle:13886",
-      "routes": [],
-      "farm": false
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": true
     },
     "3eb110b4-798c-4973-89b3-7a7c4143c66f": {
       "name": "Driznit 1",
@@ -13462,7 +14323,16 @@
       "reset": "rest",
       "species": "Driznit",
       "native_source": "scenes_scenes_scenes/coral_03.bundle:9864",
-      "routes": [],
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "bd29852d-c1c2-4ff2-b1a4-d2be8fac1624": {
@@ -13661,8 +14531,17 @@
       "reset": "rest",
       "species": "Judge",
       "native_source": "scenes_scenes_scenes/coral_32.bundle:12857",
-      "routes": [],
-      "farm": false
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": true
     },
     "4b1d4242-5e95-4788-9552-64a98eef9b8c": {
       "name": "Void Mass 1",
@@ -14453,6 +15332,16 @@
       "drops": "unknown",
       "reset": "unverified"
     },
+    "41461399-47cd-4349-a582-331ad33d6733": {
+      "name": "Choir Bellbearer 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Choir Bellbearer",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:11244",
+      "routes": [],
+      "farm": false
+    },
     "40823344-b91a-427e-acdd-e942f748ffb5": {
       "name": "Choir Bellbearer 2",
       "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
@@ -14474,6 +15363,46 @@
       ],
       "farm": true
     },
+    "3cff5677-cabf-4e22-9742-ff1f0dfd859e": {
+      "name": "Choir Flyer 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Choir Flyer",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:11245",
+      "routes": [],
+      "farm": false
+    },
+    "f5cb50ed-7b29-4945-914f-aa8fc88b133a": {
+      "name": "Choir Pouncer 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Choir Pouncer",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10937",
+      "routes": [],
+      "farm": false
+    },
+    "8507d4ef-d7bd-4891-927a-5cc1dc9d6b96": {
+      "name": "Choristor 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Choristor",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10673",
+      "routes": [],
+      "farm": false
+    },
+    "5e986553-1841-4a03-8660-84e5d9a43230": {
+      "name": "Choristor 2",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Choristor",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10674",
+      "routes": [],
+      "farm": false
+    },
     "4a83c9a4-4e54-4c07-91d8-b9af4de50cc7": {
       "name": "Choristor 4",
       "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
@@ -14481,6 +15410,26 @@
       "reset": "rest",
       "species": "Choristor",
       "native_source": "scenes_scenes_scenes/song_04.bundle:10676",
+      "routes": [],
+      "farm": false
+    },
+    "a4acc5e1-5f3a-4a2a-b23d-2be828f7adac": {
+      "name": "Clawmaiden 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Clawmaiden",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10960",
+      "routes": [],
+      "farm": false
+    },
+    "9317483e-cd7b-4204-b59f-039b108a6e3e": {
+      "name": "Clawmaiden 2",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "species": "Clawmaiden",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10961",
       "routes": [],
       "farm": false
     },
@@ -14501,6 +15450,36 @@
           ]
         }
       ],
+      "farm": false
+    },
+    "543b0bd5-644b-4cdf-8e6d-674cf86914ab": {
+      "name": "Reed 1",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Reed",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10671",
+      "routes": [],
+      "farm": false
+    },
+    "864918ab-b58d-4f90-9710-d645a8d037d9": {
+      "name": "Reed 2",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Reed",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10677",
+      "routes": [],
+      "farm": false
+    },
+    "f38bfe2d-7e42-4044-acee-ac826245954f": {
+      "name": "Reed 3",
+      "node": "choral-chambers/choral-chambers-outside-spa#gauntlet",
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Reed",
+      "native_source": "scenes_scenes_scenes/song_04.bundle:10670",
+      "routes": [],
       "farm": false
     },
     "77ee299e-82a9-453a-9476-5c0c12bf36e3": {
@@ -15178,7 +16157,7 @@
     },
     "86c51b1f-4e73-49cd-bf92-ac994f49df95": {
       "name": "Choir Bellbearer 2",
-      "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+      "node": "choral-chambers/choral-chambers-eastern-shaft#section-1",
       "drops": "both",
       "reset": "one-time",
       "species": "Choir Bellbearer",
@@ -15287,7 +16266,7 @@
     },
     "317ed5e9-8e7a-4ee1-a06c-e13c919e5357": {
       "name": "Reed 2",
-      "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+      "node": "choral-chambers/choral-chambers-eastern-shaft#section-1",
       "drops": "both",
       "reset": "rest",
       "species": "Reed",
@@ -15337,7 +16316,7 @@
     },
     "99f8bdde-8db0-47a2-a165-6506b98d0d8f": {
       "name": "Reed 5",
-      "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+      "node": "choral-chambers/choral-chambers-eastern-shaft#section-1",
       "drops": "both",
       "reset": "rest",
       "species": "Reed",
@@ -15358,7 +16337,7 @@
     },
     "c0896d26-9e41-4cde-b893-8b3835be204e": {
       "name": "Void Mass 1",
-      "node": "choral-chambers/choral-chambers-eastern-shaft#section-2",
+      "node": "choral-chambers/choral-chambers-eastern-shaft#section-1",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -18731,7 +19710,7 @@
     },
     "3401a2d9-8296-4443-aa3a-6bf33d180175": {
       "name": "Miremite 1",
-      "node": "bilewater/bilewater-spike-ball-ceiling-trap-room#unassigned",
+      "node": "bilewater/bilewater-spike-ball-ceiling-trap-room#lower",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -18908,7 +19887,7 @@
     },
     "83e0efe0-55fb-488e-817e-39791023756f": {
       "name": "Miremite 1",
-      "node": "bilewater/bilewater-upper-east-column#unassigned",
+      "node": "bilewater/bilewater-upper-east-column#up-left-door",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -23281,14 +24260,14 @@
               "mapper:cling-grip-direction:left",
               "mapper:clawline:right:1",
               "mapper:clawline:left:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:left",
               "item:faydown-cloak",
               "item:drifters-cloak",
               "mapper:dash-direction:right",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "item:silk-soar"
@@ -23315,14 +24294,14 @@
               "mapper:cling-grip-direction:left",
               "mapper:clawline:right:1",
               "mapper:clawline:left:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:left",
               "item:faydown-cloak",
               "item:drifters-cloak",
               "mapper:dash-direction:right",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "item:silk-soar"
@@ -23349,14 +24328,14 @@
               "mapper:cling-grip-direction:left",
               "mapper:clawline:right:1",
               "mapper:clawline:left:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:left",
               "item:faydown-cloak",
               "item:drifters-cloak",
               "mapper:dash-direction:right",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "item:silk-soar"
@@ -23385,13 +24364,13 @@
             [
               "mapper:cling-grip-direction:both",
               "mapper:clawline:both:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
               "item:drifters-cloak",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ]
           ]
         }
@@ -23417,13 +24396,13 @@
             [
               "mapper:cling-grip-direction:both",
               "mapper:clawline:both:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
               "item:drifters-cloak",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ]
           ]
         }
@@ -23449,13 +24428,13 @@
             [
               "mapper:cling-grip-direction:both",
               "mapper:clawline:both:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
               "item:drifters-cloak",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ]
           ]
         }
@@ -23481,13 +24460,13 @@
             [
               "mapper:cling-grip-direction:both",
               "mapper:clawline:both:1",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ],
             [
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
               "item:drifters-cloak",
-              "mapper:enemy-type-pogo:Peaks Drifter:easy"
+              "mapper:enemy-type-pogo:Peaks Drifter:none"
             ]
           ]
         }
@@ -24088,30 +25067,39 @@
     },
     "021aa6cb-0577-4b82-9238-f69c1b87f26e": {
       "name": "Barnak 1",
-      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#unassigned",
+      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#shell-shard-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "53ac9b03-cc32-437a-af67-d4eb5979736b": {
       "name": "Barnak 2",
-      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#unassigned",
+      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#upper-hub-zone",
       "drops": "unknown",
       "reset": "unverified"
     },
     "8b2b9eb0-e7b4-432c-ac48-5c665b17382a": {
       "name": "Barnak 3",
-      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#unassigned",
+      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#shell-shard-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "a6a59806-6c6a-4372-9ec2-7d80956d6bac": {
       "name": "Ductsucker 1",
-      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#unassigned",
+      "node": "putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
       "drops": "shell_shards",
       "reset": "rest",
       "species": "Ductsucker",
       "native_source": "scenes_scenes_scenes/aqueduct_04.bundle:8960",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "01c495a1-8b36-4a8a-9dc5-401798952f81": {
@@ -24379,81 +25367,126 @@
     },
     "bb55c267-5043-4eef-b97f-fb2799069e94": {
       "name": "Barnak 1",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
       "drops": "unknown",
       "reset": "unverified"
     },
     "922594cd-dacd-4698-b51b-f7d643b0eeb7": {
       "name": "Ductsucker 1",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#centre-bridge",
       "drops": "shell_shards",
       "reset": "rest",
       "species": "Ductsucker",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11812",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "80d5799b-4f9b-4698-a579-79ce69d3c1c2": {
       "name": "Barnak 2",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#left-bridge",
       "drops": "unknown",
       "reset": "unverified"
     },
     "e1ac9860-5e45-4282-95b4-11c33645d2ba": {
       "name": "Ductsucker 2",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
       "drops": "shell_shards",
       "reset": "rest",
       "species": "Ductsucker",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11813",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "bb20d6cf-d02b-4499-9218-a3e5ffae9959": {
       "name": "Ductsucker 3",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#left-bridge",
       "drops": "shell_shards",
       "reset": "rest",
       "species": "Ductsucker",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11814",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "a81e8921-b1dd-470e-b3cf-67de34172b05": {
       "name": "Barnak 3",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ed3a88f4-0425-4ed1-b7d5-3086a67bae72": {
       "name": "Barnak 4",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#ceiling-exit",
       "drops": "unknown",
       "reset": "unverified"
     },
     "89e62c5d-8ffe-4c6a-b115-3a7fe749d019": {
       "name": "Spit Squit 1",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11313",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "92ac03eb-8b89-45f7-bd62-9833b31d5adb": {
       "name": "Spit Squit 2",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#ceiling-exit",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11314",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "8a8b32f2-9e17-4951-ab6d-2e76c9517b5b": {
       "name": "Spit Squit 3",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#centre-bridge",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
@@ -24463,32 +25496,59 @@
     },
     "bf37b7db-6473-460c-b171-1b8bfbba3244": {
       "name": "Spit Squit 4",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#exit-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11315",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "6caa85df-6435-4b55-a407-2b3c49eed83d": {
       "name": "Spit Squit 5",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#left-entrance",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11317",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "fb089407-7f65-4df9-b16d-8ce807998876": {
       "name": "Spit Squit 6",
-      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-lower-bridge-room#centre-bridge",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_03.bundle:11312",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "ca2bded3-e599-4f01-832b-6b34356d6df6": {
@@ -24505,70 +25565,125 @@
     },
     "0069fdd3-2757-415e-8383-b74841b4e965": {
       "name": "Barnak 1",
-      "node": "putrified-ducts/putrified-ducts-path-to-vog#unassigned",
+      "node": "putrified-ducts/putrified-ducts-path-to-vog#main",
       "drops": "unknown",
       "reset": "unverified"
     },
     "25615af7-b401-4cc5-9145-541ac099fae1": {
       "name": "Barnak 2",
-      "node": "putrified-ducts/putrified-ducts-path-to-vog#unassigned",
+      "node": "putrified-ducts/putrified-ducts-path-to-vog#main",
       "drops": "unknown",
       "reset": "unverified"
     },
     "57f7d572-7fec-47a1-b253-7fe2f66179b9": {
       "name": "Barnak 3",
-      "node": "putrified-ducts/putrified-ducts-path-to-vog#unassigned",
+      "node": "putrified-ducts/putrified-ducts-path-to-vog#main",
       "drops": "unknown",
       "reset": "unverified"
     },
     "856fcaa0-ae9e-40ae-bdb5-42766cb3ec26": {
       "name": "Barnak 4",
-      "node": "putrified-ducts/putrified-ducts-path-to-vog#unassigned",
+      "node": "putrified-ducts/putrified-ducts-path-to-vog#top",
       "drops": "unknown",
       "reset": "unverified"
     },
     "dccb05e0-b44c-4977-a061-1d183a00b60a": {
       "name": "Barnak 5",
-      "node": "putrified-ducts/putrified-ducts-path-to-vog#unassigned",
+      "node": "putrified-ducts/putrified-ducts-path-to-vog#main",
       "drops": "unknown",
       "reset": "unverified"
     },
     "c4b059fc-6d1a-4b81-8b07-13f69e7a3175": {
       "name": "Barnak 1",
-      "node": "putrified-ducts/putrified-ducts-rosary-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-rosary-room#right",
       "drops": "unknown",
       "reset": "unverified"
     },
     "1f09526a-6ae0-456b-8f5f-881ba171901d": {
       "name": "Barnak 1",
-      "node": "putrified-ducts/putrified-ducts-tall-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-tall-room#middle-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "8f043390-da3b-469c-84d1-a4c62be5c2d7": {
       "name": "Barnak 2",
-      "node": "putrified-ducts/putrified-ducts-tall-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-tall-room#middle-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "5eb69f52-6df2-4932-b4b7-8f186d8eb24d": {
       "name": "Spit Squit 1",
-      "node": "putrified-ducts/putrified-ducts-tall-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-tall-room#middle-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_02.bundle:5896",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "mapper:enemy-type-pogo:Swamp Mosquito Skinny:hard"
+            ],
+            [
+              "item:silk-soar"
+            ],
+            [
+              "item:faydown-cloak"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:ledge-grab-direction:left"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:beast-crest-needle-strike:easy"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:heal-stall:easy",
+              "mapper:beast-crest-pogo:easy"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:shaman-crest-pogo:easy"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:cling-grip-direction:left"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:plasmium-phial-stall:easy"
+            ],
+            [
+              "mapper:cling-grip-direction:right",
+              "mapper:voltvessels-stall:hard"
+            ]
+          ]
+        }
+      ],
       "farm": false
     },
     "c7dda422-2da0-4c1c-9950-fea1d9f29d86": {
       "name": "Spit Squit 2",
-      "node": "putrified-ducts/putrified-ducts-tall-room#unassigned",
+      "node": "putrified-ducts/putrified-ducts-tall-room#middle-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Spit Squit",
       "native_source": "scenes_scenes_scenes/aqueduct_02.bundle:5895",
-      "routes": [],
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
       "farm": false
     },
     "1ea61af3-c93b-42e0-a555-7c42dfd137e2": {
