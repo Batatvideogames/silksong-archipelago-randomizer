@@ -181,7 +181,7 @@ namespace SilksongRandomizer.Patches
         }
 
         [HarmonyPatch(typeof(ToolItemManager), nameof(ToolItemManager.TryReplenishTools))]
-        private static class ConsumableTool_InfiniteFleaBrewPatch
+        private static class ConsumableTool_InfiniteRefillsPatch
         {
             private static void Prefix()
             {
@@ -191,10 +191,15 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                // This should be technically useable for any tool but since it's purpose is just for Flea Brew right now I've named it accordingly.
-                ToolItemStatesLiquid fleaBrew = ToolItemManager.GetToolByName(FleaBrewToolName) as ToolItemStatesLiquid;
-                fleaBrew?.RefillRefills(false);
+                RefillInfinite(FleaBrewToolName);
+                RefillInfinite(PlasmiumPhialToolName);
             }
+        }
+
+        private static void RefillInfinite(string toolName)
+        {
+            ToolItemStatesLiquid tool = ToolItemManager.GetToolByName(toolName) as ToolItemStatesLiquid;
+            tool?.RefillRefills(false);
         }
     }
 }
