@@ -6,6 +6,27 @@ using HarmonyLib;
 
 namespace SilksongRandomizer.Patches
 {
+    [HarmonyPatch(typeof(HeroController), "Update")]
+    internal static class InnateAbilityBilewaterGroundPatch
+    {
+        private static void Postfix(HeroController __instance)
+            => InnateAbilityManager.RememberBilewaterGround(__instance);
+    }
+
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.BeginSceneTransition))]
+    internal static class InnateAbilityBilewaterDeparturePatch
+    {
+        private static void Prefix(GameManager.SceneLoadInfo info)
+            => InnateAbilityManager.RecordBilewaterDeparture(info);
+    }
+
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.HazardRespawn))]
+    internal static class InnateAbilityBilewaterRespawnPatch
+    {
+        private static bool Prefix(GameManager __instance)
+            => !InnateAbilityManager.RestoreBilewaterApproach(__instance);
+    }
+
     [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.CheckIsClamberBlocked), "get_IsTrue")]
     internal static class InnateAbilitySprintVaultPatch
     {

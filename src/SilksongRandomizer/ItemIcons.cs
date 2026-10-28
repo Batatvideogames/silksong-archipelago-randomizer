@@ -302,6 +302,7 @@ namespace SilksongRandomizer
                 case "Materium": collectableName = "Materium"; break;
                 case "Diving Bell Key": collectableName = "Dock Key"; break;
                 case "Simple Key": collectableName = "Simple Key"; break;
+                case "Silkeater": collectableName = "Silk Grub"; break;
             }
             if (rawName == "Flintstone" || rawName == "Magnetite")
             {

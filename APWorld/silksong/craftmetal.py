@@ -478,8 +478,8 @@ def audit_craftmetal_spending(multiworld, worlds, *, finalized=True, base_state=
 def validate_native_supply(world, state):
     from Options import OptionError
 
-    if (world.options.accessibility != 'full' or world.get_category_mode('Tool') != 'vanilla'
-            or world.get_category_mode('Craftmetal') != 'vanilla'):
+    if (world.options.accessibility == 'minimal' or world.get_category_mode('Craftmetal') != 'vanilla'
+            or world.options.accessibility != 'full' and world.get_category_mode('Tool') != 'vanilla'):
         return
     purchases = {location.name for location in world.get_locations()
                  if location.name in CRAFTMETAL_PURCHASE_LOCATIONS and location.can_reach(state)}
@@ -488,8 +488,27 @@ def validate_native_supply(world, state):
     available = state.count(CRAFTMETAL_ITEM, world.player)
     if available >= needed:
         return
+    if world.options.accessibility != 'full':
+        multiworld = world.multiworld
+        audit = SpendingAudit(multiworld, [world])
+        assumed = CollectionState(multiworld)
+        for item in multiworld.itempool:
+            multiworld.worlds[item.player].collect(assumed, item)
+        for player in multiworld.player_ids:
+            for item in multiworld.worlds[player].get_pre_fill_items():
+                multiworld.worlds[item.player].collect(assumed, item)
+        # Give movable rewards up front, fixed local purchases still cost metal.
+        for location in audit.locations:
+            if location in audit.indices:
+                continue
+            if location.player != world.player or location.address is not None:
+                assumed.collect(location.item, True, location)
+                assumed.advancements.add(location)
+        failure = audit.run(assumed)
+        if failure is None or failure.exhausted:
+            return
     raise OptionError(
-        f'Player {world.player}: reachable vanilla purchases can spend {needed} Craftmetals, '
+        f'Player {world.player}: reachable purchases can spend {needed} Craftmetals, '
         f'but only {available} are obtainable with these settings. '
         f'Enable Craftmetal Randomization or add {needed - available} Craftmetal to Start Inventory.'
     )

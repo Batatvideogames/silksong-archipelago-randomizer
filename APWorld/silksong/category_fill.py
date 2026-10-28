@@ -683,24 +683,30 @@ def _reserve_solo_opening(world, pool, locations, *, minimum_gain=2):
     return reserved
 
 
+def validate_goal(world, all_state):
+    if not world.multiworld.has_beaten_game(all_state, world.player):
+        blocked = [f'{location.item.name} at {location.name}' for location in world.get_locations()
+                   if location.name in world.location_name_to_id and location.locked and location.item is not None
+                   and location.item.advancement and not location.can_reach(all_state)]
+        detail = (' Blocked fixed rewards: ' + ', '.join(blocked[:8]) + '.') if blocked else ''
+        raise OptionError(
+            f'Player {world.player}: the goal cannot be reached with all available items under the current mapped logic. '
+            'Check vanilla ability settings and fixed reward access before generating again.'
+            + detail
+        )
+
+
 def fill_solo_progression(world, progression, locations):
     from Fill import FillError, fill_restrictive, sweep_from_pool
     from .requirement_rules import _invalidate_native_source_player
 
     multiworld = world.multiworld
+    if world is next(iter(multiworld.get_game_worlds(world.game))):
+        all_state = multiworld.get_all_state()
+        for candidate in multiworld.get_game_worlds(world.game):
+            validate_goal(candidate, all_state)
     if multiworld.players != 1 or multiworld.groups or not progression:
         return
-    all_state = multiworld.get_all_state()
-    if not multiworld.has_beaten_game(all_state, world.player):
-        blocked = [f'{location.item.name} at {location.name}' for location in world.get_locations()
-                   if location.name in world.location_name_to_id and location.locked and location.item is not None
-                   and location.item.advancement and not location.can_reach(all_state)]
-        detail = (' Blocked fixed rewards: ' + '; '.join(blocked[:8]) + '.') if blocked else ''
-        raise OptionError(
-            'The goal cannot be reached with all available items under the current mapped logic. '
-            'Check vanilla ability settings and fixed reward access before generating again.'
-            + detail
-        )
     if world.options.accessibility == 'full':
         unreachable = [location.name for location in world.get_locations()
                        if location.name in world.location_name_to_id and not location.can_reach(all_state)]
@@ -797,6 +803,61 @@ def fill_solo_progression(world, progression, locations):
                     _invalidate_native_source_player(multiworld, world.player)
     if failure is not None:
         raise failure
+
+
+def fill_multiworld_progression(multiworld, game_name, progression, locations):
+    from Fill import FillError, accessibility_corrections, fill_restrictive, sweep_from_pool
+    from .items import item_name_groups
+
+    if (multiworld.players < 2 or multiworld.groups or not progression
+            or any(world.game != game_name for world in multiworld.worlds.values())
+            or any(location.progress_type == LocationProgressType.PRIORITY for location in locations)):
+        return
+    available = [location for location in locations
+                 if location.progress_type == LocationProgressType.DEFAULT]
+    pool = list(progression)
+    filled = False
+    seen = set()
+    swaps = 0
+
+    class RetryFill(Exception):
+        pass
+
+    def placed(location):
+        nonlocal swaps
+        if location in seen:
+            swaps += 1
+            if swaps > max(8, 2 * multiworld.players):
+                raise RetryFill()
+        seen.add(location)
+
+    try:
+        fill_restrictive(multiworld, sweep_from_pool(multiworld.state), available[:], pool,
+                         on_place=placed, name="Silksong progression")
+        filled = not pool
+    except (RetryFill, FillError):
+        pass
+    finally:
+        if not filled:
+            for location in available:
+                if location.item is not None:
+                    location.item.location = None
+                    location.item = None
+    if filled:
+        progression.clear()
+        remaining = [location for location in available if location.item is None]
+        accessibility_corrections(multiworld, multiworld.state, remaining)
+        locations[:] = [location for location in locations
+                        if location.progress_type != LocationProgressType.DEFAULT] + remaining
+        return
+    # Leave movement for the opening when the usual order gets stuck.
+    movement = item_name_groups["Skills"] | item_name_groups["Innate Abilities"]
+    for player in multiworld.player_ids:
+        indices = [index for index, item in enumerate(progression) if item.player == player]
+        ordered = sorted((progression[index] for index in indices),
+                         key=lambda item: item.name not in movement)
+        for index, item in zip(indices, ordered):
+            progression[index] = item
 
 
 def _validate_unrestricted_opening(multiworld, game_name):

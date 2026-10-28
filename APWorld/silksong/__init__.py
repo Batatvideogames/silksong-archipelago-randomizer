@@ -1986,6 +1986,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .category_fill import fill_solo_progression
 
         fill_solo_progression(self, progitempool, fill_locations)
+        if self.player == self.multiworld.player_ids[-1]:
+            from .category_fill import fill_multiworld_progression
+            fill_multiworld_progression(self.multiworld, self.game, progitempool, fill_locations)
 
     @classmethod
     def _build_crest_slot_budget_state(cls, multiworld, excluded_slots, base_state=None):
