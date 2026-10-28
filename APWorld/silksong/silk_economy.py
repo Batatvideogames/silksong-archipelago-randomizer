@@ -96,6 +96,7 @@ def _refills(world, graph):
     from .room_graph_logic import compile_transition_requirements, _compile_spec
     from .requirements import _compiled_room_clause_requirement, req
     from .entrance_randomization import enabled, scoped_pool, scope, members
+    from .rosary_economy import gate as rosary_gate
 
     names = enabled_enemies(world)
     mapped = pogo_graph(names)
@@ -119,6 +120,8 @@ def _refills(world, graph):
                 continue
             outward = [clean(_compiled_room_clause_requirement(c)) for c in compile_transition_requirements(port, include_source=False, silk_costs=True) if not c.silk_cost]
             inward = [clean(_compiled_room_clause_requirement(c)) for c in compile_transition_requirements(back, include_source=False, silk_costs=True) if not c.silk_cost]
+            outward = rosary_gate(world, outward, anchor='Room Node: ' + port.source_node_id)
+            inward = rosary_gate(world, inward, anchor='Room Node: ' + back.source_node_id)
             if outward and inward:
                 exits.append((port.id, port.source_node_id, outward, inward))
         for index, (port_id, anchor, outward, inward) in enumerate(exits):
@@ -218,10 +221,12 @@ def export_world(world, slot_data):
         return
     from .requirements import _export_requirement_group
     from .entrance_randomization import node_overrides
+    from .rosary_economy import gate as rosary_gate
     graph = dict(world._silksong_native_abstract_requirements)
     disconnected = node_overrides(world) or {}
     for node, incoming in (node_overrides(world, connected=True) or {}).items():
         added = tuple(rule for rule in incoming if rule not in disconnected[node])
+        added = rosary_gate(world, added)
         graph[node] = tuple(dict.fromkeys((*graph[node], *(gate(rule) for rule in added))))
         for amount in range(1, MAX_SILK + 1):
             transfers = []

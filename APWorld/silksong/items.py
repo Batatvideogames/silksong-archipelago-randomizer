@@ -1694,6 +1694,15 @@ def build_item_pool_entries(
 
     entries_before_goal_trim = tuple(entries)
 
+    if act_one_only or act_two_only:
+        required_goal_items = tuple(dict.fromkeys((
+            *required_goal_items,
+            *(entry.name for entry in entries_before_goal_trim
+              if entry.source_category == 'Skill' and can_include_later_act_item(
+                  entry.name, entry.source_category, category_modes,
+                  act_one_only=act_one_only, silk_soar_begone=silk_soar_begone)),
+        )))
+
     if act_one_only:
         entries = _trim_act_one_pool_entries(
             entries,

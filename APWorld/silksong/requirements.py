@@ -1278,6 +1278,7 @@ class LocationRequirement:
     act: str = ""
     path_name: str = ""
     item_counts: tuple[ItemCountRequirement, ...] = field(default_factory=tuple)
+    rosary_prices: tuple[str, ...] = ()
 
     def as_slot_data(self) -> dict[str, object]:
         return {
@@ -1316,6 +1317,7 @@ def req(
     act: str = "",
     path_name: str = "",
     item_counts: Iterable[ItemCountRequirement] = (),
+    rosary_prices: Iterable[str] = (),
 ) -> LocationRequirement:
     return LocationRequirement(
         all_of=tuple(all_of),
@@ -1330,6 +1332,7 @@ def req(
         act=act,
         path_name=path_name,
         item_counts=tuple(item_counts),
+        rosary_prices=tuple(rosary_prices),
     )
 
 
@@ -1446,6 +1449,7 @@ def _compiled_room_clause_requirement(
         crest=False,
         silk_spear=clause.require_silk_spear,
         skip_tier=clause.minimum_skip_tier,
+        rosary_prices=clause.rosary_prices,
         item_counts=(
             item_count(
                 minimum,
@@ -1966,8 +1970,7 @@ PATH_REQUIREMENTS: Dict[str, tuple[LocationRequirement, ...]] = {
     ),
     # The southern vestibule is enough to register Shakra's Vendor Pins, but
     # her Wormways Map and the Wormways Flea are beyond Pebb's 500-Rosary
-    # Simple Key gate. The currency remains grindable so it is not represented
-    # as an AP inventory item.
+    # Simple Key gate. Renewable income is checked by the currency rules.
     'Path: Wormways - Entrance': (
         req(
             'Path: The Marrow - Mosshome Gate',
@@ -4170,7 +4173,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     ('Spell Unlock: Silk Boss Needle', area(3, 'Abyss - Void Tendrils')),  # Pale Nails requires Act 3 return using Silk Soar.
     ('Skill Unlock: Silk Soar', area(3, 'Abyss - Void Tendrils', 'Ancestral Art: Needolin')),
 
-    # Rosary prices are grindable and therefore are not AP inventory gates.
+    # Rosary payments are checked by the currency rules.
     ('Pinmaster Plinney: Sharpened Needle', req(
         'Event: Widow Defeated',
     )),
@@ -4208,7 +4211,7 @@ REQUIREMENT_ROW_SOURCE: tuple[tuple[str, LocationRequirement], ...] = (
     )),
 
     # SHAKRA PINS
-    # Rosary prices are grindable and therefore are not AP inventory gates.
+    # Rosary payments are checked by the currency rules.
     ('Pin Purchase: Bench', area(1, 'The Marrow - Toll', crest=False)),
     ('Pin Purchase: Ventrica', area(
         2,

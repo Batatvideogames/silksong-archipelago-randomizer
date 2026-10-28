@@ -799,8 +799,8 @@ def fill_solo_progression(world, progression, locations):
         raise failure
 
 
-def _validate_unrestricted_opening(multiworld):
-    if multiworld.players != 1:
+def _validate_unrestricted_opening(multiworld, game_name):
+    if any(world.game != game_name for world in multiworld.worlds.values()):
         return
     items = [item for item in multiworld.itempool
              if item.advancement and _placement_category(item) is None]
@@ -820,11 +820,25 @@ def _validate_unrestricted_opening(multiworld):
             location.can_fill(state, item, check_access=False) for item in items)
             for location in multiworld.get_unfilled_locations()):
         return
+    advice = (
+        "Set an early check category to Anywhere, change the starting location "
+        "or provide starting movement through Start Inventory from Pool."
+    )
+    cache_players = [str(world.player) for world in multiworld.get_game_worlds(game_name)
+                     if getattr(world.options, 'ledgegrab_ability_rando', False)
+                     and world.get_starting_location_key() == 'bone_bottom'
+                     and world.options.rosary_cache_randomization == 'vanilla']
+    if cache_players:
+        advice = (
+            f"For the blocked Bone Bottom Ledge Grab starts (players {', '.join(cache_players)}), "
+            "enable Rosary Cache Randomization by setting rosary_cache_randomization: anywhere. "
+            "In a multiworld, enabling it for one of these players can provide an opening. "
+            "Another starting location or starting movement through Start Inventory from Pool can also help."
+        )
     raise OptionError(
         "The starting and entrance settings leave no reachable check that can hold "
-        "unrestricted progression, even with all category-shuffled items available. "
-        "Set an early check category to Anywhere, change the starting location, "
-        "or provide a starting movement item."
+        "unrestricted progression in any world, even with all category-shuffled items available. "
+        + advice
     )
 
 
@@ -857,7 +871,7 @@ def prefill_category_shuffles(
     """Place shuffled Simple Keys before the global fill."""
 
     _restore_reserved_filler(multiworld)
-    _validate_unrestricted_opening(multiworld)
+    _validate_unrestricted_opening(multiworld, game_name)
     shuffled_items = [
         item
         for item in multiworld.itempool

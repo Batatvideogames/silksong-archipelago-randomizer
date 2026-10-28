@@ -30,7 +30,7 @@ namespace SilksongRandomizer
     /// local, spoiler-free calculation: it reads received items and never
     /// scouts the item placed at a location.
     /// </summary>
-    internal static class MapLogicEvaluator
+    internal static partial class MapLogicEvaluator
     {
         private const int MaxMossberryCount = 7;
         private const int MaxPollipHeartCount = 6;
@@ -789,6 +789,8 @@ namespace SilksongRandomizer
         // Checks over the requirements and splits them into references for rooms and items.
         private static string DisplayAccessName(string name)
         {
+            if (name != null && name.StartsWith("Renewable Rosaries: ", StringComparison.Ordinal))
+                return "Renewable Rosaries available here";
             if (name != null && name.StartsWith("Silk (", StringComparison.Ordinal))
             {
                 int end = name.IndexOf("): ", StringComparison.Ordinal);

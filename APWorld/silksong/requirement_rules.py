@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import dataclasses
+from collections import defaultdict
+from copy import copy
 from functools import lru_cache
 from typing import TYPE_CHECKING, Iterable
 
@@ -20,6 +22,7 @@ from rule_builder.rules import (
     HasFromListUnique,
     HasGroup,
     HasGroupUnique,
+    NestedRule,
     Or,
     Rule,
     True_,
@@ -466,6 +469,57 @@ def _native_item_requirement(rule):
     return None
 
 
+def register_native_item_rules(world, rule):
+    from .silk_supply import SilkSupplyRule
+
+    if not hasattr(world, '_native_item_rules'):
+        world._native_item_rules = defaultdict(set)
+        world._native_opaque_items = set()
+        world._native_registered_rules = set()
+        world._native_item_rules['Progressive Silkheart'].update(
+            Has('Progressive Silkheart', count).resolve(world) for count in range(1, 4))
+    if rule in world._native_registered_rules:
+        return
+    world._native_registered_rules.add(rule)
+    if isinstance(rule, NativeSourceRule.Resolved):
+        register_native_item_rules(world, rule.child)
+    elif isinstance(rule, NestedRule.Resolved) and type(rule) in (And.Resolved, Or.Resolved):
+        for child in rule.children:
+            register_native_item_rules(world, child)
+    elif isinstance(rule, SilkSupplyRule.Resolved):
+        return
+    else:
+        known = type(rule) in {
+            Has.Resolved, HasAll.Resolved, HasAny.Resolved, HasAllCounts.Resolved,
+            HasAnyCount.Resolved, HasFromList.Resolved, HasFromListUnique.Resolved,
+            HasGroup.Resolved, HasGroupUnique.Resolved,
+        }
+        for name in rule.item_dependencies():
+            if known and rule.player == world.player:
+                world._native_item_rules[name].add(rule)
+            else:
+                world._native_opaque_items.add(name)
+
+
+def native_reward_changes_logic(rule, state):
+    world = state.multiworld.worlds[rule.player]
+    if not hasattr(world, '_native_item_rules'):
+        return True
+    register_native_item_rules(world, rule.child)
+    name = world.collect_item(state, rule.assumed_item)
+    if name in world._native_opaque_items:
+        return True
+    predicates = tuple(predicate for predicate in world._native_item_rules.get(name, ())
+                       if not predicate._evaluate(state))
+    if not predicates or name is None:
+        return False
+    assumed = copy(state)
+    assumed.prog_items = state.prog_items.copy()
+    assumed.prog_items[rule.player] = state.prog_items[rule.player].copy()
+    assumed.prog_items[rule.player][name] += 1
+    return any(predicate._evaluate(assumed) for predicate in predicates)
+
+
 @dataclasses.dataclass()
 class NativeSourceRule(Rule, game=GAME_NAME):
     """Preserve the vanilla-source self-reward assumption.
@@ -594,6 +648,11 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 results, key, cached_result = memo_entry
                 if cached_result is not None:
                     return cached_result
+
+            if not native_reward_changes_logic(self, state):
+                if memo_entry is not None:
+                    _remember_native_source_result(state, memo_entry, False)
+                return False
 
             assumed_state = CollectionState(
                 state.multiworld, state.allow_partial_entrances

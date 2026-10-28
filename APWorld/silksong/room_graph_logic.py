@@ -33,6 +33,7 @@ class CompiledRoomClause:
     require_silk_spear: bool = False
     minimum_skip_tier: int = 0
     silk_cost: int = 0
+    rosary_prices: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -1417,6 +1418,7 @@ def _merge(left: CompiledRoomClause, right: CompiledRoomClause) -> CompiledRoomC
     return CompiledRoomClause(
         all_of=tuple(dict.fromkeys((*left.all_of, *right.all_of))),
         silk_cost=left.silk_cost + right.silk_cost,
+        rosary_prices=tuple(dict.fromkeys((*left.rosary_prices, *right.rosary_prices))),
         item_counts=tuple(merged_counts.items()),
         require_silk_spear=left.require_silk_spear or right.require_silk_spear,
         minimum_skip_tier=max(
@@ -1435,6 +1437,8 @@ def _event_requirement_name(atom: str) -> str:
 
 
 def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
+    if atom.startswith('mapper:rosary-price:'):
+        return (CompiledRoomClause(rosary_prices=(atom.removeprefix('mapper:rosary-price:'),)),)
     if atom.startswith('mapper:enemy-presence:'):
         return (_part(),)
     if atom == 'mapper:elite-ball-knowledge:none':
@@ -1509,7 +1513,7 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if kind == "elegy-of-the-deep":
             return (_part("Elegy of the Deep", "Ancestral Art: Needolin"),)
         if kind == "wind-skip":
-            return (_part("Option: Proficient Movement"),)
+            return (_part("Option: Proficient Movement", "Ancestral Art: Drifter's Cloak"),)
         if kind == "needle-strike-stall":
             return tuple(_part("Ability: Needle Strike", crest.all_of[0], f"Technique: Needle Strike {max(1, tier)}") for crest in _ATOM_ALTERNATIVES["macro:any-crest"])
         if kind in {"flintslate-stall", "plasmium-phial-stall", "voltvessels-stall"}:
@@ -1702,6 +1706,8 @@ def _clause_subsumes(
     if weaker.require_silk_spear and not stronger.require_silk_spear:
         return False
     if weaker.silk_cost > stronger.silk_cost:
+        return False
+    if not set(weaker.rosary_prices).issubset(stronger.rosary_prices):
         return False
     if weaker.minimum_skip_tier > stronger.minimum_skip_tier:
         return False

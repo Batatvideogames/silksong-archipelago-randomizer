@@ -242,9 +242,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return super().rule_from_dict(data)
 
     def register_rule_dependencies(self, resolved_rule):
-        from .requirement_rules import NativeSourceRule
+        from .requirement_rules import NativeSourceRule, register_native_item_rules
         from .silk_supply import SilkSupplyRule
 
+        register_native_item_rules(self, resolved_rule)
         if isinstance(resolved_rule, SilkSupplyRule.Resolved):
             return
         if isinstance(resolved_rule, NativeSourceRule.Resolved):
@@ -267,8 +268,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self._silk_supply.collect(state, collected_name)
         results = state.rule_builder_cache[self.player]
         if changed and results:
-            for name in (item.name, collected_name, self.item_mapping.get(item.name, "")):
-                for rule_id in self.rule_item_dependencies.get(name, ()):
+            for name in dict.fromkeys((item.name, collected_name, self.item_mapping.get(item.name, ""))):
+                for rule_id in results.keys() & self.rule_item_dependencies.get(name, set()):
                     if results.get(rule_id) is False:
                         del results[rule_id]
         return changed
@@ -277,8 +278,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         dependencies = self.rule_region_dependencies.get(region.name)
         if dependencies:
             results = state.rule_builder_cache[self.player]
-            for rule_id in dependencies:
-                results.pop(rule_id, None)
+            for rule_id in results.keys() & dependencies:
+                del results[rule_id]
 
     def _enable_silk_supply(self, supply):
         self._silk_supply = supply
@@ -293,7 +294,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         return changed
 
     def _remove_with_silk_supply(self, state: CollectionState, item: Item) -> bool:
-        changed = super().remove(state, item)
+        changed = SilksongWorld.remove(self, state, item)
         if changed and hasattr(state, '_silksong_silk_supply'):
             state._silksong_silk_supply.pop(self.player, None)
         return changed
@@ -788,6 +789,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.get_goal_key() == FLEA_HUNT_GOAL_KEY
             and self.get_category_mode('Flea') == 'vanilla'
             and location_name in LOCATION_NAMES_BY_CATEGORY['Flea']
+            and location_name not in self.get_logic_unknown_locations()
         )
 
     def is_individual_relic_turn_ins_enabled(self) -> bool:
@@ -1450,6 +1452,11 @@ class SilksongWorld(CachedRuleBuilderWorld):
         finalize_world(self)
         self._configure_tracker_map()
         state = self.multiworld.get_all_state()
+        if not getattr(self.multiworld, 'generation_is_fake', False):
+            from .native_regions import validate_native_sources
+            from .craftmetal import validate_native_supply
+            validate_native_sources(self, state)
+            validate_native_supply(self, state)
         if self.get_goal_key() == "act_3":
             available = (
                 state.count(SILK_AND_SOUL_WISH_POINT_ITEM, self.player)
@@ -1490,7 +1497,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .boss_souls import prepare_start
         prepare_start(self)
         from .entrance_randomization import connect_exits
-        connect_exits(self)
+        from .rosary_economy import entrance_memo
+        with entrance_memo(self):
+            connect_exits(self)
         if getattr(self, '_silk_supply', None) is not None:
             self.explicit_indirect_conditions = False
 
@@ -2482,6 +2491,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         export_enemy_souls(self, slot_data)
         from .silk_economy import export_world as export_silk_economy
         export_silk_economy(self, slot_data)
+        from .rosary_economy import export_world as export_rosary_economy
+        export_rosary_economy(self, slot_data)
         unknown = self.get_logic_unknown_locations()
         for location in self.get_locations():
             if location.address is not None and location.name in unknown:
