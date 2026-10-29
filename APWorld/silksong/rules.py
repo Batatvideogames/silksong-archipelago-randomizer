@@ -370,7 +370,8 @@ def set_silksong_rules(world) -> None:
 
         location = world.multiworld.get_location(location_name, world.player)
         shuffled_requirements = getattr(world, "_progression_location_rules", {}).get(location_name)
-        if shuffled_requirements is not None:
+        if (shuffled_requirements is not None
+                and location_name not in world._silksong_native_assumed_source_locations):
             from .native_regions import native_rule_options
             location_rule = build_requirements_rule(
                 shuffled_requirements,
@@ -425,6 +426,14 @@ def set_silksong_rules(world) -> None:
                 silk_and_soul_points=get_silk_and_soul_points(world.options),
                 silk_heart_logic=bool(world.options.silk_heart_logic.value),
             )
+            from . import bind
+            if bind.enabled(world) and location_name in bind.LOCATIONS:
+                from .native_regions import native_rule_options
+                location_rule = location_rule & build_requirements_rule(
+                    (bind.req(bind.CAPABILITY, crest=False),),
+                    extra_abstract_requirement_names=world._silksong_native_abstract_names,
+                    **native_rule_options(world),
+                )
         else:
             location_rule = build_location_rule(
                 location_name,

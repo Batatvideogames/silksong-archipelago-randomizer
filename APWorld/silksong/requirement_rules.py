@@ -449,7 +449,8 @@ def _remember_native_source_result(state, memo_entry, result):
 
 @lru_cache(maxsize=1)
 def _native_source_item_references():
-    return get_logic_item_references()
+    from .items import CREST_BIND_ITEMS
+    return get_logic_item_references() | frozenset(('Bind', *CREST_BIND_ITEMS))
 
 
 def _native_item_requirement(rule):
@@ -568,8 +569,11 @@ class NativeSourceRule(Rule, game=GAME_NAME):
         self.directional_abilities = tuple(self.directional_abilities)
 
     def _instantiate(self, world: World) -> Rule.Resolved:
-        child_rule = build_location_rule(
-            self.location_name,
+        from .bind import stall_rules
+        child_rule = build_requirements_rule(
+            stall_rules(world, get_location_requirements(
+                self.location_name, pollip_heart_count=self.pollip_heart_count)),
+            extra_abstract_requirement_names=world._silksong_native_abstract_names,
             split_dash_and_sprint=self.split_dash_and_sprint,
             allow_bellways_before_bell_beast=(
                 self.allow_bellways_before_bell_beast

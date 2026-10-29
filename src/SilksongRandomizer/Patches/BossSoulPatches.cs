@@ -53,12 +53,16 @@ namespace SilksongRandomizer.Patches
         private static readonly Dictionary<GameObject, (SaveState state, string boss, bool travel)> Hidden =
             new Dictionary<GameObject, (SaveState, string, bool)>();
 
+        private static bool Blocked(SaveState save, string boss) =>
+            BossSoulState.IsMissing(save, boss) || BindManager.BlocksBoss(save, boss);
+
         internal static bool NeedsTravelSoul(SaveState state) => state != null &&
             !state.AllowsBellwaysBeforeBellBeast && BossSoulState.IsMissing(state, "Boss: Bell Beast");
 
         private static bool Hold(Transform transform)
         {
-            if (SaveState.Instance == null || string.IsNullOrEmpty(SaveState.Instance.bossSoulsJson) || SaveState.Instance.bossSoulsJson == "[]") return false;
+            if (SaveState.Instance == null || (!BindManager.Enabled(SaveState.Instance) &&
+                (string.IsNullOrEmpty(SaveState.Instance.bossSoulsJson) || SaveState.Instance.bossSoulsJson == "[]"))) return false;
             for (Transform current = transform; current != null; current = current.parent)
             {
                 GameObject actor = current.gameObject;
@@ -71,7 +75,7 @@ namespace SilksongRandomizer.Patches
                     boss = "Boss: Bell Beast";
                 }
                 else if (!Actors.TryGetValue(actor.scene.name + "|" + Utils.GetHierarchyPath(current), out boss) ||
-                    !BossSoulState.IsMissing(SaveState.Instance, boss)) continue;
+                    !Blocked(SaveState.Instance, boss)) continue;
                 if (string.Equals(actor.scene.name, "Cradle_03", StringComparison.OrdinalIgnoreCase) &&
                     Utils.GetHierarchyPath(current) == "Boss Scene/Silk Boss")
                     current.parent.Find("Silk_Hair")?.gameObject.SetActive(false);
@@ -84,14 +88,14 @@ namespace SilksongRandomizer.Patches
 
         private static readonly List<GameObject> SceneActors = new List<GameObject>();
         private static SaveState boundState;
-        private static string boundBosses, boundEnemies;
+        private static string boundBosses, boundEnemies, boundBind;
         private static bool initialized;
 
         private static void Scan(Scene scene)
         {
             SaveState state = SaveState.Instance;
             if (state == null) return;
-            bool bosses = !string.IsNullOrEmpty(state.bossSoulsJson) && state.bossSoulsJson != "[]";
+            bool bosses = BindManager.Enabled(state) || (!string.IsNullOrEmpty(state.bossSoulsJson) && state.bossSoulsJson != "[]");
             bool enemies = !string.IsNullOrEmpty(state.enemySoulsJson) && state.enemySoulsJson != "[]";
             if (!bosses && !enemies) return;
             foreach (GameObject root in scene.GetRootGameObjects())
@@ -111,11 +115,12 @@ namespace SilksongRandomizer.Patches
                 SceneManager.sceneLoaded += (scene, mode) => Scan(scene);
             }
             SaveState state = SaveState.Instance;
-            if (boundState != state || boundBosses != state?.bossSoulsJson || boundEnemies != state?.enemySoulsJson)
+            if (boundState != state || boundBosses != state?.bossSoulsJson || boundEnemies != state?.enemySoulsJson || boundBind != state?.bindRandomization)
             {
                 boundState = state;
                 boundBosses = state?.bossSoulsJson;
                 boundEnemies = state?.enemySoulsJson;
+                boundBind = state?.bindRandomization;
                 SceneActors.Clear();
                 for (int i = 0; i < SceneManager.sceneCount; i++) Scan(SceneManager.GetSceneAt(i));
             }
@@ -129,7 +134,7 @@ namespace SilksongRandomizer.Patches
             foreach (var pair in Hidden)
                 if (pair.Key == null || pair.Value.state != SaveState.Instance ||
                     (pair.Value.travel ? !NeedsTravelSoul(pair.Value.state) :
-                        !BossSoulState.IsMissing(pair.Value.state, pair.Value.boss)))
+                        !Blocked(pair.Value.state, pair.Value.boss)))
                 {
                     if (release == null) release = new List<GameObject>();
                     release.Add(pair.Key);
@@ -194,6 +199,7 @@ namespace SilksongRandomizer.Patches
 
         internal static bool CanInteract(Transform transform)
         {
+            if (!BindManager.CanInteract(transform)) return false;
             for (Transform current = transform; current != null; current = current.parent)
             {
                 string scene = current.gameObject.scene.name;
@@ -205,7 +211,7 @@ namespace SilksongRandomizer.Patches
                     if (battle != null && !EnemySoulPatches.CanStartBattle(battle)) return false;
                 }
                 if (Actors.TryGetValue(scene + "|" + path, out string boss) &&
-                    BossSoulState.IsMissing(SaveState.Instance, boss)) return false;
+                    Blocked(SaveState.Instance, boss)) return false;
             }
             return true;
         }
@@ -227,14 +233,14 @@ namespace SilksongRandomizer.Patches
         }
 
         internal static bool CanStartBattle(string scene, string path, SaveState state) =>
-            !Battles.TryGetValue(scene + "|" + path, out string boss) || !BossSoulState.IsMissing(state, boss);
+            !Battles.TryGetValue(scene + "|" + path, out string boss) || !Blocked(state, boss);
 
         internal static bool CanEnterState(string scene, string path, string fsm, string stateName, SaveState state)
         {
             string key = scene + "|" + path + "|" + fsm + "|" + stateName;
             string objectKey = scene + "|@" + path.Substring(path.LastIndexOf('/') + 1) + "|" + fsm + "|" + stateName;
             return ((!States.TryGetValue(key, out string boss) && !States.TryGetValue(objectKey, out boss)) ||
-                !BossSoulState.IsMissing(state, boss)) && EnemySoulPatches.CanEnterState(scene, path, fsm, stateName, state) &&
+                !Blocked(state, boss)) && EnemySoulPatches.CanEnterState(scene, path, fsm, stateName, state) &&
                 NpcSoulState.CanEnterState(scene, path, fsm, stateName, state);
         }
 
@@ -256,6 +262,7 @@ namespace SilksongRandomizer.Patches
                 States.TryGetValue(key + "|" + fsm + "|" + name, out boss) ||
                 States.TryGetValue(scene + "|@" + path.Substring(path.LastIndexOf('/') + 1) + "|" + fsm + "|" + name, out boss);
             if (found && BossSoulState.IsMissing(save, boss)) missing.Add(BossSoulState.ItemName(boss));
+            if (found && BindManager.BlocksBoss(save, boss)) missing.Add("Bind");
             EnemySoulPatches.DescribeMissingSouls(scene, path, fsm, name, save, missing);
             if (fsm != null) NpcSoulState.DescribeMissingSouls(scene, path, fsm, name, save, missing);
         }
@@ -290,7 +297,7 @@ namespace SilksongRandomizer.Patches
                 if (EnemySoulPatches.CancelGateClose(__instance)) return false;
                 SaveState save = SaveState.Instance;
                 bool Configured(string json) => !string.IsNullOrEmpty(json) && json != "[]";
-                if (save == null || (!Configured(save.bossSoulsJson) &&
+                if (save == null || (!BindManager.Enabled(save) && !Configured(save.bossSoulsJson) &&
                     !Configured(save.enemySoulsJson) && !Configured(save.npcSoulsJson))) return true;
                 Fsm fsm = __instance.Fsm;
                 if (fsm?.GameObject == null || CanEnterState(fsm.GameObject.scene.name,

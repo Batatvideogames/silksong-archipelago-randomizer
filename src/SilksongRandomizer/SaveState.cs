@@ -176,6 +176,7 @@ namespace SilksongRandomizer
 
         public bool ledgegrabAbilityRando;
         public bool swimAbilityRando;
+        public string bindRandomization = "vanilla";
         public bool randomizeNeedleUpgrades;
         public bool startWithMaps;
         public bool startFullyMapped;
@@ -930,6 +931,7 @@ namespace SilksongRandomizer
 
             ledgegrabAbilityRando = archipelago.LedgegrabAbilityRando;
             swimAbilityRando = archipelago.SwimAbilityRando;
+            bindRandomization = archipelago.BindRandomization;
             randomizeNeedleUpgrades =
                 archipelago.NeedleUpgradeRandomization != RandomizationMode.Vanilla;
             startWithMaps = archipelago.StartWithMaps;
@@ -1081,6 +1083,7 @@ namespace SilksongRandomizer
                    ledgegrabAbilityRando ==
                        archipelago.LedgegrabAbilityRando &&
                    swimAbilityRando == archipelago.SwimAbilityRando &&
+                   bindRandomization == archipelago.BindRandomization &&
                    startWithMaps == archipelago.StartWithMaps &&
                    startFullyMapped == archipelago.StartFullyMapped &&
                    automaticCompass == archipelago.AutomaticCompass &&
@@ -1428,6 +1431,9 @@ namespace SilksongRandomizer
                     archipelago.SwimAbilityRando
                 );
             }
+
+            if (roomIdentityMatches && bindRandomization != archipelago.BindRandomization)
+                return "The save and room use different Bind Randomization settings.";
 
             if (roomIdentityMatches &&
                 startWithMaps != archipelago.StartWithMaps)
@@ -1854,7 +1860,7 @@ namespace SilksongRandomizer
                 case ItemType.PaleOil:
                     return paleOilRandomization;
                 case ItemType.InnateAbility:
-                    return ledgegrabAbilityRando || swimAbilityRando
+                    return ledgegrabAbilityRando || swimAbilityRando || bindRandomization != "vanilla"
                         ? RandomizationMode.Anywhere
                         : RandomizationMode.Vanilla;
                 default:

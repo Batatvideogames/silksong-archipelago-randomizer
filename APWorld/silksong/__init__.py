@@ -379,7 +379,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         if bool(wish_ids) != bool(wish_shuffle):
             raise TrackerException(message="Shuffle Wish Offers setting does not match its assignments.")
         boss_ids = frozenset(assignment_data.get("bosses", {}))
-        if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_vanilla):
+        if not boss_ids.issubset(SUPPORTED_BOSS_IDS) or (boss_ids and boss_mode.value == boss_mode.option_false):
             raise TrackerException(message="Boss Sanity setting does not match its assignments.")
         Assignments.from_slot_data(assignment_data, wish_ids, boss_ids)
         SilksongWorld._tracker_native_sources(slot_data)
@@ -729,6 +729,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            bind_items=self.get_bind_items(),
             directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
@@ -780,6 +781,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def is_ledgegrab_ability_rando_enabled(self) -> bool:
         return bool(self.options.ledgegrab_ability_rando.value)
+
+    def get_bind_items(self) -> tuple[str, ...]:
+        from .bind import pool_items
+        return pool_items(self)
 
     def is_swim_ability_rando_enabled(self) -> bool:
         return bool(self.options.swim_ability_rando.value)
@@ -1074,6 +1079,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            bind_items=self.get_bind_items(),
             directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
@@ -1338,6 +1344,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 self.is_ledgegrab_ability_rando_enabled()
             ),
             randomize_swim=self.is_swim_ability_rando_enabled(),
+            bind_items=self.get_bind_items(),
             directional_abilities=self.get_directional_abilities(),
             randomize_diving_bell_key=bool(self.options.diving_bell_key_randomization.value),
             cursed_ending=(self.get_goal_key() == CURSED_ENDING_GOAL_KEY),
@@ -1478,7 +1485,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     @property
     def found_entrances_datastorage_key(self):
-        keys = ["Silksong:Warps:{team}:{player}"]
+        keys = ["Silksong:Warps:{team}:{player}", "Silksong:Act3:{team}:{player}"]
         if self.options.entrance_randomization:
             keys.append("Silksong:Entrances:{team}:{player}")
         return keys
@@ -1489,6 +1496,9 @@ class SilksongWorld(CachedRuleBuilderWorld):
             reconnect_warps(self, data_storage_value)
         elif found_key.startswith("Silksong:Entrances:"):
             reconnect_found(self, data_storage_value)
+        elif found_key.startswith("Silksong:Act3:"):
+            from .tracker import receive_act_state
+            receive_act_state(self, data_storage_value)
 
     def get_pre_fill_items(self):
         return [*super().get_pre_fill_items(), *getattr(self, "_entrance_construction_items", ())]
@@ -1675,7 +1685,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
             )
             uses_native_source = (
                 reward_name in logic_item_references
-                and name not in self._progression_location_rules
+                and (name not in self._progression_location_rules
+                     or name in self._bind_native_source_candidates)
                 and (name in restored_sources if restored_sources is not None else
                      native_source_requires_assumption(
                          self, name, reward_name, pollip_heart_count, anchor,
@@ -1834,11 +1845,10 @@ class SilksongWorld(CachedRuleBuilderWorld):
         self._configure_tracker_map()
 
     def _configure_tracker_map(self) -> None:
-        from .tracker import install_marker_status
+        from .tracker import install_act_gate
         from .tracker.wishes import location_mapping
         self.tracker_world = {**self._tracker_world, "poptracker_name_mapping": location_mapping(self)}
-        if getattr(self.multiworld, 'generation_is_fake', False):
-            install_marker_status()
+        install_act_gate(self)
 
     @classmethod
     def stage_pre_fill(cls, multiworld) -> None:
@@ -2496,6 +2506,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
         export_silk_economy(self, slot_data)
         from .rosary_economy import export_world as export_rosary_economy
         export_rosary_economy(self, slot_data)
+        from .bind import export_world as export_bind
+        export_bind(self, slot_data)
         unknown = self.get_logic_unknown_locations()
         for location in self.get_locations():
             if location.address is not None and location.name in unknown:

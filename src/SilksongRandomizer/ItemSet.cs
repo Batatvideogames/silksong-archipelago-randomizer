@@ -570,6 +570,14 @@ namespace SilksongRandomizer
             new Item("Ledge Grab (Right)", ItemType.InnateAbility, null),
             new Item("Ledge Grab", ItemType.InnateAbility, null),
             new Item("Swim", ItemType.InnateAbility, null),
+            new Item("Bind", ItemType.InnateAbility, null),
+            new Item("Hunter Bind", ItemType.InnateAbility, null),
+            new Item("Wanderer Bind", ItemType.InnateAbility, null),
+            new Item("Reaper Bind", ItemType.InnateAbility, null),
+            new Item("Beast Bind", ItemType.InnateAbility, null),
+            new Item("Architect Bind", ItemType.InnateAbility, null),
+            new Item("Witch Bind", ItemType.InnateAbility, null),
+            new Item("Shaman Bind", ItemType.InnateAbility, null),
 
             // Optional repeatable traps. The APWorld replaces an equal number
             // of currency fillers, so enabling these never changes pool size.

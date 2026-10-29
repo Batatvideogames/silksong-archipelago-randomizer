@@ -69,6 +69,37 @@ namespace SilksongRandomizer.Patches
                 test = new PlayerDataTest(nameof(PlayerData.defeatedSongGolem), true);
         }
 
+        [HarmonyPatch(typeof(SendEventByName), nameof(SendEventByName.OnEnter))]
+        private static class FourthChorusApproachPlatformsPatch
+        {
+            private static bool Prefix(SendEventByName __instance)
+            {
+                if (__instance.sendEvent?.Value != "AWAY" || SaveState.Instance?.IsRoomBound != true ||
+                    __instance.Fsm?.Name != "Control" || __instance.Fsm.GameObject == null ||
+                    __instance.Fsm.GameObject.scene.name != "Bone_East_08" ||
+                    Utils.GetHierarchyPath(__instance.Fsm.GameObject.transform) != "Boss Scene")
+                    return true;
+
+                GameObject floor = __instance.eventTarget?.gameObject?.GameObject?.Value;
+                Transform owner = __instance.Fsm.GameObject.transform;
+                if (floor == null || floor.transform.parent != owner) return true;
+                string state = __instance.State?.Name;
+                if (floor.name == "Battle End Floor" && (state == "Meet Ready" || state == "Remeet Ready"))
+                {
+                    __instance.Finish();
+                    return false;
+                }
+                if (floor.name == "Pre Activation Floor" && (state == "Wake" || state == "Remeet 1"))
+                {
+                    Transform approach = owner.Find("Battle End Floor");
+                    if (approach != null)
+                        foreach (PlayMakerFSM platform in approach.GetComponentsInChildren<PlayMakerFSM>())
+                            platform.SendEvent("AWAY");
+                }
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(TestGameObjectActivator), "Evaluate")]
         private static class BeastflyPlatformsPatch
         {

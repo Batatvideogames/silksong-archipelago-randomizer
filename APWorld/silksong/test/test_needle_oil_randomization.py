@@ -67,11 +67,11 @@ class TestNeedleOilRandomization(TestCase):
     def test_options_default_to_vanilla(self) -> None:
         self.assertEqual(
             NeedleUpgradeRandomization.default,
-            NeedleUpgradeRandomization.option_vanilla,
+            NeedleUpgradeRandomization.option_false,
         )
         self.assertEqual(
             PaleOilRandomization.default,
-            PaleOilRandomization.option_vanilla,
+            PaleOilRandomization.option_false,
         )
 
     def test_split_modes_add_only_their_own_items(self) -> None:

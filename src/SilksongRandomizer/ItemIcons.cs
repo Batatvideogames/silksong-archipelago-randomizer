@@ -26,6 +26,14 @@ namespace SilksongRandomizer
             { "Wish", "Hornet_Inv_pane_icons_0002_wish" },
 
             // Skills
+            { "Bind", "Inv_0029_spell_core_outer_icons_eva_heal" },
+            { "Hunter Bind", "Crest__0003_hunter_sil" },
+            { "Wanderer Bind", "Crest__0001_wanderer_sil" },
+            { "Reaper Bind", "Crest__0000_reaper_sil" },
+            { "Beast Bind", "Crest__0002_warrior_sil" },
+            { "Architect Bind", "Crest__0016_toolmaster_full" },
+            { "Witch Bind", "Crest__0006_witch_sil" },
+            { "Shaman Bind", "Crest__0009_spell_full" },
             { "Needle Strike", "prompt_nail_art" },
             { "Silk Soar", "Inv_0029_spell_core_outer_icons_0000_1_super_jump" },
             { "Cling Grip", "Inv_0029_spell_core_outer_icons_0000_1_wall_jump" },

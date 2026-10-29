@@ -213,6 +213,7 @@ namespace SilksongRandomizer
 
         public bool LedgegrabAbilityRando { get; private set; }
         public bool SwimAbilityRando { get; private set; }
+        public string BindRandomization { get; private set; } = "vanilla";
         public bool ScuttlebraceLogic { get; private set; } = true;
         public bool StartWithMaps { get; private set; }
         public bool StartFullyMapped { get; private set; }
@@ -644,6 +645,9 @@ namespace SilksongRandomizer
                     successful,
                     "swim_ability_rando"
                 );
+                BindRandomization = GetRequiredStringSlotData(successful, "bind_randomization");
+                if (BindRandomization != "vanilla" && BindRandomization != "shared" && BindRandomization != "per_crest")
+                    throw new InvalidOperationException("Unsupported Bind Randomization setting.");
                 ScuttlebraceLogic = GetIntegerSlotData(successful, "scuttlebrace_logic", 0, 3) > 0;
                 StartWithMaps = GetBooleanSlotData(
                     successful,
@@ -3300,6 +3304,7 @@ namespace SilksongRandomizer
 
             LedgegrabAbilityRando = false;
             SwimAbilityRando = false;
+            BindRandomization = "vanilla";
             ScuttlebraceLogic = true;
             StartWithMaps = false;
             StartFullyMapped = false;

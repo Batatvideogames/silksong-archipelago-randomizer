@@ -444,6 +444,9 @@ ITEM_TABLE_SOURCE += tuple((name, "InnateAbility" if name.startswith("Ledge Grab
 ITEM_TABLE_SOURCE += (("Sprint", "Skill"), ("Conjoined Heart", "OldHeart"))
 ITEM_TABLE_SOURCE += (("Materium", "Materium"), ("Flintstone", "Materium"), ("Magnetite", "Materium"), ("Farsight", "Farsight"))
 ITEM_TABLE_SOURCE += (("Crawbell", "Miscellaneous"),)
+ITEM_TABLE_SOURCE += (("Bind", "InnateAbility"),)
+CREST_BIND_ITEMS = tuple(f'{crest} Bind' for crest in ('Hunter', 'Wanderer', 'Reaper', 'Beast', 'Architect', 'Witch', 'Shaman'))
+ITEM_TABLE_SOURCE += tuple((name, 'InnateAbility') for name in CREST_BIND_ITEMS)
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -838,7 +841,7 @@ PROGRESSIVE_NEEDLE_UPGRADE_ITEM = 'Progressive Needle Upgrade'
 PALE_OIL_ITEM = 'Pale Oil'
 LEDGE_GRAB_ITEM = 'Ledge Grab'
 SWIM_ITEM = 'Swim'
-INNATE_ABILITY_ITEM_NAMES = (LEDGE_GRAB_ITEM, SWIM_ITEM)
+INNATE_ABILITY_ITEM_NAMES = (LEDGE_GRAB_ITEM, SWIM_ITEM, "Bind", *CREST_BIND_ITEMS)
 SILK_SOAR_ITEM = 'Silk Soar'
 QUILL_ITEM = 'Item: Quill'
 NEEDLE_UPGRADE_POOL_COUNTS: Mapping[str, int] = {
@@ -1435,6 +1438,7 @@ def get_dynamic_trap_capacity(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
     steel_soul: bool = False,
@@ -1465,6 +1469,7 @@ def get_dynamic_trap_capacity(
             ),
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            bind_items=bind_items,
             randomize_diving_bell_key=randomize_diving_bell_key,
             cursed_ending=cursed_ending,
             steel_soul=steel_soul,
@@ -1547,6 +1552,7 @@ def build_item_pool_entries(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
     steel_soul: bool = False,
@@ -1839,6 +1845,7 @@ def build_item_pool_entries(
     innate_ability_items = (
         *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
         *((SWIM_ITEM,) if randomize_swim else ()),
+        *bind_items,
         *(("Diving Bell Key",) if randomize_diving_bell_key else ()),
     )
     if not steel_soul:
@@ -2033,6 +2040,7 @@ def get_configured_item_pool_size(
     act_one_donation_tool_pouch_requirements: Mapping[str, int] | None = None,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
     cursed_ending: bool = False,
     steel_soul: bool = False,
@@ -2057,6 +2065,7 @@ def get_configured_item_pool_size(
             ),
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            bind_items=bind_items,
             randomize_diving_bell_key=randomize_diving_bell_key,
             cursed_ending=cursed_ending,
             steel_soul=steel_soul,
@@ -2073,6 +2082,7 @@ def _get_adjusted_pool_counts(
     randomize_pale_oils: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
 ) -> Dict[str, int]:
     configured_traps = {
@@ -2128,6 +2138,7 @@ def _get_adjusted_pool_counts(
     innate_ability_items = (
         *((LEDGE_GRAB_ITEM,) if randomize_ledge_grab else ()),
         *((SWIM_ITEM,) if randomize_swim else ()),
+        *bind_items,
         *(("Diving Bell Key",) if randomize_diving_bell_key else ()),
     )
     for item_name in innate_ability_items:
@@ -2185,6 +2196,7 @@ def iter_item_pool_names(
     randomize_minor_pickups: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
 ):
     pool_counts = _get_adjusted_pool_counts(
@@ -2196,6 +2208,7 @@ def iter_item_pool_names(
         randomize_pale_oils=randomize_pale_oils,
         randomize_ledge_grab=randomize_ledge_grab,
         randomize_swim=randomize_swim,
+        bind_items=bind_items,
         randomize_diving_bell_key=randomize_diving_bell_key,
     )
     removed_starting_crest = False
@@ -2241,6 +2254,7 @@ def get_item_pool_size(
     randomize_minor_pickups: bool = False,
     randomize_ledge_grab: bool = False,
     randomize_swim: bool = False,
+    bind_items: tuple[str, ...] = (),
     randomize_diving_bell_key: bool = False,
 ) -> int:
     return sum(
@@ -2255,6 +2269,7 @@ def get_item_pool_size(
             randomize_pale_oils=randomize_pale_oils,
             randomize_ledge_grab=randomize_ledge_grab,
             randomize_swim=randomize_swim,
+            bind_items=bind_items,
             randomize_diving_bell_key=randomize_diving_bell_key,
         )
     )
