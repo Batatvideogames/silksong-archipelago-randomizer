@@ -812,6 +812,11 @@ namespace SilksongRandomizer.Patches
                 {
                     playerData.FastTravelNPCLocation = location;
                 }
+                MeshRenderer renderer = __instance.Owner.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                {
+                    renderer.enabled = true;
+                }
                 __instance.notEqualEvent = __instance.equalEvent;
             }
         }

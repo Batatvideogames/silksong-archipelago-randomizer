@@ -523,12 +523,7 @@ def native_reward_changes_logic(rule, state):
 
 @dataclasses.dataclass()
 class NativeSourceRule(Rule, game=GAME_NAME):
-    """Preserve the vanilla-source self-reward assumption.
-
-    RuleBuilder's built-in item rules read ``prog_items`` directly. A custom
-    rule is required here because the temporary native reward intentionally
-    exists only while evaluating its own addressless source.
-    """
+    """Check a vanilla pickup using the inventory already collected."""
 
     location_name: str = ""
     reward_name: str = ""
@@ -639,54 +634,12 @@ class NativeSourceRule(Rule, game=GAME_NAME):
             object.__setattr__(self, "_item_rule", _native_item_requirement(self.child))
 
         def _evaluate(self, state: CollectionState) -> bool:
-            if (
+            return (
                 (self.anchor_requirement_name is None
                  or state.can_reach_region(
                      native_region_name(self.anchor_requirement_name), self.player))
                 and self.child(state)
-            ):
-                return True
-
-            memo_entry = _lookup_native_source_memo(self, state)
-            if memo_entry is not None:
-                results, key, cached_result = memo_entry
-                if cached_result is not None:
-                    return cached_result
-
-            if not native_reward_changes_logic(self, state):
-                if memo_entry is not None:
-                    _remember_native_source_result(state, memo_entry, False)
-                return False
-
-            assumed_state = CollectionState(
-                state.multiworld, state.allow_partial_entrances
             )
-            assumed_state.prog_items[self.player] = state.prog_items[self.player].copy()
-            assumed_state.reachable_regions[self.player] = (
-                state.reachable_regions[self.player].copy()
-            )
-            assumed_state.blocked_connections[self.player] = (
-                state.blocked_connections[self.player].copy()
-            )
-            assumed_state.rule_builder_cache[self.player] = state.rule_builder_cache[self.player].copy()
-            from .silk_supply import copy_silk_supply
-            copy_silk_supply(state, assumed_state, self.player)
-            assumed_state.collect(self.assumed_item, True)
-            if self._item_rule is not None and not self._item_rule(assumed_state):
-                result = False
-            elif (
-                self.anchor_requirement_name is not None
-                and not assumed_state.can_reach_region(
-                    native_region_name(self.anchor_requirement_name),
-                    self.player,
-                )
-            ):
-                result = False
-            else:
-                result = self.child(assumed_state)
-            if memo_entry is not None:
-                _remember_native_source_result(state, memo_entry, result)
-            return result
 
         def item_dependencies(self) -> dict[str, set[int]]:
             dependencies = {name: {id(self)} for name in _native_source_item_references()}
@@ -727,10 +680,6 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                     "color": color,
                     "text": self.location_name,
                 },
-                {
-                    "type": "text",
-                    "text": f" (assumes its {self.reward_name} reward)",
-                },
             ]
 
         def explain_str(self, state: CollectionState | None = None) -> str:
@@ -738,16 +687,10 @@ class NativeSourceRule(Rule, game=GAME_NAME):
                 prefix = "Can reach"
             else:
                 prefix = "Reached" if self(state) else "Cannot reach"
-            return (
-                f"{prefix} native source {self.location_name} "
-                f"(assumes its {self.reward_name} reward)"
-            )
+            return f"{prefix} native source {self.location_name}"
 
         def __str__(self) -> str:
-            return (
-                f"Can reach native source {self.location_name} "
-                f"(assumes its {self.reward_name} reward)"
-            )
+            return f"Can reach native source {self.location_name}"
 
 
 @dataclasses.dataclass()

@@ -579,6 +579,20 @@ namespace SilksongRandomizer.Patches
         private static bool NeedsNpcWishInteraction(FullQuestBase quest) => quest != null && !quest.IsCompleted &&
             (!quest.IsAccepted || (!ProgressionShuffleState.HasNativeWishFinish(quest.name) && quest.CanComplete));
 
+        [HarmonyPatch]
+        private static class AcceptedWishUpdatePatch
+        {
+            private static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(QuestManager), nameof(QuestManager.ShowQuestUpdatedStandalone));
+                yield return AccessTools.Method(typeof(QuestManager), nameof(QuestManager.ShowQuestUpdatedForItemMsg));
+            }
+
+            [HarmonyPrefix]
+            private static bool Prefix(BasicQuestBase quest) =>
+                SaveState.Instance?.IsRoomBound != true || quest == null || quest.IsAccepted;
+        }
+
         private static void CompleteNpcWish(FullQuestBase quest, Action finished)
         {
             if (!quest.IsAccepted || quest.IsCompleted || !quest.CanComplete ||
