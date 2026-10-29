@@ -130,6 +130,8 @@ namespace SilksongRandomizer
         private struct QueuedUnlockPopup
         {
             public string Text;
+            public string ItemName;
+            public string Game;
             public ItemFlags Flags;
         }
 
@@ -818,12 +820,12 @@ namespace SilksongRandomizer
                 if (subscribedArchipelago != null)
                 {
                     subscribedArchipelago.ConnectionStatusChanged -= QueueConnectionStatus;
-                    subscribedArchipelago.OnItemSent -= QueueUnlockPopup;
+                    subscribedArchipelago.OnItemSent -= QueueSentItemPopup;
                 }
 
                 subscribedArchipelago = archipelago;
                 subscribedArchipelago.ConnectionStatusChanged += QueueConnectionStatus;
-                subscribedArchipelago.OnItemSent += QueueUnlockPopup;
+                subscribedArchipelago.OnItemSent += QueueSentItemPopup;
             }
 
             return archipelago;
@@ -1016,6 +1018,9 @@ namespace SilksongRandomizer
         }
 
         public void QueueUnlockPopup(string text, ItemFlags flags)
+            => QueueSentItemPopup(text, text, "Hollow Knight: Silksong", flags);
+
+        private void QueueSentItemPopup(string text, string itemName, string game, ItemFlags flags)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -1027,6 +1032,8 @@ namespace SilksongRandomizer
                 unlockQueue.Enqueue(new QueuedUnlockPopup
                 {
                     Text = text,
+                    ItemName = itemName,
+                    Game = game,
                     Flags = flags
                 });
                 delay = 0.25f;
@@ -1365,7 +1372,8 @@ namespace SilksongRandomizer
             CollectableUIMsg.Spawn(new UIMsgDisplay
             {
                 Name = AlphabetModeManager.FilterDirectText(popup.Text),
-                Icon = GetItemIcon(popup.Text, popup.Flags, out iconScale),
+                Icon = ItemIcons.GetSpriteForGame(popup.Game, popup.ItemName,
+                    GetItemClassificationIcon(popup.Flags), out iconScale),
                 IconScale = iconScale,
                 RepresentingObject = null,
             }, null, false);

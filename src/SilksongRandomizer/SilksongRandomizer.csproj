@@ -126,6 +126,8 @@
   </Target>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets/MultiworldIcons.zip" LogicalName="SilksongRandomizer.MultiworldIcons.zip" />
+    <None Update="Assets/MultiworldIcons.LICENSE.txt" CopyToOutputDirectory="PreserveNewest" TargetPath="MultiworldIcons.LICENSE.txt" />
     <EmbeddedResource Include="../../APWorld/silksong/npc_souls.json" LogicalName="SilksongRandomizer.NpcSouls.json" />
     <EmbeddedResource Include="../../APWorld/silksong/enemy_souls.json" LogicalName="SilksongRandomizer.EnemySouls.json" />
     <EmbeddedResource Include="../../APWorld/silksong/map_logic.json" LogicalName="SilksongRandomizer.MapLogic.json" />

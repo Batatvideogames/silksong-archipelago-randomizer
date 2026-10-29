@@ -139,7 +139,7 @@ namespace SilksongRandomizer
             float scale = 1f;
             Sprite icon = native || trap
                 ? ItemIcons.GetSprite(disguise?.Item ?? hint.item, fallback, out scale)
-                : fallback;
+                : ItemIcons.GetSpriteForGame(hint.game, hint.item, fallback, out scale);
             if (trap && icon != null && icon != fallback)
             {
                 icon = FlipIcon(icon);

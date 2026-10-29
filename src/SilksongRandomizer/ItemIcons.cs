@@ -26,7 +26,7 @@ namespace SilksongRandomizer
             { "Wish", "Hornet_Inv_pane_icons_0002_wish" },
 
             // Skills
-            { "Bind", "Inv_0029_spell_core_outer_icons_eva_heal" },
+            { "Bind", "Inv_0029_spell_core" },
             { "Hunter Bind", "Crest__0003_hunter_sil" },
             { "Wanderer Bind", "Crest__0001_wanderer_sil" },
             { "Reaper Bind", "Crest__0000_reaper_sil" },
@@ -319,6 +319,15 @@ namespace SilksongRandomizer
 
         public static Sprite GetSprite(string itemName, Sprite fallback)
             => GetSprite(itemName, fallback, out _);
+
+        public static Sprite GetSpriteForGame(string game, string itemName, Sprite fallback, out float scale)
+        {
+            if (string.Equals(game, "Hollow Knight: Silksong", StringComparison.Ordinal))
+                return GetSprite(itemName, fallback, out scale);
+            Sprite sprite = MultiworldItemIcons.GetSprite(game, itemName);
+            scale = 1f;
+            return sprite != null ? AdjustScale(sprite, 1f, out scale) : fallback;
+        }
 
         public static Sprite GetSprite(string itemName, Sprite fallback, out float scale)
         {

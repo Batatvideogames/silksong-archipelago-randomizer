@@ -32,6 +32,7 @@ backups/
 *.nupkg
 *.snupkg
 *.zip
+!/src/SilksongRandomizer/Assets/MultiworldIcons.zip
 *.rar
 *.7z
 
