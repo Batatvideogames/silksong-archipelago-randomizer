@@ -36,6 +36,11 @@ namespace SilksongRandomizer
 
         internal static readonly NativeShopLocation[] ShopLocations =
         {
+            new NativeShopLocation("Bellhart Furnishing Desk", "Desk", "BelltownFurnishingDesk", ItemType.Bellhome),
+            new NativeShopLocation("Bellhart Furnishing Lights", "Gleamlights", "BelltownFurnishingFairyLights", ItemType.Bellhome),
+            new NativeShopLocation("Bellhart Furnishing Paint", "Bell Lacquer", "", ItemType.Bellhome),
+            new NativeShopLocation("Bellhart Furnishing Spa", "Personal Spa", "BelltownFurnishingSpa", ItemType.Bellhome),
+            new NativeShopLocation("Bellhart Furnishing Gramaphone", "Gramophone", "BelltownFurnishingGramaphone", ItemType.Bellhome),
             new NativeShopLocation("Mapper Moss Grotto Map", "Map Purchase: Mosslands", "HasMossGrottoMap", ItemType.Map),
             new NativeShopLocation("Mapper Boneforest Map", "Map Purchase: The Marrow", "HasBoneforestMap", ItemType.Map),
             new NativeShopLocation("Mapper Docks Map", "Map Purchase: Deep Docks", "HasDocksMap", ItemType.Map),

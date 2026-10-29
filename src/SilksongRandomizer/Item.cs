@@ -62,6 +62,7 @@ namespace SilksongRandomizer
         Materium,
         Farsight,
         Miscellaneous,
+        Bellhome,
     }
 
     public class Item

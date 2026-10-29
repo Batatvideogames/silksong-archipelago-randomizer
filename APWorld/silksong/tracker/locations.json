@@ -12646,6 +12646,81 @@
     ]
    },
    {
+    "name": "Desk",
+    "sections": [
+     {
+      "name": "Desk"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Belltown",
+      "x": 279,
+      "y": 374
+     }
+    ]
+   },
+   {
+    "name": "Gleamlights",
+    "sections": [
+     {
+      "name": "Gleamlights"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Belltown",
+      "x": 283,
+      "y": 337
+     }
+    ]
+   },
+   {
+    "name": "Bell Lacquer",
+    "sections": [
+     {
+      "name": "Bell Lacquer"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Belltown",
+      "x": 280,
+      "y": 323
+     }
+    ]
+   },
+   {
+    "name": "Personal Spa",
+    "sections": [
+     {
+      "name": "Personal Spa"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Belltown",
+      "x": 278,
+      "y": 310
+     }
+    ]
+   },
+   {
+    "name": "Gramophone",
+    "sections": [
+     {
+      "name": "Gramophone"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Belltown",
+      "x": 276,
+      "y": 296
+     }
+    ]
+   },
+   {
     "name": "Craw Summons",
     "sections": [
      {

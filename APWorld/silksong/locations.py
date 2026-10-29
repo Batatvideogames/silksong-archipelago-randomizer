@@ -1105,6 +1105,8 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Crow bell', 'Miscellaneous'),) + tuple
     if name in ADDITIONAL_MINOR_CACHE_LOCATION_NAMES
 )
 
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
+
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
     'Wish: Volatile Flintbeetles': 'Volatile Flintbeetles - Memory Locket',
@@ -1162,6 +1164,7 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Materium',
     'Farsight',
     'Miscellaneous',
+    'Bellhome',
     'TwistedBud',
     'Eva',
     'Skill',

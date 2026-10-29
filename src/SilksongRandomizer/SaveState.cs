@@ -373,6 +373,7 @@ namespace SilksongRandomizer
         public RandomizationMode everbloomRandomization = RandomizationMode.Vanilla;
         public RandomizationMode mementoRandomization = RandomizationMode.Vanilla;
         public RandomizationMode farsightRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode bellhomeRandomization = RandomizationMode.Vanilla;
         public RandomizationMode miscellaneousRandomization = RandomizationMode.Vanilla;
         public RandomizationMode materiumRandomization = RandomizationMode.Vanilla;
         public RandomizationMode twistedBudRandomization = RandomizationMode.Vanilla;
@@ -997,6 +998,7 @@ namespace SilksongRandomizer
             everbloomRandomization = archipelago.EverbloomRandomization;
             mementoRandomization = archipelago.MementoRandomization;
             farsightRandomization = archipelago.FarsightRandomization;
+            bellhomeRandomization = archipelago.BellhomeRandomization;
             miscellaneousRandomization = archipelago.MiscellaneousRandomization;
             materiumRandomization = archipelago.MateriumRandomization;
             twistedBudRandomization = archipelago.TwistedBudRandomization;
@@ -1194,6 +1196,7 @@ namespace SilksongRandomizer
                 Tuple.Create("everbloom_randomization", everbloomRandomization, archipelago.EverbloomRandomization),
                 Tuple.Create("memento_randomization", mementoRandomization, archipelago.MementoRandomization),
                 Tuple.Create("farsight_randomization", farsightRandomization, archipelago.FarsightRandomization),
+                Tuple.Create("bellhome_randomization", bellhomeRandomization, archipelago.BellhomeRandomization),
                 Tuple.Create("miscellaneous_items_randomization", miscellaneousRandomization, archipelago.MiscellaneousRandomization),
                 Tuple.Create("materium_randomization", materiumRandomization, archipelago.MateriumRandomization),
                 Tuple.Create("twisted_bud_randomization", twistedBudRandomization, archipelago.TwistedBudRandomization),
@@ -1799,6 +1802,8 @@ namespace SilksongRandomizer
                     return mementoRandomization;
                 case ItemType.Farsight:
                     return farsightRandomization;
+                case ItemType.Bellhome:
+                    return bellhomeRandomization;
                 case ItemType.Miscellaneous:
                     return miscellaneousRandomization;
                 case ItemType.Materium:

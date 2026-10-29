@@ -9240,5 +9240,11 @@
     "kind": "collectible",
     "locations": [],
     "mapper_kind": "collectible"
+  },
+  "event:mapper/reviewed:bellhome-cylinders-returned": {
+    "name": "All Psalm Cylinders Turned In",
+    "kind": "event",
+    "locations": [],
+    "mapper_kind": "event"
   }
 }

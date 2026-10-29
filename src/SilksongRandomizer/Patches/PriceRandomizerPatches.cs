@@ -62,7 +62,8 @@ namespace SilksongRandomizer.Patches
                 ref int __result)
             {
                 if (__instance == null ||
-                    !__instance.IsAvailableNotInfinite ||
+                    (!__instance.IsAvailableNotInfinite &&
+                        (__instance.name != "Bellhart Furnishing Paint" || !__instance.IsAvailable)) ||
                     !TryGetPrice(
                         ShopPrefix + (__instance.name ?? string.Empty),
                         out int price

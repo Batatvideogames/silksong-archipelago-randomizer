@@ -171,6 +171,13 @@ class MateriumRandomization(GlobalRandomization):
     default = GlobalRandomization.option_false
 
 
+class BellhomeRandomization(GlobalRandomization):
+    """Randomizes Desk, Gleamlights, Bell Lacquer, Personal Spa and Gramophone."""
+
+    display_name = "Bellhome Item Randomization"
+    default = GlobalRandomization.option_false
+
+
 class FarsightRandomization(GlobalRandomization):
     """Randomizes Farsight for Act 3 goals."""
 
@@ -731,6 +738,7 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Memento": "memento_randomization",
     "Materium": "materium_randomization",
     "Farsight": "farsight_randomization",
+    "Bellhome": "bellhome_randomization",
     "Miscellaneous": "miscellaneous_items_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
@@ -1750,6 +1758,7 @@ class SilksongOptions(PerGameCommonOptions):
     memento_randomization: MementoRandomization
     materium_randomization: MateriumRandomization
     farsight_randomization: FarsightRandomization
+    bellhome_randomization: BellhomeRandomization
     miscellaneous_items_randomization: MiscellaneousItemsRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
@@ -1869,6 +1878,7 @@ silksong_option_groups = [
         MementoRandomization,
         MateriumRandomization,
         FarsightRandomization,
+        BellhomeRandomization,
         MiscellaneousItemsRandomization,
         TwistedBudRandomization,
         FleaRandomization,

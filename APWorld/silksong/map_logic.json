@@ -125185,6 +125185,53 @@
           }
         ]
       },
+      "Room Event: event:mapper/reviewed:bellhome-cylinders-returned": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-bench#cardinius"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Relic: Psalm Cylinder (East Whispering Vaults)"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Relic: Sacred Cylinder"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Relic: Psalm Cylinder (Underworks)"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Relic: Psalm Cylinder (Vaultkeeper Cardinius)"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Relic: Psalm Cylinder (High Halls)"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Relic: Psalm Cylinder (Grindle)"
+                ],
+                "minimum": 1
+              }
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/reviewed:bilewater-bellway-paid": {
         "alternatives": [
           {
@@ -125492,9 +125539,76 @@
               "Room Node: bellhart/belltown#lower-area",
               "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
-              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
               "Faydown Cloak",
-              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked"
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:great-taste-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           },
           {
@@ -125538,7 +125652,7 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
-              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+              "Room Event: event:mapper/reviewed:great-taste-completed"
             ]
           },
           {
@@ -125549,7 +125663,29 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
-              "Room Event: event:mapper/reviewed:great-taste-completed"
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-bonebottom-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           },
           {
@@ -125582,7 +125718,7 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
-              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+              "Room Event: event:mapper/reviewed:great-taste-completed"
             ]
           },
           {
@@ -125593,7 +125729,29 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
-              "Room Event: event:mapper/reviewed:great-taste-completed"
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-pilgrims-rest-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           },
           {
@@ -125615,7 +125773,7 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-songclave-delivered",
-              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+              "Room Event: event:mapper/reviewed:great-taste-completed"
             ]
           },
           {
@@ -125626,7 +125784,7 @@
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
               "Room Event: event:mapper/reviewed:courier-songclave-delivered",
-              "Room Event: event:mapper/reviewed:great-taste-completed"
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
             ]
           },
           {
@@ -125636,7 +125794,18 @@
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
-              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-songclave-delivered",
               "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           },
@@ -125658,8 +125827,96 @@
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Faydown Cloak",
               "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
-              "Room Event: event:mapper/reviewed:courier-fixer-delivered",
-              "Room Event: event:mapper/reviewed:great-taste-completed"
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-fleatopia-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:great-taste-completed",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:great-taste-completed",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:great-taste-completed",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul On",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Faydown Cloak",
+              "Room Event: event:mapper/reviewed:courier-melody-lift-unlocked",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           }
         ]
@@ -125770,7 +126027,7 @@
               "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
-              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
+              "Room Event: event:mapper/reviewed:great-taste-completed"
             ]
           },
           {
@@ -125779,7 +126036,25 @@
               "Option: Steel Soul Off",
               "Room Event: event:mapper/reviewed:courier-service-ready",
               "Room Event: event:mapper/reviewed:styx-first-grub-grown",
-              "Room Event: event:mapper/reviewed:great-taste-completed"
+              "Room Event: event:mapper/reviewed:courier-queens-egg-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-liquid-lacquer-delivered"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Option: Steel Soul Off",
+              "Room Event: event:mapper/reviewed:courier-service-ready",
+              "Room Event: event:mapper/reviewed:styx-first-grub-grown",
+              "Room Event: event:mapper/reviewed:courier-fixer-delivered"
             ]
           }
         ]
@@ -256942,6 +257217,16 @@
           }
         ]
       },
+      "Bell Lacquer": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ]
+          }
+        ]
+      },
       "Bellhart - Bellshrine": {
         "alternatives": [
           {
@@ -260280,6 +260565,115 @@
           }
         ]
       },
+      "Desk": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/9d73778d-0d7b-46f3-8bf1-885201cb5d34"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/fd037428-68a6-490e-80b4-5e535b8529a5"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/589ebc2f-fa7d-4503-b799-3af5821a339d"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/539d6f29-4686-4882-8fa0-437ec045d4b6"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/e8e5844e-15b4-4b55-af4b-6c657270b752"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/6152a84d-78fd-47cc-944c-fcfd478a0e7f"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/cb87249b-0a5b-4f4e-8ab7-837a437304b1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/342a8034-a6ad-4a17-bbed-9d4b50426d4c"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/09ce84db-cf83-4bb6-83fb-ce5dbceb58eb"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/5cc5918f-0200-4542-bbb9-9d4ef3762ce4"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/4d674f5f-165b-4291-a321-a121bc7cbf74"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/99f88879-c17a-4e2e-ba1b-580ffab9a748"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/2e05c628-8ac5-4251-90c4-23eba830849b"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/a50578aa-b971-4c44-8235-17d2bb5f3e3e"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+              "Room Event: event:mapper/535aded0-5046-42db-a3cd-070e0ac266ad"
+            ]
+          }
+        ]
+      },
       "Dining Hall's food budget": {
         "alternatives": [
           {
@@ -261616,6 +262010,16 @@
           }
         ]
       },
+      "Gleamlights": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ]
+          }
+        ]
+      },
       "Goal": {
         "alternatives": [
           {
@@ -261623,6 +262027,25 @@
               "Event: Lost Lace Defeated"
             ],
             "require_any_crest": true
+          }
+        ]
+      },
+      "Gramophone": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/reviewed:bellhome-cylinders-returned",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Desk"
+                ],
+                "minimum": 1
+              }
+            ]
           }
         ]
       },
@@ -265726,6 +266149,130 @@
           {
             "all_of": [
               "Room Node: the-cradle/act3-gms-arena#bridge"
+            ]
+          }
+        ]
+      },
+      "Personal Spa": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Desk"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Gleamlights"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Desk"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Bell Lacquer"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Desk"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Gramophone"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Gleamlights"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Bell Lacquer"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Gleamlights"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Gramophone"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Bell Lacquer"
+                ],
+                "minimum": 1
+              },
+              {
+                "items": [
+                  "Gramophone"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]

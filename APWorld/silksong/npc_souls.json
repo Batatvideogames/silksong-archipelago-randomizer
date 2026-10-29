@@ -494,7 +494,12 @@
     "checks": [
       "Bellhart Shop - Memory Locket",
       "Frey (Bellhart) - Spool Fragment",
-      "Multibinder"
+      "Multibinder",
+      "Desk",
+      "Gleamlights",
+      "Bell Lacquer",
+      "Personal Spa",
+      "Gramophone"
     ],
     "events": [
       "Room Event: event:mapper/47e3b04b-3045-499b-8ed5-17c759d4aa5d",
@@ -777,7 +782,8 @@
       "Relic: Psalm Cylinder (Vaultkeeper Cardinius)"
     ],
     "events": [
-      "Room Event: event:mapper/05efede5-240a-4d89-bb34-beda9a392d0c"
+      "Room Event: event:mapper/05efede5-240a-4d89-bb34-beda9a392d0c",
+      "Room Event: event:mapper/reviewed:bellhome-cylinders-returned"
     ],
     "item_id": 839022,
     "act": 2

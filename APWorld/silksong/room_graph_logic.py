@@ -5,7 +5,7 @@ import pkgutil
 
 from dataclasses import dataclass, replace
 from functools import lru_cache
-from itertools import product
+from itertools import combinations, product
 from types import MappingProxyType
 from typing import Iterable, Mapping
 
@@ -1556,6 +1556,9 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
     alternatives = _ATOM_ALTERNATIVES.get(atom)
     if alternatives is not None:
         return alternatives
+    if atom == "count:bellhome-items:2":
+        return tuple(_part(item_counts=tuple((name, 1) for name in pair))
+                     for pair in combinations(("Desk", "Gleamlights", "Bell Lacquer", "Gramophone"), 2))
     if atom.startswith("count:verdania-shards:"):
         minimum = int(atom.rsplit(":", 1)[1])
         if not 1 <= minimum <= 17:

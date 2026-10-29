@@ -72,6 +72,28 @@ namespace SilksongRandomizer
             { "Crest: Architect", "Crest__0016_toolmaster_full" },
             { "Crest: Shaman", "Crest__0009_spell_full" },
 
+            // Crest Slots
+            { "Crest Slot: Hunter (Red 1)", "UI_tool_slot_attack0000" },
+            { "Crest Slot: Hunter (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Hunter (Yellow 1)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Reaper (Red 1)", "UI_tool_slot_attack0000" },
+            { "Crest Slot: Reaper (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Reaper (Yellow 1)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Wanderer (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Wanderer (Blue 2)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Wanderer (Yellow 1)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Beast (Yellow 1)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Beast (Yellow 2)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Witch (Red 1)", "UI_tool_slot_attack0000" },
+            { "Crest Slot: Witch (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Witch (Blue 2)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Architect (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Architect (Yellow 1)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Architect (Yellow 2)", "UI_tool_slot_explore0000" },
+            { "Crest Slot: Architect (Blue 2)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Shaman (Blue 1)", "UI_tool_slot_defend0000" },
+            { "Crest Slot: Shaman (Blue 2)", "UI_tool_slot_defend0000" },
+
             // Eva
             { "Hunter Evolution 1", "Crest__0013_hunter_lvl2_full" },
             { "Hunter Evolution 2", "Crest__0014_hunter_lvl3_silhouette" },
@@ -183,6 +205,13 @@ namespace SilksongRandomizer
             { "Craw Summons", "Inv_craw_summons" },
             { "Cogwork Heart", "cog_heart_pieces" },
 
+            // Bellhome
+            { "Desk", "desk" },
+            { "Gleamlights", "gleamflies" },
+            { "Bell Lacquer", "paint" },
+            { "Personal Spa", "spa" },
+            { "Gramophone", "gramaphone" },
+
             // Melodies / Cutscenes
             { "Elegy of the Deep", "Deep_Memory_Prompt" },
             { "Beastling Call", "bellbeast_melody_prompts" },
@@ -210,7 +239,7 @@ namespace SilksongRandomizer
             { "Map", "I_map" },
             { "Ventrica", "pin_tube_station" },
             { "Progressive Silkheart", "silk_heart_inv_icon" },
-            { "Crest Slot", "UI_tool_slot_attack0000" }, // Need to color these slots but for now a generic icon... attack0000 is Red, explore0000 is Yellow, defend0000 is Blue.
+            { "Crest Slot", "UI_tool_slot_attack0000" },
 
             // Traps
             { "Literacy Trap", "Hornet_icon_0002_R_bone_record" },
@@ -230,6 +259,42 @@ namespace SilksongRandomizer
             { "Twisted Bud", "mandrake_icon0000" },
             { "Mossberry", "I_moss_berry" },
         };
+
+        private static readonly Dictionary<string, string> Collectables =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "Sprintmaster's Memento", "Sprintmaster Memento" },
+            { "Guardian's Memento", "Memento Seth" },
+            { "Hero's Memento", "Memento Garmond" },
+            { "Grey Memento", "Grey Memento" },
+            { "Surface Memento", "Memento Surface" },
+            { "Craw Memento", "Crowman Memento" },
+            { "Everbloom", "White Flower" },
+            { "Farsight", "Farsight" },
+            { "Crawbell", "Crawbell" },
+            { "Materium", "Materium" },
+            { "Diving Bell Key", "Dock Key" },
+            { "Simple Key", "Simple Key" },
+            { "Silkeater", "Silk Grub" },
+        };
+
+        private static readonly Dictionary<string, string> Samples =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "Flintstone", "Smeltstone" },
+            { "Magnetite", "Magnetite" },
+        };
+
+        private static readonly Dictionary<string, ToolItemType> SlotColors =
+            new Dictionary<string, ToolItemType>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "UI_tool_slot_attack0000", ToolItemType.Red },
+            { "UI_tool_slot_defend0000", ToolItemType.Blue },
+            { "UI_tool_slot_explore0000", ToolItemType.Yellow },
+        };
+
+        private static readonly Dictionary<string, Sprite> ColoredSlots =
+            new Dictionary<string, Sprite>(StringComparer.OrdinalIgnoreCase);
 
         private static readonly Dictionary<string, CachedIcon> IconCache = 
             new Dictionary<string, CachedIcon>(StringComparer.OrdinalIgnoreCase);
@@ -295,29 +360,13 @@ namespace SilksongRandomizer
         {
             scale = 1f;
 
-            string collectableName = null;
-            switch (Normalize(rawName))
+            string canonicalName = Normalize(rawName);
+            if (Samples.TryGetValue(canonicalName, out string sampleName))
             {
-                case "Sprintmaster's Memento": collectableName = "Sprintmaster Memento"; break;
-                case "Guardian's Memento": collectableName = "Memento Seth"; break;
-                case "Hero's Memento": collectableName = "Memento Garmond"; break;
-                case "Grey Memento": collectableName = "Grey Memento"; break;
-                case "Surface Memento": collectableName = "Memento Surface"; break;
-                case "Craw Memento": collectableName = "Crowman Memento"; break;
-                case "Everbloom": collectableName = "White Flower"; break;
-                case "Farsight": collectableName = "Farsight"; break;
-                case "Crawbell": collectableName = "Crawbell"; break;
-                case "Materium": collectableName = "Materium"; break;
-                case "Diving Bell Key": collectableName = "Dock Key"; break;
-                case "Simple Key": collectableName = "Simple Key"; break;
-                case "Silkeater": collectableName = "Silk Grub"; break;
-            }
-            if (rawName == "Flintstone" || rawName == "Magnetite")
-            {
-                var sample = CollectionItemSources.FindSample(rawName == "Flintstone" ? "Smeltstone" : rawName);
+                var sample = CollectionItemSources.FindSample(sampleName);
                 if (sample != null && sample.Icon != null) return sample.Icon;
             }
-            if (collectableName != null)
+            if (Collectables.TryGetValue(canonicalName, out string collectableName))
             {
                 CollectableItem item = CollectableItemManager.GetItemByName(collectableName);
                 if (item != null)
@@ -327,12 +376,22 @@ namespace SilksongRandomizer
                 }
             }
 
-            if (Mappings.TryGetValue(rawName, out string mappedSprite) ||
+            if (Mappings.TryGetValue(canonicalName, out string mappedSprite) ||
                 Mappings.TryGetValue(strippedName, out mappedSprite) ||
                 Mappings.TryGetValue(cleanName, out mappedSprite) ||
                 Mappings.TryGetValue("Crest: " + cleanName, out mappedSprite))
             {
-                Sprite targetSprite = FindNamedSprite(mappedSprite);
+                Sprite targetSprite;
+                if (SlotColors.TryGetValue(mappedSprite, out ToolItemType color))
+                {
+                    if (!ColoredSlots.TryGetValue(mappedSprite, out targetSprite) || targetSprite == null)
+                    {
+                        Sprite original = FindNamedSprite(mappedSprite);
+                        if (original != null)
+                            ColoredSlots[mappedSprite] = targetSprite = TintSlot(original, color);
+                    }
+                }
+                else targetSprite = FindNamedSprite(mappedSprite);
                 if (targetSprite != null) return AdjustScale(targetSprite, 1f, out scale);
             }
 
@@ -466,6 +525,64 @@ namespace SilksongRandomizer
                 }
             }
             return null;
+        }
+
+        private static Sprite TintSlot(Sprite source, ToolItemType type)
+        {
+            RenderTexture previous = RenderTexture.active;
+            bool previousSrgb = GL.sRGBWrite;
+            RenderTexture target = null;
+            Texture2D texture = null;
+            try
+            {
+                Texture2D atlas = source.texture;
+                target = RenderTexture.GetTemporary(atlas.width, atlas.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+                GL.sRGBWrite = QualitySettings.activeColorSpace == ColorSpace.Linear;
+                Graphics.Blit(atlas, target);
+                RenderTexture.active = target;
+                int width = Mathf.RoundToInt(source.rect.width);
+                int height = Mathf.RoundToInt(source.rect.height);
+                texture = new Texture2D(width, height, TextureFormat.RGBA32, false)
+                {
+                    name = source.name + " " + type,
+                    hideFlags = HideFlags.HideAndDontSave,
+                    filterMode = atlas.filterMode,
+                    wrapMode = TextureWrapMode.Clamp
+                };
+                texture.SetPixels32(new Color32[width * height]);
+                Rect rect = source.textureRect;
+                Vector2 offset = source.textureRectOffset;
+                texture.ReadPixels(new Rect(Mathf.RoundToInt(rect.x), Mathf.RoundToInt(rect.y),
+                    Mathf.RoundToInt(rect.width), Mathf.RoundToInt(rect.height)),
+                    Mathf.RoundToInt(offset.x), Mathf.RoundToInt(offset.y), false);
+                Color tint = GlobalSettings.UI.GetToolTypeColor(type);
+                Color32[] pixels = texture.GetPixels32();
+                for (int i = 0; i < pixels.Length; i++)
+                {
+                    pixels[i].r = (byte)Mathf.RoundToInt(pixels[i].r * tint.r);
+                    pixels[i].g = (byte)Mathf.RoundToInt(pixels[i].g * tint.g);
+                    pixels[i].b = (byte)Mathf.RoundToInt(pixels[i].b * tint.b);
+                }
+                texture.SetPixels32(pixels);
+                texture.Apply(false, true);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height),
+                    new Vector2(source.pivot.x / width, source.pivot.y / height), source.pixelsPerUnit, 0, SpriteMeshType.FullRect);
+                Vector2[] vertices = source.vertices;
+                for (int i = 0; i < vertices.Length; i++)
+                    vertices[i] = vertices[i] * source.pixelsPerUnit + source.pivot;
+                sprite.OverrideGeometry(vertices, source.triangles);
+                sprite.name = texture.name;
+                sprite.hideFlags = HideFlags.HideAndDontSave;
+                texture = null;
+                return sprite;
+            }
+            finally
+            {
+                RenderTexture.active = previous;
+                GL.sRGBWrite = previousSrgb;
+                if (texture != null) UnityEngine.Object.Destroy(texture);
+                if (target != null) RenderTexture.ReleaseTemporary(target);
+            }
         }
 
         private static Sprite AdjustScale(Sprite sprite, float reportedScale, out float scale)

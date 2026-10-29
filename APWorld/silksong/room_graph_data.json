@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "170e20148b1734b8ee687dc396f823283e9592a9647ae936538ba9a00e772596",
     "catalogue_sha256": "54eaa09b19b5511ec3196e8e3e245ef38023465b73a3c7a08184e81fa25dc464",
-    "bindings_sha256": "d829fc8d08552457f0b60faa19ff6a3d76c5ca089381538e00869c04e4aa0df4"
+    "bindings_sha256": "fe733b082cc958b6ab3c86d0eaae67e8515398e0fe93ab3d8f40cf951c6b12f2"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -40,6 +40,7 @@
       "Barbed Bracelet",
       "Beastling Call",
       "Bell Beast - Silk Heart",
+      "Bell Lacquer",
       "Bellhart - Bellshrine",
       "Bellhart - Bellway",
       "Bellhart - East Sign",
@@ -253,6 +254,7 @@
       "Deep Docks Church - Shell Shard Chest",
       "Deep Docks Lower Spire Rosary Cache",
       "Delver's Drill",
+      "Desk",
       "Dining Hall's food budget",
       "Drifter's Cloak",
       "Druid's Eye",
@@ -346,6 +348,8 @@
       "Forge Daughter - Crafting Kit",
       "Fractured Mask",
       "Frey (Bellhart) - Spool Fragment",
+      "Gleamlights",
+      "Gramophone",
       "Grand Bellway - Bellway",
       "Grand Bellway - Ventrica",
       "Grand Gate - Map Purchase",
@@ -537,6 +541,7 @@
       "Old Ventrica gains",
       "Old Ventrica treasury",
       "Pale Nails",
+      "Personal Spa",
       "Pilgrim's Rest - Beast Shard",
       "Pilgrim's Rest - Tool Pouch",
       "Pilgrim's Rest Shop - Memory Locket",
@@ -107770,13 +107775,25 @@
                 "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
-                "event:mapper/reviewed:courier-fixer-delivered"
+                "event:mapper/reviewed:great-taste-completed"
               ],
               [
                 "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
                 "event:mapper/reviewed:styx-first-grub-grown",
-                "event:mapper/reviewed:great-taste-completed"
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "event:mapper/reviewed:styx-first-grub-grown",
+                "event:mapper/reviewed:courier-fixer-delivered"
               ]
             ],
             "annotations": [],
@@ -107801,9 +107818,58 @@
               [
                 "state:steel-soul-off",
                 "event:mapper/reviewed:courier-service-ready",
-                "event:mapper/reviewed:courier-queens-egg-delivered",
                 "item:faydown-cloak",
-                "event:mapper/reviewed:courier-melody-lift-unlocked"
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-bonebottom-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-songclave-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-fleatopia-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:great-taste-completed"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-off",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
               ],
               [
                 "state:steel-soul-on",
@@ -107835,7 +107901,7 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-bonebottom-delivered",
-                "event:mapper/reviewed:courier-fixer-delivered"
+                "event:mapper/reviewed:great-taste-completed"
               ],
               [
                 "state:steel-soul-on",
@@ -107843,7 +107909,23 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-bonebottom-delivered",
-                "event:mapper/reviewed:great-taste-completed"
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-bonebottom-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
               ],
               [
                 "state:steel-soul-on",
@@ -107867,7 +107949,7 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-pilgrims-rest-delivered",
-                "event:mapper/reviewed:courier-fixer-delivered"
+                "event:mapper/reviewed:great-taste-completed"
               ],
               [
                 "state:steel-soul-on",
@@ -107875,7 +107957,23 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-pilgrims-rest-delivered",
-                "event:mapper/reviewed:great-taste-completed"
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-pilgrims-rest-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
               ],
               [
                 "state:steel-soul-on",
@@ -107891,7 +107989,7 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-songclave-delivered",
-                "event:mapper/reviewed:courier-fixer-delivered"
+                "event:mapper/reviewed:great-taste-completed"
               ],
               [
                 "state:steel-soul-on",
@@ -107899,14 +107997,22 @@
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
                 "event:mapper/reviewed:courier-songclave-delivered",
-                "event:mapper/reviewed:great-taste-completed"
+                "event:mapper/reviewed:courier-queens-egg-delivered"
               ],
               [
                 "state:steel-soul-on",
                 "event:mapper/reviewed:courier-service-ready",
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
-                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:courier-songclave-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-songclave-delivered",
                 "event:mapper/reviewed:courier-fixer-delivered"
               ],
               [
@@ -107922,8 +108028,72 @@
                 "event:mapper/reviewed:courier-service-ready",
                 "item:faydown-cloak",
                 "event:mapper/reviewed:courier-melody-lift-unlocked",
-                "event:mapper/reviewed:courier-fixer-delivered",
-                "event:mapper/reviewed:great-taste-completed"
+                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-fleatopia-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:great-taste-completed",
+                "event:mapper/reviewed:courier-queens-egg-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:great-taste-completed",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:great-taste-completed",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-queens-egg-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
+              ],
+              [
+                "state:steel-soul-on",
+                "event:mapper/reviewed:courier-service-ready",
+                "item:faydown-cloak",
+                "event:mapper/reviewed:courier-melody-lift-unlocked",
+                "event:mapper/reviewed:courier-liquid-lacquer-delivered",
+                "event:mapper/reviewed:courier-fixer-delivered"
               ]
             ],
             "annotations": [],
@@ -108583,6 +108753,225 @@
           "currently_randomized": true
         },
         {
+          "id": "bellhart/belltown::mapper-check:8b0538b0-10bb-4681-ade2-5bbed2edbe01:836451",
+          "requirement": {
+            "raw": "Spend 380 Rosaries AND prereq Visit Bellhome IN Bellhome AND ( Prereq Hand In Bone Scroll Relic Bone Scroll Far Fields IN Bellhart Relic shop \nOR Prereq Hand In Bone Scroll Greymoor IN Bellhart Relic Shop \nOR prereq Hand In Bone Scroll Underworks IN Bellhart Relic Shop \nOR Prereq Hand In Bone Scroll Wisp Thicket IN Bellhart Relic Shop \nOR Prereq Hand In Weaver Effigy Moss Grotto IN Bellhart Relic shop \nOR Prereq Hand In Weaver Effigy Shellwood IN Bellhart Relic Shop\nOR Prereq Hand In Weaver Effigy  The Slab IN Bellhart Relic shop\nOR Prereq Hand in Choral Commandment Jubilana IN Bellhart Relic Shop\nOR Prereq Hand in Choral Commandment Western Whiteward IN Bellhart Relic SHop\nOR Prereq Hand in Choral Commandment Moss Grotto IN Bellhart Relic shop \nOR Prereq Hand in Choral Commandment Eastern Whiteward IN Bellhart Relic Shop\nOR Prereq Hand in Rune Harp Weavenest Atla IN Bellhart Relic Shop \nOR Prereq Hand in Rune Harp Weavenest Cindril IN Bellhart Relic Shop\nOR Prereq Hand in Rune Harp High Halls IN Bellhart relic Shop\nOR Prereq Hand in Arcane Egg IN Bellhart Relic SHop )",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/9d73778d-0d7b-46f3-8bf1-885201cb5d34"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/fd037428-68a6-490e-80b4-5e535b8529a5"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/589ebc2f-fa7d-4503-b799-3af5821a339d"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/539d6f29-4686-4882-8fa0-437ec045d4b6"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/e8e5844e-15b4-4b55-af4b-6c657270b752"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/6152a84d-78fd-47cc-944c-fcfd478a0e7f"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/cb87249b-0a5b-4f4e-8ab7-837a437304b1"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/342a8034-a6ad-4a17-bbed-9d4b50426d4c"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/09ce84db-cf83-4bb6-83fb-ce5dbceb58eb"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/5cc5918f-0200-4542-bbb9-9d4ef3762ce4"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/4d674f5f-165b-4291-a321-a121bc7cbf74"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/99f88879-c17a-4e2e-ba1b-580ffab9a748"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/2e05c628-8ac5-4251-90c4-23eba830849b"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/a50578aa-b971-4c44-8235-17d2bb5f3e3e"
+              ],
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Desk",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "event:mapper/535aded0-5046-42db-a3cd-070e0ac266ad"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "8b0538b0-10bb-4681-ade2-5bbed2edbe01"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Desk",
+          "node_id": "bellhart/belltown#lower-area",
+          "canonical_location": "Desk",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "bellhart/belltown::mapper-check:7ff3e009-a3e3-4d58-b4f6-686cbb98b530:836452",
+          "requirement": {
+            "raw": "Spend 320 Rosaries AND Prereq Visit Bellhome IN Bellhome",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Lights",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "7ff3e009-a3e3-4d58-b4f6-686cbb98b530"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Gleamlights",
+          "node_id": "bellhart/belltown#lower-area",
+          "canonical_location": "Gleamlights",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "bellhart/belltown::mapper-check:40cfd456-6fa3-4a07-ae39-749f73df251b:836453",
+          "requirement": {
+            "raw": "Spend 520 Rosaries AND Prereq Visit Bellhome IN Bellhome",
+            "mode": "expression",
+            "dnf": [
+              [
+                "mapper:rosary-price:shop:Bellhart Furnishing Paint",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "40cfd456-6fa3-4a07-ae39-749f73df251b"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Bell Lacquer",
+          "node_id": "bellhart/belltown#lower-area",
+          "canonical_location": "Bell Lacquer",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "bellhart/belltown::mapper-check:339fc024-3768-4b7b-a6a6-c4223a0b9aa0:836454",
+          "requirement": {
+            "raw": "Get 2 Bellhome Items\nAND Spend 1100 Rosaries AND Prereq Visit Bellhome IN Bellhome",
+            "mode": "expression",
+            "dnf": [
+              [
+                "count:bellhome-items:2",
+                "mapper:rosary-price:shop:Bellhart Furnishing Spa",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "339fc024-3768-4b7b-a6a6-c4223a0b9aa0"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Personal Spa",
+          "node_id": "bellhart/belltown#lower-area",
+          "canonical_location": "Personal Spa",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "bellhart/belltown::mapper-check:fc26dbd3-e217-4474-8aa6-777b1c55068b:836455",
+          "requirement": {
+            "raw": "Get 6 Psalm Cylinders Turned In\nAND Spend 490 Rosaries AND Prereq Visit Bellhome IN Bellhome AND Prereq Desk",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:bellhome-cylinders-returned",
+                "mapper:rosary-price:shop:Bellhart Furnishing Gramaphone",
+                "event:mapper/a34be17f-4734-491d-947a-db1d4d086e79",
+                "received:Desk"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "fc26dbd3-e217-4474-8aa6-777b1c55068b"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Gramophone",
+          "node_id": "bellhart/belltown#lower-area",
+          "canonical_location": "Gramophone",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "bellhart/belltown::reviewed-check:835642",
           "label": "The Hidden Hunter - Mask Shard",
           "node_id": "bellhart/belltown#lower-area",
@@ -109222,33 +109611,7 @@
           "unresolved_reasons": []
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "8b0538b0-10bb-4681-ade2-5bbed2edbe01",
-          "label": "Desk",
-          "kind": "collectible"
-        },
-        {
-          "mapper_id": "7ff3e009-a3e3-4d58-b4f6-686cbb98b530",
-          "label": "Gleamlights",
-          "kind": "collectible"
-        },
-        {
-          "mapper_id": "40cfd456-6fa3-4a07-ae39-749f73df251b",
-          "label": "Bell Lacquer",
-          "kind": "collectible"
-        },
-        {
-          "mapper_id": "339fc024-3768-4b7b-a6a6-c4223a0b9aa0",
-          "label": "Personal Spa",
-          "kind": "collectible"
-        },
-        {
-          "mapper_id": "fc26dbd3-e217-4474-8aa6-777b1c55068b",
-          "label": "Gramophone",
-          "kind": "collectible"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "bellhart/upper-bellhart",
@@ -158366,7 +158729,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\ud83e\udd40",
+          "notes": "🥀",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "c71d4e51-054d-400f-bc57-0cdbbad16f24"
@@ -173288,7 +173651,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #8",
+          "label": "Rosary Cache: Sinner’s Road #8",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-bench#room"
         },
@@ -173514,7 +173877,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #8",
+          "label": "Rosary Cache: Sinner’s Road #8",
           "node_id": "sinner-s-road/sinner-s-road-bench#room",
           "canonical_location": "Sinner's Road - Rosary Cache #8",
           "canonical_mapping_confidence": "explicit",
@@ -175445,7 +175808,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-hanging-cages#plat-above-upper-door>shack@ues",
           "requirement": {
-            "raw": "Clawline OR ((Cling grip OR silk soar) AND enemy pogo AND (drifter\u2019s cloak OR sharpdart))",
+            "raw": "Clawline OR ((Cling grip OR silk soar) AND enemy pogo AND (drifter’s cloak OR sharpdart))",
             "mode": "expression",
             "dnf": [
               [
@@ -176349,7 +176712,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #4",
+          "label": "Shell Shard Cache: Sinner’s Road #4",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -176373,7 +176736,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #5",
+          "label": "Shell Shard Cache: Sinner’s Road #5",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -176461,7 +176824,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #4",
+          "label": "Shell Shard Cache: Sinner’s Road #4",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
           "canonical_location": "Sinner's Road - Shell Shard Cache #4",
           "canonical_mapping_confidence": "explicit",
@@ -176487,7 +176850,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #5",
+          "label": "Shell Shard Cache: Sinner’s Road #5",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
           "canonical_location": "Sinner's Road - Shell Shard Cache #5",
           "canonical_mapping_confidence": "explicit",
@@ -177342,7 +177705,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #1",
+          "label": "Shell Shard Cache: Sinner’s Road #1",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -177377,7 +177740,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #2",
+          "label": "Shell Shard Cache: Sinner’s Road #2",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -177412,7 +177775,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #3",
+          "label": "Shell Shard Cache: Sinner’s Road #3",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -177447,7 +177810,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #4",
+          "label": "Rosary Cache: Sinner’s Road #4",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half"
         },
@@ -177512,7 +177875,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #1",
+          "label": "Shell Shard Cache: Sinner’s Road #1",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #1",
           "canonical_mapping_confidence": "explicit",
@@ -177549,7 +177912,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #2",
+          "label": "Shell Shard Cache: Sinner’s Road #2",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #2",
           "canonical_mapping_confidence": "explicit",
@@ -177586,7 +177949,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #3",
+          "label": "Shell Shard Cache: Sinner’s Road #3",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Shell Shard Cache #3",
           "canonical_mapping_confidence": "explicit",
@@ -177623,7 +177986,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #4",
+          "label": "Rosary Cache: Sinner’s Road #4",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
           "canonical_location": "Sinner's Road - Rosary Cache #4",
           "canonical_mapping_confidence": "explicit",
@@ -178411,7 +178774,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#left-area>middle-area@lam",
           "requirement": {
-            "raw": "clawline OR enemy pogo OR (sharpdart x 3 AND (drifter\u2019s cloak OR faydown cloak)) OR (drifter\u2019s cloak AND ((cling grip AND ledge grab) OR faydown cloak)) OR (swim AND ledge grab)",
+            "raw": "clawline OR enemy pogo OR (sharpdart x 3 AND (drifter’s cloak OR faydown cloak)) OR (drifter’s cloak AND ((cling grip AND ledge grab) OR faydown cloak)) OR (swim AND ledge grab)",
             "mode": "expression",
             "dnf": [
               [
@@ -178462,7 +178825,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#middle-area>left-area@lam",
           "requirement": {
-            "raw": "clawline OR enemy pogo OR (sharpdart AND (drifter\u2019s cloak OR faydown cloak)) OR (drifter\u2019s cloak AND faydown cloak) OR (swim AND (ledge grab OR cling grip))",
+            "raw": "clawline OR enemy pogo OR (sharpdart AND (drifter’s cloak OR faydown cloak)) OR (drifter’s cloak AND faydown cloak) OR (swim AND (ledge grab OR cling grip))",
             "mode": "expression",
             "dnf": [
               [
@@ -178573,7 +178936,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#middle-area>right-door-platform@mar",
           "requirement": {
-            "raw": "(swim AND faydown cloak) OR (clawline AND (drifter\u2019s cloak OR sharpdart OR enemy pogo)) OR (drifter\u2019s cloak AND (sharpdart OR enemy pogo)) OR (sharpdart AND enemy pogo)",
+            "raw": "(swim AND faydown cloak) OR (clawline AND (drifter’s cloak OR sharpdart OR enemy pogo)) OR (drifter’s cloak AND (sharpdart OR enemy pogo)) OR (sharpdart AND enemy pogo)",
             "mode": "expression",
             "dnf": [
               [
@@ -178625,7 +178988,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-north-hall#right-door-platform>middle-area@mar",
           "requirement": {
-            "raw": "enemy pogo OR swim OR (drifter\u2019s cloak AND (run OR dash OR ledge grab OR sharpdart OR clawline OR faydown cloak)) OR (run AND (faydown cloak OR sharpdart OR clawline))",
+            "raw": "enemy pogo OR swim OR (drifter’s cloak AND (run OR dash OR ledge grab OR sharpdart OR clawline OR faydown cloak)) OR (run AND (faydown cloak OR sharpdart OR clawline))",
             "mode": "expression",
             "dnf": [
               [
@@ -178838,7 +179201,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #6",
+          "label": "Shell Shard Cache: Sinner’s Road #6",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -178865,7 +179228,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #7",
+          "label": "Shell Shard Cache: Sinner’s Road #7",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -179080,7 +179443,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #6",
+          "label": "Shell Shard Cache: Sinner’s Road #6",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
           "canonical_location": "Sinner's Road - Shell Shard Cache #6",
           "canonical_mapping_confidence": "explicit",
@@ -179109,7 +179472,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shard Cache: Sinner\u2019s Road #7",
+          "label": "Shell Shard Cache: Sinner’s Road #7",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
           "canonical_location": "Sinner's Road - Shell Shard Cache #7",
           "canonical_mapping_confidence": "explicit",
@@ -179627,7 +179990,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-styx-room#right>left@lr",
           "requirement": {
-            "raw": "(Spike pogo OR Faydown cloak OR (silk soar AND drifter\u2019s cloak) OR (cling grip AND (sharpdart OR clawline OR dash))) AND complete Styx Room Upper Breakable Wall",
+            "raw": "(Spike pogo OR Faydown cloak OR (silk soar AND drifter’s cloak) OR (cling grip AND (sharpdart OR clawline OR dash))) AND complete Styx Room Upper Breakable Wall",
             "mode": "expression",
             "dnf": [
               [
@@ -180762,7 +181125,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #5",
+          "label": "Rosary Cache: Sinner’s Road #5",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -180786,7 +181149,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #6",
+          "label": "Rosary Cache: Sinner’s Road #6",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -180810,7 +181173,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #7",
+          "label": "Rosary Cache: Sinner’s Road #7",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage"
         },
@@ -180834,14 +181197,14 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shard Bundle: Sinner\u2019s Road",
+          "label": "Shard Bundle: Sinner’s Road",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door"
         },
         {
           "id": "event:mapper/b08ca6ef-95fe-4e21-8813-7cfe691aa778",
           "requirement": {
-            "raw": "Cling grip AND (dash OR drifter\u2019s cloak OR clawline OR sharpdart)",
+            "raw": "Cling grip AND (dash OR drifter’s cloak OR clawline OR sharpdart)",
             "mode": "expression",
             "dnf": [
               [
@@ -181046,7 +181409,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #5",
+          "label": "Rosary Cache: Sinner’s Road #5",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #5",
           "canonical_mapping_confidence": "explicit",
@@ -181072,7 +181435,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #6",
+          "label": "Rosary Cache: Sinner’s Road #6",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #6",
           "canonical_mapping_confidence": "explicit",
@@ -181098,7 +181461,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #7",
+          "label": "Rosary Cache: Sinner’s Road #7",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#mid-cage",
           "canonical_location": "Sinner's Road - Rosary Cache #7",
           "canonical_mapping_confidence": "explicit",
@@ -181124,7 +181487,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shard Bundle: Sinner\u2019s Road",
+          "label": "Shard Bundle: Sinner’s Road",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door",
           "canonical_location": "Sinner's Road - Shard Bundle",
           "canonical_mapping_confidence": "explicit",
@@ -181133,7 +181496,7 @@
         {
           "id": "sinner-s-road/sinner-s-road-vertical-hall-east::mapper-check:b08ca6ef-95fe-4e21-8813-7cfe691aa778:836199",
           "requirement": {
-            "raw": "Cling grip AND (dash OR drifter\u2019s cloak OR clawline OR sharpdart)",
+            "raw": "Cling grip AND (dash OR drifter’s cloak OR clawline OR sharpdart)",
             "mode": "expression",
             "dnf": [
               [
@@ -181889,7 +182252,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #1",
+          "label": "Rosary Cache: Sinner’s Road #1",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#lower"
         },
@@ -181913,7 +182276,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #2",
+          "label": "Rosary Cache: Sinner’s Road #2",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right"
         },
@@ -181937,7 +182300,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #3",
+          "label": "Rosary Cache: Sinner’s Road #3",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right"
         }
@@ -181974,7 +182337,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #1",
+          "label": "Rosary Cache: Sinner’s Road #1",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#lower",
           "canonical_location": "Sinner's Road - Rosary Cache #1",
           "canonical_mapping_confidence": "explicit",
@@ -182000,7 +182363,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #2",
+          "label": "Rosary Cache: Sinner’s Road #2",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "canonical_location": "Sinner's Road - Rosary Cache #2",
           "canonical_mapping_confidence": "explicit",
@@ -182026,7 +182389,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner\u2019s Road #3",
+          "label": "Rosary Cache: Sinner’s Road #3",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#upper-right",
           "canonical_location": "Sinner's Road - Rosary Cache #3",
           "canonical_mapping_confidence": "explicit",
@@ -221279,6 +221642,34 @@
           "label": "Whispering Vaults: Breakable Floor",
           "kind": "blockade",
           "node_id": "whispering-vaults/whispering-vaults-bench#bench-room"
+        },
+        {
+          "id": "event:mapper/reviewed:bellhome-cylinders-returned",
+          "label": "Bellhome Cylinders Returned",
+          "kind": "event",
+          "node_id": "whispering-vaults/whispering-vaults-bench#cardinius",
+          "requirement": {
+            "raw": "",
+            "mode": "expression",
+            "dnf": [
+              [
+                "received:Relic: Psalm Cylinder (East Whispering Vaults)",
+                "received:Relic: Sacred Cylinder",
+                "received:Relic: Psalm Cylinder (Underworks)",
+                "received:Relic: Psalm Cylinder (Vaultkeeper Cardinius)",
+                "received:Relic: Psalm Cylinder (High Halls)",
+                "received:Relic: Psalm Cylinder (Grindle)"
+              ]
+            ],
+            "annotations": [],
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {},
+          "logic_status": "active",
+          "unresolved_reasons": []
         }
       ],
       "checks": [
@@ -242524,7 +242915,7 @@
         {
           "id": "bilewater/bilewater-east-column#floor>middle@fm",
           "requirement": {
-            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter\u2019s cloak)",
+            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter’s cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -242604,7 +242995,7 @@
         {
           "id": "bilewater/bilewater-east-column#middle>upper@mu",
           "requirement": {
-            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter\u2019s cloak)",
+            "raw": "Silk soar OR ((cling grip OR scuttlebrace) AND (clawline OR sharpdart OR faydown cloak)) OR (cling grip AND drifter’s cloak)",
             "mode": "expression",
             "dnf": [
               [
@@ -245388,7 +245779,7 @@
         {
           "id": "bilewater/bilewater-lower-east-hall#left-lower>left-platform@lll",
           "requirement": {
-            "raw": "(cling grip AND (swim OR clawline OR sharpdart OR drifter\u2019s cloak OR run OR dash)) OR faydown cloak",
+            "raw": "(cling grip AND (swim OR clawline OR sharpdart OR drifter’s cloak OR run OR dash)) OR faydown cloak",
             "mode": "expression",
             "dnf": [
               [
@@ -245549,7 +245940,7 @@
         {
           "id": "bilewater/bilewater-lower-east-hall#right-hall>under-upper@ruu",
           "requirement": {
-            "raw": "((cling grip OR ledge grab) AND (swim OR clawline OR sharpdart OR drifter\u2019s cloak OR run OR dash)) OR faydown cloak",
+            "raw": "((cling grip OR ledge grab) AND (swim OR clawline OR sharpdart OR drifter’s cloak OR run OR dash)) OR faydown cloak",
             "mode": "expression",
             "dnf": [
               [
@@ -249265,7 +249656,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-quarter>middle-quarter@lmq",
           "requirement": {
-            "raw": "(cling grip AND (drifter\u2019s cloak OR clawline OR sharpdart OR (faydown cloak AND swim))) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
+            "raw": "(cling grip AND (drifter’s cloak OR clawline OR sharpdart OR (faydown cloak AND swim))) OR (faydown cloak AND scuttlebrace AND swim) OR ((clawline OR sharpdart OR run) AND scuttlebrace)",
             "mode": "expression",
             "dnf": [
               [
@@ -249323,7 +249714,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>left-quarter@lmq",
           "requirement": {
-            "raw": "Drifter\u2019s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo",
+            "raw": "Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR scuttlebrace OR run OR dash OR swim OR easy hunter pogo OR easy beast pogo OR easy architect pogo OR easy shaman pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -249383,7 +249774,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>left-rosary-platform@mql",
           "requirement": {
-            "raw": "Clawline OR sharpdart OR (ledge grab AND (drifter\u2019s cloak OR run))",
+            "raw": "Clawline OR sharpdart OR (ledge grab AND (drifter’s cloak OR run))",
             "mode": "expression",
             "dnf": [
               [
@@ -249421,7 +249812,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform>middle-quarter@mql",
           "requirement": {
-            "raw": "Clawline OR drifter\u2019s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR easy architect pogo OR easy beast pogo))",
+            "raw": "Clawline OR drifter’s cloak OR sharpdart OR dash OR (run AND (faydown cloak OR cling grip OR scuttlebrace OR easy architect pogo OR easy beast pogo))",
             "mode": "expression",
             "dnf": [
               [
@@ -249477,7 +249868,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#right-quarter>middle-quarter@rqm",
           "requirement": {
-            "raw": "Drifter\u2019s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR easy beast pogo OR easy architect pogo",
+            "raw": "Drifter’s cloak OR faydown cloak OR sharpdart OR clawline OR swim OR scuttlebrace OR run OR easy beast pogo OR easy architect pogo",
             "mode": "expression",
             "dnf": [
               [
@@ -249528,7 +249919,7 @@
         {
           "id": "bilewater/bilewater-sinner-s-entrance#middle-quarter>right-quarter@rqm",
           "requirement": {
-            "raw": "(silk soar AND (easy beast pogo OR dash OR clawline OR sharpdart OR drifter\u2019s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter\u2019s cloak AND ledge grab)))",
+            "raw": "(silk soar AND (easy beast pogo OR dash OR clawline OR sharpdart OR drifter’s cloak OR faydown OR scuttlebrace)) OR (cling grip AND (clawline OR sharpdart OR faydown cloak OR (drifter’s cloak AND ledge grab)))",
             "mode": "expression",
             "dnf": [
               [
@@ -253177,7 +253568,7 @@
         {
           "id": "bilewater/bilewater-upper-west-column#upper>lower@lm",
           "requirement": {
-            "raw": "Cling grip AND (Drifter\u2019s cloak OR faydown cloak OR clawline OR sharpdart OR dash)",
+            "raw": "Cling grip AND (Drifter’s cloak OR faydown cloak OR clawline OR sharpdart OR dash)",
             "mode": "expression",
             "dnf": [
               [
@@ -326877,7 +327268,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"First donation completed, sonclave level \u22652 and four completed Songclave wishes\n\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- quest completed: Songclave Donation 1 \n- (enclaveLevel > 1 AND enclaveDonation2_Available == true)\n\n\"First donation completed, sonclave level ≥2 and four completed Songclave wishes\n\" - requirements per Moriko\n\n\"player anecdote coal\" wiki says that requirements are:\n- complete building up songclave\n- complete 3 other wishes (4 counting building up songclave)",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "68ecdd2e-814e-4cd1-b690-5d5857598e9d"
@@ -327192,7 +327583,7 @@
             "minimum_skip_tier": 0,
             "unresolved_reasons": []
           },
-          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"Two encounters + Conductors Melody + Congclave level \u2265 2, or one encounter + Everbloom\" - requirements per Moriko\n\n\"This datamining session sucked\" - Additional note by Moriko. Still unsure what it means. Perhaps related to Bilewater?\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
+          "notes": "\"datamining gem\" spreadsheet says that requirements are:\n- songChevalierQuestReady == true\n\n\"Two encounters + Conductors Melody + Congclave level ≥ 2, or one encounter + Everbloom\" - requirements per Moriko\n\n\"This datamining session sucked\" - Additional note by Moriko. Still unsure what it means. Perhaps related to Bilewater?\n\n\"player anecdote coal\" wiki says that requirements are:\n- activating second sentinel\n- meet second sentinel twice in citadel OR once if have everbloom\n- have conductor's melody\n- complete two wishes in songclave, one of which should be building up songclave\n\nwithout further datamining insight, i'll roll with the wiki requirements",
           "source_line": 0,
           "raw_cells": {
             "mapper_id": "d885d4f4-5024-4d4b-bfa9-fe9400739e54"

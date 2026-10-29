@@ -169,6 +169,7 @@ namespace SilksongRandomizer
             CurrencyLinkManager.Initialize(QueueConnectionStatus);
             LoadArchipelagoIcon();
             LoadCheckClassificationIcons();
+            StartCoroutine(BellhomeItems.LoadIcons());
             try
             {
                 Harmony h = new Harmony(PluginGuid);

@@ -27,6 +27,7 @@ from .minor_families import (
 )
 from .locations import (
     BOSS_CREDIT_BY_LOCATION,
+    CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION,
     INDIVIDUAL_RELIC_TURN_IN_ITEM_NAMES,
     LOCATION_NAMES_BY_CATEGORY,
     WISH_REWARD_LOCATION_BY_COMPLETION,
@@ -447,6 +448,7 @@ ITEM_TABLE_SOURCE += (("Crawbell", "Miscellaneous"),)
 ITEM_TABLE_SOURCE += (("Bind", "InnateAbility"),)
 CREST_BIND_ITEMS = tuple(f'{crest} Bind' for crest in ('Hunter', 'Wanderer', 'Reaper', 'Beast', 'Architect', 'Witch', 'Shaman'))
 ITEM_TABLE_SOURCE += tuple((name, 'InnateAbility') for name in CREST_BIND_ITEMS)
+ITEM_TABLE_SOURCE += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -646,7 +648,7 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
 ) | frozenset({
     'Relic: Sacred Cylinder',
     'Progressive Crafting Kit',
-}) | frozenset(BOSS_CREDIT_BY_LOCATION['Boss: ' + name] for name in (
+}) | frozenset(CARDINIUS_CYLINDER_ITEM_BY_TURN_IN_LOCATION.values()) | frozenset(BOSS_CREDIT_BY_LOCATION['Boss: ' + name] for name in (
     'Bell Beast', 'Cogwork Dancers', 'Fourth Chorus', 'Great Conchflies', 'Groal the Great',
     'Skull Tyrant (The Marrow)', 'Widow', 'Lace (Cradle)', 'Summoned Saviour',
 ))
@@ -674,6 +676,7 @@ USEFUL_ITEMS: FrozenSet[str] = frozenset(
         "Boss",
         "Farsight",
         "Miscellaneous",
+        "Bellhome",
     }
 ) | frozenset(POOL_ONLY_USEFUL_ITEM_NAMES)
 
@@ -919,7 +922,7 @@ class ItemPoolEntry:
 
 def _is_replaceable_filler(item_name: str) -> bool:
     data = item_data_table[item_name]
-    return data.classification == ItemClassification.filler and data.category not in {'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Journal'}
+    return data.classification == ItemClassification.filler and data.category not in {'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Bellhome', 'Journal'}
 
 
 def add_pool_only_useful_items(
@@ -1032,6 +1035,7 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'Materium',
     'Farsight',
     'Miscellaneous',
+    'Bellhome',
     'TwistedBud',
     'Eva',
     'Skill',
@@ -1192,6 +1196,8 @@ def get_vanilla_reward_name(
         return next(iter(REPEATED_CATEGORY_ITEM_COUNTS[category]))
     if category == 'Miscellaneous':
         return {'Crow bell': 'Crawbell'}[location_name]
+    if category == 'Bellhome':
+        return location_name
     if category == 'Materium':
         return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite'}[location_name]
     if category == 'MajorKey':
@@ -1524,7 +1530,7 @@ def can_include_later_act_item(name, category, category_modes, *, act_one_only, 
     return (
         category_modes.get(category, 'anywhere') == 'anywhere'
         and not (silk_soar_begone and name == SILK_SOAR_ITEM)
-        and category not in {'OldHeart', 'Everbloom', 'Memento', 'Materium', 'Farsight', 'Miscellaneous'}
+        and category not in {'OldHeart', 'Everbloom', 'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Bellhome'}
         and not (act_one_only and category in {'Soul', 'TwistedBud'})
         and not (act_one_only and (
             'Cylinder' in name or name in {'Bellway: Grand Bellway', 'Ventrica: Grand Bellway'}))
@@ -1863,7 +1869,7 @@ def build_item_pool_entries(
         indices = [index for index, entry in enumerate(entries)
                    if entry.placement_category is None
                    and item_data_table[entry.name].classification == ItemClassification.filler
-                   and entry.source_category not in {'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'MemoryLocket', 'Journal'}]
+                   and entry.source_category not in {'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Bellhome', 'MemoryLocket', 'Journal'}]
         if len(indices) < len(soul_pool_entries):
             raise OptionError(
                 f"Boss and NPC Souls need {len(soul_pool_entries)} anywhere filler slots; "
