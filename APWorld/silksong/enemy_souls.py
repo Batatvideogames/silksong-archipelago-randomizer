@@ -154,6 +154,9 @@ def _mapped_requirements(name, index, enabled=None):
                        if atom.startswith('mapper:enemy-presence:')}
             if present - BY_NAME.keys():
                 raise _mapped_route_error(name, index, 'Unknown enemy presence: ' + ', '.join(sorted(present - BY_NAME.keys())))
+            records = {atom.split(':')[2] for atom in clause
+                       if atom.startswith(('mapper:enemy-type-pogo:', 'mapper:enemy-damage-boost:'))}
+            present.update(species for species in enabled if BY_NAME[species]['record'] in records)
             souls = ('received:' + item_name(species) for species in sorted(present & enabled))
             dnf.append(tuple(dict.fromkeys((*clause, *souls))))
         spec = RequirementSpec('', RequirementMode.EXPRESSION, tuple(dnf), (), (), 0)

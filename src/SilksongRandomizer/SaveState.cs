@@ -374,6 +374,8 @@ namespace SilksongRandomizer
         public RandomizationMode mementoRandomization = RandomizationMode.Vanilla;
         public RandomizationMode farsightRandomization = RandomizationMode.Vanilla;
         public RandomizationMode bellhomeRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode cogheartPieceRandomization = RandomizationMode.Vanilla;
+        public RandomizationMode questCollectibleRandomization = RandomizationMode.Vanilla;
         public RandomizationMode miscellaneousRandomization = RandomizationMode.Vanilla;
         public RandomizationMode materiumRandomization = RandomizationMode.Vanilla;
         public RandomizationMode twistedBudRandomization = RandomizationMode.Vanilla;
@@ -999,6 +1001,8 @@ namespace SilksongRandomizer
             mementoRandomization = archipelago.MementoRandomization;
             farsightRandomization = archipelago.FarsightRandomization;
             bellhomeRandomization = archipelago.BellhomeRandomization;
+            cogheartPieceRandomization = archipelago.CogheartPieceRandomization;
+            questCollectibleRandomization = archipelago.QuestCollectibleRandomization;
             miscellaneousRandomization = archipelago.MiscellaneousRandomization;
             materiumRandomization = archipelago.MateriumRandomization;
             twistedBudRandomization = archipelago.TwistedBudRandomization;
@@ -1197,6 +1201,8 @@ namespace SilksongRandomizer
                 Tuple.Create("memento_randomization", mementoRandomization, archipelago.MementoRandomization),
                 Tuple.Create("farsight_randomization", farsightRandomization, archipelago.FarsightRandomization),
                 Tuple.Create("bellhome_randomization", bellhomeRandomization, archipelago.BellhomeRandomization),
+                Tuple.Create("cogheart_piece_randomization", cogheartPieceRandomization, archipelago.CogheartPieceRandomization),
+                Tuple.Create("quest_collectible_randomization", questCollectibleRandomization, archipelago.QuestCollectibleRandomization),
                 Tuple.Create("miscellaneous_items_randomization", miscellaneousRandomization, archipelago.MiscellaneousRandomization),
                 Tuple.Create("materium_randomization", materiumRandomization, archipelago.MateriumRandomization),
                 Tuple.Create("twisted_bud_randomization", twistedBudRandomization, archipelago.TwistedBudRandomization),
@@ -1804,6 +1810,10 @@ namespace SilksongRandomizer
                     return farsightRandomization;
                 case ItemType.Bellhome:
                     return bellhomeRandomization;
+                case ItemType.Cogheart:
+                    return cogheartPieceRandomization;
+                case ItemType.QuestCollectible:
+                    return questCollectibleRandomization;
                 case ItemType.Miscellaneous:
                     return miscellaneousRandomization;
                 case ItemType.Materium:

@@ -271,6 +271,11 @@ namespace SilksongRandomizer
             { "Craw Memento", "Crowman Memento" },
             { "Everbloom", "White Flower" },
             { "Farsight", "Farsight" },
+            { "Cogheart Piece", "Cog Heart Pieces" },
+            { "Grass Doll", "Ant Trapper Item" },
+            { "Horn Fragment", "Beastfly Remains" },
+            { "Crown Fragment", "Skull King Fragment" },
+            { "Broodmother's Eye", "Broodmother Remains" },
             { "Crawbell", "Crawbell" },
             { "Materium", "Materium" },
             { "Diving Bell Key", "Dock Key" },
@@ -283,6 +288,7 @@ namespace SilksongRandomizer
         {
             { "Flintstone", "Smeltstone" },
             { "Magnetite", "Magnetite" },
+            { "Voltstone", "Voltstone" },
         };
 
         private static readonly Dictionary<string, ToolItemType> SlotColors =

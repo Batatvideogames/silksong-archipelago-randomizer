@@ -95,6 +95,7 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "The Abyss - Shell Shard Cache #8",
         "The Abyss - Shell Shard Cache #9",
         "Far Fields - Rosary Cache #19",
+        "Grass Doll",
         "Boss: Skarrsinger Karmelita",
         "Boss: Crust King Khann",
         "Boss: Nyleth",
@@ -253,6 +254,13 @@ def trim_act_two_pool_entries(
         for category, item_counts in
         ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY.items()
     }
+    from .items import get_vanilla_reward_name
+    from .locations import LOCATION_NAMES_BY_CATEGORY
+    excluded = get_act_two_excluded_location_names(
+        starting_crest_item, skill_mode, cursed_ending, silk_soar_begone, retained_items)
+    removals['QuestCollectible'] = Counter(
+        get_vanilla_reward_name(name, 'QuestCollectible')
+        for name in LOCATION_NAMES_BY_CATEGORY['QuestCollectible'] if name in excluded)
     if skill_mode != "anywhere" or silk_soar_begone:
         for category, item_counts in {
             "Memento": {"Grey Memento": 1},

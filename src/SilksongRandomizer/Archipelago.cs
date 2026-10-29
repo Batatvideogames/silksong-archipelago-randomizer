@@ -300,6 +300,8 @@ namespace SilksongRandomizer
         public RandomizationMode MementoRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FarsightRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode BellhomeRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode CogheartPieceRandomization { get; private set; } = RandomizationMode.Vanilla;
+        public RandomizationMode QuestCollectibleRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MiscellaneousRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MateriumRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode TwistedBudRandomization { get; private set; } = RandomizationMode.Vanilla;
@@ -801,6 +803,8 @@ namespace SilksongRandomizer
                 MementoRandomization = GetRandomizationModeSlotData(successful, "memento_randomization");
                 FarsightRandomization = GetRandomizationModeSlotData(successful, "farsight_randomization");
                 BellhomeRandomization = GetRandomizationModeSlotData(successful, "bellhome_randomization");
+                CogheartPieceRandomization = GetRandomizationModeSlotData(successful, "cogheart_piece_randomization");
+                QuestCollectibleRandomization = GetRandomizationModeSlotData(successful, "quest_collectible_randomization");
                 MiscellaneousRandomization = GetRandomizationModeSlotData(successful, "miscellaneous_items_randomization");
                 MateriumRandomization = GetRandomizationModeSlotData(successful, "materium_randomization");
                 TwistedBudRandomization = GetRandomizationModeSlotData(successful, "twisted_bud_randomization");
@@ -3375,6 +3379,8 @@ namespace SilksongRandomizer
             MementoRandomization = RandomizationMode.Vanilla;
             FarsightRandomization = RandomizationMode.Vanilla;
             BellhomeRandomization = RandomizationMode.Vanilla;
+            CogheartPieceRandomization = RandomizationMode.Vanilla;
+            QuestCollectibleRandomization = RandomizationMode.Vanilla;
             MiscellaneousRandomization = RandomizationMode.Vanilla;
             MateriumRandomization = RandomizationMode.Vanilla;
             TwistedBudRandomization = RandomizationMode.Vanilla;

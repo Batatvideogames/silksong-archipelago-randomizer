@@ -110480,8 +110480,16 @@
           {
             "all_of": [
               "Room Node: wish-menus/bellhart-wish-wall#room",
-              "Room Event: event:mapper/reviewed:hidden-hunter-keepsake",
+              "Room Event: event:mapper/reviewed:hidden-hunter-accepted",
               "Silk Soar"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Grass Doll"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -116504,7 +116512,15 @@
           {
             "all_of": [
               "Room Node: wish-menus/bellhart-wish-wall#room",
-              "Room Event: event:mapper/reviewed:savage-beastfly-remains"
+              "Room Event: event:mapper/reviewed:savage-beastfly-accepted"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Horn Fragment"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -117203,10 +117219,15 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: cogwork-core/cogwork-core-second-sentinel#second-sentinel",
-              "Room Event: event:mapper/95cd4c7d-6ac4-4b3d-bda4-a7a98affa50c",
-              "Room Event: event:mapper/e5062171-3645-406c-b07e-4b3cbd227b12",
-              "Room Event: event:mapper/f0302eee-1cad-4b24-8b30-881437a6793f"
+              "Room Node: cogwork-core/cogwork-core-second-sentinel#second-sentinel"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Cogheart Piece"
+                ],
+                "minimum": 3
+              }
             ]
           }
         ]
@@ -118723,15 +118744,6 @@
             "all_of": [
               "Room Node: wish-menus/bone-bottom-wish-wall#room",
               "Room Event: event:mapper/559e7c1d-8a73-4246-956c-2b92014d6a6a"
-            ]
-          }
-        ]
-      },
-      "Room Event: event:mapper/95cd4c7d-6ac4-4b3d-bda4-a7a98affa50c": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: choral-chambers/choral-chambers-cogheart-room#room"
             ]
           }
         ]
@@ -123162,15 +123174,6 @@
           }
         ]
       },
-      "Room Event: event:mapper/e5062171-3645-406c-b07e-4b3cbd227b12": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: memorium/memorium-puzzle#room"
-            ]
-          }
-        ]
-      },
       "Room Event: event:mapper/e5299e8f-a6da-40fe-a48b-beccdd59d096": {
         "alternatives": [
           {
@@ -123852,15 +123855,6 @@
           {
             "all_of": [
               "Room Node: grand-gate/entrance-to-nyleth#entrance"
-            ]
-          }
-        ]
-      },
-      "Room Event: event:mapper/f0302eee-1cad-4b24-8b30-881437a6793f": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: whispering-vaults/whispering-vaults-music-box#room"
             ]
           }
         ]
@@ -124768,8 +124762,13 @@
       "Room Event: event:mapper/owned/broodmothers-eye": {
         "alternatives": [
           {
-            "all_of": [
-              "Room Event: event:mapper/ba13587f-01a2-4e22-bc3d-56a482e6a8d0"
+            "item_counts": [
+              {
+                "items": [
+                  "Broodmother's Eye"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -124777,8 +124776,13 @@
       "Room Event: event:mapper/owned/crown-fragment": {
         "alternatives": [
           {
-            "all_of": [
-              "Room Event: event:mapper/c9fa91ec-ebb7-42b5-a810-85c30d1120a6"
+            "item_counts": [
+              {
+                "items": [
+                  "Crown Fragment"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -256891,7 +256895,15 @@
             {
               "all_of": [
                 "Room Node: wish-menus/bellhart-wish-wall#room",
-                "Room Event: event:mapper/reviewed:savage-beastfly-remains"
+                "Room Event: event:mapper/reviewed:savage-beastfly-accepted"
+              ],
+              "item_counts": [
+                {
+                  "items": [
+                    "Horn Fragment"
+                  ],
+                  "minimum": 1
+                }
               ]
             }
           ]
@@ -259146,6 +259158,16 @@
           }
         ]
       },
+      "Broodmother's Eye": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-slab/slab-broodmother-alcove#arena",
+              "Room Event: event:mapper/fef5ea03-485e-4dd9-ac36-cab1aef17946"
+            ]
+          }
+        ]
+      },
       "Bugs of Pharloom - Tool Pouch": {
         "alternatives": [
           {
@@ -259309,6 +259331,15 @@
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-ventrica-room#ventrica",
               "Room Event: event:mapper/0f7e9076-c824-4449-9a8c-ca23b1efb23f"
+            ]
+          }
+        ]
+      },
+      "Choral Chambers Cogheart Piece": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: choral-chambers/choral-chambers-cogheart-room#room"
             ]
           }
         ]
@@ -262145,6 +262176,16 @@
           }
         ]
       },
+      "Grass Doll": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-deep-lower-east#trapper-s-ledge",
+              "Room Event: event:mapper/reviewed:hidden-hunter-keepsake"
+            ]
+          }
+        ]
+      },
       "Great Gourmand's treasury": {
         "alternatives": [
           {
@@ -263930,6 +263971,16 @@
           }
         ]
       },
+      "Horn Fragment": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-chorus#boss-arena",
+              "Room Event: event:mapper/reviewed:savage-beastfly-remains"
+            ]
+          }
+        ]
+      },
       "Hunter Evolution 1": {
         "alternatives": [
           {
@@ -265021,6 +265072,15 @@
           {
             "all_of": [
               "Room Node: memorium/memorium-voltnest#memorium-stuff"
+            ]
+          }
+        ]
+      },
+      "Memorimum Cogheart Piece": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: memorium/memorium-puzzle#room"
             ]
           }
         ]
@@ -275967,7 +276027,15 @@
           {
             "all_of": [
               "Room Node: wish-menus/bellhart-wish-wall#room",
-              "Room Event: event:mapper/reviewed:savage-beastfly-remains"
+              "Room Event: event:mapper/reviewed:savage-beastfly-accepted"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Horn Fragment"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -278819,6 +278887,15 @@
           }
         ]
       },
+      "Voltstone": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sands-of-karak/voltnest#bottom"
+            ]
+          }
+        ]
+      },
       "Voltvessels": {
         "alternatives": [
           {
@@ -279073,6 +279150,15 @@
           {
             "all_of": [
               "Room Node: whispering-vaults/trobbio-entrance#not-the-jump"
+            ]
+          }
+        ]
+      },
+      "Whispering Vaults: Cogheart Piece": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whispering-vaults/whispering-vaults-music-box#room"
             ]
           }
         ]
@@ -279951,6 +280037,17 @@
             "all_of": [
               "Room Node: weavenest-atla/weavenest-atla-eva#eva-pod",
               "Event: Eva 12 Points"
+            ]
+          }
+        ]
+      },
+      "crown fragment": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: the-marrow/the-marrow-skull-tyrant-arena#tyrants-throne",
+              "Room Event: event:mapper/78b0f7da-0b97-450d-9dce-5f414eb081d8",
+              "Room Event: event:mapper/2dba90b5-6ec3-4ec9-8016-60c859aecbd7"
             ]
           }
         ]

@@ -1556,6 +1556,8 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
     alternatives = _ATOM_ALTERNATIVES.get(atom)
     if alternatives is not None:
         return alternatives
+    if atom == "count:cogheart-pieces:3":
+        return (_part(item_counts=(("Cogheart Piece", 3),)),)
     if atom == "count:bellhome-items:2":
         return tuple(_part(item_counts=tuple((name, 1) for name in pair))
                      for pair in combinations(("Desk", "Gleamlights", "Bell Lacquer", "Gramophone"), 2))

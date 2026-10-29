@@ -63,6 +63,8 @@ namespace SilksongRandomizer
         Farsight,
         Miscellaneous,
         Bellhome,
+        Cogheart,
+        QuestCollectible,
     }
 
     public class Item

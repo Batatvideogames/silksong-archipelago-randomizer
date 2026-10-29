@@ -1107,6 +1107,11 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Crow bell', 'Miscellaneous'),) + tuple
 
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
 
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Voltstone", "Materium"),)
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Cogheart") for name in ('Choral Chambers Cogheart Piece', 'Whispering Vaults: Cogheart Piece', 'Memorimum Cogheart Piece'))
+
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'crown fragment', "Broodmother's Eye"))
+
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
     'Wish: Volatile Flintbeetles': 'Volatile Flintbeetles - Memory Locket',
@@ -1165,6 +1170,8 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Farsight',
     'Miscellaneous',
     'Bellhome',
+    'Cogheart',
+    'QuestCollectible',
     'TwistedBud',
     'Eva',
     'Skill',

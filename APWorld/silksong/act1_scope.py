@@ -41,6 +41,8 @@ _UNTAGGED_POST_ACT_ONE_LOCATION_NAMES = frozenset(
         "Beastling Call",
         "Craw Summons",
         "Boss: Broodmother",
+        "Broodmother's Eye",
+        "Grass Doll",
         "Boss: Second Sentinel",
         "Boss: Trobbio",
         "Boss: Palestag",

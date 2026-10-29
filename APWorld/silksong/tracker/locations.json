@@ -3764,6 +3764,21 @@
   "name": "The Marrow Skull Tyrant Arena",
   "children": [
    {
+    "name": "crown fragment",
+    "sections": [
+     {
+      "name": "crown fragment"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "The Marrow Skull Tyrant Arena",
+      "x": 614,
+      "y": 93
+     }
+    ]
+   },
+   {
     "name": "Boss: Skull Tyrant (The Marrow)",
     "sections": [
      {
@@ -7937,6 +7952,21 @@
     ]
    },
    {
+    "name": "Horn Fragment",
+    "sections": [
+     {
+      "name": "Horn Fragment"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Chorus",
+      "x": 513,
+      "y": 288
+     }
+    ]
+   },
+   {
     "name": "Far Fields Chorus - left1",
     "sections": [
      {
@@ -9046,6 +9076,21 @@
       "map": "Far Fields Deep Lower East",
       "x": 710,
       "y": 633
+     }
+    ]
+   },
+   {
+    "name": "Grass Doll",
+    "sections": [
+     {
+      "name": "Grass Doll"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Deep Lower East",
+      "x": 696,
+      "y": 552
      }
     ]
    },
@@ -22537,6 +22582,21 @@
   "name": "Choral Chambers Cogheart Room",
   "children": [
    {
+    "name": "Choral Chambers Cogheart Piece",
+    "sections": [
+     {
+      "name": "Choral Chambers Cogheart Piece"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Choral Chambers Cogheart Room",
+      "x": 99,
+      "y": 157
+     }
+    ]
+   },
+   {
     "name": "Choral Chambers Cogheart Room - right1 (R)",
     "sections": [
      {
@@ -26288,6 +26348,21 @@
   "name": "Whispering Vaults Music Box",
   "children": [
    {
+    "name": "Whispering Vaults: Cogheart Piece",
+    "sections": [
+     {
+      "name": "Whispering Vaults: Cogheart Piece"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Whispering Vaults Music Box",
+      "x": 233,
+      "y": 116
+     }
+    ]
+   },
+   {
     "name": "Whispering Vaults Music Box - right1",
     "sections": [
      {
@@ -29929,6 +30004,21 @@
   "name": "Memorium Puzzle",
   "children": [
    {
+    "name": "Memorimum Cogheart Piece",
+    "sections": [
+     {
+      "name": "Memorimum Cogheart Piece"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Memorium Puzzle",
+      "x": 112,
+      "y": 107
+     }
+    ]
+   },
+   {
     "name": "Memorium puzzle - left1",
     "sections": [
      {
@@ -31458,6 +31548,21 @@
     ]
    },
    {
+    "name": "Voltstone",
+    "sections": [
+     {
+      "name": "Voltstone"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Voltnest",
+      "x": 1884,
+      "y": 468
+     }
+    ]
+   },
+   {
     "name": "Boss: Voltvyrm",
     "sections": [
      {
@@ -31640,6 +31745,21 @@
       "map": "Slab Broodmother Alcove",
       "x": 3456,
       "y": 1363
+     }
+    ]
+   },
+   {
+    "name": "Broodmother's Eye",
+    "sections": [
+     {
+      "name": "Broodmother's Eye"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Slab Broodmother Alcove",
+      "x": 3940,
+      "y": 1748
      }
     ]
    },

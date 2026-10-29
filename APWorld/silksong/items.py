@@ -449,6 +449,8 @@ ITEM_TABLE_SOURCE += (("Bind", "InnateAbility"),)
 CREST_BIND_ITEMS = tuple(f'{crest} Bind' for crest in ('Hunter', 'Wanderer', 'Reaper', 'Beast', 'Architect', 'Witch', 'Shaman'))
 ITEM_TABLE_SOURCE += tuple((name, 'InnateAbility') for name in CREST_BIND_ITEMS)
 ITEM_TABLE_SOURCE += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
+ITEM_TABLE_SOURCE += (("Voltstone", "Materium"), ("Cogheart Piece", "Cogheart"))
+ITEM_TABLE_SOURCE += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'Crown Fragment', "Broodmother's Eye"))
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
@@ -633,6 +635,8 @@ PROGRESSION_ITEMS: FrozenSet[str] = frozenset(
         "Craftmetal",
         "Mossberry",
         "PollipHeart",
+        "Cogheart",
+        "QuestCollectible",
         "MajorKey",
         "ToolPouch",
         ALPHABET_ITEM_CATEGORY,
@@ -831,6 +835,7 @@ ITEM_POOL_COUNTS: Dict[str, int] = {
     'Craftmetal': 8,
     'Mossberry': 7,
     'Pollip Heart': 6,
+    'Cogheart Piece': 3,
     'Silkeater': 9,
     'Progressive Tool Pouch': 4,
     'Shell Satchel': 1,
@@ -1036,6 +1041,8 @@ PAIRED_ITEM_CATEGORIES: tuple[str, ...] = (
     'Farsight',
     'Miscellaneous',
     'Bellhome',
+    'Cogheart',
+    'QuestCollectible',
     'TwistedBud',
     'Eva',
     'Skill',
@@ -1082,6 +1089,7 @@ REPEATED_CATEGORY_ITEM_COUNTS: Mapping[str, Mapping[str, int]] = {
     PALE_OIL_LOCATION_CATEGORY: PALE_OIL_POOL_COUNTS,
     'Mossberry': {'Mossberry': 7},
     'PollipHeart': {'Pollip Heart': 6},
+    'Cogheart': {'Cogheart Piece': 3},
     'Silkeater': {'Silkeater': 9},
     'ToolPouch': {'Progressive Tool Pouch': 4},
 }
@@ -1196,10 +1204,12 @@ def get_vanilla_reward_name(
         return next(iter(REPEATED_CATEGORY_ITEM_COUNTS[category]))
     if category == 'Miscellaneous':
         return {'Crow bell': 'Crawbell'}[location_name]
+    if category == 'QuestCollectible':
+        return {'crown fragment': 'Crown Fragment'}.get(location_name, location_name)
     if category == 'Bellhome':
         return location_name
     if category == 'Materium':
-        return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite'}[location_name]
+        return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite', 'Voltstone': 'Voltstone'}[location_name]
     if category == 'MajorKey':
         try:
             return {
@@ -1530,8 +1540,8 @@ def can_include_later_act_item(name, category, category_modes, *, act_one_only, 
     return (
         category_modes.get(category, 'anywhere') == 'anywhere'
         and not (silk_soar_begone and name == SILK_SOAR_ITEM)
-        and category not in {'OldHeart', 'Everbloom', 'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Bellhome'}
-        and not (act_one_only and category in {'Soul', 'TwistedBud'})
+        and category not in {'OldHeart', 'Everbloom', 'Memento', 'Materium', 'Farsight', 'Miscellaneous', 'Bellhome', 'QuestCollectible'}
+        and not (act_one_only and category in {'Soul', 'TwistedBud', 'Cogheart'})
         and not (act_one_only and (
             'Cylinder' in name or name in {'Bellway: Grand Bellway', 'Ventrica: Grand Bellway'}))
         and category not in OBSERVATION_ITEM_CATEGORIES

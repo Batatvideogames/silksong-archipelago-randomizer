@@ -100,6 +100,20 @@ namespace SilksongRandomizer
 
         internal static readonly DirectPickupEntry[] DirectPickups =
         {
+            new DirectPickupEntry("Grass Doll", ItemType.QuestCollectible, "Bone_East_18b",
+                "Ant Trapper Item", "ant_item_string/Item Holder/Collectable Item Pickup", 107.47f, 19.25f),
+            new DirectPickupEntry("Horn Fragment", ItemType.QuestCollectible, "Bone_East_08_boss_beastfly",
+                "Beastfly Remains", "Boss Scene Beastfly/Beastfly States/Defeated/Item Chunk/Collectable Item Pickup", 81.44507f, 6.34938f),
+            new DirectPickupEntry("crown fragment", ItemType.QuestCollectible, "Bone_15",
+                "Skull King Fragment", "Boss Scene/Collectable Item Pickup", 98.58f, 13.64f),
+            new DirectPickupEntry("Broodmother's Eye", ItemType.QuestCollectible, "Slab_16b",
+                "Broodmother Remains", "Broodmother Scene Control/Broodmother Defeated Scene/Broodmother Corpse Return/Collectable Item Pickup - Broodmother Eye", 61.567f, 4.677f),
+            new DirectPickupEntry("Choral Chambers Cogheart Piece", ItemType.Cogheart, "Song_26",
+                "Cog Heart Pieces", "_Props/Music Box Sequence - EDITED/music_box_reward_pillar/Collectable Holder/Collectable Item Pickup", 15.530001f, 5.7f),
+            new DirectPickupEntry("Whispering Vaults: Cogheart Piece", ItemType.Cogheart, "Library_16",
+                "Cog Heart Pieces", "Music Box Sequence - EDITED/music_box_reward_pillar/Collectable Holder/Collectable Item Pickup", 49.362652f, 3.673514f),
+            new DirectPickupEntry("Memorimum Cogheart Piece", ItemType.Cogheart, "Arborium_10",
+                "Cog Heart Pieces", "Music Box Sequence - EDITED/music_box_reward_pillar/Collectable Holder/Collectable Item Pickup", 17.810001f, 5.7f),
             new DirectPickupEntry("Crow bell", ItemType.Miscellaneous, "Room_CrowCourt_02",
                 "Crawbell", "Collectable Item Pickup Crawbell", 19.41f, 44.32f),
             new DirectPickupEntry("Materium", ItemType.Materium, "Arborium_07",
@@ -367,7 +381,7 @@ namespace SilksongRandomizer
                 bool positionMatches =
                     deltaX * deltaX + deltaY * deltaY <=
                     positionToleranceSquared;
-                if (!hierarchyMatches && !positionMatches)
+                if (!hierarchyMatches && !positionMatches && entry.Type != ItemType.QuestCollectible)
                 {
                     continue;
                 }

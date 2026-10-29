@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "170e20148b1734b8ee687dc396f823283e9592a9647ae936538ba9a00e772596",
     "catalogue_sha256": "54eaa09b19b5511ec3196e8e3e245ef38023465b73a3c7a08184e81fa25dc464",
-    "bindings_sha256": "fe733b082cc958b6ab3c86d0eaae67e8515398e0fe93ab3d8f40cf951c6b12f2"
+    "bindings_sha256": "ffc16a436553078db54f2ba066705cf6bf2e86aeca4b12fa23b297320931a5de"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -157,6 +157,7 @@
       "Boss: Watcher at the Edge",
       "Boss: Widow",
       "Brightvein - Mask Shard",
+      "Broodmother's Eye",
       "Bugs of Pharloom - Tool Pouch",
       "Choral Chambers - Heavy Rosary Necklace",
       "Choral Chambers - Map Purchase",
@@ -165,6 +166,7 @@
       "Choral Chambers - Rosary Necklace #2",
       "Choral Chambers - Shell Shard Cache",
       "Choral Chambers - Ventrica",
+      "Choral Chambers Cogheart Piece",
       "Choral Chambers East - Silkeater",
       "Choral Chambers West - Silkeater",
       "Choristor's precious belongings",
@@ -356,6 +358,7 @@
       "Grand Gate - Nyleth Shrine Inscription",
       "Grand Gate - Shell Shard Cache",
       "Grand Gate - Spool Fragment",
+      "Grass Doll",
       "Great Gourmand's treasury",
       "Great Taste of Pharloom - Pale Oil",
       "Grey Memento",
@@ -441,6 +444,7 @@
       "High Halls Bank - Rosary Chest #1",
       "High Halls Bank - Rosary Chest #2",
       "High Halls Bank - Rosary Chest #3",
+      "Horn Fragment",
       "Hunter Evolution 1",
       "Hunter Evolution 2",
       "Hunter's Heart",
@@ -484,6 +488,7 @@
       "Marrowmaw - Beast Shard",
       "Mask Shard: Shellwood",
       "Materium",
+      "Memorimum Cogheart Piece",
       "Memorium - Beast Shard",
       "Memorium - Lower Plaque",
       "Memorium - Map Purchase",
@@ -848,6 +853,7 @@
       "Verdania - Oath Plaque",
       "Volatile Flintbeetles - Memory Locket",
       "Volt Filament",
+      "Voltstone",
       "Voltvessels",
       "Warding Bell",
       "Weavelight",
@@ -873,6 +879,7 @@
       "Whispering Vaults - Shell Shard Cache #2",
       "Whispering Vaults - Silkeater",
       "Whispering Vaults - Theatre Desk",
+      "Whispering Vaults: Cogheart Piece",
       "White Key",
       "Whiteward - Map Purchase",
       "Whiteward - Oath",
@@ -933,6 +940,7 @@
       "Wormways - Memory Locket",
       "Wreath of Purity",
       "Yellow Vesticrest",
+      "crown fragment",
       "rosaries on grave",
       "rosary spike"
     ],
@@ -1119,14 +1127,14 @@
         ]
       },
       "crown-fragment": {
-        "mode": "vanilla",
+        "mode": "received",
         "item_name": "Crown Fragment",
         "source_events": [
           "c9fa91ec-ebb7-42b5-a810-85c30d1120a6"
         ]
       },
       "broodmothers-eye": {
-        "mode": "vanilla",
+        "mode": "received",
         "item_name": "Broodmother's Eye",
         "source_events": [
           "ba13587f-01a2-4e22-bc3d-56a482e6a8d0"
@@ -30791,6 +30799,35 @@
         }
       ],
       "checks": [
+        {
+          "id": "the-marrow/the-marrow-skull-tyrant-arena::mapper-check:c9fa91ec-ebb7-42b5-a810-85c30d1120a6:836462",
+          "requirement": {
+            "raw": "complete THE the terrible tyrant wish promised",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/78b0f7da-0b97-450d-9dce-5f414eb081d8",
+                "event:mapper/2dba90b5-6ec3-4ec9-8016-60c859aecbd7"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c9fa91ec-ebb7-42b5-a810-85c30d1120a6"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "crown fragment",
+          "node_id": "the-marrow/the-marrow-skull-tyrant-arena#tyrants-throne",
+          "canonical_location": "crown fragment",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
         {
           "id": "the-marrow/the-marrow-skull-tyrant-arena::mapper-check:2dba90b5-6ec3-4ec9-8016-60c859aecbd7:836312",
           "requirement": {
@@ -67661,6 +67698,34 @@
           "currently_randomized": true
         },
         {
+          "id": "far-fields/far-fields-chorus::mapper-check:e54c64bb-2486-4a2c-81f0-9af465fd3865:836461",
+          "requirement": {
+            "raw": "defeat savage beastfly 2 boss fight",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:savage-beastfly-remains"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "e54c64bb-2486-4a2c-81f0-9af465fd3865"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Horn Fragment",
+          "node_id": "far-fields/far-fields-chorus#boss-arena",
+          "canonical_location": "Horn Fragment",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "far-fields/far-fields-chorus::mapper-check:e6e6d899-9def-42c2-ab77-53db34ced41d:835730",
           "requirement": {
             "raw": "complete THE flexible spines wish granted\nAND Combat Requirements",
@@ -78478,6 +78543,34 @@
           "label": "AP Minor Cache - Rosary Cache: Far Fields #19",
           "node_id": "far-fields/far-fields-deep-lower-east#trapper-s-ledge",
           "canonical_location": "Far Fields - Rosary Cache #19",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
+          "id": "far-fields/far-fields-deep-lower-east::mapper-check:39d48399-b34b-4597-83a7-197d857a5403:836460",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/reviewed:hidden-hunter-keepsake"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "39d48399-b34b-4597-83a7-197d857a5403"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Grass Doll",
+          "node_id": "far-fields/far-fields-deep-lower-east#trapper-s-ledge",
+          "canonical_location": "Grass Doll",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -201025,9 +201118,10 @@
         }
       ],
       "connections": [],
-      "events": [
+      "events": [],
+      "checks": [
         {
-          "id": "event:mapper/95cd4c7d-6ac4-4b3d-bda4-a7a98affa50c",
+          "id": "choral-chambers/choral-chambers-cogheart-room::mapper-check:95cd4c7d-6ac4-4b3d-bda4-a7a98affa50c:836457",
           "requirement": {
             "raw": "flip switch either",
             "mode": "expression",
@@ -201049,11 +201143,12 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Choral Chambers Cogheart Piece",
-          "kind": "collectible",
-          "node_id": "choral-chambers/choral-chambers-cogheart-room#room"
+          "node_id": "choral-chambers/choral-chambers-cogheart-room#room",
+          "canonical_location": "Choral Chambers Cogheart Piece",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
-      "checks": [],
       "omitted_check_rows": []
     },
     {
@@ -218864,9 +218959,7 @@
             "dnf": [
               [
                 "mapper:attack:right",
-                "event:mapper/95cd4c7d-6ac4-4b3d-bda4-a7a98affa50c",
-                "event:mapper/e5062171-3645-406c-b07e-4b3cbd227b12",
-                "event:mapper/f0302eee-1cad-4b24-8b30-881437a6793f"
+                "count:cogheart-pieces:3"
               ]
             ],
             "annotations": [],
@@ -229388,9 +229481,10 @@
         }
       ],
       "connections": [],
-      "events": [
+      "events": [],
+      "checks": [
         {
-          "id": "event:mapper/f0302eee-1cad-4b24-8b30-881437a6793f",
+          "id": "whispering-vaults/whispering-vaults-music-box::mapper-check:f0302eee-1cad-4b24-8b30-881437a6793f:836458",
           "requirement": {
             "raw": "Flip Switch Down OR Flip Switch UP",
             "mode": "expression",
@@ -229415,11 +229509,12 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Whispering Vaults: Cogheart Piece",
-          "kind": "collectible",
-          "node_id": "whispering-vaults/whispering-vaults-music-box#room"
+          "node_id": "whispering-vaults/whispering-vaults-music-box#room",
+          "canonical_location": "Whispering Vaults: Cogheart Piece",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
-      "checks": [],
       "omitted_check_rows": [
         {
           "mapper_id": "2df8a0ff-3e84-47f0-977f-2b8e57b3359c",
@@ -260562,9 +260657,10 @@
         }
       ],
       "connections": [],
-      "events": [
+      "events": [],
+      "checks": [
         {
-          "id": "event:mapper/e5062171-3645-406c-b07e-4b3cbd227b12",
+          "id": "memorium/memorium-puzzle::mapper-check:e5062171-3645-406c-b07e-4b3cbd227b12:836459",
           "requirement": {
             "raw": "flip switch up OR flip switch down",
             "mode": "expression",
@@ -260589,11 +260685,12 @@
           "logic_status": "active",
           "unresolved_reasons": [],
           "label": "Memorimum Cogheart Piece",
-          "kind": "collectible",
-          "node_id": "memorium/memorium-puzzle#room"
+          "node_id": "memorium/memorium-puzzle#room",
+          "canonical_location": "Memorimum Cogheart Piece",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
-      "checks": [],
       "omitted_check_rows": []
     },
     {
@@ -271763,6 +271860,32 @@
           "currently_randomized": true
         },
         {
+          "id": "sands-of-karak/voltnest::mapper-check:c0e90540-7748-4f87-b426-ea05c0c6d9cf:836456",
+          "requirement": {
+            "raw": "None",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c0e90540-7748-4f87-b426-ea05c0c6d9cf"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Voltstone",
+          "node_id": "sands-of-karak/voltnest#bottom",
+          "canonical_location": "Voltstone",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "sands-of-karak/voltnest::mapper-check:a6c761eb-15e4-448e-ab9e-4f3928c35821:836310",
           "requirement": {
             "raw": "Combat Requirements",
@@ -271791,13 +271914,7 @@
           "currently_randomized": true
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "c0e90540-7748-4f87-b426-ea05c0c6d9cf",
-          "label": "Voltstone",
-          "kind": "lore"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "sands-of-karak/coral-tower-memory",
@@ -277695,6 +277812,34 @@
         }
       ],
       "checks": [
+        {
+          "id": "the-slab/slab-broodmother-alcove::mapper-check:ba13587f-01a2-4e22-bc3d-56a482e6a8d0:836463",
+          "requirement": {
+            "raw": "defeat Broodmother Boss Fight",
+            "mode": "expression",
+            "dnf": [
+              [
+                "event:mapper/fef5ea03-485e-4dd9-ac36-cab1aef17946"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "ba13587f-01a2-4e22-bc3d-56a482e6a8d0"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Broodmother's Eye",
+          "node_id": "the-slab/slab-broodmother-alcove#arena",
+          "canonical_location": "Broodmother's Eye",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
         {
           "id": "the-slab/slab-broodmother-alcove::reviewed-check:835744",
           "label": "Boss: Broodmother",
@@ -326310,7 +326455,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:savage-beastfly-remains"
+                "received:Horn Fragment",
+                "event:mapper/reviewed:savage-beastfly-accepted"
               ]
             ],
             "annotations": [],
@@ -326625,7 +326771,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:hidden-hunter-keepsake",
+                "received:Grass Doll",
+                "event:mapper/reviewed:hidden-hunter-accepted",
                 "item:silk-soar"
               ]
             ],
@@ -326840,7 +326987,8 @@
             "mode": "expression",
             "dnf": [
               [
-                "event:mapper/reviewed:savage-beastfly-remains"
+                "received:Horn Fragment",
+                "event:mapper/reviewed:savage-beastfly-accepted"
               ]
             ],
             "annotations": [],

@@ -1169,7 +1169,7 @@ namespace SilksongRandomizer.Patches
                         out SaveState state,
                         out MinorCacheManifest.Entry entry))
                 {
-                    if (!state.IsLocationChecked(entry.LocationName))
+                    if (!state.IsLocationChecked(entry.LocationName) || QuestCollectibles.KeepHangingPickup(__instance))
                     {
                         return true;
                     }

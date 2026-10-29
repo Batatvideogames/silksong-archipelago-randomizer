@@ -165,9 +165,23 @@ class MiscellaneousItemsRandomization(GlobalRandomization):
 
 
 class MateriumRandomization(GlobalRandomization):
-    """Randomizes Materium, Flintstone and Magnetite."""
+    """Randomizes Materium, Flintstone, Magnetite and Voltstone."""
 
     display_name = "Materium Randomization"
+    default = GlobalRandomization.option_false
+
+
+class QuestCollectibleRandomization(GlobalRandomization):
+    """Randomizes Grass Doll, Horn Fragment, Crown Fragment and Broodmother's Eye."""
+
+    display_name = "Quest Collectible Randomization"
+    default = GlobalRandomization.option_false
+
+
+class CogheartPieceRandomization(GlobalRandomization):
+    """Randomizes the three Cogheart Pieces needed to activate Second Sentinel."""
+
+    display_name = "Cogheart Pieces Randomization"
     default = GlobalRandomization.option_false
 
 
@@ -739,6 +753,8 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Materium": "materium_randomization",
     "Farsight": "farsight_randomization",
     "Bellhome": "bellhome_randomization",
+    "Cogheart": "cogheart_piece_randomization",
+    "QuestCollectible": "quest_collectible_randomization",
     "Miscellaneous": "miscellaneous_items_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
@@ -1759,6 +1775,8 @@ class SilksongOptions(PerGameCommonOptions):
     materium_randomization: MateriumRandomization
     farsight_randomization: FarsightRandomization
     bellhome_randomization: BellhomeRandomization
+    cogheart_piece_randomization: CogheartPieceRandomization
+    quest_collectible_randomization: QuestCollectibleRandomization
     miscellaneous_items_randomization: MiscellaneousItemsRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
@@ -1879,6 +1897,8 @@ silksong_option_groups = [
         MateriumRandomization,
         FarsightRandomization,
         BellhomeRandomization,
+        CogheartPieceRandomization,
+        QuestCollectibleRandomization,
         MiscellaneousItemsRandomization,
         TwistedBudRandomization,
         FleaRandomization,

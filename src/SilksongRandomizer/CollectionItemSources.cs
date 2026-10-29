@@ -40,6 +40,8 @@ namespace SilksongRandomizer
                 { location = "Flintstone"; asset = "Smeltstone"; }
                 else if (scene == "Peak_05e" && key == "MAGNETITE_OUTCROP")
                 { location = "Magnetite Outcrop"; asset = "Magnetite"; }
+                else if (scene == "Coral_29" && key == "CORAL_ZAP_CORPSE")
+                { location = "Voltstone"; asset = "Voltstone"; }
                 else return;
                 if (!state.IsLocationEnabled(location) || !state.IsLocationInSeed(location) ||
                     ___giveOnFirstTalkItems == null || !___giveOnFirstTalkItems.Any(item => item != null && item.name == asset)) return;

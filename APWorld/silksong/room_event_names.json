@@ -908,9 +908,11 @@
     "mapper_kind": "boss"
   },
   "event:mapper/c9fa91ec-ebb7-42b5-a810-85c30d1120a6": {
-    "name": "The Marrow - Crown Fragment",
+    "name": "crown fragment",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "crown fragment"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/70fad4ac-ce80-4d88-b703-b3c687686ccf": {
@@ -2042,9 +2044,11 @@
     "mapper_kind": "boss"
   },
   "event:mapper/e54c64bb-2486-4a2c-81f0-9af465fd3865": {
-    "name": "Far Fields Chorus - Horn Fragment",
+    "name": "Horn Fragment",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Horn Fragment"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/reviewed:savage-beastfly-remains": {
@@ -2422,9 +2426,11 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/39d48399-b34b-4597-83a7-197d857a5403": {
-    "name": "Far Fields Deep Lower East - Grass Doll",
+    "name": "Grass Doll",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Grass Doll"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/reviewed:hidden-hunter-keepsake": {
@@ -6914,9 +6920,11 @@
     "mapper_kind": "boss"
   },
   "event:mapper/ba13587f-01a2-4e22-bc3d-56a482e6a8d0": {
-    "name": "Slab Broodmother Alcove - Broodmother's Eye",
+    "name": "Broodmother's Eye",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Broodmother's Eye"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b7f47ef9-ceec-4bf2-aca0-6259e5e24d49": {
