@@ -1587,8 +1587,8 @@ def build_item_pool_entries(
     from .act1_scope import get_act_one_excluded_location_names
 
     for category, mode in category_modes.items():
-        if mode == 'shuffle' and category != 'Key':
-            raise ValueError(f"{category} does not support shuffle.")
+        if mode == 'shuffle' or category == 'Key' and mode != 'anywhere':
+            raise ValueError(f"Unknown {category} randomization mode: {mode!r}")
     if act_one_only and act_two_only:
         raise ValueError("Act 1 and Act 2 content scopes cannot overlap.")
 
@@ -1679,12 +1679,10 @@ def build_item_pool_entries(
                 ) from exc
             item_names.append(OPTIONAL_START_REPLACEMENT_ITEM)
 
-        placement_category = 'Key' if category == 'Key' and mode == 'shuffle' else None
         entries.extend(
             ItemPoolEntry(
                 item_name,
                 category,
-                placement_category,
             )
             for item_name in item_names
         )

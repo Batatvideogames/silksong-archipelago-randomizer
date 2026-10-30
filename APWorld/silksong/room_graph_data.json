@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "4e1ea5758f2d8140a3a5b204a18fb3bef5f1a7c26153f30e627098fe6515671a",
     "catalogue_sha256": "51bf04c9b848bdbaf8726b73e0d68c0cd48fd0a29d670bcf1edfffc91d481766",
-    "bindings_sha256": "9c791d5e5fe8f68f2ee3b2c3791ada56201e88ebefb6e086b2e7bb0dd30ee546"
+    "bindings_sha256": "08e28cffa330f7e6b3c01d05a1309031012e5fafe02d49a522c6e01b86f5327b"
   },
   "assumptions": {
     "unresolved_rows_compile": false,

@@ -486,20 +486,6 @@ class DivingBellKeyRandomization(Toggle):
     display_name = "Diving Bell Key Randomization"
 
 
-class SimpleKeyRandomization(Choice):
-    """
-    Randomize the four Simple Keys. Each key opens its named lock.
-
-    anywhere: mixes them into the global item pool
-    shuffle: mixes them up between one another
-    """
-
-    option_anywhere = GlobalRandomization.option_true
-    option_shuffle = 2
-    default = option_anywhere
-    display_name = "Simple Key Randomization"
-
-
 class MinorFamilyRandomization(RepeatedCollectibleRandomization):
     """
     Choose how this minor pickup family participates in the seed.
@@ -771,7 +757,6 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Pin": "pin_randomization",
     "Relic": "relic_randomization",
     "Upgrade": "crafting_kit_randomization",
-    "Key": "simple_key_randomization",
     "MemoryLocket": "memory_locket_randomization",
     "Craftmetal": "craftmetal_randomization",
     "Mossberry": "mossberry_randomization",
@@ -789,19 +774,15 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
 CATEGORY_MODE_KEY_BY_VALUE: dict[int, str] = {
     GlobalRandomization.option_false: "vanilla",
     GlobalRandomization.option_true: "anywhere",
-    SimpleKeyRandomization.option_shuffle: "shuffle",
 }
 
 
 def get_category_mode_value(options, category: str) -> int:
+    if category == "Key":
+        return GlobalRandomization.option_true
     option_name = CATEGORY_OPTION_BY_LOCATION_CATEGORY[category]
     option = getattr(options, option_name)
     value = int(option.value)
-    if (
-        value == SimpleKeyRandomization.option_shuffle
-        and not hasattr(type(option), "option_shuffle")
-    ):
-        raise ValueError(f"{option_name} does not support shuffle.")
     return value
 
 
@@ -824,11 +805,6 @@ def get_minor_family_mode_key(options, family_key: str) -> str:
         ) from exc
 
     option = getattr(options, option_name)
-    if (
-        int(option.value) == SimpleKeyRandomization.option_shuffle
-        and not hasattr(type(option), "option_shuffle")
-    ):
-        raise ValueError(f"{option_name} does not support shuffle.")
     key = CATEGORY_MODE_KEY_BY_VALUE.get(int(option.value))
     if key not in {"vanilla", "anywhere"}:
         raise ValueError(
@@ -842,8 +818,6 @@ def get_minor_family_modes(options) -> dict[str, str]:
         family_key: get_minor_family_mode_key(options, family_key)
         for family_key in MINOR_FAMILY_KEYS
     }
-
-
 
 
 def get_aggregate_minor_mode_key(options) -> str:
@@ -1795,7 +1769,6 @@ class SilksongOptions(PerGameCommonOptions):
     relic_randomization: RelicRandomization
     crafting_kit_randomization: CraftingKitRandomization
     major_key_randomization: MajorKeyRandomization
-    simple_key_randomization: SimpleKeyRandomization
     diving_bell_key_randomization: DivingBellKeyRandomization
     memory_locket_randomization: MemoryLocketRandomization
     craftmetal_randomization: CraftmetalRandomization
@@ -1917,7 +1890,6 @@ silksong_option_groups = [
         RelicRandomization,
         CraftingKitRandomization,
         MajorKeyRandomization,
-        SimpleKeyRandomization,
         DivingBellKeyRandomization,
         MemoryLocketRandomization,
         CraftmetalRandomization,

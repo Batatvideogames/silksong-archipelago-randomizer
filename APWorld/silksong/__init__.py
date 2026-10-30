@@ -38,7 +38,7 @@ from .alphabet_mode import (
     SPELLING_BEE_GOAL_KEY,
     parse_spelling_bee_phrase,
 )
-from .category_fill import prefill_category_shuffles
+from .category_fill import validate_opening
 from .display_names import FLEA_ITEM_NAMES
 from .items import (
     ACT_TWO_START_WITH_MAP_ITEMS,
@@ -144,12 +144,10 @@ from .wish_events import (
     WISH_REGION_SOURCE_LOCATIONS,
 )
 from .rules import (
-    enforce_global_shuffle_item_rules,
     finalize_crest_slot_memory_locket_logic,
     get_active_crest_slot_locations,
     get_crest_slot_memory_locket_count,
     get_crest_slot_progression_item_count,
-    restore_global_shuffle_item_rules,
     set_silksong_rules,
     uses_crest_slot_locket_logic,
     uses_randomized_memory_lockets_for_crest_slots,
@@ -1018,6 +1016,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             category: self.get_category_mode(category)
             for category in CATEGORY_OPTION_BY_LOCATION_CATEGORY
         }
+        modes["Key"] = "anywhere"
         modes["Resource"] = get_aggregate_minor_mode_key(self.options)
         modes.update(
             {
@@ -1712,8 +1711,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
                 parent_region,
             )
             location.silksong_randomization_category = data.category
-            if data.category == 'Key' and mode == 'shuffle':
-                location.silksong_placement_category = 'Key'
             parent_region.locations.append(location)
 
         # Wish events use their verified source region and rule when available.
@@ -1858,42 +1855,27 @@ class SilksongWorld(CachedRuleBuilderWorld):
             world.player for world in multiworld.get_game_worlds(cls.game)
             if world.game == cls.game
         ))
-        scope = getattr(
-            multiworld,
-            "_silksong_shuffle_item_rule_scope",
-            None,
-        )
-        try:
-            point_items = Counter((item.player, item.name) for item in multiworld.get_items())
-            for world in multiworld.get_game_worlds(cls.game):
-                if world.get_goal_key() != "act_3":
-                    continue
-                available_halves = (
-                    2 * point_items[world.player, SILK_AND_SOUL_WISH_POINT_ITEM]
-                    + point_items[world.player, SILK_AND_SOUL_WISH_HALF_POINT_ITEM]
+        point_items = Counter((item.player, item.name) for item in multiworld.get_items())
+        for world in multiworld.get_game_worlds(cls.game):
+            if world.get_goal_key() != "act_3":
+                continue
+            available_halves = (
+                2 * point_items[world.player, SILK_AND_SOUL_WISH_POINT_ITEM]
+                + point_items[world.player, SILK_AND_SOUL_WISH_HALF_POINT_ITEM]
+            )
+            required = get_silk_and_soul_points(world.options)
+            if 2 * required > available_halves:
+                raise OptionError(
+                    f"Player {world.player}: Silk and Soul requires {required} points, "
+                    f"but this configuration contains at most {available_halves / 2:g}. "
+                    "Lower Silk and Soul Points."
                 )
-                required = get_silk_and_soul_points(world.options)
-                if 2 * required > available_halves:
-                    raise OptionError(
-                        f"Player {world.player}: Silk and Soul requires {required} points, "
-                        f"but this configuration contains at most {available_halves / 2:g}. "
-                        "Lower Silk and Soul Points."
-                    )
-            prefill_category_shuffles(multiworld, cls.game)
-        finally:
-            restore_global_shuffle_item_rules(scope)
-            if hasattr(
-                multiworld,
-                "_silksong_shuffle_item_rule_scope",
-            ):
-                delattr(
-                    multiworld,
-                    "_silksong_shuffle_item_rule_scope",
-                )
+        validate_opening(multiworld, cls.game)
         for world in multiworld.get_game_worlds(cls.game):
             if world.game == cls.game:
                 world._finalize_progression_shuffle()
-        from .category_fill import validate_excluded_filler
+        from .category_fill import validate_excluded_filler, validate_flea_capacity
+        validate_flea_capacity(multiworld, cls.game)
         validate_excluded_filler(multiworld, cls.game)
         alphabet_mode_enabled = any(
             getattr(world, "game", None) == cls.game
@@ -1940,7 +1922,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         raise OptionError(
             f"The selected options leave {len(progression_items)} "
             f"progression items for {progression_location_count} "
-            "progression-legal locations after category shuffles "
+            "progression-legal locations "
             f"({non_progression_location_count} locations require "
             "non-progression items, but only "
             f"{non_progression_item_count} remain). {advice}"
@@ -1950,9 +1932,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def stage_generate_basic(cls, multiworld) -> None:
         for world in multiworld.get_game_worlds(cls.game):
             world._prepare_start_inventory_pool()
-        multiworld._silksong_shuffle_item_rule_scope = (
-            enforce_global_shuffle_item_rules(multiworld)
-        )
 
     def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
         indices = [index for index, item in enumerate(progitempool) if item.player == self.player]
@@ -2479,6 +2458,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             }
         )
         slot_data.update(slot_entrances(self))
+        slot_data["simple_key_randomization"] = "anywhere"
         slot_data["minor_pickup_randomization"] = category_modes["Resource"]
         slot_data.update(
             {

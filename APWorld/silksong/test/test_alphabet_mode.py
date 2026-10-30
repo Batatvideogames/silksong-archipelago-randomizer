@@ -392,7 +392,6 @@ class TestAlphabetMode(unittest.TestCase):
         self,
     ) -> None:
         modes = self.modes("anywhere")
-        modes["Key"] = "shuffle"
         arguments = {
             "starting_crest_item": "Crest: Hunter",
             "trap_counts": {},
@@ -581,7 +580,6 @@ class TestAlphabetMode(unittest.TestCase):
             "relic_randomization": "vanilla",
             "crafting_kit_randomization": "anywhere",
             "major_key_randomization": "anywhere",
-            "simple_key_randomization": "shuffle",
             "memory_locket_randomization": "vanilla",
             "craftmetal_randomization": "vanilla",
             "mossberry_randomization": "vanilla",
@@ -858,10 +856,10 @@ class TestAlphabetMode(unittest.TestCase):
         multiworld.get_items = lambda: ()
         world_module = __import__(
             SilksongWorld.__module__,
-            fromlist=("prefill_category_shuffles",),
+            fromlist=("validate_opening",),
         )
         with (
-            mock.patch.object(world_module, "prefill_category_shuffles"),
+            mock.patch.object(world_module, "validate_opening"),
             self.assertRaisesRegex(
                 OptionError,
                 r"2 progression items for 1 progression-legal locations",
@@ -910,10 +908,10 @@ class TestAlphabetMode(unittest.TestCase):
         multiworld.get_items = lambda: ()
         world_module = __import__(
             SilksongWorld.__module__,
-            fromlist=("prefill_category_shuffles",),
+            fromlist=("validate_opening",),
         )
         with (
-            mock.patch.object(world_module, "prefill_category_shuffles"),
+            mock.patch.object(world_module, "validate_opening"),
             self.assertRaises(OptionError) as error,
         ):
             SilksongWorld.stage_pre_fill(multiworld)
