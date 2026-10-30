@@ -119948,7 +119948,17 @@
               "Room Node: wish-menus/bone-bottom-wish-wall#room",
               "Room Event: event:mapper/reviewed:bone-bottom-bridge-completed",
               "Room Event: event:mapper/reviewed:bone-bottom-bridge-constructed",
-              "Act: 2"
+              "Act: 2",
+              "Room Event: event:mapper/28393033-5e52-47f0-85ab-290f8b37d008"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: wish-menus/bone-bottom-wish-wall#room",
+              "Room Event: event:mapper/reviewed:bone-bottom-bridge-completed",
+              "Room Event: event:mapper/reviewed:bone-bottom-bridge-constructed",
+              "Act: 2",
+              "Room Event: event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87"
             ]
           }
         ]

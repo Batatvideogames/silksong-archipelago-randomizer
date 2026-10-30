@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "4e1ea5758f2d8140a3a5b204a18fb3bef5f1a7c26153f30e627098fe6515671a",
     "catalogue_sha256": "51bf04c9b848bdbaf8726b73e0d68c0cd48fd0a29d670bcf1edfffc91d481766",
-    "bindings_sha256": "6061c00ccffa9a14357bf578bb9f3b386a922205ed4a7693a69dd8c7ee7254ec"
+    "bindings_sha256": "9c791d5e5fe8f68f2ee3b2c3791ada56201e88ebefb6e086b2e7bb0dd30ee546"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -328591,7 +328591,14 @@
               [
                 "event:mapper/reviewed:bone-bottom-bridge-completed",
                 "event:mapper/reviewed:bone-bottom-bridge-constructed",
-                "mapper:act-2"
+                "mapper:act-2",
+                "event:mapper/28393033-5e52-47f0-85ab-290f8b37d008"
+              ],
+              [
+                "event:mapper/reviewed:bone-bottom-bridge-completed",
+                "event:mapper/reviewed:bone-bottom-bridge-constructed",
+                "mapper:act-2",
+                "event:mapper/c4e1c790-d019-4fdb-94d1-e1f5f6b35a87"
               ]
             ],
             "annotations": [],
