@@ -53,7 +53,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a16f9f-cc8a-7057-1c4b-4d17d794fec2` (Same as R2Modman)
+**Cogfly Import Code:** `01a18ae7-61f6-2d35-4c42-ed7578c6fc75` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -66,7 +66,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a16f9f-cc8a-7057-1c4b-4d17d794fec2` (Same as Cogfly)
+**R2Modman Import Code:** `01a18ae7-61f6-2d35-4c42-ed7578c6fc75` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -164,7 +164,7 @@ Alternatively, you can always replace Cogfly with a different mod manager that a
 
 #### Old Import Codes
 
-[**v0.5.3**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.3) Import Code: `01a16f9f-cc8a-7057-1c4b-4d17d794fec2`
+[**v0.5.3**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.3) Import Code: `01a18ae7-61f6-2d35-4c42-ed7578c6fc75`
 
 [**v0.5.2**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.2) Import Code: `01a15150-4496-f47c-5102-41aae48899c7`
 
@@ -173,18 +173,6 @@ Alternatively, you can always replace Cogfly with a different mod manager that a
 [**v0.5.0**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.0) Import Code: `01a109ba-4c4f-b4f0-8695-8b4d42cb8159`
 
 [**v0.4.7**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.7) Import Code: `01a0dfd5-7d5b-682a-324c-6e2f385ad7df`
-
-[**v0.4.6**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.6) Import Code: `01a0b6c0-a24b-cc11-7b3e-ba412942686b`
-
-[**v0.4.52**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5-Hotfix2) Import Code: `01a0926a-7b73-7a11-66bb-42117f64248f`
-
-[**v0.4.51**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5-Hotfix) Import Code: `01a0926b-eab2-0a1b-bf2c-76345f9973d3`
-
-[**v0.4.5**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.5) Import Code: `01a0926c-50d2-f57d-ea27-e6261857cd3d`
-
-[**v0.4.4**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.4) Import Code: `01a07254-1646-8e29-7cee-2ba65c34300d`
-
-[**v0.4.3**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.4.3) Import Code: `01a07252-fdcb-41ae-1ea2-84fb05e3f1e5`
 
 ### My Mod Manager Boots The Game In Vanilla
 For **Cogfly**, press 'Copy Launch Arguments' at the top. Go to Hollow Knight: Silksong on Steam, right-click and press "Properties...". In Launch Options, paste the the arguments Cogfly copied for you and start your game.
@@ -229,7 +217,8 @@ Some of these regions are still incomplete and still being mapped out. They've b
 
 | Contributor | Regions |
 | :--- | :--- |
-| **Gallos** | [Choral Chambers](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/choral-chambers) |
+| **Cryo** | [Far Fields](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/far-fields), [Wormways](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/wormways) |
+| **Gallos** | [Choral Chambers](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/choral-chambers), [High Halls](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/high-halls), [Whiteward](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whiteward) |
 | **Herchey** | [Bilewater](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bilewater), [Sinner's Road](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/sinner-s-road) |
 | **Heric** | [Memorium](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/memorium) |
 | **Hero** | [Bone Bottom](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bone-bottom), [Deep Docks](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/deep-docks), [Far Fields](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/far-fields), [Hunter's March](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/hunter-s-march), [Moss Grotto](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/moss-grotto), [The Marrow](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-marrow), [Weavenest Atla](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/weavenest-atla), [Wormways](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/wormways) |
@@ -238,7 +227,7 @@ Some of these regions are still incomplete and still being mapped out. They've b
 | **Pyxl** | [Bellhart](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/bellhart), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [Mount Fay](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/mount-fay), [Putrified Ducts](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/putrified-ducts), [Sands of Karak](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/sands-of-karak), [Shellwood](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/shellwood), [The Abyss](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-abyss), [The Cradle](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-cradle), [Verdania](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/verdania) |
 | **Rebel** | [Cogwork Core](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/cogwork-core), [Underworks (East)](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/underworks), [Whispering Vaults](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whispering-vaults) |
 | **Sergio** | [Choral Chambers](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/choral-chambers), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [High Halls](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/high-halls), [The Slab](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-slab), [Underworks (West)](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/underworks), [Wisp Thicket](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whisp-thicket) |
-| **Skai** | [Blasted Steps](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/blasted-steps), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [Whiteward](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whiteward)|
+| **Skai** | [Blasted Steps](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/blasted-steps), [Grand Gate](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/grand-gate), [Whiteward](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/whiteward) |
 | **SuperEpicGuy** | [Moss Grotto](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/moss-grotto) |
 | **UNMAPPED** | [The Mist](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/the-mist), [Red Memory](https://github.com/zerounit-dev/silksong-rando-ap-logic/tree/main/red-memory) |
 
