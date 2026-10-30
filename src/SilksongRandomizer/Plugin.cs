@@ -820,12 +820,12 @@ namespace SilksongRandomizer
                 if (subscribedArchipelago != null)
                 {
                     subscribedArchipelago.ConnectionStatusChanged -= QueueConnectionStatus;
-                    subscribedArchipelago.OnItemSent -= QueueSentItemPopup;
+                    subscribedArchipelago.OnItemSentDetailed -= QueueSentItemPopup;
                 }
 
                 subscribedArchipelago = archipelago;
                 subscribedArchipelago.ConnectionStatusChanged += QueueConnectionStatus;
-                subscribedArchipelago.OnItemSent += QueueSentItemPopup;
+                subscribedArchipelago.OnItemSentDetailed += QueueSentItemPopup;
             }
 
             return archipelago;

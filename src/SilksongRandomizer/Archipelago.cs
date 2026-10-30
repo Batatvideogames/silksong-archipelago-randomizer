@@ -337,7 +337,8 @@ namespace SilksongRandomizer
         public bool LastConnectionFailureRetryable { get; private set; } = true;
 
         public event Action<string> OnItemReceived;
-        public event Action<string, string, string, ItemFlags> OnItemSent;
+        public event Action<string, ItemFlags> OnItemSent;
+        public event Action<string, string, string, ItemFlags> OnItemSentDetailed;
         public event Action<string> ConnectionStatusChanged;
 
         private readonly object stateLock = new object();
@@ -1695,20 +1696,22 @@ namespace SilksongRandomizer
                 recipientName = "Player " + itemSend.Receiver.Slot;
             }
 
-            Action<string, string, string, ItemFlags> handler = OnItemSent;
-            if (handler == null)
-            {
-                return;
-            }
-
+            string text = "Sent " + itemName + " to " + recipientName;
             try
             {
-                handler(
-                    "Sent " + itemName + " to " + recipientName,
+                OnItemSentDetailed?.Invoke(
+                    text,
                     itemName,
                     itemSend.Receiver.Game,
                     itemSend.Item.Flags
                 );
+            }
+            catch
+            {
+            }
+            try
+            {
+                OnItemSent?.Invoke(text, itemSend.Item.Flags);
             }
             catch
             {
@@ -1934,7 +1937,7 @@ namespace SilksongRandomizer
             AddReceivedItem(GetItemName(item), raiseEvent);
         }
 
-        private string GetItemName(ItemInfo item)
+        public string GetItemName(ItemInfo item)
         {
             if (item == null)
             {

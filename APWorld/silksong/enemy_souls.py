@@ -150,8 +150,9 @@ def _mapped_requirements(name, index, enabled=None):
                 f'Node exists: {node in graph.node_by_id}. Reviewed rooms: {sorted(rooms)!r}.')
         dnf = []
         for clause in encounter['dnf']:
-            present = {atom.removeprefix('mapper:enemy-presence:') for atom in clause
-                       if atom.startswith('mapper:enemy-presence:')}
+            present = set(encounter.get('souls', ())) | {
+                atom.removeprefix('mapper:enemy-presence:') for atom in clause
+                if atom.startswith('mapper:enemy-presence:')}
             if present - BY_NAME.keys():
                 raise _mapped_route_error(name, index, 'Unknown enemy presence: ' + ', '.join(sorted(present - BY_NAME.keys())))
             records = {atom.split(':')[2] for atom in clause
@@ -160,8 +161,9 @@ def _mapped_requirements(name, index, enabled=None):
             souls = ('received:' + item_name(species) for species in sorted(present & enabled))
             dnf.append(tuple(dict.fromkeys((*clause, *souls))))
         spec = RequirementSpec('', RequirementMode.EXPRESSION, tuple(dnf), (), (), 0)
-        rules.extend(_compiled_room_clause_requirement(clause)
-                     for clause in _compile_spec(spec, 'Room Node: ' + node))
+        for clause in _compile_spec(spec, 'Room Node: ' + node):
+            rule = _compiled_room_clause_requirement(clause)
+            rules.append(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *encounter.get('events', ()))))))
     if not rules:
         raise _mapped_route_error(name, index,
             f"No usable encounters compiled from {len(route.get('mapped_encounters', ()))} placements.")

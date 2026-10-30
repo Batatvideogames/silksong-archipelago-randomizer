@@ -887,14 +887,6 @@
       ]
     }
   ],
-  "White Key": [
-    {
-      "node": "Room Node: choral-chambers/songclave#base",
-      "prices": [
-        "shop:City Merchant Ward Key"
-      ]
-    }
-  ],
   "Blasted Steps - Map Purchase": [
     {
       "node": "Room Node: blasted-steps/blasted-steps-shakra-map-room#bottom-third-right",
