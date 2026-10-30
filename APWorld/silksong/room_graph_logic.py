@@ -1490,6 +1490,10 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
             return (_part(),)
         if kind.endswith("-crest-attack") and difficulty in {"up", "down", "left", "right"}:
             return (_part("Crest: " + kind.removesuffix("-crest-attack").title()),)
+        if kind == 'longclaw' and difficulty in {'up', 'down', 'left', 'right'}:
+            return (_part('Usable Longclaw'),)
+        if kind.endswith('-crest-longclaw') and difficulty in {'up', 'down', 'left', 'right'}:
+            return (_part('Crest: ' + kind.removesuffix('-crest-longclaw').title(), 'Usable Longclaw'),)
         if kind == "clawline":
             casts = int(difficulty)
             if not 1 <= casts <= 8:

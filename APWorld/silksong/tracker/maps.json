@@ -560,7 +560,7 @@
  {
   "name": "Far Fields Fort Flea Rescue",
   "img": "01-geometry/4d999df4-69d9-463f-b82f-041c55b5f9bc.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1562,8 +1562,8 @@
  {
   "name": "Sinner's Road Styx Room",
   "img": "01-geometry/de3c00ef-0d95-42c2-8ff8-29aef85bc1aa.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Vertical Hall East",
@@ -2300,8 +2300,8 @@
  {
   "name": "Bilewater Bullshit Bench",
   "img": "01-geometry/67c4c84d-798c-443b-8da7-42ae3f37de2b.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Citadel Exit",

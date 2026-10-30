@@ -1842,26 +1842,26 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/f6501971-e9e8-439f-9f21-363d6444446e": {
-    "name": "Far Fields - Rosary Cache #11",
+    "name": "Lower Fort Sentry's Ration Bonds",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #11"
+      "Lower Fort Sentry's Ration Bonds"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/5d314764-9c6e-4e48-a4a6-0410bdb6409d": {
-    "name": "Far Fields - Rosary Cache #12",
+    "name": "Lower Fort Sentry's Personal Rosaries",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #12"
+      "Lower Fort Sentry's Personal Rosaries"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/39060ce2-f239-4bfa-895f-dead9e6a72ef": {
-    "name": "Far Fields - Rosary Cache #13",
+    "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\"",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #13"
+      "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\""
     ],
     "mapper_kind": "collectible"
   },
@@ -1874,18 +1874,18 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/fab56c4f-49e7-482c-a0e5-47df5508f7df": {
-    "name": "Far Fields - Rosary Cache #16",
+    "name": "Fort Barracks Ration Rosaries",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #16"
+      "Fort Barracks Ration Rosaries"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/02cae332-6253-429c-a123-7c4be14dc21d": {
-    "name": "Far Fields - Rosary Cache #17",
+    "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\"",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #17"
+      "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\""
     ],
     "mapper_kind": "collectible"
   },
@@ -2030,10 +2030,10 @@
     "mapper_kind": "boss"
   },
   "event:mapper/1af926c3-181a-45a8-a94b-9591ea8f3214": {
-    "name": "Far Fields - Rosary Cache #2",
+    "name": "Choir's Final Rites Beads",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #2"
+      "Choir's Final Rites Beads"
     ],
     "mapper_kind": "collectible"
   },
@@ -5109,10 +5109,10 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/cd3ea9f7-9c81-4f17-ab6a-f934d827e893": {
-    "name": "Sinner's Road - Rosary Cache #8",
+    "name": "Rosaries Looking Over The Sinner's Bench",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #8"
+      "Rosaries Looking Over The Sinner's Bench"
     ],
     "mapper_kind": "collectible"
   },
@@ -5163,18 +5163,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/c244998e-45ab-4fda-a19f-bee26bc4f451": {
-    "name": "Sinner's Road - Frayed Rosary String",
+    "name": "Caged Rosaries In the Sinner's Entryway",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Frayed Rosary String"
+      "Caged Rosaries In the Sinner's Entryway"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c78d1856-fabb-4e42-9989-ab5c5a9dd965": {
-    "name": "Flea: Sinner's Road",
+    "name": "Sinner's Flea",
     "kind": "collectible",
     "locations": [
-      "Flea: Sinner's Road"
+      "Sinner's Flea"
     ],
     "mapper_kind": "collectible"
   },
@@ -5187,18 +5187,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/b60aef63-d800-4533-b5da-2f92e49fd03d": {
-    "name": "Sinner's Road - Shell Shard Cache #4",
+    "name": "Shell Shards Lugoli Probably Threw Out: The First",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #4"
+      "Shell Shards Lugoli Probably Threw Out: The First"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/1308d6f0-ec57-461f-864e-90b5ec0e262f": {
-    "name": "Sinner's Road - Shell Shard Cache #5",
+    "name": "Shell Shards Lugoli Probably Threw Out: The Second",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #5"
+      "Shell Shards Lugoli Probably Threw Out: The Second"
     ],
     "mapper_kind": "collectible"
   },
@@ -5247,18 +5247,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/2aefa858-0b94-4d5d-af26-e3b6737a9a52": {
-    "name": "Sinner's Road - Shell Shard Cache #6",
+    "name": "Left Shards In the Hall of the Spike Swingers",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #6"
+      "Left Shards In the Hall of the Spike Swingers"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/0a762857-5444-4a97-aaec-38b634caa605": {
-    "name": "Sinner's Road - Shell Shard Cache #7",
+    "name": "Right Shards In the Hall of the Spike Swingers",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #7"
+      "Right Shards In the Hall of the Spike Swingers"
     ],
     "mapper_kind": "collectible"
   },
@@ -5355,42 +5355,42 @@
     "mapper_kind": "event"
   },
   "event:mapper/f272a0fc-a61c-4fd8-a1e6-73a2efce1084": {
-    "name": "Sinner's Road - Rosary Cache #5",
+    "name": "Eastern Sinner's Cage Rosary Primus",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #5"
+      "Eastern Sinner's Cage Rosary Primus"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/74ffa4f1-4974-40dc-8fd3-46cd84dd5486": {
-    "name": "Sinner's Road - Rosary Cache #6",
+    "name": "Eastern Sinner's Cage Rosary Secundus",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #6"
+      "Eastern Sinner's Cage Rosary Secundus"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c75eb85b-c102-4610-8c3c-68ffde71cddd": {
-    "name": "Sinner's Road - Rosary Cache #7",
+    "name": "Eastern Sinner's Cage Rosary Tertius",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #7"
+      "Eastern Sinner's Cage Rosary Tertius"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/890f63bb-e718-4415-a3e2-85ecaf6ac7f5": {
-    "name": "Sinner's Road - Shard Bundle",
+    "name": "Shards on Bilewater's Doorstep",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shard Bundle"
+      "Shards on Bilewater's Doorstep"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b08ca6ef-95fe-4e21-8813-7cfe691aa778": {
-    "name": "Roachkeeper - Simple Key",
+    "name": "Key Hoarding Roachkeeper In the Attic",
     "kind": "collectible",
     "locations": [
-      "Roachkeeper - Simple Key"
+      "Key Hoarding Roachkeeper In the Attic"
     ],
     "mapper_kind": "collectible"
   },
@@ -5437,26 +5437,26 @@
     "mapper_kind": "event"
   },
   "event:mapper/c365d492-1522-49b8-9bae-8232cce1bf87": {
-    "name": "Sinner's Road - Rosary Cache #1",
+    "name": "Gross Rosaries In the Sinner's Basement",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #1"
+      "Gross Rosaries In the Sinner's Basement"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/18fa3c25-7b0c-4626-a24a-e3a6a3bdfe9e": {
-    "name": "Sinner's Road - Rosary Cache #2",
+    "name": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #2"
+      "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/66ddda0c-35c8-40bb-8d9a-ab76185aee1f": {
-    "name": "Sinner's Road - Rosary Cache #3",
+    "name": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #3"
+      "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
     ],
     "mapper_kind": "collectible"
   },
@@ -6682,12 +6682,6 @@
     "kind": "event",
     "locations": [],
     "mapper_kind": "event"
-  },
-  "event:mapper/1cd7e543-0d4b-4ece-9b48-48d57b8112b4": {
-    "name": "Exhaust Organ Interior - Boss: Phantom",
-    "kind": "enemy",
-    "locations": [],
-    "mapper_kind": "enemy"
   },
   "event:mapper/a4c573a9-2c07-4187-806e-23476b6037f7": {
     "name": "Exhaust Organ Interior - Organ Bench",
@@ -9254,5 +9248,47 @@
     "kind": "event",
     "locations": [],
     "mapper_kind": "event"
+  },
+  "event:mapper/c4afe77b-1bc4-4258-a379-a5b74998ce59": {
+    "name": "Exhaust Organ Interior - Boss: Phantom",
+    "kind": "boss",
+    "locations": [],
+    "mapper_kind": "boss"
+  },
+  "event:mapper/cb3e8297-ffcb-4285-871d-fb2c984e3e03": {
+    "name": "Far Fields Wind Shaft - r4 blast rock",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/53987f48-44fb-4962-82e8-c75393be8f10": {
+    "name": "Sinner's Road Bench - Unclogging The Overly Complicated Bench",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/854e2b8b-6065-4ad9-9f9f-2a5c52b7c791": {
+    "name": "Sinner's Road Flea Rescue - Break Wall Flea Cage",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/6d40805f-f98b-480c-adaf-6d976149c1c2": {
+    "name": "Sinner's Road North Hall - Secret Wall To The Mists Left",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/88e9abd4-6b12-4544-ad50-0da5c6f6525b": {
+    "name": "Sinner's Road North Hall - Secret Wall To The Mists Right",
+    "kind": "blockade",
+    "locations": [],
+    "mapper_kind": "blockade"
+  },
+  "event:mapper/afc6baab-9c9c-45c4-81c7-f9c53c7f9407": {
+    "name": "Sinner's Road North Hall - Secret Wall Logic",
+    "kind": "logic-point",
+    "locations": [],
+    "mapper_kind": "logic-point"
   }
 }

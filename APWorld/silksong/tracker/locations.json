@@ -1982,8 +1982,8 @@
     "map_locations": [
      {
       "map": "Mosshome Lower",
-      "x": 58,
-      "y": 120
+      "x": 69,
+      "y": 117
      }
     ]
    },
@@ -7231,35 +7231,47 @@
   "name": "Far Fields Fort Lower Passage",
   "children": [
    {
-    "name": "Far Fields - Rosary Cache #11",
+    "name": "Lower Fort Sentry's Ration Bonds",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #11"
+      "name": "Lower Fort Sentry's Ration Bonds"
      }
     ],
     "map_locations": [
      {
       "map": "Far Fields Fort Lower Passage",
-      "x": 57,
-      "y": 72
+      "x": 83,
+      "y": 73
      }
     ]
    },
    {
-    "name": "Far Fields - Rosary Cache #12",
+    "name": "Lower Fort Sentry's Personal Rosaries",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #12"
-     },
-     {
-      "name": "Far Fields - Rosary Cache #13"
+      "name": "Lower Fort Sentry's Personal Rosaries"
      }
     ],
     "map_locations": [
      {
       "map": "Far Fields Fort Lower Passage",
-      "x": 77,
-      "y": 72
+      "x": 73,
+      "y": 71
+     }
+    ]
+   },
+   {
+    "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\"",
+    "sections": [
+     {
+      "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\""
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Fort Lower Passage",
+      "x": 58,
+      "y": 71
      }
     ]
    },
@@ -7308,26 +7320,38 @@
     "map_locations": [
      {
       "map": "Far Fields Fort Flea Rescue",
-      "x": 417,
-      "y": 210
+      "x": 503,
+      "y": 224
      }
     ]
    },
    {
-    "name": "Far Fields - Rosary Cache #16",
+    "name": "Fort Barracks Ration Rosaries",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #16"
-     },
-     {
-      "name": "Far Fields - Rosary Cache #17"
+      "name": "Fort Barracks Ration Rosaries"
      }
     ],
     "map_locations": [
      {
       "map": "Far Fields Fort Flea Rescue",
-      "x": 55,
-      "y": 197
+      "x": 40,
+      "y": 209
+     }
+    ]
+   },
+   {
+    "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\"",
+    "sections": [
+     {
+      "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\""
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Far Fields Fort Flea Rescue",
+      "x": 30,
+      "y": 211
      }
     ]
    },
@@ -7341,8 +7365,8 @@
     "map_locations": [
      {
       "map": "Far Fields Fort Flea Rescue",
-      "x": 36,
-      "y": 323
+      "x": 48,
+      "y": 333
      }
     ]
    },
@@ -7356,7 +7380,7 @@
     "map_locations": [
      {
       "map": "Far Fields Fort Flea Rescue",
-      "x": 208,
+      "x": 275,
       "y": 0
      }
     ]
@@ -7901,10 +7925,10 @@
   "name": "Far Fields Chorus",
   "children": [
    {
-    "name": "Far Fields - Rosary Cache #2",
+    "name": "Choir's Final Rites Beads",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #2"
+      "name": "Choir's Final Rites Beads"
      }
     ],
     "map_locations": [
@@ -19105,6 +19129,21 @@
   "name": "Sinner's Road Bench",
   "children": [
    {
+    "name": "Rosaries Looking Over The Sinner's Bench",
+    "sections": [
+     {
+      "name": "Rosaries Looking Over The Sinner's Bench"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Bench",
+      "x": 841,
+      "y": 186
+     }
+    ]
+   },
+   {
     "name": "Sinner's Road - Map Purchase",
     "sections": [
      {
@@ -19116,21 +19155,6 @@
       "map": "Sinner's Road Bench",
       "x": 643,
       "y": 252
-     }
-    ]
-   },
-   {
-    "name": "Sinner's Road - Rosary Cache #8",
-    "sections": [
-     {
-      "name": "Sinner's Road - Rosary Cache #8"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Sinner's Road Bench",
-      "x": 852,
-      "y": 166
      }
     ]
    },
@@ -19220,10 +19244,10 @@
   "name": "Sinner's Road Entrance",
   "children": [
    {
-    "name": "Sinner's Road - Frayed Rosary String",
+    "name": "Caged Rosaries In the Sinner's Entryway",
     "sections": [
      {
-      "name": "Sinner's Road - Frayed Rosary String"
+      "name": "Caged Rosaries In the Sinner's Entryway"
      }
     ],
     "map_locations": [
@@ -19270,17 +19294,17 @@
   "name": "Sinner's Road Flea Rescue",
   "children": [
    {
-    "name": "Flea: Sinner's Road",
+    "name": "Sinner's Flea",
     "sections": [
      {
-      "name": "Flea: Sinner's Road"
+      "name": "Sinner's Flea"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Flea Rescue",
-      "x": 139,
-      "y": 98
+      "x": 134,
+      "y": 101
      }
     ]
    },
@@ -19320,13 +19344,13 @@
     ]
    },
    {
-    "name": "Sinner's Road - Shell Shard Cache #4",
+    "name": "Shell Shards Lugoli Probably Threw Out: The First",
     "sections": [
      {
-      "name": "Sinner's Road - Shell Shard Cache #4"
+      "name": "Shell Shards Lugoli Probably Threw Out: The First"
      },
      {
-      "name": "Sinner's Road - Shell Shard Cache #5"
+      "name": "Shell Shards Lugoli Probably Threw Out: The Second"
      }
     ],
     "map_locations": [
@@ -19438,21 +19462,6 @@
   "name": "Sinner's Road Muckroach Cages",
   "children": [
    {
-    "name": "Sinner's Road - Rosary Cache #4",
-    "sections": [
-     {
-      "name": "Sinner's Road - Rosary Cache #4"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Sinner's Road Muckroach Cages",
-      "x": 438,
-      "y": 114
-     }
-    ]
-   },
-   {
     "name": "Sinner's Road - Shell Shard Cache #1",
     "sections": [
      {
@@ -19462,8 +19471,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 619,
-      "y": 74
+      "x": 644,
+      "y": 86
      }
     ]
    },
@@ -19477,8 +19486,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 655,
-      "y": 61
+      "x": 669,
+      "y": 78
      }
     ]
    },
@@ -19492,8 +19501,23 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 672,
-      "y": 72
+      "x": 687,
+      "y": 78
+     }
+    ]
+   },
+   {
+    "name": "Sinner's Road - Rosary Cache #4",
+    "sections": [
+     {
+      "name": "Sinner's Road - Rosary Cache #4"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Muckroach Cages",
+      "x": 477,
+      "y": 129
      }
     ]
    },
@@ -19548,10 +19572,40 @@
   "name": "Sinner's Road North Hall",
   "children": [
    {
-    "name": "Sinner's Road - Rosary Chest",
+    "name": "Left Shards In the Hall of the Spike Swingers",
     "sections": [
      {
-      "name": "Sinner's Road - Rosary Chest"
+      "name": "Left Shards In the Hall of the Spike Swingers"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road North Hall",
+      "x": 63,
+      "y": 127
+     }
+    ]
+   },
+   {
+    "name": "Right Shards In the Hall of the Spike Swingers",
+    "sections": [
+     {
+      "name": "Right Shards In the Hall of the Spike Swingers"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road North Hall",
+      "x": 92,
+      "y": 133
+     }
+    ]
+   },
+   {
+    "name": "That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
+    "sections": [
+     {
+      "name": "That Chest In the Halls of the Spike Swingers That's RIGHT THERE"
      }
     ],
     "map_locations": [
@@ -19559,24 +19613,6 @@
       "map": "Sinner's Road North Hall",
       "x": 909,
       "y": 59
-     }
-    ]
-   },
-   {
-    "name": "Sinner's Road - Shell Shard Cache #6",
-    "sections": [
-     {
-      "name": "Sinner's Road - Shell Shard Cache #6"
-     },
-     {
-      "name": "Sinner's Road - Shell Shard Cache #7"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Sinner's Road North Hall",
-      "x": 116,
-      "y": 128
      }
     ]
    },
@@ -19675,8 +19711,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Styx Room",
-      "x": 551,
-      "y": 157
+      "x": 662,
+      "y": 192
      }
     ]
    },
@@ -19691,7 +19727,7 @@
      {
       "map": "Sinner's Road Styx Room",
       "x": 0,
-      "y": 124
+      "y": 152
      }
     ]
    },
@@ -19705,8 +19741,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Styx Room",
-      "x": 290,
-      "y": 208
+      "x": 349,
+      "y": 254
      }
     ]
    }
@@ -19716,25 +19752,10 @@
   "name": "Sinner's Road Vertical Hall East",
   "children": [
    {
-    "name": "Roachkeeper - Simple Key",
+    "name": "Eastern Sinner's Cage Rosary Primus",
     "sections": [
      {
-      "name": "Roachkeeper - Simple Key"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Sinner's Road Vertical Hall East",
-      "x": 103,
-      "y": 62
-     }
-    ]
-   },
-   {
-    "name": "Sinner's Road - Shard Bundle",
-    "sections": [
-     {
-      "name": "Sinner's Road - Shard Bundle"
+      "name": "Eastern Sinner's Cage Rosary Primus"
      }
     ],
     "map_locations": [
@@ -19746,23 +19767,62 @@
     ]
    },
    {
-    "name": "Sinner's Road - Rosary Cache #5",
+    "name": "Eastern Sinner's Cage Rosary Secundus",
     "sections": [
      {
-      "name": "Sinner's Road - Rosary Cache #5"
-     },
-     {
-      "name": "Sinner's Road - Rosary Cache #6"
-     },
-     {
-      "name": "Sinner's Road - Rosary Cache #7"
+      "name": "Eastern Sinner's Cage Rosary Secundus"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 93,
-      "y": 669
+      "x": 86,
+      "y": 680
+     }
+    ]
+   },
+   {
+    "name": "Eastern Sinner's Cage Rosary Tertius",
+    "sections": [
+     {
+      "name": "Eastern Sinner's Cage Rosary Tertius"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Vertical Hall East",
+      "x": 113,
+      "y": 683
+     }
+    ]
+   },
+   {
+    "name": "Shards on Bilewater's Doorstep",
+    "sections": [
+     {
+      "name": "Shards on Bilewater's Doorstep"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Vertical Hall East",
+      "x": 188,
+      "y": 569
+     }
+    ]
+   },
+   {
+    "name": "Key Hoarding Roachkeeper In the Attic",
+    "sections": [
+     {
+      "name": "Key Hoarding Roachkeeper In the Attic"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Vertical Hall East",
+      "x": 103,
+      "y": 62
      }
     ]
    },
@@ -19832,35 +19892,47 @@
   "name": "Sinner's Road Vertical Hall West",
   "children": [
    {
-    "name": "Sinner's Road - Rosary Cache #1",
+    "name": "Gross Rosaries In the Sinner's Basement",
     "sections": [
      {
-      "name": "Sinner's Road - Rosary Cache #1"
+      "name": "Gross Rosaries In the Sinner's Basement"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 23,
-      "y": 815
+      "x": 44,
+      "y": 806
      }
     ]
    },
    {
-    "name": "Sinner's Road - Rosary Cache #2",
+    "name": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
     "sections": [
      {
-      "name": "Sinner's Road - Rosary Cache #2"
-     },
-     {
-      "name": "Sinner's Road - Rosary Cache #3"
+      "name": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 150,
-      "y": 385
+      "x": 167,
+      "y": 397
+     }
+    ]
+   },
+   {
+    "name": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+    "sections": [
+     {
+      "name": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sinner's Road Vertical Hall West",
+      "x": 143,
+      "y": 399
      }
     ]
    },
@@ -28012,8 +28084,8 @@
     "map_locations": [
      {
       "map": "Bilewater Bullshit Bench",
-      "x": 435,
-      "y": 312
+      "x": 349,
+      "y": 361
      }
     ]
    },
@@ -28027,8 +28099,8 @@
     "map_locations": [
      {
       "map": "Bilewater Bullshit Bench",
-      "x": 435,
-      "y": 104
+      "x": 349,
+      "y": 120
      }
     ]
    }
@@ -28858,10 +28930,10 @@
   "name": "Bilewater Sinner's Entrance",
   "children": [
    {
-    "name": "Bilewater - Rosary Cache #1",
+    "name": "Box Of Rosaries Right Inside Bilewater",
     "sections": [
      {
-      "name": "Bilewater - Rosary Cache #1"
+      "name": "Box Of Rosaries Right Inside Bilewater"
      }
     ],
     "map_locations": [
@@ -28873,10 +28945,10 @@
     ]
    },
    {
-    "name": "Bilewater - Rosary Cache #2",
+    "name": "A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
     "sections": [
      {
-      "name": "Bilewater - Rosary Cache #2"
+      "name": "A Few Remaining Rosaries Next To A Dead Guy In Bilewater"
      }
     ],
     "map_locations": [
@@ -28967,8 +29039,8 @@
     "map_locations": [
      {
       "map": "Bilewater Spike Ball Ceiling Trap Room",
-      "x": 35,
-      "y": 664
+      "x": 27,
+      "y": 654
      }
     ]
    },
@@ -28982,8 +29054,8 @@
     "map_locations": [
      {
       "map": "Bilewater Spike Ball Ceiling Trap Room",
-      "x": 54,
-      "y": 662
+      "x": 42,
+      "y": 652
      }
     ]
    },
@@ -28997,8 +29069,8 @@
     "map_locations": [
      {
       "map": "Bilewater Spike Ball Ceiling Trap Room",
-      "x": 50,
-      "y": 185
+      "x": 60,
+      "y": 163
      }
     ]
    },
@@ -29012,8 +29084,8 @@
     "map_locations": [
      {
       "map": "Bilewater Spike Ball Ceiling Trap Room",
-      "x": 240,
-      "y": 425
+      "x": 184,
+      "y": 418
      }
     ]
    },
@@ -29028,7 +29100,7 @@
      {
       "map": "Bilewater Spike Ball Ceiling Trap Room",
       "x": 0,
-      "y": 554
+      "y": 545
      }
     ]
    }
@@ -29513,10 +29585,10 @@
   "name": "Bilewater West Secret Rooms",
   "children": [
    {
-    "name": "Bilewater West - Memory Locket",
+    "name": "Memory Locket Annoyingly Nearby the Twisted Chud",
     "sections": [
      {
-      "name": "Bilewater West - Memory Locket"
+      "name": "Memory Locket Annoyingly Nearby the Twisted Chud"
      }
     ],
     "map_locations": [
@@ -29528,10 +29600,10 @@
     ]
    },
    {
-    "name": "Bilewater - Rosary Cache #6",
+    "name": "First Quick Rosaries In The Western Bilewater Rooms",
     "sections": [
      {
-      "name": "Bilewater - Rosary Cache #6"
+      "name": "First Quick Rosaries In The Western Bilewater Rooms"
      }
     ],
     "map_locations": [
@@ -29543,10 +29615,10 @@
     ]
    },
    {
-    "name": "Bilewater - Rosary Cache #7",
+    "name": "Other Quick Rosaries In The Western Bilewater Rooms",
     "sections": [
      {
-      "name": "Bilewater - Rosary Cache #7"
+      "name": "Other Quick Rosaries In The Western Bilewater Rooms"
      }
     ],
     "map_locations": [
@@ -29688,10 +29760,10 @@
   "name": "Exhaust Organ Interior",
   "children": [
    {
-    "name": "Exhaust Organ - Silkeater",
+    "name": "Silk Grub Listening To Mozart In the Cocoon",
     "sections": [
      {
-      "name": "Exhaust Organ - Silkeater"
+      "name": "Silk Grub Listening To Mozart In the Cocoon"
      }
     ],
     "map_locations": [
@@ -29707,7 +29779,19 @@
     "sections": [
      {
       "name": "Boss: Phantom"
-     },
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Exhaust Organ Interior",
+      "x": 741,
+      "y": 626
+     }
+    ]
+   },
+   {
+    "name": "Journal: Phantom",
+    "sections": [
      {
       "name": "Journal: Phantom"
      },

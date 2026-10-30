@@ -449,7 +449,7 @@ ROOM_GRAPH_QUARANTINED_CHECK_NAMES: frozenset[str] = frozenset(
     for name in COMPILED_ROOM_GRAPH.quarantined_check_names
 )
 
-SINNER_ROAD_EXACT_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset({
+SINNER_ROAD_EXACT_COMMUNITY_CHECK_NAMES: frozenset[str] = frozenset(canonicalize_location_name(name) for name in {
     "Sinner's Road - Rosary Chest",
     "Sinner's Road - Rosary Cache #1",
     "Sinner's Road - Rosary Cache #2",
@@ -1709,6 +1709,7 @@ COLORED_TOOL_LOADOUTS: Mapping[
     ),
     'Usable Plasmium Phial': (('Tool: Plasmium Phial', RED_TOOL_SLOT),),
     'Usable Silkspeed Anklets': (('Tool: Silkspeed Anklets', YELLOW_TOOL_SLOT),),
+    'Usable Longclaw': (('Tool: Longclaw', BLUE_TOOL_SLOT),),
     'Usable Drill Crystal Pogo Loadout': (
         ("Tool: Delver's Drill", RED_TOOL_SLOT),
         ('Tool: Memory Crystal', BLUE_TOOL_SLOT),

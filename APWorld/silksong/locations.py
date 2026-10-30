@@ -63,6 +63,8 @@ _LOCATION_FIRST_ITEM_LABELS: tuple[str, ...] = (
 
 
 def _location_first_display_name(location_name: str) -> str:
+    if location_name in MAPPER_LOCATION_NAMES or location_name in MAPPER_LOCATION_NAMES.values():
+        return location_first_name(location_name)
     for item_label in _LOCATION_FIRST_ITEM_LABELS:
         prefix = f'{item_label}: '
         if location_name.startswith(prefix):

@@ -180,7 +180,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Wisp Thicket - Rosary Necklace",
         "Deep Docks - Rosary Cache #1",
         "Deep Docks - Rosary Cache #2",
-        "Sinner's Road - Rosary Cache #8",
+        "Rosaries Looking Over The Sinner's Bench",
         "Bone Bottom - Shell Shard Cache",
         "Deep Docks - Shell Shard Cache #5",
         "Deep Docks - Shell Shard Cache #6",

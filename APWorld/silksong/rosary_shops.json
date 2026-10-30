@@ -69,7 +69,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Bench Map Pin"
       ]
@@ -163,7 +163,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Tube Map Pin"
       ]
@@ -281,7 +281,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Bellhart Map"
       ]
@@ -391,7 +391,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Bellway Map Pin"
       ]
@@ -477,7 +477,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Moss Grotto Map"
       ]
@@ -691,7 +691,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Shop Map Pin"
       ]
@@ -809,7 +809,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Quill"
       ]
@@ -843,7 +843,7 @@
   ],
   "Sinner's Road - Map Purchase": [
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Dustpens Map"
       ]
@@ -1021,7 +1021,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Boneforest Map"
       ]
@@ -1123,7 +1123,7 @@
       ]
     },
     {
-      "node": "Room Node: sinner-s-road/sinner-s-road-bench#room",
+      "node": "Room Node: sinner-s-road/sinner-s-road-bench#bench",
       "prices": [
         "shop:Mapper Compass Tool"
       ]
