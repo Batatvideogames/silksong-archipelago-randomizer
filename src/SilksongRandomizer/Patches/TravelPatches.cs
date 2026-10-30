@@ -757,6 +757,43 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(UISelectionList), nameof(UISelectionList.SetActive))]
+        private static class BellwayInitialSelectionPatch
+        {
+            private static readonly MethodInfo SetSelectedMethod =
+                AccessTools.Method(typeof(UISelectionList), "SetSelected");
+
+            [HarmonyPostfix]
+            private static void Postfix(UISelectionList __instance, bool value,
+                List<UISelectionListItem> ___listItems, int ___selectedIndex)
+            {
+                if (!value || SaveState.Instance?.IsRoomBound != true)
+                    return;
+                FastTravelMap map = __instance.GetComponent<FastTravelMap>();
+                if (map == null ||
+                    (___selectedIndex >= 0 && ___selectedIndex < ___listItems.Count &&
+                     ___listItems[___selectedIndex].gameObject.activeInHierarchy))
+                    return;
+
+                int index = ___listItems.FindIndex(item => item.gameObject.activeInHierarchy);
+                if (index < 0)
+                {
+                    map.ConfirmLocation(FastTravelLocations.None);
+                    return;
+                }
+                SetSelectedMethod.Invoke(__instance, new object[] { index, true, true, true });
+            }
+        }
+
+        [HarmonyPatch(typeof(FastTravelMapButtonBase<FastTravelLocations>), "Submit")]
+        private static class BellwaySubmitPatch
+        {
+            [HarmonyPrefix]
+            private static bool Prefix(FastTravelMapButtonBase<FastTravelLocations> __instance) =>
+                SaveState.Instance?.IsRoomBound != true ||
+                (__instance.gameObject.activeInHierarchy && __instance.IsUnlocked());
+        }
+
         [HarmonyPatch(typeof(FastTravelMapButtonBase<FastTravelLocations>), "IsUnlocked")]
         private static class BoneBottomFastTravelUnlockPatch
         {

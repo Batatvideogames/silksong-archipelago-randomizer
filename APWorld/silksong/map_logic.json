@@ -170793,14 +170793,6 @@
               "Room Node: deep-docks/deep-docks-bellway#bell-beast",
               "Room Event: event:mapper/6ef2562b-add1-4c36-a7b2-11e14752d144",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Deep Docks"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170808,14 +170800,6 @@
               "Room Node: far-fields/far-fields-bellway#bellway",
               "Room Event: event:mapper/d407ba28-b8e0-4e40-8bb6-f3c66f9e0ce2",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Far Fields"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170823,14 +170807,6 @@
               "Room Node: shellwood/shellwood-bellway#right-puddle",
               "Room Event: event:mapper/8537d3ba-af3b-4e1f-bd72-ff73b24b9bf2",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Shellwood"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170838,14 +170814,6 @@
               "Room Node: bellhart/bellhart-bellway#room",
               "Room Event: event:mapper/9ca43785-400f-4c66-8aa3-5b136e53246c",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Bellhart"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170853,14 +170821,6 @@
               "Room Node: greymoor/greymoor-bellway#bellway-zone",
               "Room Event: event:mapper/3d93d520-2b49-47d5-b9ae-7c01e76fa8f3",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Greymoor"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170868,14 +170828,6 @@
               "Room Node: blasted-steps/blasted-steps-bellway#room",
               "Room Event: event:mapper/85a0539b-ba5f-45f0-aa49-58ae85b628f1",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Blasted Steps"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170883,14 +170835,6 @@
               "Room Node: choral-chambers/grand-bellway#base",
               "Room Event: event:mapper/0a721a79-6723-47c1-8610-032ebb15cd61",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Grand Bellway"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170912,14 +170856,6 @@
               "Room Node: the-slab/slab-bellway#room",
               "Room Event: event:mapper/b7f47ef9-ceec-4bf2-aca0-6259e5e24d49",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: The Slab"
-                ],
-                "minimum": 1
-              }
             ]
           },
           {
@@ -170927,14 +170863,6 @@
               "Room Node: putrified-ducts/putrified-ducts-bellway#bellway",
               "Room Event: event:mapper/79192874-0a2a-4c58-8797-d0f354416b86",
               "Path: Bellways"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Bellway: Putrified Ducts"
-                ],
-                "minimum": 1
-              }
             ]
           }
         ]

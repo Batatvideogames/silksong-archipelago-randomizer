@@ -44845,7 +44845,6 @@
             "dnf": [
               [
                 "event:mapper/6ef2562b-add1-4c36-a7b2-11e14752d144",
-                "received:Bellway: Deep Docks",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -70834,7 +70833,6 @@
             "dnf": [
               [
                 "event:mapper/d407ba28-b8e0-4e40-8bb6-f3c66f9e0ce2",
-                "received:Bellway: Far Fields",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -90662,7 +90660,6 @@
             "dnf": [
               [
                 "event:mapper/8537d3ba-af3b-4e1f-bd72-ff73b24b9bf2",
-                "received:Bellway: Shellwood",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -103645,7 +103642,6 @@
             "dnf": [
               [
                 "event:mapper/9ca43785-400f-4c66-8aa3-5b136e53246c",
-                "received:Bellway: Bellhart",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -126268,7 +126264,6 @@
             "dnf": [
               [
                 "event:mapper/3d93d520-2b49-47d5-b9ae-7c01e76fa8f3",
-                "received:Bellway: Greymoor",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -156972,7 +156967,6 @@
             "dnf": [
               [
                 "event:mapper/85a0539b-ba5f-45f0-aa49-58ae85b628f1",
-                "received:Bellway: Blasted Steps",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -213994,7 +213988,6 @@
             "dnf": [
               [
                 "event:mapper/0a721a79-6723-47c1-8610-032ebb15cd61",
-                "received:Bellway: Grand Bellway",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -281343,7 +281336,6 @@
             "dnf": [
               [
                 "event:mapper/b7f47ef9-ceec-4bf2-aca0-6259e5e24d49",
-                "received:Bellway: The Slab",
                 "mapper:bellway-network:none"
               ]
             ],
@@ -298392,7 +298384,6 @@
             "dnf": [
               [
                 "event:mapper/79192874-0a2a-4c58-8797-d0f354416b86",
-                "received:Bellway: Putrified Ducts",
                 "mapper:bellway-network:none"
               ]
             ],

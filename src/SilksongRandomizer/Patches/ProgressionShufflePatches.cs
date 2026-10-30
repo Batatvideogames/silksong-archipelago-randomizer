@@ -219,16 +219,21 @@ namespace SilksongRandomizer.Patches
             {
                 yield return AccessTools.PropertyGetter(typeof(FullQuestBase), "IsAvailable");
                 yield return AccessTools.PropertyGetter(typeof(ShopItem), "IsAvailable");
+                yield return AccessTools.PropertyGetter(typeof(QuestCompleteTotalGroup), "IsFulfilled");
             }
 
             [HarmonyPrefix]
             [HarmonyPriority(Priority.First)]
-            private static void Prefix() { questAvailabilityDepth++; }
+            private static void Prefix(object __instance, out bool __state)
+            {
+                __state = !(__instance is QuestCompleteTotalGroup group) || group.name == "Soul Snare";
+                if (__state) questAvailabilityDepth++;
+            }
 
             [HarmonyFinalizer]
-            private static Exception Finalizer(Exception __exception)
+            private static Exception Finalizer(Exception __exception, bool __state)
             {
-                questAvailabilityDepth--;
+                if (__state) questAvailabilityDepth--;
                 return __exception;
             }
         }

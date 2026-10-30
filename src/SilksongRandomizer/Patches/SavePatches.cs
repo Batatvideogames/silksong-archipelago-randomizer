@@ -505,7 +505,9 @@ namespace SilksongRandomizer.Patches
     )]
     internal static class StartNewGameFromMenuPatch
     {
-        private static bool Prefix()
+        private static bool Prefix() => CanStartNewGame();
+
+        internal static bool CanStartNewGame()
         {
             if (!SaveFolderManager.CanAccessSaves(out string error))
             {
@@ -521,6 +523,18 @@ namespace SilksongRandomizer.Patches
                 "Connect to Archipelago before starting a new randomizer save. " +
                 "Offline play is available after that save has been bound once."
             );
+            return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(StartGameEventTrigger), nameof(StartGameEventTrigger.OnSubmit))]
+    internal static class SelectGameModePatch
+    {
+        private static bool Prefix(StartGameEventTrigger __instance)
+        {
+            if (StartNewGameFromMenuPatch.CanStartNewGame()) return true;
+            var button = __instance.GetComponent<UnityEngine.UI.MenuButton>();
+            if (button != null) UIManager.HighlightSelectableNoSound(button);
             return false;
         }
     }
