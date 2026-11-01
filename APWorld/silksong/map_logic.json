@@ -160562,7 +160562,7 @@
           },
           {
             "all_of": [
-              "Room Node: cogwork-core/cogwork-core-north-main#lever-door"
+              "Room Node: cogwork-core/cogwork-core-north-main#lower-entrance"
             ]
           }
         ]
@@ -161384,12 +161384,6 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: cogwork-core/cog-dancers#top",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
               "Room Node: cogwork-core/cogwork-core-north-main#lower-entrance",
               "Option: Proficient Movement",
               "Crest: Hunter"
@@ -161520,6 +161514,12 @@
       },
       "Room Node: cogwork-core/cogwork-core-north-main#lower-entrance": {
         "alternatives": [
+          {
+            "all_of": [
+              "Room Node: cogwork-core/cog-dancers#top",
+              "Clawline"
+            ]
+          },
           {
             "all_of": [
               "Room Node: cogwork-core/cogwork-core-north-main#lever-door",
@@ -308069,8 +308069,8 @@
             "annotation_enabled": true,
             "annotation_height": 6.8400115966796875,
             "annotation_width": 16.559999465942383,
-            "annotation_x": 28.14750099182129,
-            "annotation_y": 62.32311248779297,
+            "annotation_x": 25.805810928344727,
+            "annotation_y": 77.75696563720703,
             "id": "cogwork-core/cogwork-core-north-main#lever-door",
             "name": "Lever Door"
           },

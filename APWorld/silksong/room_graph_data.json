@@ -3,8 +3,8 @@
   "source": {
     "name": "mapper-json",
     "document_count": 536,
-    "aggregate_sha256": "8272df2905eb4981e04c4653e9f846d1a6da1007f57fad4c5747f19b6e9d5bb5",
-    "catalogue_sha256": "3061fed3833f08da1a3c4787d4cf61f49faebea442c61780e78262cf8d7164f4",
+    "aggregate_sha256": "05f08e133f4eb142a2635c0dddbfacf7367f3b3061837afb7dc2880c2938ab16",
+    "catalogue_sha256": "462e975de56f7b4bf5b0a860f2051650dc21d33ed7a0e6c9cab99f81d58881a4",
     "bindings_sha256": "92ef91de24ec304eaeba395ea8d9b2d5903b412feb242e8f69d7872e523c05c8"
   },
   "assumptions": {
@@ -226288,7 +226288,7 @@
       "area_id": "cogwork-core",
       "name": "Cogwork Core North Main",
       "source_file": "cogwork-core/cogwork-core-north-main.json",
-      "source_sha256": "334006f2e4f6030a1c7edb4107bdc74984c8f8b0613bd578635caf914af67312",
+      "source_sha256": "f1c12e7108461669132b3a88fa7dd1319e07fb93aec096cfd6a617bc33f53c59",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -226334,7 +226334,7 @@
           "unresolved_reasons": [],
           "alias": "B",
           "name": "bot1",
-          "source_node_id": "cogwork-core/cogwork-core-north-main#lever-door",
+          "source_node_id": "cogwork-core/cogwork-core-north-main#lower-entrance",
           "target": {
             "raw": "cogwork-core/cog-dancers@t",
             "room_id": "cogwork-core/cog-dancers",
