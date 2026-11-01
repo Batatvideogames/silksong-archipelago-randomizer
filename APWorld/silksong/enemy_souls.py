@@ -51,6 +51,21 @@ ACT_3_INTRO_EVENT = 'Room Event: event:mapper/82aabe64-d7cd-4911-9a15-f1338e0400
 ACT_3_INTRO_SPECIES = frozenset(row['name'] for row in CATALOGUE
                                if any(b['scene'].lower() == 'cog_10_destroyed' and b['path'] == 'Battle Scene'
                                       for b in row.get('battles', ())))
+PILGRIM_RAG_SOURCES = ('Pilgrim Pouncer', 'Pilgrim Hulk', 'Pilgrim Groveller', 'Pilgrim Hornfly',
+                       'Elder Pilgrim', 'Pilgrim Bellbearer', 'Winged Pilgrim Bellbearer',
+                       'Winged Pilgrim', 'Pilgrim Hiker', 'Overgrown Pilgrim', 'Pilgrim Guide',
+                       'Covetous Pilgrim')
+COLLECTION_SOURCES = {
+    'Room Event: event:mapper/reviewed:crawbug-ragpelts-collected': ('Craw', 'Tallcraw', 'Squatcraw'),
+    'Room Event: event:mapper/reviewed:fine-pins-collected': ('Reed', 'Choristor'),
+    'Room Event: event:mapper/reviewed:choir-cloaks-collected': (
+        'Choir Pouncer', 'Choir Hornhead', 'Choir Flyer', 'Choir Elder'),
+}
+COLLECTION_BATTLE_NODES = frozenset((
+    'Room Node: high-halls/high-halls-arena#gauntlet-arena',
+    'Room Node: choral-chambers/choral-chambers-merchant-room#room',
+))
+COLLECTION_SPA_NODE = 'Room Node: choral-chambers/choral-chambers-outside-spa#gauntlet'
 
 
 def item_name(name):
@@ -299,20 +314,33 @@ def gate_graph(world, graph):
     for owner, rules in tuple(result.items()):
         if owner != ACT_3_INTRO_EVENT:
             result[owner] = tuple(_combat_gate(rule, names) for rule in rules)
-    ragpelts = 'Room Event: event:mapper/reviewed:crawbug-ragpelts-collected'
-    if 'Craw' in names and ragpelts in result:
-        original = result[ragpelts]
-        result[ragpelts] = ()
-        from .requirements import _combine_room_graph_gate
-        for species in ('Craw', 'Tallcraw', 'Squatcraw'):
-            for source in check_requirements(species, names):
-                if species not in names:
-                    source = replace(source, all_of=tuple(n for n in source.all_of if n != item_name(species)))
-                for rule in original:
-                    gate = replace(rule, all_of=tuple(n for n in rule.all_of if not n.startswith('Room Node: ')))
-                    result[ragpelts] += (_combine_room_graph_gate(source, gate),)
-        result[ragpelts] = tuple(dict.fromkeys(result[ragpelts]))
+    for event, species in COLLECTION_SOURCES.items():
+        if event in result and set(species).intersection(names):
+            result[event] = _collection_gate(result[event], species, names, replace_source=True)
     return result
+
+
+@lru_cache(maxsize=32)
+def _collection_sources(species, names):
+    result = []
+    for name in species:
+        for rule in check_requirements(name, names):
+            # Arena waves aren't a repeatable source of quest drops.
+            if (item_name(name) not in rule.all_of or COLLECTION_BATTLE_NODES.intersection(rule.all_of)
+                    or (COLLECTION_SPA_NODE in rule.all_of and 'Act: 3' not in rule.all_of)):
+                continue
+            if name not in names:
+                rule = replace(rule, all_of=tuple(n for n in rule.all_of if n != item_name(name)))
+            result.append(rule)
+    return tuple(dict.fromkeys(result))
+
+
+def _collection_gate(rules, species, names, *, replace_source=False):
+    from .requirements import _combine_room_graph_gate
+    gates = tuple(replace(rule, all_of=tuple(n for n in rule.all_of if not n.startswith('Room Node: ')))
+                  if replace_source else rule for rule in rules)
+    return tuple(dict.fromkeys(_combine_room_graph_gate(source, gate)
+                               for source in _collection_sources(species, names) for gate in gates))
 
 
 @lru_cache(maxsize=8)
@@ -404,6 +432,8 @@ def gate_location(world, name, rules):
         rules = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, *souls)))) for rule in rules)
     if name == 'Marrowmaw - Beast Shard' and 'Marrowmaw' in names:
         rules = tuple(replace(rule, all_of=tuple(dict.fromkeys((*rule.all_of, item_name('Marrowmaw'))))) for rule in rules)
+    if name == 'Wish: Garb of the Pilgrims' and set(PILGRIM_RAG_SOURCES).intersection(names):
+        rules = _collection_gate(rules, PILGRIM_RAG_SOURCES, names)
     return tuple(_combat_gate(rule, names) for rule in rules)
 
 

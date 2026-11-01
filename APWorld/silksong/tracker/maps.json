@@ -392,7 +392,7 @@
  {
   "name": "Deep Docks Bellway Flea Rescue",
   "img": "01-geometry/b50f518d-548a-4e87-ac4a-3d0f984a95a3.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -638,13 +638,13 @@
  {
   "name": "Far Fields Map Shop",
   "img": "01-geometry/88c5cebc-088a-4058-85a3-b8920c26530a.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Far Fields Bellway",
   "img": "01-geometry/2901bb3e-432b-4325-a071-cf24dcf7e9f9.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {

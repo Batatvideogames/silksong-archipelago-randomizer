@@ -85,6 +85,10 @@
       <HintPath>$(SilksongManagedDir)\UnityEngine.AnimationModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>$(SilksongManagedDir)\UnityEngine.DirectorModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>$(SilksongManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>false</Private>

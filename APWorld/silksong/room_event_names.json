@@ -1842,50 +1842,50 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/f6501971-e9e8-439f-9f21-363d6444446e": {
-    "name": "Lower Fort Sentry's Ration Bonds",
+    "name": "Far Fields - Lower Fort Sentry's Rosaries Bonds",
     "kind": "collectible",
     "locations": [
-      "Lower Fort Sentry's Ration Bonds"
+      "Far Fields - Lower Fort Sentry's Rosaries Bonds"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/5d314764-9c6e-4e48-a4a6-0410bdb6409d": {
-    "name": "Lower Fort Sentry's Personal Rosaries",
+    "name": "Far Fields - Lower Fort Sentry's Personal Rosaries",
     "kind": "collectible",
     "locations": [
-      "Lower Fort Sentry's Personal Rosaries"
+      "Far Fields - Lower Fort Sentry's Personal Rosaries"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/39060ce2-f239-4bfa-895f-dead9e6a72ef": {
-    "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\"",
+    "name": "Far Fields Lower Fort Last Rosaries Stipend - Queen's Final Support",
     "kind": "collectible",
     "locations": [
-      "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\""
+      "Far Fields Lower Fort Last Rosaries Stipend - Queen's Final Support"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/afbdeeb4-5352-4048-bb97-864a9d7c5b00": {
-    "name": "Flea: Far Fields - Captured",
+    "name": "Far Fields - Fort Flea Rescue - Flea",
     "kind": "collectible",
     "locations": [
-      "Flea: Far Fields - Captured"
+      "Far Fields - Fort Flea Rescue - Flea"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/fab56c4f-49e7-482c-a0e5-47df5508f7df": {
-    "name": "Fort Barracks Ration Rosaries",
+    "name": "Far Fields - Fort Flea Rescue - Fort Barracks Ration Rosaries",
     "kind": "collectible",
     "locations": [
-      "Fort Barracks Ration Rosaries"
+      "Far Fields - Fort Flea Rescue - Fort Barracks Ration Rosaries"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/02cae332-6253-429c-a123-7c4be14dc21d": {
-    "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\"",
+    "name": "Far Fields - Fort Flea Rescue - Queen's Last Rosaries Stipend",
     "kind": "collectible",
     "locations": [
-      "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\""
+      "Far Fields - Fort Flea Rescue - Queen's Last Rosaries Stipend"
     ],
     "mapper_kind": "collectible"
   },
@@ -2348,50 +2348,50 @@
     "mapper_kind": "switch"
   },
   "event:mapper/185cc0f2-687f-44c9-931c-23ddfdcc4650": {
-    "name": "Far Fields - Shell Shard Cache #4",
+    "name": "Far Fields - Deep Entrance Skarr Gate Watch Spears",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Shell Shard Cache #4"
+      "Far Fields - Deep Entrance Skarr Gate Watch Spears"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c59cc593-90ed-448a-aaaa-403ab62a38bd": {
-    "name": "Far Fields - Shell Shard Cache #5",
+    "name": "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Shell Shard Cache #5"
+      "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/06dae876-9a6a-48a1-80ff-b9dff0f8ea33": {
-    "name": "Far Fields - Shell Shard Cache #6",
+    "name": "Far Fields - Deep Entrance -Cage Materials",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Shell Shard Cache #6"
+      "Far Fields - Deep Entrance -Cage Materials"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/f5e95a57-bd00-4aee-b24f-f272241fbfcf": {
-    "name": "Far Fields - Shell Shard Cache #7",
+    "name": "Far Fields - Deep Entrance - Curveclaw Reserve",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Shell Shard Cache #7"
+      "Far Fields - Deep Entrance - Curveclaw Reserve"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/4934ce45-7e2c-41a9-8498-74af2edbac12": {
-    "name": "Far Fields - Rosary Cache #20",
+    "name": "Far Fields - Deep Entrance -Queen's Gate Sentry Funds",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #20"
+      "Far Fields - Deep Entrance -Queen's Gate Sentry Funds"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b2660ac1-4cc3-47ba-968c-1de095e0b831": {
-    "name": "Far Fields - Rosary Cache #21",
+    "name": "Far Fields - Deep Entrance -Bounty Rosary Stash - \"To be paid in full to the Hunter who fells Gurr\"",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Rosary Cache #21"
+      "Far Fields - Deep Entrance -Bounty Rosary Stash - \"To be paid in full to the Hunter who fells Gurr\""
     ],
     "mapper_kind": "collectible"
   },
@@ -2402,10 +2402,10 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/8d3d0b9d-6066-438f-b289-32eff5bcb28b": {
-    "name": "Far Fields - Pale Rosary Necklace",
+    "name": "Far Fields - Deep Entrance -Queen's Pearls of Hero",
     "kind": "collectible",
     "locations": [
-      "Far Fields - Pale Rosary Necklace"
+      "Far Fields - Deep Entrance -Queen's Pearls of Hero"
     ],
     "mapper_kind": "collectible"
   },

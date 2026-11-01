@@ -187,7 +187,7 @@ _ACT_ONE_DEPENDENCY_EXCLUDED_LOCATION_NAMES = frozenset(
         "Deep Docks - Shell Shard Cache #7",
         "Deep Docks - Shell Shard Cache #8",
         "Deep Docks - Shell Shard Cache #9",
-        "Far Fields - Pale Rosary Necklace",
+        "Far Fields - Deep Entrance -Queen's Pearls of Hero",
         "Far Fields - Rosary Cache #18",
         "Far Fields - Shell Shard Cache #2",
         "Far Fields - Shell Shard Cache #3",

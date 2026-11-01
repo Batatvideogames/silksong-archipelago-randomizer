@@ -242,12 +242,14 @@ namespace SilksongRandomizer
             }
             bool hotSoup = soupBurner != null && soupBurner.isActiveAndEnabled &&
                 soupBurner.hazardType == HazardType.ACID;
+            WaterRecovery.Begin(hero);
             hero.TakeDamage(
                 hotSoup ? soupBurner.gameObject : hero.gameObject,
                 CollisionSide.other,
                 1,
                 hotSoup ? HazardType.ACID : HazardType.RESPAWN_PIT
             );
+            WaterRecovery.CancelUnlessFalling(hero);
         }
 
         private static void KeepGroalWaterRespawnInside(HeroController hero, SurfaceWaterRegion water)

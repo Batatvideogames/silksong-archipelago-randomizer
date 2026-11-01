@@ -1,5 +1,5 @@
 {
-  "mapper_source": "4e1ea5758f2d8140a3a5b204a18fb3bef5f1a7c26153f30e627098fe6515671a",
+  "mapper_source": "3914e6227dba65a8cc4accf98d4bcdde31af431ea8925c993dab41de76e294ca",
   "scenes": {
     "moss-grotto/moss-grotto-center": "tut_01",
     "moss-grotto/moss-grotto-west": "tut_02",
@@ -4417,33 +4417,100 @@
     },
     "5a3c87d9-280b-40df-959b-d9796a1abdbc": {
       "name": "Smelt Shoveller 1",
-      "node": "deep-docks/deep-docks-map-shop#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-map-shop#floor",
+      "drops": "both",
+      "reset": "rest",
+      "native_source": "scenes_scenes_scenes/bone_east_01.bundle:4913",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "ca57e647-fce5-49e4-85c1-13ea60324bae": {
       "name": "Flintstone Flyer 1",
-      "node": "deep-docks/deep-docks-map-shop#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-map-shop#center-left",
+      "drops": "both",
+      "reset": "rest",
+      "native_source": "scenes_scenes_scenes/bone_east_01.bundle:4733",
+      "species": "Flintstone Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "27340fec-3435-4e3b-be8a-8b73eff52a65": {
       "name": "Flintstone Flyer 2",
-      "node": "deep-docks/deep-docks-map-shop#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-map-shop#center-left",
+      "drops": "both",
+      "reset": "rest",
+      "native_source": "scenes_scenes_scenes/bone_east_01.bundle:4733",
+      "species": "Flintstone Flyer",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
     },
     "7674c685-e7d1-4941-86eb-471ca893d079": {
       "name": "Skull Brute 1",
-      "node": "deep-docks/deep-docks-bellway-flea-rescue#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-bellway-flea-rescue#floor",
+      "drops": "shell_shards",
+      "reset": "rest",
+      "native_source": "scenes_scenes_scenes/dock_16.bundle:3889",
+      "species": "Skull Brute",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "61444e67-d564-47b2-b824-9fc3670f7265": {
       "name": "Caranid 1",
-      "node": "deep-docks/deep-docks-bellway-flea-rescue#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "deep-docks/deep-docks-bellway-flea-rescue#upper",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "native_source": "scenes_scenes_scenes/dock_16.bundle:3894",
+      "species": "Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "d7e3888d-a06b-473e-b7af-8300bf644aac": {
       "name": "Shardillard 1",
@@ -6246,16 +6313,22 @@
       "farm": false
     },
     "170d0f30-f1f9-474f-bb11-051a3e78dc61": {
-      "name": "fertid",
-      "node": "far-fields/far-fields-pinstress-mask-shard#left-side",
+      "name": "Fertid",
+      "node": "far-fields/far-fields-pinstress-mask-shard#left-side-tunnel",
       "drops": "unknown",
-      "reset": "unverified"
-    },
-    "b815ccf6-9ceb-4594-a3de-61e682af26d4": {
-      "name": "Fertid 1",
-      "node": "far-fields/far-fields-pinstress-mask-shard#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "reset": "unverified",
+      "species": "Fertid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "d6e9c9d4-d53f-4c33-b997-bfefe1abe1df": {
       "name": "Skarr Scout 1",
@@ -6303,24 +6376,6 @@
     "02195abf-cf49-4a7c-8826-9bfa171c0537": {
       "name": "vicious caranid 3",
       "node": "far-fields/far-fields-bellway#thorn-path",
-      "drops": "unknown",
-      "reset": "unverified"
-    },
-    "659e6324-6ebc-4339-80d2-6dddcbd5b27b": {
-      "name": "Vicious Caranid 4",
-      "node": "far-fields/far-fields-bellway#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
-    },
-    "c2dd42c2-9c35-4219-ae51-089802ae759b": {
-      "name": "Vicious Caranid 5",
-      "node": "far-fields/far-fields-bellway#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
-    },
-    "93702d3b-fd4e-44e9-888e-6d28abad268d": {
-      "name": "Vicious Caranid 6",
-      "node": "far-fields/far-fields-bellway#unassigned",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -6913,27 +6968,46 @@
     },
     "8f6ed60b-96e9-41a2-be12-7dfc7717bbb5": {
       "name": "Fertid 1",
-      "node": "far-fields/far-fields-deep-lower-east#unassigned",
+      "node": "far-fields/far-fields-deep-lower-east#left-exit-area",
       "drops": "unknown",
-      "reset": "unverified"
+      "reset": "unverified",
+      "farm": false,
+      "routes": []
     },
     "bf8b68e3-70fd-4eb3-a036-6c1a84cdfcba": {
       "name": "Flapping Fertid 1",
-      "node": "far-fields/far-fields-deep-lower-east#unassigned",
+      "node": "far-fields/far-fields-deep-lower-east#left-exit-area",
       "drops": "unknown",
-      "reset": "unverified"
+      "reset": "unverified",
+      "farm": false,
+      "routes": []
     },
     "0f32f30f-6b0e-4fce-8239-5866f0005c87": {
       "name": "Bone Hunter Trapper 1",
-      "node": "far-fields/far-fields-deep-lower-east#unassigned",
+      "node": "far-fields/far-fields-deep-lower-east#trapper-s-arena",
       "drops": "unknown",
-      "reset": "unverified"
+      "reset": "unverified",
+      "farm": false,
+      "routes": []
     },
     "fe52d17b-4c84-432b-8b4b-baaa46cffde4": {
       "name": "Fertid 1",
-      "node": "far-fields/hunters-march-pilgrims-rest-deep-passage#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "far-fields/hunters-march-pilgrims-rest-deep-passage#deep-rest-passage",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "native_source": "scenes_scenes_scenes/bone_east_18c.bundle:2046",
+      "species": "Fertid",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "2e3c347c-bf69-4b33-890e-7bcfead50cbc": {
       "name": "Hardbone Elder 1",
@@ -7063,15 +7137,41 @@
     },
     "2d31d338-5210-44ea-a363-468cd6a50b65": {
       "name": "Skarrgard 1",
-      "node": "far-fields/far-fields-deep-fort#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "far-fields/far-fields-deep-fort#main-area",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/bone_east_25.bundle:4870",
+      "species": "Skarrgard",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "ad2ad3cc-f11e-4569-a811-91061c05587d": {
       "name": "Flapping Fertid 1",
-      "node": "far-fields/far-fields-deep-fort#unassigned",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "far-fields/far-fields-deep-fort#main-area",
+      "drops": "shell_shards",
+      "reset": "scene",
+      "native_source": "scenes_scenes_scenes/bone_east_25.bundle:4864",
+      "species": "Flapping Fertid",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "4fc249cb-942d-44b8-a4c3-6a4deb5ff300": {
       "name": "NPC 1",
@@ -11140,159 +11240,594 @@
     },
     "e0fd16ef-08b4-42be-b0f5-35369795c02d": {
       "name": "Skarr Stalker 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#nectar-section",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9821",
+      "species": "Skarr Stalker",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "eb8cc98f-f545-4b5a-a3c0-39e877e7c6eb": {
       "name": "Skarrlid 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#left-platform-above-nectar",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9405",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "32536555-5fb8-4338-8365-38cbe2b8f0ee": {
       "name": "Skarr Scout 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#left-platform-above-nectar",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9581",
+      "species": "Skarr Scout",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "85cf9891-1385-4ede-9478-6db91b5bd4b2": {
       "name": "Spear Skarr 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9758",
+      "species": "Spear Skarr",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "8178979b-0fa9-4c18-904c-6f7fd6f58dcd": {
       "name": "Skarrwing 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#big-fella-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10124",
+      "species": "Skarrwing",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "ea41325d-34f5-4cc5-8bdf-a610dd2bda2d": {
       "name": "Skarrlid 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#big-fella-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9401",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "41000713-f40a-4b6a-9527-0e67c9641f44": {
       "name": "Skarr Scout 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-mid-top",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9583",
+      "species": "Skarr Scout",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "d97ffa46-4290-43e0-9821-8dc0581f319f": {
       "name": "Skarrwing 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-mid-top",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10126",
+      "species": "Skarrwing",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "794d0ed7-e2f6-4997-89ec-89ffb52bafda": {
       "name": "Skarrlid 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9404",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "cd93bc7a-b0b9-4770-8dc1-349ef971f24d": {
       "name": "Skarrlid 4",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-mid-top",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9402",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "cfa28af9-0bba-4c3f-b6cf-09743a90ebf9": {
       "name": "Skarr Stalker 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-left-corridor",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9823",
+      "species": "Skarr Stalker",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "ee509804-4831-4dd9-8feb-56f46033e3b6": {
       "name": "Mite 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-left-corridor",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10076",
+      "species": "Mite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "2c3fb1d5-b424-4f7e-ab68-dcae561c93af": {
       "name": "Fluttermite 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-low",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9573",
+      "species": "Fluttermite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "18bb4cf5-23c1-457d-9a4a-b2453a43eb05": {
       "name": "Mite 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-mid-top",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10077",
+      "species": "Mite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "c550c3fe-e059-4632-aa56-93b83c34df50": {
       "name": "Mite 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10075",
+      "species": "Mite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "da9c6e31-252a-45ec-bf73-f7bbcd9549e8": {
       "name": "Mite 4",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#big-fella-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10078",
+      "species": "Mite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "af027464-b2be-4fca-bb96-a65039c2462d": {
       "name": "Fluttermite 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#big-fella-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9572",
+      "species": "Fluttermite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "f69d2c9f-820b-443b-806a-50a31e8b7f54": {
       "name": "Fluttermite 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9571",
+      "species": "Fluttermite",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "e3530749-f64a-41d4-a42c-c7605a94b26c": {
       "name": "Skarr Stalker 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#nectar-section",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9822",
+      "species": "Skarr Stalker",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "4e28d786-5edb-42fc-bc07-08957249136d": {
       "name": "Spear Skarr 2",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-low",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9759",
+      "species": "Spear Skarr",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "32f3becc-1b67-4b41-8fca-f8c1c83de24e": {
       "name": "Skarr Scout 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#upper-section-mid-top",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9582",
+      "species": "Skarr Scout",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "50745fd4-5f73-4ebb-8784-7d8a77e530e7": {
       "name": "Skarrwing 3",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:10125",
+      "species": "Skarrwing",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrlid",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "a17ac2db-413a-4cea-aee9-0382639709bc": {
       "name": "Skarrgard 1",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#big-fella-platform",
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9601",
+      "species": "Skarrgard",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrlid",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "da75fba5-0627-44ee-a05c-cece4af38e6a": {
       "name": "Skarrlid 5",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#mid-left-platform",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9400",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "1b8ebbba-c7bb-46fe-b776-8ad456130206": {
       "name": "Skarrlid 6",
-      "node": "greymoor/halfway-home-cellar#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "node": "greymoor/halfway-home-cellar#left-platform-above-nectar",
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/ant_08.bundle:9403",
+      "species": "Skarrlid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Skarr Scout",
+            "Skarr Stalker",
+            "Skarrgard",
+            "Skarrwing",
+            "Spear Skarr"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "44801212-4182-43ba-b46a-06344491dc83": {
       "name": "Skarr Stalker 4",
-      "node": "greymoor/halfway-home-cellar#room",
+      "node": "greymoor/halfway-home-cellar#nectar-section",
       "drops": "unknown",
-      "reset": "unverified"
+      "reset": "unverified",
+      "farm": false,
+      "routes": []
     },
     "c0341372-ef16-47d2-9861-19c374ce502b": {
       "name": "Burning Bug 1",
@@ -21766,7 +22301,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21790,7 +22325,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21814,7 +22349,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21838,7 +22373,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21862,7 +22397,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21886,7 +22421,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21910,7 +22445,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21934,7 +22469,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21958,7 +22493,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -21982,7 +22517,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -22006,7 +22541,7 @@
               "mapper:clawline:both:1",
               "mapper:cling-grip-direction:both",
               "item:faydown-cloak",
-              "mapper:enemy-type-pogo:Crystal Drifter Giant:easy"
+              "mapper:enemy-type-pogo:Crystal Drifter Giant:none"
             ]
           ]
         }
@@ -24297,6 +24832,484 @@
       "node": "the-abyss/weavenest-absolom#unassigned",
       "drops": "unknown",
       "reset": "unverified"
+    },
+    "7b28fa42-3700-4250-8c68-7811d16feed0": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid lower",
+      "node": "wormways/wormways-upper-west#main-tunnel-lower",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "dca41c87-5f86-4ec5-b67d-dc77775c9244": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid upper",
+      "node": "wormways/wormways-upper-west#main-area-upper",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "8d028d01-3e02-4240-a295-e70985331e83": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid east",
+      "node": "wormways/wormways-lower-east#bud-alcove",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "e9a8d5b4-990e-4161-85d7-8ca118d2d0b5": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid upper",
+      "node": "wormways/wormways-lower-west#upper-tunnels",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "b28d641c-b311-4d5f-b80a-f17abab9342d": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid lower",
+      "node": "wormways/wormways-lower-west#lower-tunnels",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "85a3481e-0e8f-42d7-b7c1-ccdfdd5a16f8": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid east",
+      "node": "wormways/wormways-lower-west#right-exit-basement",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "a91200ad-3b54-4994-9fb1-8503f086980b": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "plasmid",
+      "node": "wormways/wormways-weavenest#room",
+      "species": "Plasmid",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "ed2b70bf-b2f6-4cbc-9718-eb268b77fd90": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "lace 1 boss fight",
+      "node": "deep-docks/deep-docks-lace-intro#boss-arena",
+      "farm": false,
+      "routes": []
+    },
+    "b6cd5025-633f-42ec-81fc-eaaf2522e5df": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 1",
+      "node": "deep-docks/deep-docks-chains-center#upper-chain-platforms",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15062",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "b665b0ed-9ac5-4a6e-be72-e5cbb466df66": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 2",
+      "node": "deep-docks/deep-docks-chains-center#upper-chain-platforms",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15063",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "e2dfee05-9c24-4c06-ac3b-2616d674f253": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 3",
+      "node": "deep-docks/deep-docks-chains-center#upper-chain-platforms",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15059",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "cc1d3087-030c-4154-96e5-df3de29ca65a": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Dock Guard Thrower Enc1 1",
+      "node": "deep-docks/deep-docks-chains-center#lower-left-area",
+      "farm": false,
+      "routes": []
+    },
+    "1741830f-b673-4cdb-801c-00f47b0df17b": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Caranid 1",
+      "node": "deep-docks/deep-docks-chains-center#lower-right-area",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:14828",
+      "species": "Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "event:mapper/e3836a7a-fb8a-4ee0-a080-f1e550b07168"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "84690dc9-a3d5-4d2e-a125-a4be4f36db1e": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Caranid 2",
+      "node": "deep-docks/deep-docks-chains-center#lower-right-area",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:14831",
+      "species": "Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "event:mapper/e3836a7a-fb8a-4ee0-a080-f1e550b07168"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "4be118d9-eb7a-4ddb-8003-8c13920c6227": {
+      "drops": "shell_shards",
+      "reset": "rest",
+      "name": "Vicious Caranid 1",
+      "node": "deep-docks/deep-docks-chains-center#lower-left-area",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:14829",
+      "species": "Vicious Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "event:mapper/e3836a7a-fb8a-4ee0-a080-f1e550b07168"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "d1b432d3-1425-4236-a583-bc7db5170731": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Caranid 3",
+      "node": "deep-docks/deep-docks-chains-center#lower-left-area",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:14830",
+      "species": "Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "event:mapper/e3836a7a-fb8a-4ee0-a080-f1e550b07168"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "cd977e68-2ad7-474b-b008-68dc7f6b9cb2": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Smelt Shoveller 1",
+      "node": "deep-docks/deep-docks-chains-center#upper-left-hallway",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15215",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "6522580b-1a54-4742-8246-b38d4028e5a6": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Deep Diver 1",
+      "node": "deep-docks/deep-docks-chains-center#upper-left-hallway",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15216",
+      "species": "Deep Diver",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "538b286c-067c-4f74-a379-007c25790e64": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Smelt Shoveller 2",
+      "node": "deep-docks/deep-docks-chains-center#upper-chain-platforms",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15217",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "d334f748-8499-4dea-bfe4-abf37247efb9": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 4",
+      "node": "deep-docks/deep-docks-chains-center#middle-switch-platform",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15060",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "d43f7012-6586-4e0d-8f82-c0887063704d": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 5",
+      "node": "deep-docks/deep-docks-chains-center#middle-switch-platform",
+      "native_source": "scenes_scenes_scenes/dock_02b.bundle:15061",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "accc02ca-02fe-4d0c-a4d0-602441b0c504": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Hoker 3",
+      "node": "far-fields/far-fields-skull-room-west#main-floor",
+      "native_source": "scenes_scenes_scenes/bone_east_14.bundle:11058",
+      "species": "Hoker",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "e3133a07-c297-4e02-9703-28819e1f695d": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Hoker 3",
+      "node": "far-fields/far-fields-skull-room-east#main-floor",
+      "native_source": "scenes_scenes_scenes/bone_east_14b.bundle:11977",
+      "species": "Hoker",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "d3ccc449-7545-469b-abb9-596a597df834": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: Shrine Guardian Seth",
+      "node": "grand-gate/shrine-guardian-seth#room",
+      "farm": false,
+      "routes": []
+    },
+    "39a1e8fe-96bb-4e45-96b7-1eba5e03566f": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: Nyleth",
+      "node": "grand-gate/nyleth-fight#room",
+      "farm": false,
+      "routes": []
+    },
+    "a6c761eb-15e4-448e-ab9e-4f3928c35821": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: Voltwyrm",
+      "node": "sands-of-karak/voltnest#bottom",
+      "farm": false,
+      "routes": []
+    },
+    "2e7b660c-234b-41ce-a90a-ad0e7c5246e7": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: First Sinner",
+      "node": "the-slab/slab-first-sinner#room",
+      "farm": false,
+      "routes": []
+    },
+    "6491dc3e-3012-4fec-bacd-806f85487759": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: Lace 2",
+      "node": "the-cradle/lace-2-fight#arena",
+      "farm": false,
+      "routes": []
+    },
+    "9f029df3-d3db-4afa-9da2-16c4227b55a8": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Boss: Lost Lace",
+      "node": "the-abyss/abyss-cocoon#room",
+      "farm": false,
+      "routes": []
     }
   }
 }

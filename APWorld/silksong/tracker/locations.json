@@ -5227,8 +5227,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Map Shop",
-      "x": 145,
-      "y": 483
+      "x": 138,
+      "y": 472
      }
     ]
    },
@@ -5242,8 +5242,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Map Shop",
-      "x": 113,
-      "y": 482
+      "x": 107,
+      "y": 471
      }
     ]
    },
@@ -5258,7 +5258,7 @@
      {
       "map": "Deep Docks Map Shop",
       "x": 6,
-      "y": 357
+      "y": 349
      }
     ]
    },
@@ -5273,7 +5273,7 @@
      {
       "map": "Deep Docks Map Shop",
       "x": 0,
-      "y": 435
+      "y": 425
      }
     ]
    },
@@ -5287,8 +5287,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Map Shop",
-      "x": 313,
-      "y": 58
+      "x": 298,
+      "y": 57
      }
     ]
    },
@@ -5302,8 +5302,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Map Shop",
-      "x": 303,
-      "y": 298
+      "x": 288,
+      "y": 292
      }
     ]
    },
@@ -5317,8 +5317,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Map Shop",
-      "x": 303,
-      "y": 487
+      "x": 288,
+      "y": 476
      }
     ]
    }
@@ -5357,8 +5357,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway",
-      "x": 392,
-      "y": 223
+      "x": 163,
+      "y": 215
      }
     ]
    },
@@ -5372,8 +5372,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway",
-      "x": 206,
-      "y": 211
+      "x": 0,
+      "y": 195
      }
     ]
    },
@@ -5387,8 +5387,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway",
-      "x": 383,
-      "y": 217
+      "x": 151,
+      "y": 209
      }
     ]
    },
@@ -5402,8 +5402,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway",
-      "x": 562,
-      "y": 46
+      "x": 394,
+      "y": 44
      }
     ]
    }
@@ -5422,8 +5422,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway Flea Rescue",
-      "x": 281,
-      "y": 109
+      "x": 332,
+      "y": 103
      }
     ]
    },
@@ -5437,8 +5437,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellway Flea Rescue",
-      "x": 402,
-      "y": 188
+      "x": 476,
+      "y": 178
      }
     ]
    }
@@ -6455,8 +6455,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 108,
-      "y": 89
+      "x": 119,
+      "y": 88
      }
     ]
    },
@@ -6470,8 +6470,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 148,
-      "y": 542
+      "x": 163,
+      "y": 534
      }
     ]
    },
@@ -6485,8 +6485,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 141,
-      "y": 545
+      "x": 155,
+      "y": 537
      }
     ]
    },
@@ -6500,8 +6500,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 145,
-      "y": 540
+      "x": 160,
+      "y": 532
      }
     ]
    },
@@ -6515,8 +6515,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 138,
-      "y": 542
+      "x": 151,
+      "y": 534
      }
     ]
    },
@@ -6531,7 +6531,7 @@
      {
       "map": "Deep Docks Chains Center",
       "x": 0,
-      "y": 212
+      "y": 209
      }
     ]
    },
@@ -6546,7 +6546,7 @@
      {
       "map": "Deep Docks Chains Center",
       "x": 0,
-      "y": 560
+      "y": 552
      }
     ]
    },
@@ -6561,7 +6561,7 @@
      {
       "map": "Deep Docks Chains Center",
       "x": 0,
-      "y": 734
+      "y": 723
      }
     ]
    },
@@ -6575,8 +6575,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 543,
-      "y": 83
+      "x": 597,
+      "y": 82
      }
     ]
    },
@@ -6590,8 +6590,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Center",
-      "x": 543,
-      "y": 721
+      "x": 597,
+      "y": 711
      }
     ]
    }
@@ -7231,10 +7231,10 @@
   "name": "Far Fields Fort Lower Passage",
   "children": [
    {
-    "name": "Lower Fort Sentry's Ration Bonds",
+    "name": "Far Fields - Lower Fort Sentry's Rosaries Bonds",
     "sections": [
      {
-      "name": "Lower Fort Sentry's Ration Bonds"
+      "name": "Far Fields - Lower Fort Sentry's Rosaries Bonds"
      }
     ],
     "map_locations": [
@@ -7246,10 +7246,10 @@
     ]
    },
    {
-    "name": "Lower Fort Sentry's Personal Rosaries",
+    "name": "Far Fields - Lower Fort Sentry's Personal Rosaries",
     "sections": [
      {
-      "name": "Lower Fort Sentry's Personal Rosaries"
+      "name": "Far Fields - Lower Fort Sentry's Personal Rosaries"
      }
     ],
     "map_locations": [
@@ -7261,10 +7261,10 @@
     ]
    },
    {
-    "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\"",
+    "name": "Far Fields Lower Fort Last Rosaries Stipend - Queen's Final Support",
     "sections": [
      {
-      "name": "Last Rosary Stipend - Queen's Final Orders \"Live and Hunt for yourself\""
+      "name": "Far Fields Lower Fort Last Rosaries Stipend - Queen's Final Support"
      }
     ],
     "map_locations": [
@@ -7311,10 +7311,10 @@
   "name": "Far Fields Fort Flea Rescue",
   "children": [
    {
-    "name": "Flea: Far Fields - Captured",
+    "name": "Far Fields - Fort Flea Rescue - Flea",
     "sections": [
      {
-      "name": "Flea: Far Fields - Captured"
+      "name": "Far Fields - Fort Flea Rescue - Flea"
      }
     ],
     "map_locations": [
@@ -7326,10 +7326,10 @@
     ]
    },
    {
-    "name": "Fort Barracks Ration Rosaries",
+    "name": "Far Fields - Fort Flea Rescue - Fort Barracks Ration Rosaries",
     "sections": [
      {
-      "name": "Fort Barracks Ration Rosaries"
+      "name": "Far Fields - Fort Flea Rescue - Fort Barracks Ration Rosaries"
      }
     ],
     "map_locations": [
@@ -7341,10 +7341,10 @@
     ]
    },
    {
-    "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\"",
+    "name": "Far Fields - Fort Flea Rescue - Queen's Last Rosaries Stipend",
     "sections": [
      {
-      "name": "Final Rosary Supplement - Queen's Final Chant \"Hold fast, steel your mind against thread and my voice may yet reach you\""
+      "name": "Far Fields - Fort Flea Rescue - Queen's Last Rosaries Stipend"
      }
     ],
     "map_locations": [
@@ -8369,21 +8369,6 @@
   "name": "Far Fields Map Shop",
   "children": [
    {
-    "name": "Far Fields - Map Purchase",
-    "sections": [
-     {
-      "name": "Far Fields - Map Purchase"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Far Fields Map Shop",
-      "x": 82,
-      "y": 78
-     }
-    ]
-   },
-   {
     "name": "Far Fields Map Shop - left1",
     "sections": [
      {
@@ -8394,7 +8379,7 @@
      {
       "map": "Far Fields Map Shop",
       "x": 0,
-      "y": 77
+      "y": 89
      }
     ]
    }
@@ -8413,8 +8398,8 @@
     "map_locations": [
      {
       "map": "Far Fields Bellway",
-      "x": 433,
-      "y": 320
+      "x": 427,
+      "y": 313
      }
     ]
    },
@@ -8428,8 +8413,8 @@
     "map_locations": [
      {
       "map": "Far Fields Bellway",
-      "x": 938,
-      "y": 253
+      "x": 960,
+      "y": 262
      }
     ]
    },
@@ -8444,7 +8429,7 @@
      {
       "map": "Far Fields Bellway",
       "x": 0,
-      "y": 309
+      "y": 320
      }
     ]
    },
@@ -8458,8 +8443,8 @@
     "map_locations": [
      {
       "map": "Far Fields Bellway",
-      "x": 442,
-      "y": 315
+      "x": 452,
+      "y": 327
      }
     ]
    }
@@ -8919,10 +8904,10 @@
   "name": "Far Fields Deep Entrance",
   "children": [
    {
-    "name": "Far Fields - Shell Shard Cache #4",
+    "name": "Far Fields - Deep Entrance Skarr Gate Watch Spears",
     "sections": [
      {
-      "name": "Far Fields - Shell Shard Cache #4"
+      "name": "Far Fields - Deep Entrance Skarr Gate Watch Spears"
      }
     ],
     "map_locations": [
@@ -8934,10 +8919,10 @@
     ]
    },
    {
-    "name": "Far Fields - Shell Shard Cache #5",
+    "name": "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards",
     "sections": [
      {
-      "name": "Far Fields - Shell Shard Cache #5"
+      "name": "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards"
      }
     ],
     "map_locations": [
@@ -8949,10 +8934,10 @@
     ]
    },
    {
-    "name": "Far Fields - Shell Shard Cache #6",
+    "name": "Far Fields - Deep Entrance -Cage Materials",
     "sections": [
      {
-      "name": "Far Fields - Shell Shard Cache #6"
+      "name": "Far Fields - Deep Entrance -Cage Materials"
      }
     ],
     "map_locations": [
@@ -8964,10 +8949,10 @@
     ]
    },
    {
-    "name": "Far Fields - Shell Shard Cache #7",
+    "name": "Far Fields - Deep Entrance - Curveclaw Reserve",
     "sections": [
      {
-      "name": "Far Fields - Shell Shard Cache #7"
+      "name": "Far Fields - Deep Entrance - Curveclaw Reserve"
      }
     ],
     "map_locations": [
@@ -8979,10 +8964,10 @@
     ]
    },
    {
-    "name": "Far Fields - Rosary Cache #20",
+    "name": "Far Fields - Deep Entrance -Queen's Gate Sentry Funds",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #20"
+      "name": "Far Fields - Deep Entrance -Queen's Gate Sentry Funds"
      }
     ],
     "map_locations": [
@@ -8994,10 +8979,10 @@
     ]
    },
    {
-    "name": "Far Fields - Rosary Cache #21",
+    "name": "Far Fields - Deep Entrance -Bounty Rosary Stash - \"To be paid in full to the Hunter who fells Gurr\"",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #21"
+      "name": "Far Fields - Deep Entrance -Bounty Rosary Stash - \"To be paid in full to the Hunter who fells Gurr\""
      }
     ],
     "map_locations": [
@@ -9009,10 +8994,10 @@
     ]
    },
    {
-    "name": "Far Fields - Pale Rosary Necklace",
+    "name": "Far Fields - Deep Entrance -Queen's Pearls of Hero",
     "sections": [
      {
-      "name": "Far Fields - Pale Rosary Necklace"
+      "name": "Far Fields - Deep Entrance -Queen's Pearls of Hero"
      }
     ],
     "map_locations": [
@@ -19761,8 +19746,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 208,
-      "y": 589
+      "x": 66,
+      "y": 669
      }
     ]
    },

@@ -10,14 +10,20 @@ namespace SilksongRandomizer.Patches
     internal static class InnateAbilityBilewaterGroundPatch
     {
         private static void Postfix(HeroController __instance)
-            => InnateAbilityManager.RememberBilewaterGround(__instance);
+        {
+            InnateAbilityManager.RememberBilewaterGround(__instance);
+            WaterRecovery.Remember(__instance);
+        }
     }
 
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.BeginSceneTransition))]
     internal static class InnateAbilityBilewaterDeparturePatch
     {
         private static void Prefix(GameManager.SceneLoadInfo info)
-            => InnateAbilityManager.RecordBilewaterDeparture(info);
+        {
+            WaterRecovery.Clear();
+            InnateAbilityManager.RecordBilewaterDeparture(info);
+        }
     }
 
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.HazardRespawn))]
@@ -25,6 +31,13 @@ namespace SilksongRandomizer.Patches
     {
         private static bool Prefix(GameManager __instance)
             => !InnateAbilityManager.RestoreBilewaterApproach(__instance);
+    }
+
+    [HarmonyPatch(typeof(HeroController), nameof(HeroController.HazardRespawn))]
+    internal static class InnateAbilityWaterRespawnPatch
+    {
+        private static void Postfix(HeroController __instance, ref System.Collections.IEnumerator __result)
+            => __result = WaterRecovery.Respawn(__instance, __result);
     }
 
     [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.CheckIsClamberBlocked), "get_IsTrue")]

@@ -11,6 +11,7 @@ from collections import Counter
 from typing import Iterable, Mapping
 
 from .eva import EVA_CREST_SLOTS, EVA_REWARDS
+from .location_display_names import location_first_name
 
 from .lore_tablets import (
     LORE_TABLET_ACT_THREE_LOCATION_NAMES,
@@ -74,7 +75,7 @@ ACT_TWO_HAND_TESTED_UNAVAILABLE_LOCATION_NAMES: frozenset[str] = frozenset(
         "Pin Badge",
         "Brightvein - Mask Shard",
         "Relic: Rune Harp (High Halls)",
-        "Far Fields - Pale Rosary Necklace",
+        "Far Fields - Deep Entrance -Queen's Pearls of Hero",
         "Elegy of the Deep",
         "Craw Summons",
         "Boss: Crawfather",
@@ -136,7 +137,7 @@ ACT_TWO_SHAMAN_SLOT_LOCATION_NAMES: frozenset[str] = frozenset(
 
 
 
-ACT_TWO_SILK_SOAR_LOCATION_NAMES: frozenset[str] = frozenset((
+ACT_TWO_SILK_SOAR_LOCATION_NAMES: frozenset[str] = frozenset(location_first_name(name) for name in (
     "Grey Memento",
     "Whispering Vaults - Mask Shard",
     "Whispering Vaults - Shard Bundle",
