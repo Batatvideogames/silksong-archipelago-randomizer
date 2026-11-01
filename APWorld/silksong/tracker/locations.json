@@ -6420,8 +6420,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Flea Rescue",
-      "x": 566,
-      "y": 90
+      "x": 574,
+      "y": 63
      }
     ]
    },
@@ -6435,8 +6435,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Flea Rescue",
-      "x": 105,
-      "y": 72
+      "x": 50,
+      "y": 196
      }
     ]
    }
@@ -6675,8 +6675,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Lower East",
-      "x": 828,
-      "y": 142
+      "x": 832,
+      "y": 152
      }
     ]
    },
@@ -6690,7 +6690,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Chains Lower East",
-      "x": 783,
+      "x": 787,
       "y": 0
      }
     ]
@@ -6706,7 +6706,7 @@
      {
       "map": "Deep Docks Chains Lower East",
       "x": 126,
-      "y": 174
+      "y": 187
      }
     ]
    },
@@ -6721,7 +6721,7 @@
      {
       "map": "Deep Docks Chains Lower East",
       "x": 0,
-      "y": 426
+      "y": 457
      }
     ]
    }
@@ -8463,7 +8463,7 @@
     "map_locations": [
      {
       "map": "Far Fields Deep Docks Loopback",
-      "x": 288,
+      "x": 305,
       "y": 647
      }
     ]
@@ -8478,8 +8478,8 @@
     "map_locations": [
      {
       "map": "Far Fields Deep Docks Loopback",
-      "x": 307,
-      "y": 645
+      "x": 290,
+      "y": 647
      }
     ]
    },
@@ -9552,10 +9552,10 @@
   "name": "Sprintmaster Cave",
   "children": [
    {
-    "name": "Sprintmaster - Beast Shard",
+    "name": "Swift beast shard",
     "sections": [
      {
-      "name": "Sprintmaster - Beast Shard"
+      "name": "Swift beast shard"
      }
     ],
     "map_locations": [
@@ -19123,8 +19123,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Bench",
-      "x": 841,
-      "y": 186
+      "x": 909,
+      "y": 187
      }
     ]
    },
@@ -19138,8 +19138,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Bench",
-      "x": 643,
-      "y": 252
+      "x": 695,
+      "y": 253
      }
     ]
    },
@@ -19153,8 +19153,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Bench",
-      "x": 940,
-      "y": 253
+      "x": 1016,
+      "y": 254
      }
     ]
    }
@@ -19173,8 +19173,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Chef's Kitchen",
-      "x": 282,
-      "y": 208
+      "x": 239,
+      "y": 195
      }
     ]
    },
@@ -19188,8 +19188,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Chef's Kitchen",
-      "x": 312,
-      "y": 162
+      "x": 265,
+      "y": 152
      }
     ]
    },
@@ -19204,7 +19204,7 @@
      {
       "map": "Sinner's Road Chef's Kitchen",
       "x": 3,
-      "y": 304
+      "y": 285
      }
     ]
    },
@@ -19218,8 +19218,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Chef's Kitchen",
-      "x": 145,
-      "y": 501
+      "x": 123,
+      "y": 470
      }
     ]
    }
@@ -19238,8 +19238,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Entrance",
-      "x": 508,
-      "y": 193
+      "x": 485,
+      "y": 156
      }
     ]
    },
@@ -19254,7 +19254,7 @@
      {
       "map": "Sinner's Road Entrance",
       "x": 0,
-      "y": 117
+      "y": 95
      }
     ]
    },
@@ -19268,8 +19268,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Entrance",
-      "x": 1032,
-      "y": 93
+      "x": 984,
+      "y": 76
      }
     ]
    }
@@ -19288,8 +19288,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Flea Rescue",
-      "x": 134,
-      "y": 101
+      "x": 160,
+      "y": 81
      }
     ]
    },
@@ -19304,7 +19304,7 @@
      {
       "map": "Sinner's Road Flea Rescue",
       "x": 0,
-      "y": 87
+      "y": 70
      }
     ]
    }
@@ -19323,8 +19323,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Hanging Cages",
-      "x": 135,
-      "y": 126
+      "x": 136,
+      "y": 130
      }
     ]
    },
@@ -19341,8 +19341,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Hanging Cages",
-      "x": 490,
-      "y": 211
+      "x": 493,
+      "y": 219
      }
     ]
    },
@@ -19357,7 +19357,7 @@
      {
       "map": "Sinner's Road Hanging Cages",
       "x": 0,
-      "y": 405
+      "y": 419
      }
     ]
    },
@@ -19371,8 +19371,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Hanging Cages",
-      "x": 652,
-      "y": 331
+      "x": 656,
+      "y": 343
      }
     ]
    },
@@ -19387,7 +19387,7 @@
      {
       "map": "Sinner's Road Hanging Cages",
       "x": 0,
-      "y": 196
+      "y": 203
      }
     ]
    },
@@ -19401,8 +19401,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Hanging Cages",
-      "x": 538,
-      "y": 123
+      "x": 542,
+      "y": 128
      }
     ]
    }
@@ -19421,8 +19421,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Mist Maze Completed",
-      "x": 536,
-      "y": 116
+      "x": 572,
+      "y": 101
      }
     ]
    },
@@ -19436,8 +19436,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Mist Maze Completed",
-      "x": 536,
-      "y": 545
+      "x": 572,
+      "y": 476
      }
     ]
    }
@@ -19447,47 +19447,47 @@
   "name": "Sinner's Road Muckroach Cages",
   "children": [
    {
-    "name": "Sinner's Road - Shell Shard Cache #1",
+    "name": "A Few Spare Shards In The Muckroach Kennel Attic",
     "sections": [
      {
-      "name": "Sinner's Road - Shell Shard Cache #1"
+      "name": "A Few Spare Shards In The Muckroach Kennel Attic"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 644,
-      "y": 86
+      "x": 639,
+      "y": 80
      }
     ]
    },
    {
-    "name": "Sinner's Road - Shell Shard Cache #2",
+    "name": "A Few More Spare Shards In The Muckroach Kennel Attic",
     "sections": [
      {
-      "name": "Sinner's Road - Shell Shard Cache #2"
+      "name": "A Few More Spare Shards In The Muckroach Kennel Attic"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 669,
-      "y": 78
+      "x": 664,
+      "y": 73
      }
     ]
    },
    {
-    "name": "Sinner's Road - Shell Shard Cache #3",
+    "name": "Last Few Spare Shards In The Muckroach Kennel Attic",
     "sections": [
      {
-      "name": "Sinner's Road - Shell Shard Cache #3"
+      "name": "Last Few Spare Shards In The Muckroach Kennel Attic"
      }
     ],
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 687,
-      "y": 78
+      "x": 682,
+      "y": 73
      }
     ]
    },
@@ -19501,8 +19501,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 477,
-      "y": 129
+      "x": 473,
+      "y": 121
      }
     ]
    },
@@ -19516,7 +19516,7 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 809,
+      "x": 803,
       "y": 0
      }
     ]
@@ -19531,8 +19531,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Muckroach Cages",
-      "x": 844,
-      "y": 271
+      "x": 838,
+      "y": 254
      }
     ]
    },
@@ -19547,7 +19547,7 @@
      {
       "map": "Sinner's Road Muckroach Cages",
       "x": 0,
-      "y": 189
+      "y": 177
      }
     ]
    }
@@ -19566,8 +19566,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road North Hall",
-      "x": 63,
-      "y": 127
+      "x": 65,
+      "y": 131
      }
     ]
    },
@@ -19581,8 +19581,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road North Hall",
-      "x": 92,
-      "y": 133
+      "x": 94,
+      "y": 138
      }
     ]
    },
@@ -19596,8 +19596,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road North Hall",
-      "x": 909,
-      "y": 59
+      "x": 930,
+      "y": 61
      }
     ]
    },
@@ -19612,7 +19612,7 @@
      {
       "map": "Sinner's Road North Hall",
       "x": 0,
-      "y": 49
+      "y": 50
      }
     ]
    },
@@ -19626,8 +19626,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road North Hall",
-      "x": 981,
-      "y": 191
+      "x": 1003,
+      "y": 197
      }
     ]
    },
@@ -19641,8 +19641,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road North Hall",
-      "x": 2186,
-      "y": 73
+      "x": 2235,
+      "y": 76
      }
     ]
    }
@@ -19661,8 +19661,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Spike Basement",
-      "x": 111,
-      "y": 196
+      "x": 174,
+      "y": 166
      }
     ]
    },
@@ -19676,7 +19676,7 @@
     "map_locations": [
      {
       "map": "Sinner's Road Spike Basement",
-      "x": 127,
+      "x": 209,
       "y": 0
      }
     ]
@@ -19746,8 +19746,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 66,
-      "y": 669
+      "x": 69,
+      "y": 683
      }
     ]
    },
@@ -19761,8 +19761,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 86,
-      "y": 680
+      "x": 74,
+      "y": 674
      }
     ]
    },
@@ -19776,8 +19776,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 113,
-      "y": 683
+      "x": 79,
+      "y": 668
      }
     ]
    },
@@ -19791,8 +19791,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 188,
-      "y": 569
+      "x": 165,
+      "y": 594
      }
     ]
    },
@@ -19806,8 +19806,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 103,
-      "y": 62
+      "x": 82,
+      "y": 63
      }
     ]
    },
@@ -19822,7 +19822,7 @@
      {
       "map": "Sinner's Road Vertical Hall East",
       "x": 0,
-      "y": 547
+      "y": 552
      }
     ]
    },
@@ -19836,8 +19836,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 239,
-      "y": 1094
+      "x": 190,
+      "y": 1104
      }
     ]
    },
@@ -19851,8 +19851,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 239,
-      "y": 833
+      "x": 190,
+      "y": 841
      }
     ]
    },
@@ -19866,8 +19866,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall East",
-      "x": 239,
-      "y": 578
+      "x": 190,
+      "y": 583
      }
     ]
    }
@@ -19886,8 +19886,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 44,
-      "y": 806
+      "x": 43,
+      "y": 767
      }
     ]
    },
@@ -19901,8 +19901,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 167,
-      "y": 397
+      "x": 161,
+      "y": 377
      }
     ]
    },
@@ -19916,8 +19916,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 143,
-      "y": 399
+      "x": 139,
+      "y": 380
      }
     ]
    },
@@ -19932,7 +19932,7 @@
      {
       "map": "Sinner's Road Vertical Hall West",
       "x": 0,
-      "y": 767
+      "y": 730
      }
     ]
    },
@@ -19947,7 +19947,7 @@
      {
       "map": "Sinner's Road Vertical Hall West",
       "x": 0,
-      "y": 380
+      "y": 362
      }
     ]
    },
@@ -19961,7 +19961,7 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 138,
+      "x": 133,
       "y": 0
      }
     ]
@@ -19976,8 +19976,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 263,
-      "y": 767
+      "x": 254,
+      "y": 730
      }
     ]
    },
@@ -19991,8 +19991,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 263,
-      "y": 480
+      "x": 254,
+      "y": 457
      }
     ]
    },
@@ -20006,8 +20006,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Vertical Hall West",
-      "x": 263,
-      "y": 247
+      "x": 254,
+      "y": 235
      }
     ]
    }
@@ -20026,8 +20026,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Shack",
-      "x": 90,
-      "y": 86
+      "x": 84,
+      "y": 38
      }
     ]
    },
@@ -20041,8 +20041,8 @@
     "map_locations": [
      {
       "map": "Sinner's Road Shack",
-      "x": 38,
-      "y": 85
+      "x": 3,
+      "y": 38
      }
     ]
    }
@@ -24995,8 +24995,8 @@
     "map_locations": [
      {
       "map": "Cogwork Core North Main",
-      "x": 44,
-      "y": 1029
+      "x": 112,
+      "y": 2520
      }
     ]
    },
@@ -25010,7 +25010,7 @@
     "map_locations": [
      {
       "map": "Cogwork Core North Main",
-      "x": 63,
+      "x": 160,
       "y": 0
      }
     ]
@@ -27984,8 +27984,8 @@
     "map_locations": [
      {
       "map": "Bilewater Arena Shack",
-      "x": 162,
-      "y": 75
+      "x": 133,
+      "y": 85
      }
     ]
    },
@@ -27999,8 +27999,8 @@
     "map_locations": [
      {
       "map": "Bilewater Arena Shack",
-      "x": 43,
-      "y": 67
+      "x": 12,
+      "y": 76
      }
     ]
    }
@@ -28019,8 +28019,8 @@
     "map_locations": [
      {
       "map": "Bilewater Bellway",
-      "x": 309,
-      "y": 92
+      "x": 384,
+      "y": 131
      }
     ]
    },
@@ -28034,8 +28034,8 @@
     "map_locations": [
      {
       "map": "Bilewater Bellway",
-      "x": 270,
-      "y": 82
+      "x": 336,
+      "y": 117
      }
     ]
    },
@@ -28049,8 +28049,8 @@
     "map_locations": [
      {
       "map": "Bilewater Bellway",
-      "x": 97,
-      "y": 80
+      "x": 120,
+      "y": 114
      }
     ]
    }
@@ -28169,8 +28169,8 @@
     "map_locations": [
      {
       "map": "Bilewater East Bench",
-      "x": 255,
-      "y": 291
+      "x": 243,
+      "y": 295
      }
     ]
    },
@@ -28184,7 +28184,7 @@
     "map_locations": [
      {
       "map": "Bilewater East Bench",
-      "x": 593,
+      "x": 565,
       "y": 0
      }
     ]
@@ -28200,7 +28200,7 @@
      {
       "map": "Bilewater East Bench",
       "x": 0,
-      "y": 293
+      "y": 298
      }
     ]
    }
@@ -28219,8 +28219,8 @@
     "map_locations": [
      {
       "map": "Bilewater East Column",
-      "x": 980,
-      "y": 475
+      "x": 787,
+      "y": 495
      }
     ]
    },
@@ -28235,7 +28235,7 @@
      {
       "map": "Bilewater East Column",
       "x": 0,
-      "y": 294
+      "y": 306
      }
     ]
    },
@@ -28250,7 +28250,7 @@
      {
       "map": "Bilewater East Column",
       "x": 0,
-      "y": 59
+      "y": 62
      }
     ]
    },
@@ -28265,7 +28265,7 @@
      {
       "map": "Bilewater East Column",
       "x": 0,
-      "y": 506
+      "y": 527
      }
     ]
    }
@@ -28275,17 +28275,17 @@
   "name": "Bilewater Flea Rescue",
   "children": [
    {
-    "name": "Flea: Bilewater - Thieves",
+    "name": "The Flea That Bilewater Thieves Stole",
     "sections": [
      {
-      "name": "Flea: Bilewater - Thieves"
+      "name": "The Flea That Bilewater Thieves Stole"
      }
     ],
     "map_locations": [
      {
       "map": "Bilewater Flea Rescue",
-      "x": 112,
-      "y": 59
+      "x": 137,
+      "y": 63
      }
     ]
    },
@@ -28299,8 +28299,8 @@
     "map_locations": [
      {
       "map": "Bilewater Flea Rescue",
-      "x": 335,
-      "y": 159
+      "x": 409,
+      "y": 171
      }
     ]
    }
@@ -28319,8 +28319,8 @@
     "map_locations": [
      {
       "map": "Bilewater Groal Arena",
-      "x": 403,
-      "y": 194
+      "x": 395,
+      "y": 196
      }
     ]
    },
@@ -28334,8 +28334,8 @@
     "map_locations": [
      {
       "map": "Bilewater Groal Arena",
-      "x": 638,
-      "y": 59
+      "x": 626,
+      "y": 60
      }
     ]
    },
@@ -28349,8 +28349,8 @@
     "map_locations": [
      {
       "map": "Bilewater Groal Arena",
-      "x": 393,
-      "y": 181
+      "x": 385,
+      "y": 183
      }
     ]
    },
@@ -28364,8 +28364,8 @@
     "map_locations": [
      {
       "map": "Bilewater Groal Arena",
-      "x": 758,
-      "y": 201
+      "x": 743,
+      "y": 203
      }
     ]
    },
@@ -28379,8 +28379,8 @@
     "map_locations": [
      {
       "map": "Bilewater Groal Arena",
-      "x": 215,
-      "y": 190
+      "x": 211,
+      "y": 192
      }
     ]
    },
@@ -28395,7 +28395,7 @@
      {
       "map": "Bilewater Groal Arena",
       "x": 0,
-      "y": 182
+      "y": 184
      }
     ]
    }
@@ -28414,8 +28414,8 @@
     "map_locations": [
      {
       "map": "Bilewater Hanging Corpse Room",
-      "x": 698,
-      "y": 75
+      "x": 775,
+      "y": 76
      }
     ]
    },
@@ -28430,7 +28430,7 @@
      {
       "map": "Bilewater Hanging Corpse Room",
       "x": 0,
-      "y": 257
+      "y": 260
      }
     ]
    }
@@ -28449,8 +28449,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Bloatroach Tower",
-      "x": 304,
-      "y": 281
+      "x": 312,
+      "y": 290
      }
     ]
    },
@@ -28464,8 +28464,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Bloatroach Tower",
-      "x": 433,
-      "y": 1121
+      "x": 444,
+      "y": 1155
      }
     ]
    },
@@ -28479,8 +28479,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Bloatroach Tower",
-      "x": 433,
-      "y": 412
+      "x": 444,
+      "y": 425
      }
     ]
    },
@@ -28495,7 +28495,7 @@
      {
       "map": "Bilewater Lower Bloatroach Tower",
       "x": 0,
-      "y": 1121
+      "y": 1155
      }
     ]
    },
@@ -28509,8 +28509,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Bloatroach Tower",
-      "x": 433,
-      "y": 825
+      "x": 444,
+      "y": 850
      }
     ]
    },
@@ -28525,7 +28525,7 @@
      {
       "map": "Bilewater Lower Bloatroach Tower",
       "x": 0,
-      "y": 67
+      "y": 69
      }
     ]
    }
@@ -28544,8 +28544,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower East Hall",
-      "x": 964,
-      "y": 207
+      "x": 921,
+      "y": 203
      }
     ]
    },
@@ -28559,7 +28559,7 @@
     "map_locations": [
      {
       "map": "Bilewater Lower East Hall",
-      "x": 265,
+      "x": 254,
       "y": 0
      }
     ]
@@ -28575,7 +28575,7 @@
      {
       "map": "Bilewater Lower East Hall",
       "x": 0,
-      "y": 103
+      "y": 101
      }
     ]
    }
@@ -28594,8 +28594,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower East Hall Secret",
-      "x": 319,
-      "y": 171
+      "x": 310,
+      "y": 148
      }
     ]
    }
@@ -28605,17 +28605,17 @@
   "name": "Bilewater Lower Trap Gauntlet Hall",
   "children": [
    {
-    "name": "Flea: Bilehaven",
+    "name": "The Flea That Couldn't Make It Past All The Bilewater Traps",
     "sections": [
      {
-      "name": "Flea: Bilehaven"
+      "name": "The Flea That Couldn't Make It Past All The Bilewater Traps"
      }
     ],
     "map_locations": [
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
-      "x": 476,
-      "y": 155
+      "x": 485,
+      "y": 168
      }
     ]
    },
@@ -28629,8 +28629,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
-      "x": 1017,
-      "y": 362
+      "x": 1036,
+      "y": 392
      }
     ]
    },
@@ -28644,8 +28644,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
-      "x": 1031,
-      "y": 364
+      "x": 1049,
+      "y": 394
      }
     ]
    },
@@ -28659,8 +28659,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
-      "x": 1253,
-      "y": 410
+      "x": 1276,
+      "y": 444
      }
     ]
    },
@@ -28675,7 +28675,7 @@
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
       "x": 0,
-      "y": 275
+      "y": 298
      }
     ]
    },
@@ -28689,8 +28689,8 @@
     "map_locations": [
      {
       "map": "Bilewater Lower Trap Gauntlet Hall",
-      "x": 1310,
-      "y": 140
+      "x": 1334,
+      "y": 152
      }
     ]
    }
@@ -28700,17 +28700,17 @@
   "name": "Bilewater Mothleaf Hall",
   "children": [
    {
-    "name": "Bilewater East - Memory Locket",
+    "name": "Locket At The End of A LONG Hallway of Moths",
     "sections": [
      {
-      "name": "Bilewater East - Memory Locket"
+      "name": "Locket At The End of A LONG Hallway of Moths"
      }
     ],
     "map_locations": [
      {
       "map": "Bilewater Mothleaf Hall",
-      "x": 1182,
-      "y": 113
+      "x": 1162,
+      "y": 94
      }
     ]
    },
@@ -28725,7 +28725,7 @@
      {
       "map": "Bilewater Mothleaf Hall",
       "x": 0,
-      "y": 106
+      "y": 89
      }
     ]
    },
@@ -28739,8 +28739,8 @@
     "map_locations": [
      {
       "map": "Bilewater Mothleaf Hall",
-      "x": 1325,
-      "y": 91
+      "x": 1302,
+      "y": 76
      }
     ]
    }
@@ -28750,47 +28750,47 @@
   "name": "Bilewater Northeast Tiny Room",
   "children": [
    {
-    "name": "Bilewater - Shell Shard Cache #5",
+    "name": "First Third Of The Shards In A Mothed Up Bilewater Closet",
     "sections": [
      {
-      "name": "Bilewater - Shell Shard Cache #5"
+      "name": "First Third Of The Shards In A Mothed Up Bilewater Closet"
      }
     ],
     "map_locations": [
      {
       "map": "Bilewater Northeast Tiny Room",
-      "x": 62,
+      "x": 60,
+      "y": 54
+     }
+    ]
+   },
+   {
+    "name": "Second Third Of The Shards In A Mothed Up Bilewater Closet",
+    "sections": [
+     {
+      "name": "Second Third Of The Shards In A Mothed Up Bilewater Closet"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bilewater Northeast Tiny Room",
+      "x": 74,
+      "y": 51
+     }
+    ]
+   },
+   {
+    "name": "Third Third Of The Shards In A Mothed Up Bilewater Closet",
+    "sections": [
+     {
+      "name": "Third Third Of The Shards In A Mothed Up Bilewater Closet"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bilewater Northeast Tiny Room",
+      "x": 92,
       "y": 52
-     }
-    ]
-   },
-   {
-    "name": "Bilewater - Shell Shard Cache #6",
-    "sections": [
-     {
-      "name": "Bilewater - Shell Shard Cache #6"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Bilewater Northeast Tiny Room",
-      "x": 77,
-      "y": 49
-     }
-    ]
-   },
-   {
-    "name": "Bilewater - Shell Shard Cache #7",
-    "sections": [
-     {
-      "name": "Bilewater - Shell Shard Cache #7"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Bilewater Northeast Tiny Room",
-      "x": 95,
-      "y": 50
      }
     ]
    },
@@ -28805,7 +28805,7 @@
      {
       "map": "Bilewater Northeast Tiny Room",
       "x": 0,
-      "y": 158
+      "y": 165
      }
     ]
    }
@@ -28824,8 +28824,8 @@
     "map_locations": [
      {
       "map": "Bilewater Organ Entrance",
-      "x": 500,
-      "y": 554
+      "x": 495,
+      "y": 514
      }
     ]
    },
@@ -28840,7 +28840,7 @@
      {
       "map": "Bilewater Organ Entrance",
       "x": 0,
-      "y": 554
+      "y": 514
      }
     ]
    },
@@ -28854,7 +28854,7 @@
     "map_locations": [
      {
       "map": "Bilewater Organ Entrance",
-      "x": 384,
+      "x": 380,
       "y": 0
      }
     ]
@@ -28869,8 +28869,8 @@
     "map_locations": [
      {
       "map": "Bilewater Organ Entrance",
-      "x": 413,
-      "y": 143
+      "x": 409,
+      "y": 133
      }
     ]
    }
@@ -28889,8 +28889,8 @@
     "map_locations": [
      {
       "map": "Bilewater Shakra Room",
-      "x": 257,
-      "y": 83
+      "x": 231,
+      "y": 75
      }
     ]
    },
@@ -28905,7 +28905,7 @@
      {
       "map": "Bilewater Shakra Room",
       "x": 0,
-      "y": 78
+      "y": 70
      }
     ]
    }
@@ -29579,8 +29579,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 113,
-      "y": 293
+      "x": 112,
+      "y": 261
      }
     ]
    },
@@ -29594,8 +29594,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 1064,
-      "y": 405
+      "x": 1054,
+      "y": 361
      }
     ]
    },
@@ -29609,8 +29609,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 1090,
-      "y": 403
+      "x": 1081,
+      "y": 359
      }
     ]
    },
@@ -29624,8 +29624,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 699,
-      "y": 105
+      "x": 693,
+      "y": 93
      }
     ]
    },
@@ -29639,8 +29639,8 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 806,
-      "y": 464
+      "x": 799,
+      "y": 413
      }
     ]
    },
@@ -29654,7 +29654,7 @@
     "map_locations": [
      {
       "map": "Bilewater West Secret Rooms",
-      "x": 1178,
+      "x": 1168,
       "y": 0
      }
     ]
@@ -29675,7 +29675,7 @@
      {
       "map": "Exhaust Organ Exterior",
       "x": 35,
-      "y": 123
+      "y": 113
      }
     ]
    },
@@ -29689,8 +29689,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Exterior",
-      "x": 652,
-      "y": 98
+      "x": 661,
+      "y": 90
      }
     ]
    },
@@ -29704,8 +29704,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Exterior",
-      "x": 659,
-      "y": 308
+      "x": 667,
+      "y": 284
      }
     ]
    },
@@ -29720,7 +29720,7 @@
      {
       "map": "Exhaust Organ Exterior",
       "x": 0,
-      "y": 302
+      "y": 279
      }
     ]
    },
@@ -29734,8 +29734,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Exterior",
-      "x": 1129,
-      "y": 302
+      "x": 1143,
+      "y": 279
      }
     ]
    }
@@ -29754,8 +29754,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 1389,
-      "y": 988
+      "x": 1084,
+      "y": 1509
      }
     ]
    },
@@ -29769,8 +29769,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 741,
-      "y": 626
+      "x": 579,
+      "y": 956
      }
     ]
    },
@@ -29787,8 +29787,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 793,
-      "y": 653
+      "x": 619,
+      "y": 998
      }
     ]
    },
@@ -29802,8 +29802,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 287,
-      "y": 73
+      "x": 224,
+      "y": 112
      }
     ]
    },
@@ -29817,8 +29817,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 420,
-      "y": 827
+      "x": 328,
+      "y": 1264
      }
     ]
    },
@@ -29832,8 +29832,8 @@
     "map_locations": [
      {
       "map": "Exhaust Organ Interior",
-      "x": 41,
-      "y": 1158
+      "x": 32,
+      "y": 1768
      }
     ]
    }

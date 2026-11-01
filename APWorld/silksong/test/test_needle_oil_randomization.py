@@ -44,6 +44,7 @@ class TestNeedleOilRandomization(TestCase):
             for category in PAIRED_ITEM_CATEGORIES
         }
         modes.update({
+            'Key': 'anywhere',
             'Boss': 'vanilla',
             'Quest': 'vanilla',
             NEEDLE_UPGRADE_LOCATION_CATEGORY: needle_mode,

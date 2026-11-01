@@ -503,7 +503,7 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
             with self.subTest(name=name):
                 self.assertTrue(
                     self.multiworld.get_location(
-                        name,
+                        canonicalize_location_name(name),
                         self.player,
                     ).can_reach(state)
                 )
@@ -563,7 +563,7 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
             with self.subTest(name=name):
                 self.assertTrue(
                     self.multiworld.get_location(
-                        name,
+                        canonicalize_location_name(name),
                         self.player,
                     ).can_reach(state)
                 )
@@ -623,7 +623,7 @@ class TestActOneOrdinaryTraversal(SilksongTestBase):
             with self.subTest(name=name):
                 self.assertTrue(
                     self.multiworld.get_location(
-                        name,
+                        canonicalize_location_name(name),
                         self.player,
                     ).can_reach(state)
                 )

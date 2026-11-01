@@ -183,6 +183,26 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, string> MapperLocationNames =
             new Dictionary<string, string>(StringComparer.Ordinal)
             {
+                { "Bilewater - Shell Shard Cache #7", "Third Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Sinner's Road - Shell Shard Cache #1", "A Few Spare Shards In The Muckroach Kennel Attic" },
+                { "Flea: Bilewater - Thieves", "The Flea That Bilewater Thieves Stole" },
+                { "Bilewater East - Memory Locket", "Locket At The End of A LONG Hallway of Moths" },
+                { "Flea: Bilehaven", "The Flea That Couldn't Make It Past All The Bilewater Traps" },
+                { "Sinner's Road - Shell Shard Cache #3", "Last Few Spare Shards In The Muckroach Kennel Attic" },
+                { "Bilewater - Shell Shard Cache #6", "Second Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Bilewater - Shell Shard Cache #5", "First Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Sinner's Road - Shell Shard Cache #2", "A Few More Spare Shards In The Muckroach Kennel Attic" },
+                { "Shell Shard Cache: Sinner's Road #1", "A Few Spare Shards In The Muckroach Kennel Attic" },
+                { "Shell Shard Cache: Sinner's Road #2", "A Few More Spare Shards In The Muckroach Kennel Attic" },
+                { "Shell Shard Cache: Sinner's Road #3", "Last Few Spare Shards In The Muckroach Kennel Attic" },
+                { "Shell Shard Cache: Bilewater #5", "First Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Shell Shard Cache: Bilewater #6", "Second Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Shell Shard Cache: Bilewater #7", "Third Third Of The Shards In A Mothed Up Bilewater Closet" },
+                { "Memory Locket: Bilewater East", "Locket At The End of A LONG Hallway of Moths" },
+
+                { "Beast Shard: Sprintmaster", "Swift beast shard" },
+                { "Sprintmaster - Beast Shard", "Swift beast shard" },
+
                 { "Flea: Far Fields - Captured", "Far Fields - Fort Flea Rescue - Flea" },
                 { "Shell Shard Cache: Far Fields #5", "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards" },
                 { "Far Fields - Shell Shard Cache #5", "Far Fields - Deep Entrance Skarr Sentinel's Trap Shards" },

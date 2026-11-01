@@ -2570,10 +2570,10 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/4e7d7773-67a3-4862-9861-349cdb0ed746": {
-    "name": "Sprintmaster - Beast Shard",
+    "name": "Swift beast shard",
     "kind": "collectible",
     "locations": [
-      "Sprintmaster - Beast Shard"
+      "Swift beast shard"
     ],
     "mapper_kind": "collectible"
   },
@@ -5209,26 +5209,26 @@
     "mapper_kind": "switch"
   },
   "event:mapper/187bb7ea-5661-4d8c-8d62-387908c6c1ed": {
-    "name": "Sinner's Road - Shell Shard Cache #1",
+    "name": "A Few Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #1"
+      "A Few Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/a67ed585-6e59-474b-b95e-0213e2b6da17": {
-    "name": "Sinner's Road - Shell Shard Cache #2",
+    "name": "A Few More Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #2"
+      "A Few More Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b23a4fc4-ff1c-43f2-ab7b-9b6c23b5221e": {
-    "name": "Sinner's Road - Shell Shard Cache #3",
+    "name": "Last Few Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Shell Shard Cache #3"
+      "Last Few Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
@@ -9290,5 +9290,11 @@
     "kind": "logic-point",
     "locations": [],
     "mapper_kind": "logic-point"
+  },
+  "event:mapper/55e83ab7-dcc7-4c8b-bb6f-3e56ef380942": {
+    "name": "Lever That Gets You A Shortcut To The Bullshit Bench Door",
+    "kind": "lock",
+    "locations": [],
+    "mapper_kind": "lock"
   }
 }

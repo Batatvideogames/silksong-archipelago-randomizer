@@ -1,10 +1,13 @@
 {
  "coverage_source": "map_logic.json",
- "missing_locs": [],
+ "missing_locs": [
+  "Far Fields - Map Purchase"
+ ],
  "missing_ents": [
   "Coral Tower Memory - door_wakeInMemory (D)",
   "High Halls Not Implemented Room - left1 (L)",
   "The Marrow Bellshrine - right (R)",
+  "Varga Caravan Room - right1 (R)",
   "Whispering Vaults Totally Not White Palace - bot2 (B2)",
   "Whispering Vaults Totally Not White Palace - bot3 (B3)",
   "Wisp Thicket Grounds - top1 (T)"
@@ -30,6 +33,13 @@
    "scene": "Bellshrine",
    "id": "the-marrow/the-marrow-bellshrine@r",
    "gate": null
+  },
+  {
+   "name": "Varga Caravan Room - right1 (R)",
+   "room": "Varga Caravan Room",
+   "scene": "Room_Caravan_Interior",
+   "id": "flea-caravan/varga-caravan-room@r",
+   "gate": "right1"
   },
   {
    "name": "Whispering Vaults Totally Not White Palace - bot2 (B2)",
@@ -64,10 +74,30 @@
    "room": "Coral Tower Memory",
    "scene": "Memory_Coral_Tower",
    "image": "01-geometry/6133e10a-57ee-4798-843c-56f86d955a67.webp"
+  },
+  {
+   "room": "Varga Caravan Room",
+   "scene": "Room_Caravan_Interior",
+   "image": "01-geometry/0a285a48-f688-4596-a071-50dd43f5e348.webp"
   }
  ],
  "image_mismatches": [],
- "rejected_positions": [],
+ "rejected_positions": [
+  {
+   "name": "Far Fields - Map Purchase",
+   "scene": "Bone_East_21",
+   "room": "Far Fields Map Shop",
+   "reason": "coordinate frames differ",
+   "source_dimensions": [
+    40,
+    20
+   ],
+   "map_dimensions": [
+    28,
+    20
+   ]
+  }
+ ],
  "missing_turn_ins": [],
  "skipped_locs": [],
  "skipped_ents": [],
@@ -98,21 +128,21 @@
    "Goal"
   ],
   "geometry_objects": {
-   "bench": 56,
-   "blockade": 127,
+   "bench": 57,
+   "blockade": 147,
    "boss": 8,
-   "collectible": 102,
-   "enemy": 2096,
-   "event": 170,
-   "gauntlet": 37,
-   "lock": 30,
-   "logic-point": 19,
-   "lore": 16,
+   "collectible": 85,
+   "enemy": 2238,
+   "event": 174,
+   "gauntlet": 27,
+   "lock": 32,
+   "logic-point": 27,
+   "lore": 14,
    "miniboss": 11,
-   "resource": 26,
-   "switch": 141,
+   "resource": 25,
+   "switch": 143,
    "travel": 4,
-   "unknown": 100
+   "unknown": 81
   },
   "aliases_resolved_elsewhere": [
    {
@@ -154,6 +184,10 @@
     "reason": "menu, scripted link or placeholder"
    },
    {
+    "name": "The Marrow Flea Caravan - flea caravan (FC)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
     "name": "\"Deep Docks\" March Side Room - slab capture (SC)",
     "reason": "menu, scripted link or placeholder"
    },
@@ -170,7 +204,15 @@
     "reason": "menu, scripted link or placeholder"
    },
    {
+    "name": "Greymoor Entry to Bellhart - flea caravan (FC)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
     "name": "Greymoor Towers Patio - slab capture (SC)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Last Judge Arena - flea caravan (FC)",
     "reason": "menu, scripted link or placeholder"
    },
    {
@@ -183,6 +225,10 @@
    },
    {
     "name": "Mount Fay Entrance - Dummy (DU)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Fleatopia - Flea Caravan (FC)",
     "reason": "menu, scripted link or placeholder"
    },
    {
@@ -275,6 +321,30 @@
    },
    {
     "name": "Slab Capture - greymoor (GM)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - the marrow departure (TM)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - greymoor arrival (GM)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - blasted steps arrival (BS)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - fleatopia arrival (FT)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - varga room (VR)",
+    "reason": "menu, scripted link or placeholder"
+   },
+   {
+    "name": "Flea Caravan - kratt spa  (KS)",
     "reason": "menu, scripted link or placeholder"
    },
    {

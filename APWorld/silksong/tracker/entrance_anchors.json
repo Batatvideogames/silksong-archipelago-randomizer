@@ -908,8 +908,8 @@
  "deep-docks/deep-docks-chains-flea-rescue@f": {
   "scene": "Dock_03d",
   "gate": "bot1",
-  "x": 0.181818,
-  "y": 0.602564
+  "x": 0.081633,
+  "y": 0.114286
  },
  "deep-docks/deep-docks-chains-center@ul": {
   "scene": "Dock_02b",
@@ -3872,8 +3872,8 @@
  "bilewater/bilewater-arena-shack@l": {
   "scene": "Shadow_Bilehaven_Room",
   "gate": "left1",
-  "x": 0.175,
-  "y": 0.4
+  "x": 0.068966,
+  "y": 0.294118
  },
  "bilewater/bilewater-bellway@l": {
   "scene": "Bellway_Shadow",

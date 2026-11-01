@@ -50,7 +50,10 @@ class TestInnateAbilityGraphRows(TestCase):
         self.assertFalse(self.permits(row, ("Drifter's Cloak",), randomize_ledge_grab=True))
 
     def test_craw_entrance_swim_is_innate_unless_randomized(self):
-        row = self.graph.transition_by_id["greymoor/greymoor-craw-lake-entrance@lr"]
+        room_id = "greymoor/greymoor-craw-lake-entrance"
+        exit = self.graph.transition_by_id[room_id + "@lr"]
+        self.assertTrue(self.permits(exit, randomize_swim=True))
+        row = self.connection(room_id, "i-should-have-added-this-before", "lower-right-section")
         self.assertTrue(self.permits(row))
         self.assertFalse(self.permits(row, randomize_swim=True))
         self.assertTrue(self.permits(row, ("Swim",), randomize_swim=True))
@@ -117,10 +120,11 @@ class TestInnateAbilityGraphRows(TestCase):
             "greymoor/greymoor-craw-lake#left-top-craw-nest>right-top-craw-nest@g5"]
         clauses = crossing.requirement.dnf
         self.assertIn(("item:drifters-cloak",), clauses)
-        self.assertIn(("item:clawline",), clauses)
+        self.assertIn(("mapper:clawline:right:2",), clauses)
         self.assertNotIn((), clauses)
-        self.assertTrue(all("macro:progressive-swift-step-first" in clause
-                            for clause in clauses if "item:sharpdart" in clause))
+        sharpdart = [clause for clause in clauses if "mapper:sharpdart:1" in clause]
+        self.assertTrue(sharpdart)
+        self.assertTrue(all("mapper:sprint-direction:right" in clause for clause in sharpdart))
 
     def test_mapper_compiler_rejects_legacy_boundary_fallbacks(self):
         self.assertEqual(self.graph.assumptions["mapper_schema"], 3)

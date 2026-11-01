@@ -1,5 +1,5 @@
 {
-  "mapper_source": "3914e6227dba65a8cc4accf98d4bcdde31af431ea8925c993dab41de76e294ca",
+  "mapper_source": "8272df2905eb4981e04c4653e9f846d1a6da1007f57fad4c5747f19b6e9d5bb5",
   "scenes": {
     "moss-grotto/moss-grotto-center": "tut_01",
     "moss-grotto/moss-grotto-west": "tut_02",
@@ -14173,32 +14173,97 @@
     "c79b8d87-65e6-442a-850e-400ff1c090cc": {
       "name": "Stupid, the Muckroach",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#right-half",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/dust_03.bundle:11440",
+      "species": "Muckroach",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "997f61d3-18ad-4b46-9e0b-d5c72359a975": {
       "name": "Useless, the Muckroach",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "shell_shards",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/dust_03.bundle:11439",
+      "species": "Muckroach",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "bca3280b-d5ce-4814-b8d6-a90a04870932": {
-      "name": "Roachfeeder 3",
+      "name": "Steven, The Roachfeeder",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/dust_03.bundle:11358",
+      "species": "Roachfeeder",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "d433374c-adb8-46b4-b2c5-5cba7fde4ddb": {
-      "name": "Roachfeeder 4",
+      "name": "Dave, The Roachfeeder",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "native_source": "scenes_scenes_scenes/dust_03.bundle:11361",
+      "species": "Roachfeeder",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "fcabb600-c971-4958-b0d5-ddfa0e74aba8": {
       "name": "Spider, the Muckroach",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#left-half",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "shell_shards",
+      "reset": "rest",
+      "native_source": "scenes_scenes_scenes/dust_03.bundle:11438",
+      "species": "Muckroach",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "1c70c0fd-cae9-4805-8f38-d080e652883e": {
       "name": "Muckroach 12",
@@ -14213,7 +14278,7 @@
       "reset": "unverified"
     },
     "f98e0c86-f828-4a18-8e9c-2fa0b53d2b08": {
-      "name": "Mite 1",
+      "name": "Paul, The Mite",
       "node": "sinner-s-road/sinner-s-road-muckroach-cages#attic",
       "drops": "shell_shards",
       "reset": "scene",
@@ -14388,8 +14453,50 @@
     "17f40eec-ecfa-49ff-9847-f6ea28d20998": {
       "name": "Ahmed, the Roachkeeper",
       "node": "sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "scene",
+      "native_source": "scenes_scenes_scenes/dust_06.bundle:14295",
+      "species": "Roachkeeper",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "mapper:cling-grip-direction:any",
+              "item:faydown-cloak",
+              "mapper:attack:up"
+            ],
+            [
+              "mapper:cling-grip-direction:both",
+              "macro:progressive-swift-step-full",
+              "mapper:attack:up"
+            ],
+            [
+              "mapper:cling-grip-direction:both",
+              "item:drifters-cloak",
+              "mapper:attack:up"
+            ],
+            [
+              "mapper:cling-grip-direction:both",
+              "mapper:clawline:left:1",
+              "mapper:attack:up"
+            ],
+            [
+              "mapper:cling-grip-direction:both",
+              "mapper:sharpdart:1",
+              "mapper:attack:up"
+            ],
+            [
+              "mapper:cling-grip-direction:both",
+              "item:silk-soar",
+              "mapper:attack:up"
+            ]
+          ]
+        }
+      ],
+      "farm": false
     },
     "4702f592-6390-420e-977f-1e325a84df6a": {
       "name": "Hyakinthos, the Roachfeeder",
@@ -18008,7 +18115,7 @@
       "farm": false
     },
     "8de83403-bfb0-46cc-be35-db7eb4ee8cef": {
-      "name": "Covetous Pilgrim 1",
+      "name": "Dave, The Covetous Pilgrim Who Was Also Looking For Shakra",
       "node": "bilewater/bilewater-shakra-room#room",
       "drops": "none",
       "reset": "one-time",
@@ -19062,7 +19169,7 @@
     },
     "bae71881-a98f-421c-a72c-fe8b847e2670": {
       "name": "Drapefly 2",
-      "node": "bilewater/exhaust-organ-interior#right-column",
+      "node": "bilewater/exhaust-organ-interior#ground-floor",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Drapefly",
@@ -25310,6 +25417,615 @@
       "node": "the-abyss/abyss-cocoon#room",
       "farm": false,
       "routes": []
+    },
+    "6190539a-2f5e-4a5b-b2eb-5028676bd5a2": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Fertid 1",
+      "node": "far-fields/far-fields-dock-loopback#loop-back-surface",
+      "native_source": "scenes_scenes_scenes/bone_east_15.bundle:11362",
+      "species": "Fertid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "3ed2debd-23cb-496e-a27c-bb43cf7e1603": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Flapping Fertid 1",
+      "node": "far-fields/far-fields-dock-loopback#cross-climb-link",
+      "native_source": "scenes_scenes_scenes/bone_east_15.bundle:11260",
+      "species": "Flapping Fertid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "f34ff9ae-b39b-4ae2-b5a8-162de91fb249": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Flapping Fertid 2",
+      "node": "far-fields/far-fields-dock-loopback#loop-back-surface",
+      "native_source": "scenes_scenes_scenes/bone_east_15.bundle:11259",
+      "species": "Flapping Fertid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "61097804-6798-4dbb-be0e-0c7d0f4f4643": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Flapping Fertid 3",
+      "node": "far-fields/far-fields-dock-loopback#thorn-gust-cavern",
+      "native_source": "scenes_scenes_scenes/bone_east_15.bundle:11258",
+      "species": "Flapping Fertid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "2c19ae47-87e6-4a75-9c7c-9219addc384b": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Beastfly 1",
+      "node": "far-fields/far-fields-dock-loopback#thorn-gust-cavern",
+      "species": "Beastfly",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "2c559af2-1fc9-4b7f-816f-c4e44e8206b7": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Vicious Caranid 1",
+      "node": "far-fields/far-fields-dock-loopback#thorn-gust-cavern",
+      "species": "Vicious Caranid",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "e19de680-1627-49a1-85fd-b19a547c7975": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Flintflame Flyer 1",
+      "node": "deep-docks/deep-docks-chains-flea-rescue#flea-room",
+      "farm": false,
+      "routes": []
+    },
+    "7f0f7c09-a87c-49c8-b4b9-d20ca3a348a1": {
+      "drops": "none",
+      "reset": "unknown",
+      "name": "Flintstone Flyer 1",
+      "node": "deep-docks/deep-docks-chains-flea-rescue#flea-room",
+      "farm": false,
+      "routes": []
+    },
+    "d57ad258-e917-42bc-bc6b-cfb7f116f0c0": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Fertid 1",
+      "node": "deep-docks/deep-docks-chains-flea-rescue#flea-room",
+      "native_source": "scenes_scenes_scenes/dock_03d.bundle:3582",
+      "species": "Fertid",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "2ea47280-7d2f-48b9-8519-85b7c72b0c55": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Fertid 2",
+      "node": "deep-docks/deep-docks-chains-flea-rescue#flea-room",
+      "native_source": "scenes_scenes_scenes/dock_03d.bundle:3583",
+      "species": "Fertid",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "c835224c-17a7-4a89-ac91-5cfff0d65653": {
+      "drops": "shell_shards",
+      "reset": "scene",
+      "name": "Flapping Fertid 1",
+      "node": "deep-docks/deep-docks-chains-flea-rescue#flea-room",
+      "native_source": "scenes_scenes_scenes/dock_03d.bundle:3551",
+      "species": "Flapping Fertid",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "65b40771-f07b-4bc5-b679-e7b343a77ecb": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Smelt Shoveller 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14919",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintflame Flyer",
+            "Flintstone Flyer",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "5e048df7-f43f-4a9d-8035-07aba4d4c2b8": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Smokerock Sifter 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14329",
+      "species": "Smokerock Sifter",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintflame Flyer",
+            "Flintstone Flyer",
+            "Smelt Shoveller"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "499e13b0-8e02-4901-878b-74c1f0ce2caa": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintstone Flyer 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14368",
+      "species": "Flintstone Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintflame Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "1bbe4212-9d58-4dfb-b8c0-7fed813cbc61": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintflame Flyer 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14361",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintstone Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "462a4825-0b59-43f3-a068-6b3f66840c26": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Smokerock Sifter 2",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14328",
+      "species": "Smokerock Sifter",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintflame Flyer",
+            "Flintstone Flyer",
+            "Smelt Shoveller"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "58f6f510-b992-467e-9f64-1e9414e7ad18": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Deep Diver 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14921",
+      "species": "Deep Diver",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Flintflame Flyer",
+            "Flintstone Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "51a5fcdc-636a-4c69-a93e-f153568c05da": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintstone Flyer 2",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14366",
+      "species": "Flintstone Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintflame Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "a6019949-237f-4520-8fa0-aee71e4f7b0b": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintflame Flyer 2",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14362",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintstone Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "9dcb9172-9ea1-42b6-953b-40af560514d3": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintflame Flyer 3",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14365",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintstone Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "24223ce7-c8bf-49fa-960e-cc32a4e22a84": {
+      "drops": "both",
+      "reset": "encounter",
+      "name": "Flintflame Flyer 4",
+      "node": "deep-docks/deep-docks-chains-lower-east#gauntlet",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14363",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [
+            "Deep Diver",
+            "Flintstone Flyer",
+            "Smelt Shoveller",
+            "Smokerock Sifter"
+          ],
+          "dnf": [
+            [
+              "mapper:attack:left",
+              "combat:gauntlet:deep-docks-southeast"
+            ],
+            [
+              "mapper:attack:right",
+              "combat:gauntlet:deep-docks-southeast"
+            ]
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "cefa5027-8217-440a-911f-f61cc8d0f39e": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Flintflame Flyer 5",
+      "node": "deep-docks/deep-docks-chains-lower-east#middle-chains",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14364",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "924303ae-f585-43d5-bea9-4aeb0cb10098": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Flintflame Flyer 6",
+      "node": "deep-docks/deep-docks-chains-lower-east#lower-lava-platform",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14367",
+      "species": "Flintflame Flyer",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "3e80b21b-41a0-48b1-a635-7ff30b729ce6": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Smelt Shoveller 2",
+      "node": "deep-docks/deep-docks-chains-lower-east#upper-lava-platform",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14920",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "39926d36-226e-4259-865a-d98fdfb73a0a": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 1",
+      "node": "deep-docks/deep-docks-chains-lower-east#lower-chains",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14745",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "c169f19c-8aa8-4c55-981b-1e8f2cb5b0c4": {
+      "drops": "none",
+      "reset": "scene",
+      "name": "Lavalug 2",
+      "node": "deep-docks/deep-docks-chains-lower-east#middle-chains",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14744",
+      "species": "Lavalug",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
+    },
+    "b0584d96-c95c-4f0f-b72b-3ae422ec9004": {
+      "drops": "both",
+      "reset": "rest",
+      "name": "Smelt Shoveller 3",
+      "node": "deep-docks/deep-docks-chains-lower-east#lower-lava-platform",
+      "native_source": "scenes_scenes_scenes/dock_03c.bundle:14918",
+      "species": "Smelt Shoveller",
+      "routes": [
+        {
+          "act": 1,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     }
   }
 }

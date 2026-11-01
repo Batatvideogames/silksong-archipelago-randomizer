@@ -755,6 +755,7 @@ class TestAlphabetMode(unittest.TestCase):
         )
 
     def test_full_trap_pools_keep_all_letters(self) -> None:
+        from ..items import _is_replaceable_filler
         modes = self.standard_modes()
         for goal in ("act_1", "act_2", "act_3"):
             with self.subTest(goal=goal):
@@ -796,7 +797,7 @@ class TestAlphabetMode(unittest.TestCase):
                     capacity,
                 )
                 self.assertTrue(all(
-                    item_data_table[entry.name].category in {"Memento", "Journal"}
+                    not _is_replaceable_filler(entry.name)
                     for entry in entries
                     if item_data_table[entry.name].classification == ItemClassification.filler
                 ))
@@ -860,6 +861,8 @@ class TestAlphabetMode(unittest.TestCase):
         )
         with (
             mock.patch.object(world_module, "validate_opening"),
+            mock.patch(SilksongWorld.__module__ + ".category_fill.validate_flea_capacity"),
+            mock.patch(SilksongWorld.__module__ + ".category_fill.validate_excluded_filler"),
             self.assertRaisesRegex(
                 OptionError,
                 r"2 progression items for 1 progression-legal locations",
@@ -912,6 +915,8 @@ class TestAlphabetMode(unittest.TestCase):
         )
         with (
             mock.patch.object(world_module, "validate_opening"),
+            mock.patch(SilksongWorld.__module__ + ".category_fill.validate_flea_capacity"),
+            mock.patch(SilksongWorld.__module__ + ".category_fill.validate_excluded_filler"),
             self.assertRaises(OptionError) as error,
         ):
             SilksongWorld.stage_pre_fill(multiworld)

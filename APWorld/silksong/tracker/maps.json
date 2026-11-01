@@ -470,8 +470,8 @@
  {
   "name": "Deep Docks Chains Flea Rescue",
   "img": "01-geometry/a0df57a1-155f-4274-bc4b-9b0248c65cf1.webp",
-  "location_size": 7,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Deep Docks Chains Center",
@@ -488,8 +488,8 @@
  {
   "name": "Deep Docks Chains Lower East",
   "img": "01-geometry/a2bb29a5-40e9-4151-b603-52ab10fc9337.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Deep Docks Forebrothers",
@@ -1508,55 +1508,55 @@
  {
   "name": "Sinner's Road Bench",
   "img": "01-geometry/6e297976-41e3-4350-ade1-b3beeac4a184.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Chef's Kitchen",
   "img": "01-geometry/10ce58ca-cf64-4de8-927f-159659cae28f.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Entrance",
   "img": "01-geometry/fb40fff0-e4a7-4c52-9c64-95016b7e44a3.webp",
-  "location_size": 23,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Flea Rescue",
   "img": "01-geometry/df817510-da31-4ce4-b749-5e6d17f91b2a.webp",
-  "location_size": 23,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Hanging Cages",
   "img": "01-geometry/1576eb44-6cff-4525-95af-c8bd033d01cb.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Mist Maze Completed",
   "img": "01-geometry/a54d8a60-40fa-43ac-8aa0-e01759a50dd1.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Muckroach Cages",
   "img": "01-geometry/82899b06-fcfa-45ad-b81e-9ee40b10f00a.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road North Hall",
   "img": "01-geometry/7ef623f1-3755-402f-9197-f70cd95cd451.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Spike Basement",
   "img": "01-geometry/8e42a2d9-4f82-4d50-a5fb-3f5f38db5d06.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -1568,20 +1568,20 @@
  {
   "name": "Sinner's Road Vertical Hall East",
   "img": "01-geometry/08b6629d-b15b-4cb3-b667-6d2fdc3b8a55.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Vertical Hall West",
   "img": "01-geometry/0d7960ea-441a-4971-a16f-1e5fa4852133.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Sinner's Road Shack",
   "img": "01-geometry/0dc1200c-db1c-427d-bf94-3ca3e84cc5f7.webp",
-  "location_size": 11,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Vaults & Bellway Cauldron Entrance",
@@ -2024,8 +2024,8 @@
  {
   "name": "Cogwork Core North Main",
   "img": "01-geometry/d82962c2-5f32-44ee-be9c-8e1c472e0a13.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
+  "location_size": 48,
+  "location_border_thickness": 8
  },
  {
   "name": "Cogwork Core Second Sentinel",
@@ -2288,14 +2288,14 @@
  {
   "name": "Bilewater Arena Shack",
   "img": "01-geometry/d67cb58b-4bf7-4b0c-b37c-3ef8c6a570c5.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Bellway",
   "img": "01-geometry/cb80bc26-78a9-482c-b95b-11bc91fe9157.webp",
-  "location_size": 13,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Bullshit Bench",
@@ -2312,37 +2312,37 @@
  {
   "name": "Bilewater East Bench",
   "img": "01-geometry/93810507-c0e8-4cf7-ab69-bb235f7d982c.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater East Column",
   "img": "01-geometry/f75f6e4b-0511-40b4-886b-c68e51cc25bf.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Flea Rescue",
   "img": "01-geometry/0553b163-c1ea-4c0e-bcb3-4c2f21784603.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Groal Arena",
   "img": "01-geometry/009ea94e-0688-4c46-8348-8b6c744e662e.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Hanging Corpse Room",
   "img": "01-geometry/7ab4bc58-b7b5-40c3-92f2-ee6351ce8bdb.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Lower Bloatroach Tower",
   "img": "01-geometry/5ce62cf1-4bfa-4e93-babf-1ebec11305df.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2354,37 +2354,37 @@
  {
   "name": "Bilewater Lower East Hall Secret",
   "img": "01-geometry/4c232677-5256-48b8-a485-36a3f9ddc63c.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Lower Trap Gauntlet Hall",
   "img": "01-geometry/2fd461cf-e5fc-4158-bb6a-4aec971f8e22.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Bilewater Mothleaf Hall",
   "img": "01-geometry/6eb0189e-e760-4ce1-8f8b-09ca82683fc5.webp",
-  "location_size": 22,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Northeast Tiny Room",
   "img": "01-geometry/eea2275c-b3e9-4fa9-bb4e-d527c43c55e3.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Organ Entrance",
   "img": "01-geometry/5fb4e6dc-4fb1-4f24-97f3-c3bc53945591.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Bilewater Shakra Room",
   "img": "01-geometry/89f04b05-0933-48b4-a10f-e94fc49827de.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -2456,20 +2456,20 @@
  {
   "name": "Bilewater West Secret Rooms",
   "img": "01-geometry/a05de982-e438-4c71-a604-1ab6b88339f1.webp",
-  "location_size": 21,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Exhaust Organ Exterior",
   "img": "01-geometry/c5555aed-7feb-475e-b31f-65347ca185e6.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Exhaust Organ Interior",
   "img": "01-geometry/78f4fdba-9b72-4a9f-acb7-5b2b33652783.webp",
-  "location_size": 15,
-  "location_border_thickness": 2
+  "location_size": 24,
+  "location_border_thickness": 4
  },
  {
   "name": "BEEG flea",
