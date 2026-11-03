@@ -1932,6 +1932,8 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def stage_generate_basic(cls, multiworld) -> None:
         for world in multiworld.get_game_worlds(cls.game):
             world._prepare_start_inventory_pool()
+        from .generation_diagnostics import validate_plando
+        validate_plando(multiworld, cls.game)
 
     def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
         indices = [index for index, item in enumerate(progitempool) if item.player == self.player]

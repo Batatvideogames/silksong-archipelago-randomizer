@@ -270347,71 +270347,6 @@
     },
     "logic_item_dependencies": {},
     "requirements": {
-      "A Few More Spare Shards In The Muckroach Kennel Attic": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
-            ]
-          }
-        ]
-      },
-      "A Few Remaining Rosaries Next To A Dead Guy In Bilewater": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Faydown Cloak",
-              "Directional: Ledge Grab Right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Faydown Cloak",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Faydown Cloak",
-              "Option: Proficient Movement",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
-              "Directional: Cling Grip Right"
-            ]
-          }
-        ]
-      },
-      "A Few Spare Shards In The Muckroach Kennel Attic": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
-            ]
-          }
-        ]
-      },
       "Abyss - Lower Lore Stone": {
         "alternatives": [
           {
@@ -270897,6 +270832,53 @@
           }
         ]
       },
+      "Bilewater - A Few Remaining Rosaries Next To A Dead Guy In Bilewater": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Faydown Cloak",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Faydown Cloak",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Faydown Cloak",
+              "Option: Proficient Movement",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#middle-quarter",
+              "Directional: Cling Grip Right"
+            ]
+          }
+        ]
+      },
       "Bilewater - Bellway": {
         "alternatives": [
           {
@@ -270930,11 +270912,76 @@
           }
         ]
       },
+      "Bilewater - Box Of Rosaries Right Inside Bilewater": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-sinner-s-entrance#left-rosary-platform"
+            ]
+          }
+        ]
+      },
+      "Bilewater - First Quick Rosaries In The Western Bilewater Rooms": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor"
+            ]
+          }
+        ]
+      },
+      "Bilewater - First Third Of The Shards In A Mothed Up Bilewater Closet": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Cling Grip",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          }
+        ]
+      },
       "Bilewater - Frayed Rosary String": {
         "alternatives": [
           {
             "all_of": [
               "Room Node: bilewater/bilewater-lower-bloatroach-tower#rosary-plat"
+            ]
+          }
+        ]
+      },
+      "Bilewater - Locket At The End of A LONG Hallway of Moths": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-mothleaf-hall#right"
             ]
           }
         ]
@@ -270970,6 +271017,138 @@
               "Cling Grip",
               "Faydown Cloak",
               "Drifter's Cloak"
+            ]
+          }
+        ]
+      },
+      "Bilewater - Memory Locket Annoyingly Nearby the Twisted Chud": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
+              "Cling Grip",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1",
+              "Drifter's Cloak"
+            ]
+          }
+        ]
+      },
+      "Bilewater - Other Quick Rosaries In The Western Bilewater Rooms": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor"
             ]
           }
         ]
@@ -271036,6 +271215,44 @@
           }
         ]
       },
+      "Bilewater - Second Third Of The Shards In A Mothed Up Bilewater Closet": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Cling Grip",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          }
+        ]
+      },
       "Bilewater - Shell Shard Cache #1": {
         "alternatives": [
           {
@@ -271079,6 +271296,62 @@
           {
             "all_of": [
               "Room Node: bilewater/bilewater-east-bench#bench-room"
+            ]
+          }
+        ]
+      },
+      "Bilewater - The Flea That Bilewater Thieves Stole": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-flea-rescue#upper"
+            ]
+          }
+        ]
+      },
+      "Bilewater - The Flea That Couldn't Make It Past All The Bilewater Traps": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-lower-trap-gauntlet-hall#flea-room"
+            ]
+          }
+        ]
+      },
+      "Bilewater - Third Third Of The Shards In A Mothed Up Bilewater Closet": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Capability: Ledge Grab",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
+              "Cling Grip",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -272294,15 +272567,6 @@
           }
         ]
       },
-      "Box Of Rosaries Right Inside Bilewater": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-sinner-s-entrance#left-rosary-platform"
-            ]
-          }
-        ]
-      },
       "Brightvein - Mask Shard": {
         "alternatives": [
           {
@@ -272339,15 +272603,6 @@
           }
         ],
         "logic_unknown": true
-      },
-      "Caged Rosaries In the Sinner's Entryway": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-entrance#center"
-            ]
-          }
-        ]
       },
       "Choir's Final Rites Beads": {
         "alternatives": [
@@ -273929,33 +274184,6 @@
           }
         ]
       },
-      "Eastern Sinner's Cage Rosary Primus": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
-            ]
-          }
-        ]
-      },
-      "Eastern Sinner's Cage Rosary Secundus": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
-            ]
-          }
-        ]
-      },
-      "Eastern Sinner's Cage Rosary Tertius": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
-            ]
-          }
-        ]
-      },
       "Ecstasy of the End - Pale Oil": {
         "alternatives": [
           {
@@ -274023,6 +274251,130 @@
             "all_of": [
               "Room Node: moss-grotto/ruined-chapel-interior#ritual-chamber",
               "Room Event: event:mapper/reviewed:everbloom-ritual"
+            ]
+          }
+        ]
+      },
+      "Exhaust Organ - Flea Is Tired Of Organ Music": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Capability: Swim",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Needolin"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Cling Grip",
+              "Needolin"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Faydown Cloak",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Needolin"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Silk Soar",
+              "Clawline",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Needolin"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Silk Soar",
+              "Drifter's Cloak",
+              "Capability: Ledge Grab",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Needolin"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
+              "Silk Soar",
+              "Usable Sharpdart",
+              "Capability: Ledge Grab",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Needolin",
+              "Loadout: Usable Scuttlebrace + Usable Sharpdart"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Progressive Silkheart"
+                ],
+                "minimum": 1
+              }
+            ]
+          }
+        ]
+      },
+      "Exhaust Organ - Silk Grub Listening To Mozart In the Cocoon": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: bilewater/exhaust-organ-interior#maze"
             ]
           }
         ]
@@ -274428,62 +274780,6 @@
           }
         ]
       },
-      "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
-            ]
-          }
-        ]
-      },
-      "First Quick Rosaries In The Western Bilewater Rooms": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor"
-            ]
-          }
-        ]
-      },
-      "First Third Of The Shards In A Mothed Up Bilewater Closet": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Cling Grip",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
-            ]
-          }
-        ]
-      },
       "Flea Brew": {
         "alternatives": [
           {
@@ -274709,121 +275005,6 @@
           {
             "all_of": [
               "Room Node: deep-docks/deep-docks-upper-spire#left-flea-platform"
-            ]
-          }
-        ]
-      },
-      "Flea: Exhaust Organ": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Capability: Swim",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Needolin"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Cling Grip",
-              "Needolin"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Faydown Cloak",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Needolin"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Silk Soar",
-              "Clawline",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Needolin"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Silk Soar",
-              "Drifter's Cloak",
-              "Capability: Ledge Grab",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Needolin"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-exterior#flea-hall-plat",
-              "Silk Soar",
-              "Usable Sharpdart",
-              "Capability: Ledge Grab",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Needolin",
-              "Loadout: Usable Scuttlebrace + Usable Sharpdart"
-            ],
-            "item_counts": [
-              {
-                "items": [
-                  "Progressive Silkheart"
-                ],
-                "minimum": 1
-              }
             ]
           }
         ]
@@ -276968,61 +277149,6 @@
           }
         ]
       },
-      "Gross Rosaries In the Sinner's Basement": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Capability: Swim",
-              "Directional: Ledge Grab Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Capability: Swim",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Faydown Cloak",
-              "Drifter's Cloak",
-              "Directional: Ledge Grab Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Faydown Cloak",
-              "Directional: Clawline Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Faydown Cloak",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Faydown Cloak",
-              "Capability: Swim"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-              "Directional: Clawline Left",
-              "Drifter's Cloak",
-              "Directional: Ledge Grab Left"
-            ]
-          }
-        ]
-      },
       "Guardian's Memento": {
         "alternatives": [],
         "logic_unknown": true
@@ -278113,38 +278239,6 @@
           }
         ]
       },
-      "Key Hoarding Roachkeeper In the Attic": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-              "Cling Grip",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-              "Cling Grip",
-              "Drifter's Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-              "Cling Grip",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-              "Cling Grip",
-              "Usable Sharpdart"
-            ]
-          }
-        ]
-      },
       "Key of Apostate": {
         "alternatives": [
           {
@@ -278179,34 +278273,6 @@
             "all_of": [
               "Room Node: the-cradle/lace-2-fight#arena",
               "Room Event: event:mapper/6491dc3e-3012-4fec-bacd-806f85487759"
-            ]
-          }
-        ]
-      },
-      "Last Few Spare Shards In The Muckroach Kennel Attic": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
-            ]
-          }
-        ]
-      },
-      "Left Shards In the Hall of the Spike Swingers": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
-              "Capability: Swim"
-            ]
-          }
-        ]
-      },
-      "Locket At The End of A LONG Hallway of Moths": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-mothleaf-hall#right"
             ]
           }
         ]
@@ -278842,129 +278908,6 @@
           {
             "all_of": [
               "Room Node: mount-fay/memory-crystal#end"
-            ]
-          }
-        ]
-      },
-      "Memory Locket Annoyingly Nearby the Twisted Chud": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Capability: Swim"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Hunter",
-              "Technique: Crest Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Architect",
-              "Technique: Crest Pogo 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Wanderer",
-              "Technique: Crest Pogo 1",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Wanderer",
-              "Technique: Crest Pogo 1",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Wanderer",
-              "Technique: Crest Pogo 1",
-              "Drifter's Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Witch",
-              "Technique: Crest Pogo 1",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Witch",
-              "Technique: Crest Pogo 1",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Witch",
-              "Technique: Crest Pogo 1",
-              "Drifter's Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Reaper",
-              "Technique: Crest Pogo 1",
-              "Swift Step"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Reaper",
-              "Technique: Crest Pogo 1",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor",
-              "Cling Grip",
-              "Crest: Reaper",
-              "Technique: Crest Pogo 1",
-              "Drifter's Cloak"
             ]
           }
         ]
@@ -279675,15 +279618,6 @@
           {
             "all_of": [
               "Room Node: choral-chambers/choral-chambers-above-ventrica#top"
-            ]
-          }
-        ]
-      },
-      "Other Quick Rosaries In The Western Bilewater Rooms": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-west-secret-rooms#bottom-floor"
             ]
           }
         ]
@@ -289166,52 +289100,6 @@
           }
         ]
       },
-      "Right Shards In the Hall of the Spike Swingers": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
-              "Capability: Swim"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
-              "Directional: Clawline Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
-              "Capability: Sprint",
-              "Drifter's Cloak"
-            ]
-          }
-        ]
-      },
-      "Rosaries Looking Over The Sinner's Bench": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-bench#door",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-bench#door",
-              "Faydown Cloak",
-              "Directional: Cling Grip Right"
-            ]
-          }
-        ]
-      },
       "Rosary Cannon": {
         "alternatives": [
           {
@@ -289572,53 +289460,6 @@
           }
         ]
       },
-      "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
-            ]
-          }
-        ]
-      },
-      "Second Third Of The Shards In A Mothed Up Bilewater Closet": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Cling Grip",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
-            ]
-          }
-        ]
-      },
       "Seeker Soul": {
         "alternatives": [
           {
@@ -289633,15 +289474,6 @@
           {
             "all_of": [
               "Room Node: the-marrow/the-marrow-shaft-side-room#room"
-            ]
-          }
-        ]
-      },
-      "Shards on Bilewater's Doorstep": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door"
             ]
           }
         ]
@@ -289688,24 +289520,6 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-diddy-basement-tall-room#top"
-            ]
-          }
-        ]
-      },
-      "Shell Shards Lugoli Probably Threw Out: The First": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
-            ]
-          }
-        ]
-      },
-      "Shell Shards Lugoli Probably Threw Out: The Second": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
             ]
           }
         ]
@@ -290070,15 +289884,6 @@
           }
         ]
       },
-      "Silk Grub Listening To Mozart In the Cocoon": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/exhaust-organ-interior#maze"
-            ]
-          }
-        ]
-      },
       "Silk Soar": {
         "alternatives": [
           {
@@ -290200,12 +290005,171 @@
           }
         ]
       },
-      "Sinner's Flea": {
+      "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic": {
         "alternatives": [
           {
             "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-flea-rescue#room",
-              "Room Event: event:mapper/854e2b8b-6065-4ad9-9f9f-2a5c52b7c791"
+              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Caged Rosaries In the Entryway": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-entrance#center"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Eastern Sinner's Cage Rosary Primus": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Eastern Sinner's Cage Rosary Secundus": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Eastern Sinner's Cage Rosary Tertius": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Gross Rosaries In the Sinner's Basement": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Capability: Swim",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Capability: Swim",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Faydown Cloak",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Faydown Cloak",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Faydown Cloak",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#basement",
+              "Directional: Clawline Left",
+              "Drifter's Cloak",
+              "Directional: Ledge Grab Left"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Key Hoarding Roachkeeper In the Attic": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
+              "Cling Grip",
+              "Swift Step"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
+              "Cling Grip",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
+              "Cling Grip",
+              "Clawline"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#upper",
+              "Cling Grip",
+              "Usable Sharpdart"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Left Shards In the Hall of the Spike Swingers": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
+              "Capability: Swim"
             ]
           }
         ]
@@ -290219,11 +290183,112 @@
           }
         ]
       },
-      "Sinner's Road - Rosary Cache #4": {
+      "Sinner's Road - Right Shards In the Hall of the Spike Swingers": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#left-area",
+              "Capability: Sprint",
+              "Drifter's Cloak"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Rosaries Looking Over The Sinner's Bench": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-bench#door",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-bench#door",
+              "Faydown Cloak",
+              "Directional: Cling Grip Right"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Rosary Cache: Sinner’s Road #4": {
         "alternatives": [
           {
             "all_of": [
               "Room Node: sinner-s-road/sinner-s-road-muckroach-cages#attic"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Shards on Bilewater's Doorstep": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - Sinner's Flea": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-flea-rescue#room",
+              "Room Event: event:mapper/854e2b8b-6065-4ad9-9f9f-2a5c52b7c791"
+            ]
+          }
+        ]
+      },
+      "Sinner's Road - That Chest In the Halls of the Spike Swingers That's RIGHT THERE": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-north-hall#chest-plat"
             ]
           }
         ]
@@ -290456,15 +290521,6 @@
           }
         ]
       },
-      "That Chest In the Halls of the Spike Swingers That's RIGHT THERE": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: sinner-s-road/sinner-s-road-north-hall#chest-plat"
-            ]
-          }
-        ]
-      },
       "The Abyss - Map Pickup": {
         "alternatives": [
           {
@@ -290630,24 +290686,6 @@
           {
             "all_of": [
               "Room Node: the-cradle/weaver-jail-lore-room#loreplatform3"
-            ]
-          }
-        ]
-      },
-      "The Flea That Bilewater Thieves Stole": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-flea-rescue#upper"
-            ]
-          }
-        ]
-      },
-      "The Flea That Couldn't Make It Past All The Bilewater Traps": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-lower-trap-gauntlet-hall#flea-room"
             ]
           }
         ]
@@ -291400,44 +291438,6 @@
           {
             "all_of": [
               "Room Node: blasted-steps/blasted-steps-grindle#upper-half"
-            ]
-          }
-        ]
-      },
-      "Third Third Of The Shards In A Mothed Up Bilewater Closet": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Capability: Ledge Grab",
-              "Clawline"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bilewater/bilewater-northeast-tiny-room#room",
-              "Cling Grip",
-              "Crest: Beast",
-              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -307696,19 +307696,19 @@
         "nodes": [
           {
             "annotation_enabled": true,
-            "annotation_height": 24.220422744750977,
+            "annotation_height": 21.939876556396484,
             "annotation_width": 72,
             "annotation_x": 0,
-            "annotation_y": 18.0827579498291,
+            "annotation_y": 26,
             "id": "cogwork-core/cogwork-core-architect-s-melody#bottom",
             "name": "Bottom"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 74.697,
+            "annotation_height": 42.060123443603516,
             "annotation_width": 72,
             "annotation_x": 0,
-            "annotation_y": 42.303,
+            "annotation_y": 47.939876556396484,
             "id": "cogwork-core/cogwork-core-architect-s-melody#melody-puzzle",
             "name": "Melody Puzzle"
           },
@@ -311190,37 +311190,37 @@
         "nodes": [
           {
             "annotation_enabled": true,
-            "annotation_height": 19.302000000000007,
-            "annotation_width": 23.44368572998047,
-            "annotation_x": 0,
-            "annotation_y": 47.449,
+            "annotation_height": 9.920949340820314,
+            "annotation_width": 22.659847457885746,
+            "annotation_x": 54,
+            "annotation_y": 64.07905065917969,
             "id": "bilewater/bilewater-west-hall#left",
             "name": "left"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 28.59258590698242,
+            "annotation_height": 9.545559539794922,
             "annotation_width": 13.39500000000001,
             "annotation_x": 171.605,
-            "annotation_y": 21.469,
+            "annotation_y": 50.06158590698242,
             "id": "bilewater/bilewater-west-hall#right",
             "name": "right"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 12.53218603515625,
-            "annotation_width": 27.224838256835938,
-            "annotation_x": 34.10166931152344,
-            "annotation_y": 37.52939987182617,
+            "annotation_height": 7.14385455322266,
+            "annotation_width": 21.35540771484375,
+            "annotation_x": 86.33959579467773,
+            "annotation_y": 59.607145446777345,
             "id": "bilewater/bilewater-west-hall#mid-left",
             "name": "mid left"
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 8.68945135498047,
-            "annotation_width": 58.57466125488281,
-            "annotation_x": 94.32630920410156,
-            "annotation_y": 12.779548645019531,
+            "annotation_height": 9.545559539794922,
+            "annotation_width": 34.177467346191406,
+            "annotation_x": 122.36907196044922,
+            "annotation_y": 50.06158590698242,
             "id": "bilewater/bilewater-west-hall#mid-right",
             "name": "mid right"
           }

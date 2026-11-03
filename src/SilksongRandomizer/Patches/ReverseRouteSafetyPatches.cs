@@ -306,12 +306,17 @@ namespace SilksongRandomizer.Patches
         {
             covers = null;
             locks = null;
-            Transform[] objects = Resources.FindObjectsOfTypeAll<Transform>()
-                .Where(candidate => candidate != null && candidate.gameObject.scene.name == scene).ToArray();
+            var loadedScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(scene);
+            if (!loadedScene.IsValid() || !loadedScene.isLoaded) return false;
+            GameObject[] roots = loadedScene.GetRootGameObjects();
             GameObject Find(string path)
             {
-                Transform[] matches = objects.Where(
-                    candidate => Utils.GetHierarchyPath(candidate) == path).Take(2).ToArray();
+                string[] names = path.Split('/');
+                Transform[] matches = roots.Where(root => root.name == names[0])
+                    .Select(root => root.transform).ToArray();
+                foreach (string name in names.Skip(1))
+                    matches = matches.SelectMany(parent => parent.Cast<Transform>())
+                        .Where(child => child.name == name).ToArray();
                 return matches.Length == 1 ? matches[0].gameObject : null;
             }
             if (scene == WormwaysScene || scene == "Bone_16" || scene == "Greymoor_02")
@@ -325,6 +330,14 @@ namespace SilksongRandomizer.Patches
                     .FirstOrDefault(fsm => fsm.FsmName == ArboriumWallFsm)).ToArray();
                 covers = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallMasksVariable)?.Value).ToArray();
                 locks = fsms.Select(fsm => fsm?.FsmVariables?.FindFsmGameObject(WallCameraLocksVariable)?.Value).ToArray();
+                if (scene == "Greymoor_02" && fsms[0]?.ActiveStateName == "Activated" &&
+                    walls[0].GetComponent<PersistentBoolItem>()?.GetCurrentValue() == true &&
+                    covers.All(cover => cover == null || !cover.activeSelf) &&
+                    locks.All(cameraLock => cameraLock == null || !cameraLock.activeSelf))
+                {
+                    covers = locks = Array.Empty<GameObject>();
+                    return true;
+                }
             }
             else if (scene == "Slab_15")
             {

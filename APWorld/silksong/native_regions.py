@@ -413,7 +413,9 @@ def validate_native_sources(world, state):
                   'Enable Flea Randomization or choose compatible traversal settings.')
     else:
         advice = 'Randomize the affected categories or choose compatible traversal settings.'
+    from .generation_diagnostics import native_failure_detail, blocked_approach
+    detail = native_failure_detail(world, state) or blocked_approach(world, blocked[0], state)
     raise OptionError(
         f'Player {world.player}: required vanilla checks remain unreachable even with all randomized items: '
-        f'{names}. {advice}'
+        f'{names}. {advice}' + detail
     )

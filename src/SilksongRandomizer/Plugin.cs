@@ -30,7 +30,7 @@ namespace SilksongRandomizer
             Instance != null && Instance.showConnectionGui;
         public const string PluginGuid = "moriko.silksong.randomizer";
         public const string PluginName = "Randomizer";
-        public const string PluginVersion = "0.5.4";
+        public const string PluginVersion = "0.5.5";
 
         public static bool OverrideUnlock { get; set; } = true;
 
@@ -176,8 +176,10 @@ namespace SilksongRandomizer
             {
                 Harmony h = new Harmony(PluginGuid);
                 PatchAssemblySafely(h);
+                StartCoroutine(PatchLocalizationWhenReady(h));
                 OptionalModCompatibility.Initialize(h);
                 Log.LogInfo($"{PluginName} {PluginVersion} loaded.");
+                Log.LogInfo($"[RANDOMIZER] Game {Application.version}; Unity {Application.unityVersion}; platform {Application.platform}.");
                 DumpPatchState(h);
             }
             catch (Exception e)
@@ -316,6 +318,7 @@ namespace SilksongRandomizer
             int failedTypeCount = 0;
             foreach (Type patchType in patchTypes)
             {
+                if (patchType == typeof(LanguageGetAlphabetPatch)) continue;
                 try
                 {
                     harmony.CreateClassProcessor(patchType).Patch();
@@ -346,6 +349,21 @@ namespace SilksongRandomizer
                     "[RANDOMIZER] Loaded all " + patchedTypeCount +
                     " Harmony patch groups."
                 );
+            }
+        }
+
+        private static IEnumerator PatchLocalizationWhenReady(Harmony harmony)
+        {
+            while (Platform.Current == null || Platform.Current.LocalSharedData == null)
+                yield return null;
+            try
+            {
+                harmony.CreateClassProcessor(typeof(LanguageGetAlphabetPatch)).Patch();
+                Log?.LogInfo("[RANDOMIZER] Localization patch ready.");
+            }
+            catch (Exception ex)
+            {
+                Log?.LogError("[RANDOMIZER] Could not apply the localization patch: " + ex);
             }
         }
 
@@ -1450,7 +1468,7 @@ namespace SilksongRandomizer
             }
 
             showConnectionGui = true;
-            CaptureCursorState();
+            UnlockCursorForConnectionGui();
         }
 
         private void HideConnectionGui(bool restoreCursor)
@@ -1480,11 +1498,11 @@ namespace SilksongRandomizer
             cursorStateCaptured = true;
         }
 
-        private void UnlockCursorForConnectionGui()
+        internal void UnlockCursorForConnectionGui()
         {
             CaptureCursorState();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            if (Cursor.lockState != CursorLockMode.None) Cursor.lockState = CursorLockMode.None;
+            if (!Cursor.visible) Cursor.visible = true;
         }
 
         private void RestoreCursorState()

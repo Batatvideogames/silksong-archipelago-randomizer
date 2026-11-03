@@ -5109,10 +5109,10 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/cd3ea9f7-9c81-4f17-ab6a-f934d827e893": {
-    "name": "Rosaries Looking Over The Sinner's Bench",
+    "name": "Sinner's Road - Rosaries Looking Over The Sinner's Bench",
     "kind": "collectible",
     "locations": [
-      "Rosaries Looking Over The Sinner's Bench"
+      "Sinner's Road - Rosaries Looking Over The Sinner's Bench"
     ],
     "mapper_kind": "collectible"
   },
@@ -5163,18 +5163,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/c244998e-45ab-4fda-a19f-bee26bc4f451": {
-    "name": "Caged Rosaries In the Sinner's Entryway",
+    "name": "Sinner's Road - Caged Rosaries In the Entryway",
     "kind": "collectible",
     "locations": [
-      "Caged Rosaries In the Sinner's Entryway"
+      "Sinner's Road - Caged Rosaries In the Entryway"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c78d1856-fabb-4e42-9989-ab5c5a9dd965": {
-    "name": "Sinner's Flea",
+    "name": "Sinner's Road - Sinner's Flea",
     "kind": "collectible",
     "locations": [
-      "Sinner's Flea"
+      "Sinner's Road - Sinner's Flea"
     ],
     "mapper_kind": "collectible"
   },
@@ -5187,18 +5187,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/b60aef63-d800-4533-b5da-2f92e49fd03d": {
-    "name": "Shell Shards Lugoli Probably Threw Out: The First",
+    "name": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First",
     "kind": "collectible",
     "locations": [
-      "Shell Shards Lugoli Probably Threw Out: The First"
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/1308d6f0-ec57-461f-864e-90b5ec0e262f": {
-    "name": "Shell Shards Lugoli Probably Threw Out: The Second",
+    "name": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second",
     "kind": "collectible",
     "locations": [
-      "Shell Shards Lugoli Probably Threw Out: The Second"
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second"
     ],
     "mapper_kind": "collectible"
   },
@@ -5209,34 +5209,34 @@
     "mapper_kind": "switch"
   },
   "event:mapper/187bb7ea-5661-4d8c-8d62-387908c6c1ed": {
-    "name": "A Few Spare Shards In The Muckroach Kennel Attic",
+    "name": "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "A Few Spare Shards In The Muckroach Kennel Attic"
+      "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/a67ed585-6e59-474b-b95e-0213e2b6da17": {
-    "name": "A Few More Spare Shards In The Muckroach Kennel Attic",
+    "name": "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "A Few More Spare Shards In The Muckroach Kennel Attic"
+      "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b23a4fc4-ff1c-43f2-ab7b-9b6c23b5221e": {
-    "name": "Last Few Spare Shards In The Muckroach Kennel Attic",
+    "name": "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic",
     "kind": "collectible",
     "locations": [
-      "Last Few Spare Shards In The Muckroach Kennel Attic"
+      "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/898e5e64-3ce0-49b3-8194-b6d14ac2fa7d": {
-    "name": "Sinner's Road - Rosary Cache #4",
+    "name": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
     "kind": "collectible",
     "locations": [
-      "Sinner's Road - Rosary Cache #4"
+      "Sinner's Road - Rosary Cache: Sinner’s Road #4"
     ],
     "mapper_kind": "collectible"
   },
@@ -5247,18 +5247,18 @@
     "mapper_kind": "event"
   },
   "event:mapper/2aefa858-0b94-4d5d-af26-e3b6737a9a52": {
-    "name": "Left Shards In the Hall of the Spike Swingers",
+    "name": "Sinner's Road - Left Shards In the Hall of the Spike Swingers",
     "kind": "collectible",
     "locations": [
-      "Left Shards In the Hall of the Spike Swingers"
+      "Sinner's Road - Left Shards In the Hall of the Spike Swingers"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/0a762857-5444-4a97-aaec-38b634caa605": {
-    "name": "Right Shards In the Hall of the Spike Swingers",
+    "name": "Sinner's Road - Right Shards In the Hall of the Spike Swingers",
     "kind": "collectible",
     "locations": [
-      "Right Shards In the Hall of the Spike Swingers"
+      "Sinner's Road - Right Shards In the Hall of the Spike Swingers"
     ],
     "mapper_kind": "collectible"
   },
@@ -5355,42 +5355,42 @@
     "mapper_kind": "event"
   },
   "event:mapper/f272a0fc-a61c-4fd8-a1e6-73a2efce1084": {
-    "name": "Eastern Sinner's Cage Rosary Primus",
+    "name": "Sinner's Road - Eastern Sinner's Cage Rosary Primus",
     "kind": "collectible",
     "locations": [
-      "Eastern Sinner's Cage Rosary Primus"
+      "Sinner's Road - Eastern Sinner's Cage Rosary Primus"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/74ffa4f1-4974-40dc-8fd3-46cd84dd5486": {
-    "name": "Eastern Sinner's Cage Rosary Secundus",
+    "name": "Sinner's Road - Eastern Sinner's Cage Rosary Secundus",
     "kind": "collectible",
     "locations": [
-      "Eastern Sinner's Cage Rosary Secundus"
+      "Sinner's Road - Eastern Sinner's Cage Rosary Secundus"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c75eb85b-c102-4610-8c3c-68ffde71cddd": {
-    "name": "Eastern Sinner's Cage Rosary Tertius",
+    "name": "Sinner's Road - Eastern Sinner's Cage Rosary Tertius",
     "kind": "collectible",
     "locations": [
-      "Eastern Sinner's Cage Rosary Tertius"
+      "Sinner's Road - Eastern Sinner's Cage Rosary Tertius"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/890f63bb-e718-4415-a3e2-85ecaf6ac7f5": {
-    "name": "Shards on Bilewater's Doorstep",
+    "name": "Sinner's Road - Shards on Bilewater's Doorstep",
     "kind": "collectible",
     "locations": [
-      "Shards on Bilewater's Doorstep"
+      "Sinner's Road - Shards on Bilewater's Doorstep"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/b08ca6ef-95fe-4e21-8813-7cfe691aa778": {
-    "name": "Key Hoarding Roachkeeper In the Attic",
+    "name": "Sinner's Road - Key Hoarding Roachkeeper In the Attic",
     "kind": "collectible",
     "locations": [
-      "Key Hoarding Roachkeeper In the Attic"
+      "Sinner's Road - Key Hoarding Roachkeeper In the Attic"
     ],
     "mapper_kind": "collectible"
   },
@@ -5437,26 +5437,26 @@
     "mapper_kind": "event"
   },
   "event:mapper/c365d492-1522-49b8-9bae-8232cce1bf87": {
-    "name": "Gross Rosaries In the Sinner's Basement",
+    "name": "Sinner's Road - Gross Rosaries In the Sinner's Basement",
     "kind": "collectible",
     "locations": [
-      "Gross Rosaries In the Sinner's Basement"
+      "Sinner's Road - Gross Rosaries In the Sinner's Basement"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/18fa3c25-7b0c-4626-a24a-e3a6a3bdfe9e": {
-    "name": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+    "name": "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
     "kind": "collectible",
     "locations": [
-      "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
+      "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/66ddda0c-35c8-40bb-8d9a-ab76185aee1f": {
-    "name": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+    "name": "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
     "kind": "collectible",
     "locations": [
-      "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
+      "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison"
     ],
     "mapper_kind": "collectible"
   },

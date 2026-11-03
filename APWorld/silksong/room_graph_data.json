@@ -3,9 +3,9 @@
   "source": {
     "name": "mapper-json",
     "document_count": 536,
-    "aggregate_sha256": "05f08e133f4eb142a2635c0dddbfacf7367f3b3061837afb7dc2880c2938ab16",
-    "catalogue_sha256": "462e975de56f7b4bf5b0a860f2051650dc21d33ed7a0e6c9cab99f81d58881a4",
-    "bindings_sha256": "92ef91de24ec304eaeba395ea8d9b2d5903b412feb242e8f69d7872e523c05c8"
+    "aggregate_sha256": "b41b6bf47d3a93a7e987f8ff7727bee4ea2ff114bda3452326a4d10f1053ba3f",
+    "catalogue_sha256": "a4e397eefd6e3ffbf0bbaae21cf6dab73113c514a06e000437980e59435a7ea6",
+    "bindings_sha256": "345caaad7c92985d50b37ec6bdbe05c73ab39d9b897e79f98c57873fd2e824e8"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -32,9 +32,6 @@
       }
     ],
     "expected_checks": [
-      "A Few More Spare Shards In The Muckroach Kennel Attic",
-      "A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
-      "A Few Spare Shards In The Muckroach Kennel Attic",
       "Abyss - Lower Lore Stone",
       "Abyss - Upper Lore Stone",
       "Architect's Key",
@@ -58,19 +55,30 @@
       "Bellhart - Rosary Cache #7",
       "Bellhart Roof - Memory Locket",
       "Bellhart Shop - Memory Locket",
+      "Bilewater - A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
       "Bilewater - Bellway",
       "Bilewater - Bilehaven Plaque",
+      "Bilewater - Box Of Rosaries Right Inside Bilewater",
+      "Bilewater - First Quick Rosaries In The Western Bilewater Rooms",
+      "Bilewater - First Third Of The Shards In A Mothed Up Bilewater Closet",
       "Bilewater - Frayed Rosary String",
+      "Bilewater - Locket At The End of A LONG Hallway of Moths",
       "Bilewater - Map Purchase",
       "Bilewater - Mask Shard",
+      "Bilewater - Memory Locket Annoyingly Nearby the Twisted Chud",
+      "Bilewater - Other Quick Rosaries In The Western Bilewater Rooms",
       "Bilewater - Rosary Cache #3",
       "Bilewater - Rosary Cache #4",
       "Bilewater - Rosary Cache #5",
+      "Bilewater - Second Third Of The Shards In A Mothed Up Bilewater Closet",
       "Bilewater - Shell Shard Cache #1",
       "Bilewater - Shell Shard Cache #2",
       "Bilewater - Shell Shard Cache #3",
       "Bilewater - Shell Shard Cache #4",
       "Bilewater - Storeroom Record",
+      "Bilewater - The Flea That Bilewater Thieves Stole",
+      "Bilewater - The Flea That Couldn't Make It Past All The Bilewater Traps",
+      "Bilewater - Third Third Of The Shards In A Mothed Up Bilewater Closet",
       "Bilewater - Weaver Workshop Scroll",
       "Blasted Steps - Beast Shard",
       "Blasted Steps - Bellway",
@@ -150,11 +158,9 @@
       "Boss: Voltvyrm",
       "Boss: Watcher at the Edge",
       "Boss: Widow",
-      "Box Of Rosaries Right Inside Bilewater",
       "Brightvein - Mask Shard",
       "Broodmother's Eye",
       "Bugs of Pharloom - Tool Pouch",
-      "Caged Rosaries In the Sinner's Entryway",
       "Choir's Final Rites Beads",
       "Choral Chambers - Heavy Rosary Necklace",
       "Choral Chambers - Map Purchase",
@@ -258,14 +264,13 @@
       "Drifter's Cloak",
       "Druid's Eye",
       "Druid's Eyes",
-      "Eastern Sinner's Cage Rosary Primus",
-      "Eastern Sinner's Cage Rosary Secundus",
-      "Eastern Sinner's Cage Rosary Tertius",
       "Ecstasy of the End - Pale Oil",
       "Egg of Flealia",
       "Elegy of the Deep",
       "Encrusted Heart",
       "Everbloom",
+      "Exhaust Organ - Flea Is Tired Of Organ Music",
+      "Exhaust Organ - Silk Grub Listening To Mozart In the Cocoon",
       "Far Fields (Above the Seamstress) - Mask Shard",
       "Far Fields (Act 3) - Memory Locket",
       "Far Fields (Skull Cave) - Mask Shard",
@@ -306,9 +311,6 @@
       "Farsight",
       "Fastest in Pharloom - Mask Shard",
       "Faydown Cloak",
-      "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
-      "First Quick Rosaries In The Western Bilewater Rooms",
-      "First Third Of The Shards In A Mothed Up Bilewater Closet",
       "Flea Brew",
       "Flea Caravan - Spool Fragment",
       "Flea Shaft's bounty",
@@ -321,7 +323,6 @@
       "Flea: Deep Docks - Bellway",
       "Flea: Deep Docks - Mines",
       "Flea: Deep Docks - Weaver Burial Spire",
-      "Flea: Exhaust Organ",
       "Flea: Greymoor - Craw Lake",
       "Flea: Greymoor - Kratt",
       "Flea: Greymoor - Tower",
@@ -421,7 +422,6 @@
       "Greymor - totally free to take shell shard cache at the top",
       "Grindle (Blasted Steps) - Spool Fragment",
       "Grindle - Crafting Kit",
-      "Gross Rosaries In the Sinner's Basement",
       "Guardian's Memento",
       "Halfway Home - Memory Locket",
       "Hermit Soul",
@@ -469,14 +469,10 @@
       "Hunter's March - Shell Shard Cache #8",
       "Injector Band",
       "Item: Quill",
-      "Key Hoarding Roachkeeper In the Attic",
       "Key of Apostate",
       "Key of Heretic",
       "Key of Indolent",
       "Lace (Cradle) - Silk Heart",
-      "Last Few Spare Shards In The Muckroach Kennel Attic",
-      "Left Shards In the Hall of the Spike Swingers",
-      "Locket At The End of A LONG Hallway of Moths",
       "Loddie - Heavy Rosary Necklace",
       "Loddie - Tool Pouch",
       "Longclaw",
@@ -504,7 +500,6 @@
       "Memorium - Spool Fragment",
       "Memorium - Ventrica",
       "Memory Crystal",
-      "Memory Locket Annoyingly Nearby the Twisted Chud",
       "Merchant's funds",
       "Mergwin's hidden stash",
       "Moorwing - Beast Shard",
@@ -549,7 +544,6 @@
       "Needolin",
       "Old Ventrica gains",
       "Old Ventrica treasury",
-      "Other Quick Rosaries In The Western Bilewater Rooms",
       "Pale Nails",
       "Personal Spa",
       "Pilgrim's Rest - Beast Shard",
@@ -636,8 +630,6 @@
       "Relic: Weaver Effigy (Camora, Moss Grotto)",
       "Relic: Weaver Effigy (Keelal, Shellwood)",
       "Reserve Bind",
-      "Right Shards In the Hall of the Spike Swingers",
-      "Rosaries Looking Over The Sinner's Bench",
       "Rosary Cannon",
       "Rosary Grave Marker",
       "Rosary cache: Shellwood Top Room",
@@ -663,18 +655,13 @@
       "Savage Beastfly - Mask Shard",
       "Sawtooth Circlet",
       "Scuttlebrace",
-      "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
-      "Second Third Of The Shards In A Mothed Up Bilewater Closet",
       "Seeker Soul",
       "Shard Pendant",
-      "Shards on Bilewater's Doorstep",
       "Sharpdart",
       "Shell Satchel",
       "Shell Shard Cache: Greyroots Diddy Basement 1",
       "Shell Shard Cache: Greyroots Diddy Basement 2",
       "Shell Shard Cache: Greyroots Diddy Basement 3",
-      "Shell Shards Lugoli Probably Threw Out: The First",
-      "Shell Shards Lugoli Probably Threw Out: The Second",
       "Shell shard Cache: Outside Longpin 1",
       "Shell shard Cache: Outside Longpin 2",
       "Shell shard Cache: Outside Longpin 3",
@@ -690,16 +677,33 @@
       "Shellwood - Shell Shard Cache #12",
       "Shellwood - Shellgrave Inscription",
       "Shellwood - Weaver Harp Inscription",
-      "Silk Grub Listening To Mozart In the Cocoon",
       "Silk Soar",
       "Silkshot (Forge Daughter)",
       "Silkshot (Original)",
       "Silkshot (Twelfth Architect)",
       "Silkspear",
       "Silkspeed Anklets",
-      "Sinner's Flea",
+      "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic",
+      "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic",
+      "Sinner's Road - Caged Rosaries In the Entryway",
+      "Sinner's Road - Eastern Sinner's Cage Rosary Primus",
+      "Sinner's Road - Eastern Sinner's Cage Rosary Secundus",
+      "Sinner's Road - Eastern Sinner's Cage Rosary Tertius",
+      "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+      "Sinner's Road - Gross Rosaries In the Sinner's Basement",
+      "Sinner's Road - Key Hoarding Roachkeeper In the Attic",
+      "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic",
+      "Sinner's Road - Left Shards In the Hall of the Spike Swingers",
       "Sinner's Road - Map Purchase",
-      "Sinner's Road - Rosary Cache #4",
+      "Sinner's Road - Right Shards In the Hall of the Spike Swingers",
+      "Sinner's Road - Rosaries Looking Over The Sinner's Bench",
+      "Sinner's Road - Rosary Cache: Sinner’s Road #4",
+      "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+      "Sinner's Road - Shards on Bilewater's Doorstep",
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First",
+      "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second",
+      "Sinner's Road - Sinner's Flea",
+      "Sinner's Road - That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
       "Snare Setter",
       "Snitch Pick",
       "Songclave - Heavy Rosary Necklace",
@@ -721,7 +725,6 @@
       "Swift beast shard",
       "Sylphsong",
       "Tacks",
-      "That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
       "The Abyss - Map Pickup",
       "The Abyss - Shell Shard Cache #1",
       "The Abyss - Shell Shard Cache #2",
@@ -739,8 +742,6 @@
       "The Cradle - Silkeater",
       "The Cradle - Terminus Commandment",
       "The Cradle - Upper Cage Inscription",
-      "The Flea That Bilewater Thieves Stole",
-      "The Flea That Couldn't Make It Past All The Bilewater Traps",
       "The Hidden Hunter - Mask Shard",
       "The Marrow (Flea Caravan Passage) - Frayed Rosary String",
       "The Marrow (Flea Caravan) - Rosary Dish",
@@ -803,7 +804,6 @@
       "The Slab - Spool Fragment",
       "The Unravelled - Silk Heart",
       "Thief's Mark",
-      "Third Third Of The Shards In A Mothed Up Bilewater Closet",
       "Thread Storm",
       "Threefold Pin",
       "Throwing Ring",
@@ -171482,7 +171482,7 @@
       "area_id": "blasted-steps",
       "name": "Blasted Steps Wide Long Vertical",
       "source_file": "blasted-steps/blasted-steps-wide-long-vertical.json",
-      "source_sha256": "683af8f7ef70416702bd598a9565296bba93c046852395c96c3d910707f73b9c",
+      "source_sha256": "29dd812ff367d7f332b37af76d2e6362289715e321a6e586e0ec013dd9592ae5",
       "geometry_act_independent": true,
       "notes": "todo: redo this room",
       "nodes": [
@@ -172402,7 +172402,7 @@
         {
           "id": "blasted-steps/blasted-steps-wide-long-vertical#pharlid-2>middle-left@mp2",
           "requirement": {
-            "raw": "run OR clawline left OR sharpdart x 1 OR faydown cloak OR hard pogo off [Driznit] OR ((medium [voltvessels] stall OR hard [parry, pale nails] stall) AND cling grip left) OR ((hard [beast] pogo OR easy [beast] needle strike) AND (cling grip left OR ledge grab left))",
+            "raw": "run OR clawline left OR sharpdart x 1 OR faydown cloak OR hard pogo off [Driznit] OR ((medium [voltvessels] stall OR cbt [parry, pale nails] stall) AND cling grip left) OR ((hard [beast] pogo OR easy [beast] needle strike) AND (cling grip left OR ledge grab left))",
             "mode": "expression",
             "dnf": [
               [
@@ -172442,8 +172442,8 @@
               ]
             ],
             "annotations": [
-              "stall option not available: capability:stall:cross-stitch:hard",
-              "stall option not available: capability:stall:pale-nails:hard"
+              "unsupported mapper capability: capability:stall:cross-stitch:cbt",
+              "unsupported mapper capability: capability:stall:pale-nails:cbt"
             ],
             "catalogue_recovered": false,
             "minimum_skip_tier": 0,
@@ -179977,7 +179977,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Bench",
       "source_file": "sinner-s-road/sinner-s-road-bench.json",
-      "source_sha256": "94b74d96548f9f336c566a73b5ebbd4b81ba430c93972fd4a6c4bc551a03f2df",
+      "source_sha256": "e262910fa30f7f0d9e13b81e024795720476afb10d1085331108746ef711a03c",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -180379,7 +180379,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosaries Looking Over The Sinner's Bench",
+          "label": "Sinner's Road - Rosaries Looking Over The Sinner's Bench",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-bench#door"
         },
@@ -180430,7 +180430,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Please Help Me Fix This Bench, Shakra",
+          "label": "Sinner's Road - Please Help Me Fix This Bench, Shakra",
           "kind": "bench",
           "node_id": "sinner-s-road/sinner-s-road-bench#bench"
         },
@@ -180535,9 +180535,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosaries Looking Over The Sinner's Bench",
+          "label": "Sinner's Road - Rosaries Looking Over The Sinner's Bench",
           "node_id": "sinner-s-road/sinner-s-road-bench#door",
-          "canonical_location": "Rosaries Looking Over The Sinner's Bench",
+          "canonical_location": "Sinner's Road - Rosaries Looking Over The Sinner's Bench",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -181664,7 +181664,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Entrance",
       "source_file": "sinner-s-road/sinner-s-road-entrance.json",
-      "source_sha256": "1925bdac9d6ce09dbc6ce757ca494f12778788fefc68fb320ff1288387a7e5ab",
+      "source_sha256": "23fe977cca8089f87365c2c59ab7a19b1f28cf027c20a4a93369bb4d593aed95",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -181904,7 +181904,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Caged Rosaries In the Sinner's Entryway",
+          "label": "Sinner's Road - Caged Rosaries In the Entryway",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-entrance#center"
         }
@@ -181932,9 +181932,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Caged Rosaries In the Sinner's Entryway",
+          "label": "Sinner's Road - Caged Rosaries In the Entryway",
           "node_id": "sinner-s-road/sinner-s-road-entrance#center",
-          "canonical_location": "Caged Rosaries In the Sinner's Entryway",
+          "canonical_location": "Sinner's Road - Caged Rosaries In the Entryway",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -182189,7 +182189,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Flea Rescue",
       "source_file": "sinner-s-road/sinner-s-road-flea-rescue.json",
-      "source_sha256": "b4b04aec32cc4f95c1b4df62afaef7b7155c99d66d523746731b24a989d7826b",
+      "source_sha256": "09ed11d1148bc7314a11fa405199d49e6f21b55c30fb8e3ad8f8d4f4da88ef4d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -182257,7 +182257,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Sinner's Flea",
+          "label": "Sinner's Road - Sinner's Flea",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-flea-rescue#room"
         },
@@ -182311,9 +182311,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Sinner's Flea",
+          "label": "Sinner's Road - Sinner's Flea",
           "node_id": "sinner-s-road/sinner-s-road-flea-rescue#room",
-          "canonical_location": "Sinner's Flea",
+          "canonical_location": "Sinner's Road - Sinner's Flea",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -182402,7 +182402,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Hanging Cages",
       "source_file": "sinner-s-road/sinner-s-road-hanging-cages.json",
-      "source_sha256": "dcf3537eb35d58dc84e86e358d9016a7d24030307b5e5decaf06116a631baa57",
+      "source_sha256": "e2fad4d603262d8a9e0257583686f62964c64a3722488903173e8480c573ee70",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -183503,7 +183503,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shards Lugoli Probably Threw Out: The First",
+          "label": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -183527,7 +183527,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shards Lugoli Probably Threw Out: The Second",
+          "label": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge"
         },
@@ -183615,9 +183615,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shards Lugoli Probably Threw Out: The First",
+          "label": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
-          "canonical_location": "Shell Shards Lugoli Probably Threw Out: The First",
+          "canonical_location": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The First",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -183641,9 +183641,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shell Shards Lugoli Probably Threw Out: The Second",
+          "label": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second",
           "node_id": "sinner-s-road/sinner-s-road-hanging-cages#shard-ledge",
-          "canonical_location": "Shell Shards Lugoli Probably Threw Out: The Second",
+          "canonical_location": "Sinner's Road - Shell Shards Lugoli Probably Threw Out: The Second",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -184300,7 +184300,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Muckroach Cages",
       "source_file": "sinner-s-road/sinner-s-road-muckroach-cages.json",
-      "source_sha256": "40d974b133fc57a3ac9899408138d9eb6df6d0f6075e3115defffbfc3b0abd23",
+      "source_sha256": "9cf23cc57ffe3aa4036dcade77133626c9cdaeca5ed6230e13841f9548b7ab89",
       "geometry_act_independent": true,
       "notes": "this room has a few disabled battle scenes which is why there are so many disabled and invalid enemies - hero, 10/29",
       "nodes": [
@@ -184634,7 +184634,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "A Few Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic"
         },
@@ -184658,7 +184658,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "A Few More Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic"
         },
@@ -184682,7 +184682,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Last Few Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic"
         },
@@ -184706,7 +184706,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #4",
+          "label": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic"
         },
@@ -184760,9 +184760,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "A Few Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic",
-          "canonical_location": "A Few Spare Shards In The Muckroach Kennel Attic",
+          "canonical_location": "Sinner's Road - A Few Spare Shards In The Muckroach Kennel Attic",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -184786,9 +184786,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "A Few More Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic",
-          "canonical_location": "A Few More Spare Shards In The Muckroach Kennel Attic",
+          "canonical_location": "Sinner's Road - A Few More Spare Shards In The Muckroach Kennel Attic",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -184812,9 +184812,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Last Few Spare Shards In The Muckroach Kennel Attic",
+          "label": "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic",
-          "canonical_location": "Last Few Spare Shards In The Muckroach Kennel Attic",
+          "canonical_location": "Sinner's Road - Last Few Spare Shards In The Muckroach Kennel Attic",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -184838,9 +184838,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Rosary Cache: Sinner’s Road #4",
+          "label": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
           "node_id": "sinner-s-road/sinner-s-road-muckroach-cages#attic",
-          "canonical_location": "Sinner's Road - Rosary Cache #4",
+          "canonical_location": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -185439,7 +185439,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road North Hall",
       "source_file": "sinner-s-road/sinner-s-road-north-hall.json",
-      "source_sha256": "65a626a6318c630bf4916f1af0dfbe22f7e60b7a67a0c4a81b5468783a4bc55c",
+      "source_sha256": "26070c594eaf59a65f252cc0d46039655ae6d8f8bfe9569a1b669013b2712703",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -186382,7 +186382,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Left Shards In the Hall of the Spike Swingers ",
+          "label": "Sinner's Road - Left Shards In the Hall of the Spike Swingers ",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -186422,7 +186422,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Right Shards In the Hall of the Spike Swingers ",
+          "label": "Sinner's Road - Right Shards In the Hall of the Spike Swingers ",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area"
         },
@@ -186718,9 +186718,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Left Shards In the Hall of the Spike Swingers ",
+          "label": "Sinner's Road - Left Shards In the Hall of the Spike Swingers ",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
-          "canonical_location": "Left Shards In the Hall of the Spike Swingers",
+          "canonical_location": "Sinner's Road - Left Shards In the Hall of the Spike Swingers",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -186760,9 +186760,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Right Shards In the Hall of the Spike Swingers ",
+          "label": "Sinner's Road - Right Shards In the Hall of the Spike Swingers ",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#left-area",
-          "canonical_location": "Right Shards In the Hall of the Spike Swingers",
+          "canonical_location": "Sinner's Road - Right Shards In the Hall of the Spike Swingers",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -186786,9 +186786,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
+          "label": "Sinner's Road - That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
           "node_id": "sinner-s-road/sinner-s-road-north-hall#chest-plat",
-          "canonical_location": "That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
+          "canonical_location": "Sinner's Road - That Chest In the Halls of the Spike Swingers That's RIGHT THERE",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -187779,7 +187779,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Vertical Hall East",
       "source_file": "sinner-s-road/sinner-s-road-vertical-hall-east.json",
-      "source_sha256": "3ca366732ae57cd57c0ad6ded95fd4ff8395835ea3850e2b98daa2dfea7cd538",
+      "source_sha256": "66746f0a46d83636eff03b2a664756e00b69c3bff25134e4abec504002b80f40",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -188610,7 +188610,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Primus",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Primus",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
         },
@@ -188634,7 +188634,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Secundus",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Secundus",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
         },
@@ -188658,7 +188658,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Tertius",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Tertius",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage"
         },
@@ -188682,7 +188682,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shards on Bilewater's Doorstep",
+          "label": "Sinner's Road - Shards on Bilewater's Doorstep",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door"
         },
@@ -188721,7 +188721,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Key Hoarding Roachkeeper In the Attic",
+          "label": "Sinner's Road - Key Hoarding Roachkeeper In the Attic",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper"
         },
@@ -188894,9 +188894,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Primus",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Primus",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage",
-          "canonical_location": "Eastern Sinner's Cage Rosary Primus",
+          "canonical_location": "Sinner's Road - Eastern Sinner's Cage Rosary Primus",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -188920,9 +188920,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Secundus",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Secundus",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage",
-          "canonical_location": "Eastern Sinner's Cage Rosary Secundus",
+          "canonical_location": "Sinner's Road - Eastern Sinner's Cage Rosary Secundus",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -188946,9 +188946,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Eastern Sinner's Cage Rosary Tertius",
+          "label": "Sinner's Road - Eastern Sinner's Cage Rosary Tertius",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper-mid-cage",
-          "canonical_location": "Eastern Sinner's Cage Rosary Tertius",
+          "canonical_location": "Sinner's Road - Eastern Sinner's Cage Rosary Tertius",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -188972,9 +188972,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Shards on Bilewater's Doorstep",
+          "label": "Sinner's Road - Shards on Bilewater's Doorstep",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#bilewater-door",
-          "canonical_location": "Shards on Bilewater's Doorstep",
+          "canonical_location": "Sinner's Road - Shards on Bilewater's Doorstep",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -189013,9 +189013,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Key Hoarding Roachkeeper In the Attic",
+          "label": "Sinner's Road - Key Hoarding Roachkeeper In the Attic",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-east#upper",
-          "canonical_location": "Key Hoarding Roachkeeper In the Attic",
+          "canonical_location": "Sinner's Road - Key Hoarding Roachkeeper In the Attic",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -189201,7 +189201,7 @@
       "area_id": "sinner-s-road",
       "name": "Sinner's Road Vertical Hall West",
       "source_file": "sinner-s-road/sinner-s-road-vertical-hall-west.json",
-      "source_sha256": "35378c982cfe16f0b33035411ab2c86f6572a7d87b9139c959015a24f64d8d1d",
+      "source_sha256": "b5bc43863331c979a71914dfb443e83df6a932e645fd901a0473dfec1fe8885a",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -190104,7 +190104,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Gross Rosaries In the Sinner's Basement",
+          "label": "Sinner's Road - Gross Rosaries In the Sinner's Basement",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#basement"
         },
@@ -190128,7 +190128,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "label": "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
         },
@@ -190152,7 +190152,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "label": "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "kind": "collectible",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage"
         },
@@ -190233,9 +190233,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Gross Rosaries In the Sinner's Basement",
+          "label": "Sinner's Road - Gross Rosaries In the Sinner's Basement",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#basement",
-          "canonical_location": "Gross Rosaries In the Sinner's Basement",
+          "canonical_location": "Sinner's Road - Gross Rosaries In the Sinner's Basement",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -190259,9 +190259,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "label": "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage",
-          "canonical_location": "First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "canonical_location": "Sinner's Road - First Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -190285,9 +190285,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "label": "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "node_id": "sinner-s-road/sinner-s-road-vertical-hall-west#rosary-cage",
-          "canonical_location": "Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
+          "canonical_location": "Sinner's Road - Second Half of the Rosaries They Took From the Gay Frog When They Put Him In Prison",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -251414,7 +251414,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Flea Rescue",
       "source_file": "bilewater/bilewater-flea-rescue.json",
-      "source_sha256": "f82fc9e05438beab908c7a3f8bf4846a30145d1d5d303364ff1a5be02d08f055",
+      "source_sha256": "db41ef846b6e5cb9b1c1aa3bc2245e88b6ed401e71950182b21feee301de1a07",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -251543,9 +251543,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "The Flea That Bilewater Thieves Stole",
+          "label": "Bilewater - The Flea That Bilewater Thieves Stole",
           "node_id": "bilewater/bilewater-flea-rescue#upper",
-          "canonical_location": "The Flea That Bilewater Thieves Stole",
+          "canonical_location": "Bilewater - The Flea That Bilewater Thieves Stole",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -254576,7 +254576,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Lower Trap Gauntlet Hall",
       "source_file": "bilewater/bilewater-lower-trap-gauntlet-hall.json",
-      "source_sha256": "70bb7508077674f958ef325c0ad4700df564fd1c35e92d5074e55fc1337f7a90",
+      "source_sha256": "6217318c2b7cd217b44d008eca9d77583add87695d5d6f47392426e64e374434",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -255351,9 +255351,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "The Flea That Couldn't Make It Past All The Bilewater Traps",
+          "label": "Bilewater - The Flea That Couldn't Make It Past All The Bilewater Traps",
           "node_id": "bilewater/bilewater-lower-trap-gauntlet-hall#flea-room",
-          "canonical_location": "The Flea That Couldn't Make It Past All The Bilewater Traps",
+          "canonical_location": "Bilewater - The Flea That Couldn't Make It Past All The Bilewater Traps",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -255520,7 +255520,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Mothleaf Hall",
       "source_file": "bilewater/bilewater-mothleaf-hall.json",
-      "source_sha256": "f5dbb366edfb9611c47651177862d1624d8b1e7f048e2060f7d7eb5fdefa437e",
+      "source_sha256": "b4f4f5069121f7964a8f9c35bbdf18164e54a970569da94d1c980d67a880d90d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -255917,9 +255917,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Locket At The End of A LONG Hallway of Moths",
+          "label": "Bilewater - Locket At The End of A LONG Hallway of Moths",
           "node_id": "bilewater/bilewater-mothleaf-hall#right",
-          "canonical_location": "Locket At The End of A LONG Hallway of Moths",
+          "canonical_location": "Bilewater - Locket At The End of A LONG Hallway of Moths",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -256172,7 +256172,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Northeast Tiny Room",
       "source_file": "bilewater/bilewater-northeast-tiny-room.json",
-      "source_sha256": "885aa9562b34889077767545db7352731d5eae7819cded2d90de6a4d48ba958b",
+      "source_sha256": "589db955e6ae9475979cb13f3541d52fc02c3dc1dc13bef6b121a05d1cb75a8b",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -256256,9 +256256,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "First Third Of The Shards In A Mothed Up Bilewater Closet",
+          "label": "Bilewater - First Third Of The Shards In A Mothed Up Bilewater Closet",
           "node_id": "bilewater/bilewater-northeast-tiny-room#room",
-          "canonical_location": "First Third Of The Shards In A Mothed Up Bilewater Closet",
+          "canonical_location": "Bilewater - First Third Of The Shards In A Mothed Up Bilewater Closet",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -256299,9 +256299,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Second Third Of The Shards In A Mothed Up Bilewater Closet",
+          "label": "Bilewater - Second Third Of The Shards In A Mothed Up Bilewater Closet",
           "node_id": "bilewater/bilewater-northeast-tiny-room#room",
-          "canonical_location": "Second Third Of The Shards In A Mothed Up Bilewater Closet",
+          "canonical_location": "Bilewater - Second Third Of The Shards In A Mothed Up Bilewater Closet",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -256342,9 +256342,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Third Third Of The Shards In A Mothed Up Bilewater Closet",
+          "label": "Bilewater - Third Third Of The Shards In A Mothed Up Bilewater Closet",
           "node_id": "bilewater/bilewater-northeast-tiny-room#room",
-          "canonical_location": "Third Third Of The Shards In A Mothed Up Bilewater Closet",
+          "canonical_location": "Bilewater - Third Third Of The Shards In A Mothed Up Bilewater Closet",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -257687,7 +257687,7 @@
       "area_id": "bilewater",
       "name": "Bilewater Sinner's Entrance",
       "source_file": "bilewater/bilewater-sinner-s-entrance.json",
-      "source_sha256": "39ee749a93c7d2180b0f35c2b6c98840c9d43f5b469ac85d4aafb49e2a1608c5",
+      "source_sha256": "f2045cb4f7ece48a4a47f78a8eca7e923a937834336da59498f36686d05cd1b9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -258469,9 +258469,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Box Of Rosaries Right Inside Bilewater",
+          "label": "Bilewater - Box Of Rosaries Right Inside Bilewater",
           "node_id": "bilewater/bilewater-sinner-s-entrance#left-rosary-platform",
-          "canonical_location": "Box Of Rosaries Right Inside Bilewater",
+          "canonical_location": "Bilewater - Box Of Rosaries Right Inside Bilewater",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -258513,9 +258513,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
+          "label": "Bilewater - A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
           "node_id": "bilewater/bilewater-sinner-s-entrance#middle-quarter",
-          "canonical_location": "A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
+          "canonical_location": "Bilewater - A Few Remaining Rosaries Next To A Dead Guy In Bilewater",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -263886,7 +263886,7 @@
       "area_id": "bilewater",
       "name": "Bilewater West Secret Rooms",
       "source_file": "bilewater/bilewater-west-secret-rooms.json",
-      "source_sha256": "349baeb7e4ae7c14a42879afc930fcce9b8c82f0cb10f87ea7a35fd3d2dc40fc",
+      "source_sha256": "89520660772a3ed8d8ee66adf8c1d7f226c37470df3b3eec271b5ac475f4cf78",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -264773,9 +264773,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Memory Locket Annoyingly Nearby the Twisted Chud",
+          "label": "Bilewater - Memory Locket Annoyingly Nearby the Twisted Chud",
           "node_id": "bilewater/bilewater-west-secret-rooms#bottom-floor",
-          "canonical_location": "Memory Locket Annoyingly Nearby the Twisted Chud",
+          "canonical_location": "Bilewater - Memory Locket Annoyingly Nearby the Twisted Chud",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -264799,9 +264799,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "First Quick Rosaries In The Western Bilewater Rooms",
+          "label": "Bilewater - First Quick Rosaries In The Western Bilewater Rooms",
           "node_id": "bilewater/bilewater-west-secret-rooms#bottom-floor",
-          "canonical_location": "First Quick Rosaries In The Western Bilewater Rooms",
+          "canonical_location": "Bilewater - First Quick Rosaries In The Western Bilewater Rooms",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -264825,9 +264825,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Other Quick Rosaries In The Western Bilewater Rooms",
+          "label": "Bilewater - Other Quick Rosaries In The Western Bilewater Rooms",
           "node_id": "bilewater/bilewater-west-secret-rooms#bottom-floor",
-          "canonical_location": "Other Quick Rosaries In The Western Bilewater Rooms",
+          "canonical_location": "Bilewater - Other Quick Rosaries In The Western Bilewater Rooms",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
@@ -265038,7 +265038,7 @@
       "area_id": "bilewater",
       "name": "Exhaust Organ Exterior",
       "source_file": "bilewater/exhaust-organ-exterior.json",
-      "source_sha256": "86a040622df7530e4c8aeae4634cf8e9932740900a03ddf5c3358ec4d690f099",
+      "source_sha256": "32e670a80cf76117a42fcb84f8d029442b53c04963123c1975807eb5050ba5e9",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -266051,9 +266051,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Flea Is Tired Of Organ Music",
+          "label": "Exhaust Organ - Flea Is Tired Of Organ Music",
           "node_id": "bilewater/exhaust-organ-exterior#flea-hall-plat",
-          "canonical_location": "Flea: Exhaust Organ",
+          "canonical_location": "Exhaust Organ - Flea Is Tired Of Organ Music",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         }
@@ -266065,7 +266065,7 @@
       "area_id": "bilewater",
       "name": "Exhaust Organ Interior",
       "source_file": "bilewater/exhaust-organ-interior.json",
-      "source_sha256": "81e504b9d5cfbe75f63ee22bfb659cb3d7384ff302cc9f83706d87991543976c",
+      "source_sha256": "5a1c1f1a2474fcb7a8f6db51271a8506e1a90f3771dae32584f42a3c6fcc8a3d",
       "geometry_act_independent": true,
       "notes": "",
       "nodes": [
@@ -266285,7 +266285,7 @@
         {
           "id": "bilewater/exhaust-organ-interior#ground-floor>broken-elevator@gbe",
           "requirement": {
-            "raw": "(cling grip either AND complete Fix The Broken Elevator) OR (faydown cloak AND easy enemy pogo off Drapefly) OR silk soar",
+            "raw": "(cling grip either AND complete Exhaust Organ - Fix The Broken Elevator) OR (faydown cloak AND easy enemy pogo off Drapefly) OR silk soar",
             "mode": "expression",
             "dnf": [
               [
@@ -266320,7 +266320,7 @@
         {
           "id": "bilewater/exhaust-organ-interior#broken-elevator>ground-floor@gbe",
           "requirement": {
-            "raw": "complete Fix The Broken Elevator",
+            "raw": "complete Exhaust Organ - Fix The Broken Elevator",
             "mode": "expression",
             "dnf": [
               [
@@ -266620,7 +266620,7 @@
         {
           "id": "bilewater/exhaust-organ-interior#maze>broken-elevator@mbe",
           "requirement": {
-            "raw": "complete Fix The Broken Elevator",
+            "raw": "complete Exhaust Organ - Fix The Broken Elevator",
             "mode": "expression",
             "dnf": [
               [
@@ -266696,7 +266696,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Backstage Organ Bench",
+          "label": "Exhaust Organ - Backstage Organ Bench",
           "kind": "bench",
           "node_id": "bilewater/exhaust-organ-interior#bench-room"
         },
@@ -266725,7 +266725,7 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Fix The Broken Elevator",
+          "label": "Exhaust Organ - Fix The Broken Elevator",
           "kind": "blockade",
           "node_id": "bilewater/exhaust-organ-interior#broken-elevator"
         },
@@ -266800,9 +266800,9 @@
           },
           "logic_status": "active",
           "unresolved_reasons": [],
-          "label": "Silk Grub Listening To Mozart In the Cocoon",
+          "label": "Exhaust Organ - Silk Grub Listening To Mozart In the Cocoon",
           "node_id": "bilewater/exhaust-organ-interior#maze",
-          "canonical_location": "Silk Grub Listening To Mozart In the Cocoon",
+          "canonical_location": "Exhaust Organ - Silk Grub Listening To Mozart In the Cocoon",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },
