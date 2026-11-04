@@ -101,6 +101,10 @@
       <HintPath>$(SilksongManagedDir)\UnityEngine.UI.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(SilksongManagedDir)\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>$(SilksongManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>false</Private>

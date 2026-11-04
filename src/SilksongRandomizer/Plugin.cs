@@ -74,6 +74,7 @@ namespace SilksongRandomizer
         private ConfigEntry<bool> hideConnectionDetails;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
+        private ConfigEntry<bool> recentItemsDisplayEnabled;
         private string connectionStatus = string.Empty;
         private GUIStyle faqLinkStyle;
         private ArchipelagoWindowTab selectedWindowTab =
@@ -240,6 +241,13 @@ namespace SilksongRandomizer
                 ModMenuOptions.Describe("Map Markers", "Show Requirements (Experimental)",
                     "Show the requirements for a check when you focus its map marker. Toggle with F6.")
             );
+
+            recentItemsDisplayEnabled = Config.Bind(
+                "Recent Items Display",
+                "Enable Recent Items Display",
+                false,
+                ModMenuOptions.Describe("Recent Items Display", "Recent Items Display", "Enable a native implementation of recent items display.")
+            );
         }
 
         internal int MapMarkerTooltipFontSize =>
@@ -249,6 +257,10 @@ namespace SilksongRandomizer
 
         internal bool ShowMapMarkerLogic =>
             showMapMarkerLogic == null || showMapMarkerLogic.Value;
+
+        internal bool RecentItemsDisplayEnabled =>
+            recentItemsDisplayEnabled == null || recentItemsDisplayEnabled.Value;
+
 
         private void SaveSuccessfulConnectionDetails(
             string host,
@@ -801,6 +813,19 @@ namespace SilksongRandomizer
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                if (recentItemsDisplayEnabled.Value)
+                {
+                    recentItemsDisplayEnabled.Value = false;
+                    Config.Save();
+                }
+                else
+                {
+                    recentItemsDisplayEnabled.Value = true;
+                    Config.Save();
+                }
+            }
         }
 
         private void OnDisable()
