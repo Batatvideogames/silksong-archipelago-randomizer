@@ -439,7 +439,7 @@ from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS, JOURNAL
 ITEM_TABLE_SOURCE += tuple((name, "Journal") for name in JOURNAL_ITEMS.values())
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[:1])
 ITEM_TABLE_SOURCE += (("Boss Credit: Lace (Deep Docks)", "Boss"),)
-ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
+ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:2])
 ITEM_TABLE_SOURCE += (("Boss Credit: Palestag", "Boss"),)
 ITEM_TABLE_SOURCE += tuple((name, "InnateAbility" if name.startswith("Ledge Grab") else "Skill") for name in DIRECTIONAL_ITEMS)
 ITEM_TABLE_SOURCE += (("Sprint", "Skill"), ("Conjoined Heart", "OldHeart"))
@@ -451,6 +451,7 @@ ITEM_TABLE_SOURCE += tuple((name, 'InnateAbility') for name in CREST_BIND_ITEMS)
 ITEM_TABLE_SOURCE += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
 ITEM_TABLE_SOURCE += (("Voltstone", "Materium"), ("Cogheart Piece", "Cogheart"))
 ITEM_TABLE_SOURCE += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'Crown Fragment', "Broodmother's Eye"))
+ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[2:])
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {

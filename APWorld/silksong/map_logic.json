@@ -279774,6 +279774,15 @@
           }
         ]
       },
+      "Pilgrim's Rest Board": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/far-fields-pilgrims-rest#main-floor"
+            ]
+          }
+        ]
+      },
       "Pilgrim's Rest Shop - Memory Locket": {
         "alternatives": [
           {
@@ -288151,6 +288160,16 @@
           }
         ]
       },
+      "Putrified Ducts - Camp Thread Memory": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-path-to-vog#camp",
+              "Needolin"
+            ]
+          }
+        ]
+      },
       "Putrified Ducts - Craftmetal": {
         "alternatives": [
           {
@@ -288372,6 +288391,16 @@
               "Room Node: putrified-ducts/fleatopia#fleatopia",
               "Needolin",
               "Act: 2"
+            ]
+          }
+        ]
+      },
+      "Putrified Ducts - thread memory Map Room": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-map-room#room",
+              "Needolin"
             ]
           }
         ]
@@ -289465,6 +289494,15 @@
           {
             "all_of": [
               "Room Node: bilewater/bilewater-arena-shack#room"
+            ]
+          }
+        ]
+      },
+      "Shaman Crest Ritual Recipe": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: moss-grotto/ruined-chapel-crest-chamber#lore-area"
             ]
           }
         ]
@@ -291877,6 +291915,26 @@
           {
             "all_of": [
               "Room Node: underworks/underworks-ventrica#room"
+            ]
+          }
+        ]
+      },
+      "Underworks: Needolin Lore": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: underworks/chapel-of-the-architect#room",
+              "Needolin"
+            ]
+          }
+        ]
+      },
+      "Underworks: Needolin Lore #1": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: underworks/underworks-below-vaultkeeper#needolin-check",
+              "Needolin"
             ]
           }
         ]

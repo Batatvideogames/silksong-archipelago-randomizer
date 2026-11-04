@@ -92,6 +92,27 @@ namespace SilksongRandomizer.Patches
             if (entry != null) CompleteRead(SaveState.Instance, entry.LocationName);
         }
 
+        [HarmonyPatch(typeof(HutongGames.PlayMaker.Actions.ShowCustomNeedolinMsgFromTemplate), "OnEnter")]
+        private static class ThreadMemoryTextPatch
+        {
+            [HarmonyPostfix]
+            private static void Postfix(HutongGames.PlayMaker.Actions.ShowCustomNeedolinMsgFromTemplate __instance)
+            {
+                SaveState state = SaveState.Instance;
+                if (state == null || !state.IsRoomBound || !state.IsRandomized(ItemType.LoreTablet) ||
+                    __instance.Fsm?.GameObject == null || __instance.Fsm.Name != "FSM" ||
+                    __instance.State.Name != "Burst? Hold." || __instance.Template == null)
+                    return;
+                GameObject owner = __instance.Fsm.GameObject;
+                LocalisedString text = __instance.Template;
+                LoreTabletManifest.Entry entry = LoreTabletManifest.FindExactSource(owner.scene.name,
+                    Utils.GetHierarchyPath(owner.transform), text.Sheet, text.Key);
+                if (entry != null && state.IsLocationEnabled(entry.LocationName) &&
+                    state.IsLocationInSeed(entry.LocationName))
+                    CompleteRead(state, entry.LocationName);
+            }
+        }
+
         internal static void CompleteRead(SaveState state, string locationName)
         {
             if (state == null || state.IsLocationChecked(locationName)) return;

@@ -1443,37 +1443,6 @@ class FasterSilkheartAnimation(Toggle):
     default = 0
 
 
-class DeathLink(Toggle):
-    """
-    Share deaths with other death link enabled players.
-    """
-
-    display_name = "Death Link"
-    default = 0
-
-
-class DeathLinkCocoon(Choice):
-    """
-    Choose how received DeathLinks affect your death cocoon and Rosaries.
-
-    vanilla: Received DeathLinks replace an existing cocoon and move your
-    carried Rosaries into the new cocoon.
-    cocoonless: Received DeathLinks leave your carried Rosaries and any
-    existing cocoon untouched.
-    cocoon: The first received DeathLink can create a normal cocoon. Later
-    received DeathLinks leave that cocoon and your carried Rosaries untouched.
-
-    Your own deaths always use the normal game behavior.
-    This option has no effect when Death Link is disabled.
-    """
-
-    display_name = "Death Link Cocoon"
-    option_vanilla = 0
-    option_cocoonless = 1
-    option_cocoon = 2
-    default = 2
-
-
 class SilkLink(Toggle):
     """
     Share only the base Spool's current Silk with other enabled Silksong players.
@@ -1797,8 +1766,6 @@ class SilksongOptions(PerGameCommonOptions):
     shuffle_wish_offers: ShuffleWishOffers
     wish_plando: WishPlando
     individual_relic_turn_ins: IndividualRelicTurnIns
-    death_link: DeathLink
-    death_link_cocoon: DeathLinkCocoon
     silk_link: SilkLink
     rosary_link: RosaryLink
     shell_shard_link: ShellShardLink
@@ -1944,8 +1911,6 @@ silksong_option_groups = [
         EntranceRandomizationScope,
     ], start_collapsed=True),
     OptionGroup("Link Options", [
-        DeathLink,
-        DeathLinkCocoon,
         SilkLink,
         RosaryLink,
         ShellShardLink,

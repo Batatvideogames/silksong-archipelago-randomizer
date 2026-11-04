@@ -95,7 +95,7 @@ namespace SilksongRandomizer
                 FleaCount = state.GetFleaHuntProgressCount(),
                 TrapsReceived = CountReceivedTraps(state),
                 DeathSummary = "Deaths: " + Math.Max(0, state.deathCount) +
-                    (state.deathLink ? " | Total Deaths (including DeathLink): " +
+                    (RandomizerPlugin.Instance?.DeathLinkEnabled == true ? " | Total Deaths (including DeathLink): " +
                         ((long)Math.Max(0, state.deathCount) + Math.Max(0, state.deathLinkDeathCount)) : "")
             };
             overview.Fleas.AddRange(FleaPortraits(state, overview.FleaCount));

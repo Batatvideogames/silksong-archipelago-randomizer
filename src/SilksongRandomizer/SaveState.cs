@@ -235,9 +235,6 @@ namespace SilksongRandomizer
         public string npcSoulsJson = "[]";
         public string enemySoulsJson = "[]";
         public bool alphabetMode;
-        public bool deathLink;
-        public string deathLinkCocoon =
-            Archipelago.DeathLinkCocoonProtected;
         public bool knockbackLink;
         public bool silkLink;
         // Retains upgraded-capacity Silk across a live network reconnect only.
@@ -976,8 +973,6 @@ namespace SilksongRandomizer
             npcSoulsJson = archipelago.NpcSoulsJson;
             enemySoulsJson = archipelago.EnemySoulsJson;
             alphabetMode = archipelago.AlphabetMode;
-            deathLink = archipelago.DeathLink;
-            deathLinkCocoon = archipelago.DeathLinkCocoon;
             knockbackLink = archipelago.KnockbackLink;
             silkLink = archipelago.SilkLink;
             rosaryLink = archipelago.RosaryLink;
@@ -1128,12 +1123,6 @@ namespace SilksongRandomizer
                    NpcSoulState.NormalizeConfiguration(npcSoulsJson) == archipelago.NpcSoulsJson &&
                    EnemySoulState.NormalizeConfiguration(enemySoulsJson) == archipelago.EnemySoulsJson &&
                    alphabetMode == archipelago.AlphabetMode &&
-                   deathLink == archipelago.DeathLink &&
-                   string.Equals(
-                       deathLinkCocoon,
-                       archipelago.DeathLinkCocoon,
-                       StringComparison.Ordinal
-                   ) &&
                     knockbackLink == archipelago.KnockbackLink &&
                     silkLink == archipelago.SilkLink &&
                     rosaryLink == archipelago.RosaryLink &&
@@ -1627,30 +1616,6 @@ namespace SilksongRandomizer
                     alphabetMode,
                     archipelago.AlphabetMode
                 );
-            }
-
-            if (roomIdentityMatches &&
-                deathLink != archipelago.DeathLink)
-            {
-                return GetBooleanSettingMismatchMessage(
-                    "death_link",
-                    deathLink,
-                    archipelago.DeathLink
-                );
-            }
-
-            if (roomIdentityMatches &&
-                !string.Equals(
-                    deathLinkCocoon,
-                    archipelago.DeathLinkCocoon,
-                    StringComparison.Ordinal
-                ))
-            {
-                return "This randomizer save uses death_link_cocoon '" +
-                       deathLinkCocoon +
-                       "', but the current slot uses '" +
-                       archipelago.DeathLinkCocoon +
-                       "'. Start or load the save created for this slot's settings.";
             }
 
             if (roomIdentityMatches &&

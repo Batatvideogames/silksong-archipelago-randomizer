@@ -354,7 +354,15 @@ namespace SilksongRandomizer
                     nativeAmount,
                     spent))
             {
-                nativeItem.Collect(1, false);
+                if (nativeItem.ShouldStopCollectNoMsg())
+                {
+                    CollectableItemManager.AddItem(nativeItem, 1);
+                    nativeItem.SetHasNew(false);
+                }
+                else
+                {
+                    nativeItem.Collect(1, false);
+                }
             }
         }
 

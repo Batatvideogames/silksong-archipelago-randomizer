@@ -14,8 +14,8 @@ namespace SilksongRandomizer.Patches
 {
     /// <summary>
     /// Turns listed breakable currency caches into ordinary AP checks.
-    /// Ordinary caches use the same pickup proxy
-    /// used by the direct minor-pickup manifest. Hanging rosary strings retain
+    /// Rocks and shard caches retain their native objects and break in one hit.
+    /// Other caches use a pickup proxy. Hanging rosary strings retain
     /// their native hit choreography because their source transform is a
     /// ceiling anchor rather than an accessible pickup position.
     /// </summary>
@@ -319,12 +319,14 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            // These fossils can be broken but their source transforms are not
-            // safe pickup positions due to water, spikes, ceilings or other
-            // unstandable terrain. Their native break choreography awards the
-            // check when the broken state is reached instead of spawning a
-            // proximity pickup.
-            return DirectBreakCheckLocations.Contains(entry.LocationName);
+            // Shard caches keep their native break. The extra locations also
+            // need it because water, spikes or ceiling anchors make a
+            // proximity pickup unsafe.
+            return DirectBreakCheckLocations.Contains(entry.LocationName) ||
+                entry.ObjectName.StartsWith("Shell Shard Fossil", StringComparison.Ordinal) ||
+                entry.ObjectName.StartsWith("Song Shard", StringComparison.Ordinal) ||
+                entry.ObjectName.StartsWith("ant_shell_shard_string", StringComparison.Ordinal) ||
+                entry.ObjectName.StartsWith("ant_rosary_string", StringComparison.Ordinal);
         }
 
         private static bool IsCoralDualAwardEntry(
@@ -446,6 +448,51 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
+            if (TryGetRosaryVisualBounds(source, out Bounds bounds, out SpriteRenderer sortingReference))
+                CreateCacheGlow(source, bounds, sortingReference);
+        }
+
+        private static void TryCreateCacheGlow(Component source, MinorCacheManifest.SourceKind kind)
+        {
+            if (!TryGetSeededEntry(source, kind, out SaveState state, out MinorCacheManifest.Entry entry) ||
+                state.IsLocationChecked(entry.LocationName) || source.transform.Find(HangingGlowName) != null)
+                return;
+            Renderer rosaries = source is Breakable
+                ? source.transform.Find("rosary")?.GetComponent<Renderer>()
+                : null;
+            if (rosaries != null && rosaries.enabled && rosaries.gameObject.activeInHierarchy)
+            {
+                CreateCacheGlow(source, rosaries.bounds, rosaries);
+                return;
+            }
+
+            Renderer reference = null;
+            Bounds bounds = default(Bounds);
+            foreach (Renderer renderer in source.GetComponentsInChildren<Renderer>())
+            {
+                if (!renderer.enabled || !(renderer is SpriteRenderer || renderer is MeshRenderer)) continue;
+                if (reference == null) bounds = renderer.bounds;
+                else bounds.Encapsulate(renderer.bounds);
+                if (reference == null || renderer.sortingOrder > reference.sortingOrder) reference = renderer;
+            }
+            if (reference != null) CreateCacheGlow(source, bounds, reference);
+        }
+
+        private static Vector3 GetCacheGlowPosition(Component source, Bounds bounds)
+        {
+            Vector3 position = bounds.center;
+            if (source is GeoRock && source.name.StartsWith("Geo Rock Deepnest", StringComparison.Ordinal))
+                position.y = bounds.min.y + bounds.size.y * 0.8f;
+            else if (source is BreakableHolder && source.name == "Shell Shard Fossil Beast")
+                position = source.transform.TransformPoint(new Vector3(0.5f, 1.1f, 0f));
+            else if (source is Breakable && source.gameObject.scene.name == "Shellwood_11" &&
+                source.name == "grave_marker_break_grey")
+                position.x += 0.3f;
+            return position;
+        }
+
+        private static void CreateCacheGlow(Component source, Bounds bounds, Renderer sortingReference)
+        {
             Sprite sprite =
                 RandomizerPlugin.Instance?.MapCheckIcon ??
                 RandomizerPlugin.Instance?.ArchipelagoIcon;
@@ -457,19 +504,13 @@ namespace SilksongRandomizer.Patches
             GameObject glow = null;
             try
             {
-                if (!TryGetRosaryVisualBounds(
-                        source,
-                        out Bounds bounds,
-                        out SpriteRenderer sortingReference))
-                {
-                    return;
-                }
-
                 glow = new GameObject(HangingGlowName);
                 glow.SetActive(false);
                 glow.layer = source.gameObject.layer;
                 glow.transform.SetParent(source.transform, true);
-                glow.transform.position = bounds.center;
+                Vector3 position = GetCacheGlowPosition(source, bounds);
+                position.z = sortingReference.bounds.center.z - 0.001f;
+                glow.transform.position = position;
 
                 SpriteRenderer renderer =
                     glow.AddComponent<SpriteRenderer>();
@@ -480,7 +521,7 @@ namespace SilksongRandomizer.Patches
                     renderer.sortingLayerID =
                         sortingReference.sortingLayerID;
                     renderer.sortingOrder =
-                        sortingReference.sortingOrder + 2;
+                        sortingReference.sortingOrder;
                 }
 
                 float spriteSize = Mathf.Max(
@@ -515,14 +556,14 @@ namespace SilksongRandomizer.Patches
                     loggedHangingGlowFailure = true;
                     RandomizerPlugin.Log?.LogWarning(
                         "[RANDOMIZER] Could not add the visual AP shimmer " +
-                        "to a hanging rosary cache: " + ex.Message
+                        "to a currency cache: " + ex.Message
                     );
                 }
             }
         }
 
         private static void RemoveHangingGlow(
-            RosaryCacheString source
+            Component source
         )
         {
             Transform glow = source == null
@@ -1051,6 +1092,7 @@ namespace SilksongRandomizer.Patches
                 }
 
                 if (KeepGrindleChest(__instance)) return false;
+                PatchGeoRockFsm(__instance);
                 PatchBankOpenedFsm(__instance);
                 PatchCurrencyChestFsm(__instance);
                 return true;
@@ -1115,15 +1157,68 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        private static void PatchGeoRockFsm(PlayMakerFSM fsm)
+        {
+            if (fsm.FsmName != "Geo Rock" || !TryGetSeededEntry(fsm,
+                    MinorCacheManifest.SourceKind.GeoRock, out _, out MinorCacheManifest.Entry entry)) return;
+            FsmState destroyed = fsm.Fsm.GetState("Destroy");
+            if (destroyed == null) return;
+            foreach (FsmStateAction action in destroyed.Actions)
+                if (action is CompleteRockCheck) return;
+            CompleteRockCheck complete = new CompleteRockCheck();
+            complete.Init(destroyed);
+            var actions = new List<FsmStateAction> { complete };
+            actions.AddRange(destroyed.Actions);
+            destroyed.Actions = actions.ToArray();
+            foreach (string variable in new[] { "Geo Per Hit", "Final Payout", "Medium Per Hit", "Medium On Break" })
+                fsm.FsmVariables.GetFsmInt(variable).Value = 0;
+        }
+
+        private sealed class CompleteRockCheck : FsmStateAction
+        {
+            public override void OnEnter()
+            {
+                GeoRock source = Owner.GetComponent<GeoRock>();
+                if (TryGetSeededEntry(source, MinorCacheManifest.SourceKind.GeoRock,
+                        out SaveState state, out MinorCacheManifest.Entry entry))
+                {
+                    RemoveHangingGlow(source);
+                    if (!state.IsLocationChecked(entry.LocationName)) state.CheckLocation(entry.LocationName);
+                }
+                Finish();
+            }
+        }
+
+        private static void PrepareGeoRock(GeoRock source)
+        {
+            if (!TryGetSeededEntry(source, MinorCacheManifest.SourceKind.GeoRock,
+                    out SaveState state, out MinorCacheManifest.Entry entry)) return;
+            PlayMakerFSM fsm = source.GetComponent<PlayMakerFSM>();
+            PatchGeoRockFsm(fsm);
+            FsmInt hits = fsm.FsmVariables.GetFsmInt("Hits");
+            hits.Value = state.IsLocationChecked(entry.LocationName) ? 0 : Mathf.Min(hits.Value, 1);
+            source.geoRockData.hitsLeft = hits.Value;
+            if (hits.Value > 0) TryCreateCacheGlow(source, MinorCacheManifest.SourceKind.GeoRock);
+        }
+
         [HarmonyPatch(typeof(GeoRock), "Start")]
         private static class GeoRockStartPatch
         {
-            private static bool Prefix(GeoRock __instance)
+            private static void Postfix(GeoRock __instance) => PrepareGeoRock(__instance);
+        }
+
+        [HarmonyPatch(typeof(GeoRock), "LevelActivated")]
+        private static class GeoRockLoadPatch
+        {
+            private static void Postfix(GeoRock __instance) => PrepareGeoRock(__instance);
+        }
+
+        [HarmonyPatch(typeof(Breakable), "Start")]
+        private static class BreakableCacheStartPatch
+        {
+            private static void Postfix(Breakable __instance)
             {
-                return !TryReplace(
-                    __instance,
-                    MinorCacheManifest.SourceKind.GeoRock
-                );
+                if (!__instance.IsBroken) TryCreateCacheGlow(__instance, MinorCacheManifest.SourceKind.Breakable);
             }
         }
 
@@ -1147,7 +1242,10 @@ namespace SilksongRandomizer.Patches
             {
                 if (__state != null && __instance.IsBroken &&
                     !__state.Item1.IsLocationChecked(__state.Item2))
+                {
+                    RemoveHangingGlow(__instance);
                     __state.Item1.CheckLocation(__state.Item2);
+                }
             }
 
             private static Exception Finalizer(Exception __exception,
@@ -1162,7 +1260,7 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(BreakableHolder), "Awake")]
         private static class BreakableHolderAwakePatch
         {
-            private static bool Prefix(BreakableHolder __instance)
+            private static bool Prefix(BreakableHolder __instance, ref int ___totalHits)
             {
                 if (TryGetPreservedBreakEntry(
                         __instance,
@@ -1171,6 +1269,7 @@ namespace SilksongRandomizer.Patches
                 {
                     if (!state.IsLocationChecked(entry.LocationName) || QuestCollectibles.KeepHangingPickup(__instance))
                     {
+                        ___totalHits = 1;
                         return true;
                     }
 
@@ -1183,6 +1282,16 @@ namespace SilksongRandomizer.Patches
                     __instance,
                     MinorCacheManifest.SourceKind.BreakableHolder
                 );
+            }
+        }
+
+        [HarmonyPatch(typeof(BreakableHolder), "Start")]
+        private static class BreakableHolderStartPatch
+        {
+            private static void Postfix(BreakableHolder __instance)
+            {
+                if (TryGetPreservedBreakEntry(__instance, out _, out _))
+                    TryCreateCacheGlow(__instance, MinorCacheManifest.SourceKind.BreakableHolder);
             }
         }
 
@@ -1257,6 +1366,7 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
+                RemoveHangingGlow(__instance);
                 state.CheckLocation(entry.LocationName);
             }
         }

@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "b41b6bf47d3a93a7e987f8ff7727bee4ea2ff114bda3452326a4d10f1053ba3f",
     "catalogue_sha256": "a4e397eefd6e3ffbf0bbaae21cf6dab73113c514a06e000437980e59435a7ea6",
-    "bindings_sha256": "345caaad7c92985d50b37ec6bdbe05c73ab39d9b897e79f98c57873fd2e824e8"
+    "bindings_sha256": "de86d83b4d33d32044fcc7362c70c98d543df72b1a1bedceb3aea9acd8b91967"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -548,6 +548,7 @@
       "Personal Spa",
       "Pilgrim's Rest - Beast Shard",
       "Pilgrim's Rest - Tool Pouch",
+      "Pilgrim's Rest Board",
       "Pilgrim's Rest Shop - Memory Locket",
       "Pimpillo",
       "Pin Badge",
@@ -568,6 +569,7 @@
       "Pollip Heart Right Side Big Room",
       "Pollip Pouch",
       "Putrified Ducts - Bellway",
+      "Putrified Ducts - Camp Thread Memory",
       "Putrified Ducts - Craftmetal",
       "Putrified Ducts - Frayed Rosary String",
       "Putrified Ducts - Map Pickup",
@@ -586,6 +588,7 @@
       "Putrified Ducts - Shell Shard Cache #8",
       "Putrified Ducts - Shell Shard Cache #9",
       "Putrified Ducts - White Lake Weaver Sign",
+      "Putrified Ducts - thread memory Map Room",
       "Quick Sling",
       "Reed's personal chest",
       "Relic Turn-in: Arcane Egg",
@@ -656,6 +659,7 @@
       "Sawtooth Circlet",
       "Scuttlebrace",
       "Seeker Soul",
+      "Shaman Crest Ritual Recipe",
       "Shard Pendant",
       "Sharpdart",
       "Shell Satchel",
@@ -840,6 +844,8 @@
       "Underworks - Shell Shard Cache #8",
       "Underworks - Shell Shard Cache #9",
       "Underworks - Ventrica",
+      "Underworks: Needolin Lore",
+      "Underworks: Needolin Lore #1",
       "Vaultkeeper's Melody",
       "Ventrica Window's cleaning fees",
       "Ventrica Window's repairing fees",
@@ -6268,15 +6274,35 @@
           "canonical_location": "Crest: Shaman",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
+        },
+        {
+          "id": "moss-grotto/ruined-chapel-crest-chamber::mapper-check:7013c5fd-1be3-4b6e-b91d-cd22c20fd040:836465",
+          "requirement": {
+            "raw": "none",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "7013c5fd-1be3-4b6e-b91d-cd22c20fd040"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Shaman Crest Ritual Recipe",
+          "node_id": "moss-grotto/ruined-chapel-crest-chamber#lore-area",
+          "canonical_location": "Shaman Crest Ritual Recipe",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
         }
       ],
-      "omitted_check_rows": [
-        {
-          "mapper_id": "7013c5fd-1be3-4b6e-b91d-cd22c20fd040",
-          "label": "Shaman Crest Ritual Recipe",
-          "kind": "lore"
-        }
-      ]
+      "omitted_check_rows": []
     },
     {
       "id": "bone-bottom/bone-bottom-town",
@@ -70553,13 +70579,35 @@
         }
       ],
       "events": [],
-      "checks": [],
-      "omitted_check_rows": [
+      "checks": [
         {
-          "mapper_id": "fe203e25-32e0-4f04-9762-201b147a79db",
+          "id": "far-fields/far-fields-pilgrims-rest::mapper-check:fe203e25-32e0-4f04-9762-201b147a79db:836464",
+          "requirement": {
+            "raw": "none (interact)",
+            "mode": "expression",
+            "dnf": [
+              []
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "fe203e25-32e0-4f04-9762-201b147a79db"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
           "label": "pilgrim's rest board",
-          "kind": "lore"
-        },
+          "node_id": "far-fields/far-fields-pilgrims-rest#main-floor",
+          "canonical_location": "Pilgrim's Rest Board",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        }
+      ],
+      "omitted_check_rows": [
         {
           "mapper_id": "9650d783-440d-4568-a1ae-7ac17e5157f3",
           "label": "Snitchfly 1",
@@ -191179,6 +191227,34 @@
       ],
       "checks": [
         {
+          "id": "underworks/chapel-of-the-architect::mapper-check:26584c0a-eef0-44af-9c82-8e9ad19669ed:836466",
+          "requirement": {
+            "raw": "Needolin.",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:needolin"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "26584c0a-eef0-44af-9c82-8e9ad19669ed"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Underworks: Needolin Lore",
+          "node_id": "underworks/chapel-of-the-architect#room",
+          "canonical_location": "Underworks: Needolin Lore",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "underworks/chapel-of-the-architect::mapper-check:a50abec1-8b34-4363-9057-ec99263bcf06:835573",
           "requirement": {
             "raw": "Nothing.",
@@ -191210,11 +191286,6 @@
           "mapper_id": "02e4aa08-b32d-4ab6-9774-980f44055d16",
           "label": "Underworks: Silkeater",
           "kind": "collectible"
-        },
-        {
-          "mapper_id": "26584c0a-eef0-44af-9c82-8e9ad19669ed",
-          "label": "Underworks: Needolin Lore",
-          "kind": "lore"
         },
         {
           "mapper_id": "fe42196d-2c45-4c1a-b0be-6a60462658f4",
@@ -191636,6 +191707,34 @@
       "events": [],
       "checks": [
         {
+          "id": "underworks/underworks-below-vaultkeeper::mapper-check:eebf89f6-200d-497a-b6db-7c250a545b6c:836467",
+          "requirement": {
+            "raw": "Needolin",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:needolin"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "eebf89f6-200d-497a-b6db-7c250a545b6c"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Underworks: Needolin Lore #1",
+          "node_id": "underworks/underworks-below-vaultkeeper#needolin-check",
+          "canonical_location": "Underworks: Needolin Lore #1",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "underworks/underworks-below-vaultkeeper::mapper-check:2c63f89a-1655-4c7f-a361-f4b46faa7ee1:836162",
           "requirement": {
             "raw": "Nothing.",
@@ -191663,11 +191762,6 @@
         }
       ],
       "omitted_check_rows": [
-        {
-          "mapper_id": "eebf89f6-200d-497a-b6db-7c250a545b6c",
-          "label": "Underworks: Needolin Lore #1",
-          "kind": "lore"
-        },
         {
           "mapper_id": "909067a9-0173-4eb0-9f59-aa046623c164",
           "label": "import enemies",
@@ -320982,6 +321076,39 @@
       ],
       "checks": [
         {
+          "id": "putrified-ducts/putrified-ducts-map-room::mapper-check:c0aee381-918d-424f-af65-fb3c5c3c7f88:836468",
+          "requirement": {
+            "raw": "Needolin AND ( Intended pogo off barnak OR Silk Soar )",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:needolin",
+                "mapper:enemy-type-pogo:Swamp Barnacle:none"
+              ],
+              [
+                "item:needolin",
+                "item:silk-soar"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "c0aee381-918d-424f-af65-fb3c5c3c7f88"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "Putrified Ducts - thread memory Map Room  ",
+          "node_id": "putrified-ducts/putrified-ducts-map-room#room",
+          "canonical_location": "Putrified Ducts - thread memory Map Room",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "putrified-ducts/putrified-ducts-map-room::mapper-check:59af2fb6-eb02-436c-b9f6-f619529f89a7:836212",
           "requirement": {
             "raw": "Intended pogo off barnak OR Silk Soar",
@@ -321014,11 +321141,6 @@
         }
       ],
       "omitted_check_rows": [
-        {
-          "mapper_id": "c0aee381-918d-424f-af65-fb3c5c3c7f88",
-          "label": "Putrified Ducts - thread memory Map Room  ",
-          "kind": "lore"
-        },
         {
           "mapper_id": "ca2bded3-e599-4f01-832b-6b34356d6df6",
           "label": "Barnak 1",
@@ -321481,6 +321603,34 @@
       ],
       "checks": [
         {
+          "id": "putrified-ducts/putrified-ducts-path-to-vog::mapper-check:4ed4bf2f-9786-44f3-9233-cb051739f718:836469",
+          "requirement": {
+            "raw": "Needolin",
+            "mode": "expression",
+            "dnf": [
+              [
+                "item:needolin"
+              ]
+            ],
+            "annotations": [],
+            "catalogue_recovered": false,
+            "minimum_skip_tier": 0,
+            "unresolved_reasons": []
+          },
+          "notes": "dont think we doing these",
+          "source_line": 0,
+          "raw_cells": {
+            "mapper_id": "4ed4bf2f-9786-44f3-9233-cb051739f718"
+          },
+          "logic_status": "active",
+          "unresolved_reasons": [],
+          "label": "thread_memory",
+          "node_id": "putrified-ducts/putrified-ducts-path-to-vog#camp",
+          "canonical_location": "Putrified Ducts - Camp Thread Memory",
+          "canonical_mapping_confidence": "explicit",
+          "currently_randomized": true
+        },
+        {
           "id": "putrified-ducts/putrified-ducts-path-to-vog::mapper-check:6396a8d7-6160-484d-a2db-a0802753265c:835558",
           "requirement": {
             "raw": "None",
@@ -321508,11 +321658,6 @@
         }
       ],
       "omitted_check_rows": [
-        {
-          "mapper_id": "4ed4bf2f-9786-44f3-9233-cb051739f718",
-          "label": "thread_memory",
-          "kind": "lore"
-        },
         {
           "mapper_id": "0069fdd3-2757-415e-8383-b74841b4e965",
           "label": "Barnak 1",

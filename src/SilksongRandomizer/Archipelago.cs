@@ -277,9 +277,6 @@ namespace SilksongRandomizer
                         StringComparer.OrdinalIgnoreCase
                     )
                 );
-        public bool DeathLink { get; private set; }
-        public string DeathLinkCocoon { get; private set; } =
-            DeathLinkCocoonProtected;
         public bool KnockbackLink { get; private set; }
         public bool SilkLink { get; private set; }
         public bool RosaryLink { get; private set; }
@@ -498,7 +495,7 @@ namespace SilksongRandomizer
                     slot,
                     ItemsHandlingFlags.AllItems,
                     new Version(0, 6, 0),
-                    new[] { "AP" },
+                    Array.Empty<string>(),
                     null,
                     pass,
                     false
@@ -763,11 +760,6 @@ namespace SilksongRandomizer
                 );
                 CrestSlotItemFlags =
                     GetCrestSlotItemFlags(successful);
-                DeathLink = GetBooleanSlotData(
-                    successful,
-                    "death_link"
-                );
-                DeathLinkCocoon = GetDeathLinkCocoonMode(successful);
                 KnockbackLink = successful.SlotData.ContainsKey("knockback_link") &&
                     GetBooleanSlotData(successful, "knockback_link");
                 SilkLink = GetBooleanSlotData(
@@ -1090,6 +1082,16 @@ namespace SilksongRandomizer
             FlushPendingLocations();
         }
 
+        internal bool ApplyDeathLinkSettings()
+        {
+            ArchipelagoSession currentSession = session;
+            if (!IsCurrentReadySession(currentSession)) return true;
+            RandomizerPlugin plugin = RandomizerPlugin.Instance;
+            return DeathLinkManager.Configure(currentSession, SlotName,
+                plugin?.DeathLinkEnabled == true,
+                plugin?.DeathLinkCocoon ?? DeathLinkCocoonProtected);
+        }
+
         public bool CompleteConnectionSync()
         {
             ProcessPendingLinkReset();
@@ -1132,12 +1134,7 @@ namespace SilksongRandomizer
                     ArchipelagoClientState.ClientPlaying
                 );
                 Resynchronize();
-                if (!DeathLinkManager.Configure(
-                        connectedSession,
-                        SlotName,
-                        DeathLink,
-                        DeathLinkCocoon
-                    ))
+                if (!ApplyDeathLinkSettings())
                 {
                     throw new InvalidOperationException(
                         "DeathLink could not be initialized."
@@ -2677,26 +2674,6 @@ namespace SilksongRandomizer
             }
         }
 
-        private static string GetDeathLinkCocoonMode(
-            LoginSuccessful login
-        )
-        {
-            const string key = "death_link_cocoon";
-            string value = GetRequiredStringSlotData(login, key);
-            switch (value)
-            {
-                case DeathLinkCocoonVanilla:
-                case DeathLinkCocoonless:
-                case DeathLinkCocoonProtected:
-                    return value;
-                default:
-                    throw new FormatException(
-                        "APWorld setting '" + key +
-                        "' has invalid mode '" + value + "'."
-                    );
-            }
-        }
-
         private static CheckMapMarkerMode GetCheckMapMarkerMode(
             LoginSuccessful login
         )
@@ -3363,8 +3340,6 @@ namespace SilksongRandomizer
                         StringComparer.OrdinalIgnoreCase
                     )
                 );
-            DeathLink = false;
-            DeathLinkCocoon = DeathLinkCocoonProtected;
             KnockbackLink = false;
             SilkLink = false;
             RosaryLink = false;

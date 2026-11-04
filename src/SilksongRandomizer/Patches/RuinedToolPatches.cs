@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
 using UnityEngine;
@@ -39,6 +40,9 @@ namespace SilksongRandomizer.Patches
                         "Tool Unlock: WebShot Weaver"
                     },
                 };
+
+        private static readonly MethodInfo GetCurrencyCounterMethod =
+            AccessTools.Method(typeof(ItemCurrencyCounter), "GetCurrencyCounter");
 
         private static ArchipelagoRuinedToolLocation proxyItem;
 
@@ -150,6 +154,10 @@ namespace SilksongRandomizer.Patches
             }
 
             craftmetal.Collect(1, false);
+            // Cancel the subtraction that was queued before the refund.
+            var counter = GetCurrencyCounterMethod.Invoke(
+                null, new object[] { craftmetal, false }) as ItemCurrencyCounter;
+            counter?.SetItem(craftmetal);
         }
 
         [HarmonyPatch(typeof(PlayerDataTestResponse), "Evaluate")]

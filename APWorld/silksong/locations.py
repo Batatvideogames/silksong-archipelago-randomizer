@@ -1095,7 +1095,7 @@ from .boss_journal import ITEM_BY_LOCATION as JOURNAL_ITEMS
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Journal") for name in JOURNAL_ITEMS)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[:1])
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Boss: Lace (Deep Docks)", "Boss"),)
-_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:])
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[1:2])
 
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Loddie - Heavy Rosary Necklace', 'Resource'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key of Heretic', 'MajorKey'))
@@ -1113,6 +1113,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Voltstone", "Materium"),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Cogheart") for name in ('Choral Chambers Cogheart Piece', 'Whispering Vaults: Cogheart Piece', 'Memorimum Cogheart Piece'))
 
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'crown fragment', "Broodmother's Eye"))
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[2:])
 
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),

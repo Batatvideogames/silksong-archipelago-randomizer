@@ -1,8 +1,6 @@
 {
  "coverage_source": "map_logic.json",
- "missing_locs": [
-  "Far Fields - Map Purchase"
- ],
+ "missing_locs": [],
  "missing_ents": [
   "Coral Tower Memory - door_wakeInMemory (D)",
   "High Halls Not Implemented Room - left1 (L)",
@@ -82,22 +80,7 @@
   }
  ],
  "image_mismatches": [],
- "rejected_positions": [
-  {
-   "name": "Far Fields - Map Purchase",
-   "scene": "Bone_East_21",
-   "room": "Far Fields Map Shop",
-   "reason": "coordinate frames differ",
-   "source_dimensions": [
-    40,
-    20
-   ],
-   "map_dimensions": [
-    28,
-    20
-   ]
-  }
- ],
+ "rejected_positions": [],
  "missing_turn_ins": [],
  "skipped_locs": [],
  "skipped_ents": [],
@@ -137,7 +120,7 @@
    "gauntlet": 27,
    "lock": 32,
    "logic-point": 27,
-   "lore": 14,
+   "lore": 8,
    "miniboss": 11,
    "resource": 25,
    "switch": 143,

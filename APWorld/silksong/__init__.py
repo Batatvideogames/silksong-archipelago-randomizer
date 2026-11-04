@@ -952,17 +952,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
     def is_faster_dialogue_enabled(self) -> bool:
         return bool(self.options.faster_dialogue.value)
 
-    def is_death_link_enabled(self) -> bool:
-        return bool(self.options.death_link.value)
-
-    def get_death_link_cocoon_key(self) -> str:
-        key = self.options.death_link_cocoon.current_key
-        if key not in {"vanilla", "cocoonless", "cocoon"}:
-            raise OptionError(
-                f"Unknown Death Link cocoon mode: {key!r}"
-            )
-        return key
-
     def is_silk_link_enabled(self) -> bool:
         return bool(self.options.silk_link.value)
 
@@ -2390,8 +2379,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "faster_dialogue": self.is_faster_dialogue_enabled(),
             "faster_silkheart_animation":
                 bool(self.options.faster_silkheart_animation.value),
-            "death_link": self.is_death_link_enabled(),
-            "death_link_cocoon": self.get_death_link_cocoon_key(),
             "silk_link": self.is_silk_link_enabled(),
             "rosary_link": self.is_rosary_link_enabled(),
             "shell_shard_link": self.is_shell_shard_link_enabled(),

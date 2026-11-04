@@ -74,6 +74,9 @@ namespace SilksongRandomizer
         private ConfigEntry<bool> hideConnectionDetails;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
+        private ConfigEntry<bool> deathLinkEnabled;
+        private ConfigEntry<string> deathLinkCocoon;
+        private volatile bool deathLinkSettingsChanged;
         private string connectionStatus = string.Empty;
         private GUIStyle faqLinkStyle;
         private ArchipelagoWindowTab selectedWindowTab =
@@ -164,6 +167,7 @@ namespace SilksongRandomizer
             Log = Logger;
             LoadSavedConnectionDetails();
             LoadClientDisplaySettings();
+            LoadDeathLinkSettings();
             RouteLocationOverlay.Initialize(Config);
             SaveFolderManager.Initialize(Config);
             DeathLinkManager.Initialize(QueueConnectionStatus);
@@ -241,6 +245,29 @@ namespace SilksongRandomizer
                     "Show the requirements for a check when you focus its map marker. Toggle with F6.")
             );
         }
+
+        private void LoadDeathLinkSettings()
+        {
+            deathLinkEnabled = Config.Bind("DeathLink", "Enabled", false,
+                ModMenuOptions.Describe("DeathLink", "DeathLink",
+                    "Share deaths with other DeathLink players. Changes apply while connected."));
+            deathLinkCocoon = Config.Bind("DeathLink", "Cocoon Behaviour", "Protect Existing Cocoon",
+                ModMenuOptions.Describe("DeathLink", "Cocoon Behaviour",
+                    "Vanilla: received deaths replace your cocoon and drop your Rosaries. " +
+                    "Cocoonless: received deaths leave your cocoon and Rosaries untouched. " +
+                    "Protect Existing Cocoon: create a cocoon only if you have none, otherwise keep your cocoon and Rosaries. " +
+                    "Your own deaths always behave normally.",
+                    new AcceptableValueList<string>("Vanilla", "Cocoonless", "Protect Existing Cocoon")));
+            deathLinkEnabled.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
+            deathLinkCocoon.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
+        }
+
+        internal bool DeathLinkEnabled => deathLinkEnabled?.Value == true;
+
+        internal string DeathLinkCocoon => deathLinkCocoon?.Value == "Vanilla"
+            ? Archipelago.DeathLinkCocoonVanilla
+            : deathLinkCocoon?.Value == "Cocoonless"
+                ? Archipelago.DeathLinkCocoonless : Archipelago.DeathLinkCocoonProtected;
 
         internal int MapMarkerTooltipFontSize =>
             mapMarkerTooltipFontSize == null
@@ -731,6 +758,11 @@ namespace SilksongRandomizer
             SlabCaptureWarpSafety.Update();
             MossMotherWarpSafety.Update();
             BellhomePhaseManager.Update();
+            if (deathLinkSettingsChanged)
+            {
+                deathLinkSettingsChanged = false;
+                Archipelago.Instance?.ApplyDeathLinkSettings();
+            }
             DeathLinkManager.Update();
             SilkLinkManager.Update();
             KnockbackLinkManager.Update();
@@ -1159,6 +1191,8 @@ namespace SilksongRandomizer
                 return false;
             }
 
+            bool restoreDuplicate = alreadyReceived && !replayedReceipt &&
+                item != null && (item.Type == ItemType.MajorKey || item.Type == ItemType.Melody);
             bool requiresPostCommitMaskSync =
                 !alreadyReceived &&
                 item != null &&
@@ -1170,10 +1204,10 @@ namespace SilksongRandomizer
                     canonicalItemName
                 );
 
-            if (!alreadyReceived &&
+            if (restoreDuplicate || (!alreadyReceived &&
                 (item.Receive != null ||
                  requiresPostCommitMaskSync ||
-                 requiresPostCommitConsumableSync))
+                 requiresPostCommitConsumableSync)))
             {
                 PlayerData currentPlayerData = PlayerData.instance;
                 HeroController currentHero = HeroController.instance;
@@ -1196,14 +1230,22 @@ namespace SilksongRandomizer
                                currentHero) ||
                            LiteracyTrap.CanProcessReceivedItems(currentHero) ||
                            durableMemoryReceiptReady));
-                if (!gameplayReady)
+                if (!gameplayReady || (restoreDuplicate && currentPlayerData.HasStoredMemoryState))
                 {
                     return false;
                 }
 
                 try
                 {
-                    item.Receive?.Invoke();
+                    if (restoreDuplicate && item.Type == ItemType.MajorKey)
+                    {
+                        if (!ReceivedItemReconciliation.TryReconcileReceivedMajorKeys())
+                            return false;
+                    }
+                    else
+                    {
+                        item.Receive?.Invoke();
+                    }
                 }
                 catch (Exception ex)
                 {
