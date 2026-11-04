@@ -1,5 +1,5 @@
 {
-  "mapper_source": "b41b6bf47d3a93a7e987f8ff7727bee4ea2ff114bda3452326a4d10f1053ba3f",
+  "mapper_source": "b29bbca0de3d1df4ccb82aa48f0c021d7b038ecd042c12997a0b854acc81016e",
   "scenes": {
     "moss-grotto/moss-grotto-center": "tut_01",
     "moss-grotto/moss-grotto-west": "tut_02",
@@ -24944,7 +24944,7 @@
       "drops": "none",
       "reset": "unknown",
       "name": "plasmid lower",
-      "node": "wormways/wormways-upper-west#main-tunnel-lower",
+      "node": "wormways/wormways-upper-west#main-tunnel-lower-west",
       "species": "Plasmid",
       "routes": [
         {
@@ -24964,7 +24964,7 @@
       "drops": "none",
       "reset": "unknown",
       "name": "plasmid upper",
-      "node": "wormways/wormways-upper-west#main-area-upper",
+      "node": "wormways/wormways-upper-west#main-tunnel-upper",
       "species": "Plasmid",
       "routes": [
         {

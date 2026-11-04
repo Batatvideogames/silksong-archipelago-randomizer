@@ -197,7 +197,7 @@ ACT_TWO_POOL_REMOVALS_BY_SOURCE_CATEGORY: Mapping[
     "OldHeart": {"Pollen Heart": 1, "Hunter's Heart": 1, "Encrusted Heart": 1, "Conjoined Heart": 1},
     "Everbloom": {"Everbloom": 1},
     "Farsight": {"Farsight": 1},
-    "Miscellaneous": {"Crawbell": 1},
+    "Bellhome": {"Crawbell": 1},
     "Materium": {"Magnetite": 1},
     "Memento": {"Sprintmaster's Memento": 1, "Guardian's Memento": 1, "Hero's Memento": 1, 'Surface Memento': 1, 'Craw Memento': 1},
     "Map": {

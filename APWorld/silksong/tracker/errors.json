@@ -111,21 +111,21 @@
    "Goal"
   ],
   "geometry_objects": {
-   "bench": 57,
+   "bench": 59,
    "blockade": 147,
    "boss": 8,
-   "collectible": 85,
-   "enemy": 2238,
+   "collectible": 93,
+   "enemy": 2271,
    "event": 174,
    "gauntlet": 27,
    "lock": 32,
-   "logic-point": 27,
+   "logic-point": 26,
    "lore": 8,
    "miniboss": 11,
-   "resource": 25,
+   "resource": 14,
    "switch": 143,
    "travel": 4,
-   "unknown": 81
+   "unknown": 80
   },
   "aliases_resolved_elsewhere": [
    {

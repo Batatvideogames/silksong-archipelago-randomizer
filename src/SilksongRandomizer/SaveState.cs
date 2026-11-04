@@ -181,8 +181,6 @@ namespace SilksongRandomizer
         public bool startWithMaps;
         public bool startFullyMapped;
         public bool automaticCompass;
-        public CheckMapMarkerMode checkMapMarkers =
-            CheckMapMarkerMode.Off;
         public bool randomizedBellMarkers;
         public bool randomizedMelodyMarkers;
         public List<ItemMarkerLocationData> randomizedItemMarkerLocations =
@@ -373,7 +371,6 @@ namespace SilksongRandomizer
         public RandomizationMode bellhomeRandomization = RandomizationMode.Vanilla;
         public RandomizationMode cogheartPieceRandomization = RandomizationMode.Vanilla;
         public RandomizationMode questCollectibleRandomization = RandomizationMode.Vanilla;
-        public RandomizationMode miscellaneousRandomization = RandomizationMode.Vanilla;
         public RandomizationMode materiumRandomization = RandomizationMode.Vanilla;
         public RandomizationMode twistedBudRandomization = RandomizationMode.Vanilla;
         public RandomizationMode fleaRandomization = RandomizationMode.Anywhere;
@@ -672,11 +669,6 @@ namespace SilksongRandomizer
                         StringComparer.Ordinal
                     )
             );
-            if (checkMapMarkers < CheckMapMarkerMode.Off ||
-                checkMapMarkers > CheckMapMarkerMode.All)
-            {
-                checkMapMarkers = CheckMapMarkerMode.Off;
-            }
             SetRandomizedItemMarkerLocations(
                 (randomizedItemMarkerLocations ??
                     new List<ItemMarkerLocationData>())
@@ -937,7 +929,6 @@ namespace SilksongRandomizer
             startWithMaps = archipelago.StartWithMaps;
             startFullyMapped = archipelago.StartFullyMapped;
             automaticCompass = archipelago.AutomaticCompass;
-            checkMapMarkers = archipelago.CheckMapMarkers;
             randomizedBellMarkers =
                 archipelago.RandomizedBellMarkers;
             randomizedMelodyMarkers =
@@ -998,7 +989,6 @@ namespace SilksongRandomizer
             bellhomeRandomization = archipelago.BellhomeRandomization;
             cogheartPieceRandomization = archipelago.CogheartPieceRandomization;
             questCollectibleRandomization = archipelago.QuestCollectibleRandomization;
-            miscellaneousRandomization = archipelago.MiscellaneousRandomization;
             materiumRandomization = archipelago.MateriumRandomization;
             twistedBudRandomization = archipelago.TwistedBudRandomization;
             fleaRandomization = archipelago.FleaRandomization;
@@ -1088,7 +1078,6 @@ namespace SilksongRandomizer
                    startWithMaps == archipelago.StartWithMaps &&
                    startFullyMapped == archipelago.StartFullyMapped &&
                    automaticCompass == archipelago.AutomaticCompass &&
-                   checkMapMarkers == archipelago.CheckMapMarkers &&
                    randomizedBellMarkers ==
                        archipelago.RandomizedBellMarkers &&
                    randomizedMelodyMarkers ==
@@ -1192,7 +1181,6 @@ namespace SilksongRandomizer
                 Tuple.Create("bellhome_randomization", bellhomeRandomization, archipelago.BellhomeRandomization),
                 Tuple.Create("cogheart_piece_randomization", cogheartPieceRandomization, archipelago.CogheartPieceRandomization),
                 Tuple.Create("quest_collectible_randomization", questCollectibleRandomization, archipelago.QuestCollectibleRandomization),
-                Tuple.Create("miscellaneous_items_randomization", miscellaneousRandomization, archipelago.MiscellaneousRandomization),
                 Tuple.Create("materium_randomization", materiumRandomization, archipelago.MateriumRandomization),
                 Tuple.Create("twisted_bud_randomization", twistedBudRandomization, archipelago.TwistedBudRandomization),
                 Tuple.Create("flea_randomization", fleaRandomization, archipelago.FleaRandomization),
@@ -1464,18 +1452,6 @@ namespace SilksongRandomizer
             }
 
             if (roomIdentityMatches &&
-                checkMapMarkers != archipelago.CheckMapMarkers)
-            {
-                return "This randomizer save uses location_map_markers '" +
-                       GetCheckMapMarkerModeName(checkMapMarkers) +
-                       "', but the current slot uses '" +
-                       GetCheckMapMarkerModeName(
-                           archipelago.CheckMapMarkers
-                       ) +
-                       "'. Start or load the save created for this slot's settings.";
-            }
-
-            if (roomIdentityMatches &&
                 randomizedBellMarkers !=
                     archipelago.RandomizedBellMarkers)
             {
@@ -1705,23 +1681,6 @@ namespace SilksongRandomizer
                    "'. Start or load the save created for this slot's settings.";
         }
 
-        private static string GetCheckMapMarkerModeName(
-            CheckMapMarkerMode mode
-        )
-        {
-            switch (mode)
-            {
-                case CheckMapMarkerMode.MappedRooms:
-                    return "mapped_rooms";
-                case CheckMapMarkerMode.OwnedMaps:
-                    return "owned_maps";
-                case CheckMapMarkerMode.All:
-                    return "all";
-                default:
-                    return "off";
-            }
-        }
-
         internal void RecordDeath(bool viaDeathLink)
         {
             if (!IsRoomBound) return;
@@ -1779,8 +1738,6 @@ namespace SilksongRandomizer
                     return cogheartPieceRandomization;
                 case ItemType.QuestCollectible:
                     return questCollectibleRandomization;
-                case ItemType.Miscellaneous:
-                    return miscellaneousRandomization;
                 case ItemType.Materium:
                     return materiumRandomization;
                 case ItemType.TwistedBud:

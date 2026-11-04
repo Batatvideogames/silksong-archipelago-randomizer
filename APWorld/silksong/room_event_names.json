@@ -229,14 +229,6 @@
     ],
     "mapper_kind": "collectible"
   },
-  "event:mapper/be54a1e3-cef2-4c8c-947f-6fc357ea4dd5": {
-    "name": "Bone Bottom - Shell Shard Cache",
-    "kind": "collectible",
-    "locations": [
-      "Bone Bottom - Shell Shard Cache"
-    ],
-    "mapper_kind": "collectible"
-  },
   "event:mapper/f09ff4af-eadc-4167-ac83-aa27cf52e966": {
     "name": "Boss: Skull Tyrant (Bone Bottom)",
     "kind": "boss",
@@ -2030,10 +2022,10 @@
     "mapper_kind": "boss"
   },
   "event:mapper/1af926c3-181a-45a8-a94b-9591ea8f3214": {
-    "name": "Choir's Final Rites Beads",
+    "name": "Far Fields Chorus - Choir's Final Rites Beads",
     "kind": "collectible",
     "locations": [
-      "Choir's Final Rites Beads"
+      "Far Fields Chorus - Choir's Final Rites Beads"
     ],
     "mapper_kind": "collectible"
   },
@@ -2044,10 +2036,10 @@
     "mapper_kind": "boss"
   },
   "event:mapper/e54c64bb-2486-4a2c-81f0-9af465fd3865": {
-    "name": "Horn Fragment",
+    "name": "Far Fields Chorus - Horn Fragment",
     "kind": "collectible",
     "locations": [
-      "Horn Fragment"
+      "Far Fields Chorus - Horn Fragment"
     ],
     "mapper_kind": "collectible"
   },
@@ -8590,10 +8582,10 @@
     "mapper_kind": "switch"
   },
   "event:mapper/e54aed5d-25ca-4209-b377-8c877e377a7f": {
-    "name": "Reed's personal chest",
+    "name": "Corridor to High Halls - Reed's personal chest",
     "kind": "collectible",
     "locations": [
-      "Reed's personal chest"
+      "Corridor to High Halls - Reed's personal chest"
     ],
     "mapper_kind": "collectible"
   },
@@ -8616,34 +8608,34 @@
     "mapper_kind": "switch"
   },
   "event:mapper/e56c43f4-f833-4b65-bdf1-2f9383ea42a6": {
-    "name": "Choral Chambers - Rosary Necklace #1",
+    "name": "Merchant room - Merchant's prized necklace",
     "kind": "collectible",
     "locations": [
-      "Choral Chambers - Rosary Necklace #1"
+      "Merchant room - Merchant's prized necklace"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/936ce385-67b7-432c-b258-22445485f9d6": {
-    "name": "Choristor's precious belongings",
+    "name": "Above Ventrica - Choristor's precious belongings",
     "kind": "collectible",
     "locations": [
-      "Choristor's precious belongings"
+      "Above Ventrica - Choristor's precious belongings"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/932fba53-6a79-47ce-a4ef-d0456a986508": {
-    "name": "Old Ventrica gains",
+    "name": "Above Ventrica - Old gains",
     "kind": "collectible",
     "locations": [
-      "Old Ventrica gains"
+      "Above Ventrica - Old gains"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c0c57e6d-2417-46c7-8b6f-d1ec15b1a193": {
-    "name": "Old Ventrica treasury",
+    "name": "Above Ventrica - Old treasury",
     "kind": "collectible",
     "locations": [
-      "Old Ventrica treasury"
+      "Above Ventrica - Old treasury"
     ],
     "mapper_kind": "collectible"
   },
@@ -9296,5 +9288,55 @@
     "kind": "lock",
     "locations": [],
     "mapper_kind": "lock"
+  },
+  "event:mapper/22453501-0620-4ea8-ac21-f11c95afbc32": {
+    "name": "Bone Bottom Icon of Hope Statue",
+    "kind": "collectible",
+    "locations": [
+      "Bone Bottom Icon of Hope Statue"
+    ],
+    "mapper_kind": "collectible"
+  },
+  "event:mapper/a9cdfb65-8fc1-4501-8f40-cb405f33f028": {
+    "name": "Bone Bottom Town Bench",
+    "kind": "bench",
+    "mapper_kind": "bench",
+    "locations": []
+  },
+  "event:mapper/reviewed:advanced-alchemy-upper-west-west-samples": {
+    "name": "Wormways Upper West - Advanced Alchemy Lower West Samples",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:advanced-alchemy-upper-west-spike-samples": {
+    "name": "Wormways Upper West - Advanced Alchemy Spike Climb Samples",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#right-exit-area": {
+    "name": "Wormways Upper West - Visited Wormways (right exit area)",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#worm-drop": {
+    "name": "Wormways Upper West - Visited Wormways (worm drop)",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:wormways/wormways-upper-west#main-tunnel-spike-climb": {
+    "name": "Wormways Upper West - Visited Wormways (main tunnel spike climb)",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/083595cb-2985-4cdc-a1be-ce818477e245": {
+    "name": "High Halls Ventrica - bench",
+    "kind": "bench",
+    "mapper_kind": "bench",
+    "locations": []
   }
 }

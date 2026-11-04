@@ -156,7 +156,7 @@ namespace SilksongRandomizer.Patches
 
             SaveState state = SaveState.Instance;
             if (state == null ||
-                state.checkMapMarkers == CheckMapMarkerMode.Off)
+                (RandomizerPlugin.Instance?.LocationMapMarkers ?? CheckMapMarkerMode.All) == CheckMapMarkerMode.Off)
             {
                 Clear();
                 currentMap = map;
@@ -315,6 +315,15 @@ namespace SilksongRandomizer.Patches
             {
                 markerRoot.SetActive(false);
             }
+        }
+
+        internal static void ApplyDisplaySettings()
+        {
+            GameMap map = currentMap;
+            if (map == null) return;
+            bool displayed = IsMapDisplayed(map);
+            Refresh(map);
+            if (displayed) ShowMap(map);
         }
 
         internal static void RefreshCurrentMap()
@@ -704,7 +713,7 @@ namespace SilksongRandomizer.Patches
                     missingSceneCount + " scene misses, " +
                     projectionFailureCount + " projection misses, " +
                     existingCount + " already present; mode=" +
-                    state.checkMapMarkers + "."
+                    (RandomizerPlugin.Instance?.LocationMapMarkers ?? CheckMapMarkerMode.All) + "."
                 );
             }
             return true;
@@ -1260,7 +1269,7 @@ namespace SilksongRandomizer.Patches
                 return false;
             }
 
-            switch (state.checkMapMarkers)
+            switch ((RandomizerPlugin.Instance?.LocationMapMarkers ?? CheckMapMarkerMode.All))
             {
                 case CheckMapMarkerMode.MappedRooms:
                     return marker.Scene.IsMapped;

@@ -866,14 +866,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             self.options.trails_end_requirement.current_key
         )
 
-    def get_location_map_markers_key(self) -> str:
-        key = self.options.location_map_markers.current_key
-        if key not in {"off", "mapped_rooms", "owned_maps", "all"}:
-            raise OptionError(
-                f"Unknown location map marker mode: {key!r}"
-            )
-        return key
-
     def uses_randomized_bell_markers(self) -> bool:
         return bool(self.options.randomized_bell_markers.value)
 
@@ -2360,7 +2352,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
             "start_fully_mapped":
                 self.is_start_fully_mapped_enabled(),
             "automatic_compass": self.is_automatic_compass_enabled(),
-            "location_map_markers": self.get_location_map_markers_key(),
             "randomized_bell_markers":
                 self.uses_randomized_bell_markers(),
             "randomized_melody_markers":

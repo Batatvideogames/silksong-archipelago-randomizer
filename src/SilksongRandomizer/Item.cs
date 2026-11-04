@@ -61,8 +61,7 @@ namespace SilksongRandomizer
         Journal,
         Materium,
         Farsight,
-        Miscellaneous,
-        Bellhome,
+        Bellhome = 51,
         Cogheart,
         QuestCollectible,
     }

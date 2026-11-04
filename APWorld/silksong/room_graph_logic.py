@@ -1534,6 +1534,9 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
         if kind in {"heal-stall", "hazard-respawn"}:
             name = {"heal-stall": "Heal Stall", "hazard-respawn": "Hazard Respawn"}[kind]
             return (_part(f"Technique: {name} {max(1, tier)}"),)
+        if kind.endswith('-crest-heal-stall'):
+            crest = kind.removesuffix('-crest-heal-stall').title()
+            return () if crest == 'Shaman' else (_part('Crest: ' + crest, f'Technique: Heal Stall {max(1, tier)}'),)
         if kind == "scuttlebrace":
             return (_part("Usable Scuttlebrace", "Swift Step", f"Technique: Scuttlebrace {max(1, tier)}"),)
         if kind == "spike-pogo-skip":

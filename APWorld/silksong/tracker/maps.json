@@ -320,7 +320,7 @@
  {
   "name": "Wormways Upper West",
   "img": "01-geometry/ac148b05-994a-4a2b-9ed3-cf5b16bdf7d2.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -926,7 +926,7 @@
  {
   "name": "Shellwood Lower Left Tall Room",
   "img": "01-geometry/695b91f7-3624-462f-a601-c818507adb5a.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {

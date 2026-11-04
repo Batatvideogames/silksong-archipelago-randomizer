@@ -34,7 +34,7 @@ namespace SilksongRandomizer.Patches
             HasRemainingHints() || (HasHintHistory() && !ShouldHideNativeStock());
 
         internal static bool ShouldHideNativeStock() =>
-            IsHintShopActive() && SaveState.Instance.checkMapMarkers != CheckMapMarkerMode.Off;
+            IsHintShopActive() && (RandomizerPlugin.Instance?.LocationMapMarkers ?? CheckMapMarkerMode.All) != CheckMapMarkerMode.Off;
 
         internal static void Update()
         {

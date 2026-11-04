@@ -912,7 +912,7 @@ namespace SilksongRandomizer
             new Item("Bell Lacquer", ItemType.Bellhome, () => BellhomeItems.Grant("Bell Lacquer")),
             new Item("Personal Spa", ItemType.Bellhome, () => BellhomeItems.Grant("Personal Spa")),
             new Item("Gramophone", ItemType.Bellhome, () => BellhomeItems.Grant("Gramophone")),
-            new Item("Crawbell", ItemType.Miscellaneous, () => ItemGrants.GrantCollectable("Crawbell")),
+            new Item("Crawbell", ItemType.Bellhome, () => ItemGrants.GrantCollectable("Crawbell")),
             new Item("Flintstone", ItemType.Materium, () => CollectionItemSources.GrantSample("Smeltstone")),
             new Item("Magnetite", ItemType.Materium, () => CollectionItemSources.GrantSample("Magnetite")),
             new Item("Voltstone", ItemType.Materium, () => CollectionItemSources.GrantSample("Voltstone")),

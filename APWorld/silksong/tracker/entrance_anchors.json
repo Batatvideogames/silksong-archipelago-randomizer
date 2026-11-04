@@ -662,20 +662,20 @@
  "wormways/wormways-upper-west@f": {
   "scene": "Crawl_03",
   "gate": "bot1",
-  "x": 0.427778,
+  "x": 0.394118,
   "y": 0.0
  },
  "wormways/wormways-upper-west@c": {
   "scene": "Crawl_03",
   "gate": "top1",
-  "x": 0.827778,
-  "y": 1.0
+  "x": 0.817647,
+  "y": 0.7
  },
  "wormways/wormways-upper-west@wd": {
   "scene": "Crawl_03",
   "gate": "left1",
-  "x": 0.060833,
-  "y": 0.191558
+  "x": 0.005588,
+  "y": 0.134091
  },
  "wormways/wormways-upper-east@l": {
   "scene": "Crawl_01",

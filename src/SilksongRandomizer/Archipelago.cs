@@ -218,8 +218,6 @@ namespace SilksongRandomizer
         public bool StartWithMaps { get; private set; }
         public bool StartFullyMapped { get; private set; }
         public bool AutomaticCompass { get; private set; }
-        public CheckMapMarkerMode CheckMapMarkers { get; private set; } =
-            CheckMapMarkerMode.Off;
         public bool RandomizedBellMarkers { get; private set; }
         public bool RandomizedMelodyMarkers { get; private set; }
         public IReadOnlyDictionary<string, string>
@@ -299,7 +297,6 @@ namespace SilksongRandomizer
         public RandomizationMode BellhomeRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode CogheartPieceRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode QuestCollectibleRandomization { get; private set; } = RandomizationMode.Vanilla;
-        public RandomizationMode MiscellaneousRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode MateriumRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode TwistedBudRandomization { get; private set; } = RandomizationMode.Vanilla;
         public RandomizationMode FleaRandomization { get; private set; } = RandomizationMode.Anywhere;
@@ -662,8 +659,6 @@ namespace SilksongRandomizer
                     successful,
                     "automatic_compass"
                 );
-                CheckMapMarkers =
-                    GetCheckMapMarkerMode(successful);
                 RandomizedBellMarkers = GetBooleanSlotData(
                     successful,
                     "randomized_bell_markers"
@@ -798,7 +793,6 @@ namespace SilksongRandomizer
                 BellhomeRandomization = GetRandomizationModeSlotData(successful, "bellhome_randomization");
                 CogheartPieceRandomization = GetRandomizationModeSlotData(successful, "cogheart_piece_randomization");
                 QuestCollectibleRandomization = GetRandomizationModeSlotData(successful, "quest_collectible_randomization");
-                MiscellaneousRandomization = GetRandomizationModeSlotData(successful, "miscellaneous_items_randomization");
                 MateriumRandomization = GetRandomizationModeSlotData(successful, "materium_randomization");
                 TwistedBudRandomization = GetRandomizationModeSlotData(successful, "twisted_bud_randomization");
                 FleaRandomization = GetRandomizationModeSlotData(
@@ -2674,30 +2668,6 @@ namespace SilksongRandomizer
             }
         }
 
-        private static CheckMapMarkerMode GetCheckMapMarkerMode(
-            LoginSuccessful login
-        )
-        {
-            const string key = "location_map_markers";
-            string value = GetRequiredStringSlotData(login, key);
-            switch (value)
-            {
-                case "off":
-                    return CheckMapMarkerMode.Off;
-                case "mapped_rooms":
-                    return CheckMapMarkerMode.MappedRooms;
-                case "owned_maps":
-                    return CheckMapMarkerMode.OwnedMaps;
-                case "all":
-                    return CheckMapMarkerMode.All;
-                default:
-                    throw new FormatException(
-                        "APWorld setting '" + key +
-                        "' has invalid mode '" + value + "'."
-                    );
-            }
-        }
-
         private static IReadOnlyList<VogAreaHint> GetVogAreaHints(JObject plan)
         {
             if (plan["format"]?.Value<string>() != "area_counts_v1" ||
@@ -3297,7 +3267,6 @@ namespace SilksongRandomizer
             StartWithMaps = false;
             StartFullyMapped = false;
             AutomaticCompass = false;
-            CheckMapMarkers = CheckMapMarkerMode.Off;
             RandomizedBellMarkers = false;
             RandomizedMelodyMarkers = false;
             RandomizedItemMarkerLocations =
@@ -3361,7 +3330,6 @@ namespace SilksongRandomizer
             BellhomeRandomization = RandomizationMode.Vanilla;
             CogheartPieceRandomization = RandomizationMode.Vanilla;
             QuestCollectibleRandomization = RandomizationMode.Vanilla;
-            MiscellaneousRandomization = RandomizationMode.Vanilla;
             MateriumRandomization = RandomizationMode.Vanilla;
             TwistedBudRandomization = RandomizationMode.Vanilla;
             FleaRandomization = RandomizationMode.Anywhere;

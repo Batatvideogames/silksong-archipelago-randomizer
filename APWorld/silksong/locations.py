@@ -1102,7 +1102,7 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Key of Indolent', 'MajorKey'), ('Key o
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Conjoined Heart', 'OldHeart'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Quest Completion: Broodmother Hunt', 'Resource'),)
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Materium', 'Materium'), ('Flintstone', 'Materium'), ('Magnetite Outcrop', 'Materium'), ('Farsight', 'Farsight'))
-_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Crow bell', 'Miscellaneous'),) + tuple(
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (('Crow bell', 'Bellhome'),) + tuple(
     (name, 'Resource') for name in MINOR_CACHE_LOCATION_NAMES
     if name in ADDITIONAL_MINOR_CACHE_LOCATION_NAMES
 )
@@ -1171,7 +1171,6 @@ PAIRED_LOCATION_CATEGORIES: tuple[str, ...] = (
     'Memento',
     'Materium',
     'Farsight',
-    'Miscellaneous',
     'Bellhome',
     'Cogheart',
     'QuestCollectible',

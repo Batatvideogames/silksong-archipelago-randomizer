@@ -157,13 +157,6 @@ class MementoRandomization(GlobalRandomization):
     default = GlobalRandomization.option_false
 
 
-class MiscellaneousItemsRandomization(GlobalRandomization):
-    """Randomizes Crawbell."""
-
-    display_name = "Miscellaneous Items Randomization"
-    default = GlobalRandomization.option_false
-
-
 class MateriumRandomization(GlobalRandomization):
     """Randomizes Materium, Flintstone, Magnetite and Voltstone."""
 
@@ -186,7 +179,7 @@ class CogheartPieceRandomization(GlobalRandomization):
 
 
 class BellhomeRandomization(GlobalRandomization):
-    """Randomizes Desk, Gleamlights, Bell Lacquer, Personal Spa and Gramophone."""
+    """Randomizes Desk, Gleamlights, Bell Lacquer, Personal Spa, Gramophone and Crawbell. Crawbell is only included for Act 3 goals."""
 
     display_name = "Bellhome Item Randomization"
     default = GlobalRandomization.option_false
@@ -741,7 +734,6 @@ CATEGORY_OPTION_BY_LOCATION_CATEGORY: dict[str, str] = {
     "Bellhome": "bellhome_randomization",
     "Cogheart": "cogheart_piece_randomization",
     "QuestCollectible": "quest_collectible_randomization",
-    "Miscellaneous": "miscellaneous_items_randomization",
     "TwistedBud": "twisted_bud_randomization",
     "Flea": "flea_randomization",
     "CrestSlot": "crest_slot_randomization",
@@ -1246,19 +1238,6 @@ class AutomaticCompass(Toggle):
     default = 1
 
 
-class CheckMapMarkers(Choice):
-    """
-    Show enabled, unchecked Archipelago checks on the in-game map.
-    """
-
-    display_name = "Location Map Markers"
-    option_off = 0
-    option_mapped_rooms = 1
-    option_owned_maps = 2
-    option_all = 3
-    default = option_all
-
-
 class RandomizedBellMarkers(Toggle):
     """
     Show map markers for your Grand Gate Bells where the randomizer placed them in your world.
@@ -1684,7 +1663,6 @@ class SilksongOptions(PerGameCommonOptions):
     start_with_maps: StartWithMaps
     start_fully_mapped: StartFullyMapped
     automatic_compass: AutomaticCompass
-    location_map_markers: CheckMapMarkers
     randomized_bell_markers: RandomizedBellMarkers
     randomized_melody_markers: RandomizedMelodyMarkers
     vog_area_hints: VogAreaHints
@@ -1720,7 +1698,6 @@ class SilksongOptions(PerGameCommonOptions):
     bellhome_randomization: BellhomeRandomization
     cogheart_piece_randomization: CogheartPieceRandomization
     quest_collectible_randomization: QuestCollectibleRandomization
-    miscellaneous_items_randomization: MiscellaneousItemsRandomization
     twisted_bud_randomization: TwistedBudRandomization
     flea_randomization: FleaRandomization
     crest_slot_randomization: CrestSlotRandomization
@@ -1802,7 +1779,6 @@ silksong_option_groups = [
         StartWithMaps,
         StartFullyMapped,
         AutomaticCompass,
-        CheckMapMarkers,
     ], start_collapsed=False),
     OptionGroup("Proficiency/Skip Options", [
         PlatformingCapability,
@@ -1839,7 +1815,6 @@ silksong_option_groups = [
         BellhomeRandomization,
         CogheartPieceRandomization,
         QuestCollectibleRandomization,
-        MiscellaneousItemsRandomization,
         TwistedBudRandomization,
         FleaRandomization,
         CrestSlotRandomization,

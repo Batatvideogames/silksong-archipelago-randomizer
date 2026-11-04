@@ -558,6 +558,21 @@
   "name": "Bone Bottom Town",
   "children": [
    {
+    "name": "Bone Bottom Icon of Hope Statue",
+    "sections": [
+     {
+      "name": "Bone Bottom Icon of Hope Statue"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bone Bottom Town",
+      "x": 1370,
+      "y": 513
+     }
+    ]
+   },
+   {
     "name": "Bone Bottom - Mossberry",
     "sections": [
      {
@@ -567,8 +582,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Town",
-      "x": 1795,
-      "y": 238
+      "x": 1783,
+      "y": 250
      }
     ]
    },
@@ -582,8 +597,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Town",
-      "x": 1413,
-      "y": 56
+      "x": 1437,
+      "y": 37
      }
     ]
    },
@@ -597,8 +612,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Town",
-      "x": 1428,
-      "y": 65
+      "x": 1430,
+      "y": 25
      }
     ]
    },
@@ -663,13 +678,25 @@
     ]
    },
    {
+    "name": "Boss: Skull Tyrant (Bone Bottom)",
+    "sections": [
+     {
+      "name": "Boss: Skull Tyrant (Bone Bottom)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Bone Bottom Town",
+      "x": 1445,
+      "y": 530
+     }
+    ]
+   },
+   {
     "name": "Journal: Skull Tyrant",
     "sections": [
      {
       "name": "Journal: Skull Tyrant"
-     },
-     {
-      "name": "Boss: Skull Tyrant (Bone Bottom)"
      }
     ],
     "map_locations": [
@@ -722,21 +749,6 @@
       "map": "Bone Bottom Town",
       "x": 1846,
       "y": 525
-     }
-    ]
-   },
-   {
-    "name": "Bone Bottom - Shell Shard Cache",
-    "sections": [
-     {
-      "name": "Bone Bottom - Shell Shard Cache"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Bone Bottom Town",
-      "x": 1370,
-      "y": 513
      }
     ]
    },
@@ -1013,8 +1025,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Bellway",
-      "x": 512,
-      "y": 235
+      "x": 302,
+      "y": 171
      }
     ]
    },
@@ -1028,8 +1040,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Bellway",
-      "x": 209,
-      "y": 101
+      "x": 0,
+      "y": 38
      }
     ]
    },
@@ -1043,8 +1055,8 @@
     "map_locations": [
      {
       "map": "Bone Bottom Bellway",
-      "x": 464,
-      "y": 229
+      "x": 255,
+      "y": 166
      }
     ]
    }
@@ -1063,8 +1075,8 @@
     "map_locations": [
      {
       "map": "Bonegrave",
-      "x": 697,
-      "y": 277
+      "x": 715,
+      "y": 252
      }
     ]
    },
@@ -1227,10 +1239,10 @@
     ]
    },
    {
-    "name": "Bonegrave Passage - right (R)",
+    "name": "Bonegrave Passage - right1 (R)",
     "sections": [
      {
-      "name": "Bonegrave Passage - right (R)"
+      "name": "Bonegrave Passage - right1 (R)"
      }
     ],
     "map_locations": [
@@ -1351,8 +1363,8 @@
     "map_locations": [
      {
       "map": "The Big Fall",
-      "x": 70,
-      "y": 1691
+      "x": 110,
+      "y": 1694
      }
     ]
    },
@@ -1366,8 +1378,8 @@
     "map_locations": [
      {
       "map": "The Big Fall",
-      "x": 310,
-      "y": 945
+      "x": 402,
+      "y": 1319
      }
     ]
    },
@@ -1656,7 +1668,7 @@
     "map_locations": [
      {
       "map": "Mosshome Side Room",
-      "x": 382,
+      "x": 381,
       "y": 31
      }
     ]
@@ -1717,6 +1729,21 @@
   "name": "Mosshome Upper",
   "children": [
    {
+    "name": "Mosshome - Moss Plaque",
+    "sections": [
+     {
+      "name": "Mosshome - Moss Plaque"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Mosshome Upper",
+      "x": 550,
+      "y": 184
+     }
+    ]
+   },
+   {
     "name": "Silkspear",
     "sections": [
      {
@@ -1728,6 +1755,36 @@
       "map": "Mosshome Upper",
       "x": 552,
       "y": 80
+     }
+    ]
+   },
+   {
+    "name": "Mosshome - Rosary Cache #3",
+    "sections": [
+     {
+      "name": "Mosshome - Rosary Cache #3"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Mosshome Upper",
+      "x": 979,
+      "y": 38
+     }
+    ]
+   },
+   {
+    "name": "Mosshome - Rosary Cache #4",
+    "sections": [
+     {
+      "name": "Mosshome - Rosary Cache #4"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Mosshome Upper",
+      "x": 972,
+      "y": 31
      }
     ]
    },
@@ -1761,39 +1818,6 @@
       "map": "Mosshome Upper",
       "x": 1000,
       "y": 196
-     }
-    ]
-   },
-   {
-    "name": "Mosshome - Rosary Cache #3",
-    "sections": [
-     {
-      "name": "Mosshome - Rosary Cache #3"
-     },
-     {
-      "name": "Mosshome - Rosary Cache #4"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Mosshome Upper",
-      "x": 975,
-      "y": 35
-     }
-    ]
-   },
-   {
-    "name": "Mosshome - Moss Plaque",
-    "sections": [
-     {
-      "name": "Mosshome - Moss Plaque"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Mosshome Upper",
-      "x": 551,
-      "y": 189
      }
     ]
    },
@@ -1997,7 +2021,7 @@
     "map_locations": [
      {
       "map": "Mosshome Lower",
-      "x": 69,
+      "x": 61,
       "y": 117
      }
     ]
@@ -4551,8 +4575,8 @@
     "map_locations": [
      {
       "map": "Wormways Flea Rescue",
-      "x": 389,
-      "y": 131
+      "x": 396,
+      "y": 128
      }
     ]
    },
@@ -4636,8 +4660,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper West",
-      "x": 473,
-      "y": 485
+      "x": 425,
+      "y": 698
      }
     ]
    },
@@ -4651,8 +4675,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper West",
-      "x": 1107,
-      "y": 50
+      "x": 1080,
+      "y": 260
      }
     ]
    },
@@ -4666,8 +4690,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper West",
-      "x": 916,
-      "y": 0
+      "x": 883,
+      "y": 209
      }
     ]
    },
@@ -4681,8 +4705,8 @@
     "map_locations": [
      {
       "map": "Wormways Upper West",
-      "x": 67,
-      "y": 392
+      "x": 6,
+      "y": 604
      }
     ]
    }
@@ -5805,8 +5829,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Upper Spire",
-      "x": 211,
-      "y": 60
+      "x": 208,
+      "y": 59
      }
     ]
    },
@@ -5820,8 +5844,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Upper Spire",
-      "x": 652,
-      "y": 204
+      "x": 644,
+      "y": 201
      }
     ]
    },
@@ -5836,7 +5860,7 @@
      {
       "map": "Deep Docks Upper Spire",
       "x": 6,
-      "y": 238
+      "y": 234
      }
     ]
    },
@@ -5850,8 +5874,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Upper Spire",
-      "x": 1222,
-      "y": 251
+      "x": 1206,
+      "y": 247
      }
     ]
    }
@@ -7955,10 +7979,10 @@
   "name": "Far Fields Chorus",
   "children": [
    {
-    "name": "Choir's Final Rites Beads",
+    "name": "Far Fields Chorus - Choir's Final Rites Beads",
     "sections": [
      {
-      "name": "Choir's Final Rites Beads"
+      "name": "Far Fields Chorus - Choir's Final Rites Beads"
      }
     ],
     "map_locations": [
@@ -8006,10 +8030,10 @@
     ]
    },
    {
-    "name": "Horn Fragment",
+    "name": "Far Fields Chorus - Horn Fragment",
     "sections": [
      {
-      "name": "Horn Fragment"
+      "name": "Far Fields Chorus - Horn Fragment"
      }
     ],
     "map_locations": [
@@ -11564,8 +11588,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 159,
-      "y": 566
+      "x": 156,
+      "y": 581
      }
     ]
    },
@@ -11580,7 +11604,7 @@
      {
       "map": "Shellwood Lower Left Tall Room",
       "x": 0,
-      "y": 68
+      "y": 69
      }
     ]
    },
@@ -11594,8 +11618,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 174,
-      "y": 783
+      "x": 171,
+      "y": 803
      }
     ]
    },
@@ -11609,8 +11633,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 258,
-      "y": 191
+      "x": 254,
+      "y": 196
      }
     ]
    },
@@ -11625,7 +11649,7 @@
      {
       "map": "Shellwood Lower Left Tall Room",
       "x": 0,
-      "y": 705
+      "y": 723
      }
     ]
    },
@@ -11639,8 +11663,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 258,
-      "y": 68
+      "x": 254,
+      "y": 69
      }
     ]
    },
@@ -11654,8 +11678,8 @@
     "map_locations": [
      {
       "map": "Shellwood Lower Left Tall Room",
-      "x": 258,
-      "y": 755
+      "x": 254,
+      "y": 774
      }
     ]
    }
@@ -18434,7 +18458,7 @@
     "map_locations": [
      {
       "map": "Last Judge Arena",
-      "x": 331,
+      "x": 341,
       "y": 0
      }
     ]
@@ -22504,10 +22528,10 @@
   "name": "Choral Chambers Outside Spa",
   "children": [
    {
-    "name": "Choral Chambers - Heavy Rosary Necklace",
+    "name": "Outside Spa - Heavy necklace",
     "sections": [
      {
-      "name": "Choral Chambers - Heavy Rosary Necklace"
+      "name": "Outside Spa - Heavy necklace"
      }
     ],
     "map_locations": [
@@ -22769,10 +22793,10 @@
   "name": "Choral Chambers Flea Room",
   "children": [
    {
-    "name": "Flea: Choral Chambers - Spa",
+    "name": "Choral Chambers - Caged Flea",
     "sections": [
      {
-      "name": "Flea: Choral Chambers - Spa"
+      "name": "Choral Chambers - Caged Flea"
      }
     ],
     "map_locations": [
@@ -22839,10 +22863,10 @@
   "name": "Choral Chambers Maintenance Tunnel",
   "children": [
    {
-    "name": "Maintenance Worker's Wage Rosary cache",
+    "name": "Maintenance Tunnel - Worker's Wage cache",
     "sections": [
      {
-      "name": "Maintenance Worker's Wage Rosary cache"
+      "name": "Maintenance Tunnel - Worker's Wage cache"
      }
     ],
     "map_locations": [
@@ -22854,10 +22878,10 @@
     ]
    },
    {
-    "name": "Maintenance Tunnel's Rosary cache budget",
+    "name": "Maintenance Tunnel - Rosary cache budget",
     "sections": [
      {
-      "name": "Maintenance Tunnel's Rosary cache budget"
+      "name": "Maintenance Tunnel - Rosary cache budget"
      }
     ],
     "map_locations": [
@@ -22869,10 +22893,10 @@
     ]
    },
    {
-    "name": "Maintenance Head chief's embezzled Rosary cache",
+    "name": "Maintenance Tunnel - Head chief's embezzled Rosary cache",
     "sections": [
      {
-      "name": "Maintenance Head chief's embezzled Rosary cache"
+      "name": "Maintenance Tunnel - Head chief's embezzled Rosary cache"
      }
     ],
     "map_locations": [
@@ -22919,10 +22943,10 @@
   "name": "Choral Chambers Flea Shaft",
   "children": [
    {
-    "name": "Flea: Choral Chambers - Walled Room",
+    "name": "Choral Chambers - Flea master of saws",
     "sections": [
      {
-      "name": "Flea: Choral Chambers - Walled Room"
+      "name": "Choral Chambers - Flea master of saws"
      }
     ],
     "map_locations": [
@@ -22934,10 +22958,10 @@
     ]
    },
    {
-    "name": "Flea Shaft's stolen rosaries",
+    "name": "Flea Shaft - stolen rosaries",
     "sections": [
      {
-      "name": "Flea Shaft's stolen rosaries"
+      "name": "Flea Shaft - stolen rosaries"
      }
     ],
     "map_locations": [
@@ -22949,10 +22973,10 @@
     ]
    },
    {
-    "name": "Flea Shaft's bounty",
+    "name": "Flea Shaft - bounty",
     "sections": [
      {
-      "name": "Flea Shaft's bounty"
+      "name": "Flea Shaft - bounty"
      }
     ],
     "map_locations": [
@@ -22964,10 +22988,10 @@
     ]
    },
    {
-    "name": "Flea Shaft's kidnappers' bonus",
+    "name": "Flea Shaft - kidnappers' bonus",
     "sections": [
      {
-      "name": "Flea Shaft's kidnappers' bonus"
+      "name": "Flea Shaft - kidnappers' bonus"
      }
     ],
     "map_locations": [
@@ -23154,10 +23178,10 @@
   "name": "Corridor to High Halls",
   "children": [
    {
-    "name": "Reed's personal chest",
+    "name": "Corridor to High Halls - Reed's personal chest",
     "sections": [
      {
-      "name": "Reed's personal chest"
+      "name": "Corridor to High Halls - Reed's personal chest"
      }
     ],
     "map_locations": [
@@ -23204,10 +23228,10 @@
   "name": "Choral Chambers Over Dining",
   "children": [
    {
-    "name": "Dining Hall's food budget",
+    "name": "Over dining - food budget",
     "sections": [
      {
-      "name": "Dining Hall's food budget"
+      "name": "Over dining - food budget"
      }
     ],
     "map_locations": [
@@ -23219,10 +23243,10 @@
     ]
    },
    {
-    "name": "Mergwin's hidden stash",
+    "name": "Over dining - Mergwin's hidden stash",
     "sections": [
      {
-      "name": "Mergwin's hidden stash"
+      "name": "Over dining - Mergwin's hidden stash"
      }
     ],
     "map_locations": [
@@ -23234,10 +23258,10 @@
     ]
    },
    {
-    "name": "Great Gourmand's treasury",
+    "name": "Over dining - Great Gourmand's treasury",
     "sections": [
      {
-      "name": "Great Gourmand's treasury"
+      "name": "Over dining - Great Gourmand's treasury"
      }
     ],
     "map_locations": [
@@ -23329,10 +23353,10 @@
   "name": "Choral Chambers Dining Room",
   "children": [
    {
-    "name": "Choral Chambers East - Silkeater",
+    "name": "Dining room - Silk eater",
     "sections": [
      {
-      "name": "Choral Chambers East - Silkeater"
+      "name": "Dining room - Silk eater"
      }
     ],
     "map_locations": [
@@ -23567,10 +23591,10 @@
   "name": "Choral Chambers Merchant Room",
   "children": [
    {
-    "name": "Choral Chambers - Rosary Necklace #1",
+    "name": "Merchant room - Merchant's prized necklace",
     "sections": [
      {
-      "name": "Choral Chambers - Rosary Necklace #1"
+      "name": "Merchant room - Merchant's prized necklace"
      }
     ],
     "map_locations": [
@@ -23582,10 +23606,10 @@
     ]
    },
    {
-    "name": "Merchant's funds",
+    "name": "Merchant room - Merchant's funds",
     "sections": [
      {
-      "name": "Merchant's funds"
+      "name": "Merchant room - Merchant's funds"
      }
     ],
     "map_locations": [
@@ -23702,10 +23726,10 @@
   "name": "Choral Chambers Above Ventrica",
   "children": [
    {
-    "name": "Choristor's precious belongings",
+    "name": "Above Ventrica - Choristor's precious belongings",
     "sections": [
      {
-      "name": "Choristor's precious belongings"
+      "name": "Above Ventrica - Choristor's precious belongings"
      }
     ],
     "map_locations": [
@@ -23717,10 +23741,10 @@
     ]
    },
    {
-    "name": "Old Ventrica gains",
+    "name": "Above Ventrica - Old gains",
     "sections": [
      {
-      "name": "Old Ventrica gains"
+      "name": "Above Ventrica - Old gains"
      }
     ],
     "map_locations": [
@@ -23732,10 +23756,10 @@
     ]
    },
    {
-    "name": "Old Ventrica treasury",
+    "name": "Above Ventrica - Old treasury",
     "sections": [
      {
-      "name": "Old Ventrica treasury"
+      "name": "Above Ventrica - Old treasury"
      }
     ],
     "map_locations": [
@@ -23782,10 +23806,10 @@
   "name": "Choral Chambers Ventrica Room",
   "children": [
    {
-    "name": "Ventrica's stored funds",
+    "name": "Ventrica room - stored funds",
     "sections": [
      {
-      "name": "Ventrica's stored funds"
+      "name": "Ventrica room - stored funds"
      }
     ],
     "map_locations": [
@@ -23797,10 +23821,10 @@
     ]
    },
    {
-    "name": "Ventrica's maintenance fees",
+    "name": "Ventrica room - maintenance fees",
     "sections": [
      {
-      "name": "Ventrica's maintenance fees"
+      "name": "Ventrica room - maintenance fees"
      }
     ],
     "map_locations": [
@@ -23812,10 +23836,10 @@
     ]
    },
    {
-    "name": "Ventrica's closed door budget",
+    "name": "Ventrica room - closed door budget",
     "sections": [
      {
-      "name": "Ventrica's closed door budget"
+      "name": "Ventrica room - closed door budget"
      }
     ],
     "map_locations": [
@@ -23922,10 +23946,10 @@
   "name": "Choral Chambers Below Ventrica",
   "children": [
    {
-    "name": "Ventrica worker's wage",
+    "name": "Below Ventrica - worker's wage",
     "sections": [
      {
-      "name": "Ventrica worker's wage"
+      "name": "Below Ventrica - worker's wage"
      }
     ],
     "map_locations": [
@@ -23937,10 +23961,10 @@
     ]
    },
    {
-    "name": "Ventrica worker's stolen funds",
+    "name": "Below Ventrica - worker's stolen funds",
     "sections": [
      {
-      "name": "Ventrica worker's stolen funds"
+      "name": "Below Ventrica - worker's stolen funds"
      }
     ],
     "map_locations": [
@@ -23952,10 +23976,10 @@
     ]
    },
    {
-    "name": "Choral Chambers - Shell Shard Cache",
+    "name": "Below Ventrica - worker's remains",
     "sections": [
      {
-      "name": "Choral Chambers - Shell Shard Cache"
+      "name": "Below Ventrica - worker's remains"
      }
     ],
     "map_locations": [
@@ -23967,10 +23991,10 @@
     ]
    },
    {
-    "name": "Ventrica Window's repairing fees",
+    "name": "Below Ventrica - Window's repairing fees",
     "sections": [
      {
-      "name": "Ventrica Window's repairing fees"
+      "name": "Below Ventrica - Window's repairing fees"
      }
     ],
     "map_locations": [
@@ -23982,10 +24006,10 @@
     ]
    },
    {
-    "name": "Ventrica Window's cleaning fees",
+    "name": "Below Ventrica - Window's cleaning fees",
     "sections": [
      {
-      "name": "Ventrica Window's cleaning fees"
+      "name": "Below Ventrica - Window's cleaning fees"
      }
     ],
     "map_locations": [
@@ -24410,10 +24434,10 @@
   "name": "Grand Bellway Side Room",
   "children": [
    {
-    "name": "Choral Chambers West - Silkeater",
+    "name": "Grand Bellway - Silk eater",
     "sections": [
      {
-      "name": "Choral Chambers West - Silkeater"
+      "name": "Grand Bellway - Silk eater"
      }
     ],
     "map_locations": [
@@ -27214,10 +27238,10 @@
   "name": "High Halls Small Room",
   "children": [
    {
-    "name": "High Halls - Shell Shard Cache #2",
+    "name": "Small Room - Maestro remains",
     "sections": [
      {
-      "name": "High Halls - Shell Shard Cache #2"
+      "name": "Small Room - Maestro remains"
      }
     ],
     "map_locations": [
@@ -27284,10 +27308,10 @@
   "name": "High Halls Big Shaft",
   "children": [
    {
-    "name": "High Halls - Rosary Chest",
+    "name": "Big Shaft - Minister's chest",
     "sections": [
      {
-      "name": "High Halls - Rosary Chest"
+      "name": "Big Shaft - Minister's chest"
      }
     ],
     "map_locations": [
@@ -27459,21 +27483,6 @@
   "name": "High Halls Cogfly Room",
   "children": [
    {
-    "name": "High Halls - Shell Shard Cache #1",
-    "sections": [
-     {
-      "name": "High Halls - Shell Shard Cache #1"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "High Halls Cogfly Room",
-      "x": 280,
-      "y": 201
-     }
-    ]
-   },
-   {
     "name": "Cogfly",
     "sections": [
      {
@@ -27484,7 +27493,22 @@
      {
       "map": "High Halls Cogfly Room",
       "x": 64,
-      "y": 78
+      "y": 81
+     }
+    ]
+   },
+   {
+    "name": "Cogfly Room - cogfly bones",
+    "sections": [
+     {
+      "name": "Cogfly Room - cogfly bones"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "High Halls Cogfly Room",
+      "x": 280,
+      "y": 201
      }
     ]
    },
@@ -27798,8 +27822,8 @@
     "map_locations": [
      {
       "map": "High Halls Rosary Bank",
-      "x": 326,
-      "y": 340
+      "x": 257,
+      "y": 272
      }
     ]
    },

@@ -72,6 +72,8 @@ namespace SilksongRandomizer
         private ConfigEntry<string> savedConnectionPort;
         private ConfigEntry<string> savedConnectionSlot;
         private ConfigEntry<bool> hideConnectionDetails;
+        private ConfigEntry<string> locationMapMarkers;
+        private bool mapMarkerSettingsChanged;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
         private ConfigEntry<bool> recentItemsDisplayEnabled;
@@ -228,6 +230,18 @@ namespace SilksongRandomizer
 
         private void LoadClientDisplaySettings()
         {
+            locationMapMarkers = Config.Bind("Map Markers", "Location Map Markers", "All",
+                ModMenuOptions.Describe("Map Markers", "Location Map Markers",
+                    "Show unchecked locations in mapped rooms, areas with owned maps or everywhere. Changes apply during your run.",
+                    new AcceptableValueList<string>("Off", "Mapped Rooms", "Owned Maps", "All"),
+                    menuDescription: () => locationMapMarkers.Value == "Off"
+                        ? "Hide Archipelago location markers."
+                        : locationMapMarkers.Value == "Mapped Rooms"
+                            ? "Show unchecked locations in rooms drawn on your map."
+                            : locationMapMarkers.Value == "Owned Maps"
+                                ? "Show unchecked locations in areas whose maps you own."
+                                : "Show all unchecked locations on your map."));
+            locationMapMarkers.SettingChanged += (_, __) => mapMarkerSettingsChanged = true;
             mapMarkerTooltipFontSize = Config.Bind(
                 "Map Markers",
                 "Tooltip Font Size",
@@ -279,6 +293,14 @@ namespace SilksongRandomizer
             ? Archipelago.DeathLinkCocoonVanilla
             : deathLinkCocoon?.Value == "Cocoonless"
                 ? Archipelago.DeathLinkCocoonless : Archipelago.DeathLinkCocoonProtected;
+
+        internal CheckMapMarkerMode LocationMapMarkers => locationMapMarkers?.Value switch
+        {
+            "Off" => CheckMapMarkerMode.Off,
+            "Mapped Rooms" => CheckMapMarkerMode.MappedRooms,
+            "Owned Maps" => CheckMapMarkerMode.OwnedMaps,
+            _ => CheckMapMarkerMode.All,
+        };
 
         internal int MapMarkerTooltipFontSize =>
             mapMarkerTooltipFontSize == null
@@ -775,6 +797,11 @@ namespace SilksongRandomizer
             {
                 deathLinkSettingsChanged = false;
                 Archipelago.Instance?.ApplyDeathLinkSettings();
+            }
+            if (mapMarkerSettingsChanged)
+            {
+                mapMarkerSettingsChanged = false;
+                CheckMapMarkerManager.ApplyDisplaySettings();
             }
             DeathLinkManager.Update();
             SilkLinkManager.Update();

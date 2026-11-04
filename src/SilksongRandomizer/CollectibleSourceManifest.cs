@@ -114,7 +114,7 @@ namespace SilksongRandomizer
                 "Cog Heart Pieces", "Music Box Sequence - EDITED/music_box_reward_pillar/Collectable Holder/Collectable Item Pickup", 49.362652f, 3.673514f),
             new DirectPickupEntry("Memorimum Cogheart Piece", ItemType.Cogheart, "Arborium_10",
                 "Cog Heart Pieces", "Music Box Sequence - EDITED/music_box_reward_pillar/Collectable Holder/Collectable Item Pickup", 17.810001f, 5.7f),
-            new DirectPickupEntry("Crow bell", ItemType.Miscellaneous, "Room_CrowCourt_02",
+            new DirectPickupEntry("Crow bell", ItemType.Bellhome, "Room_CrowCourt_02",
                 "Crawbell", "Collectable Item Pickup Crawbell", 19.41f, 44.32f),
             new DirectPickupEntry("Materium", ItemType.Materium, "Arborium_07",
                 "Materium", "Collectable Item Pickup Materium", 103.38f, 11.11f),
