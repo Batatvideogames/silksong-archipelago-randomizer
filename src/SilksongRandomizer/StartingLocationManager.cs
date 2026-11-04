@@ -44,7 +44,7 @@ namespace SilksongRandomizer
             switch (key)
             {
                 case Archipelago.StartingLocationBoneBottom:
-                    scene = ResolveBoneBottomSceneName();
+                    scene = "Bonetown";
                     zone = MapZone.BONETOWN;
                     break;
                 case Archipelago.StartingLocationBellhart:
@@ -250,8 +250,7 @@ namespace SilksongRandomizer
             {
                 if (slabStart)
                     OpenSlabEntrance();
-                if (RequiresBoneBottomVisit(expectedState.startingLocation))
-                    GameManager.instance.RespawningHero = true;
+                GameManager.instance.RespawningHero = true;
                 GameManager.instance.BeginSceneTransition(new SceneLoadInfo
                 {
                     SceneName = sceneName,
@@ -319,11 +318,5 @@ namespace SilksongRandomizer
             playerData.atBench = false;
         }
 
-        private static string ResolveBoneBottomSceneName()
-        {
-            return FastTravelScenes.GetSceneName(
-                FastTravelLocations.Bonetown
-            );
-        }
     }
 }

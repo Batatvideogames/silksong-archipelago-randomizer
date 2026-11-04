@@ -74,6 +74,7 @@ namespace SilksongRandomizer
         private ConfigEntry<bool> hideConnectionDetails;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
+        private ConfigEntry<bool> recentItemsDisplayEnabled;
         private ConfigEntry<bool> deathLinkEnabled;
         private ConfigEntry<string> deathLinkCocoon;
         private volatile bool deathLinkSettingsChanged;
@@ -133,6 +134,7 @@ namespace SilksongRandomizer
         private struct QueuedUnlockPopup
         {
             public string Text;
+            public string RecentText;
             public string ItemName;
             public string Game;
             public ItemFlags Flags;
@@ -244,6 +246,10 @@ namespace SilksongRandomizer
                 ModMenuOptions.Describe("Map Markers", "Show Requirements (Experimental)",
                     "Show the requirements for a check when you focus its map marker. Toggle with F6.")
             );
+            recentItemsDisplayEnabled = Config.Bind(
+                "Recent Items Display", "Enable Recent Items Display", false,
+                ModMenuOptions.Describe("Recent Items Display", "Recent Items Display",
+                    "Show your five most recent sent and received items. Toggle with F9."));
         }
 
         private void LoadDeathLinkSettings()
@@ -257,7 +263,12 @@ namespace SilksongRandomizer
                     "Cocoonless: received deaths leave your cocoon and Rosaries untouched. " +
                     "Protect Existing Cocoon: create a cocoon only if you have none, otherwise keep your cocoon and Rosaries. " +
                     "Your own deaths always behave normally.",
-                    new AcceptableValueList<string>("Vanilla", "Cocoonless", "Protect Existing Cocoon")));
+                    new AcceptableValueList<string>("Vanilla", "Cocoonless", "Protect Existing Cocoon"),
+                    menuDescription: () => deathLinkCocoon.Value == "Vanilla"
+                        ? "Received deaths replace your cocoon and drop your Rosaries.\nYour own deaths behave normally."
+                        : deathLinkCocoon.Value == "Cocoonless"
+                            ? "Received deaths keep your cocoon and Rosaries.\nYour own deaths behave normally."
+                            : "Received deaths keep an existing cocoon and Rosaries,\nor create a cocoon if you have none. Your own deaths stay normal."));
             deathLinkEnabled.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
             deathLinkCocoon.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
         }
@@ -273,6 +284,8 @@ namespace SilksongRandomizer
             mapMarkerTooltipFontSize == null
                 ? 14
                 : Mathf.Clamp(mapMarkerTooltipFontSize.Value, 10, 32);
+
+        internal bool RecentItemsDisplayEnabled => recentItemsDisplayEnabled?.Value == true;
 
         internal bool ShowMapMarkerLogic =>
             showMapMarkerLogic == null || showMapMarkerLogic.Value;
@@ -791,6 +804,7 @@ namespace SilksongRandomizer
             BeastlingCallAct3Safety.Update();
             InnateAbilityManager.Update();
             ProcessQueuedUnlockPopups();
+            RecentItemsDisplay.Update();
             ShopPatches.ProcessQueuedHintRefreshes();
 
             if (reopenConnectionGuiRequested)
@@ -833,10 +847,16 @@ namespace SilksongRandomizer
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                recentItemsDisplayEnabled.Value = !recentItemsDisplayEnabled.Value;
+                Config.Save();
+            }
         }
 
         private void OnDisable()
         {
+            RecentItemsDisplay.Reset();
             connectionShutdownRequested = true;
             SuppressAutomaticReconnect();
             Archipelago archipelago = Archipelago.Instance;
@@ -1025,6 +1045,7 @@ namespace SilksongRandomizer
 
         public void ClearPendingGameplayQueues()
         {
+            RecentItemsDisplay.Reset();
             ProgressionShufflePatches.ClearPendingInteractions();
             TrapManager.ResetTransientEffects();
             BeastlingCallAct3Safety.Reset();
@@ -1070,7 +1091,28 @@ namespace SilksongRandomizer
         public void QueueUnlockPopup(string text, ItemFlags flags)
             => QueueSentItemPopup(text, text, "Hollow Knight: Silksong", flags);
 
+        private void QueueReceivedItemPopup(string itemName, ItemFlags flags, ReceivedItemReceipt receipt)
+        {
+            string recentText = itemName;
+            SaveState state = SaveState.Instance;
+            if (receipt != null && receipt.player != state?.slot)
+            {
+                string sender = receipt.player == 0 ? "Start" :
+                    Archipelago.Instance?.GetReceivedItemSender(state, receipt.player) ?? "Player " + receipt.player;
+                recentText += "\nfrom " + sender;
+            }
+            QueueItemPopup(itemName, recentText, itemName, "Hollow Knight: Silksong", flags);
+        }
+
         private void QueueSentItemPopup(string text, string itemName, string game, ItemFlags flags)
+        {
+            string prefix = "Sent " + itemName + " to ";
+            string recentText = text != null && text.StartsWith(prefix, StringComparison.Ordinal)
+                ? "Sent " + itemName + "\nto " + text.Substring(prefix.Length) : text;
+            QueueItemPopup(text, recentText, itemName, game, flags);
+        }
+
+        private void QueueItemPopup(string text, string recentText, string itemName, string game, ItemFlags flags)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -1082,6 +1124,7 @@ namespace SilksongRandomizer
                 unlockQueue.Enqueue(new QueuedUnlockPopup
                 {
                     Text = text,
+                    RecentText = recentText,
                     ItemName = itemName,
                     Game = game,
                     Flags = flags
@@ -1324,7 +1367,7 @@ namespace SilksongRandomizer
 
                 if (newlyReceived)
                 {
-                    QueueUnlockPopup(canonicalItemName, queuedItem.Flags);
+                    QueueReceivedItemPopup(canonicalItemName, queuedItem.Flags, queuedItem.Receipt);
                 }
 
                 return replayedReceipt || alreadyReceived &&
@@ -1429,11 +1472,13 @@ namespace SilksongRandomizer
             }
 
             float iconScale;
+            Sprite icon = ItemIcons.GetSpriteForGame(popup.Game, popup.ItemName,
+                GetItemClassificationIcon(popup.Flags), out iconScale);
+            RecentItemsDisplay.QueueItem(icon, popup.RecentText);
             CollectableUIMsg.Spawn(new UIMsgDisplay
             {
                 Name = AlphabetModeManager.FilterDirectText(popup.Text),
-                Icon = ItemIcons.GetSpriteForGame(popup.Game, popup.ItemName,
-                    GetItemClassificationIcon(popup.Flags), out iconScale),
+                Icon = icon,
                 IconScale = iconScale,
                 RepresentingObject = null,
             }, null, false);

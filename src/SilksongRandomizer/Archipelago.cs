@@ -1929,7 +1929,7 @@ namespace SilksongRandomizer
             }
         }
 
-        internal void MarkItemUnlocked(ItemInfo item, bool raiseEvent)
+        private void MarkItemUnlocked(ItemInfo item, bool raiseEvent)
         {
             AddReceivedItem(GetItemName(item), raiseEvent);
         }

@@ -4,6 +4,8 @@ using System.Reflection;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using HarmonyLib;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SilksongRandomizer
 {
@@ -14,13 +16,18 @@ namespace SilksongRandomizer
         private sealed class MenuSetting
         {
             internal readonly string Label;
-            internal MenuSetting(string label) => Label = label;
+            internal readonly Func<string> Description;
+            internal MenuSetting(string label, Func<string> description)
+            {
+                Label = label;
+                Description = description;
+            }
         }
 
         internal static ConfigDescription Describe(string group, string label, string description,
-            AcceptableValueBase range = null)
+            AcceptableValueBase range = null, Func<string> menuDescription = null)
         {
-            object[] tags = { new MenuSetting(label) };
+            object[] tags = { new MenuSetting(label, menuDescription) };
             if (Chainloader.PluginInfos.TryGetValue(PluginId, out var plugin) && plugin.Instance != null)
             {
                 Assembly assembly = plugin.Instance.GetType().Assembly;
@@ -40,7 +47,8 @@ namespace SilksongRandomizer
         {
             harmony.Patch(AccessTools.Method(assembly.GetType("Silksong.ModMenu.Plugin.ConfigEntryFactory", true),
                     "GenerateMenuElement"),
-                prefix: new HarmonyMethod(typeof(ModMenuOptions), nameof(FilterSetting)));
+                prefix: new HarmonyMethod(typeof(ModMenuOptions), nameof(FilterSetting)),
+                postfix: new HarmonyMethod(typeof(ModMenuOptions), nameof(DescribeSetting)));
             harmony.Patch(AccessTools.Method(assembly.GetType("Silksong.ModMenu.Plugin.ConfigEntryFactoryExtensions", true),
                     "LabelName"),
                 postfix: new HarmonyMethod(typeof(ModMenuOptions), nameof(NameSetting)));
@@ -56,6 +64,24 @@ namespace SilksongRandomizer
             __args[1] = null;
             __result = false;
             return false;
+        }
+
+        private static void DescribeSetting(ConfigEntryBase entry, object menuElement, bool __result)
+        {
+            if (!__result || entry.ConfigFile != RandomizerPlugin.Instance?.Config ||
+                !(Setting(entry)?.Description is Func<string> describe)) return;
+            object element = menuElement;
+            if (!(AccessTools.Field(element.GetType(), "DescriptionText")?.GetValue(element) is Text text)) return;
+            text.fontSize = 20;
+            text.verticalOverflow = VerticalWrapMode.Overflow;
+            text.text = describe();
+            EventHandler<SettingChangedEventArgs> changed = (_, args) =>
+            {
+                if (args.ChangedSetting == entry && text != null) text.text = describe();
+            };
+            entry.ConfigFile.SettingChanged += changed;
+            element.GetType().GetEvent("OnDispose").AddEventHandler(element,
+                new Action(() => entry.ConfigFile.SettingChanged -= changed));
         }
 
         private static void NameSetting(ConfigEntryBase __0, ref string __result)

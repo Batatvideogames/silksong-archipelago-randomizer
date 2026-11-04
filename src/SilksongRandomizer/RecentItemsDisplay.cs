@@ -1,217 +1,208 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx;
-using HarmonyLib;
+using SilksongRandomizer.AlphabetMode;
 using TMProOld;
-using SilksongRandomizer;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Runtime.Versioning;
 
 namespace SilksongRandomizer
 {
     public static class RecentItemsDisplay
     {
-        private class ItemNotification
-        {
-            public GameObject rootObject;
-        }
-
-        private static readonly ConcurrentQueue<(UnityEngine.Sprite sprite, string message)> pendingItemsQueue = new ConcurrentQueue<(Sprite, string)>();
-        private static readonly List<ItemNotification> activeItemNotifications = new List<ItemNotification>();
         private const int MaxDisplayedItems = 5;
         private static TMP_FontAsset gameFont;
         private static Sprite bottomFleurSprite;
         private static Sprite topFleurSprite;
-        private static bool assetsLoaded = false;
+        private static DisplayHost instance;
+        private static SaveState currentSave;
+        private static readonly Queue<(Sprite sprite, string message)> pendingItems =
+            new Queue<(Sprite, string)>();
+
+        internal static void Update()
+        {
+            SaveState save = SaveState.Instance;
+            if (!ReferenceEquals(currentSave, save))
+            {
+                Reset();
+                currentSave = save;
+            }
+            if (save?.IsRoomBound != true)
+            {
+                Reset();
+                return;
+            }
+
+            var manager = GameManager.SilentInstance;
+            bool visible = RandomizerPlugin.Instance?.RecentItemsDisplayEnabled == true &&
+                manager != null && manager.IsGameplayScene() &&
+                !manager.IsInSceneTransition && PlayerData.instance != null &&
+                !PlayerData.instance.isInventoryOpen && !RandomizerPlugin.IsConnectionGuiOpen;
+            if (instance != null) instance.gameObject.SetActive(visible);
+            if (!visible) return;
+            Initialize();
+            while (pendingItems.Count > 0)
+            {
+                var item = pendingItems.Dequeue();
+                instance.AddItem(item.sprite, item.message);
+            }
+        }
+
+        // Initialize the object and add DisplayHost
+        public static void Initialize()
+        {
+            if (RandomizerPlugin.Instance?.RecentItemsDisplayEnabled != true || instance != null) return;
+            var obj = new GameObject("Silksong.RecentItemsDisplayHost");
+            Object.DontDestroyOnLoad(obj);
+            instance = obj.AddComponent<DisplayHost>();
+        }
+
+        internal static void QueueItem(Sprite sprite, string message)
+        {
+            if (SaveState.Instance?.IsRoomBound != true) return;
+            if (!ReferenceEquals(currentSave, SaveState.Instance))
+            {
+                Reset();
+                currentSave = SaveState.Instance;
+            }
+            pendingItems.Enqueue((sprite, message));
+            while (pendingItems.Count > MaxDisplayedItems) pendingItems.Dequeue();
+        }
+
+        internal static void Reset()
+        {
+            pendingItems.Clear();
+            if (instance != null)
+            {
+                instance.gameObject.SetActive(false);
+                Object.Destroy(instance.gameObject);
+                instance = null;
+            }
+        }
 
         private class DisplayHost : MonoBehaviour
         {
+            private readonly List<GameObject> activeItemNotifications = new List<GameObject>();
             private Transform container;
             private GameObject bottomFleurObj;
             private RectTransform bottomFleurRt;
 
             private void Awake()
             {
-                // Check if the item display is enabled otherwise return and destroy
-                if (RandomizerPlugin.Instance == null || !RandomizerPlugin.Instance.RecentItemsDisplayEnabled)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-
-                // Set the canvas and use placeholder 9999 for rendering, ideally should go under the inventory layout
                 var canvas = gameObject.AddComponent<Canvas>();
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 canvas.sortingOrder = 9999;
-                
-                // Scale the UI based on resolution, this needs to be tested with other resolutions
+                // Scale the UI based on resolution
                 // 2560 x 1440, 1920 x 1080 or 16:9 seem to work just fine
                 var scaler = gameObject.AddComponent<CanvasScaler>();
                 scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
                 scaler.referenceResolution = new Vector2(1920, 1080);
 
-                var containerObj = new GameObject("Container", typeof(RectTransform));
+                var containerObj = CreateUIObject("Container", transform, out var containerRt);
                 container = containerObj.transform;
-                container.SetParent(transform, false);
-                ApplyLayout(containerObj.GetComponent<RectTransform>(), Vector2.one, Vector2.one, new Vector2(-200, -20));
+                ApplyLayout(containerRt, Vector2.one, Vector2.one, new Vector2(-200, -20));
 
-                // Use the bool to instead use the cached sprites + font
-                if (!assetsLoaded)
+                // Da Skong Font, there are like 9 or 10 other fonts, reminder to list them eventually
+                if (gameFont == null)
+                    gameFont = Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(font =>
+                        font != null && font.name == "TrajanPro-Bold SDF");
+                // Fleurs that make the window look a bit more native, might need to be resized a bit
+                if (bottomFleurSprite == null || topFleurSprite == null)
                 {
-                    // Da Skong Font, there are like 9 or 10 other fonts, reminder to list them eventually
-                    // Some letters are still not rendering properly needs to be addressed
-                    gameFont = Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(font => font != null && font.name == "TrajanPro-Bold SDF");
-
-                    // Fleurs that make the window look a bit more native, might need to be resized a bit
-                    bottomFleurSprite = Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(sprite => sprite != null && sprite.name == "bottom_fleur0006");
-                    topFleurSprite = Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(sprite => sprite != null && sprite.name == "pause_top_fleur0008");
-
-                    // Load the assets and set the bool to true so they don't grab every single time
-                    assetsLoaded = true;
+                    var sprites = Resources.FindObjectsOfTypeAll<Sprite>();
+                    bottomFleurSprite = sprites.FirstOrDefault(sprite => sprite != null && sprite.name == "bottom_fleur0006");
+                    topFleurSprite = sprites.FirstOrDefault(sprite => sprite != null && sprite.name == "pause_top_fleur0008");
                 }
 
                 // Create header, set layout, and set text styling
-                var headerObj = CreateUIObject("Header", container, out RectTransform headerRt);
-                ApplyLayout(headerRt, Vector2.up, Vector2.up, new Vector2(-25, 0), new Vector2(340, 22));
-                ConfigureText(headerObj, "Recent Items", 36, Color.white, TextAlignmentOptions.Left, FontStyles.Bold);
+                var headerObj = CreateUIObject("Header", container, out var headerRt);
+                ApplyLayout(headerRt, Vector2.up, Vector2.up, new Vector2(-25, 0), new Vector2(340, 44));
+                ConfigureText(headerObj, "Recent Items", 36, TextAlignmentOptions.Left, FontStyles.Bold);
 
                 // Create top fleur, set layout
                 if (topFleurSprite != null)
                 {
-                    var topFleurObj = CreateUIObject("TopFleur", container, out RectTransform topFleurRt);
+                    var topFleurObj = CreateUIObject("TopFleur", container, out var topFleurRt);
                     ApplyLayout(topFleurRt, Vector2.up, Vector2.up, new Vector2(-50, -24), new Vector2(340, 85));
-
                     var topFleurImg = topFleurObj.AddComponent<Image>();
                     topFleurImg.sprite = topFleurSprite;
                     topFleurImg.type = Image.Type.Sliced;
-                    topFleurImg.fillCenter = true;
+                    topFleurImg.raycastTarget = false;
                 }
-
                 // Create bottom fleur, set layout
                 if (bottomFleurSprite != null)
                 {
                     bottomFleurObj = CreateUIObject("BottomFleur", container, out bottomFleurRt);
-
                     var bottomFleurImg = bottomFleurObj.AddComponent<Image>();
                     bottomFleurImg.sprite = bottomFleurSprite;
                     bottomFleurImg.type = Image.Type.Sliced;
-                    bottomFleurImg.fillCenter = true;
+                    bottomFleurImg.raycastTarget = false;
+                    bottomFleurObj.SetActive(false);
                 }
             }
 
-            private void Update()
+            internal void AddItem(Sprite sprite, string message)
             {
-                // Check if the item display is enabled otherwise return and destroy
-                if (RandomizerPlugin.Instance == null || !RandomizerPlugin.Instance.RecentItemsDisplayEnabled)
+                if (activeItemNotifications.Count >= MaxDisplayedItems)
                 {
-                    Destroy(gameObject);
-                    return;
+                    var old = activeItemNotifications[activeItemNotifications.Count - 1];
+                    old.SetActive(false);
+                    Destroy(old);
+                    activeItemNotifications.RemoveAt(activeItemNotifications.Count - 1);
                 }
 
-                // Skip update if the queue is empty
-                if (pendingItemsQueue.IsEmpty)
-                {
-                    return;
-                }
+                // Create the notification and set the layout position in the container
+                var root = CreateUIObject("Notification", container, out var rootRt);
+                ApplyLayout(rootRt, Vector2.up, Vector2.up, Vector2.zero, new Vector2(340, 48));
+                // Create the icon and set the anchoring and pivot
+                var iconObj = CreateUIObject("Icon", root.transform, out var iconRt);
+                iconRt.anchorMin = iconRt.anchorMax = new Vector2(0, 0.5f);
+                iconRt.pivot = new Vector2(0.5f, 0.5f);
+                iconRt.anchoredPosition = new Vector2(36, 0);
+                iconRt.sizeDelta = new Vector2(48, 48);
+                var iconImg = iconObj.AddComponent<Image>();
+                iconImg.sprite = sprite;
+                iconImg.preserveAspect = true;
+                // FUCK THIS SHIT I DONT GET HOW TO FLIP THE SPRITES PROPERLY EVERY SINGLE TIME MORCH HELPPPPPPPPPPP
+                iconImg.useSpriteMesh = true; // lmao
+                iconImg.raycastTarget = false;
 
-                // Additionally only dequeue if one item is found with a bool to set for one update frame
-                bool itemQueued = false;
-
-                while (pendingItemsQueue.TryDequeue(out var item))
-                {
-                    itemQueued = true;
-
-                    if (activeItemNotifications.Count >= MaxDisplayedItems)
-                    {
-                        var old = activeItemNotifications[activeItemNotifications.Count - 1];
-                        if (old.rootObject != null) Destroy(old.rootObject);
-                        activeItemNotifications.RemoveAt(activeItemNotifications.Count - 1);
-                    }
-
-                    // Create the notification and set the layout position in the container
-                    var root = CreateUIObject("Notification", container, out RectTransform rootRt);
-                    ApplyLayout(rootRt, Vector2.up, Vector2.up, Vector2.zero, new Vector2(340, 48));
-
-                    // Create the icon and set the anchoring and pivot
-                    var iconObj = CreateUIObject("Icon", root.transform, out RectTransform iconRt);
-                    iconRt.anchorMin = iconRt.anchorMax = new Vector2(0, 0.5f);
-                    iconRt.pivot = new Vector2(0.5f, 0.5f);
-                    iconRt.anchoredPosition = new Vector2(36, 0);
-                    iconRt.sizeDelta = new Vector2(48, 48);
-
-                    var iconImg = iconObj.AddComponent<Image>();
-                    iconImg.sprite = item.sprite;
-                    iconImg.preserveAspect = true;
-
-                    // FUCK THIS SHIT I DONT GET HOW TO FLIP THE SPRITES PROPERLY EVERY SINGLE TIME MORCH HELPPPPPPPPPPP
-                    if (item.sprite?.uv != null && item.sprite.uv.Length >= 2 && item.sprite.uv[0].y < item.sprite.uv[1].y)
-                    {
-                        iconRt.localScale = new Vector3(1, -1, 1);
-                    }
-
-                    // Create the text and set the anchoring + offset
-                    var textObj = CreateUIObject("Text", root.transform, out RectTransform textRt);
-                    textRt.anchorMin = Vector2.zero;
-                    textRt.anchorMax = Vector2.one;
-                    textRt.offsetMin = new Vector2(76, 2);
-                    textRt.offsetMax = new Vector2(-8, -2);
-
-                    // Configure the text for the notiication
-                    ConfigureText(textObj, item.message, 18, Color.white, TextAlignmentOptions.MidlineLeft);
-
-                    // Insert the object into the list
-                    activeItemNotifications.Insert(0, new ItemNotification { rootObject = root });
-                }
-
-                // Refresh the layout one update frame at a time
-                if (itemQueued)
-                {
-                    RefreshLayout();
-                }
+                // Create the text and set the anchoring + offset
+                var textObj = CreateUIObject("Text", root.transform, out var textRt);
+                textRt.anchorMin = Vector2.zero;
+                textRt.anchorMax = Vector2.one;
+                textRt.offsetMin = new Vector2(76, 2);
+                textRt.offsetMax = new Vector2(-8, -2);
+                // Configure the text for the notiication
+                ConfigureText(textObj, message.Replace("_", " "), 18, TextAlignmentOptions.MidlineLeft);
+                // Insert the object into the list
+                activeItemNotifications.Insert(0, root);
+                RefreshLayout();
             }
 
             // Refresh the layout to push the new items to the top
             private void RefreshLayout()
             {
                 // Fleur + Top
-                float startY = -109f;
-                for (int i = 0; i< activeItemNotifications.Count; i++)
-                {
-                    var rt = activeItemNotifications[i].rootObject.GetComponent<RectTransform>();
-                    rt.anchoredPosition = new Vector2(-50, startY - (i * 50));
-                }
-
+                const float startY = -109f;
+                for (int i = 0; i < activeItemNotifications.Count; i++)
+                    activeItemNotifications[i].GetComponent<RectTransform>().anchoredPosition =
+                        new Vector2(-50, startY - i * 50);
                 if (bottomFleurObj != null)
                 {
-                    if (activeItemNotifications.Count > 0)
-                    {
-                        bottomFleurObj.SetActive(true);
-                        float bottomY = startY - (activeItemNotifications.Count * 50) - 4;
-                        var bottomFleurRt = bottomFleurObj.GetComponent<RectTransform>();
-                        ApplyLayout(bottomFleurRt, Vector2.up, Vector2.up, new Vector2(-50, bottomY), new Vector2(340, 66));
-                    }
-                    else
-                    {
-                        bottomFleurObj.SetActive(false);
-                    }
+                    bottomFleurObj.SetActive(activeItemNotifications.Count > 0);
+                    ApplyLayout(bottomFleurRt, Vector2.up, Vector2.up,
+                        new Vector2(-50, startY - activeItemNotifications.Count * 50 - 4), new Vector2(340, 66));
                 }
             }
 
-            // Destroy the instance and clear the list
             private void OnDestroy()
             {
-                if (instance == this)
-                {
-                    instance = null;
-                }
-
-                activeItemNotifications.Clear();
+                if (instance == this) instance = null;
             }
 
             // Create the UI Object in a methodized way since it was repeated several times
-            private GameObject CreateUIObject(string name, Transform parent, out RectTransform rectTransform)
+            private static GameObject CreateUIObject(string name, Transform parent, out RectTransform rectTransform)
             {
                 var obj = new GameObject(name, typeof(RectTransform));
                 obj.transform.SetParent(parent, false);
@@ -220,64 +211,33 @@ namespace SilksongRandomizer
             }
 
             // Applying layout to the transforms methodized since it was repeated several times
-            private void ApplyLayout(RectTransform rt,  Vector2 anchor, Vector2 pivot, Vector2 anchoredPosition, Vector2? sizeDelta = null)
+            private static void ApplyLayout(RectTransform rt, Vector2 anchor, Vector2 pivot,
+                Vector2 anchoredPosition, Vector2? sizeDelta = null)
             {
-                rt.anchorMin = anchor;
-                rt.anchorMax = anchor;
+                rt.anchorMin = rt.anchorMax = anchor;
                 rt.pivot = pivot;
                 rt.anchoredPosition = anchoredPosition;
-                if (sizeDelta.HasValue)
-                {
-                    rt.sizeDelta = sizeDelta.Value;
-                }
+                if (sizeDelta.HasValue) rt.sizeDelta = sizeDelta.Value;
             }
 
             // Configuring text methodized since it was repeated several times
-            private void ConfigureText(GameObject obj, string text, float fontSize, Color color, TextAlignmentOptions alignment, FontStyles style = FontStyles.Normal)
+            private static void ConfigureText(GameObject obj, string text, float fontSize,
+                TextAlignmentOptions alignment, FontStyles style = FontStyles.Normal)
             {
                 var tmp = obj.AddComponent<TextMeshProUGUI>();
-                tmp.text = text;
+                if (gameFont != null) tmp.font = gameFont;
+                tmp.text = AlphabetModeManager.FilterDirectText(text);
                 tmp.fontSize = fontSize;
-                tmp.color = color;
+                tmp.color = Color.white;
                 tmp.alignment = alignment;
                 tmp.fontStyle = style;
-                if (gameFont != null)
-                {
-                    tmp.font = gameFont;
-                }
+                tmp.richText = false;
+                tmp.raycastTarget = false;
+                tmp.enableAutoSizing = true;
+                tmp.fontSizeMin = 12;
+                tmp.fontSizeMax = fontSize;
+                tmp.OverflowMode = TextOverflowModes.Ellipsis;
             }
-        }
-
-        private static DisplayHost instance;
-        
-        // Initialize the object and add DisplayHost
-        public static void Initialize()
-        {
-            if (RandomizerPlugin.Instance == null || !RandomizerPlugin.Instance.RecentItemsDisplayEnabled)
-            {
-                return;
-            }
-
-            if (instance != null)
-            {
-                return;
-            }
-
-            var obj = new GameObject("Silksong.RecentItemsDisplayHost");
-            Object.DontDestroyOnLoad(obj);
-            instance = obj.AddComponent<DisplayHost>();
-        }
-
-        // Taken from the previous RecentItemsDisplay plugin, we want to queue to avoid any crashing
-        internal static void QueueItem(UnityEngine.Sprite sprite, string message)
-        {
-            if (RandomizerPlugin.Instance == null || !RandomizerPlugin.Instance.RecentItemsDisplayEnabled)
-            {
-                return;
-            }
-
-            Initialize();
-            pendingItemsQueue.Enqueue((sprite, message));
         }
     }
 }
