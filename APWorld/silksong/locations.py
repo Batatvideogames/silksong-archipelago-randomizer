@@ -20,6 +20,7 @@ from .lore_tablets import (
     ADDITIONAL_LORE_TABLET_SOURCES,
     LORE_TABLET_CATEGORY,
     LORE_TABLET_LOCATION_NAMES,
+    THREAD_MEMORY_LOCATION_NAMES,
 )
 from .minor_caches import (
     MINOR_CACHE_LOCATION_NAMES,
@@ -1153,7 +1154,7 @@ location_table: Dict[str, int] = {
     )
 }
 
-RETIRED_LOCATION_NAMES = RETIRED_MINOR_CACHE_LOCATION_NAMES | {
+RETIRED_LOCATION_NAMES = RETIRED_MINOR_CACHE_LOCATION_NAMES | THREAD_MEMORY_LOCATION_NAMES | {
     "Whispering Vaults - Heavy Rosary Necklace",
     "The Slab - Weaver Gate Inscription",
 }

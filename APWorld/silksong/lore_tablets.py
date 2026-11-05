@@ -509,7 +509,14 @@ ADDITIONAL_LORE_TABLET_SOURCES = (
         requires_needolin=True,
     ),
 )
-LORE_TABLET_SOURCES += ADDITIONAL_LORE_TABLET_SOURCES
+THREAD_MEMORY_LOCATION_NAMES = frozenset(
+    source.location_name for source in ADDITIONAL_LORE_TABLET_SOURCES
+    if any(identity.hierarchy_path == "thread_memory" for identity in source.identities)
+)
+LORE_TABLET_SOURCES += tuple(
+    source for source in ADDITIONAL_LORE_TABLET_SOURCES
+    if source.location_name not in THREAD_MEMORY_LOCATION_NAMES
+)
 
 LORE_TABLET_LOCATION_NAMES: tuple[str, ...] = tuple(
     source.location_name for source in LORE_TABLET_SOURCES
@@ -532,10 +539,6 @@ LORE_TABLET_COMMUNITY_BACKED_LOCATION_NAMES: frozenset[str] = frozenset((
     "Bellhart - East Sign",
     "Pilgrim's Rest Board",
     "Shaman Crest Ritual Recipe",
-    "Underworks: Needolin Lore",
-    "Underworks: Needolin Lore #1",
-    "Putrified Ducts - thread memory Map Room",
-    "Putrified Ducts - Camp Thread Memory",
     "Grand Gate - Nyleth Shrine Inscription",
     "The Marrow - Entrance Inscription",
     "The Marrow - Pilgrim Diary",

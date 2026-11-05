@@ -375,7 +375,7 @@ class ToolPouchRandomization(GlobalRandomization):
 
 class LoreTabletRandomization(GlobalRandomization):
     """
-    Randomizes the 38 Lore Tablets in the game.
+    Randomizes the 42 Lore Tablets in the game.
 
     false: leaves them where they normally are
     true: mixes them into the global item pool

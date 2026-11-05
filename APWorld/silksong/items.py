@@ -689,7 +689,10 @@ item_table: Dict[str, int] = {
     for index, (name, _category) in enumerate(ITEM_TABLE_SOURCE)
 }
 
-ITEM_TABLE_SOURCE = tuple(dict.fromkeys(ITEM_TABLE_SOURCE))
+ITEM_TABLE_SOURCE = tuple(
+    row for row in dict.fromkeys(ITEM_TABLE_SOURCE)
+    if row[1] != LORE_TABLET_CATEGORY or row[0] in LORE_TABLET_ITEM_NAMES
+)
 
 from .enemy_souls import CATALOGUE as ENEMY_SOUL_CATALOGUE, item_name as enemy_soul_name
 from .boss_souls import CATALOGUE as BOSS_SOUL_CATALOGUE, SETH_SOUL

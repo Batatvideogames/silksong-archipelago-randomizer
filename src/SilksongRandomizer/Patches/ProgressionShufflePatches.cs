@@ -757,9 +757,52 @@ namespace SilksongRandomizer.Patches
                 if (!pending && NativeNoticeAccepted(direct.Quest)) return false;
                 if (action.Fsm.Variables.FindFsmBool("Do Start Quest") is FsmBool startQuest)
                     startQuest.Value = false;
-                return TransitionDirectWish(action, pending ? direct.Prompt : direct.Exit);
+                return TransitionDirectWish(action, pending ? direct.Prompt :
+                    MissingWishDialogueState(action.Fsm, direct.Quest, direct.Exit));
             }
             return false;
+        }
+
+        private static string MissingWishDialogueState(Fsm fsm, string quest, string exit)
+        {
+            const string name = "AP Missing Wish";
+            if (fsm.GetState(name) != null) return name;
+            var state = new FsmState(fsm) { Name = name };
+            var dialogue = new MissingWishDialogue {
+                Text = "No new wish to offer.<br>" +
+                    (quest == "Save the Fleas Pre" ? "The Lost Fleas" : "Berry Picking") +
+                    " has not been accepted."
+            };
+            state.Actions = new FsmStateAction[] { dialogue };
+            state.Transitions = new[] {
+                new FsmTransition { FsmEvent = FsmEvent.GetFsmEvent("CONVO_END"), ToState = exit, ToFsmState = fsm.GetState(exit) },
+                new FsmTransition { FsmEvent = FsmEvent.GetFsmEvent("CONVO_END_FORCED"), ToState = exit, ToFsmState = fsm.GetState(exit) }
+            };
+            dialogue.Init(state);
+            fsm.States = fsm.States.Append(state).ToArray();
+            return name;
+        }
+
+        private sealed class MissingWishDialogue : FsmStateAction
+        {
+            internal string Text;
+            private PlayMakerNPC npc;
+
+            public override void OnEnter()
+            {
+                npc = Fsm.GameObject.GetComponent<PlayMakerNPC>();
+                if (npc == null) { Fsm.Event("CONVO_END"); Finish(); return; }
+                npc.CustomEventTarget = Fsm.FsmComponent;
+                // This explanation stays readable with alphabet rando.
+                DialogueBox.StartConversation(Text, npc, false, DialogueBox.DisplayOptions.Default);
+            }
+
+            public override void OnExit()
+            {
+                if (npc != null && npc.CustomEventTarget == Fsm.FsmComponent)
+                    npc.CustomEventTarget = null;
+                npc = null;
+            }
         }
 
         private static bool TransitionDirectWish(FsmStateAction action, string destination)

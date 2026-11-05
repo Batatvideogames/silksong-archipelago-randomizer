@@ -648,26 +648,6 @@ namespace SilksongRandomizer
                 "Tut_05", 239.38f, 97.36f, 320f, 150f,
                 Source("tut_05", "Inspect Region (1)", "Inspect", "SHAMAN_STONE_CHAPEL")
             ),
-            new Entry(
-                "Underworks: Needolin Lore",
-                "Under_20", 63.22f, 15.26f, 71f, 28f,
-                Source("under_20", "thread_memory", "Song", "THREAD_MEMORY_ARCHITECT")
-            ),
-            new Entry(
-                "Underworks: Needolin Lore #1",
-                "Library_12b", 192.49f, 35.28f, 202f, 100f,
-                Source("library_12b", "thread_memory", "Song", "THREAD_MEMORY_UNDERSTORE_ORGAN_TOP")
-            ),
-            new Entry(
-                "Putrified Ducts - thread memory Map Room",
-                "Aqueduct_07", 24.71f, 28.53f, 41f, 40f,
-                Source("aqueduct_07", "thread_memory", "Song", "THREAD_MEMORY_AQUEDUCT")
-            ),
-            new Entry(
-                "Putrified Ducts - Camp Thread Memory",
-                "Aqueduct_06", 127.07f, 9.06f, 150f, 120f,
-                Source("aqueduct_06", "thread_memory", "Song", "THREAD_MEMORY_SWAMP_UMBRELLA")
-            ),
         };
 
         internal static Entry FindExactSource(

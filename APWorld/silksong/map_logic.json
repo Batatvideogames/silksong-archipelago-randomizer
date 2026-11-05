@@ -292718,16 +292718,6 @@
           }
         ]
       },
-      "Putrified Ducts - Camp Thread Memory": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-path-to-vog#camp",
-              "Needolin"
-            ]
-          }
-        ]
-      },
       "Putrified Ducts - Craftmetal": {
         "alternatives": [
           {
@@ -292949,16 +292939,6 @@
               "Room Node: putrified-ducts/fleatopia#fleatopia",
               "Needolin",
               "Act: 2"
-            ]
-          }
-        ]
-      },
-      "Putrified Ducts - thread memory Map Room": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: putrified-ducts/putrified-ducts-map-room#room",
-              "Needolin"
             ]
           }
         ]
@@ -296425,26 +296405,6 @@
           {
             "all_of": [
               "Room Node: underworks/underworks-ventrica#room"
-            ]
-          }
-        ]
-      },
-      "Underworks: Needolin Lore": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: underworks/chapel-of-the-architect#room",
-              "Needolin"
-            ]
-          }
-        ]
-      },
-      "Underworks: Needolin Lore #1": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: underworks/underworks-below-vaultkeeper#needolin-check",
-              "Needolin"
             ]
           }
         ]

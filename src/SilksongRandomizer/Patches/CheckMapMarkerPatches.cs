@@ -239,7 +239,9 @@ namespace SilksongRandomizer.Patches
                         locationName
                     )
                 );
-            Sprite sprite = GetMarkerSprite(logicUnknown);
+            Sprite categorySprite = !logicUnknown && RandomizerPlugin.Instance?.UseCategoryMapIcons == true
+                ? CategoryMapIcons.GetSprite(state, activeLocationNames) : null;
+            Sprite sprite = categorySprite ?? GetMarkerSprite(logicUnknown);
             if (marker.Renderer != null && sprite != null)
             {
                 marker.Renderer.sprite = sprite;
@@ -264,7 +266,8 @@ namespace SilksongRandomizer.Patches
             );
             if (marker.OutlineRenderer != null)
             {
-                Sprite outlineSprite = GetMarkerOutlineSprite(logicUnknown);
+                Sprite outlineSprite = categorySprite != null
+                    ? CategoryMapIcons.GetOutline(categorySprite) : GetMarkerOutlineSprite(logicUnknown);
                 if (outlineSprite != null)
                 {
                     marker.OutlineRenderer.sprite = outlineSprite;

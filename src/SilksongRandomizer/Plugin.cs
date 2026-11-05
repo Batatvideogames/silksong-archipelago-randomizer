@@ -73,6 +73,7 @@ namespace SilksongRandomizer
         private ConfigEntry<string> savedConnectionSlot;
         private ConfigEntry<bool> hideConnectionDetails;
         private ConfigEntry<string> locationMapMarkers;
+        private ConfigEntry<string> mapMarkerStyle;
         private bool mapMarkerSettingsChanged;
         private ConfigEntry<int> mapMarkerTooltipFontSize;
         private ConfigEntry<bool> showMapMarkerLogic;
@@ -242,6 +243,11 @@ namespace SilksongRandomizer
                                 ? "Show unchecked locations in areas whose maps you own."
                                 : "Show all unchecked locations on your map."));
             locationMapMarkers.SettingChanged += (_, __) => mapMarkerSettingsChanged = true;
+            mapMarkerStyle = Config.Bind("Map Markers", "Marker Style", "Rosary AP",
+                ModMenuOptions.Describe("Map Markers", "Marker Style",
+                    "Choose Rosary AP icons or pins for each location's original category.",
+                    new AcceptableValueList<string>("Rosary AP", "Category Icons")));
+            mapMarkerStyle.SettingChanged += (_, __) => mapMarkerSettingsChanged = true;
             mapMarkerTooltipFontSize = Config.Bind(
                 "Map Markers",
                 "Tooltip Font Size",
@@ -293,6 +299,8 @@ namespace SilksongRandomizer
             ? Archipelago.DeathLinkCocoonVanilla
             : deathLinkCocoon?.Value == "Cocoonless"
                 ? Archipelago.DeathLinkCocoonless : Archipelago.DeathLinkCocoonProtected;
+
+        internal bool UseCategoryMapIcons => mapMarkerStyle?.Value == "Category Icons";
 
         internal CheckMapMarkerMode LocationMapMarkers => locationMapMarkers?.Value switch
         {
@@ -574,7 +582,7 @@ namespace SilksongRandomizer
             return ItemIcons.GetSprite(itemName, fallback);
         }
 
-        private static Sprite CreateWhiteOutlineIcon(Sprite source)
+        internal static Sprite CreateWhiteOutlineIcon(Sprite source)
         {
             if (source == null || source.texture == null)
             {

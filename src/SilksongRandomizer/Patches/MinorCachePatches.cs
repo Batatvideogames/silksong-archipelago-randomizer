@@ -14,8 +14,8 @@ namespace SilksongRandomizer.Patches
 {
     /// <summary>
     /// Turns listed breakable currency caches into ordinary AP checks.
-    /// Rocks and shard caches retain their native objects and break in one hit.
-    /// Other caches use a pickup proxy. Hanging rosary strings retain
+    /// Rocks, shard caches, rosary dishes and bells break in one hit.
+    /// Hanging rosary strings retain
     /// their native hit choreography because their source transform is a
     /// ceiling anchor rather than an accessible pickup position.
     /// </summary>
@@ -136,6 +136,10 @@ namespace SilksongRandomizer.Patches
                 AccessTools.FieldRefAccess<RosaryCache, bool>(
                     "<IsReactivating>k__BackingField"
                 );
+        private static readonly AccessTools.FieldRef<RosaryCache, int> RosaryStateField =
+            AccessTools.FieldRefAccess<RosaryCache, int>("<State>k__BackingField");
+        private static readonly FieldInfo RosaryHitStatesField =
+            AccessTools.Field(typeof(RosaryCache), "hitStates");
         private static readonly FieldInfo RosaryGroupsField =
             AccessTools.Field(typeof(RosaryCacheString), "rosaryGroups");
 
@@ -466,6 +470,28 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
+            if (source is RosaryCache)
+            {
+                Renderer front = null;
+                Bounds beads = default(Bounds);
+                foreach (Renderer renderer in source.GetComponentsInChildren<Renderer>())
+                {
+                    string name = renderer.name;
+                    if (!renderer.enabled || !(name == "rosary" || name.StartsWith("rosary (", StringComparison.Ordinal) ||
+                        name.StartsWith("rosary_cache_front", StringComparison.Ordinal) ||
+                        name.StartsWith("rosary_cache_mid", StringComparison.Ordinal) ||
+                        name.StartsWith("rosary_cache_back", StringComparison.Ordinal))) continue;
+                    if (front == null) beads = renderer.bounds;
+                    else beads.Encapsulate(renderer.bounds);
+                    if (front == null || renderer.bounds.center.z < front.bounds.center.z) front = renderer;
+                }
+                if (front != null)
+                {
+                    CreateCacheGlow(source, beads, front);
+                    return;
+                }
+            }
+
             Renderer reference = null;
             Bounds bounds = default(Bounds);
             foreach (Renderer renderer in source.GetComponentsInChildren<Renderer>())
@@ -478,10 +504,20 @@ namespace SilksongRandomizer.Patches
             if (reference != null) CreateCacheGlow(source, bounds, reference);
         }
 
-        private static Vector3 GetCacheGlowPosition(Component source, Bounds bounds)
+        private static Vector3 GetCacheGlowPosition(Component source, Bounds bounds, Renderer sortingReference)
         {
             Vector3 position = bounds.center;
-            if (source is GeoRock && source.name.StartsWith("Geo Rock Deepnest", StringComparison.Ordinal))
+            if (source is RosaryCache && !(source is RosaryCacheString))
+            {
+                position.y += bounds.size.y * 0.1f;
+                if (source.name.StartsWith("rosary_cache_hang_bell", StringComparison.Ordinal))
+                    position += sortingReference.transform.TransformVector(new Vector3(-0.25f, 0.2f, 0f));
+                else if (source.name.StartsWith("rosary_cache_bell_ground", StringComparison.Ordinal))
+                    position = sortingReference.transform.TransformPoint(new Vector3(-0.17f, 0.82f, 0f));
+                else if (source.name.StartsWith("rosary_bucket", StringComparison.Ordinal))
+                    position += sortingReference.transform.TransformVector(new Vector3(0.1f, 0.2f, 0f));
+            }
+            else if (source is GeoRock && source.name.StartsWith("Geo Rock Deepnest", StringComparison.Ordinal))
                 position.y = bounds.min.y + bounds.size.y * 0.8f;
             else if (source is BreakableHolder && source.name == "Shell Shard Fossil Beast")
                 position = source.transform.TransformPoint(new Vector3(0.5f, 1.1f, 0f));
@@ -508,9 +544,24 @@ namespace SilksongRandomizer.Patches
                 glow.SetActive(false);
                 glow.layer = source.gameObject.layer;
                 glow.transform.SetParent(source.transform, true);
-                Vector3 position = GetCacheGlowPosition(source, bounds);
+                Vector3 position = GetCacheGlowPosition(source, bounds, sortingReference);
                 position.z = sortingReference.bounds.center.z - 0.001f;
+                if (source is RosaryCache && !(source is RosaryCacheString))
+                {
+                    float rosaryDepth = sortingReference.bounds.center.z;
+                    position.z = rosaryDepth - 0.0001f;
+                    foreach (Renderer part in source.GetComponentsInChildren<Renderer>())
+                        if (part.enabled && (part.name == "bell" || part.name == "dish_hang" ||
+                            part.name == "bucket" || part.name == "rosary_dish") && part.bounds.center.z < rosaryDepth)
+                            position.z = (part.bounds.center.z + rosaryDepth) * 0.5f;
+                }
                 glow.transform.position = position;
+                if (source is RosaryCache && !(source is RosaryCacheString))
+                {
+                    CacheGlowAnchor anchor = glow.AddComponent<CacheGlowAnchor>();
+                    anchor.Target = sortingReference.transform;
+                    anchor.Offset = anchor.Target.InverseTransformPoint(position);
+                }
 
                 SpriteRenderer renderer =
                     glow.AddComponent<SpriteRenderer>();
@@ -559,6 +610,17 @@ namespace SilksongRandomizer.Patches
                         "to a currency cache: " + ex.Message
                     );
                 }
+            }
+        }
+
+        private sealed class CacheGlowAnchor : MonoBehaviour
+        {
+            internal Transform Target;
+            internal Vector3 Offset;
+
+            private void LateUpdate()
+            {
+                if (Target != null) transform.position = Target.TransformPoint(Offset);
             }
         }
 
@@ -1374,27 +1436,43 @@ namespace SilksongRandomizer.Patches
         [HarmonyPatch(typeof(RosaryCache), "Awake")]
         private static class RosaryCacheAwakePatch
         {
-            private static bool Prefix(RosaryCache __instance)
+            private static void Prefix(RosaryCache __instance, ref FlingUtils.Config[] ___flingOnStateChange)
             {
-                // A RosaryCacheString's root is its ceiling anchor. Replacing
-                // it with a proximity pickup strands that pickup in mid-air.
-                // Its payout is redirected when FlingRosaries runs instead.
-                if (__instance is RosaryCacheString)
-                {
-                    return true;
-                }
-                return !TryReplace(
-                    __instance,
-                    MinorCacheManifest.SourceKind.RosaryCache
-                );
+                if (!(__instance is RosaryCacheString) && TryGetSeededEntry(__instance,
+                        MinorCacheManifest.SourceKind.RosaryCache, out _, out _))
+                    ___flingOnStateChange = Array.Empty<FlingUtils.Config>();
             }
 
             private static void Postfix(RosaryCache __instance)
             {
                 if (__instance is RosaryCacheString stringCache)
-                {
                     TryCreateHangingGlow(stringCache);
-                }
+                else
+                    TryCreateCacheGlow(__instance, MinorCacheManifest.SourceKind.RosaryCache);
+            }
+        }
+
+        [HarmonyPatch(typeof(RosaryCache), nameof(RosaryCache.Hit))]
+        private static class RosaryCacheHitPatch
+        {
+            private static void Prefix(RosaryCache __instance, ref HitInstance damageInstance)
+            {
+                if (!(__instance is RosaryCacheString) && TryGetSeededEntry(__instance,
+                        MinorCacheManifest.SourceKind.RosaryCache, out _, out _))
+                    // Heavy hits run every native break stage in one strike.
+                    damageInstance.AttackType = AttackTypes.Heavy;
+            }
+
+            private static void Postfix(RosaryCache __instance)
+            {
+                if (__instance is RosaryCacheString || !TryGetSeededEntry(__instance,
+                        MinorCacheManifest.SourceKind.RosaryCache, out SaveState state,
+                        out MinorCacheManifest.Entry entry) || state.IsLocationChecked(entry.LocationName))
+                    return;
+                var hitStates = (System.Collections.IList)RosaryHitStatesField.GetValue(__instance);
+                if (hitStates.Count == 0 || RosaryStateField(__instance) < hitStates.Count - 1) return;
+                RemoveHangingGlow(__instance);
+                state.CheckLocation(entry.LocationName);
             }
         }
 

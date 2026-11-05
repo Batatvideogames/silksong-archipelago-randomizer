@@ -20201,21 +20201,6 @@
   "name": "Chapel of the Architect",
   "children": [
    {
-    "name": "Underworks: Needolin Lore",
-    "sections": [
-     {
-      "name": "Underworks: Needolin Lore"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Chapel of the Architect",
-      "x": 4046,
-      "y": 815
-     }
-    ]
-   },
-   {
     "name": "Crest: Architect",
     "sections": [
      {
@@ -20250,21 +20235,6 @@
  {
   "name": "Underworks Below Vaultkeeper",
   "children": [
-   {
-    "name": "Underworks: Needolin Lore #1",
-    "sections": [
-     {
-      "name": "Underworks: Needolin Lore #1"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Underworks Below Vaultkeeper",
-      "x": 477,
-      "y": 349
-     }
-    ]
-   },
    {
     "name": "Underworks - Shell Shard Cache #11",
     "sections": [
@@ -35618,21 +35588,6 @@
   "name": "Putrified Ducts Map Room",
   "children": [
    {
-    "name": "Putrified Ducts - thread memory Map Room",
-    "sections": [
-     {
-      "name": "Putrified Ducts - thread memory Map Room"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Putrified Ducts Map Room",
-      "x": 156,
-      "y": 72
-     }
-    ]
-   },
-   {
     "name": "Putrified Ducts - Map Pickup",
     "sections": [
      {
@@ -35667,21 +35622,6 @@
  {
   "name": "Putrified Ducts Path To Vog",
   "children": [
-   {
-    "name": "Putrified Ducts - Camp Thread Memory",
-    "sections": [
-     {
-      "name": "Putrified Ducts - Camp Thread Memory"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Putrified Ducts Path To Vog",
-      "x": 806,
-      "y": 704
-     }
-    ]
-   },
    {
     "name": "Wreath of Purity",
     "sections": [
