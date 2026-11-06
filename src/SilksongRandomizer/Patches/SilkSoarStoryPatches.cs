@@ -106,6 +106,24 @@ namespace SilksongRandomizer.Patches
             "BallowMovedToDivingBell";
         private const string WhiteFlowerFlag = "HasWhiteFlower";
 
+        internal static void StopShrineShakeForWarp()
+        {
+            GameObject shrine = GameObject.Find("weaver_spire_base control");
+            if (shrine == null || shrine.scene.name != SilkSoarSourceSceneName) return;
+            foreach (PlayMakerFSM fsm in shrine.GetComponents<PlayMakerFSM>())
+            {
+                if (fsm.FsmName != "Control") continue;
+                fsm.enabled = false;
+                FsmState state = fsm.Fsm.GetState("Grab Plat");
+                if (state == null) continue;
+                foreach (FsmStateAction action in state.Actions)
+                    if (action is HutongGames.PlayMaker.Actions.DoCameraShake shake &&
+                        shake.Profile.Value is CameraShakeProfile profile && !profile.CanFinish &&
+                        shake.Camera.Value is CameraManagerReference camera)
+                        camera.CancelShake(profile);
+            }
+        }
+
         private static readonly System.Reflection.FieldInfo
             ActivatorTestField = AccessTools.Field(
                 typeof(TestGameObjectActivator),

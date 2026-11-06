@@ -285,10 +285,10 @@ namespace SilksongRandomizer
                     "Your own deaths always behave normally.",
                     new AcceptableValueList<string>("Vanilla", "Cocoonless", "Protect Existing Cocoon"),
                     menuDescription: () => deathLinkCocoon.Value == "Vanilla"
-                        ? "Received deaths replace your cocoon and drop your Rosaries.\nYour own deaths behave normally."
+                        ? "Received deaths drop your Rosaries and replace your cocoon."
                         : deathLinkCocoon.Value == "Cocoonless"
-                            ? "Received deaths keep your cocoon and Rosaries.\nYour own deaths behave normally."
-                            : "Received deaths keep an existing cocoon and Rosaries,\nor create a cocoon if you have none. Your own deaths stay normal."));
+                            ? "Received deaths leave your cocoon and Rosaries untouched."
+                            : "Received deaths keep an existing cocoon and Rosaries, or create a cocoon."));
             deathLinkEnabled.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
             deathLinkCocoon.SettingChanged += (_, __) => deathLinkSettingsChanged = true;
         }

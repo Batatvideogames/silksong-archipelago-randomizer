@@ -63,11 +63,28 @@ namespace SilksongRandomizer
         private static string SingleCategory(Location location)
         {
             string name = location.SourceName;
+            if (location.Name.StartsWith("Wish: ", StringComparison.Ordinal)) return "Wish";
             switch (location.Type)
             {
+                case ItemType.Skill: return "Abilities";
+                case ItemType.Spell: return "Skills";
+                case ItemType.Soul: return "Bellhermit Soul";
                 case ItemType.Crest:
                 case ItemType.CrestSlot:
                 case ItemType.Eva: return "Crests";
+                case ItemType.SimpleKey:
+                case ItemType.MajorKey: return "Keys";
+                case ItemType.Relic: return "Relic";
+                case ItemType.LoreTablet: return "Lore";
+                case ItemType.Mossberry: return "Mossberries";
+                case ItemType.Cogheart: return "Cogheart Pieces";
+                case ItemType.QuestCollectible: return "Deliverables";
+                case ItemType.Farsight: return "Farsight";
+                case ItemType.TwistedBud: return "Twisted Bud";
+                case ItemType.Craftmetal: return "Craftmetal";
+                case ItemType.Memento: return "Mementos";
+                case ItemType.Silkeater: return "Silkeater";
+                case ItemType.PaleOil: return "Pale Oil";
                 case ItemType.Flea: return "Fleas";
                 case ItemType.MaskShard: return "Mask Shards";
                 case ItemType.SpoolFragment: return "Spool Fragments";
@@ -77,6 +94,8 @@ namespace SilksongRandomizer
                 case ItemType.PollipHeart: return "Pollip Hearts";
                 case ItemType.Everbloom: return "Everbloom";
                 case ItemType.ToolPouch: return "Tool Pouch";
+                case ItemType.Upgrade: return CoreLocationManifest.CraftingKitLocationNames.Contains(name) ? "Tool Pouch" : null;
+                case ItemType.NeedleUpgrade: return "Needle Upgrades";
                 case ItemType.Bellway: return "Bellways";
                 case ItemType.Ventrica: return "Ventrica";
                 case ItemType.BellShrine: return "Bells";
@@ -91,6 +110,8 @@ namespace SilksongRandomizer
                     if (name == "Architect's Melody") return "Architect Melody";
                     if (name == "Conductor's Melody") return "Conductor Melody";
                     if (name == "Vaultkeeper's Melody") return "Vaultkeeper Melody";
+                    if (name == "Beastling Call") return "Beastling Call";
+                    if (name == "Elegy of the Deep") return "Elegy of the Deep";
                     return null;
                 case ItemType.Pin:
                     if (name.StartsWith("Pin Purchase: Bench", StringComparison.Ordinal)) return "Benches";

@@ -884,6 +884,11 @@ namespace SilksongRandomizer.Patches
 
                 if (__instance.IsToolItem())
                 {
+                    if (__instance.name == "Grindle Rosary Magnet" ||
+                        __instance.name == "Grindle Lucky Dice Tool")
+                    {
+                        return true;
+                    }
                     __result = !__instance.IsPurchased;
                     return false;
                 }

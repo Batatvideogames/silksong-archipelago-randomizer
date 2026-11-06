@@ -112,9 +112,9 @@
   ],
   "geometry_objects": {
    "bench": 59,
-   "blockade": 147,
+   "blockade": 153,
    "boss": 8,
-   "collectible": 93,
+   "collectible": 88,
    "enemy": 2271,
    "event": 174,
    "gauntlet": 27,
@@ -123,7 +123,7 @@
    "lore": 12,
    "miniboss": 11,
    "resource": 14,
-   "switch": 143,
+   "switch": 142,
    "travel": 4,
    "unknown": 80
   },

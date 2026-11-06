@@ -53,6 +53,40 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(PlayMakerFSM), "Start")]
+        private static class StyxBenchLock
+        {
+            private static void Prefix(PlayMakerFSM __instance)
+            {
+                if (__instance.gameObject.scene.name != "Dust_11" || __instance.FsmName != "Control" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "Steel Soul States/Regular/NPC Control/Grub Farmer NPC" ||
+                    !EnemySoulState.IsEnabled(SaveState.Instance, "Muckroach")) return;
+                FsmState state = __instance.Fsm.GetState("Battle Active");
+                if (state == null) return;
+                for (int i = 0; i < state.Actions.Length; i++)
+                    if (state.Actions[i] is HutongGames.PlayMaker.Actions.SetPosition move &&
+                        move.gameObject.GameObject.Name == "RestBench" && move.y.Value == -100f)
+                    {
+                        var action = new WaitForStyxBattle(move);
+                        action.Init(state);
+                        state.Actions[i] = action;
+                    }
+            }
+        }
+
+        private sealed class WaitForStyxBattle : FsmStateAction
+        {
+            private readonly FsmStateAction move;
+            internal WaitForStyxBattle(FsmStateAction move) { this.move = move; }
+            public override void OnEnter() => OnUpdate();
+            public override void OnUpdate()
+            {
+                if (EnemySoulState.IsMissing(SaveState.Instance, "Muckroach")) return;
+                move.OnEnter();
+                Finish();
+            }
+        }
+
         private static Dictionary<string, string[]> BuildRequirements(string field)
         {
             var rows = new List<KeyValuePair<string, string>>();

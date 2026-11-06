@@ -5683,6 +5683,9 @@ _ROOM_GRAPH_PRESERVED_LOCAL_GATES: Mapping[
     'Wish: My Missing Courier': (
         req('Event: Missing Courier Rescued', crest=False),
     ),
+    'Wish: The Lost Merchant': (
+        req('Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc', crest=False),
+    ),
     SINNER_MISSING_BROTHER_LOCATION: (
         req('Event: Missing Brother Rescued', crest=False),
     ),

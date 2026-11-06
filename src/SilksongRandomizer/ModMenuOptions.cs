@@ -72,8 +72,6 @@ namespace SilksongRandomizer
                 !(Setting(entry)?.Description is Func<string> describe)) return;
             object element = menuElement;
             if (!(AccessTools.Field(element.GetType(), "DescriptionText")?.GetValue(element) is Text text)) return;
-            text.fontSize = 20;
-            text.verticalOverflow = VerticalWrapMode.Overflow;
             text.text = describe();
             EventHandler<SettingChangedEventArgs> changed = (_, args) =>
             {

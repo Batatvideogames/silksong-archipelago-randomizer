@@ -8181,9 +8181,9 @@
   },
   "event:mapper/13643ba4-bb66-4c29-be9c-9109379f8ac7": {
     "name": "Baby Room Interior Secret - Breakable Ceiling",
-    "kind": "switch",
+    "kind": "blockade",
     "locations": [],
-    "mapper_kind": "switch"
+    "mapper_kind": "blockade"
   },
   "event:mapper/22ff55f7-43ef-4403-a546-0da5c3266b7f": {
     "name": "High Halls Rosary Bank - Rosary Cannon Wall",
@@ -8608,34 +8608,34 @@
     "mapper_kind": "switch"
   },
   "event:mapper/e56c43f4-f833-4b65-bdf1-2f9383ea42a6": {
-    "name": "Merchant room - Merchant's prized necklace",
+    "name": "Choral Chambers - Merchant's prized necklace",
     "kind": "collectible",
     "locations": [
-      "Merchant room - Merchant's prized necklace"
+      "Choral Chambers - Merchant's prized necklace"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/936ce385-67b7-432c-b258-22445485f9d6": {
-    "name": "Above Ventrica - Choristor's precious belongings",
+    "name": "Choral Chambers - Ventrica Attic hidden chest",
     "kind": "collectible",
     "locations": [
-      "Above Ventrica - Choristor's precious belongings"
+      "Choral Chambers - Ventrica Attic hidden chest"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/932fba53-6a79-47ce-a4ef-d0456a986508": {
-    "name": "Above Ventrica - Old gains",
+    "name": "Choral Chambers - Ventrica Attic old gains",
     "kind": "collectible",
     "locations": [
-      "Above Ventrica - Old gains"
+      "Choral Chambers - Ventrica Attic old gains"
     ],
     "mapper_kind": "collectible"
   },
   "event:mapper/c0c57e6d-2417-46c7-8b6f-d1ec15b1a193": {
-    "name": "Above Ventrica - Old treasury",
+    "name": "Choral Chambers - Ventrica Attic treasury",
     "kind": "collectible",
     "locations": [
-      "Above Ventrica - Old treasury"
+      "Choral Chambers - Ventrica Attic treasury"
     ],
     "mapper_kind": "collectible"
   },
@@ -9337,6 +9337,36 @@
     "name": "High Halls Ventrica - bench",
     "kind": "bench",
     "mapper_kind": "bench",
+    "locations": []
+  },
+  "event:mapper/df44f4f5-b2a2-4ba9-abc6-49fd170316cf": {
+    "name": "Abyss Drop Down Wall",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/38bfefff-b858-42bb-9eab-e04b68ffa7c0": {
+    "name": "Abyss escape wall right side",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/acb09484-c9c5-4b09-a387-57efb925cad9": {
+    "name": "Abyss escape wall Left side",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/a5bd0574-eeef-4a22-bd48-ee2104200010": {
+    "name": "Abyss Landing Wall Left side",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/3998fdaa-0b5e-483a-bf1e-6ff5dd7f3e20": {
+    "name": "Abyss Landing Wall Right side",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
     "locations": []
   }
 }

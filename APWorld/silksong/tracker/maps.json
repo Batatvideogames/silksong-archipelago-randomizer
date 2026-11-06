@@ -140,8 +140,8 @@
  {
   "name": "The Marrow Flea Caravan",
   "img": "01-geometry/23964278-68ba-40ef-be99-6edadfd1ec39.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
+  "location_size": 48,
+  "location_border_thickness": 8
  },
  {
   "name": "The Marrow Shaft",
@@ -692,7 +692,7 @@
  {
   "name": "Far Fields Deep Lower East",
   "img": "01-geometry/a88f7ed8-01c4-4efc-854f-a21bed65bf10.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -944,8 +944,8 @@
  {
   "name": "Shellwood Right Side Big room",
   "img": "01-geometry/c98abdf6-97b2-4df6-bf68-29adc7000af6.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
+  "location_size": 48,
+  "location_border_thickness": 8
  },
  {
   "name": "shellwood Shakra",

@@ -328,13 +328,14 @@ namespace SilksongRandomizer
             var pd = PlayerData.instance;
             int stage = pd == null ? 0 : (int)pd.CaravanTroupeLocation;
             bool Ready(string flag) => pd?.GetBool(flag) == true;
-            yield return new ArchipelagoInventoryRow("Greymoor", dim: !(stage >= 1 || fleas >= 5));
+            bool hasLeader = !NpcSoulState.IsMissing(SaveState.Instance, "Mooshka");
+            yield return new ArchipelagoInventoryRow("Greymoor", dim: !(stage >= 1 || (hasLeader && fleas >= 5)));
             yield return new ArchipelagoInventoryRow("Blasted Steps", dim: !(stage >= 2 ||
-                (stage == 1 && fleas >= 12 && Ready("MetCaravanTroupeLeaderGreymoor") &&
+                (hasLeader && stage == 1 && fleas >= 12 && Ready("MetCaravanTroupeLeaderGreymoor") &&
                  Ready("defeatedLastJudge") && Ready("SeenLastJudgeGateOpen") &&
                  Ready("CaravanTroupeLeaderCanLeaveGreymoor"))));
             yield return new ArchipelagoInventoryRow("Pale Lake", dim: !(stage >= 3 ||
-                (stage == 2 && fleas >= 22 && Ready("MetCaravanTroupeLeaderJudge") &&
+                (hasLeader && stage == 2 && fleas >= 22 && Ready("MetCaravanTroupeLeaderJudge") &&
                  Ready("SeenFleatopiaEmpty") && Ready("CaravanTroupeLeaderCanLeaveJudge"))));
         }
 

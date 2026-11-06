@@ -386,6 +386,7 @@ namespace SilksongRandomizer
                     SceneName = sceneName,
                     EntryGateName = entryGateName
                 });
+                SilkSoarStoryPatches.StopShrineShakeForWarp();
             }
             catch
             {

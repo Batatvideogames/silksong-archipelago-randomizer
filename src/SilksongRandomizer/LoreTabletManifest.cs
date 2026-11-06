@@ -391,8 +391,8 @@ namespace SilksongRandomizer
             new Entry(
                 "Mosshome - Weaver Harp Inscription",
                 "Mosstown_02",
-                86.83778f,
-                35.479999f,
+                86.859999f,
+                35.179999f,
                 160f,
                 65f,
                 Source(
