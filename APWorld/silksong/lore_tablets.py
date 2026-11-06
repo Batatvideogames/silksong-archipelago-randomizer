@@ -439,7 +439,7 @@ LORE_TABLET_SOURCES: tuple[LoreTabletSource, ...] = (
     ),
     LoreTabletSource(
         "Bellhart - Outer Sign",
-        "Belltown_07", 57.874252, 5.059642, 70.0, 34.0,
+        "Belltown_07", 57.56095, 8.37, 70.0, 34.0,
         1, "Bellhart - Bellhart",
         (_identity(
             "belltown_07",

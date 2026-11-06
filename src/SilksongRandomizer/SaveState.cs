@@ -463,6 +463,8 @@ namespace SilksongRandomizer
 
         [NonSerialized] [XmlIgnore] public ItemSet items = new ItemSet();
         [NonSerialized] [XmlIgnore] public LocationSet locations = new LocationSet();
+        [NonSerialized] private Location[] enabledLocationSource;
+        [NonSerialized] private Dictionary<string, Location> enabledLocations;
 
         public HashSet<string> receivedItems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> checkedLocations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -1921,15 +1923,17 @@ namespace SilksongRandomizer
                 return true;
             }
 
-            Location location = locations == null
-                ? null
-                : locations.Locations.FirstOrDefault(candidate =>
-                    string.Equals(
-                        candidate.Name,
-                        canonicalName,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                );
+            Location[] currentLocations = locations?.Locations;
+            if (!ReferenceEquals(enabledLocationSource, currentLocations))
+            {
+                enabledLocationSource = currentLocations;
+                enabledLocations = currentLocations?
+                    .GroupBy(location => location.Name, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+            }
+            Location location = null;
+            if (canonicalName != null)
+                enabledLocations?.TryGetValue(canonicalName, out location);
             return location == null || IsRandomized(location.Type);
         }
 

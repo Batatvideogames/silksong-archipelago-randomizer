@@ -2,8 +2,10 @@ using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Converters;
 using Archipelago.MultiClient.Net.Enums;
 using HarmonyLib;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Reflection;
 
 namespace SilksongRandomizer.Patches
 {
@@ -55,9 +57,15 @@ namespace SilksongRandomizer.Patches
             }
         }
 
-        [HarmonyPatch(typeof(StringEnumConverter), nameof(StringEnumConverter.CanConvert))]
-        private static class StringEnumConverter_CanConvert_Patch
+        [HarmonyPatch]
+        private static class NumericProtocolEnumConverterPatch
         {
+            private static MethodBase[] TargetMethods() => new MethodBase[]
+            {
+                AccessTools.Method(typeof(StringEnumConverter), nameof(StringEnumConverter.CanConvert)),
+                AccessTools.Method(typeof(JsonConverter<Enum>), nameof(JsonConverter<Enum>.CanConvert)),
+            };
+
             [HarmonyPrefix]
             private static bool Prefix(Type objectType, ref bool __result)
             {

@@ -441,6 +441,24 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(QuestBoardList), "get_CompletedQuestCount")]
+        private static class BoardQuestCountPatch
+        {
+            [HarmonyPrefix]
+            private static void Prefix(out bool __state)
+            {
+                __state = updatingStory;
+                updatingStory = false;
+            }
+
+            [HarmonyFinalizer]
+            private static Exception Finalizer(Exception __exception, bool __state)
+            {
+                updatingStory = __state;
+                return __exception;
+            }
+        }
+
         [HarmonyPatch(typeof(FullQuestBase), "get_IsCompleted")]
         private static class StoryQuestCompletionPatch
         {

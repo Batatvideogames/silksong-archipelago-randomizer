@@ -2556,9 +2556,11 @@
     "mapper_kind": "event"
   },
   "event:mapper/89aab9a5-1d44-4533-ac71-1c6d82d82b82": {
-    "name": "Sprintmaster Cave - Rosary beads",
+    "name": "Swift rosary necklace",
     "kind": "collectible",
-    "locations": [],
+    "locations": [
+      "Swift rosary necklace"
+    ],
     "mapper_kind": "collectible"
   },
   "event:mapper/4e7d7773-67a3-4862-9861-349cdb0ed746": {

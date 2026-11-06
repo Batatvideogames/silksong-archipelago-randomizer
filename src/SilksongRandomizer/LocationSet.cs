@@ -960,6 +960,7 @@ namespace SilksongRandomizer
             MaskAndSpoolLocationManifest.AppendTo(
             CoreLocationManifest.AppendTo(new Location[]
         {
+            new Location(MinorPickupManifest.SwiftNecklace, ItemType.Resource, null),
             new Location(MinorPickupManifest.LoddieNecklace, ItemType.Resource,
                 () => PlayerData.instance != null && PlayerData.instance.pinGalleriesCompleted >= 2),
             // Skills

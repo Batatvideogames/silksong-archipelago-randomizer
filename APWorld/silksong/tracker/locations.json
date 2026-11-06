@@ -9621,6 +9621,21 @@
   "name": "Sprintmaster Cave",
   "children": [
    {
+    "name": "Swift rosary necklace",
+    "sections": [
+     {
+      "name": "Swift rosary necklace"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Sprintmaster Cave",
+      "x": 370,
+      "y": 258
+     }
+    ]
+   },
+   {
     "name": "Swift beast shard",
     "sections": [
      {

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace SilksongRandomizer.Patches
 {
-    internal static class CheckMapMarkerManager
+    internal static partial class CheckMapMarkerManager
     {
         private sealed class MarkerRecord
         {
@@ -19,6 +19,8 @@ namespace SilksongRandomizer.Patches
             internal readonly SpriteRenderer OutlineRenderer;
             internal readonly MapMarkerPositionConfidence Confidence;
             internal readonly Vector2 MapPosition;
+            internal readonly Dictionary<string, MarkerRecord> CategoryMarkers = new Dictionary<string, MarkerRecord>();
+            internal int SortingOrder;
 
             internal MarkerRecord(
                 string locationName,
@@ -37,6 +39,7 @@ namespace SilksongRandomizer.Patches
                 OutlineRenderer = outlineRenderer;
                 Confidence = confidence;
                 MapPosition = mapPosition;
+                SortingOrder = renderer.sortingOrder;
             }
 
             internal string LocationName =>
@@ -232,11 +235,13 @@ namespace SilksongRandomizer.Patches
                 marker,
                 activeLocationNames.Count > 0
             );
+            if (RefreshCategoryCluster(map, state, marker, activeLocationNames, visible, reachabilityByLocation))
+                return;
             bool logicUnknown =
                 activeLocationNames.Any(locationName =>
                     MapLogicEvaluator.RequiresLogicVerification(
                         state,
-                        locationName
+                        EnemySoulMapMarkers.LogicName(locationName, marker.Scene.Name)
                     )
                 );
             Sprite categorySprite = !logicUnknown && RandomizerPlugin.Instance?.UseCategoryMapIcons == true
@@ -251,7 +256,7 @@ namespace SilksongRandomizer.Patches
                     activeLocationNames.All(locationName =>
                         reachabilityByLocation != null &&
                         reachabilityByLocation.TryGetValue(
-                            JournalRandomization.MarkerLogicName(locationName, marker.Scene.Name),
+                            EnemySoulMapMarkers.LogicName(locationName, marker.Scene.Name),
                             out MapCheckReachability reachability
                         ) &&
                         reachability ==
@@ -314,6 +319,7 @@ namespace SilksongRandomizer.Patches
                 return;
             }
             displayedMap = null;
+            SetHoveredMarker(null);
             if (markerRoot != null)
             {
                 markerRoot.SetActive(false);
@@ -445,6 +451,7 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
+            SetHoveredMarker(null);
             foreach (MarkerRecord marker in GetUniqueMarkers())
             {
                 if (marker.MarkerObject != null)
@@ -989,6 +996,7 @@ namespace SilksongRandomizer.Patches
                 if (state.IsLocationEnabled(locationName) &&
                     state.IsLocationInSeed(locationName) &&
                     !state.IsLocationChecked(locationName) &&
+                    EnemySoulMapMarkers.IsAvailable(state, locationName) &&
                     JournalRandomization.IsMarkerAvailable(state, locationName, marker.Scene.Name))
                 {
                     yield return locationName;
@@ -1439,7 +1447,7 @@ namespace SilksongRandomizer.Patches
                     panExtents * 2f
                 );
 
-                foreach (MarkerRecord marker in GetUniqueMarkers())
+                foreach (MarkerRecord marker in GetDisplayedMarkers())
                 {
                     if (marker?.MarkerObject == null ||
                         !marker.MarkerObject.activeInHierarchy)
@@ -1447,9 +1455,10 @@ namespace SilksongRandomizer.Patches
                         continue;
                     }
 
+                    Vector3 position = map.transform.InverseTransformPoint(marker.MarkerObject.transform.position);
                     Vector3 focusPosition = new Vector3(
-                        scrollArea.center.x - marker.MapPosition.x,
-                        scrollArea.center.y - marker.MapPosition.y,
+                        scrollArea.center.x - position.x,
+                        scrollArea.center.y - position.y,
                         focusBounds.center.z
                     );
                     focusBounds.Encapsulate(focusPosition);
@@ -1484,6 +1493,7 @@ namespace SilksongRandomizer.Patches
             if (mapCamera == null || !mapCamera.isActiveAndEnabled)
             {
                 tooltipMapWasActive = false;
+                SetHoveredMarker(null);
                 return;
             }
             if (MarkersByLocation.Count == 0)
@@ -1499,6 +1509,7 @@ namespace SilksongRandomizer.Patches
             if (!TryGetTooltipPointer(map, mapCamera, out Vector2 pointer) ||
                 !mapCamera.pixelRect.Contains(pointer))
             {
+                SetHoveredMarker(null);
                 return;
             }
 
@@ -1517,38 +1528,12 @@ namespace SilksongRandomizer.Patches
             DrawMapCrosshair(drawPointer);
             if (!TryArmTooltip(map))
             {
+                SetHoveredMarker(null);
                 return;
             }
 
-            MarkerRecord closest = null;
-            float closestDistanceSquared = 34f * 34f;
-            foreach (MarkerRecord marker in GetUniqueMarkers())
-            {
-                if (marker?.MarkerObject == null ||
-                    !marker.MarkerObject.activeInHierarchy)
-                {
-                    continue;
-                }
-
-                Vector3 markerScreen = mapCamera.WorldToScreenPoint(
-                    marker.MarkerObject.transform.position
-                );
-                if (markerScreen.z <= 0f)
-                {
-                    continue;
-                }
-                Vector2 markerPoint = new Vector2(
-                    markerScreen.x,
-                    markerScreen.y
-                );
-                float distanceSquared =
-                    (markerPoint - pointer).sqrMagnitude;
-                if (distanceSquared <= closestDistanceSquared)
-                {
-                    closestDistanceSquared = distanceSquared;
-                    closest = marker;
-                }
-            }
+            MarkerRecord closest = FindHoveredMarker(mapCamera, pointer);
+            SetHoveredMarker(closest);
 
             if (closest == null)
             {
@@ -1565,9 +1550,7 @@ namespace SilksongRandomizer.Patches
                 return;
             }
 
-            // A shared shop/NPC/source stays at its exact map coordinate.
-            // Each unchecked AP check at that anchor gets its own tooltip
-            // line. No placed-item classification is disclosed.
+            // Only the selected pin's checks go in the tooltip.
             Color outOfLogicNameColor = new Color(0.58f, 0.58f, 0.58f, 1f);
             List<LogicTooltipLine> lines = new List<LogicTooltipLine>();
             SaveState state = SaveState.Instance;
@@ -1575,7 +1558,7 @@ namespace SilksongRandomizer.Patches
             {
                 bool haveReachability =
                     ReachabilityByLocation.TryGetValue(
-                        JournalRandomization.MarkerLogicName(locationName, closest.Scene.Name),
+                        EnemySoulMapMarkers.LogicName(locationName, closest.Scene.Name),
                         out MapCheckReachability reachability
                     );
                 Color nameColor =
@@ -1597,7 +1580,7 @@ namespace SilksongRandomizer.Patches
                 foreach (LogicTooltipLine extra in
                     MapLogicEvaluator.Explain(
                         state,
-                        JournalRandomization.MarkerLogicName(locationName, closest.Scene.Name),
+                        EnemySoulMapMarkers.LogicName(locationName, closest.Scene.Name),
                         haveReachability
                             ? reachability
                             : MapCheckReachability.Unknown
@@ -1917,11 +1900,12 @@ namespace SilksongRandomizer.Patches
     )]
     internal static class CheckMapMarkerReceivedItemPatch
     {
-        private static void Postfix(bool __result)
+        private static void Postfix(bool __result, string itemName)
         {
             if (__result)
             {
-                CheckMapMarkerManager.RequestCurrentMarkerStateRefresh();
+                if (EnemySoulMapMarkers.IsSoulItem(itemName)) CheckMapMarkerManager.RefreshCurrentMap();
+                else CheckMapMarkerManager.RequestCurrentMarkerStateRefresh();
             }
         }
     }

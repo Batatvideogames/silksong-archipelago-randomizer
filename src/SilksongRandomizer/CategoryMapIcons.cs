@@ -12,9 +12,11 @@ namespace SilksongRandomizer
         private static readonly Dictionary<Sprite, Sprite> Outlines = new Dictionary<Sprite, Sprite>();
         private static readonly Dictionary<string, string> Resources = ResourceCategories();
         private static readonly HashSet<string> Shops = new HashSet<string>(
-            CoreLocationManifest.ShopLocations.Select(entry => Canonical(entry.LocationName)), StringComparer.OrdinalIgnoreCase);
+            CoreLocationManifest.ShopLocations.Select(entry => Canonical(entry.LocationName))
+                .Concat(new[] { "Multibinder", "Frey (Bellhart) - Spool Fragment" }), StringComparer.OrdinalIgnoreCase);
         private static readonly HashSet<string> WishRewards = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
-            "Savage Beastfly - Mask Shard", "The Hidden Hunter - Mask Shard", "Volatile Flintbeetles - Memory Locket"
+            "Savage Beastfly - Mask Shard", "The Hidden Hunter - Mask Shard", "Volatile Flintbeetles - Memory Locket",
+            "Dark Hearts - Mask Shard"
         };
         private static LocationSet source;
         private static Dictionary<string, Location> locations;
@@ -25,7 +27,9 @@ namespace SilksongRandomizer
         {
             var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var entry in MinorCacheManifest.Entries)
-                result[Canonical(entry.LocationName)] = entry.Kind == MinorCacheManifest.SourceKind.BreakableHolder ||
+                result[Canonical(entry.LocationName)] = (entry.Kind == MinorCacheManifest.SourceKind.BreakableHolder &&
+                    !entry.ObjectName.StartsWith("ant_rosary_string", StringComparison.Ordinal) &&
+                    entry.ObjectName != "ant_item_string") ||
                     entry.LocationName == "Deep Docks Church - Shell Shard Chest" ? "Shell Shards" : "Rosaries";
             foreach (var entry in MinorPickupManifest.Entries)
             {
@@ -36,12 +40,14 @@ namespace SilksongRandomizer
             }
             foreach (string name in BeastShardSourceManifest.LocationNames) result[Canonical(name)] = "Shell Shards";
             result[Canonical(MinorPickupManifest.LoddieNecklace)] = "Rosaries";
+            result[Canonical(MinorPickupManifest.SwiftNecklace)] = "Rosaries";
             return result;
         }
 
         internal static string Category(SaveState state, IReadOnlyList<string> names)
         {
             if (state?.locations == null || names.Count == 0) return null;
+            if (names.All(EnemySoulMapMarkers.IsLocation)) return "First Time Kill";
             if (!ReferenceEquals(source, state.locations))
             {
                 source = state.locations;
@@ -55,7 +61,8 @@ namespace SilksongRandomizer
             if (entries.Length == 1) return null;
             if (entries.All(location => Shops.Contains(location.Name) ||
                 location.Name.IndexOf(" Shop - ", StringComparison.OrdinalIgnoreCase) >= 0)) return "Merchants";
-            if (entries.All(location => location.Type == ItemType.Quest || WishRewards.Contains(location.Name))) return "Wish";
+            if (entries.All(location => location.Name.StartsWith("Wish: ", StringComparison.Ordinal) ||
+                location.Type == ItemType.Quest || WishRewards.Contains(location.Name))) return "Wish";
             if (entries.Any(location => location.Type == ItemType.Boss)) return "First Time Kill";
             return null;
         }
@@ -63,6 +70,8 @@ namespace SilksongRandomizer
         private static string SingleCategory(Location location)
         {
             string name = location.SourceName;
+            if (ScroungeRelicTurnInManifest.IsTurnInLocation(location.Name) ||
+                CardiniusCylinderTurnInManifest.IsTurnInLocation(location.Name)) return "Merchants";
             if (location.Name.StartsWith("Wish: ", StringComparison.Ordinal)) return "Wish";
             switch (location.Type)
             {

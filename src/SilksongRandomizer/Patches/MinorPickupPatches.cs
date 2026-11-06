@@ -29,6 +29,23 @@ namespace SilksongRandomizer.Patches
             }
         }
 
+        [HarmonyPatch(typeof(SprintRaceController), "get_Reward")]
+        private static class SwiftNecklaceReward
+        {
+            private static void Postfix(SprintRaceController __instance, ref SavedItem __result)
+            {
+                SaveState state = SaveState.Instance;
+                if (__result?.name != "Rosary_Set_Medium" ||
+                    __instance.gameObject.scene.name != "Sprintmaster_Cave" ||
+                    Utils.GetHierarchyPath(__instance.transform) != "Race Group/Tracks/Track 1/Track 1 Race Control" ||
+                    state == null || !state.IsRandomized(ItemType.Resource) ||
+                    !state.IsLocationEnabled(MinorPickupManifest.SwiftNecklace) ||
+                    !state.IsLocationInSeed(MinorPickupManifest.SwiftNecklace))
+                    return;
+                __result = GetProxyItem(MinorPickupManifest.SwiftNecklace);
+            }
+        }
+
         private const float MatchTolerance = 0.75f;
         private static readonly Dictionary<string, ArchipelagoLocationItem>
             ProxyByLocation =

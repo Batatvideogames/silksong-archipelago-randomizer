@@ -100,7 +100,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Tool Unlock: Shell Satchel", "Crawl_01", 54.5f, 85.1f, 150f, 130f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Boss: Summoned Saviour", "Bone_Steel_Servant", 25.81f, 9.13f, 130f, 40f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Dead Mans Purse", "Crawl_01", 54.5f, 85.1f, 150f, 130f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Tool Unlock: Wisp Lantern", "Belltown_08", 54.55f, 11.31f, 115f, 47f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Tool Unlock: Wisp Lantern", "Belltown_08", 56.060001f, 11.540000f, 115f, 47f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Harpoon", "Belltown_Room_shellwood", 37.023f, 7.07f, 55f, 26f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Straight Pin", "Bone_12", 41.13f, 27.81f, 58f, 43f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition(MinorPickupManifest.LoddieNecklace, "Bone_12", 23.02f, 4.70f, 58f, 43f, MapMarkerPositionConfidence.ExactUpstream),
@@ -114,6 +114,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Beast Shard: Craggler", "Crawl_04", 83.519997f, 14.89f, 165f, 20f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Pilgrim's Rest", "Bone_East_10_Church", 139.320007f, 10.97f, 200f, 30f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Memorium", "Arborium_02", 111.046463f, 8.935061f, 132f, 29f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition(MinorPickupManifest.SwiftNecklace, "Sprintmaster_Cave", 88.93f, 14.12f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Beast Shard: Sprintmaster", "Sprintmaster_Cave", 88.930000f, 14.120000f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Tri Pin", "Greymoor_15b", 184.319992f, 100.362526f, 220f, 141f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Tool Unlock: Barbed Wire", "Dust_Barb", 28.95f, 4.32f, 45f, 32f, MapMarkerPositionConfidence.ExactUpstream),
@@ -268,7 +269,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Memory Locket: Halfway Home", "Halfway_01", 8.292786f, 13.000000f, 56f, 32f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Memory Locket: Bellhart Shop", "Belltown", 55.430000f, 7.880000f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Memory Locket: Bellhart Roof", "Belltown", 59.168686f, 66.165000f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Memory Locket: Volatile Flintbeetles", "Bonetown", 285.650000f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Memory Locket: Volatile Flintbeetles", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Memory Locket: The Marrow", "Bone_18", 38.150000f, 20.510000f, 49f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Memory Locket: Choral Chambers", "Bellway_City", 67.570000f, 24.290000f, 112f, 36f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Memory Locket: Wormways", "Crawl_09", 130.490000f, 3.340000f, 150f, 58f, MapMarkerPositionConfidence.ExactUpstream),
@@ -390,7 +391,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Crafting Kit: Forge Daughter", "Room_Forge", 114.190002f, 34.540005f, 140f, 69f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Twelfth Architect", "Under_17", 76.831480f, 27.930000f, 164f, 48f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Crafting Kit: Grindle", "Coral_42", 24.990000f, 21.430000f, 62f, 32f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Crafting Kit: Crawbug Clearing (Creige)", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Crafting Kit: Crawbug Clearing (Creige)", "Halfway_01", 31.29f, 6.02f, 56f, 32f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Bone Bottom Shop - Mask Shard (Grindle in Act 3)", "Bonetown", 277.102230f, 8.040000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Wormways", "Crawl_02", 22.231581f, 4.839001f, 30f, 150f, MapMarkerPositionConfidence.ExactUpstream),
@@ -398,7 +399,7 @@ namespace SilksongRandomizer
             new MapCheckPosition("Mask Shard: Shellwood", "Shellwood_14", 127.889999f, 12.671935f, 135f, 19f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: The Marrow - Deep Docks Passage", "Dock_08", 50.169998f, 22.040001f, 110f, 35f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Weavenest Atla", "Weave_05b", 159.067291f, 28.709999f, 221f, 43f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Mask Shard: Savage Beastfly", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Mask Shard: Savage Beastfly", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Cogwork Core", "Song_09", 41.560001f, 43.854599f, 50f, 85f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Whispering Vaults", "Library_05", 16.839999f, 71.220003f, 49f, 79f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Bilewater", "Shadow_13", 309.273376f, 63.556236f, 320f, 74f, MapMarkerPositionConfidence.ExactUpstream),
@@ -409,8 +410,8 @@ namespace SilksongRandomizer
             new MapCheckPosition("Songclave Shop - Mask Shard", "Song_Enclave", 78.989998f, 8.140000f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Blasted Steps", "Coral_19b", 74.860001f, 109.019997f, 118f, 117f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Fastest in Pharloom", "Sprintmaster_Cave", 88.930000f, 14.120000f, 236f, 51f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Mask Shard: The Hidden Hunter", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Mask Shard: Dark Hearts", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Mask Shard: The Hidden Hunter", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Mask Shard: Dark Hearts", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Mask Shard: Brightvein", "Peak_06", 28.120001f, 226.300003f, 51f, 233f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Spool Fragment: Bone Bottom", "Bone_11b", 31.370001f, 7.241133f, 52f, 18f, MapMarkerPositionConfidence.ExactUpstream),
@@ -474,25 +475,25 @@ namespace SilksongRandomizer
             // accepted. Board wishes use the Turn In Effect Point.
             // NPC wishes use the actor whose FSM completes/stores the reward.
             // Bone Bottom Wishwall turn-ins use its bonebottom_quest_board root.
-            new MapCheckPosition("Wish: Bone Bottom Repairs", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: A Lifesaving Bridge", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: An Icon of Hope", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Garb of the Pilgrims", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Volatile Flintbeetles", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: The Terrible Tyrant", "Bonetown", 285.649990f, 9.380000f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Bone Bottom Repairs", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: A Lifesaving Bridge", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: An Icon of Hope", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Garb of the Pilgrims", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Volatile Flintbeetles", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: The Terrible Tyrant", "Bonetown", 287.3506f, 9.782682f, 315f, 90f, MapMarkerPositionConfidence.ExactUpstream),
 
-            new MapCheckPosition("Wish: Restoration of Bellhart", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Bellhart's Glory", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Hero's Call", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Silver Bells", "Belltown", 48.457670f, 5.752009f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Restoration of Bellhart", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Bellhart's Glory", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Hero's Call", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Silver Bells", "Belltown", 50.71f, 8.44f, 109f, 75f, MapMarkerPositionConfidence.ExactUpstream),
 
             // Songclave Wishwall turn-ins. Both normal and Act 3 boards have
             // the same authored Turn In Effect Point.
-            new MapCheckPosition("Wish: Fine Pins", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: The Wailing Mother", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Cloaks of the Choir", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Building Up Songclave", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Wish: Strengthening Songclave", "Song_Enclave", 70.555757f, 4.579541f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Fine Pins", "Song_Enclave", 73.51f, 9.11f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: The Wailing Mother", "Song_Enclave", 73.51f, 9.11f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Cloaks of the Choir", "Song_Enclave", 73.51f, 9.11f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Building Up Songclave", "Song_Enclave", 73.51f, 9.11f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
+            new MapCheckPosition("Wish: Strengthening Songclave", "Song_Enclave", 73.51f, 9.11f, 120f, 33f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Wish: Pinmaster's Oil", "Belltown_Room_pinsmith", 25.809999f, 8.360000f, 55f, 26f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Wish: Advanced Alchemy", "Crawl_08", 52.860001f, 10.161187f, 105f, 22f, MapMarkerPositionConfidence.ExactUpstream),
@@ -694,14 +695,26 @@ namespace SilksongRandomizer
                 { "wisp_03", new Vector2(179f, 47f) },
             };
 
-        // Every group below contains one cache category in one room. Its source
-        // roots occupy one very tight (at most 5x5 world-unit) cluster. The
-        // two Moss Grotto groups also appear as single visible pickup clusters.
+        // Nearby caches share an anchor without changing their pickup positions.
         // The renderer only groups identical projected anchors, so assigning
         // the shared centroid here avoids a broad proximity rule accidentally
         // merging unrelated checks elsewhere in the room.
         private static readonly string[][] ExplicitMinorCacheMarkerGroups =
         {
+            new[] { "The Abyss - Shell Shard Cache #1", "The Abyss - Shell Shard Cache #2", "The Abyss - Shell Shard Cache #3", "The Abyss - Shell Shard Cache #4" },
+            new[] { "The Abyss - Shell Shard Cache #5", "The Abyss - Shell Shard Cache #6" },
+            new[] { "The Abyss - Shell Shard Cache #7", "The Abyss - Shell Shard Cache #8", "The Abyss - Shell Shard Cache #9" },
+            new[] { "Sands of Karak - Shell Shard Cache #9", "Sands of Karak - Shell Shard Cache #10" },
+            new[] { "Sands of Karak - Shell Shard Cache #3", "Sands of Karak - Shell Shard Cache #4" },
+            new[] { "Blasted Steps - Shell Shard Cache #1", "Blasted Steps - Shell Shard Cache #2", "Blasted Steps - Shell Shard Cache #3" },
+            new[] { "Deep Docks - Shell Shard Cache #6", "Deep Docks - Shell Shard Cache #7", "Deep Docks - Shell Shard Cache #8", "Deep Docks - Shell Shard Cache #9" },
+            new[] { "Sands of Karak - Shell Shard Cache #5", "Sands of Karak - Shell Shard Cache #6", "Sands of Karak - Shell Shard Cache #7", "Sands of Karak - Shell Shard Cache #8" },
+            new[] { "Mount Fay - Shell Shard Cache #5", "Mount Fay - Shell Shard Cache #6", "Mount Fay - Shell Shard Cache #7" },
+            new[] { "The Marrow - Rosary Cache #5", "The Marrow - Rosary Cache #6" },
+            new[] { "Hunter's March - Rosary Cache #4", "Hunter's March - Rosary Cache #5", "Hunter's March - Rosary Cache #6", "Hunter's March - Rosary Cache #7", "Hunter's March - Rosary Cache #8", "Hunter's March - Rosary Cache #9", "Hunter's March - Rosary Cache #10" },
+            new[] { "Hunter's March - Shell Shard Cache #5", "Hunter's March - Shell Shard Cache #6", "Hunter's March - Shell Shard Cache #7", "Hunter's March - Shell Shard Cache #8" },
+            new[] { "Putrified Ducts - Rosary Cache #1", "Putrified Ducts - Rosary Cache #2", "Putrified Ducts - Rosary Cache #3" },
+            new[] { "Putrified Ducts - Shell Shard Cache #9", "Putrified Ducts - Shell Shard Cache #10", "Putrified Ducts - Shell Shard Cache #11" },
             new[] { "Bellhart - Rosary Cache #1", "Bellhart - Rosary Cache #2" },
             new[] { "Bone Bottom - Rosary Cache #4", "Bone Bottom - Rosary Cache #5" },
             new[] { "Bone Bottom - Rosary Cache #6", "Bone Bottom - Rosary Cache #7" },
@@ -734,9 +747,6 @@ namespace SilksongRandomizer
             new[] { "High Halls - Rosary Cache #1", "High Halls - Rosary Cache #2" },
             new[] { "High Halls - Rosary Cache #3", "High Halls - Rosary Cache #4" },
             new[] { "Hunter's March - Rosary Cache #1", "Hunter's March - Rosary Cache #2" },
-            new[] { "Hunter's March - Rosary Cache #4", "Hunter's March - Rosary Cache #5" },
-            new[] { "Hunter's March - Rosary Cache #6", "Hunter's March - Rosary Cache #7" },
-            new[] { "Hunter's March - Rosary Cache #8", "Hunter's March - Rosary Cache #9" },
             new[] { "Mosshome - Rosary Cache #1", "Mosshome - Rosary Cache #2" },
             new[] { "Mosshome - Rosary Cache #3", "Mosshome - Rosary Cache #4" },
             new[] { "Mount Fay - Rosary Cache #1", "Mount Fay - Rosary Cache #2", "Mount Fay - Rosary Cache #3" },
@@ -750,9 +760,7 @@ namespace SilksongRandomizer
             new[] { "Whispering Vaults - Rosary Cache #2", "Whispering Vaults - Rosary Cache #3" },
             new[] { "Whispering Vaults - Rosary Cache #6", "Whispering Vaults - Rosary Cache #7" },
             new[] { "Whiteward - Rosary Cache #1", "Whiteward - Rosary Cache #2" },
-            new[] { "Blasted Steps - Shell Shard Cache #2", "Blasted Steps - Shell Shard Cache #3" },
             new[] { "Deep Docks - Shell Shard Cache #1", "Deep Docks - Shell Shard Cache #2" },
-            new[] { "Deep Docks - Shell Shard Cache #6", "Deep Docks - Shell Shard Cache #7" },
             new[] { "Greymoor - Shell Shard Cache next to the pit with with fat fuck", "Greymoor - The other Shell Shard Cache in the pit with the fat fuck" },
             new[] { "Greymoor - the other Shell Shard Cache of the silver room", "Greymoor - the other other Shell Shard Cache of the silver room" },
             new[] { "Hunter's March - Shell Shard Cache #3", "Hunter's March - Shell Shard Cache #4" },
@@ -761,8 +769,6 @@ namespace SilksongRandomizer
             new[] { "Moss Grotto - Shell Shard Cache #3", "Moss Grotto - Shell Shard Cache #4" },
             new[] { "Moss Grotto - Shell Shard Cache #5", "Moss Grotto - Shell Shard Cache #6", "Moss Grotto - Shell Shard Cache #7" },
             new[] { "Putrified Ducts - Shell Shard Cache #4", "Putrified Ducts - Shell Shard Cache #5" },
-            new[] { "Putrified Ducts - Shell Shard Cache #9", "Putrified Ducts - Shell Shard Cache #10" },
-            new[] { "Sands of Karak - Shell Shard Cache #5", "Sands of Karak - Shell Shard Cache #6" },
             new[] { "Shell Shard Cache: Greyroots Diddy Basement 1", "Shell Shard Cache: Greyroots Diddy Basement 2" },
             new[] { "Shell shard Cache: Outside Longpin 1", "Shell shard Cache: Outside Longpin 2", "Shell shard Cache: Outside Longpin 3" },
             new[] { "Sinner's Road - Shell Shard Cache #4", "Sinner's Road - Shell Shard Cache #5" },
@@ -848,6 +854,9 @@ namespace SilksongRandomizer
 
         internal static IEnumerable<MapCheckPosition> GetPositions()
         {
+            foreach (MapCheckPosition position in EnemySoulMapMarkers.Positions(SaveState.Instance))
+                yield return position;
+
             foreach (MapCheckPosition position in JournalRandomization.MapPositions(StaticPositions))
                 yield return position;
 
@@ -1171,8 +1180,20 @@ namespace SilksongRandomizer
                 return null;
             }
 
+            if (position.LocationName == "Moss Grotto - Shaman Storeroom Record" ||
+                position.LocationName == "Ruined Chapel - Rosary Cache")
+                return new MapCheckPosition(position.LocationName, "Tut_03", 10.006f, 16.857f,
+                    126f, 35f, MapMarkerPositionConfidence.ExactUpstream);
+
             MapCheckPosition assignedBoard = GetShuffledWishPosition(position);
-            if (assignedBoard != null) return assignedBoard;
+            if (assignedBoard != null)
+                return assignedBoard.SceneName == "Belltown_Room_pinsmith"
+                    ? new MapCheckPosition(position.LocationName, "Belltown", 82.29869f, 34.739998f,
+                        109f, 75f, MapMarkerPositionConfidence.ExactUpstream) : assignedBoard;
+
+            if (position.SceneName == "Belltown_Room_pinsmith")
+                return new MapCheckPosition(position.LocationName, "Belltown", 82.29869f, 34.739998f,
+                    109f, 75f, MapMarkerPositionConfidence.ExactUpstream);
 
             if (
                 PlayerData.instance != null &&

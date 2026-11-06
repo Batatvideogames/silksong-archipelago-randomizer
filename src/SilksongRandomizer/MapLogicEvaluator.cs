@@ -427,6 +427,9 @@ namespace SilksongRandomizer
                 requestedLocations.Concat(JournalRandomization.MarkerSources
                     .Where(marker => requestedLocations.Contains(marker.Value.Location))
                     .Select(marker => marker.Key))
+                    .Concat(EnemySoulMapMarkers.Sources
+                        .Where(marker => requestedLocations.Contains(marker.Value.Location))
+                        .Select(marker => marker.Key))
                     .Where(name => !string.IsNullOrWhiteSpace(name))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToArray();
@@ -1001,6 +1004,17 @@ namespace SilksongRandomizer
                             AllOf = marker.Value.Events.ToList(),
                             RequiredLocations = new List<string> { marker.Value.Location }
                         } }
+                    };
+                }
+                foreach (var marker in EnemySoulMapMarkers.Sources)
+                {
+                    if (!payload.Requirements.TryGetValue(marker.Value.Location, out var original)) continue;
+                    string room = RoomNodePrefix + marker.Value.Room + "#";
+                    var alternatives = original.Alternatives.Where(rule =>
+                        rule.AllOf?.Any(name => name.StartsWith(room, StringComparison.Ordinal)) == true).ToList();
+                    payload.Requirements[marker.Key] = new LogicRequirement {
+                        LogicUnknown = original.LogicUnknown || alternatives.Count == 0,
+                        Alternatives = alternatives
                     };
                 }
                 cachedPayload = new ParsedPayload(payload);

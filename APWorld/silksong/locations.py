@@ -1116,6 +1116,8 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "Cogheart") for name in ('Ch
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'crown fragment', "Broodmother's Eye"))
 _LOCATION_TABLE_SOURCE_UNNORMALIZED += tuple((source.location_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[2:])
 
+_LOCATION_TABLE_SOURCE_UNNORMALIZED += (("Swift rosary necklace", "Resource"),)
+
 WISH_REWARD_LOCATION_BY_COMPLETION: Mapping[str, str] = {
     "Wish: Pinmaster's Oil": canonicalize_location_name('Pinmaster Plinney: Shining Needle'),
     'Wish: Volatile Flintbeetles': 'Volatile Flintbeetles - Memory Locket',

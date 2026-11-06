@@ -84,6 +84,7 @@ WISH_CURRENCY_REWARDS: dict[str, str] = {
 SCRIPTED_MINOR_REWARDS: dict[str, str] = {
     **WISH_CURRENCY_REWARDS,
     'Loddie - Heavy Rosary Necklace': 'Heavy Rosary Necklace',
+    'Swift rosary necklace': 'Rosary Necklace',
 }
 
 

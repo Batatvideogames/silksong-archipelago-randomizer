@@ -559,7 +559,6 @@ class TestAlphabetMode(unittest.TestCase):
             "start_with_maps": True,
             "start_fully_mapped": True,
             "automatic_compass": True,
-            "location_map_markers": "owned_maps",
             "bellway_access": "randomized_stations",
             "skill_randomization": "anywhere",
             "tool_randomization": "vanilla",

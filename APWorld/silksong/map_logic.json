@@ -132367,6 +132367,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/12f14d4a-247c-42f0-89da-3c138cc7a987",
               "Room Event: event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3"
@@ -132375,6 +132376,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/12f14d4a-247c-42f0-89da-3c138cc7a987",
               "Room Event: event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe"
@@ -132383,6 +132385,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/12f14d4a-247c-42f0-89da-3c138cc7a987",
               "Room Event: event:mapper/6f5cfe78-ceda-4042-ab4f-4a3feed69d90"
@@ -132391,6 +132394,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
               "Room Event: event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe"
@@ -132399,6 +132403,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/6f548027-ef2e-40aa-80cc-c73ae72a91a3",
               "Room Event: event:mapper/6f5cfe78-ceda-4042-ab4f-4a3feed69d90"
@@ -132407,6 +132412,7 @@
           {
             "all_of": [
               "Room Node: bellhart/belltown#lower-area",
+              "Room Event: event:mapper/9bc588fb-af09-44b2-b174-6d3412d5bd5c",
               "Room Event: event:mapper/7f55d1a9-b427-462d-a1f8-40653ea100f8",
               "Room Event: event:mapper/0fcbb574-ecbe-403c-a48c-f28ddf2a99fe",
               "Room Event: event:mapper/6f5cfe78-ceda-4042-ab4f-4a3feed69d90"
@@ -135506,7 +135512,617 @@
           {
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
-              "Room Event: event:mapper/reviewed:songclave-second-donation-completed"
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-level-two",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           }
         ]
@@ -135516,6 +136132,15 @@
           {
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed"
             ]
@@ -135523,8 +136148,57 @@
           {
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-caretaker-met",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           }
         ]
@@ -135535,8 +136209,260 @@
             "all_of": [
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed"
             ]
           },
@@ -135545,8 +136471,44 @@
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
-              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
-              "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           },
           {
@@ -135555,7 +136517,358 @@
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
-              "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           },
           {
@@ -135563,8 +136876,818 @@
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-first-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
-              "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:songclave-second-donation-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           },
           {
@@ -135572,8 +137695,404 @@
               "Room Node: choral-chambers/songclave#base",
               "Room Event: event:mapper/reviewed:fine-pins-completed",
               "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:fine-pins-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
               "Room Event: event:mapper/reviewed:choir-cloaks-completed",
-              "Room Event: event:mapper/reviewed:wandering-merchant-completed"
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:wandering-merchant-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/reviewed:choir-cloaks-completed",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/1f53c165-7afb-4362-9607-d334f05dd642",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: choral-chambers/songclave#base",
+              "Room Event: event:mapper/36657c01-a7ca-49db-b968-25cddb4d03fc",
+              "Room Event: event:mapper/0dd94f77-255c-486d-814b-dc93ec3487b8",
+              "Room Event: event:mapper/f328e597-6706-4cb4-8e5b-d9fc1d77de13",
+              "Room Event: event:mapper/cc95561d-69cd-485b-a6e2-489866df4549"
             ]
           }
         ]
@@ -302489,6 +305008,16 @@
             "all_of": [
               "Room Node: far-fields/sprintmaster-cave#the-race",
               "Room Event: event:mapper/6f562e18-a149-46f9-aec5-a08f718293d7"
+            ]
+          }
+        ]
+      },
+      "Swift rosary necklace": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: far-fields/sprintmaster-cave#the-race",
+              "Room Event: event:mapper/0954b8c6-25e1-4067-9604-228efb28a29f"
             ]
           }
         ]

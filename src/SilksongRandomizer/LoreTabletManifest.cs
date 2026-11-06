@@ -587,8 +587,8 @@ namespace SilksongRandomizer
             new Entry(
                 "Bellhart - Outer Sign",
                 "Belltown_07",
-                57.874252f,
-                5.059642f,
+                57.56095f,
+                8.37f,
                 70f,
                 34f,
                 Source(
