@@ -10925,10 +10925,10 @@
   "name": "Shellgrave",
   "children": [
    {
-    "name": "Shellgrave - Rosary Cache",
+    "name": "Rosary Cross",
     "sections": [
      {
-      "name": "Shellgrave - Rosary Cache"
+      "name": "Rosary Cross"
      }
     ],
     "map_locations": [
@@ -26962,8 +26962,8 @@
     "map_locations": [
      {
       "map": "Whiteward Silkeater",
-      "x": 112,
-      "y": 13
+      "x": 145,
+      "y": 36
      }
     ]
    },
@@ -26977,8 +26977,8 @@
     "map_locations": [
      {
       "map": "Whiteward Silkeater",
-      "x": 6,
-      "y": 116
+      "x": 9,
+      "y": 133
      }
     ]
    }

@@ -42,11 +42,6 @@ class SpendingAudit:
         ))
         self.indices = {location: index for index, location in enumerate(self.purchases)}
         self.free = tuple(location for location in self.locations if location not in self.indices)
-        self.free_by_player = {
-            player: tuple(location for location in self.free if location.player == player)
-            for player in self.worlds
-        }
-        self.foreign_free = tuple(location for location in self.free if location.player not in self.worlds)
         self.reach_cache = {}
         self.masks = {player: 0 for player in self.worlds}
         self.repairs = self.masks.copy()
@@ -105,32 +100,20 @@ class SpendingAudit:
         state.advancements.add(location)
         return bought | (1 << index)
 
-    def reachable(self, player, state):
-        key = player, frozenset(state.prog_items[player].items())
-        cached = self.reach_cache.get(key)
-        if cached is None:
-            free = tuple(location for location in self.free_by_player[player]
-                         if location.advancement and location.can_reach(state))
-            purchases = sum(1 << index for index, location in enumerate(self.purchases)
-                            if location.player == player and location.can_reach(state))
-            cached = self.reach_cache[key] = free, purchases
-        return cached
-
     def sweep(self, state):
-        while True:
-            previous = len(state.advancements)
-            for player in self.worlds:
-                for location in self.reachable(player, state)[0]:
-                    if location not in state.advancements:
-                        state.collect(location.item, True, location)
-                        state.advancements.add(location)
-            if self.foreign_free:
-                state.sweep_for_advancements(locations=self.foreign_free)
-            if len(state.advancements) == previous:
-                return
+        state.sweep_for_advancements(locations=self.free)
 
     def reachable_purchases(self, state):
-        return sum(self.reachable(player, state)[1] for player in self.worlds)
+        reachable = 0
+        for player in self.worlds:
+            key = player, frozenset(state.prog_items[player].items())
+            cached = self.reach_cache.get(key)
+            if cached is None:
+                cached = self.reach_cache[key] = sum(
+                    1 << index for index, location in enumerate(self.purchases)
+                    if location.player == player and location.can_reach(state))
+            reachable |= cached
+        return reachable
 
     def settle(self, state, bought):
         while True:
@@ -188,7 +171,7 @@ class SpendingAudit:
         self.run_states += 1
         if self.finished(state, bought):
             return None
-        if self.run_states > self.state_limit:
+        if self.run_states > self.run_limit:
             return SpendingFailure(state, bought, exhausted=True)
         reachable = self.reachable_purchases(state)
         choices = [index for index, location in enumerate(self.purchases)
@@ -234,14 +217,22 @@ class SpendingAudit:
         self.goals.update(player for player in self.multiworld.player_ids
                           if self.multiworld.has_beaten_game(state, player))
 
-    def run(self, base_state=None):
+    def prepare_search(self, state_limit=None):
         self.visited.clear()
         self.reach_cache.clear()
         self.run_states = 0
+        self.run_limit = self.state_limit if state_limit is None else min(state_limit, self.state_limit)
         # Reachable filler purchases spend the same coin without opening anything.
         self.filler = sum(1 << index for index, location in enumerate(self.purchases)
                           if not location.item.advancement and self.recipients.get(location.item.player)
                           and location.address is not None and not self.repairs[location.player] & (1 << index))
+
+    def resume(self, failure, state_limit=None):
+        self.prepare_search(state_limit)
+        return self.search(failure.state.copy(), failure.bought)
+
+    def run(self, base_state=None, *, state_limit=None):
+        self.prepare_search(state_limit)
         initial_state = base_state.copy() if base_state is not None else CollectionState(self.multiworld)
         self.sweep(initial_state)
         self.update_baseline(initial_state)
@@ -283,7 +274,8 @@ class SpendingAudit:
         )
         return chain(sources, self.funding_sources(failure, ranks), optional_rewards)
 
-    def repair(self, failure, ranks):
+    def repair(self, failure, ranks, *, allow_progression=True):
+        self.can_resume = False
         targets = sorted(
             (location for location in self.free
              if location.address is not None and not location.locked
@@ -302,10 +294,12 @@ class SpendingAudit:
                 if (source.can_fill(failure.state, target.item, False)
                         and target.can_fill(failure.state, source.item, False)):
                     item = source.item
+                    self.can_resume = (source not in failure.state.advancements
+                                       and target not in failure.state.advancements)
                     swap_location_item(source, target)
                     return {'item': item.name, 'player': item.player,
                             'from': (source.player, source.name), 'to': (target.player, target.name)}
-        return self.repair_progression(failure, candidates, ranks)
+        return self.repair_progression(failure, candidates, ranks) if allow_progression else None
 
     def swap_candidates(self, failure, sources, ranks, *, progression_only=True):
         sources = sorted(sources, key=lambda location: (not location.can_reach(failure.state),
@@ -423,11 +417,18 @@ def audit_craftmetal_spending(multiworld, worlds, *, finalized=True, base_state=
         return
     repairs = []
     ranks = None
-    while (failure := audit.run(base_state)) is not None:
+    probe_limit = min(audit.state_limit, max(64, audit.state_limit // len(audit.worlds) ** 2))
+    failure = audit.run(base_state, state_limit=probe_limit)
+    while failure is not None:
         if ranks is None:
             ranks = {location: index for index, sphere in enumerate(multiworld.get_spheres())
                      for location in sphere}
-        repair = audit.repair(failure, ranks)
+        repair = audit.repair(failure, ranks, allow_progression=not failure.exhausted)
+        if repair is None and failure.exhausted:
+            failure = audit.run(base_state)
+            if failure is None:
+                break
+            repair = audit.repair(failure, ranks)
         if repair is None:
             spent = ', '.join(
                 f'{multiworld.player_name[player]}: {audit.spent(player, failure.bought)} spent, '
@@ -459,6 +460,11 @@ def audit_craftmetal_spending(multiworld, worlds, *, finalized=True, base_state=
             )
         repairs.append(repair)
         base_state = None
+        failure = audit.resume(failure, probe_limit) if audit.can_resume else None
+        if failure is None:
+            failure = audit.run(state_limit=probe_limit)
+        if failure is None:
+            failure = audit.run()
     previous = getattr(multiworld, '_silksong_craftmetal_audit', {'states': 0, 'repairs': []})
     multiworld._silksong_craftmetal_audit = {
         'states': previous['states'] + audit.states,

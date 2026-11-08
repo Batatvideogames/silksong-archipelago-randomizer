@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 MAPPER_LOCATION_NAMES: dict[str, str] = {
+    'Shellgrave - Rosary Cache': 'Rosary Cross',
     "Rosary Cache: Sinner's Road #4": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
     "Sinner's Road - Rosary Cache #4": "Sinner's Road - Rosary Cache: Sinner’s Road #4",
     'Flea: Exhaust Organ': 'Exhaust Organ - Flea Is Tired Of Organ Music',

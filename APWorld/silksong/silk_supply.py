@@ -29,6 +29,7 @@ class _SupplyState:
         self.refresh = True
         self.regeneration = 0
         self.capacity = 9
+        self.shared = False
 
 
     def copy(self):
@@ -45,6 +46,7 @@ class _SupplyState:
         result.refresh = self.refresh
         result.regeneration = self.regeneration
         result.capacity = self.capacity
+        result.shared = False
         return result
 
 
@@ -54,7 +56,8 @@ def copy_silk_supply(state, target, player):
         return
     if not hasattr(target, '_silksong_silk_supply'):
         target._silksong_silk_supply = {}
-    target._silksong_silk_supply[player] = cached.copy()
+    cached.shared = True
+    target._silksong_silk_supply[player] = cached
 
 
 class SilkSupplyState(LogicMixin):
@@ -281,13 +284,16 @@ class SilkSupply:
             self._dependencies[node] = frozenset(items), frozenset(regions)
         return self._dependencies[node]
 
-    def _cached(self, state):
+    def _cached(self, state, *, writable=True):
         try:
             cached = state._silksong_silk_supply[self.player]
         except (AttributeError, KeyError):
             return None
         if cached.program is not self or cached.revision != self.revision:
             return None
+        if cached.shared and (writable or cached.exit_count != len(self.added_exits)):
+            cached = cached.copy()
+            state._silksong_silk_supply[self.player] = cached
         if cached.exit_count != len(self.added_exits):
             for source, _, cost, predicate in self.added_exits[cached.exit_count:]:
                 if cached.active[predicate] and cached.levels[source] >= cost:
@@ -321,7 +327,7 @@ class SilkSupply:
     def evaluate(self, state, node, amount):
         if state.stale[self.player]:
             state.update_reachable_regions(self.player)
-        cached = self._cached(state)
+        cached = self._cached(state, writable=False)
         if cached is None:
             cached = _SupplyState(self)
             cached.entries.update(self.nodes[r.name] for r in state.reachable_regions[self.player]
@@ -329,11 +335,13 @@ class SilkSupply:
             if not hasattr(state, '_silksong_silk_supply'):
                 state._silksong_silk_supply = {}
             state._silksong_silk_supply[self.player] = cached
-        levels, active, pending, queue = cached.levels, cached.active, cached.pending, cached.queue
-        if levels[node] >= amount:
+        if cached.levels[node] >= amount:
             return True
-        if not pending and not cached.refresh and not queue and not cached.entries:
+        if not cached.pending and not cached.refresh and not cached.queue and not cached.entries:
             return False
+        if cached.shared:
+            cached = self._cached(state)
+        levels, active, pending, queue = cached.levels, cached.active, cached.pending, cached.queue
 
         def offer(index, value):
             if value >= 0:

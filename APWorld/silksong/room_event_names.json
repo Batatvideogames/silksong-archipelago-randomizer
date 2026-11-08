@@ -6356,7 +6356,7 @@
     "mapper_kind": "collectible"
   },
   "event:mapper/c582554a-6412-4bcc-a5f5-7da7e5d1d37d": {
-    "name": "Whiteward Entrance - Whiteward Bench",
+    "name": "Whiteward - Bench",
     "kind": "bench",
     "locations": [],
     "mapper_kind": "bench"
@@ -8796,13 +8796,13 @@
     "mapper_kind": "lock"
   },
   "event:mapper/f5340693-d3db-4c9d-925f-90bbf31a75d2": {
-    "name": "Whiteward Entrance - Switch Entrance Left",
+    "name": "Whiteward - Switch Entrance Left",
     "kind": "switch",
     "locations": [],
     "mapper_kind": "switch"
   },
   "event:mapper/ce23c303-3602-4ac1-af9e-7f730bc0c4d9": {
-    "name": "Whiteward Entrance - Switch Entrance Right",
+    "name": "Whiteward - Switch Entrance Right",
     "kind": "switch",
     "locations": [],
     "mapper_kind": "switch"
@@ -9631,6 +9631,54 @@
     "name": "Void Mass destroyed: Hunters March Deep Docks Passage",
     "kind": "event",
     "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance": {
+    "name": "Visited Greymoor",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/reviewed:visit-greymoor:greymoor/greymoor-craw-lake#spike-room-lower-entrance": {
+    "name": "Visit Greymoor:Greymoor/Greymoor Craw Lake#Spike Room Lower Entrance",
+    "kind": "event",
+    "mapper_kind": "event",
+    "locations": []
+  },
+  "event:mapper/86ac6d0c-7b51-4fc7-a786-677f73ea1e79": {
+    "name": "Whiteward Entrance Wall",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/612a8f39-ef0b-4e0d-8815-40f5e26bb893": {
+    "name": "Sherma Gauntlet Wall",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f624d27e-79eb-4bf9-8891-d137bac50110": {
+    "name": "Whiteward Tunnel Room - Wall 1",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/7243c395-ccee-4baf-989a-2137ebf54b89": {
+    "name": "Whiteward Tunnel Room - Wall 2",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/97f41a0f-3a33-414d-905a-3f2726a3e356": {
+    "name": "Whiteward Tunnel Room - Wall 3",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
+    "locations": []
+  },
+  "event:mapper/f41d28f3-15c9-4df1-b095-21f526501532": {
+    "name": "Whiteward Tunnel Room - Wall 4",
+    "kind": "blockade",
+    "mapper_kind": "blockade",
     "locations": []
   }
 }

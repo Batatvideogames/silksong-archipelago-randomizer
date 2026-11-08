@@ -183,6 +183,7 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, string> MapperLocationNames =
             new Dictionary<string, string>(StringComparer.Ordinal)
             {
+                { "Shellgrave - Rosary Cache", "Rosary Cross" },
                 { "Far Fields - Rosary Cache #14", "Far Fields - Fort Upper Passage - Rosaries Niche Stash 1" },
                 { "Far Fields - Rosary Cache #15", "Far Fields - Fort Upper Passage - Rosaries Niche Stash 2" },
                 { "Far Fields - Rosary Chest #1", "Far Fields - Fort Upper Passage - Skarr Rosaries Hoard Chest" },

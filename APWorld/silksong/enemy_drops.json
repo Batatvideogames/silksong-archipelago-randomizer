@@ -1,5 +1,5 @@
 {
-  "mapper_source": "5c34f50478443c777e48e0b409c027fc2f485d032b63f80218c17745c721dce2",
+  "mapper_source": "54492a49c0825cd67a54518c179d39269a8738cc2e7b725f16b538d3bd6ddddd",
   "scenes": {
     "moss-grotto/moss-grotto-center": "tut_01",
     "moss-grotto/moss-grotto-west": "tut_02",
@@ -1411,7 +1411,7 @@
     },
     "3165ce02-12aa-4f94-9147-0d12d9d9a870": {
       "name": "Caranid 3",
-      "node": "bone-bottom/the-big-fall#upper-right-ledge",
+      "node": "bone-bottom/the-big-fall#shellwood-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Caranid",
@@ -1430,7 +1430,7 @@
     },
     "83f61c4e-72b8-4e2d-9a18-39e707060992": {
       "name": "Caranid 4",
-      "node": "bone-bottom/the-big-fall#upper-right-ledge",
+      "node": "bone-bottom/the-big-fall#upper-chain-passage",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Caranid",
@@ -1449,7 +1449,7 @@
     },
     "0930cf9c-069c-469c-a23b-ee408071aa9e": {
       "name": "Caranid 5",
-      "node": "bone-bottom/the-big-fall#upper-right-ledge",
+      "node": "bone-bottom/the-big-fall#shellwood-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Caranid",
@@ -1506,7 +1506,7 @@
     },
     "a7d0e89a-2aa7-4543-9750-4cdce42b060b": {
       "name": "Aknid 3",
-      "node": "bone-bottom/the-big-fall#lower-left-area",
+      "node": "bone-bottom/the-big-fall#wormways-lower-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Aknid",
@@ -1546,7 +1546,7 @@
     },
     "50baa302-48a6-4cfa-bbce-04e423423fbe": {
       "name": "Aknid 5",
-      "node": "bone-bottom/the-big-fall#lower-left-area",
+      "node": "bone-bottom/the-big-fall#wormways-lower-platform",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Aknid",
@@ -5046,55 +5046,55 @@
     },
     "51c6b7fd-2fd6-4636-90de-5ed99385b9f3": {
       "name": "Smokerock Sifter 1",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "93b4cc66-f6b2-424f-a59f-3420513db923": {
       "name": "Flintstone Flyer 1",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "662346b4-64cd-484d-8a9c-de3d0392366f": {
       "name": "Flintstone Flyer 2",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "53d5db66-a548-4a7e-94a7-a2ff7c5e610e": {
       "name": "Flintstone Flyer 3",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "9bca851e-3b90-4073-bde6-f86e96a13c56": {
       "name": "Smokerock Sifter 2",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ccf8eee5-5c16-47f0-a8d0-e6c1c20665a8": {
       "name": "Flintstone Flyer 4",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "fba906ac-f5db-40c0-897f-1a814d7e58c7": {
       "name": "Smelt Shoveller 1",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "9a3641fd-f1bc-468c-afb3-18d86c8b745f": {
       "name": "Smokerock Sifter 3",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
     "a110e168-4cdb-4122-a58e-53855af96f32": {
       "name": "Smelt Shoveller 2",
-      "node": "deep-docks/deep-docks-forge#unassigned",
+      "node": "deep-docks/deep-docks-forge#gauntlet",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -7343,7 +7343,7 @@
     },
     "2c134add-ea37-4906-9fb0-c0b92d6970dc": {
       "name": "Skarrgard 1",
-      "node": "hunter-s-march/hunters-march-entrance#unassigned",
+      "node": "hunter-s-march/hunters-march-entrance#before-door",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -7877,79 +7877,79 @@
     },
     "27e2051d-a971-4ac2-baf8-ef0d5e300898": {
       "name": "Pilgrim Bellbearer 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "f4cd9b23-0b7b-4388-9414-c57215b271dc": {
       "name": "Pilgrim Guide 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "32dd54bd-2bc4-49f6-8213-2628acbf3390": {
       "name": "Covetous Pilgrim 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "c9a7482b-2253-4c16-83fe-42cb8af174b3": {
       "name": "Pilgrim Groveller 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "44a0ab99-8261-4539-abaf-ef6a6a6027dc": {
       "name": "Pilgrim Pouncer 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "41acc160-0548-4a56-a8c9-99cc079bb214": {
       "name": "Pilgrim Pouncer 2",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ab1ac313-dabc-4e13-9fd3-f131c883e449": {
       "name": "Pilgrim Bellbearer 2",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "e80a077c-13c5-4e15-be08-d68e791526a0": {
       "name": "Pilgrim Hulk 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "b27fe057-7db4-4184-a5ee-68dae7023e7d": {
       "name": "Pilgrim Groveller 2",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "bc3a5e05-b85e-4d49-aa43-7991d5de755e": {
       "name": "Pilgrim Hulk 2",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "33cca83b-8b08-4921-8bab-5b9611aa858a": {
       "name": "Pilgrim Guide 2",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "e0119ff5-545e-4c8e-9a59-31077c628476": {
       "name": "Pilgrim Hulk 3",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
     "0ea0f715-40e1-4a51-a72f-7aa142219a19": {
       "name": "Rosary Pilgrim 1",
-      "node": "shellwood/shellgrave#room",
+      "node": "shellwood/shellgrave#upper",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -9622,7 +9622,7 @@
     },
     "3c712b0e-8d6f-4e46-9858-3f0db6b76964": {
       "name": "Tallcraw 1",
-      "node": "greymoor/greymoor-craw-lake#flea-room-middle",
+      "node": "greymoor/greymoor-craw-lake#flea-room-upper",
       "drops": "unknown",
       "reset": "unverified"
     },
@@ -16668,44 +16668,149 @@
     "674b3463-c323-4d9d-b0de-5e20af674b54": {
       "name": "Surgeon 1",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "scene",
+      "species": "Surgeon",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3606",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": true
     },
     "d6da7a1d-e416-4df3-ac77-f85a58788838": {
       "name": "Surgeon 2",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "scene",
+      "species": "Surgeon",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3603",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [],
+          "dnf": [
+            [
+              "state:act-3"
+            ]
+          ]
+        }
+      ],
+      "farm": true
     },
     "46b4471f-8e7b-4eaa-8064-c9fde8827feb": {
       "name": "Surgeon 3",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Surgeon",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3607",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [
+            "Mortician"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "8e35b119-45dd-4168-8bb4-8109653d46fc": {
       "name": "Mortician 1",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Mortician",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3804",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Surgeon"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "1aa0feea-daec-44da-aa5a-878688d76b93": {
       "name": "Mortician 2",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Mortician",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3805",
+      "routes": [
+        {
+          "act": 2,
+          "events": [],
+          "souls": [
+            "Surgeon"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "284e7db2-aedd-4bf2-98f7-65666c12cfaa": {
       "name": "Surgeon 4",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Surgeon",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3604",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [
+            "Mortician"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "bfe64d07-2984-4d7c-bf0a-7aeda3641dbf": {
       "name": "Surgeon 5",
       "node": "whiteward/whiteward-sherma-gauntlet#room",
-      "drops": "unknown",
-      "reset": "unverified"
+      "drops": "both",
+      "reset": "encounter",
+      "species": "Surgeon",
+      "native_source": "scenes_scenes_scenes/ward_09.bundle:3605",
+      "routes": [
+        {
+          "act": 3,
+          "events": [],
+          "souls": [
+            "Mortician"
+          ],
+          "dnf": [
+            []
+          ]
+        }
+      ],
+      "farm": false
     },
     "0e75cc11-e0d5-450a-a919-706759730497": {
       "name": "Surgeon 6",
@@ -16781,7 +16886,7 @@
     },
     "b0c13c58-e2f2-4de6-9a76-a2d6b58d9b53": {
       "name": "Drapefly 1",
-      "node": "whiteward/whiteward-tunnel-room#top-horizontal",
+      "node": "whiteward/whiteward-tunnel-room#top-horizontal-right",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Drapefly",
@@ -17239,7 +17344,7 @@
     },
     "29f146f4-ea8a-4fec-bbaa-a9c83ac3c2fc": {
       "name": "Giant Drapemite 1",
-      "node": "high-halls/high-halls-rosary-bank#side-vents",
+      "node": "high-halls/high-halls-rosary-bank#lower-vents",
       "drops": "shell_shards",
       "reset": "scene",
       "species": "Giant Drapemite",
@@ -24837,241 +24942,241 @@
     },
     "28f95e45-05e6-4c06-82d3-9e4141d29b6e": {
       "name": "Skullwing 1",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#end",
       "drops": "unknown",
       "reset": "unverified"
     },
     "51cbd820-df01-452d-90cc-432c56e0dfd5": {
       "name": "Skullwing 2",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#end",
       "drops": "unknown",
       "reset": "unverified"
     },
     "3bab8749-c6f2-4623-aa75-ccc21d5907a3": {
       "name": "Skull Scuttler 1",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#end",
       "drops": "unknown",
       "reset": "unverified"
     },
     "a7243cb0-ce73-443b-b2da-fb58016e8fcc": {
       "name": "Skullwing 3",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "6264852b-3c39-4abb-bae0-8b4c1bfced9b": {
       "name": "Skullwing 4",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "20b097fe-c8bb-40db-9280-64c534e5d414": {
       "name": "Skullwing 5",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "5883bd0e-c3a9-441c-b219-5e6e9fad8cee": {
       "name": "Skullwing 6",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ab5687ae-cc02-43d9-9845-1527bed0a2f5": {
       "name": "Skullwing 7",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "099a70b8-bd56-41c2-a7ac-9f6fb8bdd254": {
       "name": "Skullwing 8",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "fabfa1ac-f01c-43f7-82fa-86434acf51f4": {
       "name": "Skullwing 9",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "37761261-e10b-4734-8f0e-ba7561aba612": {
       "name": "Skullwing 10",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "6142ddb8-1edb-4ac9-bfb6-843c39bf0013": {
       "name": "Skullwing 11",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "e846e297-3330-4aca-8ae6-5ab420264afa": {
       "name": "Skullwing 12",
-      "node": "the-abyss/abyss-escape#unassigned",
+      "node": "the-abyss/abyss-escape#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "71bcd0db-61ab-452a-9800-3cc57358162e": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-escape-hallway#unassigned",
+      "node": "the-abyss/abyss-escape-hallway#tunnel-left",
       "drops": "unknown",
       "reset": "unverified"
     },
     "8be8fff6-f21c-41b8-89bc-32a4b35d4176": {
       "name": "Gloomsac 1",
-      "node": "the-abyss/abyss-escape-hallway#unassigned",
+      "node": "the-abyss/abyss-escape-hallway#tunnel-left",
       "drops": "unknown",
       "reset": "unverified"
     },
     "b18399ab-93df-4554-bb6a-c35781d65231": {
       "name": "Gloomsac 2",
-      "node": "the-abyss/abyss-escape-hallway#unassigned",
+      "node": "the-abyss/abyss-escape-hallway#tunnel-left",
       "drops": "unknown",
       "reset": "unverified"
     },
     "3fc28889-f123-4fed-a698-f729f17593b2": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-hallway-to-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-hallway-to-upper-big-room#centre-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ac7fecb6-c78c-4ebe-9156-91d24631a0ae": {
       "name": "Gloomsac 1",
-      "node": "the-abyss/abyss-hallway-to-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-hallway-to-upper-big-room#left-exit",
       "drops": "unknown",
       "reset": "unverified"
     },
     "20d9a8f0-170a-4836-be48-055920edacd2": {
       "name": "Gloomsac 2",
-      "node": "the-abyss/abyss-hallway-to-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-hallway-to-upper-big-room#right-exit",
       "drops": "unknown",
       "reset": "unverified"
     },
     "b3ebf8ae-f33d-4bbe-ade5-78ec334b23c1": {
       "name": "Gloomsac 3",
-      "node": "the-abyss/abyss-hallway-to-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-hallway-to-upper-big-room#centre-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "72b7f3ae-3f95-4d1f-8078-a9239268a21d": {
       "name": "Gloomsac 4",
-      "node": "the-abyss/abyss-hallway-to-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-hallway-to-upper-big-room#centre-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "6c9fbd9e-979d-4d93-b8aa-a22ccbef3d1f": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-landing-zone#unassigned",
+      "node": "the-abyss/abyss-landing-zone#lower-exit",
       "drops": "unknown",
       "reset": "unverified"
     },
     "260a02fd-e1dd-4741-bf43-280402927010": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-lower-big-room#unassigned",
+      "node": "the-abyss/abyss-lower-big-room#hidden-shellshards",
       "drops": "unknown",
       "reset": "unverified"
     },
     "ba912c42-6a4d-463f-8041-5829f954afe2": {
       "name": "Shadow Creeper 2",
-      "node": "the-abyss/abyss-lower-big-room#unassigned",
+      "node": "the-abyss/abyss-lower-big-room#right-void-coast",
       "drops": "unknown",
       "reset": "unverified"
     },
     "1ab593e4-7197-47e8-b7cc-988d9659e4e1": {
       "name": "Shadow Charger 1",
-      "node": "the-abyss/abyss-lower-big-room#unassigned",
+      "node": "the-abyss/abyss-lower-big-room#centre-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "eb1f1c1c-3c92-47e0-baf1-e3cb04e1fe76": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-tall-room#unassigned",
+      "node": "the-abyss/abyss-tall-room#spike-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "4b2d7aaa-1f3d-4c3e-b56c-7dd16aa4aebc": {
       "name": "Shadow Creeper 1",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#shadow-creedper-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "1312168f-27c9-4874-8121-98ae9d3ded73": {
       "name": "Gargant Gloom 1",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-left-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "9e626b55-2674-4d71-ab1f-4dec3160cdf4": {
       "name": "Gargant Gloom 2",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "63a74b4b-9a7c-4f7e-9681-34c5b7b6d5da": {
       "name": "Gloomsac 1",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "bc7cbdd7-7787-457b-a66f-1d27fcc48523": {
       "name": "Gloomsac 2",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "9546a93f-28b7-4030-97d5-47b2863f5b2c": {
       "name": "Gloomsac 3",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "a9a5b8e0-de3e-47bb-a8ef-d0208f6e5462": {
       "name": "Gloomsac 4",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "902fa15f-8b58-48c5-bddc-af266bfa0ef5": {
       "name": "Gloomsac 5",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-left-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "55a1fffe-ec3c-46d0-8168-9656b2fde74e": {
       "name": "Gloomsac 6",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-left-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "7fc48586-8775-4b7c-8b67-fb8dae4346fc": {
       "name": "Gloomsac 7",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-left-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "17b71d02-b212-4cc0-9667-7450ddd0de80": {
       "name": "Gloomsac 8",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-left-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "55e5e8b5-94b5-4bbf-aab1-eaae86a262ef": {
       "name": "Gloomsac 9",
-      "node": "the-abyss/abyss-upper-big-room#unassigned",
+      "node": "the-abyss/abyss-upper-big-room#centre-right-platform",
       "drops": "unknown",
       "reset": "unverified"
     },
     "c6156e18-4b17-4cba-86cd-b9c085e3a551": {
       "name": "Shadow Charger 1",
-      "node": "the-abyss/arcane-egg-room#unassigned",
+      "node": "the-abyss/arcane-egg-room#start",
       "drops": "unknown",
       "reset": "unverified"
     },
     "69ff1a21-1ea2-4520-95ef-c7468d1e3187": {
       "name": "Weaver Servitor Broken 1",
-      "node": "the-abyss/weavenest-absolom#unassigned",
+      "node": "the-abyss/weavenest-absolom#farsight",
       "drops": "unknown",
       "reset": "unverified"
     },

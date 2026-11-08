@@ -2174,8 +2174,8 @@
  {
   "name": "Whiteward Silkeater",
   "img": "01-geometry/50654fa3-2b4c-4f2c-8dfb-1312b8dd8fe8.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Whiteward Unravelled Arena Room",

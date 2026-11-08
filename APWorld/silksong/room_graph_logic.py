@@ -1310,7 +1310,7 @@ _EXISTING_LOCATION_NODE_BINDINGS: Mapping[str, str] = {
     "Pin Purchase: Vendor Pins": "wormways/wormways-upper-east#upper-area",
     "Bellway: Deep Docks": "deep-docks/deep-docks-bellway#room",
     "Bellshrine: Deep Docks": "deep-docks/deep-docks-bellshrine#room",
-    "Shellwood - Shellgrave Inscription": "shellwood/shellgrave#room",
+    "Shellwood - Shellgrave Inscription": "shellwood/shellgrave#lower",
     "Shellwood - Weaver Harp Inscription": (
         "shellwood/shellwood-10#ground-level"
     ),
@@ -1543,6 +1543,9 @@ def _atom_alternatives(atom: str) -> tuple[CompiledRoomClause, ...]:
             return () if crest == 'Shaman' else (_part('Crest: ' + crest, f'Technique: Heal Stall {max(1, tier)}'),)
         if kind == "scuttlebrace":
             return (_part("Usable Scuttlebrace", "Swift Step", f"Technique: Scuttlebrace {max(1, tier)}"),)
+        if kind == "shaman-scuttler":
+            return (_part("Crest: Shaman", "Usable Scuttlebrace", "Swift Step", "Yellow Vesticrest",
+                          f"Technique: Scuttlebrace {max(1, tier)}"),)
         if kind == "spike-pogo-skip":
             return tuple(_merge(crest, _part(f"Technique: Crest Pogo {max(1, tier)}"))
                          for crest in _ATOM_ALTERNATIVES["macro:spike-pogo"])

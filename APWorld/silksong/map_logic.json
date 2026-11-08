@@ -4665,17 +4665,17 @@
               },
               {
                 "all_of": [
+                  "Room Node: bone-bottom/bone-bottom-town#chapel-roof"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: bone-bottom/bone-bottom-town#sky-left"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: bone-bottom/bone-bottom-town#sky-right"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: bone-bottom/bone-bottom-town#chapel-roof"
                 ]
               },
               {
@@ -13780,8 +13780,7 @@
               },
               {
                 "all_of": [
-                  "Room Node: greymoor/greymoor-craw-lake#spiked-room",
-                  "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13"
+                  "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance"
                 ]
               },
               {
@@ -18958,6 +18957,12 @@
               },
               {
                 "all_of": [
+                  "Room Node: hunter-s-march/hunters-march-shaft#lower-right-niche",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: hunter-s-march/hunters-march-shaft#below-l3",
                   "Silk Soar"
                 ]
@@ -22542,6 +22547,17 @@
               },
               {
                 "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
+                  "Crest: Shaman",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Yellow Vesticrest",
+                  "Technique: Scuttlebrace 1",
+                  "Loadout: Crest: Shaman + Usable Scuttlebrace"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#lower-shell-ledge",
                   "Directional: Clawline Right"
                 ]
@@ -23098,6 +23114,17 @@
                   "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
                   "Usable Flea Brew",
                   "Technique: Flea Brew Stall 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+                  "Crest: Shaman",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Yellow Vesticrest",
+                  "Technique: Scuttlebrace 3",
+                  "Loadout: Crest: Shaman + Usable Scuttlebrace"
                 ]
               }
             ]
@@ -25589,8 +25616,14 @@
           "Room Node: shellwood/greyroot#room": {
             "alternatives": []
           },
-          "Room Node: shellwood/shellgrave#room": {
-            "alternatives": []
+          "Room Node: shellwood/shellgrave#lower": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellgrave#upper"
+                ]
+              }
+            ]
           },
           "Room Node: shellwood/shellwood-bellshrine#room": {
             "alternatives": [
@@ -25949,65 +25982,26 @@
           "Room Node: shellwood/shellwood-greyroot-entrance#room": {
             "alternatives": []
           },
-          "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake": {
-            "alternatives": [
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Capability: Swim"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Directional: Clawline Left"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Directional: Sprint Left",
-                  "Drifter's Cloak"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-lower-toll-bench#room"
-                ]
-              }
-            ]
-          },
           "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake": {
             "alternatives": [
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Capability: Swim"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Directional: Sprint Right",
                   "Drifter's Cloak"
                 ]
@@ -26015,6 +26009,7 @@
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Faydown Cloak",
                   "Technique: Enemy Pogo 1"
                 ]
@@ -26022,8 +26017,279 @@
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Drifter's Cloak",
                   "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Capability: Swim"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Directional: Sprint Right",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Drifter's Cloak",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Ledge Grab Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Flea Brew",
+                  "Technique: Flea Brew Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Voltvessels",
+                  "Technique: Voltvessels Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Technique: Heal Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Shaman",
+                  "Technique: Crest Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Beast",
+                  "Technique: Crest Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Hunter",
+                  "Technique: Crest Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Reaper",
+                  "Technique: Crest Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Faydown Cloak",
+                  "Drifter's Cloak",
+                  "Directional: Clawline Right",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
+                ]
+              }
+            ]
+          },
+          "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Ledge Grab Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Ledge Grab Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Technique: Enemy Pogo 2"
+                ]
+              }
+            ]
+          },
+          "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Silk Soar"
                 ]
               }
             ]
@@ -37636,7 +37902,7 @@
                   "Room Node: whiteward/whiteward-entrance#middle-third-right",
                   "Faydown Cloak",
                   "Directional: Cling Grip Left",
-                  "Usable Rune Rage"
+                  "Technique: Heal Stall 2"
                 ]
               },
               {
@@ -37644,7 +37910,7 @@
                   "Room Node: whiteward/whiteward-entrance#middle-third-right",
                   "Faydown Cloak",
                   "Directional: Cling Grip Right",
-                  "Usable Rune Rage"
+                  "Technique: Heal Stall 2"
                 ]
               },
               {
@@ -37653,7 +37919,7 @@
                   "Faydown Cloak",
                   "Directional: Cling Grip Left",
                   "Usable Flea Brew",
-                  "Technique: Flea Brew Stall 1"
+                  "Technique: Flea Brew Stall 2"
                 ]
               },
               {
@@ -37662,43 +37928,7 @@
                   "Faydown Cloak",
                   "Directional: Cling Grip Right",
                   "Usable Flea Brew",
-                  "Technique: Flea Brew Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Left",
-                  "Usable Plasmium Phial",
-                  "Technique: Plasmium Phial Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Right",
-                  "Usable Plasmium Phial",
-                  "Technique: Plasmium Phial Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Left",
-                  "Usable Flintslate",
-                  "Technique: Flintslate Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Right",
-                  "Usable Flintslate",
-                  "Technique: Flintslate Stall 1"
+                  "Technique: Flea Brew Stall 2"
                 ]
               }
             ]
@@ -39085,7 +39315,7 @@
         "shellwood/cling-grip-side-room@lr": "Room Node: shellwood/cling-grip-side-room#lower-level",
         "shellwood/cling-grip-side-room@ur": "Room Node: shellwood/cling-grip-side-room#upper-level",
         "shellwood/greyroot@l": "Room Node: shellwood/greyroot#room",
-        "shellwood/shellgrave@f": "Room Node: shellwood/shellgrave#room",
+        "shellwood/shellgrave@f": "Room Node: shellwood/shellgrave#lower",
         "shellwood/shellwood-bellshrine@l": "Room Node: shellwood/shellwood-bellshrine#room",
         "shellwood/shellwood-bellway@r": "Room Node: shellwood/shellwood-bellway#right-puddle",
         "shellwood/shellwood-big-room-left@ll": "Room Node: shellwood/shellwood-big-room-left#ground-left",
@@ -39100,9 +39330,9 @@
         "shellwood/shellwood-flower-pogo-upper-hall@r": "Room Node: shellwood/shellwood-flower-pogo-upper-hall#room",
         "shellwood/shellwood-greyroot-entrance@d": "Room Node: shellwood/shellwood-greyroot-entrance#room",
         "shellwood/shellwood-greyroot-entrance@r": "Room Node: shellwood/shellwood-greyroot-entrance#room",
-        "shellwood/shellwood-left-side-long-pond-room@lc": "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+        "shellwood/shellwood-left-side-long-pond-room@lc": "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left",
         "shellwood/shellwood-left-side-long-pond-room@r": "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-        "shellwood/shellwood-left-side-long-pond-room@rc": "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+        "shellwood/shellwood-left-side-long-pond-room@rc": "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform",
         "shellwood/shellwood-lower-left-tall-room@ll": "Room Node: shellwood/shellwood-lower-left-tall-room#bottom",
         "shellwood/shellwood-lower-left-tall-room@lr": "Room Node: shellwood/shellwood-lower-left-tall-room#bottom",
         "shellwood/shellwood-lower-left-tall-room@mr": "Room Node: shellwood/shellwood-lower-left-tall-room#top",
@@ -46365,7 +46595,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellgrave#room"
+                "Room Node: shellwood/shellgrave#lower"
               ]
             }
           ],
@@ -46530,40 +46760,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Technique: Enemy Pogo 2"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Directional: Cling Grip Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Directional: Cling Grip Left"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Silk Soar"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Faydown Cloak"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Usable Scuttlebrace",
-                "Swift Step",
-                "Technique: Scuttlebrace 1"
+                "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left"
               ]
             }
           ],
@@ -46585,44 +46782,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Ledge Grab Left"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Ledge Grab Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Faydown Cloak"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Silk Soar"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Technique: Enemy Pogo 1"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Cling Grip Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Cling Grip Left"
+                "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
               ]
             }
           ],
@@ -52635,6 +52795,17 @@
                   "Crest: Beast",
                   "Technique: Crest Pogo 1",
                   "Loadout: Crest: Beast + Usable Flea Brew"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
+                  "Crest: Shaman",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Yellow Vesticrest",
+                  "Technique: Scuttlebrace 1",
+                  "Loadout: Crest: Shaman + Usable Scuttlebrace"
                 ]
               },
               {
@@ -67041,8 +67212,7 @@
               },
               {
                 "all_of": [
-                  "Room Node: greymoor/greymoor-craw-lake#spiked-room",
-                  "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13"
+                  "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance"
                 ]
               },
               {
@@ -72004,6 +72174,12 @@
               },
               {
                 "all_of": [
+                  "Room Node: hunter-s-march/hunters-march-shaft#lower-right-niche",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: hunter-s-march/hunters-march-shaft#below-l3",
                   "Silk Soar"
                 ]
@@ -75335,6 +75511,17 @@
               },
               {
                 "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
+                  "Crest: Shaman",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Yellow Vesticrest",
+                  "Technique: Scuttlebrace 1",
+                  "Loadout: Crest: Shaman + Usable Scuttlebrace"
+                ]
+              },
+              {
+                "all_of": [
                   "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#lower-shell-ledge",
                   "Directional: Clawline Right"
                 ]
@@ -75891,6 +76078,17 @@
                   "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
                   "Usable Flea Brew",
                   "Technique: Flea Brew Stall 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+                  "Crest: Shaman",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Yellow Vesticrest",
+                  "Technique: Scuttlebrace 3",
+                  "Loadout: Crest: Shaman + Usable Scuttlebrace"
                 ]
               }
             ]
@@ -78373,8 +78571,14 @@
           "Room Node: shellwood/greyroot#room": {
             "alternatives": []
           },
-          "Room Node: shellwood/shellgrave#room": {
-            "alternatives": []
+          "Room Node: shellwood/shellgrave#lower": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellgrave#upper"
+                ]
+              }
+            ]
           },
           "Room Node: shellwood/shellwood-bellshrine#room": {
             "alternatives": [
@@ -78739,65 +78943,26 @@
           "Room Node: shellwood/shellwood-greyroot-entrance#room": {
             "alternatives": []
           },
-          "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake": {
-            "alternatives": [
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Capability: Swim"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Directional: Clawline Left"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Directional: Sprint Left",
-                  "Drifter's Cloak"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Faydown Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                  "Drifter's Cloak",
-                  "Technique: Enemy Pogo 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: shellwood/shellwood-lower-toll-bench#room"
-                ]
-              }
-            ]
-          },
           "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake": {
             "alternatives": [
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Capability: Swim"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Directional: Clawline Right"
                 ]
               },
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Directional: Sprint Right",
                   "Drifter's Cloak"
                 ]
@@ -78805,6 +78970,7 @@
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Faydown Cloak",
                   "Technique: Enemy Pogo 1"
                 ]
@@ -78812,8 +78978,279 @@
               {
                 "all_of": [
                   "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
                   "Drifter's Cloak",
                   "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 1",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Capability: Swim"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Directional: Sprint Right",
+                  "Drifter's Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Drifter's Cloak",
+                  "Technique: Enemy Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 2",
+                  "Faydown Cloak",
+                  "Technique: Enemy Pogo 3"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Ledge Grab Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Flea Brew",
+                  "Technique: Flea Brew Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Plasmium Phial",
+                  "Technique: Plasmium Phial Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Voltvessels",
+                  "Technique: Voltvessels Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Directional: Clawline Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Technique: Heal Stall 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Usable Sharpdart"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Shaman",
+                  "Technique: Crest Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Beast",
+                  "Technique: Crest Pogo 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Hunter",
+                  "Technique: Crest Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Crest: Reaper",
+                  "Technique: Crest Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Capability: Swim",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Act: 3",
+                  "Faydown Cloak",
+                  "Drifter's Cloak",
+                  "Directional: Clawline Right",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
+                ]
+              }
+            ]
+          },
+          "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Ledge Grab Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Ledge Grab Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+                  "Technique: Enemy Pogo 2"
+                ]
+              }
+            ]
+          },
+          "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left": {
+            "alternatives": [
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Directional: Cling Grip Left"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Directional: Cling Grip Right"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Usable Scuttlebrace",
+                  "Swift Step",
+                  "Technique: Scuttlebrace 1"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Faydown Cloak"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Technique: Enemy Pogo 2"
+                ]
+              },
+              {
+                "all_of": [
+                  "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+                  "Silk Soar"
                 ]
               }
             ]
@@ -89853,7 +90290,7 @@
                   "Room Node: whiteward/whiteward-entrance#middle-third-right",
                   "Faydown Cloak",
                   "Directional: Cling Grip Left",
-                  "Usable Rune Rage"
+                  "Technique: Heal Stall 2"
                 ]
               },
               {
@@ -89861,7 +90298,7 @@
                   "Room Node: whiteward/whiteward-entrance#middle-third-right",
                   "Faydown Cloak",
                   "Directional: Cling Grip Right",
-                  "Usable Rune Rage"
+                  "Technique: Heal Stall 2"
                 ]
               },
               {
@@ -89870,7 +90307,7 @@
                   "Faydown Cloak",
                   "Directional: Cling Grip Left",
                   "Usable Flea Brew",
-                  "Technique: Flea Brew Stall 1"
+                  "Technique: Flea Brew Stall 2"
                 ]
               },
               {
@@ -89879,43 +90316,7 @@
                   "Faydown Cloak",
                   "Directional: Cling Grip Right",
                   "Usable Flea Brew",
-                  "Technique: Flea Brew Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Left",
-                  "Usable Plasmium Phial",
-                  "Technique: Plasmium Phial Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Right",
-                  "Usable Plasmium Phial",
-                  "Technique: Plasmium Phial Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Left",
-                  "Usable Flintslate",
-                  "Technique: Flintslate Stall 1"
-                ]
-              },
-              {
-                "all_of": [
-                  "Room Node: whiteward/whiteward-entrance#middle-third-right",
-                  "Faydown Cloak",
-                  "Directional: Cling Grip Right",
-                  "Usable Flintslate",
-                  "Technique: Flintslate Stall 1"
+                  "Technique: Flea Brew Stall 2"
                 ]
               }
             ]
@@ -91162,7 +91563,7 @@
         "shellwood/cling-grip-side-room@lr": "Room Node: shellwood/cling-grip-side-room#lower-level",
         "shellwood/cling-grip-side-room@ur": "Room Node: shellwood/cling-grip-side-room#upper-level",
         "shellwood/greyroot@l": "Room Node: shellwood/greyroot#room",
-        "shellwood/shellgrave@f": "Room Node: shellwood/shellgrave#room",
+        "shellwood/shellgrave@f": "Room Node: shellwood/shellgrave#lower",
         "shellwood/shellwood-bellshrine@l": "Room Node: shellwood/shellwood-bellshrine#room",
         "shellwood/shellwood-bellway@r": "Room Node: shellwood/shellwood-bellway#right-puddle",
         "shellwood/shellwood-big-room-left@ll": "Room Node: shellwood/shellwood-big-room-left#ground-left",
@@ -91176,9 +91577,9 @@
         "shellwood/shellwood-flower-pogo-upper-hall@r": "Room Node: shellwood/shellwood-flower-pogo-upper-hall#room",
         "shellwood/shellwood-greyroot-entrance@d": "Room Node: shellwood/shellwood-greyroot-entrance#room",
         "shellwood/shellwood-greyroot-entrance@r": "Room Node: shellwood/shellwood-greyroot-entrance#room",
-        "shellwood/shellwood-left-side-long-pond-room@lc": "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+        "shellwood/shellwood-left-side-long-pond-room@lc": "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left",
         "shellwood/shellwood-left-side-long-pond-room@r": "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-        "shellwood/shellwood-left-side-long-pond-room@rc": "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+        "shellwood/shellwood-left-side-long-pond-room@rc": "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform",
         "shellwood/shellwood-lower-left-tall-room@ll": "Room Node: shellwood/shellwood-lower-left-tall-room#bottom",
         "shellwood/shellwood-lower-left-tall-room@lr": "Room Node: shellwood/shellwood-lower-left-tall-room#bottom",
         "shellwood/shellwood-lower-left-tall-room@mr": "Room Node: shellwood/shellwood-lower-left-tall-room#top",
@@ -97843,7 +98244,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellgrave#room"
+                "Room Node: shellwood/shellgrave#lower"
               ]
             }
           ],
@@ -97997,40 +98398,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Technique: Enemy Pogo 2"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Directional: Cling Grip Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Directional: Cling Grip Left"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Silk Soar"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Faydown Cloak"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-                "Usable Scuttlebrace",
-                "Swift Step",
-                "Technique: Scuttlebrace 1"
+                "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left"
               ]
             }
           ],
@@ -98052,44 +98420,7 @@
           "requirements": [
             {
               "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Ledge Grab Left"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Ledge Grab Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Faydown Cloak"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Silk Soar"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Technique: Enemy Pogo 1"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Cling Grip Right"
-              ]
-            },
-            {
-              "all_of": [
-                "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-                "Directional: Cling Grip Left"
+                "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
               ]
             }
           ],
@@ -110342,6 +110673,9 @@
       "Loadout: Crest: Beast + Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace": {
         "alternatives": []
       },
+      "Loadout: Crest: Beast + Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace": {
+        "alternatives": []
+      },
       "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace": {
         "alternatives": []
       },
@@ -112293,6 +112627,9 @@
         "alternatives": []
       },
       "Loadout: Crest: Shaman + Usable Flea Brew": {
+        "alternatives": []
+      },
+      "Loadout: Crest: Shaman + Usable Flea Brew + Usable Plasmium Phial + Usable Scuttlebrace": {
         "alternatives": []
       },
       "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace": {
@@ -122888,7 +123225,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: shellwood/shellgrave#room",
+              "Room Node: shellwood/shellgrave#upper",
               "Act: 3"
             ]
           }
@@ -124062,6 +124399,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/612a8f39-ef0b-4e0d-8815-40f5e26bb893": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-sherma-gauntlet#room"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/613f6a36-375b-449c-a358-f39fe83ca702": {
         "alternatives": [
           {
@@ -124104,12 +124450,6 @@
           {
             "all_of": [
               "Room Node: whiteward/whiteward-silkeater#room",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-silkeater#room",
               "Directional: Cling Grip Right"
             ]
           },
@@ -124131,7 +124471,7 @@
             "all_of": [
               "Room Node: whiteward/whiteward-silkeater#room",
               "Faydown Cloak",
-              "Technique: Hazard Respawn 1"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -124139,6 +124479,62 @@
               "Room Node: whiteward/whiteward-silkeater#room",
               "Faydown Cloak",
               "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -124596,6 +124992,51 @@
               "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
               "Directional: Cling Grip Right",
               "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
               "Usable Flea Brew",
               "Technique: Flea Brew Stall 1",
               "Directional: Clawline Left"
@@ -124676,6 +125117,75 @@
               "Directional: Dash Right",
               "Directional: Ledge Grab Left",
               "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
             ]
           },
           {
@@ -124868,6 +125378,54 @@
               "Directional: Cling Grip Right",
               "Usable Flea Brew",
               "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
               "Technique: Flea Brew Stall 1",
               "Directional: Clawline Left"
             ]
@@ -124880,6 +125438,127 @@
               "Technique: Flea Brew Stall 3",
               "Technique: Flea Brew Stall 1",
               "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Dash Right",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Dash Right",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Ledge Grab Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
             ]
           }
         ]
@@ -125428,6 +126107,15 @@
           {
             "all_of": [
               "Room Node: weavenest-atla/weavenest-atla-power-room#room"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/7243c395-ccee-4baf-989a-2137ebf54b89": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#pickup-section"
             ]
           }
         ]
@@ -126705,6 +127393,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/86ac6d0c-7b51-4fc7-a786-677f73ea1e79": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-entrance#middle-third-right"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/86b55d4f-78c1-40fd-ba08-0668ff4e09f6": {
         "alternatives": [
           {
@@ -127685,6 +128382,15 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#upper-craw-nest"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/97f41a0f-3a33-414d-905a-3f2726a3e356": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#pickup-section"
             ]
           }
         ]
@@ -132886,6 +133592,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/f41d28f3-15c9-4df1-b095-21f526501532": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#pickup-section"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/f468c5e6-5d9c-4451-8d6c-b07881710532": {
         "alternatives": [
           {
@@ -132985,6 +133700,15 @@
           {
             "all_of": [
               "Room Node: far-fields/far-fields-deep-entrance#lower-right-alcove"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/f624d27e-79eb-4bf9-8891-d137bac50110": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#pickup-section"
             ]
           }
         ]
@@ -139933,6 +140657,15 @@
           }
         ]
       },
+      "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          }
+        ]
+      },
       "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spiked-room": {
         "alternatives": [
           {
@@ -140652,6 +141385,15 @@
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#small-ass-platform"
+            ]
+          }
+        ]
+      },
+      "Room Event: event:mapper/reviewed:visit-greymoor:greymoor/greymoor-craw-lake#spike-room-lower-entrance": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance"
             ]
           }
         ]
@@ -141868,6 +142610,11 @@
           {
             "all_of": [
               "Room Event: event:mapper/reviewed:visit-greymoor:greymoor/greymoor-craw-lake#flea-room-upper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Event: event:mapper/reviewed:visit-greymoor:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
             ]
           }
         ]
@@ -157274,17 +158021,17 @@
           },
           {
             "all_of": [
+              "Room Node: bone-bottom/bone-bottom-town#chapel-roof"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: bone-bottom/bone-bottom-town#sky-left"
             ]
           },
           {
             "all_of": [
               "Room Node: bone-bottom/bone-bottom-town#sky-right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: bone-bottom/bone-bottom-town#chapel-roof"
             ]
           },
           {
@@ -193626,35 +194373,280 @@
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
               "Option: Elite Ball Knowledge",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Crest: Hunter"
             ]
           },
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
               "Option: Elite Ball Knowledge",
-              "Directional: Ledge Grab Left"
+              "Faydown Cloak",
+              "Crest: Wanderer"
             ]
           },
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
               "Option: Elite Ball Knowledge",
-              "Directional: Ledge Grab Right"
+              "Faydown Cloak",
+              "Crest: Reaper"
             ]
           },
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
               "Option: Elite Ball Knowledge",
-              "Directional: Cling Grip Left"
+              "Faydown Cloak",
+              "Crest: Beast"
             ]
           },
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
               "Option: Elite Ball Knowledge",
-              "Directional: Cling Grip Right"
+              "Faydown Cloak",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Faydown Cloak",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Faydown Cloak",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Left",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Ledge Grab Right",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Left",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#lower-flea-room",
+              "Option: Elite Ball Knowledge",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman"
             ]
           },
           {
@@ -194581,8 +195573,7 @@
           },
           {
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#spiked-room",
-              "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13"
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance"
             ]
           },
           {
@@ -194833,7 +195824,7 @@
           }
         ]
       },
-      "Room Node: greymoor/greymoor-craw-lake#spiked-room": {
+      "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance": {
         "alternatives": [
           {
             "all_of": [
@@ -194930,20 +195921,80 @@
           },
           {
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#left-top-craw-nest"
+              "Room Node: greymoor/greymoor-craw-lake#middle-craw-nest-left",
+              "Room Event: event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08"
             ]
           },
           {
             "all_of": [
               "Room Node: greymoor/greymoor-craw-lake#middle-craw-nest-left",
-              "Room Event: event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08",
+              "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spiked-room",
               "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13"
             ]
           },
           {
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#middle-craw-nest-left",
-              "Silk Soar",
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Faydown Cloak",
+              "Usable Sharpdart",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Faydown Cloak",
+              "Usable Sharpdart",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Faydown Cloak",
+              "Directional: Clawline Left",
+              "Capability: Sprint"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Faydown Cloak",
+              "Directional: Clawline Left",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Faydown Cloak",
+              "Directional: Clawline Left",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#stupid-platform-i-hate",
+              "Room Event: event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08"
+            ]
+          }
+        ]
+      },
+      "Room Node: greymoor/greymoor-craw-lake#spiked-room": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#left-top-craw-nest"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
               "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13"
             ]
           }
@@ -195151,6 +196202,39 @@
               "Room Node: greymoor/greymoor-craw-lake#middle-craw-nest",
               "Room Event: event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08"
             ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+              "Drifter's Cloak",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+              "Drifter's Cloak",
+              "Faydown Cloak",
+              "Capability: Ledge Grab"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+              "Room Event: event:mapper/dc2f7438-35b4-4939-a1f1-c6a046bdcb08"
+            ]
           }
         ]
       },
@@ -195202,8 +196286,7 @@
           },
           {
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#spiked-room",
-              "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13",
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
               "Directional: Clawline Right",
               "Faydown Cloak",
               "Directional: Ledge Grab Left"
@@ -195211,8 +196294,7 @@
           },
           {
             "all_of": [
-              "Room Node: greymoor/greymoor-craw-lake#spiked-room",
-              "Room Event: event:mapper/97eb0590-437d-4ddc-ba96-d6165de41d13",
+              "Room Node: greymoor/greymoor-craw-lake#spike-room-lower-entrance",
               "Directional: Clawline Right",
               "Faydown Cloak",
               "Capability: Sprint"
@@ -211575,6 +212657,32 @@
           },
           {
             "all_of": [
+              "Room Node: hunter-s-march/hunters-march-deep-entrance#below-left-exit",
+              "Silk Soar",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Ledge Grab Right",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: hunter-s-march/hunters-march-deep-entrance#below-left-exit",
+              "Silk Soar",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Cling Grip Right",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: hunter-s-march/hunters-march-deep-entrance#right-exit-area",
               "Directional: Clawline Left",
               "Faydown Cloak"
@@ -211691,6 +212799,19 @@
                 ],
                 "minimum": 1
               }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: hunter-s-march/hunters-march-deep-entrance#center-platform",
+              "Technique: Enemy Pogo 3",
+              "Directional: Dash Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
             ]
           }
         ]
@@ -213012,6 +214133,12 @@
             "all_of": [
               "Room Node: hunter-s-march/hunters-march-shaft#lower-right-niche",
               "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: hunter-s-march/hunters-march-shaft#lower-right-niche",
+              "Technique: Enemy Pogo 1"
             ]
           },
           {
@@ -219443,6 +220570,17 @@
           {
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
               "Crest: Beast",
               "Technique: Crest Pogo 1"
             ]
@@ -219707,6 +220845,17 @@
               "Crest: Beast",
               "Technique: Crest Pogo 1",
               "Loadout: Crest: Beast + Usable Flea Brew"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#upper-platform",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
             ]
           },
           {
@@ -220313,6 +221462,17 @@
             "all_of": [
               "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#apostate-key-area",
               "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-connection-to-bilewater#apostate-key-area",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
             ]
           },
           {
@@ -222285,6 +223445,54 @@
               "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
               "Directional: Cling Grip Right",
               "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Technique: Enemy Pogo 3",
               "Usable Flea Brew",
               "Technique: Flea Brew Stall 1",
               "Directional: Clawline Left"
@@ -222373,6 +223581,79 @@
               "Directional: Dash Right",
               "Directional: Ledge Grab Left",
               "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Crest: Beast + Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
             ]
           },
           {
@@ -222584,6 +223865,57 @@
               "Directional: Cling Grip Right",
               "Usable Flea Brew",
               "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 3",
               "Technique: Flea Brew Stall 1",
               "Directional: Clawline Left"
             ]
@@ -222597,6 +223929,135 @@
               "Technique: Flea Brew Stall 3",
               "Technique: Flea Brew Stall 1",
               "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Dash Right",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Directional: Dash Right",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Directional: Dash Left",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Technique: Scuttlebrace 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Clawline Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Ledge Grab Left",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Plasmium Phial + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Room Event: event:mapper/687b1663-8414-48c9-b375-eeb8515ce3a5",
+              "Directional: Cling Grip Right",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Directional: Ledge Grab Left",
+              "Loadout: Crest: Shaman + Usable Flea Brew + Usable Scuttlebrace"
             ]
           },
           {
@@ -223091,6 +224552,17 @@
               "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
               "Usable Flea Brew",
               "Technique: Flea Brew Stall 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: putrified-ducts/putrified-ducts-lower-bridge-room#right-bridge",
+              "Crest: Shaman",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Yellow Vesticrest",
+              "Technique: Scuttlebrace 3",
+              "Loadout: Crest: Shaman + Usable Scuttlebrace"
             ]
           }
         ]
@@ -229153,48 +230625,158 @@
           }
         ]
       },
-      "Room Node: shellwood/shellgrave#room": {
+      "Room Node: shellwood/shellgrave#lower": {
         "alternatives": [
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Room Node: shellwood/shellgrave#upper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
+            ]
+          }
+        ]
+      },
+      "Room Node: shellwood/shellgrave#upper": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
               "Directional: Ledge Grab Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-              "Directional: Ledge Grab Right"
+              "Room Node: shellwood/shellgrave#lower",
+              "Directional: Cling Grip Left"
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Room Node: shellwood/shellgrave#lower",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
               "Faydown Cloak"
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Room Node: shellwood/shellgrave#lower",
               "Silk Soar"
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Room Node: shellwood/shellgrave#lower",
+              "Crest: Beast",
+              "Needle Strike",
+              "Technique: Needle Strike 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Crest: Beast",
+              "Technique: Heal Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
               "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Straight Pin"
+                ],
+                "minimum": 1
+              }
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-              "Directional: Cling Grip Right"
+              "Room Node: shellwood/shellgrave#lower",
+              "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Threefold Pin"
+                ],
+                "minimum": 1
+              }
             ]
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
-              "Directional: Cling Grip Left"
+              "Room Node: shellwood/shellgrave#lower",
+              "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Throwing Ring"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Conchcutter"
+                ],
+                "minimum": 1
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower",
+              "Technique: Enemy Pogo 1"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Cogwork Wheel"
+                ],
+                "minimum": 1
+              }
             ]
           }
         ]
@@ -229993,40 +231575,7 @@
           },
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Technique: Enemy Pogo 2"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Directional: Cling Grip Right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Silk Soar"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Faydown Cloak"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1"
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left"
             ]
           }
         ]
@@ -230231,24 +231780,22 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: shellwood/shellwood-far-left-tall-room#bottom"
-            ]
-          },
-          {
-            "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
               "Capability: Swim"
             ]
           },
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
               "Directional: Clawline Left"
             ]
           },
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
               "Directional: Sprint Left",
               "Drifter's Cloak"
             ]
@@ -230256,6 +231803,17 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
+              "Directional: Sprint Left",
+              "Directional: Dash Left",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
               "Faydown Cloak",
               "Technique: Enemy Pogo 1"
             ]
@@ -230263,8 +231821,79 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 1",
               "Drifter's Cloak",
               "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Directional: Sprint Left",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Directional: Sprint Left",
+              "Directional: Dash Left",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 2",
+              "Drifter's Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 3",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Act: 3",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Directional: Clawline Left",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left"
             ]
           },
           {
@@ -230278,24 +231907,22 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: shellwood/shellgrave#room"
-            ]
-          },
-          {
-            "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
               "Capability: Swim"
             ]
           },
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
               "Directional: Clawline Right"
             ]
           },
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
               "Directional: Sprint Right",
               "Drifter's Cloak"
             ]
@@ -230303,6 +231930,7 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
               "Faydown Cloak",
               "Technique: Enemy Pogo 1"
             ]
@@ -230310,13 +231938,294 @@
           {
             "all_of": [
               "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
               "Drifter's Cloak",
               "Technique: Enemy Pogo 1"
             ]
           },
           {
             "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 1",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Capability: Swim"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Directional: Sprint Right",
+              "Drifter's Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Drifter's Cloak",
+              "Technique: Enemy Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 2",
+              "Faydown Cloak",
+              "Technique: Enemy Pogo 3"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Usable Plasmium Phial",
+              "Technique: Plasmium Phial Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Usable Voltvessels",
+              "Technique: Voltvessels Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Technique: Heal Stall 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Usable Sharpdart"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Capability: Swim",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Act: 3",
+              "Faydown Cloak",
+              "Drifter's Cloak",
+              "Directional: Clawline Right",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: shellwood/shellwood-lower-left-tall-room#bottom"
+            ]
+          }
+        ]
+      },
+      "Room Node: shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#lower"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Directional: Ledge Grab Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#right-lake",
+              "Technique: Enemy Pogo 2"
+            ]
+          }
+        ]
+      },
+      "Room Node: shellwood/shellwood-left-side-long-pond-room#top-left": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-far-left-tall-room#bottom"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Directional: Cling Grip Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Faydown Cloak"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Technique: Enemy Pogo 2"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: shellwood/shellwood-left-side-long-pond-room#left-lake",
+              "Silk Soar"
             ]
           }
         ]
@@ -271962,7 +273871,8 @@
           },
           {
             "all_of": [
-              "Room Node: whiteward/whiteward-tunnel-room#pickup-section"
+              "Room Node: whiteward/whiteward-tunnel-room#pickup-section",
+              "Room Event: event:mapper/f41d28f3-15c9-4df1-b095-21f526501532"
             ]
           }
         ]
@@ -272004,18 +273914,7 @@
               "Usable Scuttlebrace",
               "Swift Step",
               "Technique: Scuttlebrace 1",
-              "Usable Flea Brew",
-              "Technique: Flea Brew Stall 2",
-              "Loadout: Usable Flea Brew + Usable Scuttlebrace"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Usable Scuttlebrace",
-              "Swift Step",
-              "Technique: Scuttlebrace 1",
-              "Technique: Heal Stall 2"
+              "Technique: Heal Stall 3"
             ]
           },
           {
@@ -272030,6 +273929,28 @@
           {
             "all_of": [
               "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Usable Flea Brew",
+              "Technique: Flea Brew Stall 1",
+              "Loadout: Usable Flea Brew + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
+              "Usable Scuttlebrace",
+              "Swift Step",
+              "Technique: Scuttlebrace 1",
+              "Crest: Beast",
+              "Technique: Heal Stall 1",
+              "Loadout: Crest: Beast + Usable Scuttlebrace"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
               "Silk Soar"
             ]
           },
@@ -272037,59 +273958,7 @@
             "all_of": [
               "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
               "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Usable Sharpdart"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Directional: Clawline Right"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Usable Rune Rage"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Technique: Heal Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Usable Plasmium Phial",
-              "Technique: Plasmium Phial Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Usable Flea Brew",
-              "Technique: Flea Brew Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#vertical-shaft-lower",
-              "Directional: Cling Grip Left",
-              "Faydown Cloak",
-              "Usable Flintslate",
-              "Technique: Flintslate Stall 1"
+              "Faydown Cloak"
             ]
           },
           {
@@ -272250,7 +274119,7 @@
               "Room Node: whiteward/whiteward-entrance#middle-third-right",
               "Faydown Cloak",
               "Directional: Cling Grip Left",
-              "Usable Rune Rage"
+              "Technique: Heal Stall 2"
             ]
           },
           {
@@ -272258,7 +274127,7 @@
               "Room Node: whiteward/whiteward-entrance#middle-third-right",
               "Faydown Cloak",
               "Directional: Cling Grip Right",
-              "Usable Rune Rage"
+              "Technique: Heal Stall 2"
             ]
           },
           {
@@ -272267,7 +274136,7 @@
               "Faydown Cloak",
               "Directional: Cling Grip Left",
               "Usable Flea Brew",
-              "Technique: Flea Brew Stall 1"
+              "Technique: Flea Brew Stall 2"
             ]
           },
           {
@@ -272276,43 +274145,7 @@
               "Faydown Cloak",
               "Directional: Cling Grip Right",
               "Usable Flea Brew",
-              "Technique: Flea Brew Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#middle-third-right",
-              "Faydown Cloak",
-              "Directional: Cling Grip Left",
-              "Usable Plasmium Phial",
-              "Technique: Plasmium Phial Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#middle-third-right",
-              "Faydown Cloak",
-              "Directional: Cling Grip Right",
-              "Usable Plasmium Phial",
-              "Technique: Plasmium Phial Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#middle-third-right",
-              "Faydown Cloak",
-              "Directional: Cling Grip Left",
-              "Usable Flintslate",
-              "Technique: Flintslate Stall 1"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-entrance#middle-third-right",
-              "Faydown Cloak",
-              "Directional: Cling Grip Right",
-              "Usable Flintslate",
-              "Technique: Flintslate Stall 1"
+              "Technique: Flea Brew Stall 2"
             ]
           },
           {
@@ -272354,7 +274187,8 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: whiteward/whiteward-entrance#middle-third-right"
+              "Room Node: whiteward/whiteward-entrance#middle-third-right",
+              "Room Event: event:mapper/86ac6d0c-7b51-4fc7-a786-677f73ea1e79"
             ]
           }
         ]
@@ -272368,7 +274202,7 @@
           },
           {
             "all_of": [
-              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal"
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left"
             ]
           }
         ]
@@ -272417,17 +274251,23 @@
           },
           {
             "all_of": [
-              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal"
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right"
             ]
           }
         ]
       },
-      "Room Node: whiteward/whiteward-tunnel-room#top-horizontal": {
+      "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left": {
         "alternatives": [
           {
             "all_of": [
               "Room Node: whiteward/whiteward-tunnel-room#center-tunnels",
-              "Cling Grip"
+              "Directional: Cling Grip Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#center-tunnels",
+              "Directional: Cling Grip Right"
             ]
           },
           {
@@ -272442,6 +274282,130 @@
             "all_of": [
               "Room Node: whiteward/whiteward-tunnel-room#center-tunnels",
               "Silk Soar"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Directional: Clawline Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Directional: Dash Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right",
+              "Capability: Sprint"
+            ]
+          }
+        ]
+      },
+      "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-right": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Hunter"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Reaper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Shaman"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Architect"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Wanderer"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Beast"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Crest: Witch"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Directional: Clawline Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Directional: Dash Right"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-tunnel-room#top-horizontal-left",
+              "Capability: Sprint"
             ]
           }
         ]
@@ -298140,6 +300104,13 @@
           },
           {
             "all_of": [
+              "Room Node: the-marrow/the-marrow-map-shop#shakra-intro",
+              "Room Event: event:mapper/reviewed:shakra-shop-the-marrow-map-shop",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: wormways/wormways-upper-east#shakra-camp",
               "Room Event: event:mapper/reviewed:shakra-shop-wormways-upper-east",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -298672,6 +300643,13 @@
           },
           {
             "all_of": [
+              "Room Node: wormways/wormways-upper-east#shakra-camp",
+              "Room Event: event:mapper/reviewed:shakra-shop-wormways-upper-east",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: deep-docks/deep-docks-map-shop#floor",
               "Room Event: event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -299204,6 +301182,13 @@
           },
           {
             "all_of": [
+              "Room Node: deep-docks/deep-docks-map-shop#floor",
+              "Room Event: event:mapper/reviewed:shakra-shop-deep-docks-map-shop",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: far-fields/far-fields-map-shop#room",
               "Room Event: event:mapper/reviewed:shakra-shop-far-fields-map-shop",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -299736,6 +301721,13 @@
           },
           {
             "all_of": [
+              "Room Node: far-fields/far-fields-map-shop#room",
+              "Room Event: event:mapper/reviewed:shakra-shop-far-fields-map-shop",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: hunter-s-march/hunters-march-map-shop#gauntlet",
               "Room Event: event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -300268,6 +302260,13 @@
           },
           {
             "all_of": [
+              "Room Node: hunter-s-march/hunters-march-map-shop#gauntlet",
+              "Room Event: event:mapper/reviewed:shakra-shop-hunters-march-map-shop",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: hunter-s-march/hunters-march-chapel-passage#crossing-platform",
               "Room Event: event:mapper/reviewed:shakra-shop-chapel-passage",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -300800,6 +302799,13 @@
           },
           {
             "all_of": [
+              "Room Node: hunter-s-march/hunters-march-chapel-passage#crossing-platform",
+              "Room Event: event:mapper/reviewed:shakra-shop-chapel-passage",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: shellwood/shellwood-shakra#room",
               "Room Event: event:mapper/reviewed:shakra-shop-shellwood-shakra",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -301332,6 +303338,13 @@
           },
           {
             "all_of": [
+              "Room Node: shellwood/shellwood-shakra#room",
+              "Room Event: event:mapper/reviewed:shakra-shop-shellwood-shakra",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: bellhart/belltown#upper-area",
               "Room Event: event:mapper/reviewed:shakra-shop-belltown",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -301864,6 +303877,13 @@
           },
           {
             "all_of": [
+              "Room Node: bellhart/belltown#upper-area",
+              "Room Event: event:mapper/reviewed:shakra-shop-belltown",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: greymoor/greymoor-east-bellshrine-room#lower-section-right",
               "Room Event: event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -302396,6 +304416,13 @@
           },
           {
             "all_of": [
+              "Room Node: greymoor/greymoor-east-bellshrine-room#lower-section-right",
+              "Room Event: event:mapper/reviewed:shakra-shop-greymoor-east-bellshrine-room",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: blasted-steps/blasted-steps-shakra-map-room#bottom-third-right",
               "Room Event: event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -302928,6 +304955,13 @@
           },
           {
             "all_of": [
+              "Room Node: blasted-steps/blasted-steps-shakra-map-room#bottom-third-right",
+              "Room Event: event:mapper/reviewed:shakra-shop-blasted-steps-shakra-map-room",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: sinner-s-road/sinner-s-road-bench#bench",
               "Room Event: event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -303460,6 +305494,13 @@
           },
           {
             "all_of": [
+              "Room Node: sinner-s-road/sinner-s-road-bench#bench",
+              "Room Event: event:mapper/reviewed:shakra-shop-sinner-s-road-bench",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: bilewater/bilewater-shakra-room#room",
               "Room Event: event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -303992,6 +306033,13 @@
           },
           {
             "all_of": [
+              "Room Node: bilewater/bilewater-shakra-room#room",
+              "Room Event: event:mapper/reviewed:shakra-shop-bilewater-shakra-room",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: sands-of-karak/sands-of-shakra#room",
               "Room Event: event:mapper/reviewed:shakra-shop-sands-of-shakra",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -304524,6 +306572,13 @@
           },
           {
             "all_of": [
+              "Room Node: sands-of-karak/sands-of-shakra#room",
+              "Room Event: event:mapper/reviewed:shakra-shop-sands-of-shakra",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
+            ]
+          },
+          {
+            "all_of": [
               "Room Node: mount-fay/mount-fay-shakra#shakra",
               "Room Event: event:mapper/reviewed:shakra-shop-mount-fay-shakra",
               "Room Event: event:mapper/reviewed:vendor-region-visit:deep-docks/deep-docks-map-shop#upper-area"
@@ -305052,6 +307107,13 @@
               "Room Node: mount-fay/mount-fay-shakra#shakra",
               "Room Event: event:mapper/reviewed:shakra-shop-mount-fay-shakra",
               "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#flea-room-upper"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: mount-fay/mount-fay-shakra#shakra",
+              "Room Event: event:mapper/reviewed:shakra-shop-mount-fay-shakra",
+              "Room Event: event:mapper/reviewed:vendor-region-visit:greymoor/greymoor-craw-lake#spike-room-lower-entrance"
             ]
           }
         ]
@@ -306883,6 +308945,15 @@
           }
         ]
       },
+      "Rosary Cross": {
+        "alternatives": [
+          {
+            "all_of": [
+              "Room Node: shellwood/shellgrave#upper"
+            ]
+          }
+        ]
+      },
       "Rosary Grave Marker": {
         "alternatives": [
           {
@@ -307333,15 +309404,6 @@
           }
         ]
       },
-      "Shellgrave - Rosary Cache": {
-        "alternatives": [
-          {
-            "all_of": [
-              "Room Node: shellwood/shellgrave#room"
-            ]
-          }
-        ]
-      },
       "Shellwood - Bellshrine": {
         "alternatives": [
           {
@@ -307651,7 +309713,7 @@
         "alternatives": [
           {
             "all_of": [
-              "Room Node: shellwood/shellgrave#room"
+              "Room Node: shellwood/shellgrave#lower"
             ]
           }
         ]
@@ -310079,12 +312141,6 @@
           {
             "all_of": [
               "Room Node: whiteward/whiteward-silkeater#room",
-              "Directional: Cling Grip Left"
-            ]
-          },
-          {
-            "all_of": [
-              "Room Node: whiteward/whiteward-silkeater#room",
               "Directional: Cling Grip Right"
             ]
           },
@@ -310106,7 +312162,7 @@
             "all_of": [
               "Room Node: whiteward/whiteward-silkeater#room",
               "Faydown Cloak",
-              "Technique: Hazard Respawn 1"
+              "Directional: Cling Grip Left"
             ]
           },
           {
@@ -310114,6 +312170,62 @@
               "Room Node: whiteward/whiteward-silkeater#room",
               "Faydown Cloak",
               "Directional: Ledge Grab Left"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Hunter",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Wanderer",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Reaper",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Beast",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Architect",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Witch",
+              "Technique: Crest Pogo 1"
+            ]
+          },
+          {
+            "all_of": [
+              "Room Node: whiteward/whiteward-silkeater#room",
+              "Faydown Cloak",
+              "Crest: Shaman",
+              "Technique: Crest Pogo 1"
             ]
           }
         ]
@@ -317456,13 +319568,22 @@
         "name": "Shellgrave",
         "nodes": [
           {
-            "annotation_enabled": false,
-            "annotation_height": null,
-            "annotation_width": null,
-            "annotation_x": null,
-            "annotation_y": null,
-            "id": "shellwood/shellgrave#room",
-            "name": "room"
+            "annotation_enabled": true,
+            "annotation_height": 9.320422172546387,
+            "annotation_width": 60.00020158290863,
+            "annotation_x": 1.875160813331604,
+            "annotation_y": 7.26023006439209,
+            "id": "shellwood/shellgrave#upper",
+            "name": "Upper"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 4.904914379119873,
+            "annotation_width": 74.75752639770508,
+            "annotation_x": 58.56942367553711,
+            "annotation_y": 2.355315685272217,
+            "id": "shellwood/shellgrave#lower",
+            "name": "Lower"
           }
         ],
         "room_group_name": "Shellwood"
@@ -317752,7 +319873,7 @@
         "nodes": [
           {
             "annotation_enabled": true,
-            "annotation_height": 17.03190040588379,
+            "annotation_height": 9.158666610717773,
             "annotation_width": 30.615478515625,
             "annotation_x": 199.384521484375,
             "annotation_y": 8.968099594116211,
@@ -317761,12 +319882,30 @@
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 19.405027801513672,
+            "annotation_height": 14.427730972290039,
             "annotation_width": 96.63081091308594,
             "annotation_x": 0,
             "annotation_y": 6.594972198486328,
             "id": "shellwood/shellwood-left-side-long-pond-room#left-lake",
             "name": "Left Lake"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 4.977296829223633,
+            "annotation_width": 10.688028335571289,
+            "annotation_x": 26.00124168395996,
+            "annotation_y": 21.022703170776367,
+            "id": "shellwood/shellwood-left-side-long-pond-room#top-left",
+            "name": "Top Left"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 7.873233795166016,
+            "annotation_width": 17.017852783203125,
+            "annotation_x": 199.384521484375,
+            "annotation_y": 18.126766204833984,
+            "id": "shellwood/shellwood-left-side-long-pond-room#shellgrave-plaform",
+            "name": "Shellgrave Plaform"
           }
         ],
         "room_group_name": "Shellwood"
@@ -318566,10 +320705,10 @@
           },
           {
             "annotation_enabled": true,
-            "annotation_height": 11.224838775634765,
-            "annotation_width": 28.529713768005365,
-            "annotation_x": 121.53340244293213,
-            "annotation_y": 44.32174969482422,
+            "annotation_height": 5.837997955322265,
+            "annotation_width": 23.308417320251465,
+            "annotation_x": 123.00254154205322,
+            "annotation_y": 47.50488186645508,
             "id": "greymoor/greymoor-craw-lake#middle-craw-nest",
             "name": "middle craw nest"
           },
@@ -318585,7 +320724,7 @@
           {
             "annotation_enabled": true,
             "annotation_height": 34.604494873046875,
-            "annotation_width": 9.605705955505371,
+            "annotation_width": 9.177635887145996,
             "annotation_x": 88.23115634918213,
             "annotation_y": 76.83833044433594,
             "id": "greymoor/greymoor-craw-lake#spiked-room",
@@ -318621,9 +320760,9 @@
           {
             "annotation_enabled": true,
             "annotation_height": 10.527854919433594,
-            "annotation_width": 25.00831604003905,
-            "annotation_x": 105.14733288574219,
-            "annotation_y": 84.2199146118164,
+            "annotation_width": 19.45632171630858,
+            "annotation_x": 107.62437603759766,
+            "annotation_y": 83.87825506591797,
             "id": "greymoor/greymoor-craw-lake#upper-craw-nest",
             "name": "upper craw nest"
           },
@@ -318716,6 +320855,15 @@
             "annotation_y": 55.546588470458985,
             "id": "greymoor/greymoor-craw-lake#flea-room-upper",
             "name": "flea room upper"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 6.226366821289062,
+            "annotation_width": 9.845588684082031,
+            "annotation_x": 101.03491973876953,
+            "annotation_y": 76.83833044433594,
+            "id": "greymoor/greymoor-craw-lake#spike-room-lower-entrance",
+            "name": "spike room lower entrance"
           }
         ],
         "room_group_name": "Greymoor"
@@ -327289,11 +329437,20 @@
           {
             "annotation_enabled": true,
             "annotation_height": 11.237000000000002,
-            "annotation_width": 87.439,
-            "annotation_x": 12.903352523803711,
+            "annotation_width": 27.864394393920897,
+            "annotation_x": 13.852605606079102,
             "annotation_y": 19.762999999999998,
-            "id": "whiteward/whiteward-tunnel-room#top-horizontal",
-            "name": "Top Horizontal"
+            "id": "whiteward/whiteward-tunnel-room#top-horizontal-left",
+            "name": "Top Horizontal left"
+          },
+          {
+            "annotation_enabled": true,
+            "annotation_height": 11.237000000000002,
+            "annotation_width": 58.21493054199219,
+            "annotation_x": 41.717,
+            "annotation_y": 19.762999999999998,
+            "id": "whiteward/whiteward-tunnel-room#top-horizontal-right",
+            "name": "Top Horizontal right"
           },
           {
             "annotation_enabled": true,
