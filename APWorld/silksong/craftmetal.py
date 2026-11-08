@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import chain, islice
@@ -62,7 +62,6 @@ class SpendingAudit:
                      if world.options.accessibility == 'full'}
         self.minimal = {player for player, world in multiworld.worlds.items()
                         if world.options.accessibility == 'minimal'}
-        self.foreign_full = tuple(location for location in self.foreign_free if location.player in self.full)
         self.baseline_locations = set()
         self.baseline_purchases = (1 << len(self.purchases)) - 1
         self.goals = set()
@@ -127,10 +126,6 @@ class SpendingAudit:
                         state.advancements.add(location)
             if self.foreign_free:
                 state.sweep_for_advancements(locations=self.foreign_free)
-            for location in self.foreign_full:
-                if location not in state.advancements and location.can_reach(state):
-                    state.collect(location.item, True, location)
-                    state.advancements.add(location)
             if len(state.advancements) == previous:
                 return
 
@@ -162,10 +157,6 @@ class SpendingAudit:
                 return bought
 
     def finished(self, state, bought):
-        # Other worlds may still have post-fill work left.
-        if not self.finalized and all(bought & (1 << index) or self.excluded_repair(index, bought)
-                                      for index in range(len(self.purchases))):
-            return True
         if not all(self.multiworld.has_beaten_game(state, player) for player in self.goals):
             return False
         for location in self.required:
@@ -412,7 +403,7 @@ class SpendingAudit:
         candidates = sorted(
             (location for location in self.free
              if location.address is not None and not location.locked
-             and location in self.baseline_locations and location.item.advancement
+             and location.item.advancement
              and location.item.name not in (CRAFTMETAL_ITEM, MEMORY_LOCKET_ITEM)
              and not location.can_reach(failure.state)),
             key=lambda location: (ranks.get(location, -1), location.player, location.name),

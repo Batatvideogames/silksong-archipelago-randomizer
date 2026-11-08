@@ -183,6 +183,13 @@ namespace SilksongRandomizer
         private static readonly Dictionary<string, string> MapperLocationNames =
             new Dictionary<string, string>(StringComparer.Ordinal)
             {
+                { "Far Fields - Rosary Cache #14", "Far Fields - Fort Upper Passage - Rosaries Niche Stash 1" },
+                { "Far Fields - Rosary Cache #15", "Far Fields - Fort Upper Passage - Rosaries Niche Stash 2" },
+                { "Far Fields - Rosary Chest #1", "Far Fields - Fort Upper Passage - Skarr Rosaries Hoard Chest" },
+                { "Bilewater - Frayed Rosary String", "Bilewater - Rosaries Guarded By A Bloatroach In The Lower Tower" },
+
+                { "Deep Docks - Shell Shard Cache #10", "Deep Docks - Forge daughter's bone scraps" },
+                { "Deep Docks - Shard Bundle #2", "Deep Docks - Fossilized bones found by Ballow" },
                 { "High Halls - Frayed Rosary String", "High Halls  - baby's Relic Psalm Cylinder" },
                 { "Relic: Psalm Cylinder (High Halls)", "High Halls - flooded relic psalm cylinder" },
                 { "High Halls Bank - Rosary Chest #1", "Rosary Bank - Mizello's chest" },

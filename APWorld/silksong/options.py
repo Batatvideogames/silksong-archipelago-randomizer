@@ -506,7 +506,7 @@ class FrayedRosaryStringRandomization(MinorFamilyRandomization):
 
 class RosaryStringRandomization(MinorFamilyRandomization):
     """
-    Randomizes the 4 Rosary Strings in the game.
+    Randomizes the 3 Rosary Strings in the game.
 
     false: leaves them where they normally are
     true: mixes them into the global item pool

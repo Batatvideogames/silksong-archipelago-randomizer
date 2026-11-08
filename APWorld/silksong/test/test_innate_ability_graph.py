@@ -99,12 +99,19 @@ class TestInnateAbilityGraphRows(TestCase):
         self.assertFalse(self.permits(forward, ("Flea Brew",), randomize_ledge_grab=True, **options))
         self.assertFalse(self.permits(reverse, ("Flea Brew",), randomize_ledge_grab=True, **options))
 
-    def test_throwing_ring_traversal_still_requires_swim_and_climbing(self):
+    def test_throwing_ring_traversal_keeps_swim_and_proficient_clawline_routes(self):
         row = self.graph.connection_by_id[
             "bilewater/bilewater-waterfall#left-exit>trails-end@cr"]
         self.assertTrue(row.requirement.dnf)
         for clause in row.requirement.dnf:
-            self.assertTrue({"item:faydown-cloak", "capability:swim", "item:cling-grip"} <= set(clause))
+            self.assertTrue({"item:faydown-cloak", "item:cling-grip"} <= set(clause))
+            self.assertTrue("capability:swim" in clause or {
+                "mapper:proficient-movement:none", "mapper:clawline:right:2", "mapper:cling-grip-direction:right"
+            } <= set(clause))
+        self.assertTrue(any("capability:swim" not in clause for clause in row.requirement.dnf))
+        reverse = self.graph.connection_by_id[
+            "bilewater/bilewater-waterfall#trails-end>left-exit@cr"]
+        self.assertTrue(all("capability:swim" in clause for clause in reverse.requirement.dnf))
         checks = [check for check in self.graph.check_by_id.values()
                   if check.canonical_location == "Throwing Ring"]
         self.assertEqual(len(checks), 1)

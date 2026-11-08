@@ -1431,21 +1431,18 @@ namespace SilksongRandomizer.Patches
                     return;
                 }
 
-                // Vanilla subtracts the viewport extents from the full map
-                // bounds. That keeps the map filling the viewport, but it
-                // also means an outer marker can reach only the viewport
-                // edge while controller tooltip focus stays at its center.
-                // Rebuild those vanilla bounds, then add only the positions
-                // needed to center each currently displayed AP marker.
-                Vector3 panExtents =
-                    markerBounds.extents - scrollArea.extents;
-                panExtents.x = Mathf.Max(0f, panExtents.x);
-                panExtents.y = Mathf.Max(0f, panExtents.y);
-                panExtents.z = Mathf.Max(0f, panExtents.z);
-                Bounds focusBounds = new Bounds(
-                    markerBounds.center,
-                    panExtents * 2f
-                );
+                Camera camera = GetMapCamera(map);
+                if (camera == null || map.transform.parent == null)
+                {
+                    return;
+                }
+                // AP tooltips use the camera centre, not the pin placement area.
+                Vector3 cameraCentre = map.transform.parent.InverseTransformPoint(
+                    camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f,
+                        camera.WorldToViewportPoint(map.transform.position).z)));
+                Vector3 zoomScale = InventoryMapManager.SceneMapEndScale;
+                Vector3 markerScale = InventoryMapManager.SceneMapMarkerZoomScale;
+                Bounds focusBounds = (Bounds)ZoomedBoundsField.GetValue(map);
 
                 foreach (MarkerRecord marker in GetDisplayedMarkers())
                 {
@@ -1457,12 +1454,18 @@ namespace SilksongRandomizer.Patches
 
                     Vector3 position = map.transform.InverseTransformPoint(marker.MarkerObject.transform.position);
                     Vector3 focusPosition = new Vector3(
-                        scrollArea.center.x - position.x,
-                        scrollArea.center.y - position.y,
+                        cameraCentre.x / zoomScale.x - position.x,
+                        cameraCentre.y / zoomScale.y - position.y,
                         focusBounds.center.z
                     );
                     focusBounds.Encapsulate(focusPosition);
-                    markerBounds.Encapsulate(new Bounds(focusPosition, scrollArea.size));
+                    Vector3 markerFocusPosition = new Vector3(
+                        cameraCentre.x / markerScale.x - position.x,
+                        cameraCentre.y / markerScale.y - position.y,
+                        markerBounds.center.z);
+                    markerBounds.Encapsulate(new Bounds(markerFocusPosition,
+                        new Vector3(scrollArea.size.x / markerScale.x,
+                            scrollArea.size.y / markerScale.y, scrollArea.size.z)));
                 }
 
                 ZoomedBoundsField.SetValue(map, focusBounds);

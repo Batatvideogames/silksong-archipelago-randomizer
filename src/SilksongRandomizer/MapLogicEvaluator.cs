@@ -88,6 +88,9 @@ namespace SilksongRandomizer
             [JsonProperty("any_of")]
             internal List<string> AnyOf { get; set; }
 
+            [JsonProperty("minimum_any_of")]
+            internal int MinimumAnyOf { get; set; } = 1;
+
             [JsonProperty("required_locations")]
             internal List<string> RequiredLocations { get; set; }
 
@@ -2018,18 +2021,21 @@ namespace SilksongRandomizer
                         return false;
                 }
             }
-            if (requirement.AnyOf != null && requirement.AnyOf.Count > 0)
+            if ((requirement.AnyOf != null && requirement.AnyOf.Count > 0) || requirement.MinimumAnyOf != 1)
             {
-                bool found = false;
-                foreach (string name in requirement.AnyOf)
+                int found = 0;
+                IEnumerable<string> candidates = requirement.AnyOf ?? Enumerable.Empty<string>();
+                if (requirement.MinimumAnyOf != 1)
+                    candidates = candidates.Distinct(StringComparer.Ordinal);
+                foreach (string name in candidates)
                 {
                     if (HasNamedRequirement(name, abstractValues, inventory, dependencies))
                     {
-                        found = true;
-                        break;
+                        if (++found >= requirement.MinimumAnyOf)
+                            break;
                     }
                 }
-                if (!found)
+                if (found < requirement.MinimumAnyOf)
                     return false;
             }
             if (requirement.RequiredLocations != null)

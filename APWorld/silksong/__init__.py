@@ -18,7 +18,7 @@ from BaseClasses import (
 
 from Options import OptionError
 from rule_builder.rules import Has
-from worlds.AutoWorld import WebWorld, World
+from worlds.AutoWorld import WebWorld
 from rule_builder.cached_world import CachedRuleBuilderWorld
 from settings import FilePath, Group
 
@@ -261,16 +261,21 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         collected_name = self.collect_item(state, item)
-        changed = World.collect(self, state, item)
-        if changed and collected_name != item.name and hasattr(self, '_silk_supply'):
+        if not collected_name:
+            return False
+        state.add_item(collected_name, self.player)
+        if collected_name != item.name and hasattr(self, '_silk_supply'):
             self._silk_supply.collect(state, collected_name)
         results = state.rule_builder_cache[self.player]
-        if changed and results:
+        if results:
             for name in dict.fromkeys((item.name, collected_name, self.item_mapping.get(item.name, ""))):
-                for rule_id in results.keys() & self.rule_item_dependencies.get(name, set()):
+                dependencies = self.rule_item_dependencies.get(name)
+                if not dependencies:
+                    continue
+                for rule_id in results.keys() & dependencies:
                     if results.get(rule_id) is False:
                         del results[rule_id]
-        return changed
+        return True
 
     def reached_region(self, state: CollectionState, region: Region) -> None:
         dependencies = self.rule_region_dependencies.get(region.name)
@@ -1490,7 +1495,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
         from .rosary_economy import entrance_memo
         with entrance_memo(self):
             connect_exits(self)
-        if getattr(self, '_silk_supply', None) is not None:
+        if self.options.entrance_randomization and getattr(self, '_silk_supply', None) is not None:
             self.explicit_indirect_conditions = False
 
     def explain_path(self, entrance, state):
@@ -1550,7 +1555,6 @@ class SilksongWorld(CachedRuleBuilderWorld):
         )
         self.multiworld.regions += [menu, pharloom, logic_unknown]
         from .enemy_souls import create_locations as create_enemy_locations
-        create_enemy_locations(self, pharloom)
         if not self.options.diving_bell_key_randomization.value:
             vanilla_key = SilksongLocation(self.player, "Vanilla Diving Bell Key", None, menu)
             vanilla_key.show_in_spoiler = False
@@ -1558,6 +1562,7 @@ class SilksongWorld(CachedRuleBuilderWorld):
             menu.locations.append(vanilla_key)
 
         native_regions = create_native_logic_region_map(self)
+        create_enemy_locations(self, pharloom)
         abstract_names = self._silksong_native_region_names
         self._silksong_native_location_anchors = {}
         self._silksong_native_assumed_source_locations = set()
@@ -2166,27 +2171,20 @@ class SilksongWorld(CachedRuleBuilderWorld):
 
         from .craftmetal import audit_craftmetal_spending
 
-        if any(location.item is not item for location, item in placements):
-            base_state = None
-
-        audit_craftmetal_spending(multiworld, [
-            multiworld.worlds[player] for player in multiworld.player_ids
-            if multiworld.worlds[player].game == cls.game
-        ], finalized=False, base_state=base_state)
-
-        if any(location.item is not item for location, item in placements):
-            base_state = None
-
         # Freeze the resulting count before core progression balancing. The
         # slot placements are locked so that balancing cannot change it.
         for world in combined_worlds:
             finalize_crest_slot_memory_locket_logic(world)
 
+        audit_craftmetal_spending(multiworld, [
+            multiworld.worlds[player] for player in multiworld.player_ids
+            if multiworld.worlds[player].game == cls.game
+        ], finalized=False)
+
         # Move only the progression needed to keep two Lockets in reserve.
         slotless_state = cls._build_crest_slot_budget_state(
             multiworld,
             excluded_slots,
-            base_state,
         )
         for world in combined_worlds:
             progression_count = get_crest_slot_progression_item_count(

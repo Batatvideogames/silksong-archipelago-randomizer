@@ -227,6 +227,13 @@ def fill_solo_progression(world, progression, locations):
             )
     if any(location.progress_type == LocationProgressType.PRIORITY for location in locations):
         return
+    if world.options.force_naked:
+        from .entrance_randomization import _has_early_item_space
+        if not _has_early_item_space(world):
+            raise OptionError(
+                'Force Naked leaves too few reachable starting checks for the items needed to leave. '
+                'Choose another starting location, enable more check categories or disable Force Naked.'
+            )
     available = [location for location in locations
                  if location.progress_type == LocationProgressType.DEFAULT]
     failure = None

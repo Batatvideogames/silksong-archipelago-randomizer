@@ -5499,7 +5499,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Lace Intro",
-      "x": 552,
+      "x": 618,
       "y": 155
      }
     ]
@@ -5514,7 +5514,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Lace Intro",
-      "x": 8,
+      "x": 9,
       "y": 139
      }
     ]
@@ -5529,7 +5529,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Lace Intro",
-      "x": 950,
+      "x": 1063,
       "y": 139
      }
     ]
@@ -5544,7 +5544,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Lace Intro",
-      "x": 198,
+      "x": 222,
       "y": 180
      }
     ]
@@ -5564,8 +5564,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellshrine",
-      "x": 171,
-      "y": 68
+      "x": 138,
+      "y": 88
      }
     ]
    },
@@ -5579,8 +5579,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellshrine",
-      "x": 62,
-      "y": 177
+      "x": 47,
+      "y": 127
      }
     ]
    },
@@ -5594,8 +5594,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Bellshrine",
-      "x": 275,
-      "y": 177
+      "x": 209,
+      "y": 127
      }
     ]
    }
@@ -5614,8 +5614,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Spire Lower",
-      "x": 964,
-      "y": 116
+      "x": 971,
+      "y": 126
      }
     ]
    },
@@ -5629,7 +5629,7 @@
     "map_locations": [
      {
       "map": "Deep Docks Spire Lower",
-      "x": 1323,
+      "x": 1333,
       "y": 0
      }
     ]
@@ -5645,7 +5645,7 @@
      {
       "map": "Deep Docks Spire Lower",
       "x": 0,
-      "y": 70
+      "y": 76
      }
     ]
    }
@@ -5885,32 +5885,32 @@
   "name": "Deep Docks Forge",
   "children": [
    {
-    "name": "Deep Docks - Shell Shard Cache #10",
+    "name": "Deep Docks - Forge daughter's bone scraps",
     "sections": [
      {
-      "name": "Deep Docks - Shell Shard Cache #10"
+      "name": "Deep Docks - Forge daughter's bone scraps"
      }
     ],
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 43,
-      "y": 325
+      "x": 41,
+      "y": 306
      }
     ]
    },
    {
-    "name": "Deep Docks - Shard Bundle #2",
+    "name": "Deep Docks - Fossilized bones found by Ballow",
     "sections": [
      {
-      "name": "Deep Docks - Shard Bundle #2"
+      "name": "Deep Docks - Fossilized bones found by Ballow"
      }
     ],
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 46,
-      "y": 207
+      "x": 44,
+      "y": 195
      }
     ]
    },
@@ -5924,8 +5924,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 727,
-      "y": 242
+      "x": 693,
+      "y": 229
      }
     ]
    },
@@ -5939,8 +5939,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 728,
-      "y": 220
+      "x": 694,
+      "y": 208
      }
     ]
    },
@@ -5954,8 +5954,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 734,
-      "y": 230
+      "x": 700,
+      "y": 217
      }
     ]
    },
@@ -5969,8 +5969,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 737,
-      "y": 223
+      "x": 702,
+      "y": 211
      }
     ]
    },
@@ -5984,8 +5984,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 186,
-      "y": 346
+      "x": 177,
+      "y": 326
      }
     ]
    },
@@ -5999,8 +5999,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 259,
-      "y": 60
+      "x": 247,
+      "y": 57
      }
     ]
    },
@@ -6015,7 +6015,7 @@
      {
       "map": "Deep Docks Forge",
       "x": 0,
-      "y": 410
+      "y": 386
      }
     ]
    },
@@ -6029,8 +6029,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Forge",
-      "x": 919,
-      "y": 369
+      "x": 876,
+      "y": 348
      }
     ]
    }
@@ -6959,8 +6959,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Memory Hole",
-      "x": 115,
-      "y": 473
+      "x": 92,
+      "y": 457
      }
     ]
    },
@@ -6974,8 +6974,8 @@
     "map_locations": [
      {
       "map": "Deep Docks Memory Hole",
-      "x": 217,
-      "y": 81
+      "x": 203,
+      "y": 69
      }
     ]
    }
@@ -7430,10 +7430,10 @@
   "name": "Far Fields Fort Upper Passage",
   "children": [
    {
-    "name": "Far Fields - Rosary Cache #14",
+    "name": "Far Fields - Fort Upper Passage - Rosaries Niche Stash 1",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #14"
+      "name": "Far Fields - Fort Upper Passage - Rosaries Niche Stash 1"
      }
     ],
     "map_locations": [
@@ -7445,10 +7445,10 @@
     ]
    },
    {
-    "name": "Far Fields - Rosary Cache #15",
+    "name": "Far Fields - Fort Upper Passage - Rosaries Niche Stash 2",
     "sections": [
      {
-      "name": "Far Fields - Rosary Cache #15"
+      "name": "Far Fields - Fort Upper Passage - Rosaries Niche Stash 2"
      }
     ],
     "map_locations": [
@@ -7460,10 +7460,10 @@
     ]
    },
    {
-    "name": "Far Fields - Rosary Chest #1",
+    "name": "Far Fields - Fort Upper Passage - Skarr Rosaries Hoard Chest",
     "sections": [
      {
-      "name": "Far Fields - Rosary Chest #1"
+      "name": "Far Fields - Fort Upper Passage - Skarr Rosaries Hoard Chest"
      }
     ],
     "map_locations": [
@@ -9698,127 +9698,6 @@
   ]
  },
  {
-  "name": "Chapel of the Beast",
-  "children": [
-   {
-    "name": "Crest: Beast",
-    "sections": [
-     {
-      "name": "Crest: Beast"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Chapel of the Beast",
-      "x": 138,
-      "y": 431
-     }
-    ]
-   },
-   {
-    "name": "Journal: Savage Beastfly",
-    "sections": [
-     {
-      "name": "Journal: Savage Beastfly"
-     },
-     {
-      "name": "Journal Completion: Savage Beastfly"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Chapel of the Beast",
-      "x": 285,
-      "y": 438
-     }
-    ]
-   },
-   {
-    "name": "Chapel of the Beast - left1 (L)",
-    "sections": [
-     {
-      "name": "Chapel of the Beast - left1 (L)"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Chapel of the Beast",
-      "x": 50,
-      "y": 555
-     }
-    ]
-   }
-  ]
- },
- {
-  "name": "Hunter's March Chapel Passage",
-  "children": [
-   {
-    "name": "Hunter's March - Memory Locket",
-    "sections": [
-     {
-      "name": "Hunter's March - Memory Locket"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Hunter's March Chapel Passage",
-      "x": 900,
-      "y": 204
-     }
-    ]
-   },
-   {
-    "name": "Crest: Beast",
-    "sections": [
-     {
-      "name": "Crest: Beast"
-     },
-     {
-      "name": "Hunter's March Chapel Passage - door1 (D)"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Hunter's March Chapel Passage",
-      "x": 1166,
-      "y": 96
-     }
-    ]
-   },
-   {
-    "name": "Hunter's March - Map Purchase",
-    "sections": [
-     {
-      "name": "Hunter's March - Map Purchase"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Hunter's March Chapel Passage",
-      "x": 478,
-      "y": 247
-     }
-    ]
-   },
-   {
-    "name": "Hunter's March Chapel Passage - left1",
-    "sections": [
-     {
-      "name": "Hunter's March Chapel Passage - left1"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Hunter's March Chapel Passage",
-      "x": 0,
-      "y": 235
-     }
-    ]
-   }
-  ]
- },
- {
   "name": "Hunter's March Entrance",
   "children": [
    {
@@ -9831,8 +9710,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Entrance",
-      "x": 448,
-      "y": 34
+      "x": 454,
+      "y": 88
      }
     ]
    },
@@ -9846,8 +9725,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Entrance",
-      "x": 457,
-      "y": 41
+      "x": 463,
+      "y": 88
      }
     ]
    },
@@ -9862,7 +9741,7 @@
      {
       "map": "Hunter's March Entrance",
       "x": 3,
-      "y": 74
+      "y": 114
      }
     ]
    },
@@ -9876,8 +9755,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Entrance",
-      "x": 815,
-      "y": 70
+      "x": 826,
+      "y": 108
      }
     ]
    }
@@ -9896,8 +9775,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Pogo Intro",
-      "x": 284,
-      "y": 47
+      "x": 274,
+      "y": 51
      }
     ]
    },
@@ -9912,7 +9791,7 @@
      {
       "map": "Hunter's March Pogo Intro",
       "x": 0,
-      "y": 431
+      "y": 450
      }
     ]
    },
@@ -9926,8 +9805,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Pogo Intro",
-      "x": 328,
-      "y": 145
+      "x": 318,
+      "y": 152
      }
     ]
    }
@@ -9947,7 +9826,7 @@
      {
       "map": "Hunter's March Early Pathway West",
       "x": 41,
-      "y": 48
+      "y": 49
      }
     ]
    },
@@ -9961,7 +9840,7 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway West",
-      "x": 56,
+      "x": 57,
       "y": 42
      }
     ]
@@ -9976,8 +9855,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway West",
-      "x": 666,
-      "y": 135
+      "x": 677,
+      "y": 137
      }
     ]
    },
@@ -9992,7 +9871,7 @@
      {
       "map": "Hunter's March Early Pathway West",
       "x": 0,
-      "y": 149
+      "y": 152
      }
     ]
    },
@@ -10006,8 +9885,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway West",
-      "x": 906,
-      "y": 174
+      "x": 921,
+      "y": 177
      }
     ]
    }
@@ -10027,7 +9906,7 @@
      {
       "map": "Hunter's March Map Shop",
       "x": 0,
-      "y": 174
+      "y": 177
      }
     ]
    },
@@ -10041,8 +9920,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Map Shop",
-      "x": 594,
-      "y": 149
+      "x": 603,
+      "y": 152
      }
     ]
    }
@@ -10061,8 +9940,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway East",
-      "x": 682,
-      "y": 75
+      "x": 660,
+      "y": 99
      }
     ]
    },
@@ -10076,8 +9955,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway East",
-      "x": 675,
-      "y": 71
+      "x": 674,
+      "y": 99
      }
     ]
    },
@@ -10091,8 +9970,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway East",
-      "x": 986,
-      "y": 123
+      "x": 984,
+      "y": 139
      }
     ]
    },
@@ -10106,8 +9985,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Early Pathway East",
-      "x": 589,
-      "y": 117
+      "x": 3,
+      "y": 133
      }
     ]
    }
@@ -10236,8 +10115,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Trapped Bench",
-      "x": 387,
-      "y": 68
+      "x": 356,
+      "y": 107
      }
     ]
    }
@@ -10256,8 +10135,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Skarr Shop",
-      "x": 88,
-      "y": 88
+      "x": 132,
+      "y": 93
      }
     ]
    },
@@ -10286,8 +10165,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Skarr Shop",
-      "x": 879,
-      "y": 99
+      "x": 839,
+      "y": 97
      }
     ]
    },
@@ -10301,8 +10180,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Skarr Shop",
-      "x": 900,
-      "y": 91
+      "x": 842,
+      "y": 137
      }
     ]
    },
@@ -10316,8 +10195,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Skarr Shop",
-      "x": 874,
-      "y": 68
+      "x": 855,
+      "y": 96
      }
     ]
    },
@@ -10331,8 +10210,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Skarr Shop",
-      "x": 905,
-      "y": 64
+      "x": 895,
+      "y": 97
      }
     ]
    },
@@ -10361,7 +10240,19 @@
     "sections": [
      {
       "name": "Hunter's March - Rosary Cache #4"
-     },
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Treasure Vault",
+      "x": 51,
+      "y": 98
+     }
+    ]
+   },
+   {
+    "name": "Hunter's March - Rosary Cache #5",
+    "sections": [
      {
       "name": "Hunter's March - Rosary Cache #5"
      }
@@ -10369,8 +10260,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Treasure Vault",
-      "x": 168,
-      "y": 23
+      "x": 60,
+      "y": 98
      }
     ]
    },
@@ -10379,7 +10270,19 @@
     "sections": [
      {
       "name": "Hunter's March - Rosary Cache #6"
-     },
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Treasure Vault",
+      "x": 79,
+      "y": 99
+     }
+    ]
+   },
+   {
+    "name": "Hunter's March - Rosary Cache #7",
+    "sections": [
      {
       "name": "Hunter's March - Rosary Cache #7"
      }
@@ -10387,8 +10290,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Treasure Vault",
-      "x": 184,
-      "y": 23
+      "x": 86,
+      "y": 96
      }
     ]
    },
@@ -10397,7 +10300,19 @@
     "sections": [
      {
       "name": "Hunter's March - Rosary Cache #8"
-     },
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Treasure Vault",
+      "x": 100,
+      "y": 99
+     }
+    ]
+   },
+   {
+    "name": "Hunter's March - Rosary Cache #9",
+    "sections": [
      {
       "name": "Hunter's March - Rosary Cache #9"
      }
@@ -10405,8 +10320,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Treasure Vault",
-      "x": 197,
-      "y": 24
+      "x": 107,
+      "y": 99
      }
     ]
    },
@@ -10420,8 +10335,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Treasure Vault",
-      "x": 210,
-      "y": 24
+      "x": 124,
+      "y": 99
      }
     ]
    },
@@ -10435,8 +10350,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Treasure Vault",
-      "x": 432,
-      "y": 22
+      "x": 482,
+      "y": 76
      }
     ]
    }
@@ -10456,7 +10371,7 @@
      {
       "map": "Hunter's March Statue",
       "x": 0,
-      "y": 244
+      "y": 221
      }
     ]
    },
@@ -10470,8 +10385,129 @@
     "map_locations": [
      {
       "map": "Hunter's March Statue",
-      "x": 501,
-      "y": 62
+      "x": 533,
+      "y": 57
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Hunter's March Chapel Passage",
+  "children": [
+   {
+    "name": "Hunter's March - Memory Locket",
+    "sections": [
+     {
+      "name": "Hunter's March - Memory Locket"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Chapel Passage",
+      "x": 936,
+      "y": 217
+     }
+    ]
+   },
+   {
+    "name": "Crest: Beast",
+    "sections": [
+     {
+      "name": "Crest: Beast"
+     },
+     {
+      "name": "Hunter's March Chapel Passage - door1 (D)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Chapel Passage",
+      "x": 1166,
+      "y": 96
+     }
+    ]
+   },
+   {
+    "name": "Hunter's March - Map Purchase",
+    "sections": [
+     {
+      "name": "Hunter's March - Map Purchase"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Chapel Passage",
+      "x": 478,
+      "y": 247
+     }
+    ]
+   },
+   {
+    "name": "Hunter's March Chapel Passage - left1",
+    "sections": [
+     {
+      "name": "Hunter's March Chapel Passage - left1"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Hunter's March Chapel Passage",
+      "x": 0,
+      "y": 235
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Chapel of the Beast",
+  "children": [
+   {
+    "name": "Crest: Beast",
+    "sections": [
+     {
+      "name": "Crest: Beast"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Chapel of the Beast",
+      "x": 128,
+      "y": 454
+     }
+    ]
+   },
+   {
+    "name": "Journal: Savage Beastfly",
+    "sections": [
+     {
+      "name": "Journal: Savage Beastfly"
+     },
+     {
+      "name": "Journal Completion: Savage Beastfly"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Chapel of the Beast",
+      "x": 285,
+      "y": 438
+     }
+    ]
+   },
+   {
+    "name": "Chapel of the Beast - left1 (L)",
+    "sections": [
+     {
+      "name": "Chapel of the Beast - left1 (L)"
+     }
+    ],
+    "map_locations": [
+     {
+      "map": "Chapel of the Beast",
+      "x": 50,
+      "y": 555
      }
     ]
    }
@@ -10490,8 +10526,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Deep Docks Passage",
-      "x": 679,
-      "y": 122
+      "x": 692,
+      "y": 88
      }
     ]
    },
@@ -10505,8 +10541,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Deep Docks Passage",
-      "x": 124,
-      "y": 175
+      "x": 69,
+      "y": 127
      }
     ]
    },
@@ -10520,8 +10556,8 @@
     "map_locations": [
      {
       "map": "Hunter's March Deep Docks Passage",
-      "x": 497,
-      "y": 175
+      "x": 488,
+      "y": 127
      }
     ]
    }
@@ -10541,7 +10577,7 @@
      {
       "map": "Hunter's March Deep Entrance",
       "x": 0,
-      "y": 203
+      "y": 196
      }
     ]
    },
@@ -10556,7 +10592,7 @@
      {
       "map": "Hunter's March Deep Entrance",
       "x": 1080,
-      "y": 72
+      "y": 69
      }
     ]
    }
@@ -28524,10 +28560,10 @@
   "name": "Bilewater Lower Bloatroach Tower",
   "children": [
    {
-    "name": "Bilewater - Frayed Rosary String",
+    "name": "Bilewater - Rosaries Guarded By A Bloatroach In The Lower Tower",
     "sections": [
      {
-      "name": "Bilewater - Frayed Rosary String"
+      "name": "Bilewater - Rosaries Guarded By A Bloatroach In The Lower Tower"
      }
     ],
     "map_locations": [
@@ -35002,36 +35038,6 @@
       "map": "Fleatopia",
       "x": 662,
       "y": 544
-     }
-    ]
-   },
-   {
-    "name": "Fleatopia - Rosary Necklace",
-    "sections": [
-     {
-      "name": "Fleatopia - Rosary Necklace"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Fleatopia",
-      "x": 970,
-      "y": 531
-     }
-    ]
-   },
-   {
-    "name": "Fleatopia - Rosary String",
-    "sections": [
-     {
-      "name": "Fleatopia - Rosary String"
-     }
-    ],
-    "map_locations": [
-     {
-      "map": "Fleatopia",
-      "x": 978,
-      "y": 533
      }
     ]
    },

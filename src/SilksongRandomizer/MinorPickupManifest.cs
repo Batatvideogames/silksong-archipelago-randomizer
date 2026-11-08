@@ -41,8 +41,6 @@ namespace SilksongRandomizer
         internal static readonly Entry[] Entries =
         {
             new Entry("Putrified Ducts - Frayed Rosary String", "aqueduct_01", "Rosary_Set_Frayed", 256.19f, 14.67f),
-            new Entry("Fleatopia - Rosary Necklace", "aqueduct_05_festival", "Rosary_Set_Medium", 152.783f, 16.2396f),
-            new Entry("Fleatopia - Rosary String", "aqueduct_05_festival", "Rosary_Set_Small", 154.043f, 15.9796f),
             new Entry("Memorium - Shard Bundle", "arborium_11", "Shard Pouch", 211.22f, 10.27f),
             new Entry("The Marrow (Flea Caravan Passage) - Frayed Rosary String", "bone_10", "Rosary_Set_Frayed", 98.9849f, 41.3206f),
             new Entry("Deep Docks - Frayed Rosary String", "bone_east_04b", "Rosary_Set_Frayed", 6.462f, 87.1857f),

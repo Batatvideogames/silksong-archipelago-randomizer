@@ -138,8 +138,9 @@ class SilkSupply:
                         self.source_conditions[index].append(predicate)
                         self.actions[predicate].append(('seed', index))
                 elif source in self.nodes:
+                    cleaned = clean(rule)
                     incoming[source, rule_cost(rule)].append(replace(
-                        clean(rule), all_of=tuple(n for n in clean(rule).all_of if n != source)))
+                        cleaned, all_of=tuple(n for n in cleaned.all_of if n != source)))
             for (source, cost), rules in incoming.items():
                 if cost > MAX_SILK:
                     continue
@@ -345,7 +346,8 @@ class SilkSupply:
                     levels[index] = value
                     heappush(queue, (-value, index))
 
-        if cached.refresh:
+        refresh = cached.refresh
+        if refresh:
             cached.regeneration = min(3, state.count('Progressive Silkheart', self.player))
             cached.capacity = 9
             for capacity_rule in self.capacity_rules:
@@ -353,14 +355,27 @@ class SilkSupply:
                     break
                 cached.capacity += 1
             cached.refresh = False
-            for index, value in enumerate(levels):
-                if value >= 0:
-                    offer(index, value)
+        activated = []
         for predicate in tuple(pending):
             pending.remove(predicate)
             if active[predicate] or not self.conditions[predicate](state):
                 continue
             active[predicate] = 1
+            activated.append(predicate)
+        cached.entry_nodes.update(cached.entries)
+        key = (bytes(active), cached.regeneration, cached.capacity, frozenset(cached.entry_nodes))
+        solution = self._solutions.get(key)
+        if solution is not None:
+            self._solutions.move_to_end(key)
+            levels[:] = solution
+            queue.clear()
+            cached.entries.clear()
+            return levels[node] >= amount
+        if refresh:
+            for index, value in enumerate(levels):
+                if value >= 0:
+                    offer(index, value)
+        for predicate in activated:
             for kind, argument in self.actions[predicate]:
                 if kind == 'seed':
                     offer(argument, 0)
@@ -372,15 +387,7 @@ class SilkSupply:
                     offer(target, levels[source] - cost)
         for index in cached.entries:
             offer(index, 0)
-        cached.entry_nodes.update(cached.entries)
         cached.entries.clear()
-        key = (bytes(active), cached.regeneration, cached.capacity, frozenset(cached.entry_nodes))
-        solution = self._solutions.get(key)
-        if solution is not None:
-            self._solutions.move_to_end(key)
-            levels[:] = solution
-            queue.clear()
-            return levels[node] >= amount
         while queue:
             negative, source = heappop(queue)
             value = -negative
@@ -457,10 +464,14 @@ def compile_regions(world, original):
         supply = SilkSupply(world, original)
     except _UnsupportedCondition:
         return compact_requirements(world, original)
-    graph = {name: rules for name, rules in original.items() if name not in supply.queries}
-    result = compact_requirements(world, graph, additional_roots=supply.refills, silk_supply=True)
+    # Shuffled exits still need the solver's mutable graph.
+    room_nodes = set() if entrances_enabled(world) else set(supply.nodes)
+    graph = {name: rules for name, rules in original.items()
+             if name not in supply.queries or name in room_nodes}
+    result = compact_requirements(world, graph,
+                                  additional_roots=supply.refills | room_nodes, silk_supply=True)
     from .scene_exits import fixed_exits
-    roots = set(supply.nodes) | supply.exit_queries
+    roots = (supply.nodes.keys() - room_nodes) | supply.exit_queries
     for rules in (*result.values(), *(exit.requirements for exit in fixed_exits(world)),
                   *world._progression_location_rules.values(),
                   *(original[name] for name in world._progression_events)):
@@ -469,6 +480,4 @@ def compile_regions(world, original):
     result.update((name, ()) for name in roots)
     supply.boundaries = frozenset(roots)
     world._enable_silk_supply(supply)
-    if not entrances_enabled(world):
-        world.explicit_indirect_conditions = False
     return result

@@ -197,8 +197,6 @@ namespace SilksongRandomizer
             // Fleatopia is an event-scene variant of Aqueduct_05. Its pickup
             // coordinates project safely against the base room's
             // dimensions, while avoiding a festival-only GameMapScene miss.
-            new MapCheckPosition("Fleatopia - Rosary Necklace", "Aqueduct_05", 152.783f, 16.2396f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
-            new MapCheckPosition("Fleatopia - Rosary String", "Aqueduct_05", 154.043f, 15.9796f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
             new MapCheckPosition("Pale Oil: Ecstasy of the End", "Aqueduct_05", 153.113f, 15.3196f, 332f, 100f, MapMarkerPositionConfidence.ExactUpstream),
 
             new MapCheckPosition("Sharpdart", "Crawl_05", 22.850002f, 16.25f, 225f, 35f, MapMarkerPositionConfidence.ExactUpstream),
@@ -1181,6 +1179,7 @@ namespace SilksongRandomizer
             }
 
             if (position.LocationName == "Moss Grotto - Shaman Storeroom Record" ||
+                position.LocationName == "Shaman Crest Ritual Recipe" ||
                 position.LocationName == "Ruined Chapel - Rosary Cache")
                 return new MapCheckPosition(position.LocationName, "Tut_03", 10.006f, 16.857f,
                     126f, 35f, MapMarkerPositionConfidence.ExactUpstream);

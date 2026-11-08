@@ -267,7 +267,7 @@ class TestDefaultWorld(SilksongTestBase):
 
     def test_high_halls_clawline_gate_only_blocks_the_route_that_needs_it(self) -> None:
         cogfly = self.multiworld.get_location("Cogfly", self.player)
-        cache = self.multiworld.get_location("High Halls - Shell Shard Cache #2", self.player)
+        cache = self.multiworld.get_location("High Halls - a small room's Maestro remains", self.player)
         state = CollectionState(self.multiworld)
         self.collect_all_but(CLAWLINE_ITEM, state)
         self.assertFalse(cogfly.can_reach(state))
@@ -353,7 +353,7 @@ class TestDefaultWorld(SilksongTestBase):
                         for dependency in requirement.all_of)
                     for requirement in REQUIREMENTS[name]
                 ))
-        self.assertIn("Wish: Garb of the Pilgrims", LOGIC_UNKNOWN_LOCATIONS)
+        self.assertNotIn("Wish: Garb of the Pilgrims", LOGIC_UNKNOWN_LOCATIONS)
         self.assertFalse(
             ROOM_GRAPH_PROMOTED_FALLBACK_LOCATIONS
             & ROOM_GRAPH_QUARANTINED_CHECK_NAMES
@@ -517,14 +517,14 @@ class TestActOneQuestSanityAnywhere(SilksongTestBase):
             location.can_reach(self.multiworld.get_all_state(False))
         )
 
-    def test_post_act_one_deep_docks_caches_stay_out(self) -> None:
+    def test_lower_deep_docks_caches_are_in_act_one(self) -> None:
         for name in (
             "Deep Docks - Rosary Cache #1",
             "Deep Docks - Rosary Cache #2",
         ):
             with self.subTest(name=name):
-                with self.assertRaises(KeyError):
-                    self.multiworld.get_location(name, self.player)
+                location = self.multiworld.get_location(name, self.player)
+                self.assertTrue(location.can_reach(self.multiworld.get_all_state(False)))
 
     def test_citadel_checks_stay_out_of_act_one(self) -> None:
         prefixes = (
@@ -734,7 +734,6 @@ class TestWishLogicEvents(SilksongTestBase):
         active_events = self.world._silksong_active_wish_logic_events
         self.assertEqual(set(active_events), {
             event.location_name for event in WISH_LOGIC_EVENTS
-            if event.location_name != "Wish Logic: Garb of the Pilgrims point"
         })
 
         item_counts = Counter()
@@ -756,7 +755,7 @@ class TestWishLogicEvents(SilksongTestBase):
             SONGCLAVE_BOARD_COMPLETION_ITEM: 6,
             "Eva Crest Point": 37,
             SILK_AND_SOUL_MANDATORY_WISH_ITEM: 9,
-            SILK_AND_SOUL_WISH_POINT_ITEM: 20,
+            SILK_AND_SOUL_WISH_POINT_ITEM: 21,
             SILK_AND_SOUL_WISH_HALF_POINT_ITEM: 6,
             SILK_AND_SOUL_LACE_DEFEATED_ITEM: 1,
             WIDOW_DEFEATED_EVENT_ITEM: 1,

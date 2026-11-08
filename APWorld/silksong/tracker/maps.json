@@ -404,14 +404,14 @@
  {
   "name": "Deep Docks Bellshrine",
   "img": "01-geometry/7ce31b64-db9e-42fd-9b81-a6b77e42b4bf.webp",
-  "location_size": 26,
-  "location_border_thickness": 4
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Deep Docks Spire Lower",
   "img": "01-geometry/a577765e-bb88-4343-8508-7d73505b1cb9.webp",
-  "location_size": 17,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Is this still Deep Docks? East",
@@ -440,7 +440,7 @@
  {
   "name": "Deep Docks Forge",
   "img": "01-geometry/48174f7a-f233-4ae8-bab0-477c3bea291e.webp",
-  "location_size": 20,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -512,7 +512,7 @@
  {
   "name": "Deep Docks Memory Hole",
   "img": "01-geometry/70e20e75-733e-4e7f-9ecd-751d4db35823.webp",
-  "location_size": 22,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
@@ -744,46 +744,34 @@
   "location_border_thickness": 3
  },
  {
-  "name": "Chapel of the Beast",
-  "img": "01-geometry/2a3e4e0b-66b5-4358-afcd-a3d66eca858d.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
- },
- {
-  "name": "Hunter's March Chapel Passage",
-  "img": "01-geometry/14a1473d-3821-4f84-b42f-b4cefe748f16.webp",
-  "location_size": 19,
-  "location_border_thickness": 3
- },
- {
   "name": "Hunter's March Entrance",
   "img": "01-geometry/3bee132e-439b-44f2-af71-946de3f7796e.webp",
-  "location_size": 12,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Pogo Intro",
   "img": "01-geometry/36015f2a-927b-4694-9dbc-5d28738284ab.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Early Pathway West",
   "img": "01-geometry/81bce77e-7405-46fc-a2c4-a07f47a0280d.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Map Shop",
   "img": "01-geometry/4b91a059-0e52-4dfe-a86f-b2814be89fe7.webp",
-  "location_size": 18,
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Early Pathway East",
   "img": "01-geometry/3e1332be-3ef8-496a-ad6f-9a412301e999.webp",
-  "location_size": 16,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Shaft",
@@ -794,8 +782,8 @@
  {
   "name": "Hunter's March Trapped Bench",
   "img": "01-geometry/d61d79e6-b463-482e-9b42-045dc48538ad.webp",
-  "location_size": 12,
-  "location_border_thickness": 2
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Skarr Shop",
@@ -806,20 +794,32 @@
  {
   "name": "Hunter's March Treasure Vault",
   "img": "01-geometry/93481d37-47e7-4c82-a01d-73520276574b.webp",
-  "location_size": 5,
-  "location_border_thickness": 1
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Statue",
   "img": "01-geometry/36f3b558-ddf4-41f0-8a0f-03c8beeafa62.webp",
-  "location_size": 20,
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Hunter's March Chapel Passage",
+  "img": "01-geometry/14a1473d-3821-4f84-b42f-b4cefe748f16.webp",
+  "location_size": 19,
+  "location_border_thickness": 3
+ },
+ {
+  "name": "Chapel of the Beast",
+  "img": "01-geometry/2a3e4e0b-66b5-4358-afcd-a3d66eca858d.webp",
+  "location_size": 19,
   "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Deep Docks Passage",
   "img": "01-geometry/7a54e35e-d955-4718-9fcf-9f52411fbfb2.webp",
-  "location_size": 26,
-  "location_border_thickness": 4
+  "location_size": 19,
+  "location_border_thickness": 3
  },
  {
   "name": "Hunter's March Deep Entrance",

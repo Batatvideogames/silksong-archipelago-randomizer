@@ -112,20 +112,20 @@
   ],
   "geometry_objects": {
    "bench": 59,
-   "blockade": 153,
+   "blockade": 151,
    "boss": 8,
-   "collectible": 87,
-   "enemy": 2271,
-   "event": 174,
+   "collectible": 88,
+   "enemy": 2346,
+   "event": 173,
    "gauntlet": 27,
    "lock": 32,
-   "logic-point": 26,
-   "lore": 12,
-   "miniboss": 11,
-   "resource": 14,
+   "logic-point": 28,
+   "lore": 17,
+   "miniboss": 13,
+   "resource": 17,
    "switch": 142,
    "travel": 4,
-   "unknown": 80
+   "unknown": 66
   },
   "aliases_resolved_elsewhere": [
    {
@@ -151,10 +151,6 @@
    {
     "room": "Bellhart Wish Wall",
     "name": "Savage Beastfly - Mask Shard"
-   },
-   {
-    "room": "Bellhart Wish Wall",
-    "name": "Dark Hearts - Mask Shard"
    },
    {
     "room": "Bellhart Wish Wall",

@@ -913,6 +913,12 @@ PALE_OIL_LOCATION_NAMES: tuple[str, ...] = tuple(
 PINMASTER_OIL_QUEST_LOCATION = "Wish: Pinmaster's Oil"
 VOLATILE_FLINTBEETLES_QUEST_LOCATION = 'Wish: Volatile Flintbeetles'
 
+# Keep the unused festival rewards' IDs reserved.
+_RETIRED_FLEATOPIA_LOCATIONS = (
+    "Fleatopia - Rosary Necklace",
+    "Fleatopia - Rosary String",
+)
+
 _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     (canonicalize_location_name(source_name), category)
     for source_name, category in CURRENT_LOCATION_SOURCE_ROWS_WITH_QUESTS
@@ -924,7 +930,8 @@ _LOCATION_TABLE_SOURCE_UNNORMALIZED: tuple[tuple[str, str], ...] = tuple(
     for location_name in PALE_OIL_LOCATION_NAMES
 ) + tuple(
     (location_name, 'Resource')
-    for location_name in MINOR_PICKUP_LOCATION_NAMES
+    for location_name in (*MINOR_PICKUP_LOCATION_NAMES[:2],
+                          *_RETIRED_FLEATOPIA_LOCATIONS, *MINOR_PICKUP_LOCATION_NAMES[2:])
 ) + tuple(
     (location_name, 'Resource')
     for location_name in MINOR_CACHE_LOCATION_NAMES
@@ -1157,6 +1164,7 @@ location_table: Dict[str, int] = {
 }
 
 RETIRED_LOCATION_NAMES = RETIRED_MINOR_CACHE_LOCATION_NAMES | THREAD_MEMORY_LOCATION_NAMES | {
+    *_RETIRED_FLEATOPIA_LOCATIONS,
     "Whispering Vaults - Heavy Rosary Necklace",
     "The Slab - Weaver Gate Inscription",
 }

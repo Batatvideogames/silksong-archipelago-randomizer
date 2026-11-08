@@ -187,6 +187,40 @@ namespace SilksongRandomizer.Patches
                   ambient.sendEvent?.Name == "AMBIENT")).ToArray();
         }
 
+        [HarmonyPatch(typeof(SimpleQuestsShopOwner), "GetItems")]
+        private static class CourierListRetryPatch
+        {
+            private static readonly Dictionary<SimpleQuestsShopOwner, int> Depth =
+                new Dictionary<SimpleQuestsShopOwner, int>();
+
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            private static bool Prefix(SimpleQuestsShopOwner __instance,
+                List<ISimpleShopItem> ___currentList, ref List<ISimpleShopItem> __result, out int __state)
+            {
+                __state = -1;
+                if (SaveState.Instance?.IsRoomBound != true) return true;
+                Depth.TryGetValue(__instance, out int depth);
+                // Let stale offers rebuild once, fewer than two can otherwise loop forever.
+                if (depth >= 2)
+                {
+                    __result = ___currentList ?? new List<ISimpleShopItem>();
+                    return false;
+                }
+                __state = depth;
+                Depth[__instance] = depth + 1;
+                return true;
+            }
+
+            [HarmonyFinalizer]
+            private static Exception Finalizer(SimpleQuestsShopOwner __instance, int __state, Exception __exception)
+            {
+                if (__state == 0) Depth.Remove(__instance);
+                else if (__state > 0) Depth[__instance] = __state;
+                return __exception;
+            }
+        }
+
         [HarmonyPatch(typeof(DeliveryQuestItem), nameof(DeliveryQuestItem.CanTakeHit))]
         private static class DeliveryDamagePatch
         {
