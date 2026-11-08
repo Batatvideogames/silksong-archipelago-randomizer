@@ -6,6 +6,8 @@ It randomizes Silksong checks and items into an Archipelago multiworld, allowing
 
 This project is currently being tested and improved. Expect occasional bugs or logic changes between releases.
 
+You can look at more features of the randomizer on the [features page](APWorld/silksong/docs/features.md).
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
@@ -53,7 +55,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**Cogfly Import Code:** `01a199f2-e780-ee3e-dcf9-9cdff4c98dce` (Same as R2Modman)
+**Cogfly Import Code:** `01a1bd74-2ab1-af6c-d1e3-7d4c97d62492` (Same as R2Modman)
 
 ### Using R2Modman (3.2.18+) / Thunderstore Manager (1.123.1+)
 1.) First start off by installing [R2Modman](https://r2modman.com/download-latest/) to the latest version for your preferred operating system.
@@ -66,7 +68,7 @@ The profile code contains the Archipelago Randomizer Mod, Custom Music Randomize
 
 **NOTE: Please make sure to press "Update Mods" when installing or when new versions release and it'll automatically update you to the latest version of the mod.**
 
-**R2Modman Import Code:** `01a199f2-e780-ee3e-dcf9-9cdff4c98dce` (Same as Cogfly)
+**R2Modman Import Code:** `01a1bd74-2ab1-af6c-d1e3-7d4c97d62492` (Same as Cogfly)
 
 ### Manually
 1.) Find your Hollow Knight: Silksong installation folder based on your Silksong storefront.
@@ -163,6 +165,8 @@ Alternatively, you can always replace Cogfly with a different mod manager that a
 3.) Start up your game normally after replacing and you should be able to connect once again.
 
 #### Old Import Codes
+
+[**v0.5.5**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.5) Import Code: `01a1bd74-2ab1-af6c-d1e3-7d4c97d62492`
 
 [**v0.5.4**](https://github.com/Batatvideogames/silksong-archipelago-randomizer/releases/tag/v0.5.4) Import Code: `01a199f2-e780-ee3e-dcf9-9cdff4c98dce`
 
