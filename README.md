@@ -6,6 +6,8 @@ It randomizes Silksong checks and items into an Archipelago multiworld, allowing
 
 This project is currently being tested and improved. Expect occasional bugs or logic changes between releases.
 
+You can look at more features of the randomizer on the [features page](APWorld/silksong/docs/features.md).
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
