@@ -34,7 +34,7 @@ The exact checks and options available can change as the randomizer develops. Us
 
 - *Hollow Knight: Silksong* on PC
 - BepInEx configured for Silksong
-- Archipelago (v0.6.7+)
+- Archipelago (v0.6.8+)
 - The Archipelago client included with the release or your Archipelago installation
 
 There are multiple installation methods due to different issues with each of them at times, follow one of the methods below to install the Archipelago randomizer.
@@ -188,7 +188,9 @@ Worst case scenario, delete your Silksong folder, reinstall it using Verify Inte
 ### Cogfly - Getting a Server Returned HTTP Response Code 502 Error
 This has been happening for a little bit where it seems that Cogfly is having a connection issue with Thunderstore. 
 Try manually installing the mod list using the photo below, [swap to R2Modman](https://github.com/Batatvideogames/silksong-archipelago-randomizer#using-r2modman-3218--thunderstore-manager-11231) using the same code, or try a [manual install](https://github.com/Batatvideogames/silksong-archipelago-randomizer#manually).
-<img width="1377" height="506" alt="image" src="https://github.com/user-attachments/assets/dcc2824c-d762-4300-8aac-1493a651054d" />
+
+
+<img src="https://pandora.auroramoonlight.xyz/gFX2I9VqSNGd.png" />
 
 ### Additional common issues or troubleshooting steps to take
 
