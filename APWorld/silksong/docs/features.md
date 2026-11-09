@@ -10,9 +10,7 @@ This is also the same place where you can press hints to view your current hints
 ### Archipelago Inventory Section
 The in-game inventory has a section that shows a menu to display the archipelago information such as current goal, flea count, silk and soul pre-requisites, melody count, boss credits, and an option to pass time. Here's a video that showcases the functionality:
 
-<video controls>
-<source src=https://pandora.auroramoonlight.xyz/q2bOZFm96qlC.mp4 />
-</video>
+<img src="https://pandora.auroramoonlight.xyz/ZCSg0hNwuNHy.gif">
 
 ### Combat Logic
 The randomizer includes combat logic that can be viewed [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vTTLYgwolonYmtSRzu2AcmxoJu3JKoJAbqRljfavSTgbfYxj5s3u7KbMVPCjikHol9hGrUAK96vCboB/pubhtml#gid=1317856754). 
