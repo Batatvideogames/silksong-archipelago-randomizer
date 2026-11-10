@@ -102106,6 +102106,13 @@
           }
         ]
       },
+      "Capability: Bind": {
+        "alternatives": [
+          {
+            "require_any_crest": true
+          }
+        ]
+      },
       "Capability: Has Any Map": {
         "alternatives": [
           {
@@ -102870,7 +102877,8 @@
           },
           {
             "all_of": [
-              "Combat: Balm for the Wounded Gauntlet Damage"
+              "Combat: Balm for the Wounded Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -102925,7 +102933,8 @@
             "all_of": [
               "Combat: Bell Eater Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -102940,7 +102949,8 @@
             "all_of": [
               "Combat: Bell Eater Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103053,7 +103063,8 @@
           },
           {
             "all_of": [
-              "Combat: Bilehaven (Groal the Great) Gauntlet Damage"
+              "Combat: Bilehaven (Groal the Great) Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103180,7 +103191,8 @@
           },
           {
             "all_of": [
-              "Combat: Black-Threaded Skarrgard Gauntlet Damage"
+              "Combat: Black-Threaded Skarrgard Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103249,7 +103261,8 @@
           {
             "all_of": [
               "Combat: Broodmother Damage",
-              "Clawline"
+              "Clawline",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103263,7 +103276,8 @@
           {
             "all_of": [
               "Combat: Broodmother Damage",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103277,7 +103291,8 @@
           {
             "all_of": [
               "Combat: Broodmother Damage",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103345,7 +103360,8 @@
           },
           {
             "all_of": [
-              "Combat: Broodmother Gauntlet Damage"
+              "Combat: Broodmother Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103451,7 +103467,8 @@
           },
           {
             "all_of": [
-              "Combat: Choral Chambers West Gauntlet Damage"
+              "Combat: Choral Chambers West Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -103487,7 +103504,8 @@
             "all_of": [
               "Combat: Clover Dancers Damage",
               "Clawline",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103502,7 +103520,8 @@
             "all_of": [
               "Combat: Clover Dancers Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103517,7 +103536,8 @@
             "all_of": [
               "Combat: Clover Dancers Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103644,7 +103664,8 @@
           },
           {
             "all_of": [
-              "Combat: Cogwork Core Northeast Gauntlet Damage"
+              "Combat: Cogwork Core Northeast Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -103678,7 +103699,8 @@
           },
           {
             "all_of": [
-              "Combat: Cogwork Core Southeast Gauntlet Damage"
+              "Combat: Cogwork Core Southeast Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -103712,7 +103734,8 @@
           },
           {
             "all_of": [
-              "Combat: Cogwork Core Southwest Gauntlet Damage"
+              "Combat: Cogwork Core Southwest Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -103748,7 +103771,8 @@
             "all_of": [
               "Combat: Cogwork Dancers Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103763,7 +103787,8 @@
             "all_of": [
               "Combat: Cogwork Dancers Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103831,7 +103856,8 @@
           },
           {
             "all_of": [
-              "Combat: Coral Tower (All 4) Gauntlet Damage"
+              "Combat: Coral Tower (All 4) Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -103978,7 +104004,8 @@
           {
             "all_of": [
               "Combat: Crawfather Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104060,7 +104087,8 @@
           },
           {
             "all_of": [
-              "Combat: Crawfather Gauntlet Damage"
+              "Combat: Crawfather Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104130,7 +104158,8 @@
             "all_of": [
               "Combat: Crust King Khann Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104145,7 +104174,8 @@
             "all_of": [
               "Combat: Crust King Khann Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104330,7 +104360,8 @@
           {
             "all_of": [
               "Combat: Disgraced Chef Lugoli Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104398,7 +104429,8 @@
           },
           {
             "all_of": [
-              "Combat: Disgraced Chef Lugoli Gauntlet Damage"
+              "Combat: Disgraced Chef Lugoli Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -104433,7 +104465,8 @@
           {
             "all_of": [
               "Combat: Father of the Flame Damage",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104503,7 +104536,8 @@
             "all_of": [
               "Combat: First Sinner Damage",
               "Clawline",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104518,7 +104552,8 @@
             "all_of": [
               "Combat: First Sinner Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104633,7 +104668,8 @@
             "all_of": [
               "Combat: Forebrothers Signis & Gron Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104766,7 +104802,8 @@
           {
             "all_of": [
               "Combat: Garmond and Zaza Damage",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104836,7 +104873,8 @@
             "all_of": [
               "Combat: Grand Mother Silk Damage",
               "Drifter's Cloak",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104851,7 +104889,8 @@
             "all_of": [
               "Combat: Grand Mother Silk Damage",
               "Faydown Cloak",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -104952,7 +104991,8 @@
           },
           {
             "all_of": [
-              "Combat: Greymoor Tower Gauntlet (Act 3) Damage"
+              "Combat: Greymoor Tower Gauntlet (Act 3) Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105027,7 +105067,8 @@
             "all_of": [
               "Combat: Groal the Great Damage",
               "Drifter's Cloak",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105042,7 +105083,8 @@
             "all_of": [
               "Combat: Groal the Great Damage",
               "Faydown Cloak",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105170,7 +105212,8 @@
           {
             "all_of": [
               "Combat: Gurr the Outcast Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105252,7 +105295,8 @@
           },
           {
             "all_of": [
-              "Combat: Halfway Home Gauntlet Damage"
+              "Combat: Halfway Home Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -105286,7 +105330,42 @@
           },
           {
             "all_of": [
-              "Combat: High Halls Gauntlet Damage"
+              "Combat: High Halls Gauntlet Damage",
+              "Clawline",
+              "Swift Step",
+              "Capability: Bind"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard"
+                ],
+                "minimum": 4
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Combat: High Halls Gauntlet Damage",
+              "Cling Grip",
+              "Swift Step",
+              "Capability: Bind"
+            ],
+            "item_counts": [
+              {
+                "items": [
+                  "Mask Shard"
+                ],
+                "minimum": 4
+              }
+            ]
+          },
+          {
+            "all_of": [
+              "Combat: High Halls Gauntlet Damage",
+              "Faydown Cloak",
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105308,7 +105387,8 @@
           },
           {
             "all_of": [
-              "Combat: High Halls Gauntlet #2 Damage"
+              "Combat: High Halls Gauntlet #2 Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105422,7 +105502,8 @@
           },
           {
             "all_of": [
-              "Combat: Hunter's March Center #2 Gauntlet Damage"
+              "Combat: Hunter's March Center #2 Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105547,7 +105628,8 @@
           },
           {
             "all_of": [
-              "Combat: Hunter's March Northeast #2 Gauntlet Damage"
+              "Combat: Hunter's March Northeast #2 Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -105581,7 +105663,8 @@
           },
           {
             "all_of": [
-              "Combat: Hunter's March Northeast Gauntlet Damage"
+              "Combat: Hunter's March Northeast Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -105615,7 +105698,8 @@
           },
           {
             "all_of": [
-              "Combat: Karmelita Gauntlet Damage"
+              "Combat: Karmelita Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105762,7 +105846,8 @@
           {
             "all_of": [
               "Combat: Lace (The Cradle) Damage",
-              "Swift Step"
+              "Swift Step",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105776,7 +105861,8 @@
           {
             "all_of": [
               "Combat: Lace (The Cradle) Damage",
-              "Faydown Cloak"
+              "Faydown Cloak",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105871,7 +105957,8 @@
           {
             "all_of": [
               "Combat: Lost Garmond Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105956,7 +106043,8 @@
               "Combat: Lost Lace Damage",
               "Drifter's Cloak",
               "Combat Sprint",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -105972,7 +106060,8 @@
               "Combat: Lost Lace Damage",
               "Faydown Cloak",
               "Combat Sprint",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106099,7 +106188,8 @@
           },
           {
             "all_of": [
-              "Combat: Lost Verdania Center Gauntlet Damage"
+              "Combat: Lost Verdania Center Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106167,7 +106257,8 @@
           },
           {
             "all_of": [
-              "Combat: Memorium Northeast Gauntlet Damage"
+              "Combat: Memorium Northeast Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -106260,7 +106351,8 @@
             "all_of": [
               "Combat: Nyleth Damage",
               "Clawline",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106275,7 +106367,8 @@
             "all_of": [
               "Combat: Nyleth Damage",
               "Drifter's Cloak",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106290,7 +106383,8 @@
             "all_of": [
               "Combat: Nyleth Damage",
               "Faydown Cloak",
-              "Cling Grip"
+              "Cling Grip",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106418,7 +106512,8 @@
           {
             "all_of": [
               "Combat: Palestag Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106565,7 +106660,8 @@
             "all_of": [
               "Combat: Pinstress Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106580,7 +106676,8 @@
             "all_of": [
               "Combat: Pinstress Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106648,7 +106745,8 @@
           },
           {
             "all_of": [
-              "Combat: Plasmified Zango Damage"
+              "Combat: Plasmified Zango Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106732,7 +106830,8 @@
             "all_of": [
               "Combat: Raging Conchfly Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106747,7 +106846,8 @@
             "all_of": [
               "Combat: Raging Conchfly Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106862,7 +106962,9 @@
           {
             "all_of": [
               "Combat: Savage Beastfly (Far Fields) Damage",
-              "Clawline"
+              "Clawline",
+              "Usable Magma Bell",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106876,7 +106978,9 @@
           {
             "all_of": [
               "Combat: Savage Beastfly (Far Fields) Damage",
-              "Swift Step"
+              "Swift Step",
+              "Usable Magma Bell",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106890,7 +106994,9 @@
           {
             "all_of": [
               "Combat: Savage Beastfly (Far Fields) Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Usable Magma Bell",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106960,7 +107066,8 @@
             "all_of": [
               "Combat: Second Sentinel Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -106975,7 +107082,8 @@
             "all_of": [
               "Combat: Second Sentinel Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107059,7 +107167,8 @@
             "all_of": [
               "Combat: Shakra Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107074,7 +107183,8 @@
             "all_of": [
               "Combat: Shakra Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107161,7 +107271,8 @@
           },
           {
             "all_of": [
-              "Combat: Shellwood West Gauntlet Damage"
+              "Combat: Shellwood West Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107231,7 +107342,8 @@
             "all_of": [
               "Combat: Shrine Guardian Seth Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107246,7 +107358,8 @@
             "all_of": [
               "Combat: Shrine Guardian Seth Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107373,7 +107486,8 @@
           },
           {
             "all_of": [
-              "Combat: Sinner's Road Northeast Gauntlet Damage"
+              "Combat: Sinner's Road Northeast Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -107435,7 +107549,8 @@
             "all_of": [
               "Combat: Skarrsinger Karmelita Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107450,7 +107565,8 @@
             "all_of": [
               "Combat: Skarrsinger Karmelita Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107577,7 +107693,8 @@
           },
           {
             "all_of": [
-              "Combat: Skull Cavern Gauntlet Damage"
+              "Combat: Skull Cavern Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -107650,7 +107767,8 @@
           {
             "all_of": [
               "Combat: Summoned Saviour Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107718,7 +107836,8 @@
           },
           {
             "all_of": [
-              "Combat: The Cauldron Gauntlet Damage"
+              "Combat: The Cauldron Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -107790,7 +107909,8 @@
           },
           {
             "all_of": [
-              "Combat: The Slab East Gauntlet Damage"
+              "Combat: The Slab East Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -107824,7 +107944,8 @@
           },
           {
             "all_of": [
-              "Combat: The Slab Northwest Gauntlet Damage"
+              "Combat: The Slab Northwest Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -107860,7 +107981,8 @@
             "all_of": [
               "Combat: The Unravelled Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107875,7 +107997,8 @@
             "all_of": [
               "Combat: The Unravelled Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -107957,7 +108080,8 @@
           },
           {
             "all_of": [
-              "Combat: The Unravelled Gauntlet Damage"
+              "Combat: The Unravelled Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108026,7 +108150,8 @@
           {
             "all_of": [
               "Combat: Tormented Trobbio Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108140,7 +108265,8 @@
           {
             "all_of": [
               "Combat: Trobbio Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108208,7 +108334,8 @@
           },
           {
             "all_of": [
-              "Combat: Underworks Center Gauntlet Damage"
+              "Combat: Underworks Center Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -108242,7 +108369,8 @@
           },
           {
             "all_of": [
-              "Combat: Underworks Northwest Gauntlet Damage"
+              "Combat: Underworks Northwest Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]
@@ -108277,7 +108405,8 @@
           {
             "all_of": [
               "Combat: Voltvyrm Damage",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ]
           }
         ]
@@ -108313,7 +108442,8 @@
             "all_of": [
               "Combat: Watcher at the Edge Damage",
               "Drifter's Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108328,7 +108458,8 @@
             "all_of": [
               "Combat: Watcher at the Edge Damage",
               "Faydown Cloak",
-              "Combat Sprint"
+              "Combat Sprint",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108441,7 +108572,8 @@
           },
           {
             "all_of": [
-              "Combat: Whispering Vaults Entrance #2 Gauntlet Damage"
+              "Combat: Whispering Vaults Entrance #2 Gauntlet Damage",
+              "Capability: Bind"
             ],
             "item_counts": [
               {
@@ -108509,7 +108641,8 @@
           },
           {
             "all_of": [
-              "Combat: Whispering Vaults Entrance Gauntlet Damage"
+              "Combat: Whispering Vaults Entrance Gauntlet Damage",
+              "Capability: Bind"
             ]
           }
         ]

@@ -3190,15 +3190,10 @@ def combat_requirement_overrides(proficient_combat: int):
         overrides = {
             name: alternatives
             for name, alternatives in build_combat_requirements(
-                req, item_count, CREST_ITEMS, tier_reduction=1
+                req, item_count, CREST_ITEMS, bind_threshold=2
             ).items()
-            if name.endswith(' Damage') or name.startswith('Combat: ')
+            if name.startswith('Combat: ') and not name.endswith(' Damage')
         }
-        overrides['Event: Hunt Combat Ready'] = (
-            req(PROFICIENT_COMBAT_REQUIREMENT),
-            req('Ancestral Art: Swift Step', 'Ability: Faydown Cloak',
-                item_counts=(item_count(2, 'Progressive Needle Upgrade'),)),
-        )
         return overrides
     return {}
 

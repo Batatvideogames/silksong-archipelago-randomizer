@@ -43,7 +43,7 @@ _PROFILES = {
     'boss:groal-the-great': {'name': 'Groal the Great', 'needle': 4, 'dps': 'high', 'movement': "(Drifter's OR Faydown) AND Dash", 'masks': 8},
     'boss:lace-the-cradle': {'name': 'Lace (The Cradle)', 'needle': 2, 'dps': 'mid', 'movement': '(Dash OR Faydown)', 'masks': 4},
     'boss:raging-conchfly': {'name': 'Raging Conchfly', 'needle': 3, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint", 'masks': 8},
-    'boss:savage-beastfly-far-fields': {'name': 'Savage Beastfly (Far Fields)', 'needle': 2, 'dps': 'mid', 'movement': '(Clawline OR Dash OR Sprint)', 'masks': 4},
+    'boss:savage-beastfly-far-fields': {'name': 'Savage Beastfly (Far Fields)', 'needle': 2, 'dps': 'mid', 'movement': '(Clawline OR Dash OR Sprint) AND Magma Bell', 'masks': 4},
     'boss:second-sentinel': {'name': 'Second Sentinel', 'needle': 3, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint", 'masks': 8},
     'boss:shakra': {'name': 'Shakra', 'needle': 2, 'dps': 'mid', 'movement': "(Drifter's OR Faydown) AND Sprint", 'masks': 4},
     'boss:summoned-saviour': {'name': 'Summoned Saviour', 'needle': 2, 'dps': 'mid', 'movement': 'Sprint', 'masks': 4},
@@ -91,7 +91,7 @@ _PROFILES = {
     'gauntlet:cogwork-core-southeast': {'name': 'Cogwork Core Southeast', 'needle': 1, 'dps': 'mid', 'movement': '', 'masks': 0},
     'gauntlet:skull-cavern': {'name': 'Skull Cavern', 'needle': 1, 'dps': 'mid', 'movement': '', 'masks': 0},
     'gauntlet:halfway-home': {'name': 'Halfway Home', 'needle': 1, 'dps': 'mid', 'movement': '', 'masks': 0},
-    'gauntlet:high-halls-gauntlet': {'name': 'High Halls Gauntlet', 'needle': 2, 'dps': 'mid', 'movement': '', 'masks': 4},
+    'gauntlet:high-halls-gauntlet': {'name': 'High Halls Gauntlet', 'needle': 2, 'dps': 'mid', 'movement': '(Clawline OR Cling Grip OR Faydown) AND Dash', 'masks': 4},
     'gauntlet:memorium-northeast': {'name': 'Memorium Northeast', 'needle': 1, 'dps': 'mid', 'movement': '', 'masks': 0},
     'gauntlet:broodmother-gauntlet': {'name': 'Broodmother Gauntlet', 'needle': 2, 'dps': 'mid', 'movement': '', 'masks': 4},
     'gauntlet:underworks-northwest': {'name': 'Underworks Northwest', 'needle': 1, 'dps': 'mid', 'movement': '', 'masks': 0},
@@ -128,8 +128,8 @@ def requirement_name(key):
     return f"Combat: {profile['name']}{' Gauntlet' if key.startswith('gauntlet:') and 'gauntlet' not in profile['name'].lower() else ''}{suffix}"
 
 
-def build_requirements(req, item_count, crests, tier_reduction=0):
-    result = {}
+def build_requirements(req, item_count, crests, bind_threshold=1):
+    result = {'Capability: Bind': (req(),)}
     skill_crests = tuple(sorted(c for c in crests if c != 'Crest: Architect'))
     for skill in (s for skills in SKILLS_BY_TIER.values() for s in skills):
         result['Combat Skill: ' + skill] = tuple(
@@ -170,24 +170,25 @@ def build_requirements(req, item_count, crests, tier_reduction=0):
     result['Combat Sprint'] = (req(crest=False, any_of=('Swift Step', 'Progressive Swift Step')),)
     movement_items = {'Dash': 'Ancestral Art: Swift Step', 'Faydown': 'Ability: Faydown Cloak',
                       "Drifter's": "Ability: Drifter's Cloak", 'Clawline': 'Ancestral Art: Clawline',
-                      'Sprint': 'Combat Sprint', 'Cling Grip': 'Ancestral Art: Cling Grip'}
+                      'Sprint': 'Combat Sprint', 'Cling Grip': 'Ancestral Art: Cling Grip',
+                      'Magma Bell': 'Usable Magma Bell'}
     for key, profile in profiles().items():
         name = requirement_name(key)
-        needle = max(0, profile['needle'] - tier_reduction)
+        needle = profile['needle']
         damage = [req(crest=needle > 0, item_counts=(item_count(needle, 'Progressive Needle Upgrade'),)
                       if needle else ())]
         if profile['dps']:
             def add_damage(reduction, tier, kind, boosted=False):
                 if reduction > profile['needle']:
                     return
-                level = TIERS[max(0, TIERS.index(tier) - tier_reduction)]
+                level = tier
                 group = ('Volt ' + level.title() + ' DPS Skills' if boosted and kind == 'skills'
                          else requirement_name('group:' + level + ':' + kind))
                 counts = []
                 if needle > reduction:
                     counts.append(item_count(needle - reduction, 'Progressive Needle Upgrade'))
                 if boosted and kind == 'tools':
-                    counts.append(item_count(max(0, 3 - tier_reduction), 'Progressive Crafting Kit'))
+                    counts.append(item_count(3, 'Progressive Crafting Kit'))
                 damage.append(req(group, crest=False, item_counts=tuple(counts)))
 
             add_damage(1, 'mid', 'either')
@@ -198,16 +199,18 @@ def build_requirements(req, item_count, crests, tier_reduction=0):
                 add_damage(3, 'high', 'skills', boosted=True)
                 add_damage(3, 'high', 'tools', boosted=True)
         result[name + ' Damage'] = tuple(damage)
-        groups = [part.strip().strip('()').strip() for part in profile['movement'].split(' AND ') if part]
+        movement = profile['movement']
+        groups = [part.strip().strip('()').strip() for part in movement.split(' AND ') if part]
         alternatives = [()]
         for group in groups:
             options = [movement_items[item.strip()] for item in group.split(' OR ')]
             alternatives = [(*left, option) for left in alternatives for option in options]
-        mask_count = max(0, profile['masks'] - tier_reduction * 4)
+        mask_count = profile['masks']
         masks = (item_count(mask_count, *MASK_SHARD_ITEMS),) if mask_count else ()
+        bind = ('Capability: Bind',) if needle >= bind_threshold else ()
         result[name] = (
             req('Option: Proficient Combat', crest=False),
-            *(req(name + ' Damage', *movement, crest=False, item_counts=masks)
+            *(req(name + ' Damage', *movement, *bind, crest=False, item_counts=masks)
               for movement in alternatives),
         )
     return result
