@@ -2,98 +2,98 @@ BOSSES = {
     "boss:bell-beast": {
         "name": "Bell Beast",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:fourth-chorus": {
         "name": "Fourth Chorus",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:great-conchflies": {
         "name": "Great Conchflies",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:lace-deep-docks": {
         "name": "Lace (Deep Docks)",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:last-judge": {
         "name": "Last Judge",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "(Faydown OR Dash)",
         "masks": 0
     },
     "boss:moorwing": {
         "name": "Moorwing",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:moss-mother-ruined-chapel": {
         "name": "Moss Mother (Ruined Chapel)",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:moss-mother-weavenest-atla": {
         "name": "Moss Mother (Weavenest Atla)",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:phantom": {
         "name": "Phantom",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "(Clawline OR Dash OR Sprint)",
         "masks": 0
     },
     "boss:savage-beastfly-chapel-of-the-beast": {
         "name": "Savage Beastfly (Chapel of the Beast)",
         "needle": 0,
-        "dps": "None",
-        "movement": "(Clawline OR Dash OR Sprint) AND Magma Bell",
+        "dps": None,
+        "movement": "(Clawline OR Dash OR Sprint)",
         "masks": 0
     },
     "boss:sister-splinter": {
         "name": "Sister Splinter",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "(Clawline OR Dash)",
         "masks": 0
     },
     "boss:skull-tyrant-the-marrow": {
         "name": "Skull Tyrant (The Marrow)",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:skull-tyrant-bone-bottom": {
         "name": "Skull Tyrant (Bone Bottom)",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "boss:widow": {
         "name": "Widow",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "(Faydown OR Drifter's)",
         "masks": 0
     },
@@ -178,7 +178,7 @@ BOSSES = {
         "name": "Savage Beastfly (Far Fields)",
         "needle": 2,
         "dps": "mid",
-        "movement": "(Clawline OR Dash OR Sprint)",
+        "movement": "(Clawline OR Dash OR Sprint) AND Magma Bell",
         "masks": 4
     },
     "boss:second-sentinel": {
@@ -334,70 +334,70 @@ GAUNTLETS = {
     "gauntlet:chapel-of-the-wanderer": {
         "name": "Chapel of the Wanderer",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:deep-docks-center": {
         "name": "Deep Docks Center",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:deep-docks-entrance": {
         "name": "Deep Docks Entrance",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:deep-docks-southeast": {
         "name": "Deep Docks Southeast",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:greymoor-tower": {
         "name": "Greymoor Tower",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:craw-lake": {
         "name": "Craw Lake",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:chapel-of-the-reaper": {
         "name": "Chapel of the Reaper",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:hunter-s-march-entrance": {
         "name": "Hunter's March Entrance",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:hunter-s-march-center": {
         "name": "Hunter's March Center",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:hunter-s-march-east": {
         "name": "Hunter's March East",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
@@ -418,21 +418,21 @@ GAUNTLETS = {
     "gauntlet:the-marrow-entrance": {
         "name": "The Marrow Entrance",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:the-marrow-northeast": {
         "name": "The Marrow Northeast",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
     "gauntlet:shellwood-east": {
         "name": "Shellwood East",
         "needle": 0,
-        "dps": "None",
+        "dps": None,
         "movement": "",
         "masks": 0
     },
