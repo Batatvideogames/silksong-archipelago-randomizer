@@ -288,7 +288,7 @@ namespace SilksongRandomizer
         {
             { "Flintstone", "Smeltstone" },
             { "Magnetite", "Magnetite" },
-            { "Voltstone", "Voltstone" },
+            { "Voltridian", "Voltstone" },
         };
 
         private static readonly Dictionary<string, ToolItemType> SlotColors =

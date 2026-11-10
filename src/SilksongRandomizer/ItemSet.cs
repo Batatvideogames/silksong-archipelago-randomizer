@@ -121,6 +121,7 @@ namespace SilksongRandomizer
                 new System.Collections.Generic.Dictionary<string, string>(
                     System.StringComparer.OrdinalIgnoreCase)
                 {
+                    { "Voltstone", "Voltridian" },
                     { "Skill: Double Jump", "Ability: Faydown Cloak" },
                     { "Skill: Charge Slash", "Ability: Needle Strike" },
                     { "Skill: Silk Soar", "Ancestral Art: Silk Soar" },

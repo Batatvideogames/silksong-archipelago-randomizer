@@ -158,7 +158,7 @@ class MementoRandomization(GlobalRandomization):
 
 
 class MateriumRandomization(GlobalRandomization):
-    """Randomizes Materium, Flintstone, Magnetite and Voltstone."""
+    """Randomizes Materium, Flintstone, Magnetite and Voltridian."""
 
     display_name = "Materium Randomization"
     default = GlobalRandomization.option_false

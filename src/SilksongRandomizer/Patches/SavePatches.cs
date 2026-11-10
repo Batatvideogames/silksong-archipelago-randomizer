@@ -28,6 +28,7 @@ namespace SilksongRandomizer.Patches
         {
             SaveState saveState = new SaveState();
             SaveState.Instance = saveState;
+            RecentItemsDisplay.Reset();
             NewRandomizerIntroSkipPatch.ArmForNewRandomizerSave();
             RandomizerPlugin.Instance.ClearPendingGameplayQueues();
             if (Archipelago.Instance != null && Archipelago.Instance.Connected)
@@ -60,6 +61,8 @@ namespace SilksongRandomizer.Patches
             {
                 return false;
             }
+
+            RecentItemsDisplay.LoadSave(loadedState, GetDataPath(slot));
 
             if (Archipelago.Instance != null && Archipelago.Instance.Connected)
             {

@@ -5,7 +5,7 @@
     "document_count": 536,
     "aggregate_sha256": "54492a49c0825cd67a54518c179d39269a8738cc2e7b725f16b538d3bd6ddddd",
     "catalogue_sha256": "832b27b3813bf67aa407f4b7996cea83166e3bb3476368050247b9742753851a",
-    "bindings_sha256": "83e7f3d3cf0988f9c95d30eddeb61b382848715514c1d0953771bb2657f7591c"
+    "bindings_sha256": "0b65e8284ac0f68706ffb54a9d5e31306df73751c411e52e909af247c42f742e"
   },
   "assumptions": {
     "unresolved_rows_compile": false,
@@ -854,7 +854,7 @@
       "Verdania - Oath Plaque",
       "Volatile Flintbeetles - Memory Locket",
       "Volt Filament",
-      "Voltstone",
+      "Voltridian",
       "Voltvessels",
       "Warding Bell",
       "Weavelight",
@@ -292738,7 +292738,7 @@
           "unresolved_reasons": [],
           "label": "Voltstone",
           "node_id": "sands-of-karak/voltnest#bottom",
-          "canonical_location": "Voltstone",
+          "canonical_location": "Voltridian",
           "canonical_mapping_confidence": "explicit",
           "currently_randomized": true
         },

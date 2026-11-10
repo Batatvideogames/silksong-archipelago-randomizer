@@ -15,6 +15,7 @@ namespace SilksongRandomizer
         private static Sprite topFleurSprite;
         private static DisplayHost instance;
         private static SaveState currentSave;
+        private static string currentSavePath;
         private static readonly Queue<(Sprite sprite, string message)> pendingItems =
             new Queue<(Sprite, string)>();
 
@@ -23,8 +24,7 @@ namespace SilksongRandomizer
             SaveState save = SaveState.Instance;
             if (!ReferenceEquals(currentSave, save))
             {
-                Reset();
-                currentSave = save;
+                LoadSave(save, Patches.SavePatches.GetDataPath(GameManager.instance.profileID));
             }
             if (save?.IsRoomBound != true)
             {
@@ -35,7 +35,7 @@ namespace SilksongRandomizer
             var manager = GameManager.SilentInstance;
             bool visible = RandomizerPlugin.Instance?.RecentItemsDisplayEnabled == true &&
                 manager != null && manager.IsGameplayScene() &&
-                !manager.IsInSceneTransition && PlayerData.instance != null &&
+                !manager.IsInSceneTransition && !manager.isPaused && PlayerData.instance != null &&
                 !PlayerData.instance.isInventoryOpen && !RandomizerPlugin.IsConnectionGuiOpen;
             if (instance != null) instance.gameObject.SetActive(visible);
             if (!visible) return;
@@ -61,15 +61,26 @@ namespace SilksongRandomizer
             if (SaveState.Instance?.IsRoomBound != true) return;
             if (!ReferenceEquals(currentSave, SaveState.Instance))
             {
-                Reset();
-                currentSave = SaveState.Instance;
+                LoadSave(SaveState.Instance, Patches.SavePatches.GetDataPath(GameManager.instance.profileID));
             }
             pendingItems.Enqueue((sprite, message));
             while (pendingItems.Count > MaxDisplayedItems) pendingItems.Dequeue();
         }
 
+        internal static void LoadSave(SaveState save, string path)
+        {
+            if (save?.IsRoomBound != true || currentSave?.IsRoomBound != true ||
+                currentSavePath != path || currentSave.roomSeed != save.roomSeed ||
+                currentSave.team != save.team || currentSave.slot != save.slot)
+                Reset();
+            currentSave = save;
+            currentSavePath = path;
+        }
+
         internal static void Reset()
         {
+            currentSave = null;
+            currentSavePath = null;
             pendingItems.Clear();
             if (instance != null)
             {

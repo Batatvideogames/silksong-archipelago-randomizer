@@ -71,6 +71,8 @@ FLEA_DISPLAY_NAMES: tuple[str, ...] = tuple(
 
 @lru_cache(maxsize=8192)
 def clean_location_display_name(name: str) -> str:
+    if name == "Voltstone":
+        return "Voltridian"
     flea_name = FLEA_DISPLAY_NAME_BY_SOURCE_NAME.get(name)
     if flea_name is not None:
         return flea_name

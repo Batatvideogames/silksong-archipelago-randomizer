@@ -583,7 +583,7 @@ namespace SilksongRandomizer
             return ItemIcons.GetSprite(itemName, fallback);
         }
 
-        internal static Sprite CreateWhiteOutlineIcon(Sprite source)
+        internal static Sprite CreateWhiteOutlineIcon(Sprite source, float alphaThreshold = 0.05f)
         {
             if (source == null || source.texture == null)
             {
@@ -603,18 +603,21 @@ namespace SilksongRandomizer
                     width,
                     height
                 );
-                Color[] outlinePixels = new Color[sourcePixels.Length];
                 int radius = Mathf.Max(
                     1,
                     Mathf.RoundToInt(Mathf.Max(width, height) / 24f)
                 );
+                int outlineWidth = width + radius * 2;
+                int outlineHeight = height + radius * 2;
+                Color[] outlinePixels = new Color[outlineWidth * outlineHeight];
 
-                for (int y = 0; y < height; y++)
+                for (int y = -radius; y < height + radius; y++)
                 {
-                    for (int x = 0; x < width; x++)
+                    for (int x = -radius; x < width + radius; x++)
                     {
-                        int index = (y * width) + x;
-                        if (sourcePixels[index].a > 0.05f)
+                        int index = (y + radius) * outlineWidth + x + radius;
+                        if (x >= 0 && x < width && y >= 0 && y < height &&
+                            sourcePixels[y * width + x].a > alphaThreshold)
                         {
                             outlinePixels[index] = Color.clear;
                             continue;
@@ -623,7 +626,7 @@ namespace SilksongRandomizer
                         float alpha = 0f;
                         for (
                             int offsetY = -radius;
-                            offsetY <= radius && alpha <= 0.05f;
+                            offsetY <= radius && alpha < 1f;
                             offsetY++
                         )
                         {
@@ -634,7 +637,7 @@ namespace SilksongRandomizer
                             }
                             for (
                                 int offsetX = -radius;
-                                offsetX <= radius;
+                                offsetX <= radius && alpha < 1f;
                                 offsetX++
                             )
                             {
@@ -643,12 +646,8 @@ namespace SilksongRandomizer
                                 {
                                     continue;
                                 }
-                                alpha = Mathf.Max(
-                                    alpha,
-                                    sourcePixels[
-                                        (sampleY * width) + sampleX
-                                    ].a
-                                );
+                                if (sourcePixels[(sampleY * width) + sampleX].a > alphaThreshold)
+                                    alpha = 1f;
                             }
                         }
                         outlinePixels[index] = new Color(
@@ -661,19 +660,19 @@ namespace SilksongRandomizer
                 }
 
                 Texture2D texture = new Texture2D(
-                    width,
-                    height,
+                    outlineWidth,
+                    outlineHeight,
                     TextureFormat.RGBA32,
                     false
                 );
-                texture.filterMode = FilterMode.Point;
+                texture.filterMode = FilterMode.Bilinear;
                 texture.SetPixels(outlinePixels);
                 texture.Apply();
 
                 var createdSprite = Sprite.Create(
                     texture,
-                    new Rect(0f, 0f, width, height),
-                    source.pivot / sourceRect.size,
+                    new Rect(0f, 0f, outlineWidth, outlineHeight),
+                    (source.pivot + Vector2.one * radius) / new Vector2(outlineWidth, outlineHeight),
                     source.pixelsPerUnit
                 );
                 createdSprite.name = source.name + " outline";
@@ -1081,7 +1080,6 @@ namespace SilksongRandomizer
 
         public void ClearPendingGameplayQueues()
         {
-            RecentItemsDisplay.Reset();
             ProgressionShufflePatches.ClearPendingInteractions();
             TrapManager.ResetTransientEffects();
             BeastlingCallAct3Safety.Reset();
@@ -1509,7 +1507,8 @@ namespace SilksongRandomizer
 
             float iconScale;
             Sprite icon = ItemIcons.GetSpriteForGame(popup.Game, popup.ItemName,
-                GetItemClassificationIcon(popup.Flags), out iconScale);
+                null, out iconScale);
+            if (icon == null) icon = GetItemClassificationIcon(popup.Flags);
             RecentItemsDisplay.QueueItem(icon, popup.RecentText);
             CollectableUIMsg.Spawn(new UIMsgDisplay
             {

@@ -10,6 +10,7 @@ namespace SilksongRandomizer
     {
         private const int GroundLayers = 8448;
         private static readonly Collider2D[] Overlaps = new Collider2D[64];
+        private static readonly Dictionary<Collider2D, bool> SinkingSupports = new Dictionary<Collider2D, bool>();
         private static SaveState owner;
         private static int sceneHandle;
         private static BattleScene[] battles;
@@ -36,6 +37,7 @@ namespace SilksongRandomizer
             support = settlingSupport = null;
             battles = null;
             pending = false;
+            SinkingSupports.Clear();
             nextSample = resumeAt = 0f;
         }
 
@@ -109,12 +111,39 @@ namespace SilksongRandomizer
                     hit.collider.GetComponentInParent<DamageHero>() != null ||
                     (hit.collider.attachedRigidbody != null && hit.collider.attachedRigidbody.bodyType != RigidbodyType2D.Static))
                     return false;
-                if (sample == -1) ground = hit.collider;
+                if (sample == -1)
+                {
+                    ground = hit.collider;
+                    if (IsSinking(ground)) return false;
+                }
                 else if (hit.collider != ground) return false;
             }
             // The native respawn also casts down from Hornet's centre.
             return Helper.IsRayHittingNoTriggers(position, Vector2.down, bounds.size.y, GroundLayers, out var centre) &&
                 centre.collider == ground;
+        }
+
+        private static bool IsSinking(Collider2D ground)
+        {
+            if (SinkingSupports.TryGetValue(ground, out bool sinking)) return sinking;
+            foreach (var fsm in ground.GetComponentsInParent<PlayMakerFSM>(true))
+            {
+                if (fsm.FsmName != "Control") continue;
+                bool drop = false, bubble = false, reset = false;
+                foreach (var state in fsm.FsmStates)
+                {
+                    drop |= state.Name == "Drop Antic";
+                    bubble |= state.Name == "Bubble Up";
+                    reset |= state.Name == "Hazard Reset";
+                }
+                if (drop && bubble && reset)
+                {
+                    sinking = true;
+                    break;
+                }
+            }
+            SinkingSupports[ground] = sinking;
+            return sinking;
         }
 
         private static bool ClearBody(HeroController hero, Bounds bounds, Collider2D ground)

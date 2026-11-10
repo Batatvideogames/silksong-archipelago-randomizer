@@ -449,12 +449,13 @@ ITEM_TABLE_SOURCE += (("Bind", "InnateAbility"),)
 CREST_BIND_ITEMS = tuple(f'{crest} Bind' for crest in ('Hunter', 'Wanderer', 'Reaper', 'Beast', 'Architect', 'Witch', 'Shaman'))
 ITEM_TABLE_SOURCE += tuple((name, 'InnateAbility') for name in CREST_BIND_ITEMS)
 ITEM_TABLE_SOURCE += tuple((name, 'Bellhome') for name in ('Desk', 'Gleamlights', 'Bell Lacquer', 'Personal Spa', 'Gramophone'))
-ITEM_TABLE_SOURCE += (("Voltstone", "Materium"), ("Cogheart Piece", "Cogheart"))
+ITEM_TABLE_SOURCE += (("Voltridian", "Materium"), ("Cogheart Piece", "Cogheart"))
 ITEM_TABLE_SOURCE += tuple((name, "QuestCollectible") for name in ('Grass Doll', 'Horn Fragment', 'Crown Fragment', "Broodmother's Eye"))
 ITEM_TABLE_SOURCE += tuple((source.item_name, LORE_TABLET_CATEGORY) for source in ADDITIONAL_LORE_TABLET_SOURCES[2:])
 
 # Rename in place so every established numeric item ID remains unchanged.
 NATIVE_ITEM_NAME_TO_TABLE_NAME: Mapping[str, str] = {
+    'Voltstone': 'Voltridian',
     'Skill: Double Jump': 'Ability: Faydown Cloak',
     'Skill: Charge Slash': 'Ability: Needle Strike',
     'Skill: Silk Soar': 'Ancestral Art: Silk Soar',
@@ -1212,7 +1213,7 @@ def get_vanilla_reward_name(
     if category == 'Bellhome':
         return 'Crawbell' if location_name == 'Crow bell' else location_name
     if category == 'Materium':
-        return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite', 'Voltstone': 'Voltstone'}[location_name]
+        return {'Materium': 'Materium', 'Flintstone': 'Flintstone', 'Magnetite Outcrop': 'Magnetite', 'Voltridian': 'Voltridian'}[location_name]
     if category == 'MajorKey':
         try:
             return {

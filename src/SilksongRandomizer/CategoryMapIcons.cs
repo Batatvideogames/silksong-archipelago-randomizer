@@ -187,7 +187,7 @@ namespace SilksongRandomizer
         {
             if (!Outlines.TryGetValue(sprite, out var outline))
             {
-                outline = RandomizerPlugin.CreateWhiteOutlineIcon(sprite);
+                outline = RandomizerPlugin.CreateWhiteOutlineIcon(sprite, 0.5f);
                 Outlines[sprite] = outline;
             }
             return outline;
