@@ -13,6 +13,66 @@ namespace SilksongRandomizer
 {
     internal static class NpcSoulIcons
     {
+        private static bool cached;
+
+        internal static void Initialize()
+        {
+            if (cached)
+            {
+                return;
+            }
+
+            cached = true;
+
+            if (RandomizerPlugin.Instance != null)
+            {
+                RandomizerPlugin.Instance.StartCoroutine(PreloadAllSprites());
+            }
+        }
+
+        private static IEnumerator PreloadAllSprites()
+        {
+            yield return null;
+
+            var init = Addressables.InitializeAsync(false);
+
+            yield return init;
+
+            if (init.Status != AsyncOperationStatus.Succeeded)
+            {
+                RandomizerPlugin.Log?.LogWarning("Addressables failed to initialize.");
+                if (init.IsValid())
+                {
+                    Addressables.Release(init);
+                }
+                yield break;
+            }
+
+            if (init.IsValid())
+            {
+                Addressables.Release(init);
+            }
+
+            IndexBundles();
+
+            foreach (var portrait in Portraits)
+            {
+                string name = portrait.Key;
+                if (Cache.ContainsKey(name))
+                {
+                    continue;
+                }
+
+                var preloadSprites = Load(name, portrait.Value);
+                while (preloadSprites.MoveNext())
+                {
+                    yield return preloadSprites.Current;
+                }
+
+                yield return null;
+            }
+        }
+
         private static readonly Dictionary<string, string> Npcs = NpcSoulState.Catalogue.ToDictionary(
             row => NpcSoulState.ItemName((string)row["name"]), row => (string)row["name"], StringComparer.OrdinalIgnoreCase);
         private sealed class Portrait

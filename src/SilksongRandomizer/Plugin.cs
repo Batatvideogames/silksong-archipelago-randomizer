@@ -178,6 +178,7 @@ namespace SilksongRandomizer
             DeathLinkManager.Initialize(QueueConnectionStatus);
             SilkLinkManager.Initialize(QueueConnectionStatus);
             CurrencyLinkManager.Initialize(QueueConnectionStatus);
+            NpcSoulIcons.Initialize();
             LoadArchipelagoIcon();
             LoadCheckClassificationIcons();
             StartCoroutine(BellhomeItems.LoadIcons());
