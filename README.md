@@ -108,7 +108,9 @@ The resulting folder structure should look something like:
 
 3.) Launch the Archipelago Launcher and drag the .apworld file into the client. Restart the Archipelago Launcher after installing the apworld.
 
-4.) You can then generate a options configuration for yourself using one of the following two methods:
+4.) You can then generate a options configuration for yourself using one of the following three methods:
+
+  - Follow this [link](https://batatvideo.games/projects/silksong-archipelago-randomizer/options/) to go to a tailor-made options creator that allows you to download the YAML to be used for generation.
 
   - Press the "Options Creator" on the Launcher. Select Hollow Knight: Silksong on the left hand side of the screen that pops up and select all your preferred options. Finally, press export options and save it.
 
